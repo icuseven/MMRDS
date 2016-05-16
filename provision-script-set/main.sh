@@ -56,6 +56,20 @@ else
 fi
 
 
+echo "checking if nodejs is installed..."
+if [[ -f "/usr/bin/nodejs" ]]; then
+	echo "nodejs already installed,skipping..."
+else
+	echo "installing nodejs..."
+	
+	sudo apt-get install nodejs -y
+	sudo apt-get install npm -y
+	sudo npm install -g bower -y
+	sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+fi
+
+
 echo "checking if webstorm is installed..."
 if [[ -f "/home/vagrant/webstorm/bin/WebStorm.sh" ]]; then
 	echo "webstorm already installed,skipping..."
@@ -66,7 +80,7 @@ else
 	wget https://download.jetbrains.com/webstorm/WebStorm-2016.1.2.tar.gz
 	sudo tar xfz WebStorm-*.tar.gz
 	sudo mkdir /home/vagrant/webstorm
-	sudo mv WebStorm-145.971.23 /home/vagrant/webstorm
+	sudo mv WebStorm-145.971.23/* /home/vagrant/webstorm
 fi
 
 
