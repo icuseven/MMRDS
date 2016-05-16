@@ -29,8 +29,8 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.cpus = 4
 		end
 	  
-		#devbox.vbguest.iso_path = "%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso"
-		devbox.vbguest.iso_path = "D:/programfileset/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		devbox.vbguest.iso_path = "C:/program-file-set/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		#devbox.vbguest.iso_path = "D:/programfileset/Oracle/VirtualBox/VBoxGuestAdditions.iso"
 		devbox.vbguest.auto_update = true
 
 		devbox.vm.provision "shell", path:  "provision-script-set/main.sh"
