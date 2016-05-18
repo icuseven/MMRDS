@@ -1,0 +1,14 @@
+/vagrant/source-code/scratch/owin/owin/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/vagrant/source-code/scratch/owin/owin/bin/Debug/Owin.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/Microsoft.Owin.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/Microsoft.Owin.Diagnostics.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/Microsoft.Owin.Hosting.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/Microsoft.Owin.Host.HttpListener.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/Newtonsoft.Json.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/System.Net.Http.Formatting.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/System.Web.Http.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/System.Web.Http.Owin.dll
+/vagrant/source-code/scratch/owin/owin/bin/Debug/owin.exe.mdb
+/vagrant/source-code/scratch/owin/owin/bin/Debug/owin.exe
+/vagrant/source-code/scratch/owin/owin/obj/x86/Debug/owin.exe
+/vagrant/source-code/scratch/owin/owin/obj/x86/Debug/owin.exe.mdb

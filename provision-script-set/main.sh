@@ -80,6 +80,15 @@ else
 
 fi
 
+echo "checking if monodevelop is installed..."
+if [[ -f "/usr/bin/monodevelop" ]]; then
+	echo "monodevelop already installed,skipping..."
+else
+	echo "installing monodevelop..."
+	sudo apt-get install monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
+fi
+
+
 # echo "checking if visual studio code is installed..."
 # if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
 	# echo "visual studio code already installed,skipping..."
