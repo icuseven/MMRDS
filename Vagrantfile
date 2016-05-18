@@ -28,12 +28,21 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.memory = "2048"
 			vb.cpus = 4
 		end
-	  
-		devbox.vbguest.iso_path = "C:/program-file-set/Oracle/VirtualBox/VBoxGuestAdditions.iso"
-		#devbox.vbguest.iso_path = "D:/programfileset/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+
+		vbox_guest_additions_file = "%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		if !(File.file?(vbox_guest_additions_file))
+			vbox_guest_additions_file = "C:/program-file-set/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		end
+
+		if !(File.file?(vbox_guest_additions_file))
+			vbox_guest_additions_file = "D:/programfileset/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		end
+
+		devbox.vbguest.iso_path = vbox_guest_additions_file
 		devbox.vbguest.auto_update = true
 
 		devbox.vm.provision "shell", path:  "provision-script-set/main.sh"
+		
 	  end
 	  
 

@@ -1,5 +1,5 @@
 
-#sudo apt-get update -qqy
+sudo apt-get update -y
 
 # checking for virtual box guest addidions
 # modinfo vboxguest
@@ -11,7 +11,6 @@ if [[ -f "/usr/bin/git" ]]; then
 else
 	echo "installing git..."
 	#https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-14-04
-	sudo apt-get update -y
 	sudo apt-get install git -y
 fi
 
@@ -89,18 +88,17 @@ else
 fi
 
 
-# echo "checking if visual studio code is installed..."
-# if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
-	# echo "visual studio code already installed,skipping..."
-# else
-	# echo "installing visual studio code..."
+echo "checking if visual studio code is installed..."
+if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
+	echo "visual studio code already installed,skipping..."
+else
+	echo "installing visual studio code..."
 	# http://www.omgubuntu.co.uk/2015/05/how-to-install-microsoft-visual-studio-code-in-ubuntu
-	# sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
-	# sudo apt-get update -y && sudo apt-get install ubuntu-make -y
-	# echo '\na\n' >> vsc.txt
-	# umake web visual-studio-code < vsc.txt
-	# rm vsc.txt
-# fi
+	sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
+	sudo apt-get update -y && sudo apt-get install ubuntu-make -y
+
+	umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
+fi
 
 echo "checking if webstorm is installed..."
 if [[ -f "/home/vagrant/webstorm/bin/WebStorm.sh" ]]; then
