@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="controller\ValuesController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2618,5 +2619,8 @@
     <None Include="psk\app\styles\app-theme.html" />
     <None Include="psk\app\styles\main.css" />
     <None Include="psk\app\styles\shared-styles.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="controller\" />
   </ItemGroup>
 </Project>
