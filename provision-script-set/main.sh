@@ -100,6 +100,19 @@ else
 	umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
 fi
 
+
+echo "checking if atom is installed..."
+if [[ -f "/usr/bin/atom" ]]; then
+	echo "atom already installed,skipping..."
+else
+	echo "installing atom..."
+	sudo add-apt-repository ppa:webupd8team/atom -y
+	sudo apt-get update -y
+	sudo apt-get install atom -y
+	
+fi
+
+
 echo "checking if webstorm is installed..."
 if [[ -f "/home/vagrant/webstorm/bin/WebStorm.sh" ]]; then
 	echo "webstorm already installed,skipping..."
