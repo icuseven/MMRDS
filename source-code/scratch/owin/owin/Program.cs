@@ -17,21 +17,10 @@ namespace owin
 		static void Main(string[] args)
 		{
 			var url = "http://localhost:12345";
-			//var root = args.Length > 0 ? args[0] : ".";
-			var root = "/vagrant/source-code/scratch/owin/owin/psk/app";
-			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
-			var options = new Microsoft.Owin.StaticFiles.FileServerOptions()
-			{
-				EnableDirectoryBrowsing = true,
-				EnableDefaultFiles = true,
-				DefaultFilesOptions = { DefaultFileNames = {"index.html"}},
-				FileSystem = fileSystem,
-				StaticFileOptions = { ContentTypeProvider = new Microsoft.Owin.StaticFiles.ContentTypes.FileExtensionContentTypeProvider() }
-			};
+			Microsoft.Owin.Hosting.WebApp.Start(url);            
 
-			//using (Microsoft.Owin.Hosting.WebApp.Start<Startup>(url))
-			//{
-			Microsoft.Owin.Hosting.WebApp.Start(url, builder => builder.UseFileServer(options));            
+
+			//var root = args.Length > 0 ? args[0] : ".";
 				Console.WriteLine("Listening at " + url);
 
 				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
@@ -53,7 +42,13 @@ namespace owin
 			#if DEBUG
 			app.UseErrorPage();
 			#endif
-			app.UseWelcomePage("/");
+			//app.UseWelcomePage("/");
+
+
+
+			//using (Microsoft.Owin.Hosting.WebApp.Start<Startup>(url))
+			//{
+
 
 
 			// Configure Web API for self-host. 
@@ -65,6 +60,19 @@ namespace owin
 			); 
 
 			app.UseWebApi(config); 
+
+			var root = "/vagrant/source-code/scratch/owin/owin/psk/app";
+			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
+			var options = new Microsoft.Owin.StaticFiles.FileServerOptions()
+			{
+				EnableDirectoryBrowsing = true,
+				EnableDefaultFiles = true,
+				DefaultFilesOptions = { DefaultFileNames = {"index.html"}},
+				FileSystem = fileSystem,
+				StaticFileOptions = { ContentTypeProvider = new Microsoft.Owin.StaticFiles.ContentTypes.FileExtensionContentTypeProvider() }
+			};
+			app.UseFileServer (options);
+
 
 		}
 	}
