@@ -8,7 +8,6 @@ namespace owin
 {
 	class MainClass
 	{
-
 		// http://www.asp.net/aspnet/samples/owin-katana
 
 		//http://localhost:12345
@@ -18,21 +17,11 @@ namespace owin
 		{
 			var url = "http://localhost:12345";
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
-
-
-			//var root = args.Length > 0 ? args[0] : ".";
-				Console.WriteLine("Listening at " + url);
+			Console.WriteLine("Listening at " + url);
 
 				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
-
-
-
-
-				Console.ReadLine();
-			//}
+			Console.ReadLine();
 		}
-
-
 	}
 
 	public class Startup
@@ -43,13 +32,6 @@ namespace owin
 			app.UseErrorPage();
 			#endif
 			//app.UseWelcomePage("/");
-
-
-
-			//using (Microsoft.Owin.Hosting.WebApp.Start<Startup>(url))
-			//{
-
-
 
 			// Configure Web API for self-host. 
 			HttpConfiguration config = new HttpConfiguration(); 
@@ -72,8 +54,6 @@ namespace owin
 				StaticFileOptions = { ContentTypeProvider = new Microsoft.Owin.StaticFiles.ContentTypes.FileExtensionContentTypeProvider() }
 			};
 			app.UseFileServer (options);
-
-
 		}
 	}
 }

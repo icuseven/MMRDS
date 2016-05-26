@@ -12,7 +12,7 @@ Vagrant.configure(Configuration_Version) do |config|
   
 		devbox.vm.box = "ubuntu/trusty64"
 	  
-		devbox.vm.network "forwarded_port", guest: 80, host: 8085
+		devbox.vm.network "forwarded_port", guest: 12345, host: 8085
 		
 		devbox.vm.network "private_network", ip: "192.168.33.10"
 		
@@ -25,7 +25,7 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.gui = true
 	  
 			# Customize the amount of memory on the VM:
-			vb.memory = "2048"
+			vb.memory = "4096"
 			vb.cpus = 4
 		end
 
