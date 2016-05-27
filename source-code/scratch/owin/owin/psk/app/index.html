@@ -87,9 +87,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Users</span>
           </a>
 
-          <a data-route="contact" href="{{baseUrl}}contact">
+		<a data-route="contact" href="{{baseUrl}}contact">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Contact</span>
+        </a>
+		  
+          <a data-route="summary" href="{{baseUrl}}summary">
             <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
+            <span>Summary</span>
           </a>
 
           <a data-route="master" href="{{baseUrl}}master">
@@ -97,6 +102,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>master form</span>
           </a>
 
+		<a data-route="DeathCertificate" href="{{baseUrl}}DeathCertificate">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Death Certificate</span>
+		</a>
+
+		<a data-route="MaternalBirthCertificate" href="{{baseUrl}}MaternalBirthCertificate">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Maternal Birth Certificate</span>
+		</a>
+
+		<a data-route="InfantFetalBirthCertificate" href="{{baseUrl}}InfantFetalBirthCertificate">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Infant/Fetal Birth Certificate</span>
+		</a>
+
+
+		<a data-route="AutopsyReport" href="{{baseUrl}}AutopsyReport">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Autopsy Report</span>
+		</a>
+
+
+		<a data-route="PrenatalCare" href="{{baseUrl}}PrenatalCare">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Prenatal Care Records</span>
+		</a>
+
+
+		<a data-route="ERVists" href="{{baseUrl}}ERVists">
+			<iron-icon icon="mail"></iron-icon>
+			<span>ER Vists and Hospitalizations</span>
+		</a>
+
+
+		<a data-route="OtherVisits" href="{{baseUrl}}OtherVisits">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Other medical office visits</span>
+		</a>
+
+
+		<a data-route="SocialPsychProfile" href="{{baseUrl}}SocialPsychProfile">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Social and psychological profile</span>
+		</a>
+
+
+		<a data-route="InformantInterviews" href="{{baseUrl}}InformantInterviews">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Informant interviews</span>
+		</a>
+
+
+		<a data-route="CommitteeReview" href="{{baseUrl}}CommitteeReview">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Committee review</span>
+		</a>
+
+
+		<a data-route="CoreSummary" href="{{baseUrl}}CoreSummary">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Core Summary</span>
+		</a>
+		
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -114,12 +182,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">Polymer Starter Kit</div>
+            <div class="app-name">MMRDS</div>
           </div>
 
           <!-- Application sub title -->
           <div class="bottom bottom-container">
-            <div class="bottom-title">The future of the web today</div>
+            <div class="bottom-title">Maternal Mortality Review and Data System</div>
           </div>
         </paper-toolbar>
 
@@ -180,8 +248,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="contact" tabindex="-1">
               <paper-material elevation="1">
-                <h1 class="page-title" tabindex="-1">Contact</h1>
+                <h1 class="page-title" tabindex="-1">contact</h1>
                 <p>This is the contact section</p>
+              </paper-material>
+            </section>
+			
+            <section data-route="summary" tabindex="-1">
+              <paper-material elevation="1">
+                <h1 class="page-title" tabindex="-1">summary</h1>
+                <p>This is the summary section</p>
               </paper-material>
             </section>
 
@@ -189,6 +264,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="master" tabindex="-1">
 
             </section>
+			
+			<section data-route="DeathCertificate" tabindex="-1">
+
+            </section>
+
+			<section data-route="MaternalBirthCertificate" tabindex="-1">
+
+            </section>
+
+
+			<section data-route="InfantFetalBirthCertificate" tabindex="-1">
+
+            </section>
+
+
+			<section data-route="AutopsyReport" tabindex="-1">
+
+            </section>
+
+			<section data-route="PrenatalCare" tabindex="-1">
+
+            </section>
+
+			<section data-route="ERVists" tabindex="-1">
+
+            </section>
+
+			<section data-route="OtherVisits" tabindex="-1">
+
+            </section>
+
+			<section data-route="SocialPsychProfile" tabindex="-1">
+
+            </section>
+
+			<section data-route="InformantInterviews" tabindex="-1">
+
+            </section>
+
+			<section data-route="CommitteeReview" tabindex="-1">
+
+            </section>
+
+			<section data-route="CoreSummary" tabindex="-1">
+
+            </section>
+			
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
