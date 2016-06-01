@@ -8,7 +8,39 @@ namespace owin
 		// GET api/values 
 		public IEnumerable<master_record> Get() 
 		{ 
-			return new master_record[] { default(master_record), default(master_record) }; 
+			return new master_record[] 
+			{ 
+				new master_record(){ 
+					id =  System.Guid.Parse("e5c511cc-40ec-4730-9656-95f53582a51b"),
+					record_id = "VA-2011-1703",
+					first_name = "Caterina",
+					middle_name = "Schroeder",
+					last_name = "",
+					date_of_death = "",
+					state_of_death = "",
+					agency_case_id = ""
+				},
+				new master_record(){ 
+					id =  System.Guid.Parse("42ad2325-0713-4fd0-a49e-5b03ee38e0e3"),
+					record_id = "TN-2011-2722",
+					first_name = "",
+					middle_name = "",
+					last_name = "",
+					date_of_death = "",
+					state_of_death = "",
+					agency_case_id = ""
+				},
+				new master_record(){ 
+					id =  System.Guid.Parse("1954deef-e6bb-4ae1-af88-15abffbba7db"),
+					record_id = "RI-2012-9090",
+					first_name = "",
+					middle_name = "",
+					last_name = "",
+					date_of_death = "",
+					state_of_death = "",
+					agency_case_id = ""
+				},
+			}; 
 		} 
 
 		// GET api/values/5 
