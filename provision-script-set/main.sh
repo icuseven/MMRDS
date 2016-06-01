@@ -112,6 +112,19 @@ else
 	
 fi
 
+echo "checking if Gufw is installed..."
+if [[ -f "/usr/bin/gufw" ]]; then
+	echo "Gufw already installed,skipping..."
+else
+	echo "installing Gufw..."
+	sudo apt-get install gufw -y
+	
+fi
+
+
+
+
+
 
 echo "checking if webstorm is installed..."
 if [[ -f "/home/vagrant/webstorm/bin/WebStorm.sh" ]]; then
