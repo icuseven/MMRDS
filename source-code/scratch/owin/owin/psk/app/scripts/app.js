@@ -25,13 +25,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
-  app.addEventListener('dom-change', function() {
+  app.addEventListener('dom-change', function() 
+  {
     console.log('Our app is ready to rock!');
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
-  window.addEventListener('WebComponentsReady', function() {
+  window.addEventListener('WebComponentsReady', function() 
+  {
     // imports are loaded and elements have been registered
+	//document.querySelector("#master_record_call").generateRequest();
   });
 
   // Main area's paper-scroll-header-panel custom condensing transformation of
@@ -70,5 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.closeDrawer = function() {
     app.$.paperDrawerPanel.closeDrawer();
   };
+  
+  
 
 })(document);

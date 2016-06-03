@@ -1,0 +1,21 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">		
+<dom-module id="mmrds-summary">
+		
+		<iron-ajax id="master_record_call" url="api/master_record" handle-as="json" last-response="{{data}}" auto></iron-ajax>
+		  
+		<iron-list items="[[data]]" as="item" scroll-target="html">
+        <template>
+          <div>
+            <div class="item" tabindex$="[[tabIndex]]">
+              <iron-image class="avatar" sizing="contain" src="[[item.image]]"></iron-image>
+              <div class="pad">
+                <div class="primary">[[item.first_name]] [[index]]</div>
+                <div class="secondary">[[item.record_id]]</div>
+                <div class="secondary dim">[[item.last_name]]</div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </iron-list>
+
+</dom-module>

@@ -84,10 +84,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		//document.querySelector('#toast').show();
 		//MoreRouting.navigateTo('tv-list');
 	}
+	
+	
+	function main()
+	{
+		//document.querySelector("#master_record_call").generateRequest();
+	}
+	
   </script>
 </head>
 
-<body unresolved>
+<body unresolved onload="main()">
   <!-- build:remove -->
   <span id="browser-sync-binding"></span>
   <!-- endbuild -->
@@ -225,8 +232,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material elevation="1">
 			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created by CDC to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
 
-			  <h1>Video Feed</h1>
-
 			  
                 <!-- my-greeting></my-greeting>
 
@@ -283,22 +288,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               
 			  
 			  
-		<iron-ajax url="api/master_record" handle-as="json" last-response="{{data}}" auto></iron-ajax>
-		  
-		<iron-list items="[[data]]" as="item" scroll-target="html">
-        <template>
-          <div>
-            <div class="item" tabindex$="[[tabIndex]]">
-              <iron-image class="avatar" sizing="contain" src="[[item.image]]"></iron-image>
-              <div class="pad">
-                <div class="primary">[[item.first_name]] [[index]]</div>
-                <div class="secondary">[[item.record_id]]</div>
-                <div class="secondary dim">[[item.last_name]]</div>
-              </div>
-            </div>
-          </div>
-        </template>
-      </iron-list>
+				<mmrds-summary></mmrds-summary>
 			  
 			  </paper-material>
             </section>

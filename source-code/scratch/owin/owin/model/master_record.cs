@@ -16,6 +16,7 @@ namespace owin
 		public string date_of_death { get; set; }
 		public string state_of_death { get; set; }
 		public string agency_case_id { get; set; }
+		public bool is_valid_maternal_mortality_record { get; set; }
 	}
 }
 
