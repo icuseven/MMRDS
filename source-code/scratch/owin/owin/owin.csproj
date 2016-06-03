@@ -2621,6 +2621,7 @@
     <None Include="psk\app\styles\app-theme.html" />
     <None Include="psk\app\styles\main.css" />
     <None Include="psk\app\styles\shared-styles.html" />
+    <None Include="psk\app\mmrds_component_set\summary\mmrds-summary.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="controller\" />

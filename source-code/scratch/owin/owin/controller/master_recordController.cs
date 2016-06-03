@@ -6,6 +6,7 @@ namespace owin
 	public class master_recordController: ApiController 
 	{ 
 		// GET api/values 
+		//public IEnumerable<master_record> Get() 
 		public IEnumerable<master_record> Get() 
 		{ 
 			return new master_record[] 
@@ -43,7 +44,7 @@ namespace owin
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = true
 				},
-			}; 
+				}; 
 		} 
 
 		// GET api/values/5 

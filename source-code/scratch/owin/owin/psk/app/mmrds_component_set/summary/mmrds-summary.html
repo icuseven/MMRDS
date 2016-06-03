@@ -1,21 +1,53 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">		
 <dom-module id="mmrds-summary">
 		
-		<iron-ajax id="master_record_call" url="api/master_record" handle-as="json" last-response="{{data}}" auto></iron-ajax>
-		  
-		<iron-list items="[[data]]" as="item" scroll-target="html">
-        <template>
-          <div>
-            <div class="item" tabindex$="[[tabIndex]]">
-              <iron-image class="avatar" sizing="contain" src="[[item.image]]"></iron-image>
-              <div class="pad">
-                <div class="primary">[[item.first_name]] [[index]]</div>
+	
+	<template>  
+		<iron-ajax id="master_record_call" url="../../../api/master_record" handle-as="json" last-response="{{data}}" on-response="handle_response" auto></iron-ajax>
+		<iron-list items="[[data]]" as="item">
+				<div>record_check</div>
+                <div class="primary">[[item.first_name]]</div>
                 <div class="secondary">[[item.record_id]]</div>
                 <div class="secondary dim">[[item.last_name]]</div>
-              </div>
-            </div>
-          </div>
-        </template>
-      </iron-list>
+        
+		</iron-list>
+	</template>
+	<script>
+	Polymer({
+        is: 'mmrds-summary',
+		handle_response: function (e) 
+		{
+			console.log("handle_response done.");
+		}
 
+      });
+	  
+	  function walk(obj, desc) {
+    if (desc === undefined) {
+        desc = 'object'                 ;
+    }
+    logThis("start walk of " + desc);
+    doWalk(obj);
+    logThis("ehd walk");
+}
+//
+function doWalk(obj, pad) {
+    if (pad === undefined) {
+        pad = "-";
+    } else {
+        pad = pad + "-";
+    }
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var val = obj[key];
+            console.log(pad + key + ' -- ' + val);
+            if (typeof(val ) !== "string") {
+                doWalk(val, pad);
+            }
+        }
+    }
+}
+	  
+	</script>
+	
 </dom-module>

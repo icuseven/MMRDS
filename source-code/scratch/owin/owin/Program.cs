@@ -41,14 +41,14 @@ namespace owin
 				defaults: new { id = RouteParameter.Optional } 
 			); 
 
-			/*
+
 			config.Formatters.Clear();
 			config.Formatters.Add(new  System.Net.Http.Formatting.JsonMediaTypeFormatter());
 			config.Formatters.JsonFormatter.SerializerSettings =
 				new Newtonsoft.Json.JsonSerializerSettings
 			{
 				ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-			};*/
+			};/**/
 
 			app.UseWebApi(config); 
 
