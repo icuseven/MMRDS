@@ -4,13 +4,10 @@
 	
 	<template>  
 		<iron-ajax id="master_record_call" url="../../../api/master_record" handle-as="json" last-response="{{data}}" on-response="handle_response" auto></iron-ajax>
-		<iron-list items="[[data]]" as="item">
-				<div>record_check</div>
-                <div class="primary">[[item.first_name]]</div>
-                <div class="secondary">[[item.record_id]]</div>
-                <div class="secondary dim">[[item.last_name]]</div>
-        
-		</iron-list>
+		<template is="dom-repeat" items="{{data}}">
+                <div class="primary">{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}</div>
+        </template>
+
 	</template>
 	<script>
 	Polymer({
@@ -21,32 +18,6 @@
 		}
 
       });
-	  
-	  function walk(obj, desc) {
-    if (desc === undefined) {
-        desc = 'object'                 ;
-    }
-    logThis("start walk of " + desc);
-    doWalk(obj);
-    logThis("ehd walk");
-}
-//
-function doWalk(obj, pad) {
-    if (pad === undefined) {
-        pad = "-";
-    } else {
-        pad = pad + "-";
-    }
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            var val = obj[key];
-            console.log(pad + key + ' -- ' + val);
-            if (typeof(val ) !== "string") {
-                doWalk(val, pad);
-            }
-        }
-    }
-}
 	  
 	</script>
 	
