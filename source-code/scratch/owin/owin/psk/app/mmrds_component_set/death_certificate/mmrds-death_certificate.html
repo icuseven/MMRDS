@@ -1,21 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">		
-<dom-module id="mmrds-summary">
+<dom-module id="mmrds-death_certificate">
 		
 	
 	<template>  
-		<iron-ajax id="master_record_call" url="../../../api/master_record" handle-as="json" last-response="{{data}}" on-response="handle_response" auto></iron-ajax>
-		<template is="dom-repeat" items="{{data}}">
-                <div class="primary">{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}</div>
-        </template>
-
+		<h1>Death Certificate</h1>
 	</template>
 	<script>
 	Polymer({
-        is: 'mmrds-summary',
-		handle_response: function (e) 
-		{
-			console.log("handle_response done.");
-		}
+        is: 'mmrds-death_certificate',
+		properties: {}
 
       });
 	  
