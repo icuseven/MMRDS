@@ -122,6 +122,19 @@ else
 fi
 
 
+#https://github.com/foretagsplatsen/Divan
+#https://github.com/rnewson/couchdb-lucene/tree/v0.4
+
+
+
+if [[ -f "/usr/bin/couchdb" ]]; then
+	echo "couchdb already installed,skipping..."
+else
+	echo "installing couchdb..."
+	#https://pouchdb.com/guides/setup-couchdb.html
+	sudo apt-get install couchdb -y
+fi
+
 
 
 
