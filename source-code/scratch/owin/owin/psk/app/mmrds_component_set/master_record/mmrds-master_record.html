@@ -1,6 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">		
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
+
 <dom-module id="mmrds-master_record">
-	<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+	
 	<template>  
 		<paper-material elevation="1">			
 			<h1>Master Record</h1>
@@ -11,30 +16,139 @@
 		
 		 <paper-material elevation="1">
 		<h1>Key Record Information</h1>
-			First Name:
-			Middle Name:
-			Last Name:
-			Date of Death*
-			Estimated
-			Calculated date
+		<paper-input label="First Name"></paper-input>
+		<paper-input label="Middle Name"></paper-input>
+		<paper-input label="Last Name"></paper-input>
+		<paper-input label="Date of Death*"></paper-input>
+		<paper-checkbox label="Estimated"></paper-checkbox>
 			
-			State of Death Record
-			State of last known residence
-			Agency-based case identifier
+		Calculated date
+
+		<paper-input label="State of Death Record"></paper-input>
+		<paper-input label="State of last known residence"></paper-input>
+
+		<paper-input label="Agency-based case identifier"></paper-input>
 </paper-material>
 			
 <paper-material elevation="1">			
 		<h1>Case Progress Report:</h1>
-			Death certificate
-			Maternal birth certificate
-			Prenatal care record
-			ER visit(s) and Hospitalization(s)
-			Informant interviews
-			Autopsy report
-			Infant/fetal birth certificate(s)
-			Other medical visits
-			Social and psychological profile
-			Committee review worksheet
+<div>
+<paper-dropdown-menu id="btn" label="Death certificate">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+<paper-badge label="1" for="btn"></paper-badge>
+</div>				
+		
+			
+		
+<div>		
+					<paper-dropdown-menu label="Maternal birth certificate">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+			
+<div>			
+					<paper-dropdown-menu label="Prenatal care record">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+	
+<div>	
+					<paper-dropdown-menu label="ER visit(s) and Hospitalization(s)">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+<div>			
+					<paper-dropdown-menu label="Informant interviews">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+
+<div>		
+					<paper-dropdown-menu label="Autopsy report">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+<div>			
+					<paper-dropdown-menu label="Infant/fetal birth certificate(s)">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+<div>			
+					<paper-dropdown-menu label="Other medical visits">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+<div>			
+					<paper-dropdown-menu label="Social and psychological profile">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>				
+<div>			
+					<paper-dropdown-menu label="Committee review worksheet">
+  <paper-listbox class="dropdown-content">
+    <paper-item>01 not started</paper-item>
+    <paper-item>02 in progress</paper-item>
+    <paper-item>03 completed</paper-item>
+    <paper-item>04 not available</paper-item>
+	<paper-item>09 not applicable</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu>
+</div>		
 </paper-material>
 	</template>
 	<script>
