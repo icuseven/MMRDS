@@ -4,7 +4,7 @@
 <dom-module id="mmrds-state-dropdown">
 	
 	<template>  
-	<paper-dropdown-menu  label="state">
+	<paper-dropdown-menu  label="{{label}}">
 	<paper-listbox class="dropdown-content">
 	<paper-item>Alabama</paper-item>
 	<paper-item>Alaska</paper-item>
@@ -63,7 +63,10 @@
 	<script>
 	Polymer({
         is: 'mmrds-state-dropdown',
-		properties: {}
+		properties: 
+			{
+				label: { type:String, notify: true }
+			}
 
       });
 	  

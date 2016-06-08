@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">		
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+
+<dom-module id="mmrds-address">
+	
+	<template> 
+<paper-material elevation="1">	
+	<h2>{{label}}</h2>
+	<paper-input label="Street*"></paper-input>
+	<paper-input label="City*"></paper-input>
+	<mmrds-state-dropdown label="State*"></mmrds-state-dropdown>
+	<paper-input label="Zip Code*"></paper-input>
+	<paper-button raised>Get Coordinates</paper-button>
+	<paper-input label="Latitude*"></paper-input>
+	<paper-input label="Longitude*"></paper-input>
+	<!-- https://github.com/bendavis78/paper-date-picker -->
+</paper-material>	
+	</template>
+	<script>
+	Polymer({
+        is: 'mmrds-address',
+		properties: 
+			{
+				label: { type:String, notify: true, value:'address label' }
+			}
+
+      });
+	  
+	</script>
+	
+</dom-module>
