@@ -1,9 +1,21 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">		
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+
+
 <dom-module id="mmrds-death_certificate">
 		
 	
 	<template>  
-		<h1>Death Certificate</h1>
+
+		<paper-material elevation="1">			
+			<h1>Death Certificate</h1>
+			<paper-input label="Record Id"></paper-input>
+			<paper-input label="Valid Record Indicator"></paper-input>
+			<paper-input label="Name"></paper-input>
+		</paper-material>	
+		
+
+		<mmrds-state-dropdown></mmrds-state-dropdown>
 	</template>
 	<script>
 	Polymer({
