@@ -1,24 +1,66 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">		
 <dom-module id="mmrds-summary">
-		
-	
 	<template>  
-		<!--iron-ajax id="master_record_call" url="../../../api/master_record" handle-as="json" last-response="{{data}}" on-response="handle_response" auto></iron-ajax-->
-		<template is="dom-repeat" items="{{items}}">
+		<h2>Summary Test</h2>
+		<!-- 
+		<iron-ajax id="master_record_call" url="../../../api/master_record" handle-as="json" last-response="{{data}}" on-response="handle_response" auto></iron-ajax>
+		-->
+		<template id="summary_repeat" is="dom-repeat" items="{{data}}">
+				<h2>Item Test</h2>
                 <div class="primary">{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}</div>
         </template>
 
 	</template>
 	<script>
-	Polymer({
+	Polymer(
+	{
         is: 'mmrds-summary',
-		properties:{ items: Object },
+		properties: 
+		{ 
+			data: 
+			{
+				type: Array,
+				value: function () 
+				{
+					return g_data;
+					/*
+					return [
+						{last_name:'Last1', first_name:'first1', middle_name:'', record_id:'VA-2016-10'},
+						{ last_name:'Last2', first_name:'first2', middle_name:'middle', record_id:'RI-2016-10'}
+					];*/
+				},
+				notify: true//,
+				//observer: 'dataChanged' 
+			}
+		},
+		ready: function ()
+		{
+		
+			var ctx = this;
+			
+			
+			var db = new PouchDB('mmrds');
+			g_data = [];	
+			db.allDocs({ include_docs: true }).then(function (info) 
+			{
+				
+				for(var i in info.rows)
+				{
+					g_data.push(info.rows[i].doc);
+					console.log(info.rows[i].doc);	
+				}
+				
+				this.data = g_data;
+			}.bind(ctx));
+			
+			
+		},
 		handle_response: function (e) 
 		{
 			console.log("handle_response done.");
 		}
 
-      });
+    });
 	  
 	</script>
 	

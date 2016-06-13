@@ -59,24 +59,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style is="custom-style" include="shared-styles"></style>
   <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
   <script language="javascript">
-  var db = new PouchDB('mmrds');
-  var data = [];
-  
+  //var db = new PouchDB('mmrds');
+  var g_data = [];
+  /*
   db.info().then(function (info) {
   console.log(info);
 	});
-	
-  db.allDocs({ include_docs: true }).then(function (info) 
-	{
-		for(var i in info.rows)
-		{
-		
-			data.push(info.rows[i].doc);
-			console.log(info.rows[i].doc);	
-		}
-	
-	});
-  /*
+	*/
+  
+/*  
 	//new Date().toISOString()
   
 	db.put({
@@ -343,7 +334,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material elevation="1">
                 <h1 class="page-title" tabindex="-1">summary</h1>
 			  
-				<mmrds-summary items="{{data}}"></mmrds-summary>
+				<mmrds-summary></mmrds-summary>
 			  
 			  </paper-material>
             </section>
