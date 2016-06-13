@@ -60,10 +60,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
   <script language="javascript">
   var db = new PouchDB('mmrds');
+  var data = [];
+  
   db.info().then(function (info) {
   console.log(info);
 	});
+	
+  db.allDocs({ include_docs: true }).then(function (info) 
+	{
+		for(var i in info.rows)
+		{
+		
+			data.push(info.rows[i].doc);
+			console.log(info.rows[i].doc);	
+		}
+	
+	});
+  /*
+	//new Date().toISOString()
   
+	db.put({
+		_id : '2016-06-12T13:49:24.759Z',
+		record_id : 'VA-2011-1703',
+		first_name : 'Caterina',
+		middle_name : 'Yvonne',
+		last_name : 'Schroeder',
+		date_of_death : '2016-01-01',
+		state_of_death : 'VA',
+		agency_case_id : '',
+		is_valid_maternal_mortality_record : true
+	});
+  	db.put({
+		_id : '2016-06-12T13:50:06.144Z',
+		record_id : 'TN-2011-2722',
+		first_name : 'Bibiana',
+		middle_name : 'Fabiola',
+		last_name : 'Hendriks',
+		date_of_death : '2016-04-01',
+		state_of_death : 'TN',
+		agency_case_id : '',
+		is_valid_maternal_mortality_record : true
+	});
+  	db.put({
+		_id : '2016-06-12T13:50:24.182Z',
+		record_id : 'RI-2012-9090',
+		first_name : 'Helen',
+		middle_name : '',
+		last_name : 'McAlister',
+		date_of_death : '2016-09-01',
+		state_of_death : 'RI',
+		agency_case_id : '',
+		is_valid_maternal_mortality_record : true
+	});*/
   
   //var summary_data = db.get({_all_doc: ""})
   
@@ -295,7 +343,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material elevation="1">
                 <h1 class="page-title" tabindex="-1">summary</h1>
 			  
-				<mmrds-summary></mmrds-summary>
+				<mmrds-summary items="{{data}}"></mmrds-summary>
 			  
 			  </paper-material>
             </section>
