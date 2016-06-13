@@ -10,7 +10,12 @@
 		<h2>Please select a record to work with:</h2>
 		<paper-menu>
 		<template id="summary_repeat" is="dom-repeat" items="{{data}}">
-                <paper-item><paper-button>[ select ]</paper-button> {{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}</paper-item>
+            <paper-item>
+				<a data-route="master" href="{{baseUrl}}/master" onclick="g_selected_record='[[item._id]]';">
+					<span>[ select ]</span>
+				</a>&nbsp;
+				{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}
+			</paper-item>
         </template>
 		</paper-menu>
 	</template>
@@ -20,7 +25,7 @@
         is: 'mmrds-summary',
 		properties: 
 		{ 
-		/*
+			/*
 			data: 
 			{
 				type: Array,
@@ -33,23 +38,18 @@
 		},
 		ready: function ()
 		{
-		
 			var ctx = this;
 			var db = new PouchDB('mmrds');
 			g_data = [];	
 			db.allDocs({ include_docs: true }).then(function (info) 
 			{
-				
 				for(var i in info.rows)
 				{
 					g_data.push(info.rows[i].doc);
 					console.log(info.rows[i].doc);	
 				}
-				
 				this.data = g_data;
 			}.bind(ctx));
-			
-			
 		},
 		handle_response: function (e) 
 		{
