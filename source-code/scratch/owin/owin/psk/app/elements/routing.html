@@ -73,8 +73,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 
 	
-    page('/master', function() {
-      app.route = 'master';
+    page('/home-record/:id', function(data) {
+      app.route = 'home-record';
+      app.params = data.params;
       setFocus(app.route);
     });
 

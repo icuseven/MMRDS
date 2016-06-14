@@ -11,7 +11,7 @@
 		<paper-menu>
 		<template id="summary_repeat" is="dom-repeat" items="{{data}}">
             <paper-item>
-				<a data-route="master" href="{{baseUrl}}/master" onclick="g_selected_record='[[item._id]]';">
+				<a data-route="master" href="{{baseUrl}}/home-record/[[item._id]]">
 					<span>[ select ]</span>
 				</a>&nbsp;
 				{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}

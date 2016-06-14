@@ -59,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style is="custom-style" include="shared-styles"></style>
   <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
   <script language="javascript">
-  //var db = new PouchDB('mmrds');
+  //
   var g_data = [];
   var g_selected_record = null;
   /*
@@ -67,8 +67,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   console.log(info);
 	});
 	*/
-  
-/*  
+ /*   
+var db = new PouchDB('mmrds');
 	//new Date().toISOString()
   
 	db.put({
@@ -180,9 +180,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Summary</span>
           </a>
 
-          <a data-route="master" href="{{baseUrl}}master">
+          <a data-route="home-record" href="{{baseUrl}}home-record">
             <iron-icon icon="mail"></iron-icon>
-            <span>master form</span>
+            <span>Home Record</span>
           </a>
 
 		<a data-route="DeathCertificate" href="{{baseUrl}}DeathCertificate">
@@ -341,9 +341,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </section>
 
 
-            <section data-route="master" tabindex="-1">
-			<h1 class="page-title" tabindex="-1">master</h1>
-				<mmrds-master_record></mmrds-master_record>
+            <section data-route="home-record" tabindex="-1">
+			<h1 class="page-title" tabindex="-1">home-record</h1>
+				<mmrds-home_record></mmrds-home_record>
             </section>
 			
 			<section data-route="DeathCertificate" tabindex="-1">
