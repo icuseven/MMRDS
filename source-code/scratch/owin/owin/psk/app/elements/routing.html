@@ -76,6 +76,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page('/home-record/:id', function(data) {
       app.route = 'home-record';
       app.params = data.params;
+	  g_selected_record = data.params;
+	  console.log("nav: " + data.params)
+	  var found_index = -1;
+	  for(var i = 0; i < g_data.length; i++)
+	  {
+		if(g_data[i]._id == data.params.id)
+		{
+			found_index = i;
+			break;
+		}
+	  }
+	  
+	  if(found_index > -1)
+	  {
+		document.querySelector("#home-record-id").current_record_id = g_data[found_index]._id;
+	  }
+	  else if(g_data.length > 0)
+	  {
+		document.querySelector("#home-record-id").current_record_id = g_data[0]._id;
+	  }
+	  
       setFocus(app.route);
     });
 

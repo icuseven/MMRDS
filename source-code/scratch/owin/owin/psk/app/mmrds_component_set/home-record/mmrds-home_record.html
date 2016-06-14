@@ -5,13 +5,13 @@
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
 
 <dom-module id="mmrds-home_record">
-	
-	<template>  
+<template>  
+
 		<paper-material elevation="1">			
 			<h1>Home Record Header</h1>
-			<div>Record Id: VA-2011-1703</div>
+			<div>Record Id: {{home_record.record_id }}</div>
 			<div><paper-checkbox>is a valid record</paper-checkbox></div>
-			<div>Name: McAlister, Bibiana</div>
+			<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
 		</paper-material>		 
 		
 		 <paper-material elevation="1">
@@ -148,14 +148,49 @@
 </paper-dropdown-menu>
 </div>		
 </paper-material>
-	</template>
-	<script>
-	Polymer({
-        is: 'mmrds-home_record',
-		properties: {}
 
-      });
+</template>
+<script>
+	Polymer
+	({
+        is: 'mmrds-home_record',
+		properties: {
+			home_record: { type: Object
+			},
+			current_record_id: { 
+				type: String,
+				notify: true,
+				observer: 'currentRecordChange'
+			
+			}
+		},
+		currentRecordChange:function() 
+		{
+			  var found_index = -1;
+			  for(var i = 0; i < g_data.length; i++)
+			  {
+				if(g_data[i]._id == this.current_record_id)
+				{
+					found_index = i;
+					break;
+				}
+			  }
+			  
+			  if(found_index > -1)
+			  {
+				this.home_record = g_data[found_index];
+			  }
+			  else if(g_data.length > 0)
+			  {
+				this.home_record = g_data[0];
+			  }
+
+			//console.log('currentRecordChange: ' + this.current_record_id);
+			//console.log('home_record: ' + this.home_record);
+		}
+
+    });
 	  
-	</script>
+</script>
 	
 </dom-module>

@@ -60,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
   <script language="javascript">
   //
-  var g_data = [];
+  var g_data = {};
   var g_selected_record = null;
   /*
   db.info().then(function (info) {
@@ -343,7 +343,7 @@ var db = new PouchDB('mmrds');
 
             <section data-route="home-record" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">home-record</h1>
-				<mmrds-home_record></mmrds-home_record>
+				<mmrds-home_record id="home-record-id" current_record_id=""></mmrds-home_record>
             </section>
 			
 			<section data-route="DeathCertificate" tabindex="-1">
