@@ -91,10 +91,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	  if(found_index > -1)
 	  {
 		document.querySelector("#home-record-id").current_record_id = g_data[found_index]._id;
+		g_selected_record_id = g_data[found_index]._id;
 	  }
 	  else if(g_data.length > 0)
 	  {
 		document.querySelector("#home-record-id").current_record_id = g_data[0]._id;
+		g_selected_record_id._id = g_data[0];
 	  }
 	  
       setFocus(app.route);

@@ -61,7 +61,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script language="javascript">
   //
   var g_data = {};
-  var g_selected_record = null;
+  var g_selected_record_id = null;
   /*
   db.info().then(function (info) {
   console.log(info);
@@ -79,6 +79,7 @@ var db = new PouchDB('mmrds');
 		last_name : 'Schroeder',
 		date_of_death : '2016-01-01',
 		state_of_death : 'VA',
+		state_of_last_known_residence : 'VA',
 		agency_case_id : '',
 		is_valid_maternal_mortality_record : true
 	});
@@ -90,6 +91,7 @@ var db = new PouchDB('mmrds');
 		last_name : 'Hendriks',
 		date_of_death : '2016-04-01',
 		state_of_death : 'TN',
+		state_of_last_known_residence : 'TN',
 		agency_case_id : '',
 		is_valid_maternal_mortality_record : true
 	});
@@ -101,6 +103,7 @@ var db = new PouchDB('mmrds');
 		last_name : 'McAlister',
 		date_of_death : '2016-09-01',
 		state_of_death : 'RI',
+		state_of_last_known_residence : 'RI',
 		agency_case_id : '',
 		is_valid_maternal_mortality_record : true
 	});*/

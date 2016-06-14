@@ -10,21 +10,21 @@
 		<paper-material elevation="1">			
 			<h1>Home Record Header</h1>
 			<div>Record Id: {{home_record.record_id }}</div>
-			<div><paper-checkbox>is a valid record</paper-checkbox></div>
+			<div><paper-checkbox {{home_record.is_valid_maternal_mortality_record }}>is a valid record</paper-checkbox></div>
 			<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
 		</paper-material>		 
 		
 		 <paper-material elevation="1">
 		<h1>Key Record Information</h1>
-		<paper-input label="First Name"></paper-input>
-		<paper-input label="Middle Name"></paper-input>
-		<paper-input label="Last Name"></paper-input>
-		<paper-input label="Date of Death* (YYYY-MM-DD)"></paper-input>
-		<paper-checkbox>Date of death is estimated?</paper-checkbox>
-		<paper-input label="State of Death Record"></paper-input>
-		<paper-input label="State of last known residence"></paper-input>
+		<paper-input label="First Name" value="{{home_record.first_name}}"></paper-input>
+		<paper-input label="Middle Name" value="{{home_record.last_name}}"></paper-input>
+		<paper-input label="Last Name" value="{{home_record.middle_name}}"></paper-input>
+		<paper-input label="Date of Death* (YYYY-MM-DD)" value="{{home_record.date_of_death}}"></paper-input>
+		<paper-checkbox value="{{home_record.date_of_death_is_estimated}}">Date of death is estimated?</paper-checkbox>
+		<paper-input label="State of Death Record" value="{{home_record.state_of_death}}"></paper-input>
+		<paper-input label="State of last known residence" value="{{home_record.state_of_last_known_residence}}"></paper-input>
 
-		<paper-input label="Agency-based case identifier"></paper-input>
+		<paper-input label="Agency-based case identifier" value="{{home_record.agency_case_id}}"></paper-input>
 </paper-material>
 			
 <paper-material elevation="1">			
