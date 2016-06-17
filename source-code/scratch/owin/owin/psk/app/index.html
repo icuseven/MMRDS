@@ -183,12 +183,12 @@ var db = new PouchDB('mmrds');
             <span>Summary</span>
           </a>
 
-          <a data-route="home-record" href="{{baseUrl}}home-record">
+          <a data-route="home-record" href="{{baseUrl}}:id/home-record">
             <iron-icon icon="mail"></iron-icon>
             <span>Home Record</span>
           </a>
 
-		<a data-route="DeathCertificate" href="{{baseUrl}}DeathCertificate">
+		<a data-route="death-certificate" href="{{baseUrl}}:id/death-certificate">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Death Certificate</span>
 		</a>
@@ -282,31 +282,9 @@ var db = new PouchDB('mmrds');
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" tabindex="-1">
               <paper-material elevation="1">
+			  <h1 class="page-title" tabindex="-1">home</h1>
 			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created by CDC to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
-
-			  
-                <!-- 
-				<my-greeting></my-greeting>
-
-                <p class="subhead">You now have:</p>
-                <my-list></my-list>
-
-                <p>Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a> them live.</p>
-				
-              </paper-material>
-
-              <paper-material elevation="1">
-                <p>This is another card.</p>
-              </paper-material>
-
-              <paper-material elevation="1">
-                <h2 id="license">License</h2>
-				<p>GNU GENERAL PUBLIC LICENSE</p>
-				<p>Version 3, 29 June 2007</p>
-				<p> Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/> Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.</p>
-                <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-              </paper-material>
-			  -->
+				</paper-material>
             </section>
 
             <section data-route="users" tabindex="-1">
@@ -349,9 +327,9 @@ var db = new PouchDB('mmrds');
 				<mmrds-home_record id="home-record-id" current_record_id=""></mmrds-home_record>
             </section>
 			
-			<section data-route="DeathCertificate" tabindex="-1">
-			<h1 class="page-title" tabindex="-1">DeathCertificate</h1>
-				<mmrds-death_certificate></mmrds-death_certificate>
+			<section data-route="death-certificate" tabindex="-1">
+			<h1 class="page-title" tabindex="-1">death-certificate</h1>
+				<mmrds-death_certificate id="death-certificate-id" current_record_id=""></mmrds-death_certificate>
             </section>
 
 			<section data-route="MaternalBirthCertificate" tabindex="-1">

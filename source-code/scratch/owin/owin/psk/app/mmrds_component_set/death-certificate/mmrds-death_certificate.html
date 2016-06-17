@@ -3,7 +3,9 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
-
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <dom-module id="mmrds-death_certificate">
 		
@@ -12,9 +14,9 @@
 
 		<paper-material elevation="1">			
 			<h1>Death Certificate</h1>
-			<div>Record Id: VA-2011-1703</div>
-			<div><paper-checkbox>is a valid record</paper-checkbox></div>
-			<div>Name: McAlister, Bibiana</div>
+			<div>Record Id: {{home_record.record_id }}</div>
+			<div><paper-checkbox value="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
+			<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
 		</paper-material>	
 		
 
@@ -279,7 +281,41 @@
 	<script>
 	Polymer({
         is: 'mmrds-death_certificate',
-		properties: {}
+		properties: 
+		{
+			home_record: { type: Object
+				},
+				current_record_id: { 
+					type: String,
+					notify: true,
+					observer: 'currentRecordChange'
+				
+				}
+		},
+		currentRecordChange:function() 
+		{
+			  var found_index = -1;
+			  for(var i = 0; i < g_data.length; i++)
+			  {
+				if(g_data[i]._id == this.current_record_id)
+				{
+					found_index = i;
+					break;
+				}
+			  }
+			  
+			  if(found_index > -1)
+			  {
+				this.home_record = g_data[found_index];
+			  }
+			  else if(g_data.length > 0)
+			  {
+				this.home_record = g_data[0];
+			  }
+
+			//console.log('currentRecordChange: ' + this.current_record_id);
+			//console.log('home_record: ' + this.home_record);
+		}
 
       });
 	  
