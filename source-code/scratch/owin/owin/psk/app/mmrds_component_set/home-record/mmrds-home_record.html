@@ -32,7 +32,7 @@
 <paper-material elevation="1">			
 		<h1>Case Progress Report:</h1>
 <div>
-<paper-dropdown-menu label="Death certificate" selected-item-label="{{ home_record.progress_death_certificate}}">
+<paper-dropdown-menu id="progress_death_certificate" label="Death certificate" selected-item-label="{{ home_record.progress_death_certificate}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -41,13 +41,13 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
-<paper-badge label="1" for="btn"></paper-badge>
+<paper-badge label="{{progress_death_certificate_count}}" for="progress_death_certificate"></paper-badge>
 </div>				
 		
 			
 		
 <div>		
-<paper-dropdown-menu label="Maternal birth certificate" selected-item-label="{{ home_record.progress_maternal_birth_certificate}}">
+<paper-dropdown-menu id="progress_maternal_birth_certificate" label="Maternal birth certificate" selected-item-label="{{ home_record.progress_maternal_birth_certificate}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -56,11 +56,11 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
-<paper-badge label="0" for="btn2"></paper-badge>
+<paper-badge label="{{progress_maternal_birth_certificate_count}}" for="progress_maternal_birth_certificate"></paper-badge>
 </div>				
 			
 <div>			
-<paper-dropdown-menu label="Prenatal care record"  selected-item-label="{{ home_record.progress_prenatal_care}}">
+<paper-dropdown-menu id="progress_prenatal_care" label="Prenatal care record"  selected-item-label="{{ home_record.progress_prenatal_care}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -69,10 +69,11 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_prenatal_care_count}}" for="progress_prenatal_care"></paper-badge>
 </div>				
 	
 <div>	
-<paper-dropdown-menu label="ER visit(s) and Hospitalization(s)" selected-item-label="{{ home_record.progress_er_and_hospital_visits}}">
+<paper-dropdown-menu id="progress_er_and_hospital_visits" label="ER visit(s) and Hospitalization(s)" selected-item-label="{{ home_record.progress_er_and_hospital_visits}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -81,9 +82,10 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_er_and_hospital_visits_count}}" for="progress_er_and_hospital_visits"></paper-badge>
 </div>				
 <div>			
-<paper-dropdown-menu label="Informant interviews"  selected-item-label="{{ home_record.progress_informant_interviews}}">
+<paper-dropdown-menu id="progress_informant_interviews" label="Informant interviews"  selected-item-label="{{ home_record.progress_informant_interviews}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -92,10 +94,11 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_informant_interviews_count}}" for="progress_informant_interviews"></paper-badge>
 </div>				
 
 <div>		
-<paper-dropdown-menu label="Autopsy report" selected-item-label="{{ home_record.progress_autopsy_report}}">
+<paper-dropdown-menu id="progress_autopsy_report" label="Autopsy report" selected-item-label="{{ home_record.progress_autopsy_report}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -104,9 +107,10 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_autopsy_report_count}}" for="progress_autopsy_report"></paper-badge>
 </div>				
 <div>			
-<paper-dropdown-menu label="Infant/fetal birth certificate(s)" selected-item-label="{{ home_record.child_birth_certificate}}">
+<paper-dropdown-menu id="progress_child_birth_certificate" label="Infant/fetal birth certificate(s)" selected-item-label="{{ home_record.child_birth_certificate}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -115,9 +119,10 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_child_birth_certificate_count}}" for="progress_child_birth_certificate"></paper-badge>
 </div>				
 <div>			
-<paper-dropdown-menu label="Other medical visits"  selected-item-label="{{ home_record.progress_other_medical_visits}}">
+<paper-dropdown-menu id="progress_other_medical_visits" label="Other medical visits"  selected-item-label="{{ home_record.progress_other_medical_visits}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -126,9 +131,10 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_other_medical_visits_count}}" for="progress_other_medical_visits"></paper-badge>
 </div>				
 <div>			
-<paper-dropdown-menu label="Social and psychological profile"  selected-item-label="{{ home_record.progress_social_and_psyc_profile}}">
+<paper-dropdown-menu id="progress_social_and_psyc_profile" label="Social and psychological profile"  selected-item-label="{{ home_record.progress_social_and_psyc_profile}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -137,9 +143,10 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_social_and_psyc_profile_count}}" for="progress_social_and_psyc_profile"></paper-badge>
 </div>				
 <div>			
-<paper-dropdown-menu label="Committee review worksheet"  selected-item-label="{{ home_record.progress_committee_review_worksheet}}">
+<paper-dropdown-menu id="progress_committee_review_worksheet" label="Committee review worksheet"  selected-item-label="{{ home_record.progress_committee_review_worksheet}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -148,6 +155,7 @@
 	<paper-item>not applicable</paper-item>
   </paper-listbox>
 </paper-dropdown-menu>
+<paper-badge label="{{progress_committee_review_worksheet_count}}" for="progress_committee_review_worksheet"></paper-badge>
 </div>		
 </paper-material>
 
@@ -168,7 +176,17 @@
 				notify: true,
 				observer: 'currentRecordChange'
 			
-			}
+			},
+			progress_autopsy_report_count:{ type:Number, value: function (){ return 0;} },
+			progress_committee_review_worksheet_count:{ type:Number, value: function (){ return 0;} },
+			progress_death_certificate_count:{ type:Number, value: function (){ return 0;} },
+			progress_er_and_hospital_visits_count:{ type:Number, value: function (){ return 0;} },
+			progress_informant_interviews_count:{ type:Number, value: function (){ return 0;} },
+			progress_maternal_birth_certificate_count:{ type:Number, value: function (){ return 0;} },
+			progress_child_birth_certificate_count:{ type:Number, value: function (){ return 0;} },
+			progress_other_medical_visits_count:{ type:Number, value: function (){ return 0;} },
+			progress_prenatal_care_count:{ type:Number, value: function (){ return 0;} },
+			progress_social_and_psyc_profile_count:{ type:Number, value: function (){ return 0;} },
 		},
 		currentRecordChange:function() 
 		{
@@ -194,6 +212,7 @@
 			//console.log('currentRecordChange: ' + this.current_record_id);
 			//console.log('home_record: ' + this.home_record);
 		}
+
 
     });
 	  
