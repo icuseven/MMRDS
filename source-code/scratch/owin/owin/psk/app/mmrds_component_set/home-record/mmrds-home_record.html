@@ -12,7 +12,7 @@
 		<paper-material elevation="1">			
 			<h1>Home Record Header</h1>
 			<div>Record Id: {{home_record.record_id }}</div>
-			<div><paper-checkbox value="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
+			<div><paper-checkbox checked="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
 			<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
 		</paper-material>		 
 		
@@ -22,7 +22,7 @@
 		<paper-input label="Middle Name" value="{{home_record.middle_name}}"></paper-input>
 		<paper-input label="Last Name" value="{{home_record.last_name}}"></paper-input>
 		<paper-input label="Date of Death* (YYYY-MM-DD)" value="{{home_record.date_of_death}}"></paper-input>
-		<paper-checkbox value="{{home_record.date_of_death_is_estimated}}">Date of death is estimated?</paper-checkbox>
+		<paper-checkbox checked="{{home_record.date_of_death_is_estimated}}">Date of death is estimated?</paper-checkbox>
 		<paper-input label="State of Death Record" value="{{home_record.state_of_death}}"></paper-input>
 		<paper-input label="State of last known residence" value="{{home_record.state_of_last_known_residence}}"></paper-input>
 
@@ -32,7 +32,7 @@
 <paper-material elevation="1">			
 		<h1>Case Progress Report:</h1>
 <div>
-<paper-dropdown-menu id="" label="Death certificate">
+<paper-dropdown-menu label="Death certificate" selected-item-label="{{ home_record.progress_death_certificate}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -47,7 +47,7 @@
 			
 		
 <div>		
-<paper-dropdown-menu id="btn2" label="Maternal birth certificate">
+<paper-dropdown-menu label="Maternal birth certificate" selected-item-label="{{ home_record.progress_maternal_birth_certificate}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -60,7 +60,7 @@
 </div>				
 			
 <div>			
-					<paper-dropdown-menu label="Prenatal care record">
+<paper-dropdown-menu label="Prenatal care record"  selected-item-label="{{ home_record.progress_prenatal_care}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -72,7 +72,7 @@
 </div>				
 	
 <div>	
-<paper-dropdown-menu label="ER visit(s) and Hospitalization(s)">
+<paper-dropdown-menu label="ER visit(s) and Hospitalization(s)" selected-item-label="{{ home_record.progress_er_and_hospital_visits}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -83,7 +83,7 @@
 </paper-dropdown-menu>
 </div>				
 <div>			
-<paper-dropdown-menu label="Informant interviews">
+<paper-dropdown-menu label="Informant interviews"  selected-item-label="{{ home_record.progress_informant_interviews}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -95,7 +95,7 @@
 </div>				
 
 <div>		
-					<paper-dropdown-menu label="Autopsy report">
+<paper-dropdown-menu label="Autopsy report" selected-item-label="{{ home_record.progress_autopsy_report}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -106,7 +106,7 @@
 </paper-dropdown-menu>
 </div>				
 <div>			
-					<paper-dropdown-menu label="Infant/fetal birth certificate(s)">
+<paper-dropdown-menu label="Infant/fetal birth certificate(s)" selected-item-label="{{ home_record.child_birth_certificate}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -117,7 +117,7 @@
 </paper-dropdown-menu>
 </div>				
 <div>			
-					<paper-dropdown-menu label="Other medical visits">
+<paper-dropdown-menu label="Other medical visits"  selected-item-label="{{ home_record.progress_other_medical_visits}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -128,7 +128,7 @@
 </paper-dropdown-menu>
 </div>				
 <div>			
-					<paper-dropdown-menu label="Social and psychological profile">
+<paper-dropdown-menu label="Social and psychological profile"  selected-item-label="{{ home_record.progress_social_and_psyc_profile}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -139,7 +139,7 @@
 </paper-dropdown-menu>
 </div>				
 <div>			
-					<paper-dropdown-menu label="Committee review worksheet">
+<paper-dropdown-menu label="Committee review worksheet"  selected-item-label="{{ home_record.progress_committee_review_worksheet}}">
   <paper-listbox class="dropdown-content">
     <paper-item>not started</paper-item>
     <paper-item>in progress</paper-item>
@@ -156,8 +156,12 @@
 	Polymer
 	({
         is: 'mmrds-home_record',
-		properties: {
-			home_record: { type: Object
+		properties: 
+		{
+			home_record: 
+			{ 
+				type: Object,
+				notify: true
 			},
 			current_record_id: { 
 				type: String,

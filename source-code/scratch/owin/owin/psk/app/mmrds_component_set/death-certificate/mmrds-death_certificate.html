@@ -15,7 +15,7 @@
 		<paper-material elevation="1">			
 			<h1>Death Certificate</h1>
 			<div>Record Id: {{home_record.record_id }}</div>
-			<div><paper-checkbox value="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
+			<div><paper-checkbox checked="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
 			<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
 		</paper-material>	
 		
@@ -283,14 +283,17 @@
         is: 'mmrds-death_certificate',
 		properties: 
 		{
-			home_record: { type: Object
-				},
-				current_record_id: { 
-					type: String,
-					notify: true,
-					observer: 'currentRecordChange'
-				
-				}
+			home_record: 
+			{ 
+				type: Object,
+				notify: true
+			},
+			current_record_id: { 
+				type: String,
+				notify: true,
+				observer: 'currentRecordChange'
+			
+			}
 		},
 		currentRecordChange:function() 
 		{
