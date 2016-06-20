@@ -67,7 +67,8 @@
 		
 		
 		
-		<paper-dropdown-menu label="Education*" selected-item-label="{{death_certificate.education_level}}">
+		<paper-dropdown-menu label="Education*" selected-item-label
+		="{{death_certificate.education_level}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>8th grade or less</paper-item>
 				<paper-item>9th-12th grade; no diploma</paper-item>
@@ -106,10 +107,10 @@
 	
 	<paper-material elevation="1">	
 		<h1>Injury associated information (optional)</h1>
-		<paper-input label="Date of injury (YYYY-MM-DD)" value="{{death_certificate.}}"></paper-input>
-		<paper-input label="Time of injury" value="{{death_certificate.}}"></paper-input>
-		<paper-input label="Place of injury (Place name, if applicable)" value="{{death_certificate.}}"></paper-input>
-		<paper-dropdown-menu label="Was injury at work?" selected-item-label="{{death_certificate.}}">
+		<paper-input label="Date of injury (YYYY-MM-DD)" value="{{death_certificate.date_of_injury}}"></paper-input>
+		<paper-input label="Time of injury" value="{{death_certificate.time_of_injury}}"></paper-input>
+		<paper-input label="Place of injury (Place name, if applicable)" value="{{death_certificate.place_of_injury}}"></paper-input>
+		<paper-dropdown-menu label="Was injury at work?" selected-item-label="{{death_certificate.was_injury_at_work}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Yes</paper-item>
 				<paper-item>No</paper-item>
@@ -117,7 +118,7 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		<paper-dropdown-menu label="Transportaion related injury?" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Transportaion related injury?" selected-item-label="{{death_certificate.transportation_related_injury}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Driver/Operator</paper-item>
 				<paper-item>Passenger</paper-item>
@@ -129,7 +130,7 @@
 		</paper-dropdown-menu>
 		
 
-		<paper-dropdown-menu label="Were seat belts in use?" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Were seat belts in use?" selected-item-label="{{death_certificate.were_seat_belts_in_use}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Yes</paper-item>
 				<paper-item>No</paper-item>
@@ -144,7 +145,7 @@
 		
 	<paper-material elevation="1">	
 		<h1>Death information</h1>		
-		<paper-dropdown-menu label="If death occured in hospital:*" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="If death occured in hospital:*" selected-item-label="{{death_certificate.death_occured_in_hospital}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Inpatient</paper-item>
 				<paper-item>Outpatient/ ER</paper-item>
@@ -153,7 +154,7 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		<paper-dropdown-menu label="If death not in a hospital:*" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="If death not in a hospital:*" selected-item-label="{{death_certificate.death_outside_of_hospital}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Hospice</paper-item>
 				<paper-item>Nursing home/ LTC</paper-item>
@@ -163,7 +164,7 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 
-		<paper-dropdown-menu label="Manner of Death*" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Manner of Death*" selected-item-label="{{death_certificate.manner_of_death}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Natural</paper-item>
 				<paper-item>Accident</paper-item>
@@ -177,7 +178,7 @@
 		</paper-dropdown-menu>
 		
 
-		<paper-dropdown-menu label="Was autopsy performed?*" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Was autopsy performed?*" selected-item-label="{{death_certificate.was_autopsy_performed}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Yes</paper-item>
 				<paper-item>No</paper-item>
@@ -185,7 +186,7 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		<paper-dropdown-menu label="Was autopsy used for death coding?*" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Was autopsy used for death coding?*" selected-item-label="{{death_certificate.was_autopsy_used_for_death_coding}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Yes</paper-item>
 				<paper-item>No</paper-item>
@@ -193,7 +194,7 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		<paper-dropdown-menu label="Pregnancy status*" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Pregnancy status*" selected-item-label="{{death_certificate.pregnancy_status}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Not pregnant within last year</paper-item>
 				<paper-item>Pregnant at the time of death</paper-item>
@@ -204,7 +205,7 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		<paper-dropdown-menu label="Did Tobacco contribute to death?" selected-item-label="{{death_certificate.}}">
+		<paper-dropdown-menu label="Did Tobacco contribute to death?" selected-item-label="{{death_certificate.did_tobacco_contribute_to_death}}">
 			<paper-listbox class="dropdown-content">
 				<paper-item>Yes</paper-item>
 				<paper-item>Probably</paper-item>
@@ -219,14 +220,14 @@
 	<mmrds-address label="Location where death occured"></mmrds-address>
 	
 	<paper-material elevation="1">
-		<paper-input label="Estimated distance (miles) between residence and place of death*" value="{{death_certificate.}}"></paper-input>
+		<paper-input label="Estimated distance (miles) between residence and place of death*" value="{{death_certificate.estimated_death_distance_from_residence}}"></paper-input>
 		<paper-button raised>Calculate distance</paper-button>
 	</paper-material>
 	
 	
 	<paper-material elevation="1">
 	<h1>Causes of Death (enter Underlying cause first)</h1>
-	<paper-input label="ICD Version" selected-item-label="{{death_certificate.}}"></paper-input>
+	<paper-input label="ICD Version" value="{{death_certificate.icd_version}}"></paper-input>
 	<table>
 	<tr>
 	<th>Type*</th>
@@ -274,7 +275,7 @@
 	
 	<paper-material elevation="1">
 	
-	<paper-input label="Reviewer's notes about the Death Certificate" selected-item-label="{{death_certificate.reviewers_notes}}"></paper-input>
+	<paper-input label="Reviewer's notes about the Death Certificate" value="{{death_certificate.reviewers_notes}}"></paper-input>
 	</paper-material>
 	
 	</template>
@@ -286,18 +287,18 @@
 			home_record: 
 			{ 
 				type: Object,
-				readOnly: true
+				notify: true
 			},
 			current_record_id: { 
 				type: String,
 				notify: true,
 				observer: 'currentRecordChange'
 			
-			}.
+			},
 			death_certificate: 
 			{ 
 				type: Object,
-				readOnly: true
+				notify: true
 			},
 		},
 		currentRecordChange:function() 
@@ -319,6 +320,20 @@
 			  else if(g_data.length > 0)
 			  {
 				this.home_record = g_data[0];
+			  }
+			  
+			  if(this.home_record)
+			  {
+				if(this.home_record.death_certificate)
+				{
+					this.death_certificate = this.home_record.death_certificate;
+				}
+				else
+				{
+					this.home_record.death_certificate = {};
+					this.death_certificate = this.home_record.death_certificate;
+				}
+				
 			  }
 
 			//console.log('currentRecordChange: ' + this.current_record_id);

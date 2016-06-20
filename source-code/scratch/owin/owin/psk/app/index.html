@@ -110,6 +110,34 @@ var db = new PouchDB('mmrds');
   
   //var summary_data = db.get({_all_doc: ""})
   
+  function SaveCurrentRecord()
+  {
+	if(g_selected_record_id)
+	{
+		var found_index = -1;
+		for(var i = 0; i < g_data.length; i++)
+		{
+			if(g_data[i]._id == g_selected_record_id)
+			{
+				found_index = i;
+				break;
+			}
+		}
+
+		if(found_index > -1)
+		{
+			var db = new PouchDB('mmrds');
+			db.put(g_data[found_index]);
+			 // TODO retrieve saved record with new _rev and replace
+			 // outdated document saved in g_data
+			
+		}
+	
+
+	}
+	
+  }
+  
   function handleError(event) 
   {
           //  this.$.createButton.disabled=false;
@@ -250,8 +278,8 @@ var db = new PouchDB('mmrds');
 			<iron-icon icon="mail"></iron-icon>
 			<span>Core Summary</span>
 		</a>
-		
-        </paper-menu>
+		</paper-menu>
+		<paper-button onclick="SaveCurrentRecord()" raised>save current record</paper-button>
       </paper-scroll-header-panel>
 
       <!-- Main Area -->
