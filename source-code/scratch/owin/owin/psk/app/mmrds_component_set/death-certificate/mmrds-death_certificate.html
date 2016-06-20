@@ -85,23 +85,29 @@
 	
 
 	<paper-material elevation="1">	
-	<h1>Race (check or enter all that apply)*</h1>
-	<paper-checkbox>White</paper-checkbox>
-	<paper-checkbox>Black</paper-checkbox>
-	<paper-checkbox>Ameican Indian/AK Native</paper-checkbox>
-	<paper-checkbox>Native Hawaiian</paper-checkbox>
-	<paper-checkbox>Guamanian or Chamorro</paper-checkbox>
-	<paper-checkbox>Samoan</paper-checkbox>
-	<paper-checkbox>Other Pacific Islander</paper-checkbox>
-	<paper-checkbox>Asian Indian</paper-checkbox>
-	<paper-checkbox>Filipino</paper-checkbox>
-	<paper-checkbox>Korean</paper-checkbox>
-	<paper-checkbox>Other Asian</paper-checkbox>
-	<paper-checkbox>Chinese</paper-checkbox>
-	<paper-checkbox>Japanese</paper-checkbox>
-	<paper-checkbox>Vietnamese</paper-checkbox>
-	<paper-checkbox>Other race</paper-checkbox>
-	<paper-checkbox>Race not specified</paper-checkbox>
+	<h1>Race (multi-selectable - select all that apply)*</h1>
+	<!--paper-dropdown-menu label="Education*" selected-item-label
+		="{{death_certificate.race}}"-->
+			<paper-listbox  multi selected-items
+		="{{death_certificate.race}}">
+			<paper-item>White</paper-item>
+			<paper-item>Black</paper-item>
+			<paper-item>Ameican Indian/AK Native</paper-item>
+			<paper-item>Native Hawaiian</paper-item>
+			<paper-item>Guamanian or Chamorro</paper-item>
+			<paper-item>Samoan</paper-item>
+			<paper-item>Other Pacific Islander</paper-item>
+			<paper-item>Asian Indian</paper-item>
+			<paper-item>Filipino</paper-item>
+			<paper-item>Korean</paper-item>
+			<paper-item>Other Asian</paper-item>
+			<paper-item>Chinese</paper-item>
+			<paper-item>Japanese</paper-item>
+			<paper-item>Vietnamese</paper-item>
+			<paper-item>Other race</paper-item>
+			<paper-item>Race not specified</paper-item>
+		</paper-listbox>
+		<!--/paper-dropdown-menu-->
 	</paper-material>	
 	
 	
@@ -228,6 +234,9 @@
 	<paper-material elevation="1">
 	<h1>Causes of Death (enter Underlying cause first)</h1>
 	<paper-input label="ICD Version" value="{{death_certificate.icd_version}}"></paper-input>
+
+
+
 	<table>
 	<tr>
 	<th>Type*</th>
@@ -236,41 +245,81 @@
 	<th>Interval</th>
 	<th>Unit</th>
 	</tr>
-	<tr>
-	<td>		
-		<paper-dropdown-menu label="type*">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Immediate</paper-item>
-				<paper-item>Contributing</paper-item>
-				<paper-item>Underlying</paper-item>
-				<paper-item>Other significant</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>	
-	</td>
-	<td>
-		<paper-input label="Cause (descriptive)*"></paper-input>
-	</td>
-	<td>
-		<paper-input label="ICD code"></paper-input>
-	</td>
-	<td>
-		<paper-input label="Interval"></paper-input>
-	</td>
-	<td>
-		<paper-dropdown-menu label="Unit">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Minute(s)</paper-item>
-				<paper-item>Hour(s)</paper-item>
-				<paper-item>Day(s)</paper-item>
-				<paper-item>Week(s)</paper-item>
-				<paper-item>Month(s)</paper-item>
-				<paper-item>Year(s)</paper-item>
-				<paper-item>Not specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>	
-	</td>
-	</tr>
+	<template id="cause_of_death_grid" is="dom-repeat" items="{{causes_of_death}}">
+		<tr>
+			<td>		
+				<paper-dropdown-menu label="type*" selected-item-label="{{item.cause_type}}">
+					<paper-listbox class="dropdown-content">
+						<paper-item>Immediate</paper-item>
+						<paper-item>Contributing</paper-item>
+						<paper-item>Underlying</paper-item>
+						<paper-item>Other significant</paper-item>
+					</paper-listbox>
+				</paper-dropdown-menu>	
+			</td>
+			<td>
+				<paper-input label="Cause (descriptive)*" value="{{item.cause_description}}"></paper-input>
+			</td>
+			<td>
+				<paper-input label="ICD code" value="{{item.icd_code}}"></paper-input>
+			</td>
+			<td>
+				<paper-input label="Interval" value="{{item.interval}}"></paper-input>
+			</td>
+			<td>
+				<paper-dropdown-menu label="Unit" selected-item-label="{{item.interval_unit}}">
+					<paper-listbox class="dropdown-content" >
+						<paper-item>Minute(s)</paper-item>
+						<paper-item>Hour(s)</paper-item>
+						<paper-item>Day(s)</paper-item>
+						<paper-item>Week(s)</paper-item>
+						<paper-item>Month(s)</paper-item>
+						<paper-item>Year(s)</paper-item>
+						<paper-item>Not specified</paper-item>
+					</paper-listbox>
+				</paper-dropdown-menu>	
+			</td>
+		</tr>
+	</template>
+		<tr>
+			<td>		
+				<paper-dropdown-menu label="type*">
+					<paper-listbox class="dropdown-content">
+						<paper-item>Immediate</paper-item>
+						<paper-item>Contributing</paper-item>
+						<paper-item>Underlying</paper-item>
+						<paper-item>Other significant</paper-item>
+					</paper-listbox>
+				</paper-dropdown-menu>	
+			</td>
+			<td>
+				<paper-input label="Cause (descriptive)*"></paper-input>
+			</td>
+			<td>
+				<paper-input label="ICD code"></paper-input>
+			</td>
+			<td>
+				<paper-input label="Interval"></paper-input>
+			</td>
+			<td>
+				<paper-dropdown-menu label="Unit">
+					<paper-listbox class="dropdown-content">
+						<paper-item>Minute(s)</paper-item>
+						<paper-item>Hour(s)</paper-item>
+						<paper-item>Day(s)</paper-item>
+						<paper-item>Week(s)</paper-item>
+						<paper-item>Month(s)</paper-item>
+						<paper-item>Year(s)</paper-item>
+						<paper-item>Not specified</paper-item>
+					</paper-listbox>
+				</paper-dropdown-menu>	
+			</td>
+		</tr>  
 	</table>
+	<paper-button id="ancodr" raised>add new grid item</paper-button>
+	
+
+	
 	</paper-material>
 	
 	<paper-material elevation="1">
@@ -300,6 +349,11 @@
 				type: Object,
 				notify: true
 			},
+			causes_of_death: 
+			{ 
+				type: Array,
+				notify: true
+			},
 		},
 		currentRecordChange:function() 
 		{
@@ -327,20 +381,57 @@
 				if(this.home_record.death_certificate)
 				{
 					this.death_certificate = this.home_record.death_certificate;
+					if(this.death_certificate.causes_of_death)
+					{
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
+					else
+					{
+						this.death_certificate.causes_of_death = [];
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
 				}
 				else
 				{
 					this.home_record.death_certificate = {};
 					this.death_certificate = this.home_record.death_certificate;
+					if(this.death_certificate.causes_of_death)
+					{
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
+					else
+					{
+						this.death_certificate.causes_of_death = [];
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
 				}
 				
 			  }
 
 			//console.log('currentRecordChange: ' + this.current_record_id);
 			//console.log('home_record: ' + this.home_record);
+		},
+		addNewRecord: function()
+		{
+			if(this.death_certificate.causes_of_death)
+			{
+				this.death_certificate.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
+			}
+			else
+			{
+				this.death_certificate.causes_of_death = [];
+				this.death_certificate.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
+			}
+			
+		},
+		listeners: 
+		{
+			'ancodr.tap': 'addNewRecord'
 		}
 
+
       });
+	  
 	  
 	</script>
 	

@@ -81,7 +81,8 @@ var db = new PouchDB('mmrds');
 		state_of_death : 'VA',
 		state_of_last_known_residence : 'VA',
 		agency_case_id : '',
-		is_valid_maternal_mortality_record : true
+		is_valid_maternal_mortality_record : true,
+		death_certificate:{ causes_of_death:[] }
 	});
   	db.put({
 		_id : '2016-06-12T13:50:06.144Z',
@@ -93,7 +94,8 @@ var db = new PouchDB('mmrds');
 		state_of_death : 'TN',
 		state_of_last_known_residence : 'TN',
 		agency_case_id : '',
-		is_valid_maternal_mortality_record : true
+		is_valid_maternal_mortality_record : true,
+		death_certificate:{ causes_of_death:[] }
 	});
   	db.put({
 		_id : '2016-06-12T13:50:24.182Z',
@@ -105,7 +107,8 @@ var db = new PouchDB('mmrds');
 		state_of_death : 'RI',
 		state_of_last_known_residence : 'RI',
 		agency_case_id : '',
-		is_valid_maternal_mortality_record : true
+		is_valid_maternal_mortality_record : true,
+		death_certificate:{ causes_of_death:[] }
 	});*/
   
   //var summary_data = db.get({_all_doc: ""})
