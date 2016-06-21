@@ -352,7 +352,8 @@
 			causes_of_death: 
 			{ 
 				type: Array,
-				notify: true
+				notify: true,
+				observer: 'causesOfDeathChange'
 			},
 		},
 		currentRecordChange:function() 
@@ -423,6 +424,10 @@
 				this.death_certificate.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
 			}
 			
+		},
+		causesOfDeathChange: function ()
+		{
+			//alert("bubba");
 		},
 		listeners: 
 		{
