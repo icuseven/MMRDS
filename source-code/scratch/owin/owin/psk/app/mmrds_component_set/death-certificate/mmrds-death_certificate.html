@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
+<link rel="import" href="../cause-of-death-grid/mmrds-cause-of-death-grid.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -319,7 +320,7 @@
 	<paper-button id="ancodr" raised>add new grid item</paper-button>
 	
 
-	
+	<mmrds-cause-of-death-grid causes_of_death="{{causes_of_death}}"></mmrds-cause-of-death-grid>
 	</paper-material>
 	
 	<paper-material elevation="1">
@@ -351,9 +352,9 @@
 			},
 			causes_of_death: 
 			{ 
-				type: Array,
-				notify: true,
-				observer: 'causesOfDeathChange'
+				type: Object,
+				notify: true//,
+				//observer: 'causesOfDeathChange'
 			},
 		},
 		currentRecordChange:function() 
@@ -423,10 +424,64 @@
 				this.death_certificate.causes_of_death = [];
 				this.death_certificate.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
 			}
-			
+			//this.notifyPath('causes_of_death',this.causes_of_death);
 		},
+		//observers: ['causesOfDeathChange(causes_of_death.*)', { cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" }],
 		causesOfDeathChange: function ()
 		{
+			/*
+			var found_index = -1;
+			  for(var i = 0; i < g_data.length; i++)
+			  {
+				if(g_data[i]._id == this.current_record_id)
+				{
+					found_index = i;
+					break;
+				}
+			  }
+			  
+			  if(found_index > -1)
+			  {
+				this.home_record = g_data[found_index];
+			  }
+			  else if(g_data.length > 0)
+			  {
+				this.home_record = g_data[0];
+			  }
+			  
+			  if(this.home_record)
+			  {
+				if(this.home_record.death_certificate)
+				{
+					this.death_certificate = this.home_record.death_certificate;
+					if(this.death_certificate.causes_of_death)
+					{
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
+					else
+					{
+						this.death_certificate.causes_of_death = [];
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
+				}
+				else
+				{
+					this.home_record.death_certificate = {};
+					this.death_certificate = this.home_record.death_certificate;
+					if(this.death_certificate.causes_of_death)
+					{
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
+					else
+					{
+						this.death_certificate.causes_of_death = [];
+						this.causes_of_death = this.death_certificate.causes_of_death;
+					}
+				}
+				
+			  }*/
+			//this.notifyPath('causes_of_death',this.causes_of_death);
+			
 			//alert("bubba");
 		},
 		listeners: 
