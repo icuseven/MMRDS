@@ -282,7 +282,7 @@
 			</td>
 		</tr>
 	</template>
-		<tr>
+		<!--tr>
 			<td>		
 				<paper-dropdown-menu label="type*">
 					<paper-listbox class="dropdown-content">
@@ -315,13 +315,13 @@
 					</paper-listbox>
 				</paper-dropdown-menu>	
 			</td>
-		</tr>  
+		</tr-->  
 	</table>
 	<paper-button id="ancodr" raised>add new grid item</paper-button>
 	
 
-	<mmrds-cause-of-death-grid causes_of_death="{{causes_of_death}}"></mmrds-cause-of-death-grid>
-	</paper-material>
+	<!--mmrds-cause-of-death-grid causes_of_death="{{causes_of_death}}"></mmrds-cause-of-death-grid>
+	</paper-material-->
 	
 	<paper-material elevation="1">
 	
@@ -353,8 +353,8 @@
 			causes_of_death: 
 			{ 
 				type: Object,
-				notify: true//,
-				//observer: 'causesOfDeathChange'
+				notify: true,
+				observer: 'causesOfDeathChange'/**/
 			},
 		},
 		currentRecordChange:function() 
@@ -415,20 +415,25 @@
 		},
 		addNewRecord: function()
 		{
+			var new_record = [];
+		
 			if(this.death_certificate.causes_of_death)
 			{
-				this.death_certificate.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
+				for(var i in this.death_certificate.causes_of_death)
+				{
+					new_record.push(this.death_certificate.causes_of_death[i]);
+				}
 			}
-			else
-			{
-				this.death_certificate.causes_of_death = [];
-				this.death_certificate.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
-			}
-			//this.notifyPath('causes_of_death',this.causes_of_death);
+			
+			new_record.push({ cause_type:"Immediate", cause_description:"new description", icd_code:"new code", interval:"0", interval_unit:"Minute(s)" });
+			this.death_certificate.causes_of_death = new_record;
+			this.causes_of_death = new_record;
+
 		},
-		//observers: ['causesOfDeathChange(causes_of_death.*)', { cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" }],
+		observers: ['onCausesOfDeathChange(causes_of_death.*)'],
 		causesOfDeathChange: function ()
 		{
+			console.log("causesOfDeathChange");
 			/*
 			var found_index = -1;
 			  for(var i = 0; i < g_data.length; i++)
@@ -487,6 +492,11 @@
 		listeners: 
 		{
 			'ancodr.tap': 'addNewRecord'
+		},
+		//observers: ['onCausesOfDeathChange(causes_of_death.*)'],
+		onCausesOfDeathChange:function(changeRecord)
+		{
+			console.log("cause_of_death change: " + changeRecord.path);
 		}
 
 
