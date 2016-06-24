@@ -7,15 +7,16 @@
 <dom-module id="mmrds-address">
 	
 	<template> 
+	<iron-ajax id="ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
 <paper-material elevation="1">	
 	<h2>{{label}}</h2>
-	<paper-input label="Street*"></paper-input>
-	<paper-input label="City*"></paper-input>
-	<mmrds-state-dropdown label="State*"></mmrds-state-dropdown>
-	<paper-input label="Zip Code*"></paper-input>
-	<paper-button raised>Get Coordinates</paper-button>
-	<paper-input label="Latitude*"></paper-input>
-	<paper-input label="Longitude*"></paper-input>
+	<paper-input label="Street*" value="{{item.street}}"></paper-input>
+	<paper-input label="City*" value="{{item.city}}"></paper-input>
+	<mmrds-state-dropdown label="State*" selected-item-label="{{item.state}}"></mmrds-state-dropdown>
+	<paper-input label="Zip Code*"  value="{{item.zip_code}}"></paper-input>
+	<paper-button raised on-click="setajax">Get Coordinates</paper-button>
+	<paper-input label="Latitude*" value="{{item.latitude}}"></paper-input>
+	<paper-input label="Longitude*" value="{{item.longitude}}"></paper-input>
 	<!-- https://github.com/bendavis78/paper-date-picker -->
 </paper-material>	
 	</template>
@@ -25,8 +26,30 @@
 		properties: 
 			{
 				label: { type:String, notify: true, value:'address label' }
-			}
-
+			},
+		setajax: function () 
+		{
+			this.$.ajax.url = "http://geoservices.tamu.edu/Services/AddressNormalization/WebService/v04_01/Rest/";
+			this.$.ajax.params = {
+					nonParsedStreetAddress: this.item.street,
+					nonParsedCity: this.item.city,
+					nonParsedState:this.item.state,
+					nonParsedZip: this.item.zip_code,
+					apikey:'7c39ae93786d4aa3adb806cb66de51b8',
+					addressFormat:'USPSPublication28',
+					responseFormat:'JSON',
+					notStore:false,
+					version:'4.01'
+			
+			};
+			this.$.ajax.generateRequest();
+		},
+		handle_response: function(request) 
+		{
+			console.log(request.detail.response);
+			console.log(this.$.ajax.lastResponse);
+		}
+  
       });
 	  
 	</script>

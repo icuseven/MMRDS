@@ -21,7 +21,7 @@
 		</paper-material>	
 		
 
-	<mmrds-address label="Place of last residence"></mmrds-address>	
+	<mmrds-address item="{{death_certificate.place_of_last_residence}}" label="Place of last residence"></mmrds-address>	
 
 	<paper-material elevation="1">			
 		<h1>Demographics</h1>
@@ -148,7 +148,7 @@
 		
 	</paper-material>	
 	
-	<mmrds-address label="Location where injury occured"></mmrds-address>	
+	<mmrds-address  data="{{death_certificate.address_of_injury}}" label="Location where injury occured"></mmrds-address>	
 		
 	<paper-material elevation="1">	
 		<h1>Death information</h1>		
@@ -224,7 +224,7 @@
 		
 	</paper-material>	
 	
-	<mmrds-address label="Location where death occured"></mmrds-address>
+	<mmrds-address item="{{death_certificate.address_of_death}}" label="Location where death occured"></mmrds-address>
 	
 	<paper-material elevation="1">
 		<paper-input label="Estimated distance (miles) between residence and place of death*" value="{{death_certificate.estimated_death_distance_from_residence}}"></paper-input>
