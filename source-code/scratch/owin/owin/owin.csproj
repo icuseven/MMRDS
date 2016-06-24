@@ -65,6 +65,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="controller\ValuesController.cs" />
     <Compile Include="controller\master_recordController.cs" />
     <Compile Include="model\master_record.cs" />
+    <Compile Include="controller\geocodeController.cs" />
+    <Compile Include="model\geocode_response.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
