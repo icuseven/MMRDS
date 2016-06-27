@@ -9,6 +9,9 @@
 		-->
 		<h2>Please select a record to work with:</h2>
 		<paper-menu>
+		<paper-item>
+			<paper-button on-tap="addNewCase">[ add new case ]</paper-button>
+		</paper-item>
 		<template id="summary_repeat" is="dom-repeat" items="{{data}}">
             <paper-item>
 				<a data-route="master" href="{{baseUrl}}/[[item._id]]/home-record">
@@ -25,16 +28,12 @@
         is: 'mmrds-summary',
 		properties: 
 		{ 
-			/*
+			
 			data: 
 			{
 				type: Array,
-				value: function () 
-				{
-					return [];
-				},
 				notify: true
-			}*/
+			}
 		},
 		ready: function ()
 		{
@@ -56,6 +55,48 @@
 		handle_response: function (e) 
 		{
 			console.log("handle_response done.");
+		},
+		addNewCase: function()
+		{
+			var new_data = [];
+			
+			for(var i in g_data)
+			{
+				new_data.push(g_data[i]);
+			}
+			
+			var new_record_id = new Date().toISOString();
+			new_data.push
+			(
+				{
+					_id : new_record_id,
+					record_id : '',
+					first_name : 'New First',
+					middle_name : '',
+					last_name : 'New Last',
+					date_of_death : '2000-01-01',
+					state_of_death : '',
+					state_of_last_known_residence : '',
+					agency_case_id : '',
+					is_valid_maternal_mortality_record : true,
+					death_certificate:
+					{ 
+						causes_of_death:[], 
+						place_of_last_residence:
+						{  
+							street:"New Street",
+							city:"",
+							state:"",
+							zip_code:""
+						} 
+					}
+				}
+			);
+			
+			g_data = new_data;
+			
+			this.data = g_data;
+			g_selected_record_id = new_record_id;
 		}
 
     });
