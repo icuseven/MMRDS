@@ -12,9 +12,9 @@
 	<h2>{{label}}</h2>
 	<paper-input label="Street*" value="{{item.street}}"></paper-input>
 	<paper-input label="City*" value="{{item.city}}"></paper-input>
-	<mmrds-state-dropdown label="State*" selected-item-label="{{item.state}}"></mmrds-state-dropdown>
+	<mmrds-state-dropdown id="AddressState" label="State*" value="{{item.state::select}}" selected-item-label="{{item.state}}"></mmrds-state-dropdown>
 	<paper-input label="Zip Code*"  value="{{item.zip_code}}"></paper-input>
-	<paper-button raised on-click="setajax">Get Coordinates</paper-button>
+	<paper-button raised on-tap="setajax">Get Coordinates</paper-button>
 	<paper-input label="Latitude*" value="{{item.latitude}}"></paper-input>
 	<paper-input label="Longitude*" value="{{item.longitude}}"></paper-input>
 </paper-material>	
@@ -24,7 +24,8 @@
         is: 'mmrds-address',
 		properties: 
 			{
-				label: { type:String, notify: true, value:'address label' }
+				label: { type:String, notify: true, value:'address label' },
+				item: { type: Object, notify:true }
 			},
 		setajax: function () 
 		{
@@ -44,6 +45,10 @@
 			this.item.longitude = json_response.longitude;
 			console.log(request.detail.response);
 			//console.log(this.$.ajax.lastResponse);
+		},
+		stateSelected: function(value)
+		{
+			this.$.AddressState.select(value);
 		}
   
       });

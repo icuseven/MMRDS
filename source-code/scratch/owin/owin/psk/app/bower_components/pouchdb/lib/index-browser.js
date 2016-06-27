@@ -2955,7 +2955,7 @@ PouchDB.defaults = function (defaultOpts) {
 };
 
 // managed automatically by set-version.js
-var version = "5.4.1";
+var version = "5.4.4";
 
 PouchDB.version = version;
 

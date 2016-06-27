@@ -2948,7 +2948,7 @@ PouchDB.defaults = function (defaultOpts) {
 };
 
 // managed automatically by set-version.js
-var version = "5.4.1";
+var version = "5.4.4";
 
 PouchDB.version = version;
 
@@ -3744,11 +3744,11 @@ function LevelPouch$1(opts, callback) {
       db = dbStore.get(name);
       db._docCount  = -1;
       db._queue = new Deque();
-      /* istanbul ignore if */
-      if (opts.noMigrate || (opts.db && !opts.migrate)) {
-        afterDBCreated();
-      } else {
+      /* istanbul ignore else */
+      if (opts.migrate) { // migration for leveldown
         migrate.toSublevel(name, db, afterDBCreated);
+      } else {
+        afterDBCreated();
       }
     })));
   }
@@ -4124,6 +4124,7 @@ function LevelPouch$1(opts, callback) {
 
     function finish() {
       compact(stemmedRevs, function (error) {
+        /* istanbul ignore if */
         if (error) {
           complete(error);
         }
@@ -5061,18 +5062,25 @@ var requireLeveldown = function () {
   }
 };
 
-var leveldown = requireLeveldown();
-
 function LevelDownPouch(opts, callback) {
 
-  /* istanbul ignore if */
-  if (leveldown instanceof Error) {
-    return callback(leveldown);
+  // Users can pass in their own leveldown alternative here, in which case
+  // it overrides the default one. (This is in addition to the custom builds.)
+  var leveldown = opts.db;
+
+  /* istanbul ignore else */
+  if (!leveldown) {
+    leveldown = requireLeveldown();
+
+    /* istanbul ignore if */
+    if (leveldown instanceof Error) {
+      return callback(leveldown);
+    }
   }
 
   var _opts = jsExtend.extend({
     db: leveldown,
-    migrate: true
+    migrate: !opts.db
   }, opts);
 
   LevelPouch$1.call(this, _opts, callback);
