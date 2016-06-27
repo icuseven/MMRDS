@@ -17,7 +17,6 @@
 	<paper-button raised on-click="setajax">Get Coordinates</paper-button>
 	<paper-input label="Latitude*" value="{{item.latitude}}"></paper-input>
 	<paper-input label="Longitude*" value="{{item.longitude}}"></paper-input>
-	<!-- https://github.com/bendavis78/paper-date-picker -->
 </paper-material>	
 	</template>
 	<script>
@@ -29,26 +28,22 @@
 			},
 		setajax: function () 
 		{
-			//this.$.ajax.url = "http://geoservices.tamu.edu/Services/AddressNormalization/WebService/v04_01/Rest/";
 			this.$.ajax.url = "http://localhost:12345/api/geocode";
 			this.$.ajax.params = {
-					nonParsedStreetAddress: this.item.street,
-					nonParsedCity: this.item.city,
-					nonParsedState:this.item.state,
-					nonParsedZip: this.item.zip_code,
-					apikey:'7c39ae93786d4aa3adb806cb66de51b8',
-					addressFormat:'USPSPublication28',
-					responseFormat:'JSON',
-					notStore:false,
-					version:'4.01'
-			
+					street_address: this.item.street,
+					city: this.item.city,
+					state:this.item.state,
+					zip: this.item.zip_code
 			};
 			this.$.ajax.generateRequest();
 		},
 		handle_response: function(request) 
 		{
+			var json_response = request.detail.response[0];
+			this.item.latitude = json_response.latitude;
+			this.item.longitude = json_response.longitude;
 			console.log(request.detail.response);
-			console.log(this.$.ajax.lastResponse);
+			//console.log(this.$.ajax.lastResponse);
 		}
   
       });

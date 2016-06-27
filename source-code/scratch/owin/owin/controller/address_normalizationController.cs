@@ -36,36 +36,39 @@ namespace owin
 			string responseFromServer = reader.ReadToEnd ();
 
 
-			var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
+			var json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
 
-			return new address_normalization_response[] 
+			address_normalization_response[] result = new address_normalization_response[] 
 			{ 
-				new address_normalization_response(){ 
-					Number = result.StreetAddresses[0].Number,
-					NumberFractional = "",
-					PreDirectional = "",
-					PreQualifier = "",
-					PreType = "",
-					PreArticle = "",
-					StreetName = "OLD US 25",
-					Suffix = "",
-					PostArticle = "",
-					PostQualifier = "",
-					PostDirectional = "",
-					SuiteType = "",
-					SuiteNumber = "",
-					City = "LOS ANGELES",
-					State = "CA",
-					ZIP = "90089",
-					ZIPPlus1 = "",
-					ZIPPlus2 = "",
-					ZIPPlus3 = "",
-					ZIPPlus4 = "0255",
-					ZIPPlus5 = "",
-					PostOfficeBoxType = "",
-					PostOfficeBoxNumber = ""
+				new address_normalization_response()
+				{ 
+					Number = json_result.StreetAddresses[0].Number,
+					NumberFractional = json_result.StreetAddresses[0].NumberFractional,
+					PreDirectional = json_result.StreetAddresses[0].PreDirectional,
+					PreQualifier = json_result.StreetAddresses[0].PreQualifier,
+					PreType = json_result.StreetAddresses[0].PreType,
+					PreArticle = json_result.StreetAddresses[0].PreArticle,
+					StreetName = json_result.StreetAddresses[0].StreetName,
+					Suffix = json_result.StreetAddresses[0].Suffix,
+					PostArticle = json_result.StreetAddresses[0].PostArticle,
+					PostQualifier = json_result.StreetAddresses[0].PostQualifier,
+					PostDirectional = json_result.StreetAddresses[0].PostDirectional,
+					SuiteType = json_result.StreetAddresses[0].SuiteType,
+					SuiteNumber = json_result.StreetAddresses[0].SuiteNumber,
+					City = json_result.StreetAddresses[0].City,
+					State = json_result.StreetAddresses[0].State,
+					ZIP = json_result.StreetAddresses[0].ZIP,
+					ZIPPlus1 = json_result.StreetAddresses[0].ZIPPlus1,
+					ZIPPlus2 = json_result.StreetAddresses[0].ZIPPlus2,
+					ZIPPlus3 = json_result.StreetAddresses[0].ZIPPlus3,
+					ZIPPlus4 = json_result.StreetAddresses[0].ZIPPlus4,
+					ZIPPlus5 = json_result.StreetAddresses[0].ZIPPlus5,
+					PostOfficeBoxType = json_result.StreetAddresses[0].PostOfficeBoxType,
+					PostOfficeBoxNumber = json_result.StreetAddresses[0].PostOfficeBoxNumber
 				}
 			}; 
+
+			return result;
 		} 
 
 		// GET api/values/5 

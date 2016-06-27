@@ -35,29 +35,31 @@ namespace owin
 			// Read the content.
 			string responseFromServer = reader.ReadToEnd ();
 
+			dynamic json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
 
-			var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
-
-			return new geocode_response[] 
+			geocode_response[] result =  new geocode_response[] 
 			{ 
-				new geocode_response(){ 
-					Latitude = result.OutputGeocodes[0].Latitude,
-					Longitude = result.OutputGeocodes[0].Longitude,
-					NAACCRGISCoordinateQualityCode = result.OutputGeocodes[0].NAACCRGISCoordinateQualityCode,
-					NAACCRGISCoordinateQualityType = result.OutputGeocodes[0].NAACCRGISCoordinateQualityType,
-					MatchScore = result.OutputGeocodes[0].MatchScore,
-					MatchType = result.OutputGeocodes[0].MatchType,
-					FeatureMatchingResultType = result.OutputGeocodes[0].FeatureMatchingResultType,
-					FeatureMatchingResultCount = result.OutputGeocodes[0].FeatureMatchingResultCount,
-					FeatureMatchingGeographyType = result.OutputGeocodes[0].FeatureMatchingGeographyType,
-					RegionSize = result.OutputGeocodes[0].RegionSize,
-					RegionSizeUnits = result.OutputGeocodes[0].RegionSizeUnits,
-					MatchedLocationType = result.OutputGeocodes[0].MatchedLocationType,
-					ExceptionOccured = result.OutputGeocodes[0].ExceptionOccured,
-					Exception = result.OutputGeocodes[0].Exception,
-					ErrorMessage = result.OutputGeocodes[0].ErrorMessage
+				new geocode_response()
+				{ 
+					Latitude = json_result["OutputGeocodes"][0]["OutputGeocode"]["Latitude"],
+					Longitude = json_result["OutputGeocodes"][0]["OutputGeocode"]["Longitude"],
+					NAACCRGISCoordinateQualityCode = json_result["OutputGeocodes"][0]["OutputGeocode"]["NAACCRGISCoordinateQualityCode"],
+					NAACCRGISCoordinateQualityType = json_result["OutputGeocodes"][0]["OutputGeocode"]["NAACCRGISCoordinateQualityType"],
+					MatchScore = json_result["OutputGeocodes"][0]["OutputGeocode"]["MatchScore"],
+					MatchType = json_result["OutputGeocodes"][0]["OutputGeocode"]["MatchType"],
+					FeatureMatchingResultType = json_result["OutputGeocodes"][0]["OutputGeocode"]["FeatureMatchingResultType"],
+					FeatureMatchingResultCount = json_result["OutputGeocodes"][0]["OutputGeocode"]["FeatureMatchingResultCount"],
+					FeatureMatchingGeographyType = json_result["OutputGeocodes"][0]["OutputGeocode"]["FeatureMatchingGeographyType"],
+					RegionSize = json_result["OutputGeocodes"][0]["OutputGeocode"]["RegionSize"],
+					RegionSizeUnits = json_result["OutputGeocodes"][0]["OutputGeocode"]["RegionSizeUnits"],
+					MatchedLocationType = json_result["OutputGeocodes"][0]["OutputGeocode"]["MatchedLocationType"],
+					ExceptionOccured = json_result["OutputGeocodes"][0]["OutputGeocode"]["ExceptionOccured"],
+					Exception = json_result["OutputGeocodes"][0]["OutputGeocode"]["Exception"],
+					ErrorMessage = json_result["OutputGeocodes"][0]["OutputGeocode"]["ErrorMessage"]
 				}
 			}; 
+
+			return result;
 		} 
 
 		// GET api/values/5 
