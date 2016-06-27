@@ -259,3 +259,5 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+owin/app.config
