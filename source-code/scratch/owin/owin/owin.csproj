@@ -66,6 +66,7 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="model\master_record.cs" />
     <Compile Include="controller\geocodeController.cs" />
     <Compile Include="model\geocode_response.cs" />
+    <Compile Include="model\address_normalization_response.cs" />
+    <Compile Include="controller\address_normalizationController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2625,6 +2628,7 @@
     <None Include="psk\app\styles\main.css" />
     <None Include="psk\app\styles\shared-styles.html" />
     <None Include="psk\app\mmrds_component_set\summary\mmrds-summary.html" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="controller\" />

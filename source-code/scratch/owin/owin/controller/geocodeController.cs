@@ -7,6 +7,8 @@ namespace owin
 {
 	public class geocodeController: ApiController 
 	{
+		private static string geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+
 		public geocodeController ()
 		{
 		}
@@ -14,14 +16,14 @@ namespace owin
 		//public IEnumerable<master_record> Get() 
 		public IEnumerable<geocode_response> Get
 		(
-			string nonParsedStreetAddress,
-			string nonParsedCity,
-			string nonParsedState,
-			string nonParsedZip
+			string street_address,
+			string city,
+			string state,
+			string zip
 		) 
 		{ 
-
-			string request_string = string.Format ("http://geoservices.tamu.edu/Services/AddressNormalization/WebService/v04_01/Rest/?nonParsedStreetAddress={0}&nonParsedCity={1}&nonParsedState={2}&nonParsedZip={3}&apikey=7c39ae93786d4aa3adb806cb66de51b8&addressFormat=USPSPublication28&responseFormat=JSON&notStore=false&version=4.01", nonParsedStreetAddress, nonParsedCity, nonParsedState, nonParsedZip);
+			
+			string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
 
 			System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 			request.ContentType = "application/json; charset=utf-8";
@@ -39,29 +41,21 @@ namespace owin
 			return new geocode_response[] 
 			{ 
 				new geocode_response(){ 
-					Number = result.StreetAddresses[0].Number,
-					NumberFractional = "",
-					PreDirectional = "",
-					PreQualifier = "",
-					PreType = "",
-					PreArticle = "",
-					StreetName = "OLD US 25",
-					Suffix = "",
-					PostArticle = "",
-					PostQualifier = "",
-					PostDirectional = "",
-					SuiteType = "",
-					SuiteNumber = "",
-					City = "LOS ANGELES",
-					State = "CA",
-					ZIP = "90089",
-					ZIPPlus1 = "",
-					ZIPPlus2 = "",
-					ZIPPlus3 = "",
-					ZIPPlus4 = "0255",
-					ZIPPlus5 = "",
-					PostOfficeBoxType = "",
-					PostOfficeBoxNumber = ""
+					Latitude = result.OutputGeocodes[0].Latitude,
+					Longitude = result.OutputGeocodes[0].Longitude,
+					NAACCRGISCoordinateQualityCode = result.OutputGeocodes[0].NAACCRGISCoordinateQualityCode,
+					NAACCRGISCoordinateQualityType = result.OutputGeocodes[0].NAACCRGISCoordinateQualityType,
+					MatchScore = result.OutputGeocodes[0].MatchScore,
+					MatchType = result.OutputGeocodes[0].MatchType,
+					FeatureMatchingResultType = result.OutputGeocodes[0].FeatureMatchingResultType,
+					FeatureMatchingResultCount = result.OutputGeocodes[0].FeatureMatchingResultCount,
+					FeatureMatchingGeographyType = result.OutputGeocodes[0].FeatureMatchingGeographyType,
+					RegionSize = result.OutputGeocodes[0].RegionSize,
+					RegionSizeUnits = result.OutputGeocodes[0].RegionSizeUnits,
+					MatchedLocationType = result.OutputGeocodes[0].MatchedLocationType,
+					ExceptionOccured = result.OutputGeocodes[0].ExceptionOccured,
+					Exception = result.OutputGeocodes[0].Exception,
+					ErrorMessage = result.OutputGeocodes[0].ErrorMessage
 				}
 			}; 
 		} 

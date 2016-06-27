@@ -10,64 +10,65 @@ namespace owin
 
 
 		public string Number { get; set; }
-		public string NumberFractional { get; set; }
-		public string PreDirectional { get; set; }
-		public string PreQualifier { get; set; }
-		public string PreType { get; set; }
-		public string PreArticle { get; set; }
-		public string StreetName { get; set; }
-		public string Suffix { get; set; }
-		public string PostArticle { get; set; }
-		public string PostQualifier { get; set; }
-		public string PostDirectional { get; set; }
-		public string SuiteType { get; set; }
-		public string SuiteNumber { get; set; }
-		public string City { get; set; }
-		public string State { get; set; }
-		public string ZIP { get; set; }
-		public string ZIPPlus1 { get; set; }
-		public string ZIPPlus2 { get; set; }
-		public string ZIPPlus3 { get; set; }
-		public string ZIPPlus4 { get; set; }
-		public string ZIPPlus5 { get; set; }
-		public string PostOfficeBoxType { get; set; }
-		public string PostOfficeBoxNumber { get; set; }
+		public string Latitude { get; set; }
+		public string Longitude { get; set; }
+		public string NAACCRGISCoordinateQualityCode { get; set; }
+		public string NAACCRGISCoordinateQualityType { get; set; }
+		public string MatchScore { get; set; }
+		public string MatchType { get; set; }
+		public string FeatureMatchingResultType { get; set; }
+		public string FeatureMatchingResultCount { get; set; }
+		public string FeatureMatchingGeographyType { get; set; }
+		public string RegionSize { get; set; }
+		public string RegionSizeUnits { get; set; }
+		public string MatchedLocationType { get; set; }
+		public string ExceptionOccured { get; set; }
+		public string Exception { get; set; }
+		public string ErrorMessage { get; set; }
 
 
 		/*
 		{
-			"TransactionId" : "0744d967-764e-4d16-86eb-e7262f311812",
-			"Version"   : "4.01",
-			"QueryStatusCode" : "Success",
-			"StreetAddresses" : 
-			[
-				{
-					"Number" : "123",
-					"NumberFractional" : "",
-					"PreDirectional" : "",
-					"PreQualifier" : "",
-					"PreType" : "",
-					"PreArticle" : "",
-					"StreetName" : "OLD US 25",
-					"Suffix" : "",
-					"PostArticle" : "",
-					"PostQualifier" : "",
-					"PostDirectional" : "",
-					"SuiteType" : "",
-					"SuiteNumber" : "",
-					"City" : "LOS ANGELES",
-					"State" : "CA",
-					"ZIP" : "90089",
-					"ZIPPlus1" : "",
-					"ZIPPlus2" : "",
-					"ZIPPlus3" : "",
-					"ZIPPlus4" : "0255",
-					"ZIPPlus5" : "",
-					"PostOfficeBoxType" : "",
-					"PostOfficeBoxNumber" : ""
-				}
-			]
-		}*/
+	"version" : "4.10",
+	"TransactionId" : "50e58be1-67b5-48e0-a55b-34050d7dfa31",
+	"Version" : "4.1",
+	"QueryStatusCodeValue" : "200",
+	"FeatureMatchingResultType" : "Success",
+	"FeatureMatchingResultCount" : "1",
+	"TimeTaken" : "0.0170017",
+	"ExceptionOccured" : "False",
+	"Exception" : "",
+	"InputAddress" :
+		{
+		"StreetAddress" : "123 MAIN ST LOS ANGELES CA 90007",
+		"City" : "LOS ANGELES",
+		"State" : "CA",
+		"Zip" : "90007"
+		},
+	"OutputGeocodes" :
+	[
+		{
+		"OutputGeocode" :
+			{
+			"Latitude" : "34.026525",
+			"Longitude" : "-118.282408",
+			"NAACCRGISCoordinateQualityCode" : "09",
+			"NAACCRGISCoordinateQualityType" : "AddressZIPCentroid",
+			"MatchScore" : "100",
+			"MatchType" : "Exact",
+			"FeatureMatchingResultType" : "Success",
+			"FeatureMatchingResultCount" : "1",
+			"FeatureMatchingGeographyType" : "USPSZip",
+			"RegionSize" : "0",
+			"RegionSizeUnits" : "Meters",
+			"MatchedLocationType" : "LOCATION_TYPE_STREET_ADDRESS",
+			"ExceptionOccured" : "False",
+			"Exception" : "",
+			"ErrorMessage" : ""
+			}
+		}
+	]
+}*/
 
 	}
 }
