@@ -11,6 +11,7 @@ Vagrant.configure(Configuration_Version) do |config|
 	config.vm.define "devbox" do |devbox|
   
 		devbox.vm.box = "ubuntu/trusty64"
+		#devbox.vm.box = "ubuntu-15.04"
 	  
 		devbox.vm.network "forwarded_port", guest: 12345, host: 8085
 		
@@ -29,17 +30,17 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.cpus = 4
 		end
 
-		vbox_guest_additions_file = "%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso"
-		if !(File.file?(vbox_guest_additions_file))
-			vbox_guest_additions_file = "C:/program-file-set/Oracle/VirtualBox/VBoxGuestAdditions.iso"
-		end
+		# vbox_guest_additions_file = "%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		# if !(File.file?(vbox_guest_additions_file))
+			# vbox_guest_additions_file = "C:/program-file-set/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		# end
 
-		if !(File.file?(vbox_guest_additions_file))
-			vbox_guest_additions_file = "D:/programfileset/Oracle/VirtualBox/VBoxGuestAdditions.iso"
-		end
+		# if !(File.file?(vbox_guest_additions_file))
+			# vbox_guest_additions_file = "D:/programfileset/Oracle/VirtualBox/VBoxGuestAdditions.iso"
+		# end
 
-		devbox.vbguest.iso_path = vbox_guest_additions_file
-		devbox.vbguest.auto_update = true
+		# devbox.vbguest.iso_path = vbox_guest_additions_file
+		devbox.vbguest.auto_update = false
 
 		devbox.vm.provision "shell", path:  "provision-script-set/main.sh"
 		
