@@ -225,15 +225,7 @@ function InitializeNewDB()
             <span>Home</span>
           </a>
 
-          <a data-route="users" href="{{baseUrl}}users">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a>
-
-		<a data-route="contact" href="{{baseUrl}}contact">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Contact</span>
-        </a>
+          
 		  
           <a data-route="summary" href="{{baseUrl}}summary">
             <iron-icon icon="mail"></iron-icon>
@@ -307,6 +299,17 @@ function InitializeNewDB()
 			<iron-icon icon="mail"></iron-icon>
 			<span>Core Summary</span>
 		</a>
+		
+		<a data-route="users" href="{{baseUrl}}users">
+            <iron-icon icon="info"></iron-icon>
+            <span>Users</span>
+          </a>
+
+		<a data-route="contact" href="{{baseUrl}}contact">
+			<iron-icon icon="mail"></iron-icon>
+			<span>Contact</span>
+        </a>
+		
 		</paper-menu>
 		<paper-button onclick="SaveCurrentRecord()" raised>save current record</paper-button>
 		<paper-button onclick="InitializeNewDB()" raised>InitializeNewDB</paper-button>
@@ -341,7 +344,7 @@ function InitializeNewDB()
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" tabindex="-1">
               <paper-material elevation="1">
-			  <h1 class="page-title" tabindex="-1">home</h1>
+			  <h1 class="page-title" tabindex="-1">Welcome to MMRDS</h1>
 			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created by CDC to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
 				</paper-material>
             </section>
@@ -382,17 +385,18 @@ function InitializeNewDB()
 
 
             <section data-route="home-record" tabindex="-1">
-			<h1 class="page-title" tabindex="-1">home-record</h1>
+			<h1 class="page-title" tabindex="-1">home record</h1>
 				<mmrds-home_record id="home-record-id" current_record_id=""></mmrds-home_record>
             </section>
 			
 			<section data-route="death-certificate" tabindex="-1">
-			<h1 class="page-title" tabindex="-1">death-certificate</h1>
+			<h1 class="page-title" tabindex="-1">death certificate</h1>
 				<mmrds-death_certificate id="death-certificate-id" current_record_id=""></mmrds-death_certificate>
             </section>
 
 			<section data-route="MaternalBirthCertificate" tabindex="-1">
-
+			<h1 class="page-title" tabindex="-1">maternal birth certificate</h1>
+				<mmrds-address label="Facility of delivery location"> </mmrds-address>
             </section>
 
 

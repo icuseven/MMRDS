@@ -7,11 +7,9 @@
 		<!-- 
 		<iron-ajax id="master_record_call" url="../../../api/master_record" handle-as="json" last-response="{{data}}" on-response="handle_response" auto></iron-ajax>
 		-->
+		<paper-button on-tap="addNewCase">[ add new case ]</paper-button>
 		<h2>Please select a record to work with:</h2>
 		<paper-menu>
-		<paper-item>
-			<paper-button on-tap="addNewCase">[ add new case ]</paper-button>
-		</paper-item>
 		<template id="summary_repeat" is="dom-repeat" items="{{data}}">
             <paper-item>
 				<a data-route="master" href="{{baseUrl}}/[[item._id]]/home-record">

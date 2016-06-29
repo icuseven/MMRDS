@@ -5,9 +5,8 @@
 	
 <dom-module id="mmrds-state-dropdown"> 
 	<template> 
-		<paper-listbox class="dropdown-content">
-	<paper-dropdown-menu  label="{{label}}">
-		<paper-listbox class="dropdown-content">
+	<paper-dropdown-menu  selected-item-label="{{data_value}}">
+		<paper-listbox id="state_dropdown" class="dropdown-content" on-iron-select="onSelect">
 			<paper-item>Alabama</paper-item>
 			<paper-item>Alaska</paper-item>
 			<paper-item>Arizona</paper-item>
@@ -67,8 +66,22 @@
         is: 'mmrds-state-dropdown',
 		properties: 
 			{
-				label: { type:String, notify: true }
-			}
+				label: { type:String, notify: true },
+				data_value: { type:String, notify: true }
+			},
+		ready:function()
+		{
+			console.log("state-dropdown.ready")
+		},
+		attached:function()
+		{
+			console.log("state-dropdown.attached")
+		},
+		onSelect:function()
+		{
+			//this.$.state_dropdown.selectIndex(this.$.state_dropdown.selected);
+			//this.data_value = this.$.state_dropdown.selectedItem;
+		}
 
       });
 	  
