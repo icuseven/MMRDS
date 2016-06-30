@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<dom-module id="mmrds-race">
+<template>  
+	<paper-material elevation="1">			
+		<h1>Race (multi-selectable - select all that apply)*</h1>
+		<paper-input>{{bound_data}}</paper-input>
+			<paper-listbox  multi selected-items="{{bound_data}}">
+			<paper-item>White</paper-item>
+			<paper-item>Black</paper-item>
+			<paper-item>Ameican Indian/AK Native</paper-item>
+			<paper-item>Native Hawaiian</paper-item>
+			<paper-item>Guamanian or Chamorro</paper-item>
+			<paper-item>Samoan</paper-item>
+			<paper-item>Other Pacific Islander</paper-item>
+			<paper-item>Asian Indian</paper-item>
+			<paper-item>Filipino</paper-item>
+			<paper-item>Korean</paper-item>
+			<paper-item>Other Asian</paper-item>
+			<paper-item>Chinese</paper-item>
+			<paper-item>Japanese</paper-item>
+			<paper-item>Vietnamese</paper-item>
+			<paper-item>Other race</paper-item>
+			<paper-item>Race not specified</paper-item>
+		</paper-listbox>
+	</paper-material>	
+</template>
+<script>
+	Polymer({
+        is: 'mmrds-race',
+		properties: 
+		{
+			bound_data: 
+			{ 
+				type: Object,
+				notify: true
+			}
+		}
+
+      });
+</script>
+	
+</dom-module>
