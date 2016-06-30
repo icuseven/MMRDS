@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+<link rel="import" href="../mmrds-address/mmrds-address.html">
+<link rel="import" href="../cause-of-death-grid/mmrds-cause-of-death-grid.html">
+<dom-module id="mmrds-year">
+<template>  
+		<paper-input label="[[label]] (YYYY-MM-DD)" value="{{bound_data.date}}"></paper-input>
+		<paper-checkbox checked="{{bound_data.date_is_estimated}}">[[label]] is estimated?</paper-checkbox>
+		<paper-input label="Calculated date" value="{{calculatedDate()}}"></paper-input>
+	
+</template>
+<script>
+Polymer({
+        is: 'mmrds-year',
+		properties: 
+		{
+			bound_data: 
+			{ 
+				type: Object,
+				notify: true
+			},
+		},
+		calculatedDate:function() 
+		{
+			console.log('[[label]] calculatedDate: ' + this.bound_data);
+		}
+
+});
+	  
+	  
+</script>
+	
+</dom-module>
