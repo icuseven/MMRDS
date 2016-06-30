@@ -10,421 +10,64 @@
 
 <dom-module id="mmrds-maternal-birth-certificate">
 <template>  
-	<paper-material elevation="1">			
-		<h1>Death Certificate</h1>
-		<div>Record Id: {{home_record.record_id }}</div>
-		<div><paper-checkbox checked="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
-		<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
-	</paper-material>	
+<paper-material elevation="1">			
+	<h1>Death Certificate</h1>
+	<div>Record Id: {{home_record.record_id }}</div>
+	<div><paper-checkbox checked="{{home_record.is_valid_maternal_mortality_record }}">is a valid record</paper-checkbox></div>
+	<div>Name: {{home_record.last_name }}, {{home_record.first_name }}</div>
+</paper-material>	
 		
 		
-	<paper-material elevation="1">			
-		<h1>Facility of delivery demographics</h1>
-		Type of Place* 
-		Was home delivery planned?
-		Date of Delivery
-		Obstetric Level of Care*
-		Facility NP! No.
-		Facility name
-		Was mother transferred?*
-		From where?
-		Attendant type*
-		Attendant NP
-		
-	</paper-material>
+<paper-material elevation="1">			
+	<h1>Facility of delivery demographics</h1>
+	Type of Place* 
+	Was home delivery planned?
+	Date of Delivery
+	Obstetric Level of Care*
+	Facility NP! No.
+	Facility name
+	Was mother transferred?*
+	From where?
+	Attendant type*
+	Attendant NP
+	
+</paper-material>
 
-	<mmrds-address item="{{death_certificate.place_of_last_residence}}" label="Place of last residence"></mmrds-address>	
+<mmrds-address label="Facility of delivery location"></mmrds-address>	
 
-	<paper-material elevation="1">			
-		<h1>Demographics</h1>
-		<paper-input label="Date of birth* (YYYY-MM-DD)" value="{{death_certificate.date_of_birth}}"></paper-input>
-		<paper-checkbox checked="{{death_certificate.date_of_birth_is_estimated}}">Date of birth is estimated?</paper-checkbox>
-		<paper-input label="Age at death*" value="{{death_certificate.age_at_death}}"></paper-input>
-		<paper-dropdown-menu label="Marital status*"  selected-item-label="{{death_certificate.marital_status}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Married</paper-item>
-				<paper-item>Married, but separated</paper-item>
-				<paper-item>Widowed</paper-item>
-				<paper-item>Divorced</paper-item>
-				<paper-item>Never Married</paper-item>
-				<paper-item>Unknown</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		
-		<paper-input label="City of birth (US)" value="{{death_certificate.city_of_birth}}"></paper-input>
-		<paper-input label="State of birth (US)" value="{{death_certificate.state_of_birth}}"></paper-input>
-		<paper-input label="Country (if foriegn born)*" value="{{death_certificate.country_of_birth}}"></paper-input>
-		<paper-input label="Primary occupation" value="{{death_certificate.primary_occupation}}"></paper-input>
-		<paper-input label="Business/ Industry" value="{{death_certificate.occupation_business_industry}}"></paper-input>
-		<paper-dropdown-menu label="Ever in US armed forces?" selected-item-label="{{death_certificate.ever_in_us_armed_forces}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Yes</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Hispanic origin?*" selected-item-label="{{death_certificate.is_of_hispanic_origin}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>No, not Spanish/ Hispanic/ Latino</paper-item>
-				<paper-item>Yes, Mexican, Mexican American, Chicano</paper-item>
-				<paper-item>Yes, Puerto Rican</paper-item>
-				<paper-item>Yes, Cuban</paper-item>
-				<paper-item>Yes, other Spanish/ Hispanic/ Latino</paper-item>
-				<paper-item>Yes, origin unknown</paper-item>
-				<paper-item>Not specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		
-		
-		<paper-dropdown-menu label="Education*" selected-item-label
-		="{{death_certificate.education_level}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>8th grade or less</paper-item>
-				<paper-item>9th-12th grade; no diploma</paper-item>
-				<paper-item>High School grad or GED completed</paper-item>
-				<paper-item>Some college; no degree</paper-item>
-				<paper-item>Associate degree</paper-item>
-				<paper-item>Bachelor's degree</paper-item>
-				<paper-item>Master's degree</paper-item>
-				<paper-item>Doctorate or Professional degree</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-	</paper-material>	
-	
+<mmrds-demographic label="Father's demographics"></mmrds-demographic>	
 
-	<paper-material elevation="1">	
-	<h1>Race (multi-selectable - select all that apply)*</h1>
-	<!--paper-dropdown-menu label="Education*" selected-item-label
-		="{{death_certificate.race}}"-->
-			<paper-listbox  multi selected-items
-		="{{death_certificate.race}}">
-			<paper-item>White</paper-item>
-			<paper-item>Black</paper-item>
-			<paper-item>Ameican Indian/AK Native</paper-item>
-			<paper-item>Native Hawaiian</paper-item>
-			<paper-item>Guamanian or Chamorro</paper-item>
-			<paper-item>Samoan</paper-item>
-			<paper-item>Other Pacific Islander</paper-item>
-			<paper-item>Asian Indian</paper-item>
-			<paper-item>Filipino</paper-item>
-			<paper-item>Korean</paper-item>
-			<paper-item>Other Asian</paper-item>
-			<paper-item>Chinese</paper-item>
-			<paper-item>Japanese</paper-item>
-			<paper-item>Vietnamese</paper-item>
-			<paper-item>Other race</paper-item>
-			<paper-item>Race not specified</paper-item>
-		</paper-listbox>
-		<!--/paper-dropdown-menu-->
-	</paper-material>	
-	
-	
-	<paper-material elevation="1">	
-		<h1>Injury associated information (optional)</h1>
-		<paper-input label="Date of injury (YYYY-MM-DD)" value="{{death_certificate.date_of_injury}}"></paper-input>
-		<paper-input label="Time of injury" value="{{death_certificate.time_of_injury}}"></paper-input>
-		<paper-input label="Place of injury (Place name, if applicable)" value="{{death_certificate.place_of_injury}}"></paper-input>
-		<paper-dropdown-menu label="Was injury at work?" selected-item-label="{{death_certificate.was_injury_at_work}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Yes</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Transportaion related injury?" selected-item-label="{{death_certificate.transportation_related_injury}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Driver/Operator</paper-item>
-				<paper-item>Passenger</paper-item>
-				<paper-item>Pedestrian</paper-item>
-				<paper-item>
-					<paper-input label="Other (specify)"></paper-input>
-				</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
+<mmrds-race label="Father's race"></mmrds-race>
 
-		<paper-dropdown-menu label="Were seat belts in use?" selected-item-label="{{death_certificate.were_seat_belts_in_use}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Yes</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Not available</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-	</paper-material>	
-	
-	<mmrds-address  data="{{death_certificate.address_of_injury}}" label="Location where injury occured"></mmrds-address>	
-		
-	<paper-material elevation="1">	
-		<h1>Death information</h1>		
-		<paper-dropdown-menu label="If death occured in hospital:*" selected-item-label="{{death_certificate.death_occured_in_hospital}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Inpatient</paper-item>
-				<paper-item>Outpatient/ ER</paper-item>
-				<paper-item>Dead on arrival</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="If death not in a hospital:*" selected-item-label="{{death_certificate.death_outside_of_hospital}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Hospice</paper-item>
-				<paper-item>Nursing home/ LTC</paper-item>
-				<paper-item>Home</paper-item>
-				<paper-item><paper-input label="Other (specifiy)"></paper-input></paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
+<paper-material>
+	<h1>Maternal record identification</h1>
+	<paper-input label="First name"></paper-input>
+	<paper-input label="Middle name"></paper-input>
+	<paper-input label="Last name"></paper-input>
+	<paper-input label="Maiden name"></paper-input>
+	<paper-input label="Medical Record No."></paper-input>
+</paper-material>
 
-		<paper-dropdown-menu label="Manner of Death*" selected-item-label="{{death_certificate.manner_of_death}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Natural</paper-item>
-				<paper-item>Accident</paper-item>
-				<paper-item>Suicide</paper-item>
-				<paper-item>Self-inflicted</paper-item>
-				<paper-item>Homocide</paper-item>
-				<paper-item>Pending investigation</paper-item>
-				<paper-item>Could not be determined</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
+<mmrds-demographic label="Mother's demographics"></mmrds-demographic>	
 
-		<paper-dropdown-menu label="Was autopsy performed?*" selected-item-label="{{death_certificate.was_autopsy_performed}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Yes</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Was autopsy used for death coding?*" selected-item-label="{{death_certificate.was_autopsy_used_for_death_coding}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Yes</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Pregnancy status*" selected-item-label="{{death_certificate.pregnancy_status}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Not pregnant within last year</paper-item>
-				<paper-item>Pregnant at the time of death</paper-item>
-				<paper-item>Pregnant within 42 days of death</paper-item>
-				<paper-item>Pregnant 43 to 365 days of death</paper-item>
-				<paper-item>Unkown if pregant in last year</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Did Tobacco contribute to death?" selected-item-label="{{death_certificate.did_tobacco_contribute_to_death}}">
-			<paper-listbox class="dropdown-content">
-				<paper-item>Yes</paper-item>
-				<paper-item>Probably</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Unkown</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>		
-		
-	</paper-material>	
-	
-	<mmrds-address item="{{death_certificate.address_of_death}}" label="Location where death occured"></mmrds-address>
-	
-	<paper-material elevation="1">
-		<paper-input label="Estimated distance (miles) between residence and place of death*" value="{{death_certificate.estimated_death_distance_from_residence}}"></paper-input>
-		<paper-button raised>Calculate distance</paper-button>
-	</paper-material>
-	
-	
-	<paper-material elevation="1">
-	<h1>Causes of Death (enter Underlying cause first)</h1>
-	<paper-input label="ICD Version" value="{{death_certificate.icd_version}}"></paper-input>
+<mmrds-race label="Mother's race"></mmrds-race>
 
-	<table>
-	<tr>
-	<th>Type*</th>
-	<th>Cause (descriptive)*</th>
-	<th>ICD Code</th>
-	<th>Interval</th>
-	<th>Unit</th>
-	</tr>
-	<template id="cause_of_death_grid" is="dom-repeat" items="{{causes_of_death}}">
-		<tr>
-			<td>		
-				<paper-dropdown-menu label="type*" selected-item-label="{{item.cause_type}}">
-					<paper-listbox class="dropdown-content">
-						<paper-item>Immediate</paper-item>
-						<paper-item>Contributing</paper-item>
-						<paper-item>Underlying</paper-item>
-						<paper-item>Other significant</paper-item>
-					</paper-listbox>
-				</paper-dropdown-menu>	
-			</td>
-			<td>
-				<paper-input label="Cause (descriptive)*" value="{{item.cause_description}}"></paper-input>
-			</td>
-			<td>
-				<paper-input label="ICD code" value="{{item.icd_code}}"></paper-input>
-			</td>
-			<td>
-				<paper-input label="Interval" value="{{item.interval}}"></paper-input>
-			</td>
-			<td>
-				<paper-dropdown-menu label="Unit" selected-item-label="{{item.interval_unit}}">
-					<paper-listbox class="dropdown-content" >
-						<paper-item>Minute(s)</paper-item>
-						<paper-item>Hour(s)</paper-item>
-						<paper-item>Day(s)</paper-item>
-						<paper-item>Week(s)</paper-item>
-						<paper-item>Month(s)</paper-item>
-						<paper-item>Year(s)</paper-item>
-						<paper-item>Not specified</paper-item>
-					</paper-listbox>
-				</paper-dropdown-menu>	
-			</td>
-		</tr>
-	</template>
-	</table>
-	<paper-button id="ancodr" raised>add new grid item</paper-button>
 	
-
-	<!--mmrds-cause-of-death-grid causes_of_death="{{causes_of_death}}"></mmrds-cause-of-death-grid>
-	</paper-material-->
-	
-	<paper-material elevation="1">
-	
-	<paper-input label="Reviewer's notes about the Death Certificate" value="{{death_certificate.reviewers_notes}}"></paper-input>
-	</paper-material>
-	
-	</template>
-	<script>
-	Polymer({
+</template>
+<script>
+Polymer({
         is: 'mmrds-maternal-birth-certificate',
 		properties: 
 		{
-			home_record: 
+			bound_data: 
 			{ 
 				type: Object,
 				notify: true
-			},
-			current_record_id: { 
-				type: String,
-				notify: true,
-				observer: 'currentRecordChange'
-			
-			},
-			death_certificate: 
-			{ 
-				type: Object,
-				notify: true
-			},
-			causes_of_death: 
-			{ 
-				type: Object,
-				notify: true,
-				observer: 'causesOfDeathChange'/**/
-			},
-		},
-		currentRecordChange:function() 
-		{
-			  var found_index = -1;
-			  for(var i = 0; i < g_data.length; i++)
-			  {
-				if(g_data[i]._id == this.current_record_id)
-				{
-					found_index = i;
-					break;
-				}
-			  }
-			  
-			  if(found_index > -1)
-			  {
-				this.home_record = g_data[found_index];
-			  }
-			  else if(g_data.length > 0)
-			  {
-				this.home_record = g_data[0];
-			  }
-			  
-			  if(this.home_record)
-			  {
-				if(this.home_record.death_certificate)
-				{
-					this.death_certificate = this.home_record.death_certificate;
-					if(this.death_certificate.causes_of_death)
-					{
-						this.causes_of_death = this.death_certificate.causes_of_death;
-					}
-					else
-					{
-						this.death_certificate.causes_of_death = [];
-						this.causes_of_death = this.death_certificate.causes_of_death;
-					}
-				}
-				else
-				{
-					this.home_record.death_certificate = {};
-					this.death_certificate = this.home_record.death_certificate;
-					if(this.death_certificate.causes_of_death)
-					{
-						this.causes_of_death = this.death_certificate.causes_of_death;
-					}
-					else
-					{
-						this.death_certificate.causes_of_death = [];
-						this.causes_of_death = this.death_certificate.causes_of_death;
-					}
-				}
-				
-			  }
-
-			//console.log('currentRecordChange: ' + this.current_record_id);
-			//console.log('home_record: ' + this.home_record);
-		},
-		addNewRecord: function()
-		{
-			var new_record = [];
-		
-			if(this.death_certificate.causes_of_death)
-			{
-				for(var i in this.death_certificate.causes_of_death)
-				{
-					new_record.push(this.death_certificate.causes_of_death[i]);
-				}
 			}
-			
-			new_record.push({ cause_type:"Immediate", cause_description:"new description", icd_code:"new code", interval:"0", interval_unit:"Minute(s)" });
-			this.death_certificate.causes_of_death = new_record;
-			this.causes_of_death = new_record;
-
-		},
-		observers: ['onCausesOfDeathChange(causes_of_death.*)'],
-		causesOfDeathChange: function ()
-		{
-			console.log("causesOfDeathChange");
-		},
-		listeners: 
-		{
-			'ancodr.tap': 'addNewRecord'
-		},
-		//observers: ['onCausesOfDeathChange(causes_of_death.*)'],
-		onCausesOfDeathChange:function(changeRecord)
-		{
-			console.log("cause_of_death change: " + changeRecord.path);
 		}
-
-
-      });
+});
 	  
 	  
-	</script>
+</script>
 	
 </dom-module>

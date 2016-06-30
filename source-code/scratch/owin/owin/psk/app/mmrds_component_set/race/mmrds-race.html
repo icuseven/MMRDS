@@ -5,8 +5,9 @@
 <dom-module id="mmrds-race">
 <template>  
 	<paper-material elevation="1">			
-		<h1>Race (multi-selectable - select all that apply)*</h1>
-		<paper-input>{{bound_data}}</paper-input>
+		<h1>[[label]]</h1>
+		<h2>Race (multi-selectable - select all that apply)*</h2>
+		<span>{{bound_data}}</span>
 			<paper-listbox  multi selected-items="{{bound_data}}">
 			<paper-item>White</paper-item>
 			<paper-item>Black</paper-item>
