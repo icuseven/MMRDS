@@ -7,7 +7,7 @@
 	<paper-material elevation="1">			
 		<h1>[[label]]</h1>
 		<h2>Race (multi-selectable - select all that apply)*</h2>
-		<span>{{bound_data}}</span>
+		<span>[[selectedLabel()]]</span>
 			<paper-listbox  multi selected-items="{{bound_data}}">
 			<paper-item>White</paper-item>
 			<paper-item>Black</paper-item>
@@ -38,7 +38,39 @@
 				type: Object,
 				notify: true
 			}
-		}
+		}	
+			
+			,
+			selectedLabel: function()
+				{
+					var result = [];
+					for(var i in this.selectedValues)		
+					{
+						result.push(this.selectedValues[i].value);
+					}
+					
+					return result.join(', ');
+				}
+			/**/
+		/*,
+		getSelectedValues: ,
+		created: function() {
+			console.log(this.localName + '#' + this.id + ' was created');
+		},
+		ready: function() {
+        console.log(this.localName + '#' + this.id + ' has local DOM initialized');
+		},
+      attached: function() {
+        console.log(this.localName + '#' + this.id + ' was attached');
+      },
+
+      detached: function() {
+        console.log(this.localName + '#' + this.id + ' was detached');
+      },
+      attributeChanged: function(name, type) {
+        console.log(this.localName + '#' + this.id + ' attribute ' + name +
+          ' was changed to ' + this.getAttribute(name));
+      }*/
 
       });
 </script>

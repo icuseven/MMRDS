@@ -7,16 +7,16 @@
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
 <link rel="import" href="../cause-of-death-grid/mmrds-cause-of-death-grid.html">
-<dom-module id="mmrds-year">
+<dom-module id="mmrds-date">
 <template>  
 		<paper-input label="[[label]] (YYYY-MM-DD)" value="{{bound_data.date}}"></paper-input>
-		<paper-checkbox checked="{{bound_data.date_is_estimated}}">[[label]] is estimated?</paper-checkbox>
+		<paper-checkbox checked="{{date_is_estimated()}}">[[label]] is estimated?</paper-checkbox>
 		<paper-input label="Calculated date" value="{{calculatedDate()}}"></paper-input>
 	
 </template>
 <script>
 Polymer({
-        is: 'mmrds-year',
+        is: 'mmrds-date',
 		properties: 
 		{
 			bound_data: 
@@ -28,6 +28,13 @@ Polymer({
 		calculatedDate:function() 
 		{
 			console.log('[[label]] calculatedDate: ' + this.bound_data);
+			return "2016-01-01";
+		}
+		,
+		date_is_estimated:function() 
+		{
+			//console.log('[[label]] date_is_estimated: ' + this.bound_data);
+			return false;
 		}
 
 });

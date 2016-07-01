@@ -84,35 +84,9 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 	</paper-material>	
-	
 
-	<paper-material elevation="1">	
-	<h1>Race (multi-selectable - select all that apply)*</h1>
-	<!--paper-dropdown-menu label="Education*" selected-item-label
-		="{{death_certificate.race}}"-->
-			<paper-listbox  multi selected-items
-		="{{death_certificate.race}}">
-			<paper-item>White</paper-item>
-			<paper-item>Black</paper-item>
-			<paper-item>Ameican Indian/AK Native</paper-item>
-			<paper-item>Native Hawaiian</paper-item>
-			<paper-item>Guamanian or Chamorro</paper-item>
-			<paper-item>Samoan</paper-item>
-			<paper-item>Other Pacific Islander</paper-item>
-			<paper-item>Asian Indian</paper-item>
-			<paper-item>Filipino</paper-item>
-			<paper-item>Korean</paper-item>
-			<paper-item>Other Asian</paper-item>
-			<paper-item>Chinese</paper-item>
-			<paper-item>Japanese</paper-item>
-			<paper-item>Vietnamese</paper-item>
-			<paper-item>Other race</paper-item>
-			<paper-item>Race not specified</paper-item>
-		</paper-listbox>
-		<!--/paper-dropdown-menu-->
-	</paper-material>	
-	
-	
+	<mmrds-race label="Race*" bound_data="death_certificate.race"> </mmrds-race>
+
 	<paper-material elevation="1">	
 		<h1>Injury associated information (optional)</h1>
 		<paper-input label="Date of injury (YYYY-MM-DD)" value="{{death_certificate.date_of_injury}}"></paper-input>
