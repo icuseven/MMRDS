@@ -63,12 +63,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   //
   var g_data = {};
   var g_selected_record_id = null;
+  var g_selected_record_index = -1;
   /*
   db.info().then(function (info) {
   console.log(info);
 	});
 	*/
- 
+ function g_get_selected_index()
+ {
+	var result = -1;
+	for(var i = 0; g_selected_record_id !=null && i < g_data.length; i++)
+	{
+		if(g_data[i]._id == g_selected_record_id)
+		{
+			result = i;
+			break;
+		}
+	}
+	
+	return result;
+ }
  
 function InitializeNewDB()
 {

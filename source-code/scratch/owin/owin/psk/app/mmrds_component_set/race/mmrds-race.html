@@ -4,11 +4,11 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <dom-module id="mmrds-race">
 <template>  
-	<paper-material elevation="1">			
-		<h1>[[label]]</h1>
-		<h2>Race (multi-selectable - select all that apply)*</h2>
-		<span>[[selectedLabel()]]</span>
-			<paper-listbox  multi selected-items="{{bound_data}}">
+<paper-material elevation="1">			
+	<h1 id="label"></h1>
+	<div id="selected_label"></div>
+	<h2>Race (multi-selectable - select all that apply)*</h2>
+	<paper-listbox  id="race_listbox" multi>
 			<paper-item>White</paper-item>
 			<paper-item>Black</paper-item>
 			<paper-item>Ameican Indian/AK Native</paper-item>
@@ -25,32 +25,48 @@
 			<paper-item>Vietnamese</paper-item>
 			<paper-item>Other race</paper-item>
 			<paper-item>Race not specified</paper-item>
-		</paper-listbox>
-	</paper-material>	
+	</paper-listbox>
+</paper-material>	
 </template>
 <script>
 	Polymer({
         is: 'mmrds-race',
 		properties: 
 		{
+			label: { type: String, observer: '_labelChanged' },
 			bound_data: 
 			{ 
 				type: Object,
-				notify: true
+				observer: '_selectedLabelChanged'
 			}
-		}	
+		},
+		_labelChanged:function(label){
+			this.$.label.textContent = label;
+		},
+		attributeChanged: function(a)
+		{
+			console.log('mmrds-race.attributeChanged[' + a + ']');
+		},
+		_selectedLabelChanged: function(pList)
+		{
+			//console.log('mmrds-race._selectedLabelChanged ');
+			//console.log(v);
+			//console.log(v[0].innerText);
+			var result = [];
+			for(var i in pList)		
+			{
+				result.push(pList[i].innerText);
+			}
 			
-			,
-			selectedLabel: function()
-				{
-					var result = [];
-					for(var i in this.selectedValues)		
-					{
-						result.push(this.selectedValues[i].value);
-					}
-					
-					return result.join(', ');
-				}
+			var selection = result.join(', ');
+			this.$.selected_label.innerText = selection;
+			var selected_index = g_get_selected_index();
+			
+			if(selected_index > -1)
+			{
+				g_data[selected_index].death_certificate.race = selection;
+			}
+		}
 			/**/
 		/*,
 		getSelectedValues: ,
