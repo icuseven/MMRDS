@@ -68,6 +68,10 @@
 			(
 				{
 					_id : new_record_id,
+					date_created: new Date().toISOString(),
+					created_by: 'jhaines',
+					date_last_updated: new Date().toISOString(),
+					last_updated_by: 'jhaines',
 					record_id : '',
 					first_name : 'New First',
 					middle_name : '',
@@ -76,7 +80,7 @@
 					state_of_death : '',
 					state_of_last_known_residence : '',
 					agency_case_id : '',
-					is_valid_maternal_mortality_record : true,
+					is_valid_maternal_mortality_record : false,
 					death_certificate:
 					{ 
 						causes_of_death:[], 
