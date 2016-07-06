@@ -4,7 +4,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 	
 <dom-module id="mmrds-state-dropdown"> 
-	<template> 
+<template> 
 	<paper-dropdown-menu  selected-item-label="{{data_value}}">
 		<paper-listbox id="state_dropdown" class="dropdown-content" on-iron-select="onSelect">
 			<paper-item>Alabama</paper-item>
@@ -60,7 +60,7 @@
 			<paper-item>Wyoming</paper-item>
 		</paper-listbox>
 	</paper-dropdown-menu>
-	</template>
+</template>
 	<script>
 	Polymer({
         is: 'mmrds-state-dropdown',
@@ -77,9 +77,9 @@
 		{
 			console.log("state-dropdown.attached")
 		},
-		onSelect:function()
+		onSelect:function(data_value)
 		{
-			//this.$.state_dropdown.selectIndex(this.$.state_dropdown.selected);
+			//var index = this.$.state_dropdown.selectIndex(data_value);
 			//this.data_value = this.$.state_dropdown.selectedItem;
 		}
 
