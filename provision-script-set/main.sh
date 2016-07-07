@@ -74,8 +74,9 @@ else
 	
 	sudo apt-get install nodejs -y
 	sudo apt-get install npm -y
-	sudo npm install -g bower -y
 	sudo ln -s /usr/bin/nodejs /usr/bin/node
+	sudo npm install -g bower -y
+	sudo npm install -g yo -y
 
 fi
 
