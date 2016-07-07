@@ -77,6 +77,7 @@ else
 	sudo ln -s /usr/bin/nodejs /usr/bin/node
 	sudo npm install -g bower -y
 	sudo npm install -g yo -y
+	#npm install --global gulp-cli
 
 fi
 

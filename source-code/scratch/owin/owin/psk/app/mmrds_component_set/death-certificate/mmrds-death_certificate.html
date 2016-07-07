@@ -369,7 +369,7 @@
 			this.causes_of_death = new_record;
 
 		},
-		observers: ['onCausesOfDeathChange(causes_of_death.*)'],
+		observers: ['onCausesOfDeathChange(causes_of_death.*)','onRaceChange(death_certificate.*)'],
 		causesOfDeathChange: function ()
 		{
 			console.log("causesOfDeathChange");
@@ -436,6 +436,10 @@
 		onCausesOfDeathChange:function(changeRecord)
 		{
 			console.log("cause_of_death change: " + changeRecord.path);
+		},
+		onRaceChange:function(changeRecord)
+		{
+			console.log("onRaceChange change: " + changeRecord.path);
 		}
 
 
