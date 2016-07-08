@@ -41,7 +41,7 @@
 			}
 		},
 		_labelChanged:function(label){
-			this.$.label.textContent = label;
+			this.$.selected_label.textContent = label;
 			this.fire('on-race-change', { 'label': label });
 		},
 		attributeChanged: function(a)

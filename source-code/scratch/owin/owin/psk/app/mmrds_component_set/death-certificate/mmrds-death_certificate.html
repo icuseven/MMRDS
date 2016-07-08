@@ -85,7 +85,7 @@
 		</paper-dropdown-menu>
 	</paper-material>	
 
-	<mmrds-race label="Race*" bound_data="death_certificate.race"> </mmrds-race>
+	<mmrds-race id="race_element" label="Race*" bound_data="death_certificate.race"> </mmrds-race>
 
 	<paper-material elevation="1">	
 		<h1>Injury associated information (optional)</h1>
@@ -369,7 +369,7 @@
 			this.causes_of_death = new_record;
 
 		},
-		observers: ['onCausesOfDeathChange(causes_of_death.*)','onRaceChange(death_certificate.*)'],
+		observers: ['onCausesOfDeathChange(causes_of_death.*)','onRaceChange(death_certificate.race)'],
 		causesOfDeathChange: function ()
 		{
 			console.log("causesOfDeathChange");
@@ -437,9 +437,13 @@
 		{
 			console.log("cause_of_death change: " + changeRecord.path);
 		},
-		onRaceChange:function(changeRecord)
+		onRaceChange:function(value)
 		{
-			console.log("onRaceChange change: " + changeRecord.path);
+			console.log("start onRaceChange value: ");
+			console.log(value);
+			console.log("finished onRaceChange value: ");
+			//this.death_certificate.race = value;
+			this.$.race_element.selected_label = value;
 		}
 
 
