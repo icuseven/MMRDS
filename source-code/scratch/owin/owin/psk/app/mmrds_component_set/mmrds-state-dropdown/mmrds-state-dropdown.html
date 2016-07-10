@@ -5,59 +5,60 @@
 	
 <dom-module id="mmrds-state-dropdown"> 
 <template> 
-	<paper-dropdown-menu  selected-item-label="{{data_value}}">
-		<paper-listbox id="state_dropdown" class="dropdown-content" on-iron-select="onSelect">
-			<paper-item>Alabama</paper-item>
-			<paper-item>Alaska</paper-item>
-			<paper-item>Arizona</paper-item>
-			<paper-item>Arkansas</paper-item>
-			<paper-item>California</paper-item>
-			<paper-item>Colorado</paper-item>
-			<paper-item>Connecticut</paper-item>
-			<paper-item>Delaware</paper-item>
-			<paper-item>District of Columbia</paper-item>
-			<paper-item>Florida</paper-item>
-			<paper-item>Georgia</paper-item>
-			<paper-item>Hawaii</paper-item>
-			<paper-item>Idaho</paper-item>
-			<paper-item>Illinois</paper-item>
-			<paper-item>Indiana</paper-item>
-			<paper-item>Iowa</paper-item>
-			<paper-item>Kansas</paper-item>
-			<paper-item>Kentucky</paper-item>
-			<paper-item>Louisiana</paper-item>
-			<paper-item>Maine</paper-item>
-			<paper-item>Maryland</paper-item>
-			<paper-item>Massachusetts</paper-item>
-			<paper-item>Michigan</paper-item>
-			<paper-item>Minnesota</paper-item>
-			<paper-item>Mississippi</paper-item>
-			<paper-item>Missouri</paper-item>
-			<paper-item>Montana</paper-item>
-			<paper-item>Nebraska</paper-item>
-			<paper-item>Nevada</paper-item>
-			<paper-item>New Hampshire</paper-item>
-			<paper-item>New Jersey</paper-item>
-			<paper-item>New Mexico</paper-item>
-			<paper-item>New York</paper-item>
-			<paper-item>North Carolina</paper-item>
-			<paper-item>North Dakota</paper-item>
-			<paper-item>Ohio</paper-item>
-			<paper-item>Oklahoma</paper-item>
-			<paper-item>Oregon</paper-item>
-			<paper-item>Pennsylvania</paper-item>
-			<paper-item>Rhode Island</paper-item>
-			<paper-item>South Carolina</paper-item>
-			<paper-item>South Dakota</paper-item>
-			<paper-item>Tennessee</paper-item>
-			<paper-item>Texas</paper-item>
-			<paper-item>Utah</paper-item>
-			<paper-item>Vermont</paper-item>
-			<paper-item>Virginia</paper-item>
-			<paper-item>Washington</paper-item>
-			<paper-item>West Virginia</paper-item>
-			<paper-item>Wisconsin</paper-item>
-			<paper-item>Wyoming</paper-item>
+	<paper-dropdown-menu id="state_dropdown_menu" label="[[label]]">
+		<paper-listbox id="state_dropdown" class="dropdown-content" selected="{{data_value}}" attr-for-selected="label">
+			<paper-item label=""></paper-item>
+			<paper-item label="Alabama">Alabama</paper-item>
+			<paper-item label="Alaska">Alaska</paper-item>
+			<paper-item label="Arizona">Arizona</paper-item>
+			<paper-item label="Arkansas">Arkansas</paper-item>
+			<paper-item label="California">California</paper-item>
+			<paper-item label="Colorado">Colorado</paper-item>
+			<paper-item label="Connecticut">Connecticut</paper-item>
+			<paper-item label="Delaware">Delaware</paper-item>
+			<paper-item label="District of Columbia">District of Columbia</paper-item>
+			<paper-item label="Florida">Florida</paper-item>
+			<paper-item label="Georgia">Georgia</paper-item>
+			<paper-item label="Hawaii">Hawaii</paper-item>
+			<paper-item label="Idaho">Idaho</paper-item>
+			<paper-item label="Illinois">Illinois</paper-item>
+			<paper-item label="Indiana">Indiana</paper-item>
+			<paper-item label="Iowa">Iowa</paper-item>
+			<paper-item label="Kansas">Kansas</paper-item>
+			<paper-item label="Kentucky">Kentucky</paper-item>
+			<paper-item label="Louisiana">Louisiana</paper-item>
+			<paper-item label="Maine">Maine</paper-item>
+			<paper-item label="Maryland">Maryland</paper-item>
+			<paper-item label="Massachusetts">Massachusetts</paper-item>
+			<paper-item label="Michigan">Michigan</paper-item>
+			<paper-item label="Minnesota">Minnesota</paper-item>
+			<paper-item label="Mississippi">Mississippi</paper-item>
+			<paper-item label="Missouri">Missouri</paper-item>
+			<paper-item label="Montana">Montana</paper-item>
+			<paper-item label="Nebraska">Nebraska</paper-item>
+			<paper-item label="Nevada">Nevada</paper-item>
+			<paper-item label="New Hampshire">New Hampshire</paper-item>
+			<paper-item label="New Jersey">New Jersey</paper-item>
+			<paper-item label="New Mexico">New Mexico</paper-item>
+			<paper-item label="New York">New York</paper-item>
+			<paper-item label="North Carolina">North Carolina</paper-item>
+			<paper-item label="North Dakota">North Dakota</paper-item>
+			<paper-item label="Ohio">Ohio</paper-item>
+			<paper-item label="Oklahoma">Oklahoma</paper-item>
+			<paper-item label="Oregon">Oregon</paper-item>
+			<paper-item label="Pennsylvania">Pennsylvania</paper-item>
+			<paper-item label="Rhode Island">Rhode Island</paper-item>
+			<paper-item label="South Carolina">South Carolina</paper-item>
+			<paper-item label="South Dakota">South Dakota</paper-item>
+			<paper-item label="Tennessee">Tennessee</paper-item>
+			<paper-item label="Texas">Texas</paper-item>
+			<paper-item label="Utah">Utah</paper-item>
+			<paper-item label="Vermont">Vermont</paper-item>
+			<paper-item label="Virginia">Virginia</paper-item>
+			<paper-item label="Washington">Washington</paper-item>
+			<paper-item label="West Virginia">West Virginia</paper-item>
+			<paper-item label="Wisconsin">Wisconsin</paper-item>
+			<paper-item label="Wyoming">Wyoming</paper-item>
 		</paper-listbox>
 	</paper-dropdown-menu>
 </template>
@@ -67,7 +68,12 @@
 		properties: 
 			{
 				label: { type:String, notify: true },
-				data_value: { type:String, notify: true }
+				data_value: { 
+								type:String,
+								notify: true,
+								value: "",
+								observer:'onSelect' 
+							}
 			},
 		ready:function()
 		{
@@ -79,7 +85,9 @@
 		},
 		onSelect:function(data_value)
 		{
-			//var index = this.$.state_dropdown.selectIndex(data_value);
+			//this.$.state_dropdown.selected = data_value;
+			//this.data_value = data_value;
+			//this.$.state_dropdown_menu.selectedItemLabel = data_value;
 			//this.data_value = this.$.state_dropdown.selectedItem;
 		}
 
