@@ -24,6 +24,8 @@
 
 	<mmrds-address item="{{death_certificate.place_of_last_residence}}" label="Place of last residence"></mmrds-address>	
 
+	<!-- selected="{{data_value}}" attr-for-selected="label" -->
+	
 	<paper-material elevation="1">			
 		<h1>Demographics</h1>
 		<paper-input label="Date of birth* (YYYY-MM-DD)" value="{{death_certificate.date_of_birth}}"></paper-input>
@@ -31,13 +33,13 @@
 		<paper-input label="Age at death*" value="{{death_certificate.age_at_death}}"></paper-input>
 		<paper-dropdown-menu label="Marital status*"  selected-item-label="{{death_certificate.marital_status}}">
 			<paper-listbox class="dropdown-content">
-				<paper-item>Married</paper-item>
-				<paper-item>Married, but separated</paper-item>
-				<paper-item>Widowed</paper-item>
-				<paper-item>Divorced</paper-item>
-				<paper-item>Never Married</paper-item>
-				<paper-item>Unknown</paper-item>
-				<paper-item>Not Specified</paper-item>
+				<paper-item value="Married">Married</paper-item>
+				<paper-item value="Married, but separated">Married, but separated</paper-item>
+				<paper-item value="Widowed">Widowed</paper-item>
+				<paper-item value="Divorced">Divorced</paper-item>
+				<paper-item value="Never Married">Never Married</paper-item>
+				<paper-item value="Unknown">Unknown</paper-item>
+				<paper-item value="Not Specified">Not Specified</paper-item>
 			</paper-listbox>
 		</paper-dropdown-menu>
 		

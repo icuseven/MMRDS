@@ -6,25 +6,25 @@
 <template>  
 <paper-material elevation="1">			
 	<h1 id="label"></h1>
-	<div id="selected_label"></div>
+	<div id="selected_label">[[bound_data]]</div>
 	<h2>Race (multi-selectable - select all that apply)*</h2>
-	<paper-listbox  id="race_listbox" multi>
-			<paper-item>White</paper-item>
-			<paper-item>Black</paper-item>
-			<paper-item>Ameican Indian/AK Native</paper-item>
-			<paper-item>Native Hawaiian</paper-item>
-			<paper-item>Guamanian or Chamorro</paper-item>
-			<paper-item>Samoan</paper-item>
-			<paper-item>Other Pacific Islander</paper-item>
-			<paper-item>Asian Indian</paper-item>
-			<paper-item>Filipino</paper-item>
-			<paper-item>Korean</paper-item>
-			<paper-item>Other Asian</paper-item>
-			<paper-item>Chinese</paper-item>
-			<paper-item>Japanese</paper-item>
-			<paper-item>Vietnamese</paper-item>
-			<paper-item>Other race</paper-item>
-			<paper-item>Race not specified</paper-item>
+	<paper-listbox  id="race_listbox" multi  selectedValues="{{bound_data}}" attr-for-selected="value">
+			<paper-item value="White">White</paper-item>
+			<paper-item value="Black">Black</paper-item>
+			<paper-item value="Ameican Indian/AK Native">Ameican Indian/AK Native</paper-item>
+			<paper-item value="Native Hawaiian">Native Hawaiian</paper-item>
+			<paper-item value="Guamanian or Chamorro">Guamanian or Chamorro</paper-item>
+			<paper-item value="Samoan">Samoan</paper-item>
+			<paper-item value="Other Pacific Islander">Other Pacific Islander</paper-item>
+			<paper-item value="Asian Indian">Asian Indian</paper-item>
+			<paper-item value="Filipino">Filipino</paper-item>
+			<paper-item value="Korean">Korean</paper-item>
+			<paper-item value="Other Asian">Other Asian</paper-item>
+			<paper-item value="Chinese">Chinese</paper-item>
+			<paper-item value="Japanese">Japanese</paper-item>
+			<paper-item value="Vietnamese">Vietnamese</paper-item>
+			<paper-item value="Other race">Other race</paper-item>
+			<paper-item value="Race not specified">Race not specified</paper-item>
 	</paper-listbox>
 </paper-material>	
 </template>
@@ -37,7 +37,8 @@
 			bound_data: 
 			{ 
 				type: Object,
-				observer: '_selectedLabelChanged'
+				notify: true//,
+				//observer: 'selectedLabelChanged'
 			}
 		},
 		_labelChanged:function(label){
@@ -48,25 +49,33 @@
 		{
 			console.log('mmrds-race.attributeChanged[' + a + ']');
 		},
-		_selectedLabelChanged: function(pList)
+		selectedLabelChanged: function()
 		{
 			//console.log('mmrds-race._selectedLabelChanged ');
 			//console.log(v);
 			//console.log(v[0].innerText);
+
 			var result = [];
+			var pList = this.$.race_listbox.items;
 			for(var i in pList)		
 			{
-				result.push(pList[i].innerText);
+				
+				if(pList[i].selected)
+				{
+					var val = pList[i].innerText.Trim();
+					result.push(pList[i].innerText);
+				}
 			}
 			
-			var selection = result.join(', ');
+			var selection = '' + result.join(', ');
 			this.$.selected_label.innerText = selection;
-			var selected_index = g_get_selected_index();
+
+			/*var selected_index = g_get_selected_index();
 			
 			if(selected_index > -1)
 			{
 				g_data[selected_index].death_certificate.race = selection;
-			}
+			}*/
 		}
 			/**/
 		/*,
