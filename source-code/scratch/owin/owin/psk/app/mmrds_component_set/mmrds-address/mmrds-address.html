@@ -9,7 +9,7 @@
 	<template> 
 	<iron-ajax id="ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
 <paper-material elevation="1">	
-	<h2>{{label}}</h2>
+	<h2>[[label]]</h2>
 	<paper-input label="Street*" value="{{item.street}}"></paper-input>
 	<paper-input label="City*" value="{{item.city}}"></paper-input>
 	<!--mmrds-state-dropdown id="AddressState" label="State*"  selected-item-label="{{item.state}}"></mmrds-state-dropdown-->
@@ -25,7 +25,7 @@
         is: 'mmrds-address',
 		properties: 
 			{
-				label: { type:String, notify: true, value:'address label' },
+				label: { type:String, value:'address label' },
 				item: { type: Object, notify:true }
 			},
 		setajax: function () 
@@ -46,10 +46,6 @@
 			this.item.longitude = json_response.longitude;
 			console.log(request.detail.response);
 			//console.log(this.$.ajax.lastResponse);
-		},
-		stateSelected: function(value)
-		{
-			this.$.AddressState.select(value);
 		}
   
       });

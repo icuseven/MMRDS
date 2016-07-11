@@ -6,9 +6,6 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
-<link rel="import" href="../cause-of-death-grid/mmrds-cause-of-death-grid.html">
-
-
 <dom-module id="mmrds-demographic">
 <template>  
 	<paper-material elevation="1">			
@@ -69,63 +66,9 @@
 		</paper-dropdown-menu>
 	</paper-material>	
 </template>	
-	<h1>Causes of Death (enter Underlying cause first)</h1>
-	<paper-input label="ICD Version" value="{{bound_data.icd_version}}"></paper-input>
-
-	<table>
-	<tr>
-	<th>Type*</th>
-	<th>Cause (descriptive)*</th>
-	<th>ICD Code</th>
-	<th>Interval</th>
-	<th>Unit</th>
-	</tr>
-	<template id="cause_of_death_grid" is="dom-repeat" items="{{causes_of_death}}">
-		<tr>
-			<td>		
-				<paper-dropdown-menu label="type*" selected-item-label="{{item.cause_type}}">
-					<paper-listbox class="dropdown-content">
-						<paper-item>Immediate</paper-item>
-						<paper-item>Contributing</paper-item>
-						<paper-item>Underlying</paper-item>
-						<paper-item>Other significant</paper-item>
-					</paper-listbox>
-				</paper-dropdown-menu>	
-			</td>
-			<td>
-				<paper-input label="Cause (descriptive)*" value="{{item.cause_description}}"></paper-input>
-			</td>
-			<td>
-				<paper-input label="ICD code" value="{{item.icd_code}}"></paper-input>
-			</td>
-			<td>
-				<paper-input label="Interval" value="{{item.interval}}"></paper-input>
-			</td>
-			<td>
-				<paper-dropdown-menu label="Unit" selected-item-label="{{item.interval_unit}}">
-					<paper-listbox class="dropdown-content" >
-						<paper-item>Minute(s)</paper-item>
-						<paper-item>Hour(s)</paper-item>
-						<paper-item>Day(s)</paper-item>
-						<paper-item>Week(s)</paper-item>
-						<paper-item>Month(s)</paper-item>
-						<paper-item>Year(s)</paper-item>
-						<paper-item>Not specified</paper-item>
-					</paper-listbox>
-				</paper-dropdown-menu>	
-			</td>
-		</tr>
-	</template>
-	</table>
-	<paper-button id="ancodr" raised>add new grid item</paper-button>
 	
-
-	<paper-material elevation="1">
 	
-	<paper-input label="Reviewer's notes about the Death Certificate" value="{{bound_data.reviewers_notes}}"></paper-input>
-	</paper-material>
-	
-	</template>
+</template>
 <script>
 	Polymer({
         is: 'mmrds-demographic',

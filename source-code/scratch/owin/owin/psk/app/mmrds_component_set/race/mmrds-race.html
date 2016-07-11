@@ -5,10 +5,10 @@
 <dom-module id="mmrds-race">
 <template>  
 <paper-material elevation="1">			
-	<h1 id="label"></h1>
-	<div id="selected_label">[[bound_data]]</div>
+	<h1>[[label]]</h1>
+	<div id="selected_label"></div>
 	<h2>Race (multi-selectable - select all that apply)*</h2>
-	<paper-listbox  id="race_listbox" multi  selectedValues="{{bound_data}}" attr-for-selected="value">
+	<paper-listbox  id="race_listbox" multi  selected-values="{{bound_data}}" attr-for-selected="value">
 			<paper-item value="White">White</paper-item>
 			<paper-item value="Black">Black</paper-item>
 			<paper-item value="Ameican Indian/AK Native">Ameican Indian/AK Native</paper-item>
@@ -33,23 +33,15 @@
         is: 'mmrds-race',
 		properties: 
 		{
-			label: { type: String, observer: '_labelChanged' },
+			label: { type: String, value: 'label' },
 			bound_data: 
 			{ 
 				type: Object,
-				notify: true//,
-				//observer: 'selectedLabelChanged'
+				notify: true,
+				observer: '_selectionChanged'
 			}
 		},
-		_labelChanged:function(label){
-			this.$.selected_label.textContent = label;
-			this.fire('on-race-change', { 'label': label });
-		},
-		attributeChanged: function(a)
-		{
-			console.log('mmrds-race.attributeChanged[' + a + ']');
-		},
-		selectedLabelChanged: function()
+		_selectionChanged: function()
 		{
 			//console.log('mmrds-race._selectedLabelChanged ');
 			//console.log(v);
@@ -59,45 +51,16 @@
 			var pList = this.$.race_listbox.items;
 			for(var i in pList)		
 			{
-				
-				if(pList[i].selected)
+				var selected_item = pList[i].innerText;
+				if(this.bound_data.indexOf(selected_item) > -1)
 				{
-					var val = pList[i].innerText.Trim();
-					result.push(pList[i].innerText);
+					result.push(selected_item);
 				}
 			}
 			
 			var selection = '' + result.join(', ');
 			this.$.selected_label.innerText = selection;
-
-			/*var selected_index = g_get_selected_index();
-			
-			if(selected_index > -1)
-			{
-				g_data[selected_index].death_certificate.race = selection;
-			}*/
 		}
-			/**/
-		/*,
-		getSelectedValues: ,
-		created: function() {
-			console.log(this.localName + '#' + this.id + ' was created');
-		},
-		ready: function() {
-        console.log(this.localName + '#' + this.id + ' has local DOM initialized');
-		},
-      attached: function() {
-        console.log(this.localName + '#' + this.id + ' was attached');
-      },
-
-      detached: function() {
-        console.log(this.localName + '#' + this.id + ' was detached');
-      },
-      attributeChanged: function(name, type) {
-        console.log(this.localName + '#' + this.id + ' attribute ' + name +
-          ' was changed to ' + this.getAttribute(name));
-      }*/
-
       });
 </script>
 	

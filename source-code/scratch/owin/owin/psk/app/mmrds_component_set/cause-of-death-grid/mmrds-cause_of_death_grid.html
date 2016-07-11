@@ -1,0 +1,87 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+<link rel="import" href="../mmrds-address/mmrds-address.html">
+
+<dom-module id="mmrds-cause_of_death_grid">
+<template>  
+<table>
+<tr>
+<th>Type*</th>
+<th>Cause (descriptive)*</th>
+<th>ICD Code</th>
+<th>Interval</th>
+<th>Unit</th>
+</tr>
+<template id="cause_of_death_grid" is="dom-repeat" items="{{causes_of_death}}">
+	<tr>
+		<td>		
+			<paper-dropdown-menu label="type*">
+				<paper-listbox class="dropdown-content" selected="{{item.cause_type}}" attr-for-selected="value">
+					<paper-item value="Immediate">Immediate</paper-item>
+					<paper-item value="Contributing">Contributing</paper-item>
+					<paper-item value="Underlying">Underlying</paper-item>
+					<paper-item value="Other significant">Other significant</paper-item>
+				</paper-listbox>
+			</paper-dropdown-menu>	
+		</td>
+		<td>
+			<paper-input label="Cause (descriptive)*" value="{{item.cause_description}}"></paper-input>
+		</td>
+		<td>
+			<paper-input label="ICD code" value="{{item.icd_code}}"></paper-input>
+		</td>
+		<td>
+			<paper-input label="Interval" value="{{item.interval}}"></paper-input>
+		</td>
+		<td>
+			<paper-dropdown-menu label="Unit">
+				<paper-listbox class="dropdown-content" selected-item-label="{{item.interval_unit}}" attr-for-selected="value">
+					<paper-item value="Minute(s)">Minute(s)</paper-item>
+					<paper-item value="Hour(s)">Hour(s)</paper-item>
+					<paper-item value="Day(s)">Day(s)</paper-item>
+					<paper-item value="Week(s)">Week(s)</paper-item>
+					<paper-item value="Month(s)">Month(s)</paper-item>
+					<paper-item value="Year(s)">Year(s)</paper-item>
+					<paper-item value="Not specified">Not specified</paper-item>
+				</paper-listbox>
+			</paper-dropdown-menu>	
+		</td>
+	</tr>
+</template>
+</table>
+<paper-button id="ancodr" raised>add new grid item</paper-button>
+
+
+</template>
+<script>
+Polymer({
+	is: 'mmrds-cause_of_death_grid',
+	properties: 
+	{
+		causes_of_death: 
+		{ 
+			type: Array,
+			notify: true
+		},
+	},
+	addNewRecord: function()
+	{
+		this.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
+	},
+	listeners: 
+	{
+		'ancodr.tap': 'addNewRecord'
+	}
+
+
+  });
+  
+  
+</script>
+	
+</dom-module>
