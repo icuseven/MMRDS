@@ -8,7 +8,7 @@
 	<h1>[[label]]</h1>
 	<div id="selected_label"></div>
 	<h2>Race (multi-selectable - select all that apply)*</h2>
-	<paper-listbox  id="race_listbox" multi  selected-values="{{bound_data}}" attr-for-selected="value">
+	<paper-listbox  id="race_listbox" multi  selected-values="{{bound_data}}" attr-for-selected="value" iron-select="_selectionChanged">
 			<paper-item value="White">White</paper-item>
 			<paper-item value="Black">Black</paper-item>
 			<paper-item value="Ameican Indian/AK Native">Ameican Indian/AK Native</paper-item>

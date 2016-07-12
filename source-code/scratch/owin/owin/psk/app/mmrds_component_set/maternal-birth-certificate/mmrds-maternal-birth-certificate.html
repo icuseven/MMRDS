@@ -92,6 +92,211 @@
 
 <mmrds-race label="Mother's race"></mmrds-race>
 
+<paper-material>
+	<h1>Pregnancy History</h1>
+	<mmrds-date label="Date of last live birth"></mmrds-date>
+	<paper-input label="Live birth interval (months)"></paper-input>
+	<paper-input label="Number live born*"></paper-input>
+	<paper-input label="Number living"></paper-input>
+
+	<mmrds-date label="Date of last other outcome"></mmrds-date>
+	<paper-input label="Pregnancy interval (months)"></paper-input>
+	<paper-input label="Number dead"></paper-input>
+	<paper-input label="Number other outcomes*"></paper-input>
+	
+</paper-material>
+
+	
+<paper-material>
+	<h1>Maternal biometrics</h1>
+	<p>Note: To calculate a pre-pregnancy BMI, there must be a value for feet, inches, and pre-pregnancy weight even if the value is zero</p>
+	<paper-input label="Height (feet inches)## ##"></paper-input>
+	<paper-input label="Pre-pregnancy weight (lbs.)"></paper-input>
+	<paper-input label="Weight at delivery (lbs.)"></paper-input>
+	<paper-input label="Weight gain (lbs.)"></paper-input>
+</paper-material>
+
+
+<paper-material>
+	<h1>Prenatal care</h1>
+	<mmrds-date label="Date of last normal menses"></mmrds-date>
+	<mmrds-date label="Date of 1st prenatal visit"></mmrds-date>
+	<mmrds-date label="Date of last prenatal visit"></mmrds-date>
+	
+	<paper-input label="Calculated gestation (weeks)*"></paper-input>
+	<paper-input label="Obstetric estimate of gestation (weeks)*"></paper-input>
+	
+	<paper-dropdown-menu label="Plurality*">
+		<paper-listbox class="dropdown-content">
+			<paper-item>MD</paper-item>
+			<paper-item>DO</paper-item>
+			<paper-item>CNM/CM</paper-item>
+			<paper-item>Other midwife</paper-item>
+			<paper-item><paper-input label="Other (specify other)"></paper-input></paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>
+	
+	<paper-dropdown-menu label="Use WIC*">
+		<paper-listbox class="dropdown-content">
+			<paper-item>Yes</paper-item>
+			<paper-item>No</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>
+	<paper-input label="Specify, if &gt; 3"></paper-input>
+
+	<paper-dropdown-menu label="How was this delivery paid*">
+		<paper-listbox class="dropdown-content">
+			<paper-item>MD</paper-item>
+			<paper-item>DO</paper-item>
+			<paper-item>CNM/CM</paper-item>
+			<paper-item>Other midwife</paper-item>
+			<paper-item><paper-input label="Other (specify other)"></paper-input></paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+	<paper-input label="No. of visits"></paper-input>
+
+	
+	<paper-dropdown-menu label="Trimester of 1st prenatal care visit*">
+		<paper-listbox class="dropdown-content">
+			<paper-item>1st</paper-item>
+			<paper-item>2nd</paper-item>
+			<paper-item>3rd</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+	
+	<paper-input label="Specify other payor"></paper-input>
+	
+</paper-material>
+
+<paper-material>
+	<h1>Cigarette smoking before and during pregnancy</h1>
+	<paper-input label="In prior 3 months (# of cigarettes/ packs)"></paper-input>
+	<paper-input label="In 1st trimester (# of cigarettes/ packs)"></paper-input>
+	<paper-input label="In 2nd trimester (# of cigarettes/ packs)"></paper-input>
+	<paper-input label="In 3rd trimester (# of cigarettes/ packs)"></paper-input>
+	<paper-input label=""></paper-input>
+	<paper-listbox class="dropdown-content">
+		<paper-item></paper-item>
+		<paper-item>None of these</paper-item>
+		<paper-item>Not specified</paper-item>
+	</paper-listbox>	
+</paper-material>
+
+<paper-material>
+		<h1>Maternal risk factors*</h1>
+		<paper-listbox class="dropdown-content" multi>
+			<paper-item>Prepregancy Diabetes</paper-item>
+			<paper-item>Gestational Diabetes</paper-item>
+			<paper-item>Prepregancy Hypertension </paper-item>
+			<paper-item>Gestational Hypertension </paper-item>
+			<paper-item>Eclampsia Hypertension </paper-item>
+			<paper-item>Previous preterm</paper-item>
+			<paper-item>Other previous poor outcome</paper-item>
+			<paper-item>Pregnancy resulted from infertility treatment</paper-item>
+			<paper-item>Fertility enhancing drugs: etc.</paper-item>
+			<paper-item>Assisted reproductive technology</paper-item>
+			<paper-item>Previous Cesarean delivery</paper-item>
+			<paper-item>None of these</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>	
+		<paper-input labe="Number of C-Sections"></paper-input>
+</paper-material>
+
+
+<paper-material>
+		<h1>Infections present or treated during this pregnancy*</h1>
+		<paper-listbox class="dropdown-content" multi>
+			<paper-item>Hepatitis B (live birth only)</paper-item>
+			<paper-item>Hepatitis C (live birth only)</paper-item>
+			<paper-item>Syphillis</paper-item>
+			<paper-item>Gonorrhea</paper-item>
+			<paper-item>Listeria</paper-item>
+			<paper-item>Cytomegalovirus</paper-item>
+			<paper-item>Chlamidia</paper-item>
+			<paper-item>Parvovirus</paper-item>
+			<paper-item>Group B Streptococcus (fetal death(s) only)</paper-item>
+			<paper-item>Toxoplasmosis (fetal death(s) only)</paper-item>
+			<paper-item>None of these</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>	
+</paper-material>
+
+<paper-material>
+	<h1>Onset of lablor (choose all that apply)*</h1>
+		<paper-listbox class="dropdown-content" multi>
+			<paper-item>Premature rupture of the membranse (prolonged)</paper-item>
+			<paper-item>Prolonged labor (> 20 hours)</paper-item>
+			<paper-item>Precipitous labor (< 3 hours)</paper-item>
+						<paper-item>None of these</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+</paper-material>
+
+
+<paper-material>
+	<h1>Obstetric procedures (check all that apply)*</h1>
+		<paper-listbox class="dropdown-content" multi>
+			<paper-item>Cervical cerclage</paper-item>
+			<paper-item>Tocolysis</paper-item>
+			<paper-item>External cephalic version: Successful</paper-item>
+			<paper-item>External cephalic version: Failed</paper-item>
+			<paper-item>None of these</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+</paper-material>
+
+<paper-material>
+	<h1>Characteristics of Labor and Delivery (check all that apply)*</h1>
+		<paper-listbox class="dropdown-content" multi>
+			<paper-item>Induction of labor</paper-item>
+			<paper-item>Steroids for fetal lung maturation received by mother prior to delivery</paper-item>
+			<paper-item>Clinical chorioamnionitis diagnosed during labor or maternal tempurature >= 38 degrees C(100.4 degrees F)</paper-item>
+			<paper-item>Epidural or spinal anesthesia during labor</paper-item>
+			<paper-item>Augmentation of labor</paper-item>
+			<paper-item>Antibiotics received by the mother during labor</paper-item>
+			<paper-item>Moderate to heavy meconium staining of the amniotic fluid</paper-item>
+			<paper-item>Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery</paper-item>
+			<paper-item>Non-vertex presentation</paper-item>
+			<paper-item>None of these</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+
+</paper-material>
+
+<paper-material>
+		<h1>Maternal Morbidity (check all that apply)*</h1>
+		<paper-listbox class="dropdown-content" multi>
+			<paper-item>Maternal transfusion</paper-item>
+			<paper-item>Unplanned hysterectomy</paper-item>
+			<paper-item>Unplanned operating room procedure following delivery</paper-item>
+			<paper-item>Third or fourth degree perineal laceration</paper-item>
+			<paper-item>Admission to intensive care unit</paper-item>
+			<paper-item>Ruptured uterus</paper-item>
+			<paper-item>None of these</paper-item>
+			<paper-item>Not specified</paper-item>
+		</paper-listbox>
+</paper-material>
+
+<paper-material>
+	<paper-input label="Length of time between birth of child and death of mother*"></paper-input>
+</paper-material>
+
+
+<paper-material>
+	<paper-input label="Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate"></paper-input>
+</paper-material>
+
+
+
+
+
+	
 	
 </template>
 <script>
