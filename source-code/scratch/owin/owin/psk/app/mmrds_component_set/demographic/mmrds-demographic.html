@@ -13,8 +13,9 @@
 		<paper-input label="Date of birth* (YYYY-MM-DD)" value="{{bound_data.date_of_birth}}"></paper-input>
 		<paper-checkbox checked="{{bound_data.date_of_birth_is_estimated}}">Date of birth is estimated?</paper-checkbox>
 		<paper-input label="Age*" value="{{bound_data.age}}"></paper-input>
-		<paper-dropdown-menu label="Marital status*"  selected-item-label="{{bound_data.marital_status}}">
-			<paper-listbox class="dropdown-content">
+		<paper-dropdown-menu label="Marital status*">
+			<paper-listbox class="dropdown-content" selected="{{bound_data.marital_status}}" attr-for-selected="value">
+				<paper-item></paper-item>
 				<paper-item>Married</paper-item>
 				<paper-item>Married, but separated</paper-item>
 				<paper-item>Widowed</paper-item>
@@ -30,16 +31,18 @@
 		<paper-input label="Country (if foriegn born)*" value="{{bound_data.country_of_birth}}"></paper-input>
 		<paper-input label="Primary occupation" value="{{bound_data.primary_occupation}}"></paper-input>
 		<paper-input label="Business/ Industry" value="{{bound_data.occupation_business_industry}}"></paper-input>
-		<paper-dropdown-menu label="Ever in US armed forces?" selected-item-label="{{bound_data.ever_in_us_armed_forces}}">
-			<paper-listbox class="dropdown-content">
+		<paper-dropdown-menu label="Ever in US armed forces?">
+			<paper-listbox class="dropdown-content" selected="{{bound_data.ever_in_us_armed_forces}}" attr-for-selected="value">
+				<paper-item></paper-item>
 				<paper-item>Yes</paper-item>
 				<paper-item>No</paper-item>
 				<paper-item>Not Specified</paper-item>
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		<paper-dropdown-menu label="Hispanic origin?*" selected-item-label="{{bound_data.is_of_hispanic_origin}}">
-			<paper-listbox class="dropdown-content">
+		<paper-dropdown-menu label="Hispanic origin?*">
+			<paper-listbox class="dropdown-content" selected="{{bound_data.is_of_hispanic_origin}}" attr-for-selected="value">
+				<paper-item></paper-item>
 				<paper-item>No, not Spanish/ Hispanic/ Latino</paper-item>
 				<paper-item>Yes, Mexican, Mexican American, Chicano</paper-item>
 				<paper-item>Yes, Puerto Rican</paper-item>
@@ -50,9 +53,9 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 
-		<paper-dropdown-menu label="Education*" selected-item-label
-		="{{bound_data.education_level}}">
-			<paper-listbox class="dropdown-content">
+		<paper-dropdown-menu label="Education*">
+			<paper-listbox class="dropdown-content" selected="{{bound_data.education_level}}" attr-for-selected="value">
+				<paper-item></paper-item>
 				<paper-item>8th grade or less</paper-item>
 				<paper-item>9th-12th grade; no diploma</paper-item>
 				<paper-item>High School grad or GED completed</paper-item>

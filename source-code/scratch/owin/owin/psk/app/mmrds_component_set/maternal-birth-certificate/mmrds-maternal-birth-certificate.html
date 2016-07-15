@@ -21,8 +21,9 @@
 <paper-material elevation="1">			
 	<h1>Facility of delivery demographics</h1>
 	
-	<paper-dropdown-menu label="Type of Place* " selected-item-label="{{}}">
-		<paper-listbox class="dropdown-content">
+	<paper-dropdown-menu label="Type of Place*">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.type_of_delivery_facility}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>Hospital</paper-item>
 			<paper-item>Free standing birthing center</paper-item>
 			<paper-item>Home delivery</paper-item>
@@ -30,8 +31,9 @@
 		</paper-listbox>
 	</paper-dropdown-menu>	
 	
-	<paper-dropdown-menu label="Was home delivery planned?" selected-item-label="{{}}">
-		<paper-listbox class="dropdown-content">
+	<paper-dropdown-menu label="Was home delivery planned?">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.was_home_delivery_planned}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>Yes</paper-item>
 			<paper-item>No</paper-item>
 			<paper-item>Not specified</paper-item>
@@ -39,8 +41,9 @@
 	</paper-dropdown-menu>	
 	<mmrds-date label="Date of Delivery"></mmrds-date>
 	
-	<paper-dropdown-menu label="Obstetric Level of Care*" selected-item-label="{{}}">
-		<paper-listbox class="dropdown-content">
+	<paper-dropdown-menu label="Obstetric Level of Care*">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.obstetric_level_of_care}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>Basic</paper-item>
 			<paper-item>Specialty</paper-item>
 			<paper-item>Subspecialty</paper-item>
@@ -49,8 +52,9 @@
 	</paper-dropdown-menu>		
 	<paper-input label="Facility NP! No."></paper-input>
 	<paper-input label="Facility name"></paper-input>
-	<paper-dropdown-menu label="Was mother transferred?*" selected-item-label="{{}}">
-		<paper-listbox class="dropdown-content">
+	<paper-dropdown-menu label="Was mother transferred?*">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.was_mother_transferred}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>Yes</paper-item>
 			<paper-item>No</paper-item>
 			<paper-item>Not specified</paper-item>
@@ -59,8 +63,9 @@
 	<paper-input label="From where?"></paper-input>
 	
 	
-	<paper-dropdown-menu label="Attendant type*" selected-item-label="{{}}">
-		<paper-listbox class="dropdown-content">
+	<paper-dropdown-menu label="Attendant type*">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.attendant_type}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>MD</paper-item>
 			<paper-item>DO</paper-item>
 			<paper-item>CNM/CM</paper-item>
@@ -127,7 +132,8 @@
 	<paper-input label="Obstetric estimate of gestation (weeks)*"></paper-input>
 	
 	<paper-dropdown-menu label="Plurality*">
-		<paper-listbox class="dropdown-content">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.plurality}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>MD</paper-item>
 			<paper-item>DO</paper-item>
 			<paper-item>CNM/CM</paper-item>
@@ -138,7 +144,8 @@
 	</paper-dropdown-menu>
 	
 	<paper-dropdown-menu label="Use WIC*">
-		<paper-listbox class="dropdown-content">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.was_wic_used}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>Yes</paper-item>
 			<paper-item>No</paper-item>
 			<paper-item>Not specified</paper-item>
@@ -147,7 +154,8 @@
 	<paper-input label="Specify, if &gt; 3"></paper-input>
 
 	<paper-dropdown-menu label="How was this delivery paid*">
-		<paper-listbox class="dropdown-content">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.how_was_delivery_paid}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>MD</paper-item>
 			<paper-item>DO</paper-item>
 			<paper-item>CNM/CM</paper-item>
@@ -160,7 +168,8 @@
 
 	
 	<paper-dropdown-menu label="Trimester of 1st prenatal care visit*">
-		<paper-listbox class="dropdown-content">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.trimester_of_1st_prenatal_care_visit}}" attr-for-selected="value">
+			<paper-item></paper-item>
 			<paper-item>1st</paper-item>
 			<paper-item>2nd</paper-item>
 			<paper-item>3rd</paper-item>
@@ -179,7 +188,7 @@
 	<paper-input label="In 2nd trimester (# of cigarettes/ packs)"></paper-input>
 	<paper-input label="In 3rd trimester (# of cigarettes/ packs)"></paper-input>
 	<paper-input label=""></paper-input>
-	<paper-listbox class="dropdown-content">
+	<paper-listbox class="dropdown-content" selected="{{ bound_data}}" attr-for-selected="value">
 		<paper-item></paper-item>
 		<paper-item>None of these</paper-item>
 		<paper-item>Not specified</paper-item>
@@ -188,7 +197,7 @@
 
 <paper-material>
 		<h1>Maternal risk factors*</h1>
-		<paper-listbox class="dropdown-content" multi>
+		<paper-listbox class="dropdown-content" selected-values="{{bound_data.maternal_risk_factors}}" attr-for-selected="value" multi>
 			<paper-item>Prepregancy Diabetes</paper-item>
 			<paper-item>Gestational Diabetes</paper-item>
 			<paper-item>Prepregancy Hypertension </paper-item>
@@ -209,7 +218,7 @@
 
 <paper-material>
 		<h1>Infections present or treated during this pregnancy*</h1>
-		<paper-listbox class="dropdown-content" multi>
+		<paper-listbox class="dropdown-content" selected-values="{{bound_data.infections_present_or_treated_during_pregnancy}}" attr-for-selected="value" multi>
 			<paper-item>Hepatitis B (live birth only)</paper-item>
 			<paper-item>Hepatitis C (live birth only)</paper-item>
 			<paper-item>Syphillis</paper-item>
@@ -227,11 +236,11 @@
 
 <paper-material>
 	<h1>Onset of lablor (choose all that apply)*</h1>
-		<paper-listbox class="dropdown-content" multi>
+		<paper-listbox class="dropdown-content" selected-values="{{bound_data.onset_of_labor}}" attr-for-selected="value" multi>
 			<paper-item>Premature rupture of the membranse (prolonged)</paper-item>
 			<paper-item>Prolonged labor (> 20 hours)</paper-item>
 			<paper-item>Precipitous labor (< 3 hours)</paper-item>
-						<paper-item>None of these</paper-item>
+			<paper-item>None of these</paper-item>
 			<paper-item>Not specified</paper-item>
 		</paper-listbox>
 	</paper-dropdown-menu>	
@@ -240,7 +249,7 @@
 
 <paper-material>
 	<h1>Obstetric procedures (check all that apply)*</h1>
-		<paper-listbox class="dropdown-content" multi>
+		<paper-listbox class="dropdown-content" selected-values="{{bound_data.obstetric_procedures}}" attr-for-selected="value" multi>
 			<paper-item>Cervical cerclage</paper-item>
 			<paper-item>Tocolysis</paper-item>
 			<paper-item>External cephalic version: Successful</paper-item>
@@ -253,7 +262,7 @@
 
 <paper-material>
 	<h1>Characteristics of Labor and Delivery (check all that apply)*</h1>
-		<paper-listbox class="dropdown-content" multi>
+		<paper-listbox class="dropdown-content" selected-values="{{bound_data.characteristics_of_labor_and_delivery}}" attr-for-selected="value" multi>
 			<paper-item>Induction of labor</paper-item>
 			<paper-item>Steroids for fetal lung maturation received by mother prior to delivery</paper-item>
 			<paper-item>Clinical chorioamnionitis diagnosed during labor or maternal tempurature >= 38 degrees C(100.4 degrees F)</paper-item>
@@ -271,7 +280,7 @@
 
 <paper-material>
 		<h1>Maternal Morbidity (check all that apply)*</h1>
-		<paper-listbox class="dropdown-content" multi>
+		<paper-listbox class="dropdown-content" selected-values="{{bound_data.maternal_morbidity}}" attr-for-selected="value" multi>
 			<paper-item>Maternal transfusion</paper-item>
 			<paper-item>Unplanned hysterectomy</paper-item>
 			<paper-item>Unplanned operating room procedure following delivery</paper-item>
