@@ -236,6 +236,9 @@ function InitializeNewDB()
   <!-- endbuild -->
 
   <template is="dom-bind" id="app">
+	<app-location  route="{{route}}" use-hash-as-path></app-location>
+	<app-route  route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
+
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -246,25 +249,25 @@ function InitializeNewDB()
         </paper-toolbar>
 
         <!-- Drawer Content -->
-        <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="{{baseUrl}}">
+        <paper-menu class="app-menu" attr-for-selected="data-page" selected="{{categoryData.category}}">
+          <a data-page="home" href="#/home">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
 
           
 		  
-          <a data-route="summary" href="{{baseUrl}}summary">
+          <a data-page="summary" href="#/summary">
             <iron-icon icon="mail"></iron-icon>
             <span>Summary</span>
           </a>
 
-          <a data-route="home-record" href="{{baseUrl}}:id/home-record">
+          <a data-page="home-record" href="#/home-record/:id">
             <iron-icon icon="mail"></iron-icon>
             <span>Home Record</span>
           </a>
 
-		<a data-route="death-certificate" href="{{baseUrl}}:id/death-certificate">
+		<a data-route="death-certificate" href="#/death-certificate/:id">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Death Certificate</span>
 		</a>
@@ -413,12 +416,12 @@ function InitializeNewDB()
 
             <section data-route="home-record" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">home record</h1>
-				<mmrds-home_record id="home-record-id" current_record_id=""></mmrds-home_record>
+				<mmrds-home_record id="home-record-id" current_record_id="" route="{{categoryTail}}" category="{{categoryData.category}}"></mmrds-home_record>
             </section>
 			
 			<section data-route="death-certificate" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">death certificate</h1>
-				<mmrds-death_certificate id="death-certificate-id" current_record_id=""></mmrds-death_certificate>
+				<mmrds-death_certificate id="death-certificate-id" current_record_id="" route="{{categoryTail}}" category="{{categoryData.category}}"></mmrds-death_certificate>
             </section>
 
 			<section data-route="MaternalBirthCertificate" tabindex="-1">
