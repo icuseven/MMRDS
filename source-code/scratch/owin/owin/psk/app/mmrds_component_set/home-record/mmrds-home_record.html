@@ -8,17 +8,19 @@
 
 <dom-module id="mmrds-home_record">
 <template>  
-<app-route  route="{{route}}" pattern="/:id" active="{{listActive}}" data="{{home_recordData}}"></app-route>
-<!-- app-pouchdb-document
-		db-name="mmrds"
-		doc-id="[[home_recordData.id]]"
-		data="{{home_record}}">
-</app-pouchdb-document -->
+<app-route  route="{{route}}" pattern="/:category/:id" active="{{listActive}}" data="{{home_recordData}}"></app-route>
 <app-pouchdb-document
 		db-name="mmrds"
-		doc-id="2016-06-12T13:49:24.759Z"
+		doc-id="{{home_recordData.id}}"
 		data="{{home_record}}">
 </app-pouchdb-document>
+
+<div>home_rec baby!</div>
+<div>route{{route}}</div>
+<div>categoryTail{{route.path}}</div>
+<div>listActive{{listActive}}</div>
+<div>selected_record_id{{home_recordData.id}}</div>
+<div>home_record: {{home_record._id}}, {{home_record.record_id}}</div>
 
 		<paper-material elevation="1">			
 			<h1>Home Record Header</h1>
