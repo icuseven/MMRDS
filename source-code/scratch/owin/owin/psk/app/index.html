@@ -238,7 +238,7 @@ function InitializeNewDB()
   <template is="dom-bind" id="app">
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
 	<app-route  route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
-
+	<mmrds-data-summary data="{{data}}" selected_record_id="{{selected_record_id}}"></mmrds-data-summary>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -262,12 +262,12 @@ function InitializeNewDB()
             <span>Summary</span>
           </a>
 
-          <a data-route="home-record" href="#/home-record/:id">
+          <a data-route="home-record" href="#/home-record/{{selected_record_id}}">
             <iron-icon icon="mail"></iron-icon>
             <span>Home Record</span>
           </a>
 
-		<a data-route="death-certificate" href="#/death-certificate/:id">
+		<a data-route="death-certificate" href="#/death-certificate/[[selected_record_id]]">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Death Certificate</span>
 		</a>
@@ -408,7 +408,7 @@ function InitializeNewDB()
               <paper-material elevation="1">
                 <h1 class="page-title" tabindex="-1">summary</h1>
 			  
-				<mmrds-summary></mmrds-summary>
+				<mmrds-summary data="[[data]]"></mmrds-summary>
 			  
 			  </paper-material>
             </section>
@@ -416,7 +416,7 @@ function InitializeNewDB()
 
             <section data-route="home-record" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">home record</h1>
-				<mmrds-home_record id="home-record-id" current_record_id="" route="{{categoryTail}}" category="{{categoryData.category}}"></mmrds-home_record>
+				<mmrds-home_record id="home-record-id" route="{{categoryTail}}"></mmrds-home_record>
             </section>
 			
 			<section data-route="death-certificate" tabindex="-1">

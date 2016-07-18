@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">	
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">	
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">	
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">	
+<dom-module id="mmrds-data-summary">
+<template>  
+
+</template>
+<script>
+Polymer(
+{
+	is: 'mmrds-data-summary',
+	properties: 
+	{ 
+		
+		data: 
+		{
+			type: Array,
+			notify: true,
+			value: function() { return []; }
+		}
+	},
+	ready: function ()
+	{
+		var ctx = this;
+		var db = new PouchDB('mmrds');
+		var new_array = [];
+		db.allDocs({ include_docs: true }).then(function (info) 
+		{
+			for(var i in info.rows)
+			{
+				//new_array.push(info.rows[i].doc);
+				var item = info.rows[i].doc;
+				new_array.push({
+					'_id': item._id,
+					'last_name':item.last_name,
+					'first_name':item.first_name,
+					'middle_name':item.middle_name,
+					'record_id':item.record_id
+				});
+				//console.log(info.rows[i].doc._id);
+				console.log(info.rows[i].doc);
+
+				//{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}				
+				
+			}
+			this.data = new_array;
+		}.bind(ctx));
+	},
+	handle_response: function (e) 
+	{
+		console.log("handle_response done.");
+	}
+});
+  
+</script>
+
+</dom-module>

@@ -8,12 +8,18 @@
 
 <dom-module id="mmrds-home_record">
 <template>  
-<app-route  route="{{route}}" pattern="/home-record/:id" active="{{listActive}}" data="{{home_recordData}}"></app-route>
+<app-route  route="{{route}}" pattern="/:id" active="{{listActive}}" data="{{home_recordData}}"></app-route>
+<!-- app-pouchdb-document
+		db-name="mmrds"
+		doc-id="[[home_recordData.id]]"
+		data="{{home_record}}">
+</app-pouchdb-document -->
 <app-pouchdb-document
 		db-name="mmrds"
-		doc-id="[[listActive.id]]"
+		doc-id="2016-06-12T13:49:24.759Z"
 		data="{{home_record}}">
 </app-pouchdb-document>
+
 		<paper-material elevation="1">			
 			<h1>Home Record Header</h1>
 			<div>Record Id: {{home_record.record_id }}</div>
@@ -174,7 +180,8 @@
 			home_record: 
 			{ 
 				type: Object,
-				notify: true
+				notify: true,
+				observer: 'currentRecordChange'
 			},
 			current_record_id: { 
 				type: String,
