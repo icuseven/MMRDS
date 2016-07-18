@@ -9,7 +9,11 @@
 <dom-module id="mmrds-home_record">
 <template>  
 <app-route  route="{{route}}" pattern="/home-record/:id" active="{{listActive}}" data="{{home_recordData}}"></app-route>
-
+<app-pouchdb-document
+		db-name="mmrds"
+		doc-id="[[listActive.id]]"
+		data="{{home_record}}">
+</app-pouchdb-document>
 		<paper-material elevation="1">			
 			<h1>Home Record Header</h1>
 			<div>Record Id: {{home_record.record_id }}</div>
@@ -174,8 +178,8 @@
 			},
 			current_record_id: { 
 				type: String,
-				notify: true,
-				observer: 'currentRecordChange'
+				notify: true/*,
+				observer: 'currentRecordChange'*/
 			
 			},
 			progress_autopsy_report_count:{

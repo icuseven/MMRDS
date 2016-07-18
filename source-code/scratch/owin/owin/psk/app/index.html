@@ -249,20 +249,20 @@ function InitializeNewDB()
         </paper-toolbar>
 
         <!-- Drawer Content -->
-        <paper-menu class="app-menu" attr-for-selected="data-page" selected="{{categoryData.category}}">
-          <a data-page="home" href="#/home">
+        <paper-menu class="app-menu" attr-for-selected="data-route" selected="{{categoryData.category}}">
+          <a data-route="home" href="#/home">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
 
           
 		  
-          <a data-page="summary" href="#/summary">
+          <a data-route="summary" href="#/summary">
             <iron-icon icon="mail"></iron-icon>
             <span>Summary</span>
           </a>
 
-          <a data-page="home-record" href="#/home-record/:id">
+          <a data-route="home-record" href="#/home-record/:id">
             <iron-icon icon="mail"></iron-icon>
             <span>Home Record</span>
           </a>
@@ -371,7 +371,7 @@ function InitializeNewDB()
 
         <!-- Main Content -->
         <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+          <iron-pages attr-for-selected="data-route" selected="[[categoryData.category]]">
             <section data-route="home" tabindex="-1">
               <paper-material elevation="1">
 			  <h1 class="page-title" tabindex="-1">Welcome to MMRDS</h1>
