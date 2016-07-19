@@ -239,6 +239,14 @@ function InitializeNewDB()
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
 	<app-route  route="{{route}}" pattern="/:category/:id" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
 	<mmrds-data-summary data="{{data}}" selected_record_id="{{categoryData.id}}"></mmrds-data-summary>
+	
+<app-pouchdb-document
+		db-name="mmrds"
+		doc-id="{{categoryData.id}}"
+		data="{{home_record}}">
+</app-pouchdb-document>
+	
+	
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -276,7 +284,7 @@ function InitializeNewDB()
 			<span>Death Certificate</span>
 		</a>
 
-		<a data-route="MaternalBirthCertificate" href="{{baseUrl}}MaternalBirthCertificate">
+		<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{categoryData.id}}">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Maternal Birth Certificate</span>
 		</a>
@@ -420,17 +428,17 @@ function InitializeNewDB()
 
             <section data-route="home-record" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">home record</h1>
-				<mmrds-home_record id="home-record-id" route="[[route]]"></mmrds-home_record>
+				<mmrds-home_record home_record="{{home_record}}"></mmrds-home_record>
             </section>
 			
 			<section data-route="death-certificate" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">death certificate</h1>
-				<mmrds-death_certificate id="death-certificate-id" current_record_id="" route="{{categoryTail}}" category="{{categoryData.category}}"></mmrds-death_certificate>
+				<mmrds-death_certificate home_record="{{home_record}}"  death_certificate="{{home_record.death_certificate}}"></mmrds-death_certificate>
             </section>
 
 			<section data-route="MaternalBirthCertificate" tabindex="-1">
 			<h1 class="page-title" tabindex="-1">maternal birth certificate</h1>
-				<mmrds-maternal-birth-certificate> </mmrds-maternal-birth-certificate>
+				<mmrds-maternal-birth-certificate home_record="{{home_record}}" bound_data="{{home_record.maternal_birth_certificate}}"> </mmrds-maternal-birth-certificate>
             </section>
 
 
