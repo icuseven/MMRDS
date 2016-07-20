@@ -1,246 +1,9 @@
-<!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Polymer Starter Kit">
-  <title>Polymer Starter Kit</title>
-
-  <!-- Place favicon.ico in the `app/` directory -->
-
-  <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#2E3AA1">
-
-  <!-- Web Application Manifest -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#3372DF">
-
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="PSK">
-  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
-
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
-  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
-
-  <!-- Tile icon for Win8 (144x144) -->
-  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-
-  <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild-->
-
-  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <!-- endbuild -->
-
-  <!-- Because this project uses vulcanize this should be your only html import
-       in this file. All other imports should go in elements.html -->
-  <link rel="import" href="elements/elements.html">
-
-  <!-- For shared styles, shared-styles.html import in elements.html -->
-  <style is="custom-style" include="shared-styles"></style>
-  <script src="bower_components/pouchdb/dist/pouchdb.min.js"></script>
-  <script src="bower_components/immutable/dist/immutable.min.js"></script>
-  <script language="javascript">
-  //
-  var g_data = {};
-  var g_selected_record_id = null;
-  var g_selected_record_index = -1;
-  /*
-  db.info().then(function (info) {
-  console.log(info);
-	});
-	*/
- function g_get_selected_index()
- {
-	var result = -1;
-	for(var i = 0; g_selected_record_id !=null && i < g_data.length; i++)
-	{
-		if(g_data[i]._id == g_selected_record_id)
-		{
-			result = i;
-			break;
-		}
-	}
-	
-	return result;
- }
- 
-function InitializeNewDB()
-{
-	var db = new PouchDB('mmrds');
-	//new Date().toISOString()
-  
-	db.put({
-		_id : '2016-06-12T13:49:24.759Z',
-		date_created: new Date().toISOString(),
-		created_by: 'jhaines',
-		date_last_updated: new Date().toISOString(),
-		last_updated_by: 'jhaines',
-		record_id : 'VA-2011-1703',
-		first_name : 'Caterina',
-		middle_name : 'Yvonne',
-		last_name : 'Schroeder',
-		date_of_death : '2016-01-01',
-		state_of_death : 'VA',
-		state_of_last_known_residence : 'VA',
-		agency_case_id : '',
-		is_valid_maternal_mortality_record : true,
-		death_certificate:
-		{ 
-			causes_of_death:[], 
-			place_of_last_residence:
-			{  
-				street:"123 Old US HWY 25",
-				city:"Los Angeles",
-				state:"California",
-				zip_code:"900890255"
-			},
-			race: ['White', 'Black']
-		}
-	});
-  	db.put({
-		_id : '2016-06-12T13:50:06.144Z',
-		date_created: new Date().toISOString(),
-		created_by: 'jhaines',
-		date_last_updated: new Date().toISOString(),
-		last_updated_by: 'jhaines',
-		record_id : 'TN-2011-2722',
-		first_name : 'Bibiana',
-		middle_name : 'Fabiola',
-		last_name : 'Hendriks',
-		date_of_death : '2016-04-01',
-		state_of_death : 'TN',
-		state_of_last_known_residence : 'TN',
-		agency_case_id : '',
-		is_valid_maternal_mortality_record : true,
-		death_certificate:{ causes_of_death:[{ cause_type:"Immediate", cause_description:"cause desc", icd_code:"code de icd", interval:"3", interval_unit:"Hour(s)" }, { cause_type:"Underlying", cause_description:"a cause desc", icd_code:"code 900 de icd", interval:"67", interval_unit:"Minutes(s)" } ], race:[] }
-	});
-  	db.put({
-		_id : '2016-06-12T13:50:24.182Z',
-		date_created: new Date().toISOString(),
-		created_by: 'jhaines',
-		date_last_updated: new Date().toISOString(),
-		last_updated_by: 'jhaines',
-		record_id : 'RI-2012-9090',
-		first_name : 'Helen',
-		middle_name : '',
-		last_name : 'McAlister',
-		date_of_death : '2016-09-01',
-		state_of_death : 'RI',
-		state_of_last_known_residence : 'RI',
-		agency_case_id : '',
-		is_valid_maternal_mortality_record : true,
-		death_certificate:{ causes_of_death:[], race:[] }
-	});
-	
-}
-  
-  //var summary_data = db.get({_all_doc: ""})
-  
-  function SaveCurrentRecord()
-  {
-  
-	//var currentPouchDBDocument = Polymer.dom(document).querySelector('#currentdocumentid');
-	//currentPouchDBDocument.save();
-	console.log("SaveCurrentRecord");
-  /*
-	if(g_selected_record_id)
-	{
-		var found_index = -1;
-		for(var i = 0; i < g_data.length; i++)
-		{
-			if(g_data[i]._id == g_selected_record_id)
-			{
-				found_index = i;
-				break;
-			}
-		}
-
-		if(found_index > -1)
-		{
-			var db = new PouchDB('mmrds');
-			db.put(g_data[found_index]).then(function()
-			{
-				db.get(g_selected_record_id).then(function (doc) 
-				{
-					g_data[found_index] = doc;
-					console.log('save finished');
-					console.log(doc);
-				});
-			}
-			
-			);
-			 // TODO retrieve saved record with new _rev and replace
-			 // outdated document saved in g_data
-			
-		}
-	
-
-	}*/
-	
-  }
-  
-  function handleError(event) 
-  {
-          //  this.$.createButton.disabled=false;
-          //  this.$.cancelButton.disabled=false;
-
-            var request=event.detail.request;
-            var error=event.detail.error;
-            var toast=document.querySelector("#toast");
-            toast.text="Error: "+error;
-            toast.show();
-	}
-	function handleRequest(request) 
-	{
-		console.log("boooooo");
-		//this.$.createButton.disabled=true;
-		//this.$.cancelButton.disabled=true;
-	}
-	function handleResponse(response) 
-	{
-		//document.querySelector('createButton').disabled=false;
-		//document.querySelector('cancelButton').disabled=false;
-
-		console.log("Received response: " + JSON.stringify(response.detail.response));
-		//document.querySelector('#toast').show();
-		//MoreRouting.navigateTo('tv-list');
-	}
-	
-	
-	function main()
-	{
-		//document.querySelector("#master_record_call").generateRequest();
-	}
-	
-  </script>
-</head>
-
-<body unresolved onload="main()">
-  <!-- build:remove -->
-  <span id="browser-sync-binding"></span>
-  <!-- endbuild -->
-
-  <template is="dom-bind" id="app">
+<link rel="import" href="../../bower_components/polymer/polymer.html">	
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">	
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">	
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">	
+<dom-module id="mmrds-app">
+<template id="app">
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
 	<app-route  route="{{route}}" pattern="/:category/:id" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
 	<mmrds-data-summary data="{{data}}" selected_record_id="{{categoryData.id}}"></mmrds-data-summary>
@@ -495,9 +258,107 @@ function InitializeNewDB()
 
   </template>
 
-  <!-- build:js scripts/app.js -->
-  <script src="scripts/app.js"></script>
-  <!-- endbuild-->
-</body>
+	<script>
+	Polymer(
+	{
+        is: 'mmrds-app',
+		properties: 
+		{ 
+			
+			data: 
+			{
+				type: Array,
+				notify: true
+			},
+			selected_record_id:
+			{
+				type:String,
+				notify:true,
+				//value: function() { return ''; },
+				observer: 'onSelectedRecordIdChanged'
+			}
+		},
+		ready: function ()
+		{
+		/*
+			var ctx = this;
+			var db = new PouchDB('mmrds');
+			g_data = [];	
+			db.allDocs({ include_docs: true }).then(function (info) 
+			{
+				for(var i in info.rows)
+				{
+					g_data.push(info.rows[i].doc);
+					//console.log(info.rows[i].doc._id);
+					console.log(info.rows[i].doc);	
+					
+				}
+				this.data = g_data;
+			}.bind(ctx));
+			*/
+		},
+		handle_response: function (e) 
+		{
+			console.log("handle_response done.");
+		},
+		addNewCase: function()
+		{
+			var new_data = [];
+			
+			for(var i in g_data)
+			{
+				new_data.push(g_data[i]);
+			}
+			
+			var new_record_id = new Date().toISOString();
+			new_data.push
+			(
+				{
+					_id : new_record_id,
+					date_created: new Date().toISOString(),
+					created_by: 'jhaines',
+					date_last_updated: new Date().toISOString(),
+					last_updated_by: 'jhaines',
+					record_id : '',
+					first_name : 'New First',
+					middle_name : '',
+					last_name : 'New Last',
+					date_of_death : '2000-01-01',
+					state_of_death : '',
+					state_of_last_known_residence : '',
+					agency_case_id : '',
+					is_valid_maternal_mortality_record : false,
+					death_certificate:
+					{ 
+						causes_of_death:[], 
+						place_of_last_residence:
+						{  
+							street:"123 Old US HWY 25",
+							city:"Los Angeles",
+							state:"California",
+							zip_code:"900890255"
+						} 
+					}
+				}
+			);
+			
+			g_data = new_data;
+			
+			this.data = g_data;
+			g_selected_record_id = new_record_id;
+			g_selected_record_index = g_data.length -1;
+		},
+		onSelectedRecordIdChanged: function(e)
+		{
+			if(e && e.currentTarget)
+			{
+				console.log('onSelectedRecordIdChanged' + e.currentTarget.dataValue)
+				this.selected_record_id = e.currentTarget.dataValue;
+			}
+		}
 
-</html>
+    });
+	  
+	</script>
+	
+</dom-module>

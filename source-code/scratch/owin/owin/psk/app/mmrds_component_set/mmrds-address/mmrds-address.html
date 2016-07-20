@@ -5,51 +5,49 @@
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 
 <dom-module id="mmrds-address">
-	
-	<template> 
-	<iron-ajax id="ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
+<template> 
+<iron-ajax id="ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
 <paper-material elevation="1">	
 	<h2>[[label]]</h2>
 	<paper-input label="Street*" value="{{item.street}}"></paper-input>
 	<paper-input label="City*" value="{{item.city}}"></paper-input>
-	<!--mmrds-state-dropdown id="AddressState" label="State*"  selected-item-label="{{item.state}}"></mmrds-state-dropdown-->
 	<mmrds-state-dropdown id="AddressState" label="State*" data_value="{{item.state}}"  selected-item-label="{{item.state}}"></mmrds-state-dropdown>
 	<paper-input label="Zip Code*"  value="{{item.zip_code}}"></paper-input>
 	<paper-button raised on-tap="setajax">Get Coordinates</paper-button>
 	<paper-input label="Latitude*" value="{{item.latitude}}"></paper-input>
 	<paper-input label="Longitude*" value="{{item.longitude}}"></paper-input>
 </paper-material>	
-	</template>
-	<script>
-	Polymer({
-        is: 'mmrds-address',
-		properties: 
-			{
-				label: { type:String, value:'address label' },
-				item: { type: Object, notify:true }
-			},
-		setajax: function () 
+</template>
+<script>
+Polymer({
+	is: 'mmrds-address',
+	properties: 
 		{
-			this.$.ajax.url = "http://localhost:12345/api/geocode";
-			this.$.ajax.params = {
-					street_address: this.item.street,
-					city: this.item.city,
-					state:this.item.state,
-					zip: this.item.zip_code
-			};
-			this.$.ajax.generateRequest();
+			label: { type:String, value:'address label' },
+			item: { type: Object, notify:true }
 		},
-		handle_response: function(request) 
-		{
-			var json_response = request.detail.response[0];
-			this.item.latitude = json_response.latitude;
-			this.item.longitude = json_response.longitude;
-			console.log(request.detail.response);
-			//console.log(this.$.ajax.lastResponse);
-		}
+	setajax: function () 
+	{
+		this.$.ajax.url = "http://localhost:12345/api/geocode";
+		this.$.ajax.params = {
+				street_address: this.item.street,
+				city: this.item.city,
+				state:this.item.state,
+				zip: this.item.zip_code
+		};
+		this.$.ajax.generateRequest();
+	},
+	handle_response: function(request) 
+	{
+		var json_response = request.detail.response[0];
+		this.item.latitude = json_response.latitude;
+		this.item.longitude = json_response.longitude;
+		console.log(request.detail.response);
+		//console.log(this.$.ajax.lastResponse);
+	}
+
+  });
   
-      });
-	  
-	</script>
+</script>
 	
 </dom-module>
