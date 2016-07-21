@@ -40,7 +40,7 @@
 		</td>
 		<td>
 			<paper-dropdown-menu label="Unit">
-				<paper-listbox class="dropdown-content" selected-item-label="{{item.interval_unit}}" attr-for-selected="value">
+				<paper-listbox class="dropdown-content" selected="{{item.interval_unit}}" attr-for-selected="value">
 					<paper-item value="Minute(s)">Minute(s)</paper-item>
 					<paper-item value="Hour(s)">Hour(s)</paper-item>
 					<paper-item value="Day(s)">Day(s)</paper-item>
@@ -71,7 +71,16 @@ Polymer({
 	},
 	addNewRecord: function()
 	{
-		this.causes_of_death.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
+		var new_array = [];
+		
+		for(var i in this.causes_of_death)
+		{
+			new_array.push(this.causes_of_death[i])
+		}
+		
+		new_array.push({ cause_type:"", cause_description:"", icd_code:"", interval:"", interval_unit:"" });
+		
+		this.set("causes_of_death", new_array);
 	},
 	listeners: 
 	{
