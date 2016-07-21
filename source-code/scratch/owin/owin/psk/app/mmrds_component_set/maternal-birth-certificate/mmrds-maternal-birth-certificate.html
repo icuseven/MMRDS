@@ -24,7 +24,7 @@
 	<h1>Facility of delivery demographics</h1>
 	
 	<paper-dropdown-menu label="Type of Place*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.type_of_delivery_facility}}" attr-for-selected="value">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.demographic_facility_of_delivery.type_of_delivery_facility}}" attr-for-selected="value">
 			<paper-item value=""></paper-item>
 			<paper-item value="Hospital">Hospital</paper-item>
 			<paper-item value="Free standing birthing center">Free standing birthing center</paper-item>
@@ -33,12 +33,12 @@
 		</paper-listbox>
 	</paper-dropdown-menu>	
 	
-	<mmrds-yesno bound_data="{{ bound_data.was_home_delivery_planned}}" label="Was home delivery planned?"></mmrds-yesno>
+	<mmrds-yesno bound_data="{{ bound_data.demographic_facility_of_delivery.was_home_delivery_planned}}" label="Was home delivery planned?"></mmrds-yesno>
 
-		<mmrds-date label="Date of Delivery"></mmrds-date>
+		<mmrds-date label="Date of Delivery" bound_data="{{bound_data.demographic_facility_of_delivery.date_of_delivery}}"></mmrds-date>
 	
 	<paper-dropdown-menu label="Obstetric Level of Care*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.obstetric_level_of_care}}" attr-for-selected="value">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.demographic_facility_of_delivery.obstetric_level_of_care}}" attr-for-selected="value">
 			<paper-item value=""></paper-item>
 			<paper-item value="Basic">Basic</paper-item>
 			<paper-item value="Specialty">Specialty</paper-item>
@@ -46,15 +46,15 @@
 			<paper-item value="Regional center">Regional center</paper-item>
 		</paper-listbox>
 	</paper-dropdown-menu>		
-	<paper-input label="Facility NP! No."></paper-input>
-	<paper-input label="Facility name"></paper-input>
-	<mmrds-yesno bound_data="{{ bound_data.was_mother_transferred}}" label=""Was mother transferred?*></mmrds-yesno>
+	<paper-input label="Facility NP! No." value="{{bound_data.demographic_facility_of_delivery.facility_np_number}}"></paper-input>
+	<paper-input label="Facility name" value="{{bound_data.demographic_facility_of_delivery.facility_name}}"></paper-input>
+	<mmrds-yesno bound_data="{{ bound_data.demographic_facility_of_delivery.was_mother_transferred}}" label=""Was mother transferred?*></mmrds-yesno>
 	
-	<paper-input label="From where?"></paper-input>
+	<paper-input label="From where?" value="{{bound_data.demographic_facility_of_delivery.transferred_from_where}}"></paper-input>
 	
 	
 	<paper-dropdown-menu label="Attendant type*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.attendant_type}}" attr-for-selected="value">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.demographic_facility_of_delivery.attendant_type}}" attr-for-selected="value">
 			<paper-item value=""></paper-item>
 			<paper-item value="MD">MD</paper-item>
 			<paper-item value="DO">DO</paper-item>
@@ -64,40 +64,40 @@
 			<paper-item value="Not specified">Not specified</paper-item>
 		</paper-listbox>
 	</paper-dropdown-menu>		
-	<paper-input label="Attendant NP"></paper-input>
+	<paper-input label="Attendant NP" value="{{bound_data.demographic_facility_of_delivery.attendant_np}}"></paper-input>
 	
 </paper-material>
 
-<mmrds-address label="Facility of delivery location"></mmrds-address>	
+<mmrds-address label="Facility of delivery location" bound_data="{{bound_data.demographic_facility_of_delivery.facility_of_delivery_address}}"></mmrds-address>	
 
-<mmrds-demographic label="Father's demographics"></mmrds-demographic>	
+<mmrds-demographic label="Father's demographics" bound_data="{{bound_data.demographic_of_father}}"></mmrds-demographic>	
 
-<mmrds-race label="Father's race"></mmrds-race>
+<mmrds-race label="Father's race"  bound_data="{{bound_data.race_of_father}}"></mmrds-race>
 
 <paper-material>
 	<h1>Maternal record identification</h1>
-	<paper-input label="First name"></paper-input>
-	<paper-input label="Middle name"></paper-input>
-	<paper-input label="Last name"></paper-input>
-	<paper-input label="Maiden name"></paper-input>
-	<paper-input label="Medical Record No."></paper-input>
+	<paper-input label="First name" value="{{bound_data.first_name}}"></paper-input>
+	<paper-input label="Middle name" value="{{bound_data.middle_name}}"></paper-input>
+	<paper-input label="Last name" value="{{bound_data.last_name}}"></paper-input>
+	<paper-input label="Maiden name" value="{{bound_data.maiden_name}}"></paper-input>
+	<paper-input label="Medical Record No." value="{{bound_data.medical_record_number}}"></paper-input>
 </paper-material>
 
-<mmrds-demographic label="Mother's demographics"></mmrds-demographic>	
+<mmrds-demographic label="Mother's demographics" bound_data="{{bound_data.demographic_of_mother}}"></mmrds-demographic>	
 
-<mmrds-race label="Mother's race"></mmrds-race>
+<mmrds-race label="Mother's race" bound_data="{{bound_data.race_of_mother}}"></mmrds-race>
 
 <paper-material>
 	<h1>Pregnancy History</h1>
-	<mmrds-date label="Date of last live birth"></mmrds-date>
-	<paper-input label="Live birth interval (months)"></paper-input>
-	<paper-input label="Number live born*"></paper-input>
-	<paper-input label="Number living"></paper-input>
+	<mmrds-date label="Date of last live birth" value="{{bound_data.pregnancy_history.date_of_last_live_birth}}"></mmrds-date>
+	<paper-input label="Live birth interval (months)" value="{{bound_data.pregnancy_history.live_birth_interval}}"></paper-input>
+	<paper-input label="Number live born*" value="{{bound_data.pregnancy_history.number_live_born}}"></paper-input>
+	<paper-input label="Number living" value="{{bound_data.pregnancy_history.number_living}}"></paper-input>
 
-	<mmrds-date label="Date of last other outcome"></mmrds-date>
-	<paper-input label="Pregnancy interval (months)"></paper-input>
-	<paper-input label="Number dead"></paper-input>
-	<paper-input label="Number other outcomes*"></paper-input>
+	<mmrds-date label="Date of last other outcome" bound_data="{{bound_data.pregnancy_history.date_of_last_other_outcome}}"></mmrds-date>
+	<paper-input label="Pregnancy interval (months)" value="{{bound_data.pregnancy_history.pregnancy_interval}}"></paper-input>
+	<paper-input label="Number dead" value="{{bound_data.pregnancy_history.number_dead}}"></paper-input>
+	<paper-input label="Number other outcomes*" value="{{bound_data.pregnancy_history.number_other_outcomes}}"></paper-input>
 	
 </paper-material>
 
@@ -105,24 +105,24 @@
 <paper-material>
 	<h1>Maternal biometrics</h1>
 	<p>Note: To calculate a pre-pregnancy BMI, there must be a value for feet, inches, and pre-pregnancy weight even if the value is zero</p>
-	<paper-input label="Height (feet inches)## ##"></paper-input>
-	<paper-input label="Pre-pregnancy weight (lbs.)"></paper-input>
-	<paper-input label="Weight at delivery (lbs.)"></paper-input>
-	<paper-input label="Weight gain (lbs.)"></paper-input>
+	<paper-input label="Height (feet inches)## ##" value="{{bound_data.maternal_biometrics.height}}"></paper-input>
+	<paper-input label="Pre-pregnancy weight (lbs.)" value="{{bound_data.maternal_biometrics.pre_pregnancy_weight}}"></paper-input>
+	<paper-input label="Weight at delivery (lbs.)" value="{{bound_data.maternal_biometrics.weight_at_deliverty}}"></paper-input>
+	<paper-input label="Weight gain (lbs.)" value="{{bound_data.maternal_biometrics.weight_gain}}"></paper-input>
 </paper-material>
 
 
 <paper-material>
 	<h1>Prenatal care</h1>
-	<mmrds-date label="Date of last normal menses"></mmrds-date>
-	<mmrds-date label="Date of 1st prenatal visit"></mmrds-date>
-	<mmrds-date label="Date of last prenatal visit"></mmrds-date>
+	<mmrds-date label="Date of last normal menses" value="{{bound_data.prenatal_care.date_of_last_normal_menses}}"></mmrds-date>
+	<mmrds-date label="Date of 1st prenatal visit" value="{{bound_data.prenatal_care.date_of_1st_prenatal_visit}}"></mmrds-date>
+	<mmrds-date label="Date of last prenatal visit" value="{{bound_data.prenatal_care.date_of_last_prenatal_visit}}"></mmrds-date>
 	
-	<paper-input label="Calculated gestation (weeks)*"></paper-input>
-	<paper-input label="Obstetric estimate of gestation (weeks)*"></paper-input>
+	<paper-input label="Calculated gestation (weeks)*" value="{{bound_data.prenatal_care.calculated_gestation}}"></paper-input>
+	<paper-input label="Obstetric estimate of gestation (weeks)*" value="{{bound_data.prenatal_care.obsteric_estimate_of_gestation}}"></paper-input>
 	
 	<paper-dropdown-menu label="Plurality*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.plurality}}" attr-for-selected="value">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.prenatal_care.plurality}}" attr-for-selected="value">
 			<paper-item value=""></paper-item>
 			<paper-item value="MD">MD</paper-item>
 			<paper-item value="DO">DO</paper-item>
@@ -133,12 +133,12 @@
 		</paper-listbox>
 	</paper-dropdown-menu>
 	
-	<mmrds-yesno bound_data="{{ bound_data.was_wic_used}}" label="Use WIC*"></mmrds-yesno>
+	<mmrds-yesno bound_data="{{ bound_data.prenatal_care.was_wic_used}}" label="Use WIC*"></mmrds-yesno>
 
-	<paper-input label="Specify, if &gt; 3"></paper-input>
+	<paper-input label="Specify, if &gt; 3" value="{{bound_data.prenatal_care.specify_if_greater_than_3}}"></paper-input>
 
 	<paper-dropdown-menu label="How was this delivery paid*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.how_was_delivery_paid}}" attr-for-selected="value">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.prenatal_care.how_was_delivery_paid}}" attr-for-selected="value">
 			<paper-item value=""></paper-item>
 			<paper-item value="MD">MD</paper-item>
 			<paper-item value="DO">DO</paper-item>
@@ -148,11 +148,11 @@
 			<paper-item value="Not specified">Not specified</paper-item>
 		</paper-listbox>
 	</paper-dropdown-menu>	
-	<paper-input label="No. of visits"></paper-input>
+	<paper-input label="No. of visits" value="{{bound_data.prenatal_care.number_of_visits}}"></paper-input>
 
 	
 	<paper-dropdown-menu label="Trimester of 1st prenatal care visit*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.trimester_of_1st_prenatal_care_visit}}" attr-for-selected="value">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.prenatal_care.trimester_of_1st_prenatal_care_visit}}" attr-for-selected="value">
 			<paper-item value=""></paper-item>
 			<paper-item value="1st">1st</paper-item>
 			<paper-item value="2nd">2nd</paper-item>
@@ -161,18 +161,17 @@
 		</paper-listbox>
 	</paper-dropdown-menu>	
 	
-	<paper-input label="Specify other payor"></paper-input>
+	<paper-input label="Specify other payor" value="{{bound_data.prenatal_care.specify_other_payor}}"></paper-input>
 	
 </paper-material>
 
 <paper-material>
 	<h1>Cigarette smoking before and during pregnancy</h1>
-	<paper-input label="In prior 3 months (# of cigarettes/ packs)"></paper-input>
-	<paper-input label="In 1st trimester (# of cigarettes/ packs)"></paper-input>
-	<paper-input label="In 2nd trimester (# of cigarettes/ packs)"></paper-input>
-	<paper-input label="In 3rd trimester (# of cigarettes/ packs)"></paper-input>
-	<paper-input label=""></paper-input>
-	<paper-listbox class="dropdown-content" selected="{{ bound_data}}" attr-for-selected="value">
+	<paper-input label="In prior 3 months (# of cigarettes/ packs)" value="{{bound_data.cigarette_smoking.prior_3_months}}"></paper-input>
+	<paper-input label="In 1st trimester (# of cigarettes/ packs)" value="{{bound_data.cigarette_smoking.trimester_1st}}"></paper-input>
+	<paper-input label="In 2nd trimester (# of cigarettes/ packs)" value="{{bound_data.cigarette_smoking.trimester_2nd}}"></paper-input>
+	<paper-input label="In 3rd trimester (# of cigarettes/ packs)" value="{{bound_data.cigarette_smoking.trimester_3rd}}"></paper-input>
+	<paper-listbox class="dropdown-content" selected="{{ bound_data.cigarette_smoking.none_or_not_specified}}" attr-for-selected="value">
 		<paper-item value=""></paper-item>
 		<paper-item value="None of these">None of these</paper-item>
 		<paper-item value="Not specified">Not specified</paper-item>
@@ -277,20 +276,16 @@
 </paper-material>
 
 <paper-material>
-	<paper-input label="Length of time between birth of child and death of mother*"></paper-input>
+	<paper-input label="Length of time between birth of child and death of mother*" value="{{bound_data.length_between_child_birth_and_death_of_mother}}"></paper-input>
 </paper-material>
 
 
 <paper-material>
-	<paper-input label="Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate"></paper-input>
+	<paper-input label="Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate" value="{{bound_data.reviewer_note}}"></paper-input>
 </paper-material>
 
 
 
-
-
-	
-	
 </template>
 <script>
 Polymer({

@@ -117,6 +117,15 @@ function InitializeNewDB()
 				longitude: null
 			},
 			race: ['White', 'Black']
+		},
+		maternal_birth_certificate:{
+			demographic_facility_of_delivery:{}, 
+			demographic_father:{}, 
+			demographic_mother:{}, 
+			pregnancy_history:{}, 
+			maternal_biometrics : {},
+			prenatal_care:{},
+			cigarette_smoking:{}
 		}
 	});
   	db.put({
@@ -134,7 +143,16 @@ function InitializeNewDB()
 		state_of_last_known_residence : 'TN',
 		agency_case_id : '',
 		is_valid_maternal_mortality_record : true,
-		death_certificate:{ causes_of_death:[{ cause_type:"Immediate", cause_description:"cause desc", icd_code:"code de icd", interval:"3", interval_unit:"Hour(s)" }, { cause_type:"Underlying", cause_description:"a cause desc", icd_code:"code 900 de icd", interval:"67", interval_unit:"Minutes(s)" } ], race:[] }
+		death_certificate:{ causes_of_death:[{ cause_type:"Immediate", cause_description:"cause desc", icd_code:"code de icd", interval:"3", interval_unit:"Hour(s)" }, { cause_type:"Underlying", cause_description:"a cause desc", icd_code:"code 900 de icd", interval:"67", interval_unit:"Minutes(s)" } ], race:[] },
+		maternal_birth_certificate :{
+			demographic_facility_of_delivery:{}, 
+			demographic_father:{}, 
+			demographic_mother:{}, 
+			pregnancy_history:{}, 
+			maternal_biometrics : {},
+			prenatal_care:{},
+			cigarette_smoking:{}
+		}
 	});
   	db.put({
 		_id : '2016-06-12T13:50:24.182Z',
@@ -151,7 +169,16 @@ function InitializeNewDB()
 		state_of_last_known_residence : 'RI',
 		agency_case_id : '',
 		is_valid_maternal_mortality_record : true,
-		death_certificate:{ causes_of_death:[], race:[] }
+		death_certificate:{ causes_of_death:[], race:[] },
+		maternal_birth_certificate : {
+			demographic_facility_of_delivery:{}, 
+			demographic_father:{}, 
+			demographic_mother:{}, 
+			pregnancy_history:{}, 
+			maternal_biometrics : {},
+			prenatal_care:{},
+			cigarette_smoking:{}
+		}
 	});
 	
 }
@@ -380,6 +407,7 @@ function InitializeNewDB()
           <!-- Application name -->
           <div class="middle middle-container">
             <div class="app-name">MMRDS</div>
+			<div>[[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
           </div>
 
           <!-- Application sub title -->
