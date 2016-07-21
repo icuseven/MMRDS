@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
+<link rel="import" href="../yesno/mmrds-yesno.html">
 <dom-module id="mmrds-demographic">
 <template>  
 	<paper-material elevation="1">			
@@ -31,14 +32,8 @@
 		<paper-input label="Country (if foriegn born)*" value="{{bound_data.country_of_birth}}"></paper-input>
 		<paper-input label="Primary occupation" value="{{bound_data.primary_occupation}}"></paper-input>
 		<paper-input label="Business/ Industry" value="{{bound_data.occupation_business_industry}}"></paper-input>
-		<paper-dropdown-menu label="Ever in US armed forces?">
-			<paper-listbox class="dropdown-content" selected="{{bound_data.ever_in_us_armed_forces}}" attr-for-selected="value">
-				<paper-item></paper-item>
-				<paper-item>Yes</paper-item>
-				<paper-item>No</paper-item>
-				<paper-item>Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
+		<mmrds-yesno bound_data="{{bound_data.ever_in_us_armed_forces}}" label="Ever in US armed forces?"></mmrds-yesno>
+
 		
 		<paper-dropdown-menu label="Hispanic origin?*">
 			<paper-listbox class="dropdown-content" selected="{{bound_data.is_of_hispanic_origin}}" attr-for-selected="value">

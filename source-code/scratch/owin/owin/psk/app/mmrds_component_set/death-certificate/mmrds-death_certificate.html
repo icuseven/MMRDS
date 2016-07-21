@@ -8,7 +8,8 @@
 <link rel="import" href="../mmrds-address/mmrds-address.html">
 <link rel="import" href="../race/mmrds-race.html">
 <link rel="import" href="../cause-of-death-grid/mmrds-cause_of_death_grid.html">
-
+<link rel="import" href="../yesno/mmrds-yesno.html">
+<link rel="import" href="../demographic/mmrds-demographic.html">
 
 <dom-module id="mmrds-death_certificate">
 		
@@ -25,65 +26,11 @@
 
 	<mmrds-address item="{{death_certificate.place_of_last_residence}}" label="Place of last residence"></mmrds-address>	
 
-	<paper-material elevation="1">			
-		<h1>Demographics</h1>
-		<paper-input label="Date of birth* (YYYY-MM-DD)" value="{{death_certificate.date_of_birth}}"></paper-input>
-		<paper-checkbox checked="{{death_certificate.date_of_birth_is_estimated}}">Date of birth is estimated?</paper-checkbox>
-		<paper-input label="Age at death*" value="{{death_certificate.age_at_death}}"></paper-input>
-		<paper-dropdown-menu label="Marital status*" >
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.marital_status}}" attr-for-selected="value">
-				<paper-item value="Married">Married</paper-item>
-				<paper-item value="Married, but separated">Married, but separated</paper-item>
-				<paper-item value="Widowed">Widowed</paper-item>
-				<paper-item value="Divorced">Divorced</paper-item>
-				<paper-item value="Never Married">Never Married</paper-item>
-				<paper-item value="Unknown">Unknown</paper-item>
-				<paper-item value="Not Specified">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		
-		<paper-input label="City of birth (US)" value="{{death_certificate.city_of_birth}}"></paper-input>
-		<paper-input label="State of birth (US)" value="{{death_certificate.state_of_birth}}"></paper-input>
-		<paper-input label="Country (if foriegn born)*" value="{{death_certificate.country_of_birth}}"></paper-input>
-		<paper-input label="Primary occupation" value="{{death_certificate.primary_occupation}}"></paper-input>
-		<paper-input label="Business/ Industry" value="{{death_certificate.occupation_business_industry}}"></paper-input>
-		<paper-dropdown-menu label="Ever in US armed forces?">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.ever_in_us_armed_forces}}" attr-for-selected="value">
-				<paper-item value="Yes">Yes</paper-item>
-				<paper-item value="No">No</paper-item>
-				<paper-item value="Not Specified<">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Hispanic origin?*">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.is_of_hispanic_origin}}" attr-for-selected="value">
-				<paper-item value="No, not Spanish/ Hispanic/ Latino">No, not Spanish/ Hispanic/ Latino</paper-item>
-				<paper-item value="Yes, Mexican, Mexican American, Chicano">Yes, Mexican, Mexican American, Chicano</paper-item>
-				<paper-item value="Yes, Puerto Rican">Yes, Puerto Rican</paper-item>
-				<paper-item value="Yes, Cuban">Yes, Cuban</paper-item>
-				<paper-item value="Yes, other Spanish/ Hispanic/ Latino">Yes, other Spanish/ Hispanic/ Latino</paper-item>
-				<paper-item value="Yes, origin unknown">Yes, origin unknown</paper-item>
-				<paper-item value="Not specified">Not specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		
-		
-		<paper-dropdown-menu label="Education*">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.education_level}}" attr-for-selected="value">
-				<paper-item value="8th grade or less">8th grade or less</paper-item>
-				<paper-item value="9th-12th grade; no diploma">9th-12th grade; no diploma</paper-item>
-				<paper-item value="High School grad or GED completed">High School grad or GED completed</paper-item>
-				<paper-item value="Some college; no degree">Some college; no degree</paper-item>
-				<paper-item value="Associate degree">Associate degree</paper-item>
-				<paper-item value="Bachelor's degree">Bachelor's degree</paper-item>
-				<paper-item value="Master's degree">Master's degree</paper-item>
-				<paper-item value="Doctorate or Professional degree">Doctorate or Professional degree</paper-item>
-				<paper-item value="Not Specified">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-	</paper-material>	
+
+	<mmrds-demographic bound_data="{{death_certificate}}"" label="Demographics"></mmrds-demographic>
+	
+
+
 
 	<mmrds-race label="Race*" bound_data="{{death_certificate.race}}"> </mmrds-race>
 
@@ -92,13 +39,8 @@
 		<paper-input label="Date of injury (YYYY-MM-DD)" value="{{death_certificate.date_of_injury}}"></paper-input>
 		<paper-input label="Time of injury" value="{{death_certificate.time_of_injury}}"></paper-input>
 		<paper-input label="Place of injury (Place name, if applicable)" value="{{death_certificate.place_of_injury}}"></paper-input>
-		<paper-dropdown-menu label="Was injury at work?">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.was_injury_at_work}}" attr-for-selected="value">
-				<paper-item value="Yes">Yes</paper-item>
-				<paper-item value="No">No</paper-item>
-				<paper-item value="Not Specified">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
+		<mmrds-yesno bound_data="{{death_certificate.was_injury_at_work}}" label="Was injury at work?"></mmrds-yesno>
+
 		
 		<paper-dropdown-menu label="Transportaion related injury?">
 			<paper-listbox class="dropdown-content" selected="{{death_certificate.transportation_related_injury}}" attr-for-selected="value">
@@ -111,15 +53,8 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
+		<mmrds-yesno bound_data="{{death_certificate.were_seat_belts_in_use}}" label="Were seat belts in use?"></mmrds-yesno>
 
-		<paper-dropdown-menu label="Were seat belts in use?">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.were_seat_belts_in_use}}" attr-for-selected="value">
-				<paper-item value="Yes">Yes</paper-item>
-				<paper-item value="No">No</paper-item>
-				<paper-item value="Not available">Not available</paper-item>
-				<paper-item value="Not Specified">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
 		
 	</paper-material>	
 	
@@ -159,22 +94,10 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
+		<mmrds-yesno bound_data="{{death_certificate.was_autopsy_performed}}" label="Was autopsy performed?*"></mmrds-yesno>
 
-		<paper-dropdown-menu label="Was autopsy performed?*">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.was_autopsy_performed}}" attr-for-selected="value">
-				<paper-item value="Yes">Yes</paper-item>
-				<paper-item value="No">No</paper-item>
-				<paper-item value="Not Specified">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
-		
-		<paper-dropdown-menu label="Was autopsy used for death coding?*">
-			<paper-listbox class="dropdown-content" selected="{{death_certificate.was_autopsy_used_for_death_coding}}" attr-for-selected="value">
-				<paper-item value="Yes">Yes</paper-item>
-				<paper-item value="No">No</paper-item>
-				<paper-item value="Not Specified">Not Specified</paper-item>
-			</paper-listbox>
-		</paper-dropdown-menu>
+		<mmrds-yesno bound_data="{{death_certificate.was_autopsy_used_for_death_coding}}" label="Was autopsy used for death coding?*"></mmrds-yesno>
+
 		
 		<paper-dropdown-menu label="Pregnancy status*">
 			<paper-listbox class="dropdown-content" selected="{{death_certificate.pregnancy_status}}" attr-for-selected="value">

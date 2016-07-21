@@ -7,6 +7,8 @@
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
 <link rel="import" href="../date/mmrds-date.html">
+<link rel="import" href="../yesno/mmrds-yesno.html">
+<link rel="import" href="../demographic/mmrds-demographic.html">
 
 <dom-module id="mmrds-maternal-birth-certificate">
 <template>  
@@ -31,15 +33,9 @@
 		</paper-listbox>
 	</paper-dropdown-menu>	
 	
-	<paper-dropdown-menu label="Was home delivery planned?">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.was_home_delivery_planned}}" attr-for-selected="value">
-			<paper-item value=""></paper-item>
-			<paper-item value="Yes">Yes</paper-item>
-			<paper-item value="No">No</paper-item>
-			<paper-item value="Not specified">Not specified</paper-item>
-		</paper-listbox>
-	</paper-dropdown-menu>	
-	<mmrds-date label="Date of Delivery"></mmrds-date>
+	<mmrds-yesno bound_data="{{ bound_data.was_home_delivery_planned}}" label="Was home delivery planned?"></mmrds-yesno>
+
+		<mmrds-date label="Date of Delivery"></mmrds-date>
 	
 	<paper-dropdown-menu label="Obstetric Level of Care*">
 		<paper-listbox class="dropdown-content" selected="{{ bound_data.obstetric_level_of_care}}" attr-for-selected="value">
@@ -52,14 +48,8 @@
 	</paper-dropdown-menu>		
 	<paper-input label="Facility NP! No."></paper-input>
 	<paper-input label="Facility name"></paper-input>
-	<paper-dropdown-menu label="Was mother transferred?*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.was_mother_transferred}}" attr-for-selected="value">
-			<paper-item value=""></paper-item>
-			<paper-item value="Yes">Yes</paper-item>
-			<paper-item value="No">No</paper-item>
-			<paper-item value="Not specified">Not specified</paper-item>
-		</paper-listbox>
-	</paper-dropdown-menu>	
+	<mmrds-yesno bound_data="{{ bound_data.was_mother_transferred}}" label=""Was mother transferred?*></mmrds-yesno>
+	
 	<paper-input label="From where?"></paper-input>
 	
 	
@@ -143,14 +133,8 @@
 		</paper-listbox>
 	</paper-dropdown-menu>
 	
-	<paper-dropdown-menu label="Use WIC*">
-		<paper-listbox class="dropdown-content" selected="{{ bound_data.was_wic_used}}" attr-for-selected="value">
-			<paper-item value=""></paper-item>
-			<paper-item value="Yes">Yes</paper-item>
-			<paper-item value="No">No</paper-item>
-			<paper-item value="Not specified">Not specified</paper-item>
-		</paper-listbox>
-	</paper-dropdown-menu>
+	<mmrds-yesno bound_data="{{ bound_data.was_wic_used}}" label="Use WIC*"></mmrds-yesno>
+
 	<paper-input label="Specify, if &gt; 3"></paper-input>
 
 	<paper-dropdown-menu label="How was this delivery paid*">

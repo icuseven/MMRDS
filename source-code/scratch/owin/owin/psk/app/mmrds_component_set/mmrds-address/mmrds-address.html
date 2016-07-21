@@ -15,8 +15,8 @@
 	<mmrds-state-dropdown id="AddressState" label="State*" data_value="{{item.state}}"></mmrds-state-dropdown>
 	<paper-input label="Zip Code*"  value="{{item.zip_code}}"></paper-input>
 	<paper-button raised on-tap="setajax">Get Coordinates</paper-button>
-	<paper-input label="Latitude*" value="{{item.latitude}}"></paper-input>
-	<paper-input label="Longitude*" value="{{item.longitude}}"></paper-input>
+	<paper-input label="Latitude*" value="{{item.latitude::change}}"></paper-input>
+	<paper-input label="Longitude*" value="{{item.longitude::change}}"></paper-input>
 </paper-material>	
 </template>
 <script>
@@ -44,7 +44,7 @@ Polymer({
 		var json_response = request.detail.response[0];
 		this.item.latitude = json_response.latitude;
 		this.item.longitude = json_response.longitude;
-		//this.set('item.latitude',json_response.latitude);
+		////this.set('item.latitude',json_response.latitude);
 		this.set('item.longitude',json_response.longitude);
 		console.log(request.detail.response);
 		//console.log(this.$.ajax.lastResponse);
