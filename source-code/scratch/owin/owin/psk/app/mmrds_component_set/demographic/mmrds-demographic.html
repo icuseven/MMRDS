@@ -7,12 +7,12 @@
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
 <link rel="import" href="../yesno/mmrds-yesno.html">
+<link rel="import" href="../date/mmrds-date.html">
 <dom-module id="mmrds-demographic">
 <template>  
 	<paper-material elevation="1">			
 		<h1>[[label]]</h1>
-		<paper-input label="Date of birth* (YYYY-MM-DD)" value="{{bound_data.date_of_birth}}"></paper-input>
-		<paper-checkbox checked="{{bound_data.date_of_birth_is_estimated}}">Date of birth is estimated?</paper-checkbox>
+		<mmrds-date label="Date of birth* (YYYY-MM-DD)" calculated_date_label="Date of birth is estimated?" bound_value="{{bound_data.date_of_birth}}"></mmrds-date>
 		<paper-input label="Age*" value="{{bound_data.age}}"></paper-input>
 		<paper-dropdown-menu label="Marital status*">
 			<paper-listbox class="dropdown-content" selected="{{bound_data.marital_status}}" attr-for-selected="value">

@@ -272,7 +272,8 @@ function InitializeNewDB()
   <template is="dom-bind" id="app">
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
 	<app-route  route="{{route}}" pattern="/:category/:id" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
-	<mmrds-data-summary data="{{data}}" selected_record_id="{{categoryData.id}}"></mmrds-data-summary>
+	<app-route  route="{{categoryTail}}" pattern="/:id" data="{{IdentifierData}}" tail="{{IdentifierTail}}" active="{{IdentifierActive}}"></app-route>
+	<mmrds-data-summary data="{{data}}" selected_record_id="{{IdentifierData.id}}"></mmrds-data-summary>
 	
 	<app-pouchdb-document id="currentdocumentid"
 			db-name="mmrds"
@@ -308,22 +309,22 @@ function InitializeNewDB()
             <span>Summary</span>
           </a>
 
-          <a data-route="home-record" href="#/home-record/{{categoryData.id}}">
+          <a data-route="home-record" href="#/home-record/{{IdentifierData.id}}">
             <iron-icon icon="mail"></iron-icon>
             <span>Home Record</span>
           </a>
 
-		<a data-route="death-certificate" href="#/death-certificate/{{categoryData.id}}">
+		<a data-route="death-certificate" href="#/death-certificate/{{IdentifierData.id}}">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Death Certificate</span>
 		</a>
 
-		<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{categoryData.id}}">
+		<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{IdentifierData.id}}">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Maternal Birth Certificate</span>
 		</a>
 
-		<a data-route="InfantFetalBirthCertificate" href="{{baseUrl}}InfantFetalBirthCertificate">
+		<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Infant/Fetal Birth Certificate</span>
 		</a>

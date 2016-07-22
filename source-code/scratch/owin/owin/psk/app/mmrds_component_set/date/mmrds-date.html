@@ -6,9 +6,9 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <dom-module id="mmrds-date">
 <template>  
-		<paper-input label="[[label]] (YYYY-MM-DD)" value="{{bound_data.date}}"></paper-input>
-		<paper-checkbox checked="[[date_is_estimated()]]">[[label]] is estimated?</paper-checkbox>
-		<paper-input label="Calculated date" value="{{calculatedDate()}}"></paper-input>
+		<paper-input id="date_input" label="[[label]]" value="{{bound_data.date}}" pattern="\d{0,4}\-\d{0,2}\-\d{0,2}" on-blur="calculateDate" auto-validate></paper-input>
+		<paper-checkbox id="is_calculated_date">[[calculated_date_label]]</paper-checkbox>
+		<paper-input id="calculated_date" label="calculated date"></paper-input>
 	
 </template>
 <script>
@@ -22,17 +22,65 @@ Polymer({
 				notify: true
 			}
 		},
-		calculatedDate:function() 
+		calculateDate:function() 
 		{
-			console.log('[[label]] calculatedDate: ' + this.bound_data);
-			return "2016-01-01";
+			var date_parts = this.$.date_input.value.split("-");
+			var value = "";
+			var is_calculated_date = false;
+			
+			if(date_parts.length > 2)
+			{
+				var temp_date = new Date();
+				var year = temp_date.getFullYear();
+				var month = temp_date.getMonth() + 1;
+				var day = 1;
+				if(date_parts[0] != "")
+				{
+					year = date_parts[0];
+				}
+				else
+				{
+					is_calculated_date = true;
+				}
+			
+				if(date_parts[1] != "")
+				{
+					month = date_parts[1];
+				}
+				else
+				{
+					is_calculated_date = true;
+				}
+				
+				if(date_parts[2] != "")
+				{
+					day = date_parts[2];
+				}
+				else
+				{
+					is_calculated_date = true;
+				}
+				
+				value = new Date(year, month, day);
+			}
+			
+			this.$.calculated_date.value = value.toLocaleDateString();
+			this.$.is_calculated_date.checked = is_calculated_date
+			console.log('[[label]] calculateDate: ' + this.bound_data);
+
 		}
 		,
 		date_is_estimated:function() 
 		{
 			//console.log('[[label]] date_is_estimated: ' + this.bound_data);
 			return false;
-		}
+		},
+		_checkConfirmation: function(e) {
+        if (e.keyCode === 13) {
+          e.preventDefault();
+          e.target.blur();
+        }
+      }
 
 });
 	  
