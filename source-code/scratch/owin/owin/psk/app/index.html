@@ -301,9 +301,7 @@ function InitializeNewDB()
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
-
-          
-		  
+ 
           <a data-route="summary" href="#/summary">
             <iron-icon icon="mail"></iron-icon>
             <span>Summary</span>
@@ -324,7 +322,7 @@ function InitializeNewDB()
 			<span>Maternal Birth Certificate</span>
 		</a>
 
-		<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}">
+		<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}/list">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Infant/Fetal Birth Certificate</span>
 		</a>
@@ -342,9 +340,9 @@ function InitializeNewDB()
 		</a>
 
 
-		<a data-route="ERVists" href="{{baseUrl}}ERVists">
+		<a data-route="ERVisits" href="{{baseUrl}}ERVisits">
 			<iron-icon icon="mail"></iron-icon>
-			<span>ER Vists and Hospitalizations</span>
+			<span>ER Visits and Hospitalizations</span>
 		</a>
 
 
@@ -408,7 +406,7 @@ function InitializeNewDB()
           <!-- Application name -->
           <div class="middle middle-container">
             <div class="app-name">MMRDS</div>
-			<div>[[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
+			<div>[[categoryData.category]] - [[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
           </div>
 
           <!-- Application sub title -->
@@ -479,7 +477,7 @@ function InitializeNewDB()
 
 
 			<section data-route="InfantFetalBirthCertificate" tabindex="-1">
-
+				
             </section>
 
 
@@ -491,7 +489,7 @@ function InitializeNewDB()
 
             </section>
 
-			<section data-route="ERVists" tabindex="-1">
+			<section data-route="ERVisits" tabindex="-1">
 
             </section>
 
