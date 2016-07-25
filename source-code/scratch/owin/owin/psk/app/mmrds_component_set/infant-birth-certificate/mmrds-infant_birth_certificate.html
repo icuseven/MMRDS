@@ -10,12 +10,14 @@
 
 <dom-module id="mmrds-infant_birth_certificate">
 <template>  
-<app-route  route="{{route}}" pattern="/list" active="listActive"></app-route>
-<app-route  route="{{route}}" pattern="/detail/:id" data="{{infantFetalDetailData}}" tail="{{IdentifierTail}}" active="{{infantFetalDetailActive}}"></app-route>
+<app-route  route="{{route}}" pattern="/list" active="{{listActive}}"></app-route>
+<app-route  route="{{route}}" pattern="/detail/:id" data="{{detailData}}" tail="{{IdentifierTail}}" active="{{detailActive}}"></app-route>
 <div>visualize the route [[route.path]]</div>
+<div>listActive [[listActive]]</div>
+<div>detailActive [[detailActive]]</div>
 	
-<mmrds-infant_birth_certificate_list active="[[infantFetalListActive]]"></mmrds-infant_birth_certificate_list>
-<mmrds-infant_birth_certificate_detail bound_id="{{infantFetalDetailData.id}}" active="[[infantFetalDetailActive]]"></mmrds-infant_birth_certificate_detail>
+<mmrds-infant_birth_certificate_list active="[[listActive]]" home_record="{{home_record}}" bound_data="{{bound_data}}"></mmrds-infant_birth_certificate_list>
+<mmrds-infant_birth_certificate_detail bound_id="{{detailData.id}}" active="[[detailActive]]" home_record="{{home_record}}" bound_data="{{bound_data}}"></mmrds-infant_birth_certificate_detail>
 
 	
 </template>
@@ -29,73 +31,11 @@ Polymer({
 			type: Object,
 			notify: true
 		},
-		current_record_id: { 
-			type: String,
-			notify: true,
-			observer: 'currentRecordChange'
-		
-		},
-		death_certificate: 
+		bound_data: 
 		{ 
-			type: Object,
+			type: Array,
 			notify: true
 		}
-	},
-	currentRecordChange:function() 
-	{
-		  var found_index = -1;
-		  for(var i = 0; i < g_data.length; i++)
-		  {
-			if(g_data[i]._id == this.current_record_id)
-			{
-				found_index = i;
-				break;
-			}
-		  }
-		  
-		  if(found_index > -1)
-		  {
-			this.home_record = g_data[found_index];
-		  }
-		  else if(g_data.length > 0)
-		  {
-			this.home_record = g_data[0];
-		  }
-		  
-		  if(this.home_record)
-		  {
-			if(this.home_record.death_certificate)
-			{
-				this.death_certificate = this.home_record.death_certificate;
-				if(this.death_certificate.causes_of_death)
-				{
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-				else
-				{
-					this.death_certificate.causes_of_death = [];
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-			}
-			else
-			{
-				this.home_record.death_certificate = {};
-				this.death_certificate = this.home_record.death_certificate;
-				if(this.death_certificate.causes_of_death)
-				{
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-				else
-				{
-					this.death_certificate.causes_of_death = [];
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-			}
-			
-		  }
-
-		//console.log('currentRecordChange: ' + this.current_record_id);
-		//console.log('home_record: ' + this.home_record);
 	}
   });
   

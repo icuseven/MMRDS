@@ -13,6 +13,7 @@
 <link rel="import" href="../cause-of-death-grid/mmrds-cause_of_death_grid.html">
 <link rel="import" href="../yesno/mmrds-yesno.html">
 <link rel="import" href="../demographic/mmrds-demographic.html">
+<link rel="import" href="../date/mmrds-date.html">
 
 <dom-module id="mmrds-infant_birth_certificate_detail">
 <template>  
@@ -30,10 +31,38 @@
 	<div>Mother's Record Id: [[home_record.record_id ]]</div>
 	<div>Mother's Name: [[home_record.last_name ]], [[home_record.first_name ]]</div>
 </paper-material>	
-	
 
-	
-	
+
+
+<paper-material elevation="1">	
+	<h3>record type*</h3>
+	<paper-radio-group selected="{{bound_data.record_type}}">
+		<paper-radio-button name="">not specified</paper-radio-button>
+		<paper-radio-button name="cigarette">cigarette(s)</paper-radio-button>
+		<paper-radio-button name="pack">Pack(s)</paper-radio-button>
+	</paper-radio-group>
+<paper-checkbox checked="">Multiple gestation</paper-checkbox>
+<paper-input label="Birth order"></paper-input>
+</paper-material>		
+
+<paper-material elevation="1">	
+	<h1>Newborn ( fetus) record identification</h1>
+
+<paper-input label="First name" value=""></paper-input>
+<paper-input label="Middle name" value=""></paper-input>
+<paper-input label="Last name" value=""></paper-input>
+<paper-input label="State file no." value=""></paper-input>
+<paper-input label="Local file no." value=""></paper-input>
+<paper-input label="Newborn medical record no." value=""></paper-input>
+
+<mmrds-date label="Date of delivery*"></mmrds-date>
+<paper-input label="Middle name Last name" value=""></paper-input>
+
+
+</paper-material>		
+
+<paper-material elevation="1">	
+</paper-material>			
 </template>
 <script>
 Polymer({

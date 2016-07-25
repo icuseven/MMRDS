@@ -24,10 +24,17 @@
 <paper-material elevation="1">			
 	<h1>List Infant birth Certificate/Fetal Death Certificate</h1>
 
-	<paper-button label="[ add new ]" raised></paper-button>
-	
-	
-
+	<paper-button on-tap="add_new_item" raised>[ add new ]</paper-button>
+	<paper-menu>
+	<template is="dom-repeat" items="{{bound_data}}">
+		<paper-item>
+			<a href="#/InfantFetalBirthCertificate/[[home_record._id]]/detail/[[item.id]]">
+				<span>[ select ]</span>
+			</a>&nbsp;
+			{{item.first_name}}
+		</paper-item>
+	</template>
+	</paper-menu>
 </paper-material>
 
 </template>
@@ -36,7 +43,8 @@ Polymer({
 	is: 'mmrds-infant_birth_certificate_list',
 	properties: 
 	{
-		active: {
+		active: 
+		{
           type: Boolean,
           value: false,
           reflectToAttribute: true
@@ -46,73 +54,28 @@ Polymer({
 			type: Object,
 			notify: true
 		},
-		current_record_id: { 
-			type: String,
-			notify: true,
-			observer: 'currentRecordChange'
-		
-		},
-		death_certificate: 
+		bound_data: 
 		{ 
-			type: Object,
+			type: Array,
 			notify: true
 		}
 	},
-	currentRecordChange:function() 
+	add_new_item:function()
 	{
-		  var found_index = -1;
-		  for(var i = 0; i < g_data.length; i++)
-		  {
-			if(g_data[i]._id == this.current_record_id)
-			{
-				found_index = i;
-				break;
-			}
-		  }
-		  
-		  if(found_index > -1)
-		  {
-			this.home_record = g_data[found_index];
-		  }
-		  else if(g_data.length > 0)
-		  {
-			this.home_record = g_data[0];
-		  }
-		  
-		  if(this.home_record)
-		  {
-			if(this.home_record.death_certificate)
-			{
-				this.death_certificate = this.home_record.death_certificate;
-				if(this.death_certificate.causes_of_death)
-				{
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-				else
-				{
-					this.death_certificate.causes_of_death = [];
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-			}
-			else
-			{
-				this.home_record.death_certificate = {};
-				this.death_certificate = this.home_record.death_certificate;
-				if(this.death_certificate.causes_of_death)
-				{
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-				else
-				{
-					this.death_certificate.causes_of_death = [];
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-			}
-			
-		  }
-
-		//console.log('currentRecordChange: ' + this.current_record_id);
-		//console.log('home_record: ' + this.home_record);
+		var new_array = [];
+		
+		for(var i in this.bound_data)
+		{
+			new_array.push(this.bound_data[i]);
+		}
+		
+		new_array.push({ 
+			id:new Date().toISOString(),
+			first_name:"new record"
+		}
+		);
+		
+		this.bound_data = new_array;
 	}
   });
   

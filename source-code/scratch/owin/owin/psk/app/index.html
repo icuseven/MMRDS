@@ -126,7 +126,8 @@ function InitializeNewDB()
 			maternal_biometrics : {},
 			prenatal_care:{},
 			cigarette_smoking:{}
-		}
+		},
+		infant_birth_fetal_death_certificate:[]
 	});
   	db.put({
 		_id : '2016-06-12T13:50:06.144Z',
@@ -152,7 +153,8 @@ function InitializeNewDB()
 			maternal_biometrics : {},
 			prenatal_care:{},
 			cigarette_smoking:{}
-		}
+		},
+		infant_birth_fetal_death_certificate:[]
 	});
   	db.put({
 		_id : '2016-06-12T13:50:24.182Z',
@@ -178,7 +180,8 @@ function InitializeNewDB()
 			maternal_biometrics : {},
 			prenatal_care:{},
 			cigarette_smoking:{}
-		}
+		},
+		infant_birth_fetal_death_certificate:[]
 	});
 	
 }
@@ -477,7 +480,7 @@ function InitializeNewDB()
 
 
 			<section data-route="InfantFetalBirthCertificate" tabindex="-1">
-				<mmrds-infant_birth_certificate route="{{IdentifierTail}}" home_record="{{home_record}}"></mmrds-infant_birth_certificate>
+				<mmrds-infant_birth_certificate route="{{IdentifierTail}}" home_record="{{home_record}}" bound_data="{{home_record.infant_birth_fetal_death_certificate}}"></mmrds-infant_birth_certificate>
             </section>
 
 
