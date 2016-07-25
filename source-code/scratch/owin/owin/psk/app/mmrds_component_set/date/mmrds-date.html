@@ -64,8 +64,18 @@ Polymer({
 				value = new Date(year, month, day);
 			}
 			
-			this.$.calculated_date.value = value.toLocaleDateString();
-			this.$.is_calculated_date.checked = is_calculated_date
+			if(value != null && value!="")
+			{
+				this.$.calculated_date.value = value.toLocaleDateString();
+				this.$.is_calculated_date.checked = is_calculated_date
+				
+			}
+			else
+			{
+				this.$.calculated_date.value = value;
+				this.$.is_calculated_date.checked = false
+			}
+			
 			console.log('[[label]] calculateDate: ' + this.bound_data);
 
 		}
