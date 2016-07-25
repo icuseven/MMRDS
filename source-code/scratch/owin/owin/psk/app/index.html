@@ -271,13 +271,13 @@ function InitializeNewDB()
 
   <template is="dom-bind" id="app">
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
-	<app-route  route="{{route}}" pattern="/:category/:id" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
+	<app-route  route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
 	<app-route  route="{{categoryTail}}" pattern="/:id" data="{{IdentifierData}}" tail="{{IdentifierTail}}" active="{{IdentifierActive}}"></app-route>
 	<mmrds-data-summary data="{{data}}" selected_record_id="{{IdentifierData.id}}"></mmrds-data-summary>
 	
 	<app-pouchdb-document id="currentdocumentid"
 			db-name="mmrds"
-			doc-id="{{categoryData.id}}"
+			doc-id="{{IdentifierData.id}}"
 			data="{{home_record}}">
 	</app-pouchdb-document>
 	
@@ -477,7 +477,7 @@ function InitializeNewDB()
 
 
 			<section data-route="InfantFetalBirthCertificate" tabindex="-1">
-				
+				<mmrds-infant_birth_certificate route="{{IdentifierTail}}" home_record="{{home_record}}"></mmrds-infant_birth_certificate>
             </section>
 
 

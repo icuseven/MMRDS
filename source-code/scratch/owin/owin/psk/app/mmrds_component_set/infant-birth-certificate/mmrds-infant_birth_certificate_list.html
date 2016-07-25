@@ -4,26 +4,43 @@
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../infant-birth-certificate/mmrds-infant_birth_certificate_list.html">
-<link rel="import" href="../infant-birth-certificate/mmrds-infant_birth_certificate_detail.html">
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+<link rel="import" href="../mmrds-address/mmrds-address.html">
+<link rel="import" href="../race/mmrds-race.html">
+<link rel="import" href="../cause-of-death-grid/mmrds-cause_of_death_grid.html">
+<link rel="import" href="../yesno/mmrds-yesno.html">
+<link rel="import" href="../demographic/mmrds-demographic.html">
 
-<dom-module id="mmrds-infant_birth_certificate">
-<template>  
-<app-route  route="{{route}}" pattern="/list" active="listActive"></app-route>
-<app-route  route="{{route}}" pattern="/detail/:id" data="{{infantFetalDetailData}}" tail="{{IdentifierTail}}" active="{{infantFetalDetailActive}}"></app-route>
-<div>visualize the route [[route.path]]</div>
-	
-<mmrds-infant_birth_certificate_list active="[[infantFetalListActive]]"></mmrds-infant_birth_certificate_list>
-<mmrds-infant_birth_certificate_detail bound_id="{{infantFetalDetailData.id}}" active="[[infantFetalDetailActive]]"></mmrds-infant_birth_certificate_detail>
+<dom-module id="mmrds-infant_birth_certificate_list">
+<template> 
+<style>
+      :host {
+        display: none;
+      }
+      :host([active]) {
+        display: block;
+      }
+</style>
+<paper-material elevation="1">			
+	<h1>List Infant birth Certificate/Fetal Death Certificate</h1>
+
 
 	
+	
+
+</paper-material>
+
 </template>
 <script>
 Polymer({
-	is: 'mmrds-infant_birth_certificate',
+	is: 'mmrds-infant_birth_certificate_list',
 	properties: 
 	{
+		active: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
 		home_record: 
 		{ 
 			type: Object,
