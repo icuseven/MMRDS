@@ -36,27 +36,27 @@
 
 <paper-material elevation="1">	
 	<h3>record type*</h3>
-	<paper-radio-group selected="{{bound_data.record_type}}">
+	<paper-radio-group selected="{{selected_item.record_type}}">
 		<paper-radio-button name="">not specified</paper-radio-button>
 		<paper-radio-button name="cigarette">cigarette(s)</paper-radio-button>
 		<paper-radio-button name="pack">Pack(s)</paper-radio-button>
 	</paper-radio-group>
-<paper-checkbox checked="">Multiple gestation</paper-checkbox>
+<paper-checkbox checked="{{selected_item.is_multiple_gestation}}">Multiple gestation</paper-checkbox>
 <paper-input label="Birth order"></paper-input>
 </paper-material>		
 
 <paper-material elevation="1">	
 	<h1>Newborn ( fetus) record identification</h1>
 
-<paper-input label="First name" value=""></paper-input>
-<paper-input label="Middle name" value=""></paper-input>
-<paper-input label="Last name" value=""></paper-input>
-<paper-input label="State file no." value=""></paper-input>
-<paper-input label="Local file no." value=""></paper-input>
-<paper-input label="Newborn medical record no." value=""></paper-input>
+<paper-input label="First name" value="{{selected_item.first_name}}"></paper-input>
+<paper-input label="Middle name" value="{{selected_item.middle_name}}"></paper-input>
+<paper-input label="Last name" value="{{selected_item.last_name}}"></paper-input>
+<paper-input label="State file no." value="{{selected_item.state_file_number}}"></paper-input>
+<paper-input label="Local file no." value="{{selected_item.local_file_number}}"></paper-input>
+<paper-input label="Newborn medical record no." value="{{selected_item.newborn_medical_record_number}}"></paper-input>
 
-<mmrds-date label="Date of delivery*"></mmrds-date>
-<paper-input label="Middle name Last name" value=""></paper-input>
+<mmrds-date label="Date of delivery*" selected_item="{{selected_item.date_of_delivery}}"></mmrds-date>
+
 
 
 </paper-material>		
@@ -79,73 +79,28 @@ Polymer({
 			type: Object,
 			notify: true
 		},
-		current_record_id: { 
-			type: String,
-			notify: true,
-			observer: 'currentRecordChange'
-		
-		},
-		death_certificate: 
+		bound_data: 
 		{ 
+			type: Object,
+			notify: true
+		},
+		current_index: 
+		{
+			type: Number,
+			observer: 'current_index_changed'
+		},
+		selected_item:
+		{
 			type: Object,
 			notify: true
 		}
 	},
-	currentRecordChange:function() 
+	current_index_changed: function(index)
 	{
-		  var found_index = -1;
-		  for(var i = 0; i < g_data.length; i++)
-		  {
-			if(g_data[i]._id == this.current_record_id)
-			{
-				found_index = i;
-				break;
-			}
-		  }
-		  
-		  if(found_index > -1)
-		  {
-			this.home_record = g_data[found_index];
-		  }
-		  else if(g_data.length > 0)
-		  {
-			this.home_record = g_data[0];
-		  }
-		  
-		  if(this.home_record)
-		  {
-			if(this.home_record.death_certificate)
-			{
-				this.death_certificate = this.home_record.death_certificate;
-				if(this.death_certificate.causes_of_death)
-				{
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-				else
-				{
-					this.death_certificate.causes_of_death = [];
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-			}
-			else
-			{
-				this.home_record.death_certificate = {};
-				this.death_certificate = this.home_record.death_certificate;
-				if(this.death_certificate.causes_of_death)
-				{
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-				else
-				{
-					this.death_certificate.causes_of_death = [];
-					this.causes_of_death = this.death_certificate.causes_of_death;
-				}
-			}
-			
-		  }
-
-		//console.log('currentRecordChange: ' + this.current_record_id);
-		//console.log('home_record: ' + this.home_record);
+		if(index)
+		{
+			this.selected_item = this.bound_data[index];
+		}
 	}
   });
   
