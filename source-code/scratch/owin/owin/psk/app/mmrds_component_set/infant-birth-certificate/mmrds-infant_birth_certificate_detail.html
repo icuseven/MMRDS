@@ -61,8 +61,240 @@
 
 </paper-material>		
 
+
 <paper-material elevation="1">	
-</paper-material>			
+<h1>Newborn (fetus) biometrics and demographics</h1>
+<div>
+<paper-input label="Birth weight*" value="{{bound_data.birth_weight}}"></paper-input>
+<paper-dropdown-menu label="lbs or grams">
+	<paper-listbox class="dropdown-content" selected-values="{{bound_data.birth_weight_unit}}" attr-for-selected="value">
+		<paper-item value=""></paper-item>
+		<paper-item value="lbs">lbs</paper-item>
+		<paper-item value="grams">grams</paper-item>
+	</paper-listbox>
+</paper-dropdown-menu>	
+</div>
+
+<paper-dropdown-menu label="Gender">
+	<paper-listbox class="dropdown-content" selected-values="{{bound_data.gender}}" attr-for-selected="value">
+		<paper-item value=""></paper-item>
+		<paper-item value=""></paper-item>
+		<paper-item value=""></paper-item>
+		<paper-item value=""></paper-item>
+		<paper-item value="Not specified">Not specified</paper-item>
+	</paper-listbox>
+</paper-dropdown-menu>	
+<hr/>
+<paper-material elevation="3">	
+APGAR scores
+<paper-input label="5 minute" value="{{bound_data.apgar_5_minute}}"></paper-input>
+<paper-input label="10 minute (if 5 minutes score is less than 6)" value="{{bound_data.apgar_10_minute}}"></paper-input>
+
+</paper-material>
+
+	<paper-dropdown-menu label="Is infant living at time of report?">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+	<paper-dropdown-menu label="Is infant being breastfed at discharge?">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+	<paper-dropdown-menu label="Was infant transferred within 24 hrs of delivery?">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+Specify facility, city, and state
+
+
+
+</paper-material>	
+
+
+
+<paper-material elevation="1">	
+<h1>Method of Delivery</h1>
+	<paper-dropdown-menu label="A. Was delivery with forceps attempted but unsuccessful?">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+	<paper-dropdown-menu label="B. Was delivery with vacuum extraction attempted but unsuccessful?">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+	<paper-dropdown-menu label="C. Fetal presentation at birth">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+	<paper-dropdown-menu label="D. Final route and method of delivery*">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+	<paper-dropdown-menu label="If Cesarean, was a trial of labor attempted?">
+		<paper-listbox class="dropdown-content" selected-values="{{ bound_data}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+			<paper-item value=""></paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+</paper-material>	
+
+
+<paper-material elevation="1">	
+<h1>Abnormal conditions of the newborn (check all that pply)</h1>
+<paper-listbox class="dropdown-content" selected-values="{{ bound_data.abnormal_conditions}}" attr-for-selected="value" multi>
+	<paper-item value="Assisted ventilation required immediately following delivery">Assisted ventilation required immediately following delivery</paper-item>
+	<paper-item value="Newborn given surfactant replacement therapy">Newborn given surfactant replacement therapy</paper-item>
+	<paper-item value="Seizure or serious neurologic dysfunction">Seizure or serious neurologic dysfunction</paper-item>
+	<paper-item value="Assisted ventilation required for more than 6 hours">Assisted ventilation required for more than 6 hours</paper-item>
+	<paper-item value="NICU admission">NICU admission</paper-item>
+	<paper-item value="Antibiotics received by the newborn for suspected neonatal sepsis">Antibiotics received by the newborn for suspected neonatal sepsis</paper-item>
+	<paper-item value="Significant birth injury (skeletal fracture(s), peripheral nerve injury, and/ or soft tissue/ solid organ hemorrhage which requires intervention)">Significant birth injury (skeletal fracture(s), peripheral nerve injury, and/ or soft tissue/ solid organ hemorrhage which requires intervention)</paper-item>
+	<paper-item value="Abnormal conditions not specified">Abnormal conditions not specified</paper-item>
+	<paper-item value="None of the above">None of the above</paper-item>
+</paper-listbox>
+
+</paper-material>	
+
+
+<paper-material elevation="1">	
+<h1>Congenital anomalies of the newborn or fetus (check all that apply)</h1>
+<paper-listbox class="dropdown-content" selected-values="{{ bound_data.congenital_anomalies}}" attr-for-selected="value" multi>
+	<paper-item value="Anencephaly">Anencephaly</paper-item>
+	<paper-item value="Cyanotic congenital heart disease">Cyanotic congenital heart disease</paper-item>
+	<paper-item value="Omphalocele">Omphalocele</paper-item>
+	<paper-item value="Limb reduction defect (excluding congenital amputation and dwarfing syndromes)">Limb reduction defect (excluding congenital amputation and dwarfing syndromes)</paper-item>
+	<paper-item value="Cleft Lip with or without Cleft Palate">Cleft Lip with or without Cleft Palate</paper-item>
+	<paper-item value="Downs Syndrome">Downs Syndrome</paper-item>
+	<paper-item value="Downs Syndrome - Karyotype confirmed">Downs Syndrome - Karyotype confirmed</paper-item>
+	<paper-item value="Downs Syndrome - Karyotype pending">Downs Syndrome - Karyotype pending</paper-item>	
+	<paper-item value="Hypospadias">Hypospadias</paper-item>
+	<paper-item value="Meningomyelocele/ Spina bifida">Meningomyelocele/ Spina bifida</paper-item>
+	<paper-item value="Congenital diaphragmatic hernia">Congenital diaphragmatic hernia</paper-item>
+	<paper-item value="Gastroschisis">Gastroschisis</paper-item>
+	<paper-item value="Cleft palate alone">Cleft palate alone</paper-item>
+	<paper-item value="Suspected chromosomal disorder">Suspected chromosomal disorder</paper-item>
+	<paper-item value="Suspected chromosomal disorder - Karyotype confirmed">Suspected chromosomal disorder - Karyotype confirmed</paper-item>
+	<paper-item value="Suspected chromosomal disorder - Karyotype pending">Suspected chromosomal disorder - Karyotype pending</paper-item>
+	<paper-item value="Congenital anomalies not specified">Congenital anomalies not specified</paper-item>
+	<paper-item value="None of the above">None of the above</paper-item>
+</paper-listbox>
+
+
+</paper-material>	
+
+<paper-material elevation="1">	
+<h1>Causes of fetal death</h1>
+ICD version 
+
+
+Type
+Class
+Complication
+subclass
+Other (specify) 
+ICD code 
+
+
+</paper-material>	
+
+<paper-material elevation="1">	
+<h1>Reviewer's notes about this newborn or fetal death </h1>
+<iron-autogrow-textarea value="{{selected_item.reviewer_note}}"></iron-autogrow-textarea>
+</paper-material>	
+
+<paper-material elevation="1">	
+<h1></h1>
+
+</paper-material>	
+
+
+		
 </template>
 <script>
 Polymer({

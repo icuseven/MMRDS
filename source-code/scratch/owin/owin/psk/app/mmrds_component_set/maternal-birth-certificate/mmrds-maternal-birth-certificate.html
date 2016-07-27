@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
@@ -309,7 +310,10 @@
 
 
 <paper-material>
-	<paper-input label="Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate" value="{{bound_data.reviewer_note}}"></paper-input>
+
+	<h2>Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate</h2>
+	<iron-autogrow-textarea value="{{bound_data.reviewer_note}}"></iron-autogrow-textarea>
+	
 </paper-material>
 
 

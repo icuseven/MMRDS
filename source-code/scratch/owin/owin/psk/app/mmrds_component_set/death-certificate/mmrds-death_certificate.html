@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+
 <link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
 <link rel="import" href="../mmrds-address/mmrds-address.html">
 <link rel="import" href="../race/mmrds-race.html">
@@ -133,7 +135,8 @@
 	
 	<paper-material elevation="1">
 	
-	<paper-input label="Reviewer's notes about the Death Certificate" value="{{death_certificate.reviewer_note}}"></paper-input>
+	<h2>Reviewer's notes about the Death Certificate</h2>
+	<iron-autogrow-textarea value="{{death_certificate.reviewer_note}}"></iron-autogrow-textarea>
 	</paper-material>
 	
 	</template>
