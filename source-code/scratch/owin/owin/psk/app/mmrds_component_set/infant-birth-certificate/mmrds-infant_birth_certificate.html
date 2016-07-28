@@ -36,6 +36,17 @@ Polymer({
 			type: Array,
 			notify: true
 		}
+	},
+	item_changed:function()
+	{
+		var new_array = [];
+		
+		for(var i in this.bound_data)
+		{
+			new_array.push(this.bound_data[i]);
+		}
+		
+		this.bound_data = new_array;
 	}
   });
   

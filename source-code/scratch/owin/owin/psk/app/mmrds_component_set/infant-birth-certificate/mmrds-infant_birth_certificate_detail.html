@@ -47,7 +47,7 @@
 <paper-material elevation="1">	
 	<h1>Newborn ( fetus) record identification</h1>
 
-<paper-input label="First name" value="{{selected_item.first_name}}"></paper-input>
+<paper-input label="First name" value="{{selected_item.first_name}}" on-input="local_item_changed"></paper-input>
 <paper-input label="Middle name" value="{{selected_item.middle_name}}"></paper-input>
 <paper-input label="Last name" value="{{selected_item.last_name}}"></paper-input>
 <paper-input label="State file no." value="{{selected_item.state_file_number}}"></paper-input>
@@ -328,7 +328,11 @@ Polymer({
 	},
 	listeners: 
 	{
-		'ancodr.tap': 'addNewRecord'
+		'ancodr.tap': 'addNewRecord',
+	},
+	local_item_changed:function()
+	{
+			this.fire("item_changed", {});
 	}
   });
   
