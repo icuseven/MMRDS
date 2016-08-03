@@ -15,6 +15,10 @@ namespace owin
 		//http://localhost:12345/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
 		static void Main(string[] args)
 		{
+
+			data_access da = new data_access ();
+			da.login ();
+
 			var url = "http://localhost:12345";
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
