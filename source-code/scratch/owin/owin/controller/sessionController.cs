@@ -13,56 +13,114 @@ namespace owin
 
 		public sessionController ()
 		{
+			
 		}
+
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable<geocode_response> Get
+		public IEnumerable<session_response> Get
 		(
-			string street_address,
-			string city,
-			string state,
-			string zip
+			string userid,
+			string password
 		) 
 		{ 
-			
-			string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
 
-			System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-			request.ContentType = "application/json; charset=utf-8";
-			System.Net.WebResponse response = request.GetResponse ();
+			/*
+	HOST="http://127.0.0.1:5984"
+	> curl -vX POST $HOST/_session -H 'Content-Type: application/x-www-form-urlencoded' -d 'name=anna&password=secret'
+*/
+			try
+			{
 
-			System.IO.Stream dataStream = response.GetResponseStream ();
-			// Open the stream using a StreamReader for easy access.
-			System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-			// Read the content.
-			string responseFromServer = reader.ReadToEnd ();
+				string post_data = string.Format ("name={0}&password={1}", userid, password);
+				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
-			dynamic json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
 
-			geocode_response[] result =  new geocode_response[] 
-			{ 
-				new geocode_response()
-				{ 
-					Latitude = json_result["OutputGeocodes"][0]["OutputGeocode"]["Latitude"],
-					Longitude = json_result["OutputGeocodes"][0]["OutputGeocode"]["Longitude"],
-					NAACCRGISCoordinateQualityCode = json_result["OutputGeocodes"][0]["OutputGeocode"]["NAACCRGISCoordinateQualityCode"],
-					NAACCRGISCoordinateQualityType = json_result["OutputGeocodes"][0]["OutputGeocode"]["NAACCRGISCoordinateQualityType"],
-					MatchScore = json_result["OutputGeocodes"][0]["OutputGeocode"]["MatchScore"],
-					MatchType = json_result["OutputGeocodes"][0]["OutputGeocode"]["MatchType"],
-					FeatureMatchingResultType = json_result["OutputGeocodes"][0]["OutputGeocode"]["FeatureMatchingResultType"],
-					FeatureMatchingResultCount = json_result["OutputGeocodes"][0]["OutputGeocode"]["FeatureMatchingResultCount"],
-					FeatureMatchingGeographyType = json_result["OutputGeocodes"][0]["OutputGeocode"]["FeatureMatchingGeographyType"],
-					RegionSize = json_result["OutputGeocodes"][0]["OutputGeocode"]["RegionSize"],
-					RegionSizeUnits = json_result["OutputGeocodes"][0]["OutputGeocode"]["RegionSizeUnits"],
-					MatchedLocationType = json_result["OutputGeocodes"][0]["OutputGeocode"]["MatchedLocationType"],
-					ExceptionOccured = json_result["OutputGeocodes"][0]["OutputGeocode"]["ExceptionOccured"],
-					Exception = json_result["OutputGeocodes"][0]["OutputGeocode"]["Exception"],
-					ErrorMessage = json_result["OutputGeocodes"][0]["OutputGeocode"]["ErrorMessage"]
+				//string request_string = "http://mmrds:mmrds@localhost:5984/_session";
+				string request_string = "http://localhost:5984/_session";
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+				/**/
+				request.PreAuthenticate = false;
+				//request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
+				request.Method = "POST";
+				request.ContentType = "application/x-www-form-urlencoded";
+				request.ContentLength = post_byte_array.Length;
+
+				using (System.IO.Stream stream = request.GetRequestStream())
+				{
+					stream.Write(post_byte_array, 0, post_byte_array.Length);
 				}
-			}; 
 
-			return result;
-		} 
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+
+				// Open the stream using a StreamReader for easy access.
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				// Read the content.
+				string responseFromServer = reader.ReadToEnd ();
+
+				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
+
+
+				/*
+		< HTTP/1.1 200 OK
+		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
+		< Version=1; Path=/; HttpOnly
+		> ...
+		<
+		{"ok":true}
+	*/
+				/*
+				bool is_logged_in = false;
+
+				session_response[] result;
+
+				if (bool.TryParse (json_result ["ok"], out is_logged_in)) 
+				{
+
+				}
+				else 
+				{
+
+				}*/
+				/*
+				{
+					"ok":true,
+					"userCtx":
+					{
+						"name":"mmrds",
+						"roles":["_admin"]
+					},
+					"info":
+					{
+						"authentication_db":"_users",
+						"authentication_handlers":
+						[
+							"oauth",
+							"cookie",
+							"default"
+						],
+						"authenticated":"cookie"
+					}
+				}
+				*/
+
+				session_response[] result =  new session_response[] 
+				{ 
+					json_result
+				}; 
+
+				return result;
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return null;
+		}
 
 		// GET api/values/5 
 		public master_record Get(int id) 

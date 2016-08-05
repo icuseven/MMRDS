@@ -13,11 +13,12 @@ namespace owin
 		//http://localhost:12345
 		//http://localhost:12345/api/values
 		//http://localhost:12345/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
+		//http://localhost:12345/api/session?userid=mmrds&password=mmrds
 		static void Main(string[] args)
 		{
 
-			data_access da = new data_access ();
-			da.login ();
+			//data_access da = new data_access ();
+			//da.login ("mmrds","mmrds");
 
 			var url = "http://localhost:12345";
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
