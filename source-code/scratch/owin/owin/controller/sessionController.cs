@@ -88,6 +88,7 @@ namespace owin
 			try
 			{
 				
+
 				string post_data = string.Format ("name={0}&password={1}", userid, password);
 				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
@@ -174,6 +175,9 @@ namespace owin
 
 				string auth_session_token = response.Headers["Set-Cookie"];
 				result[0].auth_session = auth_session_token;
+
+
+				this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
 
 				return result;
 
