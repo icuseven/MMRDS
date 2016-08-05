@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace owin
 {
 	public class data_access
@@ -8,7 +7,7 @@ namespace owin
 		public data_access ()
 		{
 		}
-		/*
+		/*	
 		public void login(string user_id, string password)
 		{
 			
@@ -26,7 +25,7 @@ namespace owin
 
 		}
 
-		public dynamic getjson(string request_string)
+			public dynamic getjson(string request_string)
 		{
 			//string request_string = string.Format ("http://geoservices.tamu.edu/Services/AddressNormalization/WebService/v04_01/Rest/?nonParsedStreetAddress={0}&nonParsedCity={1}&nonParsedState={2}&nonParsedZip={3}&apikey={4}&addressFormat=USPSPublication28&responseFormat=JSON&notStore=false&version=4.01", nonParsedStreetAddress, nonParsedCity, nonParsedState, nonParsedZip, geocode_api_key);
 

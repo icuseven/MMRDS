@@ -80,9 +80,11 @@
     <Compile Include="data-access.cs" />
     <Compile Include="controller\home_recordController.cs" />
     <Compile Include="controller\sessionController.cs" />
-    <Compile Include="model\session_response.cs" />
-    <Compile Include="model\UserCTX.cs" />
-    <Compile Include="model\Info.cs" />
+    <Compile Include="model\couchdb\Info.cs" />
+    <Compile Include="model\couchdb\UserCTX.cs" />
+    <Compile Include="model\couchdb\session_response.cs" />
+    <Compile Include="model\couchdb\login_response .cs" />
+    <Compile Include="CustomHeaderFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2638,5 +2640,6 @@
   <ItemGroup>
     <Folder Include="controller\" />
     <Folder Include="model\" />
+    <Folder Include="model\couchdb\" />
   </ItemGroup>
 </Project>
