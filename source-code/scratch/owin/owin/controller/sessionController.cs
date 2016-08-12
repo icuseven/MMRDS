@@ -173,11 +173,20 @@ namespace owin
 					json_result
 				}; 
 
-				string auth_session_token = response.Headers["Set-Cookie"];
-				result[0].auth_session = auth_session_token;
 
+				string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
+				string[] auth_array = set_cookie[0].Split('=');
+				if(auth_array.Length > 1)
+				{
+					string auth_session_token = auth_array[1];
+					result[0].auth_session = auth_session_token;
+				}
+				else
+				{
+					result[0].auth_session = "";
+				}
 
-				this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
+				//this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
 
 				return result;
 

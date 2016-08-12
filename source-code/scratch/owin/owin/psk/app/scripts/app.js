@@ -15,9 +15,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
 
-	document.querySelector('mmrds-profile').addEventListener('login_changed', function (value) {
-        this.isLoggedIn = value.is_logged_in;
-    });
+  
+  window.addEventListener('login_changed', function(e) {
+    var profile = Polymer.dom(document).querySelector('#mmrds_profile');
+	
+        profile.isLoggedIn = e.detail.is_logged_in;
+    });/**/
   
   // Sets app default base URL
   app.baseUrl = '/';

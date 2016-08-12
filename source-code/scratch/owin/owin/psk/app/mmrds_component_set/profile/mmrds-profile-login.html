@@ -14,8 +14,8 @@
         display: block;
       }
 </style>
-user name: <input id="name" />
-password: <input id="password"/>
+user name: <input id="name" type="text" value="user1" />
+password: <input id="password" type="password" value="password" />
 <input type="button" value="login" on-tap="login" />
   
   <!--paper-icon-button icon="search"></paper-icon-button-->
@@ -37,29 +37,43 @@ Polymer({
 		{ 
 			type: String,
 			notify: true
-		}
+		},
+		auth_session: { type: String },
+		user_name: { type: String },
+		user_roles: { type: Array }
 	},
 	login: function()
 	{
-		//this.active = false;
-		this.fire('login_changed', { is_logged_in: false });
+		
+		if
+		(
+			this.$.name.value.length > 0 &&
+			this.$.password.value.length > 0
+		)
+		{
+			this.setajax();
+		}
+
 	},
 	setajax: function () 
 	{
 		this.$.ajax.url = "http://localhost:12345/api/session";
 		this.$.ajax.params = {
-				userid: this.item.street,
-				password: this.item.city
+				userid: this.$.name.value,
+				password: this.$.password.value
 		};
 		this.$.ajax.generateRequest();
 	},
 	handle_response: function(request) 
 	{
+		var valid_login = false;
+		
+	
 		var json_response = request.detail.response[0];
-		this.item.latitude = json_response.latitude;
-		this.item.longitude = json_response.longitude;
-		////this.set('item.latitude',json_response.latitude);
-		this.set('item.longitude',json_response.longitude);
+		this.user_name = json_response.name;
+		this.user_roles = json_response.roles
+		this.auth_session = json_response.auth_session;
+
 		console.log(request.detail.response);
 		
 		//document.cookie = "username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC";
@@ -72,6 +86,13 @@ Polymer({
 		//console.log(this.$.ajax.lastResponse);
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		//http://stackoverflow.com/questions/34042408/polymerjs-iron-ajax-how-to-bind-token-to-headers-property
+		
+		valid_login = this.user_name != null;
+		if(valid_login)
+		{
+			this.fire('login_changed', { is_logged_in: true });
+		}
+		
 	}
 });
 	  
