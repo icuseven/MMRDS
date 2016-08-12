@@ -9,7 +9,7 @@
 <dom-module id="mmrds-profile">
 <template>
 <mmrds-profile-login active="{{!isLoggedIn}}"></mmrds-profile-login>
-<mmrds-profile-loggedin active="{{isLoggedIn}}"></mmrds-profile-loggedin>
+<mmrds-profile-loggedin active="{{isLoggedIn}}" user_name="[[user_name]]" roles="[[user_roles]]"></mmrds-profile-loggedin>
 </template>
 <script>
 Polymer({
@@ -27,7 +27,10 @@ Polymer({
 		{ 
 			type: String,
 			notify: true
-		}
+		},
+		auth_session: { type: String },
+		user_name: { type: String },
+		user_roles: { type: Array }
 	}
 });
 	  

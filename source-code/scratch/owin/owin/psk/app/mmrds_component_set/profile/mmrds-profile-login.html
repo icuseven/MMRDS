@@ -51,18 +51,15 @@ Polymer({
 			this.$.password.value.length > 0
 		)
 		{
-			this.setajax();
+		
+			this.$.ajax.url = "http://localhost:12345/api/session";
+			this.$.ajax.params = {
+					userid: this.$.name.value,
+					password: this.$.password.value
+			};
+			this.$.ajax.generateRequest();
 		}
 
-	},
-	setajax: function () 
-	{
-		this.$.ajax.url = "http://localhost:12345/api/session";
-		this.$.ajax.params = {
-				userid: this.$.name.value,
-				password: this.$.password.value
-		};
-		this.$.ajax.generateRequest();
 	},
 	handle_response: function(request) 
 	{
@@ -90,7 +87,12 @@ Polymer({
 		valid_login = this.user_name != null;
 		if(valid_login)
 		{
-			this.fire('login_changed', { is_logged_in: true });
+			this.fire('profile_login_changed', { 
+				is_logged_in: true, 
+				user_name: this.user_name,
+				user_roles: this.user_roles,
+				auth_session: this.auth_session,
+			});
 		}
 		
 	}
