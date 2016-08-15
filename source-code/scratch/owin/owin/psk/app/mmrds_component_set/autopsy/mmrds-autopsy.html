@@ -1,0 +1,224 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+<link rel="import" href="../mmrds-address/mmrds-address.html">
+<link rel="import" href="../date/mmrds-date.html">
+<link rel="import" href="../yesno/mmrds-yesno.html">
+<link rel="import" href="../demographic/mmrds-demographic.html">
+<link rel="import" href="../finding_comment_grid/mmrds-finding_comment_grid.html">
+
+
+<dom-module id="mmrds-autopsy">
+<template>  
+<paper-material elevation="1">			
+	<h1>Maternal Birth Certificate</h1>
+	<div>Record Id: [[home_record.record_id ]]</div>
+	<div><paper-checkbox checked="[[home_record.is_valid_maternal_mortality_record]]">is a valid record</paper-checkbox></div>
+	<div>Name: [[home_record.last_name]], [[home_record.first_name]]</div>
+</paper-material>	
+		
+		
+<paper-material elevation="1">			
+	<h1>Autopsy</h1>
+	<mmrds-yesno bound_data="{{ bound_data.demographic_facility_of_delivery.was_autopsy_performed}}" label="Was an autopsy performed?*"></mmrds-yesno>
+	<paper-dropdown-menu label="Completeness of autopsy information*">
+		<paper-listbox class="dropdown-content" selected="{{ bound_data.completeness_of_autopsy_information}}" attr-for-selected="value">
+			<paper-item value=""></paper-item>
+			<paper-item value="Complete">Complete</paper-item>
+			<paper-item value="Minor gaps">Minor gaps</paper-item>
+			<paper-item value="Major gaps">Major gaps</paper-item>
+			<paper-item value="Minimal">Minimal</paper-item>
+		</paper-listbox>
+	</paper-dropdown-menu>	
+
+
+	<paper-material>
+		<h3>Reporter characteristics</h3>
+		<paper-dropdown-menu label="Reporter Type">
+			<paper-listbox class="dropdown-content" selected="{{ bound_data.reporter_type}}" attr-for-selected="value">
+				<paper-item value=""></paper-item>
+				<paper-item value="Complete">Complete</paper-item>
+				<paper-item value="Minor gaps">Minor gaps</paper-item>
+				<paper-item value="Major gaps">Major gaps</paper-item>
+				<paper-item value="Minimal">Minimal</paper-item>
+				<paper-item><paper-input label="Other (specify)" value="{{ bound_data.reporter_type}}"></paper-input></paper-item>
+			</paper-listbox>
+		</paper-dropdown-menu>		
+		
+		<mmrds-date label="Date of autopsy" bound_data="{{bound_data.date_of_autopsy}}"></mmrds-date>
+		<paper-input label="Jurisdiction" value="{{bound_data.jurisdiction}}"></paper-input>
+	</paper-material>
+	
+	<paper-material>
+	Biometrics
+		<paper-material>		
+			<h3>mother's</h3>
+			<paper-input label="height (feet inches)" value="{{bound_data.mothers_height}}"></paper-input>
+			<paper-input label="weight (pounds)" value="{{bound_data.mothers_weight}}"></paper-input>
+			<paper-input label="bmi" value="{{bound_data.mothers_bmi}}"></paper-input>
+		</paper-material>	
+		<paper-material>		
+			<h3>fetus (if applicable)</h3>
+			<paper-input label="weight (grams)" value="{{bound_data.fetus_height}}"></paper-input>
+			<paper-input label="length (inches)" value="{{bound_data.fetus_weight}}"></paper-input>
+			<paper-input label="estimate of gestational age" value="{{bound_data.fetus_gestational_age}}"></paper-input>
+				
+		</paper-material>	
+	</paper-material>
+	<paper-material>				
+		<h3>findings relevant to maternal death</h3>
+		<mmrds-finding_comment_grid label="gross findings" bound_data="{{ bound_data.gross_findings}}"></mmrds-finding_comment_grid>
+		<mmrds-finding_comment_grid label="microscopic findings" bound_data="{{ bound_data.microscopic_findings}}"></mmrds-finding_comment_grid>
+	</paper-material>	
+	
+	<paper-material>		
+		<h2>toxicology</h2>
+		
+
+		<paper-dropdown-menu label="was toxicology positive for drugs?*">
+			<paper-listbox class="dropdown-content" selected="{{ bound_data.was_toxicoloy_positive_for_drugs}}" attr-for-selected="value">
+				<paper-item value=""></paper-item>
+				<paper-item value="Yes">Yes</paper-item>
+				<paper-item value="No">No</paper-item>
+				<paper-item value="Not done">Not done</paper-item>
+				<paper-item value="Done, but not available">Done, but not available</paper-item>
+			</paper-listbox>
+		</paper-dropdown-menu>		
+		
+	<table>
+	<tr>
+	<th>substance</th>
+	<th>concentration</th>
+	<th>unit of measure</th>
+	<th>level</th>
+	<th>comment(s)</th>
+	</tr>
+	<template id="toxicology_grid" is="dom-repeat" items="{{bound_data.toxicology_list}}">
+		<tr>
+			<td>
+				<paper-input label="substance" value="{{item.substance}}"></paper-input>
+			</td>
+			<td>
+				<paper-input label="concentration" value="{{item.concentration}}"></paper-input>
+			</td>
+			<td>
+				<paper-input label="unit of measure" value="{{item.unit_of_measure}}"></paper-input>
+			</td>
+			<td>		
+				<paper-dropdown-menu label="level">
+					<paper-listbox class="dropdown-content" selected="{{item.level}}" attr-for-selected="value">
+						<paper-item value=""></paper-item>
+						<paper-item value="Trace">Trace</paper-item>
+						<paper-item value="Non-toxic">Non-toxic</paper-item>
+						<paper-item value="Theraputic">Theraputic</paper-item>
+						<paper-item value="Toxic">Toxic</paper-item>
+						<paper-item value="Lethal">Lethal</paper-item>
+						<paper-item value="Unknown">Unknown</paper-item>
+						<paper-item value="Not specified">Not specified</paper-item>
+					</paper-listbox>
+				</paper-dropdown-menu>	
+			</td>		
+			<td>
+				<paper-input label="Comment(s)" value="{{item.comment}}"></paper-input>
+			</td>		
+		</tr>
+	</template>
+	</table>
+	<paper-button on-tap="add_new_toxicology_item" raised>add new grid item</paper-button>
+	</paper-material>	
+
+	<paper-material>		
+			
+		<h2>coroner/ Medical examiner causes of death</h2>
+		
+	<paper-input label="ICD code version" value="{{bound_data.icd_code_version}}"></paper-input>
+	<table>
+	<tr>
+	<th>Type*</th>
+	<th>Cause (descriptive)*</th>
+	<th>ICD Code</th>
+	<th>Comment(s)</th>
+	</tr>
+	<template id="cause_of_death_grid" is="dom-repeat" items="{{bound_data.causes_of_death}}">
+		<tr>
+			<td>		
+				<paper-dropdown-menu label="type*">
+					<paper-listbox class="dropdown-content" selected="{{item.cause_type}}" attr-for-selected="value">
+						<paper-item value="Immediate">Immediate</paper-item>
+						<paper-item value="Contributing">Contributing</paper-item>
+						<paper-item value="Underlying">Underlying</paper-item>
+						<paper-item value="Other significant">Other significant</paper-item>
+					</paper-listbox>
+				</paper-dropdown-menu>	
+			</td>
+			<td>
+				<paper-input label="Cause (descriptive)*" value="{{item.cause_description}}"></paper-input>
+			</td>
+			<td>
+				<paper-input label="ICD code" value="{{item.icd_code}}"></paper-input>
+			</td>
+			<td>
+				<paper-input label="Comment(s)" value="{{item.comment}}"></paper-input>
+			</td>
+		</tr>
+	</template>
+	</table>
+	<paper-button on-tap="add_new_cause_of_death_item" raised>add new grid item</paper-button>
+
+			
+	</paper-material>	
+
+	<paper-material>			
+		<h2>reviewer's notes about the autopsy report</h2>
+		<iron-autogrow-textarea value="{{bound_data.reviewer_note}}"></iron-autogrow-textarea>
+		
+	</paper-material>
+</paper-material>
+
+</paper-material>
+</template>
+<script>
+Polymer({
+        is: 'mmrds-autopsy',
+		properties: 
+		{
+			bound_data: 
+			{ 
+				type: Object,
+				notify: true
+			}
+		},
+		add_new_toxicology_item: function()
+		{
+			var new_array = [];
+			for(var i in this.bound_data.toxicology_list)
+			{
+				new_array.push(this.bound_data.toxicology_list[i])
+			}
+			new_array.push({ substance:"", concentration:"", unit_of_measure:"", level:"", comment:"" });
+			this.set("bound_data.toxicology_list", new_array);
+		},
+		add_new_cause_of_death_item: function()
+		{
+			var new_array = [];
+			for(var i in this.bound_data.causes_of_death)
+			{
+				new_array.push(this.bound_data.causes_of_death[i])
+			}
+			new_array.push({ type:"", cause:"", icd_code:"", comments: "" });
+			this.set("bound_data.causes_of_death", new_array);
+		}
+});
+	  
+	  
+</script>
+	
+</dom-module>

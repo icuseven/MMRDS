@@ -307,80 +307,80 @@ function InitializeNewDB()
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
- 
-          <a data-route="summary" href="#/summary">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Summary</span>
-          </a>
+		 <div id="abstractor_menu" style="display:none">
+			  <a data-route="summary" href="#/summary">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Summary</span>
+			  </a>
 
-          <a data-route="home-record" href="#/home-record/{{IdentifierData.id}}">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Home Record</span>
-          </a>
+			  <a data-route="home-record" href="#/home-record/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Home Record</span>
+			  </a>
 
-		<a data-route="death-certificate" href="#/death-certificate/{{IdentifierData.id}}">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Death Certificate</span>
-		</a>
+			<a data-route="death-certificate" href="#/death-certificate/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Death Certificate</span>
+			</a>
 
-		<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{IdentifierData.id}}">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Maternal Birth Certificate</span>
-		</a>
+			<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Maternal Birth Certificate</span>
+			</a>
 
-		<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}/list">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Infant/Fetal Birth Certificate</span>
-		</a>
-
-
-		<a data-route="AutopsyReport" href="{{baseUrl}}AutopsyReport">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Autopsy Report</span>
-		</a>
+			<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}/list">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Infant/Fetal Birth Certificate</span>
+			</a>
 
 
-		<a data-route="PrenatalCare" href="{{baseUrl}}PrenatalCare">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Prenatal Care Records</span>
-		</a>
+			<a data-route="AutopsyReport" href="#/AutopsyReport/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Autopsy Report</span>
+			</a>
 
 
-		<a data-route="ERVisits" href="{{baseUrl}}ERVisits">
-			<iron-icon icon="mail"></iron-icon>
-			<span>ER Visits and Hospitalizations</span>
-		</a>
+			<a data-route="PrenatalCare" href="{{baseUrl}}PrenatalCare">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Prenatal Care Records</span>
+			</a>
 
 
-		<a data-route="OtherVisits" href="{{baseUrl}}OtherVisits">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Other medical office visits</span>
-		</a>
+			<a data-route="ERVisits" href="{{baseUrl}}ERVisits">
+				<iron-icon icon="mail"></iron-icon>
+				<span>ER Visits and Hospitalizations</span>
+			</a>
 
 
-		<a data-route="SocialPsychProfile" href="{{baseUrl}}SocialPsychProfile">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Social and psychological profile</span>
-		</a>
+			<a data-route="OtherVisits" href="{{baseUrl}}OtherVisits">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Other medical office visits</span>
+			</a>
 
 
-		<a data-route="InformantInterviews" href="{{baseUrl}}InformantInterviews">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Informant interviews</span>
-		</a>
+			<a data-route="SocialPsychProfile" href="{{baseUrl}}SocialPsychProfile">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Social and psychological profile</span>
+			</a>
 
 
-		<a data-route="CommitteeReview" href="{{baseUrl}}CommitteeReview">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Committee review</span>
-		</a>
+			<a data-route="InformantInterviews" href="{{baseUrl}}InformantInterviews">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Informant interviews</span>
+			</a>
 
 
-		<a data-route="CoreSummary" href="{{baseUrl}}CoreSummary">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Core Summary</span>
-		</a>
-		
+			<a data-route="CommitteeReview" href="{{baseUrl}}CommitteeReview">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Committee review</span>
+			</a>
+
+
+			<a data-route="CoreSummary" href="{{baseUrl}}CoreSummary">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Core Summary</span>
+			</a>
+		</div>
 		<a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
             <span>Users</span>
@@ -488,7 +488,7 @@ function InitializeNewDB()
 
 
 			<section data-route="AutopsyReport" tabindex="-1">
-
+				<mmrds-autopsy home_record="{{home_record}}" bound_data="{{home_record.autopsy}}"></mmrds-autopsy>
             </section>
 
 			<section data-route="PrenatalCare" tabindex="-1">

@@ -1,0 +1,65 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../mmrds-state-dropdown/mmrds-state-dropdown.html">
+<link rel="import" href="../mmrds-address/mmrds-address.html">
+
+<dom-module id="mmrds-finding_comment_grid">
+<template>  
+<table>
+<tr>
+<th colspan="2">[[label]]</th>
+</tr>
+<tr>
+<th>finding(s)</th>
+<th>comment(s)</th>
+</tr>
+<template id="finding_comment_grid" is="dom-repeat" items="{{bound_data}}">
+	<tr>
+		<td>
+			<paper-input label="finding(s)" value="{{item.finding}}"></paper-input>
+		</td>
+		<td>
+			<paper-input label="comment(s)" value="{{item.comment}}"></paper-input>
+		</td>
+	</tr>
+</template>
+</table>
+<paper-button on-tap="addNewRecord" raised>add new grid item</paper-button>
+
+
+</template>
+<script>
+Polymer({
+	is: 'mmrds-finding_comment_grid',
+	properties: 
+	{
+		bound_data: 
+		{ 
+			type: Array,
+			notify: true
+		},
+	},
+	addNewRecord: function()
+	{
+		var new_array = [];
+		
+		for(var i in this.bound_data)
+		{
+			new_array.push(this.bound_data[i])
+		}
+		
+		new_array.push({ finding:"", comment:"" });
+		
+		this.set("bound_data", new_array);
+	}
+
+  });
+  
+  
+</script>
+	
+</dom-module>

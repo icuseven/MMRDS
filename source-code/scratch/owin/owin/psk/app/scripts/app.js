@@ -24,6 +24,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		profile.user_name = e.detail.user_name;
 		profile.user_roles = e.detail.user_roles;
 		
+		
+		var abstractor_menu = document.querySelector('#abstractor_menu')
+		if(profile.user_roles.indexOf('abstractor') > -1)
+		{
+			abstractor_menu.style.display = "block";
+			
+		}
+		else
+		{
+			abstractor_menu.style.display = "none";
+			
+		}
+		
     });/**/
   
   // profile --- end
