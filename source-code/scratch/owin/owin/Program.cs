@@ -14,6 +14,7 @@ namespace owin
 		//http://localhost:12345/api/values
 		//http://localhost:12345/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
 		//http://localhost:12345/api/session?userid=mmrds&password=mmrds
+		//http://localhost:12345/api/session?userid=user1&password=password
 		//http://localhost:12345/api/session
 		static void Main(string[] args)
 		{

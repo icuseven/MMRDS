@@ -94,11 +94,12 @@ namespace owin
 
 
 				//string request_string = "http://mmrds:mmrds@localhost:5984/_session";
-				string request_string = "http://127.0.0.1:5984/_session/";
+				string request_string = "http://localhost:5984/_session/";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+				request.UseDefaultCredentials = true;
 
 				request.PreAuthenticate = false;
-				//request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
+				request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
 				request.Method = "POST";
 				request.ContentType = "application/x-www-form-urlencoded";
 				request.ContentLength = post_byte_array.Length;

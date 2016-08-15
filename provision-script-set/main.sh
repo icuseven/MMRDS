@@ -137,23 +137,18 @@ else
 	sudo apt-get install couchdb -y
 fi
 
-
-
-
-
-echo "checking if webstorm is installed..."
-if [[ -f "/home/vagrant/webstorm/bin/WebStorm.sh" ]]; then
-	echo "webstorm already installed,skipping..."
-else
-	echo "installing webstorm..."
+# echo "checking if webstorm is installed..."
+# if [[ -f "/home/vagrant/webstorm/bin/WebStorm.sh" ]]; then
+	# echo "webstorm already installed,skipping..."
+# else
+	# echo "installing webstorm..."
 	
-	#https://www.jetbrains.com/webstorm/download/download-thanks.html?platform=linux
-	wget https://download.jetbrains.com/webstorm/WebStorm-2016.1.2.tar.gz
-	sudo tar xfz WebStorm-*.tar.gz
-	sudo mkdir /home/vagrant/webstorm
-	sudo mv WebStorm-145.971.23/* /home/vagrant/webstorm
-fi
-
+	# https://www.jetbrains.com/webstorm/download/download-thanks.html?platform=linux
+	# wget https://download.jetbrains.com/webstorm/WebStorm-2016.1.2.tar.gz
+	# sudo tar xfz WebStorm-*.tar.gz
+	# sudo mkdir /home/vagrant/webstorm
+	# sudo mv WebStorm-145.971.23/* /home/vagrant/webstorm
+# fi
 
 echo ""
 echo ""
