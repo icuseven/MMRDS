@@ -13,11 +13,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Grab a reference to our auto-binding template
   // and give it some initial binding values
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
-  var app = document.querySelector('#app');
+  var app = Polymer.dom(document).querySelector('#app');
 
   // profile --- start
   window.addEventListener('profile_login_changed', function(e) {
-    var profile = Polymer.dom(document).querySelector('#mmrds_profile');
+    var profile = app.querySelector('#mmrds_profile');
 	
         profile.isLoggedIn = e.detail.is_logged_in;
 		profile.auth_session = e.detail.auth_session;
@@ -25,7 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		profile.user_roles = e.detail.user_roles;
 		
 		
-		var abstractor_menu = document.querySelector('#abstractor_menu')
+		var abstractor_menu = app.querySelector('#abstractor_menu')
 		if(profile.user_roles.indexOf('abstractor') > -1)
 		{
 			abstractor_menu.style.display = "block";
@@ -68,9 +68,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // The appName is moved to top and shrunk on condensing. The bottom sub title
   // is shrunk to nothing on condensing.
   window.addEventListener('paper-header-transform', function(e) {
-    var appName = Polymer.dom(document).querySelector('#mainToolbar .app-name');
-    var middleContainer = Polymer.dom(document).querySelector('#mainToolbar .middle-container');
-    var bottomContainer = Polymer.dom(document).querySelector('#mainToolbar .bottom-container');
+    var appName = app.querySelector('#mainToolbar .app-name');
+    var middleContainer = app.querySelector('#mainToolbar .middle-container');
+    var bottomContainer = app.querySelector('#mainToolbar .bottom-container');
     var detail = e.detail;
     var heightDiff = detail.height - detail.condensedHeight;
     var yRatio = Math.min(1, detail.y / heightDiff);

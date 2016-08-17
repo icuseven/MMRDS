@@ -1,124 +1,176 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">	
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">	
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">	
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">	
+
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-pouchdb/app-pouchdb-document.html">
+
+
+<!-- Paper elements -->
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+
+
+<!-- Configure your routes here -->
+<!-- link rel="import" href="routing.html" -->
+
+<!-- Add your elements here -->
+<link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../../styles/shared-styles.html">
+<link rel="import" href="../../elements/my-greeting/my-greeting.html">
+<link rel="import" href="../../elements/my-list/my-list.html">
+
+<link rel="import" href="../autopsy/mmrds-autopsy.html">
+<link rel="import" href="../demographic/mmrds-demographic.html">
+<link rel="import" href="../finding_comment_grid/mmrds-finding_comment_grid.html">
+<link rel="import" href="../race/mmrds-race.html">
+<link rel="import" href="../date/mmrds-date.html">
+<link rel="import" href="../maternal-birth-certificate/mmrds-maternal-birth-certificate.html">
+<link rel="import" href="../summary/mmrds-summary.html">
+<link rel="import" href="../home-record/mmrds-home_record.html">
+<link rel="import" href="../death-certificate/mmrds-death_certificate.html">
+<link rel="import" href="../cause-of-death-grid/mmrds-cause_of_death_grid.html">
+<link rel="import" href="../data-summary/data-summary.html">
+<link rel="import" href="../yesno/mmrds-yesno.html">
+<link rel="import" href="../infant-birth-certificate/mmrds-infant_birth_certificate.html">
+<link rel="import" href="../infant-birth-certificate/mmrds-infant_birth_certificate_list.html">
+<link rel="import" href="../infant-birth-certificate/mmrds-infant_birth_certificate_detail.html">
+<link rel="import" href="../profile/mmrds-profile.html">
+<link rel="import" href="../profile/mmrds-profile-login.html">
+<link rel="import" href="../profile/mmrds-profile-loggedin.html">
+
+
 <dom-module id="mmrds-app">
 <template id="app">
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
-	<app-route  route="{{route}}" pattern="/:category/:id" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
-	<mmrds-data-summary data="{{data}}" selected_record_id="{{categoryData.id}}"></mmrds-data-summary>
+	<app-route  route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
+	<app-route  route="{{categoryTail}}" pattern="/:id" data="{{IdentifierData}}" tail="{{IdentifierTail}}" active="{{IdentifierActive}}"></app-route>
+	<mmrds-data-summary data="{{data}}" selected_record_id="{{IdentifierData.id}}"></mmrds-data-summary>
 	
 	<app-pouchdb-document id="currentdocumentid"
 			db-name="mmrds"
-			doc-id="{{categoryData.id}}"
+			doc-id="{{IdentifierData.id}}"
 			data="{{home_record}}">
 	</app-pouchdb-document>
 	
 	
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
-      <paper-scroll-header-panel drawer fixed>
+      <paper-scroll-header-panel drawer fixed vertical>
 
         <!-- Drawer Toolbar -->
         <paper-toolbar id="drawerToolbar">
           <span class="menu-name">Menu</span>
         </paper-toolbar>
-<div>route{{route}}</div>
+<!--div>route{{route}}</div>
 <div>categoryTail{{categoryTail.path}}</div>
 <div>categoryData{{categoryData.category}}</div>
-<div>selected_record_id{{categoryData.id}}</div>
+<div>selected_record_id{{categoryData.id}}</div-->
 
         <!-- Drawer Content -->
         <paper-menu class="app-menu" attr-for-selected="data-route" selected="{{categoryData.category}}">
           <a data-route="home" href="#/home">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
-          </a>
+          </a><br/>
+		 <div id="abstractor_menu" style="display:none">
+			  <a data-route="summary" href="#/summary">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Summary</span>
+			  </a><br/>
 
-          
-		  
-          <a data-route="summary" href="#/summary">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Summary</span>
-          </a>
+			  <a data-route="home-record" href="#/home-record/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Home Record</span>
+			  </a><br/>
 
-          <a data-route="home-record" href="#/home-record/{{categoryData.id}}">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Home Record</span>
-          </a>
+			<a data-route="death-certificate" href="#/death-certificate/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Death Certificate</span>
+			</a><br/>
 
-		<a data-route="death-certificate" href="#/death-certificate/{{categoryData.id}}">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Death Certificate</span>
-		</a>
+			<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Maternal Birth Certificate</span>
+			</a><br/>
 
-		<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{categoryData.id}}">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Maternal Birth Certificate</span>
-		</a>
-
-		<a data-route="InfantFetalBirthCertificate" href="{{baseUrl}}InfantFetalBirthCertificate">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Infant/Fetal Birth Certificate</span>
-		</a>
+			<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}/list">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Infant/Fetal Birth Certificate</span>
+			</a><br/>
 
 
-		<a data-route="AutopsyReport" href="{{baseUrl}}AutopsyReport">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Autopsy Report</span>
-		</a>
+			<a data-route="AutopsyReport" href="#/AutopsyReport/{{IdentifierData.id}}">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Autopsy Report</span>
+			</a><br/>
 
 
-		<a data-route="PrenatalCare" href="{{baseUrl}}PrenatalCare">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Prenatal Care Records</span>
-		</a>
+			<a data-route="PrenatalCare" href="{{baseUrl}}PrenatalCare">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Prenatal Care Records</span>
+			</a><br/>
 
 
-		<a data-route="ERVisits" href="{{baseUrl}}ERVisits">
-			<iron-icon icon="mail"></iron-icon>
-			<span>ER Visits and Hospitalizations</span>
-		</a>
+			<a data-route="ERVisits" href="{{baseUrl}}ERVisits">
+				<iron-icon icon="mail"></iron-icon>
+				<span>ER Visits and Hospitalizations</span>
+			</a><br/>
 
 
-		<a data-route="OtherVisits" href="{{baseUrl}}OtherVisits">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Other medical office visits</span>
-		</a>
+			<a data-route="OtherVisits" href="{{baseUrl}}OtherVisits">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Other medical office visits</span>
+			</a><br/>
 
 
-		<a data-route="SocialPsychProfile" href="{{baseUrl}}SocialPsychProfile">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Social and psychological profile</span>
-		</a>
+			<a data-route="SocialPsychProfile" href="{{baseUrl}}SocialPsychProfile">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Social and psychological profile</span>
+			</a><br/>
 
 
-		<a data-route="InformantInterviews" href="{{baseUrl}}InformantInterviews">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Informant interviews</span>
-		</a>
+			<a data-route="InformantInterviews" href="{{baseUrl}}InformantInterviews">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Informant interviews</span>
+			</a><br/>
 
 
-		<a data-route="CommitteeReview" href="{{baseUrl}}CommitteeReview">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Committee review</span>
-		</a>
+			<a data-route="CommitteeReview" href="{{baseUrl}}CommitteeReview">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Committee review</span>
+			</a><br/>
 
 
-		<a data-route="CoreSummary" href="{{baseUrl}}CoreSummary">
-			<iron-icon icon="mail"></iron-icon>
-			<span>Core Summary</span>
-		</a>
-		
+			<a data-route="CoreSummary" href="{{baseUrl}}CoreSummary">
+				<iron-icon icon="mail"></iron-icon>
+				<span>Core Summary</span>
+			</a><br/>
+		</div>
 		<a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
             <span>Users</span>
-          </a>
+          </a><br/>
 
 		<a data-route="contact" href="{{baseUrl}}contact">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Contact</span>
-        </a>
+        </a><br/>
 		
 		</paper-menu>
 		<paper-button id="savecurrentrecordbutton"  onclick="SaveCurrentRecord()"raised>save current record</paper-button>
@@ -135,12 +187,13 @@
           <span class="space"></span>
 
           <!-- Toolbar icons -->
-          <paper-icon-button icon="refresh"></paper-icon-button>
-          <paper-icon-button icon="search"></paper-icon-button>
+          <mmrds-profile id="mmrds_profile"></mmrds-profile>
+          
 
           <!-- Application name -->
           <div class="middle middle-container">
             <div class="app-name">MMRDS</div>
+			<div>[[categoryData.category]] - [[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
           </div>
 
           <!-- Application sub title -->
@@ -211,12 +264,12 @@
 
 
 			<section data-route="InfantFetalBirthCertificate" tabindex="-1">
-
+				<mmrds-infant_birth_certificate route="{{IdentifierTail}}" home_record="{{home_record}}" bound_data="{{home_record.infant_birth_fetal_death_certificate}}"></mmrds-infant_birth_certificate>
             </section>
 
 
 			<section data-route="AutopsyReport" tabindex="-1">
-
+				<mmrds-autopsy home_record="{{home_record}}" bound_data="{{home_record.autopsy}}"></mmrds-autopsy>
             </section>
 
 			<section data-route="PrenatalCare" tabindex="-1">
@@ -255,6 +308,7 @@
     <paper-toast id="toast">
       <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
     </paper-toast>
+
 
   </template>
 
