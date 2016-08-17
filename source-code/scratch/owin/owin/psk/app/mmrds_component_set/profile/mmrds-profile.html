@@ -8,6 +8,8 @@
 
 <dom-module id="mmrds-profile">
 <template>
+<iron-ajax id="ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
+
 <mmrds-profile-login active="{{!isLoggedIn}}"></mmrds-profile-login>
 <mmrds-profile-loggedin active="{{isLoggedIn}}" user_name="[[user_name]]" roles="[[user_roles]]"></mmrds-profile-loggedin>
 </template>
@@ -31,6 +33,58 @@ Polymer({
 		auth_session: { type: String },
 		user_name: { type: String },
 		user_roles: { type: Array }
+	},
+	ready:function()
+	{
+		var current_auth_session = null;
+		var cookie_string = new String(document.cookie);
+		if(cookie_string.length > 0)
+		{
+			var cookie_array = cookie_string.split("=");
+			if(cookie_array.length > 1 && cookie_array[0] == "AuthSession")
+			{
+				current_auth_session=cookie_array[1];
+			}
+		}
+		
+		if(current_auth_session)
+		{
+			this.$.ajax.url = "http://localhost:12345/api/session";
+			this.$.ajax.headers='{"AuthSession": ' + current_auth_session + '}';
+			this.$.ajax.generateRequest();
+		}
+	},
+	handle_response: function(request) 
+	{
+		var valid_login = false;
+		
+	
+		var json_response = request.detail.response[0];
+		this.user_name = json_response.name;
+		this.user_roles = json_response.roles
+		this.auth_session = json_response.auth_session;
+
+		console.log(request.detail.response);
+		/*
+		var minutes_14 = 14;
+		var current_date_time = new Date();
+		var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
+		
+		document.cookie = "AuthSession=" + json_response.auth_session + "; expires=" + new_date_time.toISOString() + ";";
+		
+		
+		*/
+		valid_login = this.user_name != null;
+		if(valid_login)
+		{
+			this.fire('profile_login_changed', { 
+				is_logged_in: true, 
+				user_name: this.user_name,
+				user_roles: this.user_roles,
+				auth_session: this.auth_session,
+			});
+		}
+		
 	}
 });
 	  
