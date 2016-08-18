@@ -32,10 +32,10 @@ if [[ -f "/usr/bin/mono" ]]; then
 else
 	echo "installing mono..."
 
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-	echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
-	echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
-	sudo apt-get update -qqy
+	#sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+	#echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+	#echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
+	#sudo apt-get update -qqy
 
 	sudo apt-get install mono-complete -y
 fi
@@ -76,6 +76,8 @@ else
 	sudo ln -s /usr/bin/nodejs /usr/bin/node
 	sudo npm install -g bower -y
 	sudo npm install -g yo -y
+	sudo npm install -g npm
+
 	#npm install --global gulp-cli
 
 fi
@@ -89,17 +91,17 @@ else
 fi
 
 
-echo "checking if visual studio code is installed..."
-if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
-	echo "visual studio code already installed,skipping..."
-else
-	echo "installing visual studio code..."
+# echo "checking if visual studio code is installed..."
+# if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
+	# echo "visual studio code already installed,skipping..."
+# else
+	# echo "installing visual studio code..."
 	# http://www.omgubuntu.co.uk/2015/05/how-to-install-microsoft-visual-studio-code-in-ubuntu
-	sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
-	sudo apt-get update -y && sudo apt-get install ubuntu-make -y
+	# sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
+	# sudo apt-get update -y && sudo apt-get install ubuntu-make -y
 
-	umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
-fi
+	# umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
+# fi
 
 
 echo "checking if atom is installed..."
