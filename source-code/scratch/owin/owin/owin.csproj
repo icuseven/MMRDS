@@ -72,7 +72,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="controller\ValuesController.cs" />
-    <Compile Include="model\master_record.cs" />
     <Compile Include="controller\geocodeController.cs" />
     <Compile Include="model\geocode_response.cs" />
     <Compile Include="model\address_normalization_response.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="model\couchdb\session_response.cs" />
     <Compile Include="model\couchdb\login_response .cs" />
     <Compile Include="CustomHeaderFilter.cs" />
+    <Compile Include="model\home_record.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

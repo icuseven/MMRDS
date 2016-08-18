@@ -72,9 +72,9 @@ namespace owin
 		} 
 
 		// GET api/values/5 
-		public master_record Get(int id) 
+		public home_record Get(int id) 
 		{ 
-			return default(master_record); 
+			return default(home_record); 
 		} 
 		/*
 		// POST api/values 

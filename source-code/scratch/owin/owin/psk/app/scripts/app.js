@@ -24,6 +24,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		profile.user_name = e.detail.user_name;
 		profile.user_roles = e.detail.user_roles;
 		
+		var minutes_14 = 14;
+		var current_date_time = new Date();
+		var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
+		
+		document.cookie = "AuthSession=" + profile.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
+		
+
+		
+		
 		
 		var abstractor_menu = app.querySelector('#abstractor_menu')
 		if(profile.user_roles.indexOf('abstractor') > -1)

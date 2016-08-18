@@ -34,9 +34,9 @@ namespace owin
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
 					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-					request.Headers.Add("AuthSession", auth_session_token[1]);
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
 					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", "Cookie");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
 
 				}
 
@@ -205,9 +205,9 @@ namespace owin
 		}
 
 		// GET api/values/5 
-		public master_record Get(int id) 
+		public home_record Get(int id) 
 		{ 
-			return default(master_record); 
+			return default(home_record); 
 		} 
 		/*
 		// POST api/values 

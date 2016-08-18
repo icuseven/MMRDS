@@ -37,10 +37,7 @@ Polymer({
 		{ 
 			type: String,
 			notify: true
-		},
-		auth_session: { type: String },
-		user_name: { type: String },
-		user_roles: { type: Array }
+		}
 	},
 	login: function()
 	{
@@ -67,31 +64,22 @@ Polymer({
 		
 	
 		var json_response = request.detail.response[0];
-		this.user_name = json_response.name;
-		this.user_roles = json_response.roles
-		this.auth_session = json_response.auth_session;
 
 		console.log(request.detail.response);
 		
 		//document.cookie = "username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC";
-		var minutes_14 = 14;
-		var current_date_time = new Date();
-		var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
-		
-		document.cookie = "AuthSession=" + json_response.auth_session + "; expires=" + new_date_time.toISOString() + ";";
-		
 		//console.log(this.$.ajax.lastResponse);
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		//http://stackoverflow.com/questions/34042408/polymerjs-iron-ajax-how-to-bind-token-to-headers-property
 		
-		valid_login = this.user_name != null;
+		valid_login = json_response.name != null;
 		if(valid_login)
 		{
 			this.fire('profile_login_changed', { 
 				is_logged_in: true, 
-				user_name: this.user_name,
-				user_roles: this.user_roles,
-				auth_session: this.auth_session,
+				user_name: json_response.name,
+				user_roles: json_response.roles,
+				auth_session: json_response.auth_session,
 			});
 		}
 		
