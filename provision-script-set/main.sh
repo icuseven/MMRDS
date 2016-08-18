@@ -24,20 +24,25 @@ else
 	sudo sudo apt-get install xubuntu-desktop -y
 fi
 
-
-
 echo "checking if mono is installed..."
 if [[ -f "/usr/bin/mono" ]]; then
 	echo "mono already installed,skipping..."
 else
 	echo "installing mono..."
 
-	#sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-	#echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
-	#echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
-	#sudo apt-get update -qqy
-
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+	echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+	echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
+	sudo apt-get update -qqy
 	sudo apt-get install mono-complete -y
+fi
+
+echo "checking if monodevelop is installed..."
+if [[ -f "/usr/bin/monodevelop" ]]; then
+	echo "monodevelop already installed,skipping..."
+else
+	echo "installing monodevelop..."
+	sudo apt-get install monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
 fi
 
 
@@ -61,9 +66,7 @@ if [[ -f "/usr/bin/java" ]]; then
 else
 	echo "installing jdk..."
 	sudo apt-get install openjdk-7-jdk -y
-	
 fi
-
 
 echo "checking if nodejs is installed..."
 if [[ -f "/usr/bin/nodejs" ]]; then
@@ -79,17 +82,7 @@ else
 	sudo npm install -g npm
 
 	#npm install --global gulp-cli
-
 fi
-
-echo "checking if monodevelop is installed..."
-if [[ -f "/usr/bin/monodevelop" ]]; then
-	echo "monodevelop already installed,skipping..."
-else
-	echo "installing monodevelop..."
-	sudo apt-get install monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
-fi
-
 
 # echo "checking if visual studio code is installed..."
 # if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
@@ -103,7 +96,6 @@ fi
 	# umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
 # fi
 
-
 echo "checking if atom is installed..."
 if [[ -f "/usr/bin/atom" ]]; then
 	echo "atom already installed,skipping..."
@@ -112,7 +104,6 @@ else
 	sudo add-apt-repository ppa:webupd8team/atom -y
 	sudo apt-get update -y
 	sudo apt-get install atom -y
-	
 fi
 
 echo "checking if Gufw is installed..."
@@ -121,14 +112,11 @@ if [[ -f "/usr/bin/gufw" ]]; then
 else
 	echo "installing Gufw..."
 	sudo apt-get install gufw -y
-	
 fi
 
 
 #https://github.com/foretagsplatsen/Divan
 #https://github.com/rnewson/couchdb-lucene/tree/v0.4
-
-
 
 if [[ -f "/usr/bin/couchdb" ]]; then
 	echo "couchdb already installed,skipping..."
