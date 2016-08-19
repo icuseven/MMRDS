@@ -67,7 +67,8 @@ namespace owin
 				EnableDefaultFiles = true,
 				DefaultFilesOptions = { DefaultFileNames = {"index.html"}},
 				FileSystem = fileSystem,
-				StaticFileOptions = { ContentTypeProvider = new Microsoft.Owin.StaticFiles.ContentTypes.FileExtensionContentTypeProvider() }
+				StaticFileOptions = { ContentTypeProvider = new CustomContentTypeProvider() 
+				}
 			};
 			app.UseFileServer (options);
 		}

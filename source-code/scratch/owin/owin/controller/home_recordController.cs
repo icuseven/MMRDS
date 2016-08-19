@@ -51,7 +51,7 @@ namespace owin
 		{
 			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
 
-			System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri("request_string"));
+			System.Net.WebRequest request = System.Net.WebRequest.Create("request_string");
 			request.UseDefaultCredentials = true;
 			request.Credentials = new System.Net.NetworkCredential("_username", "_password");
 			request.Method = "PUT";

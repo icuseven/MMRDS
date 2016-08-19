@@ -83,8 +83,8 @@
     <Compile Include="model\couchdb\UserCTX.cs" />
     <Compile Include="model\couchdb\session_response.cs" />
     <Compile Include="model\couchdb\login_response .cs" />
-    <Compile Include="CustomHeaderFilter.cs" />
     <Compile Include="model\home_record.cs" />
+    <Compile Include="CustomContentTypeProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
