@@ -47,6 +47,41 @@ namespace owin
 				}; 
 		} 
 
+		private void PutDocument(string postUrl, string document)
+		{
+			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
+
+			System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri("request_string"));
+			request.UseDefaultCredentials = true;
+			request.Credentials = new System.Net.NetworkCredential("_username", "_password");
+			request.Method = "PUT";
+			request.ContentType = "text/json";
+			request.ContentLength = data.Length;
+
+			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
+			{
+				try
+				{
+					streamWriter.Write(document);
+					streamWriter.Flush();
+					streamWriter.Close();
+
+					System.Net.HttpWebResponse httpResponse = (System.Net.HttpWebResponse)request.GetResponse();
+					using (System.IO.StreamReader streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
+					{
+						string result = streamReader.ReadToEnd();
+						streamReader.Close();
+					}
+				}
+				catch (System.Exception e)
+				{
+					//_logger.Error("Exception thrown when contacting service.", e);
+					//_logger.ErrorFormat("Error posting document to {0}", postUrl);
+				}
+			}
+		}
+
+
 		// GET api/values/5 
 		public home_record Get(int id) 
 		{ 
