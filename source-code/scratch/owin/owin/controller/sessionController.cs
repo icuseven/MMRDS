@@ -5,6 +5,8 @@ using System.Web.Http;
 using System.Net;
 using System.Linq;
 
+//https://wiki.apache.org/couchdb/Session_API
+
 namespace owin
 {
 	public class sessionController: ApiController 
