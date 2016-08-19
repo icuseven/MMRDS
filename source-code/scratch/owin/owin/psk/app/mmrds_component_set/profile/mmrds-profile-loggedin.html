@@ -16,6 +16,7 @@
 </style>
 user name: [[user_name]]
 roles: [[roles]]
+<a href="#" on-tap="logout">logout</a>
   
   <paper-icon-button icon="search"></paper-icon-button>
   
@@ -37,6 +38,12 @@ Polymer({
 			type: String,
 			notify: true
 		}
+	},
+	logout: function()
+	{
+		
+		console.log("logout called");
+
 	}
 });
 	  
