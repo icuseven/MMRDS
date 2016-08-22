@@ -23,14 +23,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		profile.auth_session = e.detail.auth_session;
 		profile.user_name = e.detail.user_name;
 		profile.user_roles = e.detail.user_roles;
-		
-		var minutes_14 = 14;
-		var current_date_time = new Date();
-		var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
-		
-		document.cookie = "AuthSession=" + profile.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
-		
-
+		if(profile.isLoggedIn)
+		{
+			var minutes_14 = 14;
+			var current_date_time = new Date();
+			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
+			
+			document.cookie = "AuthSession=" + profile.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
+		}
+		else
+		{
+			document.cookie = "AuthSession=" + profile.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+		}
 		
 		
 		
