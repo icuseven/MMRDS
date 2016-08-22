@@ -101,10 +101,10 @@ namespace owin
 				//string request_string = "http://mmrds:mmrds@localhost:5984/_session";
 				string request_string = "http://localhost:5984/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-				request.UseDefaultCredentials = true;
+				//request.UseDefaultCredentials = true;
 
 				request.PreAuthenticate = false;
-				request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
+				//request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
 				request.Method = "POST";
 				request.ContentType = "application/x-www-form-urlencoded";
 				request.ContentLength = post_byte_array.Length;
@@ -222,10 +222,46 @@ namespace owin
 		{ 
 		} */
 
-		// DELETE api/values/5 
-		public void Delete(System.Guid  id) 
+
+		//https://wiki.apache.org/couchdb/Session_API
+		// DELETE api/_sevalues/5 
+		public logout_response Delete() 
 		{ 
-		} 
+			try
+			{
+				string request_string = "http://localhost:5984/_session";
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+				request.Method = "DELETE";
+				request.PreAuthenticate = false;
+				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+				{
+					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+
+				}
+
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				string responseFromServer = reader.ReadToEnd ();
+				logout_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<logout_response>(responseFromServer);
+
+				return json_result;
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return null;
+		}
+
+
 
 
 	}
