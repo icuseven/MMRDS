@@ -16,7 +16,7 @@
 </style>
 user name: [[user_name]]
 roles: [[roles]]
-<a href="#" on-tap="logout">logout</a>
+<paper-button on-tap="logout">logout</paper-button>
   
   <paper-icon-button icon="search"></paper-icon-button>
   
@@ -42,8 +42,52 @@ Polymer({
 	logout: function()
 	{
 		
+		var current_auth_session = null;
+		var cookie_string = new String(document.cookie);
+		if(cookie_string.length > 0)
+		{
+			var cookie_array = cookie_string.split("=");
+			if(cookie_array.length > 1 && cookie_array[0] == "AuthSession")
+			{
+				current_auth_session=cookie_array[1];
+			}
+		}
+		
+		if(current_auth_session)
+		{
+			this.$.ajax.url = "http://localhost:12345/api/session";
+			this.$.ajax.headers='{"AuthSession": ' + current_auth_session + '}';
+			this.$.ajax.method = 'DELETE';
+			this.$.ajax.generateRequest();
+		}
+		
 		console.log("logout called");
+	},
+	handle_response: function(request) 
+	{
+		var valid_login = false;
+		
+	
+		var json_response = request.detail.response;
 
+		console.log(request.detail.response);
+		
+		//document.cookie = "username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC";
+		//console.log(this.$.ajax.lastResponse);
+		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
+		//http://stackoverflow.com/questions/34042408/polymerjs-iron-ajax-how-to-bind-token-to-headers-property
+		
+		valid_login = json_response.ok == true;
+		if(valid_login)
+		{
+			this.fire('profile_login_changed', { 
+				is_logged_in: false, 
+				user_name: "",
+				user_roles: "",
+				auth_session: "",
+			});
+		}
+		
 	}
 });
 	  
