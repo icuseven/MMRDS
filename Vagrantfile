@@ -11,12 +11,9 @@ Vagrant.configure(Configuration_Version) do |config|
 	config.vm.define "devbox" do |devbox|
   
 		devbox.vm.box = "ubuntu/trusty64"
-		#devbox.vm.box = "ubuntu-15.04"
 	  
 		devbox.vm.network "forwarded_port", guest: 12345, host: 8085
-		
 		devbox.vm.network "private_network", ip: "192.168.33.10"
-		
 	  
 		#devbox.vm.synced_folder '.', '/vagrant', type: 'nfs'
 	  
@@ -26,8 +23,14 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.gui = true
 	  
 			# Customize the amount of memory on the VM:
-			vb.memory = "4096"
-			vb.cpus = 4
+			vb.memory = "5120"
+			vb.cpus = 2
+			vb.customize [
+                        "modifyvm", :id,
+                        "--monitorcount", "2",
+                        "--vram", "18"
+                      ]
+			
 		end
 
 		# vbox_guest_additions_file = "%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso"
