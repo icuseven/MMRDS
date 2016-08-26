@@ -1,0 +1,30 @@
+{
+	"type": "form",
+	"children":
+	{
+		"causes_of_death": 
+		{
+			"order": 0,
+			"type": "array",
+			"children": []
+		},
+		"place_of_last_residence": 
+		{
+			"order": 1,
+			"type": "group",
+			"children": {
+			   "street": { "type": "string", "order": 0},
+			   "city":  { "type": "string", "order": 1},
+			   "state":  { "type": "string", "order": 2},
+			   "zip_code":  { "type": "string", "order": 3},
+			   "latitude":  { "type": "string", "order": 4},
+			   "longitude":  { "type": "string", "order": 5}
+		   }
+		},
+		"race": 
+		{
+			"order": 2, 
+			"type":"grid_race",
+		}
+   }
+}

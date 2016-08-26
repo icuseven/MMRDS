@@ -1,0 +1,101 @@
+/*
+	type : [ form, group, page, [control name] ]
+*/
+{
+	"_id": "2016-06-12T13:49:24.759Z",
+	"_rev": "1-d794f8cf1e80575b985bef7dd85fdce7",
+	"type": "form",
+	"children":
+	{
+	   "date_created":  {
+			"type": "date",
+		}
+	   "created_by": {
+			"type": "string",
+		},
+	   "date_last_updated": {
+			"type": "date",
+		},
+	   "last_updated_by": {
+			"type": "string",
+		},
+	   "record_id": {
+			//"VA-2011-1703"
+			"type": "string",
+		},
+	   "first_name": {
+			"type": "string",
+		},
+	   "middle_name": {
+			"type": "string",
+			},
+	   "last_name": {
+			"type": "string",
+			},
+	   "date_of_death": {
+			"type": "date",
+			},
+	   "state_of_death": {
+			"type": "string(2)",
+			},
+	   "state_of_last_known_residence": {
+			"type": "",
+			
+			},
+	   "agency_case_id": ""{
+			"type": "string",
+			},
+	   "is_valid_maternal_mortality_record": {
+			"type": "boolean",
+			},
+	   "death_certificate": 
+	   {
+			"type": "form",
+			"children":
+			{
+				"causes_of_death": {
+					"type": "array",
+					"children": []
+					
+				},
+			   "place_of_last_residence": {
+					"type": "group",
+					"children": {
+					   "street": { "type": "string", "order": 0},
+					   "city":  { "type": "string", "order": 1},
+					   "state":  { "type": "string", "order": 2},
+					   "zip_code":  { "type": "string", "order": 3},
+					   "latitude":  { "type": "string", "order": 4},
+					   "longitude":  { "type": "string", "order": 5}
+				   }
+			   },
+			   "race": [
+				   "White",
+				   "Black"
+		   }
+	   },
+	   "maternal_birth_certificate": {
+			"type": "",
+			{
+		   "demographic_facility_of_delivery": {
+		   },
+		   "demographic_father": {
+		   },
+		   "demographic_mother": {
+		   },
+		   "pregnancy_history": {
+		   },
+		   "maternal_biometrics": {
+		   },
+		   "prenatal_care": {
+		   },
+		   "cigarette_smoking": {
+		   }
+		   }
+	   },
+	   "infant_birth_fetal_death_certificate": {
+			"type": "",
+			[
+	   ]}
+	}
+}

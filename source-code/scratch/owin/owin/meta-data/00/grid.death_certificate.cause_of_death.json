@@ -1,0 +1,52 @@
+{
+	"type":"array",
+	"chidren":
+	[
+		{ 
+			"name":"cause_type",
+			"prompt":"Type*",
+			"order": 0,
+			"type":"string",
+			"values":
+			[
+				"Immediate",
+				"Contributing",
+				"Underlying",
+				"Other significant"
+			]
+		},
+		{ 
+			"name":"cause_description",
+			"prompt":"Cause (descriptive)*",
+			"order": ,
+			"type":"string"
+		},
+		{ 
+			"name":"icd_code",
+			"prompt":"ICD Code",
+			"order": ,
+			"type":"string"
+		},		
+		{ 
+			"name":"interval",
+			"prompt":"Interval",
+			"order": ,
+			"type":"string"
+		},
+		{ 
+			"name":"interval_unit",
+			"prompt":"Unit",
+			"order": ,
+			"type":"string"
+			"values":
+			[
+					"Minute(s)",
+					"Hour(s)",
+					"Day(s)",
+					"Week(s)",
+					"Month(s)",
+					"Year(s)",
+					"Not specified"
+			]
+		}
+}
