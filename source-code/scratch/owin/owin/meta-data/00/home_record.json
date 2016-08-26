@@ -45,37 +45,37 @@
 		},
 		{ 
 			"name":"middle_name",
-			"prompt":"middle_name",
+			"prompt":"middle name",
 			"order": -1,
 			"type": "string"
 		},
 		{ 
 			"name":"last_name",
-			"prompt":"last_name",
+			"prompt":"last name",
 			"order": -1,
 			"type": "string"
 		},
 		{ 
 			"name":"date_of_death",
-			"prompt":"date_of_death",
+			"prompt":"date of death*",
 			"order": -1,
 			"type": "date"
 		},
 		{ 
 			"name":"state_of_death",
-			"prompt":"state_of_death",
+			"prompt":"state of death",
 			"order": -1,
 			"type": "string(2)"
 		},
 		{ 
 			"name":"state_of_last_known_residence",
-			"prompt":"state_of_last_known_residence",
+			"prompt":"state of last known residence",
 			"order": -1,
 			"type": ""
 		},
 		{ 
 			"name":"agency_case_id",
-			"prompt":"agency_case_id",
+			"prompt":"agency-based case identifier",
 			"order": -1,
 			"type": "string"
 		},
@@ -88,6 +88,7 @@
 		{ 
 			"name":"death_certificate": 
 			"order": -1,
+			"cardinality": "0-1",
 			"type": "home_record.death_certificate.json"
 			
 	   },
@@ -95,12 +96,14 @@
 			"name":"maternal_birth_certificate",
 			"prompt":"maternal_birth_certificate",
 			"order": -1,
+			"cardinality": "0-1",
 			"type": "home_record.maternal_birth_certificate.json"
 	   },
 	   { 
 			"name":"infant_birth_fetal_death_certificate",
 			"prompt":"infant_birth_fetal_death_certificate",
 			"order": -1,
+			"cardinality": "*",
 			"type": "home_record.infant_birth_fetal_death_certificate.json",
 	   }
 	]
