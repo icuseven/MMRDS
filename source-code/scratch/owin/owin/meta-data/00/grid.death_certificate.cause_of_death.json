@@ -18,13 +18,13 @@
 		{ 
 			"name":"cause_description",
 			"prompt":"Cause (descriptive)*",
-			"order": ,
+			"order": 1,
 			"type":"string"
 		},
 		{ 
 			"name":"icd_code",
 			"prompt":"ICD Code",
-			"order": ,
+			"order": 2,
 			"type":"string"
 		},		
 		{ 
@@ -36,7 +36,7 @@
 		{ 
 			"name":"interval_unit",
 			"prompt":"Unit",
-			"order": ,
+			"order": 3,
 			"type":"string"
 			"values":
 			[

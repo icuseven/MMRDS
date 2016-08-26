@@ -1,30 +1,33 @@
 {
 	"type": "form",
 	"children":
-	{
-		"causes_of_death": 
-		{
+	[
+		{ 
+			"name":"causes_of_death",
+			"prompt": "Causes of death*",
 			"order": 0,
-			"type": "array",
-			"children": []
+			"type": "grid.death_certificate.cause_of_death.json"
 		},
-		"place_of_last_residence": 
-		{
+		{ 
+			"name":"place_of_last_residence",
+			"prompt": "Place of last residence",
 			"order": 1,
 			"type": "group",
-			"children": {
-			   "street": { "type": "string", "order": 0},
-			   "city":  { "type": "string", "order": 1},
-			   "state":  { "type": "string", "order": 2},
-			   "zip_code":  { "type": "string", "order": 3},
-			   "latitude":  { "type": "string", "order": 4},
-			   "longitude":  { "type": "string", "order": 5}
-		   }
+			"children": 
+			[
+			   { "name":"street", "prompt":"street", "type": "string", "order": 0},
+			   { "name":"city", "prompt":"city", "type": "string", "order": 1},
+			   { "name":"state", "prompt":"state", "type": "string", "order": 2},
+			   { "name":"zip_code", "prompt":"zip_code", "type": "string", "order": 3},
+			   { "name":"latitude", "prompt":"latitude", "type": "string", "order": 4},
+			   { "name":"longitude", "prompt":"longitude", "type": "string", "order": 5}
+		   ]
 		},
-		"race": 
-		{
+		{ 
+			"name":"race",
+			"prompt": "",
 			"order": 2, 
-			"type":"grid_race",
+			"type":"listbox.race.json"
 		}
-   }
+	]
 }

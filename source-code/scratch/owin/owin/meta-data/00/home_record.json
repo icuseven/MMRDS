@@ -6,96 +6,102 @@
 	"_rev": "1-d794f8cf1e80575b985bef7dd85fdce7",
 	"type": "form",
 	"children":
-	{
-	   "date_created":  {
-			"type": "date",
-		}
-	   "created_by": {
-			"type": "string",
-		},
-	   "date_last_updated": {
-			"type": "date",
-		},
-	   "last_updated_by": {
-			"type": "string",
-		},
-	   "record_id": {
-			//"VA-2011-1703"
-			"type": "string",
-		},
-	   "first_name": {
-			"type": "string",
-		},
-	   "middle_name": {
-			"type": "string",
-			},
-	   "last_name": {
-			"type": "string",
-			},
-	   "date_of_death": {
-			"type": "date",
-			},
-	   "state_of_death": {
-			"type": "string(2)",
-			},
-	   "state_of_last_known_residence": {
-			"type": "",
-			
-			},
-	   "agency_case_id": ""{
-			"type": "string",
-			},
-	   "is_valid_maternal_mortality_record": {
-			"type": "boolean",
-			},
-	   "death_certificate": 
+	[
 	   {
-			"type": "form",
-			"children":
-			{
-				"causes_of_death": {
-					"type": "array",
-					"children": []
-					
-				},
-			   "place_of_last_residence": {
-					"type": "group",
-					"children": {
-					   "street": { "type": "string", "order": 0},
-					   "city":  { "type": "string", "order": 1},
-					   "state":  { "type": "string", "order": 2},
-					   "zip_code":  { "type": "string", "order": 3},
-					   "latitude":  { "type": "string", "order": 4},
-					   "longitude":  { "type": "string", "order": 5}
-				   }
-			   },
-			   "race": [
-				   "White",
-				   "Black"
-		   }
+			"name":"date_created",
+			"prompt":"date_created",
+			"order": -1,
+			"type": "date"
+		},
+		{ 
+			"name":"created_by",
+			"prompt":"created_by",
+			"order": -1,		
+			"type": "string"
+		},
+		{ 
+			"name":"date_last_updated",
+			"prompt":"date_last_updated",
+			"order": -1,
+			"type": "date"
+		},
+		{ 
+			"name":"last_updated_by",
+			"prompt":"last_updated_by",
+			"order": -1,
+			"type": "string"
+		},
+		{ 
+			"name":"record_id",
+			"prompt":"record_id",
+			"order": -1,
+			"type": "string"
+		},
+		{ 
+			"name":"first_name",
+			"prompt":"first name",
+			"order": -1,
+			"type": "string"
+		},
+		{ 
+			"name":"middle_name",
+			"prompt":"middle_name",
+			"order": -1,
+			"type": "string"
+		},
+		{ 
+			"name":"last_name",
+			"prompt":"last_name",
+			"order": -1,
+			"type": "string"
+		},
+		{ 
+			"name":"date_of_death",
+			"prompt":"date_of_death",
+			"order": -1,
+			"type": "date"
+		},
+		{ 
+			"name":"state_of_death",
+			"prompt":"state_of_death",
+			"order": -1,
+			"type": "string(2)"
+		},
+		{ 
+			"name":"state_of_last_known_residence",
+			"prompt":"state_of_last_known_residence",
+			"order": -1,
+			"type": ""
+		},
+		{ 
+			"name":"agency_case_id",
+			"prompt":"agency_case_id",
+			"order": -1,
+			"type": "string"
+		},
+		{ 
+			"name":"is_valid_maternal_mortality_record",
+			"prompt":"is_valid_maternal_mortality_record",
+			"order": -1,
+			"type": "boolean"
+		},
+		{ 
+			"name":"death_certificate": 
+			"order": -1,
+			"type": "home_record.death_certificate.json"
+			
 	   },
-	   "maternal_birth_certificate": {
-			"type": "",
-			{
-		   "demographic_facility_of_delivery": {
-		   },
-		   "demographic_father": {
-		   },
-		   "demographic_mother": {
-		   },
-		   "pregnancy_history": {
-		   },
-		   "maternal_biometrics": {
-		   },
-		   "prenatal_care": {
-		   },
-		   "cigarette_smoking": {
-		   }
-		   }
+	   { 
+			"name":"maternal_birth_certificate",
+			"prompt":"maternal_birth_certificate",
+			"order": -1,
+			"type": "home_record.maternal_birth_certificate.json"
 	   },
-	   "infant_birth_fetal_death_certificate": {
-			"type": "",
-			[
-	   ]}
-	}
+	   { 
+			"name":"infant_birth_fetal_death_certificate",
+			"prompt":"infant_birth_fetal_death_certificate",
+			"order": -1,
+			"type": "home_record.infant_birth_fetal_death_certificate.json",
+	   }
+	]
 }
