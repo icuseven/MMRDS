@@ -7,9 +7,14 @@
 	[
 		{ 
 			"name":"demographic_facility_of_delivery",
-			"prompt":"demographic_facility_of_delivery",
+			"prompt":"Facility of delivery demographics",
 			"order": -1,
-			"type":""
+			"type":"group",
+			"children": 
+			[
+
+
+			]
 		},
 		{ 
 			"name":"demographic_father",
