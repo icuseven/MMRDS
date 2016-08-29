@@ -16,14 +16,14 @@
 		<paper-input label="Age*" value="{{bound_data.age}}"></paper-input>
 		<paper-dropdown-menu label="Marital status*">
 			<paper-listbox class="dropdown-content" selected="{{bound_data.marital_status}}" attr-for-selected="value">
-				<paper-item></paper-item>
-				<paper-item>Married</paper-item>
-				<paper-item>Married, but separated</paper-item>
-				<paper-item>Widowed</paper-item>
-				<paper-item>Divorced</paper-item>
-				<paper-item>Never Married</paper-item>
-				<paper-item>Unknown</paper-item>
-				<paper-item>Not Specified</paper-item>
+				<paper-item value=""></paper-item>
+				<paper-item value="Married">Married</paper-item>
+				<paper-item value="Married, but separated">Married, but separated</paper-item>
+				<paper-item value="Widowed">Widowed</paper-item>
+				<paper-item value="Divorced">Divorced</paper-item>
+				<paper-item value="Never Married">Never Married</paper-item>
+				<paper-item value="Unknown">Unknown</paper-item>
+				<paper-item value="Not Specified">Not Specified</paper-item>
 			</paper-listbox>
 		</paper-dropdown-menu>
 
@@ -37,29 +37,29 @@
 		
 		<paper-dropdown-menu label="Hispanic origin?*">
 			<paper-listbox class="dropdown-content" selected="{{bound_data.is_of_hispanic_origin}}" attr-for-selected="value">
-				<paper-item></paper-item>
-				<paper-item>No, not Spanish/ Hispanic/ Latino</paper-item>
-				<paper-item>Yes, Mexican, Mexican American, Chicano</paper-item>
-				<paper-item>Yes, Puerto Rican</paper-item>
-				<paper-item>Yes, Cuban</paper-item>
-				<paper-item>Yes, other Spanish/ Hispanic/ Latino</paper-item>
-				<paper-item>Yes, origin unknown</paper-item>
-				<paper-item>Not specified</paper-item>
+				<paper-item value=""></paper-item>
+				<paper-item value="No, not Spanish/ Hispanic/ Latino">No, not Spanish/ Hispanic/ Latino</paper-item>
+				<paper-item value="Yes, Mexican, Mexican American, Chicano">Yes, Mexican, Mexican American, Chicano</paper-item>
+				<paper-item value="Yes, Puerto Rican">Yes, Puerto Rican</paper-item>
+				<paper-item value="Yes, Cuban">Yes, Cuban</paper-item>
+				<paper-item value="Yes, other Spanish/ Hispanic/ Latino">Yes, other Spanish/ Hispanic/ Latino</paper-item>
+				<paper-item value="Yes, origin unknown">Yes, origin unknown</paper-item>
+				<paper-item value="Not specified">Not specified</paper-item>
 			</paper-listbox>
 		</paper-dropdown-menu>
 
 		<paper-dropdown-menu label="Education*">
 			<paper-listbox class="dropdown-content" selected="{{bound_data.education_level}}" attr-for-selected="value">
-				<paper-item></paper-item>
-				<paper-item>8th grade or less</paper-item>
-				<paper-item>9th-12th grade; no diploma</paper-item>
-				<paper-item>High School grad or GED completed</paper-item>
-				<paper-item>Some college; no degree</paper-item>
-				<paper-item>Associate degree</paper-item>
-				<paper-item>Bachelor's degree</paper-item>
-				<paper-item>Master's degree</paper-item>
-				<paper-item>Doctorate or Professional degree</paper-item>
-				<paper-item>Not Specified</paper-item>
+				<paper-item value=""></paper-item>
+				<paper-item value="8th grade or less">8th grade or less</paper-item>
+				<paper-item value="9th-12th grade; no diploma">9th-12th grade; no diploma</paper-item>
+				<paper-item value="High School grad or GED completed">High School grad or GED completed</paper-item>
+				<paper-item value="Some college; no degree">Some college; no degree</paper-item>
+				<paper-item value="Associate degree">Associate degree</paper-item>
+				<paper-item value="Bachelor's degree">Bachelor's degree</paper-item>
+				<paper-item value="Master's degree">Master's degree</paper-item>
+				<paper-item value="Doctorate or Professional degree">Doctorate or Professional degree</paper-item>
+				<paper-item value="Not Specified">Not Specified</paper-item>
 			</paper-listbox>
 		</paper-dropdown-menu>
 	</paper-material>	
