@@ -1,5 +1,5 @@
 {
-	"type":"array",
+	"type":"Grid",
 	"chidren":
 	[
 		{ 
@@ -49,4 +49,5 @@
 					"Not specified"
 			]
 		}
+	]
 }
