@@ -3,6 +3,7 @@
 	"prompt":"Death Certificate",
 	"order": -1,		
 	"type": "form",
+	"cardinality": "0-1",
 	"children":
 	[
 	{
@@ -11,7 +12,7 @@
 	"order": -1,		
 	"type": "Address",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		{ "name":"street",	"prompt":"street",	"type": "string",	"order": 0},
@@ -208,7 +209,7 @@
 	"order": -1,		
 	"type": "Yes_No",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -223,7 +224,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -240,7 +241,7 @@
 	"order": -1,		
 	"type": "Yes_No",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -255,7 +256,7 @@
 	"order": -1,		
 	"type": "Address",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		{ "name":"street",	"prompt":"street",	"type": "string",	"order": 0},
@@ -273,7 +274,7 @@
 	"order": -1,		
 	"type": "List",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -289,7 +290,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -307,7 +308,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -328,7 +329,7 @@
 	"order": -1,		
 	"type": "Yes_No",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -343,7 +344,7 @@
 	"order": -1,		
 	"type": "Yes_No",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -358,7 +359,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -367,7 +368,7 @@
 		"Pregnant within 42 days of death",
 		"Pregnant 43 to 365 days of death",
 		"Unkown if pregant in last year",
-		"Not Specified",
+		"Not Specified"
 	]
 	},
 	{
@@ -376,7 +377,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"values": 
 	[
 		"",
@@ -384,7 +385,7 @@
 		"Probably",
 		"No",
 		"Unkown",
-		"Not Specified",
+		"Not Specified"
 	]
 	},
 	{
@@ -393,7 +394,7 @@
 		"order": -1,		
 		"type": "Address",
 		"is_core_summary": false,
-		"validation": null
+		"validation": null,
 		"children": 
 		[
 			{ "name":"street",	"prompt":"street",	"type": "string",	"order": 0},
@@ -403,7 +404,7 @@
 			{ "name":"latitude", "prompt":"latitude", "type": "string", "order": 4},
 			{ "name":"longitude", "prompt":"longitude", "type": "string", "order": 5}
 		]
-	}	
+	},
 	{
 	"name":"estimated_death_distance_from_residence",
 	"prompt":"Estimated distance (miles) between residence and place of death*",
@@ -447,14 +448,14 @@
 		{ 
 			"name":"interval",
 			"prompt":"Interval",
-			"order": ,
+			"order": 3,
 			"type":"string"
 		},
 		{ 
 			"name":"interval_unit",
 			"prompt":"Unit",
-			"order": 3,
-			"type":"string"
+			"order": 4,
+			"type":"string",
 			"values":
 			[
 					"Minute(s)",

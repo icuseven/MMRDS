@@ -15,7 +15,7 @@
 	{ "name":"middle_name", "prompt":"Middle name", "order": -1, "type": "", "is_core_summary": false, "validation": null },
 	{ "name":"last_name", "prompt":"Last name", "order": -1, "type": "", "is_core_summary": false, "validation": null },
 	{ "name":"maiden_name", "prompt":"Maiden name", "order": -1, "type": "", "is_core_summary": false, "validation": null },
-	{ "name":"medical_record_number", "prompt":"Medical Record No.", "order": -1, "type": "", "is_core_summary": false, "validation": null },
+	{ "name":"medical_record_number", "prompt":"Medical Record No.", "order": -1, "type": "", "is_core_summary": false, "validation": null }
 	]
 	},
 	{
@@ -23,7 +23,7 @@
 	"prompt":"Father's demographics",
 	"order": -1,		
 	"type": "",
-	"is_core_summary": false
+	"is_core_summary": false,
 	"children": 
 	[
 		{
@@ -160,7 +160,7 @@
 	},
 	{
 	"name":"race_of_father",
-	"prompt":"Father's race"
+	"prompt":"Father's race",
 	"type":"MultiList",
 	"item_type": "string",
 	"multiselect": true,
@@ -189,7 +189,7 @@
 	"prompt":"demographic_of_mother",
 	"order": -1,		
 	"type": "",
-	"is_core_summary": false
+	"is_core_summary": false,
 	"children": 
 	[
 		{
@@ -326,7 +326,7 @@
 	},
 	{
 	"name":"race_of_mother",
-	"prompt":"Mother's race"
+	"prompt":"Mother's race",
 	"type":"MultiList",
 	"item_type": "string",
 	"multiselect": true,
@@ -356,7 +356,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		{ "name":"date_of_last_live_birth", "prompt":"Date of last live birth", "order": -1, "type": "", "is_core_summary": false, "validation": null },
@@ -375,13 +375,13 @@
 	"order": -1,		
 	"type": "groupt",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		{ "name":"height", "prompt":"Height (feet inches)## ##", "order": -1, "type": "", "is_core_summary": false, "validation": null },
 		{ "name":"pre_pregnancy_weight", "prompt":"Pre-pregnancy weight (lbs.)", "order": -1, "type": "", "is_core_summary": false, "validation": null },
 		{ "name":"weight_at_deliverty", "prompt":"Weight at delivery (lbs.)", "order": -1, "type": "", "is_core_summary": false, "validation": null },
-		{ "name":"weight_gain", "prompt":"Weight gain (lbs.)", "order": -1, "type": "", "is_core_summary": false, "validation": null },
+		{ "name":"weight_gain", "prompt":"Weight gain (lbs.)", "order": -1, "type": "", "is_core_summary": false, "validation": null }
 	]
 	},
 	{
@@ -390,7 +390,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"children": 
 	[	
 		{
@@ -419,14 +419,13 @@
 		},
 		{ "name":"calculated_gestation", "prompt":"Calculated gestation (weeks)*", "order": -1, "type": "String", "is_core_summary": false, "validation": null },
 		{ "name":"obsteric_estimate_of_gestation", "prompt":"Obstetric estimate of gestation (weeks)*", "order": -1, "type": "", "is_core_summary": false, "validation": null },
-			<paper-listbox class="dropdown-content" selected="{{ }}" attr-for-selected="value">
 		{
 		"name":"plurality",
 		"prompt":"Plurality*",
 		"order": -1,		
 		"type": "",
 		"is_core_summary": true,
-		"validation": null
+		"validation": null,
 		"children": 
 		[
 			"",
@@ -453,14 +452,21 @@
 			"Not specified"
 		]
 		},
-		{ "name":"specify_if_greater_than_3", "prompt":"Specify, if &gt; 3", "order": -1, "type": "String", "is_core_summary": false, "validation": null },
+		{ 
+			"name":"specify_if_greater_than_3",
+			"prompt":"Specify, if > 3",
+			"order": -1,
+			"type": "String",
+			"is_core_summary": false,
+			"validation": null 
+		},
 		{
 		"name":"how_was_delivery_paid",
 		"prompt":"How was this delivery paid*",
 		"order": -1,		
 		"type": "",
 		"is_core_summary": true,
-		"validation": null
+		"validation": null,
 		"children": 
 		[
 			"",
@@ -472,14 +478,21 @@
 			"Not specified"
 		]
 		},			
-		{ "name":"number_of_visits", "prompt":"No. of visits", "order": -1, "type": "String", "is_core_summary": false, "validation": null },
+		{ 
+			"name":"number_of_visits",
+			"prompt":"No. of visits",
+			"order": -1,
+			"type": "String",
+			"is_core_summary": false,
+			"validation": null 
+		},
 		{
 		"name":"trimester_of_1st_prenatal_care_visit",
 		"prompt":"Trimester of 1st prenatal care visit*",
 		"order": -1,		
 		"type": "",
 		"is_core_summary": true,
-		"validation": null
+		"validation": null,
 		"children": 
 		[
 			"",
@@ -489,7 +502,7 @@
 			"Not specified"
 		]
 		},
-		{ "name":"specify_other_payor", "prompt":"Specify other payor", "order": -1, "type": "String", "is_core_summary": false, "validation": null },
+		{ "name":"specify_other_payor", "prompt":"Specify other payor", "order": -1, "type": "String", "is_core_summary": false, "validation": null }
 	]
 	},
 	{
@@ -498,7 +511,7 @@
 	"order": -1,		
 	"type": "",
 	"is_core_summary": false,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		{ "name":"prior_3_months", "prompt":"In prior 3 months (# of cigarettes/ packs)", "order": -1, "type": "", "is_core_summary": false, "validation": null },
@@ -508,7 +521,7 @@
 			"order": -1,		
 			"type": "radio_group",
 			"is_core_summary": false,
-			"validation": null
+			"validation": null,
 			"children": 
 			[ 
 				"",
@@ -524,7 +537,7 @@
 			"order": -1,		
 			"type": "radio_group",
 			"is_core_summary": false,
-			"validation": null
+			"validation": null,
 			"children": 
 			[ 
 				"",
@@ -539,7 +552,7 @@
 			"order": -1,		
 			"type": "radio_group",
 			"is_core_summary": false,
-			"validation": null
+			"validation": null,
 			"children": 
 			[ 
 				"",
@@ -554,7 +567,7 @@
 			"order": -1,		
 			"type": "radio_group",
 			"is_core_summary": false,
-			"validation": null
+			"validation": null,
 			"children": 
 			[ 
 				"",
@@ -568,14 +581,14 @@
 		"order": -1,		
 		"type": "List",
 		"is_core_summary": false,
-		"validation": null
+		"validation": null,
 		"children": 
 		[
 			"",
 			"None",
 			"Not Specified"
 		]
-		},
+		}
 		
 	]
 	},
@@ -585,7 +598,7 @@
 	"order": -1,		
 	"type": "MultiList",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		"",
@@ -610,7 +623,7 @@
 	"order": -1,		
 	"type": "MultiList",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		"",
@@ -634,7 +647,7 @@
 	"order": -1,		
 	"type": "MultiList",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		"",
@@ -642,7 +655,7 @@
 		"Prolonged labor (> 20 hours)",
 		"Precipitous labor (< 3 hours)",
 		"None of these",
-		"Not specified",
+		"Not specified"
 	]
 	},
 	{
@@ -651,7 +664,7 @@
 	"order": -1,		
 	"type": "MultiList",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		"",
@@ -669,7 +682,7 @@
 	"order": -1,		
 	"type": "MultiList",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		"",
@@ -692,7 +705,7 @@
 	"order": -1,		
 	"type": "MultiList",
 	"is_core_summary": true,
-	"validation": null
+	"validation": null,
 	"children": 
 	[
 		"",
@@ -708,7 +721,5 @@
 	},
 	{ "name":"length_between_child_birth_and_death_of_mother", "prompt":"Length of time between birth of child and death of mother*", "order": -1, "type": "String", "is_core_summary": true, "validation": null },
 	{ "name":"reviewer_note", "prompt":"Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate", "order": -1, "type": "TextArea", "is_core_summary": false, "validation": null }
-	]
-	}
 	]
 }
