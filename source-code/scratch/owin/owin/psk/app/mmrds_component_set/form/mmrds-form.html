@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">		
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+	
+<dom-module id="mmrds-state-dropdown"> 
+<template> 
+<section data-route="[[data_route]]" tabindex="-1">
+				<h1>[[form_name]]</h1>
+			
+</section>
+</template>
+	<script>
+	Polymer({
+        is: 'mmrds-form',
+		properties: 
+			{
+				label: { type:String, notify: true },
+				data_value: { 
+								type:String,
+								notify: true,
+								value: "",
+								observer:'onSelect' 
+							}
+			},
+		ready:function()
+		{
+			console.log("state-dropdown.ready")
+		},
+		attached:function()
+		{
+			console.log("state-dropdown.attached")
+		},
+		onSelect:function(data_value)
+		{
+			//this.$.state_dropdown.selected = data_value;
+			//this.data_value = data_value;
+			//this.$.state_dropdown_menu.selectedItemLabel = data_value;
+			//this.data_value = this.$.state_dropdown.selectedItem;
+		}
+
+      });
+	  
+	</script>
+	
+</dom-module>

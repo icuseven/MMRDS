@@ -7,6 +7,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+//https://easyusedev.wordpress.com/2015/11/06/dynamically-loading-polymer-elements-on-the-fly/
+
 (function(document) {
   'use strict';
 
@@ -15,8 +17,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = Polymer.dom(document).querySelector('#app');
 
+	//CreateFromMetaData(document, app, metadata, parent)
+	
+	// var prenatal =  app.querySelector('section[data-route="PrenatalCare"]');
+	// var myElement = document.createElement("mmrds-race");
+	// prenatal.appendChild(myElement);
+	// myElement = document.createElement("h1");
+	// myElement.innerHTML = "bedrock";
+	// prenatal.appendChild(myElement);
+	
+  
+  
   // profile --- start
-  window.addEventListener('profile_login_changed', function(e) {
+  window.addEventListener('profile_login_changed', function(e) 
+  {
     var profile = app.querySelector('#mmrds_profile');
 	
         profile.isLoggedIn = e.detail.is_logged_in;
@@ -113,6 +127,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     app.$.paperDrawerPanel.closeDrawer();
   };
   
-  
+	function CreateFromMetaData(document, app, metadata, parent)
+	{
+		
+		if(metadata.type)
+		{
+			switch(metadata.type.toLowerCase())
+			{
+				case 'form':
+					var page_set =  app.querySelector('#page_set');
+					var form = document.createElement("mmrds-form");
+					
+					form.data_route = metadata.data_route;
+					form.form_name = metadata.prompt;
+					
+					page_set.appendChild(form);
+					for(var child in form.children)
+					{
+						CreateFromMetaData(document, app, child, form)
+					}
+
+				break;
+				
+			}
+		}
+		
+		
+		if(typeof i=='undefined')i='';
+		if(i.length>50)return '[MAX ITERATIONS]';
+		var r=[];
+		for(var p in o)
+		{
+			var t=typeof o[p];
+			r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'  ') : o[p]+''));
+		}
+		return r.join(i+'\n');
+	}
+
 
 })(document);

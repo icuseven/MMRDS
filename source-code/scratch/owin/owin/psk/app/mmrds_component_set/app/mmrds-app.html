@@ -122,7 +122,7 @@
 			</a><br/>
 
 
-			<a data-route="PrenatalCare" href="{{baseUrl}}PrenatalCare">
+			<a data-route="PrenatalCare" href="#/PrenatalCare/{{IdentifierData.id}}">
 				<iron-icon icon="mail"></iron-icon>
 				<span>Prenatal Care Records</span>
 			</a><br/>
@@ -205,7 +205,7 @@
 
         <!-- Main Content -->
         <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="[[categoryData.category]]">
+          <iron-pages id="page_set" attr-for-selected="data-route" selected="[[categoryData.category]]">
             <section data-route="home" tabindex="-1">
               <paper-material elevation="1">
 			  <h1 class="page-title" tabindex="-1">Welcome to MMRDS</h1>
@@ -274,7 +274,8 @@
             </section>
 
 			<section data-route="PrenatalCare" tabindex="-1">
-
+				<h1>inline test</h1>
+			
             </section>
 
 			<section data-route="ERVisits" tabindex="-1">
