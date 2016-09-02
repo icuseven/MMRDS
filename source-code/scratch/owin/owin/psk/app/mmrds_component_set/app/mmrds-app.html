@@ -58,6 +58,7 @@
 
 <dom-module id="mmrds-app">
 <template id="app">
+	<iron-ajax id="metadata_ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
 	<app-location  route="{{route}}" use-hash-as-path></app-location>
 	<app-route  route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
 	<app-route  route="{{categoryTail}}" pattern="/:id" data="{{IdentifierData}}" tail="{{IdentifierTail}}" active="{{IdentifierActive}}"></app-route>
@@ -273,10 +274,7 @@
 				<mmrds-autopsy home_record="{{home_record}}" bound_data="{{home_record.autopsy}}"></mmrds-autopsy>
             </section>
 
-			<section data-route="PrenatalCare" tabindex="-1">
-				<h1>inline test</h1>
-			
-            </section>
+
 
 			<section data-route="ERVisits" tabindex="-1">
 

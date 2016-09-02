@@ -12,12 +12,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 (function(document) {
   'use strict';
 
-  // Grab a reference to our auto-binding template
-  // and give it some initial binding values
-  // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
-  var app = Polymer.dom(document).querySelector('#app');
+	// Grab a reference to our auto-binding template
+	// and give it some initial binding values
+	// Learn more about auto-binding templates at http://goo.gl/Dx1u2g
+	var app = Polymer.dom(document).querySelector('#app');
+	var httpRequest = null;
+	
+	//https://developer.mozilla.org/en-US/docs/AJAX/Getting_Started
+	// Old compatibility code, no longer needed.
+	if (window.XMLHttpRequest) 
+	{ // Mozilla, Safari, IE7+ ...
+		httpRequest = new XMLHttpRequest();
+	}
+	else if (window.ActiveXObject) 
+	{ // IE 6 and older
+		httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	}
 
-	//CreateFromMetaData(document, app, metadata, parent)
+	httpRequest.onreadystatechange = function()
+	{
+		
+		if (httpRequest.readyState === XMLHttpRequest.DONE) 
+		{
+			// everything is good, the response is received
+			if (httpRequest.status === 200) 
+			{
+				// perfect!
+						// process the server response
+				var parent = null;
+				var metadata = JSON.parse(httpRequest.responseText);
+				
+				CreateFromMetaData(document, app, metadata, parent);
+
+			}
+			else 
+			{
+				// there was a problem with the request,
+				// for example the response may contain a 404 (Not Found)
+				// or 500 (Internal Server Error) response code
+			}
+		} 
+		else 
+		{
+			// still not ready
+		}
+		
+	};
+	
 	
 	// var prenatal =  app.querySelector('section[data-route="PrenatalCare"]');
 	// var myElement = document.createElement("mmrds-race");
@@ -25,7 +66,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	// myElement = document.createElement("h1");
 	// myElement.innerHTML = "bedrock";
 	// prenatal.appendChild(myElement);
-	
+	httpRequest.open('GET', 'http://localhost:12345/meta-data/00/prenata_care.json', true);
+	httpRequest.send(null);
   
   
   // profile --- start
@@ -142,17 +184,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 					form.form_name = metadata.prompt;
 					
 					page_set.appendChild(form);
-					for(var child in form.children)
+					for(var i = 0; i < metadata.children.length; i++)
 					{
+						var child = metadata.children[i];
 						CreateFromMetaData(document, app, child, form)
 					}
 
 				break;
+				default:
+					console.log(metadata.type);
+					break;
 				
 			}
 		}
 		
-		
+		/*
 		if(typeof i=='undefined')i='';
 		if(i.length>50)return '[MAX ITERATIONS]';
 		var r=[];
@@ -161,7 +207,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			var t=typeof o[p];
 			r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'  ') : o[p]+''));
 		}
-		return r.join(i+'\n');
+		return r.join(i+'\n');*/
 	}
 
 
