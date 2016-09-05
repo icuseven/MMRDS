@@ -477,7 +477,7 @@ Polymer(
 					a.value = "{{bound_data." + metadata.name + "}}";
 					element.setAttributeNode(a);
 					
-					parent.appendChild(element);
+					Polymer.dom(parent).appendChild(element);
 					break;			
 			
 				case 'form':
@@ -517,9 +517,9 @@ Polymer(
 					
 					h1 = document.createElement("h1");
 					h1.innerHTML = metadata.prompt;
-					element.appendChild(h1);
+					Polymer.dom(element).appendChild(h1);
 
-					parent.appendChild(element);
+					Polymer.dom(parent).appendChild(element);
 
 					for(var i = 0; i < metadata.children.length; i++)
 					{
@@ -534,7 +534,7 @@ Polymer(
 					
 					h1 = document.createElement("h2");
 					h1.innerHTML = metadata.prompt;
-					parent.appendChild(h1);
+					Polymer.dom(parent).appendChild(h1);
 					
 					element = document.createElement("paper-radio-group");
 					a  = document.createAttribute("selected");
@@ -551,7 +551,7 @@ Polymer(
 					a.value = "";
 					element_2.setAttributeNode(a);
 					
-					element.appendChild(element_2);
+					Polymer.dom(element).appendChild(element_2);
 					
 					
 					for(var i = 0; i < metadata.values.length; i++)
@@ -564,10 +564,10 @@ Polymer(
 						a.value = radio_value;
 						element_2.setAttributeNode(a);
 						element_2.innerHTML = radio_value;
-						element.appendChild(element_2);
+						Polymer.dom(element).appendChild(element_2);
 					}
 					
-					parent.appendChild(element);
+					Polymer.dom(parent).appendChild(element);
 					
 					break;
 				default:
