@@ -22,7 +22,11 @@ namespace owin
 			//data_access da = new data_access ();
 			//da.login ("mmrds","mmrds");
 
-			var url = "http://localhost:12345";
+			#if SERVERBASED
+				string url = "http://*:9000/";
+			#else
+				string url = "http://localhost:12345";
+			#endif
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
 
@@ -59,7 +63,12 @@ namespace owin
 
 			app.UseWebApi(config); 
 
-			var root = "/vagrant/source-code/scratch/owin/owin/psk/app";
+			#if SERVERBASED
+				string root = "/owin/psk/app";
+			#else
+				string root = "/vagrant/source-code/scratch/owin/owin/psk/app";
+			#endif
+
 			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
 			var options = new Microsoft.Owin.StaticFiles.FileServerOptions()
 			{
