@@ -24,6 +24,8 @@ namespace owin
 
 			#if SERVERBASED
 				string url = "http://*:9000/";
+			#elif CONTAINERBASED
+				string url = "http://*:9000/";
 			#else
 				string url = "http://localhost:12345";
 			#endif
@@ -65,6 +67,8 @@ namespace owin
 
 			#if SERVERBASED
 				string root = "/owin/psk/app";
+			#elif CONTAINERBASED
+			``string root = "/owin/psk/app";
 			#else
 				string root = "/vagrant/source-code/scratch/owin/owin/psk/app";
 			#endif

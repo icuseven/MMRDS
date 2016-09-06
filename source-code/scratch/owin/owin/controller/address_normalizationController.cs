@@ -7,7 +7,11 @@ namespace owin
 {
 	public class address_normalizationController: ApiController 
 	{
-		private static string geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+		#if CONTAINERBASED
+			private static string geocode_api_key = System.Environment.GetEnvironmentVariable("geocode_api_key");
+		#else
+			private static string geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+		#endif
 
 		public address_normalizationController ()
 		{
