@@ -12,6 +12,7 @@ namespace owin
 	public class sessionController: ApiController 
 	{
 		private static string geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+		private static string couchdb_url =  System.Configuration.ConfigurationManager.AppSettings["couchdb_url"];
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		//{"ok":true,"userCtx":{"name":"mmrds","roles":["_admin"]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"],"authenticated":"cookie"}}
 
@@ -27,7 +28,7 @@ namespace owin
 		{ 
 			try
 			{
-				string request_string = "http://localhost:5984/_session";
+				string request_string = couchdb_url + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -99,7 +100,7 @@ namespace owin
 
 
 				//string request_string = "http://mmrds:mmrds@localhost:5984/_session";
-				string request_string = "http://localhost:5984/_session";
+				string request_string = couchdb_url + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				//request.UseDefaultCredentials = true;
 
@@ -229,7 +230,7 @@ namespace owin
 		{ 
 			try
 			{
-				string request_string = "http://localhost:5984/_session";
+				string request_string = couchdb_url + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				request.Method = "DELETE";
 				request.PreAuthenticate = false;
