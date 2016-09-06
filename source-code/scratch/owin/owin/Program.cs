@@ -21,13 +21,18 @@ namespace owin
 
 			//data_access da = new data_access ();
 			//da.login ("mmrds","mmrds");
+			#if (CONTAINERBASED && DEBUG)
+				System.Environment.SetEnvironmentVariable("geocode_api_key","7c39ae93786d4aa3adb806cb66de51b8");
+				System.Environment.SetEnvironmentVariable("couchdb_url", "http://localhost:5984");
+				System.Environment.SetEnvironmentVariable("web_site_url", "http://localhost:12345");
+				System.Environment.SetEnvironmentVariable("file_root_folder", "/vagrant/source-code/scratch/owin/owin/psk/app");
+			#endif
 
-			#if SERVERBASED
-				string url = "http://*:9000/";
-			#elif CONTAINERBASED
-				string url = "http://*:9000/";
+
+			#if CONTAINERBASED
+				string url = System.Environment.GetEnvironmentVariable("web_site_url");
 			#else
-				string url = "http://localhost:12345";
+				string url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
 			#endif
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
@@ -65,12 +70,11 @@ namespace owin
 
 			app.UseWebApi(config); 
 
-			#if SERVERBASED
-				string root = "/owin/psk/app";
-			#elif CONTAINERBASED
-			``string root = "/owin/psk/app";
+
+			#if CONTAINERBASED
+				string root = System.Environment.GetEnvironmentVariable("file_root_folder");
 			#else
-				string root = "/vagrant/source-code/scratch/owin/owin/psk/app";
+				string root = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
 			#endif
 
 			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
