@@ -94,7 +94,7 @@
 <div>selected_record_id{{categoryData.id}}</div-->
         
 		<mmrds-profile id="mmrds_profile" auth_session="{{auth_session}}" user_name="{{user_name}}" user_roles="{{user_roles}}"></mmrds-profile>
-
+		<div>[[route.path]]</div>
         <!-- Drawer Content -->
         <paper-menu class="app-menu" attr-for-selected="data-route" selected="{{categoryData.category}}">
 
@@ -109,7 +109,7 @@
 				<span>Summary</span>
 			</a><br/>
 			<div id="abstractor_selected_item_menu" active="[[IdentifierActive]]" class="monitor_id">
-				  <a data-route="home-record" href="{{baseUrl}}#/home-record/{{IdentifierData.id}}">
+				  <a data-route="home-record" href="{{baseUrl}}#/home-record/{{IdentifierData.id}}" on-tap="onSelectedRecordIdChanged">
 					<iron-icon icon="mail"></iron-icon>
 					<span>Home Record</span>
 				  </a><br/>
@@ -202,8 +202,10 @@
           <span class="space"></span>
 
           <!-- Toolbar icons -->
+		  	  
            <paper-icon-button icon="search"></paper-icon-button>
-
+		 <div id="tool_bar_hud_id" style="display:none">[[categoryData.category]] - [[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
+		
           <!-- Application name -->
           <div class="middle middle-container">
             <div class="app-name">MMRIA</div>
@@ -224,7 +226,6 @@
 			  <h1 class="page-title" tabindex="-1">Welcome to MMRIA</h1>
 			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
 			  
-			  <div>[[categoryData.category]] - [[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
 			  
 				</paper-material>
             </section>
@@ -355,6 +356,11 @@ Polymer(
 			type: Boolean,
 			notify:true,
 			observer: 'onIdentifierActiveChanged'
+		},
+		route:
+		{
+			type: String,
+			notify: true
 		}
 	},
 	ready: function ()
@@ -630,8 +636,23 @@ Polymer(
     },
 	onIdentifierActiveChanged: function(e)
 	{
-		console.log("onIdentifierActiveChanged:\n", e);
-		this.fire('onSelectedRecordIdChanged',e);
+		var url = this.route.path.split('/');
+		if(url.length > 1 &&
+		url[1].length > 0 &&
+		!(
+		this.route.path == '/home' ||
+		this.route.path == '/summary' ||
+		this.route.path == '/' )
+		)
+		{
+			this.fire('onSelectedRecordIdChanged',url[1]);
+		}
+		else
+		{
+			this.fire('onSelectedRecordIdChanged',false);
+		}
+		console.log("onIdentifierActiveChanged:\n");
+		
 	}
 });
 	  

@@ -34,6 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
 			
 			document.cookie = "AuthSession=" + profile.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
+			app.route.path = '/summary';
 		}
 		else
 		{
@@ -61,13 +62,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   
 	window.addEventListener('onSelectedRecordIdChanged', function(e)
 		{
-			if(e && e.detail && e.detail.length > 0)
+			if
+			(
+				//(app.IndentifierData && app.IndentifierData.id && app.IndentifierData.id.length > 0) ||
+				(e && e.detail && e.detail.length > 0)
+			)
 			{
 				app.$.abstractor_selected_item_menu.style.display = 'block';
+				app.$.tool_bar_hud_id.style.display = 'block';
 			}
 			else
 			{
 				app.$.abstractor_selected_item_menu.style.display = 'none';
+				app.$.tool_bar_hud_id.style.display = 'none';
 			}
 
 			/*
