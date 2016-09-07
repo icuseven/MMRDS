@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		else
 		{
 			document.cookie = "AuthSession=" + profile.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+			app.route.path = '/home';
 		}
 		
 		
@@ -57,6 +58,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });/**/
   
   // profile --- end
+  
+	window.addEventListener('onSelectedRecordIdChanged', function(e)
+		{
+			if(e && e.detail && e.detail.length > 0)
+			{
+				app.$.abstractor_selected_item_menu.style.display = 'block';
+			}
+			else
+			{
+				app.$.abstractor_selected_item_menu.style.display = 'none';
+			}
+
+			/*
+			if(e && e.currentTarget)
+			{
+				console.log('onSelectedRecordIdChanged' + e.currentTarget.dataValue)
+				this.selected_record_id = e.currentTarget.dataValue;
+			}*/
+		}
+	);
   
   // Sets app default base URL
   app.baseUrl = '/';

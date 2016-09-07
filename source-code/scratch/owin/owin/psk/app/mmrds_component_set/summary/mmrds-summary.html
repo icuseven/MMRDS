@@ -12,7 +12,7 @@
 		<paper-menu>
 		<template id="summary_repeat" is="dom-repeat" items="[[data]]">
             <paper-item>
-				<a data-route="master" href="#/home-record/[[item._id]]" on-tap="onSelectedRecordIdChanged" data-value="[[item._id]]">
+				<a data-route="master" href="[[baseUrl]]#/home-record/[[item._id]]" on-tap="onSelectedRecordIdChanged" data-value="[[item._id]]">
 					<span>[ select ]</span>
 				</a>&nbsp;
 				{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}
@@ -116,6 +116,8 @@
 			{
 				console.log('onSelectedRecordIdChanged' + e.currentTarget.dataValue)
 				this.selected_record_id = e.currentTarget.dataValue;
+				this.fire('onSelectedRecordIdChanged',this.selected_record_id)
+				
 			}
 		}
 

@@ -59,8 +59,16 @@
 
 <dom-module id="mmrds-app">
 <template id="app">
+<style>
+      .monitor_id {
+        display: none;
+      }
+      .monitor_id([active]) {
+        display: block;
+      }
+</style>
 	<iron-ajax id="metadata_ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
-	<app-location  route="{{route}}" use-hash-as-path></app-location>
+	<app-location route="{{route}}" use-hash-as-path></app-location>
 	<app-route  route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}"></app-route>
 	<app-route  route="{{categoryTail}}" pattern="/:id" data="{{IdentifierData}}" tail="{{IdentifierTail}}" active="{{IdentifierActive}}"></app-route>
 	<mmrds-data-summary data="{{data}}" selected_record_id="{{IdentifierData.id}}"></mmrds-data-summary>
@@ -78,94 +86,99 @@
 
         <!-- Drawer Toolbar -->
         <paper-toolbar id="drawerToolbar">
-          <span class="menu-name">Menu</span>
+          <span class="menu-name">&nbsp;</span>
         </paper-toolbar>
 <!--div>route{{route}}</div>
 <div>categoryTail{{categoryTail.path}}</div>
 <div>categoryData{{categoryData.category}}</div>
 <div>selected_record_id{{categoryData.id}}</div-->
+        
+		<mmrds-profile id="mmrds_profile" auth_session="{{auth_session}}" user_name="{{user_name}}" user_roles="{{user_roles}}"></mmrds-profile>
 
         <!-- Drawer Content -->
         <paper-menu class="app-menu" attr-for-selected="data-route" selected="{{categoryData.category}}">
-          <a data-route="home" href="#/home">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
-          </a><br/>
+
 		 <div id="abstractor_menu" style="display:none">
-			  <a data-route="summary" href="#/summary">
+		  <a data-route="home" href="{{baseUrl}}#/home">
+			<iron-icon icon="home"></iron-icon>
+			<span>Home</span>
+		  </a><br/>	
+		  
+			<a data-route="summary" href="{{baseUrl}}#/summary">
 				<iron-icon icon="mail"></iron-icon>
 				<span>Summary</span>
-			  </a><br/>
-
-			  <a data-route="home-record" href="#/home-record/{{IdentifierData.id}}">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Home Record</span>
-			  </a><br/>
-
-			<a data-route="death-certificate" href="#/death-certificate/{{IdentifierData.id}}">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Death Certificate</span>
 			</a><br/>
+			<div id="abstractor_selected_item_menu" active="[[IdentifierActive]]" class="monitor_id">
+				  <a data-route="home-record" href="{{baseUrl}}#/home-record/{{IdentifierData.id}}">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Home Record</span>
+				  </a><br/>
 
-			<a data-route="MaternalBirthCertificate" href="#/MaternalBirthCertificate/{{IdentifierData.id}}">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Maternal Birth Certificate</span>
-			</a><br/>
+				<a data-route="death-certificate" href="{{baseUrl}}#/death-certificate/{{IdentifierData.id}}">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Death Certificate</span>
+				</a><br/>
 
-			<a data-route="InfantFetalBirthCertificate" href="#/InfantFetalBirthCertificate/{{IdentifierData.id}}/list">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Infant/Fetal Birth Certificate</span>
-			</a><br/>
+				<a data-route="MaternalBirthCertificate" href="{{baseUrl}}#/MaternalBirthCertificate/{{IdentifierData.id}}">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Maternal Birth Certificate</span>
+				</a><br/>
 
-
-			<a data-route="AutopsyReport" href="#/AutopsyReport/{{IdentifierData.id}}">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Autopsy Report</span>
-			</a><br/>
-
-
-			<a data-route="PrenatalCare" href="#/PrenatalCare/{{IdentifierData.id}}">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Prenatal Care Records</span>
-			</a><br/>
+				<a data-route="InfantFetalBirthCertificate" href="{{baseUrl}}#/InfantFetalBirthCertificate/{{IdentifierData.id}}/list">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Infant/Fetal Birth Certificate</span>
+				</a><br/>
 
 
-			<a data-route="ERVisits" href="{{baseUrl}}ERVisits">
-				<iron-icon icon="mail"></iron-icon>
-				<span>ER Visits and Hospitalizations</span>
-			</a><br/>
+				<a data-route="AutopsyReport" href="{{baseUrl}}#/AutopsyReport/{{IdentifierData.id}}">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Autopsy Report</span>
+				</a><br/>
 
 
-			<a data-route="OtherVisits" href="{{baseUrl}}OtherVisits">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Other medical office visits</span>
-			</a><br/>
+				<a data-route="PrenatalCare" href="{{baseUrl}}#/PrenatalCare/{{IdentifierData.id}}">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Prenatal Care Records</span>
+				</a><br/>
 
 
-			<a data-route="SocialPsychProfile" href="{{baseUrl}}SocialPsychProfile">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Social and psychological profile</span>
-			</a><br/>
+				<a data-route="ERVisits" href="{{baseUrl}}#/ERVisits">
+					<iron-icon icon="mail"></iron-icon>
+					<span>ER Visits and Hospitalizations</span>
+				</a><br/>
 
 
-			<a data-route="InformantInterviews" href="{{baseUrl}}InformantInterviews">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Informant interviews</span>
-			</a><br/>
+				<a data-route="OtherVisits" href="{{baseUrl}}#/OtherVisits">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Other medical office visits</span>
+				</a><br/>
 
 
-			<a data-route="CommitteeReview" href="{{baseUrl}}CommitteeReview">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Committee review</span>
-			</a><br/>
+				<a data-route="SocialPsychProfile" href="{{baseUrl}}#/SocialPsychProfile">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Social and psychological profile</span>
+				</a><br/>
 
 
-			<a data-route="CoreSummary" href="{{baseUrl}}CoreSummary">
-				<iron-icon icon="mail"></iron-icon>
-				<span>Core Summary</span>
-			</a><br/>
+				<a data-route="InformantInterviews" href="{{baseUrl}}#/InformantInterviews">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Informant interviews</span>
+				</a><br/>
+
+
+				<a data-route="CommitteeReview" href="{{baseUrl}}#/CommitteeReview">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Committee review</span>
+				</a><br/>
+
+
+				<a data-route="CoreSummary" href="{{baseUrl}}#/CoreSummary">
+					<iron-icon icon="mail"></iron-icon>
+					<span>Core Summary</span>
+				</a><br/>
+			</div>
 		</div>
-		<a data-route="users" href="{{baseUrl}}users">
+		<!-- a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
             <span>Users</span>
           </a><br/>
@@ -173,11 +186,10 @@
 		<a data-route="contact" href="{{baseUrl}}contact">
 			<iron-icon icon="mail"></iron-icon>
 			<span>Contact</span>
-        </a><br/>
+        </a><br/-->
 		
 		</paper-menu>
-		<paper-button id="savecurrentrecordbutton"  onclick="SaveCurrentRecord()"raised>save current record</paper-button>
-		<paper-button onclick="InitializeNewDB()" raised>InitializeNewDB</paper-button>
+		
 		
       </paper-scroll-header-panel>
 
@@ -190,18 +202,17 @@
           <span class="space"></span>
 
           <!-- Toolbar icons -->
-          <mmrds-profile id="mmrds_profile" auth_session="{{auth_session}}" user_name="{{user_name}}" user_roles="{{user_roles}}"></mmrds-profile>
-          
+           <paper-icon-button icon="search"></paper-icon-button>
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">MMRDS</div>
-			<div>[[categoryData.category]] - [[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
+            <div class="app-name">MMRIA</div>
+			
           </div>
 
           <!-- Application sub title -->
           <div class="bottom bottom-container">
-            <div class="bottom-title">Maternal Mortality Review and Data System</div>
+            <div class="bottom-title">Maternal Mortality Review Information App</div>
           </div>
         </paper-toolbar>
 
@@ -210,8 +221,11 @@
           <iron-pages id="page_set" attr-for-selected="data-route" selected="[[categoryData.category]]">
             <section data-route="home" tabindex="-1">
               <paper-material elevation="1">
-			  <h1 class="page-title" tabindex="-1">Welcome to MMRDS</h1>
-			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created by CDC to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
+			  <h1 class="page-title" tabindex="-1">Welcome to MMRIA</h1>
+			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
+			  
+			  <div>[[categoryData.category]] - [[home_record.first_name]] [[home_record.last_name]] [[home_record.record_id]]</div>
+			  
 				</paper-material>
             </section>
 
@@ -298,7 +312,9 @@
             </section>
 
 			<section data-route="CoreSummary" tabindex="-1">
-
+				<paper-button id="savecurrentrecordbutton"  onclick="SaveCurrentRecord()"raised>save current record</paper-button>
+				<paper-button onclick="InitializeNewDB()" raised>InitializeNewDB</paper-button>
+		
             </section>
 			
           </iron-pages>
@@ -333,6 +349,12 @@ Polymer(
 			notify:true,
 			//value: function() { return ''; },
 			observer: 'onSelectedRecordIdChanged'
+		},
+		IdentifierActive:
+		{
+			type: Boolean,
+			notify:true,
+			observer: 'onIdentifierActiveChanged'
 		}
 	},
 	ready: function ()
@@ -447,7 +469,18 @@ Polymer(
 		if(e && e.currentTarget)
 		{
 			console.log('onSelectedRecordIdChanged' + e.currentTarget.dataValue)
-			this.selected_record_id = e.currentTarget.dataValue;
+			if(this.selected_record_id == null)
+			{
+				this.selected_record_id = e.currentTarget.dataValue;
+				console.log("null baby");
+			}
+			else
+			{
+				console.log("not null baby");//, this.selected_record_id);
+				this.selected_record_id = e.currentTarget.dataValue;
+				
+			}
+			
 		}
 	},
 	CreateFromMetaData: function (document, app, metadata, parent)
@@ -587,8 +620,19 @@ Polymer(
 			r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'  ') : o[p]+''));
 		}
 		return r.join(i+'\n');*/
+	},
+	attached: function() 
+	{
+        if (!this.route.path) 
+		{
+          this.set('route.path', '/home');
+        }
+    },
+	onIdentifierActiveChanged: function(e)
+	{
+		console.log("onIdentifierActiveChanged:\n", e);
+		this.fire('onSelectedRecordIdChanged',e);
 	}
-
 });
 	  
 </script>
