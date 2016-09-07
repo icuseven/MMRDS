@@ -30,15 +30,39 @@ namespace owin
 
 
 			#if CONTAINERBASED
+				System.Console.WriteLine("using Environment");
+				System.Console.WriteLine("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable("geocode_api_key"));
+				System.Console.WriteLine("couchdb_url: {0}", System.Environment.GetEnvironmentVariable("couchdb_url"));
+				System.Console.WriteLine("web_site_url: {0}", System.Environment.GetEnvironmentVariable("web_site_url"));
+				System.Console.WriteLine("file_root_folder: {0}", System.Environment.GetEnvironmentVariable("file_root_folder"));
+
+
 				string url = System.Environment.GetEnvironmentVariable("web_site_url");
 			#else
+
+				System.Console.WriteLine("using AppSettings");
+				System.Console.WriteLine("geocode_api_key: {0}", System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"]);
+				System.Console.WriteLine("couchdb_url: {0}", System.Configuration.ConfigurationManager.AppSettings["couchdb_url"]);
+				System.Console.WriteLine("web_site_url: {0}", System.Configuration.ConfigurationManager.AppSettings["web_site_url"]);
+				System.Console.WriteLine("file_root_folder: {0}", System.Configuration.ConfigurationManager.AppSettings["file_root_folder"]);
+
 				string url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
 			#endif
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
 
+
+			#if CONTAINERBASED
+				while(true)
+				{
+					// hold the line
+				}
+			#else
 				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
-			Console.ReadLine();
+				Console.ReadLine();
+			#endif
+
+
 		}
 	}
 
