@@ -53,7 +53,7 @@ Polymer({
 		
 		if(current_auth_session)
 		{
-			this.$.ajax.url = "http://localhost:12345/api/session";
+			this.$.ajax.url = location.protocol + '//' + location.host + "/api/session";
 			this.$.ajax.headers='{"AuthSession": ' + current_auth_session + '}';
 			this.$.ajax.method = 'DELETE';
 			this.$.ajax.generateRequest();

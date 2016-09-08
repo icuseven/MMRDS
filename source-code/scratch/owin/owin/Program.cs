@@ -79,9 +79,11 @@ namespace owin
 
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
 			{
-				while(true)
+				bool stay_on_till_power_fail = true;
+
+				while(stay_on_till_power_fail)
 				{
-					// hold the line
+
 				}
 			}
 			else

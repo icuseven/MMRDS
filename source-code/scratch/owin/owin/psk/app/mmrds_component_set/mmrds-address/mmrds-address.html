@@ -30,7 +30,7 @@ Polymer({
 		},
 	setajax: function () 
 	{
-		this.$.ajax.url = "http://localhost:12345/api/geocode";
+		this.$.ajax.url = location.protocol + '//' + location.host + "/api/geocode";
 		this.$.ajax.params = {
 				street_address: this.item.street,
 				city: this.item.city,

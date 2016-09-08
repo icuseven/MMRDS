@@ -415,7 +415,7 @@ Polymer(
 		// myElement = document.createElement("h1");
 		// myElement.innerHTML = "bedrock";
 		// prenatal.appendChild(myElement);
-		httpRequest.open('GET', 'http://localhost:12345/meta-data/00/prenata_care.json', true);
+		httpRequest.open('GET', location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json', true);
 		httpRequest.send(null);
 	  
 	},
