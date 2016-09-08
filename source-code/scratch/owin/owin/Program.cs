@@ -18,49 +18,77 @@ namespace owin
 		//http://localhost:12345/api/session
 		static void Main(string[] args)
 		{
+			for(int i = 0; i < args.Length; i++)
+			{
+				switch (args [i].ToLower()) 
+				{
+				case "set_is_container_based_true":
+					System.Configuration.ConfigurationManager.AppSettings ["is_container_based"] = "true";
+					break;
+				case "set_is_container_based_false":
+					System.Configuration.ConfigurationManager.AppSettings ["is_container_based"] = "false";
+					break;
+
+				default:
+					Console.WriteLine ("unsued command line argument: Arg[{0}] = [{1}]", i, args [i]);
+					break;
+				}
+
+			}
+
 
 			//data_access da = new data_access ();
 			//da.login ("mmrds","mmrds");
-			#if (CONTAINERBASED && DEBUG)
+			#if (DEBUG)
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
 				System.Environment.SetEnvironmentVariable("geocode_api_key","7c39ae93786d4aa3adb806cb66de51b8");
 				System.Environment.SetEnvironmentVariable("couchdb_url", "http://localhost:5984");
 				System.Environment.SetEnvironmentVariable("web_site_url", "http://localhost:12345");
 				System.Environment.SetEnvironmentVariable("file_root_folder", "/vagrant/source-code/scratch/owin/owin/psk/app");
+			}
 			#endif
 
 
-			#if CONTAINERBASED
-				System.Console.WriteLine("using Environment");
-				System.Console.WriteLine("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable("geocode_api_key"));
-				System.Console.WriteLine("couchdb_url: {0}", System.Environment.GetEnvironmentVariable("couchdb_url"));
-				System.Console.WriteLine("web_site_url: {0}", System.Environment.GetEnvironmentVariable("web_site_url"));
-				System.Console.WriteLine("file_root_folder: {0}", System.Environment.GetEnvironmentVariable("file_root_folder"));
+			string url = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
+				System.Console.WriteLine ("using Environment");
+				System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
+				System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
+				System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
+				System.Console.WriteLine ("file_root_folder: {0}", System.Environment.GetEnvironmentVariable ("file_root_folder"));
 
 
-				string url = System.Environment.GetEnvironmentVariable("web_site_url");
-			#else
-
+				url = System.Environment.GetEnvironmentVariable ("web_site_url");
+			}
+			else
+			{
 				System.Console.WriteLine("using AppSettings");
 				System.Console.WriteLine("geocode_api_key: {0}", System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"]);
 				System.Console.WriteLine("couchdb_url: {0}", System.Configuration.ConfigurationManager.AppSettings["couchdb_url"]);
 				System.Console.WriteLine("web_site_url: {0}", System.Configuration.ConfigurationManager.AppSettings["web_site_url"]);
 				System.Console.WriteLine("file_root_folder: {0}", System.Configuration.ConfigurationManager.AppSettings["file_root_folder"]);
 
-				string url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
-			#endif
+				url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
+			}
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
 
 
-			#if CONTAINERBASED
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
 				while(true)
 				{
 					// hold the line
 				}
-			#else
+			}
+			else
+			{
 				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
 				Console.ReadLine();
-			#endif
+			}
 
 
 		}
@@ -90,16 +118,20 @@ namespace owin
 				new Newtonsoft.Json.JsonSerializerSettings
 			{
 				ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-			};/**/
+			};
 
 			app.UseWebApi(config); 
 
+			string root = null;
 
-			#if CONTAINERBASED
-				string root = System.Environment.GetEnvironmentVariable("file_root_folder");
-			#else
-				string root = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
-			#endif
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
+				root = System.Environment.GetEnvironmentVariable("file_root_folder");
+			}
+			else
+			{
+				root = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
+			}
 
 			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
 			var options = new Microsoft.Owin.StaticFiles.FileServerOptions()

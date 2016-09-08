@@ -7,10 +7,20 @@ namespace owin
 {
 	public class geocodeController: ApiController 
 	{
-		private static string geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+		private string geocode_api_key = null;
 
 		public geocodeController ()
 		{
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
+			} 
+			else
+			{
+				geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+			}
+
 		}
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 

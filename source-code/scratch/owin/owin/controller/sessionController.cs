@@ -11,17 +11,21 @@ namespace owin
 {
 	public class sessionController: ApiController 
 	{
-		#if CONTAINERBASED
-			private static string couchdb_url = System.Environment.GetEnvironmentVariable("couchdb_url");
-		#else
-			private static string couchdb_url =  System.Configuration.ConfigurationManager.AppSettings["couchdb_url"];
-		#endif
+
+		private string couchdb_url = null;
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		//{"ok":true,"userCtx":{"name":"mmrds","roles":["_admin"]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"],"authenticated":"cookie"}}
 
 		public sessionController ()
 		{
-			
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
 		}
 
 
