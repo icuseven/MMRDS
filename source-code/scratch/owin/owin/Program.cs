@@ -42,10 +42,12 @@ namespace owin
 			#if (DEBUG)
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
 			{
+				/*
 				System.Environment.SetEnvironmentVariable("geocode_api_key","7c39ae93786d4aa3adb806cb66de51b8");
 				System.Environment.SetEnvironmentVariable("couchdb_url", "http://localhost:5984");
 				System.Environment.SetEnvironmentVariable("web_site_url", "http://localhost:12345");
 				System.Environment.SetEnvironmentVariable("file_root_folder", "/vagrant/source-code/scratch/owin/owin/psk/app");
+				*/
 			}
 			#endif
 
