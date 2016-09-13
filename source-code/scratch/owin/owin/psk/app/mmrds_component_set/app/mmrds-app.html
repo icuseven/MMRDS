@@ -66,6 +66,7 @@
       .monitor_id([active]) {
         display: block;
       }
+	  
 </style>
 	<iron-ajax id="metadata_ajax" url="" handle-as="json" last-response="{{data}}" on-response="handle_response"></iron-ajax>
 	<app-location route="{{route}}" use-hash-as-path></app-location>
@@ -82,7 +83,7 @@
 	
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
-      <paper-scroll-header-panel drawer fixed vertical>
+      <paper-scroll-header-panel drawer fixed vertical  style="background-image:../../images/DRAFT.png">
 
         <!-- Drawer Toolbar -->
         <paper-toolbar id="drawerToolbar">
@@ -151,25 +152,25 @@
 
 				<a data-route="OtherVisits" href="{{baseUrl}}#/OtherVisits">
 					<iron-icon icon="mail"></iron-icon>
-					<span>Other medical office visits</span>
+					<span>Other Medical Office Visits</span>
 				</a><br/>
 
 
 				<a data-route="SocialPsychProfile" href="{{baseUrl}}#/SocialPsychProfile">
 					<iron-icon icon="mail"></iron-icon>
-					<span>Social and psychological profile</span>
+					<span>Social and Environmental Profile</span>
 				</a><br/>
 
 
 				<a data-route="InformantInterviews" href="{{baseUrl}}#/InformantInterviews">
 					<iron-icon icon="mail"></iron-icon>
-					<span>Informant interviews</span>
+					<span>Informant Interviews</span>
 				</a><br/>
 
 
 				<a data-route="CommitteeReview" href="{{baseUrl}}#/CommitteeReview">
 					<iron-icon icon="mail"></iron-icon>
-					<span>Committee review</span>
+					<span>Committee Review</span>
 				</a><br/>
 
 
@@ -190,7 +191,7 @@
         </a><br/-->
 		
 		</paper-menu>
-		
+		<img src='../../images/DRAFT.png' height="150" width="200"/>
 		
       </paper-scroll-header-panel>
 
@@ -226,7 +227,7 @@
               <paper-material elevation="1">
 			  <h1 class="page-title" tabindex="-1">Welcome to MMRIA</h1>
 			  <p>The Maternal Mortality Review and Data System (MMRDS) is a software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRDS serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.</p>
-			  
+			  <img src='../../images/DRAFT.png'/>
 			  
 				</paper-material>
             </section>
@@ -263,6 +264,8 @@
 				<mmrds-summary data="[[data]]"></mmrds-summary>
 			  
 			  </paper-material>
+			  
+			  <img src='../../images/DRAFT.png'/>
             </section>
 
 
