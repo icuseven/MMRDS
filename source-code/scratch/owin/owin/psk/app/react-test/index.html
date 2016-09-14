@@ -1,13 +1,133 @@
 <html>
 <head>
 <meta charset="utf-8">
-    <title>React Hello World</title>
-	<script src="https://fb.me/react-15.0.1.js"></script>
-    <script src="https://fb.me/react-dom-15.0.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-	<script src="2-do.js" type="text/babel"></script>
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+
+<script src="https://fb.me/react-15.0.1.js"></script>
+<script src="https://fb.me/react-dom-15.0.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script type="text/babel">
+//https://facebook.github.io/react/tips/initial-ajax.html
+//https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+	var TodoList = React.createClass({
+  render: function() {
+    var createItem = function(item) {
+      return <li key={item.id}>{item.text}</li>;
+    };
+    return <ul>{this.props.items.map(createItem)}</ul>;
+  }
+});
+var TodoApp = React.createClass({
+	displayName: "TodoApp",
+  getInitialState: function() {
+    return {items: [], text: ''};
+  },
+  onChange: function(e) {
+    this.setState({text: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
+    var nextText = '';
+    this.setState({items: nextItems, text: nextText});
+  },
+  render: function() {
+    return (
+      <div>
+        <h3>TODO</h3>
+        <TodoList items={this.state.items} />
+        <form onSubmit={this.handleSubmit}>
+          <input onChange={this.onChange} value={this.state.text} />
+          <button>{'Add #' + (this.state.items.length + 1)}</button>
+        </form>
+		
+		<form  onSubmit={this.handleLogin}>
+		  <fieldset>
+			<legend>Login:</legend>
+			Email: <input type="text"  onChange={this.onEmailChange} value={this.state.email}/><br/>
+			Password: <input type="password"  onChange={this.onPasswordChange} value={this.state.password}/>
+			<button>{'login'}</button>
+		  </fieldset>
+		</form>
+		
+		
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
+	
+	
+	
+	
+</script>
+<script src="ajax.js" type="text/javascript"></script>
+<script src="meta_data_renderer.js" type="text/javascript"></script>
+<script type="text/javascript">
+function main() {
+  'use strict';
+
+	var app = document.querySelector('#root');
+	var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
+	var AJAX = new AJAX_();
+	
+	var meta_data = AJAX.GetResponse(url, function(metadata)
+	{
+		//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
+		console.log("metadata\n", metadata);
+	}
+	
+	);
+	
+	
+	
+	console.log('Our app is ready to rock!');
+	var HelloMessage = React.createClass({
+	  displayName: "HelloMessage",
+
+	  render: function render() {
+		return React.createElement(
+		  "div",
+		  null,
+		  "Hello ",
+		  this.props.name
+		);
+	  }
+	});
+
+	ReactDOM.render(React.createElement(HelloMessage, { name: "John" }), app);
+	//ReactDOM.render(React.createElement(TodoApp), app);
+	
+	
+
+  
+
+	window.addEventListener('profile_login_changed', function(e) 
+	{
+		
+	});
+  
+	window.addEventListener('onSelectedRecordIdChanged', function(e)
+	{
+		
+	});
+  
+  // Sets app default base URL
+  app.baseUrl = '/';
+  if (window.location.port === '') {  // if production
+    // Uncomment app.baseURL below and
+    // set app.baseURL to '/your-pathname/' if running from folder in production
+    // app.baseUrl = '/polymer-starter-kit/';
+  }
+
+};
+
+</script>
 </head>
-<body>
+<body onload="main()">
 <div id='root'></div>
 </body>
 </html>
