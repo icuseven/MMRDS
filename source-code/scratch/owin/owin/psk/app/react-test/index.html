@@ -98,11 +98,14 @@ function main() {
 	console.log('Our app is ready to rock!');
 
 
-	ReactDOM.render(React.createElement(LoginComponent, {  }), app);
+	//ReactDOM.render(React.createElement(LoginComponent, {  }), app);
+	var app_reference = ReactDOM.render(React.createElement(AppComponent, {  }), app);
+	var app_content_id = document.querySelector('#app_content_id');
+	ReactDOM.render(React.createElement(LoginComponent, {  }), app_content_id);
 	//ReactDOM.render(React.createElement(TodoApp), app);
 	
 	
-
+	
   
 
 	window.addEventListener('profile_login_changed', function(e) 
