@@ -7,10 +7,12 @@
 <script src="https://fb.me/react-15.0.1.js"></script>
 <script src="https://fb.me/react-dom-15.0.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script type="text/babel" src="2-do.js"></script>
 <script type="text/babel">
+//http://ricostacruz.com/cheatsheets/react.html
 //https://facebook.github.io/react/tips/initial-ajax.html
 //https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
-
+/*
 	var TodoList = React.createClass({
   render: function() {
     var createItem = function(item) {
@@ -56,16 +58,22 @@ var TodoApp = React.createClass({
       </div>
     );
   }
-});
+});*/
 
-ReactDOM.render(<TodoApp />, document.getElementById('root'));
-	
+
+//function main() {
+
+
+//ReactDOM.render(<TodoApp />, document.getElementById('root'));
+//}	
 	
 	
 	
 </script>
 <script src="ajax.js" type="text/javascript"></script>
+
 <script src="meta_data_renderer.js" type="text/javascript"></script>
+<script src="hello.js" type="text/javascript"></script>
 <script type="text/javascript">
 function main() {
   'use strict';
@@ -85,18 +93,7 @@ function main() {
 	
 	
 	console.log('Our app is ready to rock!');
-	var HelloMessage = React.createClass({
-	  displayName: "HelloMessage",
 
-	  render: function render() {
-		return React.createElement(
-		  "div",
-		  null,
-		  "Hello ",
-		  this.props.name
-		);
-	  }
-	});
 
 	ReactDOM.render(React.createElement(HelloMessage, { name: "John" }), app);
 	//ReactDOM.render(React.createElement(TodoApp), app);
