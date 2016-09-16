@@ -5,6 +5,10 @@ var LoginComponent = React.createClass({
 		//return { email: this.props.initialEmail, password: this.props.initialPassword };
 		return { };
 	},
+	componentWillMount:function()
+	{
+		this.setState({ email: "user1", password: "password" });
+	},
 	handleLogin : function (e)
 	{
 		console.log('handle login');
@@ -21,17 +25,34 @@ var LoginComponent = React.createClass({
 	},
 	render: function render() 
 	{
-	return React.createElement('form', {},
-		React.createElement('fieldset',{},
-			React.createElement('legend',{},'Login:'),
-			'Email:', 
-			React.createElement('input', { type:'text', ref:'email', onChange:this.onNoChange, onBlur: this.onEmailChange, value: this.state.email}),
-			React.createElement('br'),
-			'Password:', 
-			React.createElement('input', { type:'password', ref:'password', onChange:this.onPasswordChange, value:this.state.password}),
-			React.createElement('input', {  type:'button', onChange:this.onNoChange, onClick:this.handleLogin, defaultValue:'login'})
-			)
+		if(this.state.is_logged_in)
+		{
+			return React.createElement('form', {},
+				React.createElement('fieldset',{},
+					React.createElement('legend',{},'Login:'),
+					'Email:', 
+					React.createElement('input', { type:'text', ref:'email', onChange:this.onNoChange, onBlur: this.onEmailChange, defaultValue: this.state.email}),
+					React.createElement('br'),
+					'Password:', 
+					React.createElement('input', { type:'password', ref:'password', onChange:this.onPasswordChange, defaultValue:this.state.password}),
+					React.createElement('input', {  type:'button', onClick:this.handleLogin, value:'login'})
+				)
 			);
+		}
+		else
+		{
+			return React.createElement('form', {},
+					React.createElement('fieldset',{},
+						React.createElement('legend',{},'Login:'),
+						'Email:', 
+						React.createElement('input', { type:'text', ref:'email', onChange:this.onNoChange, onBlur: this.onEmailChange, defaultValue: this.state.email}),
+						React.createElement('br'),
+						'Password:', 
+						React.createElement('input', { type:'password', ref:'password', onChange:this.onPasswordChange, defaultValue:this.state.password}),
+						React.createElement('input', {  type:'button', onClick:this.handleLogin, value:'login'})
+					)
+			);		
+		}
 
 	},
 	login: function()
