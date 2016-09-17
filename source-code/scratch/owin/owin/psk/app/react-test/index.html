@@ -10,91 +10,23 @@
   <script src="../bower_components/immutable/dist/immutable.min.js"></script>
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-<script type="text/babel" src="2-do.js"></script>
-<script type="text/babel">
+<script src="ajax.js" type="text/javascript"></script>
+<script src="meta_data_renderer.js" type="text/javascript"></script>
+<script src="app.js" type="text/javascript"></script>
+<script src="hello.js" type="text/javascript"></script>
+<script src="profile.js" type="text/javascript"></script>
+<script type="text/javascript">
+function main() {
+
 //http://jamesknelson.com/learn-raw-react-no-jsx-flux-es6-webpack/
 //http://ricostacruz.com/cheatsheets/react.html
 //https://facebook.github.io/react/tips/initial-ajax.html
 //https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
-/*
-	var TodoList = React.createClass({
-  render: function() {
-    var createItem = function(item) {
-      return <li key={item.id}>{item.text}</li>;
-    };
-    return <ul>{this.props.items.map(createItem)}</ul>;
-  }
-});
-var TodoApp = React.createClass({
-	displayName: "TodoApp",
-  getInitialState: function() {
-    return {items: [], text: ''};
-  },
-  onChange: function(e) {
-    this.setState({text: e.target.value});
-  },
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var nextItems = this.state.items.concat([{text: this.state.text, id: Date.now()}]);
-    var nextText = '';
-    this.setState({items: nextItems, text: nextText});
-  },
-  render: function() {
-    return (
-      <div>
-        <h3>TODO</h3>
-        <TodoList items={this.state.items} />
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.onChange} value={this.state.text} />
-          <button>{'Add #' + (this.state.items.length + 1)}</button>
-        </form>
-		
-		<form  onSubmit={this.handleLogin}>
-		  <fieldset>
-			<legend>Login:</legend>
-			Email: <input type="text"  onChange={this.onEmailChange} value={this.state.email}/><br/>
-			Password: <input type="password"  onChange={this.onPasswordChange} value={this.state.password}/>
-			<button>{'login'}</button>
-		  </fieldset>
-		</form>
-		
-		
-      </div>
-    );
-  }
-});*/
 
-
-//function main() {
-
-
-//ReactDOM.render(<TodoApp />, document.getElementById('root'));
-//}	
-	
-	
-	
-</script>
-<script src="ajax.js" type="text/javascript"></script>
-
-<script src="meta_data_renderer.js" type="text/javascript"></script>
-<script src="app.js" type="text/javascript"></script>
-<script src="hello.js" type="text/javascript"></script>
-<script src="login.js" type="text/javascript"></script>
-<script type="text/javascript">
-function main() {
   'use strict';
 
 	var app = document.querySelector('#root');
-	var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
-	var AJAX = new AJAX_();
-	
-	var meta_data = AJAX.GetResponse(url, function(metadata)
-	{
-		//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
-		console.log("metadata\n", metadata);
-	}
-	
-	);
+
 	
 	
 	
@@ -103,8 +35,8 @@ function main() {
 
 	//ReactDOM.render(React.createElement(LoginComponent, {  }), app);
 	var app_reference = ReactDOM.render(React.createElement(AppComponent, {  }), app);
-	var app_content_id = document.querySelector('#app_content_id');
-	ReactDOM.render(React.createElement(LoginComponent, {  }), app_content_id);
+	var profile_content_id = document.querySelector('#profile_content_id');
+	ReactDOM.render(React.createElement(ProfileComponent, {  }), profile_content_id);
 	//ReactDOM.render(React.createElement(TodoApp), app);
 	
 	

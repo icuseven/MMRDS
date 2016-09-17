@@ -1,4 +1,4 @@
-var LoginComponent = React.createClass({
+var ProfileComponent = React.createClass({
 	displayName: "LoginComponent",
 	getInitialState: function() 
 	{
@@ -66,8 +66,14 @@ var LoginComponent = React.createClass({
 			var url =  location.protocol + '//' + location.host + "/api/session";
 			var AJAX = new AJAX_();
 			var post_data = "userid=" + this.refs['email'].value + "&password=" + this.refs['password'].value;
-			var meta_data = AJAX.GetResponse(url + "?" + post_data, function(response)
-			{
+			var meta_data = AJAX.GetResponse(url + "?" + post_data, login_response);
+		
+		}
+		
+
+	},
+	login_response: function(request) 
+	{
 				//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 				console.log("response\n", response);
 				var valid_login = false;
@@ -92,17 +98,6 @@ var LoginComponent = React.createClass({
 					};
 				}
 				
-			}
-			
-			);		
-		
-		}
-		
-
-	},
-	handle_response: function(request) 
-	{
-
 	},
 	ready:function()
 	{
