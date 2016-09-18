@@ -26,45 +26,41 @@ var AppComponent = React.createClass({
 			React.createElement('h1',{},'App Element: MMRIA'),
 			React.createElement('div',{ id:'profile_content_id'},'App Element: MMRIA'),
 			React.createElement('div',{ id:'page_content_id'},
-			React.createElement('p',{},'The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.')
+			React.createElement('p',{},'The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.'),
+			React.createElement('div',{ id:'navigation_id'}),
+			React.createElement('div',{ id:'form_content_id'},React.createElement(SummaryComponent,{}))
 			)
 		);
 	},
-	profile_login_changed:function(e) 
+	profile_login_changed:function( info ) 
 	{
-		var profile = document.querySelector('#mmrds_profile');
-	
-        profile.isLoggedIn = e.detail.is_logged_in;
-		profile.auth_session = e.detail.auth_session;
-		profile.user_name = e.detail.user_name;
-		profile.user_roles = e.detail.user_roles;
-		if(profile.isLoggedIn)
+		console.log("profile_login_changed", info);
+		this.setState({
+        isLoggedIn: info.is_logged_in,
+		auth_session: info.auth_session,
+		user_name: info.user_name,
+		user_roles: info.user_roles
+		
+		})
+		
+		if(this.state.isLoggedIn)
 		{
-			var minutes_14 = 14;
-			var current_date_time = new Date();
-			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
-			
-			document.cookie = "AuthSession=" + profile.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
-			app.route.path = '/summary';
+			/*
+			var abstractor_menu = app.querySelector('#abstractor_menu')
+			if(profile.user_roles.indexOf('abstractor') > -1)
+			{
+				abstractor_menu.style.display = "block";
+				
+			}
+			else
+			{
+				abstractor_menu.style.display = "none";
+				
+			}*/
 		}
 		else
 		{
-			document.cookie = "AuthSession=" + profile.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
-			app.route.path = '/home';
-		}
-		
-		
-		
-		var abstractor_menu = app.querySelector('#abstractor_menu')
-		if(profile.user_roles.indexOf('abstractor') > -1)
-		{
-			abstractor_menu.style.display = "block";
-			
-		}
-		else
-		{
-			abstractor_menu.style.display = "none";
-			
+
 		}
 		
 	}

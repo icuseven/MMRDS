@@ -52,6 +52,14 @@ var ProfileComponent = React.createClass({
 	{
 		document.cookie = "AuthSession=" + this.state.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
 		this.setState({ is_logged_in: false	});
+		var info = { 
+				is_logged_in: false, 
+				user_name: '',
+				user_roles: [],
+				auth_session: ''
+			};
+		this.props.profile_login_changed(info);
+		
 		
 	},
 	render: function render() 
@@ -72,11 +80,12 @@ var ProfileComponent = React.createClass({
 			return React.createElement('form', {},
 					React.createElement('fieldset',{},
 						React.createElement('legend',{},'Login:'),
-						'Email:', 
+						'Email: ', 
 						React.createElement('input', { type:'text', ref:'email', onChange:this.onNoChange, onBlur: this.onEmailChange, defaultValue: this.state.user_name}),
 						React.createElement('br'),
-						'Password:', 
+						'Password: ', 
 						React.createElement('input', { type:'password', ref:'password', onChange:this.onPasswordChange, defaultValue:this.state.password}),
+						' ',
 						React.createElement('input', {  type:'button', onClick:this.handleLogin, value:'login'})
 					)
 			);		
@@ -114,11 +123,11 @@ var ProfileComponent = React.createClass({
 		valid_login = json_response.name != null;
 		if(valid_login)
 		{
-			var blank = { 
+			var info = { 
 				is_logged_in: true, 
 				user_name: json_response.name,
 				user_roles: json_response.roles,
-				auth_session: json_response.auth_session,
+				auth_session: json_response.auth_session
 			};
 			
 			this.setState({ is_logged_in: true,
@@ -131,6 +140,8 @@ var ProfileComponent = React.createClass({
 			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
 			
 			document.cookie = "AuthSession=" + this.state.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
+			
+			this.props.profile_login_changed(info);
 		}
 		else
 		{
@@ -184,6 +195,14 @@ var ProfileComponent = React.createClass({
 		valid_login = json_response.userCTX.name != null;
 		if(valid_login)
 		{
+			
+			var info = { 
+				is_logged_in: true, 
+				user_name: json_response.name,
+				user_roles: json_response.roles,
+				auth_session: json_response.auth_session
+			};
+			
 			this.setState({
 				is_logged_in: true,
 				user_name: json_response.userCTX.name,
@@ -196,6 +215,8 @@ var ProfileComponent = React.createClass({
 			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
 			
 			document.cookie = "AuthSession=" + this.state.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
+			
+			this.props.profile_login_changed(info);
 		}
 		else
 		{
