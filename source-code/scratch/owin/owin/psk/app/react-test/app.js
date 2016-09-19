@@ -1,6 +1,7 @@
 var AppComponent = React.createClass({
 	form_metadata:[],
 	form_set: [],
+	navigation_set:{},
 	displayName: "AppComponent",
 	
 	getInitialState: function() 
@@ -103,6 +104,8 @@ var AppComponent = React.createClass({
 		var url = location.protocol + '//' + location.host + '/meta-data/00/home_record.json';
 		var AJAX = new AJAX_();
 
+		this.navigation_set["summary"] = "#/summary";
+		
 		var meta_data = AJAX.GetResponse(url, function(metadata)
 		{
 			//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
@@ -113,6 +116,9 @@ var AppComponent = React.createClass({
 			var section_id = document.querySelector("#section_id");
 			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], {});
 			this.form_set.push(form);
+			
+			this.navigation_set[this.form_metadata[0].name] = "#/" + this.form_metadata[0].url_route;
+			
 
 		}.bind(this)
 		
