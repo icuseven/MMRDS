@@ -30,9 +30,16 @@ var AppComponent = React.createClass({
 				React.createElement('h1',{},'App Element: MMRIA'),
 				React.createElement('div',{ id:'profile_content_id'},'App Element: MMRIA'),
 				React.createElement('div',{ id:'page_content_id'},
-				React.createElement('p',{},'The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.'),
-				React.createElement('div',{ id:'navigation_id'}),
-				React.createElement('div',{ id:'form_content_id'},React.createElement(SummaryComponent,{}))
+					React.createElement('p',{},'The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.'),
+					React.createElement('div',{ id:'navigation_id'}),
+					React.createElement('div',{ id:'form_content_id'},
+							React.createElement(SummaryComponent,{}),
+							React.createElement('div', {id:"section_id"},
+								React.createElement('section', { 'data-route':'home-record', tabindex:"-1"},
+									React.createElement('h2',null, 'home-record')
+								)
+							)
+					)
 				)
 			);
 		}
