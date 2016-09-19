@@ -5,12 +5,92 @@ var AppComponent = React.createClass({
 	
 	getInitialState: function() 
 	{
+		window.onhashchange = this.url_has_changed;
+		var form = null;
+		var selected_id = null;
+		var selected_child_id = null;
 		
+		var url_array = window.location.href.split('#');
+		if(url_array.length > 1)
+		{
 
-		
+			var trimmed_string = url_array[1].replace(/^\/+|\/+$/g, '');
+
+			var path_array = trimmed_string.split('/');
+			
+			if(path_array.length > 0)
+			{
+				form = path_array[0];
+				console.log("selected form: " + form);
+			}
+			
+			if(path_array.length > 1)
+			{
+				selected_id = path_array[1];
+				console.log("selected id: " + selected_id);
+			}
+			
+			if(path_array.length > 2)
+			{
+				selected_child_id = path_array[2];
+				console.log("selected child id: " + selected_child_id);
+			}
+		}
 		
 		//return { email: this.props.initialEmail, password: this.props.initialPassword };
-		return { };
+		return {
+				selected_form_name: form,
+				"selected_id": selected_id,
+				"selected_child_id": selected_child_id };
+	},
+	url_has_changed: function(e)
+	{
+		/*
+		e = HashChangeEvent 
+		{
+			isTrusted: true,
+			oldURL: "http://localhost:12345/react-test/#/",
+			newURL: "http://localhost:12345/rea
+		}*/
+		if(e.isTrusted)
+		{
+			var url_array = e.newURL.split('#');
+			if(url_array.length > 1)
+			{
+				var form = null;
+				var selected_id = null;
+				var selected_child_id = null;
+
+				var trimmed_string = url_array[1].replace(/^\/+|\/+$/g, '');
+
+				var path_array = trimmed_string.split('/');
+				
+				if(path_array.length > 0)
+				{
+					form = path_array[0];
+					console.log("selected form: " + form);
+				}
+				
+				if(path_array.length > 1)
+				{
+					selected_id = path_array[1];
+					console.log("selected id: " + selected_id);
+				}
+				
+				if(path_array.length > 2)
+				{
+					selected_child_id = path_array[2];
+					console.log("selected child id: " + selected_child_id);
+				}
+				
+				this.setState({
+					selected_form_name: form,
+					"selected_id": selected_id,
+					"selected_child_id": selected_child_id}
+				);
+
+			}
+		}
 	},
 	componentWillMount : function ()
 	{
@@ -43,24 +123,42 @@ var AppComponent = React.createClass({
 		var result = null;
 		if(this.state.isLoggedIn)
 		{
+			if(this.state.selected_form_name == null ||this.state.selected_form_name == '' || this.state.selected_form_name=='summary' || this.state.selected_id == null)
+			{
 			 result = React.createElement('div', {},
 				React.createElement('img',{ src:"../images/mmria-secondary.svg", height:75, width:100}),
 				React.createElement('h1',{},'App Element: MMRIA'),
 				React.createElement('div',{ id:'profile_content_id'},'App Element: MMRIA'),
 				React.createElement('div',{ id:'page_content_id'},
-					React.createElement('p',{},'The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.'),
+					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
 					React.createElement('div',{ id:'form_content_id'},
-							React.createElement(SummaryComponent,{}),
+							React.createElement(SummaryComponent,{})
+					)
+				)
+			);
+			}
+			else
+			{
+				result = React.createElement('div', {},
+				React.createElement('img',{ src:"../images/mmria-secondary.svg", height:75, width:100}),
+				React.createElement('h1',{},'App Element: MMRIA'),
+				React.createElement('div',{ id:'profile_content_id'},'App Element: MMRIA'),
+				React.createElement('div',{ id:'page_content_id'},
+					React.createElement('p',{},''),
+					React.createElement('div',{ id:'navigation_id'}),
+					React.createElement('div',{ id:'form_content_id'},
 							React.createElement('div', {id:"section_id"},
-								React.createElement('section', { 'data-route':'home-record', tabindex:"-1"},
-									React.createElement('h2',null, 'home-record'),
-									this.form_set[0]
-								)
+							React.createElement('section', { 'data-route':'home-record', tabindex:"-1"},
+								React.createElement('h2',null, 'home-record'),
+								this.form_set[0]
+							)
 							)
 					)
 				)
 			);
+				
+			}
 		}
 		else
 		{
