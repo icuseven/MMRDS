@@ -41,7 +41,7 @@ Data_Access.prototype.get_data = function(p_query, p_then_function)
 	return result;
 }
 
-Data_Access.prototype.get_data = function()
+Data_Access.prototype.sync = function()
 {
 	var local_db = new PouchDB('mmrds');
 	var remoteDB = new PouchDB(this.remote_db_url);

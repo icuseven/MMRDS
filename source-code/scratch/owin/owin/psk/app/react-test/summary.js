@@ -1,5 +1,11 @@
+var map1 = Immutable.Map({a:1, b:2, c:3});
+
 var SummaryComponent = React.createClass({
 	displayName: "SummaryComponent",
+	/*shouldComponentUpdate: function(nextProps, nextState) 
+	{
+		return this.state.value !== nextState.value;
+	},*/
 	getInitialState: function() 
 	{
 		var ctx = this;
@@ -10,7 +16,6 @@ var SummaryComponent = React.createClass({
 		{
 			for(var i in info.rows)
 			{
-				//new_array.push(info.rows[i].doc);
 				var item = info.rows[i].doc;
 				new_array.push({
 					'_id': item._id,
@@ -20,16 +25,74 @@ var SummaryComponent = React.createClass({
 					'record_id':item.record_id
 				});
 				//console.log(info.rows[i].doc._id);
-				console.log(info.rows[i].doc);
-
-				//{{item.last_name}}, {{item.first_name}} {{item.middle_name}} {{item.record_id}}				
-				
+				//console.log(info.rows[i].doc);
 			}
+			//this.setState( Immutable.Map({ bound_data: new_array}));
 			this.setState( { bound_data: new_array});
 		}.bind(ctx));
 		
 		return { };
 	},
+	addNewCase: function ()
+	{
+		var ctx = this;
+		var data_access = new Data_Access("http://localhost:5984");
+		
+		var new_data = [];
+			
+		for(var i in this.state.bound_data)
+		{
+			new_data.push(this.state.bound_data[i]);
+		}
+
+		var new_record_id = new Date().toISOString();
+		
+		var new_case = {
+			_id : new_record_id,
+			date_created: new Date().toISOString(),
+			created_by: 'jhaines',
+			date_last_updated: new Date().toISOString(),
+			last_updated_by: 'jhaines',
+			record_id : '',
+			first_name : 'New First',
+			middle_name : '',
+			last_name : 'New Last',
+			date_of_death : '2000-01-01',
+			state_of_death : '',
+			state_of_last_known_residence : '',
+			agency_case_id : '',
+			is_valid_maternal_mortality_record : false,
+			death_certificate:
+			{ 
+				causes_of_death:[], 
+				place_of_last_residence:
+				{  
+					street:"123 Old US HWY 25",
+					city:"Los Angeles",
+					state:"California",
+					zip_code:"900890255"
+				} 
+			}
+		};
+		
+		data_access.set_data(new_case, function (error, response) 
+		{
+			if (error) 
+			{
+			  console.log(error);
+			  return;
+			}
+			else if(response && response.ok) 
+			{
+					//console.log('save finished');
+					//console.log(doc);
+					new_case.rev = response.rev;
+					new_data.push(new_case);	 
+					this.setState({ bound_data: new_data });
+			}
+		}.bind(ctx));
+	},
+	
 	componentWillMount:function()
 	{
 		
@@ -68,43 +131,39 @@ var SummaryComponent = React.createClass({
 	},
 	render: function render() 
 	{
-
-			var child_array = [];
-			if(this.state.bound_data)
+		var child_array = [];
+		if(this.state.bound_data)
+		{
+			for(var i = 0; i < this.state.bound_data.length; i++)
 			{
-				for(var i = 0; i < this.state.bound_data.length; i++)
-				{
-					var item = this.state.bound_data[i];
-					var url = "#/home-record/" + item._id;
-					var li = React.createElement('li',{ key: item._id, index:i },
-						'[ ',
-						React.createElement('a',{ 'data-route': 'master', href:url}, 'select'),
-						' ] ',
-						item.last_name + ', ' + item.first_name + ' ' + item.middle_name + ' (' + item.record_id + ')'
-						);
-					
-
-					child_array.push(li)
-
-				}
+				var item = this.state.bound_data[i];
+				var url = "#/home-record/" + item._id;
+				var li = React.createElement('li',{ key: item._id, index:i },
+					'[ ',
+					React.createElement('a',{ 'data-route': 'master', href:url}, 'select'),
+					' ] ',
+					item.last_name + ', ' + item.first_name + ' ' + item.middle_name + ' (' + item.record_id + ')'
+					);
+				child_array.push(li)
 			}
-			
-			var summary_rows = React.createElement('ul',{ id:'summary_row_id'}, child_array);
-			
-			var result = React.createElement('form', {},
-					React.createElement('fieldset',{},
-						React.createElement('legend',{},'select action:'),
-						React.createElement('input', {  type:'button', onClick:this.addNewCase, value:'add new mortality case'}), 
-						React.createElement('br'),
-						React.createElement('hr'),
-						'search text: ',
-						React.createElement('input', {  type:'text' }),
-						' ',
-						React.createElement('input', {  type:'button', onClick:this.addNewCase, value:'search'}),
-						summary_rows
-					)
-			);		
-			
-			return result;
+		}
+
+		var summary_rows = React.createElement('ul',{ id:'summary_row_id'}, child_array);
+
+		var result = React.createElement('form', {},
+				React.createElement('fieldset',{},
+					React.createElement('legend',{},'select action:'),
+					React.createElement('input', {  type:'button', onClick:this.addNewCase, value:'add new mortality case'}), 
+					React.createElement('br'),
+					React.createElement('hr'),
+					'search text: ',
+					React.createElement('input', {  type:'text' }),
+					' ',
+					React.createElement('input', {  type:'button', onClick:this.addNewCase, value:'search'}),
+					summary_rows
+				)
+		);		
+
+		return result;
 	}
 });
