@@ -1,5 +1,5 @@
 var ProfileComponent = React.createClass({
-	displayName: "LoginComponent",
+	displayName: "ProfileComponent",
 	getInitialState: function() 
 	{
 		//return { email: this.props.initialEmail, password: this.props.initialPassword };

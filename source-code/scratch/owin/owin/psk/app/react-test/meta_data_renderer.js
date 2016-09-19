@@ -1,65 +1,60 @@
 function Meta_Data_Renderer_(){};
 
-Meta_Data_Renderer_.prototype.CreateFromMetaData = function(document, app, metadata, parent)
+Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata)
 {
 	var a = null;
 	var element = null;
 	var h1 = null;
 	var element_2 = null;
 	var element_3 = null;
-
-	if(metadata.type)
+	
+	var result = null;
+	
+	if(Array.isArray(metadata))
+	{
+		result = [];
+		for(var i = 0; i < metadata.length; i++)
+		{
+			var child = metadata[i];
+			var temp = this.CreateFromMetaData(child);
+			if(temp)
+			{
+				result.push(temp);
+			}
+		}
+				
+		return result;
+	}
+	else if(metadata.type)
 	{
 		switch(metadata.type.toLowerCase())
 		{
 			case 'string':
-				//<paper-input label="In prior 3 months (# of cigarettes/ packs)" value="{{bound_data.cigarette_smoking.prior_3_months}}"></paper-input>
-
-
-				element = document.createElement("p");
-				//a = document.createAttribute("label");
-				//a.value = metadata.prompt;
-				//element.setAttributeNode(a);
-				element.innerHTML = metadata.prompt;
+				//<p key=''>prompt text <input /><p>
+				/*
+				element = React.createElement
+				(
+					"p",{ key: metadata.name},
+					metadata.prompt,
+					' ',
+					React.createElement("input", 
+					{ 
+						onChange:eval ('function(value){ this.bound_data.' + metadata.name + '=value' }' 
+					}, type:"text", "defaultValue": metadata.name'})
+				);*/
 				
-				parent.appendChild(element);
-				
-				element = document.createElement("input");
-				a = document.createAttribute("value");
-				a.value = "{{bound_data." + metadata.name + "}}";
-				element.setAttributeNode(a);
-				
-				parent.appendChild(element);
+				element = React.createElement(StringComponent, { key:metadata.name, "metadata":metadata });
+				return element;
 				break;			
 
 			case 'form':
-				var page_set =  app.querySelector('#page_set');
-				var section = document.createElement("section");
-				
-				a = document.createAttribute("data-route");
-				a.value = metadata.data_route;
-				section.setAttributeNode(a);
-				
-				a  = document.createAttribute("tabindex");
-				a.value = "-1";
-				section.setAttributeNode(a);
-				
-				a  = document.createAttribute("class");
-				a.value = "style-scope mmrds-app";
-				section.setAttributeNode(a);
-				
-				h1 = document.createElement("h1");
-				h1.innerHTML = metadata.prompt;
-				section.appendChild(h1);
-			
-				Polymer.dom(page_set).appendChild(section);
-				
-				for(var i = 0; i < metadata.children.length; i++)
-				{
-					var child = metadata.children[i];
-					this.CreateFromMetaData(document, app, child, section)
-				}
-
+				var section = React.createElement
+				(
+					"section", { "data-route": metadata.data_route, "tabindex": "-1"},
+					React.createElement("h1", null, metadata.prompt),
+					this.CreateFromMetaData(metadata.children)
+				);
+				return section;
 				break;
 			case 'group'://<paper-material elevation="1">
 				element = document.createElement("paper-material");
@@ -76,7 +71,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(document, app, metad
 				for(var i = 0; i < metadata.children.length; i++)
 				{
 					var child = metadata.children[i];
-					this.CreateFromMetaData(document, app, child, element)
+					this.CreateFromMetaData(document, child, element)
 				}
 				
 				break;
@@ -128,15 +123,4 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(document, app, metad
 			
 		}
 	}
-
-	/*
-	if(typeof i=='undefined')i='';
-	if(i.length>50)return '[MAX ITERATIONS]';
-	var r=[];
-	for(var p in o)
-	{
-	var t=typeof o[p];
-	r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'  ') : o[p]+''));
-	}
-	return r.join(i+'\n');*/
 }

@@ -1,24 +1,42 @@
 var AppComponent = React.createClass({
+	form_metadata:[],
+	form_set: [],
 	displayName: "AppComponent",
 	
 	getInitialState: function() 
 	{
 		
-		var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
-		var AJAX = new AJAX_();
-		var Meta_Data_Renderer = new Meta_Data_Renderer_();
-		
-		var meta_data = AJAX.GetResponse(url, function(metadata)
-		{
-			//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
-			console.log("metadata\n", metadata);
-		}
-		
-		);
+
 		
 		
 		//return { email: this.props.initialEmail, password: this.props.initialPassword };
 		return { };
+	},
+	componentWillMount : function ()
+	{
+
+	},
+	componentDidMount : function ()
+	{
+		
+		//var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
+		var url = location.protocol + '//' + location.host + '/meta-data/00/home_record.json';
+		var AJAX = new AJAX_();
+
+		var meta_data = AJAX.GetResponse(url, function(metadata)
+		{
+			//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
+			console.log("metadata\n", metadata);
+			this.form_metadata.push(metadata);
+		
+			var Meta_Data_Renderer = new Meta_Data_Renderer_();
+			var section_id = document.querySelector("#section_id");
+			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], {});
+			this.form_set.push(form);
+
+		}.bind(this)
+		
+		);		
 	},
 	render: function render() 
 	{
@@ -36,7 +54,8 @@ var AppComponent = React.createClass({
 							React.createElement(SummaryComponent,{}),
 							React.createElement('div', {id:"section_id"},
 								React.createElement('section', { 'data-route':'home-record', tabindex:"-1"},
-									React.createElement('h2',null, 'home-record')
+									React.createElement('h2',null, 'home-record'),
+									this.form_set[0]
 								)
 							)
 					)
