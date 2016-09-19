@@ -146,7 +146,11 @@ var AppComponent = React.createClass({
 				React.createElement('div',{ id:'profile_content_id'},'App Element: MMRIA'),
 				React.createElement('div',{ id:'page_content_id'},
 					React.createElement('p',{},''),
-					React.createElement('div',{ id:'navigation_id'}),
+					React.createElement('div',{ id:'navigation_id'},
+						React.createElement('a',{href:'#/summary'},'summary')//,
+						//' ',
+						//React.createElement('a',{href:'#/home-record' + this.state.selected_id},'home-record')
+					),
 					React.createElement('div',{ id:'form_content_id'},
 							React.createElement('div', {id:"section_id"},
 							React.createElement('section', { 'data-route':'home-record', tabindex:"-1"},
@@ -188,7 +192,7 @@ var AppComponent = React.createClass({
 		
 		})
 		
-		if(this.state.isLoggedIn)
+		if(info.is_logged_in)
 		{
 			/*
 			var abstractor_menu = app.querySelector('#abstractor_menu')
@@ -205,7 +209,12 @@ var AppComponent = React.createClass({
 		}
 		else
 		{
-
+			//var url = location.protocol + '//' + location.host + '/'
+			var url_array = window.location.href.split('#');
+			if(url_array.length > 1)
+			{
+				window.location.href = url_array[0];
+			}
 		}
 		
 	}
