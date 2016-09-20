@@ -11,7 +11,8 @@ var StringComponent = React.createClass({
 	},
 	onChange : function(e)
 	{
-		this.setState({ bound_data: e.target.value });
+		var state_name = new String(this.props.metadata.name);
+		this.setState({ state_name: e.target.value });
 	},
 	render: function() 
 	{
@@ -24,7 +25,7 @@ var StringComponent = React.createClass({
 				onChange:this.onChange, 
 				type:"text", 
 				ref : this.props.metadata.name,
-				"defaultValue": this.props.metadata.name
+				"defaultValue": this.props.defaultValue
 			})
 		);
 	}

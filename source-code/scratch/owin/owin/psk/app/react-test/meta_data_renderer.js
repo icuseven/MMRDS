@@ -16,7 +16,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 		for(var i = 0; i < metadata.length; i++)
 		{
 			var child = metadata[i];
-			var child_data = data[i];
+			var child_data = data[child.name];
 			var temp = this.CreateFromMetaData(child, child_data);
 			if(temp)
 			{
@@ -44,7 +44,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 					}, type:"text", "defaultValue": metadata.name'})
 				);*/
 				
-				element = React.createElement(StringComponent, { key:metadata.name, "metadata":metadata });
+				element = React.createElement(StringComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
 				return element;
 				break;			
 
@@ -53,7 +53,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 				(
 					"section", { "data-route": metadata.data_route, "tabindex": "-1"},
 					React.createElement("h1", null, metadata.prompt),
-					this.CreateFromMetaData(metadata.children)
+					this.CreateFromMetaData(metadata.children, data)
 				);
 				return section;
 				break;
