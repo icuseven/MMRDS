@@ -7,14 +7,22 @@ var AppComponent = React.createClass({
 	getInitialState: function() 
 	{
 		window.onhashchange = this.url_has_changed;
+
+		
+		var url_state = this.get_url_state(window.location.href);
+		//return { email: this.props.initialEmail, password: this.props.initialPassword };
+		return url_state;
+	},
+	get_url_state: function(url)
+	{
+		var result = null;
 		var form = null;
 		var selected_id = null;
 		var selected_child_id = null;
-		
-		var url_array = window.location.href.split('#');
+			
+		var url_array = url.split('#');
 		if(url_array.length > 1)
 		{
-
 			var trimmed_string = url_array[1].replace(/^\/+|\/+$/g, '');
 
 			var path_array = trimmed_string.split('/');
@@ -36,13 +44,15 @@ var AppComponent = React.createClass({
 				selected_child_id = path_array[2];
 				console.log("selected child id: " + selected_child_id);
 			}
-		}
-		
-		//return { email: this.props.initialEmail, password: this.props.initialPassword };
-		return {
+			
+			result = {
 				selected_form_name: form,
 				"selected_id": selected_id,
-				"selected_child_id": selected_child_id };
+				"selected_child_id": selected_child_id
+			};
+		}
+		
+		return result;
 	},
 	url_has_changed: function(e)
 	{
@@ -55,42 +65,12 @@ var AppComponent = React.createClass({
 		}*/
 		if(e.isTrusted)
 		{
-			var url_array = e.newURL.split('#');
-			if(url_array.length > 1)
-			{
-				var form = null;
-				var selected_id = null;
-				var selected_child_id = null;
-
-				var trimmed_string = url_array[1].replace(/^\/+|\/+$/g, '');
-
-				var path_array = trimmed_string.split('/');
-				
-				if(path_array.length > 0)
-				{
-					form = path_array[0];
-					console.log("selected form: " + form);
-				}
-				
-				if(path_array.length > 1)
-				{
-					selected_id = path_array[1];
-					console.log("selected id: " + selected_id);
-				}
-				
-				if(path_array.length > 2)
-				{
-					selected_child_id = path_array[2];
-					console.log("selected child id: " + selected_child_id);
-				}
-				
-				this.setState({
-					selected_form_name: form,
-					"selected_id": selected_id,
-					"selected_child_id": selected_child_id}
-				);
-
-			}
+			var url_state = this.get_url_state(e.newURL);
+			this.setState(url_state);
+		}
+		else
+		{
+			// do nothing for now
 		}
 	},
 	componentWillMount : function ()

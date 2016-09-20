@@ -1,6 +1,6 @@
 function Meta_Data_Renderer_(){};
 
-Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata)
+Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 {
 	var a = null;
 	var element = null;
@@ -16,7 +16,8 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata)
 		for(var i = 0; i < metadata.length; i++)
 		{
 			var child = metadata[i];
-			var temp = this.CreateFromMetaData(child);
+			var child_data = data[i];
+			var temp = this.CreateFromMetaData(child, child_data);
 			if(temp)
 			{
 				result.push(temp);
