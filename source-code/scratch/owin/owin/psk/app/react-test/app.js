@@ -2,6 +2,7 @@ var AppComponent = React.createClass({
 	form_metadata:[],
 	form_set: [],
 	navigation_set:{},
+	record_data:[],
 	displayName: "AppComponent",
 	
 	getInitialState: function() 
@@ -66,12 +67,33 @@ var AppComponent = React.createClass({
 		if(e.isTrusted)
 		{
 			var url_state = this.get_url_state(e.newURL);
+			
+			if(
+				url_state.selected_id != null && 
+				url_state.selected_id != this.state.selected_id
+			)
+			{
+				
+				if(this.state.record_data.length > 0)
+				{
+					var new_case = this.state.record_data[0];
+					this.load_record(new_case);
+				}
+			}
 			this.setState(url_state);
 		}
 		else
 		{
 			// do nothing for now
 		}
+	},
+	set_record_data: function(p_record_data)
+	{
+		this.setState({ record_data: p_record_data });
+	},
+	get_record_data: function()
+	{
+		return this.state.record_data;
 	},
 	componentWillMount : function ()
 	{
@@ -92,10 +114,7 @@ var AppComponent = React.createClass({
 			console.log("metadata\n", metadata);
 			this.form_metadata.push(metadata);
 		
-			var Meta_Data_Renderer = new Meta_Data_Renderer_();
-			var section_id = document.querySelector("#section_id");
-			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], {});
-			this.form_set.push(form);
+
 			
 			this.navigation_set[this.form_metadata[0].name] = "#/" + this.form_metadata[0].url_route;
 			
@@ -104,8 +123,19 @@ var AppComponent = React.createClass({
 		
 		);		
 	},
+	load_record:function(record_to_load)
+	{
+			console.log('load_record called');
+			var Meta_Data_Renderer = new Meta_Data_Renderer_();
+			var section_id = document.querySelector("#section_id");
+			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], record_to_load);
+			this.form_set.push(form);
+	},
 	render: function render() 
 	{
+		
+		
+		
 		var result = null;
 		if(this.state.isLoggedIn)
 		{
@@ -119,7 +149,7 @@ var AppComponent = React.createClass({
 					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
 					React.createElement('div',{ id:'form_content_id'},
-							React.createElement(SummaryComponent,{})
+							React.createElement(SummaryComponent,{ "set_record_data": this.set_record_data, "get_record_data": this.get_record_data })
 					)
 				)
 			);

@@ -28,7 +28,8 @@ var SummaryComponent = React.createClass({
 				//console.log(info.rows[i].doc);
 			}
 			//this.setState( Immutable.Map({ bound_data: new_array}));
-			this.setState( { bound_data: new_array});
+			this.props.set_record_data(new_array);
+			//this.setState( { bound_data: new_array});
 		}.bind(ctx));
 		
 		return { };
@@ -88,7 +89,8 @@ var SummaryComponent = React.createClass({
 					//console.log(doc);
 					new_case.rev = response.rev;
 					new_data.push(new_case);	 
-					this.setState({ bound_data: new_data });
+					this.props.set_record_data(new_data);
+					//this.setState({ bound_data: new_data });
 			}
 		}.bind(ctx));
 	},
@@ -132,11 +134,12 @@ var SummaryComponent = React.createClass({
 	render: function render() 
 	{
 		var child_array = [];
-		if(this.state.bound_data)
+		var bound_data = this.props.get_record_data();
+		if(bound_data)
 		{
-			for(var i = 0; i < this.state.bound_data.length; i++)
+			for(var i = 0; i < bound_data.length; i++)
 			{
-				var item = this.state.bound_data[i];
+				var item = bound_data[i];
 				var url = "#/home-record/" + item._id;
 				var li = React.createElement('li',{ key: item._id, index:i },
 					'[ ',
