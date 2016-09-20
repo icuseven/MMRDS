@@ -27,7 +27,7 @@ Data_Access.prototype.get_data = function(p_query, p_then_function)
 	{
 		if(p_then_function)
 		{
-			db.get(p_query).then(p_then_function);
+			this.db.get(p_query).then(p_then_function);
 		}
 		else
 		{

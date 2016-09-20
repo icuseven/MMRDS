@@ -51,9 +51,9 @@ var SummaryComponent = React.createClass({
 		var new_case = {
 			_id : new_record_id,
 			date_created: new Date().toISOString(),
-			created_by: 'jhaines',
+			created_by: this.get_profile().user_name,
 			date_last_updated: new Date().toISOString(),
-			last_updated_by: 'jhaines',
+			last_updated_by: this.get_profile().user_name,
 			record_id : '',
 			first_name : 'New First',
 			middle_name : '',

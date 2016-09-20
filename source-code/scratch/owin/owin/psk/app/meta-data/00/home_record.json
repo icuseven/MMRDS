@@ -3,30 +3,30 @@
 	"_rev": "1-d794f8cf1e80575b985bef7dd85fdce7",
 	"type": "form",
 	"name": "home record",
-	"url_route": "#/home-record",
+	"url_route": "home-record",
 	"children":
 	[
 	   {
 			"name":"date_created",
-			"prompt":"date_created",
+			"prompt":"date created",
 			"order": -1,
 			"type": "date"
 		},
 		{ 
 			"name":"created_by",
-			"prompt":"created_by",
+			"prompt":"created by",
 			"order": -1,		
 			"type": "string"
 		},
 		{ 
 			"name":"date_last_updated",
-			"prompt":"date_last_updated",
+			"prompt":"date last updated",
 			"order": -1,
 			"type": "date"
 		},
 		{ 
 			"name":"last_updated_by",
-			"prompt":"last_updated_by",
+			"prompt":"last_updated by",
 			"order": -1,
 			"type": "string"
 		},
@@ -64,7 +64,7 @@
 			"name":"state_of_death",
 			"prompt":"state of death",
 			"order": -1,
-			"type": "string(2)"
+			"type": "string"
 		},
 		{ 
 			"name":"state_of_last_known_residence",

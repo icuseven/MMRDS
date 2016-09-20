@@ -76,11 +76,25 @@ var AppComponent = React.createClass({
 				
 				if(this.state.record_data.length > 0)
 				{
-					var new_case = this.state.record_data[0];
-					this.load_record(new_case);
+					//var new_case = this.state.record_data[0];
+					var data_access = new Data_Access("http://localhost:5984");
+					var new_case = data_access.get_data(url_state.selected_id,
+					function(doc) 
+					{
+					  this.load_record(doc);
+					  this.setState(url_state);
+					}.bind(this));
+				}
+				else
+				{
+					this.setState(url_state);
 				}
 			}
-			this.setState(url_state);
+			else
+			{
+				this.setState(url_state);
+			}
+			
 		}
 		else
 		{
@@ -133,11 +147,8 @@ var AppComponent = React.createClass({
 	},
 	render: function render() 
 	{
-		
-		
-		
 		var result = null;
-		if(this.state.isLoggedIn)
+		if(this.state && this.state.profile && this.state.profile.isLoggedIn)
 		{
 			if(this.state.selected_form_name == null ||this.state.selected_form_name == '' || this.state.selected_form_name=='summary' || this.state.selected_id == null)
 			{
@@ -149,7 +160,7 @@ var AppComponent = React.createClass({
 					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
 					React.createElement('div',{ id:'form_content_id'},
-							React.createElement(SummaryComponent,{ "set_record_data": this.set_record_data, "get_record_data": this.get_record_data })
+							React.createElement(SummaryComponent,{ "set_record_data": this.set_record_data, "get_record_data": this.get_record_data, "get_profile": this.get_profile })
 					)
 				)
 			);
@@ -197,16 +208,23 @@ var AppComponent = React.createClass({
 		
 		return result;
 	},
+	get_profile: function ()
+	{
+		return this.state.profile;
+	},  
 	profile_login_changed:function( info ) 
 	{
 		console.log("profile_login_changed", info);
-		this.setState({
-        isLoggedIn: info.is_logged_in,
-		auth_session: info.auth_session,
-		user_name: info.user_name,
-		user_roles: info.user_roles
-		
-		})
+
+		this.setState({ 
+			profile: {
+				isLoggedIn: info.is_logged_in,
+				auth_session: info.auth_session,
+				user_name: info.user_name,
+				user_roles: info.user_roles
+			}
+		});
+
 		
 		if(info.is_logged_in)
 		{
@@ -232,6 +250,8 @@ var AppComponent = React.createClass({
 				window.location.href = url_array[0];
 			}
 		}
+		
+		
 		
 	}
 	
