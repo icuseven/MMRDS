@@ -73,17 +73,16 @@ var AppComponent = React.createClass({
 				url_state.selected_id != this.state.selected_id
 			)
 			{
-				
 				if(this.state.record_data.length > 0)
 				{
-					//var new_case = this.state.record_data[0];
 					var data_access = new Data_Access("http://localhost:5984");
-					var new_case = data_access.get_data(url_state.selected_id,
-					function(doc) 
-					{
-					  this.load_record(doc);
-					  this.setState(url_state);
-					}.bind(this));
+					data_access.get_data(url_state.selected_id,
+						function(doc) 
+						{
+						  this.load_record(doc);
+						  this.setState(url_state);
+						}.bind(this)
+					);
 				}
 				else
 				{
@@ -94,7 +93,6 @@ var AppComponent = React.createClass({
 			{
 				this.setState(url_state);
 			}
-			
 		}
 		else
 		{
