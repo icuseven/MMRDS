@@ -1,6 +1,8 @@
 {
 	"_id": "2016-06-12T13:49:24.759Z",
 	"_rev": "1-d794f8cf1e80575b985bef7dd85fdce7",
+	"name": "home record",
+	"url_route": "home-record",
 	"type": "form",
 	"children":
 	[
@@ -62,7 +64,7 @@
 			"name":"state_of_death",
 			"prompt":"state of death",
 			"order": 9,
-			"type": "string(2)"
+			"type": "string"
 		},
 		{ 
 			"name":"state_of_last_known_residence",
