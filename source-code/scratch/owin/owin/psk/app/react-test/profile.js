@@ -198,9 +198,9 @@ var ProfileComponent = React.createClass({
 			
 			var info = { 
 				is_logged_in: true, 
-				user_name: json_response.name,
-				user_roles: json_response.roles,
-				auth_session: json_response.auth_session
+				user_name: json_response.userCTX.name,
+				user_roles: json_response.userCTX.roles,
+				auth_session: current_auth_session
 			};
 			
 			this.setState({

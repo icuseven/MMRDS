@@ -47,7 +47,15 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 				element = React.createElement(StringComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
 				return element;
 				break;			
-
+			case 'boolean':
+				element = React.createElement(BooleanComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
+				return element;
+				break;
+			case 'date':
+				element = React.createElement(DateComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
+				//element = React.createElement(AReactDatepicker, { key:metadata.name, "metadata":metadata, defaultValue: data });
+				return element;
+				break;				
 			case 'form':
 				var section = React.createElement
 				(
