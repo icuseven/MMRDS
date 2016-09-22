@@ -91,7 +91,12 @@ namespace owin
 			else
 			{
 				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
-				Console.ReadLine();
+				string read_line = Console.ReadLine();
+				while (read_line.ToLower () != "quit") 
+				{
+					read_line = Console.ReadLine();
+				}
+				System.Console.WriteLine ("Quit command recieved shutting down.");
 			}
 
 
