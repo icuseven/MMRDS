@@ -49,6 +49,31 @@ AJAX_.prototype.GetResponse = function(p_url, p_callback)
   
 }
 
+AJAX_.prototype.GetSynchronousResponse = function(p_url)
+{
+	var httpRequest = null;
+	var ready_this = this;
+	//https://developer.mozilla.org/en-US/docs/AJAX/Getting_Started
+	// Old compatibility code, no longer needed.
+	if (window.XMLHttpRequest) 
+	{ // Mozilla, Safari, IE7+ ...
+		httpRequest = new XMLHttpRequest();
+	}
+	else if (window.ActiveXObject) 
+	{ // IE 6 and older
+		httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	httpRequest.open('GET', p_url, false);
+	httpRequest.send(null);
+  
+	if (httpRequest.status === 200) 
+	{
+		console.log(httpRequest.responseText);
+	}
+  
+}
+
 
 AJAX_.prototype.PostResponse = function(p_url, p_postdata, p_callback)
 {
