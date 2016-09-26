@@ -115,7 +115,7 @@ var AppComponent = React.createClass({
 	{
 		
 		//var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
-		var url = location.protocol + '//' + location.host + '/meta-data/00/home_record.json';
+		var url = location.protocol + '//' + location.host + '/meta-data/01/home_record.json';
 		var AJAX = new AJAX_();
 
 		this.navigation_set["summary"] = "#/summary";
@@ -125,9 +125,12 @@ var AppComponent = React.createClass({
 			//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 			console.log("metadata\n", metadata);
 			this.form_metadata.push(metadata);
-		
-
-			
+		/*
+			var Meta_Data_Renderer = new Meta_Data_Renderer_();
+			var section_id = document.querySelector("#section_id");
+			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], record_to_load);
+			this.form_set.push(form);
+			*/
 			this.navigation_set[this.form_metadata[0].name] = "#/" + this.form_metadata[0].url_route;
 			
 
