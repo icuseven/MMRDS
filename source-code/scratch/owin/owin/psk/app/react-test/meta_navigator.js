@@ -6,17 +6,30 @@ function Meta_Navigator(p_entry_callback, p_exit_callback)
 
 Meta_Navigator.prototype.navigate = function(metadata)
 {
-	if(metadata.type)
+	if(metadata && Array.isArray(metadata))
+	{
+		result = [];
+		for(var i = 0; i < metadata.length; i++)
+		{
+			this.navigate(metadata[i]);
+		}	
+	}
+	else if(metadata && metadata.type)
 	{
 		switch(metadata.type.toLowerCase())
 		{
+			case 'boolean':
+			case 'date':
+			case 'number':
 			case 'string':
+			case 'time':
 				this.entry_callback(metadata);
 				this.exit_callback(metadata);
 				break;			
 			// container field
 			case 'form':
 			case 'group':
+			case 'address':			
 				this.entry_callback(metadata);
 				for(var i = 0; i < metadata.children.length; i++)
 				{
@@ -27,6 +40,9 @@ Meta_Navigator.prototype.navigate = function(metadata)
 				break;
 			// list field
 			case 'radio':
+			case 'list':
+			case 'yes_no':
+			case 'race':
 				this.entry_callback(metadata);
 				
 				for(var i = 0; i < metadata.values.length; i++)
@@ -43,7 +59,7 @@ Meta_Navigator.prototype.navigate = function(metadata)
 				for(var i = 0; i < metadata.children.length; i++)
 				{
 					var child = metadata.children[i];
-					this.navigate(child, entry_callback, exit_callback);
+					this.navigate(child);
 				}
 				this.exit_callback(metadata);
 				break;				

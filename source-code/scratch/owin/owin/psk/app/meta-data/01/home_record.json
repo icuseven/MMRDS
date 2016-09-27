@@ -70,7 +70,7 @@
 			"name":"state_of_last_known_residence",
 			"prompt":"state of last known residence",
 			"order": 10,
-			"type": ""
+			"type": "string"
 		},
 		{ 
 			"name":"agency_case_id",
@@ -110,7 +110,7 @@
 		"name":"place_of_last_residence",
 		"prompt":"Place of last residence",
 		"order": -1,		
-		"type": "Address",
+		"type": "group",
 		"is_core_summary": false,
 		"validation": null,
 		"children": 
@@ -299,7 +299,7 @@
 		"name":"place_of_injury",
 		"prompt":"Place of injury (Place name, if applicable)",
 		"order": -1,		
-		"type": "",
+		"type": "string",
 		"is_core_summary": false,
 		"validation": null
 		},
@@ -320,9 +320,9 @@
 		},
 		{
 		"name":"transportation_related_injury",
-		"prompt":"",
+		"prompt":"transportation related injury?",
 		"order": -1,		
-		"type": "",
+		"type": "List",
 		"is_core_summary": false,
 		"validation": null,
 		"values": 
@@ -388,7 +388,7 @@
 		"name":"death_outside_of_hospital",
 		"prompt":"If death not in a hospital:*",
 		"order": -1,		
-		"type": "",
+		"type": "List",
 		"is_core_summary": true,
 		"validation": null,
 		"values": 
@@ -406,7 +406,7 @@
 		"name":"manner_of_death",
 		"prompt":"Manner of Death*",
 		"order": -1,		
-		"type": "",
+		"type": "List",
 		"is_core_summary": true,
 		"validation": null,
 		"values": 
@@ -455,9 +455,9 @@
 		},
 		{
 		"name":"pregnancy_status",
-		"prompt":"",
+		"prompt":"Pregnancy Status?",
 		"order": -1,		
-		"type": "",
+		"type": "List",
 		"is_core_summary": false,
 		"validation": null,
 		"values": 
@@ -473,9 +473,9 @@
 		},
 		{
 		"name":"did_tobacco_contribute_to_death",
-		"prompt":"",
+		"prompt":"Did tobacco contribute to death?",
 		"order": -1,		
-		"type": "",
+		"type": "List",
 		"is_core_summary": false,
 		"validation": null,
 		"values": 
@@ -509,7 +509,7 @@
 		"name":"estimated_death_distance_from_residence",
 		"prompt":"Estimated distance (miles) between residence and place of death*",
 		"order": -1,		
-		"type": "",
+		"type": "number",
 		"is_core_summary": false,
 		"validation": null
 		},
@@ -518,7 +518,7 @@
 		"prompt":"Causes of death",
 		"order": -1,		
 		"type":"Grid",
-		"chidren":
+		"children":
 		[
 			{ 
 				"name":"cause_type",
@@ -573,7 +573,7 @@
 		"name":"reviewer_note",
 		"prompt":"Reviewer's notes about the Death Certificate",
 		"order": -1,		
-		"type": "",
+		"type": "string",
 		"is_core_summary": false,
 		"validation": null
 		}
