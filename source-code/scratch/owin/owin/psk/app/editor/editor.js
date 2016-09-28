@@ -146,6 +146,77 @@ var EditorComponent = React.createClass({
 			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], record_to_load);
 			this.form_set.push(form);
 	},
+	create_tree: function(metadata)
+	{
+		var result = null;
+		
+		if(metadata && Array.isArray(metadata))
+		{
+			result = [];
+			for(var i = 0; i < metadata.length; i++)
+			{
+				result.push(this.create_tree(metadata[i]));
+			}	
+			return result;
+		}
+		else if(metadata && metadata.type)
+		{
+			switch(metadata.type.toLowerCase())
+			{
+				case 'boolean':
+				case 'date':
+				case 'number':
+				case 'string':
+				case 'time':
+					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type);
+					return result;
+					break;			
+				// container field
+				case 'form':
+				case 'group':
+				case 'address':			
+					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type,
+						React.createElement('ul',null,
+						this.create_tree(metadata.children))
+						);
+					
+					return result;
+					break;
+				// list field
+				case 'radio':
+				case 'list':
+				case 'yes_no':
+				case 'race':
+					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type,
+						React.createElement('ul',null,
+						this.create_tree(metadata.values))
+						);
+					
+					return result;
+					break;
+				// grid field //key: metadata.name
+				case 'grid':
+					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type,
+						React.createElement('ul',null,
+						this.create_tree(metadata.children))
+						);
+					return result;
+					break;				
+				default:
+					console.log("meta_navigator unimplemented", metadata.type);
+					result = React.createElement('li',{  }, metadata.name, ' : ', metadata.type);
+					return result;
+					break;
+				
+			}
+		}
+		else
+		{
+			
+			console.log("meta_navigator metadata node without type", metadata);
+		}
+	},
+	
 	render: function render() 
 	{
 		var result = null;
@@ -153,16 +224,10 @@ var EditorComponent = React.createClass({
 		if(this.state && this.state.profile && this.state.profile.isLoggedIn)
 		{
 			
-			var child_array = [];
-			var meta_navigator = new Meta_Navigator(function (e){
-					child_array.push(React.createElement('li',{ key:e.name }, e.name));
-			}, 
-			function (e){
-					return;
-			});
-			
-			meta_navigator.navigate(this.form_metadata[0]);
-			var root = React.createElement('ul',{ id:'root_tree_id'}, child_array);
+
+			var item = this.create_tree(this.form_metadata[0]);
+			//meta_navigator.navigate(this.form_metadata[0]);
+			var root = React.createElement('ul',{ id:'root_tree_id'}, item);
 
 			 result = React.createElement('div', {},
 				React.createElement('img',{ src:"../images/mmria-secondary.svg", height:75, width:100}),

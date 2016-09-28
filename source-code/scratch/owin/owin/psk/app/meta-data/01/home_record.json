@@ -253,8 +253,8 @@
 		]
 		},
 		{
-		"name":"Race*",
-		"prompt":"race",
+		"name":"race",
+		"prompt":"Race*",
 		"order": -1,
 		"type":"Race",
 		"item_type": "string",
