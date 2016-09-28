@@ -267,7 +267,26 @@ var EditorComponent = React.createClass({
 				React.createElement('div',{ id:'page_content_id'},
 					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
-					React.createElement('div',{ id:'form_content_id'},
+					React.createElement('div',{ id:'form_content_id'}, 
+						React.createElement('fieldset',{ },
+							React.createElement('legend',null,'search text: '),
+							React.createElement('input',{ id:'search_text_id'}), ' ',
+							React.createElement('input',{ type:'button', value:'search'})
+						), ' ',
+						React.createElement('fieldset',{ },
+							React.createElement('legend',null,'selected path: '),
+							React.createElement('input',{ id:'selected_path'}),
+							React.createElement('select',{ id:'selected_type'},
+								React.createElement('option',null,'select type to add'),
+								React.createElement('option',null,'string'),
+								React.createElement('option',null,'number'),
+								React.createElement('option',null,'date'),
+								React.createElement('option',null,'form'),
+								React.createElement('option',null,'group')
+							), ' ',
+							React.createElement('input',{ type:'button', value:'add new'})
+						),
+						React.createElement('br'),
 						root
 					)
 				));

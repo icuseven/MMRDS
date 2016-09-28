@@ -66,10 +66,15 @@ var ProfileComponent = React.createClass({
 	{
 		if(this.state.is_logged_in)
 		{
+			
+			
 			return React.createElement('form', {},
 				React.createElement('fieldset',{},
 					React.createElement('legend',{},'profile:'),
 					'user: ' + this.state.user_name,
+					React.createElement('br'),
+					'roles: ' + this.state.user_roles.join(','),
+					React.createElement('br'),
 					React.createElement('br'),
 					React.createElement('input', {  type:'button', onClick:this.onLogout, value:'logout'})
 				)
