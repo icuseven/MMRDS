@@ -172,7 +172,7 @@ var EditorComponent = React.createClass({
 				case 'number':
 				case 'string':
 				case 'time':
-					result = React.createElement('li',{  key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type, ' ', path + "/" + metadata.name,
+					result = React.createElement('div',{  key: path + "/" + metadata.name }, metadata.name, ' : ', metadata.type, ' ', path + "/" + metadata.name,
 					React.createElement('ul',{},this.get_prop_elements(metadata, path + "/" + metadata.name))
 					);
 					return result;
@@ -181,7 +181,7 @@ var EditorComponent = React.createClass({
 				case 'form':
 				case 'group':
 				case 'address':			
-					result = React.createElement('li',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
+					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
 						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);
@@ -199,10 +199,10 @@ var EditorComponent = React.createClass({
 						value_list.push(React.createElement('li',{key: path + "/" + metadata.name + value}, metadata.values[value]));
 					}
 				
-					result = React.createElement('li',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
+					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
 						this.get_prop_elements(metadata),
-						React.createElement('li',null,'values',
+						React.createElement('div',null,'values',
 						React.createElement('ul',null,
 						value_list))
 						)
@@ -212,7 +212,7 @@ var EditorComponent = React.createClass({
 					break;
 				// grid field //key: metadata.name
 				case 'grid':
-					result = React.createElement('li',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
+					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
 						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);
@@ -241,7 +241,8 @@ var EditorComponent = React.createClass({
 			var name_check = prop.toLowerCase();
 			if(name_check != "children" && name_check != "values")
 			{
-				result.push(React.createElement('li',{key: path + "/" + prop }, prop, ' : ', metadata[prop]));
+				result.push(React.createElement('li',{key: path + "/" + prop }, prop, ' : ',
+				React.createElement('input',{ defaultValue: metadata[prop]})));
 			}
 
 		}
