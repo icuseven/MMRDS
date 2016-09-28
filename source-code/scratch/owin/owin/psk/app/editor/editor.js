@@ -1,4 +1,4 @@
-function toggle_me(e)
+function toggle_me(path, value)
 {
 	e.active = !e.active;
 }
@@ -16,6 +16,15 @@ var EditorComponent = React.createClass({
 		
 		var url_state = this.get_url_state(window.location.href);
 		//return { email: this.props.initialEmail, password: this.props.initialPassword };
+		if(url_state)
+		{
+			url_state["selected_path"] = "";
+		}
+		else
+		{
+			url_state = { "selected_path": ""};
+		}
+		
 		return url_state;
 	},
 	get_url_state: function(url)
@@ -172,9 +181,11 @@ var EditorComponent = React.createClass({
 				case 'number':
 				case 'string':
 				case 'time':
+					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_record_data:this.set_record_data });
+					/*
 					result = React.createElement('div',{  key: path + "/" + metadata.name }, metadata.name, ' : ', metadata.type, ' ', path + "/" + metadata.name,
 					React.createElement('ul',{},this.get_prop_elements(metadata, path + "/" + metadata.name))
-					);
+					);*/
 					return result;
 					break;			
 				// container field
@@ -242,11 +253,15 @@ var EditorComponent = React.createClass({
 			if(name_check != "children" && name_check != "values")
 			{
 				result.push(React.createElement('li',{key: path + "/" + prop }, prop, ' : ',
-				React.createElement('input',{ defaultValue: metadata[prop]})));
+				React.createElement('input',{ "path": path + "/" + prop, defaultValue: metadata[prop], onChange:this.value_changed})));
 			}
 
 		}
 		return result;
+	},
+	set_selected_path:function(path)
+	{
+		this.setState({ selected_path: path });
 	},
 	render: function render() 
 	{
@@ -275,7 +290,7 @@ var EditorComponent = React.createClass({
 						), ' ',
 						React.createElement('fieldset',{ },
 							React.createElement('legend',null,'selected path: '),
-							React.createElement('input',{ id:'selected_path'}),
+							React.createElement('input',{ id:'selected_path', defaultValue: this.state.selected_path }),
 							React.createElement('select',{ id:'selected_type'},
 								React.createElement('option',null,'select type to add'),
 								React.createElement('option',null,'string'),
