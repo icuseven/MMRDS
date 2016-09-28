@@ -1,3 +1,7 @@
+function toggle_me(e)
+{
+	e.active = !e.active;
+}
 var EditorComponent = React.createClass({
 	form_metadata:[],
 	form_set: [],
@@ -146,7 +150,7 @@ var EditorComponent = React.createClass({
 			var form = Meta_Data_Renderer.CreateFromMetaData(this.form_metadata[0], record_to_load);
 			this.form_set.push(form);
 	},
-	create_tree: function(metadata)
+	create_tree: function(metadata, path)
 	{
 		var result = null;
 		
@@ -155,7 +159,7 @@ var EditorComponent = React.createClass({
 			result = [];
 			for(var i = 0; i < metadata.length; i++)
 			{
-				result.push(this.create_tree(metadata[i]));
+				result.push(this.create_tree(metadata[i], path));
 			}	
 			return result;
 		}
@@ -168,16 +172,18 @@ var EditorComponent = React.createClass({
 				case 'number':
 				case 'string':
 				case 'time':
-					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type);
+					result = React.createElement('li',{  key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type, ' ', path + "/" + metadata.name,
+					React.createElement('ul',{},this.get_prop_elements(metadata, path + "/" + metadata.name))
+					);
 					return result;
 					break;			
 				// container field
 				case 'form':
 				case 'group':
 				case 'address':			
-					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type,
+					result = React.createElement('li',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
-						this.create_tree(metadata.children))
+						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);
 					
 					return result;
@@ -187,25 +193,36 @@ var EditorComponent = React.createClass({
 				case 'list':
 				case 'yes_no':
 				case 'race':
-					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type,
+					var value_list = [];
+					for(var value = 0; value < metadata.values.length; value++)
+					{
+						value_list.push(React.createElement('li',{key: path + "/" + metadata.name + value}, metadata.values[value]));
+					}
+				
+					result = React.createElement('li',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
-						this.create_tree(metadata.values))
+						this.get_prop_elements(metadata),
+						React.createElement('li',null,'values',
+						React.createElement('ul',null,
+						value_list))
+						)
 						);
 					
 					return result;
 					break;
 				// grid field //key: metadata.name
 				case 'grid':
-					result = React.createElement('li',{}, metadata.name, ' : ', metadata.type,
+					result = React.createElement('li',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
-						this.create_tree(metadata.children))
+						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);
 					return result;
 					break;				
 				default:
 					console.log("meta_navigator unimplemented", metadata.type);
-					result = React.createElement('li',{  }, metadata.name, ' : ', metadata.type);
-					return result;
+					//result = React.createElement('li',{  }, metadata.name, ' : ', metadata.type);
+					//return result;
+					return "";
 					break;
 				
 			}
@@ -216,7 +233,20 @@ var EditorComponent = React.createClass({
 			console.log("meta_navigator metadata node without type", metadata);
 		}
 	},
-	
+	get_prop_elements: function(metadata, path)
+	{
+		var result = [];
+		for(var prop in metadata)
+		{
+			var name_check = prop.toLowerCase();
+			if(name_check != "children" && name_check != "values")
+			{
+				result.push(React.createElement('li',{key: path + "/" + prop }, prop, ' : ', metadata[prop]));
+			}
+
+		}
+		return result;
+	},
 	render: function render() 
 	{
 		var result = null;
@@ -225,7 +255,7 @@ var EditorComponent = React.createClass({
 		{
 			
 
-			var item = this.create_tree(this.form_metadata[0]);
+			var item = this.create_tree(this.form_metadata[0], "");
 			//meta_navigator.navigate(this.form_metadata[0]);
 			var root = React.createElement('ul',{ id:'root_tree_id'}, item);
 
