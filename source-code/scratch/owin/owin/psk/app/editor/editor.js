@@ -231,7 +231,10 @@ var EditorComponent = React.createClass({
 						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);*/
 					return result;
-					break;				
+					break;	
+				case 'app':
+					return this.create_tree(metadata.children, path + "/" + metadata.name);
+					break;
 				default:
 					console.log("meta_navigator unimplemented", metadata.type);
 					//result = React.createElement('li',{  }, metadata.name, ' : ', metadata.type);
