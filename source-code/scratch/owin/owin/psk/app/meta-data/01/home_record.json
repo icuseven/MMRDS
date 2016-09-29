@@ -84,13 +84,6 @@
 			"order": 12,
 			"type": "boolean"
 		},
-		{ 
-			"name":"death_certificate",
-			"order": 13,
-			"cardinality": "0-1",
-			"type": "home_record.death_certificate.json"
-			
-	   },
 	   { 
 			"name":"maternal_birth_certificate",
 			"prompt":"maternal_birth_certificate",
