@@ -1,7 +1,4 @@
-function toggle_me(path, value)
-{
-	e.active = !e.active;
-}
+
 var EditorComponent = React.createClass({
 	form_metadata:[],
 	form_set: [],
@@ -281,10 +278,10 @@ var EditorComponent = React.createClass({
 				React.createElement('img',{ src:"../images/mmria-secondary.svg", height:75, width:100}),
 				React.createElement('h1',{},'App Element: MMRIA'),
 				React.createElement('div',{ id:'profile_content_id'},'App Element: MMRIA'),
-				React.createElement('div',{ id:'page_content_id'},
+				React.createElement('div',{ id:'page_content_id', style: {clear: "left"}},
 					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
-					React.createElement('div',{ id:'form_content_id', style: {clear: "left"}}, 
+					React.createElement('div',{ id:'form_content_id'}, 
 						React.createElement('fieldset',{ style:{ float:"left" } },
 							React.createElement('legend',null,'search text: '),
 							React.createElement('input',{ id:'search_text_id'}), ' ',

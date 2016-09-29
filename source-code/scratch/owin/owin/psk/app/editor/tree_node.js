@@ -8,7 +8,7 @@ var SingleTreeNodeComponent = React.createClass(
 	{
 		return React.createElement('div',{  key: this.state.path + "/" + this.state.metadata.name}, this.state.metadata.name, ' : ', this.state.metadata.type, ' ', this.state.path + "/" + this.state.metadata.name,
 					' ',
-					React.createElement('input',{ type:"button", value:"add node", path:this.state.path + "/" + this.state.metadata.name}),
+					React.createElement('input',{ type:"button", value:"add key:value", path:this.state.path + "/" + this.state.metadata.name}),
 					React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
 					);
 	},
@@ -45,9 +45,9 @@ var ValueTreeNodeComponent = React.createClass(
 	render() 
 	{
 		return React.createElement('li',{}, this.props.metadata_property_name, ' : ',
-				React.createElement('input',{ "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue }));
+				React.createElement('input',{ onChange:this.update_value, "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue }));
 	},
-	onChange: function(e)
+	update_value: function(e)
 	{
 		this.state.dataValue = e.currentTarget.value;
 	}
