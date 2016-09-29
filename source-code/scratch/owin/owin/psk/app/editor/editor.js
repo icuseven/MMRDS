@@ -273,7 +273,9 @@ var EditorComponent = React.createClass({
 
 			var item = this.create_tree(this.form_metadata[0], "");
 			//meta_navigator.navigate(this.form_metadata[0]);
-			var root = React.createElement('ul',{ id:'root_tree_id'}, item);
+			var root = React.createElement('div',{ style: {clear: "left", padding:"5px" } },
+				React.createElement('ul',{ id:'root_tree_id'}, item)
+				);
 
 			 result = React.createElement('div', {},
 				React.createElement('img',{ src:"../images/mmria-secondary.svg", height:75, width:100}),
@@ -282,15 +284,16 @@ var EditorComponent = React.createClass({
 				React.createElement('div',{ id:'page_content_id'},
 					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
-					React.createElement('div',{ id:'form_content_id'}, 
-						React.createElement('fieldset',{ },
+					React.createElement('div',{ id:'form_content_id', style: {clear: "left"}}, 
+						React.createElement('fieldset',{ style:{ float:"left" } },
 							React.createElement('legend',null,'search text: '),
 							React.createElement('input',{ id:'search_text_id'}), ' ',
 							React.createElement('input',{ type:'button', value:'search'})
 						), ' ',
-						React.createElement('fieldset',{ },
+						React.createElement('fieldset',{ style:{ float:"left" } },
 							React.createElement('legend',null,'selected path: '),
 							React.createElement('input',{ id:'selected_path', defaultValue: this.state.selected_path }),
+							' ',
 							React.createElement('select',{ id:'selected_type'},
 								React.createElement('option',null,'select type to add'),
 								React.createElement('option',null,'string'),

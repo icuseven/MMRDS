@@ -6,11 +6,13 @@ var SingleTreeNodeComponent = React.createClass(
 	},
 	render() 
 	{
-		return React.createElement('div',{  key: this.state.path + "/" + this.state.metadata.name, onclick: function() { this.props.set_record_data(this.state.path + "/"); } }, this.state.metadata.name, ' : ', this.state.metadata.type, ' ', this.state.path + "/" + this.state.metadata.name,
+		return React.createElement('div',{  key: this.state.path + "/" + this.state.metadata.name}, this.state.metadata.name, ' : ', this.state.metadata.type, ' ', this.state.path + "/" + this.state.metadata.name,
+					' ',
+					React.createElement('input',{ type:"button", value:"add node", path:this.state.path + "/" + this.state.metadata.name}),
 					React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
 					);
 	},
-	get_prop_elements: function(metadata, path)
+	get_prop_elements: function(metadata, p_path)
 	{
 		var result = [];
 		for(var prop in metadata)
@@ -18,8 +20,8 @@ var SingleTreeNodeComponent = React.createClass(
 			var name_check = prop.toLowerCase();
 			if(name_check != "children" && name_check != "values")
 			{
-				result.push(React.createElement('li',{key: this.state.path + "/" + prop }, prop, ' : ',
-				React.createElement('input',{ "path": this.state.path + "/" + prop, defaultValue: this.state.metadata[prop]})));
+				result.push(React.createElement(ValueTreeNodeComponent,{ key: p_path + "/" + prop, defaultValue: this.state.metadata[prop], defaultPath: p_path + "/" + prop, metadata_property_name: prop }
+				));
 			}
 
 		}
@@ -38,28 +40,15 @@ var ValueTreeNodeComponent = React.createClass(
 {
 	displayName: "ValueTreeNodeComponent",
 	getInitialState() {
-		return {metadata: this.props.defaultMetadata, path: this.props.defaultPath };
+		return { dataValue: this.props.defaultValue, path: this.props.defaultPath };
 	},
 	render() 
 	{
-		return React.createElement('div',{  key: this.state.path + "/" + this.state.metadata.name }, this.state.metadata.name, ' : ', this.state.metadata.type, ' ', this.state.path + "/" + this.state.metadata.name,
-					React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
-					);
+		return React.createElement('li',{}, this.props.metadata_property_name, ' : ',
+				React.createElement('input',{ "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue }));
 	},
-	get_prop_elements: function(metadata, path)
+	onChange: function(e)
 	{
-		var result = [];
-		for(var prop in metadata)
-		{
-			var name_check = prop.toLowerCase();
-			if(name_check != "children" && name_check != "values")
-			{
-				result.push(React.createElement('li',{key: this.state.path + "/" + prop }, prop, ' : ',
-				React.createElement('input',{ "path": this.state.path + "/" + prop, defaultValue: this.state.metadata[prop]})));
-			}
-
-		}
-		return result;
+		this.state.dataValue = e.currentTarget.value;
 	}
-}
-);
+});

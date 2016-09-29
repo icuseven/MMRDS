@@ -68,7 +68,7 @@ var ProfileComponent = React.createClass({
 		{
 			
 			
-			return React.createElement('form', {},
+			return React.createElement('form', { style:{ float:"left"} },
 				React.createElement('fieldset',{},
 					React.createElement('legend',{},'profile:'),
 					'user: ' + this.state.user_name,
