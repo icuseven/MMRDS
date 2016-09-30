@@ -2,15 +2,46 @@ var SingleTreeNodeComponent = React.createClass(
 {
 	displayName: "SingleTreeNodeComponent",
 	getInitialState() {
-		return {metadata: this.props.defaultMetadata, path: this.props.defaultPath, collapsed: false};
+		return {is_cut: false, delete_mode: 0, paste_mode: 0, metadata: this.props.defaultMetadata, path: this.props.defaultPath, collapsed: false};
 	},
 	render() 
 	{
 		
+		var button_array = []
+		
+		if(this.state.collapsed)
+		{
+			button_array.push(React.createElement('input',{ key:1, type:"button", value:"+", onClick:this.toggle_child_display }))
+		}
+		else
+		{
+			button_array.push(React.createElement('input',{ key:1, type:"button", value:"-", onClick:this.toggle_child_display }));
+		}
+		
+		if(this.state.is_cut)
+		{
+			button_array.push(' ');
+			button_array.push(React.createElement('input',{ key:2, type:"button", value:"c*", onClick:this.update_cut }));
+		}
+		else
+		{
+			button_array.push(' ');
+			button_array.push(React.createElement('input',{ key:2, type:"button", value:"c", onClick:this.update_cut }));
+		}
+		
+		switch(this.state.delete_mode)
+		{
+			
+			default: 
+				button_array.push(' ');
+				button_array.push(React.createElement('input',{ key:3, type:"button", value:"d", onClick:this.toggle_child_display }));
+			break;
+		}
+		
 		if(this.state.collapsed)
 		{
 			return React.createElement('div',{  onClick:this.toggle_child_display, key: this.state.path + "/" + this.state.metadata.name},
-				React.createElement('input',{ type:"button", value:"+", onClick:this.toggle_child_display }),
+				button_array,
 				' ',
 				this.state.metadata.name, ' : ', this.state.metadata.type,
 				' '
@@ -19,18 +50,24 @@ var SingleTreeNodeComponent = React.createClass(
 		else
 		{
 			return React.createElement('div',{  key: this.state.path + "/" + this.state.metadata.name},
-				React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
+				button_array,
 				' ',
 				this.state.metadata.name, ' : ', this.state.metadata.type,
-						' ',
-						React.createElement('input',{ type:"button", value:"add key:value", path:this.state.path + "/" + this.state.metadata.name}),
-						React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
-						);
-		}
+				' ',
+				React.createElement('input',{ type:"button", value:"add key:value", path:this.state.path + "/" + this.state.metadata.name}),
+				React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
+				);
+		}		
+		
+		
 	},
 	toggle_child_display:function()
 	{
 		this.setState({collapsed: !this.state.collapsed});
+	},
+	update_cut:function()
+	{
+		this.setState({is_cut: !this.state.is_cut});
 	},
 	get_prop_elements: function(metadata, p_path)
 	{
@@ -89,7 +126,7 @@ var CollectionNodeComponent = React.createClass(
 {
 	displayName: "CollectionNodeComponent",
 	getInitialState() {
-		return { collaspe: false, metadata: this.props.defaultMetadata, path: this.props.defaultPath };
+		return { collasped: false, metadata: this.props.defaultMetadata, path: this.props.defaultPath };
 	},
 	render() 
 	{
@@ -111,12 +148,13 @@ var CollectionNodeComponent = React.createClass(
 						{ key: p_path + "/children/" + child.name,  defaultPath: p_path + "/" + child.name, defaultMetadata: child, set_record_data:this.set_record_data })
 					);
 				}
+				
 				if(this.state.collapsed)
 				{
 					result = React.createElement('li',
 							{ key: p_path + "/children"},
 							React.createElement('input',{ type:"button", value:"+", onClick:this.toggle_child_display }),
-							'children'
+							' children'
 							);
 				}
 				else
@@ -124,7 +162,7 @@ var CollectionNodeComponent = React.createClass(
 					result = React.createElement('li',
 						{ key: p_path + "/children"},
 						React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
-						'children',
+						' children',
 						React.createElement('ul',{},children_list)
 						);
 				}
@@ -140,12 +178,13 @@ var CollectionNodeComponent = React.createClass(
 						child
 						));
 				}
+				
 				if(this.state.collapsed)
 				{
 					result = React.createElement('li',
 							{ key: p_path + "/values"},
-							React.createElement('input',{ type:"button", value:"+", onClick:this.toggle_child_display }),							
-							'values'
+							React.createElement('input',{ type:"button", value:"+", onClick:this.toggle_child_display }),
+							' values'
 							);
 				}
 				else
@@ -153,7 +192,7 @@ var CollectionNodeComponent = React.createClass(
 					result = React.createElement('li',
 							{ key: p_path + "/values"},
 							React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
-							'values',
+							' values',
 							React.createElement('ul',{},value_list)
 							);
 				}
