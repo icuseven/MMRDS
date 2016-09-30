@@ -259,6 +259,9 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 					Polymer.dom(parent).appendChild(element);
 					
 					break;
+				case 'app':
+					return this.CreateFromMetaData(metadata.children, data);
+					break;					
 				default:
 					console.log(metadata.type);
 					break;
