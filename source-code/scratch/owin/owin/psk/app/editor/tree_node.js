@@ -81,16 +81,16 @@ var SingleTreeNodeComponent = React.createClass(
 			{
 				case 'children':
 					result.push(React.createElement(CollectionNodeComponent,
-							{ key: p_path + "/children", metadata_type: "children", defaultMetadata:metadata.children, defaultPath:p_path + "/children"}
+							{ key: p_path + "/children", metadata_type: "children", defaultMetadata:metadata.children, defaultPath:p_path + "/children", set_meta_data_prop:this.props.set_meta_data_prop}
 							));
 					break;
 				case 'values':
 					result.push(React.createElement(CollectionNodeComponent,
-							{ key: p_path + "/values", metadata_type: "values", defaultMetadata:metadata.values, defaultPath:p_path + "/values"}
+							{ key: p_path + "/values", metadata_type: "values", defaultMetadata:metadata.values, defaultPath:p_path + "/values", set_meta_data_prop:this.props.set_meta_data_prop}
 							));
 					break;
 				default:
-					result.push(React.createElement(KeyValueNodeComponent,{ key: p_path + "/" + prop, defaultValue: this.state.metadata[prop], defaultPath: p_path + "/" + prop, metadata_property_name: prop, set_meta_data_prop:this.set_meta_data_prop }));
+					result.push(React.createElement(KeyValueNodeComponent,{ key: p_path + "/" + prop, defaultValue: this.state.metadata[prop], defaultPath: p_path + "/" + prop, metadata_property_name: prop, set_meta_data_prop:this.props.set_meta_data_prop }));
 					break;
 			}
 		}
@@ -114,12 +114,37 @@ var KeyValueNodeComponent = React.createClass(
 	render() 
 	{
 		return React.createElement('li',{}, this.props.metadata_property_name, ' : ',
-				React.createElement('input',{ onChange:this.update_value, "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue, size: (this.state.dataValue)? this.state.dataValue.length + 5: 20 }));
+				React.createElement('input',{ onBlur: this.update_value, "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue, size: (this.state.dataValue)? this.state.dataValue.length + 5: 20 }));
 	},
 	update_value: function(e)
 	{
 		this.state.dataValue = e.currentTarget.value;
-		this.props.set_meta_data_prop(this.props.metadata_property_name, e.currentTarget.value)
+		this.props.set_meta_data_prop("update", this.props.defaultPath + "/" + this.props.metadata_property_name, e.currentTarget.value)
+	}
+});
+
+var ValueNodeComponent = React.createClass(
+{
+	displayName: "ValueNodeComponent",
+	getInitialState() {
+		return { dataValue: this.props.defaultValue, path: this.props.defaultPath };
+	},
+	render() 
+	{
+		return React.createElement('li',
+						{ key: this.props.defaultPath },
+						React.createElement('input',{ key: this.props.defaultPath + '/^', type:"button", value:"^" }),
+						' ',
+						React.createElement('input',{ key: this.props.defaultPath + '/D', type:"button", value:"D" }),
+						' ',
+						React.createElement('input',{ key:this.props.defaultPath, type:"text", defaultValue:this.state.dataValue, size:(this.state.dataValue)? this.state.dataValue.length + 5: 20, onBlur:this.update_value})
+						); 
+				
+},
+	update_value: function(e)
+	{
+		this.state.dataValue = e.currentTarget.value;
+		this.props.set_meta_data_prop("update", this.props.defaultPath, e.currentTarget.value);
 	}
 });
 
@@ -147,7 +172,7 @@ var CollectionNodeComponent = React.createClass(
 					var child = metadata[i];
 					
 					children_list.push(React.createElement(SingleTreeNodeComponent,
-						{ key: p_path + "/children/" + child.name,  defaultPath: p_path + "/" + child.name, defaultMetadata: child, set_record_data:this.set_record_data })
+						{ key: p_path + "/children/" + child.name,  defaultPath: p_path + "/" + child.name, defaultMetadata: child, set_meta_data_prop:this.props.set_meta_data_prop })
 					);
 				}
 				
@@ -175,14 +200,7 @@ var CollectionNodeComponent = React.createClass(
 				{
 					var child = metadata[i];
 					
-					value_list.push(React.createElement('li',
-						{ key: p_path + "/values/" + child },
-						React.createElement('input',{ key: p_path + "/values/" + child + '/^', type:"button", value:"^" }),
-						' ',
-						React.createElement('input',{ key: p_path + "/values/" + child + '/D', type:"button", value:"D" }),
-						' ',
-						React.createElement('input',{ key: p_path + "/values/" + child, type:"text", defaultValue:child, size:child.length + 5 })
-						));
+					value_list.push(React.createElement(ValueNodeComponent,{ key: p_path + "/values/" + i, defaultPath:p_path + "/values/" + i, defaultValue:child, set_meta_data_prop:this.props.set_meta_data_prop}));
 				}
 				
 				if(this.state.collapsed)

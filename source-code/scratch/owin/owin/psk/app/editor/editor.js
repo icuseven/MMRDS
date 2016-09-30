@@ -178,7 +178,7 @@ var EditorComponent = React.createClass({
 				case 'number':
 				case 'string':
 				case 'time':
-					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_record_data:this.set_record_data });
+					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
 					/*
 					result = React.createElement('div',{  key: path + "/" + metadata.name }, metadata.name, ' : ', metadata.type, ' ', path + "/" + metadata.name,
 					React.createElement('ul',{},this.get_prop_elements(metadata, path + "/" + metadata.name))
@@ -189,7 +189,7 @@ var EditorComponent = React.createClass({
 				case 'form':
 				case 'group':
 				case 'address':			
-					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_record_data:this.set_record_data });
+					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
 				/*
 					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
@@ -203,7 +203,7 @@ var EditorComponent = React.createClass({
 				case 'list':
 				case 'yes_no':
 				case 'race':
-					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_record_data:this.set_record_data });
+					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
 					/*
 					var value_list = [];
 					for(var value = 0; value < metadata.values.length; value++)
@@ -224,7 +224,7 @@ var EditorComponent = React.createClass({
 					break;
 				// grid field //key: metadata.name
 				case 'grid':
-					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_record_data:this.set_record_data });
+					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
 					/*
 					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
@@ -259,15 +259,16 @@ var EditorComponent = React.createClass({
 			if(name_check != "children" && name_check != "values")
 			{
 				result.push(React.createElement('li',{key: path + "/" + prop }, prop, ' : ',
-				React.createElement('input',{ "path": path + "/" + prop, defaultValue: metadata[prop], onChange:this.value_changed})));
+				React.createElement('input',{ "path": path + "/" + prop, defaultValue: metadata[prop], onBlur:this.value_changed})));
 			}
 
 		}
 		return result;
 	},
-	set_selected_path:function(path)
+	set_meta_data_prop: function(action, path, value)
 	{
-		this.setState({ selected_path: path });
+		console.log(action, path, value)
+		//this.state.metadata[prop] = value;
 	},
 	render: function render() 
 	{
