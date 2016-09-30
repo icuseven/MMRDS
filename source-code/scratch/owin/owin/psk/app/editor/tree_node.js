@@ -6,7 +6,6 @@ var SingleTreeNodeComponent = React.createClass(
 	},
 	render() 
 	{
-		
 		var button_array = []
 		
 		if(this.state.collapsed)
@@ -44,7 +43,8 @@ var SingleTreeNodeComponent = React.createClass(
 				button_array,
 				' ',
 				this.state.metadata.name, ' : ', this.state.metadata.type,
-				' '
+				' ',
+				React.createElement('input',{ key: this.state.path + "/" + this.state.metadata.name + '/^', type:"button", value:"^", onClick:this.toggle_child_display })
 				);
 		}
 		else
@@ -55,6 +55,8 @@ var SingleTreeNodeComponent = React.createClass(
 				this.state.metadata.name, ' : ', this.state.metadata.type,
 				' ',
 				React.createElement('input',{ type:"button", value:"add key:value", path:this.state.path + "/" + this.state.metadata.name}),
+				' ',
+				React.createElement('input',{ key: this.state.path + "/" + this.state.metadata.name + '/^', type:"button", value:"^", onClick:this.toggle_child_display }),
 				React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
 				);
 		}		
@@ -112,7 +114,7 @@ var KeyValueNodeComponent = React.createClass(
 	render() 
 	{
 		return React.createElement('li',{}, this.props.metadata_property_name, ' : ',
-				React.createElement('input',{ onChange:this.update_value, "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue }));
+				React.createElement('input',{ onChange:this.update_value, "path": this.props.defaultPath + "/" + this.props.metadata_property_name, defaultValue: this.state.dataValue, size: (this.state.dataValue)? this.state.dataValue.length + 5: 20 }));
 	},
 	update_value: function(e)
 	{
@@ -175,7 +177,11 @@ var CollectionNodeComponent = React.createClass(
 					
 					value_list.push(React.createElement('li',
 						{ key: p_path + "/values/" + child },
-						child
+						React.createElement('input',{ key: p_path + "/values/" + child + '/^', type:"button", value:"^" }),
+						' ',
+						React.createElement('input',{ key: p_path + "/values/" + child + '/D', type:"button", value:"D" }),
+						' ',
+						React.createElement('input',{ key: p_path + "/values/" + child, type:"text", defaultValue:child, size:child.length + 5 })
 						));
 				}
 				
@@ -184,7 +190,8 @@ var CollectionNodeComponent = React.createClass(
 					result = React.createElement('li',
 							{ key: p_path + "/values"},
 							React.createElement('input',{ type:"button", value:"+", onClick:this.toggle_child_display }),
-							' values'
+							' values ',
+							React.createElement('input',{ type:"button", value:"add value", onClick:this.toggle_child_display })
 							);
 				}
 				else
@@ -192,7 +199,8 @@ var CollectionNodeComponent = React.createClass(
 					result = React.createElement('li',
 							{ key: p_path + "/values"},
 							React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
-							' values',
+							' values ',
+							React.createElement('input',{ type:"button", value:"add value", onClick:this.toggle_child_display }),
 							React.createElement('ul',{},value_list)
 							);
 				}
