@@ -189,7 +189,16 @@ var CollectionNodeComponent = React.createClass(
 					result = React.createElement('li',
 						{ key: p_path + "/children"},
 						React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
-						' children',
+						' children ',
+						React.createElement('select',{ id:'selected_type'},
+								React.createElement('option',null,'select type to add'),
+								React.createElement('option',null,'string'),
+								React.createElement('option',null,'number'),
+								React.createElement('option',null,'date'),
+								React.createElement('option',null,'form'),
+								React.createElement('option',null,'group')
+							), ' ',
+						React.createElement('input',{ type:"button", value:"add value", onClick:this.toggle_child_display }),
 						React.createElement('ul',{},children_list)
 						);
 				}
