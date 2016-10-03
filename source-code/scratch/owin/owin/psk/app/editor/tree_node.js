@@ -118,8 +118,12 @@ var KeyValueNodeComponent = React.createClass(
 	},
 	update_value: function(e)
 	{
-		this.state.dataValue = e.currentTarget.value;
-		this.props.set_meta_data_prop("update", this.props.defaultPath + "/" + this.props.metadata_property_name, e.currentTarget.value)
+		var test_value = e.currentTarget.value;
+		if(test_value != this.state.dataValue)
+		{
+			this.state.dataValue = test_value;
+			this.props.set_meta_data_prop("update", this.props.defaultPath + "/" + this.props.metadata_property_name, test_value);
+		}
 	}
 });
 
@@ -172,7 +176,7 @@ var CollectionNodeComponent = React.createClass(
 					var child = metadata[i];
 					
 					children_list.push(React.createElement(SingleTreeNodeComponent,
-						{ key: p_path + "/children/" + child.name,  defaultPath: p_path + "/" + child.name, defaultMetadata: child, set_meta_data_prop:this.props.set_meta_data_prop })
+						{ key: p_path + "/children/" + i,  defaultPath: p_path + "/" + i, defaultMetadata: child, set_meta_data_prop:this.props.set_meta_data_prop })
 					);
 				}
 				
@@ -190,7 +194,7 @@ var CollectionNodeComponent = React.createClass(
 						{ key: p_path + "/children"},
 						React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
 						' children ',
-						React.createElement('select',{ id:'selected_type'},
+						React.createElement('select',{ id:'selected_type', onChange:function(e){this.props.set_meta_data_prop("add node type", p_path, e.currentTarget.value)}.bind(this)},
 								React.createElement('option',null,'select type to add'),
 								React.createElement('option',null,'string'),
 								React.createElement('option',null,'number'),
@@ -198,7 +202,7 @@ var CollectionNodeComponent = React.createClass(
 								React.createElement('option',null,'form'),
 								React.createElement('option',null,'group')
 							), ' ',
-						React.createElement('input',{ type:"button", value:"add value", onClick:this.toggle_child_display }),
+						React.createElement('input',{ type:"button", value:"add value", onClick:function(){this.props.set_meta_data_prop("add node", p_path, {})}.bind(this)}),
 						React.createElement('ul',{},children_list)
 						);
 				}
