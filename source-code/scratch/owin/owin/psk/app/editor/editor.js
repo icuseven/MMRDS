@@ -18,10 +18,11 @@ var EditorComponent = React.createClass({
 		if(url_state)
 		{
 			url_state["selected_path"] = "";
+			url_state["metadata"] = {};
 		}
 		else
 		{
-			url_state = { "selected_path": ""};
+			url_state = { "selected_path": "", metadata:{} };
 		}
 		
 		return url_state;
@@ -136,6 +137,8 @@ var EditorComponent = React.createClass({
 		{
 			//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 			console.log("metadata\n", metadata);
+			
+			this.setState({ "metadata": metadata });
 			this.form_metadata.push(metadata);
 		/*
 			var Meta_Data_Renderer = new Meta_Data_Renderer_();
@@ -277,8 +280,9 @@ var EditorComponent = React.createClass({
 		switch(action.toLowerCase())
 		{
 			case "mark":
-				this.clip = path;
-				result = true;
+				//this.clip = path;
+				this.setState( {selected_path: path });
+				//result = true;
 				break;
 			case "add node type":
 				this.command_stack.push(path);
@@ -312,6 +316,7 @@ var EditorComponent = React.createClass({
 					list[y] = list[x];
 					list[x] = b;
 				}
+				this.setState({ metadata: this.form_metadata[0], form_updated: new Date().toISOString() });
 				break;
 		}
 		//this.state.metadata[prop] = value;
@@ -347,7 +352,7 @@ var EditorComponent = React.createClass({
 						), ' ',
 						React.createElement('fieldset',{ style:{ float:"left" } },
 							React.createElement('legend',null,'selected path: '),
-							React.createElement('input',{ id:'selected_path', defaultValue: this.state.selected_path }),
+							React.createElement('input',{ id:'selected_path', value: this.state.selected_path, size:(this.state.selected_path)? this.state.selected_path.length + 5: 20 }),
 							' ',
 							React.createElement('select',{ id:'selected_type'},
 								React.createElement('option',null,'select type to add'),

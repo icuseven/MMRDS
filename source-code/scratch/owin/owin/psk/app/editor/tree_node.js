@@ -182,15 +182,6 @@ var CollectionNodeComponent = React.createClass(
 		switch(this.props.metadata_type.toLowerCase())
 		{
 			case 'children':
-				var children_list = [];
-				for(var i = 0; i < metadata.length; i++)
-				{
-					var child = metadata[i];
-					
-					children_list.push(React.createElement(SingleTreeNodeComponent,
-						{ key: p_path + "/children/" + i,  defaultPath: p_path + "/" + i, defaultMetadata: child, set_meta_data_prop:this.props.set_meta_data_prop })
-					);
-				}
 				
 				if(this.state.collapsed)
 				{
@@ -202,6 +193,16 @@ var CollectionNodeComponent = React.createClass(
 				}
 				else
 				{
+					var children_list = [];
+					for(var i = 0; i < metadata.length; i++)
+					{
+						var child = metadata[i];
+						
+						children_list.push(React.createElement(SingleTreeNodeComponent,
+							{ key: p_path + "/children/" + i,  defaultPath: p_path + "/" + i, defaultMetadata: child, set_meta_data_prop:this.props.set_meta_data_prop })
+						);
+					}
+					
 					result = React.createElement('li',
 						{ key: p_path + "/children"},
 						React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
@@ -220,13 +221,7 @@ var CollectionNodeComponent = React.createClass(
 				}
 				break;
 			case 'values':
-				var value_list = [];
-				for(var i = 0; i < metadata.length; i++)
-				{
-					var child = metadata[i];
-					
-					value_list.push(React.createElement(ValueNodeComponent,{ key: p_path + "/values/" + i, defaultPath:p_path + "/values/" + i, defaultValue:child, set_meta_data_prop:this.props.set_meta_data_prop}));
-				}
+
 				
 				if(this.state.collapsed)
 				{
@@ -239,6 +234,14 @@ var CollectionNodeComponent = React.createClass(
 				}
 				else
 				{
+					var value_list = [];
+					for(var i = 0; i < metadata.length; i++)
+					{
+						var child = metadata[i];
+						
+						value_list.push(React.createElement(ValueNodeComponent,{ key: p_path + "/" + i, defaultPath:p_path + "/" + i, defaultValue:child, set_meta_data_prop:this.props.set_meta_data_prop}));
+					}
+					
 					result = React.createElement('li',
 							{ key: p_path + "/values"},
 							React.createElement('input',{ type:"button", value:"-", onClick:this.toggle_child_display }),
