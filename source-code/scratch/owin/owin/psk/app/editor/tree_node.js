@@ -44,7 +44,7 @@ var SingleTreeNodeComponent = React.createClass(
 				' ',
 				this.state.metadata.name, ' : ', this.state.metadata.type,
 				' ',
-				React.createElement('input',{ key: this.state.path + "/" + this.state.metadata.name + '/^', type:"button", value:"^", onClick:this.toggle_child_display })
+				React.createElement('input',{ key: this.state.path + "/" + this.state.metadata.name + '/^', type:"button", value:"^", onClick:this.move_up })
 				);
 		}
 		else
@@ -56,7 +56,7 @@ var SingleTreeNodeComponent = React.createClass(
 				' ',
 				React.createElement('input',{ type:"button", value:"add key:value", path:this.state.path + "/" + this.state.metadata.name}),
 				' ',
-				React.createElement('input',{ key: this.state.path + "/" + this.state.metadata.name + '/^', type:"button", value:"^", onClick:this.toggle_child_display }),
+				React.createElement('input',{ key: this.state.path + "/" + this.state.metadata.name + '/^', type:"button", value:"^", onClick:this.move_up }),
 				React.createElement('ul',{},this.get_prop_elements(this.state.metadata, this.state.path + "/" + this.state.metadata.name))
 				);
 		}		
@@ -69,7 +69,14 @@ var SingleTreeNodeComponent = React.createClass(
 	},
 	update_cut:function()
 	{
-		this.setState({is_cut: !this.state.is_cut});
+		if(this.props.set_meta_data_prop("mark",this.props.defaultPath, null))
+		{
+			this.setState({is_cut: !this.state.is_cut});
+		}
+	},
+	move_up: function(e)
+	{
+		this.props.set_meta_data_prop("move up", this.props.defaultPath, e.currentTarget.value);
 	},
 	get_prop_elements: function(metadata, p_path)
 	{
@@ -97,10 +104,11 @@ var SingleTreeNodeComponent = React.createClass(
 		return result;
 	},
 	
+	/*
 	set_meta_data_prop: function(prop, value)
 	{
 		this.state.metadata[prop] = value;
-	}
+	}*/
 	
 }
 );
@@ -137,7 +145,7 @@ var ValueNodeComponent = React.createClass(
 	{
 		return React.createElement('li',
 						{ key: this.props.defaultPath },
-						React.createElement('input',{ key: this.props.defaultPath + '/^', type:"button", value:"^" }),
+						React.createElement('input',{ key: this.props.defaultPath + '/^', type:"button", value:"^", onClick:this.move_up }),
 						' ',
 						React.createElement('input',{ key: this.props.defaultPath + '/D', type:"button", value:"D" }),
 						' ',
@@ -149,6 +157,10 @@ var ValueNodeComponent = React.createClass(
 	{
 		this.state.dataValue = e.currentTarget.value;
 		this.props.set_meta_data_prop("update", this.props.defaultPath, e.currentTarget.value);
+	},
+		move_up: function(e)
+	{
+		this.props.set_meta_data_prop("move up", this.props.defaultPath, e.currentTarget.value);
 	}
 });
 

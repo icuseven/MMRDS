@@ -4,6 +4,8 @@ var EditorComponent = React.createClass({
 	form_set: [],
 	navigation_set:{},
 	record_data:[],
+	clipboard:{},
+	command_stack:[],
 	displayName: "EditorComponent",
 	
 	getInitialState: function() 
@@ -233,7 +235,9 @@ var EditorComponent = React.createClass({
 					return result;
 					break;	
 				case 'app':
-					return this.create_tree(metadata.children, path + "/" + metadata.name);
+					//return this.create_tree(metadata.children, path + "/" + metadata.name);
+					result = React.createElement(SingleTreeNodeComponent,{ key: path,  defaultPath: path, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
+					return result;
 					break;
 				default:
 					console.log("meta_navigator unimplemented", metadata.type);
@@ -267,8 +271,52 @@ var EditorComponent = React.createClass({
 	},
 	set_meta_data_prop: function(action, path, value)
 	{
-		console.log(action, path, value)
+		var result  = false;
+		
+		console.log(action, path, value);
+		switch(action.toLowerCase())
+		{
+			case "mark":
+				this.clip = path;
+				result = true;
+				break;
+			case "add node type":
+				this.command_stack.push(path);
+				break;
+			case "add node":
+				var item = this.command_stack.pop();
+				while(item)
+				{
+					if(item == path)
+					{
+						
+						
+						this.command_stack = [];
+					}
+					item = this.command_stack.pop();
+				}
+				break;
+			case "move up":
+		var item = path.replace("/mmria/","this.form_metadata[0].").replace(new RegExp("/[a-zA-z _]+/","gm"),"].").replace(new RegExp("/","gm"),"[").replace(new RegExp("\\[\\d+$","gm"),"");
+				// - /mmria/children/0/home record/children/10
+
+//this.form_metadata[0].children[0].children[10]
+
+//eval("this.form_metadata[0].children[0].children[10]");
+	var list = eval(item);
+				var y = path.match(/\d*$/)[0];
+				var x = y - 1;
+				if(x >= 0)
+				{
+					var b = list[y];
+					list[y] = list[x];
+					list[x] = b;
+				}
+				break;
+		}
 		//this.state.metadata[prop] = value;
+		
+		return result;
 	},
 	render: function render() 
 	{
