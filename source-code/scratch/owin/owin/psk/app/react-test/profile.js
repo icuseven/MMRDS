@@ -1,4 +1,4 @@
-var ProfileComponent = React.createClass({
+var ProfileComponent = {
 	displayName: "ProfileComponent",
 	getInitialState: function() 
 	{
@@ -66,34 +66,38 @@ var ProfileComponent = React.createClass({
 	{
 		if(this.state.is_logged_in)
 		{
+			var result = [];
 			
+			result.push('<form style="float:\'left\'>');
+			result.push('<fieldset>');
+			result.push('<legend>profile:</legend>'),
+			result.push('user: ');
+			result.push(this.state.user_name);
+			result.push('<br/>');
+			result.push('roles: ');
+			result.push(this.state.user_roles.join(','));
+			result.push('<br/>');
+			result.push('<br/>');
+			result.push('<input type="button" onClick:this.onLogout, value="logout" />');
+			result.push('</fieldset>');
+			result.push('</form>');
 			
-			return React.createElement('form', { style:{ float:"left"} },
-				React.createElement('fieldset',{},
-					React.createElement('legend',{},'profile:'),
-					'user: ' + this.state.user_name,
-					React.createElement('br'),
-					'roles: ' + this.state.user_roles.join(','),
-					React.createElement('br'),
-					React.createElement('br'),
-					React.createElement('input', {  type:'button', onClick:this.onLogout, value:'logout'})
-				)
-			);
+			return result.join();
 		}
 		else
 		{
-			return React.createElement('form', {},
-					React.createElement('fieldset',{},
-						React.createElement('legend',{},'Login:'),
-						'Email: ', 
-						React.createElement('input', { type:'text', ref:'email', onChange:this.onNoChange, onBlur: this.onEmailChange, defaultValue: this.state.user_name}),
-						React.createElement('br'),
-						'Password: ', 
-						React.createElement('input', { type:'password', ref:'password', onChange:this.onPasswordChange, defaultValue:this.state.password}),
-						' ',
-						React.createElement('input', {  type:'button', onClick:this.handleLogin, value:'login'})
-					)
-			);		
+			result.push('<form style="float:\'left\'>');
+			result.push('<fieldset>');
+			result.push('<legend>Login:</legend>'),
+			result.push('Email: ');
+			result.push('<input type="text" name="email" onChange:this.onNoChange, onBlur: this.onEmailChange, value="' + this.state.user_name + '" />');
+			result.push('<br/>');
+			result.push('Password: ', 
+			result.push('<input type="password" name="password" onChange:this.onPasswordChange value="' + this.state.password + '" />');
+			result.push(' ',
+			result.push('<input type="button" onClick:this.handleLogin value="login" />');
+			
+			return result.join();
 		}
 
 	},
@@ -231,4 +235,4 @@ var ProfileComponent = React.createClass({
 
 		
 	}
-});
+};
