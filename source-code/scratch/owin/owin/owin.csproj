@@ -95,8 +95,8 @@
     <Compile Include="MyWebSocket.cs" />
     <Compile Include="model\current_edit.cs" />
     <Compile Include="controller\current_editController.cs" />
-    <Compile Include="CatchFiles.cs" />
     <Compile Include="DriveSettings.cs" />
+    <Compile Include="WatchFiles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
