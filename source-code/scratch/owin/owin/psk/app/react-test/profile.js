@@ -1,11 +1,9 @@
-var ProfileComponent = {
-	displayName: "ProfileComponent",
-	getInitialState: function() 
-	{
-		//return { email: this.props.initialEmail, password: this.props.initialPassword };
-		return { };
-	},
-	componentWillMount:function()
+var Profile_Component = {
+	is_logged_in: false,
+	user_name: null,
+	user_roles: null,
+	auth_session: null,
+	checkCookieForAuthentication:function()
 	{
 		
 		var current_auth_session = null;
@@ -50,8 +48,8 @@ var ProfileComponent = {
 	},
 	onLogout : function()
 	{
-		document.cookie = "AuthSession=" + this.state.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
-		this.setState({ is_logged_in: false	});
+		document.cookie = "AuthSession=" + this.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+		this. is_logged_in: false	});
 		var info = { 
 				is_logged_in: false, 
 				user_name: '',
@@ -64,7 +62,7 @@ var ProfileComponent = {
 	},
 	render: function render() 
 	{
-		if(this.state.is_logged_in)
+		if(this.is_logged_in)
 		{
 			var result = [];
 			
@@ -72,13 +70,13 @@ var ProfileComponent = {
 			result.push('<fieldset>');
 			result.push('<legend>profile:</legend>'),
 			result.push('user: ');
-			result.push(this.state.user_name);
+			result.push(this.user_name);
 			result.push('<br/>');
 			result.push('roles: ');
-			result.push(this.state.user_roles.join(','));
+			result.push(this.user_roles.join(','));
 			result.push('<br/>');
 			result.push('<br/>');
-			result.push('<input type="button" onClick:this.onLogout, value="logout" />');
+			result.push('<input type="button" onClick:profile_component.onLogout, value="logout" />');
 			result.push('</fieldset>');
 			result.push('</form>');
 			
@@ -86,7 +84,7 @@ var ProfileComponent = {
 		}
 		else
 		{
-			result.push('<form style="float:\'left\'>');
+			result.push('<form id="profile_form" style="float:\'left\'>');
 			result.push('<fieldset>');
 			result.push('<legend>Login:</legend>'),
 			result.push('Email: ');
@@ -95,7 +93,7 @@ var ProfileComponent = {
 			result.push('Password: ', 
 			result.push('<input type="password" name="password" onChange:this.onPasswordChange value="' + this.state.password + '" />');
 			result.push(' ',
-			result.push('<input type="button" onClick:this.handleLogin value="login" />');
+			result.push('<input type="button" onClick:profile_component.handleLogin value="login" />');
 			
 			return result.join();
 		}
@@ -103,15 +101,18 @@ var ProfileComponent = {
 	},
 	login: function()
 	{
+		var email_text = $("#profile_form[name='email']").val();
+		var password_text = $("#profile_form[name='password']").val();
+		
 		if
 		(
-			this.refs['email'].value.length > 0 &&
-			this.refs['password'].value.length > 0
+			email_text.length > 0 &&
+			password_text.length > 0
 		)
 		{
 			var url =  location.protocol + '//' + location.host + "/api/session";
 			var AJAX = new AJAX_();
-			var post_data = "userid=" + this.refs['email'].value + "&password=" + this.refs['password'].value;
+			var post_data = "userid=" + email_text + "&password=" + password_text;
 			var meta_data = AJAX.GetResponse(url + "?" + post_data, this.login_response);
 		
 		}

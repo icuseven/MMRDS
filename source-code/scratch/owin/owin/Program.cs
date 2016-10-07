@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Owin;
 using Owin;
+using Owin.WebSocket.Extensions;
 
 using System.Web.Http;
 
@@ -111,9 +112,9 @@ namespace owin
 			app.UseErrorPage();
 			#endif
 			//app.UseWelcomePage("/");
-
 			// Configure Web API for self-host. 
 			HttpConfiguration config = new HttpConfiguration(); 
+
 			config.Routes.MapHttpRoute( 
 				name: "DefaultApi", 
 				routeTemplate: "api/{controller}/{id}", 
@@ -153,6 +154,21 @@ namespace owin
 				}
 			};
 			app.UseFileServer (options);
+			/*
+			*/
+
+			// websocket - start
+			//For static routes http://foo.com/ws use MapWebSocketRoute and attribute the WebSocketConnection with [WebSocketRoute('/ws')]
+			//app.MapWebSocketRoute<MyWebSocket>();
+
+					//For static routes http://foo.com/ws use MapWebSocketRoute
+			app.MapWebSocketRoute<MyWebSocket>("/ws");
+
+			//For dynamic routes where you may want to capture the URI arguments use a Regex route
+			//app.MapWebSocketPattern<MyWebSocket>("/captures/(?<capture1>.+)/(?<capture2>.+)");
+
+			// websocket - end
+			/**/
 		}
 	}
 }

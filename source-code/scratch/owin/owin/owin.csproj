@@ -92,6 +92,11 @@
     <Compile Include="CustomContentTypeProvider.cs" />
     <Compile Include="model\couchdb\login_response .cs" />
     <Compile Include="model\couchdb\logout_response.cs" />
+    <Compile Include="MyWebSocket.cs" />
+    <Compile Include="model\current_edit.cs" />
+    <Compile Include="controller\current_editController.cs" />
+    <Compile Include="CatchFiles.cs" />
+    <Compile Include="DriveSettings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
