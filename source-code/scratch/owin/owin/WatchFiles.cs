@@ -77,7 +77,6 @@ namespace owin
 			fs = new FileSystemWatcher
 			{
 				Path = WatchedFolder,
-				NotifyFilter = NotifyFilters.FileName,
 				Filter = "*.js"
 
 			};
@@ -117,6 +116,31 @@ namespace owin
 			}
 
 		}
+
+
+		public static string GetHash(string file_path)
+		{
+			String result;
+			StringBuilder sb = new StringBuilder();
+			System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
+
+			using (System.IO.FileStream fs = System.IO.File.OpenRead(file_path))
+			{
+				foreach (Byte b in md5Hasher.ComputeHash(fs))
+					sb.Append(b.ToString("X2").ToLowerInvariant());
+			}
+
+			result = sb.ToString();
+
+			return result;
+		}
+
+		public static KeyValuePair<string,string> CreateHashPairFromFilePath(string file_path)
+		{
+			string hash_value = GetHash(file_path);
+			return new KeyValuePair<string, string>(file_path, hash_value);
+		}
+
 		/*
 		internal static void DisconnectDrives()
 		{
