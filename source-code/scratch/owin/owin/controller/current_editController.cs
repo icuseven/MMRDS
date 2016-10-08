@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Linq;
 
@@ -7,6 +8,8 @@ namespace owin
 	public class current_editController: ApiController 
 	{ 
 		public static System.Collections.Generic.Dictionary<string, Current_Edit> current_edit = null;
+
+		private static string couchdb_url = null;
 
 		static current_editController()
 		{
@@ -17,6 +20,16 @@ namespace owin
 			current.edit_type = "json";
 
 			current_edit.Add ("metadata", current);
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
+
 		}
 
 		// GET api/values 
@@ -34,26 +47,48 @@ namespace owin
 		// POST api/values 
 		public void Post([FromBody]string metadata) 
 		{ 
-			string hash = GetHash (metadata);
-			if (current_edit ["metadata"].id != hash) 
+			bool valid_login = false;
+
+			try
 			{
-				Current_Edit current = new Current_Edit();
-				current.id = hash;
-				current.metadata = metadata;
-				current.edit_type = "json";
+				string request_string = couchdb_url + "/_session";
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(request_string));
 
-				current_edit ["metadata"] = current;
+				request.PreAuthenticate = false;
+
+				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+				{
+					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+				}
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				string responseFromServer = reader.ReadToEnd ();
+				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
+
+				valid_login = json_result.userCTX.name != null;
 			}
-		} 
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+			} 
 
-		// PUT api/values/5 
-		public void Put(string id, [FromBody]string value) 
-		{ 
-		} 
+			if (valid_login) 
+			{
+				string hash = GetHash (metadata);
+				if (current_edit ["metadata"].id != hash) {
+					Current_Edit current = new Current_Edit ();
+					current.id = hash;
+					current.metadata = metadata;
+					current.edit_type = "json";
 
-		// DELETE api/values/5 
-		public void Delete(int id) 
-		{ 
+					current_edit ["metadata"] = current;
+				}
+			}
 		} 
 
 		public  string GetHash(string metadata)
