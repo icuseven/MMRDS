@@ -97,16 +97,18 @@ namespace owin
 			if (WatchedFiles.Contains(f.Name))
 			{
 				string current_hash = GetHash (f.FullName);
-				if (!WatchDictionary.ContainsKey (f.Name)) 
+				string key_name = GetKeyName (f);
+
+				if (!WatchDictionary.ContainsKey (key_name)) 
 				{
-					WatchDictionary.Add (f.Name, current_hash);
+					WatchDictionary.Add (key_name, current_hash);
 
 				} 
 
-				if (current_hash != WatchDictionary [f.Name]) 
+				if (current_hash != WatchDictionary [key_name]) 
 				{
 					var worker = new MyTaskWorkerDelegate (MyTaskWorker);
-					worker.BeginInvoke (f.Name, current_hash, null, null);
+					worker.BeginInvoke (key_name, current_hash, null, null);
 				}
 				
 			}
@@ -142,7 +144,12 @@ namespace owin
 			}
 
 		}
+		public static string GetKeyName(FileInfo fileinfo)
+		{
+			string result = "scripts" + fileinfo.FullName.Replace(source_folder, "");
 
+			return result;
+		}
 
 		public static string GetHash(string file_path)
 		{
@@ -173,13 +180,14 @@ namespace owin
 			foreach (FileInfo fileInfo in fileInfoSet)
 			{
 				string current_hash = GetHash (fileInfo.FullName);
-				if (!WatchDictionary.ContainsKey (fileInfo.Name)) 
+				string key_name = GetKeyName (fileInfo);
+				if (!WatchDictionary.ContainsKey (key_name)) 
 				{
-					WatchDictionary.Add (fileInfo.Name, current_hash);
+					WatchDictionary.Add (key_name, current_hash);
 				} 
 
 				var worker = new MyTaskWorkerDelegate (MyTaskWorker);
-				worker.BeginInvoke (fileInfo.Name, current_hash, null, null);
+				worker.BeginInvoke (key_name, current_hash, null, null);
 			}
 
 			foreach (System.IO.DirectoryInfo di in directoryInfo.GetDirectories())
