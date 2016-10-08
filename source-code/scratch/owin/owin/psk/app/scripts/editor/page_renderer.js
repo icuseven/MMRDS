@@ -11,6 +11,11 @@ function Meta_Data_Renderer_(){};
 
 
 
+
+
+
+
+
 Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 {
 	if(data){}else{ data = {};}
