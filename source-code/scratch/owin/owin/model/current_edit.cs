@@ -2,13 +2,14 @@
 
 namespace owin
 {
-	public class current_edit
+	public class Current_Edit
 	{
-		public current_edit ()
+		public Current_Edit ()
 		{
 		}
 
 		public string id { get; set; }
+		public string edit_type { get; set; }
 		public string metadata { get; set; }
 	}
 }

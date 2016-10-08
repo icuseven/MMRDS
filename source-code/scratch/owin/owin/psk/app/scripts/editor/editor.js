@@ -7,12 +7,13 @@ var EditorComponent = React.createClass({
 	clipboard:{},
 	command_stack:[],
 	displayName: "EditorComponent",
-	
-	getInitialState: function() 
+
+
+	getInitialState: function()
 	{
 		window.onhashchange = this.url_has_changed;
 
-		
+
 		var url_state = this.get_url_state(window.location.href);
 		//return { email: this.props.initialEmail, password: this.props.initialPassword };
 		if(url_state)
@@ -24,7 +25,7 @@ var EditorComponent = React.createClass({
 		{
 			url_state = { "selected_path": "", metadata:{} };
 		}
-		
+
 		return url_state;
 	},
 	get_url_state: function(url)
@@ -33,45 +34,45 @@ var EditorComponent = React.createClass({
 		var form = null;
 		var selected_id = null;
 		var selected_child_id = null;
-			
+
 		var url_array = url.split('#');
 		if(url_array.length > 1)
 		{
 			var trimmed_string = url_array[1].replace(/^\/+|\/+$/g, '');
 
 			var path_array = trimmed_string.split('/');
-			
+
 			if(path_array.length > 0)
 			{
 				form = path_array[0];
 				console.log("selected form: " + form);
 			}
-			
+
 			if(path_array.length > 1)
 			{
 				selected_id = path_array[1];
 				console.log("selected id: " + selected_id);
 			}
-			
+
 			if(path_array.length > 2)
 			{
 				selected_child_id = path_array[2];
 				console.log("selected child id: " + selected_child_id);
 			}
-			
+
 			result = {
 				selected_form_name: form,
 				"selected_id": selected_id,
 				"selected_child_id": selected_child_id
 			};
 		}
-		
+
 		return result;
 	},
 	url_has_changed: function(e)
 	{
 		/*
-		e = HashChangeEvent 
+		e = HashChangeEvent
 		{
 			isTrusted: true,
 			oldURL: "http://localhost:12345/react-test/#/",
@@ -80,9 +81,9 @@ var EditorComponent = React.createClass({
 		if(e.isTrusted)
 		{
 			var url_state = this.get_url_state(e.newURL);
-			
+
 			if(
-				url_state.selected_id != null && 
+				url_state.selected_id != null &&
 				url_state.selected_id != this.state.selected_id
 			)
 			{
@@ -90,7 +91,7 @@ var EditorComponent = React.createClass({
 				{
 					var data_access = new Data_Access("http://localhost:5984");
 					data_access.get_data(url_state.selected_id,
-						function(doc) 
+						function(doc)
 						{
 						  this.load_record(doc);
 						  this.setState(url_state);
@@ -126,18 +127,18 @@ var EditorComponent = React.createClass({
 	},
 	componentDidMount : function ()
 	{
-		
+
 		//var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
 		var url = location.protocol + '//' + location.host + '/meta-data/01/home_record.json';
 		var AJAX = new AJAX_();
 
 		this.navigation_set["summary"] = "#/summary";
-		
+
 		var meta_data = AJAX.GetResponse(url, function(metadata)
 		{
 			//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 			console.log("metadata\n", metadata);
-			
+
 			this.setState({ "metadata": metadata });
 			this.form_metadata.push(metadata);
 		/*
@@ -147,11 +148,11 @@ var EditorComponent = React.createClass({
 			this.form_set.push(form);
 			*/
 			this.navigation_set[this.form_metadata[0].name] = "#/" + this.form_metadata[0].url_route;
-			
+
 
 		}.bind(this)
-		
-		);		
+
+		);
 	},
 	load_record:function(record_to_load)
 	{
@@ -164,14 +165,14 @@ var EditorComponent = React.createClass({
 	create_tree: function(metadata, path)
 	{
 		var result = null;
-		
+
 		if(metadata && Array.isArray(metadata))
 		{
 			result = [];
 			for(var i = 0; i < metadata.length; i++)
 			{
 				result.push(this.create_tree(metadata[i], path));
-			}	
+			}
 			return result;
 		}
 		else if(metadata && metadata.type)
@@ -189,18 +190,18 @@ var EditorComponent = React.createClass({
 					React.createElement('ul',{},this.get_prop_elements(metadata, path + "/" + metadata.name))
 					);*/
 					return result;
-					break;			
+					break;
 				// container field
 				case 'form':
 				case 'group':
-				case 'address':			
+				case 'address':
 					result = React.createElement(SingleTreeNodeComponent,{ key: path + "/" + metadata.name,  defaultPath: path + "/" + metadata.name, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
 				/*
 					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
 						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);*/
-					
+
 					return result;
 					break;
 				// list field
@@ -215,7 +216,7 @@ var EditorComponent = React.createClass({
 					{
 						value_list.push(React.createElement('li',{key: path + "/" + metadata.name + value}, metadata.values[value]));
 					}
-				
+
 					result = React.createElement('div',{key: path + "/" + metadata.name}, metadata.name, ' : ', metadata.type,
 						React.createElement('ul',null,
 						this.get_prop_elements(metadata),
@@ -224,7 +225,7 @@ var EditorComponent = React.createClass({
 						value_list))
 						)
 						);*/
-					
+
 					return result;
 					break;
 				// grid field //key: metadata.name
@@ -236,7 +237,7 @@ var EditorComponent = React.createClass({
 						this.create_tree(metadata.children, path + "/" + metadata.name))
 						);*/
 					return result;
-					break;	
+					break;
 				case 'app':
 					//return this.create_tree(metadata.children, path + "/" + metadata.name);
 					result = React.createElement(SingleTreeNodeComponent,{ key: path,  defaultPath: path, defaultMetadata: metadata, set_meta_data_prop:this.set_meta_data_prop });
@@ -248,12 +249,12 @@ var EditorComponent = React.createClass({
 					//return result;
 					return "";
 					break;
-				
+
 			}
 		}
 		else
 		{
-			
+
 			console.log("meta_navigator metadata node without type", metadata);
 		}
 	},
@@ -275,7 +276,7 @@ var EditorComponent = React.createClass({
 	set_meta_data_prop: function(action, path, value)
 	{
 		var result  = false;
-		
+
 		console.log(action, path, value);
 		switch(action.toLowerCase())
 		{
@@ -293,8 +294,8 @@ var EditorComponent = React.createClass({
 				{
 					if(item == path)
 					{
-						
-						
+
+
 						this.command_stack = [];
 					}
 					item = this.command_stack.pop();
@@ -320,16 +321,16 @@ var EditorComponent = React.createClass({
 				break;
 		}
 		//this.state.metadata[prop] = value;
-		
+
 		return result;
 	},
-	render: function render() 
+	render: function render()
 	{
 		var result = null;
-		
+
 		if(this.state && this.state.profile && this.state.profile.isLoggedIn)
 		{
-			
+
 
 			var item = this.create_tree(this.form_metadata[0], "");
 			//meta_navigator.navigate(this.form_metadata[0]);
@@ -344,7 +345,7 @@ var EditorComponent = React.createClass({
 				React.createElement('div',{ id:'page_content_id', style: {clear: "left"}},
 					React.createElement('p',{},''),
 					React.createElement('div',{ id:'navigation_id'}),
-					React.createElement('div',{ id:'form_content_id'}, 
+					React.createElement('div',{ id:'form_content_id'},
 						React.createElement('fieldset',{ style:{ float:"left" } },
 							React.createElement('legend',null,'search text: '),
 							React.createElement('input',{ id:'search_text_id'}), ' ',
@@ -380,21 +381,21 @@ var EditorComponent = React.createClass({
 				React.createElement('div',{ id:'navigation_id'}),
 				React.createElement('div',{ id:'form_content_id'}))
 				)
-			
+
 		}
-		
-		
+
+
 		return result;
 	},
 	get_profile: function ()
 	{
 		return this.state.profile;
-	},  
-	profile_login_changed:function( info ) 
+	},
+	profile_login_changed:function( info )
 	{
 		console.log("profile_login_changed", info);
 
-		this.setState({ 
+		this.setState({
 			profile: {
 				isLoggedIn: info.is_logged_in,
 				auth_session: info.auth_session,
@@ -403,7 +404,7 @@ var EditorComponent = React.createClass({
 			}
 		});
 
-		
+
 		if(info.is_logged_in)
 		{
 			/*
@@ -411,12 +412,12 @@ var EditorComponent = React.createClass({
 			if(profile.user_roles.indexOf('abstractor') > -1)
 			{
 				abstractor_menu.style.display = "block";
-				
+
 			}
 			else
 			{
 				abstractor_menu.style.display = "none";
-				
+
 			}*/
 		}
 		else
@@ -428,9 +429,9 @@ var EditorComponent = React.createClass({
 				window.location.href = url_array[0];
 			}
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 });

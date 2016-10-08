@@ -37,11 +37,13 @@ namespace owin
 
 			}
 
+			#if (FILE_WATCHED)
+			WatchFiles.StartWatch();
+			#endif
 
 			//data_access da = new data_access ();
 			//da.login ("mmrds","mmrds");
 			#if (DEBUG)
-			WatchFiles.StartWatch();
 
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
 			{

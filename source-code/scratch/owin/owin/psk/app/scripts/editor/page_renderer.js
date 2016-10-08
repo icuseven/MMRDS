@@ -9,13 +9,6 @@ function Meta_Data_Renderer_(){};
 
 
 
-
-
-
-
-
-
-
 Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 {
 	if(data){}else{ data = {};}
@@ -24,11 +17,11 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 	var h1 = null;
 	var element_2 = null;
 	var element_3 = null;
-	
+
 	var result = null;
-	
-	
-	
+
+
+
 	if(Array.isArray(metadata))
 	{
 		result = [];
@@ -78,7 +71,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 										value_list
 										)
 									);
-							break;							
+							break;
 						case "string":
 							data[child.name] = "";
 							break;
@@ -102,7 +95,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 							data[child.name] = "";
 							break;
 					}
-					
+
 					switch(child.type.toLowerCase())
 					{
 						case "yes_no":
@@ -115,7 +108,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 							temp = this.CreateFromMetaData(child, child_data);
 							break;
 					}
-					
+
 				}
 				else
 				{
@@ -129,7 +122,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 				result.push(temp);
 			}
 		}
-				
+
 		return result;
 	}
 	else if(metadata.type)
@@ -139,11 +132,11 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 			/*
 			var url = location.protocol + '//' + location.host + '/meta-data/00/' + metadata.type;
 			var AJAX = new AJAX_();
-			
+
 			var meta_data = AJAX.GetSynchronousResponse(url);
 			console.log("synchronous", meta_data);
 			*/
-			
+
 			console.log("meta_data_render called .json: ", metadata.type);
 		}
 		else
@@ -158,19 +151,19 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 						"p",{ key: metadata.name},
 						metadata.prompt,
 						' ',
-						React.createElement("input", 
-						{ 
-							onChange:eval ('function(value){ this.bound_data.' + metadata.name + '=value' }' 
+						React.createElement("input",
+						{
+							onChange:eval ('function(value){ this.bound_data.' + metadata.name + '=value' }'
 						}, type:"text", "defaultValue": metadata.name'})
 					);*/
-					
+
 					element = React.createElement(StringComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
 					return element;
-					break;			
+					break;
 				case 'number':
 					element = React.createElement(NumberComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
 					return element;
-					break;							
+					break;
 				case 'boolean':
 					element = React.createElement(BooleanComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
 					return element;
@@ -179,7 +172,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 					element = React.createElement(DateComponent, { key:metadata.name, "metadata":metadata, defaultValue: data });
 					//element = React.createElement(AReactDatepicker, { key:metadata.name, "metadata":metadata, defaultValue: data });
 					return element;
-					break;				
+					break;
 				case 'form':
 					var section = React.createElement
 					(
@@ -189,8 +182,8 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 					);
 					return section;
 					break;
-					
-				
+
+
 				case 'address':
 				case 'group':
 					element = React.createElement('fieldset',{ key:metadata.name },
@@ -207,7 +200,7 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 						var key_value = metadata.name + i;
 						value_list.push(React.createElement('option', { key: key_value}, metadata.values[i]));
 					}
-					
+
 					element = React.createElement('fieldset',{ key:metadata.name },
 							React.createElement('legend',{},metadata.prompt),
 							React.createElement('select',{ },
@@ -215,16 +208,16 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 								)
 							);
 					return element;
-					break;	
+					break;
 				case 'race':
-				
+
 					var value_list = [];
 					for(var i = 0; i < metadata.values.length; i++)
 					{
 						var key_value = metadata.name + i;
 						value_list.push(React.createElement('option', { key: key_value}, metadata.values[i]));
 					}
-					
+
 					element = React.createElement('fieldset',{ key:metadata.name },
 							React.createElement('legend',{},metadata.prompt),
 							React.createElement('select',{ multiple:true, size:7},
@@ -232,37 +225,37 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 								)
 							);
 					return element;
-					break;						
+					break;
 				case 'radio':
 					//<paper-input label="In prior 3 months (# of cigarettes/ packs)" value="{{bound_data.cigarette_smoking.prior_3_months}}"></paper-input>
 					//<paper-radio-group selected="{{bound_data.cigarette_smoking.prior_3_months_type}}">
-					
+
 					h1 = document.createElement("h2");
 					h1.innerHTML = metadata.prompt;
 					Polymer.dom(parent).appendChild(h1);
-					
+
 					element = document.createElement("paper-radio-group");
 					a  = document.createAttribute("selected");
 					a.value = "{{bound_data." + metadata.name + "}}";
 					element.setAttributeNode(a);
-					
-					
-					
+
+
+
 					//<paper-radio-button name="">not specified</paper-radio-button>
 					element_2 = document.createElement("paper-radio-button");
 					element_2.innerHTML = "not specified";
-					
+
 					a = document.createAttribute("name");
 					a.value = "";
 					element_2.setAttributeNode(a);
-					
+
 					Polymer.dom(element).appendChild(element_2);
-					
-					
+
+
 					for(var i = 0; i < metadata.values.length; i++)
 					{
 						var radio_value = metadata.values[i];
-						
+
 
 						element_2 = document.createElement("paper-radio-button");
 						a = document.createAttribute("name");
@@ -271,17 +264,17 @@ Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
 						element_2.innerHTML = radio_value;
 						Polymer.dom(element).appendChild(element_2);
 					}
-					
+
 					Polymer.dom(parent).appendChild(element);
-					
+
 					break;
 				case 'app':
 					return this.CreateFromMetaData(metadata.children, data);
-					break;					
+					break;
 				default:
 					console.log(metadata.type);
 					break;
-				
+
 			}
 		}
 	}
