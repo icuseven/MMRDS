@@ -36,18 +36,6 @@ var Profile_Component = {
 
 				var json_response = response[0];
 
-				/*
-				var current_auth_session = null;
-				var cookie_string = new String(document.cookie);
-				if(cookie_string.length > 0)
-				{
-					var cookie_array = cookie_string.split("=");
-					if(cookie_array.length > 1 && cookie_array[0] == "AuthSession")
-					{
-						current_auth_session=cookie_array[1];
-					}
-				}*/
-
 				//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 				valid_login = json_response.userCTX.name != null;
 				if(valid_login)
@@ -79,7 +67,7 @@ var Profile_Component = {
 		}
 		else
 		{
-			console.log("no session");
+			console.log("no session - bub");
 			//this.setState({ user_name: "user1", password: "password" });
 		}
 	},
@@ -93,7 +81,7 @@ var Profile_Component = {
 			result.push('<form style="float:\'left\'">');
 			result.push('<fieldset>');
 			result.push('<legend>profile:</legend>');
-			result.push('user: ');
+			result.push('user-7: ');
 			result.push(this.user_name);
 			result.push('<br/>');
 			result.push('roles: ');

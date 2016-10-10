@@ -88,6 +88,9 @@ $(function ()
 						console.log('metadata item changed');
 						console.log(new Date().toISOString());
 						console.log(item);
+
+
+
 					}
 				}
 				else if(!change_detection_map[item.metadata])
@@ -102,6 +105,17 @@ $(function ()
 					console.log('javascript item changed');
 					console.log(new Date().toISOString());
 					console.log(item);
+
+					if(item.metadata=="scripts/profile.js")
+					{
+						var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+						reload_js(script_name);
+						Profile_Component.checkCookieForAuthentication();
+						//window.setTimeout(Profile_Component.render, 7000);
+					}
+
+
+
 				}
 			}
 
