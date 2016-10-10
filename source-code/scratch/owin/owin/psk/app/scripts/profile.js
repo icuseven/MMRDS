@@ -6,7 +6,12 @@ var Profile_Component = {
 	password: "",
 	checkCookieForAuthentication:function()
 	{
-		
+
+
+
+
+
+
 		var current_auth_session = null;
 		var cookie_string = new String(document.cookie);
 		if(cookie_string.length > 0)
@@ -17,28 +22,27 @@ var Profile_Component = {
 				current_auth_session=cookie_array[1];
 			}
 		}
-		
+
 		if(current_auth_session)
 		{
 			var url =  location.protocol + '//' + location.host + "/api/session";
 
-			//var meta_data = AJAX.GetResponse(url, this.handle_get_response);
-			var authorizationToken = current_auth_session;
 			$.ajax({
 				url: url,
 				beforeSend: function (request)
 				{
-					request.setRequestHeader("AuthSession", authorizationToken);
+					request.setRequestHeader("AuthSession", current_auth_session);
 				},
 				method: 'GET'
 			}).done(function(response) {
 			  // this will be run when the AJAX request succeeds
-			  		
+
 				console.log("response\n", response);
 				var valid_login = false;
 
 				var json_response = response[0];
 
+				/*
 				var current_auth_session = null;
 				var cookie_string = new String(document.cookie);
 				if(cookie_string.length > 0)
@@ -48,8 +52,8 @@ var Profile_Component = {
 					{
 						current_auth_session=cookie_array[1];
 					}
-				}
-				
+				}*/
+
 				//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 				valid_login = json_response.userCTX.name != null;
 				if(valid_login)
@@ -58,27 +62,26 @@ var Profile_Component = {
 					Profile_Component.user_name = json_response.userCTX.name;
 					Profile_Component.user_roles = json_response.userCTX.roles;
 					Profile_Component.auth_session = current_auth_session;
-					
-					
+
+
 					var minutes_14 = 14;
 					var current_date_time = new Date();
 					var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
-					
+
 					document.cookie = "AuthSession=" + Profile_Component.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
-					
-					//this.props.profile_login_changed(info);
+
 				}
 				else
 				{
 					this.is_logged_in = false;
-					document.cookie = "AuthSession=" + Profile_Component.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+					document.cookie = "AuthSession=" + Profile_Component.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 				}
-				
+
 				Profile_Component.render();
-			  
+
 			}).fail(function(response) {console.log("failed:", response);});
-			
-			
+
+
 		}
 		else
 		{
@@ -86,13 +89,13 @@ var Profile_Component = {
 			//this.setState({ user_name: "user1", password: "password" });
 		}
 	},
-	render: function render() 
+	render: function render()
 	{
 		var result = [];
 		if(this.is_logged_in)
 		{
-			
-			
+
+
 			result.push('<form style="float:\'left\'">');
 			result.push('<fieldset>');
 			result.push('<legend>profile:</legend>');
@@ -106,7 +109,7 @@ var Profile_Component = {
 			result.push('<input type="button" value="logout" />');
 			result.push('</fieldset>');
 			result.push('</form>');
-			
+
 		}
 		else
 		{
@@ -116,16 +119,16 @@ var Profile_Component = {
 			result.push('Email: ');
 			result.push('<input type="text" name="email" value="user1" />');
 			result.push('<br/>');
-			result.push('Password: '); 
+			result.push('Password: ');
 			result.push('<input type="password" name="password" value="password" />');
 			result.push(' ');
 			result.push('<input type="button" value="login" />');
 			result.push('</fieldset>');
 			result.push('</form>');
-			
+
 
 		}
-		
+
 		document.getElementById('profile_content_id').innerHTML = result.join("");
 		$('#profile_content_id').click(this.login);
 	},
@@ -133,7 +136,7 @@ var Profile_Component = {
 	{
 		var email_text = $("#profile_form input[name='email']").val();
 		var password_text = $("#profile_form input[name='password']").val();
-		
+
 		if
 		(
 			email_text.length > 0 &&
@@ -151,7 +154,7 @@ var Profile_Component = {
 			});
 		}
 	},
-	login_response: function(response) 
+	login_response: function(response)
 	{
 		//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 		console.log("response\n", response);
@@ -160,13 +163,13 @@ var Profile_Component = {
 		var json_response = response[0];
 
 		console.log(response);
-		
+
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		valid_login = json_response.name != null;
 		if(valid_login)
 		{
 
-			
+
 			Profile_Component.is_logged_in = true;
 			Profile_Component.user_name = json_response.name;
 			Profile_Component.user_roles = json_response.roles;
@@ -175,20 +178,20 @@ var Profile_Component = {
 			var minutes_14 = 14;
 			var current_date_time = new Date();
 			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
-			
+
 			document.cookie = "AuthSession=" + Profile_Component.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
-			
+
 			//this.props.profile_login_changed(info);
 		}
 		else
 		{
 			this.is_logged_in = false;
-			document.cookie = "AuthSession=" + Profile_Component.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+			document.cookie = "AuthSession=" + Profile_Component.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 		}
-			
+
 
 		Profile_Component.render();
-	}	
+	}
 	/*,
 	handleLogin : function (e)
 	{
@@ -210,17 +213,17 @@ var Profile_Component = {
 	},
 	onLogout : function()
 	{
-		document.cookie = "AuthSession=" + this.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+		document.cookie = "AuthSession=" + this.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 		this. is_logged_in: false	});
-		var info = { 
-				is_logged_in: false, 
+		var info = {
+				is_logged_in: false,
 				user_name: '',
 				user_roles: [],
 				auth_session: ''
 			};
 		this.props.profile_login_changed(info);
-		
-		
+
+
 	}
 	,
 ,
@@ -236,7 +239,7 @@ var Profile_Component = {
 				current_auth_session=cookie_array[1];
 			}
 		}
-		
+
 		if(current_auth_session)
 		{
 			this.$.ajax.url = location.protocol + '//' + location.host + "/api/session";
@@ -244,7 +247,7 @@ var Profile_Component = {
 			this.$.ajax.generateRequest();
 		}
 	},
-	handle_get_response: function(response) 
+	handle_get_response: function(response)
 	{
 		//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 		console.log("response\n", response);
@@ -262,42 +265,42 @@ var Profile_Component = {
 				current_auth_session=cookie_array[1];
 			}
 		}
-		
-		
-		
+
+
+
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		valid_login = json_response.userCTX.name != null;
 		if(valid_login)
 		{
-			
-			var info = { 
-				is_logged_in: true, 
+
+			var info = {
+				is_logged_in: true,
 				user_name: json_response.userCTX.name,
 				user_roles: json_response.userCTX.roles,
 				auth_session: current_auth_session
 			};
-			
+
 			this.setState({
 				is_logged_in: true,
 				user_name: json_response.userCTX.name,
 				user_roles: json_response.userCTX.roles,
 				auth_session: current_auth_session
 			});
-			
+
 			var minutes_14 = 14;
 			var current_date_time = new Date();
 			var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
-			
+
 			document.cookie = "AuthSession=" + this.state.auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
-			
+
 			this.props.profile_login_changed(info);
 		}
 		else
 		{
 			this.setState({ is_logged_in: false	});
-			document.cookie = "AuthSession=" + this.state.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";		
+			document.cookie = "AuthSession=" + this.state.auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 		}
 		*/
-		
+
 
 };
