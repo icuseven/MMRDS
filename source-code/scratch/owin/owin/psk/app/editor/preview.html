@@ -18,13 +18,44 @@
 $(function ()
 {
 	'use strict';
+
+
+	function remove_js_file(script_name)
+	{
+	    var script_list = document.getElementsByTagName("script")
+	    for (var i = script_list.length; i >= 0; i--)
+			{
+				if
+				(
+					script_list[i] &&
+					script_list[i].getAttribute("src")!=null &&
+					script_list[i].getAttribute("src").indexOf(script_name)!=-1
+				)
+				{
+					script_list[i].parentNode.removeChild(script_list[i]);
+					break;
+				}
+	    }
+	}
+
+	function reload_js(script_name)
+	{
+		remove_js_file(script_name);
+
+		var document_head = document.getElementsByTagName("head")[0];
+		var dynamic_script = document.createElement("script");
+		dynamic_script.type = "text/javascript";
+		dynamic_script.src = script_name;
+		document_head.appendChild(dynamic_script);
+	}
+
 	Profile_Component.checkCookieForAuthentication();
 	Profile_Component.render();
-  
+
 	var change_detection_map = {};
 
-	function yourfunction() 
-	{ 
+	function yourfunction()
+	{
 		var url =  location.protocol + '//' + location.host + "/api/current_edit";
 
 		$.ajax({
@@ -32,19 +63,19 @@ $(function ()
 			method: 'GET'
 		}).done(function(response) {
 		  // this will be run when the AJAX request succeeds
-				
+
 			var initial_setup = false;
 
 			var json_response = response;
-			
+
 			for(var i = 0; i < json_response.length; i++)
 			{
 				var item = json_response[i];
-				
-				
+
+
 				if(item.edit_type=="json")
 				{
-				
+
 					if(!change_detection_map["json"])
 					{
 						change_detection_map["json"] = item;
@@ -52,7 +83,7 @@ $(function ()
 					}
 					else if(change_detection_map["json"].id != item.id)
 					{
-					
+
 						change_detection_map["json"] = item;
 						console.log('metadata item changed');
 						console.log(new Date().toISOString());
@@ -66,7 +97,7 @@ $(function ()
 				}
 				else if(change_detection_map[item.metadata].id != item.id)
 				{
-				
+
 					change_detection_map[item.metadata].id = item.id;
 					console.log('javascript item changed');
 					console.log(new Date().toISOString());
@@ -95,18 +126,18 @@ $(function ()
 				console.log(new Date().toISOString());
 				console.log(change_detection_map);
 			}
-			  
+
 		}).fail(function(response) {
-		
+
 			window.clearInterval(interval_id);
 			console.log("failed:", response);}
 		);
-		
-		
+
+
 	}
-  
+
 	var interval_id = window.setInterval(yourfunction, 10000);
-  
+
   /*
   $.ajax({
       url: 'somepage.cgi',
