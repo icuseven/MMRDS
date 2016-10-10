@@ -68,11 +68,17 @@ namespace owin
 			WatchedFiles = new System.Collections.Generic.HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
 			WatchDictionary = new Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase);
 
+
+
+			AddWatchFiles (sourceDirectoryInfo);
+
+			/*
 			WatchedFiles.Add ("editor.js");
 			WatchedFiles.Add ("tree_node.js");
 			WatchedFiles.Add ("app.js");
 			WatchedFiles.Add ("navigation_renderer.js");
 			WatchedFiles.Add ("page_renderer.js");
+			*/
 
 			HashDirectory(sourceDirectoryInfo);
 
@@ -199,6 +205,29 @@ namespace owin
 				HashDirectory(di);
 			}
 		}
+
+
+		static private void AddWatchFiles(System.IO.DirectoryInfo directoryInfo)
+		{
+			FileInfo[] fileInfoSet = directoryInfo.GetFiles();
+			foreach (FileInfo fileInfo in fileInfoSet)
+			{
+
+				WatchedFiles.Add (fileInfo.Name);
+
+
+			}
+
+			foreach (System.IO.DirectoryInfo di in directoryInfo.GetDirectories())
+			{
+				string directoryName = di.FullName;
+
+				System.Console.WriteLine(directoryName);
+
+				AddWatchFiles(di);
+			}
+		}
+
 
 
 	}

@@ -6,12 +6,6 @@ var Profile_Component = {
 	password: "",
 	checkCookieForAuthentication:function()
 	{
-
-
-
-
-
-
 		var current_auth_session = null;
 		var cookie_string = new String(document.cookie);
 		if(cookie_string.length > 0)
