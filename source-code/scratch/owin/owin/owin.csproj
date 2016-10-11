@@ -97,6 +97,8 @@
     <Compile Include="controller\current_editController.cs" />
     <Compile Include="DriveSettings.cs" />
     <Compile Include="WatchFiles.cs" />
+    <Compile Include="controller\caseController.cs" />
+    <Compile Include="controller\metadataController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
