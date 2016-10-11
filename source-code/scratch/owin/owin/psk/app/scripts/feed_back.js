@@ -35,6 +35,8 @@ function reload_js(script_name, callback)
 
 var change_detection_map = {};
 var interval_ids = null;
+//var navigation_renderer = null;
+
 function monitor_changes()
 {
   var url =  location.protocol + '//' + location.host + "/api/current_edit";
@@ -94,6 +96,14 @@ function monitor_changes()
           //Profile_Component.checkCookieForAuthentication();
           //window.setTimeout(Profile_Component.render, 7000);
         }
+        else if(item.metadata=="scripts/editor/navigation_renderer.js")
+        {
+          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+          reload_js(script_name, function(){
+            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0);
+          });
+        }
+
 
 
 
@@ -129,4 +139,4 @@ function monitor_changes()
   );
 }
 
-interval_ids = window.setInterval(monitor_changes, 10000);
+interval_id = window.setInterval(monitor_changes, 10000);

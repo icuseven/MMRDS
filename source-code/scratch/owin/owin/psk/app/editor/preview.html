@@ -14,10 +14,13 @@
 <script src="../react-test/meta_navigator.js" type="text/javascript"></script>
 <script src="../scripts/editor/tree_node.js" type="text/javascript"></script>
 <script src="../scripts/editor/editor.js" type="text/javascript"></script-->
+<script src="../scripts/editor/navigation_renderer.js" type="text/javascript"></script>
 <script src="../scripts/profile.js" type="text/javascript"></script>
 <script src="../scripts/feed_back.js" type="text/javascript"></script>
 <script type="text/javascript">
 'use strict';
+
+var g_metadata = null;
 
 $(function ()
 {
@@ -34,9 +37,17 @@ $(function ()
 	    }, true);
 */
 
+
 	Profile_Component.checkCookieForAuthentication();
 	Profile_Component.render();
 
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/meta-data/01/home_record.json',
+			data: {foo: 'bar'}
+	}).done(function(response) {
+			g_metadata = response;
+			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0);
+	});
 
 
   /*
@@ -61,8 +72,8 @@ $(function ()
 	<h1>App Element: MMRIA</h1>
 	<div id='profile_content_id'>App Element: MMRIA</div>
 	<div id='page_content_id' style='clear:"left"'>
-		<div id='navigation_id' />
-		<div id='form_content_id' />
+		<div id='navigation_id'></div>
+		<div id='form_content_id'></div>
 	</div>
 </div>
 </body>

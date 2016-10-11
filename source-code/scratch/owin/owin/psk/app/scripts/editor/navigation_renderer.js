@@ -12,5 +12,6 @@ function navigation_render(p_metadata, p_level)
    }
 
 
+   result.push("<div><fieldset><legend>navigation:</legend>root - :: - </fieldset></div>");
    return result.join("");
 }
