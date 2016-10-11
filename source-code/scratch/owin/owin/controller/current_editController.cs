@@ -10,6 +10,8 @@ namespace owin
 		public static System.Collections.Generic.Dictionary<string, Current_Edit> current_edit = null;
 
 		private static string couchdb_url = null;
+		//http://blog.scottlogic.com/2010/09/20/js-lint-in-visual-studio-part-1.html
+		//https://javascriptdotnet.codeplex.com/
 
 		static current_editController()
 		{

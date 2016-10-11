@@ -1,22 +1,24 @@
 function remove_js_file(script_name)
 {
     var script_list = document.getElementsByTagName("script")
+    var url_host =  location.protocol + '//' + location.host;
+    var search_text = script_name.replace(url_host, "");
     for (var i = script_list.length; i >= 0; i--)
     {
       if
       (
         script_list[i] &&
         script_list[i].getAttribute("src")!=null &&
-        script_list[i].getAttribute("src").indexOf(script_name)!=-1
+        script_list[i].getAttribute("src").indexOf(search_text)!=-1
       )
       {
         script_list[i].parentNode.removeChild(script_list[i]);
-        break;
+        //break;
       }
     }
 }
 
-function reload_js(script_name)
+function reload_js(script_name, callback)
 {
   remove_js_file(script_name);
 
@@ -24,12 +26,15 @@ function reload_js(script_name)
   var dynamic_script = document.createElement("script");
   dynamic_script.type = "text/javascript";
   dynamic_script.src = script_name;
+  if(callback)
+  {
+    dynamic_script.addEventListener("load", callback);
+  }
   document_head.appendChild(dynamic_script);
 }
 
-
 var change_detection_map = {};
-
+var interval_ids = null;
 function monitor_changes()
 {
   var url =  location.protocol + '//' + location.host + "/api/current_edit";
@@ -42,11 +47,9 @@ function monitor_changes()
 
     var initial_setup = false;
 
-    var json_response = response;
-
-    for(var i = 0; i < json_response.length; i++)
+    for(var i = 0; i < response.length; i++)
     {
-      var item = json_response[i];
+      var item = response[i];
 
 
       if(item.edit_type=="json")
@@ -85,8 +88,10 @@ function monitor_changes()
         if(item.metadata=="scripts/profile.js")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
-          reload_js(script_name);
-          Profile_Component.checkCookieForAuthentication();
+          reload_js(script_name, function(){
+            Profile_Component.checkCookieForAuthentication();
+          });
+          //Profile_Component.checkCookieForAuthentication();
           //window.setTimeout(Profile_Component.render, 7000);
         }
 
@@ -124,4 +129,4 @@ function monitor_changes()
   );
 }
 
-var interval_id = window.setInterval(monitor_changes, 10000);
+interval_ids = window.setInterval(monitor_changes, 10000);

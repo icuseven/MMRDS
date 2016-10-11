@@ -76,12 +76,10 @@ var Profile_Component = {
 		var result = [];
 		if(this.is_logged_in)
 		{
-
-
 			result.push('<form style="float:\'left\'">');
 			result.push('<fieldset>');
 			result.push('<legend>profile:</legend>');
-			result.push('user-7: ');
+			result.push('user-8: ');
 			result.push(this.user_name);
 			result.push('<br/>');
 			result.push('roles: ');
