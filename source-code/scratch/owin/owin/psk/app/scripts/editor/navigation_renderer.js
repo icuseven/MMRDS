@@ -11,7 +11,7 @@ function navigation_render(p_metadata, p_level)
 
    }
 
-
+   //Array.prototype.push.apply(result,b)
    result.push("<div><fieldset><legend>navigation:</legend>root - :: - </fieldset></div>");
-   return result.join("");
+   return result;
 }

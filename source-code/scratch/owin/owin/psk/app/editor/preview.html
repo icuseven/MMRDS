@@ -21,6 +21,7 @@
 'use strict';
 
 var g_metadata = null;
+var g_data = null;
 
 $(function ()
 {
@@ -46,8 +47,19 @@ $(function ()
 			data: {foo: 'bar'}
 	}).done(function(response) {
 			g_metadata = response;
-			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0);
+			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
+			/*
+			var data_access = new Data_Access(location.protocol + '//' + location.host + '/home_record');
+			data_access.get_data(url_state.selected_id,
+				function(doc)
+				{
+					g_data = doc;
+					document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
+				});
+				*/
 	});
+
+
 
 
   /*

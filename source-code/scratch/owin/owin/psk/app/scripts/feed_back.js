@@ -100,10 +100,16 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0);
+            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
           });
         }
-
+        else if(item.metadata=="scripts/editor/page_renderer.js")
+        {
+          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+          reload_js(script_name, function(){
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
+          });
+        }
 
 
 
