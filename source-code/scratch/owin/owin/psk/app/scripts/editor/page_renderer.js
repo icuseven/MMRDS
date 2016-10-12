@@ -5,10 +5,65 @@ function page_render(p_metadata, p_data)
 
 	switch(p_metadata.type.toLowerCase())
   {
-    //case 'group':
+		case 'address':
+			result.push("<fieldset id='");
+			result.push(p_metadata.name);
+			result.push("_id'><legend>");
+			result.push(p_metadata.prompt);
+			result.push("</legend>");
+			for(var i = 0; i < p_metadata.children.length; i++)
+      {
+        var child = p_metadata.children[i];
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name]));
+      }
+			result.push("<input type='button' value='get location' /></fieldset>");
+      break;
+    case 'grid':
+		result.push("<table id='");
+		result.push(p_metadata.name);
+		result.push("_id'><tr><th colspan=");
+		result.push(p_metadata.children.length)
+		result.push(">");
+		result.push(p_metadata.prompt);
+		result.push("</th><tr>");
+		result.push('<tr>');
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			result.push('<th>');
+			result.push(child.prompt);
+			result.push('</th>')
+
+		}
+		result.push('</tr>');
+
+		for(var i = 0; i < p_data[child.name].length; i++)
+		{
+			result.push('<tr>');
+			for(var j = 0; j < p_data[child.name][i].length; j++)
+			{
+				result.push("<th>");
+				result.push(p_data[child.name][i][j]);
+				result.push("</th>");
+			}
+			result.push('</tr>');
+		}
+		result.push("</table>");
+		break;
+    case 'group':
+			result.push("<fieldset id='");
+			result.push(p_metadata.name);
+			result.push("_id'><legend>");
+			result.push(p_metadata.prompt);
+			result.push("</legend>");
+			for(var i = 0; i < p_metadata.children.length; i++)
+      {
+        var child = p_metadata.children[i];
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name]));
+      }
+			result.push("</fieldset>");
+      break;
     case 'form':
-    //case 'address':
-    //case 'grid':
 			result.push("<section id='");
 			result.push(p_metadata.name);
 			result.push("_id'><h1>");
@@ -58,7 +113,6 @@ function page_render(p_metadata, p_data)
             break;
     case 'list':
     case 'yes_no':
-
 					 result.push("<p>");
 					 result.push(p_metadata.prompt);
 					 if(p_metadata.values.length > 6)
@@ -68,7 +122,7 @@ function page_render(p_metadata, p_data)
 					 else
 					 {
 							result.push("<br/> <select size=");
-							result.push(p_metadata.values.length);	 
+							result.push(p_metadata.values.length);
 							result.push(" name='");
 					 }
 
@@ -92,16 +146,65 @@ function page_render(p_metadata, p_data)
 							 result.push("</option>");
 						 }
 					 }
-
 					 result.push("</select></p>");
-
-
            break;
-/*
+
 		 case 'multilist':
      case 'race':
-            p_parent[p_metadata.name] = [];
-            break;
+			 result.push("<p>");
+			 result.push(p_metadata.prompt);
+			 if(p_metadata.values.length > 6)
+			 {
+				 result.push("<br/> <select size=7 multiple name='");
+			 }
+			 else
+			 {
+					result.push("<br/> <select size=");
+					result.push(p_metadata.values.length);
+					result.push(" name='");
+			 }
+
+			 result.push(p_metadata.name);
+			 result.push("'>");
+			 for(var i = 0; i < p_metadata.values.length; i++)
+			 {
+				 var item = p_metadata.values[i];
+				 if(p_data == item)
+				 {
+						result.push("<option value='");
+						result.push("' selected>");
+						result.push(item);
+						result.push("</option>");
+				 }
+				 else
+				 {
+					 result.push("<option value='");
+					 result.push("'>");
+					 result.push(item);
+					 result.push("</option>");
+				 }
+			 }
+			 result.push("</select></p>");
+			 break;
+			case 'date':
+				result.push("<p>");
+				result.push(p_metadata.prompt);
+				result.push(" <input type='Date' name='");
+				result.push(p_metadata.name);
+				result.push("' value='");
+				result.push(p_data);
+				result.push("' /></p>");
+			 break;
+	    case 'time':
+					result.push("<p>");
+					result.push(p_metadata.prompt);
+					result.push(" <input type='text' name='");
+					result.push(p_metadata.name);
+					result.push("' value='");
+					result.push(p_data);
+					result.push("' /></p>");
+				 break;
+/*            break;
     case 'radiolist':
            p_parent[p_metadata.name] = "";
            break;
