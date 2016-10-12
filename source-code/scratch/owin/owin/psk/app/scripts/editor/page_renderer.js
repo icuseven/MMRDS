@@ -189,7 +189,7 @@ function page_render(p_metadata, p_data)
 			case 'date':
 				result.push("<span>");
 				result.push(p_metadata.prompt);
-				result.push(" <input type='Date' name='");
+				result.push(" <input type='date' name='");
 				result.push(p_metadata.name);
 				result.push("' value='");
 				result.push(p_data);
