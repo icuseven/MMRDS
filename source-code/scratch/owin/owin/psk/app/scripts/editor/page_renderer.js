@@ -84,36 +84,36 @@ function page_render(p_metadata, p_data)
 			 }
        break;
      case 'string':
-					result.push("<p>");
+					result.push("<span>");
 					result.push(p_metadata.prompt);
 					result.push(" <input type='text' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
-					result.push("' /></p>");
+					result.push("' /></span>");
 
            break;
      case 'number':
-						result.push("<p>");
+						result.push("<span>");
 						result.push(p_metadata.prompt);
 						result.push(" <input type='Number' name='");
 						result.push(p_metadata.name);
 						result.push("' value='");
 						result.push(p_data);
-						result.push("' /></p>");
+						result.push("' /></span>");
            break;
      case 'boolean':
-						result.push("<p>");
+						result.push("<span>");
 						result.push(p_metadata.prompt);
 						result.push(" <input type='checkbox' name='");
 						result.push(p_metadata.name);
 						result.push("' checked='");
 						result.push(p_data);
-						result.push("' /></p>");
+						result.push("' /></span>");
             break;
     case 'list':
     case 'yes_no':
-					 result.push("<p>");
+					 result.push("<span>");
 					 result.push(p_metadata.prompt);
 					 if(p_metadata.values.length > 6)
 					 {
@@ -146,12 +146,12 @@ function page_render(p_metadata, p_data)
 							 result.push("</option>");
 						 }
 					 }
-					 result.push("</select></p>");
+					 result.push("</select></span>");
            break;
 
 		 case 'multilist':
      case 'race':
-			 result.push("<p>");
+			 result.push("<span>");
 			 result.push(p_metadata.prompt);
 			 if(p_metadata.values.length > 6)
 			 {
@@ -184,25 +184,25 @@ function page_render(p_metadata, p_data)
 					 result.push("</option>");
 				 }
 			 }
-			 result.push("</select></p>");
+			 result.push("</select></span>");
 			 break;
 			case 'date':
-				result.push("<p>");
+				result.push("<span>");
 				result.push(p_metadata.prompt);
 				result.push(" <input type='Date' name='");
 				result.push(p_metadata.name);
 				result.push("' value='");
 				result.push(p_data);
-				result.push("' /></p>");
+				result.push("' /></span>");
 			 break;
 	    case 'time':
-					result.push("<p>");
+					result.push("<span>");
 					result.push(p_metadata.prompt);
 					result.push(" <input type='text' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
-					result.push("' /></p>");
+					result.push("' /></span>");
 				 break;
 /*            break;
     case 'radiolist':
