@@ -7,7 +7,7 @@ namespace owin
 {
 	public class current_editController: ApiController 
 	{ 
-		public static System.Collections.Generic.Dictionary<string, Current_Edit> current_edit = null;
+		public static System.Collections.Generic.Dictionary<string, Current_Edit> current_edit_list = null;
 
 		private static string couchdb_url = null;
 		//http://blog.scottlogic.com/2010/09/20/js-lint-in-visual-studio-part-1.html
@@ -15,13 +15,13 @@ namespace owin
 
 		static current_editController()
 		{
-			current_edit = new System.Collections.Generic.Dictionary<string, Current_Edit>(System.StringComparer.OrdinalIgnoreCase);
+			current_edit_list = new System.Collections.Generic.Dictionary<string, Current_Edit>(System.StringComparer.OrdinalIgnoreCase);
 
 			Current_Edit current = new Current_Edit();
 			current.id = "";
 			current.edit_type = "json";
 
-			current_edit.Add ("metadata", current);
+			current_edit_list.Add ("metadata", current);
 
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
 			{
@@ -37,7 +37,7 @@ namespace owin
 		// GET api/values 
 		public IEnumerable<Current_Edit>  Get() 
 		{ 
-			return current_edit.Select(kvp => kvp.Value).AsEnumerable(); 
+			return current_edit_list.Select(kvp => kvp.Value).AsEnumerable(); 
 		} 
 
 		// GET api/values/5 
@@ -82,13 +82,13 @@ namespace owin
 			if (valid_login) 
 			{
 				string hash = GetHash (metadata);
-				if (current_edit ["metadata"].id != hash) {
+				if (current_edit_list ["metadata"].id != hash) {
 					Current_Edit current = new Current_Edit ();
 					current.id = hash;
 					current.metadata = metadata;
 					current.edit_type = "json";
 
-					current_edit ["metadata"] = current;
+					current_edit_list ["metadata"] = current;
 				}
 			}
 		} 

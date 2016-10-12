@@ -131,13 +131,13 @@ namespace owin
 				current_edit.metadata = SourceFilePath;
 				current_edit.edit_type = "javascript";
 
-				if(current_editController.current_edit.ContainsKey(SourceFilePath))
+				if(current_editController.current_edit_list.ContainsKey(SourceFilePath))
 				{
-					current_editController.current_edit[SourceFilePath] = current_edit;
+					current_editController.current_edit_list[SourceFilePath] = current_edit;
 				}
 				else
 				{
-					current_editController.current_edit.Add(SourceFilePath, current_edit);
+					current_editController.current_edit_list.Add(SourceFilePath, current_edit);
 				}
 			}
 			catch (Exception ex)

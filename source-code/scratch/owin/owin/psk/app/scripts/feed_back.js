@@ -110,6 +110,14 @@ function monitor_changes()
             document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
           });
         }
+        else if(item.metadata=="scripts/create_default_object.js")
+        {
+          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+          reload_js(script_name, function(){
+            g_data = create_default_object(g_metadata, {});
+            console.log("behold thine object", g_data);
+          });
+        }
 
 
 
