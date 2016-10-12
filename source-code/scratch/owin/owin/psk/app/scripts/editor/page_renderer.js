@@ -1,15 +1,4 @@
-function Meta_Data_Renderer_(){};
-
-
-
-
-
-
-
-
-
-
-Meta_Data_Renderer_.prototype.CreateFromMetaData = function(metadata, data)
+function Meta_Data_Renderer_(metadata, data)
 {
 	if(data){}else{ data = {};}
 	var a = null;
