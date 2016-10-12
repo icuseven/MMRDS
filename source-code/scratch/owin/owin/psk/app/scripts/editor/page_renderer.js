@@ -1,4 +1,126 @@
-function Meta_Data_Renderer_(metadata, data)
+function page_render(p_metadata, p_data)
+{
+
+	var result = [];
+
+	switch(p_metadata.type.toLowerCase())
+  {
+    //case 'group':
+    case 'form':
+    //case 'address':
+    //case 'grid':
+			result.push("<section id='");
+			result.push(p_metadata.name);
+			result.push("_id'><h1>");
+			result.push(p_metadata.prompt);
+			result.push("</h1>");
+			for(var i = 0; i < p_metadata.children.length; i++)
+      {
+        var child = p_metadata.children[i];
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name]));
+      }
+			result.push("</section>");
+      break;
+    case 'app':
+       for(var i = 0; i < p_metadata.children.length; i++)
+       {
+         var child = p_metadata.children[i];
+				 Array.prototype.push.apply(result, page_render(child, p_data[child.name]));
+			 }
+       break;
+     case 'string':
+					result.push("<p>");
+					result.push(p_metadata.prompt);
+					result.push(" <input type='text' name='");
+					result.push(p_metadata.name);
+					result.push("' value='");
+					result.push(p_data);
+					result.push("' /></p>");
+
+           break;
+     case 'number':
+						result.push("<p>");
+						result.push(p_metadata.prompt);
+						result.push(" <input type='Number' name='");
+						result.push(p_metadata.name);
+						result.push("' value='");
+						result.push(p_data);
+						result.push("' /></p>");
+           break;
+     case 'boolean':
+						result.push("<p>");
+						result.push(p_metadata.prompt);
+						result.push(" <input type='checkbox' name='");
+						result.push(p_metadata.name);
+						result.push("' checked='");
+						result.push(p_data);
+						result.push("' /></p>");
+            break;
+    case 'list':
+    case 'yes_no':
+
+					 result.push("<p>");
+					 result.push(p_metadata.prompt);
+					 if(p_metadata.values.length > 6)
+					 {
+						 result.push("<br/> <select size=7 name='");
+					 }
+					 else
+					 {
+							result.push("<br/> <select size=");
+							result.push(p_metadata.values.length);	 
+							result.push(" name='");
+					 }
+
+					 result.push(p_metadata.name);
+					 result.push("'>");
+					 for(var i = 0; i < p_metadata.values.length; i++)
+					 {
+						 var item = p_metadata.values[i];
+						 if(p_data == item)
+						 {
+							 	result.push("<option value='");
+								result.push("' selected>");
+								result.push(item);
+								result.push("</option>");
+						 }
+						 else
+						 {
+							 result.push("<option value='");
+							 result.push("'>");
+							 result.push(item);
+							 result.push("</option>");
+						 }
+					 }
+
+					 result.push("</select></p>");
+
+
+           break;
+/*
+		 case 'multilist':
+     case 'race':
+            p_parent[p_metadata.name] = [];
+            break;
+    case 'radiolist':
+           p_parent[p_metadata.name] = "";
+           break;
+     case 'date':
+            p_parent[p_metadata.name] = new Date();
+            break;
+    case 'time':
+           p_parent[p_metadata.name] = "";
+           break;*/
+     default:
+          console.log("page_render not processed", p_metadata);
+       break;
+  }
+
+	return result;
+
+}
+
+function page_renderer2(metadata, data)
 {
 	if(data){}else{ data = {};}
 	var a = null;
@@ -21,7 +143,7 @@ function Meta_Data_Renderer_(metadata, data)
 			var temp = null;
 			if(child_data || child_data== "")
 			{
-				temp = this.CreateFromMetaData(child, child_data);
+				temp = page_renderer(child, child_data);
 
 			}
 			else
@@ -94,7 +216,7 @@ function Meta_Data_Renderer_(metadata, data)
 							break;
 						default:
 							child_data = data[child.name];
-							temp = this.CreateFromMetaData(child, child_data);
+							temp = page_renderer(child, child_data);
 							break;
 					}
 
@@ -103,7 +225,7 @@ function Meta_Data_Renderer_(metadata, data)
 				{
 					data[child.name] = "";
 					child_data = data[child.name];
-					temp = this.CreateFromMetaData(child, child_data);
+					temp = page_renderer(child, child_data);
 				}
 			}
 			if(temp)
@@ -167,7 +289,7 @@ function Meta_Data_Renderer_(metadata, data)
 					(
 						"section", { "data-route": metadata.data_route, "tabindex": "-1", key: metadata.name},
 						React.createElement("h1", null, metadata.prompt),
-						this.CreateFromMetaData(metadata.children, data)
+						page_renderer(metadata.children, data)
 					);
 					return section;
 					break;
@@ -177,7 +299,7 @@ function Meta_Data_Renderer_(metadata, data)
 				case 'group':
 					element = React.createElement('fieldset',{ key:metadata.name },
 							React.createElement('legend',{},metadata.prompt),
-							this.CreateFromMetaData(metadata.children, data)
+							page_renderer(metadata.children, data)
 							);
 					return element;
 					break;
@@ -258,7 +380,7 @@ function Meta_Data_Renderer_(metadata, data)
 
 					break;
 				case 'app':
-					return this.CreateFromMetaData(metadata.children, data);
+					return page_renderer(metadata.children, data);
 					break;
 				default:
 					console.log(metadata.type);

@@ -54,5 +54,6 @@ function create_default_object(p_metadata, p_parent)
   }
 
 
+
   return p_parent;
 }
