@@ -64,6 +64,7 @@ function editor_render(p_metadata, p_path)
       }
 			result.push("</fieldset>");
       break;*/
+		case 'address':
 		case 'grid':
 		case 'group':
     case 'form':
@@ -74,7 +75,9 @@ function editor_render(p_metadata, p_path)
 			result.push('<input type="button" value="c" /> ');
 			result.push('<input type="button" value="d" /> ');
 			result.push(p_metadata.name);
-			result.push(' <input type="button" value="^" /><ul>');
+			result.push(' <input type="button" value="^" /><br/>children:');
+			result.push(' <select><option></option><option>string</option><option>number</option></select>');
+			result.push(' <input type="button" value="add" /> <input type="button" value="p" /><ul>');
 
 				for(var i = 0; i < p_metadata.children.length; i++)
 	      {
@@ -117,7 +120,7 @@ function editor_render(p_metadata, p_path)
 
 			case 'yes_no':
 			case 'race':
-			case 'address':
+
 			case 'multilist':
 			case 'list':
 		 			result.push('<li path=">');
@@ -127,7 +130,18 @@ function editor_render(p_metadata, p_path)
 		 			result.push('<input type="button" value="c" /> ');
 		 			result.push('<input type="button" value="d" /> ');
 		 			result.push(p_metadata.name);
-		 			result.push(' <input type="button" value="^" /><ul>');
+					result.push(' <input type="button" value="^" /><br/>values:');
+					result.push(' <input type="text" value=""/>');
+					result.push(' <input type="button" value="add" /><ul>');
+					for(var i = 0; i < p_metadata.values.length; i++)
+					{
+						var child = p_metadata.values[i];
+						result.push('<li><input type="text" value="');
+						result.push(child);
+						result.push('" /> <input type="button" value="^" /></li>');
+
+					}
+
 		 			result.push('</ul></li>');
 
 		 			break;
