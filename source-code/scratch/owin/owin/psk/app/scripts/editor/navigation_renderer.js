@@ -2,7 +2,7 @@ function navigation_render(p_metadata, p_level)
 {
    var result = [];
 
-   if(p_level > 3) return result;
+   if(p_level > 1) return result;
 
    switch(p_metadata.type.toLowerCase())
    {
