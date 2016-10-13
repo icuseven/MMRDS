@@ -5,7 +5,7 @@ var profile = {
 		user_roles: null,
 		auth_session: null,
 
-get_auth_session: function ()
+get_auth_session_cookie: function ()
 {
 	var result = null;
 	var cookie_string = new String(document.cookie);
@@ -21,7 +21,7 @@ get_auth_session: function ()
 	return result;
 },
 
-set_auth_session: function (p_auth_session)
+set_auth_session_cookie: function (p_auth_session)
 {
 	var minutes_14 = 14;
 	var current_date_time = new Date();
@@ -30,14 +30,14 @@ set_auth_session: function (p_auth_session)
 	document.cookie = "AuthSession=" + p_auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
 },
 
-expire_auth_session: function (p_auth_session)
+expire_auth_session_cookie: function (p_auth_session)
 {
 	document.cookie = "AuthSession=" + p_auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 },
 
 initialize_profile: function ()
 {
-	var current_auth_session = this.get_auth_session();
+	var current_auth_session = this.get_auth_session_cookie();
 
 	if(current_auth_session)
 	{
@@ -68,7 +68,7 @@ initialize_profile: function ()
 				profile.auth_session = current_auth_session;
 
 
-				profile.set_auth_session(current_auth_session);
+				profile.set_auth_session_cookie(current_auth_session);
 			}
 			else
 			{
@@ -76,7 +76,7 @@ initialize_profile: function ()
 				profile.user_name = null;
 				profile.user_roles = null;
 				profile.auth_session = null;
-				profile.expire_auth_session(current_auth_session);
+				profile.expire_auth_session_cookie(current_auth_session);
 			}
 
 			profile.render();
@@ -193,12 +193,12 @@ login_response: function (response)
 		profile.user_roles = json_response.roles;
 		profile.auth_session = json_response.auth_session;
 
-		profile.set_auth_session(profile.auth_session);
+		profile.set_auth_session_cookie(profile.auth_session);
 
 	}
 	else
 	{
-		profile.expire_auth_session(profile.auth_session);
+		profile.expire_auth_session_cookie(profile.auth_session);
 	}
 
 	profile.render();

@@ -19,6 +19,7 @@
 <script src="../scripts/editor/page_renderer.js" type="text/javascript"></script>
 <script src="../scripts/create_default_object.js" type="text/javascript"></script>
 <script src="../scripts/profile.js" type="text/javascript"></script>
+<script src="../scripts/url_monitor.js" type="text/javascript"></script>
 <script src="../scripts/feed_back.js" type="text/javascript"></script>
 <script type="text/javascript">
 'use strict';
@@ -30,6 +31,68 @@ var g_data = null;
 
 $(function ()
 {
+
+window.onhashchange = function(e)
+{
+  /*
+  e = HashChangeEvent
+  {
+    isTrusted: true,
+    oldURL: "http://localhost:12345/react-test/#/",
+    newURL: "http://localhost:12345/rea
+  }*/
+  if(e.isTrusted)
+  {
+    var url_state = url_monitor.get_url_state(e.newURL);
+		/*
+    selected_form_name: form,
+    "selected_id": selected_id,
+    "selected_child_id": selected_child_id*/
+		var section_list = document.getElementsByTagName("section");
+		for(var i = 0; i < section_list.length; i++)
+		{
+			var section = section_list[i];
+			if(section.id == url_state.selected_form_name + "_id")
+			{
+					section.style.display = "block";
+			}
+			else
+			{
+					section.style.display = "none";
+			}
+		}
+/*
+    if(
+      url_state.selected_id != null &&
+      url_state.selected_id != this.state.selected_id
+    )
+    {
+      if(this.state.record_data.length > 0)
+      {
+        var data_access = new Data_Access("http://localhost:5984");
+        data_access.get_data(url_state.selected_id,
+          function(doc)
+          {
+            this.load_record(doc);
+            this.setState(url_state);
+          }.bind(this)
+        );
+      }
+      else
+      {
+        this.setState(url_state);
+      }
+    }
+    else
+    {
+      this.setState(url_state);
+    }*/
+  }
+  else
+  {
+    // do nothing for now
+  }
+};
 
 /*
 	var document_head = document.getElementsByTagName("head")[0];

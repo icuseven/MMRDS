@@ -29,7 +29,7 @@ function navigation_render(p_metadata, p_level)
      case 'form':
         result.push('<div style="float:left;border:1px;margin:5px;padding:10px;border-style: solid;">');
         result.push('<a href="#/');
-        result.push(p_metadata.url_route);
+        result.push(p_metadata.name);
         result.push('">');
         result.push(p_metadata.prompt);
         result.push('</a><ul>');
