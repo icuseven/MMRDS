@@ -42,10 +42,7 @@ $(function ()
 	        }
 	    }, true);
 */
-
-
-	Profile_Component.checkCookieForAuthentication();
-	Profile_Component.render();
+	profile.initialize_profile();
 
 	$.ajax({
 			url: location.protocol + '//' + location.host + '/meta-data/01/home_record.json',
@@ -58,15 +55,6 @@ $(function ()
 
 			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
 
-			/*
-			var data_access = new Data_Access(location.protocol + '//' + location.host + '/home_record');
-			data_access.get_data(url_state.selected_id,
-				function(doc)
-				{
-					g_data = doc;
-					document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
-				});
-				*/
 	});
 
 

@@ -129,7 +129,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            Profile_Component.checkCookieForAuthentication();
+            profile.initialize_profile();
           });
           //Profile_Component.checkCookieForAuthentication();
           //window.setTimeout(Profile_Component.render, 7000);
