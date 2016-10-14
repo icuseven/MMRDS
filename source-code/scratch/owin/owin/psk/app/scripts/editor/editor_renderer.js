@@ -10,9 +10,9 @@ function editor_render(p_metadata, p_path)
 		case 'group':
     case 'form':
 			result.push('<li path="');
-			result.push(p_path);
+			result.push(p_path + "/" + p_metadata.name);
 			result.push('">');
-			result.push('<input type="button" value="-" /> ');
+			result.push('<input type="button" value="-" onclick="editor_toggle(this)"/> ');
 			result.push('<input type="button" value="c" /> ');
 			result.push('<input type="button" value="d" /> ');
 			result.push(p_metadata.name);
@@ -20,7 +20,7 @@ function editor_render(p_metadata, p_path)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path + "/" + p_metadata.name));
 			result.push('<li path="');
 			result.push(p_path + "/" + p_metadata.name + "/children");
-			result.push('"><input type="button" value="-" /> children:');
+			result.push('"><input type="button" value="-" onclick="editor_toggle(this)"/> children:');
 			result.push(' <select><option></option><option>string</option><option>number</option></select>');
 			result.push(' <input type="button" value="add" /> <input type="button" value="p" /> ');
 			result.push(p_path + "/" + p_metadata.name + "/children");
@@ -35,16 +35,16 @@ function editor_render(p_metadata, p_path)
 	      break;
     case 'app':
 			result.push('<div style="margin-top:10px" path="/" >');
-			result.push('<input type="button" value="-" /> ');
+			/*result.push('<input type="button" value="-" /> ');
 			result.push('<input type="button" value="c" /> ');
-			result.push('<input type="button" value="d" /> ');
+			result.push('<input type="button" value="d" /> ');*/
 			result.push(p_metadata.name);
-			result.push(' <input type="button" value="^" /><ul tag="attribute_list">');
+			result.push('<ul tag="attribute_list">');
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path + "/" + p_metadata.name));
 			result.push('<li path="');
-			result.push(p_path + "/children/" + i);
-			result.push('"><input type="button" value="-" /> children:');
-			result.push(' <input type="button" value="add" /> <input type="button" value="p" /><ul>');
+			result.push(p_path + "/children");
+			result.push('"><input type="button" value="-" onclick="editor_toggle(this)"/> children:');
+			result.push(' <input type="button" value="add" /> <ul>');
 
 	       for(var i = 0; i < p_metadata.children.length; i++)
 	       {
@@ -61,7 +61,7 @@ function editor_render(p_metadata, p_path)
 					 result.push('<li path=">');
 					 result.push(p_path + "/" + p_metadata.name);
 					 result.push('">');
-					 result.push('<input type="button" value="-" /> ');
+					 result.push('<input type="button" value="-" onclick="editor_toggle(this)"/> ');
 					 result.push('<input type="button" value="c" /> ');
 					 result.push('<input type="button" value="d" /> ');
 					 result.push(p_metadata.name);
@@ -171,4 +171,21 @@ function attribute_renderer(p_metadata, p_path)
 		}
 	}
 	return result;
+}
+
+
+function editor_toggle(e)
+{
+	var element = document.querySelector('li[path="' + e.parentElement.attributes['path'].value + '"] ul');
+	if(element.style.display=="none")
+	{
+		element.style.display="block";
+		e.value = "-";
+	}
+	else
+	{
+			element.style.display="none";
+			e.value = "+";
+	}
+	//console.log('toggle: path', e.parentElement.attributes['path']);
 }
