@@ -243,7 +243,7 @@ function get_eval_string(p_path)
 	/mmria/children/0/children
 	/mmria/children/0/children/0
 */
-	var result = p_path.replace("/mmria","g_metadata").replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('(\\d+)$','g'),"[$1]");
+	var result = p_path.replace("/mmria","g_metadata").replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('.(\\d+)$','g'),"[$1]");
 
 	return result;
 
