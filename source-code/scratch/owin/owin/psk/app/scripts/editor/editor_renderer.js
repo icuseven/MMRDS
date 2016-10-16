@@ -18,7 +18,15 @@ function editor_render(p_metadata, p_path)
 			result.push(p_metadata.name);
 			result.push(' ');
 			result.push(p_path);
-			result.push(' <br/><ul tag="attribute_list">');
+			result.push(' <br/><ul tag="attribute_list" ');
+			if(ui.is_collapsed[p_path])
+			{
+				result.push(' style="display:none">');
+			}
+			else
+			{
+			 result.push(' style="display:block">');
+			}
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 			result.push('<li path="');
 			result.push(p_path);
@@ -41,7 +49,15 @@ function editor_render(p_metadata, p_path)
 			result.push('<input type="button" value="c" /> ');
 			result.push('<input type="button" value="d" /> ');*/
 			result.push(p_metadata.name);
-			result.push('<ul tag="attribute_list">');
+			result.push('<ul tag="attribute_list" ');
+			if(ui.is_collapsed["/"])
+			{
+				result.push(' style="display:none">');
+			}
+			else
+			{
+			 result.push(' style="display:block">');
+			}
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/"));
 			result.push('<li path="');
 			result.push(p_path + "/children");
@@ -70,7 +86,15 @@ function editor_render(p_metadata, p_path)
 					 result.push(p_metadata.name);
 					 result.push(' ');
 					 result.push(p_path);
-					 result.push(' <ul tag="attribute_list">');
+					 result.push(' <ul tag="attribute_list" ');
+					 if(ui.is_collapsed[p_path])
+					 {
+						 result.push(' style="display:none">');
+					 }
+					 else
+					 {
+					 	result.push(' style="display:block">');
+					 }
 					 Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path + "/" + p_metadata.name));
 					 result.push('</ul></li>');
 
@@ -186,11 +210,13 @@ function editor_toggle(e)
 	{
 		element.style.display="block";
 		e.value = "-";
+		ui.is_collapsed[e.parentElement.attributes['path'].value] = false;
 	}
 	else
 	{
 			element.style.display="none";
 			e.value = "+";
+			ui.is_collapsed[e.parentElement.attributes['path'].value] = true;
 	}
 	//console.log('toggle: path', e.parentElement.attributes['path']);
 }
@@ -245,11 +271,6 @@ function remove_last_digit_in_path(p_path)
 
 function get_eval_string(p_path)
 {
-	/*
-	 /mmria/children/0/name
-	/mmria/children/0/children
-	/mmria/children/0/children/0
-*/
 	var result = "g_metadata" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('.(\\d+)$','g'),"[$1]");
 
 	return result;
@@ -258,11 +279,6 @@ function get_eval_string(p_path)
 
 function get_parent_path(p_path)
 {
-	/*
-	 /mmria/children/0/name
-	/mmria/children/0/children
-	/mmria/children/0/children/0
-*/
 	var result = null;
 	if(p_path.match(new RegExp('/values/(\\d+)$','g')))
 	{

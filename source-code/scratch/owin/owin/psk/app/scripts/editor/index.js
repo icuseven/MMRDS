@@ -1,6 +1,8 @@
 var g_metadata = null;
 var g_data = null;
 
+var ui = { is_collapsed : [] };
+
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
