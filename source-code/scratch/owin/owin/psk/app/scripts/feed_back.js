@@ -160,7 +160,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "").join("");
+            document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
           });
         }
 

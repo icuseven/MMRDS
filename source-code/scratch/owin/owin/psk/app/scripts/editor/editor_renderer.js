@@ -1,4 +1,4 @@
-function editor_render(p_metadata, p_path)
+function editor_render(p_metadata, p_path, p_ui)
 {
 
 	var result = [];
@@ -13,13 +13,13 @@ function editor_render(p_metadata, p_path)
 			result.push(p_path);
 			result.push('">');
 			result.push('<input type="button" value="-" onclick="editor_toggle(this)"/> ');
-			result.push(' <input type="button" value="^" onclick="editor_move_up(this)" /> <input type="button" value="c" /> ');
+			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c" /> ');
 			result.push('<input type="button" value="d" /> ');
 			result.push(p_metadata.name);
 			result.push(' ');
 			result.push(p_path);
 			result.push(' <br/><ul tag="attribute_list" ');
-			if(ui.is_collapsed[p_path])
+			if(p_ui.is_collapsed[p_path])
 			{
 				result.push(' style="display:none">');
 			}
@@ -39,7 +39,7 @@ function editor_render(p_metadata, p_path)
 				for(var i = 0; i < p_metadata.children.length; i++)
 	      {
 	        var child = p_metadata.children[i];
-	        Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i));
+	        Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i, p_ui));
 	      }
 				result.push('</ul></li></ul></li>');
 	      break;
@@ -50,7 +50,7 @@ function editor_render(p_metadata, p_path)
 			result.push('<input type="button" value="d" /> ');*/
 			result.push(p_metadata.name);
 			result.push('<ul tag="attribute_list" ');
-			if(ui.is_collapsed["/"])
+			if(p_ui.is_collapsed["/"])
 			{
 				result.push(' style="display:none">');
 			}
@@ -68,7 +68,7 @@ function editor_render(p_metadata, p_path)
 	       for(var i = 0; i < p_metadata.children.length; i++)
 	       {
 	         var child = p_metadata.children[i];
-					 Array.prototype.push.apply(result, editor_render(child, "/children/" + i));
+					 Array.prototype.push.apply(result, editor_render(child, "/children/" + i, p_ui));
 				 }
 			result.push('</ul></li></ul></div>');
        break;
@@ -81,13 +81,13 @@ function editor_render(p_metadata, p_path)
 					 result.push(p_path);
 					 result.push('">');
 					 result.push('<input type="button" value="-" onclick="editor_toggle(this)"/> ');
-					 result.push('<input type="button" value="^" onclick="editor_move_up(this)"/> <input type="button" value="c" /> ');
+					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" /> ');
 					 result.push('<input type="button" value="d" /> ');
 					 result.push(p_metadata.name);
 					 result.push(' ');
 					 result.push(p_path);
 					 result.push(' <ul tag="attribute_list" ');
-					 if(ui.is_collapsed[p_path])
+					 if(p_ui.is_collapsed[p_path])
 					 {
 						 result.push(' style="display:none">');
 					 }
@@ -109,7 +109,7 @@ function editor_render(p_metadata, p_path)
 		 			result.push(p_path);
 		 			result.push('">');
 					result.push(' <input type="button" value="-"  onclick="editor_toggle(this)"/> ');
-		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this)" />' );
+		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />' );
 		 			result.push('<input type="button" value="c" /> ');
 		 			result.push('<input type="button" value="d" /> ');
 		 			result.push(p_metadata.name);
@@ -128,7 +128,7 @@ function editor_render(p_metadata, p_path)
 
 						result.push('<li path="');
 						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this)"/> <input type="button" value="d" /> <input type="text" value="');
+						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" /> <input type="text" value="');
 						result.push(child);
 						result.push('" size=');
 						result.push(child.length + 5);
@@ -210,18 +210,18 @@ function editor_toggle(e)
 	{
 		element.style.display="block";
 		e.value = "-";
-		ui.is_collapsed[e.parentElement.attributes['path'].value] = false;
+		p_ui.is_collapsed[e.parentElement.attributes['path'].value] = false;
 	}
 	else
 	{
 			element.style.display="none";
 			e.value = "+";
-			ui.is_collapsed[e.parentElement.attributes['path'].value] = true;
+			p_ui.is_collapsed[e.parentElement.attributes['path'].value] = true;
 	}
 	//console.log('toggle: path', e.parentElement.attributes['path']);
 }
 
-function editor_move_up(e)
+function editor_move_up(e, p_ui)
 {
 
 	var current_li = e.parentElement;
@@ -244,7 +244,7 @@ function editor_move_up(e)
 		var parent_path = get_parent_path(path);
 		var metadata_path = get_eval_string(parent_path);
 		var metadata = eval(metadata_path);
-		var node = editor_render(metadata, parent_path);
+		var node = editor_render(metadata, parent_path, p_ui);
 
 		var node_to_render = null;
 		if(parent_path == "")

@@ -1,7 +1,7 @@
 var g_metadata = null;
 var g_data = null;
 
-var ui = { is_collapsed : [] };
+var g_ui = { is_collapsed : [] };
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -18,7 +18,7 @@ $(function ()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
 
-			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "").join("");
+			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
 
 	});
 
