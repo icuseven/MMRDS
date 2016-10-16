@@ -84,8 +84,8 @@ function editor_render(p_metadata, p_path)
 		 			result.push('<li path="');
 		 			result.push(p_path);
 		 			result.push('">');
-		 			result.push(' <input type="button" value="^" />' );
-					result.push(' <input type="button" value="-" /> ');
+					result.push(' <input type="button" value="-"  onclick="editor_toggle(this)"/> ');
+		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this)" />' );
 		 			result.push('<input type="button" value="c" /> ');
 		 			result.push('<input type="button" value="d" /> ');
 		 			result.push(p_metadata.name);
@@ -203,8 +203,9 @@ function editor_move_up(e)
 
 	var item = get_eval_string(path);
 
-	var list = eval(item);
-	var node_path = remove_last_digit_in_path(path) + "/";
+
+	var node_path = get_eval_string(remove_last_digit_in_path(path));
+	var list = eval(node_path);
 	var y = path.match(/\d*$/)[0];
 	var x = y - 1;
 	if(x >= 0)
@@ -214,10 +215,23 @@ function editor_move_up(e)
 		list[x] = b;
 		// render
 		//editor_render(metadata, path)
+
+		var parent_path = get_parent_path(path);
+		var metadata_path = get_eval_string(parent_path);
+		var metadata = eval(metadata_path);
+		var node = editor_render(metadata, parent_path);
+
+		var node_to_remove = document.querySelector("li[path='" + parent_path + "']");
+		node_to_remove.innerHTML = node.join("");
+		/*
+		parent = node_to_remove.parentElement;
+		parent.removeChild(node_)
+
+
 		current_li.attributes['path'].value = node_path + x;
 		current_li.previousElementSibling.attributes['path'].value = node_path + y;
 		parent.insertBefore(current_li, current_li.previousElementSibling);
-
+		*/
 	}
 
 }
@@ -237,6 +251,30 @@ function get_eval_string(p_path)
 	/mmria/children/0/children/0
 */
 	var result = "g_metadata" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('.(\\d+)$','g'),"[$1]");
+
+	return result;
+
+}
+
+function get_parent_path(p_path)
+{
+	/*
+	 /mmria/children/0/name
+	/mmria/children/0/children
+	/mmria/children/0/children/0
+*/
+	var result = null;
+	if(p_path.match(new RegExp('/values/(\\d+)$','g')))
+	{
+		result = p_path.replace(new RegExp('/values/(\\d+)$','g'),"");
+	}
+	else
+	{
+
+		result = p_path.replace(new RegExp('/children/(\\d+)$','g'),"");
+	}
+
+
 
 	return result;
 
