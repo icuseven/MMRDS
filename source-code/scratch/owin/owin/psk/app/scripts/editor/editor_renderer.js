@@ -22,7 +22,7 @@ function editor_render(p_metadata, p_path)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 			result.push('<li path="');
 			result.push(p_path);
-			result.push('"><input type="button" value="-" onclick="editor_toggle(this)"/> children:');
+			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this)"/> children:');
 			result.push(' <select><option></option><option>string</option><option>number</option></select>');
 			result.push(' <input type="button" value="add" /> <input type="button" value="p" /> ');
 			result.push(p_path + "/children");
@@ -181,6 +181,7 @@ function attribute_renderer(p_metadata, p_path)
 function editor_toggle(e)
 {
 	var element = document.querySelector('li[path="' + e.parentElement.attributes['path'].value + '"] ul');
+
 	if(element.style.display=="none")
 	{
 		element.style.display="block";
@@ -213,25 +214,24 @@ function editor_move_up(e)
 		var b = list[y];
 		list[y] = list[x];
 		list[x] = b;
-		// render
-		//editor_render(metadata, path)
 
 		var parent_path = get_parent_path(path);
 		var metadata_path = get_eval_string(parent_path);
 		var metadata = eval(metadata_path);
 		var node = editor_render(metadata, parent_path);
 
-		var node_to_remove = document.querySelector("li[path='" + parent_path + "']");
-		node_to_remove.innerHTML = node.join("");
-		/*
-		parent = node_to_remove.parentElement;
-		parent.removeChild(node_)
+		var node_to_render = null;
+		if(parent_path == "")
+		{
+			node_to_render = document.querySelector("div[path='/']");
+		}
+		else
+		{
+			node_to_render = document.querySelector("li[path='" + parent_path + "']");
 
+		}
+		node_to_render.innerHTML = node.join("");
 
-		current_li.attributes['path'].value = node_path + x;
-		current_li.previousElementSibling.attributes['path'].value = node_path + y;
-		parent.insertBefore(current_li, current_li.previousElementSibling);
-		*/
 	}
 
 }
