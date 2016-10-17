@@ -12,8 +12,8 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<li path="');
 			result.push(p_path);
 			result.push('">');
-			result.push('<input type="button" value="-" onclick="editor_toggle(this)"/> ');
-			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c" /> ');
+			result.push('<input type="button" value="-" onclick="editor_toggle(this, p_ui)"/> ');
+			result.push(' <input type="button" value="^" onclick="editor_move_up(this, p_ui)" /> <input type="button" value="c" /> ');
 			result.push('<input type="button" value="d" /> ');
 			result.push(p_metadata.name);
 			result.push(' ');
@@ -30,7 +30,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 			result.push('<li path="');
 			result.push(p_path);
-			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this)"/> children:');
+			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this, p_ui)"/> children:');
 			result.push(' <select><option></option><option>string</option><option>number</option></select>');
 			result.push(' <input type="button" value="add" /> <input type="button" value="p" /> ');
 			result.push(p_path + "/children");
@@ -61,7 +61,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/"));
 			result.push('<li path="');
 			result.push(p_path + "/children");
-			result.push('"><input type="button" value="-" onclick="editor_toggle(this)" /> children: <input type="button" value="add" /> ');
+			result.push('"><input type="button" value="-" onclick="editor_toggle(this, p_ui)" /> children: <input type="button" value="add" /> ');
 			result.push(p_path + "/children");
 			result.push('<ul>');
 
@@ -80,8 +80,8 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push('<li path="');
 					 result.push(p_path);
 					 result.push('">');
-					 result.push('<input type="button" value="-" onclick="editor_toggle(this)"/> ');
-					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" /> ');
+					 result.push('<input type="button" value="-" onclick="editor_toggle(this, p_ui)"/> ');
+					 result.push('<input type="button" value="^" onclick="editor_move_up(this, p_ui)"/> <input type="button" value="c" /> ');
 					 result.push('<input type="button" value="d" /> ');
 					 result.push(p_metadata.name);
 					 result.push(' ');
@@ -95,7 +95,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					 {
 					 	result.push(' style="display:block">');
 					 }
-					 Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path + "/" + p_metadata.name));
+					 Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 					 result.push('</ul></li>');
 
            break;
@@ -108,13 +108,13 @@ function editor_render(p_metadata, p_path, p_ui)
 		 			result.push('<li path="');
 		 			result.push(p_path);
 		 			result.push('">');
-					result.push(' <input type="button" value="-"  onclick="editor_toggle(this)"/> ');
-		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />' );
+					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, p_ui)"/> ');
+		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, p_ui)" />' );
 		 			result.push('<input type="button" value="c" /> ');
 		 			result.push('<input type="button" value="d" /> ');
 		 			result.push(p_metadata.name);
 					result.push('<br/><ul  tag="attribute_list">');
-					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path + "/" + p_metadata.name));
+					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 					result.push('<li><input type="button" value="-" /> values:');
 					result.push(' <input type="text" value=""/>');
 					result.push(' <input type="button" value="add" /> ');
@@ -128,11 +128,13 @@ function editor_render(p_metadata, p_path, p_ui)
 
 						result.push('<li path="');
 						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" /> <input type="text" value="');
+						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, p_ui)"/> <input type="button" value="d" /> <input type="text" value="');
 						result.push(child);
 						result.push('" size=');
 						result.push(child.length + 5);
-						result.push(' /> ');
+						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
+						result.push(p_path + "/" + p_metadata.name + "/" + "values/" + i);
+						result.push('" /> ');
 						result.push(p_path + "/" + p_metadata.name + "/" + "values/" + i);
 						result.push(' </li>');
 
@@ -188,7 +190,9 @@ function attribute_renderer(p_metadata, p_path)
 						result.push(15);
 					}
 
-					result.push(' /> ');
+					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
 					result.push(p_path + "/" + prop);
 					result.push(' </li>');
 
@@ -201,8 +205,19 @@ function attribute_renderer(p_metadata, p_path)
 	return result;
 }
 
+function editor_set_value(e, p_ui)
+{
+	var path = e.attributes['path'].value;
+	var item_path = get_eval_string(path);
 
-function editor_toggle(e)
+	//var item = eval(item_path);
+	eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
+	//var after = eval(item_path);
+
+}
+
+
+function editor_toggle(e, p_ui)
 {
 	var element = document.querySelector('li[path="' + e.parentElement.attributes['path'].value + '"] ul');
 
