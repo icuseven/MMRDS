@@ -131,8 +131,6 @@ function monitor_changes()
           reload_js(script_name, function(){
             profile.initialize_profile();
           });
-          //Profile_Component.checkCookieForAuthentication();
-          //window.setTimeout(Profile_Component.render, 7000);
         }
         else if(item.metadata=="scripts/editor/navigation_renderer.js")
         {
@@ -145,7 +143,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
           });
         }
         else if(item.metadata=="scripts/create_default_object.js")
@@ -169,6 +167,14 @@ function monitor_changes()
           reload_css(script_name, function(){
             //document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
             return;
+          });
+        }
+        else if(item.metadata=="scripts/index.js")
+        {
+          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+          reload_js(script_name, function(){
+            //window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+            //document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
           });
         }
 

@@ -34,7 +34,8 @@ get_url_state: function(url)
     result = {
       selected_form_name: form,
       "selected_id": selected_id,
-      "selected_child_id": selected_child_id
+      "selected_child_id": selected_child_id,
+      "path_array" : path_array
     };
   }
 

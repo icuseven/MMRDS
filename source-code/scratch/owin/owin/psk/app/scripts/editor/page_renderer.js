@@ -66,9 +66,9 @@ function page_render(p_metadata, p_data, p_ui)
     case 'form':
 			result.push("<section id='");
 			result.push(p_metadata.name);
-			result.push("_id'><h1>");
+			result.push("_id'><h2>");
 			result.push(p_metadata.prompt);
-			result.push("</h1>");
+			result.push("</h2>");
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
@@ -77,6 +77,9 @@ function page_render(p_metadata, p_data, p_ui)
 			result.push("</section>");
       break;
     case 'app':
+		result.push("<section id='app_summary'><h2>summary");
+
+		result.push("</h2></section>");		
        for(var i = 0; i < p_metadata.children.length; i++)
        {
          var child = p_metadata.children[i];

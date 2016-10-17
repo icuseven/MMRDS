@@ -21,70 +21,7 @@
 <script src="./scripts/profile.js" type="text/javascript"></script>
 <script src="./scripts/url_monitor.js" type="text/javascript"></script>
 <script src="./scripts/feed_back.js" type="text/javascript"></script>
-<script type="text/javascript">
-'use strict';
-
-//http://www.w3schools.com/css/css3_flexbox.asp
-
-var g_metadata = null;
-var g_data = null;
-var g_ui = {};
-
-$(function ()
-{
-
-window.onhashchange = function(e)
-{
-  /*
-  e = HashChangeEvent
-  {
-    isTrusted: true,
-    oldURL: "http://localhost:12345/react-test/#/",
-    newURL: "http://localhost:12345/rea
-  }*/
-  if(e.isTrusted)
-  {
-    var url_state = url_monitor.get_url_state(e.newURL);
-		/*
-    selected_form_name: form,
-    "selected_id": selected_id,
-    "selected_child_id": selected_child_id*/
-		var section_list = document.getElementsByTagName("section");
-		for(var i = 0; i < section_list.length; i++)
-		{
-			var section = section_list[i];
-			if(section.id == url_state.selected_form_name + "_id")
-			{
-					section.style.display = "block";
-			}
-			else
-			{
-					section.style.display = "none";
-			}
-		}
-  }
-  else
-  {
-    // do nothing for now
-  }
-};
-
-	profile.initialize_profile();
-
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/meta-data/01/home_record.json',
-			data: {foo: 'bar'}
-	}).done(function(response) {
-			g_metadata = response;
-			g_data = create_default_object(g_metadata, {});
-
-			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
-
-			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
-
-	});
-});
-</script>
+<script src="./scripts/index.js" type="text/javascript"> </script>
 </head>
 <body>
 <div id='root'>
