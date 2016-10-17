@@ -4,13 +4,52 @@
 
 var g_metadata = null;
 var g_data = null;
-var g_ui = {};
+
+var g_ui = {
+  url_state: {
+    selected_form_name: null,
+    "selected_id": null,
+    "selected_child_id": null,
+    "path_array" : []
+  },
+  data_list : [],
+  add_new_case: function()
+	{
+
+    var result = create_default_object(g_metadata, {});
+
+		var new_data = [];
+
+		for(var i in g_ui.data_list)
+		{
+			new_data.push(g_ui.data_list[i]);
+		}
+
+		var new_record_id = new Date().toISOString();
+		new_data.push
+		(
+      result
+		);
+
+		g_ui.data_list = new_data;
+
+
+		g_ui.selected_record_id = result._id;
+		g_ui.selected_record_index = g_ui.data_list.length -1;
+
+
+    var url = location.protocol + '//' + location.host + '#/' + result._id + '/home_record';
+    window.location = url;
+
+    return result;
+	}
+};
 var $$ = {
 
 
  is_id: function(value){
    // 2016-06-12T13:49:24.759Z
-    var test = value.match(new RegExp("^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z$"));
+    var test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z$/);
     return (test)? true : false;
   }
 };
@@ -29,9 +68,9 @@ window.onhashchange = function(e)
   }*/
   if(e.isTrusted)
   {
-    var url_state = url_monitor.get_url_state(e.newURL);
+    g_ui.url_state = url_monitor.get_url_state(e.newURL);
 
-    if($$.is_id(url_state.path_array[0]))
+    if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && $$.is_id(g_ui.url_state.path_array[0]))
     {
       /*
       selected_form_name: form,
@@ -41,7 +80,7 @@ window.onhashchange = function(e)
   		for(var i = 0; i < section_list.length; i++)
   		{
   			var section = section_list[i];
-  			if(section.id == url_state.path_array[1] + "_id")
+  			if(section.id == g_ui.url_state.path_array[1] + "_id")
   			{
   					section.style.display = "block";
   			}

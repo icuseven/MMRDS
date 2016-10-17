@@ -19,7 +19,7 @@ function navigation_render(p_metadata, p_level, p_ui)
          if(child.type == "group")
          {
            result.push('<li>');
-           Array.prototype.push.apply(result,navigation_render(child, p_level + 1));
+           Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
            result.push('</li>');
         }
        }
@@ -27,8 +27,10 @@ function navigation_render(p_metadata, p_level, p_ui)
        result.push('</div></li>');
        break;
      case 'form':
-        result.push('<div style="float:left;border:1px;margin:5px;padding:10px;border-style: solid;">');
+        result.push('<li>');
         result.push('<a href="#/');
+        result.push(p_ui.url_state.path_array[0]);
+        result.push("/");
         result.push(p_metadata.name);
         result.push('">');
         result.push(p_metadata.prompt);
@@ -38,24 +40,22 @@ function navigation_render(p_metadata, p_level, p_ui)
           var child = p_metadata.children[i];
           if(child.type == "group")
           {
-            Array.prototype.push.apply(result,navigation_render(child, p_level + 1));
+            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
           }
         }
-        result.push('</ul>');
-        result.push('</div>');
+        result.push('</ul></li>');
         break;
      case 'app':
-        result.push('<div class="nav"><fieldset><legend>navigation:</legend>');
+        result.push('<ul class="nav">');
 
-        result.push('<div style="float:left;border:1px;margin:5px;padding:10px;border-style: solid;">');
-        result.push('<a href="#/summary">summary</a></div>');
+        result.push('<li><a href="#/summary">summary</a></li>');
 
         for(var i = 0; i < p_metadata.children.length; i++)
         {
           var child = p_metadata.children[i];
-          Array.prototype.push.apply(result,navigation_render(child, p_level + 1));
+          Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
         }
-        result.push('</fieldset></div>');
+        result.push('</ul>');
         break;
       default:
         break;

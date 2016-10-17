@@ -78,16 +78,51 @@ function page_render(p_metadata, p_data, p_ui)
       break;
     case 'app':
 		result.push("<section id='app_summary'><h2>summary</h2>");
-		result.push("<input type='button' value='add new case' /><hr/>");
-		result.push("<fieldset><legend>buscar</legend>");
+		result.push("<input type='button' class='btn-green' value='add new case' onclick='g_ui.add_new_case()' /><hr/>");
+		result.push("<fieldset><legend>filter line listing</legend>");
 		result.push("<input type='text' id='search_text_box' value='' /> ");
-		result.push("<input type='button' id='search_command_button' value='search' />");
+		result.push("<img src='images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
+		result.push("</fieldset>");
+
+		result.push('<div class="search_wrapper">');
+		for(var i = 0; i < g_ui.data_list.length; i++)
+		{
+			var item = g_ui.data_list[i];
+
+				if(i % 2)
+				{
+					result.push('		  <div class="result_wrapper">');
+				}
+				else
+				{
+					result.push('		  <div class="result_wrapper_grey">');
+				}
+				result.push('<p class="result">');
+				result.push(item.last_name);
+				result.push(', ');
+				result.push(item.first_name);
+				result.push('	(');
+				result.push(item.date_of_death);
+				result.push('	(');
+				result.push(item.state_of_death);
+				result.push('	) <a href="#" role="button" class="btn-purple">Select</a></p>');
+				result.push('</div>');
+		}
+		result.push('		</div>');
+
+
 		result.push("</section>");
+
        for(var i = 0; i < p_metadata.children.length; i++)
        {
          var child = p_metadata.children[i];
 				 Array.prototype.push.apply(result, page_render(child, p_data[child.name]));
 			 }
+
+		result.push('<div class="footer_wrapper">');
+		result.push('<p>FOOTER CONTENT</p>');
+		result.push('</div>');
+
        break;
      case 'string':
 					result.push("<span>");

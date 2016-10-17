@@ -124,7 +124,7 @@ render: function ()
 	else
 	{
 		result.push('<div class="login"> <input type="button" value="login" class="btn-light-purple"/> </div>');
-		result.push('<div id="profile_form" class="user-info">');
+ 		result.push('<div id="profile_form" class="user-info">');
 		result.push('<p><strong>Email:</strong> ');
 		result.push('<input type="text" name="email" value="user1" />');
 		result.push('</p>');

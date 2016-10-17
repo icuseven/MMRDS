@@ -38,6 +38,15 @@ get_url_state: function(url)
       "path_array" : path_array
     };
   }
+  else {
+
+    result = {
+      selected_form_name: null,
+      "selected_id": null,
+      "selected_child_id": null,
+      "path_array" : []
+    };
+  }
 
   return result;
 },

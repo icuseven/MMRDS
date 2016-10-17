@@ -73,7 +73,6 @@ function reload_css(sheet_name, callback)
 
 var change_detection_map = {};
 var interval_ids = null;
-//var navigation_renderer = null;
 
 function monitor_changes()
 {
