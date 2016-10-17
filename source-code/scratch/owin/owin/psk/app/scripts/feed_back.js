@@ -59,13 +59,13 @@ function reload_css(sheet_name, callback)
   remove_css_file(sheet_name);
 
   var document_head = document.getElementsByTagName("head")[0];
-  var dynamic_link = document.createElement("link");
+  var dynamic_link = document.createElement("LINK");
   dynamic_link.rel = "stylesheet";
   dynamic_link.type = "text/css";
-  dynamic_link.src = sheet_name;
+  dynamic_link.href = sheet_name;
   if(callback)
   {
-    dynamic_script.addEventListener("load", callback);
+    dynamic_link.addEventListener("load", callback);
   }
   document_head.appendChild(dynamic_link);
 }
@@ -161,6 +161,14 @@ function monitor_changes()
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
             document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+          });
+        }
+        else if(item.metadata=="styles/mmria.css")
+        {
+          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+          reload_css(script_name, function(){
+            //document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+            return;
           });
         }
 

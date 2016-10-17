@@ -1,4 +1,4 @@
-function page_render(p_metadata, p_data)
+function page_render(p_metadata, p_data, p_ui)
 {
 
 	var result = [];

@@ -11,14 +11,18 @@ namespace owin
 	{
 		//static string source_folder = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
 		static string source_folder = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"] + "/scripts";
+		static string css_folder = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"] + "/styles";
 		static System.IO.DirectoryInfo sourceDirectoryInfo;
+		static System.IO.DirectoryInfo cssDirectoryInfo;
 		public static string WatchedFolder;
+		public static string Css_Watched_Folder;
 		public static string ProcessedFolder;
 		static System.Collections.Generic.HashSet<string> WatchedFiles;
 		static System.Collections.Generic.Dictionary<string,string> WatchDictionary;
 
 
 		static FileSystemWatcher fs;
+		static FileSystemWatcher css_fs;
 
 		internal static void StartWatch()
 		{
@@ -59,6 +63,7 @@ namespace owin
 			*/
 
 			sourceDirectoryInfo = new DirectoryInfo(source_folder);
+			cssDirectoryInfo = new DirectoryInfo(css_folder);
 
 
 
@@ -68,9 +73,10 @@ namespace owin
 			WatchedFiles = new System.Collections.Generic.HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
 			WatchDictionary = new Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase);
 
-
+			Css_Watched_Folder = cssDirectoryInfo.FullName;
 
 			AddWatchFiles (sourceDirectoryInfo);
+			AddWatchFiles (cssDirectoryInfo);
 
 			/*
 			WatchedFiles.Add ("editor.js");
@@ -95,7 +101,24 @@ namespace owin
 			fs.Changed += fs_Changed;
 			fs.EnableRaisingEvents = true;
 
+
+			HashDirectory(cssDirectoryInfo);
+
+			css_fs = new FileSystemWatcher
+			{
+				Path = Css_Watched_Folder,
+				NotifyFilter = NotifyFilters.LastWrite
+					| NotifyFilters.FileName,
+				IncludeSubdirectories = true
+
+			};
+
+			css_fs.Created += fs_Changed;
+			css_fs.Changed += fs_Changed;
+			css_fs.EnableRaisingEvents = true;
+
 		}
+
 		static void fs_Changed(object sender, FileSystemEventArgs e)
 		{
 			FileInfo f = new FileInfo(e.FullPath);
@@ -119,6 +142,8 @@ namespace owin
 				
 			}
 		}
+
+
 
 		private delegate void MyTaskWorkerDelegate(string SourceFilePath, string key);
 
@@ -152,7 +177,17 @@ namespace owin
 		}
 		public static string GetKeyName(FileInfo fileinfo)
 		{
-			string result = "scripts" + fileinfo.FullName.Replace(source_folder, "");
+			string temp = fileinfo.FullName.Replace(source_folder, "");
+			string result = null;
+
+			if (temp.Length == fileinfo.FullName.Length) 
+			{
+				result = "styles" + fileinfo.FullName.Replace(css_folder, "");
+			}
+			else
+			{
+				result = "scripts" + temp;
+			}
 
 			return result;
 		}

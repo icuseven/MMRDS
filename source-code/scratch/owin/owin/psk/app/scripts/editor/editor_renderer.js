@@ -255,7 +255,7 @@ function editor_move_up(e, p_ui)
 	var temp = p_ui.is_collapsed[node_path + y];
 	p_ui.is_collapsed[node_path + y] = p_ui.is_collapsed[node_path + x];
 	p_ui.is_collapsed[node_path + x] = temp;
-	*/
+	
 
 	if(x >= 0)
 	{
