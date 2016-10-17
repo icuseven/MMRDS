@@ -109,43 +109,32 @@ initialize_profile: function ()
 render: function ()
 {
 	var result = [];
-	if(this.is_logged_in)
+	if(profile.is_logged_in)
 	{
-		result.push('<form style="float:\'left\'">');
-		result.push('<fieldset>');
-		result.push('<legend>profile:</legend>');
-		result.push('user-8: ');
-		result.push(this.user_name);
-		result.push('<br/>');
-		result.push('roles: ');
-		result.push(this.user_roles.join(','));
-		result.push('<br/>');
-		result.push('<br/>');
-		result.push('<input type="button" value="logout" />');
-		result.push('</fieldset>');
-		result.push('</form>');
-
+		result.push('<div class="login"> <input type="button" value="Log Out" class="btn-light-purple" onclick="profile.logout()"/></div>');
+		result.push('<div class="user-info">');
+		result.push('<p><strong>USER:</strong> ');
+		result.push(profile.user_name);
+		result.push('</p>');
+		result.push('<p><strong>ROLES:</strong> ');
+		result.push(profile.user_roles.join(','));
+		result.push('</p>');
+		result.push('</div');
 	}
 	else
 	{
-		result.push('<form id="profile_form" style="float:\'left\'">');
-		result.push('<fieldset>');
-		result.push('<legend>Login:</legend>');
-		result.push('Email: ');
+		result.push('<div class="login"> <input type="button" value="login" class="btn-light-purple"/> </div>');
+		result.push('<div id="profile_form" class="user-info">');
+		result.push('<p><strong>Email:</strong> ');
 		result.push('<input type="text" name="email" value="user1" />');
-		result.push('<br/>');
-		result.push('Password: ');
+		result.push('</p>');
+		result.push('<p><strong>Password:</strong> ');
 		result.push('<input type="password" name="password" value="password" />');
-		result.push(' ');
-		result.push('<input type="button" value="login" />');
-		result.push('</fieldset>');
-		result.push('</form>');
-
-
+		result.push('</p></div>');
 	}
 
 	document.getElementById('profile_content_id').innerHTML = result.join("");
-	$('#profile_content_id').click(this.login);
+	$('#profile_content_id input[value="login"]').click(profile.login);
 },
 
 login: function ()
@@ -203,7 +192,15 @@ login_response: function (response)
 
 	profile.render();
 
-}
+},
 
-
+logout : function()
+	{
+		profile.expire_auth_session_cookie(profile.auth_session);
+		profile.is_logged_in=false;
+		profile.user_name='';
+		profile.user_roles=[];
+		profile.auth_session='';
+		profile.render();
+	}
 };

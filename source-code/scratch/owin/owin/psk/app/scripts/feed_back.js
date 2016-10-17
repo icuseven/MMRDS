@@ -136,7 +136,8 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
+            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            window.onhashchange ({ isTrusted: true, newURL : window.location.href });
           });
         }
         else if(item.metadata=="scripts/editor/page_renderer.js")
@@ -144,6 +145,7 @@ function monitor_changes()
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
             document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
+            window.onhashchange ({ isTrusted: true, newURL : window.location.href });
           });
         }
         else if(item.metadata=="scripts/create_default_object.js")
@@ -173,8 +175,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            //window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-            //document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
+            window.onhashchange ({ isTrusted: true, newURL : window.location.href });
           });
         }
 

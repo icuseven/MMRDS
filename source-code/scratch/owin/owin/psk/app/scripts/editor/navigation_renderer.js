@@ -1,4 +1,4 @@
-function navigation_render(p_metadata, p_level)
+function navigation_render(p_metadata, p_level, p_ui)
 {
    var result = [];
 
@@ -45,7 +45,11 @@ function navigation_render(p_metadata, p_level)
         result.push('</div>');
         break;
      case 'app':
-        result.push('<div><fieldset><legend>navigation:</legend>');
+        result.push('<div class="nav"><fieldset><legend>navigation:</legend>');
+
+        result.push('<div style="float:left;border:1px;margin:5px;padding:10px;border-style: solid;">');
+        result.push('<a href="#/summary">summary</a></div>');
+
         for(var i = 0; i < p_metadata.children.length; i++)
         {
           var child = p_metadata.children[i];

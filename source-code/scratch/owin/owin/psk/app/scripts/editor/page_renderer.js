@@ -77,9 +77,12 @@ function page_render(p_metadata, p_data, p_ui)
 			result.push("</section>");
       break;
     case 'app':
-		result.push("<section id='app_summary'><h2>summary");
-
-		result.push("</h2></section>");		
+		result.push("<section id='app_summary'><h2>summary</h2>");
+		result.push("<input type='button' value='add new case' /><hr/>");
+		result.push("<fieldset><legend>buscar</legend>");
+		result.push("<input type='text' id='search_text_box' value='' /> ");
+		result.push("<input type='button' id='search_command_button' value='search' />");
+		result.push("</section>");
        for(var i = 0; i < p_metadata.children.length; i++)
        {
          var child = p_metadata.children[i];
