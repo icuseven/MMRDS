@@ -12,8 +12,8 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<li path="');
 			result.push(p_path);
 			result.push('">');
-			result.push('<input type="button" value="-" onclick="editor_toggle(this, p_ui)"/> ');
-			result.push(' <input type="button" value="^" onclick="editor_move_up(this, p_ui)" /> <input type="button" value="c" /> ');
+			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
+			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c" /> ');
 			result.push('<input type="button" value="d" /> ');
 			result.push(p_metadata.name);
 			result.push(' ');
@@ -30,7 +30,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 			result.push('<li path="');
 			result.push(p_path);
-			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this, p_ui)"/> children:');
+			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> children:');
 			result.push(' <select><option></option><option>string</option><option>number</option></select>');
 			result.push(' <input type="button" value="add" /> <input type="button" value="p" /> ');
 			result.push(p_path + "/children");
@@ -61,7 +61,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/"));
 			result.push('<li path="');
 			result.push(p_path + "/children");
-			result.push('"><input type="button" value="-" onclick="editor_toggle(this, p_ui)" /> children: <input type="button" value="add" /> ');
+			result.push('"><input type="button" value="-" onclick="editor_toggle(this, g_ui)" /> children: <input type="button" value="add" /> ');
 			result.push(p_path + "/children");
 			result.push('<ul>');
 
@@ -80,8 +80,8 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push('<li path="');
 					 result.push(p_path);
 					 result.push('">');
-					 result.push('<input type="button" value="-" onclick="editor_toggle(this, p_ui)"/> ');
-					 result.push('<input type="button" value="^" onclick="editor_move_up(this, p_ui)"/> <input type="button" value="c" /> ');
+					 result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
+					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" /> ');
 					 result.push('<input type="button" value="d" /> ');
 					 result.push(p_metadata.name);
 					 result.push(' ');
@@ -108,8 +108,8 @@ function editor_render(p_metadata, p_path, p_ui)
 		 			result.push('<li path="');
 		 			result.push(p_path);
 		 			result.push('">');
-					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, p_ui)"/> ');
-		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, p_ui)" />' );
+					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, g_ui)"/> ');
+		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />' );
 		 			result.push('<input type="button" value="c" /> ');
 		 			result.push('<input type="button" value="d" /> ');
 		 			result.push(p_metadata.name);
@@ -128,7 +128,7 @@ function editor_render(p_metadata, p_path, p_ui)
 
 						result.push('<li path="');
 						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, p_ui)"/> <input type="button" value="d" /> <input type="text" value="');
+						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" /> <input type="text" value="');
 						result.push(child);
 						result.push('" size=');
 						result.push(child.length + 5);
@@ -250,6 +250,13 @@ function editor_move_up(e, p_ui)
 	var list = eval(node_path);
 	var y = path.match(/\d*$/)[0];
 	var x = y - 1;
+
+	//swap toggle state
+	var temp = p_ui.is_collapsed[node_path + y];
+	p_ui.is_collapsed[node_path + y] = p_ui.is_collapsed[node_path + x];
+	p_ui.is_collapsed[node_path + x] = temp;
+	*/
+
 	if(x >= 0)
 	{
 		var b = list[y];
