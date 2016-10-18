@@ -1356,7 +1356,7 @@
 			"name":"date_of_autopsy",
 			"prompt":"Date of autopsy",
 			"order": -1,
-			"type": "MMRIA_Date",
+			"type": "Date",
 			"is_core_summary": false,
 			"validation": null
 			},
