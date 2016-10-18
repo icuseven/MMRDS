@@ -134,7 +134,7 @@ render: function ()
 	}
 
 	document.getElementById('profile_content_id').innerHTML = result.join("");
-	$('#profile_content_id input[value="login"]').click(profile.login);
+	$('#profile_content_id input[value="Log in"]').click(profile.login);
 },
 
 login: function ()

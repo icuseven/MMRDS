@@ -3,6 +3,10 @@
 	"_rev": "1-d794f8cf1e80575b985bef7dd85fdce7",
 	"name":"mmria",
 	"type":"app",
+	"date_created": null,
+	"created_by": null,
+	"date_last_updated": null,
+	"last_updated_by": null,
 	"children":[
 	{
 	"name": "home_record",
@@ -12,30 +16,6 @@
 	"type": "form",
 	"children":
 	[
-	   {
-			"name":"date_created",
-			"prompt":"date_created",
-			"order": 0,
-			"type": "date"
-		},
-		{
-			"name":"created_by",
-			"prompt":"created_by",
-			"order": 1,
-			"type": "string"
-		},
-		{
-			"name":"date_last_updated",
-			"prompt":"date_last_updated",
-			"order": 2,
-			"type": "date"
-		},
-		{
-			"name":"last_updated_by",
-			"prompt":"last_updated_by",
-			"order": 3,
-			"type": "string"
-		},
 		{
 			"name":"record_id",
 			"prompt":"record_id",
