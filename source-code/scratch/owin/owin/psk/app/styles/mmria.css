@@ -182,6 +182,8 @@ background:#48ceb9;
 	z-index: 60;
 }
 .footer_wrapper {
+	margin-top: 10px;
+	bottom: 0px;
 	background: #acb4bc;
 	text-align: center;
 	padding: 40px;

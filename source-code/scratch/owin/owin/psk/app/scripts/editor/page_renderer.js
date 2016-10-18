@@ -119,9 +119,9 @@ function page_render(p_metadata, p_data, p_ui)
 				 Array.prototype.push.apply(result, page_render(child, p_data[child.name]));
 			 }
 
-		result.push('<div class="footer_wrapper">');
+		result.push('<footer class="footer_wrapper">');
 		result.push('<p>FOOTER CONTENT</p>');
-		result.push('</div>');
+		result.push('</footer>');
 
        break;
      case 'string':
