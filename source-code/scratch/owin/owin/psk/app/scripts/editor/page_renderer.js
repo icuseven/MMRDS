@@ -25,7 +25,7 @@ function page_render(p_metadata, p_data, p_ui)
 		result.push(p_metadata.children.length)
 		result.push(">");
 		result.push(p_metadata.prompt);
-		result.push("</th><tr>");
+		result.push("</th></tr>");
 		result.push('<tr>');
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
@@ -48,6 +48,10 @@ function page_render(p_metadata, p_data, p_ui)
 			}
 			result.push('</tr>');
 		}
+    result.push("<tr><td colspan=");
+		result.push(p_metadata.children.length)
+		result.push(" align=right> <input type='button' value='Add Item' /></td></tr>");
+
 		result.push("</table>");
 		break;
     case 'group':
@@ -120,7 +124,7 @@ function page_render(p_metadata, p_data, p_ui)
 			 }
 
 		result.push('<footer class="footer_wrapper">');
-		result.push('<p>FOOTER CONTENT</p>');
+		result.push('<p>&nbsp;</p>');
 		result.push('</footer>');
 
        break;
@@ -132,6 +136,16 @@ function page_render(p_metadata, p_data, p_ui)
 					result.push("' value='");
 					result.push(p_data);
 					result.push("' /></div>");
+
+           break;
+     case 'textarea':
+					result.push("<div class='string'>");
+					result.push(p_metadata.prompt);
+					result.push("<br/> <textarea  name='");
+					result.push(p_metadata.name);
+					result.push("'>");
+					result.push(p_data);
+					result.push("'</textarea></div>");
 
            break;
      case 'number':
@@ -154,6 +168,7 @@ function page_render(p_metadata, p_data, p_ui)
             break;
     case 'list':
     case 'yes_no':
+    case 'radio_group':
 					 result.push("<div class='list'>");
 					 result.push(p_metadata.prompt);
 					 if(p_metadata.values.length > 6)

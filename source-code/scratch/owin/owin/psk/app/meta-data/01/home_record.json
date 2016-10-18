@@ -1085,7 +1085,7 @@
 			"type": "radio_group",
 			"is_core_summary": false,
 			"validation": null,
-			"children":
+			"values":
 			[
 				"",
 				"Cigarette(s)",
@@ -1101,7 +1101,7 @@
 			"type": "radio_group",
 			"is_core_summary": false,
 			"validation": null,
-			"children":
+			"values":
 			[
 				"",
 				"Cigarette(s)",
@@ -1116,7 +1116,7 @@
 			"type": "radio_group",
 			"is_core_summary": false,
 			"validation": null,
-			"children":
+			"values":
 			[
 				"",
 				"Cigarette(s)",
@@ -1131,7 +1131,7 @@
 			"type": "radio_group",
 			"is_core_summary": false,
 			"validation": null,
-			"children":
+			"values":
 			[
 				"",
 				"Cigarette(s)",
@@ -1696,7 +1696,7 @@
 		"name": "number_of_pnc_sources",
 		"prompt": "Was there more than 1 PNC source?",
 		"order": -1,
-		"type": "radio",
+		"type": "radio_group",
 		"is_core_summary": false,
 		"validation": null,
 		"values":
