@@ -51,7 +51,7 @@ function navigation_render(p_metadata, p_level, p_ui)
      case 'app':
         result.push('<ul class="nav">');
 
-        result.push('<li><a href="#/summary">summary</a></li>');
+        result.push('<li><a href="#/summary">Summary</a></li>');
 
         for(var i = 0; i < p_metadata.children.length; i++)
         {

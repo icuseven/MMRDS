@@ -8,7 +8,7 @@ function page_render(p_metadata, p_data, p_ui)
 		case 'address':
 			result.push("<fieldset id='");
 			result.push(p_metadata.name);
-			result.push("_id'><legend>");
+			result.push("_id' class='group address'><legend>");
 			result.push(p_metadata.prompt);
 			result.push("</legend>");
 			for(var i = 0; i < p_metadata.children.length; i++)
@@ -21,7 +21,7 @@ function page_render(p_metadata, p_data, p_ui)
     case 'grid':
 		result.push("<table id='");
 		result.push(p_metadata.name);
-		result.push("_id'><tr><th colspan=");
+		result.push("_id' class='grid'><tr><th colspan=");
 		result.push(p_metadata.children.length)
 		result.push(">");
 		result.push(p_metadata.prompt);
@@ -53,7 +53,7 @@ function page_render(p_metadata, p_data, p_ui)
     case 'group':
 			result.push("<fieldset id='");
 			result.push(p_metadata.name);
-			result.push("_id'><legend>");
+			result.push("_id' class='group'><legend>");
 			result.push(p_metadata.prompt);
 			result.push("</legend>");
 			for(var i = 0; i < p_metadata.children.length; i++)
@@ -66,7 +66,7 @@ function page_render(p_metadata, p_data, p_ui)
     case 'form':
 			result.push("<section id='");
 			result.push(p_metadata.name);
-			result.push("_id'><h2>");
+			result.push("_id' class='form'><h2>");
 			result.push(p_metadata.prompt);
 			result.push("</h2>");
 			for(var i = 0; i < p_metadata.children.length; i++)
@@ -125,7 +125,7 @@ function page_render(p_metadata, p_data, p_ui)
 
        break;
      case 'string':
-					result.push("<div>");
+					result.push("<div class='string'>");
 					result.push(p_metadata.prompt);
 					result.push("<br/> <input type='text' name='");
 					result.push(p_metadata.name);
@@ -135,26 +135,26 @@ function page_render(p_metadata, p_data, p_ui)
 
            break;
      case 'number':
-						result.push("<span>");
+						result.push("<div class='number'>");
 						result.push(p_metadata.prompt);
-						result.push(" <input type='Number' name='");
+						result.push("<br/> <input type='Number' name='");
 						result.push(p_metadata.name);
 						result.push("' value='");
 						result.push(p_data);
-						result.push("' /></span>");
+						result.push("' /></div>");
            break;
      case 'boolean':
-						result.push("<span>");
+						result.push("<div class='boolean'>");
 						result.push(p_metadata.prompt);
 						result.push(" <input type='checkbox' name='");
 						result.push(p_metadata.name);
 						result.push("' checked='");
 						result.push(p_data);
-						result.push("' /></span>");
+						result.push("' /></div>");
             break;
     case 'list':
     case 'yes_no':
-					 result.push("<span>");
+					 result.push("<div class='list'>");
 					 result.push(p_metadata.prompt);
 					 if(p_metadata.values.length > 6)
 					 {
@@ -187,13 +187,14 @@ function page_render(p_metadata, p_data, p_ui)
 							 result.push("</option>");
 						 }
 					 }
-					 result.push("</select></span>");
+					 result.push("</select></div>");
            break;
 
 		 case 'multilist':
      case 'race':
-			 result.push("<span>");
+			 result.push("<div class='multilist'>");
 			 result.push(p_metadata.prompt);
+       result.push(' ( select all that apply )');
 			 if(p_metadata.values.length > 6)
 			 {
 				 result.push("<br/> <select size=7 multiple name='");
@@ -225,25 +226,25 @@ function page_render(p_metadata, p_data, p_ui)
 					 result.push("</option>");
 				 }
 			 }
-			 result.push("</select></span>");
+			 result.push("</select></div>");
 			 break;
 			case 'date':
-				result.push("<span>");
+				result.push("<div class='date'>");
 				result.push(p_metadata.prompt);
 				result.push("<br/> <input type='date' name='");
 				result.push(p_metadata.name);
 				result.push("' value='");
 				result.push(p_data);
-				result.push("' /></span>");
+				result.push("' /></div>");
 			 break;
 	    case 'time':
-					result.push("<span>");
+					result.push("<div class='time'>");
 					result.push(p_metadata.prompt);
-					result.push(" <input type='text' name='");
+					result.push("<br/> <input type='text' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
-					result.push("' /></span>");
+					result.push("' /></div>");
 				 break;
 /*            break;
     case 'radiolist':

@@ -6,7 +6,7 @@
 	"children":[
 	{
 	"name": "home_record",
-	"prompt": "home record",
+	"prompt": "Home Record",
 	"url_route": "home-record",
 	"cardinality":"1",
 	"type": "form",
@@ -582,7 +582,7 @@
 	},
 {
 	"name":"maternal_birth_certificate",
-	"prompt":"maternal birth certificate",
+	"prompt":"Maternal Birth Certificate",
 	"order": -1,
 	"type": "form",
 	"cardinality":"*",
