@@ -27,23 +27,26 @@ function navigation_render(p_metadata, p_level, p_ui)
        result.push('</div></li>');
        break;
      case 'form':
-        result.push('<li>');
-        result.push('<a href="#/');
-        result.push(p_ui.url_state.path_array[0]);
-        result.push("/");
-        result.push(p_metadata.name);
-        result.push('">');
-        result.push(p_metadata.prompt);
-        result.push('</a><ul>');
-        for(var i = 0; i < p_metadata.children.length; i++)
+        if($$.is_id(p_ui.url_state.path_array[0]))
         {
-          var child = p_metadata.children[i];
-          if(child.type == "group")
+          result.push('<li>');
+          result.push('<a href="#/');
+          result.push(p_ui.url_state.path_array[0]);
+          result.push("/");
+          result.push(p_metadata.name);
+          result.push('">');
+          result.push(p_metadata.prompt);
+          result.push('</a><ul>');
+          for(var i = 0; i < p_metadata.children.length; i++)
           {
-            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+            var child = p_metadata.children[i];
+            if(child.type == "group")
+            {
+              Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+            }
           }
+          result.push('</ul></li>');
         }
-        result.push('</ul></li>');
         break;
      case 'app':
         result.push('<ul class="nav">');

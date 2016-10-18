@@ -91,21 +91,21 @@ function page_render(p_metadata, p_data, p_ui)
 
 				if(i % 2)
 				{
-					result.push('		  <div class="result_wrapper">');
+					result.push('		  <div class="result_wrapper_grey">');
 				}
 				else
 				{
-					result.push('		  <div class="result_wrapper_grey">');
+					result.push('		  <div class="result_wrapper">');
 				}
 				result.push('<p class="result">');
-				result.push(item.last_name);
+				result.push(item.home_record.last_name);
 				result.push(', ');
-				result.push(item.first_name);
+				result.push(item.home_record.first_name);
 				result.push('	(');
-				result.push(item.date_of_death);
+				result.push(item.home_record.date_of_death);
 				result.push('	(');
-				result.push(item.state_of_death);
-				result.push('	) <a href="#" role="button" class="btn-purple">Select</a></p>');
+				result.push(item.home_record.state_of_death);
+				result.push('	) <a href="#/'+ item._id + '/home_record" role="button" class="btn-purple">Select</a></p>');
 				result.push('</div>');
 		}
 		result.push('		</div>');
@@ -125,13 +125,13 @@ function page_render(p_metadata, p_data, p_ui)
 
        break;
      case 'string':
-					result.push("<span>");
+					result.push("<div>");
 					result.push(p_metadata.prompt);
-					result.push(" <input type='text' name='");
+					result.push("<br/> <input type='text' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
-					result.push("' /></span>");
+					result.push("' /></div>");
 
            break;
      case 'number':
@@ -230,7 +230,7 @@ function page_render(p_metadata, p_data, p_ui)
 			case 'date':
 				result.push("<span>");
 				result.push(p_metadata.prompt);
-				result.push(" <input type='date' name='");
+				result.push("<br/> <input type='date' name='");
 				result.push(p_metadata.name);
 				result.push("' value='");
 				result.push(p_data);
