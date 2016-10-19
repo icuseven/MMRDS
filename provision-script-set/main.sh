@@ -11,6 +11,8 @@ if [[ -f "/usr/bin/git" ]]; then
 else
 	echo "installing git..."
 	#https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-14-04
+	sudo add-apt-repository ppa:git-core/ppa -y
+	sudo apt-get update -y
 	sudo apt-get install git -y
 fi
 
@@ -84,17 +86,17 @@ else
 	#npm install --global gulp-cli
 fi
 
-# echo "checking if visual studio code is installed..."
-# if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
-	# echo "visual studio code already installed,skipping..."
-# else
-	# echo "installing visual studio code..."
-	# http://www.omgubuntu.co.uk/2015/05/how-to-install-microsoft-visual-studio-code-in-ubuntu
-	# sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
-	# sudo apt-get update -y && sudo apt-get install ubuntu-make -y
+echo "checking if visual studio code is installed..."
+if [[ -f "/home/vagrant/.local/share/umake/web/visual-studio-code/bin/code" ]]; then
+	echo "visual studio code already installed,skipping..."
+else
+	echo "installing visual studio code..."
+	#http://www.omgubuntu.co.uk/2015/05/how-to-install-microsoft-visual-studio-code-in-ubuntu
+	sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make -y
+	sudo apt-get update -y && sudo apt-get install ubuntu-make -y
 
-	# umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
-# fi
+	umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
+fi
 
 echo "checking if atom is installed..."
 if [[ -f "/usr/bin/atom" ]]; then
