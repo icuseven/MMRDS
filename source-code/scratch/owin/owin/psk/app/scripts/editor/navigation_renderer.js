@@ -27,11 +27,18 @@ function navigation_render(p_metadata, p_level, p_ui)
        result.push('</div></li>');
        break;
      case 'form':
-        if($$.is_id(p_ui.url_state.path_array[0]))
+        if($$.is_id(p_ui.url_state.path_array[0]) || window.location.href.indexOf('preview.html') > 0)
         {
           result.push('<li>');
           result.push('<a href="#/');
-          result.push(p_ui.url_state.path_array[0]);
+          if($$.is_id(p_ui.url_state.path_array[0]))
+          {
+            result.push(p_ui.url_state.path_array[0]);
+          }
+          else
+          {
+            result.push(p_ui.data_list[p_ui.selected_record_index]._id);
+          }
           result.push("/");
           result.push(p_metadata.name);
           result.push('">');

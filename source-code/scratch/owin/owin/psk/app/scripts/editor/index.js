@@ -3,6 +3,103 @@ var g_data = null;
 
 var g_ui = { is_collapsed : [] };
 
+
+var md = {
+/*
+
+required:
+	name
+	prompt	
+	type
+
+optional:
+
+is_required
+pattern
+validation
+onblur
+is_core_summary
+max_value
+min_value
+control_style
+
+controls:
+	label
+	button
+
+*/
+	create_app: function(p_user_name)
+	{
+		var date = new Date().toISOString(); 
+		return {
+			"_id": date,
+			"_rev": null,
+			"name":"mmria",
+			"type":"app",
+			"date_created": date,
+			"created_by": p_user_name,
+			"date_last_updated": date,
+			"last_updated_by": p_user_name,
+			"children":[]
+			}
+	},
+	create_form: function(			
+			p_name,
+			p_prompt,
+			p_cardinality)
+	{
+		return {
+			"name": p_name,
+			"prompt": p_prompt,
+			"cardinality":p_cardinality,
+			"type": "form",
+			"children": []
+		}
+
+	},
+	create_group: function(p_name, p_prompt, p_type, p_style)
+	{
+		if(p_style)
+		{
+			return {
+				"name": p_name,
+				"prompt": p_prompt,
+				"type": "group",
+				"children": []
+			}
+		}
+		else
+		{
+return {
+				"name": p_name,
+				"prompt": p_prompt,
+				"type": "group",
+				"children": []
+			}
+		}
+	},
+	create_value_list: function(p_name, p_prompt, p_type)
+	{
+		return {
+			"name": p_name,
+			"prompt": p_prompt,
+			"type": p_type,
+			"values": []
+		}
+	},
+	create_value: function(p_name, p_prompt, p_type)
+	{
+		return {
+			"name": p_name,
+			"prompt": p_prompt,
+			"type": p_type,
+			"values": []
+		}
+	}
+
+};
+
+
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
@@ -22,41 +119,6 @@ $(function ()
 
 	});
 
-/*
-	var app = document.querySelector('#root');
 
-	var data_access = new Data_Access("http://localhost:5984");
-
-
-	console.log('Our app is ready to rock!');
-
-
-	//ReactDOM.render(React.createElement(LoginComponent, {  }), app);
-	var app_reference = ReactDOM.render(React.createElement(EditorComponent, {  }), app);
-	var profile_content_id = document.querySelector('#profile_content_id');
-	ReactDOM.render(React.createElement(ProfileComponent, { profile_login_changed:app_reference.profile_login_changed }), profile_content_id);
-	//ReactDOM.render(React.createElement(TodoApp), app);
-
-
-
-
-
-	window.addEventListener('profile_login_changed', function(e)
-	{
-
-	});
-
-	window.addEventListener('onItemChanged', function(path, value)
-	{
-
-	});
-
-  // Sets app default base URL
-  app.baseUrl = '/';
-  if (window.location.port === '') {  // if production
-    // Uncomment app.baseURL below and
-    // set app.baseURL to '/your-pathname/' if running from folder in production
-    // app.baseUrl = '/polymer-starter-kit/';
-  }*/
 
 });

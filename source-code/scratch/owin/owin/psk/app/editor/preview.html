@@ -4,12 +4,9 @@
 <meta charset="utf-8">
 <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-
 <script src="../scripts/jquery-3.1.1.min.js"></script>
 <script src="../bower_components/pouchdb/dist/pouchdb.min.js"></script>
-
 <script src="../scripts/data_access.js" type="text/javascript"></script>
-
 <!-- script src="../scripts/ajax.js" type="text/javascript"></script>
 <script src="../react-test/meta_navigator.js" type="text/javascript"></script>
 <script src="../react-test/meta_navigator.js" type="text/javascript"></script>
@@ -17,135 +14,19 @@
 <script src="../scripts/editor/editor.js" type="text/javascript"></script-->
 <script src="../scripts/editor/navigation_renderer.js" type="text/javascript"></script>
 <script src="../scripts/editor/page_renderer.js" type="text/javascript"></script>
+<script src="../scripts/editor/preview.js" type="text/javascript"></script>
 <script src="../scripts/create_default_object.js" type="text/javascript"></script>
 <script src="../scripts/profile.js" type="text/javascript"></script>
 <script src="../scripts/url_monitor.js" type="text/javascript"></script>
 <script src="../scripts/feed_back.js" type="text/javascript"></script>
-<script type="text/javascript">
-'use strict';
-
-//http://www.w3schools.com/css/css3_flexbox.asp
-
-var g_metadata = null;
-var g_data = null;
-
-$(function ()
-{
-
-window.onhashchange = function(e)
-{
-  /*
-  e = HashChangeEvent
-  {
-    isTrusted: true,
-    oldURL: "http://localhost:12345/react-test/#/",
-    newURL: "http://localhost:12345/rea
-  }*/
-  if(e.isTrusted)
-  {
-    var url_state = url_monitor.get_url_state(e.newURL);
-		/*
-    selected_form_name: form,
-    "selected_id": selected_id,
-    "selected_child_id": selected_child_id*/
-		var section_list = document.getElementsByTagName("section");
-		for(var i = 0; i < section_list.length; i++)
-		{
-			var section = section_list[i];
-			if(section.id == url_state.selected_form_name + "_id")
-			{
-					section.style.display = "block";
-			}
-			else
-			{
-					section.style.display = "none";
-			}
-		}
-/*
-    if(
-      url_state.selected_id != null &&
-      url_state.selected_id != this.state.selected_id
-    )
-    {
-      if(this.state.record_data.length > 0)
-      {
-        var data_access = new Data_Access("http://localhost:5984");
-        data_access.get_data(url_state.selected_id,
-          function(doc)
-          {
-            this.load_record(doc);
-            this.setState(url_state);
-          }.bind(this)
-        );
-      }
-      else
-      {
-        this.setState(url_state);
-      }
-    }
-    else
-    {
-      this.setState(url_state);
-    }*/
-  }
-  else
-  {
-    // do nothing for now
-  }
-};
-
-/*
-	var document_head = document.getElementsByTagName("head")[0];
-	document_head.addEventListener("load", function(event) {
-	        if (event.target.nodeName === "SCRIPT")
-	        {
-	            console.log("Script loaded: " + event.target.getAttribute("src"));
-							//Profile_Component.checkCookieForAuthentication();
-							Profile_Component.render();
-	        }
-	    }, true);
-*/
-	profile.initialize_profile();
-
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/meta-data/01/home_record.json',
-			data: {foo: 'bar'}
-	}).done(function(response) {
-			g_metadata = response;
-			g_data = create_default_object(g_metadata, {});
-
-			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
-
-			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data).join("");
-
-	});
-
-
-
-
-  /*
-  $.ajax({
-      url: 'somepage.cgi',
-      data: {foo: 'bar'}
-  }).done(function() {
-      // this will be run when the AJAX request succeeds
-  }).fail(function() {
-      // this will be run when the AJAX request fails
-  }).always(function() {
-      // this will be run when the AJAX request is complete, whether it fails or succeeds
-  }).done(function() {
-      // this will also be run when the AJAX request succeeds
-  })*/;
-});
-</script>
 </head>
 <body>
 <div id='root'>
 	<img src="../images/mmria-secondary.svg" height=75 width=100 />
-	<h1>App Element: MMRIA</h1>
-	<div id='profile_content_id'>App Element: MMRIA</div>
+	<!--h1>App Element: MMRIA</h1-->
+	<div id='profile_content_id' class="header_wrapper">App Element: MMRIA</div>
 	<div id='page_content_id' style='clear:"left"'>
-		<nav id='navigation_id'></nav>
+		<nav id='navigation_id' class="nav_wrapper"></nav>
 		<br/>
 		<div id='form_content_id'></div>
 	</div>

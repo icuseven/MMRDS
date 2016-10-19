@@ -82,10 +82,10 @@ function page_render(p_metadata, p_data, p_ui, p_path)
       break;
     case 'app':
 		result.push("<section id='app_summary'><h2>summary</h2>");
-		result.push("<input type='button' class='btn-green' value='add new case' onclick='g_ui.add_new_case()' /><hr/>");
+		result.push("<input type='button' class='btn-green' value='add new case aa' onclick='g_ui.add_new_case()' /><hr/>");
 		result.push("<fieldset><legend>filter line listing</legend>");
 		result.push("<input type='text' id='search_text_box' value='' /> ");
-		result.push("<img src='images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
+		result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
 		result.push("</fieldset>");
 
 		result.push('<div class="search_wrapper">');
