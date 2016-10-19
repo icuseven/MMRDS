@@ -11,8 +11,28 @@ var g_ui = {
     "selected_id": null,
     "selected_child_id": null,
     "path_array" : []
+
   },
   data_list : [],
+  set_value: function(p_path, p_value)
+  {
+    console.log("g_ui.set_value: ", p_path, p_value);
+    console.log("value: ", p_value.value);
+    console.log("get_eval_string(p_path): ", g_ui.get_eval_string(p_path));
+
+    eval(g_ui.get_eval_string(p_path + ' = "' + p_value.value.replace('"', '\\"')  + '"'));
+
+    var target = eval(g_ui.get_eval_string(p_path));
+  },
+  get_eval_string: function (p_path)
+  {
+  	var result = "g_data" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('.(\\d+)$','g'),"[$1]");
+    //return an  array with 2 parts.
+      // g_data['attribute'].attribute...
+
+  	return result;
+
+  },
   add_new_case: function()
 	{
 
