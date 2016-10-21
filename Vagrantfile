@@ -23,12 +23,12 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.gui = true
 	  
 			# Customize the amount of memory on the VM:
-			vb.memory = "5120"
+			vb.memory = (6 * 1024).to_s
 			vb.cpus = 2
 			vb.customize [
                         "modifyvm", :id,
                         "--monitorcount", "2",
-                        "--vram", "18"
+                        "--vram", "256"
                       ]
 			
 		end

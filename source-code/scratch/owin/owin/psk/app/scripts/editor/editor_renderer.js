@@ -61,7 +61,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/"));
 			result.push('<li path="');
 			result.push(p_path + "/children");
-			result.push('"><input type="button" value="-" onclick="editor_toggle(this, g_ui)" /> children: <input type="button" value="add" /> ');
+			result.push('"><input type="button" value="-" onclick="editor_toggle(this, g_ui)" /> children: <input type="button" value="add" onclick="editor_add_form(this)"/> ');
 			result.push(p_path + "/children");
 			result.push('<ul>');
 
@@ -152,6 +152,22 @@ function editor_render(p_metadata, p_path, p_ui)
 
 }
 
+var valid_types = [
+"string",
+"number",
+"date",
+"list",
+"multilist",
+"app",
+"form",
+"group",
+"time",
+"textarea",
+"boolean",
+"label",
+"button"
+];
+
 
 function attribute_renderer(p_metadata, p_path)
 {
@@ -165,6 +181,31 @@ function attribute_renderer(p_metadata, p_path)
 			case 'values':
 
 				break;
+			case 'type':
+					result.push('<li>type: <select onChange="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+					result.push("<option></option>");
+					for(var i = 0; i < valid_types.length; i++)
+					{
+						
+						var item = valid_types[i];
+						if(p_metadata[prop] && item.toLowerCase() == p_metadata[prop].toLowerCase())
+						{
+							result.push('<option selected>');
+						}
+						else
+						{
+							result.push('<option>');
+						}
+						result.push(valid_types[i]);
+						result.push('</option>');
+					}
+
+
+					result.push('</select>');
+
+			break;
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
 				{
@@ -208,12 +249,64 @@ function attribute_renderer(p_metadata, p_path)
 function editor_set_value(e, p_ui)
 {
 	var path = e.attributes['path'].value;
+	var path_array = path.split('/');
+	var attribute_name = path_array[path_array.length - 1];
 	var item_path = get_eval_string(path);
 
-	//var item = eval(item_path);
-	eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
-	//var after = eval(item_path);
+	switch(attribute_name.toLowerCase())
+	{
+		case 'name':
+			if(eval(item_path) != e.value)
+			{
+				if(e.value)
+				{
+					var test = e.value.match(/^[a-zA-z][a-zA-z0-9_]*$/);
+					if(test)
+					{
+						//var item = eval(item_path);
+						eval(item_path + ' = "' + e.value + '"');
+						//var after = eval(item_path);
+						e.style.color = "black";
+					}
+					else
+					{
+						e.style.color = "red";
+					}
+				}
+				else
+				{
+					//var item = eval(item_path);
+					eval(item_path + ' = "' + e.value + '"');
+					//var after = eval(item_path);
+				}
+			}
+			else if (e.style.color != "black")
+			{
+				e.style.color = "black"
+			}
+				
+			
+			break;
+		default:
+			//var item = eval(item_path);
+			eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
+			//var after = eval(item_path);
+			break;
+	}
+}
 
+function editor_add_form(e)
+{
+	var form = md.create_form(			
+			'new_form_name',
+			'form prompt',
+			'?');
+	g_metadata.children.push(form);
+	var node = editor_render(g_metadata, "", g_ui);
+	
+	var node_to_render = document.querySelector("div[path='/']");
+	node_to_render.innerHTML = node.join("");
+	
 }
 
 

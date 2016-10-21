@@ -13,15 +13,19 @@ required:
 	type
 
 optional:
-
+is_core_summary
 is_required
+
 pattern
 validation
 onblur
-is_core_summary
+
 max_value
 min_value
 control_style
+radio
+checkbox
+
 
 controls:
 	label
