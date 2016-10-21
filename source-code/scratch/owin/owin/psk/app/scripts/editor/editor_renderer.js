@@ -1,3 +1,8 @@
+var colors = [];
+colors.push(0xFF8888);
+colors.push(0x88FF88);
+colors.push(0x8888FF);
+
 function editor_render(p_metadata, p_path, p_ui)
 {
 
@@ -11,6 +16,11 @@ function editor_render(p_metadata, p_path, p_ui)
     case 'form':
 			result.push('<li path="');
 			result.push(p_path);
+			/*
+			result.push('" style=" overflow: auto;background-color:#');
+			var color_index = new Number(p_path.match(new RegExp("\\d+$"))) % 3;
+			result.push(colors[color_index].toString(16));
+			result.push(';">');*/
 			result.push('">');
 			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c" /> ');
@@ -59,7 +69,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(p_path + "/children");
 			result.push(' <ul>');
 
-				for(var i = 0; i < p_metadata.children.length; i++)
+			for(var i = 0; i < p_metadata.children.length; i++)
 	      {
 	        var child = p_metadata.children[i];
 	        Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i, p_ui));
@@ -206,6 +216,17 @@ function attribute_renderer(p_metadata, p_path)
 
 				break;
 			case 'type':
+				if(p_metadata.type.toLowerCase() == "app")
+				{
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : ');
+					result.push(p_metadata[prop]);
+					result.push('</li>');
+				}
+				else
+				{
+			
 					result.push('<li>type: <select onChange="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('" /> ');
@@ -225,10 +246,8 @@ function attribute_renderer(p_metadata, p_path)
 						result.push(valid_types[i]);
 						result.push('</option>');
 					}
-
-
 					result.push('</select>');
-
+				}
 			break;
 			case "name":
 			case "prompt":
@@ -340,6 +359,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option></option>');
 	result.push('<option>is_core_summary</option>');
 	result.push('<option>is_required</option>');
+	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
 	result.push('<option>onblur</option>');
@@ -455,6 +475,7 @@ function editor_add_to_attributes(e, p_ui)
 		{
 			case "is_core_summary":
 			case "is_required":
+			case "default_value":
 			case "regex_pattern":
 			case "validation":
 			case "onblur":
