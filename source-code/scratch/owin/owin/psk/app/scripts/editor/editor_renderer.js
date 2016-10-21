@@ -102,7 +102,7 @@ function editor_render(p_metadata, p_path, p_ui)
 	       {
 	         var child = p_metadata.children[i];
 					 Array.prototype.push.apply(result, editor_render(child, "/children/" + i, p_ui));
-				 }
+			}
 			result.push('</ul></li></ul></div>');
        break;
 		case 'boolean':
@@ -133,10 +133,8 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push('</ul></li>');
 
            break;
-
 			case 'yes_no':
 			case 'race':
-
 			case 'multilist':
 			case 'list':
 		 			result.push('<li path="');
@@ -147,6 +145,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		 			result.push('<input type="button" value="c" /> ');
 		 			result.push('<input type="button" value="d" /> ');
 		 			result.push(p_metadata.name);
+					Array.prototype.push.apply(result, render_attribute_add_control(p_path));
 					result.push('<br/><ul  tag="attribute_list">');
 					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 					result.push('<li><input type="button" value="-" /> values:');
@@ -470,11 +469,21 @@ function editor_add_to_attributes(e, p_ui)
 	var element = document.querySelector('select[path="' + e.attributes['path'].value + '"]');
 	if(element.value)
 	{
-		
-		switch(element.value.toLowerCase())
+		var attribute = element.value.toLowerCase();
+		switch(attribute)
 		{
 			case "is_core_summary":
 			case "is_required":
+				var path = e.attributes['path'].value;
+				var item = get_eval_string(path);
+					eval(item)[attribute] = true;
+					
+				var node = editor_render(eval(item), path, g_ui);
+	
+				var node_to_render = document.querySelector("li[path='" + path + "']");
+				node_to_render.innerHTML = node.join("");
+					
+				break;
 			case "default_value":
 			case "regex_pattern":
 			case "validation":
@@ -482,6 +491,17 @@ function editor_add_to_attributes(e, p_ui)
 			case "max_value":
 			case "min_value":
 			case "control_style":
+				var path = e.attributes['path'].value;
+				var item = get_eval_string(path);
+				eval(item)[attribute] = "";
+					
+				var node = editor_render(eval(item), path, g_ui);
+	
+				var node_to_render = document.querySelector("li[path='" + path + "']");
+				node_to_render.innerHTML = node.join("");
+			
+			
+				break;
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
 			
