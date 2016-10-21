@@ -16,7 +16,7 @@ optional:
 is_core_summary
 is_required
 
-pattern
+regex_pattern
 validation
 onblur
 

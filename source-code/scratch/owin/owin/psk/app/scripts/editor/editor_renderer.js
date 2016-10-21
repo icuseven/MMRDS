@@ -31,8 +31,31 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<li path="');
 			result.push(p_path);
 			result.push('/children"><input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> children:');
-			result.push(' <select><option></option><option>string</option><option>number</option></select>');
-			result.push(' <input type="button" value="add" /> <input type="button" value="p" /> ');
+			
+			result.push(' <select path="');
+			result.push(p_path);
+			result.push('" /> ');
+			result.push("<option></option>");
+			for(var i = 0; i < valid_types.length; i++)
+			{
+				
+				var item = valid_types[i];
+				if(item.toLowerCase() != 'form' || item.toLowerCase() != 'app')
+				{
+
+					result.push('<option>');
+					result.push(valid_types[i]);
+					result.push('</option>');
+				}
+			}
+
+
+			result.push('</select>');
+
+			
+			result.push(' <input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="');
+			result.push(p_path);
+			result.push('" /> <input type="button" value="p" /> ');
 			result.push(p_path + "/children");
 			result.push(' <ul>');
 
@@ -72,11 +95,11 @@ function editor_render(p_metadata, p_path, p_ui)
 				 }
 			result.push('</ul></li></ul></div>');
        break;
-		 case 'boolean':
-		 case 'date':
-		 case 'number':
-     case 'string':
-		 case 'time':
+		case 'boolean':
+		case 'date':
+		case 'number':
+		case 'string':
+		case 'time':
 					 result.push('<li path="');
 					 result.push(p_path);
 					 result.push('">');
@@ -86,6 +109,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push(p_metadata.name);
 					 result.push(' ');
 					 result.push(p_path);
+					 Array.prototype.push.apply(result, render_attribute_add_control(p_path));
 					 result.push(' <ul tag="attribute_list" ');
 					 if(p_ui.is_collapsed[p_path])
 					 {
@@ -206,7 +230,9 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('</select>');
 
 			break;
-			default:
+			case "name":
+			case "prompt":
+			case "cardinality":
 				if(p_metadata.type.toLowerCase() == "app")
 				{
 					result.push('<li>')
@@ -235,7 +261,64 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(p_path + "/" + prop);
 					result.push('" /> ');
 					result.push(p_path + "/" + prop);
-					result.push(' </li>');
+					result.push('</li>');
+
+				}
+			
+				break;
+			case "is_core_summary":
+			case "is_required":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="checkbox" checked="');
+					result.push(p_metadata[prop]);
+					result.push('" onblur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+					result.push(p_path + "/" + prop);
+					
+					result.push(' <input type="button" value="d" /> </li>');
+				
+				break;
+			case "validation":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="button" value="d" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('"> ');
+					result.push(p_metadata[prop]);
+					result.push('</textarea> </li>');			
+				break;
+			default:
+				if(p_metadata.type.toLowerCase() == "app")
+				{
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : ');
+					result.push(p_metadata[prop]);
+					result.push('</li>');
+				}
+				else
+				{
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="text" value="');
+					result.push(p_metadata[prop]);
+					result.push('" size=');
+					if(p_metadata[prop])
+					{
+						result.push((p_metadata[prop].length)?  p_metadata[prop].length + 5: 5);
+					}
+					else
+					{
+						result.push(15);
+					}
+					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+					result.push(p_path + "/" + prop);
+					
+					result.push(' <input type="button" value="d" /> </li>');
 
 				}
 
@@ -243,6 +326,31 @@ function attribute_renderer(p_metadata, p_path)
 				break;
 		}
 	}
+	return result;
+}
+
+
+function render_attribute_add_control(p_path)
+{
+	var result = [];
+	
+	result.push('<select path="');
+	result.push(p_path);
+	result.push('">');
+	result.push('<option></option>');
+	result.push('<option>is_core_summary</option>');
+	result.push('<option>is_required</option>');
+	result.push('<option>regex_pattern</option>');
+	result.push('<option>validation</option>');
+	result.push('<option>onblur</option>');
+	result.push('<option>max_value</option>');
+	result.push('<option>min_valuev</option>');
+	result.push('<option>control_style</option>');
+	result.push('</select>');
+	result.push(' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="');
+	result.push(p_path);
+	result.push('" /> ');
+	
 	return result;
 }
 
@@ -294,6 +402,85 @@ function editor_set_value(e, p_ui)
 			break;
 	}
 }
+
+
+function editor_add_to_children(e, p_ui)
+{
+	var element = document.querySelector('select[path="' + e.attributes['path'].value + '"]');
+	if(element.value)
+	{
+		
+		switch(element.value.toLowerCase())
+		{
+			//"app":
+			//"form":
+			case "string":
+			case "number":
+			case "date":
+			case "list":
+			case "multilist":
+			case "group":
+			case "time":
+			case "textarea":
+			case "boolean":
+			case "label":
+			case "button":
+				console.log("e.value, path", element.value, e.attributes['path'].value);
+				break;
+			
+		}
+		
+		/*
+		var form = md.create_form(			
+				'new_form_name',
+				'form prompt',
+				'?');
+		g_metadata.children.push(form);
+		var node = editor_render(g_metadata, "", g_ui);
+		
+		var node_to_render = document.querySelector("div[path='/']");
+		node_to_render.innerHTML = node.join("");
+		*/
+	}
+	
+}
+
+function editor_add_to_attributes(e, p_ui)
+{
+	var element = document.querySelector('select[path="' + e.attributes['path'].value + '"]');
+	if(element.value)
+	{
+		
+		switch(element.value.toLowerCase())
+		{
+			case "is_core_summary":
+			case "is_required":
+			case "regex_pattern":
+			case "validation":
+			case "onblur":
+			case "max_value":
+			case "min_value":
+			case "control_style":
+				console.log("e.value, path", element.value, e.attributes['path'].value);
+				break;
+			
+		}
+		
+		/*
+		var form = md.create_form(			
+				'new_form_name',
+				'form prompt',
+				'?');
+		g_metadata.children.push(form);
+		var node = editor_render(g_metadata, "", g_ui);
+		
+		var node_to_render = document.querySelector("div[path='/']");
+		node_to_render.innerHTML = node.join("");
+		*/
+	}
+	
+}
+
 
 function editor_add_form(e)
 {
