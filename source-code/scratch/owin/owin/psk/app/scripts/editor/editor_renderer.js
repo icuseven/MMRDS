@@ -295,13 +295,13 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('" /> ');
 					result.push(p_path + "/" + prop);
 					
-					result.push(' <input type="button" value="d" /> </li>');
+					result.push(' <input type="button" value="d" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
 				
 				break;
 			case "validation":
 					result.push('<li>')
 					result.push(prop);
-					result.push(' : <input type="button" value="d" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(' : <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('"> ');
 					result.push(p_metadata[prop]);
@@ -336,7 +336,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('" /> ');
 					result.push(p_path + "/" + prop);
 					
-					result.push(' <input type="button" value="d" /> </li>');
+					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
 
 				}
 
@@ -506,21 +506,29 @@ function editor_add_to_attributes(e, p_ui)
 				break;
 			
 		}
-		
-		/*
-		var form = md.create_form(			
-				'new_form_name',
-				'form prompt',
-				'?');
-		g_metadata.children.push(form);
-		var node = editor_render(g_metadata, "", g_ui);
-		
-		var node_to_render = document.querySelector("div[path='/']");
-		node_to_render.innerHTML = node.join("");
-		*/
 	}
 	
 }
+
+
+function editor_delete_attribute(e, p_path)
+{
+	var item = get_eval_string(p_path);
+	var index = item.lastIndexOf(".");
+	var attribute = item.slice(index + 1, item.length);
+	var begin = item.slice(0, index);
+	
+	var path_index = p_path.lastIndexOf("/");
+	var parent_path = p_path.slice(0, path_index);
+	
+	delete eval(begin)[attribute];
+		
+	var node = editor_render(eval(begin), parent_path, g_ui);
+
+	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	node_to_render.innerHTML = node.join("");
+}
+
 
 
 function editor_add_form(e)
