@@ -24,7 +24,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('">');
 			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c" /> ');
-			result.push('<input type="button" value="d" /> ');
+			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 			result.push(p_metadata.name);
 			result.push(' ');
 			result.push(p_path);
@@ -115,7 +115,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push('">');
 					 result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
 					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" /> ');
-					 result.push('<input type="button" value="d" /> ');
+					 result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
 					 result.push(p_metadata.name);
 					 result.push(' ');
 					 result.push(p_path);
@@ -143,7 +143,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, g_ui)"/> ');
 		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />' );
 		 			result.push('<input type="button" value="c" /> ');
-		 			result.push('<input type="button" value="d" /> ');
+		 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		 			result.push(p_metadata.name);
 					Array.prototype.push.apply(result, render_attribute_add_control(p_path));
 					result.push('<br/><ul  tag="attribute_list">');
@@ -529,7 +529,34 @@ function editor_delete_attribute(e, p_path)
 	node_to_render.innerHTML = node.join("");
 }
 
+function editor_delete_node(e, p_path)
+{
+	var path_index = p_path.lastIndexOf("/");
+	var collection_path = p_path.slice(0, path_index);
+	var object_path = get_eval_string(collection_path);
+	var index = p_path.match(/\d*$/)[0];
 
+	//delete eval(parent_path)[index];
+	eval(object_path).splice(index, 1);
+		
+	path_index = collection_path.lastIndexOf("/");
+	var parent_path = collection_path.slice(0, path_index);
+
+	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
+
+	var node_to_render = null;
+	
+	if(parent_path != "")
+	{
+		node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	}
+	else
+	{
+		node_to_render = document.querySelector("div[path='/']");
+	}
+
+	node_to_render.innerHTML = node.join("");
+}
 
 function editor_add_form(e)
 {
