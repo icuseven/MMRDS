@@ -1,5 +1,8 @@
 var g_metadata = null;
 var g_data = null;
+var g_copy_clip_board = null;
+var g_delete_attribute_clip_board = null;
+var g_delete_node_clip_board = null;
 
 var g_ui = { is_collapsed : [] };
 
