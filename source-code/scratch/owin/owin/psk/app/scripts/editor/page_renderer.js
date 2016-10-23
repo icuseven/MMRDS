@@ -93,24 +93,25 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 		{
 			var item = g_ui.data_list[i];
 
-				if(i % 2)
-				{
-					result.push('		  <div class="result_wrapper_grey">');
-				}
-				else
-				{
-					result.push('		  <div class="result_wrapper">');
-				}
-				result.push('<p class="result">');
-				result.push(item.home_record.last_name);
-				result.push(', ');
-				result.push(item.home_record.first_name);
-				result.push('	(');
-				result.push(item.home_record.date_of_death);
-				result.push('	(');
-				result.push(item.home_record.state_of_death);
-				result.push('	) <a href="#/'+ item._id + '/home_record" role="button" class="btn-purple">select</a></p>');
-				result.push('</div>');
+			if(i % 2)
+			{
+				result.push('		  <div class="result_wrapper_grey">');
+			}
+			else
+			{
+				result.push('		  <div class="result_wrapper">');
+			}
+			result.push('<p class="result">');
+			result.push(item.home_record.last_name);
+			result.push(', ');
+			result.push(item.home_record.first_name);
+			result.push('	(');
+			result.push(item.home_record.date_of_death);
+			result.push('	(');
+			result.push(item.home_record.state_of_death);
+			result.push('	) <a href="#/'+ item._id + '/home_record" role="button" class="btn-purple">select</a></p>');
+			result.push('</div>');
+			
 		}
 		result.push('		</div>');
 
@@ -119,8 +120,11 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 
        for(var i = 0; i < p_metadata.children.length; i++)
        {
-         var child = p_metadata.children[i];
-				 Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, ""));
+					var child = p_metadata.children[i];
+					if(child.type.toLowerCase() == 'form')
+					{
+				 		Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, ""));
+					}
 			 }
 
 		result.push('<footer class="footer_wrapper">');
