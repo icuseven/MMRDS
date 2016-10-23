@@ -909,7 +909,8 @@
 		{ "name":"prior_3_months", "prompt":"In prior 3 months (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
 		{
 			"name":"prior_3_months_type",
-			"prompt":"",			"type": "radio_group",
+			"prompt":"",			"type": "List",
+			"control_style":"radio",
 			"is_core_summary": false,
 			"validation": null,
 			"values":
@@ -923,7 +924,8 @@
 		{ "name":"trimester_1st", "prompt":"In 1st trimester (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
 		{
 			"name":"trimester_1st_type",
-			"prompt":"",			"type": "radio_group",
+			"prompt":"",			"type": "List",
+			"control_style": "radio",
 			"is_core_summary": false,
 			"validation": null,
 			"values":
@@ -936,7 +938,8 @@
 		{ "name":"trimester_2nd", "prompt":"In 2nd trimester (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
 		{
 			"name":"trimester_2nd_type",
-			"prompt":"",			"type": "radio_group",
+			"prompt":"",			"type": "List",
+			"control_style": "radio",
 			"is_core_summary": false,
 			"validation": null,
 			"values":
@@ -949,7 +952,8 @@
 		{ "name":"trimester_3rd", "prompt":"In 3rd trimester (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
 		{
 			"name":"trimester_3rd_type",
-			"prompt":"",			"type": "radio_group",
+			"prompt":"",			"type": "List",
+			"control_style": "radio",
 			"is_core_summary": false,
 			"validation": null,
 			"values":
@@ -1327,7 +1331,7 @@
 			},
 			{
 			"name":"unit_of_measure",
-			"prompt":"Unit of measure",			"type": "",
+			"prompt":"Unit of measure",			"type": "String",
 			"is_core_summary": false,
 			"validation": null
 			},
@@ -1421,7 +1425,8 @@
 	[
 		{
 		"name": "number_of_pnc_sources",
-		"prompt": "Was there more than 1 PNC source?",		"type": "radio_group",
+		"prompt": "Was there more than 1 PNC source?",		"type": "List",
+		"control_style":"radio",
 		"is_core_summary": false,
 		"validation": null,
 		"values":

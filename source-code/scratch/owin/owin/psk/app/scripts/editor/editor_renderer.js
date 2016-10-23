@@ -110,6 +110,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		case 'number':
 		case 'string':
 		case 'time':
+		case 'textarea':
 					 result.push('<li path="');
 					 result.push(p_path);
 					 result.push('">');
@@ -546,7 +547,7 @@ function editor_delete_node(e, p_path)
 	if(p_path == g_delete_node_clip_board)
 	{
 		g_delete_node_clip_board = null;
-		
+
 		var path_index = p_path.lastIndexOf("/");
 		var collection_path = p_path.slice(0, path_index);
 		var object_path = get_eval_string(collection_path);
