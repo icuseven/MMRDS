@@ -23,7 +23,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(';">');*/
 			result.push('">');
 			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
-			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c" /> ');
+			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 			result.push(p_metadata.name);
 			result.push(' ');
@@ -115,7 +115,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push(p_path);
 					 result.push('">');
 					 result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
-					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" /> ');
+					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
 					 result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
 					 result.push(p_metadata.name);
 					 result.push(' ');
@@ -143,7 +143,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		 			result.push('">');
 					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, g_ui)"/> ');
 		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />' );
-		 			result.push('<input type="button" value="c" /> ');
+		 			result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
 		 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		 			result.push(p_metadata.name);
 					Array.prototype.push.apply(result, render_attribute_add_control(p_path));
@@ -541,6 +541,13 @@ function editor_delete_attribute(e, p_path)
 		node_to_render.style.background = "#999999";
 	}
 }
+
+
+function editor_set_copy_clip_board(e, p_path)
+{
+		g_copy_clip_board = p_path;
+}
+
 
 function editor_delete_node(e, p_path)
 {
