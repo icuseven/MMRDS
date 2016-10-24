@@ -23,7 +23,11 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(';">');*/
 			result.push('">');
 			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
-			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> <input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
+			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />');
+			if(p_metadata.type.toLowerCase()!= 'form')
+			{
+				result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
+			}
 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 			result.push(p_metadata.name);
 			result.push(' ');
@@ -65,7 +69,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			
 			result.push(' <input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="');
 			result.push(p_path);
-			result.push('" /> <input type="button" value="p" /> ');
+			result.push('" /> <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
 			result.push(p_path + "/children");
 			result.push(' <ul>');
 
@@ -423,6 +427,60 @@ function editor_set_value(e, p_ui)
 	}
 }
 
+
+function editor_paste_to_children(p_ui)
+{
+	if(g_copy_clip_board)
+	{
+		//var path = e.attributes['path'].value;
+		var path_array = p_ui.split('/');
+		var attribute_name = p_ui[path_array.length - 1];
+		var item_path = get_eval_string(p_ui);	
+
+		var clone_path = get_eval_string(g_copy_clip_board);
+		
+		var clone = editior_clone(eval(clone_path));
+
+
+		var paste_target = eval(item_path);
+
+		paste_target.children.push(clone);
+
+		var node = editor_render(paste_target, p_ui, g_ui);
+		
+		var node_to_render = document.querySelector("li[path='" + p_ui + "']");
+		node_to_render.innerHTML = node.join("");
+
+
+		//editior_clone(eval(item_path));
+
+		/*
+			var item = editior_clone();
+			md.create_form(			
+				'new_form_name',
+				'form prompt',
+				'?');
+		g_metadata.children.push(form);
+		var node = editor_render(g_metadata, "", g_ui);
+		
+		var node_to_render = document.querySelector("div[path='/']");
+		node_to_render.innerHTML = node.join("");
+		
+		editior_clone*/
+	}
+}
+
+
+function editior_clone(obj) 
+{
+    if (null == obj || "object" != typeof obj) return obj;
+	
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
 
 function editor_add_to_children(e, p_ui)
 {
