@@ -304,6 +304,10 @@ function attribute_renderer(p_metadata, p_path)
 				
 				break;
 			case "validation":
+			case "onblur":
+			case "onclick":
+			case "onfocus":
+			case "onchange":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
@@ -366,7 +370,10 @@ function render_attribute_add_control(p_path)
 	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
+	result.push('<option>onfocus</option>');
+	result.push('<option>onchange</option>');
 	result.push('<option>onblur</option>');
+	result.push('<option>onclick</option>');
 	result.push('<option>max_value</option>');
 	result.push('<option>min_valuev</option>');
 	result.push('<option>control_style</option>');
@@ -521,7 +528,10 @@ function editor_add_to_attributes(e, p_ui)
 			case "default_value":
 			case "regex_pattern":
 			case "validation":
+			case "onfocus":
+			case "onchange":
 			case "onblur":
+			case "onclick":
 			case "max_value":
 			case "min_value":
 			case "control_style":
@@ -535,7 +545,7 @@ function editor_add_to_attributes(e, p_ui)
 				node_to_render.innerHTML = node.join("");
 			
 			
-				break;
+			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
 			
