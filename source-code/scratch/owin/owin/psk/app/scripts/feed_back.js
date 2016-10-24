@@ -170,7 +170,7 @@ function monitor_changes()
             return;
           });
         }
-        else if(item.metadata=="scripts/index.js" || item.metadata=="scripts/editor/preview.js" )
+        else if(item.metadata=="scripts/index.js" || item.metadata=="scripts/editor/preview.js"  || item.metadata=="scripts/editor/index.js")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){

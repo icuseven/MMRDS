@@ -96,12 +96,13 @@ window.onhashchange = function(e)
   if(e.isTrusted)
   {
     g_ui.url_state = url_monitor.get_url_state(e.newURL);
-
+	if($$.is_id(g_ui.url_state.path_array[0]))
+	{
 		var section_list = document.getElementsByTagName("section");
 		for(var i = 0; i < section_list.length; i++)
 		{
 			var section = section_list[i];
-			if(section.id == g_ui.url_state.selected_form_name + "_id")
+			if(section.id == g_ui.url_state.path_array[1] + "_id")
 			{
 					section.style.display = "block";
 			}
@@ -110,6 +111,23 @@ window.onhashchange = function(e)
 					section.style.display = "none";
 			}
 		}
+	}
+	else
+	{
+		var section_list = document.getElementsByTagName("section");
+		for(var i = 0; i < section_list.length; i++)
+		{
+			var section = section_list[i];
+			if(section.id == "app_summary")
+			{
+					section.style.display = "block";
+			}
+			else
+			{
+					section.style.display = "none";
+			}
+		}
+	}
 
   }
   else

@@ -121,7 +121,7 @@ $(function ()
 			g_metadata = response;
 			g_data = create_default_object(g_metadata, {});
 
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0).join("");
+			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
 			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
 
