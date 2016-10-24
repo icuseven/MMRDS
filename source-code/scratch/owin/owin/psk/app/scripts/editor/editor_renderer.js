@@ -166,7 +166,7 @@ function editor_render(p_metadata, p_path, p_ui)
 
 						result.push('<li path="');
 						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" /> <input type="text" value="');
+						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + p_metadata.name + "/" + "values/" + i + '\')" /> <input type="text" value="');
 						result.push(child);
 						result.push('" size=');
 						result.push(child.length + 5);
@@ -450,23 +450,6 @@ function editor_paste_to_children(p_ui)
 		
 		var node_to_render = document.querySelector("li[path='" + p_ui + "']");
 		node_to_render.innerHTML = node.join("");
-
-
-		//editior_clone(eval(item_path));
-
-		/*
-			var item = editior_clone();
-			md.create_form(			
-				'new_form_name',
-				'form prompt',
-				'?');
-		g_metadata.children.push(form);
-		var node = editor_render(g_metadata, "", g_ui);
-		
-		var node_to_render = document.querySelector("div[path='/']");
-		node_to_render.innerHTML = node.join("");
-		
-		editior_clone*/
 	}
 }
 
@@ -596,6 +579,61 @@ function editor_delete_attribute(e, p_path)
 
 		node_to_render = document.querySelector("li input[path='" + p_path + "']").parentElement;
 		g_delete_attribute_clip_board = p_path;
+		node_to_render.style.background = "#999999";
+	}
+}
+
+
+
+function editor_delete_value(e, p_path)
+{
+	if(p_path == g_delete_value_clip_board)
+	{
+
+		
+
+		var item = get_eval_string(p_path);
+
+		var item_index = p_path.match(new RegExp('\\d+$','g'));
+		var index = item.lastIndexOf(".");
+		var attribute = item.slice(index + 1, item.length);
+		var begin = item.slice(0, index);
+		index = begin.lastIndexOf(".");
+		begin = begin.slice(0, index);
+
+		var path_index = p_path.lastIndexOf("/");
+		var temp_path = p_path.slice(0, path_index);
+		path_index = temp_path.lastIndexOf("/");
+		var parent_path = temp_path.slice(0, path_index);
+		
+		path_index = parent_path.lastIndexOf("/");
+		parent_path = parent_path.slice(0, path_index);
+
+		eval(begin).values.splice(item_index[0], 1);
+
+		var node = editor_render(eval(begin), parent_path, g_ui);
+
+		var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+		node_to_render.innerHTML = node.join("");
+
+		g_delete_value_clip_board = null;
+	}
+	else
+	{
+		var node_to_render = null;
+
+		if(g_delete_value_clip_board)
+		{
+			node_to_render = document.querySelector("li input[path='" + g_delete_value_clip_board + "']").parentElement;
+
+			if(node_to_render)
+			{
+				node_to_render.style.background = "#FFFFFF";
+			}
+		}
+
+		node_to_render = document.querySelector("li input[path='" + p_path + "']").parentElement;
+		g_delete_value_clip_board = p_path;
 		node_to_render.style.background = "#999999";
 	}
 }
