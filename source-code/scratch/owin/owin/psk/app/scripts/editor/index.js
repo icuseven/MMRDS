@@ -107,6 +107,30 @@ return {
 
 };
 
+var $$ = {
+
+
+ is_id: function(value){
+   // 2016-06-12T13:49:24.759Z
+    if(value)
+    {
+      var test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z$/);
+      return (test)? true : false;
+    }
+    else
+    {
+        return false;
+    }
+  }
+};
+
+var metadata_changed_event = new Event('metadata_changed');
+
+window.addEventListener('metadata_changed', function (e) 
+{ 
+	console.log("metadata_change");
+}, false);
+
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -120,8 +144,9 @@ $(function ()
 	}).done(function(response) {
 			g_metadata = response;
 			g_data = create_default_object(g_metadata, {});
+			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
-			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
 			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
 

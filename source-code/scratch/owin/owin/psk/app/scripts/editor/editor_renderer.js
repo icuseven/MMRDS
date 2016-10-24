@@ -398,6 +398,7 @@ function editor_set_value(e, p_ui)
 						//var item = eval(item_path);
 						eval(item_path + ' = "' + e.value + '"');
 						//var after = eval(item_path);
+						window.dispatchEvent(metadata_changed_event);
 						e.style.color = "black";
 					}
 					else
@@ -408,8 +409,10 @@ function editor_set_value(e, p_ui)
 				else
 				{
 					//var item = eval(item_path);
-					eval(item_path + ' = "' + e.value + '"');
+					//eval(item_path + ' = "' + e.value + '"');
+					//e.dispatchEvent(metadata_changed_event);
 					//var after = eval(item_path);
+					e.style.color = "red";
 				}
 			}
 			else if (e.style.color != "black")
@@ -422,6 +425,7 @@ function editor_set_value(e, p_ui)
 		default:
 			//var item = eval(item_path);
 			eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
+			window.dispatchEvent(metadata_changed_event);
 			//var after = eval(item_path);
 			break;
 	}
