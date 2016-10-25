@@ -70,9 +70,21 @@ namespace owin
 			System.Console.WriteLine ($"Recieved message.");
 			System.Console.WriteLine (value);
 
+
+			string request_string = this.Request.Content.ReadAsStringAsync().Result;
+			System.Console.WriteLine(DecodeUrlString(request_string));
+			/*
+			System.IO.Stream dataStream = await this.Request.Content.ReadAsStreamAsync().Result;
+			// Open the stream using a StreamReader for easy access.
+			System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+			// Read the content.
+			string request_string = reader.ReadToEnd ();
+			System.Console.WriteLine (request_string);*/
 			return "{ result: 'done' }";
 		} 
 
+
+		//private void async process(System.Net.Http.)
 		// PUT api/values/5 
 		public void Put(int id, [FromBody]home_record value) 
 		{ 
@@ -82,6 +94,13 @@ namespace owin
 		public void Delete(System.Guid  id) 
 		{ 
 		} 
+
+		private static string DecodeUrlString(string url) {
+			string newUrl;
+			while ((newUrl = System.Uri.UnescapeDataString(url)) != url)
+				url = newUrl;
+			return newUrl;
+		}
 	} 
 }
 

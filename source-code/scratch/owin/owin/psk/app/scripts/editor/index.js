@@ -133,7 +133,7 @@ window.addEventListener('metadata_changed', function (e)
 
 $.ajax({
 			url: location.protocol + '//' + location.host + '/api/metadata',
-			contentType: 'application/json',
+			contentType: 'application/json; char-set-utf-8',
 			dataType: 'json',
 			data: json_data,
 			type: "POST"//,
