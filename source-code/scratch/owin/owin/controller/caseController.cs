@@ -3,7 +3,7 @@ using System.Web.Http;
 
 namespace owin
 {
-	public class metadataController: ApiController 
+	public class caseController: ApiController 
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 

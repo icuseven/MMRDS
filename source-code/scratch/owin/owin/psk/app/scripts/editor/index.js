@@ -129,6 +129,22 @@ var metadata_changed_event = new Event('metadata_changed');
 window.addEventListener('metadata_changed', function (e) 
 { 
 	console.log("metadata_change");
+	var json_data = JSON.stringify(g_metadata);
+
+$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+			contentType: 'application/json',
+			dataType: 'json',
+			data: json_data,
+			type: "POST"//,
+			//processData: false
+	}).done(function(response) {
+			console.log("metadata sent");
+
+	});
+
+
+
 }, false);
 
 
