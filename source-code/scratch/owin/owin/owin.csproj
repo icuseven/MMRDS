@@ -99,6 +99,9 @@
     <Compile Include="WatchFiles.cs" />
     <Compile Include="controller\caseController.cs" />
     <Compile Include="controller\metadataController.cs" />
+    <Compile Include="model\metadata\app.cs" />
+    <Compile Include="model\metadata\form.cs" />
+    <Compile Include="model\metadata\node.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2655,5 +2658,6 @@
     <Folder Include="controller\" />
     <Folder Include="model\" />
     <Folder Include="model\couchdb\" />
+    <Folder Include="model\metadata\" />
   </ItemGroup>
 </Project>

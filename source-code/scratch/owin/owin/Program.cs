@@ -166,7 +166,7 @@ namespace owin
 			//app.MapWebSocketRoute<MyWebSocket>();
 
 					//For static routes http://foo.com/ws use MapWebSocketRoute
-			app.MapWebSocketRoute<MyWebSocket>("/ws");
+			//app.MapWebSocketRoute<MyWebSocket>("/ws");
 
 			//For dynamic routes where you may want to capture the URI arguments use a Regex route
 			//app.MapWebSocketPattern<MyWebSocket>("/captures/(?<capture1>.+)/(?<capture2>.+)");

@@ -47,13 +47,30 @@ namespace owin
 		} 
 
 		// POST api/values 
-		public void Post([FromBody]string metadata) 
+		public void Post() 
 		{ 
 			bool valid_login = false;
+			owin.metadata.app metadata = null;
 
+			try
+			{
 
-			string temp = this.Request.Content.ReadAsStringAsync ().Result;
-			metadata = DecodeUrlString(temp);
+				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				// Open the stream using a StreamReader for easy access.
+				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+				// Read the content.
+				string temp = reader0.ReadToEnd ();
+
+				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.metadata.app>(temp);
+
+				//string metadata = DecodeUrlString(temp);
+			}
+			catch(Exception ex)
+			{
+
+			}
+
 
 			try
 			{
@@ -85,11 +102,13 @@ namespace owin
 
 			if (valid_login) 
 			{
-				string hash = GetHash (metadata);
+
+				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata);
+				string hash = GetHash (object_string);
 				if (current_edit_list ["metadata"].id != hash) {
 					Current_Edit current = new Current_Edit ();
 					current.id = hash;
-					current.metadata = metadata;
+					current.metadata = object_string;
 					current.edit_type = "json";
 
 					current_edit_list ["metadata"] = current;

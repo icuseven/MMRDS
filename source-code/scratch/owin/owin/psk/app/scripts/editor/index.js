@@ -129,14 +129,15 @@ var metadata_changed_event = new Event('metadata_changed');
 window.addEventListener('metadata_changed', function (e) 
 { 
 	console.log("metadata_change");
-	var json_data = JSON.stringify(g_metadata);
+	var json_data = { 'def': "momentum"};
 	var current_auth_session = profile.get_auth_session_cookie();
 
 $.ajax({
 			url: location.protocol + '//' + location.host + '/api/current_edit',
-			contentType: 'application/json',
+			//contentType: 'application/x-www-form-urlencoded',
+			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
-			data: { "value": g_metadata },
+			data: JSON.stringify(g_metadata),
 			type: "POST",
 			beforeSend: function (request)
 			{
