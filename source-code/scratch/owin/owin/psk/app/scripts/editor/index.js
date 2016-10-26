@@ -130,13 +130,18 @@ window.addEventListener('metadata_changed', function (e)
 { 
 	console.log("metadata_change");
 	var json_data = JSON.stringify(g_metadata);
+	var current_auth_session = profile.get_auth_session_cookie();
 
 $.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-			contentType: 'application/json; char-set-utf-8',
+			url: location.protocol + '//' + location.host + '/api/current_edit',
+			contentType: 'application/json',
 			dataType: 'json',
-			data: json_data,
-			type: "POST"//,
+			data: { "value": g_metadata },
+			type: "POST",
+			beforeSend: function (request)
+			{
+				request.setRequestHeader("AuthSession", current_auth_session);
+			}//,
 			//processData: false
 	}).done(function(response) {
 			console.log("metadata sent");

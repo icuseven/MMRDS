@@ -73,6 +73,10 @@ namespace owin
 
 			string request_string = this.Request.Content.ReadAsStringAsync().Result;
 			System.Console.WriteLine(DecodeUrlString(request_string));
+
+
+			//UnescapeDataString
+
 			/*
 			System.IO.Stream dataStream = await this.Request.Content.ReadAsStreamAsync().Result;
 			// Open the stream using a StreamReader for easy access.

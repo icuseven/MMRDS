@@ -51,6 +51,10 @@ namespace owin
 		{ 
 			bool valid_login = false;
 
+
+			string temp = this.Request.Content.ReadAsStringAsync ().Result;
+			metadata = DecodeUrlString(temp);
+
 			try
 			{
 				string request_string = couchdb_url + "/_session";
@@ -108,6 +112,13 @@ namespace owin
 			result = sb.ToString();
 
 			return result;
+		}
+
+		private static string DecodeUrlString(string url) {
+			string newUrl;
+			while ((newUrl = System.Uri.UnescapeDataString(url)) != url)
+				url = newUrl;
+			return newUrl;
 		}
 	} 
 }
