@@ -131,8 +131,8 @@ namespace owin
 			config.Formatters.JsonFormatter.SerializerSettings =
 				new Newtonsoft.Json.JsonSerializerSettings
 			{
-				ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
-				NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+				ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()//,
+				//NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
 			};
 
 			app.UseWebApi(config); 

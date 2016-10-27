@@ -177,3 +177,31 @@ $(function ()
 
 
 });
+
+
+function metadata_save()
+{
+
+	console.log("metadata_change");
+	var json_data = { 'def': "momentum"};
+	var current_auth_session = profile.get_auth_session_cookie();
+
+	if(current_auth_session)
+	{ 
+		$.ajax({
+					url: location.protocol + '//' + location.host + '/api/metadata',
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify(g_metadata),
+					type: "POST",
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("AuthSession", current_auth_session);
+					}//,
+			}).done(function(response) {
+					console.log("metadata sent");
+
+			});
+	}
+
+}
