@@ -102,8 +102,9 @@ namespace owin
 
 			if (valid_login) 
 			{
-
-				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata);
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
 				string hash = GetHash (object_string);
 				if (current_edit_list ["metadata"].id != hash) {
 					Current_Edit current = new Current_Edit ();

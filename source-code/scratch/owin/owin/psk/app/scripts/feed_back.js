@@ -107,6 +107,10 @@ function monitor_changes()
           console.log(new Date().toISOString());
           console.log(item);
 
+          g_metadata = JSON.parse(item.metadata);
+
+          document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+          document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");  
 
 
         }
