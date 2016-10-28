@@ -252,7 +252,6 @@ function attribute_renderer(p_metadata, p_path)
 			break;
 			case "name":
 			case "prompt":
-			case "cardinality":
 				if(p_metadata.type.toLowerCase() == "app")
 				{
 					result.push('<li>')
@@ -286,6 +285,28 @@ function attribute_renderer(p_metadata, p_path)
 				}
 			
 				break;
+			case "cardinality":
+				if(p_metadata.type.toLowerCase() == "app")
+				{
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : ');
+					result.push(p_metadata[prop]);
+					result.push('</li>');
+				}
+				else
+				{
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : ');
+					Array.prototype.push.apply(result, render_cardinality_control(p_path + "/" + prop, p_metadata[prop]));
+					result.push(" ");
+					result.push(p_path + "/" + prop);
+					result.push('</li>');
+
+				}
+			
+				break;				
 			case "is_core_summary":
 			case "is_required":
 			case "is_multilist":
@@ -351,6 +372,56 @@ function attribute_renderer(p_metadata, p_path)
 				break;
 		}
 	}
+	return result;
+}
+
+
+function render_cardinality_control(p_path, p_value)
+{
+	var result = [];
+	
+	result.push('<select onChange="editor_set_value(this, g_ui)" path="');
+	result.push(p_path);
+	result.push('">');
+	if(p_value=="?")
+	{
+		result.push('<option selected>?</option>');
+	}
+	else
+	{
+		result.push('<option>?</option>');
+	}
+	
+	if(p_value=="1")
+	{
+		result.push('<option selected>1</option>');
+	}
+	else
+	{
+		result.push('<option>1</option>');
+	}
+	
+	if(p_value=="*")
+	{
+		result.push('<option selected>*</option>');
+	}
+	else
+	{
+		result.push('<option>*</option>');
+	}
+	
+	if(p_value=="+")
+	{
+		result.push('<option selected>+</option>');
+	}
+	else
+	{
+		result.push('<option>+</option>');
+	}
+	
+	result.push('</select>');
+
+	
 	return result;
 }
 
