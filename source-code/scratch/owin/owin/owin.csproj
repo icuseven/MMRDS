@@ -104,6 +104,8 @@
     <Compile Include="model\metadata\app.cs" />
     <Compile Include="model\metadata\form.cs" />
     <Compile Include="model\metadata\node.cs" />
+    <Compile Include="model\couchdb\document_put_response.cs" />
+    <Compile Include="model\couchdb\document_put_error.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

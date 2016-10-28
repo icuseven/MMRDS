@@ -37,8 +37,10 @@ namespace owin
 			return "done";
 		} 
 
-		private void PutDocument(string postUrl, string document)
+		private document_put_response PutDocument(string postUrl, string document)
 		{
+			document_put_response result = new document_put_response ();
+
 			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
 
 			System.Net.WebRequest request = System.Net.WebRequest.Create("request_string");
@@ -59,8 +61,10 @@ namespace owin
 					System.Net.HttpWebResponse httpResponse = (System.Net.HttpWebResponse)request.GetResponse();
 					using (System.IO.StreamReader streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
 					{
-						string result = streamReader.ReadToEnd();
+						string json_result = streamReader.ReadToEnd();
 						streamReader.Close();
+
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<document_put_response>(json_result);
 					}
 				}
 				catch (System.Exception e)
@@ -69,6 +73,8 @@ namespace owin
 					//_logger.ErrorFormat("Error posting document to {0}", postUrl);
 				}
 			}
+
+			return result;
 		}
 
 
@@ -81,10 +87,12 @@ namespace owin
 		// POST api/values 
 		//[Route("api/metadata")]
 		[HttpPost]
-		public string Post() 
+		public document_put_response Post() 
 		{ 
 			bool valid_login = false;
 			owin.metadata.app metadata = null;
+
+			document_put_response result = new document_put_response ();
 
 			try
 			{
@@ -102,7 +110,7 @@ namespace owin
 			}
 			catch(Exception ex)
 			{
-
+				Console.WriteLine (ex);
 			}
 
 
@@ -136,16 +144,66 @@ namespace owin
 
 			if (valid_login) 
 			{
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
 
-				string metadata_url = "";
+				try
+				{
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
 
-				this.PutDocument (metadata_url, object_string);
+					string metadata_url = couchdb_url + "/metadata/"  + metadata._id;
+
+					System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
+					request.Method = "PUT";
+					request.ContentType = "application/json";
+					request.ContentLength = object_string.Length;
+					request.PreAuthenticate = false;
+
+					if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+					{
+						string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+						request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+						//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+						request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+					}
+
+					using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
+					{
+						try
+						{
+							streamWriter.Write(object_string);
+							streamWriter.Flush();
+							streamWriter.Close();
+
+
+							System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+							System.IO.Stream dataStream = response.GetResponseStream ();
+							System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+							string responseFromServer = reader.ReadToEnd ();
+
+							result = Newtonsoft.Json.JsonConvert.DeserializeObject<document_put_response>(responseFromServer);
+						}
+						catch(Exception ex)
+						{
+							Console.WriteLine (ex);
+						}
+					}
+
+					if (!result.ok) 
+					{
+
+					}
+
+				}
+				catch(Exception ex) 
+				{
+					Console.WriteLine (ex);
+				}
+
+
 			}
 
-			return "done";
+			return result;
 		} 
 
 

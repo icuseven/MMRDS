@@ -198,9 +198,18 @@ function metadata_save()
 					{
 						request.setRequestHeader("AuthSession", current_auth_session);
 					}//,
-			}).done(function(response) {
-					console.log("metadata sent");
+			}).done(function(response) 
+			{
 
+
+						var response_obj = eval(response);
+						if(response_obj.ok)
+						{
+							g_metadata._rev = response_obj.rev; 
+							document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+						}
+						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+					console.log("metadata sent", response);
 			});
 	}
 
