@@ -140,7 +140,6 @@ function editor_render(p_metadata, p_path, p_ui)
            break;
 			case 'yes_no':
 			case 'race':
-			case 'multilist':
 			case 'list':
 		 			result.push('<li path="');
 		 			result.push(p_path);
@@ -153,10 +152,9 @@ function editor_render(p_metadata, p_path, p_ui)
 					Array.prototype.push.apply(result, render_attribute_add_control(p_path));
 					result.push('<br/><ul  tag="attribute_list">');
 					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
-					result.push('<li><input type="button" value="-" /> values:');
-					result.push(' <input type="text" value=""/>');
-					result.push(' <input type="button" value="add" /> ');
-					result.push(p_path + "/" + p_metadata.name + "/" + "values");
+					result.push('<li>values:');
+					result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
+					result.push(p_path + "/" + "values");
 					result.push(' <ul>');
 
 
@@ -166,14 +164,14 @@ function editor_render(p_metadata, p_path, p_ui)
 
 						result.push('<li path="');
 						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + p_metadata.name + "/" + "values/" + i + '\')" /> <input type="text" value="');
+						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + "values/" + i + '\')" /> <input type="text" value="');
 						result.push(child);
 						result.push('" size=');
 						result.push(child.length + 5);
 						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
-						result.push(p_path + "/" + p_metadata.name + "/" + "values/" + i);
+						result.push(p_path  + "/" + "values/" + i);
 						result.push('" /> ');
-						result.push(p_path + "/" + p_metadata.name + "/" + "values/" + i);
+						result.push(p_path  + "/" + "values/" + i);
 						result.push(' </li>');
 
 					}
@@ -195,7 +193,6 @@ var valid_types = [
 "number",
 "date",
 "list",
-"multilist",
 "app",
 "form",
 "group",
@@ -291,6 +288,7 @@ function attribute_renderer(p_metadata, p_path)
 				break;
 			case "is_core_summary":
 			case "is_required":
+			case "is_multilist":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="checkbox" checked="');
@@ -490,8 +488,8 @@ function editor_add_to_children(e, p_ui)
 			case "number":
 			case "date":
 			case "list":
-			case "multilist":
 			case "group":
+			case "form":
 			case "time":
 			case "textarea":
 			case "boolean":
@@ -597,7 +595,22 @@ function editor_delete_attribute(e, p_path)
 	}
 }
 
+function editor_add_value(p_path)
+{
+	var item_path = get_eval_string(p_path);
+	eval(item_path).push("new value");
 
+	var path_index = p_path.lastIndexOf("/");
+	var parent_path = p_path.slice(0, path_index);
+	//path_index = temp_path.lastIndexOf("/");
+	//var parent_path = temp_path.slice(0, path_index);
+
+	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
+
+	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	node_to_render.innerHTML = node.join("");
+
+}
 
 function editor_delete_value(e, p_path)
 {
