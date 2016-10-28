@@ -479,7 +479,11 @@ function editor_add_to_children(e, p_ui)
 	var element = document.querySelector('select[path="' + e.attributes['path'].value + '"]');
 	if(element.value)
 	{
-		
+
+		var parent_path = e.attributes['path'].value;
+		var parent_eval_path = get_eval_string(parent_path); 
+		var item_path =  parent_eval_path + ".children";
+
 		switch(element.value.toLowerCase())
 		{
 			//"app":
@@ -487,14 +491,35 @@ function editor_add_to_children(e, p_ui)
 			case "string":
 			case "number":
 			case "date":
-			case "list":
-			case "group":
-			case "form":
 			case "time":
 			case "textarea":
 			case "boolean":
 			case "label":
-			case "button":
+			case "button":			
+					eval(item_path).push(md.create_value("new_" + element.value, "new " + element.value + " prompt", element.value));
+
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");
+
+					break;
+			case "list":
+			case "group":
+					eval(item_path).push(md.create_group("new_" + element.value, "new " + element.value, element.value));
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");					
+					break;
+			case "form":
+					eval(item_path).push(md.create_form("new_form", "new form","?"));
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");				
+				break;
+			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
 			
