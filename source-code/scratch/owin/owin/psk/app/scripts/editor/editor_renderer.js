@@ -13,7 +13,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		case 'address':
 		case 'grid':
 		case 'group':
-    case 'form':
+		case 'form':
 			result.push('<li path="');
 			result.push(p_path);
 			/*
@@ -23,7 +23,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(';">');*/
 			result.push('">');
 			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
-			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />');
+			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> ');
 			if(p_metadata.type.toLowerCase()!= 'form')
 			{
 				result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
@@ -145,7 +145,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		 			result.push(p_path);
 		 			result.push('">');
 					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, g_ui)"/> ');
-		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" />' );
+		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> ' );
 		 			result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
 		 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		 			result.push(p_metadata.name);
@@ -303,7 +303,6 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(" ");
 					result.push(p_path + "/" + prop);
 					result.push('</li>');
-
 				}
 			
 				break;				
@@ -320,13 +319,13 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(p_path + "/" + prop);
 					
 					result.push(' <input type="button" value="d"  path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
-				
 				break;
 			case "validation":
 			case "onblur":
 			case "onclick":
 			case "onfocus":
 			case "onchange":
+			case "pre_fill":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
@@ -443,6 +442,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option>onchange</option>');
 	result.push('<option>onblur</option>');
 	result.push('<option>onclick</option>');
+	result.push('<option>pre_fill</option>');
 	result.push('<option>max_value</option>');
 	result.push('<option>min_valuev</option>');
 	result.push('<option>control_style</option>');
@@ -626,6 +626,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "onchange":
 			case "onblur":
 			case "onclick":
+			case "pre_fill":
 			case "max_value":
 			case "min_value":
 			case "control_style":
@@ -698,8 +699,6 @@ function editor_add_value(p_path)
 
 	var path_index = p_path.lastIndexOf("/");
 	var parent_path = p_path.slice(0, path_index);
-	//path_index = temp_path.lastIndexOf("/");
-	//var parent_path = temp_path.slice(0, path_index);
 
 	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
 
@@ -712,8 +711,6 @@ function editor_delete_value(e, p_path)
 {
 	if(p_path == g_delete_value_clip_board)
 	{
-
-		
 
 		var item = get_eval_string(p_path);
 
@@ -910,7 +907,7 @@ function remove_last_digit_in_path(p_path)
 
 function get_eval_string(p_path)
 {
-	var result = "g_metadata" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('.(\\d+)$','g'),"[$1]");
+	var result = "g_metadata" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 
 	return result;
 
@@ -928,8 +925,6 @@ function get_parent_path(p_path)
 
 		result = p_path.replace(new RegExp('/children/(\\d+)$','g'),"");
 	}
-
-
 
 	return result;
 

@@ -65,7 +65,7 @@
 	   {
 			"name":"maternal_birth_certificate",
 			"prompt":"maternal_birth_certificate",
-			"cardinality": "0-1",
+			"cardinality": "?",
 			"type": "home_record.maternal_birth_certificate.json"
 	   }
 	]
