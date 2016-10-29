@@ -128,6 +128,13 @@ var metadata_changed_event = new Event('metadata_changed');
 
 window.addEventListener('metadata_changed', function (e) 
 { 
+
+	if(preview_window)
+	{
+		preview_window.metadata_changed(g_metadata);
+	}
+
+/*
 	console.log("metadata_change");
 	var json_data = { 'def': "momentum"};
 	var current_auth_session = profile.get_auth_session_cookie();
@@ -147,11 +154,23 @@ $.ajax({
 	}).done(function(response) {
 			console.log("metadata sent");
 
-	});
+	});*/
 
 
 
 }, false);
+
+
+var preview_window = null;
+
+function open_preview_window()
+{
+	if(! preview_window)
+	{
+		preview_window = window.open('./preview.html','_preview',null,false);
+	}
+
+}
 
 
 $(function ()
@@ -165,6 +184,8 @@ $(function ()
 
 
 });
+
+
 
 
 function load_metadata()
