@@ -718,16 +718,16 @@ function editor_delete_value(e, p_path)
 		var index = item.lastIndexOf(".");
 		var attribute = item.slice(index + 1, item.length);
 		var begin = item.slice(0, index);
-		index = begin.lastIndexOf(".");
-		begin = begin.slice(0, index);
+		//index = begin.lastIndexOf(".");
+		//begin = begin.slice(0, index);
 
 		var path_index = p_path.lastIndexOf("/");
 		var temp_path = p_path.slice(0, path_index);
 		path_index = temp_path.lastIndexOf("/");
 		var parent_path = temp_path.slice(0, path_index);
 		
-		path_index = parent_path.lastIndexOf("/");
-		parent_path = parent_path.slice(0, path_index);
+		//path_index = parent_path.lastIndexOf("/");
+		//parent_path = parent_path.slice(0, path_index);
 
 		eval(begin).values.splice(item_index[0], 1);
 
