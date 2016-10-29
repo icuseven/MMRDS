@@ -160,11 +160,22 @@ $(function ()
 
   	profile.initialize_profile();
 
+	  load_metadata();
+
+
+
+});
+
+
+function load_metadata()
+{
+	//var metadata_url = location.protocol + '//' + location.host + '/meta-data/01/home_record.json';
+	var metadata_url = location.protocol + '//' + location.host + '/api/metadata';
+
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/meta-data/01/home_record.json',
-			data: {foo: 'bar'}
+			url: metadata_url
 	}).done(function(response) {
-			g_metadata = response;
+			g_metadata = JSON.parse(response);
 			g_data = create_default_object(g_metadata, {});
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
@@ -173,11 +184,7 @@ $(function ()
 			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
 
 	});
-
-
-
-});
-
+}
 
 function metadata_save()
 {

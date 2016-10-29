@@ -51,11 +51,12 @@ namespace owin
 				}
 
 
- 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
 				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
+
 
 
 				/*

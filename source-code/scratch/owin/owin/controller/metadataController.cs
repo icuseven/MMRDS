@@ -22,11 +22,40 @@ namespace owin
 
 		}
 
+
 		public string Get() 
 		{ 
 			System.Console.WriteLine ("Recieved message.");
+			string result = null;
 
-			return "done";
+			//"2016-06-12T13:49:24.759Z"
+			string request_string = couchdb_url + "/metadata/2016-06-12T13:49:24.759Z";
+
+			System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+			request.PreAuthenticate = false;
+
+
+			if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+			{
+				string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+				request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+				//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+				request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+
+			}
+
+
+			System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+			System.IO.Stream dataStream = response.GetResponseStream ();
+			System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+			result = reader.ReadToEnd ();
+			//owin.metadata.app json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.metadata.app >(result);
+
+
+
+			return result;
+			//return json_result;
 		} 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
@@ -113,7 +142,7 @@ namespace owin
 				Console.WriteLine (ex);
 			}
 
-
+			/*
 			try
 			{
 				string request_string = couchdb_url + "/_session";
@@ -143,7 +172,7 @@ namespace owin
 			} 
 
 			if (valid_login) 
-			{
+			{*/
 
 				try
 				{
@@ -201,7 +230,7 @@ namespace owin
 				}
 
 
-			}
+			//}
 
 			return result;
 		} 
