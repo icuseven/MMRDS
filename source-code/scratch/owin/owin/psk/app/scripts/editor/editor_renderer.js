@@ -31,7 +31,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 			result.push(p_metadata.name);
 			result.push(' ');
-			result.push(p_path);
+			//result.push(p_path);
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -70,7 +70,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(' <input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="');
 			result.push(p_path);
 			result.push('" /> <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
-			result.push(p_path + "/children");
+			//result.push(p_path + "/children");
 			result.push(' <ul>');
 
 			for(var i = 0; i < p_metadata.children.length; i++)
@@ -99,7 +99,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<li path="');
 			result.push(p_path + "/children");
 			result.push('"><input type="button" value="-" onclick="editor_toggle(this, g_ui)" /> children: <input type="button" value="add" onclick="editor_add_form(this)"/> ');
-			result.push(p_path + "/children");
+			//result.push(p_path + "/children");
 			result.push('<ul>');
 
 	       for(var i = 0; i < p_metadata.children.length; i++)
@@ -123,7 +123,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
 					 result.push(p_metadata.name);
 					 result.push(' ');
-					 result.push(p_path);
+					 //result.push(p_path);
 					 Array.prototype.push.apply(result, render_attribute_add_control(p_path));
 					 result.push(' <ul tag="attribute_list" ');
 					 if(p_ui.is_collapsed[p_path])
@@ -154,7 +154,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 					result.push('<li>values:');
 					result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-					result.push(p_path + "/" + "values");
+					//result.push(p_path + "/" + "values");
 					result.push(' <ul>');
 
 
@@ -171,7 +171,7 @@ function editor_render(p_metadata, p_path, p_ui)
 						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
 						result.push(p_path  + "/" + "values/" + i);
 						result.push('" /> ');
-						result.push(p_path  + "/" + "values/" + i);
+						//result.push(p_path  + "/" + "values/" + i);
 						result.push(' </li>');
 
 					}
@@ -279,7 +279,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('" /> ');
-					result.push(p_path + "/" + prop);
+					//result.push(p_path + "/" + prop);
 					result.push('</li>');
 
 				}
@@ -301,7 +301,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(' : ');
 					Array.prototype.push.apply(result, render_cardinality_control(p_path + "/" + prop, p_metadata[prop]));
 					result.push(" ");
-					result.push(p_path + "/" + prop);
+					//result.push(p_path + "/" + prop);
 					result.push('</li>');
 				}
 			
@@ -316,7 +316,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('" onblur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('" /> ');
-					result.push(p_path + "/" + prop);
+					//result.push(p_path + "/" + prop);
 					
 					result.push(' <input type="button" value="d"  path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
 				break;
@@ -361,7 +361,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('" /> ');
-					result.push(p_path + "/" + prop);
+					//result.push(p_path + "/" + prop);
 					
 					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
 
@@ -435,6 +435,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option></option>');
 	result.push('<option>is_core_summary</option>');
 	result.push('<option>is_required</option>');
+	result.push('<option>is_read_only</option>');
 	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
@@ -609,6 +610,7 @@ function editor_add_to_attributes(e, p_ui)
 		{
 			case "is_core_summary":
 			case "is_required":
+			case "is_read_only":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 					eval(item)[attribute] = true;
