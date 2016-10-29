@@ -131,7 +131,23 @@ window.addEventListener('metadata_changed', function (e)
 
 	if(preview_window)
 	{
-		preview_window.metadata_changed(g_metadata);
+		//preview_window.metadata_changed(g_metadata);
+
+		if(last_preview_update)
+		{
+			var diff = new Date().getTime() - last_preview_update.getTime();
+
+			if(diff > 1000)
+			{
+				preview_window.metadata_changed(g_metadata);
+				last_preview_update = new Date();
+			}
+		}
+		else
+		{
+			preview_window.metadata_changed(g_metadata);
+			last_preview_update = new Date();
+		}
 	}
 
 /*
@@ -162,13 +178,17 @@ $.ajax({
 
 
 var preview_window = null;
+var last_preview_update = null;
 
 function open_preview_window()
 {
 	if(! preview_window)
 	{
 		preview_window = window.open('./preview.html','_preview',null,false);
+		preview_window.metadata_changed(g_metadata);
+		last_preview_update = new Date();
 	}
+
 
 }
 
