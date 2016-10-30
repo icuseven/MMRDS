@@ -216,7 +216,7 @@ function load_metadata()
 	$.ajax({
 			url: metadata_url
 	}).done(function(response) {
-			g_metadata = JSON.parse(response);
+			g_metadata = response;
 			g_data = create_default_object(g_metadata, {});
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 

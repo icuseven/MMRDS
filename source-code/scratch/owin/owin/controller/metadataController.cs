@@ -23,7 +23,7 @@ namespace owin
 		}
 
 
-		public string Get() 
+		public System.Dynamic.ExpandoObject  Get() 
 		{ 
 			System.Console.WriteLine ("Recieved message.");
 			string result = null;
@@ -50,12 +50,13 @@ namespace owin
 			System.IO.Stream dataStream = response.GetResponseStream ();
 			System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 			result = reader.ReadToEnd ();
-			//owin.metadata.app json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.metadata.app >(result);
+
+			System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
 
-			return result;
-			//return json_result;
+			//return result;
+			return json_result;
 		} 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
