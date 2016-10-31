@@ -29,7 +29,6 @@ function create_print_version()
 
 function load_metadata()
 {
-	//var metadata_url = location.protocol + '//' + location.host + '/meta-data/01/home_record.json';
 	var metadata_url = location.protocol + '//' + location.host + '/api/metadata';
 
 	$.ajax({

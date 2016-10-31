@@ -140,7 +140,7 @@ window.onhashchange = function(e)
 	profile.initialize_profile();
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/meta-data/01/home_record.json',
+			url: location.protocol + '//' + location.host + '/api/metadata',
 			data: {foo: 'bar'}
 	}).done(function(response) {
 			g_metadata = response;

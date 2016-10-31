@@ -128,8 +128,7 @@ var EditorComponent = React.createClass({
 	componentDidMount : function ()
 	{
 
-		//var url = location.protocol + '//' + location.host + '/meta-data/00/prenata_care.json';
-		var url = location.protocol + '//' + location.host + '/meta-data/01/home_record.json';
+		var url = location.protocol + '//' + location.host + '/api/metadata';
 		var AJAX = new AJAX_();
 
 		this.navigation_set["summary"] = "#/summary";

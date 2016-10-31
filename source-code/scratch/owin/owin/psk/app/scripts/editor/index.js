@@ -149,31 +149,6 @@ window.addEventListener('metadata_changed', function (e)
 			last_preview_update = new Date();
 		}
 	}
-
-/*
-	console.log("metadata_change");
-	var json_data = { 'def': "momentum"};
-	var current_auth_session = profile.get_auth_session_cookie();
-
-$.ajax({
-			url: location.protocol + '//' + location.host + '/api/current_edit',
-			//contentType: 'application/x-www-form-urlencoded',
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			data: JSON.stringify(g_metadata),
-			type: "POST",
-			beforeSend: function (request)
-			{
-				request.setRequestHeader("AuthSession", current_auth_session);
-			}//,
-			//processData: false
-	}).done(function(response) {
-			console.log("metadata sent");
-
-	});*/
-
-
-
 }, false);
 
 
@@ -210,7 +185,6 @@ $(function ()
 
 function load_metadata()
 {
-	//var metadata_url = location.protocol + '//' + location.host + '/meta-data/01/home_record.json';
 	var metadata_url = location.protocol + '//' + location.host + '/api/metadata';
 
 	$.ajax({
