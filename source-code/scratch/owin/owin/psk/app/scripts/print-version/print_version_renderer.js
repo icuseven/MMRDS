@@ -1,49 +1,63 @@
-function print_version_render(p_metadata, p_path, p_ui)
+function print_version_render(p_metadata, p_data,  p_path, p_ui)
 {
 	var result = [];
-	//switch(p_metadata.type.toLowerCase())
-	//{
-	//	case 'app':
-	//	default:
-				result.push('<table border=1>');
-				result.push('<tr><th colspan=2>');
-				result.push(p_path);
-				result.push('</th></tr>');
-				result.push('<tr><th>attribue</th><th>value</th></tr>');
-				result.push('<tr><td>name</td><td>');
-				result.push(p_metadata.name);
-				result.push('</td></tr>');
-				result.push('<tr><td>prompt</td><td>');
+	switch(p_metadata.type.toLowerCase())
+	{
+		case 'group':
+				result.push('<fieldset>');
+				//result.push(p_path)
+				result.push('<legend>')
 				result.push(p_metadata.prompt);
-				result.push('</td></tr>');
-				result.push('<tr><td>type</td><td>');
-				result.push(p_metadata.type);
-				result.push('</td></tr>');
-				if(p_metadata.values)
-				{
-					result.push('<tr><td valign="center">values</td><td>');
-					for(var i = 0; i < p_metadata.values.length; i++)
-					{
-						var child = p_metadata.values[i];
-						result.push(child);
-						result.push('<br/>');
-					}
-					result.push('</td></tr>');
-				}
-				result.push("</table><br/>");
-
-
+				result.push('</legend> ');
+				//result.push(p_data[p_metadata.name]);
+				
 				if(p_metadata.children)
 				{
 					for(var i = 0; i < p_metadata.children.length; i++)
 					{
 						var child = p_metadata.children[i];
-						Array.prototype.push.apply(result, print_version_render(child, p_path + "." + child.name, p_ui));
+						Array.prototype.push.apply(result, print_version_render(child, p_data, p_path + "." + child.name, p_ui));
 					}
 				}
-				//break;
-			//console.log("editor_render not processed", p_metadata);
-	//}
+				result.push('</fieldset>');
+				break;	
+		case 'form':
+				result.push('<section>');
+				//result.push(p_path)
+				result.push(' <h2>')
+				result.push(p_metadata.prompt);
+				result.push('</h2> ');
+				//result.push(p_data[p_metadata.name]);
+				
+				if(p_metadata.children)
+				{
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						Array.prototype.push.apply(result, print_version_render(child, p_data, p_path + "." + child.name, p_ui));
+					}
+				}
+				result.push('</section>');
+				break;					
+		case 'app':
+		default:
+				result.push('<p>');
+				//result.push(p_path)
+				result.push(' <strong>')
+				result.push(p_metadata.prompt);
+				result.push('</strong>: ');
+				result.push(p_data[p_metadata.name]);
+				result.push('</p>');
+				if(p_metadata.children)
+				{
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						Array.prototype.push.apply(result, print_version_render(child, p_data, p_path + "." + child.name, p_ui));
+					}
+				}
+				break;
+	}
 
 	return result;
 

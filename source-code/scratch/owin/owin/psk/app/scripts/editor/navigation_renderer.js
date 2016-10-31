@@ -65,6 +65,13 @@ function navigation_render(p_metadata, p_level, p_ui)
           var child = p_metadata.children[i];
           Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
         }
+
+
+        if($$.is_id(p_ui.url_state.path_array[0]))
+        {
+          result.push('<li><input type="button" onclick="show_print_version()" value="print version"></li>');
+          result.push('<li><input type="button" onclick="show_print_version()" value="print core summary"></li>');
+        }
         result.push('</ul>');
         break;
       default:

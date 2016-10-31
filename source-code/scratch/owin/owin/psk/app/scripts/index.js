@@ -171,3 +171,9 @@ window.onhashchange = function(e)
 
 	});
 });
+
+
+function show_print_version()
+{
+  window.open("./print-version", "_print_version");
+}

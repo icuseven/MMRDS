@@ -57,7 +57,7 @@ function monitor_changes()
             profile.initialize_profile();
           });
         }
-        else if(item.metadata=="styles/data-dictionary.css")
+        else if(item.metadata=="styles/print-version.css")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_css(script_name, function(){
@@ -67,15 +67,15 @@ function monitor_changes()
         }
         else if
         (
-          item.metadata=="scripts/data-dictionary/index.js" || 
-          item.metadata=="scripts/data-dictionary/dictionary_renderer.js"  ||
-          item.metadata=="scripts/data-dictionary/feedback.js"
+          item.metadata=="scripts/print-version/index.js" || 
+          item.metadata=="scripts/print-version/print_version_renderer.js"  ||
+          item.metadata=="scripts/print-version/feedback.js"
           )
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
             
-            document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "{", g_ui).join("");
+            create_print_version();
           });
         }
 
