@@ -1,37 +1,43 @@
 ﻿using System;
 
-namespace owin.data
+namespace owin.data.api
 {
-	public class Case_data : System.Dynamic.DynamicObject
+	
+	public class Set_Case_List_Request
 	{
-		System.Collections.Generic.Dictionary<string, object> properties = new System.Collections.Generic.Dictionary<string, object>();
+		public string security_token { get; set; }
+		public System.Dynamic.ExpandoObject[] case_list { get; set;}
+	}
 
-		public override bool TryGetMember(System.Dynamic.GetMemberBinder binder, out object result)
-		{
-			if (properties.ContainsKey(binder.Name))
-			{
-				result = properties[binder.Name];
-				return true;
-			}
-			else
-			{
-				result = "Invalid Property!";
-				return false;
-			}
-		}
+	public class Set_Case_List_Response
+	{
+		public bool Ok { get; set;}
+		public string Queue_Id { get; set;}
+	}
 
-		public override bool TrySetMember(System.Dynamic.SetMemberBinder binder, object value)
-		{
-			properties[binder.Name] = value;
-			return true;
-		}
 
-		public override bool TryInvokeMember(System.Dynamic.InvokeMemberBinder binder, object[] args, out object result)
-		{
-			dynamic method = properties[binder.Name];
-			result = method(args[0].ToString(), args[1].ToString());
-			return true;
-		}
+	public class Check_Queue_Request
+	{
+		public string security_token { get; set; }
+		public string Queue_Id { get; set;}
+	}
+
+
+	public class Check_Queue_Response
+	{
+		public bool Ok { get; set;}
+		public string queue_id { get; set;}
+		public string processing_status { get; set;}
+		public Result_Item[] result_list { get; set;}
+
+	}
+
+	public class Result_Item
+	{
+		public string summary { get; set;}
+		public string case_id { get; set;}
+		public string path { get; set;}
+		public string detail { get; set;}
 	}
 }
 

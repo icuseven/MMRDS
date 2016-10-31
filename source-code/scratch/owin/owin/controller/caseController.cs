@@ -82,26 +82,14 @@ namespace owin
 		}
 
 
-		// GET api/values/5 
-		public home_record Get(int id) 
-		{ 
-			return default(home_record); 
-		} 
-
 		// POST api/values 
-		public void Post([FromBody]home_record value) 
+		public owin.data.api.Set_Case_List_Response Post([FromBody]owin.data.api.Set_Case_List_Request value) 
 		{ 
+			owin.data.api.Set_Case_List_Response result = null;
+
+			return result;
 		} 
 
-		// PUT api/values/5 
-		public void Put(int id, [FromBody]home_record value) 
-		{ 
-		} 
-
-		// DELETE api/values/5 
-		public void Delete(System.Guid  id) 
-		{ 
-		} 
 	} 
 }
 
