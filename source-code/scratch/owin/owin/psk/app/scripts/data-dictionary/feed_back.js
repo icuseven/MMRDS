@@ -107,13 +107,6 @@ function monitor_changes()
           console.log(new Date().toISOString());
           console.log(item);
 
-          /*
-          g_metadata = JSON.parse(item.metadata);
-
-          document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-          document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");  
-          */
-
         }
       }
       else if(!change_detection_map[item.metadata])
@@ -154,7 +147,7 @@ function monitor_changes()
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
             
-            document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "", g_ui).join("");
+            document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "{", g_ui).join("");
           });
         }
 

@@ -19,6 +19,17 @@ function dictionary_render(p_metadata, p_path, p_ui)
 				result.push('<tr><td>type</td><td>');
 				result.push(p_metadata.type);
 				result.push('</td></tr>');
+				if(p_metadata.values)
+				{
+					result.push('<tr><td valign="center">values</td><td>');
+					for(var i = 0; i < p_metadata.values.length; i++)
+					{
+						var child = p_metadata.values[i];
+						result.push(child);
+						result.push('<br/>');
+					}
+					result.push('</td></tr>');
+				}
 				result.push("</table><br/>");
 
 
@@ -27,7 +38,7 @@ function dictionary_render(p_metadata, p_path, p_ui)
 					for(var i = 0; i < p_metadata.children.length; i++)
 					{
 						var child = p_metadata.children[i];
-						Array.prototype.push.apply(result, dictionary_render(child, "/children/" + i, p_ui));
+						Array.prototype.push.apply(result, dictionary_render(child, p_path + "." + child.name, p_ui));
 					}
 				}
 				//break;

@@ -119,7 +119,7 @@ namespace owin
 		[HttpPost]
 		public document_put_response Post() 
 		{ 
-			bool valid_login = false;
+			//bool valid_login = false;
 			owin.metadata.app metadata = null;
 
 			document_put_response result = new document_put_response ();
@@ -135,6 +135,9 @@ namespace owin
 				string temp = reader0.ReadToEnd ();
 
 				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.metadata.app>(temp);
+				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+
 
 				//string metadata = DecodeUrlString(temp);
 			}

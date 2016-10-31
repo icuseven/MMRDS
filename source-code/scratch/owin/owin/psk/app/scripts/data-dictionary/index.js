@@ -151,7 +151,7 @@ function load_metadata()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "/", g_ui).join("");
+			document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "{", g_ui).join("");
 
 	});
 }
