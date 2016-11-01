@@ -177,3 +177,8 @@ function show_print_version()
 {
   window.open("./print-version", "_print_version");
 }
+
+function show_data_dictionary()
+{
+  window.open("./data-dictionary", "_data_diction");
+}

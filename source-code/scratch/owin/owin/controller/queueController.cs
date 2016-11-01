@@ -15,6 +15,22 @@ namespace owin
 
 			return result;
 		}
+
+		private string get_couch_db_url()
+		{
+			string result = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
+
+			return result;
+		}
 	}
 }
 

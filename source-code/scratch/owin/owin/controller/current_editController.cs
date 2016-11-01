@@ -9,7 +9,6 @@ namespace owin
 	{ 
 		public static System.Collections.Generic.Dictionary<string, Current_Edit> current_edit_list = null;
 
-		private static string couchdb_url = null;
 		//http://blog.scottlogic.com/2010/09/20/js-lint-in-visual-studio-part-1.html
 		//https://javascriptdotnet.codeplex.com/
 
@@ -22,16 +21,6 @@ namespace owin
 			current.edit_type = "json";
 
 			current_edit_list.Add ("metadata", current);
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
-			{
-				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
-
 		}
 
 		// GET api/values 
@@ -74,7 +63,7 @@ namespace owin
 
 			try
 			{
-				string request_string = couchdb_url + "/_session";
+				string request_string = this.get_couch_db_url() + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -139,6 +128,22 @@ namespace owin
 			while ((newUrl = System.Uri.UnescapeDataString(url)) != url)
 				url = newUrl;
 			return newUrl;
+		}
+
+		private string get_couch_db_url()
+		{
+			string result = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
+
+			return result;
 		}
 	} 
 }

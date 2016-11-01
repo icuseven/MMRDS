@@ -12,20 +12,12 @@ namespace owin
 	public class sessionController: ApiController 
 	{
 
-		private string couchdb_url = null;
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		//{"ok":true,"userCtx":{"name":"mmrds","roles":["_admin"]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"],"authenticated":"cookie"}}
 
 		public sessionController ()
 		{
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
-			{
-				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
+
 		}
 
 
@@ -35,7 +27,7 @@ namespace owin
 		{ 
 			try
 			{
-				string request_string = couchdb_url + "/_session";
+				string request_string = this.get_couch_db_url() + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -47,9 +39,7 @@ namespace owin
 					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
 					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
 					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-
 				}
-
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 				System.IO.Stream dataStream = response.GetResponseStream ();
@@ -101,14 +91,12 @@ namespace owin
 */
 			try
 			{
-				
-
 				string post_data = string.Format ("name={0}&password={1}", userid, password);
 				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
 
 				//string request_string = "http://mmrds:mmrds@localhost:5984/_session";
-				string request_string = couchdb_url + "/_session";
+				string request_string = this.get_couch_db_url() + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				//request.UseDefaultCredentials = true;
 
@@ -127,17 +115,12 @@ namespace owin
 
 				System.IO.Stream dataStream = response.GetResponseStream ();
 
-
-
-
 				// Open the stream using a StreamReader for easy access.
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				// Read the content.
 				string responseFromServer = reader.ReadToEnd ();
 
 				login_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<login_response>(responseFromServer);
-
-
 				/*
 		< HTTP/1.1 200 OK
 		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
@@ -181,8 +164,6 @@ namespace owin
 				}
 				*/
 
-
-
 				login_response[] result =  new login_response[] 
 				{ 
 					json_result
@@ -220,17 +201,6 @@ namespace owin
 		{ 
 			return default(home_record); 
 		} 
-		/*
-		// POST api/values 
-		public void Post([FromBody]master_record value) 
-		{ 
-		} 
-
-		// PUT api/values/5 
-		public void Put(int id, [FromBody]master_record value) 
-		{ 
-		} */
-
 
 		//https://wiki.apache.org/couchdb/Session_API
 		// DELETE api/_sevalues/5 
@@ -238,7 +208,7 @@ namespace owin
 		{ 
 			try
 			{
-				string request_string = couchdb_url + "/_session";
+				string request_string = this.get_couch_db_url() + "/_session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				request.Method = "DELETE";
 				request.PreAuthenticate = false;
@@ -248,7 +218,6 @@ namespace owin
 					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
 					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
 					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-
 				}
 
 
@@ -259,8 +228,6 @@ namespace owin
 				logout_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<logout_response>(responseFromServer);
 
 				return json_result;
-
-
 			}
 			catch(Exception ex)
 			{
@@ -271,9 +238,21 @@ namespace owin
 			return null;
 		}
 
+		private string get_couch_db_url()
+		{
+			string result = null;
 
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
 
-
+			return result;
+		}
 	}
 }
 

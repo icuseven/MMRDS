@@ -72,26 +72,21 @@ namespace owin
 			return result;
 		} 
 
-		// GET api/values/5 
-		public home_record Get(int id) 
-		{ 
-			return default(home_record); 
-		} 
-		/*
-		// POST api/values 
-		public void Post([FromBody]master_record value) 
-		{ 
-		} 
+		private string get_couch_db_url()
+		{
+			string result = null;
 
-		// PUT api/values/5 
-		public void Put(int id, [FromBody]master_record value) 
-		{ 
-		} */
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
 
-		// DELETE api/values/5 
-		public void Delete(System.Guid  id) 
-		{ 
-		} 
+			return result;
+		}
 
 
 	}

@@ -41,6 +41,7 @@ function dictionary_render(p_metadata, p_path, p_ui)
 						Array.prototype.push.apply(result, dictionary_render(child, p_path + "." + child.name, p_ui));
 					}
 				}
+
 				//break;
 			//console.log("editor_render not processed", p_metadata);
 	//}

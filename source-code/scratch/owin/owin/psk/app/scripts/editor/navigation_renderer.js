@@ -72,6 +72,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('<li><input type="button" onclick="show_print_version()" value="print version"></li>');
           result.push('<li><input type="button" onclick="show_print_version()" value="print core summary"></li>');
         }
+        result.push('<li><input type="button" onclick="show_data_dictionary()" value="show data dictionary"></li>');
         result.push('</ul>');
         break;
       default:

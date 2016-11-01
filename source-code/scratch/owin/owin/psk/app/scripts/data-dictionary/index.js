@@ -129,7 +129,7 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 
-  	profile.initialize_profile();
+  	//profile.initialize_profile();
 
 	  load_metadata();
 });
@@ -151,7 +151,7 @@ function load_metadata()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "{", g_ui).join("");
+			document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "{", g_ui).join("")  + '<br/>Example Request JSON:<br/> <textarea rows="7" cols="80" >' + JSON.stringify(g_data) + '</textarea>';
 
 	});
 }
