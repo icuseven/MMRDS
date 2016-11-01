@@ -145,39 +145,6 @@ namespace owin
 			{
 				Console.WriteLine (ex);
 			}
-
-			/*
-			try
-			{
-				string request_string = couchdb_url + "/_session";
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(request_string));
-
-				request.PreAuthenticate = false;
-
-				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
-				{
-					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-				}
-
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string responseFromServer = reader.ReadToEnd ();
-				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
-
-				valid_login = json_result.userCTX.name != null;
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine (ex);
-			} 
-
-			if (valid_login) 
-			{*/
-
 				try
 				{
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -232,10 +199,7 @@ namespace owin
 				{
 					Console.WriteLine (ex);
 				}
-
-
-			//}
-
+				
 			return result;
 		} 
 
