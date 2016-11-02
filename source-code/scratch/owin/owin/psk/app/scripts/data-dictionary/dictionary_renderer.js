@@ -56,21 +56,24 @@ function dictionary_render_header()
 	result.push('<th>name</th>');
 	result.push('<th>type</th>');
 	result.push('<th>prompt</th>');
+	result.push('<th>control_style</th>');
+	result.push('<th>values</th>');
 	result.push('<th>is_core_summary</th>');
 	result.push('<th>is_required</th>');
 	result.push('<th>is_read_only</th>');
 	result.push('<th>default_value</th>');
 	result.push('<th>regex_pattern</th>');
+	result.push('<th>pre_fill</th>');
+	result.push('<th>max_value</th>');
+	result.push('<th>min_value</th>');	
 	result.push('<th>validation</th>');
 	result.push('<th>onfocus</th>');
 	result.push('<th>onchange</th>');
 	result.push('<th>onblur</th>');
 	result.push('<th>onclick</th>');
-	result.push('<th>pre_fill</th>');
-	result.push('<th>max_value</th>');
-	result.push('<th>min_value</th>');
-	result.push('<th>control_style</th><th>values</th></tr>');
+
 	
+	result.push('</tr>');
 	return result;
 
 }
@@ -85,19 +88,6 @@ function dictionary_render_row(p_metadata, p_path)
 	result.push('<td>' + ((p_metadata['name'])? p_metadata['name']: "&nbsp;") + '</td>');
 	result.push('<td>' + ((p_metadata['type'])? p_metadata['type']: "&nbsp;") + '</td>');
 	result.push('<td>' + ((p_metadata['prompt'])? p_metadata['prompt']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['is_core_summary'])? p_metadata['is_core_summary']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['is_required'])? p_metadata['is_required']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['is_read_only'])? p_metadata['is_read_only']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['default_value'])? p_metadata['default_value']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['regex_pattern'])? p_metadata['regex_pattern']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['validation'])? p_metadata['validation']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['onfocus'])? p_metadata['onfocus']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['onchange'])? p_metadata['onchange']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['pre_fill'])? p_metadata['pre_fill']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['max_value'])? p_metadata['max_value']: "&nbsp;") + '</td>');
-	result.push('<td>' + ((p_metadata['min_value'])? p_metadata['min_value']: "&nbsp;") + '</td>');
 	result.push('<td>' + ((p_metadata['control_style'])? p_metadata['control_style']: "&nbsp;") + '</td>');
 
 	if(p_metadata.values)
@@ -115,6 +105,24 @@ function dictionary_render_row(p_metadata, p_path)
 	{
 		result.push('<td>&nbsp;</td>');
 	}
+
+	result.push('<td>' + ((p_metadata['is_core_summary'])? p_metadata['is_core_summary']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['is_required'])? p_metadata['is_required']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['is_read_only'])? p_metadata['is_read_only']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['default_value'])? p_metadata['default_value']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['regex_pattern'])? p_metadata['regex_pattern']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['pre_fill'])? p_metadata['pre_fill']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['max_value'])? p_metadata['max_value']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['min_value'])? p_metadata['min_value']: "&nbsp;") + '</td>');	
+	result.push('<td>' + ((p_metadata['validation'])? p_metadata['validation']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['onfocus'])? p_metadata['onfocus']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['onchange'])? p_metadata['onchange']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
+	result.push('<td>' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
+
+	
+
+
 	result.push('</tr>');
 
 	return result;
