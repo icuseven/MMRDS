@@ -83,9 +83,9 @@ namespace owin
 
 
 		// POST api/values 
-		public owin.data.api.Set_Case_List_Response Post([FromBody]owin.data.api.Set_Case_List_Request value) 
+		public owin.data.api.Set_Queue_Response Post([FromBody]owin.data.api.Set_Queue_Request value) 
 		{ 
-			owin.data.api.Set_Case_List_Response result = null;
+			owin.data.api.Set_Queue_Response result = null;
 
 			return result;
 		} 

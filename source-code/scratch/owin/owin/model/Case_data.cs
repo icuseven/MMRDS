@@ -3,13 +3,14 @@
 namespace owin.data.api
 {
 	
-	public class Set_Case_List_Request
+	public class Set_Queue_Request
 	{
 		public string security_token { get; set; }
+		public string action { get; set; }
 		public System.Dynamic.ExpandoObject[] case_list { get; set;}
 	}
 
-	public class Set_Case_List_Response
+	public class Set_Queue_Response
 	{
 		public bool Ok { get; set;}
 		public string Queue_Id { get; set;}
@@ -19,18 +20,25 @@ namespace owin.data.api
 	public class Check_Queue_Request
 	{
 		public string security_token { get; set; }
-		public string Queue_Id { get; set;}
+		public string action { get; set; }
+		public string[] Queue_Id { get; set;}
 	}
 
 
 	public class Check_Queue_Response
 	{
 		public bool Ok { get; set;}
+		public Queue_Status_Item[] queue_id { get; set;}
+	}
+
+	public class Queue_Status_Item
+	{
 		public string queue_id { get; set;}
 		public string processing_status { get; set;}
 		public Result_Item[] result_list { get; set;}
-
 	}
+
+
 
 	public class Result_Item
 	{

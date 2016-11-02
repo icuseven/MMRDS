@@ -1,0 +1,5 @@
+mdtool build /vagrant/source-code/scratch/owin/owin.sln
+
+mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:55555 /vagrant/source-code/scratch/owin/owin/bin/Debug/owin.exe  
+
+*** mdtool uses the constants defined in the project.csprog 

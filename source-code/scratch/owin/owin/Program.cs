@@ -38,6 +38,7 @@ namespace owin
 			}
 
 			#if (FILE_WATCHED)
+			Console.WriteLine ("starting file watch.");
 			WatchFiles.StartWatch();
 			#endif
 
