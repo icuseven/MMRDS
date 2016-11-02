@@ -14,15 +14,17 @@ function dictionary_render(p_metadata, p_path, p_ui)
 		result.push(' ');
 		result.push(p_metadata.type);
 		result.push('</th></tr>');
-		Array.prototype.push.apply(result, dictionary_render_header());
 	}
 	else
 	{
 		Array.prototype.push.apply(result, dictionary_render_row(p_metadata, p_path));
 	}
 
-	if(p_metadata.children)
+	if(p_metadata.children && p_metadata.children.length > 0)
 	{
+		
+		Array.prototype.push.apply(result, dictionary_render_header());
+		
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
