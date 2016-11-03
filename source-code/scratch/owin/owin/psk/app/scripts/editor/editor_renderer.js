@@ -577,6 +577,12 @@ function editor_add_to_children(e, p_ui)
 
 					break;
 			case "list":
+					eval(item_path).push(md.create_value_list("new_" + element.value, "new " + element.value, element.value, "list"));
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");					
+					break;
 			case "group":
 					eval(item_path).push(md.create_group("new_" + element.value, "new " + element.value, element.value));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);

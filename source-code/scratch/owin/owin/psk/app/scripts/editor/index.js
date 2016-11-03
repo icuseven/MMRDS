@@ -100,8 +100,7 @@ return {
 		return {
 			"name": p_name,
 			"prompt": p_prompt,
-			"type": p_type,
-			"values": []
+			"type": p_type
 		}
 	}
 
