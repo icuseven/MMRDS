@@ -143,12 +143,12 @@ namespace owin
 		// POST api/values 
 		//[Route("api/metadata")]
 		[HttpPost]
-		public document_put_response Post() 
+		public owin.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
 			owin.metadata.app metadata = null;
 
-			document_put_response result = new document_put_response ();
+			owin.couchdb.document_put_response result = new owin.couchdb.document_put_response ();
 
 			try
 			{
@@ -207,7 +207,7 @@ namespace owin
 							System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 							string responseFromServer = reader.ReadToEnd ();
 
-							result = Newtonsoft.Json.JsonConvert.DeserializeObject<document_put_response>(responseFromServer);
+							result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.couchdb.document_put_response>(responseFromServer);
 						}
 						catch(Exception ex)
 						{

@@ -2,6 +2,9 @@
 using Microsoft.Owin;
 using Owin;
 using Owin.WebSocket.Extensions;
+using Swashbuckle;
+using Swashbuckle.Application;
+
 
 using System.Web.Http;
 
@@ -17,6 +20,9 @@ namespace owin
 		//http://localhost:12345/api/session?userid=mmrds&password=mmrds
 		//http://localhost:12345/api/session?userid=user1&password=password
 		//http://localhost:12345/api/session
+		//http://localhost:12345/swagger/docs/v1
+		//http://localhost:12345/sandbox/index
+
 		static void Main(string[] args)
 		{
 			for(int i = 0; i < args.Length; i++)
@@ -113,6 +119,19 @@ namespace owin
 	{
 		public void Configuration(IAppBuilder app)
 		{
+
+			string url = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
+				url = System.Environment.GetEnvironmentVariable ("web_site_url");
+			}
+			else
+			{
+				url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
+			}
+
+
 			#if DEBUG
 			app.UseErrorPage();
 			#endif
@@ -135,6 +154,32 @@ namespace owin
 				ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()//,
 				//NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
 			};
+
+			/*
+			config
+				.EnableSwagger("docs/{apiVersion}/swagger", c => c.SingleApiVersion("v1", "A title for your API"))
+				.EnableSwaggerUi("sandbox/{*assetPath}");
+			*/
+			config
+				.EnableSwagger(c =>
+					{
+						c.RootUrl(req => url);
+
+						c.Schemes(new[] { "http", "https" });
+
+						c.SingleApiVersion("v1", "Swashbuckle.Dummy")
+							.Description("A sample API for testing and prototyping Swashbuckle features")
+							.TermsOfService("Some terms")
+							.Contact(cc => cc
+								.Name("Some contact")
+								.Url("http://tempuri.org/contact")
+								.Email("some.contact@tempuri.org"))
+							.License(lc => lc
+								.Name("Some License")
+								.Url("http://tempuri.org/license"));
+					})
+				.EnableSwaggerUi("sandbox/{*assetPath}");
+
 
 			app.UseWebApi(config); 
 

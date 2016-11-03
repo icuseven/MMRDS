@@ -75,6 +75,9 @@
     <Reference Include="Owin.WebSocket">
       <HintPath>..\packages\Owin.WebSocket.1.6.0\lib\net45\Owin.WebSocket.dll</HintPath>
     </Reference>
+    <Reference Include="Swashbuckle.Core">
+      <HintPath>..\packages\Swashbuckle.Core.Extension.1.0.2\lib\Swashbuckle.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin
+namespace owin.couchdb
 {
 	public class document_put_response
 	{
