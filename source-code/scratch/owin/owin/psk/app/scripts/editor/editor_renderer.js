@@ -531,6 +531,7 @@ function editor_paste_to_children(p_ui)
 		
 		var node_to_render = document.querySelector("li[path='" + p_ui + "']");
 		node_to_render.innerHTML = node.join("");
+		window.dispatchEvent(metadata_changed_event);
 	}
 }
 
@@ -574,6 +575,7 @@ function editor_add_to_children(e, p_ui)
 
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
 					node_to_render.innerHTML = node.join("");
+					window.dispatchEvent(metadata_changed_event);
 
 					break;
 			case "list":
@@ -582,20 +584,23 @@ function editor_add_to_children(e, p_ui)
 
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
 					node_to_render.innerHTML = node.join("");					
+					window.dispatchEvent(metadata_changed_event);
 					break;
 			case "group":
 					eval(item_path).push(md.create_group("new_" + element.value, "new " + element.value, element.value));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
 
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
-					node_to_render.innerHTML = node.join("");					
+					node_to_render.innerHTML = node.join("");		
+					window.dispatchEvent(metadata_changed_event);			
 					break;
 			case "form":
 					eval(item_path).push(md.create_form("new_form", "new form","?"));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
 
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
-					node_to_render.innerHTML = node.join("");				
+					node_to_render.innerHTML = node.join("");		
+					window.dispatchEvent(metadata_changed_event);		
 				break;
 			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
@@ -625,7 +630,7 @@ function editor_add_to_attributes(e, p_ui)
 	
 				var node_to_render = document.querySelector("li[path='" + path + "']");
 				node_to_render.innerHTML = node.join("");
-					
+				window.dispatchEvent(metadata_changed_event);
 				break;
 			case "default_value":
 			case "regex_pattern":
@@ -647,6 +652,7 @@ function editor_add_to_attributes(e, p_ui)
 				var node_to_render = document.querySelector("li[path='" + path + "']");
 				node_to_render.innerHTML = node.join("");
 			
+				window.dispatchEvent(metadata_changed_event);
 			
 			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
@@ -679,6 +685,7 @@ function editor_delete_attribute(e, p_path)
 
 		var node_to_render = document.querySelector("li[path='" + parent_path + "']");
 		node_to_render.innerHTML = node.join("");
+		window.dispatchEvent(metadata_changed_event);
 	}
 	else
 	{
@@ -712,6 +719,7 @@ function editor_add_value(p_path)
 
 	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
 	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
 
 }
 
@@ -743,6 +751,7 @@ function editor_delete_value(e, p_path)
 
 		var node_to_render = document.querySelector("li[path='" + parent_path + "']");
 		node_to_render.innerHTML = node.join("");
+		window.dispatchEvent(metadata_changed_event);
 
 		g_delete_value_clip_board = null;
 	}
@@ -804,6 +813,7 @@ function editor_delete_node(e, p_path)
 		}
 
 		node_to_render.innerHTML = node.join("");
+		window.dispatchEvent(metadata_changed_event);
 	}
 	else
 	{
@@ -835,6 +845,7 @@ function editor_add_form(e)
 	
 	var node_to_render = document.querySelector("div[path='/']");
 	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
 	
 }
 
@@ -901,6 +912,7 @@ function editor_move_up(e, p_ui)
 
 		}
 		node_to_render.innerHTML = node.join("");
+		window.dispatchEvent(metadata_changed_event);
 
 	}
 

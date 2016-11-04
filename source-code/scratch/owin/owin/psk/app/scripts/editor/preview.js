@@ -139,28 +139,20 @@ window.onhashchange = function(e)
 
 	profile.initialize_profile();
 
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-			data: {foo: 'bar'}
-	}).done(function(response) {
-			g_metadata = response;
-			g_data = create_default_object(g_metadata, {});
-		    g_ui.data_list.push(g_data);
-            g_ui.selected_record_id = g_data._id;
-		    g_ui.selected_record_index = g_ui.data_list.length -1;
-
-			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-
-			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
-
-	});
-
 });
 
 function metadata_changed(p_metadata)
 {
 	
 	g_metadata = p_metadata;
+
+	if(!g_data)
+	{
+			g_data = create_default_object(g_metadata, {});
+		    g_ui.data_list.push(g_data);
+        g_ui.selected_record_id = g_data._id;
+		    g_ui.selected_record_index = g_ui.data_list.length -1;
+	}
 
 	document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 	document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");

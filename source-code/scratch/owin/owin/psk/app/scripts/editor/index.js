@@ -159,8 +159,15 @@ function open_preview_window()
 	if(! preview_window)
 	{
 		preview_window = window.open('./preview.html','_preview',null,false);
-		preview_window.metadata_changed(g_metadata);
-		last_preview_update = new Date();
+
+		window.setTimeout(function()
+		{
+			preview_window.metadata_changed(g_metadata);
+			last_preview_update = new Date();
+		}, 3000);
+
+
+
 	}
 
 
