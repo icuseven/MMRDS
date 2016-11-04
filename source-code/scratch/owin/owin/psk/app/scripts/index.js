@@ -22,7 +22,7 @@ var g_ui = {
 
     eval(g_ui.get_eval_string(p_path + ' = "' + p_value.value.replace('"', '\\"')  + '"'));
 
-    var target = eval(g_ui.get_eval_string(p_path));
+    //var target = eval(g_ui.get_eval_string(p_path));
   },
   get_eval_string: function (p_path)
   {
