@@ -118,6 +118,8 @@
     <Compile Include="model\Case_data.cs" />
     <Compile Include="controller\censusController.cs" />
     <Compile Include="SwaggerCustomProvider.cs" />
+    <Compile Include="controller\queueController.cs" />
+    <Compile Include="util\mmria_type_builder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2675,5 +2677,6 @@
     <Folder Include="model\" />
     <Folder Include="model\couchdb\" />
     <Folder Include="model\metadata\" />
+    <Folder Include="util\" />
   </ItemGroup>
 </Project>

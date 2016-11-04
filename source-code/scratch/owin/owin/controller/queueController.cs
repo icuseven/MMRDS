@@ -9,7 +9,10 @@ namespace owin
 		public queueController ()
 		{
 		}
-
+		/// <summary>
+		/// Post the specified set_queue_request.
+		/// </summary>
+		/// <param name="set_queue_request">Set queue request.</param>
 		public owin.data.api.Set_Queue_Response Post(owin.data.api.Set_Queue_Request set_queue_request)
 		{ 
 			owin.data.api.Set_Queue_Response result = new owin.data.api.Set_Queue_Response();

@@ -163,12 +163,15 @@ namespace owin
 
 			config
 				.EnableSwagger("docs/{apiVersion}/swagger", c => { 
-					c.SingleApiVersion("v1", "A title for your API");
+					
+					c.SingleApiVersion("v1", "MMRIA data API");
+
 					c.RootUrl(req =>
 						req.RequestUri.GetLeftPart(UriPartial.Authority) +
 						req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
+					
 					c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
-					//c.CustomProvider = Swashbuckle.Swagger..SwaggerUi..Swagger..Application.
+
 				})
 				.EnableSwaggerUi("sandbox/{*assetPath}");
 			/*
