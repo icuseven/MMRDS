@@ -26,7 +26,7 @@ var g_ui = {
   },
   get_eval_string: function (p_path)
   {
-  	var result = "g_data" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('.(\\d+).','g'),"[$1].").replace(new RegExp('.(\\d+)$','g'),"[$1]");
+  	var result = "g_data" + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','g'),"[$1]\\.").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
     //return an  array with 2 parts.
       // g_data['attribute'].attribute...
 
@@ -61,7 +61,7 @@ var g_ui = {
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
 
-    var url = location.protocol + '//' + location.host + '#/' + result._id + '/home_record';
+    var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
     window.location = url;
 
     return result;
@@ -105,7 +105,7 @@ window.onhashchange = function(e)
     document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
 
 
-    if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && $$.is_id(g_ui.url_state.path_array[0]))
+    if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
     {
 
 

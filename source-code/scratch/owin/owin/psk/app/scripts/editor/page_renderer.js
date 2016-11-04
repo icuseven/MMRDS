@@ -109,7 +109,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 			result.push(item.home_record.date_of_death);
 			result.push('	(');
 			result.push(item.home_record.state_of_death);
-			result.push('	) <a href="#/'+ item._id + '/home_record" role="button" class="btn-purple">select</a></p>');
+			result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a></p>');
 			result.push('</div>');
 			
 		}

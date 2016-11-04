@@ -129,4 +129,4 @@ function monitor_changes()
   );
 }
 
-interval_id = window.setInterval(monitor_changes, 10000);
+interval_id = window.setInterval(monitor_changes, 1000);
