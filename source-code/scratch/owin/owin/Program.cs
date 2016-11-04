@@ -4,6 +4,8 @@ using Owin;
 using Owin.WebSocket.Extensions;
 using Swashbuckle;
 using Swashbuckle.Application;
+using System.Net.Http;
+using Swashbuckle.Swagger;
 
 
 using System.Web.Http;
@@ -155,15 +157,23 @@ namespace owin
 				//NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
 			};
 
-			/*
+
 			config
-				.EnableSwagger("docs/{apiVersion}/swagger", c => c.SingleApiVersion("v1", "A title for your API"))
+				.EnableSwagger("docs/{apiVersion}/swagger", c => { 
+					c.SingleApiVersion("v1", "A title for your API");
+					c.RootUrl(req =>
+						req.RequestUri.GetLeftPart(UriPartial.Authority) +
+						req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
+				})
 				.EnableSwaggerUi("sandbox/{*assetPath}");
-			*/
+			/*
 			config
 				.EnableSwagger(c =>
 					{
-						c.RootUrl(req => url);
+						//c.RootUrl(req => url);
+						c.RootUrl(req =>
+							req.RequestUri.GetLeftPart(UriPartial.Authority) +
+							req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
 
 						c.Schemes(new[] { "http", "https" });
 
@@ -178,7 +188,7 @@ namespace owin
 								.Name("Some License")
 								.Url("http://tempuri.org/license"));
 					})
-				.EnableSwaggerUi("sandbox/{*assetPath}");
+				.EnableSwaggerUi("sandbox/{*assetPath}");*/
 
 
 			app.UseWebApi(config); 

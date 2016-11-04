@@ -110,7 +110,6 @@
     <Compile Include="model\couchdb\document_put_response.cs" />
     <Compile Include="model\couchdb\document_put_error.cs" />
     <Compile Include="model\Case_data.cs" />
-    <Compile Include="controller\queueController.cs" />
     <Compile Include="controller\censusController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
