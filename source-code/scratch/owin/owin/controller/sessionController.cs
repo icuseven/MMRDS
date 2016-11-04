@@ -121,48 +121,6 @@ namespace owin
 				string responseFromServer = reader.ReadToEnd ();
 
 				login_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<login_response>(responseFromServer);
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}
-	*/
-				/*
-				bool is_logged_in = false;
-
-				session_response[] result;
-
-				if (bool.TryParse (json_result ["ok"], out is_logged_in)) 
-				{
-
-				}
-				else 
-				{
-
-				}*/
-				/*
-				{
-					"ok":true,
-					"userCtx":
-					{
-						"name":"mmrds",
-						"roles":["_admin"]
-					},
-					"info":
-					{
-						"authentication_db":"_users",
-						"authentication_handlers":
-						[
-							"oauth",
-							"cookie",
-							"default"
-						],
-						"authenticated":"cookie"
-					}
-				}
-				*/
 
 				login_response[] result =  new login_response[] 
 				{ 
@@ -195,12 +153,6 @@ namespace owin
 
 			return null;
 		}
-
-		// GET api/values/5 
-		public home_record Get(int id) 
-		{ 
-			return default(home_record); 
-		} 
 
 		//https://wiki.apache.org/couchdb/Session_API
 		// DELETE api/_sevalues/5 

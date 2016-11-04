@@ -58,6 +58,7 @@ namespace owin
 			//return result;
 			return json_result;
 		} 
+		/*
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		public System.Dynamic.ExpandoObject Get(string value) 
@@ -91,54 +92,8 @@ namespace owin
 			System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 			return json_result;
-		} 
-/*
-		private document_put_response PutDocument(string postUrl, string document)
-		{
-			document_put_response result = new document_put_response ();
+		} */
 
-			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
-
-			System.Net.WebRequest request = System.Net.WebRequest.Create("request_string");
-			request.UseDefaultCredentials = true;
-			request.Credentials = new System.Net.NetworkCredential("_username", "_password");
-			request.Method = "PUT";
-			request.ContentType = "text/json";
-			request.ContentLength = data.Length;
-
-			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-			{
-				try
-				{
-					streamWriter.Write(document);
-					streamWriter.Flush();
-					streamWriter.Close();
-
-					System.Net.HttpWebResponse httpResponse = (System.Net.HttpWebResponse)request.GetResponse();
-					using (System.IO.StreamReader streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
-					{
-						string json_result = streamReader.ReadToEnd();
-						streamReader.Close();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<document_put_response>(json_result);
-					}
-				}
-				catch (System.Exception e)
-				{
-					//_logger.Error("Exception thrown when contacting service.", e);
-					//_logger.ErrorFormat("Error posting document to {0}", postUrl);
-				}
-			}
-
-			return result;
-		}*/
-
-
-		// GET api/values/5 
-		public home_record Get(int id) 
-		{ 
-			return default(home_record); 
-		} 
 
 		// POST api/values 
 		//[Route("api/metadata")]

@@ -2,10 +2,9 @@
 using Microsoft.Owin;
 using Owin;
 using Owin.WebSocket.Extensions;
-using Swashbuckle;
-using Swashbuckle.Application;
 using System.Net.Http;
-using Swashbuckle.Swagger;
+using Swashbuckle.Application;
+using System.Linq;
 
 
 using System.Web.Http;
@@ -157,6 +156,10 @@ namespace owin
 				//NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
 			};
 
+			//https://github.com/NSwag/NSwag/wiki/Middlewares
+			//app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings());
+			//app.UseWebApi(config);
+
 
 			config
 				.EnableSwagger("docs/{apiVersion}/swagger", c => { 
@@ -164,6 +167,8 @@ namespace owin
 					c.RootUrl(req =>
 						req.RequestUri.GetLeftPart(UriPartial.Authority) +
 						req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
+					c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
+					//c.CustomProvider = Swashbuckle.Swagger..SwaggerUi..Swagger..Application.
 				})
 				.EnableSwaggerUi("sandbox/{*assetPath}");
 			/*
@@ -192,6 +197,7 @@ namespace owin
 
 
 			app.UseWebApi(config); 
+			//app.UseSwagger();
 
 			string root = null;
 

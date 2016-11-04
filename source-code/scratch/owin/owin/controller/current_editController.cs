@@ -29,12 +29,6 @@ namespace owin
 			return current_edit_list.Select(kvp => kvp.Value).AsEnumerable(); 
 		} 
 
-		// GET api/values/5 
-		public string Get(int id) 
-		{ 
-			return "value"; 
-		} 
-
 		// POST api/values 
 		public void Post() 
 		{ 
@@ -106,7 +100,7 @@ namespace owin
 			}
 		} 
 
-		public  string GetHash(string metadata)
+		private  string GetHash(string metadata)
 		{
 			string result;
 			byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(metadata);

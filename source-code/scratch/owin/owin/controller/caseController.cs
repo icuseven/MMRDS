@@ -83,6 +83,7 @@ namespace owin
 
 
 		// POST api/values 
+		[Route]
 		public owin.data.api.Set_Queue_Response Post([FromBody]owin.data.api.Set_Queue_Request value) 
 		{ 
 			owin.data.api.Set_Queue_Response result = null;

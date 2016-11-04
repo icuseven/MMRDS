@@ -75,8 +75,14 @@
     <Reference Include="Owin.WebSocket">
       <HintPath>..\packages\Owin.WebSocket.1.6.0\lib\net45\Owin.WebSocket.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core">
+      <HintPath>..\packages\NuGet.Core.2.12.0\lib\net40-Client\NuGet.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Swashbuckle.Core">
-      <HintPath>..\packages\Swashbuckle.Core.Extension.1.0.2\lib\Swashbuckle.Core.dll</HintPath>
+      <HintPath>..\packages\Swashbuckle.Core.5.5.3\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +117,7 @@
     <Compile Include="model\couchdb\document_put_error.cs" />
     <Compile Include="model\Case_data.cs" />
     <Compile Include="controller\censusController.cs" />
+    <Compile Include="SwaggerCustomProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
