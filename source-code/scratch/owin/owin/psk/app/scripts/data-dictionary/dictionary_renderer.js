@@ -1,4 +1,4 @@
-function dictionary_render(p_metadata, p_path, p_ui)
+function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
 				
@@ -77,8 +77,6 @@ function dictionary_render_header()
 	return result;
 
 }
-
-
 
 function dictionary_render_row(p_metadata, p_path)
 {
