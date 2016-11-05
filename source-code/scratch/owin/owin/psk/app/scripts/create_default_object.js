@@ -22,7 +22,7 @@ function create_default_object(p_metadata, p_parent)
          create_default_object(child, p_parent);
        }
        break;
-     case 'string':
+    case 'string':
 	 case 'textarea':
           p_parent[p_metadata.name] = new String();
            break;
@@ -34,13 +34,6 @@ function create_default_object(p_metadata, p_parent)
             break;
     case 'list':
     case 'yes_no':
-           p_parent[p_metadata.name] = "";
-           break;
-     case 'multilist':
-     case 'race':
-            p_parent[p_metadata.name] = [];
-            break;
-    case 'radiolist':
            p_parent[p_metadata.name] = "";
            break;
      case 'date':

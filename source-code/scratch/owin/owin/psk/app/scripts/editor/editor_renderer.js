@@ -109,6 +109,8 @@ function editor_render(p_metadata, p_path, p_ui)
 			}
 			result.push('</ul></li></ul></div>');
        break;
+	    case 'label':
+		case 'button':
 		case 'boolean':
 		case 'date':
 		case 'number':
@@ -193,7 +195,7 @@ var valid_types = [
 "number",
 "date",
 "list",
-"app",
+//"app",
 "form",
 "group",
 "time",
@@ -445,7 +447,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option>onclick</option>');
 	result.push('<option>pre_fill</option>');
 	result.push('<option>max_value</option>');
-	result.push('<option>min_valuev</option>');
+	result.push('<option>min_value</option>');
 	result.push('<option>control_style</option>');
 	result.push('</select>');
 	result.push(' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="');
@@ -645,7 +647,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "control_style":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
-				eval(item)[attribute] = "";
+				eval(item)[attribute] = new String();
 					
 				var node = editor_render(eval(item), path, g_ui);
 	

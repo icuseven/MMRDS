@@ -87,13 +87,6 @@ function monitor_changes()
             console.log("behold thine object", g_data);
           });
         }
-        else if(item.metadata=="scripts/editor/editor_renderer.js")
-        {
-          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
-          reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
-          });
-        }
         else if(item.metadata=="styles/mmria.css")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
@@ -102,7 +95,7 @@ function monitor_changes()
             return;
           });
         }
-        else if(item.metadata=="scripts/index.js" || item.metadata=="scripts/editor/preview.js"  || item.metadata=="scripts/editor/index.js")
+        else if(item.metadata=="scripts/index.js")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){

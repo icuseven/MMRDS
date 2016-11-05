@@ -62,13 +62,7 @@
 			"name":"is_valid_maternal_mortality_record",
 			"prompt":"is_valid_maternal_mortality_record",
 			"type": "boolean"
-		},
-	   {
-			"name":"maternal_birth_certificate",
-			"prompt":"maternal_birth_certificate",
-			"cardinality": "?",
-			"type": "home_record.maternal_birth_certificate.json"
-	   }
+		}
 	]
 	},
    {

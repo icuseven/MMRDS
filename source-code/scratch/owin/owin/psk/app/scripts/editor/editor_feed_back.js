@@ -57,22 +57,6 @@ function monitor_changes()
             profile.initialize_profile();
           });
         }
-        else if(item.metadata=="scripts/editor/navigation_renderer.js")
-        {
-          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
-          reload_js(script_name, function(){
-            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-          });
-        }
-        else if(item.metadata=="scripts/editor/page_renderer.js")
-        {
-          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
-          reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
-            window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-          });
-        }
         else if(item.metadata=="scripts/create_default_object.js")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
@@ -96,11 +80,11 @@ function monitor_changes()
             return;
           });
         }
-        else if(item.metadata=="scripts/index.js" || item.metadata=="scripts/editor/preview.js"  || item.metadata=="scripts/editor/index.js")
+        else if(item.metadata=="scripts/editor/index.js")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            //window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+            load_metadata();
             return null;
           });
         }
