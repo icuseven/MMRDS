@@ -52,11 +52,9 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push("<option></option>");
 			for(var i = 0; i < valid_types.length; i++)
 			{
-				
 				var item = valid_types[i];
-				if(item.toLowerCase() != 'form' || item.toLowerCase() != 'app')
+				if(item.toLowerCase() != 'app')
 				{
-
 					result.push('<option>');
 					result.push(valid_types[i]);
 					result.push('</option>');
@@ -82,9 +80,6 @@ function editor_render(p_metadata, p_path, p_ui)
 	      break;
     case 'app':
 			result.push('<div style="margin-top:10px" path="/" >');
-			/*result.push('<input type="button" value="-" /> ');
-			result.push('<input type="button" value="c" /> ');
-			result.push('<input type="button" value="d" /> ');*/
 			result.push(p_metadata.name);
 			result.push('<ul tag="attribute_list" ');
 			if(p_ui.is_collapsed["/"])
@@ -195,7 +190,7 @@ var valid_types = [
 "number",
 "date",
 "list",
-//"app",
+"app",
 "form",
 "group",
 "time",
@@ -230,26 +225,49 @@ function attribute_renderer(p_metadata, p_path)
 				else
 				{
 			
-					result.push('<li>type: <select onChange="editor_set_value(this, g_ui)" path="');
-					result.push(p_path + "/" + prop);
-					result.push('" /> ');
-					result.push("<option></option>");
-					for(var i = 0; i < valid_types.length; i++)
+					result.push('<li>type: ');
+					if(
+						p_metadata[prop].toLowerCase() == "app" ||
+						p_metadata[prop].toLowerCase() == "list" ||
+						p_metadata[prop].toLowerCase() == "group" ||
+						p_metadata[prop].toLowerCase() == "form"
+					)
 					{
-						
-						var item = valid_types[i];
-						if(p_metadata[prop] && item.toLowerCase() == p_metadata[prop].toLowerCase())
-						{
-							result.push('<option selected>');
-						}
-						else
-						{
-							result.push('<option>');
-						}
-						result.push(valid_types[i]);
-						result.push('</option>');
+						result.push(p_metadata[prop]);
 					}
-					result.push('</select>');
+					else
+					{
+						result.push('<select onChange="editor_set_value(this, g_ui)" path="');
+						result.push(p_path + "/" + prop);
+						result.push('" /> ');
+						for(var i = 0; i < valid_types.length; i++)
+						{
+							
+							var item = valid_types[i];
+							switch(item.toLowerCase())
+							{
+							
+								case 'app':
+								case 'list':
+								case 'group':
+								case 'form':
+									break;
+								default:
+									if(p_metadata[prop] && item.toLowerCase() == p_metadata[prop].toLowerCase())
+									{
+										result.push('<option selected>');
+									}
+									else
+									{
+										result.push('<option>');
+									}
+									result.push(valid_types[i]);
+									result.push('</option>');
+									break;
+							}
+						}
+						result.push('</select>');
+					}
 				}
 			break;
 			case "name":
