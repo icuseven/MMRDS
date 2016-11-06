@@ -147,6 +147,12 @@ namespace owin
 			); 
 
 
+			config.Routes.MapHttpRoute( 
+				name: "DynamicApi", 
+				routeTemplate: "api-docs/{controller}/{id}", 
+				defaults: new { id = RouteParameter.Optional } 
+			); 
+
 			config.Formatters.Clear();
 			config.Formatters.Add(new  System.Net.Http.Formatting.JsonMediaTypeFormatter());
 			config.Formatters.JsonFormatter.SerializerSettings =
