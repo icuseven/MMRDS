@@ -98,7 +98,10 @@ window.onhashchange = function(e)
   }*/
   if(e.isTrusted)
   {
-    g_ui.url_state = url_monitor.get_url_state(e.newURL);
+
+    var new_url = e.newURL || window.location.href;
+
+    g_ui.url_state = url_monitor.get_url_state(new_url);
 
     document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 

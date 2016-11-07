@@ -95,7 +95,10 @@ window.onhashchange = function(e)
 
   if(e.isTrusted)
   {
-    g_ui.url_state = url_monitor.get_url_state(e.newURL);
+    var new_url = e.newURL || window.location.href;
+
+    g_ui.url_state = url_monitor.get_url_state(new_url);
+
 	if($$.is_id(g_ui.url_state.path_array[0]))
 	{
 		var section_list = document.getElementsByTagName("section");

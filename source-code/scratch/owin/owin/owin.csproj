@@ -120,6 +120,7 @@
     <Compile Include="SwaggerCustomProvider.cs" />
     <Compile Include="controller\queueController.cs" />
     <Compile Include="util\mmria_type_builder.cs" />
+    <Compile Include="swashbuckle\Document_Filter.cs" />
     <Compile Include="api-docs\importAPIController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -2679,5 +2680,7 @@
     <Folder Include="model\couchdb\" />
     <Folder Include="model\metadata\" />
     <Folder Include="util\" />
+    <Folder Include="swashbuckle\" />
+    <Folder Include="api-docs\" />
   </ItemGroup>
 </Project>

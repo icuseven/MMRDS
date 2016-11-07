@@ -146,12 +146,12 @@ namespace owin
 				defaults: new { id = RouteParameter.Optional } 
 			); 
 
-
+			/*
 			config.Routes.MapHttpRoute( 
 				name: "DynamicApi", 
 				routeTemplate: "api-docs/{controller}/{id}", 
 				defaults: new { id = RouteParameter.Optional } 
-			); 
+			); */
 
 			config.Formatters.Clear();
 			config.Formatters.Add(new  System.Net.Http.Formatting.JsonMediaTypeFormatter());
@@ -175,8 +175,10 @@ namespace owin
 					c.RootUrl(req =>
 						req.RequestUri.GetLeftPart(UriPartial.Authority) +
 						req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
+
 					
 					c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
+					c.DocumentFilter<owin.swashbuckle.Document_Filter>();
 
 				})
 				.EnableSwaggerUi("sandbox/{*assetPath}");
