@@ -84,6 +84,18 @@
     <Reference Include="Swashbuckle.Core">
       <HintPath>..\packages\Swashbuckle.Core.5.5.3\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="System.Threading.Tasks.Dataflow">
+      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+    </Reference>
+    <Reference Include="vtortola.WebSockets.Deflate">
+      <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.Deflate.dll</HintPath>
+    </Reference>
+    <Reference Include="vtortola.WebSockets">
+      <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="vtortola.WebSockets.Rfc6455">
+      <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.Rfc6455.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

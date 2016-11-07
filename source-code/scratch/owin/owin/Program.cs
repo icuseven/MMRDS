@@ -1,18 +1,60 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using Owin.WebSocket.Extensions;
 using System.Net.Http;
 using Swashbuckle.Application;
-using System.Linq;
+
 
 
 using System.Web.Http;
 
 namespace owin
 {
+
+	// http://owin.org/extensions/owin-WebSocket-Extension-v0.4.0.htm
+	using WebSocketAccept = Action<System.Collections.Generic.IDictionary<string, object>, // options
+	Func<System.Collections.Generic.IDictionary<string, object>, Task>>; // callback
+	using WebSocketCloseAsync =
+		Func<int /* closeStatus */,
+	string /* closeDescription */,
+	CancellationToken /* cancel */,
+	Task>;
+	using WebSocketReceiveAsync =
+		Func<ArraySegment<byte> /* data */,
+	CancellationToken /* cancel */,
+	Task<Tuple<int /* messageType */,
+	bool /* endOfMessage */,
+	int /* count */>>>;
+	using WebSocketSendAsync =
+		Func<ArraySegment<byte> /* data */,
+	int /* messageType */,
+	bool /* endOfMessage */,
+	CancellationToken /* cancel */,
+	Task>;
+	using WebSocketReceiveResult = Tuple<int, // type
+	bool, // end of message?
+	int>; // count
+
+
 	class MainClass
 	{
+		/*
+
+		var endpoint = new IPEndPoint(IPAddress.Any, 8005);
+		vtortola.WebSockets.WebSocketListener server = new vtortola.WebSockets.WebSocketListener(endpoint);
+		var rfc6455 = new vtortola.WebSockets.Rfc6455.WebSocketFactoryRfc6455(server);
+		server.Standards.RegisterStandard(rfc6455);
+		server.Start();
+
+		Console.WriteLine("Echo Server started at " + endpoint.ToString());
+
+		var task = Task.Run(() => AcceptWebSocketClientsAsync(server, cancellation.Token));
+		*/
+
 		// http://www.asp.net/aspnet/samples/owin-katana
 
 		//http://localhost:12345
@@ -116,6 +158,8 @@ namespace owin
 		}
 	}
 
+
+
 	public class Startup
 	{
 		public void Configuration(IAppBuilder app)
@@ -208,6 +252,8 @@ namespace owin
 
 
 			app.UseWebApi(config); 
+			//
+
 			//app.UseSwagger();
 
 			string root = null;
@@ -237,10 +283,26 @@ namespace owin
 
 			// websocket - start
 			//For static routes http://foo.com/ws use MapWebSocketRoute and attribute the WebSocketConnection with [WebSocketRoute('/ws')]
-			//app.MapWebSocketRoute<MyWebSocket>();
+			//app.MapWebSocketRoute<owin.websocket.MyWebSocket>();
 
 					//For static routes http://foo.com/ws use MapWebSocketRoute
-			//app.MapWebSocketRoute<MyWebSocket>("/ws");
+
+			//app.Use(UpgradeToWebSockets, "/echo");
+			/*
+			app.Use(async (context, next) =>
+				{
+					if (context.WebSockets.IsWebSocketRequest)
+					{
+						WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+						await EchoWebSocket(webSocket);
+					}
+					else
+					{
+						await next();
+					}
+				});*/
+
+			app.MapWebSocketRoute<owin.websocket.MyWebSocket>("/echo");
 
 			//For dynamic routes where you may want to capture the URI arguments use a Regex route
 			//app.MapWebSocketPattern<MyWebSocket>("/captures/(?<capture1>.+)/(?<capture2>.+)");
@@ -248,5 +310,44 @@ namespace owin
 			// websocket - end
 			/**/
 		}
+
+
+		// Run once per request
+		private Task UpgradeToWebSockets(IOwinContext context, Func<Task> next)
+		{
+			WebSocketAccept accept = context.Get<WebSocketAccept>("websocket.Accept");
+			if (accept == null)
+			{
+				// Not a websocket request
+				return next();
+			}
+
+			accept(null, WebSocketEcho);
+
+			return Task.FromResult<object>(null);
+		}
+
+		private async Task WebSocketEcho(System.Collections.Generic.IDictionary<string, object> websocketContext)
+		{
+			var sendAsync = (WebSocketSendAsync)websocketContext["websocket.SendAsync"];
+			var receiveAsync = (WebSocketReceiveAsync)websocketContext["websocket.ReceiveAsync"];
+			var closeAsync = (WebSocketCloseAsync)websocketContext["websocket.CloseAsync"];
+			var callCancelled = (CancellationToken)websocketContext["websocket.CallCancelled"];
+
+			byte[] buffer = new byte[1024];
+			WebSocketReceiveResult received = await receiveAsync(new ArraySegment<byte>(buffer), callCancelled);
+
+			object status;
+			while (!websocketContext.TryGetValue("websocket.ClientCloseStatus", out status) || (int)status == 0)
+			{
+				// Echo anything we receive
+				await sendAsync(new ArraySegment<byte>(buffer, 0, received.Item3), received.Item1, received.Item2, callCancelled);
+
+				received = await receiveAsync(new ArraySegment<byte>(buffer), callCancelled);
+			}
+
+			await closeAsync((int)websocketContext["websocket.ClientCloseStatus"], (string)websocketContext["websocket.ClientCloseDescription"], callCancelled);
+		}
+
 	}
 }
