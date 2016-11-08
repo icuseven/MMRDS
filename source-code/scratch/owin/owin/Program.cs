@@ -7,6 +7,7 @@ using Owin;
 using Owin.WebSocket.Extensions;
 using System.Net.Http;
 using Swashbuckle.Application;
+using vtortola.WebSockets;
 
 
 
@@ -42,18 +43,8 @@ namespace owin
 
 	class MainClass
 	{
-		/*
+		
 
-		var endpoint = new IPEndPoint(IPAddress.Any, 8005);
-		vtortola.WebSockets.WebSocketListener server = new vtortola.WebSockets.WebSocketListener(endpoint);
-		var rfc6455 = new vtortola.WebSockets.Rfc6455.WebSocketFactoryRfc6455(server);
-		server.Standards.RegisterStandard(rfc6455);
-		server.Start();
-
-		Console.WriteLine("Echo Server started at " + endpoint.ToString());
-
-		var task = Task.Run(() => AcceptWebSocketClientsAsync(server, cancellation.Token));
-		*/
 
 		// http://www.asp.net/aspnet/samples/owin-katana
 
@@ -130,6 +121,23 @@ namespace owin
 
 				url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
 			}
+
+			CancellationTokenSource cancellation = new CancellationTokenSource();
+
+			var endpoint = new System.Net.IPEndPoint(System.Net.IPAddress.Any, 8005);
+			vtortola.WebSockets.WebSocketListener server = new vtortola.WebSockets.WebSocketListener(endpoint);
+			var rfc6455 = new vtortola.WebSockets.Rfc6455.WebSocketFactoryRfc6455(server);
+			server.Standards.RegisterStandard(rfc6455);
+			server.Start();
+
+			Console.WriteLine("Web Socket Echo Server started at " + endpoint.ToString());
+
+			var task = Task.Run(() => AcceptWebSocketClientsAsync(server, cancellation.Token));
+			/**/
+
+
+
+
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
 
@@ -156,6 +164,49 @@ namespace owin
 
 
 		}
+
+		static async Task AcceptWebSocketClientsAsync(WebSocketListener server, CancellationToken token)
+		{
+			while (!token.IsCancellationRequested)
+			{
+				try
+				{
+					var ws = await server.AcceptWebSocketAsync(token);
+					System.Console.WriteLine ("Connected " + ws??"Null");
+					if (ws != null)
+						Task.Run(()=>HandleConnectionAsync(ws, token));
+				}
+				catch(Exception aex)
+				{
+					System.Console.WriteLine ("Error Accepting clients: " + aex.GetBaseException().Message);
+				}
+			}
+			System.Console.WriteLine ("Server Stop accepting clients");
+		}
+
+		static async Task HandleConnectionAsync(WebSocket ws, CancellationToken cancellation)
+		{
+			try
+			{
+				while (ws.IsConnected && !cancellation.IsCancellationRequested)
+				{
+					String msg = await ws.ReadStringAsync(cancellation).ConfigureAwait(false);
+					System.Console.WriteLine ("Message: " + msg);
+					ws.WriteString(msg);
+				}
+			}
+			catch (Exception aex)
+			{
+				System.Console.WriteLine ("Error Handling connection: " + aex.GetBaseException().Message);
+				try { ws.Close(); }
+				catch { }
+			}
+			finally
+			{
+				ws.Dispose();
+			}
+		}
+
 	}
 
 
