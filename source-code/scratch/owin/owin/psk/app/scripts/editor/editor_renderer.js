@@ -456,6 +456,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option>is_core_summary</option>');
 	result.push('<option>is_required</option>');
 	result.push('<option>is_read_only</option>');
+	result.push('<option>is_multilist</option>');
 	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
