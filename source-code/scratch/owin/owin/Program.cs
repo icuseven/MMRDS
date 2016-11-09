@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
-using Owin.WebSocket.Extensions;
 using System.Net.Http;
 using Swashbuckle.Application;
 using vtortola.WebSockets;
@@ -15,33 +14,7 @@ using System.Web.Http;
 
 namespace owin
 {
-
-	// http://owin.org/extensions/owin-WebSocket-Extension-v0.4.0.htm
-	using WebSocketAccept = Action<System.Collections.Generic.IDictionary<string, object>, // options
-	Func<System.Collections.Generic.IDictionary<string, object>, Task>>; // callback
-	using WebSocketCloseAsync =
-		Func<int /* closeStatus */,
-	string /* closeDescription */,
-	CancellationToken /* cancel */,
-	Task>;
-	using WebSocketReceiveAsync =
-		Func<ArraySegment<byte> /* data */,
-	CancellationToken /* cancel */,
-	Task<Tuple<int /* messageType */,
-	bool /* endOfMessage */,
-	int /* count */>>>;
-	using WebSocketSendAsync =
-		Func<ArraySegment<byte> /* data */,
-	int /* messageType */,
-	bool /* endOfMessage */,
-	CancellationToken /* cancel */,
-	Task>;
-	using WebSocketReceiveResult = Tuple<int, // type
-	bool, // end of message?
-	int>; // count
-
-
-	class MainClass
+	class Program
 	{
 		
 
