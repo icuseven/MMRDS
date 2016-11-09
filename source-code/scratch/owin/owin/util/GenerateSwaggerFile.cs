@@ -22,22 +22,40 @@ namespace owin
 		private static string sample = @"{
   ""swagger"": ""2.0"",
   ""info"": {
-    ""title"": ""MyClient"",
+    ""title"": ""MMRIA Data Import"",
     ""version"": ""1.0.0""
   },
-  ""host"": ""swaggersample.azurewebsites.net"",
+  ""host"": ""test.mmria.org"",
   ""paths"": {
-    ""/api/HelloWorld"": {
+    ""/api/queue"": {
       ""get"": {
-        ""operationId"": ""GetGreeting"",
+        ""operationId"": ""setqueue"",
         ""produces"": [
           ""application/json""
         ],
+		""parameters"": [ 
+		{
+            ""name"": ""set_queue_request"",
+            ""in"": ""path"",
+            ""description"": ""How many items to return at one time (max 100)"",
+            ""required"": true,
+            ""schema"": {
+  							""security_token"": """",
+  							""action"": """",
+ 							""case_list"": [
+								{}
+							  ]
+						}
+
+          }
+		],
         ""responses"": {
           ""200"": {
-            ""description"": ""GETs a greeting."",
+            ""description"": ""Sets a data import queue."",
             ""schema"": {
-              ""type"": ""string""
+              ""ok"": ""boolean"",
+				""message"": ""string"",
+				""queue_id"": ""string""
             }
           }
         }

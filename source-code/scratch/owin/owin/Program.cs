@@ -273,7 +273,7 @@ namespace owin
 
 					
 					c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
-					c.DocumentFilter<owin.swashbuckle.Document_Filter>();
+					//c.DocumentFilter<owin.swashbuckle.Document_Filter>();
 
 				})
 				.EnableSwaggerUi("sandbox/{*assetPath}");
@@ -353,7 +353,7 @@ namespace owin
 					}
 				});*/
 
-			app.MapWebSocketRoute<owin.websocket.MyWebSocket>("/echo");
+			//app.MapWebSocketRoute<owin.websocket.MyWebSocket>("/echo");
 
 			//For dynamic routes where you may want to capture the URI arguments use a Regex route
 			//app.MapWebSocketPattern<MyWebSocket>("/captures/(?<capture1>.+)/(?<capture2>.+)");
@@ -361,44 +361,6 @@ namespace owin
 			// websocket - end
 			/**/
 		}
-
-
-		// Run once per request
-		private Task UpgradeToWebSockets(IOwinContext context, Func<Task> next)
-		{
-			WebSocketAccept accept = context.Get<WebSocketAccept>("websocket.Accept");
-			if (accept == null)
-			{
-				// Not a websocket request
-				return next();
-			}
-
-			accept(null, WebSocketEcho);
-
-			return Task.FromResult<object>(null);
-		}
-
-		private async Task WebSocketEcho(System.Collections.Generic.IDictionary<string, object> websocketContext)
-		{
-			var sendAsync = (WebSocketSendAsync)websocketContext["websocket.SendAsync"];
-			var receiveAsync = (WebSocketReceiveAsync)websocketContext["websocket.ReceiveAsync"];
-			var closeAsync = (WebSocketCloseAsync)websocketContext["websocket.CloseAsync"];
-			var callCancelled = (CancellationToken)websocketContext["websocket.CallCancelled"];
-
-			byte[] buffer = new byte[1024];
-			WebSocketReceiveResult received = await receiveAsync(new ArraySegment<byte>(buffer), callCancelled);
-
-			object status;
-			while (!websocketContext.TryGetValue("websocket.ClientCloseStatus", out status) || (int)status == 0)
-			{
-				// Echo anything we receive
-				await sendAsync(new ArraySegment<byte>(buffer, 0, received.Item3), received.Item1, received.Item2, callCancelled);
-
-				received = await receiveAsync(new ArraySegment<byte>(buffer), callCancelled);
-			}
-
-			await closeAsync((int)websocketContext["websocket.ClientCloseStatus"], (string)websocketContext["websocket.ClientCloseDescription"], callCancelled);
-		}
-
+			
 	}
 }
