@@ -54,8 +54,34 @@ namespace owin
 		{
 			switch (node.type.ToLower ()) 
 			{
-				case "form":
-				case "group":
+			case "form":
+				if 
+				(
+						node.cardinality != null &&
+						(
+							node.cardinality == "*" ||
+							node.cardinality == "+"
+						)
+				) 
+				{
+					result.Append ("\"");
+					result.Append (node.name); result.Append("\":{");
+					result.Append ("\"type\": \"array\",");
+					result.Append ("\"items\": { \"type\":\"object\", \"properties\": { ");
+
+					for(int i = 0; i < node.children.Length; i ++) 
+					{
+						var child = node.children [i];
+						generate (result, child);
+						if(i < node.children.Length - 1)
+						{
+							result.Append (",");
+						}
+					}
+					result.Append ("}}}\n");
+				} 
+				else 
+				{
 					result.Append ("\"");
 					result.Append (node.name); result.Append("\":{");
 					//result.Append ("\"title\": \"case_item schema\",");
@@ -71,8 +97,28 @@ namespace owin
 							result.Append (",");
 						}
 					}
-				result.Append ("}}\n");
+					result.Append ("}}\n");
+				}
+					
 					break;
+			case "group":
+				result.Append ("\"");
+				result.Append (node.name); result.Append("\":{");
+				//result.Append ("\"title\": \"case_item schema\",");
+				result.Append ("\"type\": \"object\",");
+				result.Append ("\"properties\": {");
+
+				for(int i = 0; i < node.children.Length; i ++) 
+				{
+					var child = node.children [i];
+					generate (result, child);
+					if(i < node.children.Length - 1)
+					{
+						result.Append (",");
+					}
+				}
+				result.Append ("}}\n");
+				break;
 			case "grid":
 				result.Append ("\"");
 				result.Append (node.name); result.Append("\":{");
