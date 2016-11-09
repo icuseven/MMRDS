@@ -212,7 +212,7 @@ namespace owin
   ],
 ""paths"": {
     ""/queue"": {
-      ""get"": {
+      ""post"": {
         ""operationId"": ""setQueueRequest"",
         ""description"": ""Adds new and existing case records into processing queue."",
         ""produces"": [
@@ -222,7 +222,7 @@ namespace owin
 		{
             ""name"": ""set_queue_request"",
             ""in"": ""body"",
-            ""description"": ""How many items to return at one time (max 100)"",
+            ""description"": ""A list of case items to be imported."",
             ""required"": true,
             ""schema"": { ""$ref"": ""#/definitions/set_queue_request""   }
     }
