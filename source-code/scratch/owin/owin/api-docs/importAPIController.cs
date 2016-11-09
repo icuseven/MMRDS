@@ -7,7 +7,7 @@ public class importAPIController : ApiController
 	// GET: /Default1/
 	public System.Dynamic.ExpandoObject Get()
 	{
-		return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(@"{
+		return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (@"{
   ""swaggerVersion"": ""1.2"",
   ""basePath"": ""http://localhost:8000/greetings"",
   ""apis"": [
@@ -35,4 +35,14 @@ public class importAPIController : ApiController
   ""models"": {}
 }");
 	}
+	
+		//
+		// GET: /Default1/
+		public System.Dynamic.ExpandoObject Put()
+		{
+			string file_text = System.IO.File.OpenText ("api.json").ReadToEnd();
+			return Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(file_text);
+		}
+
+
 }

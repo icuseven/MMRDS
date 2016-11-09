@@ -8,16 +8,19 @@ namespace owin
 	public class metadataController: ApiController 
 	{ 
 		private static string couchdb_url = null;
+		private static string file_root_folder = null;
 
 		static metadataController()
 		{
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
 			{
 				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+				file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
 			} 
 			else
 			{
 				couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+				file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
 			}
 
 		}
@@ -163,6 +166,9 @@ namespace owin
 							string responseFromServer = reader.ReadToEnd ();
 
 							result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.couchdb.document_put_response>(responseFromServer);
+
+						System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
+							
 						}
 						catch(Exception ex)
 						{
