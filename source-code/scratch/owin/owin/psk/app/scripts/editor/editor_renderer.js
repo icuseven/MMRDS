@@ -355,7 +355,7 @@ function attribute_renderer(p_metadata, p_path)
 				break;				
 			case "is_core_summary":
 			case "is_required":
-			case "is_multilist":
+			case "is_multiselect":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="checkbox" checked="');
@@ -486,7 +486,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option>is_core_summary</option>');
 	result.push('<option>is_required</option>');
 	result.push('<option>is_read_only</option>');
-	result.push('<option>is_multilist</option>');
+	result.push('<option>is_multiselect</option>');
 	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
@@ -686,7 +686,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "is_core_summary":
 			case "is_required":
 			case "is_read_only":
-			case "is_multilist":
+			case "is_multiselect":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 					eval(item)[attribute] = true;
