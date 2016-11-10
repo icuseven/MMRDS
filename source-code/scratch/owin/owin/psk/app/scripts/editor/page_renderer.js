@@ -146,7 +146,9 @@ function page_render(p_metadata, p_data, p_ui, p_path)
           result.push("\",this)' /></div>");
 
            break;
-     case 'textarea':
+		   
+	case 'address':
+    case 'textarea':
 					result.push("<div class='string'>");
 					result.push(p_metadata.prompt);
 					result.push("<br/> <textarea  name='");
@@ -183,77 +185,75 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 	          result.push("\",this)' /></div>");
             break;
     case 'list':
-    case 'yes_no':
-    case 'radio_group':
-					result.push("<div class='list'>");
-					result.push(p_metadata.prompt);
+			result.push("<div class='list'>");
+			result.push(p_metadata.prompt);
 
-					if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
-					{
-						result.push(' ( select all that apply )');
-					}
+			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
+			{
+				result.push(' ( select all that apply )');
+			}
 
-					if(p_metadata.values.length > 6)
-					{
-						result.push("<br/> <select size=7 name='");
-					}
-					else
-					{
-						result.push("<br/> <select size=");
-						result.push(p_metadata.values.length);
-						result.push(" name='");
-					}
+			if(p_metadata.values.length > 6)
+			{
+				result.push("<br/> <select size=7 name='");
+			}
+			else
+			{
+				result.push("<br/> <select size=");
+				result.push(p_metadata.values.length);
+				result.push(" name='");
+			}
 
-					result.push(p_metadata.name);
-					result.push("' onblur='g_ui.set_value(\"");
-					result.push(p_path);
-					result.push('/');
-					result.push(p_metadata.name);
-					result.push("\",this)' ");
+			result.push(p_metadata.name);
+			result.push("' onblur='g_ui.set_value(\"");
+			result.push(p_path);
+			result.push('/');
+			result.push(p_metadata.name);
+			result.push("\",this)' ");
 
-					if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
+			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
+			{
+				result.push(" multiple >");
+				for(var i = 0; i < p_metadata.values.length; i++)
+				{
+					var item = p_metadata.values[i];
+					if(p_data.indexOf(item))
 					{
-						result.push(" multiple >");
-						for(var i = 0; i < p_metadata.values.length; i++)
-						{
-							var item = p_metadata.values[i];
-							if(p_data.indexOf(item))
-							{
-									result.push("<option selected>");
-									result.push(item);
-									result.push("</option>");
-							}
-							else
-							{
-								result.push("<option>");
-								result.push(item);
-								result.push("</option>");
-							}
-						}
-						result.push("</select></div>");
+							result.push("<option selected>");
+							result.push(item);
+							result.push("</option>");
 					}
 					else
 					{
-						result.push(">");
-
-						for(var i = 0; i < p_metadata.values.length; i++)
-					 {
-						 var item = p_metadata.values[i];
-						 if(p_data == item)
-						 {
-							 	result.push("<option selected>");
-								result.push(item);
-								result.push("</option>");
-						 }
-						 else
-						 {
-							 result.push("<option>");
-							 result.push(item);
-							 result.push("</option>");
-						 }
-					 }
-					 result.push("</select></div>");
+						result.push("<option>");
+						result.push(item);
+						result.push("</option>");
 					}
+				}
+				result.push("</select></div>");
+			}
+			else
+			{
+				result.push(">");
+
+				for(var i = 0; i < p_metadata.values.length; i++)
+			 {
+				 var item = p_metadata.values[i];
+				 if(p_data == item)
+				 {
+						result.push("<option selected>");
+						result.push(item);
+						result.push("</option>");
+				 }
+				 else
+				 {
+					 result.push("<option>");
+					 result.push(item);
+					 result.push("</option>");
+				 }
+			 }
+			 result.push("</select></div>");
+			}
 
            break;
 			case 'date':

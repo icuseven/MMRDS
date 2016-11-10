@@ -9,8 +9,7 @@ function editor_render(p_metadata, p_path, p_ui)
 	var result = [];
 
 	switch(p_metadata.type.toLowerCase())
-  {
-		case 'address':
+  	{
 		case 'grid':
 		case 'group':
 		case 'form':
@@ -60,22 +59,48 @@ function editor_render(p_metadata, p_path, p_ui)
 					result.push('</option>');
 				}
 			}
-
-
 			result.push('</select>');
 
 			
 			result.push(' <input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="');
 			result.push(p_path);
-			result.push('" /> <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
+			result.push('" />');
+			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" />');
 			//result.push(p_path + "/children");
 			result.push(' <ul>');
 
 			for(var i = 0; i < p_metadata.children.length; i++)
-	      {
-	        var child = p_metadata.children[i];
-	        Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i, p_ui));
-	      }
+			{
+				var child = p_metadata.children[i];
+				Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i, p_ui));
+			}
+
+			result.push('<li><select path="');
+			result.push(p_path);
+			result.push('" /> ');
+			result.push("<option></option>");
+			for(var i = 0; i < valid_types.length; i++)
+			{
+				var item = valid_types[i];
+				if(item.toLowerCase() != 'app')
+				{
+					result.push('<option>');
+					result.push(valid_types[i]);
+					result.push('</option>');
+				}
+			}
+			result.push('</select>');
+
+			
+			result.push(' <input type="button" value="add new item to ');
+			result.push(p_metadata.name);
+			result.push(' ');
+			result.push(p_metadata.type);
+			result.push('" onclick="editor_add_to_children(this, g_ui)" path="');
+			result.push(p_path);
+			result.push('" /> ');
+			
+			result.push('</li>');
 				result.push('</ul></li></ul></li>');
 	      break;
     case 'app':
@@ -111,6 +136,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		case 'number':
 		case 'string':
 		case 'time':
+		case 'address':
 		case 'textarea':
 					 result.push('<li path="');
 					 result.push(p_path);
@@ -187,6 +213,7 @@ function editor_render(p_metadata, p_path, p_ui)
 
 var valid_types = [
 "string",
+"address",
 "number",
 "date",
 "list",
@@ -340,6 +367,8 @@ function attribute_renderer(p_metadata, p_path)
 					
 					result.push(' <input type="button" value="d"  path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
 				break;
+			case "validation_description":
+			case "description":
 			case "validation":
 			case "onblur":
 			case "onclick":
@@ -453,6 +482,7 @@ function render_attribute_add_control(p_path)
 	result.push(p_path);
 	result.push('">');
 	result.push('<option></option>');
+	result.push('<option>description</option>');
 	result.push('<option>is_core_summary</option>');
 	result.push('<option>is_required</option>');
 	result.push('<option>is_read_only</option>');
@@ -460,6 +490,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
+	result.push('<option>validation_description</option>');
 	result.push('<option>onfocus</option>');
 	result.push('<option>onchange</option>');
 	result.push('<option>onblur</option>');
@@ -570,15 +601,26 @@ function editior_clone(obj)
 
 function editor_add_to_children(e, p_ui)
 {
-	var element = document.querySelector('select[path="' + e.attributes['path'].value + '"]');
-	if(element.value)
+	var element_list = document.querySelectorAll('select[path="' + e.attributes['path'].value + '"]');
+	var element_value = null;
+	for(var  i = 0; i < element_list.length; i++)
+	{
+		var el = element_list[i];
+		if(el.value)
+		{
+			element_value = el.value;
+			break;
+		}
+	}
+
+	if(element_value)
 	{
 
 		var parent_path = e.attributes['path'].value;
 		var parent_eval_path = get_eval_string(parent_path); 
 		var item_path =  parent_eval_path + ".children";
 
-		switch(element.value.toLowerCase())
+		switch(element_value.toLowerCase())
 		{
 			//"app":
 			//"form":
@@ -586,11 +628,12 @@ function editor_add_to_children(e, p_ui)
 			case "number":
 			case "date":
 			case "time":
+			case "address":
 			case "textarea":
 			case "boolean":
 			case "label":
 			case "button":			
-					eval(item_path).push(md.create_value("new_" + element.value, "new " + element.value + " prompt", element.value));
+					eval(item_path).push(md.create_value("new_" + element_value, "new " + element_value + " prompt", element_value));
 
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
 
@@ -600,7 +643,7 @@ function editor_add_to_children(e, p_ui)
 
 					break;
 			case "list":
-					eval(item_path).push(md.create_value_list("new_" + element.value, "new " + element.value, element.value, "list"));
+					eval(item_path).push(md.create_value_list("new_" + element_value, "new " + element_value, element_value, "list"));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
 
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
@@ -608,7 +651,7 @@ function editor_add_to_children(e, p_ui)
 					window.dispatchEvent(metadata_changed_event);
 					break;
 			case "group":
-					eval(item_path).push(md.create_group("new_" + element.value, "new " + element.value, element.value));
+					eval(item_path).push(md.create_group("new_" + element_value, "new " + element_value, element_value));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
 
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
@@ -624,7 +667,7 @@ function editor_add_to_children(e, p_ui)
 					window.dispatchEvent(metadata_changed_event);		
 				break;
 			default:
-				console.log("e.value, path", element.value, e.attributes['path'].value);
+				console.log("e.value, path", element_value, e.attributes['path'].value);
 				break;
 			
 		}
@@ -643,6 +686,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "is_core_summary":
 			case "is_required":
 			case "is_read_only":
+			case "is_multilist":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 					eval(item)[attribute] = true;
@@ -654,8 +698,10 @@ function editor_add_to_attributes(e, p_ui)
 				window.dispatchEvent(metadata_changed_event);
 				break;
 			case "default_value":
+			case "description":
 			case "regex_pattern":
 			case "validation":
+			case "validation_description":
 			case "onfocus":
 			case "onchange":
 			case "onblur":
