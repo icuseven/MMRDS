@@ -22,7 +22,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 		result.push("<table id='");
 		result.push(p_metadata_path);
 		result.push("' class='grid'><tr><th colspan=");
-		result.push(p_metadata.children.length)
+		result.push(p_metadata.children.length + 1)
 		result.push(">");
 		result.push(p_metadata.prompt);
 		result.push("</th></tr>");
@@ -36,7 +36,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push('</th>')
 
 		}
-		result.push('</tr>');
+		result.push('<th>&nbsp;</th></tr>');
 
 		for(var i = 0; i < p_data.length; i++)
 		{
@@ -48,10 +48,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name));
 				result.push("</td>");
 			}
-			result.push('</tr>');
+			result.push('<td> <input type="button" value="delete" id="delete_');
+			result.push(p_object_path + "[" + i + "]");
+			result.push('" onclick="g_delete_grid_item(\'');
+			result.push(p_object_path + "[" + i + "]");
+			result.push("', '");
+			result.push(p_metadata_path);
+			result.push('\')" /></td></tr>');
 		}
     result.push("<tr><td colspan=");
-		result.push(p_metadata.children.length)
+		result.push(p_metadata.children.length + 1);
 		result.push(" align=right> <input type='button' value='Add Item' onclick='g_add_grid_item(\"");
 		result.push(p_object_path);
 		result.push("\", \"");
