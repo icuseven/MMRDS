@@ -11,6 +11,15 @@ var g_validation_description_map = [];
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
+  var current_value = eval(p_object_path);
+  if(current_value != value)
+  {
+    var metadata = eval(p_metadata_path);
+    eval(p_object_path + ' = "' + value.replace('"', '\"') + '"');
+
+    document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+  }
+  
 
   
 }
