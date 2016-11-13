@@ -358,8 +358,15 @@ function attribute_renderer(p_metadata, p_path)
 			case "is_multiselect":
 					result.push('<li>')
 					result.push(prop);
-					result.push(' : <input type="checkbox" checked="');
-					result.push(p_metadata[prop]);
+					result.push(' : <input type="checkbox" ');
+					if(p_metadata[prop] && p_metadata[prop]== true)
+					{
+						result.push(' checked="true" value="true" ');
+					}
+					else
+					{
+						result.push(' value="false" ');
+					}
 					result.push('" onblur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('" /> ');
@@ -578,13 +585,20 @@ function editor_set_value(e, p_ui)
 			{
 				var valid_code = JSON.stringify(esprima.parse(e.value), null, 4);
 				eval(item_path + ' = ' + valid_code);
+				e.style.color = "black"
 					
 			}
 			catch(e)
 			{
+				e.style.color = "red";
 				console.log("set code: " ,e);
 			}
-			
+		case "is_core_summary":
+		case "is_required":
+		case "is_multiselect":
+			eval(item_path + ' = !' + item_path);
+			window.dispatchEvent(metadata_changed_event);
+			break;
 		default:
 			//var item = eval(item_path);
 			eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
