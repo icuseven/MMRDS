@@ -378,7 +378,16 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('"> ');
-					result.push(escodegen.generate(p_metadata[prop]));
+					/*
+					if(p_metadata[prop] && p_metadata[prop]!="")
+					{
+						result.push(escodegen.generate(p_metadata[prop]));
+					}
+					else
+					{*/
+						result.push(p_metadata[prop]);
+					//}
+					
 					result.push('</textarea> </li>');			
 				break;
 			case "validation_description":
