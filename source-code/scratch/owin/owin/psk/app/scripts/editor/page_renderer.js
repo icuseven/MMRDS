@@ -1,4 +1,4 @@
-function page_render(p_metadata, p_data, p_ui, p_path)
+function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 {
 
 	var result = [];
@@ -14,7 +14,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_path + '/' + p_metadata.name));
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '/' + p_metadata.name));
       }
 			result.push("<input type='button' value='get location' /></fieldset>");
       break;
@@ -63,7 +63,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_path + '/' + p_metadata.name));
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '/' + p_metadata.name));
       }
 			result.push("</fieldset>");
       break;
@@ -76,7 +76,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_path + '/' + p_metadata.name));
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '/' + p_metadata.name));
       }
 			result.push("</section>");
       break;
@@ -140,7 +140,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 					result.push("' value='");
 					result.push(p_data);
 					result.push("' onblur='g_ui.set_value(\"");
-          result.push(p_path);
+          result.push(p_metadata_path);
 					result.push('/');
 					result.push(p_metadata.name);
           result.push("\",this)' /></div>");
@@ -166,7 +166,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 						result.push("' value='");
 						result.push(p_data);
 						result.push("' onblur='g_ui.set_value(\"");
-	          result.push(p_path);
+	          result.push(p_metadata_path);
 						result.push('/');
 						result.push(p_metadata.name);
 	          result.push("\",this)'  /></div>");
@@ -179,7 +179,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 						result.push("' checked='");
 						result.push(p_data);
 						result.push("' onblur='g_ui.set_value(\"");
-	          result.push(p_path);
+	          result.push(p_metadata_path);
 						result.push('/');
 						result.push(p_metadata.name);
 	          result.push("\",this)' /></div>");
@@ -206,7 +206,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 
 			result.push(p_metadata.name);
 			result.push("' onblur='g_ui.set_value(\"");
-			result.push(p_path);
+			result.push(p_metadata_path);
 			result.push('/');
 			result.push(p_metadata.name);
 			result.push("\",this)' ");
@@ -264,7 +264,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 				result.push("' value='");
 				result.push(p_data);
 				result.push("' onblur='g_ui.set_value(\"");
-				result.push(p_path);
+				result.push(p_metadata_path);
 				result.push('/');
 				result.push(p_metadata.name);
 				result.push("\",this)'  /></div>");
@@ -277,7 +277,7 @@ function page_render(p_metadata, p_data, p_ui, p_path)
 					result.push("' value='");
 					result.push(p_data);
 					result.push("' onblur='g_ui.set_value(\"");
-          result.push(p_path);
+          result.push(p_metadata_path);
 					result.push('/');
 					result.push(p_metadata.name);
           result.push("\",this)'  /></div>");

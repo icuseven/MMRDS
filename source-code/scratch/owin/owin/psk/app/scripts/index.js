@@ -4,6 +4,16 @@
 
 var g_metadata = null;
 var g_data = null;
+var g_metadata_path = [];
+var g_validator_map = [];
+var g_validation_description_map = [];
+
+function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
+{
+
+  
+}
+
 
 var g_ui = {
   url_state: {
@@ -163,6 +173,8 @@ window.onhashchange = function(e)
 	}).done(function(response) {
 			g_metadata = response;
 			g_data = create_default_object(g_metadata, {});
+
+      create_validator_map(g_metadata_path, g_validator_map, g_validation_description_map, g_metadata, "/");
 
       g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
