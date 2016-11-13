@@ -367,13 +367,22 @@ function attribute_renderer(p_metadata, p_path)
 					
 					result.push(' <input type="button" value="d"  path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
 				break;
-			case "validation_description":
-			case "description":
+
 			case "validation":
 			case "onblur":
 			case "onclick":
 			case "onfocus":
 			case "onchange":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('"> ');
+					result.push(escodegen.generate(p_metadata[prop]));
+					result.push('</textarea> </li>');			
+				break;
+			case "validation_description":
+			case "description":
 			case "pre_fill":
 					result.push('<li>')
 					result.push(prop);
@@ -382,7 +391,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('"> ');
 					result.push(p_metadata[prop]);
 					result.push('</textarea> </li>');			
-				break;
+				break;				
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
 				{
@@ -551,6 +560,22 @@ function editor_set_value(e, p_ui)
 				
 			
 			break;
+		case "validation":
+		case "onblur":
+		case "onclick":
+		case "onfocus":
+		case "onchange":
+			try
+			{
+				var valid_code = JSON.stringify(esprima.parse(e.value), null, 4);
+				eval(item_path + ' = ' + valid_code);
+					
+			}
+			catch(e)
+			{
+				console.log("set code: " ,e);
+			}
+			
 		default:
 			//var item = eval(item_path);
 			eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
