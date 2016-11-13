@@ -3,10 +3,44 @@ function create_default_object(p_metadata, p_parent)
 
   switch(p_metadata.type.toLowerCase())
   {
+    case 'grid':
+      p_parent[p_metadata.name] = [];
+      var sample_grid_item = {};
+      for(var i = 0; i < p_metadata.children.length; i++)
+      {
+        var child = p_metadata.children[i];
+        create_default_object(child, sample_grid_item);
+      }
+      p_parent[p_metadata.name].push(sample_grid_item);
+
+      break;
+    case 'form':
+      if
+      (
+        p_metadata.cardinality && 
+        (
+          p_metadata.cardinality == "+" ||
+          p_metadata.cardinality == "*"
+        )
+      )
+      {
+        p_parent[p_metadata.name] = [];
+      }
+      else
+      {
+        p_parent[p_metadata.name] = {};
+      }
+      
+      for(var i = 0; i < p_metadata.children.length; i++)
+      {
+        var child = p_metadata.children[i];
+        create_default_object(child, p_parent[p_metadata.name]);
+      }
+      break;
+
     case 'group':
     case 'form':
     case 'address':
-    case 'grid':
       p_parent[p_metadata.name] = {};
       for(var i = 0; i < p_metadata.children.length; i++)
       {

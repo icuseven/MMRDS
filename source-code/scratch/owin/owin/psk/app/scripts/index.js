@@ -14,6 +14,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
   
 }
 
+function g_add_grid_item(p_object_path, p_metadata_path)
+{
+  var metadata = eval(p_metadata_path);
+  var new_line_item = create_default_object(metadata, {});
+  eval(p_object_path).push(new_line_item[0]);
+  
+}
+
 
 var g_ui = {
   url_state: {
@@ -115,7 +123,7 @@ window.onhashchange = function(e)
 
     document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
-    document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
+    document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
 
 
     if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))

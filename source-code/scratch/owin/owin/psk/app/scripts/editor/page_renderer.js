@@ -1,4 +1,4 @@
-function page_render(p_metadata, p_data, p_ui, p_metadata_path)
+function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 {
 
 	var result = [];
@@ -14,7 +14,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '/' + p_metadata.name));
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path));
       }
 			result.push("<input type='button' value='get location' /></fieldset>");
       break;
@@ -26,6 +26,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 		result.push(">");
 		result.push(p_metadata.prompt);
 		result.push("</th></tr>");
+
 		result.push('<tr>');
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
@@ -37,20 +38,25 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 		}
 		result.push('</tr>');
 
-		for(var i = 0; i < p_data[child.name].length; i++)
+		for(var i = 0; i < p_data.length; i++)
 		{
 			result.push('<tr>');
-			for(var j = 0; j < p_data[child.name][i].length; j++)
+			for(var j = 0; j < p_metadata.children.length; j++)
 			{
-				result.push("<th>");
-				result.push(p_data[child.name][i][j]);
-				result.push("</th>");
+				var child = p_metadata.children[j];
+				result.push("<td>");
+				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name));
+				result.push("</td>");
 			}
 			result.push('</tr>');
 		}
     result.push("<tr><td colspan=");
 		result.push(p_metadata.children.length)
-		result.push(" align=right> <input type='button' value='Add Item' /></td></tr>");
+		result.push(" align=right> <input type='button' value='Add Item' onclick='g_add_grid_item(\"");
+		result.push(p_object_path);
+		result.push("\", \"");
+		result.push(p_metadata_path);
+		result.push("\")' /></td></tr>");
 
 		result.push("</table>");
 		break;
@@ -63,7 +69,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '/' + p_metadata.name));
+        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
       }
 			result.push("</fieldset>");
       break;
@@ -76,7 +82,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 			for(var i = 0; i < p_metadata.children.length; i++)
       {
         var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '/' + p_metadata.name));
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
       }
 			result.push("</section>");
       break;
@@ -118,14 +124,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path)
 
 		result.push("</section>");
 
-       for(var i = 0; i < p_metadata.children.length; i++)
-       {
-					var child = p_metadata.children[i];
-					if(child.type.toLowerCase() == 'form')
-					{
-				 		Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, ""));
-					}
-			 }
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			if(child.type.toLowerCase() == 'form')
+			{
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name));				 		
+			}
+		}
 
 		result.push('<footer class="footer_wrapper">');
 		result.push('<p>&nbsp;</p>');
