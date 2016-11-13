@@ -14,10 +14,31 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
   var current_value = eval(p_object_path);
   if(current_value != value)
   {
-    var metadata = eval(p_metadata_path);
-    eval(p_object_path + ' = "' + value.replace('"', '\"') + '"');
 
-    document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+    
+
+    if(g_validator_map[p_metadata_path])
+    {
+      if(g_validator_map[p_metadata_path](value))
+      {
+        var metadata = eval(p_metadata_path);
+        eval(p_object_path + ' = "' + value.replace('"', '\"') + '"');
+        document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+      }
+      else
+      {
+        console.log("didn't pass validation");
+      }
+
+      
+    }
+    else
+    {
+      var metadata = eval(p_metadata_path);
+      eval(p_object_path + ' = "' + value.replace('"', '\"') + '"');
+      document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+    }
+    
   }
   
 
