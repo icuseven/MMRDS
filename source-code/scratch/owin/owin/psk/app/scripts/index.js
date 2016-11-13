@@ -18,7 +18,9 @@ function g_add_grid_item(p_object_path, p_metadata_path)
 {
   var metadata = eval(p_metadata_path);
   var new_line_item = create_default_object(metadata, {});
-  eval(p_object_path).push(new_line_item[0]);
+  eval(p_object_path).push(new_line_item[metadata.name][0]);
+
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
   
 }
 

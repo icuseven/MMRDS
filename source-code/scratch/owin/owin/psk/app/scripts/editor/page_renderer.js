@@ -20,8 +20,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
       break;
     case 'grid':
 		result.push("<table id='");
-		result.push(p_metadata.name);
-		result.push("_id' class='grid'><tr><th colspan=");
+		result.push(p_metadata_path);
+		result.push("' class='grid'><tr><th colspan=");
 		result.push(p_metadata.children.length)
 		result.push(">");
 		result.push(p_metadata.prompt);
