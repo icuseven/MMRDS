@@ -28,7 +28,11 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 	// is_read_only
 
 
-
+	if(p_metadata.is_read_only && p_metadata.is_read_only == true)
+	{
+			result.push("\nreturn false;\n");
+			validation_added = true;
+	}
 
 	switch(p_metadata.type.toLowerCase())
 	{
