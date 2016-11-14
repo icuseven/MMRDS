@@ -244,7 +244,6 @@ namespace owin
 						req.RequestUri.GetLeftPart(UriPartial.Authority) +
 						req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
 
-					
 					c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
 					//c.DocumentFilter<owin.swashbuckle.Document_Filter>();
 
