@@ -162,40 +162,52 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 		   
 	case 'address':
     case 'textarea':
-					result.push("<div class='string'>");
+					result.push("<div class='string' id='");
+					result.push(p_object_path);
+					result.push("'>");
 					result.push(p_metadata.prompt);
 					result.push("<br/> <textarea  name='");
 					result.push(p_metadata.name);
-					result.push("'>");
+					result.push("'  onblur='g_set_data_object_from_path(\"");
+          result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)' >");
 					result.push(p_data);
 					result.push("'</textarea></div>");
 
            break;
      case 'number':
-						result.push("<div class='number'>");
+						result.push("<div class='number' id='");
+					result.push(p_object_path);
+					result.push("'>");
 						result.push(p_metadata.prompt);
 						result.push("<br/> <input type='Number' name='");
 						result.push(p_metadata.name);
 						result.push("' value='");
 						result.push(p_data);
-						result.push("' onblur='g_ui.set_value(\"");
-	          result.push(p_metadata_path);
-						result.push('/');
-						result.push(p_metadata.name);
-	          result.push("\",this)'  /></div>");
+						result.push("'  onblur='g_set_data_object_from_path(\"");
+          result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)'  /></div>");
            break;
      case 'boolean':
-						result.push("<div class='boolean'>");
+						result.push("<div class='boolean' id='");
+					result.push(p_object_path);
+					result.push("'>");
 						result.push(p_metadata.prompt);
 						result.push(" <input type='checkbox' name='");
 						result.push(p_metadata.name);
 						result.push("' checked='");
 						result.push(p_data);
-						result.push("' onblur='g_ui.set_value(\"");
-	          result.push(p_metadata_path);
-						result.push('/');
-						result.push(p_metadata.name);
-	          result.push("\",this)' /></div>");
+						result.push("'  value='");
+						result.push(p_data);
+						result.push(" onblur='g_set_data_object_from_path(\"");
+          result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)'  /></div>");
             break;
     case 'list':
 			result.push("<div class='list'>");

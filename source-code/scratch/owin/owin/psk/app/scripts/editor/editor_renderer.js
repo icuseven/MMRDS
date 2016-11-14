@@ -411,6 +411,24 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('"> ');
 					result.push(p_metadata[prop]);
 					result.push('</textarea> </li>');			
+				break;
+			case "regex_pattern":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="text" value="');
+					result.push(p_metadata[prop]);
+					result.push('" size=');
+					if(p_metadata[prop])
+					{
+						result.push((p_metadata[prop].length)?  p_metadata[prop].length + 7: 20);
+					}
+					else
+					{
+						result.push(20);
+					}
+					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> syntax->  /pattern/flags  example: /w3schools/i <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
 				break;				
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
@@ -592,7 +610,7 @@ function editor_set_value(e, p_ui)
 				e.style.color = "black"
 					
 			}
-			catch(e)
+			catch(err)
 			{
 				e.style.color = "red";
 				console.log("set code: " ,e);
@@ -607,11 +625,18 @@ function editor_set_value(e, p_ui)
 		case "regex_pattern":
 			try
 			{
-				var reg_ex = new RegExp(e.value);
-				eval(item_path + ' = ' + e.value);
+				if(e.value && e.value!='')
+				{
+					var reg_ex = new RegExp(e.value);
+					eval(item_path + ' = ' + e.value);
+				}
+				else
+				{
+					eval(item_path + ' = ""');
+				}
 				e.style.color = "black"
 			}
-			catch(e)
+			catch(err)
 			{
 				e.style.color = "red";
 				console.log("invalid regex_pattern: " ,e.value);
