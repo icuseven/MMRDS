@@ -35,7 +35,7 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 		case "number":
 			if(p_metadata.is_required && p_metadata.is_required == true)
 			{
-					result.push("if(value == null || value == '') return false;");
+					result.push("if(value == null || value == '') return false;\n");
 					validation_added = true;
 			}
 
@@ -58,7 +58,7 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 		case "date":
 			if(p_metadata.is_required && p_metadata.is_required == true)
 			{
-					result.push("if(value == null || value == '') return false;");
+					result.push("if(value == null || value == '') return false;\n");
 					validation_added = true;
 			}
 
@@ -82,7 +82,7 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 		default:
 			if(p_metadata.is_required && p_metadata.is_required == true)
 			{
-				result.push("if(value == null || value == '') return false;");
+				result.push("if(value == null || value == '') return false;\n");
 				validation_added = true;
 			}
 

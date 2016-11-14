@@ -599,6 +599,20 @@ function editor_set_value(e, p_ui)
 			eval(item_path + ' = !' + item_path);
 			window.dispatchEvent(metadata_changed_event);
 			break;
+		case "regex_pattern":
+			try
+			{
+				var reg_ex = new RegExp(e.value);
+				eval(item_path + ' = ' + e.value);
+				e.style.color = "black"
+			}
+			catch(e)
+			{
+				e.style.color = "red";
+				console.log("invalid regex_pattern: " ,e.value);
+			}
+			
+			break;
 		default:
 			//var item = eval(item_path);
 			eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
