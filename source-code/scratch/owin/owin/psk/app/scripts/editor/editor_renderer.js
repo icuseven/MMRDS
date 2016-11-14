@@ -356,23 +356,27 @@ function attribute_renderer(p_metadata, p_path)
 			case "is_core_summary":
 			case "is_required":
 			case "is_multiselect":
-					result.push('<li>')
-					result.push(prop);
-					result.push(' : <input type="checkbox" ');
-					if(p_metadata[prop] && p_metadata[prop]== true)
+			case "is_read_only":
+					if(p_metadata[prop])
 					{
-						result.push(' checked="true" value="true" ');
+						result.push('<li>')
+						result.push(prop);
+						result.push(' : <input type="checkbox" ');
+						if(p_metadata[prop]== true)
+						{
+							result.push(' checked="true" value="true" ');
+						}
+						else
+						{
+							result.push(' value="false" ');
+						}
+						result.push('" onblur="editor_set_value(this, g_ui)" path="');
+						result.push(p_path + "/" + prop);
+						result.push('" /> ');
+						//result.push(p_path + "/" + prop);
+						
+						result.push(' <input type="button" value="d"  path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
 					}
-					else
-					{
-						result.push(' value="false" ');
-					}
-					result.push('" onblur="editor_set_value(this, g_ui)" path="');
-					result.push(p_path + "/" + prop);
-					result.push('" /> ');
-					//result.push(p_path + "/" + prop);
-					
-					result.push(' <input type="button" value="d"  path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> </li>');
 				break;
 
 			case "validation":
@@ -596,6 +600,7 @@ function editor_set_value(e, p_ui)
 		case "is_core_summary":
 		case "is_required":
 		case "is_multiselect":
+		case "is_read_only":
 			eval(item_path + ' = !' + item_path);
 			window.dispatchEvent(metadata_changed_event);
 			break;

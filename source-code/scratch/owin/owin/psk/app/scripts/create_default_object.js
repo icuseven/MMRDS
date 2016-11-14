@@ -58,20 +58,52 @@ function create_default_object(p_metadata, p_parent)
        break;
     case 'string':
 	 case 'textarea':
-          p_parent[p_metadata.name] = new String();
+          if(p_metadata.default_value && p_metadata.default_value != "")
+          {
+            p_parent[p_metadata.name] = new String(p_metadata.default_value);
+          }
+          else if(p_metadata.pre_fill && p_metadata.pre_fill != "")
+          {
+            p_parent[p_metadata.name] = new String(p_metadata.pre_fill);
+          }
+          else
+          {
+            p_parent[p_metadata.name] = new String();
+          }
            break;
      case 'number':
-            p_parent[p_metadata.name] = new Number();
+            if(p_metadata.default_value && p_metadata.default_value != "")
+            {
+              p_parent[p_metadata.name] = new Number(p_metadata.default_value);
+            }
+            else
+            {
+              p_parent[p_metadata.name] = new Number();
+            }
            break;
      case 'boolean':
-            p_parent[p_metadata.name] = new Boolean();
+            if(p_metadata.default_value && p_metadata.default_value != "")
+            {
+              p_parent[p_metadata.name] = new Boolean(p_metadata.default_value);
+            }
+            else
+            {
+              p_parent[p_metadata.name] = new Boolean();
+            }
             break;
     case 'list':
     case 'yes_no':
            p_parent[p_metadata.name] = "";
            break;
      case 'date':
-            p_parent[p_metadata.name] = new Date();
+            if(p_metadata.default_value && p_metadata.default_value != "")
+            {
+              p_parent[p_metadata.name] = new Date(p_metadata.default_value);
+            }
+            else
+            {
+              p_parent[p_metadata.name] = new Date();
+            }
             break;
     case 'time':
            p_parent[p_metadata.name] = "";
