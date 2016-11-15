@@ -437,7 +437,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
-					result.push(' syntax->  /pattern/flags  example: /w3schools/i <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
+					result.push(' syntax example: ^\\d\\d$ 2 digit number <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
 					
 				break;				
 			default:
@@ -616,21 +616,11 @@ function editor_set_value(e, p_ui)
 		case "onchange":
 			try
 			{
-				//var valid_code = JSON.stringify(esprima.parse(e.value), null, 4);
 				var valid_code = esprima.parse(e.value);
-				//eval(item_path + '=' + JSON.stringify(valid_code));
-
-				//eval(item_path + ' = ' + JSON.stringify(valid_code));
-				//editor_set_value_by_path(g_metadata, item_path, valid_code)
-
-
-				//eval(item_path + '="' + e.value.replace('"', '\\"') + '"');
-				
 				var object_array = convert_to_indexed_path(item_path);
 				var node_to_update = eval(object_array[0]);
 				var attribute_text = object_array[1];
 				node_to_update[attribute_text] = valid_code;
-				//eval(object_array[0] + '=') node_to_update;/**/
 				e.style.color = "black"
 					
 			}
@@ -653,7 +643,7 @@ function editor_set_value(e, p_ui)
 				if(e.value && e.value!='')
 				{
 					var reg_ex = new RegExp(e.value);
-					eval(item_path + ' = ' + e.value);
+					eval(item_path + ' ="' + e.value.replace(/\\/g, '\\\\').replace('"', '\\"') + '"');
 				}
 				else
 				{
@@ -1147,32 +1137,5 @@ function convert_to_indexed_path(p_path)
 	result.push(temp.join("."));
 	result.push(last);
 	return result;
-
-}
-
-
-function editor_set_value_by_path(p_metadata, p_path, p_value)
-{
-	var temp = p_path.split(".");
-
-	if(temp.length > 1)
-	{
-		if(temp[0].indexOf("children") > -1)
-		{
-			var index = new Number(temp[0].match(/\d+/)[0]);
-			temp.shift();
-			editor_set_value_by_path(p_metadata.children[index], temp.join('.'), p_value)
-		}
-		else
-		{
-			temp.shift();
-			editor_set_value_by_path(p_metadata, temp.join('.'), p_value)
-		}
-	}
-	else
-	{
-		var attribute = temp[0];
-		p_metadata[attribute] = p_value;
-	}
 
 }

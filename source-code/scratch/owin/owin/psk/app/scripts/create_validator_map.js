@@ -108,13 +108,22 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 			break;
 	}
 
-	if(p_metadata.regex_pattern && p_metadata.regex_pattern  == true)
+	if(p_metadata.regex_pattern && p_metadata.regex_pattern.length > 0)
 	{
-			result.push("var regexp = ");
-			result.push(regex_pattern);
-			result.push("var matches_array = value.match(regexp);");
-			result.push("if(matches_array.length < 1) return false;\n");
+		try
+		{
+			var reg_exp = new RegExp(p_metadata.regex_pattern);
+		
+			result.push("var regexp = /");
+			result.push(p_metadata.regex_pattern);
+			result.push("/;\nvar matches_array = value.match(regexp);");
+			result.push("\nif(matches_array)\n{\t if(matches_array.length < 1) return false;\n\t}\n else return false\n\n");
 			validation_added = true;
+		}
+		catch(err)
+		{
+
+		}
 	}
 
 
@@ -126,17 +135,17 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 	{
 		try
 		{
-			var source_json = esprima.parse(p_metadata.validation);
-			var souce_code = escodegen.generate(source_json);
+			var source_code = escodegen.generate(p_metadata.validation);
 			var code_array = [];
 			code_array.push("return ");
-			code_array.push(souce_code.substring(0, souce_code.length-1));
+			code_array.push(source_code.substring(0, source_code.length-1));
 			code_array.push("(value);\n")
 			validation_added = true;
 			Array.prototype.push.apply(result,code_array);
 		}
-		catch(e)
+		catch(err)
 		{
+			/*
 			try
 			{
 				var code_array = [];
@@ -146,10 +155,10 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 				validation_added = true;
 				Array.prototype.push.apply(result,code_array);
 			}
-			catch(e)
+			catch(err2)
 			{
 
-			}
+			}*/
 			
 		}
 		
