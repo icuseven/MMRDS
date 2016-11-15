@@ -389,15 +389,23 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
 					result.push('"> ');
-					/*
+					
 					if(p_metadata[prop] && p_metadata[prop]!="")
 					{
-						result.push(escodegen.generate(p_metadata[prop]));
+						try
+						{
+							result.push(escodegen.generate(p_metadata[prop]));
+						}
+						catch(err)
+						{
+							result.push(p_metadata[prop]);
+						}
+						
 					}
 					else
-					{*/
+					{
 						result.push(p_metadata[prop]);
-					//}
+					}
 					
 					result.push('</textarea> </li>');			
 				break;
@@ -608,16 +616,30 @@ function editor_set_value(e, p_ui)
 		case "onchange":
 			try
 			{
-				var valid_code = JSON.stringify(esprima.parse(e.value), null, 4);
-				eval(item_path + ' = ' + valid_code);
+				//var valid_code = JSON.stringify(esprima.parse(e.value), null, 4);
+				var valid_code = esprima.parse(e.value);
+				//eval(item_path + '=' + JSON.stringify(valid_code));
+
+				//eval(item_path + ' = ' + JSON.stringify(valid_code));
+				//editor_set_value_by_path(g_metadata, item_path, valid_code)
+
+
+				//eval(item_path + '="' + e.value.replace('"', '\\"') + '"');
+				
+				var object_array = convert_to_indexed_path(item_path);
+				var node_to_update = eval(object_array[0]);
+				var attribute_text = object_array[1];
+				node_to_update[attribute_text] = valid_code;
+				//eval(object_array[0] + '=') node_to_update;/**/
 				e.style.color = "black"
 					
 			}
 			catch(err)
 			{
 				e.style.color = "red";
-				console.log("set code: " ,e);
+				console.log("set from esprima code: " ,err);
 			}
+			break;
 		case "is_core_summary":
 		case "is_required":
 		case "is_multiselect":
@@ -816,7 +838,6 @@ function editor_add_to_attributes(e, p_ui)
 				node_to_render.innerHTML = node.join("");
 			
 				window.dispatchEvent(metadata_changed_event);
-			list_display_size
 			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
@@ -1110,5 +1131,48 @@ function get_parent_path(p_path)
 	}
 
 	return result;
+
+}
+
+
+function convert_to_indexed_path(p_path)
+{
+	// example g_metadata.children[0].validation
+	var result = [];
+    var temp = p_path.split(".");
+    var last = temp[temp.length-1];
+    
+    temp.pop();
+
+	result.push(temp.join("."));
+	result.push(last);
+	return result;
+
+}
+
+
+function editor_set_value_by_path(p_metadata, p_path, p_value)
+{
+	var temp = p_path.split(".");
+
+	if(temp.length > 1)
+	{
+		if(temp[0].indexOf("children") > -1)
+		{
+			var index = new Number(temp[0].match(/\d+/)[0]);
+			temp.shift();
+			editor_set_value_by_path(p_metadata.children[index], temp.join('.'), p_value)
+		}
+		else
+		{
+			temp.shift();
+			editor_set_value_by_path(p_metadata, temp.join('.'), p_value)
+		}
+	}
+	else
+	{
+		var attribute = temp[0];
+		p_metadata[attribute] = p_value;
+	}
 
 }

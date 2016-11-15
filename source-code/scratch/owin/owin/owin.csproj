@@ -93,6 +93,7 @@
     <Reference Include="vtortola.WebSockets.Rfc6455">
       <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.Rfc6455.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

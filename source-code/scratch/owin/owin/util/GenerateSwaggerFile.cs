@@ -158,7 +158,7 @@ namespace owin
 							result.Append ("\"type\": \"dateTime\"");
 							break;
 						case "list":
-							if (node.is_multilist != null && node.is_multilist) 
+							if (node.is_multiselect != null && node.is_multiselect.HasValue && node.is_multiselect.Value) 
 							{
 								result.Append ("\"type\": \"array\"");
 							}

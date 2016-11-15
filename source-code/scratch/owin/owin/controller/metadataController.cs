@@ -105,7 +105,7 @@ namespace owin
 		{ 
 			//bool valid_login = false;
 			owin.metadata.app metadata = null;
-
+			string object_string = null;
 			owin.couchdb.document_put_response result = new owin.couchdb.document_put_response ();
 
 			try
@@ -133,7 +133,7 @@ namespace owin
 				{
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
+					object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
 
 					string metadata_url = this.get_couch_db_url() + "/metadata/"  + metadata._id;
 

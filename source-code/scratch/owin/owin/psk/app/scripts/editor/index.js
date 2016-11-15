@@ -182,7 +182,12 @@ $(function ()
 
 	  load_metadata();
 
-
+	$(document).keydown(function(evt){
+		if (evt.keyCode==83 && (evt.ctrlKey)){
+			evt.preventDefault();
+			metadata_save();
+		}
+	});
 
 });
 
@@ -242,95 +247,4 @@ function metadata_save()
 	}
 
 }
-
-var test_function = {
-    "type": "Program",
-    "body": [
-        {
-            "type": "FunctionDeclaration",
-            "id": {
-                "type": "Identifier",
-                "name": "f"
-            },
-            "params": [
-                {
-                    "type": "Identifier",
-                    "name": "value"
-                }
-            ],
-            "body": {
-                "type": "BlockStatement",
-                "body": [
-                    {
-                        "type": "VariableDeclaration",
-                        "declarations": [
-                            {
-                                "type": "VariableDeclarator",
-                                "id": {
-                                    "type": "Identifier",
-                                    "name": "result"
-                                },
-                                "init": {
-                                    "type": "Literal",
-                                    "value": true,
-                                    "raw": "true"
-                                }
-                            }
-                        ],
-                        "kind": "var"
-                    },
-                    {
-                        "type": "IfStatement",
-                        "test": {
-                            "type": "Identifier",
-                            "name": "value"
-                        },
-                        "consequent": {
-                            "type": "ExpressionStatement",
-                            "expression": {
-                                "type": "AssignmentExpression",
-                                "operator": "=",
-                                "left": {
-                                    "type": "Identifier",
-                                    "name": "result"
-                                },
-                                "right": {
-                                    "type": "Literal",
-                                    "value": true,
-                                    "raw": "true"
-                                }
-                            }
-                        },
-                        "alternate": {
-                            "type": "ExpressionStatement",
-                            "expression": {
-                                "type": "AssignmentExpression",
-                                "operator": "=",
-                                "left": {
-                                    "type": "Identifier",
-                                    "name": "result"
-                                },
-                                "right": {
-                                    "type": "Literal",
-                                    "value": false,
-                                    "raw": "false"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "type": "ReturnStatement",
-                        "argument": {
-                            "type": "Identifier",
-                            "name": "result"
-                        }
-                    }
-                ]
-            },
-            "generator": false,
-            "expression": false
-        }
-    ],
-    "sourceType": "script"
-};
 
