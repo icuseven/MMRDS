@@ -16,6 +16,9 @@ namespace owin.metadata
 		public string default_value { get; set; } 
 		public string pre_fill { get; set; } 
 		public string regex_pattern { get; set; } 
+
+		public int? list_display_size { get; set; }
+
 		public System.Dynamic.ExpandoObject validation { get; set; } 
 		public System.Dynamic.ExpandoObject  onfocus { get; set; } 
 		public System.Dynamic.ExpandoObject  onchange { get; set; } 

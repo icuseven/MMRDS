@@ -218,9 +218,15 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(' ( select all that apply )');
 			}
 
-			if(p_metadata.values.length > 6)
+			if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 			{
-				result.push("<br/> <select size=7 name='");
+				result.push("<br/> <select size=");
+				result.push(p_metadata.list_display_size);
+				result.push(" name='");
+			}
+			else if(p_metadata.values.length > 6)
+			{
+				result.push("<br/> <select size='6' name='");
 			}
 			else
 			{
@@ -238,11 +244,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 
 			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
 			{
-				result.push(" multiple >");
+				result.push(" multiple>");
 				for(var i = 0; i < p_metadata.values.length; i++)
 				{
 					var item = p_metadata.values[i];
-					if(p_data.indexOf(item))
+					if(p_data.indexOf(item) > -1)
 					{
 							result.push("<option selected>");
 							result.push(item);

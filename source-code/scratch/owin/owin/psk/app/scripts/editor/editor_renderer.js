@@ -439,7 +439,29 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
 					result.push(' syntax example: ^\\d\\d$ 2 digit number <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
 					
-				break;				
+				break;
+
+				case "list_display_size":
+									result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="number" value="');
+					result.push(p_metadata[prop]);
+					result.push('" size=');
+					if(p_metadata[prop])
+					{
+						result.push((p_metadata[prop].length)?  p_metadata[prop].length + 5: 5);
+					}
+					else
+					{
+						result.push(5);
+					}
+					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+					//result.push(p_path + "/" + prop);
+					
+					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
+					break;
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
 				{
@@ -817,7 +839,6 @@ function editor_add_to_attributes(e, p_ui)
 			case "max_value":
 			case "min_value":
 			case "control_style":
-			case "list_display_size":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 				eval(item)[attribute] = new String();
@@ -828,6 +849,19 @@ function editor_add_to_attributes(e, p_ui)
 				node_to_render.innerHTML = node.join("");
 			
 				window.dispatchEvent(metadata_changed_event);
+				break;
+			case "list_display_size":
+				var path = e.attributes['path'].value;
+				var item = get_eval_string(path);
+				eval(item)[attribute] = new Number(1);
+					
+				var node = editor_render(eval(item), path, g_ui);
+	
+				var node_to_render = document.querySelector("li[path='" + path + "']");
+				node_to_render.innerHTML = node.join("");
+			
+				window.dispatchEvent(metadata_changed_event);
+				break;
 			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
