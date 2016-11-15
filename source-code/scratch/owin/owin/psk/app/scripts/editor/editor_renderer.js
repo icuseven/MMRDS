@@ -428,7 +428,9 @@ function attribute_renderer(p_metadata, p_path)
 					}
 					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
-					result.push('" /> syntax->  /pattern/flags  example: /w3schools/i <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
+					result.push('" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
+					result.push(' syntax->  /pattern/flags  example: /w3schools/i <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
+					
 				break;				
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
@@ -534,6 +536,7 @@ function render_attribute_add_control(p_path)
 	result.push('<option>is_required</option>');
 	result.push('<option>is_read_only</option>');
 	result.push('<option>is_multiselect</option>');
+	result.push('<option>list_display_size</option>');
 	result.push('<option>default_value</option>');
 	result.push('<option>regex_pattern</option>');
 	result.push('<option>validation</option>');
@@ -802,6 +805,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "max_value":
 			case "min_value":
 			case "control_style":
+			case "list_display_size":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 				eval(item)[attribute] = new String();
@@ -812,7 +816,7 @@ function editor_add_to_attributes(e, p_ui)
 				node_to_render.innerHTML = node.join("");
 			
 				window.dispatchEvent(metadata_changed_event);
-			
+			list_display_size
 			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
