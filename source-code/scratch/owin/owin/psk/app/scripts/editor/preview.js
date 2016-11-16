@@ -159,5 +159,22 @@ function metadata_changed(p_metadata)
 
 	document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 	document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
-
+	apply_tool_tips();
 }
+
+
+function apply_tool_tips(){
+		$('[data-tooltip]').addClass('tooltip');
+		$('.tooltip').each(function() {  
+			$(this).append('<span class="tooltip-content">' + $(this).attr('data-tooltip') + '</span>');  
+		});
+		
+		if ($.browser.msie && $.browser.version.substr(0,1)<7)
+		{
+		$('.tooltip').mouseover(function(){
+				$(this).children('.tooltip-content').css('visibility','visible');
+			}).mouseout(function(){
+				$(this).children('.tooltip-content').css('visibility','hidden');
+			})
+		}
+	}

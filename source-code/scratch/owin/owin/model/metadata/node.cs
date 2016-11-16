@@ -18,6 +18,8 @@ namespace owin.metadata
 		public string regex_pattern { get; set; } 
 
 		public int? list_display_size { get; set; }
+		public string description { get; set; }
+		public string validation_description { get; set; }
 
 		public System.Dynamic.ExpandoObject validation { get; set; } 
 		public System.Dynamic.ExpandoObject  onfocus { get; set; } 

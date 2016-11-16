@@ -187,7 +187,21 @@ $(function ()
 			evt.preventDefault();
 			metadata_save();
 		}
+
+		if (evt.keyCode==80 && (evt.ctrlKey)){
+			evt.preventDefault();
+			open_preview_window();
+		}
+
+		if (evt.keyCode==76 && (evt.ctrlKey)){
+			evt.preventDefault();
+			profile.initialize_profile();
+		}
+
 	});
+
+
+
 
 });
 

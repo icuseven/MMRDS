@@ -30,6 +30,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 			result.push(p_metadata.name);
 			result.push(' ');
+			Array.prototype.push.apply(result, render_attribute_add_control(p_path, true));
 			//result.push(p_path);
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -388,7 +389,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(prop);
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
-					result.push('"> ');
+					result.push('">');
 					
 					if(p_metadata[prop] && p_metadata[prop]!="")
 					{
@@ -416,7 +417,7 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(prop);
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
-					result.push('"> ');
+					result.push('">');
 					result.push(p_metadata[prop]);
 					result.push('</textarea> </li>');			
 				break;
@@ -553,7 +554,7 @@ function render_cardinality_control(p_path, p_value)
 }
 
 
-function render_attribute_add_control(p_path)
+function render_attribute_add_control(p_path, is_collection_node)
 {
 	var result = [];
 	
@@ -562,24 +563,34 @@ function render_attribute_add_control(p_path)
 	result.push('">');
 	result.push('<option></option>');
 	result.push('<option>description</option>');
-	result.push('<option>is_core_summary</option>');
-	result.push('<option>is_required</option>');
-	result.push('<option>is_read_only</option>');
-	result.push('<option>is_multiselect</option>');
-	result.push('<option>list_display_size</option>');
-	result.push('<option>default_value</option>');
-	result.push('<option>regex_pattern</option>');
+
+	if(!is_collection_node)
+	{
+		result.push('<option>is_core_summary</option>');
+		result.push('<option>is_required</option>');
+		result.push('<option>is_read_only</option>');
+		result.push('<option>is_multiselect</option>');
+		result.push('<option>list_display_size</option>');
+		result.push('<option>default_value</option>');
+		result.push('<option>regex_pattern</option>');
+	}
+
 	result.push('<option>validation</option>');
 	result.push('<option>validation_description</option>');
 	result.push('<option>onfocus</option>');
 	result.push('<option>onchange</option>');
 	result.push('<option>onblur</option>');
 	result.push('<option>onclick</option>');
-	result.push('<option>pre_fill</option>');
-	result.push('<option>max_value</option>');
-	result.push('<option>min_value</option>');
-	result.push('<option>control_style</option>');
+
+	if(!is_collection_node)
+	{
+		result.push('<option>pre_fill</option>');
+		result.push('<option>max_value</option>');
+		result.push('<option>min_value</option>');
+		result.push('<option>control_style</option>');
+	}
 	result.push('</select>');
+	
 	result.push(' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="');
 	result.push(p_path);
 	result.push('" /> ');
@@ -601,11 +612,11 @@ function editor_set_value(e, p_ui)
 			{
 				if(e.value)
 				{
-					var test = e.value.match(/^[a-zA-z][a-zA-z0-9_]*$/);
+					var test = e.value.trim().match(/^[a-zA-z][a-zA-z0-9_]*$/);
 					if(test)
 					{
 						//var item = eval(item_path);
-						eval(item_path + ' = "' + e.value + '"');
+						eval(item_path + ' = "' + e.value.trim() + '"');
 						//var after = eval(item_path);
 						window.dispatchEvent(metadata_changed_event);
 						e.style.color = "black";
@@ -664,7 +675,7 @@ function editor_set_value(e, p_ui)
 			{
 				if(e.value && e.value!='')
 				{
-					var reg_ex = new RegExp(e.value);
+					var reg_ex = new RegExp(e.value.trim());
 					eval(item_path + ' ="' + e.value.replace(/\\/g, '\\\\').replace('"', '\\"') + '"');
 				}
 				else
@@ -682,7 +693,7 @@ function editor_set_value(e, p_ui)
 			break;
 		default:
 			//var item = eval(item_path);
-			eval(item_path + ' = "' + e.value.replace('"', '\\"') + '"');
+			eval(item_path + ' = "' + e.value.trim().replace('"', '\\"') + '"');
 			window.dispatchEvent(metadata_changed_event);
 			//var after = eval(item_path);
 			break;

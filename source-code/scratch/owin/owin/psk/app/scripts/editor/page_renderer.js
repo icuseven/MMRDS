@@ -5,6 +5,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 
 	switch(p_metadata.type.toLowerCase())
   {
+		/*
 		case 'address':
 			result.push("<fieldset id='");
 			result.push(p_metadata.name);
@@ -17,7 +18,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
         Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path));
       }
 			result.push("<input type='button' value='get location' /></fieldset>");
-      break;
+      break;*/
     case 'grid':
 		result.push("<table id='");
 		result.push(p_metadata_path);
@@ -69,7 +70,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
     case 'group':
 			result.push("<fieldset id='");
 			result.push(p_metadata.name);
-			result.push("_id' class='group'><legend>");
+			result.push("_id' class='group'><legend ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace("'", "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
 			result.push(p_metadata.prompt);
 			result.push("</legend>");
 			for(var i = 0; i < p_metadata.children.length; i++)
@@ -82,7 +93,18 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
     case 'form':
 			result.push("<section id='");
 			result.push(p_metadata.name);
-			result.push("_id' class='form'><h2>");
+			result.push("_id' class='form'><h2 ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace("'", "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
 			result.push(p_metadata.prompt);
 			result.push("</h2>");
 			for(var i = 0; i < p_metadata.children.length; i++)
@@ -147,9 +169,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
      case 'string':
 					result.push("<div class='string' id='");
 					result.push(p_object_path);
-					result.push("'>")
+					result.push("'><span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
 					result.push(p_metadata.prompt);
-					result.push("<br/> <input type='text' name='");
+					result.push("</span><br/> <input type='text' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
@@ -160,13 +193,24 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push("\",this.value)' /></div>");
            break;
 		   
-	case 'address':
+		case 'address':
     case 'textarea':
 					result.push("<div class='string' id='");
 					result.push(p_object_path);
-					result.push("'>");
+					result.push("'><span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
 					result.push(p_metadata.prompt);
-					result.push("<br/> <textarea  name='");
+					result.push("</span><br/> <textarea  name='");
 					result.push(p_metadata.name);
 					result.push("'  onblur='g_set_data_object_from_path(\"");
           result.push(p_object_path);
@@ -180,9 +224,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
      case 'number':
 						result.push("<div class='number' id='");
 					result.push(p_object_path);
-					result.push("'>");
-						result.push(p_metadata.prompt);
-						result.push("<br/> <input type='Number' name='");
+					result.push("'><span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
+					result.push(p_metadata.prompt);
+					result.push("</span><br/> <input type='Number' name='");
 						result.push(p_metadata.name);
 						result.push("' value='");
 						result.push(p_data);
@@ -195,9 +250,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
      case 'boolean':
 						result.push("<div class='boolean' id='");
 					result.push(p_object_path);
-					result.push("'>");
-						result.push(p_metadata.prompt);
-						result.push(" <input type='checkbox' name='");
+					result.push("'><span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
+					result.push(p_metadata.prompt);
+					result.push("</span> <input type='checkbox' name='");
 						result.push(p_metadata.name);
 						result.push("' checked='");
 						result.push(p_data);
@@ -211,7 +277,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
             break;
     case 'list':
 			result.push("<div class='list'>");
-			result.push(p_metadata.prompt);
+			result.push("<span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
+					result.push(p_metadata.prompt);
+					result.push("</span>");
 
 			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
 			{
@@ -289,8 +368,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
            break;
 			case 'date':
 				result.push("<div class='date'>");
-				result.push(p_metadata.prompt);
-				result.push("<br/> <input type='date' name='");
+				result.push("<span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
+					result.push(p_metadata.prompt);
+					result.push("</span><br/> <input type='date' name='");
 				result.push(p_metadata.name);
 				result.push("' value='");
 				result.push(p_data);
@@ -302,8 +393,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			 break;
 	    case 'time':
 					result.push("<div class='time'>");
+					result.push("<span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
 					result.push(p_metadata.prompt);
-					result.push("<br/> <input type='text' name='");
+					result.push("</span><br/> <input type='text' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
