@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "34-e350cf31c15416dcd8304a7bfccd7931",
+   "_rev": "42-13990c2e0d193c21f101655e56a624ab",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -84,6 +84,77 @@
                    "is_core_summary": true,
                    "regex_pattern": "^(\\d\\d\\d\\\\d)?-(\\d\\d)?-(\\d\\d)?$",
                    "description": "Test tool tip. Additional text."
+               },
+               {
+                   "prompt": "Case Progress Report",
+                   "name": "case_progress_report",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Death Certificate",
+                           "name": "death_certificate",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Autopsy report",
+                           "name": "autopsy_report",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       }
+                   ]
                }
            ],
            "description": "A description of the home record."
