@@ -39,7 +39,7 @@ function monitor_changes()
 
           document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
           document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");  
-
+          apply_tool_tips();
 
         }
       }
@@ -67,7 +67,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            //document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
             window.onhashchange ({ isTrusted: true, newURL : window.location.href });
           });
         }
@@ -75,7 +75,8 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+            //document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+            //apply_tool_tips();
             window.onhashchange ({ isTrusted: true, newURL : window.location.href });
           });
         }

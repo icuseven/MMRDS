@@ -327,16 +327,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				for(var i = 0; i < p_metadata.values.length; i++)
 				{
 					var item = p_metadata.values[i];
-					if(p_data.indexOf(item) > -1)
+					if(p_data.indexOf(item.value) > -1)
 					{
 							result.push("<option selected>");
-							result.push(item);
+							result.push(item.value);
 							result.push("</option>");
 					}
 					else
 					{
 						result.push("<option>");
-						result.push(item);
+						result.push(item.value);
 						result.push("</option>");
 					}
 				}
@@ -349,16 +349,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				for(var i = 0; i < p_metadata.values.length; i++)
 			 {
 				 var item = p_metadata.values[i];
-				 if(p_data == item)
+				 if(p_data == item.value)
 				 {
 						result.push("<option selected>");
-						result.push(item);
+						result.push(item.value);
 						result.push("</option>");
 				 }
 				 else
 				 {
 					 result.push("<option>");
-					 result.push(item);
+					 result.push(item.value);
 					 result.push("</option>");
 				 }
 			 }

@@ -7,7 +7,7 @@ namespace owin.metadata
 		public string name { get; set; }
 		public string type { get; set; }
 		public string cardinality { get; set; } 
-		public string[] values  { get; set; } 
+		public value_node[] values  { get; set; } 
 		public node[] children { get; set; } 
 		public bool? is_core_summary { get; set; } 
 		public bool? is_required { get; set; } 

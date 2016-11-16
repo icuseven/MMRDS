@@ -134,6 +134,7 @@
     <Compile Include="util\Code_dom.cs" />
     <Compile Include="util\GenerateAssemblyAndModule.cs" />
     <Compile Include="util\GenerateSwaggerFile.cs" />
+    <Compile Include="model\metadata\value_node.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

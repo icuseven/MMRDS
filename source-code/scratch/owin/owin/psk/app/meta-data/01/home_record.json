@@ -1,45 +1,29 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "22-a40a39123747355dd118816c91a69693",
+   "_rev": "34-e350cf31c15416dcd8304a7bfccd7931",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
    "children": [
        {
-           "prompt": "Date Created Aga",
+           "prompt": "date_created",
            "name": "date_created",
            "type": "date"
-           
-           
-           
-           
        },
        {
-           "prompt": "crea ted_by",
+           "prompt": "created_by",
            "name": "created_by",
            "type": "string"
-           
-           
-           
-           
        },
        {
            "prompt": "date_last_updated",
            "name": "date_last_updated",
            "type": "date"
-           
-           
-           
-           
        },
        {
            "prompt": "last_updated_by",
            "name": "last_updated_by",
            "type": "string"
-           
-           
-           
-           
        },
        {
            "prompt": "Home Record",
@@ -51,98 +35,58 @@
                    "prompt": "Record Id",
                    "name": "record_id",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "first name",
                    "name": "first_name",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "middle name",
                    "name": "middle_name",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "last name",
                    "name": "last_name",
                    "type": "string"
-                   
-                   
-                   
-                   
-               },
-               {
-                   "prompt": "date of death*",
-                   "name": "date_of_death",
-                   "type": "date"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "state of death",
                    "name": "state_of_death",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "state of last known residence",
                    "name": "state_of_last_known_residence",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "agency-based case identifier",
                    "name": "agency_case_id",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "is_valid_maternal_mortality_record",
                    "name": "is_valid_maternal_mortality_record",
                    "type": "boolean"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "maternal_birth_certificate",
                    "name": "maternal_birth_certificate",
                    "type": "home_record.maternal_birth_certificate.json",
                    "cardinality": "?"
-                   
-                   
-                   
-                   
+               },
+               {
+                   "prompt": "Date of Death*",
+                   "name": "date_of_death",
+                   "type": "string",
+                   "is_core_summary": true,
+                   "regex_pattern": "^(\\d\\d\\d\\\\d)?-(\\d\\d)?-(\\d\\d)?$",
+                   "description": "Test tool tip. Additional text."
                }
-           ]
-           
-           
-           
-           
+           ],
+           "description": "A description of the home record."
        },
        {
            "prompt": "Death Certificate",
@@ -159,294 +103,377 @@
                            "prompt": "street",
                            "name": "street",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "city",
                            "name": "city",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "state",
                            "name": "state",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "zip_code",
                            "name": "zip_code",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "latitude",
                            "name": "latitude",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "longitude",
                            "name": "longitude",
                            "type": "string"
-                           
-                           
-                           
-                           
                        }
                    ]
-               
-                   
-                   
-                   
                },
                {
                    "prompt": "Date of birth* (YYYY-MM-DD)",
                    "name": "date_of_birth",
                    "type": "Date",
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Age*",
                    "name": "age",
                    "type": "Number",
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Marital status*",
                    "name": "marital_status",
                    "type": "List",
                    "values": [
-                       "Married",
-                       "Married, but separated",
-                       "Widowed",
-                       "Divorced",
-                       "Never Married",
-                       "Unknown",
-                       "Not Specified"
+                       {
+                           "description": "test",
+                           "value": "Married"
+                       },
+                       {
+                           "description": "",
+                           "value": "Married, but separated"
+                       },
+                       {
+                           "description": "",
+                           "value": "Widowed"
+                       },
+                       {
+                           "description": "",
+                           "value": "Divorced"
+                       },
+                       {
+                           "description": "",
+                           "value": "Never Married"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "City of birth",
                    "name": "city_of_birth",
                    "type": "String"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "State of birth",
                    "name": "state_of_birth",
                    "type": "String"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Country (if foreign born)*",
                    "name": "country_of_birth",
                    "type": "String",
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Primary occupation",
                    "name": "primary_occupation",
                    "type": "String"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Business/ Industry",
                    "name": "occupation_business_industry",
                    "type": "String"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Ever in US armed forces?",
                    "name": "ever_in_us_armed_forces",
-                   "type": "Yes_No",
+                   "type": "list",
                    "values": [
-                       "",
-                       "Yes",
-                       "No",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Hispanic origin?*",
                    "name": "is_of_hispanic_origin",
                    "type": "List",
                    "values": [
-                       "",
-                       "No, not Spanish/ Hispanic/ Latino",
-                       "Yes, Mexican, Mexican American, Chicano",
-                       "Yes, Puerto Rican",
-                       "Yes, Cuban",
-                       "Yes, other Spanish/ Hispanic/ Latino",
-                       "Yes, origin unknown",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "No, not Spanish/ Hispanic/ Latino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Mexican, Mexican American, Chicano"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Puerto Rican"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Cuban"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, other Spanish/ Hispanic/ Latino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, origin unknown"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Education*",
                    "name": "education_level",
                    "type": "List",
                    "values": [
-                       "",
-                       "8th grade or less",
-                       "9th-12th grade; no diploma",
-                       "High School grad or GED completed",
-                       "Some college; no degree",
-                       "Associate degree",
-                       "Bachelor's degree",
-                       "Master's degree",
-                       "Doctorate or Professional degree",
-                       "Not Specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "8th grade or less"
+                       },
+                       {
+                           "description": "",
+                           "value": "9th-12th grade; no diploma"
+                       },
+                       {
+                           "description": "",
+                           "value": "High School grad or GED completed"
+                       },
+                       {
+                           "description": "",
+                           "value": "Some college; no degree"
+                       },
+                       {
+                           "description": "",
+                           "value": "Associate degree"
+                       },
+                       {
+                           "description": "",
+                           "value": "Bachelor's degree"
+                       },
+                       {
+                           "description": "",
+                           "value": "Master's degree"
+                       },
+                       {
+                           "description": "",
+                           "value": "Doctorate or Professional degree"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Race*",
                    "name": "race",
                    "type": "List",
                    "values": [
-                       "White",
-                       "Black",
-                       "Ameican Indian/AK Native",
-                       "Native Hawaiian",
-                       "Guamanian or Chamorro",
-                       "Samoan",
-                       "Other Pacific Islander",
-                       "Asian Indian",
-                       "Filipino",
-                       "Korean",
-                       "Other Asian",
-                       "Chinese",
-                       "Japanese",
-                       "Vietnamese",
-                       "Other race",
-                       "Race not specified"
+                       {
+                           "description": "",
+                           "value": "White"
+                       },
+                       {
+                           "description": "",
+                           "value": "Black"
+                       },
+                       {
+                           "description": "",
+                           "value": "Ameican Indian/AK Native"
+                       },
+                       {
+                           "description": "",
+                           "value": "Native Hawaiian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Guamanian or Chamorro"
+                       },
+                       {
+                           "description": "",
+                           "value": "Samoan"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other Pacific Islander"
+                       },
+                       {
+                           "description": "",
+                           "value": "Asian Indian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Filipino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Korean"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other Asian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Chinese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Japanese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Vietnamese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other race"
+                       },
+                       {
+                           "description": "",
+                           "value": "Race not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Date of injury (YYYY-MM-DD)",
                    "name": "date_of_injury",
                    "type": "Date"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Time of injury",
                    "name": "time_of_injury",
                    "type": "Time"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Place of injury (Place name, if applicable)",
                    "name": "place_of_injury",
                    "type": "string"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Was injury at work?",
                    "name": "was_injury_at_work",
-                   "type": "Yes_No",
+                   "type": "list",
                    "values": [
-                       "",
-                       "Yes",
-                       "No",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ]
-                
                },
                {
                    "prompt": "transportation related injury?",
                    "name": "transportation_related_injury",
                    "type": "List",
                    "values": [
-                       "",
-                       "Driver/Operator",
-                       "Passenger",
-                       "Pedestrian",
-                       "Other (specify)"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Driver/Operator"
+                       },
+                       {
+                           "description": "",
+                           "value": "Passenger"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pedestrian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other (specify)"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Were seat belts in use?",
                    "name": "were_seat_belts_in_use",
-                   "type": "Yes_No",
+                   "type": "list",
                    "values": [
-                       "",
-                       "Yes",
-                       "No",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Location where injury occured",
@@ -457,179 +484,249 @@
                            "prompt": "street",
                            "name": "street",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "city",
                            "name": "city",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "state",
                            "name": "state",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "zip_code",
                            "name": "zip_code",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "latitude",
                            "name": "latitude",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "longitude",
                            "name": "longitude",
                            "type": "string"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "If death occured in hospital:*",
                    "name": "death_occured_in_hospital",
                    "type": "List",
                    "values": [
-                       "",
-                       "Inpatient",
-                       "Outpatient/ ER",
-                       "Dead on arrival",
-                       "Not Specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Inpatient"
+                       },
+                       {
+                           "description": "",
+                           "value": "Outpatient/ ER"
+                       },
+                       {
+                           "description": "",
+                           "value": "Dead on arrival"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "If death not in a hospital:*",
                    "name": "death_outside_of_hospital",
                    "type": "List",
                    "values": [
-                       "",
-                       "Hospice",
-                       "Nursing home/ LTC",
-                       "Home",
-                       "</paper-input>",
-                       "Not Specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Hospice"
+                       },
+                       {
+                           "description": "",
+                           "value": "Nursing home/ LTC"
+                       },
+                       {
+                           "description": "",
+                           "value": "Home"
+                       },
+                       {
+                           "description": "",
+                           "value": "</paper-input>"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Manner of Death*",
                    "name": "manner_of_death",
                    "type": "List",
                    "values": [
-                       "",
-                       "Natural",
-                       "Accident",
-                       "Suicide",
-                       "Self-inflicted",
-                       "Homocide",
-                       "Pending investigation",
-                       "Could not be determined",
-                       "Not Specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Natural"
+                       },
+                       {
+                           "description": "",
+                           "value": "Accident"
+                       },
+                       {
+                           "description": "",
+                           "value": "Suicide"
+                       },
+                       {
+                           "description": "",
+                           "value": "Self-inflicted"
+                       },
+                       {
+                           "description": "",
+                           "value": "Homocide"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pending investigation"
+                       },
+                       {
+                           "description": "",
+                           "value": "Could not be determined"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Was autopsy performed?*",
                    "name": "was_autopsy_performed",
-                   "type": "Yes_No",
+                   "type": "list",
                    "values": [
-                       "",
-                       "Yes",
-                       "No",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Was autopsy used for death coding?*",
                    "name": "was_autopsy_used_for_death_coding",
-                   "type": "Yes_No",
+                   "type": "list",
                    "values": [
-                       "",
-                       "Yes",
-                       "No",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Pregnancy Status?",
                    "name": "pregnancy_status",
                    "type": "List",
                    "values": [
-                       "",
-                       "Not pregnant within last year",
-                       "Pregnant at the time of death",
-                       "Pregnant within 42 days of death",
-                       "Pregnant 43 to 365 days of death",
-                       "Unkown if pregant in last year",
-                       "Not Specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Not pregnant within last year"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnant at the time of death"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnant within 42 days of death"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnant 43 to 365 days of death"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unkown if pregant in last year"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Did tobacco contribute to death?",
                    "name": "did_tobacco_contribute_to_death",
                    "type": "List",
                    "values": [
-                       "",
-                       "Yes",
-                       "Probably",
-                       "No",
-                       "Unkown",
-                       "Not Specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Probably"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unkown"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Location where death occured",
@@ -640,70 +737,38 @@
                            "prompt": "street",
                            "name": "street",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "city",
                            "name": "city",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "state",
                            "name": "state",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "zip_code",
                            "name": "zip_code",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "latitude",
                            "name": "latitude",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "longitude",
                            "name": "longitude",
                            "type": "string"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Estimated distance (miles) between residence and place of death*",
                    "name": "estimated_death_distance_from_residence",
                    "type": "number"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Causes of death",
@@ -715,81 +780,82 @@
                            "name": "cause_type",
                            "type": "string",
                            "values": [
-                               "Immediate",
-                               "Contributing",
-                               "Underlying",
-                               "Other significant"
+                               {
+                                   "description": "",
+                                   "value": "Immediate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Contributing"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Underlying"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other significant"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Cause (descriptive)*",
                            "name": "cause_description",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "ICD Code",
                            "name": "icd_code",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Interval",
                            "name": "interval",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Unit",
                            "name": "interval_unit",
                            "type": "string",
                            "values": [
-                               "Minute(s)",
-                               "Hour(s)",
-                               "Day(s)",
-                               "Week(s)",
-                               "Month(s)",
-                               "Year(s)",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": "Minute(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hour(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Day(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Week(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Month(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Year(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Reviewer's notes about the Death Certificate",
                    "name": "reviewer_note",
                    "type": "string"
-                   
-                   
-                   
-                   
                }
            ]
-           
-           
-           
-           
        },
        {
            "prompt": "Maternal Birth Certificate",
@@ -806,43 +872,23 @@
                            "prompt": "Middle name",
                            "name": "middle_name",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Last name",
                            "name": "last_name",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Maiden name",
                            "name": "maiden_name",
                            "type": "string"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Medical Record No.",
                            "name": "medical_record_number",
                            "type": "string"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Father's demographics",
@@ -854,169 +900,258 @@
                            "name": "date_of_birth",
                            "type": "Date",
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Age*",
                            "name": "age",
                            "type": "Number",
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Marital status*",
                            "name": "marital_status",
                            "type": "List",
                            "values": [
-                               "Married",
-                               "Married, but separated",
-                               "Widowed",
-                               "Divorced",
-                               "Never Married",
-                               "Unknown",
-                               "Not Specified"
+                               {
+                                   "description": "",
+                                   "value": "Married"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Married, but separated"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Widowed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Divorced"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Never Married"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "City of birth",
                            "name": "city_of_birth",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "State of birth",
                            "name": "state_of_birth",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Country (if foreign born)*",
                            "name": "country_of_birth",
                            "type": "String",
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Primary occupation",
                            "name": "primary_occupation",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Business/ Industry",
                            "name": "occupation_business_industry",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Ever in US armed forces?",
                            "name": "ever_in_us_armed_forces",
-                           "type": "Yes_No",
+                           "type": "list",
                            "values": [
-                               "",
-                               "Yes",
-                               "No",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Hispanic origin?*",
                            "name": "is_of_hispanic_origin",
                            "type": "List",
                            "values": [
-                               "",
-                               "No, not Spanish/ Hispanic/ Latino",
-                               "Yes, Mexican, Mexican American, Chicano",
-                               "Yes, Puerto Rican",
-                               "Yes, Cuban",
-                               "Yes, other Spanish/ Hispanic/ Latino",
-                               "Yes, origin unknown",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No, not Spanish/ Hispanic/ Latino"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Mexican, Mexican American, Chicano"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Puerto Rican"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Cuban"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, other Spanish/ Hispanic/ Latino"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, origin unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Education*",
                            "name": "education_level",
                            "type": "List",
                            "values": [
-                               "",
-                               "8th grade or less",
-                               "9th-12th grade; no diploma",
-                               "High School grad or GED completed",
-                               "Some college; no degree",
-                               "Associate degree",
-                               "Bachelor's degree",
-                               "Master's degree",
-                               "Doctorate or Professional degree",
-                               "Not Specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "8th grade or less"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9th-12th grade; no diploma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "High School grad or GED completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Some college; no degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Associate degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Bachelor's degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Master's degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Doctorate or Professional degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Father's race",
                    "name": "race_of_father",
                    "type": "list",
                    "values": [
-                       "White",
-                       "Black",
-                       "Ameican Indian/AK Native",
-                       "Native Hawaiian",
-                       "Guamanian or Chamorro",
-                       "Samoan",
-                       "Other Pacific Islander",
-                       "Asian Indian",
-                       "Filipino",
-                       "Korean",
-                       "Other Asian",
-                       "Chinese",
-                       "Japanese",
-                       "Vietnamese",
-                       "Other race",
-                       "Race not specified"
+                       {
+                           "description": "",
+                           "value": "White"
+                       },
+                       {
+                           "description": "",
+                           "value": "Black"
+                       },
+                       {
+                           "description": "",
+                           "value": "Ameican Indian/AK Native"
+                       },
+                       {
+                           "description": "",
+                           "value": "Native Hawaiian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Guamanian or Chamorro"
+                       },
+                       {
+                           "description": "",
+                           "value": "Samoan"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other Pacific Islander"
+                       },
+                       {
+                           "description": "",
+                           "value": "Asian Indian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Filipino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Korean"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other Asian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Chinese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Japanese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Vietnamese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other race"
+                       },
+                       {
+                           "description": "",
+                           "value": "Race not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "demographic_of_mother",
@@ -1028,169 +1163,258 @@
                            "name": "date_of_birth",
                            "type": "Date",
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Age*",
                            "name": "age",
                            "type": "Number",
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Marital status*",
                            "name": "marital_status",
                            "type": "List",
                            "values": [
-                               "Married",
-                               "Married, but separated",
-                               "Widowed",
-                               "Divorced",
-                               "Never Married",
-                               "Unknown",
-                               "Not Specified"
+                               {
+                                   "description": "",
+                                   "value": "Married"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Married, but separated"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Widowed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Divorced"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Never Married"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "City of birth",
                            "name": "city_of_birth",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "State of birth",
                            "name": "state_of_birth",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Country (if foreign born)*",
                            "name": "country_of_birth",
                            "type": "String",
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Primary occupation",
                            "name": "primary_occupation",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Business/ Industry",
                            "name": "occupation_business_industry",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Ever in US armed forces?",
                            "name": "ever_in_us_armed_forces",
-                           "type": "Yes_No",
+                           "type": "list",
                            "values": [
-                               "",
-                               "Yes",
-                               "No",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Hispanic origin?*",
                            "name": "is_of_hispanic_origin",
                            "type": "List",
                            "values": [
-                               "",
-                               "No, not Spanish/ Hispanic/ Latino",
-                               "Yes, Mexican, Mexican American, Chicano",
-                               "Yes, Puerto Rican",
-                               "Yes, Cuban",
-                               "Yes, other Spanish/ Hispanic/ Latino",
-                               "Yes, origin unknown",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No, not Spanish/ Hispanic/ Latino"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Mexican, Mexican American, Chicano"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Puerto Rican"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Cuban"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, other Spanish/ Hispanic/ Latino"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, origin unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Education*",
                            "name": "education_level",
                            "type": "List",
                            "values": [
-                               "",
-                               "8th grade or less",
-                               "9th-12th grade; no diploma",
-                               "High School grad or GED completed",
-                               "Some college; no degree",
-                               "Associate degree",
-                               "Bachelor's degree",
-                               "Master's degree",
-                               "Doctorate or Professional degree",
-                               "Not Specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "8th grade or less"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9th-12th grade; no diploma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "High School grad or GED completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Some college; no degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Associate degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Bachelor's degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Master's degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Doctorate or Professional degree"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Mother's race",
                    "name": "race_of_mother",
                    "type": "list",
                    "values": [
-                       "White",
-                       "Black",
-                       "Ameican Indian/AK Native",
-                       "Native Hawaiian",
-                       "Guamanian or Chamorro",
-                       "Samoan",
-                       "Other Pacific Islander",
-                       "Asian Indian",
-                       "Filipino",
-                       "Korean",
-                       "Other Asian",
-                       "Chinese",
-                       "Japanese",
-                       "Vietnamese",
-                       "Other race",
-                       "Race not specified"
+                       {
+                           "description": "",
+                           "value": "White"
+                       },
+                       {
+                           "description": "",
+                           "value": "Black"
+                       },
+                       {
+                           "description": "",
+                           "value": "Ameican Indian/AK Native"
+                       },
+                       {
+                           "description": "",
+                           "value": "Native Hawaiian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Guamanian or Chamorro"
+                       },
+                       {
+                           "description": "",
+                           "value": "Samoan"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other Pacific Islander"
+                       },
+                       {
+                           "description": "",
+                           "value": "Asian Indian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Filipino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Korean"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other Asian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Chinese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Japanese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Vietnamese"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other race"
+                       },
+                       {
+                           "description": "",
+                           "value": "Race not specified"
+                       }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Pregnancy History",
@@ -1201,79 +1425,43 @@
                            "prompt": "Date of last live birth",
                            "name": "date_of_last_live_birth",
                            "type": "date"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Live birth interval (months)",
                            "name": "live_birth_interval",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Number live born*",
                            "name": "number_live_born",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Number living",
                            "name": "number_living",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Date of last other outcome",
                            "name": "date_of_last_other_outcome",
                            "type": "date"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Pregnancy interval (months)",
                            "name": "pregnancy_interval",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Number dead",
                            "name": "number_dead",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Number other outcomes*",
                            "name": "number_other_outcomes",
                            "type": "String"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "maternal biometrics",
@@ -1284,43 +1472,23 @@
                            "prompt": "Height (feet inches)## ##",
                            "name": "height",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Pre-pregnancy weight (lbs.)",
                            "name": "pre_pregnancy_weight",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Weight at delivery (lbs.)",
                            "name": "weight_at_deliverty",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Weight gain (lbs.)",
                            "name": "weight_gain",
                            "type": "number"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "prenatal care",
@@ -1331,146 +1499,167 @@
                            "prompt": "date_of_last_normal_menses",
                            "name": "Date of last normal menses",
                            "type": "Date"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Date of 1st prenatal visit",
                            "name": "date_of_1st_prenatal_visit",
                            "type": "Date"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Date of last prenatal visit",
                            "name": "date_of_last_prenatal_visit",
                            "type": "Date"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Calculated gestation (weeks)*",
                            "name": "calculated_gestation",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Obstetric estimate of gestation (weeks)*",
                            "name": "obsteric_estimate_of_gestation",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Plurality*",
                            "name": "plurality",
                            "type": "list",
                            "values": [
-                               "",
-                               "MD",
-                               "DO",
-                               "CNM/CM",
-                               "Other midwife",
-                               "</paper-input>",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DO"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CNM/CM"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other midwife"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "</paper-input>"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Use WIC*",
                            "name": "was_wic_used",
-                           "type": "Yes_No",
+                           "type": "list",
                            "values": [
-                               "",
-                               "Yes",
-                               "No",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Specify, if > 3",
                            "name": "specify_if_greater_than_3",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "How was this delivery paid*",
                            "name": "how_was_delivery_paid",
                            "type": "list",
                            "values": [
-                               "",
-                               "MD",
-                               "DO",
-                               "CNM/CM",
-                               "Other midwife",
-                               "</paper-input>",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DO"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CNM/CM"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other midwife"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "</paper-input>"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "No. of visits",
                            "name": "number_of_visits",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Trimester of 1st prenatal care visit*",
                            "name": "trimester_of_1st_prenatal_care_visit",
                            "type": "list",
                            "values": [
-                               "",
-                               "1st",
-                               "2nd",
-                               "3rd",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1st"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2nd"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3rd"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Specify other payor",
                            "name": "specify_other_payor",
                            "type": "String"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "cigarette smoking",
@@ -1481,19 +1670,24 @@
                            "prompt": "In prior 3 months (# of cigarettes/ packs)",
                            "name": "prior_3_months",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "",
                            "name": "prior_3_months_type",
                            "type": "List",
                            "values": [
-                               "",
-                               "Cigarette(s)",
-                               "Pack(s)"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cigarette(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pack(s)"
+                               }
                            ],
                            "control_style": "radio"
                        },
@@ -1501,19 +1695,24 @@
                            "prompt": "In 1st trimester (# of cigarettes/ packs)",
                            "name": "trimester_1st",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "",
                            "name": "trimester_1st_type",
                            "type": "List",
                            "values": [
-                               "",
-                               "Cigarette(s)",
-                               "Pack(s)"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cigarette(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pack(s)"
+                               }
                            ],
                            "control_style": "radio"
                        },
@@ -1521,19 +1720,24 @@
                            "prompt": "In 2nd trimester (# of cigarettes/ packs)",
                            "name": "trimester_2nd",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "",
                            "name": "trimester_2nd_type",
                            "type": "List",
                            "values": [
-                               "",
-                               "Cigarette(s)",
-                               "Pack(s)"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cigarette(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pack(s)"
+                               }
                            ],
                            "control_style": "radio"
                        },
@@ -1541,19 +1745,24 @@
                            "prompt": "In 3rd trimester (# of cigarettes/ packs)",
                            "name": "trimester_3rd",
                            "type": "number"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "",
                            "name": "trimester_3rd_type",
                            "type": "List",
                            "values": [
-                               "",
-                               "Cigarette(s)",
-                               "Pack(s)"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cigarette(s)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pack(s)"
+                               }
                            ],
                            "control_style": "radio"
                        },
@@ -1562,171 +1771,326 @@
                            "name": "none_or_not_specified",
                            "type": "List",
                            "values": [
-                               "",
-                               "None",
-                               "Not Specified"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Maternal risk factors*",
                    "name": "maternal_risk_factors",
                    "type": "list",
                    "values": [
-                       "",
-                       "Prepregancy Diabetes",
-                       "Gestational Diabetes",
-                       "Prepregancy Hypertension",
-                       "Gestational Hypertension",
-                       "Eclampsia Hypertension",
-                       "Previous preterm",
-                       "Other previous poor outcome",
-                       "Pregnancy resulted from infertility treatment",
-                       "Fertility enhancing drugs: etc.",
-                       "Assisted reproductive technology",
-                       "Previous Cesarean delivery",
-                       "None of these",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Prepregancy Diabetes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Gestational Diabetes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Prepregancy Hypertension"
+                       },
+                       {
+                           "description": "",
+                           "value": "Gestational Hypertension"
+                       },
+                       {
+                           "description": "",
+                           "value": "Eclampsia Hypertension"
+                       },
+                       {
+                           "description": "",
+                           "value": "Previous preterm"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other previous poor outcome"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnancy resulted from infertility treatment"
+                       },
+                       {
+                           "description": "",
+                           "value": "Fertility enhancing drugs: etc."
+                       },
+                       {
+                           "description": "",
+                           "value": "Assisted reproductive technology"
+                       },
+                       {
+                           "description": "",
+                           "value": "Previous Cesarean delivery"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of these"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Infections present or treated during this pregnancy*",
                    "name": "infections_present_or_treated_during_pregnancy",
                    "type": "list",
                    "values": [
-                       "",
-                       "Hepatitis B (live birth only)",
-                       "Hepatitis C (live birth only)",
-                       "Syphillis",
-                       "Gonorrhea",
-                       "Listeria",
-                       "Cytomegalovirus",
-                       "Chlamidia",
-                       "Parvovirus",
-                       "Group B Streptococcus (fetal death(s) only)",
-                       "Toxoplasmosis (fetal death(s) only)",
-                       "None of these",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Hepatitis B (live birth only)"
+                       },
+                       {
+                           "description": "",
+                           "value": "Hepatitis C (live birth only)"
+                       },
+                       {
+                           "description": "",
+                           "value": "Syphillis"
+                       },
+                       {
+                           "description": "",
+                           "value": "Gonorrhea"
+                       },
+                       {
+                           "description": "",
+                           "value": "Listeria"
+                       },
+                       {
+                           "description": "",
+                           "value": "Cytomegalovirus"
+                       },
+                       {
+                           "description": "",
+                           "value": "Chlamidia"
+                       },
+                       {
+                           "description": "",
+                           "value": "Parvovirus"
+                       },
+                       {
+                           "description": "",
+                           "value": "Group B Streptococcus (fetal death(s) only)"
+                       },
+                       {
+                           "description": "",
+                           "value": "Toxoplasmosis (fetal death(s) only)"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of these"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Onset of lablor (choose all that apply)*",
                    "name": "onset_of_labor",
                    "type": "list",
                    "values": [
-                       "",
-                       "Premature rupture of the membranse (prolonged)",
-                       "Prolonged labor (> 20 hours)",
-                       "Precipitous labor (< 3 hours)",
-                       "None of these",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Premature rupture of the membranse (prolonged)"
+                       },
+                       {
+                           "description": "",
+                           "value": "Prolonged labor (> 20 hours)"
+                       },
+                       {
+                           "description": "",
+                           "value": "Precipitous labor (< 3 hours)"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of these"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Obstetric procedures (check all that apply)*",
                    "name": "obstetric_procedures",
                    "type": "list",
                    "values": [
-                       "",
-                       "Cervical cerclage",
-                       "Tocolysis",
-                       "External cephalic version: Successful",
-                       "External cephalic version: Failed",
-                       "None of these",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Cervical cerclage"
+                       },
+                       {
+                           "description": "",
+                           "value": "Tocolysis"
+                       },
+                       {
+                           "description": "",
+                           "value": "External cephalic version: Successful"
+                       },
+                       {
+                           "description": "",
+                           "value": "External cephalic version: Failed"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of these"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Characteristics of Labor and Delivery (check all that apply)*",
                    "name": "characteristics_of_labor_and_delivery",
                    "type": "list",
                    "values": [
-                       "",
-                       "Induction of labor",
-                       "Steroids for fetal lung maturation received by mother prior to delivery",
-                       "Clinical chorioamnionitis diagnosed during labor or maternal tempurature >= 38 degrees C(100.4 degrees F)",
-                       "Epidural or spinal anesthesia during labor",
-                       "Augmentation of labor",
-                       "Antibiotics received by the mother during labor",
-                       "Moderate to heavy meconium staining of the amniotic fluid",
-                       "Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",
-                       "Non-vertex presentation",
-                       "None of these",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Induction of labor"
+                       },
+                       {
+                           "description": "",
+                           "value": "Steroids for fetal lung maturation received by mother prior to delivery"
+                       },
+                       {
+                           "description": "",
+                           "value": "Clinical chorioamnionitis diagnosed during labor or maternal tempurature >= 38 degrees C(100.4 degrees F)"
+                       },
+                       {
+                           "description": "",
+                           "value": "Epidural or spinal anesthesia during labor"
+                       },
+                       {
+                           "description": "",
+                           "value": "Augmentation of labor"
+                       },
+                       {
+                           "description": "",
+                           "value": "Antibiotics received by the mother during labor"
+                       },
+                       {
+                           "description": "",
+                           "value": "Moderate to heavy meconium staining of the amniotic fluid"
+                       },
+                       {
+                           "description": "",
+                           "value": "Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery"
+                       },
+                       {
+                           "description": "",
+                           "value": "Non-vertex presentation"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of these"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Maternal Morbidity (check all that apply)*",
                    "name": "maternal_morbidity",
                    "type": "list",
                    "values": [
-                       "",
-                       "Maternal transfusion",
-                       "Unplanned hysterectomy",
-                       "Unplanned operating room procedure following delivery",
-                       "Third or fourth degree perineal laceration",
-                       "Admission to intensive care unit",
-                       "Ruptured uterus",
-                       "None of these",
-                       "Not specified"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Maternal transfusion"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unplanned hysterectomy"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unplanned operating room procedure following delivery"
+                       },
+                       {
+                           "description": "",
+                           "value": "Third or fourth degree perineal laceration"
+                       },
+                       {
+                           "description": "",
+                           "value": "Admission to intensive care unit"
+                       },
+                       {
+                           "description": "",
+                           "value": "Ruptured uterus"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of these"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Length of time between birth of child and death of mother*",
                    "name": "length_between_child_birth_and_death_of_mother",
                    "type": "String",
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate",
                    "name": "reviewer_note",
                    "type": "TextArea"
-                   
-                   
-                   
-                   
                }
            ]
-           
-           
-           
-           
        },
        {
            "prompt": "Autopsy Report",
@@ -1739,32 +2103,56 @@
                    "name": "was_autopsy_performed",
                    "type": "List",
                    "values": [
-                       "",
-                       "Referred / Performed / Available",
-                       "Referred / Performed / Not available",
-                       "Referred / Not performed",
-                       "Not referred"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Referred / Performed / Available"
+                       },
+                       {
+                           "description": "",
+                           "value": "Referred / Performed / Not available"
+                       },
+                       {
+                           "description": "",
+                           "value": "Referred / Not performed"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not referred"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Completeness of autopsy information*",
                    "name": "completeness_of_autopsy_information",
                    "type": "List",
                    "values": [
-                       "",
-                       "Complete",
-                       "Minor gaps",
-                       "Major gaps",
-                       "Minimal"
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Complete"
+                       },
+                       {
+                           "description": "",
+                           "value": "Minor gaps"
+                       },
+                       {
+                           "description": "",
+                           "value": "Major gaps"
+                       },
+                       {
+                           "description": "",
+                           "value": "Minimal"
+                       }
                    ],
                    "is_core_summary": true
-                   
-                   
-                   
                },
                {
                    "prompt": "Reporter characteristics",
@@ -1776,42 +2164,47 @@
                            "name": "reporter_type",
                            "type": "List",
                            "values": [
-                               "",
-                               "1 - Medical examiner",
-                               "2 - Coroner",
-                               "3 - Other",
-                               "4 - Unknown",
-                               "9 - Not specificed",
-                               "Other (specify)"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - Medical examiner"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - Coroner"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3 - Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4 - Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Not specificed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other (specify)"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Date of autopsy",
                            "name": "date_of_autopsy",
                            "type": "Date"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Jurisdiction",
                            "name": "jurisdiction",
                            "type": "string"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Biometrics",
@@ -1832,34 +2225,18 @@
                                            "prompt": "Feet",
                                            "name": "feet",
                                            "type": "Number"
-                                           
-                                           
-                                           
-                                           
                                        },
                                        {
                                            "prompt": "Inches",
                                            "name": "inches",
                                            "type": "Number"
-                                           
-                                           
-                                           
-                                           
                                        }
                                    ]
-                                   
-                                   
-                                   
-                                   
                                },
                                {
                                    "prompt": "Weight (pounds)",
                                    "name": "weight",
                                    "type": "Number"
-                                   
-                                   
-                                   
-                                   
                                },
                                {
                                    "prompt": "BMI",
@@ -1877,10 +2254,6 @@
                                    "prompt": "Fetal Weight (grams)",
                                    "name": "fetal_weight",
                                    "type": "Number"
-                                   
-                                   
-                                   
-                                   
                                },
                                {
                                    "prompt": "Fetal length (inches)",
@@ -1890,9 +2263,9 @@
                                {
                                    "prompt": "Estimate of gestational age (weeks)",
                                    "name": "gestational_age_estimate",
-                                   "type": "Number" 
+                                   "type": "Number"
                                }
-                           ]  
+                           ]
                        }
                    ]
                },
@@ -1942,10 +2315,22 @@
                    "name": "was_drug_toxicology_positive",
                    "type": "List",
                    "values": [
-                       "Yes",
-                       "No",
-                       "Not done",
-                       "Done, but not available"
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not done"
+                       },
+                       {
+                           "description": "",
+                           "value": "Done, but not available"
+                       }
                    ],
                    "is_core_summary": true
                },
@@ -1974,39 +2359,51 @@
                            "name": "level",
                            "type": "List",
                            "values": [
-                               "",
-                               "Trace",
-                               "Non-toxic",
-                               "Theraputic",
-                               "Toxic",
-                               "Lethal",
-                               "Unknown",
-                               "Not specified"
-                           ]   
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trace"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Non-toxic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Theraputic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Toxic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lethal"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
                        },
                        {
                            "prompt": "Comment(s)",
                            "name": "comment",
                            "type": "String"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "ICD code version",
                    "name": "icd_code_version",
                    "type": "String"
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Coroner / Medical Examiner Causes of Death",
@@ -2018,64 +2415,51 @@
                            "name": "type",
                            "type": "List",
                            "values": [
-                               "",
-                               "Immediate",
-                               "Contributing",
-                               "Underlying",
-                               "Other significant"
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Immediate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Contributing"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Underlying"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other significant"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Cause",
                            "name": "cause",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "ICD code",
                            "name": "icd_code",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Comment(s)",
                            "name": "comment",
                            "type": "String"
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                },
                {
                    "prompt": "Reviewer's notes about the Autopsy Report",
                    "name": "reviewer_note",
                    "type": "TextArea"
-                   
-                   
-                   
-                   
                }
            ]
-           
-           
-           
-           
        },
        {
            "prompt": "Prenatal Care Record",
@@ -2088,8 +2472,14 @@
                    "name": "number_of_pnc_sources",
                    "type": "List",
                    "values": [
-                       "Single",
-                       "Multiple"
+                       {
+                           "description": "",
+                           "value": "Single"
+                       },
+                       {
+                           "description": "",
+                           "value": "Multiple"
+                       }
                    ],
                    "control_style": "radio"
                },
@@ -2103,102 +2493,124 @@
                            "name": "place_type",
                            "type": "List",
                            "values": [
-                               "Hospital",
-                               "Clinic",
-                               "Office",
-                               "Other",
-                               "Unknown",
-                               "No prenatal care",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": "Hospital"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clinic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Office"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No prenatal care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Specify other place type",
                            "name": "other_place_type",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Primary provider type",
                            "name": "primary_provider_type",
                            "type": "List",
                            "values": [
-                               "OBGYN",
-                               "MFM",
-                               "Family Practice",
-                               "Other subspecialist",
-                               "Other",
-                               "Unknown"
+                               {
+                                   "description": "",
+                                   "value": "OBGYN"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MFM"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Family Practice"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other subspecialist"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
                            ]
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Payment source*",
                            "name": "payment_source",
                            "type": "List",
                            "values": [
-                               "Private",
-                               "Public",
-                               "Self",
-                               "Other",
-                               "Unknown",
-                               "Not specified"
+                               {
+                                   "description": "",
+                                   "value": "Private"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Public"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Self"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
                            ],
                            "is_core_summary": true
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Specify other payment source",
                            "name": "other_payment_source",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Prenatal care record no.",
                            "name": "prenatal_care_record_no",
                            "type": "String"
-                           
-                           
-                           
-                           
                        },
                        {
                            "prompt": "Use WIC*",
                            "name": "is_use_wic",
-                           "type": "Yes_No",
+                           "type": "list",
                            "values": [
                            ]
-                           
-                           
-                           
-                           
                        }
                    ]
-                   
-                   
-                   
-                   
                }
            ]
-           
-           
-           
-           
        }
    ]
 }

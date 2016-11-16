@@ -216,6 +216,9 @@ function load_metadata()
 			url: metadata_url
 	}).done(function(response) {
 			g_metadata = response;
+
+			convert_value_to_object(g_metadata);
+
 			g_data = create_default_object(g_metadata, {});
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
@@ -224,6 +227,31 @@ function load_metadata()
 			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
 
 	});
+}
+
+
+function convert_value_to_object(p_metadata)
+{
+	if(p_metadata.values)
+	{
+		for(var i = 0; i < p_metadata.values.length; i++)
+		{
+			var child = p_metadata.values[i];
+			if (typeof child === 'string' || child instanceof String)
+			{
+				p_metadata.values[i] = { "value": child, "description": ""};
+			}
+		}
+	}
+
+	if(p_metadata.children)
+	{
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			convert_value_to_object(child);
+		}
+	}
 }
 
 function metadata_save()

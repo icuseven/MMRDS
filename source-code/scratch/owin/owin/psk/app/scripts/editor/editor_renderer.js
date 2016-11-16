@@ -185,15 +185,20 @@ function editor_render(p_metadata, p_path, p_ui)
 					for(var i = 0; i < p_metadata.values.length; i++)
 					{
 						var child = p_metadata.values[i];
-
 						result.push('<li path="');
 						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + "values/" + i + '\')" /> <input type="text" value="');
-						result.push(child);
+						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + "values/" + i + '\')" /> value: <input type="text" value="');
+						result.push(child.value);
 						result.push('" size=');
-						result.push(child.length + 5);
+						result.push(child.value.length + 5);
 						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
-						result.push(p_path  + "/" + "values/" + i);
+						result.push(p_path  + "/" + "values/" + i + "/value");
+						result.push('" /> description: <input type="text" value="');
+						result.push(child.description);
+						result.push('" size=');
+						result.push(child.description.length + 5);
+						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
+						result.push(p_path  + "/" + "values/" + i + "/description");
 						result.push('" /> ');
 						//result.push(p_path  + "/" + "values/" + i);
 						result.push(' </li>');
@@ -692,7 +697,6 @@ function editor_set_value(e, p_ui)
 			
 			break;
 		default:
-			//var item = eval(item_path);
 			eval(item_path + ' = "' + e.value.trim().replace('"', '\\"') + '"');
 			window.dispatchEvent(metadata_changed_event);
 			//var after = eval(item_path);
@@ -929,7 +933,7 @@ function editor_delete_attribute(e, p_path)
 function editor_add_value(p_path)
 {
 	var item_path = get_eval_string(p_path);
-	eval(item_path).push("new value");
+	eval(item_path).push({ value: "new value", description:""});
 
 	var path_index = p_path.lastIndexOf("/");
 	var parent_path = p_path.slice(0, path_index);

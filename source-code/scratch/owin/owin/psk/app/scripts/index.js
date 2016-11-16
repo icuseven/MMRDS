@@ -169,7 +169,7 @@ window.onhashchange = function(e)
     document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
     document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
-
+    apply_tool_tips();
 
     if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
     {
@@ -230,11 +230,12 @@ window.onhashchange = function(e)
       create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
       g_ui.url_state = url_monitor.get_url_state(window.location.href);
-
+/*
 			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
 			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
-
+      apply_tool_tips();
+      */
       window.onhashchange ({ isTrusted: true, newURL : window.location.href });
 
 	});
@@ -249,4 +250,14 @@ function show_print_version()
 function show_data_dictionary()
 {
   window.open("./data-dictionary", "_data_diction");
+}
+
+
+function apply_tool_tips()
+{
+		$('[data-tooltip]').addClass('tooltip');
+		$('.tooltip').each(function() 
+    {  
+			$(this).append('<span class="tooltip-content">' + $(this).attr('data-tooltip') + '</span>');  
+		});
 }

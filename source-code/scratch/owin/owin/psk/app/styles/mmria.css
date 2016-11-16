@@ -193,6 +193,11 @@ background:#48ceb9;
 	float: right;
 }
 
+
+/*
+https://webdesign.tutsplus.com/articles/quick-tip-tooltips-courtesy-of-html5-data-attributes--webdesign-4826
+*/
+
 .tooltip {
     position: relative;
     display: inline-block;
