@@ -1,1577 +1,2204 @@
 {
-	"_id": "2016-06-12T13:49:24.759Z",
-	"_rev": "42-814fce0be9b1645041da222a86a690d8",
-	"name":"mmria",
-	"type":"app",
-	"prompt": "mmria app",
-
-	"children":[
-	{ "name":"date_created", "prompt":"date_created", "type": "date" },
-	{ "name":"created_by", "prompt":"created_by", "type": "string" },
-	{ "name":"date_last_updated", "prompt":"date_last_updated", "type": "date" },
-	{ "name":"last_updated_by", "prompt":"last_updated_by", "type": "string" },
-	{
-	"name": "home_record",
-	"prompt": "Home Record",
-	"url_route": "home-record",
-	"cardinality":"1",
-	"type": "form",
-	"children":
-	[
-		{
-			"name":"record_id",
-			"prompt":"record_id",
-			"type": "string"
-		},
-		{
-			"name":"first_name",
-			"prompt":"first name",
-			"type": "string"
-		},
-		{
-			"name":"middle_name",
-			"prompt":"middle name",
-			"type": "string"
-		},
-		{
-			"name":"last_name",
-			"prompt":"last name",
-			"type": "string"
-		},
-		{
-			"name":"date_of_death",
-			"prompt":"date of death*",
-			"type": "date"
-		},
-		{
-			"name":"state_of_death",
-			"prompt":"state of death",
-			"type": "string"
-		},
-		{
-			"name":"state_of_last_known_residence",
-			"prompt":"state of last known residence",
-			"type": "string"
-		},
-		{
-			"name":"agency_case_id",
-			"prompt":"agency-based case identifier",
-			"type": "string"
-		},
-		{
-			"name":"is_valid_maternal_mortality_record",
-			"prompt":"is_valid_maternal_mortality_record",
-			"type": "boolean"
-		}
-	]
-	},
-   {
-	"name":"death_certificate",
-	"prompt":"Death Certificate",
-	"url_route":"death-certificate",	"type": "form",
-	"cardinality": "?",
-	"children":
-	[
-	{
-	"name":"place_of_last_residence",
-	"prompt":"Place of last residence",	"type": "group",
-	"is_core_summary": false,
-	"validation": null,
-	"children":
-	[
-		{ "name":"street",	"prompt":"street",	"type": "string"},
-		{ "name":"city", "prompt":"city", "type": "string"},
-		{ "name":"state", "prompt":"state", "type": "string"},
-		{ "name":"zip_code", "prompt":"zip_code", "type": "string"},
-		{ "name":"latitude", "prompt":"latitude", "type": "string"},
-		{ "name":"longitude", "prompt":"longitude", "type": "string"}
-	]
-	},
-	{
-	"name":"date_of_birth",
-	"prompt":"Date of birth* (YYYY-MM-DD)",
-	"type": "Date",
-	"is_core_summary": true,
-	"validation": null
-	},
-	{
-	"name":"age",
-	"prompt":"Age*",
-	"type": "Number",
-	"is_core_summary": true,
-	"validation": null
-	},
-	{
-	"name":"marital_status",
-	"prompt":"Marital status*",
-	"type": "List",
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-		[
-			"Married",
-			"Married, but separated",
-			"Widowed",
-			"Divorced",
-			"Never Married",
-			"Unknown",
-			"Not Specified"
-		]
-	},
-	{
-		"name":"city_of_birth",
-		"prompt":"City of birth",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-	},
-	{
-	"name":"state_of_birth",
-	"prompt":"State of birth",
-	"type": "String",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"country_of_birth",
-	"prompt":"Country (if foreign born)*",
-	"type": "String",
-	"is_core_summary": true,
-	"validation": null
-	},
-	{
-	"name":"primary_occupation",
-	"prompt":"Primary occupation",
-	"type": "String",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"occupation_business_industry",
-	"prompt":"Business/ Industry",
-	"type": "String",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"ever_in_us_armed_forces",
-	"prompt":"Ever in US armed forces?",
-	"type": "Yes_No",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Yes",
-		"No",
-		"Not specified"
-	]
-	},
-	{
-	"name":"is_of_hispanic_origin",
-	"prompt":"Hispanic origin?*",
-	"type": "List",
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"No, not Spanish/ Hispanic/ Latino",
-		"Yes, Mexican, Mexican American, Chicano",
-		"Yes, Puerto Rican",
-		"Yes, Cuban",
-		"Yes, other Spanish/ Hispanic/ Latino",
-		"Yes, origin unknown",
-		"Not specified"
-	]
-	},
-	{
-	"name":"education_level",
-	"prompt":"Education*",
-	"type": "List",
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"8th grade or less",
-		"9th-12th grade; no diploma",
-		"High School grad or GED completed",
-		"Some college; no degree",
-		"Associate degree",
-		"Bachelor's degree",
-		"Master's degree",
-		"Doctorate or Professional degree",
-		"Not Specified"
-	]
-	},
-	{
-	"name":"race",
-	"prompt":"Race*",	"type":"Race",
-	"type": "List",
-	"is_multiselect": true,
-	"values":
-	[
-		"White",
-		"Black",
-		"Ameican Indian/AK Native",
-		"Native Hawaiian",
-		"Guamanian or Chamorro",
-		"Samoan",
-		"Other Pacific Islander",
-		"Asian Indian",
-		"Filipino",
-		"Korean",
-		"Other Asian",
-		"Chinese",
-		"Japanese",
-		"Vietnamese",
-		"Other race",
-		"Race not specified"
-	]
-	},
-	{
-	"name":"date_of_injury",
-	"prompt":"Date of injury (YYYY-MM-DD)",	"type": "Date",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"time_of_injury",
-	"prompt":"Time of injury",	"type": "Time",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"place_of_injury",
-	"prompt":"Place of injury (Place name, if applicable)",	"type": "string",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"was_injury_at_work",
-	"prompt":"Was injury at work?",	"type": "Yes_No",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Yes",
-		"No",
-		"Not specified"
-	]
-	},
-	{
-	"name":"transportation_related_injury",
-	"prompt":"transportation related injury?",	"type": "List",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Driver/Operator",
-		"Passenger",
-		"Pedestrian",
-		"Other (specify)"
-
-	]
-	},
-	{
-	"name":"were_seat_belts_in_use",
-	"prompt":"Were seat belts in use?",	"type": "Yes_No",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Yes",
-		"No",
-		"Not specified"
-	]
-	},
-	{
-	"name":"address_of_injury",
-	"prompt":"Location where injury occured",	"type": "Address",
-	"is_core_summary": false,
-	"validation": null,
-	"children":
-	[
-		{ "name":"street",	"prompt":"street",	"type": "string"},
-		{ "name":"city", "prompt":"city", "type": "string"},
-		{ "name":"state", "prompt":"state", "type": "string"},
-		{ "name":"zip_code", "prompt":"zip_code", "type": "string"},
-		{ "name":"latitude", "prompt":"latitude", "type": "string"},
-		{ "name":"longitude", "prompt":"longitude", "type": "string"}
-	]
-	},
-	{
-	"name":"death_occured_in_hospital",
-	"prompt":"If death occured in hospital:*",	"type": "List",
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Inpatient",
-		"Outpatient/ ER",
-		"Dead on arrival",
-		"Not Specified"
-	]
-	},
-	{
-	"name":"death_outside_of_hospital",
-	"prompt":"If death not in a hospital:*",	"type": "List",
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Hospice",
-		"Nursing home/ LTC",
-		"Home",
-		"</paper-input>",
-		"Not Specified"
-
-	]
-	},
-	{
-	"name":"manner_of_death",
-	"prompt":"Manner of Death*",	"type": "List",
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Natural",
-		"Accident",
-		"Suicide",
-		"Self-inflicted",
-		"Homocide",
-		"Pending investigation",
-		"Could not be determined",
-		"Not Specified"
-
-	]
-	},
-	{
-	"name":"was_autopsy_performed",
-	"prompt":"Was autopsy performed?*",	"type": "Yes_No",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Yes",
-		"No",
-		"Not specified"
-	]
-	},
-	{
-	"name":"was_autopsy_used_for_death_coding",
-	"prompt":"Was autopsy used for death coding?*",	"type": "Yes_No",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Yes",
-		"No",
-		"Not specified"
-	]
-	},
-	{
-	"name":"pregnancy_status",
-	"prompt":"Pregnancy Status?",	"type": "List",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Not pregnant within last year",
-		"Pregnant at the time of death",
-		"Pregnant within 42 days of death",
-		"Pregnant 43 to 365 days of death",
-		"Unkown if pregant in last year",
-		"Not Specified"
-	]
-	},
-	{
-	"name":"did_tobacco_contribute_to_death",
-	"prompt":"Did tobacco contribute to death?",	"type": "List",
-	"is_core_summary": false,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Yes",
-		"Probably",
-		"No",
-		"Unkown",
-		"Not Specified"
-	]
-	},
-	{
-		"name":"address_of_death",
-		"prompt":"Location where death occured",		"type": "Address",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{ "name":"street",	"prompt":"street",	"type": "string"},
-			{ "name":"city", "prompt":"city", "type": "string"},
-			{ "name":"state", "prompt":"state", "type": "string"},
-			{ "name":"zip_code", "prompt":"zip_code", "type": "string"},
-			{ "name":"latitude", "prompt":"latitude", "type": "string"},
-			{ "name":"longitude", "prompt":"longitude", "type": "string"}
-		]
-	},
-	{
-	"name":"estimated_death_distance_from_residence",
-	"prompt":"Estimated distance (miles) between residence and place of death*",	"type": "number",
-	"is_core_summary": false,
-	"validation": null
-	},
-	{
-	"name":"causes_of_death",
-	"prompt":"Causes of death",	"type":"Grid",
-	"children":
-	[
-		{
-			"name":"cause_type",
-			"prompt":"Type*",
-			"type":"string",
-			"values":
-			[
-				"Immediate",
-				"Contributing",
-				"Underlying",
-				"Other significant"
-			]
-		},
-		{
-			"name":"cause_description",
-			"prompt":"Cause (descriptive)*",
-			"type":"string"
-		},
-		{
-			"name":"icd_code",
-			"prompt":"ICD Code",
-			"type":"string"
-		},
-		{
-			"name":"interval",
-			"prompt":"Interval",
-			"type":"string"
-		},
-		{
-			"name":"interval_unit",
-			"prompt":"Unit",
-			"type":"string",
-			"values":
-			[
-					"Minute(s)",
-					"Hour(s)",
-					"Day(s)",
-					"Week(s)",
-					"Month(s)",
-					"Year(s)",
-					"Not specified"
-			]
-		}
-	]
-	},
-	{
-	"name":"reviewer_note",
-	"prompt":"Reviewer's notes about the Death Certificate",	"type": "string",
-	"is_core_summary": false,
-	"validation": null
-	}
-	]
-	},
-{
-	"name":"maternal_birth_certificate",
-	"prompt":"Maternal Birth Certificate",	"type": "form",
-	"cardinality":"*",
-	"children":
-	[
-	{
-	"name":"demographic_facility_of_delivery",
-	"prompt":"Facility of delivery demographics",	"type":"group",
-	"children":
-	[
-	{ "name":"middle_name", "prompt":"Middle name",  "type": "string", "is_core_summary": false, "validation": null },
-	{ "name":"last_name", "prompt":"Last name",  "type": "string", "is_core_summary": false, "validation": null },
-	{ "name":"maiden_name", "prompt":"Maiden name",  "type": "string", "is_core_summary": false, "validation": null },
-	{ "name":"medical_record_number", "prompt":"Medical Record No.",  "type": "string", "is_core_summary": false, "validation": null }
-	]
-	},
-	{
-	"name":"demographic_of_father",
-	"prompt":"Father's demographics",	"type": "group",
-	"is_core_summary": false,
-	"children":
-	[
-		{
-		"name":"date_of_birth",
-		"prompt":"Date of birth* (YYYY-MM-DD)",
-		"type": "Date",
-		"is_core_summary": true,
-		"validation": null
-		},
-		{
-		"name":"age",
-		"prompt":"Age*",
-		"type": "Number",
-		"is_core_summary": true,
-		"validation": null
-		},
-		{
-		"name":"marital_status",
-		"prompt":"Marital status*",
-		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-			[
-				"Married",
-				"Married, but separated",
-				"Widowed",
-				"Divorced",
-				"Never Married",
-				"Unknown",
-				"Not Specified"
-			]
-		},
-		{
-			"name":"city_of_birth",
-			"prompt":"City of birth",
-			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{
-		"name":"state_of_birth",
-		"prompt":"State of birth",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"country_of_birth",
-		"prompt":"Country (if foreign born)*",
-		"type": "String",
-		"is_core_summary": true,
-		"validation": null
-		},
-		{
-		"name":"primary_occupation",
-		"prompt":"Primary occupation",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"occupation_business_industry",
-		"prompt":"Business/ Industry",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"ever_in_us_armed_forces",
-		"prompt":"Ever in US armed forces?",
-		"type": "Yes_No",
-		"is_core_summary": false,
-		"validation": null,
-		"values":
-		[
-			"",
-			"Yes",
-			"No",
-			"Not specified"
-		]
-		},
-		{
-		"name":"is_of_hispanic_origin",
-		"prompt":"Hispanic origin?*",
-		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"No, not Spanish/ Hispanic/ Latino",
-			"Yes, Mexican, Mexican American, Chicano",
-			"Yes, Puerto Rican",
-			"Yes, Cuban",
-			"Yes, other Spanish/ Hispanic/ Latino",
-			"Yes, origin unknown",
-			"Not specified"
-		]
-		},
-		{
-		"name":"education_level",
-		"prompt":"Education*",
-		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"8th grade or less",
-			"9th-12th grade; no diploma",
-			"High School grad or GED completed",
-			"Some college; no degree",
-			"Associate degree",
-			"Bachelor's degree",
-			"Master's degree",
-			"Doctorate or Professional degree",
-			"Not Specified"
-		]
-		}
-
-	]
-	},
-	{
-	"name":"race_of_father",
-	"prompt":"Father's race",
-	"type":"list",
-	"is_multiselect": true,
-	"item_type": "string",
-	"values":
-	[
-		"White",
-		"Black",
-		"Ameican Indian/AK Native",
-		"Native Hawaiian",
-		"Guamanian or Chamorro",
-		"Samoan",
-		"Other Pacific Islander",
-		"Asian Indian",
-		"Filipino",
-		"Korean",
-		"Other Asian",
-		"Chinese",
-		"Japanese",
-		"Vietnamese",
-		"Other race",
-		"Race not specified"
-	]
-	},
-	{
-	"name":"Mother's demographics",
-	"prompt":"demographic_of_mother",	"type": "group",
-	"is_core_summary": false,
-	"children":
-	[
-		{
-		"name":"date_of_birth",
-		"prompt":"Date of birth* (YYYY-MM-DD)",
-		"type": "Date",
-		"is_core_summary": true,
-		"validation": null
-		},
-		{
-		"name":"age",
-		"prompt":"Age*",
-		"type": "Number",
-		"is_core_summary": true,
-		"validation": null
-		},
-		{
-		"name":"marital_status",
-		"prompt":"Marital status*",
-		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-			[
-				"Married",
-				"Married, but separated",
-				"Widowed",
-				"Divorced",
-				"Never Married",
-				"Unknown",
-				"Not Specified"
-			]
-		},
-		{
-			"name":"city_of_birth",
-			"prompt":"City of birth",
-			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{
-		"name":"state_of_birth",
-		"prompt":"State of birth",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"country_of_birth",
-		"prompt":"Country (if foreign born)*",
-		"type": "String",
-		"is_core_summary": true,
-		"validation": null
-		},
-		{
-		"name":"primary_occupation",
-		"prompt":"Primary occupation",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"occupation_business_industry",
-		"prompt":"Business/ Industry",
-		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"ever_in_us_armed_forces",
-		"prompt":"Ever in US armed forces?",
-		"type": "Yes_No",
-		"is_core_summary": false,
-		"validation": null,
-		"values":
-		[
-			"",
-			"Yes",
-			"No",
-			"Not specified"
-		]
-		},
-		{
-		"name":"is_of_hispanic_origin",
-		"prompt":"Hispanic origin?*",
-		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"No, not Spanish/ Hispanic/ Latino",
-			"Yes, Mexican, Mexican American, Chicano",
-			"Yes, Puerto Rican",
-			"Yes, Cuban",
-			"Yes, other Spanish/ Hispanic/ Latino",
-			"Yes, origin unknown",
-			"Not specified"
-		]
-		},
-		{
-		"name":"education_level",
-		"prompt":"Education*",
-		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"8th grade or less",
-			"9th-12th grade; no diploma",
-			"High School grad or GED completed",
-			"Some college; no degree",
-			"Associate degree",
-			"Bachelor's degree",
-			"Master's degree",
-			"Doctorate or Professional degree",
-			"Not Specified"
-		]
-		}
-
-	]
-	},
-	{
-	"name":"race_of_mother",
-	"prompt":"Mother's race",
-	"type":"list",
-	"is_multiselect": true,
-	"values":
-	[
-		"White",
-		"Black",
-		"Ameican Indian/AK Native",
-		"Native Hawaiian",
-		"Guamanian or Chamorro",
-		"Samoan",
-		"Other Pacific Islander",
-		"Asian Indian",
-		"Filipino",
-		"Korean",
-		"Other Asian",
-		"Chinese",
-		"Japanese",
-		"Vietnamese",
-		"Other race",
-		"Race not specified"
-	]
-	},
-	{
-	"name":"pregnancy_history",
-	"prompt":"Pregnancy History",	"type": "group",
-	"is_core_summary": false,
-	"validation": null,
-	"children":
-	[
-		{ "name":"date_of_last_live_birth", "prompt":"Date of last live birth",  "type": "date", "is_core_summary": false, "validation": null },
-		{ "name":"live_birth_interval", "prompt":"Live birth interval (months)",  "type": "String", "is_core_summary": false, "validation": null },
-		{ "name":"number_live_born", "prompt":"Number live born*",  "type": "String", "is_core_summary": false, "validation": null },
-		{ "name":"number_living", "prompt":"Number living",  "type": "String", "is_core_summary": false, "validation": null },
-		{ "name":"date_of_last_other_outcome", "prompt":"Date of last other outcome",  "type": "date", "is_core_summary": false, "validation": null },
-		{ "name":"pregnancy_interval", "prompt":"Pregnancy interval (months)",  "type": "String", "is_core_summary": false, "validation": null },
-		{ "name":"number_dead", "prompt":"Number dead",  "type": "String", "is_core_summary": false, "validation": null },
-		{ "name":"number_other_outcomes", "prompt":"Number other outcomes*",  "type": "String", "is_core_summary": false, "validation": null }
-	]
-	},
-	{
-	"name":"maternal_biometrics",
-	"prompt":"maternal biometrics",	"type": "group",
-	"is_core_summary": false,
-	"validation": null,
-	"children":
-	[
-		{ "name":"height", "prompt":"Height (feet inches)## ##",  "type": "number", "is_core_summary": false, "validation": null },
-		{ "name":"pre_pregnancy_weight", "prompt":"Pre-pregnancy weight (lbs.)",  "type": "number", "is_core_summary": false, "validation": null },
-		{ "name":"weight_at_deliverty", "prompt":"Weight at delivery (lbs.)",  "type": "number", "is_core_summary": false, "validation": null },
-		{ "name":"weight_gain", "prompt":"Weight gain (lbs.)",  "type": "number", "is_core_summary": false, "validation": null }
-	]
-	},
-	{
-	"name":"prenatal_care",
-	"prompt":"prenatal care",	"type": "group",
-	"is_core_summary": false,
-	"validation": null,
-	"children":
-	[
-		{
-			"name":"Date of last normal menses",
-			"prompt":"date_of_last_normal_menses",			"type": "Date",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{
-			"name":"date_of_1st_prenatal_visit",
-			"prompt":"Date of 1st prenatal visit",			"type": "Date",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{
-			"name":"date_of_last_prenatal_visit",
-			"prompt":"Date of last prenatal visit",			"type": "Date",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{ "name":"calculated_gestation", "prompt":"Calculated gestation (weeks)*",  "type": "String", "is_core_summary": false, "validation": null },
-		{ "name":"obsteric_estimate_of_gestation", "prompt":"Obstetric estimate of gestation (weeks)*",  "type": "number", "is_core_summary": false, "validation": null },
-		{
-		"name":"plurality",
-		"prompt":"Plurality*",		"type": "list",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"MD",
-			"DO",
-			"CNM/CM",
-			"Other midwife",
-			"</paper-input>",
-			"Not specified"
-		]
-		},
-		{
-		"name":"was_wic_used",
-		"prompt":"Use WIC*",		"type": "Yes_No",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"Yes",
-			"No",
-			"Not specified"
-		]
-		},
-		{
-			"name":"specify_if_greater_than_3",
-			"prompt":"Specify, if > 3",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{
-		"name":"how_was_delivery_paid",
-		"prompt":"How was this delivery paid*",		"type": "list",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"MD",
-			"DO",
-			"CNM/CM",
-			"Other midwife",
-			"</paper-input>",
-			"Not specified"
-		]
-		},
-		{
-			"name":"number_of_visits",
-			"prompt":"No. of visits",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-		},
-		{
-		"name":"trimester_of_1st_prenatal_care_visit",
-		"prompt":"Trimester of 1st prenatal care visit*",		"type": "list",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-		[
-			"",
-			"1st",
-			"2nd",
-			"3rd",
-			"Not specified"
-		]
-		},
-		{ "name":"specify_other_payor", "prompt":"Specify other payor",  "type": "String", "is_core_summary": false, "validation": null }
-	]
-	},
-	{
-	"name":"cigarette_smoking",
-	"prompt":"cigarette smoking",	"type": "group",
-	"is_core_summary": false,
-	"validation": null,
-	"children":
-	[
-		{ "name":"prior_3_months", "prompt":"In prior 3 months (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
-		{
-			"name":"prior_3_months_type",
-			"prompt":"",			"type": "List",
-			"control_style":"radio",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-			[
-				"",
-				"Cigarette(s)",
-				"Pack(s)"
-			]
-		},
-
-		{ "name":"trimester_1st", "prompt":"In 1st trimester (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
-		{
-			"name":"trimester_1st_type",
-			"prompt":"",			"type": "List",
-			"control_style": "radio",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-			[
-				"",
-				"Cigarette(s)",
-				"Pack(s)"
-			]
-		},
-		{ "name":"trimester_2nd", "prompt":"In 2nd trimester (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
-		{
-			"name":"trimester_2nd_type",
-			"prompt":"",			"type": "List",
-			"control_style": "radio",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-			[
-				"",
-				"Cigarette(s)",
-				"Pack(s)"
-			]
-		},
-		{ "name":"trimester_3rd", "prompt":"In 3rd trimester (# of cigarettes/ packs)",  "type": "number", "is_core_summary": false, "validation": null },
-		{
-			"name":"trimester_3rd_type",
-			"prompt":"",			"type": "List",
-			"control_style": "radio",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-			[
-				"",
-				"Cigarette(s)",
-				"Pack(s)"
-			]
-		},
-		{
-		"name":"none_or_not_specified",
-		"prompt":"",		"type": "List",
-		"is_core_summary": false,
-		"validation": null,
-		"values":
-		[
-			"",
-			"None",
-			"Not Specified"
-		]
-		}
-
-	]
-	},
-	{
-	"name":"maternal_risk_factors",
-	"prompt":"Maternal risk factors*",
-	"type": "list",
-	"is_multiselect": true,
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Prepregancy Diabetes",
-		"Gestational Diabetes",
-		"Prepregancy Hypertension",
-		"Gestational Hypertension",
-		"Eclampsia Hypertension",
-		"Previous preterm",
-		"Other previous poor outcome",
-		"Pregnancy resulted from infertility treatment",
-		"Fertility enhancing drugs: etc.",
-		"Assisted reproductive technology",
-		"Previous Cesarean delivery",
-		"None of these",
-		"Not specified"
-	]
-	},
-	{
-	"name":"infections_present_or_treated_during_pregnancy",
-	"prompt":"Infections present or treated during this pregnancy*",
-	"type": "list",
-	"is_multiselect": true,
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Hepatitis B (live birth only)",
-		"Hepatitis C (live birth only)",
-		"Syphillis",
-		"Gonorrhea",
-		"Listeria",
-		"Cytomegalovirus",
-		"Chlamidia",
-		"Parvovirus",
-		"Group B Streptococcus (fetal death(s) only)",
-		"Toxoplasmosis (fetal death(s) only)",
-		"None of these",
-		"Not specified"
-	]
-	},
-	{
-	"name":"onset_of_labor",
-	"prompt":"Onset of lablor (choose all that apply)*",
-	"type": "list",
-	"is_multiselect": true,
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Premature rupture of the membranse (prolonged)",
-		"Prolonged labor (> 20 hours)",
-		"Precipitous labor (< 3 hours)",
-		"None of these",
-		"Not specified"
-	]
-	},
-	{
-	"name":"obstetric_procedures",
-	"prompt":"Obstetric procedures (check all that apply)*",
-	"type": "list",
-	"is_multiselect": true,
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Cervical cerclage",
-		"Tocolysis",
-		"External cephalic version: Successful",
-		"External cephalic version: Failed",
-		"None of these",
-		"Not specified"
-	]
-	},
-	{
-	"name":"characteristics_of_labor_and_delivery",
-	"prompt":"Characteristics of Labor and Delivery (check all that apply)*",
-	"type": "list",
-	"is_multiselect": true,
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Induction of labor",
-		"Steroids for fetal lung maturation received by mother prior to delivery",
-		"Clinical chorioamnionitis diagnosed during labor or maternal tempurature >= 38 degrees C(100.4 degrees F)",
-		"Epidural or spinal anesthesia during labor",
-		"Augmentation of labor",
-		"Antibiotics received by the mother during labor",
-		"Moderate to heavy meconium staining of the amniotic fluid",
-		"Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",
-		"Non-vertex presentation",
-		"None of these",
-		"Not specified"
-	]
-	},
-	{
-	"name":"maternal_morbidity",
-	"prompt":"Maternal Morbidity (check all that apply)*",
-	"type": "list",
-	"is_multiselect": true,
-	"is_core_summary": true,
-	"validation": null,
-	"values":
-	[
-		"",
-		"Maternal transfusion",
-		"Unplanned hysterectomy",
-		"Unplanned operating room procedure following delivery",
-		"Third or fourth degree perineal laceration",
-		"Admission to intensive care unit",
-		"Ruptured uterus",
-		"None of these",
-		"Not specified"
-	]
-	},
-	{ "name":"length_between_child_birth_and_death_of_mother", "prompt":"Length of time between birth of child and death of mother*",  "type": "String", "is_core_summary": true, "validation": null },
-	{ "name":"reviewer_note", "prompt":"Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate",  "type": "TextArea", "is_core_summary": false, "validation": null }
-	]
-},
-{
-	"name":"autopsy_report",
-	"prompt":"Autopsy Report",	"type": "form",
-	"cardinality":"?",
-	"children":
-	[
-		{
-		"name":"was_autopsy_performed",
-		"prompt":"Was an autopsy performed?*",		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-			[
-				"",
-				"Referred / Performed / Available",
-				"Referred / Performed / Not available",
-				"Referred / Not performed",
-				"Not referred"
-			]
-		},
-		{
-		"name":"completeness_of_autopsy_information",
-		"prompt":"Completeness of autopsy information*",		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-			[
-				"",
-				"Complete",
-				"Minor gaps",
-				"Major gaps",
-				"Minimal"
-			]
-		},
-		{
-		"name":"reporter_characteristics",
-		"prompt":"Reporter characteristics",		"type": "group",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{
-			"name":"reporter_type",
-			"prompt":"Reporter Type",			"type": "List",
-			"is_core_summary": false,
-			"values":
-			[
-				"",
-				"1 - Medical examiner",
-				"2 - Coroner",
-				"3 - Other",
-				"4 - Unknown",
-				"9 - Not specificed",
-				"Other (specify)"
-			]
-			},
-			{
-			"name":"date_of_autopsy",
-			"prompt":"Date of autopsy",			"type": "Date",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name":"jurisdiction",
-			"prompt":"Jurisdiction",			"type": "string",
-			"is_core_summary": false,
-			"validation": null
-			}
-		]
-		},
-		{
-		"name":"biometrics",
-		"prompt":"Biometrics",		"type": "group",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{
-			"name":"mother",
-			"prompt":"Mother",			"type": "group",
-			"is_core_summary": false,
-			"validation": null,
-			"children":
-			[
-				{
-				"name":"height",
-				"prompt":"Height",				"type": "group",
-				"is_core_summary": false,
-				"validation": null,
-				"children":
-				[
-					{
-					"name":"feet",
-					"prompt":"Feet",					"type": "Number",
-					"is_core_summary": false,
-					"validation": null
-					},
-					{
-					"name":"inches",
-					"prompt":"Inches",					"type": "Number",
-					"is_core_summary": false,
-					"validation": null
-					}
-				]
-				},
-				{
-				"name":"weight",
-				"prompt":"Weight (pounds)",				"type": "Number",
-				"is_core_summary": false,
-				"validation": null
-				},
-				{
-				"name":"bmi",
-				"prompt":"BMI",				"type": "Number",
-				"is_core_summary": false,
-				"validation": null
-				}
-
-			]
-			},
-			{
-			"name":"fetus",
-			"prompt":"Fetus (if applicable)",			"type": "group",
-			"is_core_summary": false,
-			"validation": null,
-			"children":
-			[
-				{
-				"name":"fetal_weight",
-				"prompt":"Fetal Weight (grams)",				"type": "Number",
-				"is_core_summary": false,
-				"validation": null
-				},
-				{
-				"name":"fetal_length",
-				"prompt":"Fetal length (inches)",				"type": "Number",
-				"is_core_summary": false,
-				"validation": null
-				},
-				{
-				"name":"gestational_age_estimate",
-				"prompt":"Estimate of gestational age (weeks)",				"type": "Number",
-				"is_core_summary": false,
-				"validation": null
-				}
-			]
-			}
-		]
-		},
-		{
-		"name":"relevant_maternal_death_findings",
-		"prompt":"Findings relevant to maternal death",		"type": "group",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{
-			"name":"gross_findings",
-			"prompt":"Gross Findings",			"type": "grid",
-			"is_core_summary": false,
-			"validation": null,
-			"children":
-			[
-				{
-				"name":"finding",
-				"prompt":"Finding",				"type": "String",
-				"is_core_summary": false,
-				"validation": null
-				},
-				{
-				"name":"comment",
-				"prompt":"Comment(s)",				"type": "String",
-				"is_core_summary": false,
-				"validation": null
-				}
-			]
-			},
-			{
-			"name":"microscope_findings",
-			"prompt":"Microscope Findings",			"type": "grid",
-			"is_core_summary": false,
-			"validation": null,
-			"children":
-			[
-				{
-				"name":"finding",
-				"prompt":"Finding",				"type": "String",
-				"is_core_summary": false,
-				"validation": null
-				},
-				{
-				"name":"comment",
-				"prompt":"Comment(s)",				"type": "String",
-				"is_core_summary": false,
-				"validation": null
-				}
-			]
-			}
-		]
-		},
-		{
-		"name":"was_drug_toxicology_positive",
-		"prompt":"Was toxicology positive for drugs?*",		"type": "List",
-		"is_core_summary": true,
-		"validation": null,
-		"values":
-			[
-				"Yes",
-				"No",
-				"Not done",
-				"Done, but not available"
-			]
-		},
-		{
-		"name":"toxicology",
-		"prompt":"Toxicology",		"type": "grid",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{
-			"name":"substance",
-			"prompt":"Substance",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name":"concentration",
-			"prompt":"Concentration",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name":"unit_of_measure",
-			"prompt":"Unit of measure",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name":"level",
-			"prompt":"Level",			"type": "List",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-				[
-					"",
-					"Trace",
-					"Non-toxic",
-					"Theraputic",
-					"Toxic",
-					"Lethal",
-					"Unknown",
-					"Not specified"
-				]
-			},
-			{
-			"name":"comment",
-			"prompt":"Comment(s)",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			}
-		]
-		},
-		{
-		"name":"icd_code_version",
-		"prompt":"ICD code version",		"type": "String",
-		"is_core_summary": false,
-		"validation": null
-		},
-		{
-		"name":"causes_of_death",
-		"prompt":"Coroner / Medical Examiner Causes of Death",		"type": "grid",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{
-			"name":"type",
-			"prompt":"Type",			"type": "List",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-				[
-					"",
-					"Immediate",
-					"Contributing",
-					"Underlying",
-					"Other significant"
-				]
-			},
-			{
-			"name":"cause",
-			"prompt":"Cause",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name":"icd_code",
-			"prompt":"ICD code",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name":"comment",
-			"prompt":"Comment(s)",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			}
-		]
-		},
-		{
-		"name":"reviewer_note",
-		"prompt":"Reviewer's notes about the Autopsy Report",		"type": "TextArea",
-		"is_core_summary": false,
-		"validation": null
-		}
-	]
-},
-{
-	"name": "prenatal",
-	"prompt": "Prenatal Care Record",	"type": "form",
-	"data_route": "PrenatalCare",
-	"is_core_summary": false,
-	"cardinality": "?",
-	"children":
-	[
-		{
-		"name": "number_of_pnc_sources",
-		"prompt": "Was there more than 1 PNC source?",		"type": "List",
-		"control_style":"radio",
-		"is_core_summary": false,
-		"validation": null,
-		"values":
-		[
-			"Single",
-			"Multiple"
-		]
-		},
-		{
-		"name": "primary_prenatal_care_facility",
-		"prompt": "Primary prenatal care facility",		"type": "group",
-		"is_core_summary": false,
-		"validation": null,
-		"children":
-		[
-			{
-			"name": "place_type",
-			"prompt": "Place type",			"type": "List",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-				[
-					"Hospital",
-					"Clinic",
-					"Office",
-					"Other",
-					"Unknown",
-					"No prenatal care",
-					"Not specified"
-				]
-			},
-			{
-			"name": "other_place_type",
-			"prompt": "Specify other place type",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name": "primary_provider_type",
-			"prompt": "Primary provider type",			"type": "List",
-			"is_core_summary": false,
-			"validation": null,
-			"values":
-				[
-					"OBGYN",
-					"MFM",
-					"Family Practice",
-					"Other subspecialist",
-					"Other",
-					"Unknown"
-				]
-			},
-			{
-			"name": "payment_source",
-			"prompt": "Payment source*",			"type": "List",
-			"is_core_summary": true,
-			"validation": null,
-			"values":
-				[
-					"Private",
-					"Public",
-					"Self",
-					"Other",
-					"Unknown",
-					"Not specified"
-				]
-			},
-			{
-			"name": "other_payment_source",
-			"prompt": "Specify other payment source",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name": "prenatal_care_record_no",
-			"prompt": "Prenatal care record no.",			"type": "String",
-			"is_core_summary": false,
-			"validation": null
-			},
-			{
-			"name": "is_use_wic",
-			"prompt": "Use WIC*",			"type": "Yes_No",
-			"is_core_summary": false,
-			"validation": null,
-			"values":[]
-			}
-
-		]
-		}
-	]
-}
-
-	]
+   "_id": "2016-06-12T13:49:24.759Z",
+   "_rev": "22-a40a39123747355dd118816c91a69693",
+   "name": "mmria",
+   "prompt": "mmria app (ned)",
+   "type": "app",
+   "children": [
+       {
+           "prompt": "Date Created Aga",
+           "name": "date_created",
+           "type": "date"
+           
+           
+           
+           
+       },
+       {
+           "prompt": "crea ted_by",
+           "name": "created_by",
+           "type": "string"
+           
+           
+           
+           
+       },
+       {
+           "prompt": "date_last_updated",
+           "name": "date_last_updated",
+           "type": "date"
+           
+           
+           
+           
+       },
+       {
+           "prompt": "last_updated_by",
+           "name": "last_updated_by",
+           "type": "string"
+           
+           
+           
+           
+       },
+       {
+           "prompt": "Home Record",
+           "name": "home_record",
+           "type": "form",
+           "cardinality": "1",
+           "children": [
+               {
+                   "prompt": "Record Id",
+                   "name": "record_id",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "first name",
+                   "name": "first_name",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "middle name",
+                   "name": "middle_name",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "last name",
+                   "name": "last_name",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "date of death*",
+                   "name": "date_of_death",
+                   "type": "date"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "state of death",
+                   "name": "state_of_death",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "state of last known residence",
+                   "name": "state_of_last_known_residence",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "agency-based case identifier",
+                   "name": "agency_case_id",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "is_valid_maternal_mortality_record",
+                   "name": "is_valid_maternal_mortality_record",
+                   "type": "boolean"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "maternal_birth_certificate",
+                   "name": "maternal_birth_certificate",
+                   "type": "home_record.maternal_birth_certificate.json",
+                   "cardinality": "?"
+                   
+                   
+                   
+                   
+               }
+           ]
+           
+           
+           
+           
+       },
+       {
+           "prompt": "Death Certificate",
+           "name": "death_certificate",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Place of last residence",
+                   "name": "place_of_last_residence",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "street",
+                           "name": "street",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "city",
+                           "name": "city",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "state",
+                           "name": "state",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "zip_code",
+                           "name": "zip_code",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "latitude",
+                           "name": "latitude",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "longitude",
+                           "name": "longitude",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+               
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Date of birth* (YYYY-MM-DD)",
+                   "name": "date_of_birth",
+                   "type": "Date",
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Age*",
+                   "name": "age",
+                   "type": "Number",
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Marital status*",
+                   "name": "marital_status",
+                   "type": "List",
+                   "values": [
+                       "Married",
+                       "Married, but separated",
+                       "Widowed",
+                       "Divorced",
+                       "Never Married",
+                       "Unknown",
+                       "Not Specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "City of birth",
+                   "name": "city_of_birth",
+                   "type": "String"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "State of birth",
+                   "name": "state_of_birth",
+                   "type": "String"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Country (if foreign born)*",
+                   "name": "country_of_birth",
+                   "type": "String",
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Primary occupation",
+                   "name": "primary_occupation",
+                   "type": "String"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Business/ Industry",
+                   "name": "occupation_business_industry",
+                   "type": "String"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Ever in US armed forces?",
+                   "name": "ever_in_us_armed_forces",
+                   "type": "Yes_No",
+                   "values": [
+                       "",
+                       "Yes",
+                       "No",
+                       "Not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Hispanic origin?*",
+                   "name": "is_of_hispanic_origin",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "No, not Spanish/ Hispanic/ Latino",
+                       "Yes, Mexican, Mexican American, Chicano",
+                       "Yes, Puerto Rican",
+                       "Yes, Cuban",
+                       "Yes, other Spanish/ Hispanic/ Latino",
+                       "Yes, origin unknown",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Education*",
+                   "name": "education_level",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "8th grade or less",
+                       "9th-12th grade; no diploma",
+                       "High School grad or GED completed",
+                       "Some college; no degree",
+                       "Associate degree",
+                       "Bachelor's degree",
+                       "Master's degree",
+                       "Doctorate or Professional degree",
+                       "Not Specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Race*",
+                   "name": "race",
+                   "type": "List",
+                   "values": [
+                       "White",
+                       "Black",
+                       "Ameican Indian/AK Native",
+                       "Native Hawaiian",
+                       "Guamanian or Chamorro",
+                       "Samoan",
+                       "Other Pacific Islander",
+                       "Asian Indian",
+                       "Filipino",
+                       "Korean",
+                       "Other Asian",
+                       "Chinese",
+                       "Japanese",
+                       "Vietnamese",
+                       "Other race",
+                       "Race not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Date of injury (YYYY-MM-DD)",
+                   "name": "date_of_injury",
+                   "type": "Date"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Time of injury",
+                   "name": "time_of_injury",
+                   "type": "Time"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Place of injury (Place name, if applicable)",
+                   "name": "place_of_injury",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Was injury at work?",
+                   "name": "was_injury_at_work",
+                   "type": "Yes_No",
+                   "values": [
+                       "",
+                       "Yes",
+                       "No",
+                       "Not specified"
+                   ]
+                
+               },
+               {
+                   "prompt": "transportation related injury?",
+                   "name": "transportation_related_injury",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Driver/Operator",
+                       "Passenger",
+                       "Pedestrian",
+                       "Other (specify)"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Were seat belts in use?",
+                   "name": "were_seat_belts_in_use",
+                   "type": "Yes_No",
+                   "values": [
+                       "",
+                       "Yes",
+                       "No",
+                       "Not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Location where injury occured",
+                   "name": "address_of_injury",
+                   "type": "Address",
+                   "children": [
+                       {
+                           "prompt": "street",
+                           "name": "street",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "city",
+                           "name": "city",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "state",
+                           "name": "state",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "zip_code",
+                           "name": "zip_code",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "latitude",
+                           "name": "latitude",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "longitude",
+                           "name": "longitude",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "If death occured in hospital:*",
+                   "name": "death_occured_in_hospital",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Inpatient",
+                       "Outpatient/ ER",
+                       "Dead on arrival",
+                       "Not Specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "If death not in a hospital:*",
+                   "name": "death_outside_of_hospital",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Hospice",
+                       "Nursing home/ LTC",
+                       "Home",
+                       "</paper-input>",
+                       "Not Specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Manner of Death*",
+                   "name": "manner_of_death",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Natural",
+                       "Accident",
+                       "Suicide",
+                       "Self-inflicted",
+                       "Homocide",
+                       "Pending investigation",
+                       "Could not be determined",
+                       "Not Specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Was autopsy performed?*",
+                   "name": "was_autopsy_performed",
+                   "type": "Yes_No",
+                   "values": [
+                       "",
+                       "Yes",
+                       "No",
+                       "Not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Was autopsy used for death coding?*",
+                   "name": "was_autopsy_used_for_death_coding",
+                   "type": "Yes_No",
+                   "values": [
+                       "",
+                       "Yes",
+                       "No",
+                       "Not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Pregnancy Status?",
+                   "name": "pregnancy_status",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Not pregnant within last year",
+                       "Pregnant at the time of death",
+                       "Pregnant within 42 days of death",
+                       "Pregnant 43 to 365 days of death",
+                       "Unkown if pregant in last year",
+                       "Not Specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Did tobacco contribute to death?",
+                   "name": "did_tobacco_contribute_to_death",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Yes",
+                       "Probably",
+                       "No",
+                       "Unkown",
+                       "Not Specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Location where death occured",
+                   "name": "address_of_death",
+                   "type": "Address",
+                   "children": [
+                       {
+                           "prompt": "street",
+                           "name": "street",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "city",
+                           "name": "city",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "state",
+                           "name": "state",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "zip_code",
+                           "name": "zip_code",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "latitude",
+                           "name": "latitude",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "longitude",
+                           "name": "longitude",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Estimated distance (miles) between residence and place of death*",
+                   "name": "estimated_death_distance_from_residence",
+                   "type": "number"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Causes of death",
+                   "name": "causes_of_death",
+                   "type": "Grid",
+                   "children": [
+                       {
+                           "prompt": "Type*",
+                           "name": "cause_type",
+                           "type": "string",
+                           "values": [
+                               "Immediate",
+                               "Contributing",
+                               "Underlying",
+                               "Other significant"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Cause (descriptive)*",
+                           "name": "cause_description",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "ICD Code",
+                           "name": "icd_code",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Interval",
+                           "name": "interval",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Unit",
+                           "name": "interval_unit",
+                           "type": "string",
+                           "values": [
+                               "Minute(s)",
+                               "Hour(s)",
+                               "Day(s)",
+                               "Week(s)",
+                               "Month(s)",
+                               "Year(s)",
+                               "Not specified"
+                           ]
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Reviewer's notes about the Death Certificate",
+                   "name": "reviewer_note",
+                   "type": "string"
+                   
+                   
+                   
+                   
+               }
+           ]
+           
+           
+           
+           
+       },
+       {
+           "prompt": "Maternal Birth Certificate",
+           "name": "maternal_birth_certificate",
+           "type": "form",
+           "cardinality": "*",
+           "children": [
+               {
+                   "prompt": "Facility of delivery demographics",
+                   "name": "demographic_facility_of_delivery",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Middle name",
+                           "name": "middle_name",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Last name",
+                           "name": "last_name",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Maiden name",
+                           "name": "maiden_name",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Medical Record No.",
+                           "name": "medical_record_number",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Father's demographics",
+                   "name": "demographic_of_father",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date of birth* (YYYY-MM-DD)",
+                           "name": "date_of_birth",
+                           "type": "Date",
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Age*",
+                           "name": "age",
+                           "type": "Number",
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Marital status*",
+                           "name": "marital_status",
+                           "type": "List",
+                           "values": [
+                               "Married",
+                               "Married, but separated",
+                               "Widowed",
+                               "Divorced",
+                               "Never Married",
+                               "Unknown",
+                               "Not Specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "City of birth",
+                           "name": "city_of_birth",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "State of birth",
+                           "name": "state_of_birth",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Country (if foreign born)*",
+                           "name": "country_of_birth",
+                           "type": "String",
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Primary occupation",
+                           "name": "primary_occupation",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Business/ Industry",
+                           "name": "occupation_business_industry",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Ever in US armed forces?",
+                           "name": "ever_in_us_armed_forces",
+                           "type": "Yes_No",
+                           "values": [
+                               "",
+                               "Yes",
+                               "No",
+                               "Not specified"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Hispanic origin?*",
+                           "name": "is_of_hispanic_origin",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "No, not Spanish/ Hispanic/ Latino",
+                               "Yes, Mexican, Mexican American, Chicano",
+                               "Yes, Puerto Rican",
+                               "Yes, Cuban",
+                               "Yes, other Spanish/ Hispanic/ Latino",
+                               "Yes, origin unknown",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Education*",
+                           "name": "education_level",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "8th grade or less",
+                               "9th-12th grade; no diploma",
+                               "High School grad or GED completed",
+                               "Some college; no degree",
+                               "Associate degree",
+                               "Bachelor's degree",
+                               "Master's degree",
+                               "Doctorate or Professional degree",
+                               "Not Specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Father's race",
+                   "name": "race_of_father",
+                   "type": "list",
+                   "values": [
+                       "White",
+                       "Black",
+                       "Ameican Indian/AK Native",
+                       "Native Hawaiian",
+                       "Guamanian or Chamorro",
+                       "Samoan",
+                       "Other Pacific Islander",
+                       "Asian Indian",
+                       "Filipino",
+                       "Korean",
+                       "Other Asian",
+                       "Chinese",
+                       "Japanese",
+                       "Vietnamese",
+                       "Other race",
+                       "Race not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "demographic_of_mother",
+                   "name": "Mother's demographics",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date of birth* (YYYY-MM-DD)",
+                           "name": "date_of_birth",
+                           "type": "Date",
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Age*",
+                           "name": "age",
+                           "type": "Number",
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Marital status*",
+                           "name": "marital_status",
+                           "type": "List",
+                           "values": [
+                               "Married",
+                               "Married, but separated",
+                               "Widowed",
+                               "Divorced",
+                               "Never Married",
+                               "Unknown",
+                               "Not Specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "City of birth",
+                           "name": "city_of_birth",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "State of birth",
+                           "name": "state_of_birth",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Country (if foreign born)*",
+                           "name": "country_of_birth",
+                           "type": "String",
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Primary occupation",
+                           "name": "primary_occupation",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Business/ Industry",
+                           "name": "occupation_business_industry",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Ever in US armed forces?",
+                           "name": "ever_in_us_armed_forces",
+                           "type": "Yes_No",
+                           "values": [
+                               "",
+                               "Yes",
+                               "No",
+                               "Not specified"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Hispanic origin?*",
+                           "name": "is_of_hispanic_origin",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "No, not Spanish/ Hispanic/ Latino",
+                               "Yes, Mexican, Mexican American, Chicano",
+                               "Yes, Puerto Rican",
+                               "Yes, Cuban",
+                               "Yes, other Spanish/ Hispanic/ Latino",
+                               "Yes, origin unknown",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Education*",
+                           "name": "education_level",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "8th grade or less",
+                               "9th-12th grade; no diploma",
+                               "High School grad or GED completed",
+                               "Some college; no degree",
+                               "Associate degree",
+                               "Bachelor's degree",
+                               "Master's degree",
+                               "Doctorate or Professional degree",
+                               "Not Specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Mother's race",
+                   "name": "race_of_mother",
+                   "type": "list",
+                   "values": [
+                       "White",
+                       "Black",
+                       "Ameican Indian/AK Native",
+                       "Native Hawaiian",
+                       "Guamanian or Chamorro",
+                       "Samoan",
+                       "Other Pacific Islander",
+                       "Asian Indian",
+                       "Filipino",
+                       "Korean",
+                       "Other Asian",
+                       "Chinese",
+                       "Japanese",
+                       "Vietnamese",
+                       "Other race",
+                       "Race not specified"
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Pregnancy History",
+                   "name": "pregnancy_history",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date of last live birth",
+                           "name": "date_of_last_live_birth",
+                           "type": "date"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Live birth interval (months)",
+                           "name": "live_birth_interval",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Number live born*",
+                           "name": "number_live_born",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Number living",
+                           "name": "number_living",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Date of last other outcome",
+                           "name": "date_of_last_other_outcome",
+                           "type": "date"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Pregnancy interval (months)",
+                           "name": "pregnancy_interval",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Number dead",
+                           "name": "number_dead",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Number other outcomes*",
+                           "name": "number_other_outcomes",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "maternal biometrics",
+                   "name": "maternal_biometrics",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Height (feet inches)## ##",
+                           "name": "height",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Pre-pregnancy weight (lbs.)",
+                           "name": "pre_pregnancy_weight",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Weight at delivery (lbs.)",
+                           "name": "weight_at_deliverty",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Weight gain (lbs.)",
+                           "name": "weight_gain",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "prenatal care",
+                   "name": "prenatal_care",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "date_of_last_normal_menses",
+                           "name": "Date of last normal menses",
+                           "type": "Date"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Date of 1st prenatal visit",
+                           "name": "date_of_1st_prenatal_visit",
+                           "type": "Date"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Date of last prenatal visit",
+                           "name": "date_of_last_prenatal_visit",
+                           "type": "Date"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Calculated gestation (weeks)*",
+                           "name": "calculated_gestation",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Obstetric estimate of gestation (weeks)*",
+                           "name": "obsteric_estimate_of_gestation",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Plurality*",
+                           "name": "plurality",
+                           "type": "list",
+                           "values": [
+                               "",
+                               "MD",
+                               "DO",
+                               "CNM/CM",
+                               "Other midwife",
+                               "</paper-input>",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Use WIC*",
+                           "name": "was_wic_used",
+                           "type": "Yes_No",
+                           "values": [
+                               "",
+                               "Yes",
+                               "No",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Specify, if > 3",
+                           "name": "specify_if_greater_than_3",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "How was this delivery paid*",
+                           "name": "how_was_delivery_paid",
+                           "type": "list",
+                           "values": [
+                               "",
+                               "MD",
+                               "DO",
+                               "CNM/CM",
+                               "Other midwife",
+                               "</paper-input>",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "No. of visits",
+                           "name": "number_of_visits",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Trimester of 1st prenatal care visit*",
+                           "name": "trimester_of_1st_prenatal_care_visit",
+                           "type": "list",
+                           "values": [
+                               "",
+                               "1st",
+                               "2nd",
+                               "3rd",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Specify other payor",
+                           "name": "specify_other_payor",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "cigarette smoking",
+                   "name": "cigarette_smoking",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "In prior 3 months (# of cigarettes/ packs)",
+                           "name": "prior_3_months",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "",
+                           "name": "prior_3_months_type",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "Cigarette(s)",
+                               "Pack(s)"
+                           ],
+                           "control_style": "radio"
+                       },
+                       {
+                           "prompt": "In 1st trimester (# of cigarettes/ packs)",
+                           "name": "trimester_1st",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "",
+                           "name": "trimester_1st_type",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "Cigarette(s)",
+                               "Pack(s)"
+                           ],
+                           "control_style": "radio"
+                       },
+                       {
+                           "prompt": "In 2nd trimester (# of cigarettes/ packs)",
+                           "name": "trimester_2nd",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "",
+                           "name": "trimester_2nd_type",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "Cigarette(s)",
+                               "Pack(s)"
+                           ],
+                           "control_style": "radio"
+                       },
+                       {
+                           "prompt": "In 3rd trimester (# of cigarettes/ packs)",
+                           "name": "trimester_3rd",
+                           "type": "number"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "",
+                           "name": "trimester_3rd_type",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "Cigarette(s)",
+                               "Pack(s)"
+                           ],
+                           "control_style": "radio"
+                       },
+                       {
+                           "prompt": "",
+                           "name": "none_or_not_specified",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "None",
+                               "Not Specified"
+                           ]
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Maternal risk factors*",
+                   "name": "maternal_risk_factors",
+                   "type": "list",
+                   "values": [
+                       "",
+                       "Prepregancy Diabetes",
+                       "Gestational Diabetes",
+                       "Prepregancy Hypertension",
+                       "Gestational Hypertension",
+                       "Eclampsia Hypertension",
+                       "Previous preterm",
+                       "Other previous poor outcome",
+                       "Pregnancy resulted from infertility treatment",
+                       "Fertility enhancing drugs: etc.",
+                       "Assisted reproductive technology",
+                       "Previous Cesarean delivery",
+                       "None of these",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Infections present or treated during this pregnancy*",
+                   "name": "infections_present_or_treated_during_pregnancy",
+                   "type": "list",
+                   "values": [
+                       "",
+                       "Hepatitis B (live birth only)",
+                       "Hepatitis C (live birth only)",
+                       "Syphillis",
+                       "Gonorrhea",
+                       "Listeria",
+                       "Cytomegalovirus",
+                       "Chlamidia",
+                       "Parvovirus",
+                       "Group B Streptococcus (fetal death(s) only)",
+                       "Toxoplasmosis (fetal death(s) only)",
+                       "None of these",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Onset of lablor (choose all that apply)*",
+                   "name": "onset_of_labor",
+                   "type": "list",
+                   "values": [
+                       "",
+                       "Premature rupture of the membranse (prolonged)",
+                       "Prolonged labor (> 20 hours)",
+                       "Precipitous labor (< 3 hours)",
+                       "None of these",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Obstetric procedures (check all that apply)*",
+                   "name": "obstetric_procedures",
+                   "type": "list",
+                   "values": [
+                       "",
+                       "Cervical cerclage",
+                       "Tocolysis",
+                       "External cephalic version: Successful",
+                       "External cephalic version: Failed",
+                       "None of these",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Characteristics of Labor and Delivery (check all that apply)*",
+                   "name": "characteristics_of_labor_and_delivery",
+                   "type": "list",
+                   "values": [
+                       "",
+                       "Induction of labor",
+                       "Steroids for fetal lung maturation received by mother prior to delivery",
+                       "Clinical chorioamnionitis diagnosed during labor or maternal tempurature >= 38 degrees C(100.4 degrees F)",
+                       "Epidural or spinal anesthesia during labor",
+                       "Augmentation of labor",
+                       "Antibiotics received by the mother during labor",
+                       "Moderate to heavy meconium staining of the amniotic fluid",
+                       "Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",
+                       "Non-vertex presentation",
+                       "None of these",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Maternal Morbidity (check all that apply)*",
+                   "name": "maternal_morbidity",
+                   "type": "list",
+                   "values": [
+                       "",
+                       "Maternal transfusion",
+                       "Unplanned hysterectomy",
+                       "Unplanned operating room procedure following delivery",
+                       "Third or fourth degree perineal laceration",
+                       "Admission to intensive care unit",
+                       "Ruptured uterus",
+                       "None of these",
+                       "Not specified"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Length of time between birth of child and death of mother*",
+                   "name": "length_between_child_birth_and_death_of_mother",
+                   "type": "String",
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Reviewer's notes about the MATERNAL portion of the Birth or Fetal Death Certificate",
+                   "name": "reviewer_note",
+                   "type": "TextArea"
+                   
+                   
+                   
+                   
+               }
+           ]
+           
+           
+           
+           
+       },
+       {
+           "prompt": "Autopsy Report",
+           "name": "autopsy_report",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Was an autopsy performed?*",
+                   "name": "was_autopsy_performed",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Referred / Performed / Available",
+                       "Referred / Performed / Not available",
+                       "Referred / Not performed",
+                       "Not referred"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Completeness of autopsy information*",
+                   "name": "completeness_of_autopsy_information",
+                   "type": "List",
+                   "values": [
+                       "",
+                       "Complete",
+                       "Minor gaps",
+                       "Major gaps",
+                       "Minimal"
+                   ],
+                   "is_core_summary": true
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Reporter characteristics",
+                   "name": "reporter_characteristics",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Reporter Type",
+                           "name": "reporter_type",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "1 - Medical examiner",
+                               "2 - Coroner",
+                               "3 - Other",
+                               "4 - Unknown",
+                               "9 - Not specificed",
+                               "Other (specify)"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Date of autopsy",
+                           "name": "date_of_autopsy",
+                           "type": "Date"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Jurisdiction",
+                           "name": "jurisdiction",
+                           "type": "string"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Biometrics",
+                   "name": "biometrics",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Mother",
+                           "name": "mother",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Height",
+                                   "name": "height",
+                                   "type": "group",
+                                   "children": [
+                                       {
+                                           "prompt": "Feet",
+                                           "name": "feet",
+                                           "type": "Number"
+                                           
+                                           
+                                           
+                                           
+                                       },
+                                       {
+                                           "prompt": "Inches",
+                                           "name": "inches",
+                                           "type": "Number"
+                                           
+                                           
+                                           
+                                           
+                                       }
+                                   ]
+                                   
+                                   
+                                   
+                                   
+                               },
+                               {
+                                   "prompt": "Weight (pounds)",
+                                   "name": "weight",
+                                   "type": "Number"
+                                   
+                                   
+                                   
+                                   
+                               },
+                               {
+                                   "prompt": "BMI",
+                                   "name": "bmi",
+                                   "type": "Number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Fetus (if applicable)",
+                           "name": "fetus",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Fetal Weight (grams)",
+                                   "name": "fetal_weight",
+                                   "type": "Number"
+                                   
+                                   
+                                   
+                                   
+                               },
+                               {
+                                   "prompt": "Fetal length (inches)",
+                                   "name": "fetal_length",
+                                   "type": "Number"
+                               },
+                               {
+                                   "prompt": "Estimate of gestational age (weeks)",
+                                   "name": "gestational_age_estimate",
+                                   "type": "Number" 
+                               }
+                           ]  
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Findings relevant to maternal death",
+                   "name": "relevant_maternal_death_findings",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Gross Findings",
+                           "name": "gross_findings",
+                           "type": "grid",
+                           "children": [
+                               {
+                                   "prompt": "Finding",
+                                   "name": "finding",
+                                   "type": "String"
+                               },
+                               {
+                                   "prompt": "Comment(s)",
+                                   "name": "comment",
+                                   "type": "String"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Microscope Findings",
+                           "name": "microscope_findings",
+                           "type": "grid",
+                           "children": [
+                               {
+                                   "prompt": "Finding",
+                                   "name": "finding",
+                                   "type": "String"
+                               },
+                               {
+                                   "prompt": "Comment(s)",
+                                   "name": "comment",
+                                   "type": "String"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Was toxicology positive for drugs?*",
+                   "name": "was_drug_toxicology_positive",
+                   "type": "List",
+                   "values": [
+                       "Yes",
+                       "No",
+                       "Not done",
+                       "Done, but not available"
+                   ],
+                   "is_core_summary": true
+               },
+               {
+                   "prompt": "Toxicology",
+                   "name": "toxicology",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Substance",
+                           "name": "substance",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Concentration",
+                           "name": "concentration",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Unit of measure",
+                           "name": "unit_of_measure",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Level",
+                           "name": "level",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "Trace",
+                               "Non-toxic",
+                               "Theraputic",
+                               "Toxic",
+                               "Lethal",
+                               "Unknown",
+                               "Not specified"
+                           ]   
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comment",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "ICD code version",
+                   "name": "icd_code_version",
+                   "type": "String"
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Coroner / Medical Examiner Causes of Death",
+                   "name": "causes_of_death",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Type",
+                           "name": "type",
+                           "type": "List",
+                           "values": [
+                               "",
+                               "Immediate",
+                               "Contributing",
+                               "Underlying",
+                               "Other significant"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Cause",
+                           "name": "cause",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "ICD code",
+                           "name": "icd_code",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comment",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               },
+               {
+                   "prompt": "Reviewer's notes about the Autopsy Report",
+                   "name": "reviewer_note",
+                   "type": "TextArea"
+                   
+                   
+                   
+                   
+               }
+           ]
+           
+           
+           
+           
+       },
+       {
+           "prompt": "Prenatal Care Record",
+           "name": "prenatal",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Was there more than 1 PNC source?",
+                   "name": "number_of_pnc_sources",
+                   "type": "List",
+                   "values": [
+                       "Single",
+                       "Multiple"
+                   ],
+                   "control_style": "radio"
+               },
+               {
+                   "prompt": "Primary prenatal care facility",
+                   "name": "primary_prenatal_care_facility",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Place type",
+                           "name": "place_type",
+                           "type": "List",
+                           "values": [
+                               "Hospital",
+                               "Clinic",
+                               "Office",
+                               "Other",
+                               "Unknown",
+                               "No prenatal care",
+                               "Not specified"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Specify other place type",
+                           "name": "other_place_type",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Primary provider type",
+                           "name": "primary_provider_type",
+                           "type": "List",
+                           "values": [
+                               "OBGYN",
+                               "MFM",
+                               "Family Practice",
+                               "Other subspecialist",
+                               "Other",
+                               "Unknown"
+                           ]
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Payment source*",
+                           "name": "payment_source",
+                           "type": "List",
+                           "values": [
+                               "Private",
+                               "Public",
+                               "Self",
+                               "Other",
+                               "Unknown",
+                               "Not specified"
+                           ],
+                           "is_core_summary": true
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Specify other payment source",
+                           "name": "other_payment_source",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Prenatal care record no.",
+                           "name": "prenatal_care_record_no",
+                           "type": "String"
+                           
+                           
+                           
+                           
+                       },
+                       {
+                           "prompt": "Use WIC*",
+                           "name": "is_use_wic",
+                           "type": "Yes_No",
+                           "values": [
+                           ]
+                           
+                           
+                           
+                           
+                       }
+                   ]
+                   
+                   
+                   
+                   
+               }
+           ]
+           
+           
+           
+           
+       }
+   ]
 }
