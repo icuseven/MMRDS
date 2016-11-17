@@ -218,7 +218,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push(p_metadata_path);
 					result.push("\",this.value)' >");
 					result.push(p_data);
-					result.push("'</textarea></div>");
+					result.push("</textarea></div>");
 
            break;
      case 'number':
@@ -329,15 +329,33 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					var item = p_metadata.values[i];
 					if(p_data.indexOf(item.value) > -1)
 					{
-							result.push("<option selected>");
-							result.push(item.value);
+							result.push("<option value='");
+							result.push(item.value.replace("'", "\\'"));
+							result.push("' selected>");
+							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+							{
+								result.push(item.description);
+							}
+							else
+							{
+								result.push(item.value);
+							}
 							result.push("</option>");
 					}
 					else
 					{
-						result.push("<option>");
-						result.push(item.value);
-						result.push("</option>");
+							result.push("<option value='");
+							result.push(item.value.replace("'", "\\'"));
+							result.push("' >");
+							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+							{
+								result.push(item.description);
+							}
+							else
+							{
+								result.push(item.value);
+							}
+							result.push("</option>");
 					}
 				}
 				result.push("</select></div>");
@@ -351,15 +369,33 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				 var item = p_metadata.values[i];
 				 if(p_data == item.value)
 				 {
-						result.push("<option selected>");
+					result.push("<option value='");
+					result.push(item.value.replace("'", "\\'"));
+					result.push("' selected>");
+					if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+					{
+						result.push(item.description);
+					}
+					else
+					{
 						result.push(item.value);
-						result.push("</option>");
+					}
+					result.push("</option>");
 				 }
 				 else
 				 {
-					 result.push("<option>");
-					 result.push(item.value);
-					 result.push("</option>");
+					result.push("<option value='");
+					result.push(item.value.replace("'", "\\'"));
+					result.push("' >");
+					if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+					{
+						result.push(item.description);
+					}
+					else
+					{
+						result.push(item.value);
+					}
+					result.push("</option>");
 				 }
 			 }
 			 result.push("</select></div>");

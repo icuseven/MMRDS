@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "65-1bb42961a55db1b8bf7da25b1da43bf8",
+   "_rev": "68-abbaa74a0d6e20ecaba2e21f36154cd3",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -70,12 +70,6 @@
                    "prompt": "is_valid_maternal_mortality_record",
                    "name": "is_valid_maternal_mortality_record",
                    "type": "boolean"
-               },
-               {
-                   "prompt": "maternal_birth_certificate",
-                   "name": "maternal_birth_certificate",
-                   "type": "home_record.maternal_birth_certificate.json",
-                   "cardinality": "?"
                },
                {
                    "prompt": "Date of Death*",
@@ -549,7 +543,7 @@
                {
                    "prompt": "Location where injury occured",
                    "name": "address_of_injury",
-                   "type": "Address",
+                   "type": "Group",
                    "children": [
                        {
                            "prompt": "street",
@@ -802,7 +796,7 @@
                {
                    "prompt": "Location where death occured",
                    "name": "address_of_death",
-                   "type": "Address",
+                   "type": "Group",
                    "children": [
                        {
                            "prompt": "street",
