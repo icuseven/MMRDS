@@ -363,6 +363,7 @@ function attribute_renderer(p_metadata, p_path)
 			case "is_required":
 			case "is_multiselect":
 			case "is_read_only":
+			case "is_save_value_display_description":
 					if(p_metadata[prop])
 					{
 						result.push('<li>')
@@ -609,6 +610,7 @@ function render_attribute_add_control(p_path, node_type)
 		{
 			result.push('<option>is_multiselect</option>');
 			result.push('<option>list_display_size</option>');
+			result.push('<option>is_save_value_display_description</option>');
 		}
 		
 		result.push('<option>default_value</option>');
@@ -718,6 +720,7 @@ function editor_set_value(e, p_ui)
 		case "is_required":
 		case "is_multiselect":
 		case "is_read_only":
+		case "is_save_value_display_description":
 			eval(item_path + ' = !' + item_path);
 			window.dispatchEvent(metadata_changed_event);
 			break;
@@ -877,6 +880,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "is_required":
 			case "is_read_only":
 			case "is_multiselect":
+			case "is_save_value_display_description":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 					eval(item)[attribute] = true;
