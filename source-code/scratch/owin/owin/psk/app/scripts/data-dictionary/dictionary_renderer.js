@@ -5,7 +5,7 @@ function dictionary_render(p_metadata, p_path)
 	if(p_metadata.type.toLowerCase() == 'app')
 	{
 		result.push('<table border=1>');
-		result.push('<tr><th colspan="22">');
+		result.push('<tr><th colspan="23">');
 		result.push(p_path);
 		result.push(' ');
 		result.push(p_metadata.name);
@@ -58,6 +58,7 @@ function dictionary_render_header()
 	result.push('<th>prompt</th>');
 	result.push('<th>control_style</th>');
 	result.push('<th>description</th>');
+	result.push('<th>is_save_value_display_description</th>');
 	result.push('<th>values</th>');
 	result.push('<th>is_core_summary</th>');
 	result.push('<th>is_required</th>');
@@ -91,16 +92,53 @@ function dictionary_render_row(p_metadata, p_path)
 	result.push('<td>' + ((p_metadata['prompt'])? p_metadata['prompt']: "&nbsp;") + '</td>');
 	result.push('<td>' + ((p_metadata['control_style'])? p_metadata['control_style']: "&nbsp;") + '</td>');
 	result.push('<td>' + ((p_metadata['description'])? p_metadata['description']: "&nbsp;") + '</td>');
+	
+
+	if(p_metadata.type.toLowerCase() == "list")
+	{
+		result.push('<td>')
+		if
+		(
+			p_metadata['is_save_value_display_description'] &&
+			p_metadata['is_save_value_display_description'] == true
+		)
+		{
+			result.push("saves the value, displays the <strong>description</strong> in list.");
+		}
+		else
+		{
+			result.push("saves value, displays value.");
+		}
+			
+		result.push('</td>');
+	}
+	else
+	{
+		result.push("<td>&nbsp;</td>");
+	}
+
+
 	if(p_metadata.values)
 	{
-		result.push('<td valign="center">');
+		result.push('<td valign="center"><table><tr style="background-color:#FF7777;color:#FFFFFF"><th>value</th><th>description</th></tr>');
 		for(var i = 0; i < p_metadata.values.length; i++)
 		{
 			var child = p_metadata.values[i];
-			result.push(child);
-			result.push('<br/>');
+			if(i % 2)
+			{
+				result.push("<tr style='background-color:#BBBBBB'><td>");
+			}
+			else
+			{
+				result.push("<tr><td>");
+			}
+			
+			result.push(child.value);
+			result.push("</td><td>")
+			result.push(child.description);
+			result.push('</td></tr>');
 		}
-		result.push('</td>');
+		result.push('</table></td>');
 	}
 	else
 	{

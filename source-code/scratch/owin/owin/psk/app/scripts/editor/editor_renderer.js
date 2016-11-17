@@ -196,7 +196,14 @@ function editor_render(p_metadata, p_path, p_ui)
 						result.push('" /> description: <input type="text" value="');
 						result.push(child.description);
 						result.push('" size=');
-						result.push(child.description.length + 5);
+						if(child.description.length == 0)
+						{
+							result.push(20);
+						}
+						else
+						{
+							result.push(child.description.length + 5);
+						}
 						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
 						result.push(p_path  + "/" + "values/" + i + "/description");
 						result.push('" /> ');
@@ -580,7 +587,7 @@ function render_attribute_add_control(p_path, node_type)
 			is_list = true;
 			break;
 		case "string":
-		case "number":
+		case "number":editor_add_to_attributes
 		case "date":
 			is_range = true;
 			break;
@@ -594,7 +601,7 @@ function render_attribute_add_control(p_path, node_type)
 
 	}
 
-	result.push('<select path="');
+	result.push(' <select path="');
 	result.push(p_path);
 	result.push('">');
 	result.push('<option></option>');
