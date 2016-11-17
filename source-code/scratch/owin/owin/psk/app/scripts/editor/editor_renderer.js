@@ -30,7 +30,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 			result.push(p_metadata.name);
 			result.push(' ');
-			Array.prototype.push.apply(result, render_attribute_add_control(p_path, true));
+			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			//result.push(p_path);
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -148,7 +148,7 @@ function editor_render(p_metadata, p_path, p_ui)
 					 result.push(p_metadata.name);
 					 result.push(' ');
 					 //result.push(p_path);
-					 Array.prototype.push.apply(result, render_attribute_add_control(p_path));
+					 Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 					 result.push(' <ul tag="attribute_list" ');
 					 if(p_ui.is_collapsed[p_path])
 					 {
@@ -173,7 +173,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		 			result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
 		 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		 			result.push(p_metadata.name);
-					Array.prototype.push.apply(result, render_attribute_add_control(p_path));
+					Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 					result.push('<br/><ul  tag="attribute_list">');
 					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 					result.push('<li>values:');
@@ -559,10 +559,40 @@ function render_cardinality_control(p_path, p_value)
 }
 
 
-function render_attribute_add_control(p_path, is_collection_node)
+function render_attribute_add_control(p_path, node_type)
 {
 	var result = [];
-	
+	var is_collection_node = false;
+	var is_list = false;
+	var is_range = false;
+	var is_pre_fillable = false;
+
+	switch(node_type.toLowerCase())
+	{
+		case "app":
+		case "form":
+		case "group":
+		case "grid":
+			is_collection_node = true;
+			break;
+		case "list":
+			is_list = true;
+			break;
+		case "string":
+		case "number":
+		case "date":
+			is_range = true;
+			break;
+		case "address":
+		case "textarea":
+			is_pre_fillable = true;
+			break;
+		default:
+
+			break;
+
+	}
+
 	result.push('<select path="');
 	result.push(p_path);
 	result.push('">');
@@ -574,8 +604,13 @@ function render_attribute_add_control(p_path, is_collection_node)
 		result.push('<option>is_core_summary</option>');
 		result.push('<option>is_required</option>');
 		result.push('<option>is_read_only</option>');
-		result.push('<option>is_multiselect</option>');
-		result.push('<option>list_display_size</option>');
+		
+		if(is_list)
+		{
+			result.push('<option>is_multiselect</option>');
+			result.push('<option>list_display_size</option>');
+		}
+		
 		result.push('<option>default_value</option>');
 		result.push('<option>regex_pattern</option>');
 	}
@@ -589,10 +624,21 @@ function render_attribute_add_control(p_path, is_collection_node)
 
 	if(!is_collection_node)
 	{
-		result.push('<option>pre_fill</option>');
-		result.push('<option>max_value</option>');
-		result.push('<option>min_value</option>');
-		result.push('<option>control_style</option>');
+		if(is_pre_fillable)
+		{
+			result.push('<option>pre_fill</option>');
+		}
+		
+		if(is_range)
+		{
+			result.push('<option>max_value</option>');
+			result.push('<option>min_value</option>');
+		}
+
+		if(is_list)
+		{
+			result.push('<option>control_style</option>');
+		}
 	}
 	result.push('</select>');
 	
