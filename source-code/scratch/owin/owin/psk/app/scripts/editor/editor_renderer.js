@@ -139,82 +139,82 @@ function editor_render(p_metadata, p_path, p_ui)
 		case 'time':
 		case 'address':
 		case 'textarea':
-					 result.push('<li path="');
-					 result.push(p_path);
-					 result.push('">');
-					 result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
-					 result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
-					 result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
-					 result.push(p_metadata.name);
-					 result.push(' ');
-					 //result.push(p_path);
-					 Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-					 result.push(' <ul tag="attribute_list" ');
-					 if(p_ui.is_collapsed[p_path])
-					 {
-						 result.push(' style="display:none">');
-					 }
-					 else
-					 {
-					 	result.push(' style="display:block">');
-					 }
-					 Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
-					 result.push('</ul></li>');
+			result.push('<li path="');
+			result.push(p_path);
+			result.push('">');
+			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
+			result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
+			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
+			result.push(p_metadata.name);
+			result.push(' ');
+			//result.push(p_path);
+			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
+			result.push(' <ul tag="attribute_list" ');
+			if(p_ui.is_collapsed[p_path])
+			{
+				result.push(' style="display:none">');
+			}
+			else
+			{
+			result.push(' style="display:block">');
+			}
+			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+			result.push('</ul></li>');
 
            break;
-			case 'yes_no':
-			case 'race':
-			case 'list':
-		 			result.push('<li path="');
-		 			result.push(p_path);
-		 			result.push('">');
-					result.push(' <input type="button" value="-"  onclick="editor_toggle(this, g_ui)"/> ');
-		 			result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> ' );
-		 			result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
-		 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
-		 			result.push(p_metadata.name);
-					Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-					result.push('<br/><ul  tag="attribute_list">');
-					Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
-					result.push('<li>values:');
-					result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-					//result.push(p_path + "/" + "values");
-					result.push(' <ul>');
+	case 'yes_no':
+	case 'race':
+	case 'list':
+		result.push('<li path="');
+		result.push(p_path);
+		result.push('">');
+		result.push(' <input type="button" value="-"  onclick="editor_toggle(this, g_ui)"/> ');
+		result.push(' <input type="button" value="^" onclick="editor_move_up(this, g_ui)" /> ' );
+		result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
+		result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
+		result.push(p_metadata.name);
+		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
+		result.push('<br/><ul  tag="attribute_list">');
+		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+		result.push('<li>values:');
+		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
+		//result.push(p_path + "/" + "values");
+		result.push(' <ul>');
 
 
-					for(var i = 0; i < p_metadata.values.length; i++)
-					{
-						var child = p_metadata.values[i];
-						result.push('<li path="');
-						result.push(p_path + "/" + "values/" + i);
-						result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + "values/" + i + '\')" /> value: <input type="text" value="');
-						result.push(child.value);
-						result.push('" size=');
-						result.push(child.value.length + 5);
-						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
-						result.push(p_path  + "/" + "values/" + i + "/value");
-						result.push('" /> description: <input type="text" value="');
-						result.push(child.description);
-						result.push('" size=');
-						if(child.description.length == 0)
-						{
-							result.push(20);
-						}
-						else
-						{
-							result.push(child.description.length + 5);
-						}
-						result.push('  onBlur="editor_set_value(this, g_ui)" path="');
-						result.push(p_path  + "/" + "values/" + i + "/description");
-						result.push('" /> ');
-						//result.push(p_path  + "/" + "values/" + i);
-						result.push(' </li>');
+		for(var i = 0; i < p_metadata.values.length; i++)
+		{
+			var child = p_metadata.values[i];
+			result.push('<li path="');
+			result.push(p_path + "/" + "values/" + i);
+			result.push('"> <input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="d" onclick="editor_delete_value(this,\'' + p_path + "/" + "values/" + i + '\')" /> value: <input type="text" value="');
+			result.push(child.value);
+			result.push('" size=');
+			result.push(child.value.length + 5);
+			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
+			result.push(p_path  + "/" + "values/" + i + "/value");
+			result.push('" /> description: <input type="text" value="');
+			result.push(child.description);
+			result.push('" size=');
+			if(child.description.length == 0)
+			{
+				result.push(20);
+			}
+			else
+			{
+				result.push(child.description.length + 5);
+			}
+			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
+			result.push(p_path  + "/" + "values/" + i + "/description");
+			result.push('" /> ');
+			//result.push(p_path  + "/" + "values/" + i);
+			result.push(' </li>');
 
-					}
+		}
 
-		 			result.push('</ul></li></ul></li>');
+		result.push('</ul></li></ul></li>');
 
-		 			break;
+		break;
      default:
           console.log("editor_render not processed", p_metadata);
        break;

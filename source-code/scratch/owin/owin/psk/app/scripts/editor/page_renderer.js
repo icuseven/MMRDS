@@ -5,20 +5,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 
 	switch(p_metadata.type.toLowerCase())
   {
-		/*
-		case 'address':
-			result.push("<fieldset id='");
-			result.push(p_metadata.name);
-			result.push("_id' class='group address'><legend>");
-			result.push(p_metadata.prompt);
-			result.push("</legend>");
-			for(var i = 0; i < p_metadata.children.length; i++)
-      {
-        var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path));
-      }
-			result.push("<input type='button' value='get location' /></fieldset>");
-      break;*/
     case 'grid':
 		result.push("<table id='");
 		result.push(p_metadata_path);
@@ -57,7 +43,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push(p_metadata_path);
 			result.push('\')" /></td></tr>');
 		}
-    result.push("<tr><td colspan=");
+    	result.push("<tr><td colspan=");
 		result.push(p_metadata.children.length + 1);
 		result.push(" align=right> <input type='button' value='Add Item' onclick='g_add_grid_item(\"");
 		result.push(p_object_path);
@@ -229,106 +215,105 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push("\",this.value)' /></div>");
            break;
 			   
-		case 'address':
-    case 'textarea':
-					result.push("<div class='string' id='");
-					result.push(p_object_path);
-					result.push("'><span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span><br/> <textarea  name='");
-					result.push(p_metadata.name);
-					result.push("'  onblur='g_set_data_object_from_path(\"");
-          			result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)' >");
-					result.push(p_data);
-					result.push("</textarea></div>");
-
+	case 'address':
+	case 'textarea':
+				result.push("<div class='string' id='");
+				result.push(p_object_path);
+				result.push("'><span ");
+				if(p_metadata.description && p_metadata.description.length > 0)
+				{
+					result.push(" data-tooltip='");
+					result.push(p_metadata.description.replace(/'/g, "\\'"));
+					result.push("'>");
+				}
+				else
+				{
+					result.push(">");
+				}
+				
+				result.push(p_metadata.prompt);
+				result.push("</span><br/> <textarea  rows=5 cols=40 name='");
+				result.push(p_metadata.name);
+				result.push("'  onblur='g_set_data_object_from_path(\"");
+				result.push(p_object_path);
+				result.push("\",\"");
+				result.push(p_metadata_path);
+				result.push("\",this.value)' >");
+				result.push(p_data);
+				result.push("</textarea></div>");
            break;
      case 'number':
-						result.push("<div class='number' id='");
-					result.push(p_object_path);
-					result.push("'><span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span><br/> <input type='Number' name='");
-						result.push(p_metadata.name);
-						result.push("' value='");
-						result.push(p_data);
-						result.push("'  onblur='g_set_data_object_from_path(\"");
-          result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)'  /></div>");
+			result.push("<div class='number' id='");
+			result.push(p_object_path);
+			result.push("'><span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			result.push(p_metadata.prompt);
+			result.push("</span><br/> <input type='Number' name='");
+				result.push(p_metadata.name);
+				result.push("' value='");
+				result.push(p_data);
+				result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)'  /></div>");
            break;
      case 'boolean':
-						result.push("<div class='boolean' id='");
-					result.push(p_object_path);
-					result.push("'><span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span> <input type='checkbox' name='");
-					result.push(p_metadata.name);
-					result.push("' checked='");
-					result.push(p_data);
-					result.push("'  value='");
-					result.push(p_data);
-					result.push(" onblur='g_set_data_object_from_path(\"");
-          			result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)'  /></div>");
+			result.push("<div class='boolean' id='");
+			result.push(p_object_path);
+			result.push("'><span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			result.push(p_metadata.prompt);
+			result.push("</span> <input type='checkbox' name='");
+			result.push(p_metadata.name);
+			result.push("' checked='");
+			result.push(p_data);
+			result.push("'  value='");
+			result.push(p_data);
+			result.push(" onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)'  /></div>");
             break;
     case 'list':
 			result.push("<div class='list' id='");
 			result.push(p_object_path)
 			
 			result.push("'> <span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span>");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			result.push(p_metadata.prompt);
+			result.push("</span>");
 
 			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
 			{
@@ -403,103 +388,93 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 
 				for(var i = 0; i < p_metadata.values.length; i++)
-			 {
-				 var item = p_metadata.values[i];
-				 if(p_data == item.value)
-				 {
-					result.push("<option value='");
-					result.push(item.value.replace(/'/g, "\\'"));
-					result.push("' selected>");
-					if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+				{
+					var item = p_metadata.values[i];
+					if(p_data == item.value)
 					{
-						result.push(item.description);
+						result.push("<option value='");
+						result.push(item.value.replace(/'/g, "\\'"));
+						result.push("' selected>");
+						if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+						{
+							result.push(item.description);
+						}
+						else
+						{
+							result.push(item.value);
+						}
+						result.push("</option>");
 					}
 					else
 					{
-						result.push(item.value);
+						result.push("<option value='");
+						result.push(item.value.replace(/'/g, "\\'"));
+						result.push("' >");
+						if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
+						{
+							result.push(item.description);
+						}
+						else
+						{
+							result.push(item.value);
+						}
+						result.push("</option>");
 					}
-					result.push("</option>");
-				 }
-				 else
-				 {
-					result.push("<option value='");
-					result.push(item.value.replace(/'/g, "\\'"));
-					result.push("' >");
-					if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
-					{
-						result.push(item.description);
-					}
-					else
-					{
-						result.push(item.value);
-					}
-					result.push("</option>");
-				 }
-			 }
-			 result.push("</select></div>");
+				}
+			 	result.push("</select></div>");
 			}
 
            break;
-			case 'date':
-				result.push("<div class='date'>");
-				result.push("<span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span><br/> <input type='date' name='");
-				result.push(p_metadata.name);
-				result.push("' value='");
-				result.push(p_data);
-				result.push("'  onblur='g_set_data_object_from_path(\"");
-    			      result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)'  /></div>");
+	case 'date':
+			result.push("<div class='date'>");
+			result.push("<span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			result.push(p_metadata.prompt);
+			result.push("</span><br/> <input type='date' name='");
+			result.push(p_metadata.name);
+			result.push("' value='");
+			result.push(p_data);
+			result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)'  /></div>");
 			 break;
-	    case 'time':
-					result.push("<div class='time'>");
-					result.push("<span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span><br/> <input type='text' name='");
-					result.push(p_metadata.name);
-					result.push("' value='");
-					result.push(p_data);
-					result.push("' onblur='g_set_data_object_from_path(\"");
-    			      result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)'   /></div>");
-				 break;
-/*            break;
-    case 'radiolist':
-           p_parent[p_metadata.name] = "";
-           break;
-     case 'date':
-            p_parent[p_metadata.name] = new Date();
-            break;
-    case 'time':
-           p_parent[p_metadata.name] = "";
-           break;*/
+		case 'time':
+			result.push("<div class='time'>");
+			result.push("<span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			result.push(p_metadata.prompt);
+			result.push("</span><br/> <input type='text' name='");
+			result.push(p_metadata.name);
+			result.push("' value='");
+			result.push(p_data);
+			result.push("' onblur='g_set_data_object_from_path(\"");
+				result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)'   /></div>");
+			break;
      default:
           console.log("page_render not processed", p_metadata);
        break;
