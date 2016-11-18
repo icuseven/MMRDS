@@ -22,7 +22,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       if(g_validator_map[p_metadata_path](value))
       {
         var metadata = eval(p_metadata_path);
-        eval(p_object_path + ' = "' + value.replace('"', '\"') + '"');
+        eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
         document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
       }
       else
@@ -35,7 +35,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
     else
     {
       var metadata = eval(p_metadata_path);
-      eval(p_object_path + ' = "' + value.replace('"', '\"') + '"');
+      eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
       document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
     }
     
@@ -222,7 +222,6 @@ window.onhashchange = function(e)
 
 	$.ajax({
 			url: location.protocol + '//' + location.host + '/api/metadata',
-			data: {foo: 'bar'}
 	}).done(function(response) {
 			g_metadata = response;
 			g_data = create_default_object(g_metadata, {});

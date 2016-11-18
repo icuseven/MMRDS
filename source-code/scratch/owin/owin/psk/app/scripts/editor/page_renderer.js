@@ -74,7 +74,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push(" data-tooltip='");
-				result.push(p_metadata.description.replace("'", "\\'"));
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
 			else
@@ -97,7 +97,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push(" data-tooltip='");
-				result.push(p_metadata.description.replace("'", "\\'"));
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
 			else
@@ -173,7 +173,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -191,7 +191,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("' value='");
 					}
 					else
@@ -209,7 +209,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -237,7 +237,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -249,7 +249,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push("</span><br/> <textarea  name='");
 					result.push(p_metadata.name);
 					result.push("'  onblur='g_set_data_object_from_path(\"");
-          result.push(p_object_path);
+          			result.push(p_object_path);
 					result.push("\",\"");
 					result.push(p_metadata_path);
 					result.push("\",this.value)' >");
@@ -264,7 +264,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -290,7 +290,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -300,24 +300,26 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					
 					result.push(p_metadata.prompt);
 					result.push("</span> <input type='checkbox' name='");
-						result.push(p_metadata.name);
-						result.push("' checked='");
-						result.push(p_data);
-						result.push("'  value='");
-						result.push(p_data);
-						result.push(" onblur='g_set_data_object_from_path(\"");
-          result.push(p_object_path);
+					result.push(p_metadata.name);
+					result.push("' checked='");
+					result.push(p_data);
+					result.push("'  value='");
+					result.push(p_data);
+					result.push(" onblur='g_set_data_object_from_path(\"");
+          			result.push(p_object_path);
 					result.push("\",\"");
 					result.push(p_metadata_path);
 					result.push("\",this.value)'  /></div>");
             break;
     case 'list':
-			result.push("<div class='list'>");
-			result.push("<span ");
+			result.push("<div class='list' id='");
+			result.push(p_object_path)
+			
+			result.push("'> <span ");
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -351,11 +353,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			}
 
 			result.push(p_metadata.name);
-			result.push("' onblur='g_ui.set_value(\"");
+			result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
 			result.push(p_metadata_path);
-			result.push('/');
-			result.push(p_metadata.name);
-			result.push("\",this)' ");
+			result.push("\",this.value)'  ");
 
 			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
 			{
@@ -366,7 +368,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_data.indexOf(item.value) > -1)
 					{
 							result.push("<option value='");
-							result.push(item.value.replace("'", "\\'"));
+							result.push(item.value.replace(/'/g, "\\'"));
 							result.push("' selected>");
 							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 							{
@@ -381,7 +383,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					else
 					{
 							result.push("<option value='");
-							result.push(item.value.replace("'", "\\'"));
+							result.push(item.value.replace(/'/g, "\\'"));
 							result.push("' >");
 							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 							{
@@ -406,7 +408,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				 if(p_data == item.value)
 				 {
 					result.push("<option value='");
-					result.push(item.value.replace("'", "\\'"));
+					result.push(item.value.replace(/'/g, "\\'"));
 					result.push("' selected>");
 					if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 					{
@@ -421,7 +423,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				 else
 				 {
 					result.push("<option value='");
-					result.push(item.value.replace("'", "\\'"));
+					result.push(item.value.replace(/'/g, "\\'"));
 					result.push("' >");
 					if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 					{
@@ -444,7 +446,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -457,11 +459,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(p_metadata.name);
 				result.push("' value='");
 				result.push(p_data);
-				result.push("' onblur='g_ui.set_value(\"");
-				result.push(p_metadata_path);
-				result.push('/');
-				result.push(p_metadata.name);
-				result.push("\",this)'  /></div>");
+				result.push("'  onblur='g_set_data_object_from_path(\"");
+    			      result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)'  /></div>");
 			 break;
 	    case 'time':
 					result.push("<div class='time'>");
@@ -469,7 +471,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					if(p_metadata.description && p_metadata.description.length > 0)
 					{
 						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push(p_metadata.description.replace(/'/g, "\\'"));
 						result.push("'>");
 					}
 					else
@@ -482,11 +484,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
-					result.push("' onblur='g_ui.set_value(\"");
-          result.push(p_metadata_path);
-					result.push('/');
-					result.push(p_metadata.name);
-          result.push("\",this)'  /></div>");
+					result.push("' onblur='g_set_data_object_from_path(\"");
+    			      result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)'   /></div>");
 				 break;
 /*            break;
     case 'radiolist':

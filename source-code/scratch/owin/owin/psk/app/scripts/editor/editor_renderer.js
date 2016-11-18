@@ -738,7 +738,7 @@ function editor_set_value(e, p_ui)
 				if(e.value && e.value!='')
 				{
 					var reg_ex = new RegExp(e.value.trim());
-					eval(item_path + ' ="' + e.value.replace(/\\/g, '\\\\').replace('"', '\\"') + '"');
+					eval(item_path + ' ="' + e.value.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"');
 				}
 				else
 				{
@@ -754,7 +754,7 @@ function editor_set_value(e, p_ui)
 			
 			break;
 		default:
-			eval(item_path + ' = "' + e.value.trim().replace('"', '\\"') + '"');
+			eval(item_path + ' = "' + e.value.trim().replace(/"/g, '\\"') + '"');
 			window.dispatchEvent(metadata_changed_event);
 			//var after = eval(item_path);
 			break;
