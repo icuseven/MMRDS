@@ -100,7 +100,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('" onclick="editor_add_to_children(this, g_ui)" path="');
 			result.push(p_path);
 			result.push('" /> ');
-			
+			result.push('<input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
 			result.push('</li>');
 				result.push('</ul></li></ul></li>');
 	      break;
@@ -232,6 +232,7 @@ var valid_types = [
 "list",
 "app",
 "form",
+"grid",
 "group",
 "time",
 "textarea",
@@ -850,6 +851,14 @@ function editor_add_to_children(e, p_ui)
 					node_to_render.innerHTML = node.join("");					
 					window.dispatchEvent(metadata_changed_event);
 					break;
+			case "grid":					
+					eval(item_path).push(md.create_grid("new_" + element_value, "new " + element_value));
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");		
+					window.dispatchEvent(metadata_changed_event);			
+					break;
 			case "group":
 					eval(item_path).push(md.create_group("new_" + element_value, "new " + element_value, element_value));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
@@ -857,7 +866,7 @@ function editor_add_to_children(e, p_ui)
 					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
 					node_to_render.innerHTML = node.join("");		
 					window.dispatchEvent(metadata_changed_event);			
-					break;
+					break;					
 			case "form":
 					eval(item_path).push(md.create_form("new_form", "new form","?"));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
@@ -1041,7 +1050,7 @@ function editor_delete_value(e, p_path)
 
 		if(g_delete_value_clip_board)
 		{
-			node_to_render = document.querySelector("li input[path='" + g_delete_value_clip_board + "']").parentElement;
+			node_to_render = document.querySelector("li [path='" + g_delete_value_clip_board + "']");
 
 			if(node_to_render)
 			{
@@ -1049,7 +1058,7 @@ function editor_delete_value(e, p_path)
 			}
 		}
 
-		node_to_render = document.querySelector("li input[path='" + p_path + "']").parentElement;
+		node_to_render = document.querySelector("li [path='" + p_path + "']");
 		g_delete_value_clip_board = p_path;
 		node_to_render.style.background = "#999999";
 	}

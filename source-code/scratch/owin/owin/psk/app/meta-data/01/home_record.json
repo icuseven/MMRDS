@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "68-abbaa74a0d6e20ecaba2e21f36154cd3",
+   "_rev": "82-11e359a7f106b1985d3f548ea49cdf5a",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -72,6 +72,12 @@
                    "type": "boolean"
                },
                {
+                   "prompt": "maternal_birth_certificate",
+                   "name": "maternal_birth_certificate",
+                   "type": "home_record.maternal_birth_certificate.json",
+                   "cardinality": "?"
+               },
+               {
                    "prompt": "Date of Death*",
                    "name": "date_of_death",
                    "type": "string",
@@ -119,6 +125,262 @@
                        {
                            "prompt": "Autopsy report",
                            "name": "autopsy_report",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Birth certificate (Parent section)",
+                           "name": "birth_certificate_parent_section",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Birth certificate (Infant or fetal death section)",
+                           "name": "birth_certificate_infant_or_fetal_death_section",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Prenatal care record",
+                           "name": "prenatal_care_record",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Other medical visits",
+                           "name": "other_medical_visits",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "ER visit(s) and Hospitalization(s)",
+                           "name": "er_visits_and_hospitalizations",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Social and psychological profile",
+                           "name": "social_and_psychological_profile",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Informant Interviews",
+                           "name": "informant_interviews",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Started"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In progress"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Completed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not available"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Committe Review Worksheet",
+                           "name": "committe_review_worksheet",
                            "type": "list",
                            "values": [
                                {
@@ -543,7 +805,7 @@
                {
                    "prompt": "Location where injury occured",
                    "name": "address_of_injury",
-                   "type": "Group",
+                   "type": "Address",
                    "children": [
                        {
                            "prompt": "street",
@@ -796,7 +1058,7 @@
                {
                    "prompt": "Location where death occured",
                    "name": "address_of_death",
-                   "type": "Group",
+                   "type": "Address",
                    "children": [
                        {
                            "prompt": "street",
@@ -2539,6 +2801,10 @@
                    "values": [
                        {
                            "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
                            "value": "Single"
                        },
                        {
@@ -2546,6 +2812,7 @@
                            "value": "Multiple"
                        }
                    ],
+                   "list_display_size": 1,
                    "control_style": "radio"
                },
                {
@@ -2586,7 +2853,8 @@
                                    "description": "",
                                    "value": "Not specified"
                                }
-                           ]
+                           ],
+                           "list_display_size": 1
                        },
                        {
                            "prompt": "Specify other place type",
@@ -2622,7 +2890,8 @@
                                    "description": "",
                                    "value": "Unknown"
                                }
-                           ]
+                           ],
+                           "list_display_size": 1
                        },
                        {
                            "prompt": "Payment source*",
@@ -2654,7 +2923,8 @@
                                    "value": "Not specified"
                                }
                            ],
-                           "is_core_summary": true
+                           "is_core_summary": true,
+                           "list_display_size": 1
                        },
                        {
                            "prompt": "Specify other payment source",
@@ -2671,7 +2941,209 @@
                            "name": "is_use_wic",
                            "type": "list",
                            "values": [
-                           ]
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ],
+                           "list_display_size": 1
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Location of primary prenatal care facility",
+                   "name": "location_of_primary_prenatal_care_facility",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Address",
+                           "name": "address",
+                           "type": "address"
+                       },
+                       {
+                           "prompt": "Enter street, city state and zip code. No need to enter facility name",
+                           "name": "address_label",
+                           "type": "label"
+                       },
+                       {
+                           "prompt": "Get Coordinates",
+                           "name": "get_coordinates_button",
+                           "type": "button"
+                       },
+                       {
+                           "prompt": "Latitude",
+                           "name": "latitiude",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Longitude",
+                           "name": "longitude",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Prior surgical procedures before this pregnancy",
+                   "name": "prior_surgical_procedures_before_pregnancy",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Procedure",
+                           "name": "procedure",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there pre-existing medical conditions? *",
+                   "name": "had_pre_existing_conditions",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
+                   ],
+                   "list_display_size": 1
+               },
+               {
+                   "prompt": "Pre-existing conditions",
+                   "name": "pre_existing_conditons_grid",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Condition",
+                           "name": "condition",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Duration",
+                           "name": "duration",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Family medical history",
+                   "name": "family_medical_history",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Relation",
+                           "name": "relation",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mother"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Father"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Sister"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Brother"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Grandparent"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aunt/Uncle"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cousin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Condition",
+                           "name": "condition",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Living?",
+                           "name": "is_living",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
                        }
                    ]
                }

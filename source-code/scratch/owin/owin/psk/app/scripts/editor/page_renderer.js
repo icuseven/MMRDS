@@ -166,7 +166,43 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 		result.push('</footer>');
 
        break;
-     case 'string':
+     case 'label':
+					result.push("<div class='label' id='");
+					result.push(p_object_path);
+					result.push("'><span ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("'>");
+					}
+					else
+					{
+						result.push(">");
+					}
+					
+					result.push(p_metadata.prompt);
+					result.push("</span></div>");
+           break;
+     case 'button':
+					result.push("<input class='button' type='button' id='");
+					result.push(p_object_path);
+					result.push("' ");
+					if(p_metadata.description && p_metadata.description.length > 0)
+					{
+						result.push(" data-tooltip='");
+						result.push(p_metadata.description.replace("'", "\\'"));
+						result.push("' value='");
+					}
+					else
+					{
+						result.push(" value='");
+					}
+					
+					result.push(p_metadata.prompt);
+					result.push("' />");
+           break;
+		case 'string':
 					result.push("<div class='string' id='");
 					result.push(p_object_path);
 					result.push("'><span ");
@@ -187,12 +223,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push("' value='");
 					result.push(p_data);
 					result.push("' onblur='g_set_data_object_from_path(\"");
-          result.push(p_object_path);
+    			      result.push(p_object_path);
 					result.push("\",\"");
 					result.push(p_metadata_path);
 					result.push("\",this.value)' /></div>");
            break;
-		   
+			   
 		case 'address':
     case 'textarea':
 					result.push("<div class='string' id='");

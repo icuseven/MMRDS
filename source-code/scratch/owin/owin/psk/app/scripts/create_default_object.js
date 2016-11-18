@@ -40,7 +40,6 @@ function create_default_object(p_metadata, p_parent)
 
     case 'group':
     case 'form':
-    case 'address':
       p_parent[p_metadata.name] = {};
       for(var i = 0; i < p_metadata.children.length; i++)
       {
@@ -57,7 +56,8 @@ function create_default_object(p_metadata, p_parent)
        }
        break;
     case 'string':
-	 case 'textarea':
+    case 'textarea':
+    case 'address':
           if(p_metadata.default_value && p_metadata.default_value != "")
           {
             p_parent[p_metadata.name] = new String(p_metadata.default_value);

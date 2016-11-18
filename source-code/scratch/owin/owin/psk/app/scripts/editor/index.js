@@ -65,6 +65,16 @@ controls:
 		}
 
 	},
+	create_grid: function(p_name, p_prompt)
+	{
+		
+			return {
+				"name": p_name,
+				"prompt": p_prompt,
+				"type": "grid",
+				"children": []
+			}
+	},
 	create_group: function(p_name, p_prompt, p_type, p_style)
 	{
 		if(p_style)
