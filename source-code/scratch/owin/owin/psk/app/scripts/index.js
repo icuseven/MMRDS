@@ -35,7 +35,23 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
     else
     {
       var metadata = eval(p_metadata_path);
-      eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
+      if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
+      {
+        var item = eval(p_object_path);
+        if(item.indexOf(value) > -1)
+        {
+          item.splice(item.indexOf(value), 1);
+        }
+        else
+        {
+          item.push(value);
+        }
+      }
+      else
+      {
+        eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
+      }
+      
       document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
     }
     

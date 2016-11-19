@@ -206,7 +206,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push(p_metadata.prompt);
 					result.push("</span><br/> <input type='text' name='");
 					result.push(p_metadata.name);
-					result.push("' value='");
+					result.push("[]' value='");
 					result.push(p_data);
 					result.push("' onblur='g_set_data_object_from_path(\"");
     			      result.push(p_object_path);
@@ -333,7 +333,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			}
 
 			result.push(p_metadata.name);
-			result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push("'  onchange='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
 			result.push(p_metadata_path);

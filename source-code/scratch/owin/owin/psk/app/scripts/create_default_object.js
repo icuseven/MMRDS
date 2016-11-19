@@ -93,8 +93,16 @@ function create_default_object(p_metadata, p_parent)
             break;
     case 'list':
     case 'yes_no':
-           p_parent[p_metadata.name] = "";
-           break;
+        if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
+        {
+          p_parent[p_metadata.name] = [];
+        }
+        else
+        {
+          p_parent[p_metadata.name] = "";
+        }
+            
+        break;
      case 'date':
             if(p_metadata.default_value && p_metadata.default_value != "")
             {
