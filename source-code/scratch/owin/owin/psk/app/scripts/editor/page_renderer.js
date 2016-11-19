@@ -315,11 +315,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push(p_metadata.prompt);
 			result.push("</span>");
 
-			if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
-			{
-				result.push(' ( select all that apply )');
-			}
-
 			if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 			{
 				result.push("<br/> <select size=");

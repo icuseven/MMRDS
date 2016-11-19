@@ -729,7 +729,7 @@ function editor_set_value(e, p_ui)
 		case "is_multiselect":
 		case "is_read_only":
 		case "is_save_value_display_description":
-			eval(item_path + ' = !' + item_path);
+			eval(item_path + ' = !' + e.value);
 			window.dispatchEvent(metadata_changed_event);
 			break;
 		case "regex_pattern":
