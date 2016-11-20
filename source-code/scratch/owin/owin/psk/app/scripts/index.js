@@ -14,9 +14,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
   var current_value = eval(p_object_path);
   if(current_value != value)
   {
-
-    
-
     if(g_validator_map[p_metadata_path])
     {
       if(g_validator_map[p_metadata_path](value))
@@ -24,13 +21,17 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         var metadata = eval(p_metadata_path);
         eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
         document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+        if(g_ui.broken_rules[p_object_path])
+        {
+          g_ui.broken_rules[p_object_path] = false;
+        } 
       }
       else
       {
+        g_ui.broken_rules[p_object_path] = true;
         console.log("didn't pass validation");
-      }
 
-      
+      }
     }
     else
     {
@@ -54,11 +55,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       
       document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
     }
-    
-  }
-  
 
-  
+    apply_validation();
+  }
 }
 
 function g_add_grid_item(p_object_path, p_metadata_path)
@@ -93,6 +92,7 @@ var g_ui = {
 
   },
   data_list : [],
+  broken_rules : [],
   set_value: function(p_path, p_value)
   {
     console.log("g_ui.set_value: ", p_path, p_value);
@@ -275,4 +275,43 @@ function apply_tool_tips()
     {  
 			$(this).append('<span class="tooltip-content">' + $(this).attr('data-tooltip') + '</span>');  
 		});
+
+    apply_validation();
 }
+
+
+function apply_validation()
+{
+    for(var i in g_ui.broken_rules)
+    {
+      var element = document.getElementById(i);
+      if(g_ui.broken_rules[i] == true)
+      {
+        
+        if
+        (
+          element &&
+          element.className.indexOf('failed-validation') < 0
+        )
+        {
+         element.className += ' failed-validation';
+        }
+      }
+      else
+      {
+        
+        if
+        (
+          element &&
+          element.className.indexOf('failed-validation') > 0
+        )
+        {
+          var class_array = element.className.split(' ');
+          class_array.splice(class_array.indexOf('failed-validation'),1);
+         element.className = class_array.join(' ');
+        }
+        
+      }
+    }
+}
+

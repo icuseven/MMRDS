@@ -252,3 +252,7 @@ https://webdesign.tutsplus.com/articles/quick-tip-tooltips-courtesy-of-html5-dat
     visibility: visible;
     bottom: 30px;       
 }
+
+.failed-validation {
+	background-color: #ffcccc;
+}
