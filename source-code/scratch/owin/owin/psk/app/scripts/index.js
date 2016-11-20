@@ -295,6 +295,17 @@ function apply_validation()
         )
         {
          element.className += ' failed-validation';
+         /*
+         var validation_text = element.getAttribute('validation-tooltip');
+         if(validation_text)
+         {
+          var span_node = document.createElement("span");
+          span_node.setAttribute('class', 'tooltip-content');
+          span_node.innerText = element.getAttribute('validation-tooltip');
+          element.appendChild(span_node);
+         }
+         */
+
         }
       }
       else
@@ -308,7 +319,7 @@ function apply_validation()
         {
           var class_array = element.className.split(' ');
           class_array.splice(class_array.indexOf('failed-validation'),1);
-         element.className = class_array.join(' ');
+          element.className = class_array.join(' ');
         }
         
       }

@@ -54,52 +54,52 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 		result.push("</table>");
 		break;
     case 'group':
-			result.push("<fieldset id='");
-			result.push(p_metadata.name);
-			result.push("_id' class='group'><legend ");
-			if(p_metadata.description && p_metadata.description.length > 0)
-			{
-				result.push(" data-tooltip='");
-				result.push(p_metadata.description.replace(/'/g, "\\'"));
-				result.push("'>");
-			}
-			else
-			{
-				result.push(">");
-			}
-			result.push(p_metadata.prompt);
-			result.push("</legend>");
-			for(var i = 0; i < p_metadata.children.length; i++)
-      {
-        var child = p_metadata.children[i];
-        Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
-      }
-			result.push("</fieldset>");
-      break;
+		result.push("<fieldset id='");
+		result.push(p_metadata.name);
+		result.push("_id' class='group'><legend ");
+		if(p_metadata.description && p_metadata.description.length > 0)
+		{
+			result.push(" data-tooltip='");
+			result.push(p_metadata.description.replace(/'/g, "\\'"));
+			result.push("'>");
+		}
+		else
+		{
+			result.push(">");
+		}
+		result.push(p_metadata.prompt);
+		result.push("</legend>");
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
+		}
+		result.push("</fieldset>");
+		break;
     case 'form':
-			result.push("<section id='");
-			result.push(p_metadata.name);
-			result.push("_id' class='form'><h2 ");
-			if(p_metadata.description && p_metadata.description.length > 0)
-			{
-				result.push(" data-tooltip='");
-				result.push(p_metadata.description.replace(/'/g, "\\'"));
-				result.push("'>");
-			}
-			else
-			{
-				result.push(">");
-			}
-			
-			result.push(p_metadata.prompt);
-			result.push("</h2>");
-			for(var i = 0; i < p_metadata.children.length; i++)
-      {
-        var child = p_metadata.children[i];
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
-      }
-			result.push("</section>");
-      break;
+		result.push("<section id='");
+		result.push(p_metadata.name);
+		result.push("_id' class='form'><h2 ");
+		if(p_metadata.description && p_metadata.description.length > 0)
+		{
+			result.push(" data-tooltip='");
+			result.push(p_metadata.description.replace(/'/g, "\\'"));
+			result.push("'>");
+		}
+		else
+		{
+			result.push(">");
+		}
+
+		result.push(p_metadata.prompt);
+		result.push("</h2>");
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
+		}
+		result.push("</section>");
+		break;
     case 'app':
 		result.push("<section id='app_summary'><h2>summary</h2>");
 		result.push("<input type='button' class='btn-green' value='add new case aa' onclick='g_ui.add_new_case()' /><hr/>");
@@ -153,67 +153,79 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 
        break;
      case 'label':
-					result.push("<div class='label' id='");
-					result.push(p_object_path);
-					result.push("'><span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span></div>");
-           break;
+			result.push("<div class='label' id='");
+			result.push(p_object_path);
+			result.push("'><span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+
+			result.push(p_metadata.prompt);
+			result.push("</span></div>");
+			break;
      case 'button':
-					result.push("<input class='button' type='button' id='");
-					result.push(p_object_path);
-					result.push("' ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("' value='");
-					}
-					else
-					{
-						result.push(" value='");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("' />");
-           break;
+			result.push("<input class='button' type='button' id='");
+			result.push(p_object_path);
+			result.push("' ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("' value='");
+			}
+			else
+			{
+				result.push(" value='");
+			}
+
+			result.push(p_metadata.prompt);
+			result.push("' />");
+			break;
 		case 'string':
-					result.push("<div class='string' id='");
-					result.push(p_object_path);
-					result.push("'><span ");
-					if(p_metadata.description && p_metadata.description.length > 0)
-					{
-						result.push(" data-tooltip='");
-						result.push(p_metadata.description.replace(/'/g, "\\'"));
-						result.push("'>");
-					}
-					else
-					{
-						result.push(">");
-					}
-					
-					result.push(p_metadata.prompt);
-					result.push("</span><br/> <input type='text' name='");
-					result.push(p_metadata.name);
-					result.push("[]' value='");
-					result.push(p_data);
-					result.push("' onblur='g_set_data_object_from_path(\"");
-    			      result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)' /></div>");
-           break;
+			result.push("<div class='string' id='");
+			result.push(p_object_path);
+			result.push("'><span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("' ");
+			}
+			else
+			{
+				result.push(" ");
+			}
+
+			if(p_metadata.validation_description && p_metadata.validation_description.length > 0)
+			{
+				result.push(" validation-tooltip='");
+				result.push(p_metadata.validation_description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			
+			result.push(p_metadata.prompt);
+			result.push("</span><br/> <input type='text' name='");
+			result.push(p_metadata.name);
+			result.push("' value='");
+			result.push(p_data);
+			result.push("' onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)' /></div>");
+			break;
 			   
 	case 'address':
 	case 'textarea':
@@ -259,10 +271,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			
 			result.push(p_metadata.prompt);
 			result.push("</span><br/> <input type='Number' name='");
-				result.push(p_metadata.name);
-				result.push("' value='");
-				result.push(p_data);
-				result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push(p_metadata.name);
+			result.push("' value='");
+			result.push(p_data);
+			result.push("'  onblur='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
 			result.push(p_metadata_path);
