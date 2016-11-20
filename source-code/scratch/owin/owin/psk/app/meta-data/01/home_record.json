@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "71-82863ec25454f898cb26f5f9f49a1f1b",
+   "_rev": "178-b1ada716c161050ec1957bf8b4de4308",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -34,7 +34,9 @@
                {
                    "prompt": "Record Id",
                    "name": "record_id",
-                   "type": "string"
+                   "type": "string",
+                   "regex_pattern": "^\\d\\d$",
+                   "validation_description": "invalid description bubba."
                },
                {
                    "prompt": "first name",
@@ -2268,7 +2270,8 @@
                            "value": "Not specified"
                        }
                    ],
-                   "is_core_summary": true
+                   "is_core_summary": true,
+                   "is_multiselect": true
                },
                {
                    "prompt": "Obstetric procedures (check all that apply)*",
@@ -2304,7 +2307,8 @@
                            "value": "Not specified"
                        }
                    ],
-                   "is_core_summary": true
+                   "is_core_summary": true,
+                   "is_multiselect": true
                },
                {
                    "prompt": "Characteristics of Labor and Delivery (check all that apply)*",
@@ -2360,7 +2364,8 @@
                            "value": "Not specified"
                        }
                    ],
-                   "is_core_summary": true
+                   "is_core_summary": true,
+                   "is_multiselect": true
                },
                {
                    "prompt": "Maternal Morbidity (check all that apply)*",
@@ -2404,7 +2409,8 @@
                            "value": "Not specified"
                        }
                    ],
-                   "is_core_summary": true
+                   "is_core_summary": true,
+                   "is_multiselect": true
                },
                {
                    "prompt": "Length of time between birth of child and death of mother*",
@@ -2522,9 +2528,31 @@
                            ]
                        },
                        {
+                           "prompt": "Other (specify)",
+                           "name": "other_specify",
+                           "type": "string"
+                       },
+                       {
                            "prompt": "Date of autopsy",
                            "name": "date_of_autopsy",
-                           "type": "Date"
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
                        },
                        {
                            "prompt": "Jurisdiction",
@@ -3141,11 +3169,1165 @@
                            "list_display_size": 1
                        },
                        {
+                           "prompt": "Age at death",
+                           "name": "age_at_death",
+                           "type": "number"
+                       },
+                       {
                            "prompt": "Comment(s)",
                            "name": "comments",
                            "type": "textarea"
                        }
                    ]
+               },
+               {
+                   "prompt": "Evidence of Substance Abuse",
+                   "name": "is_evidence_of_substance_abuse",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       }
+                   ],
+                   "list_display_size": 1
+               },
+               {
+                   "prompt": "Evidence of Substance Abuse List",
+                   "name": "subtance_abuse_grid",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Substance",
+                           "name": "substance",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Route",
+                           "name": "route",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Duration",
+                           "name": "duration",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Counseling / Education",
+                           "name": "couseling_education",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
+                           ],
+                           "list_display_size": 1
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Pregnancy history",
+                   "name": "pregnancy_history",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Gravida*",
+                           "name": "gravida",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Para*",
+                           "name": "para",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Abortions*",
+                           "name": "abortions",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Specify details below:",
+                           "name": "details_grid",
+                           "type": "grid",
+                           "children": [
+                               {
+                                   "prompt": "Date ended",
+                                   "name": "date_ended",
+                                   "type": "string"
+                               },
+                               {
+                                   "prompt": "Outcome",
+                                   "name": "outcome",
+                                   "type": "list",
+                                   "values": [
+                                       {
+                                           "description": "",
+                                           "value": ""
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Live birth"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Still born"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Miscarriage"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Abortion"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Ectopic"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Other"
+                                       }
+                                   ],
+                                   "list_display_size": 1
+                               },
+                               {
+                                   "prompt": "Gestational age (wks)",
+                                   "name": "gestational_age",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Birth weight (g)",
+                                   "name": "birth_weight",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Method of delivery",
+                                   "name": "method_of_delivery",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Complication(s)",
+                                   "name": "complications",
+                                   "type": "string"
+                               },
+                               {
+                                   "prompt": "Now living?",
+                                   "name": "is_now_living",
+                                   "type": "list",
+                                   "values": [
+                                       {
+                                           "description": "",
+                                           "value": ""
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Yes"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "No"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Not Specified"
+                                       }
+                                   ],
+                                   "list_display_size": 1
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Intendedness (current prgnancy)",
+                   "name": "intendedenes",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Was pregnancy planned?",
+                           "name": "was_pregnancy_planned",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Planned"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mistimed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unwanted"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Was patient using birth control?",
+                           "name": "was_patient_using_birth_control",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hormone"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IUD"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Barrier"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Rhythm"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Date birth control was discontinued",
+                           "name": "date_birth_control_was_discontinued",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Infertility treatment (current pregnancy)",
+                   "name": "infertility_treatment",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Did this pregnancy result from infertility treatment?*",
+                           "name": "was_pregnancy_result_of_infertility_treatment",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "fertility enhancing drugs",
+                           "name": "fertility_enhanding_drugs",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Assisted Reproductive Technology (ART)",
+                           "name": "assisted_reproductive_technology",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "ART Type",
+                           "name": "art_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In vitro fertilization (IVF)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Zygote Intrafallopian Transfer (ZIFT)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Gamete intrafallopian transfer (GIFT)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Intracytoplasmic sperm injection (ICSI)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Cycle number",
+                           "name": "cycle_number",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Embryos transferred",
+                           "name": "embryos_transferred",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Embryos growing",
+                           "name": "embryos_growing",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Current pregnancy",
+                   "name": "current_pregnancy",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date of 1st prenatal visit*",
+                           "name": "date_of_1st_prenatal_visit",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Date of last prenatal visit",
+                           "name": "date_of_last_prenatal_visit",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Date of last normal menses*",
+                           "name": "date_of_last_normal_menses",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Date of 1st ultrasound",
+                           "name": "date_of_1st_ultrasound",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Height*",
+                           "name": "height",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Feet",
+                                   "name": "feet",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Inches",
+                                   "name": "inches",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Pre-pregnancy weight (lbs)*",
+                           "name": "pre_pregnancy_weight",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "BMI*",
+                           "name": "bmi",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Weight at 1st visit (lbs)*",
+                           "name": "weight_at_1st_visit",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Weight at last visit (lbs)*",
+                           "name": "weight_at_last_visit",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Weight gain (lbs)*",
+                           "name": "weight_gain",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Total number of visits",
+                           "name": "total_number_of_visits",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Trimester of 1st PNC visit*",
+                           "name": "trimester_of_1st_pnc_visit",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1st"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2nd"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3rd"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Gestational age at 1st Ultrasound (weeks)",
+                           "name": "gestational_age_at_1st_ultrasound",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Number of fetuses",
+                           "name": "number_of_fetuses",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Was home delivery planned?",
+                           "name": "was_home_delivery_planned",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Estimated date of confinement*",
+                           "name": "estimated_date_of_donfinement",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Name, city and state of intended birthing facility",
+                           "name": "intended_birthing_facility",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Routine Monitoring",
+                   "name": "routine_monitoring",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Systolic BP",
+                           "name": "systolic_bp",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Diastolic BP",
+                           "name": "diastolic",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Urine Protein",
+                           "name": "urine_protein",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Negative"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trace"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+4"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Urine Ketones",
+                           "name": "urine_ketones",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Negative"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trace"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+4"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Urine Glucose",
+                           "name": "urine_glucose",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Negative"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trace"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "+4"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Blood Hematocrit (%)",
+                           "name": "blood_hematocrit",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Weight (lbs)",
+                           "name": "weight",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Hightest BP*",
+                   "name": "highest_blood_pressure",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "systolic",
+                           "name": "systolic",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Diastolic",
+                           "name": "diastolic",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Lowest Hct*",
+                   "name": "lowest_hematocrit",
+                   "type": "number"
+               },
+               {
+                   "prompt": "Other laoratory tests",
+                   "name": "other_lab_tests",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Test / Procedure",
+                           "name": "test_or_procedure",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Results (units)",
+                           "name": "results",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Diagnostic procedures",
+                   "name": "diagnostic_procedures",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Procedure",
+                           "name": "procedure",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there problems identified during the current pregnance?*",
+                   "name": "were_there_problems_identified",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Specify details below",
+                   "name": "problems_identified_grid",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date 1st noticed",
+                           "name": "date_1st_noted",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Problem",
+                           "name": "problem",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there any adverse reactions?*",
+                   "name": "were_there_adverse_reactions",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "List of medications / drugs during pregnancy",
+                   "name": "medications_and_drugs_during_pregnancy",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Medication",
+                           "name": "medication",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Dose / Frequency / Duration",
+                           "name": "dose_frequeny_duration",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reason",
+                           "name": "reason",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Adverse reactions?*",
+                           "name": "is_adverse_reaction",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there referrals to other medical specialists/subspecialits?*",
+                   "name": "were_medical_referrals_to_others",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Medcal referral details",
+                   "name": "medical_referrals",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Type of specialist",
+                           "name": "type_of_specialist",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reason",
+                           "name": "reason",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Appointment kept?",
+                           "name": "was_appointment_kept",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Sources of prenatal care information, other than the primary provider (transferred records)",
+                   "name": "other_sources_of_prenatal_care",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Place",
+                           "name": "place",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hospital"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clinic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Office"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No prenatal care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Provider Type",
+                           "name": "provider_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OBGYN"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MFM"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Family Practice"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other Subspecialist"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "City",
+                           "name": "city",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "State",
+                           "name": "state",
+                           "type": "list",
+                           "values": [
+                           ]
+                       },
+                       {
+                           "prompt": "Begin date",
+                           "name": "begin_date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "End date",
+                           "name": "end_date",
+                           "type": "date"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Reviewer's notes about the prenatal care records",
+                   "name": "reviewer_notes",
+                   "type": "textarea"
                }
            ]
        }

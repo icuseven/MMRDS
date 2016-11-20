@@ -333,14 +333,25 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(p_metadata.list_display_size);
 				result.push(" name='");
 			}
-			else if(p_metadata.values.length > 6)
+			else if(p_metadata.is_multiselect && p_metadata.is_multiselect == true)
 			{
-				result.push("<br/> <select size='6' name='");
+				
+				if(p_metadata.values.length > 6)
+				{
+					result.push("<br/> <select size='6' name='");
+				}
+				else
+				{
+					result.push("<br/> <select size=");
+					result.push(p_metadata.values.length);
+					result.push(" name='");
+				}
+				
 			}
 			else
 			{
 				result.push("<br/> <select size=");
-				result.push(p_metadata.values.length);
+				result.push(1);
 				result.push(" name='");
 			}
 
