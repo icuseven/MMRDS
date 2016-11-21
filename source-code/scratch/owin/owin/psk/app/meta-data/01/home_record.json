@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "118-c949e7663baefd8725a7c4b8d7f551c5",
+   "_rev": "157-bff1e0676c9d4e6d299cfd5eeb104922",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -3835,7 +3835,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "Systolic BP",
@@ -3994,7 +3994,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "Test / Procedure",
@@ -4866,7 +4866,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "From unit",
@@ -4922,7 +4922,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "Exam / evaluation",
@@ -4949,7 +4949,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "Exam/ assessment",
@@ -4976,7 +4976,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "Specimen",
@@ -5065,7 +5065,7 @@
                        {
                            "prompt": "Date and Time",
                            "name": "date_and_time",
-                           "type": "date"
+                           "type": "datetime"
                        },
                        {
                            "prompt": "Exam/ assessment",
@@ -5083,6 +5083,448 @@
                            "type": "string"
                        }
                    ]
+               },
+               {
+                   "prompt": "Onset of labor",
+                   "name": "onset_of_labor",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date of onset of labor",
+                           "name": "date_of_onset_of_labor",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Time",
+                           "name": "time_of_onset_of_labor",
+                           "type": "time"
+                       },
+                       {
+                           "prompt": "Date of rupture of membranes",
+                           "name": "date_of_rupture",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Date of rupture of membranes",
+                                   "name": "date_of_rupture",
+                                   "type": "group",
+                                   "children": [
+                                       {
+                                           "prompt": "Month",
+                                           "name": "month",
+                                           "type": "number"
+                                       },
+                                       {
+                                           "prompt": "Day",
+                                           "name": "day",
+                                           "type": "number"
+                                       },
+                                       {
+                                           "prompt": "Year",
+                                           "name": "year",
+                                           "type": "number"
+                                       }
+                                   ]
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Final delivery route*",
+                           "name": "final_delivery_route",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Vaginal / Spontaneous"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Vaginal / Forceps"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Vaginal / Vacuum"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cesarean"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Time",
+                           "name": "time_of_rupture",
+                           "type": "time"
+                       },
+                       {
+                           "prompt": "Artificial",
+                           "name": "is_artificial",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Spontaneous",
+                           "name": "is_spontaneous",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Duration of labor prior to arrival (hrs)",
+                           "name": "duration_of_labor_prior_to_arrival",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Multiple gestation",
+                           "name": "multiple_gestation",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Pregnancy outcome*",
+                           "name": "pregnancy_outcome",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Livebirth"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Stillbirth (=>20 wks)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Miscarriage (< 20 wks)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Induced abortion"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Ectopic pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Livebirth/Stillbirth"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Vital Signs",
+                   "name": "vital_signs",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Temperature",
+                           "name": "temperature",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Pulse",
+                           "name": "pulse",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Respiration",
+                           "name": "respiration",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "BP Systolic",
+                           "name": "bp_systolic",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "BP Diastolic",
+                           "name": "bp_diastolic",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Hightest BP*",
+                   "name": "highest_bp",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Systolic BP",
+                           "name": "systolic_bp",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Diastolic BP",
+                           "name": "diastolic_bp",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there adverse reactions to any medications?*",
+                   "name": "any_adverse_reactions",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "List of medications",
+                   "name": "list_of_medications",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Medication",
+                           "name": "medication",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Dose/ Frequency/ Duration",
+                           "name": "dose_frequency_duration",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Adverse Reaction",
+                           "name": "adverse_reaction",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there any surgical procedures?*",
+                   "name": "any_surgical_procedures",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Surgical procedures",
+                   "name": "surgical_procedures",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Hospital unit",
+                           "name": "hospital_unit",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Procedure",
+                           "name": "procedure",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Performed by?",
+                           "name": "performed_by",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Outcome",
+                           "name": "outcome",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there any blood or blood product transfusions?*",
+                   "name": "any_blood_transfusions",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Patient blood type",
+                   "name": "patient_blood_type",
+                   "type": "string"
+               },
+               {
+                   "prompt": "Blood product grid",
+                   "name": "blood_product_grid",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Product",
+                           "name": "product",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "# units",
+                           "name": "number_of_units",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reaction / Complications",
+                           "name": "reaction_complications",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Diagnostic imaging and other technology",
+                   "name": "diagnostic_imaging_grid",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Procedure",
+                           "name": "procedure",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Target",
+                           "name": "target",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "findings",
+                           "name": "Findings",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Referrals and consultations",
+                   "name": "referrals_and_consultations",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Specialist type",
+                           "name": "specialist_type",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reason",
+                           "name": "reason",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "recommendations",
+                           "name": "recommendations",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Reviewer's notes about this hospitalization, delivery and / or ER visit",
+                   "name": "reviewer_notes",
+                   "type": "textarea",
+                   "pre_fill": "This is a test.\n\nAnd another."
                }
            ]
        }

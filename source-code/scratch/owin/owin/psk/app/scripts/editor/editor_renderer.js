@@ -134,6 +134,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		case 'button':
 		case 'boolean':
 		case 'date':
+		case 'datetime':
 		case 'number':
 		case 'string':
 		case 'time':
@@ -226,8 +227,8 @@ function editor_render(p_metadata, p_path, p_ui)
 
 var valid_types = [
 "string",
-"address",
 "number",
+"datetime",
 "date",
 "list",
 "app",
@@ -238,7 +239,8 @@ var valid_types = [
 "textarea",
 "boolean",
 "label",
-"button"
+"button",
+"address"
 ];
 
 
@@ -590,6 +592,8 @@ function render_attribute_add_control(p_path, node_type)
 		case "string":
 		case "number":editor_add_to_attributes
 		case "date":
+		case "datetime":
+		case "time":
 			is_range = true;
 			break;
 		case "address":
@@ -754,7 +758,7 @@ function editor_set_value(e, p_ui)
 			
 			break;
 		default:
-			eval(item_path + ' = "' + e.value.trim().replace(/"/g, '\\"') + '"');
+			eval(item_path + ' = "' + e.value.trim().replace(/"/g, '\\"').replace(/\n/g, "\\n") + '"');
 			window.dispatchEvent(metadata_changed_event);
 			//var after = eval(item_path);
 			break;
@@ -854,6 +858,7 @@ function editor_add_to_children(e, p_ui)
 			case "string":
 			case "number":
 			case "date":
+			case "datetime":
 			case "time":
 			case "address":
 			case "textarea":

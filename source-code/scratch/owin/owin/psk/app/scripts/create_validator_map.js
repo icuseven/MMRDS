@@ -60,6 +60,7 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 			}
 			break;
 		case "date":
+		case "datetime":
 			if(p_metadata.is_required && p_metadata.is_required == true)
 			{
 					result.push("if(value == null || value == '') return false;\n");

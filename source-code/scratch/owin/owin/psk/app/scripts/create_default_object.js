@@ -104,6 +104,7 @@ function create_default_object(p_metadata, p_parent)
             
         break;
      case 'date':
+     case 'datetime':
             if(p_metadata.default_value && p_metadata.default_value != "")
             {
               p_parent[p_metadata.name] = new Date(p_metadata.default_value);
