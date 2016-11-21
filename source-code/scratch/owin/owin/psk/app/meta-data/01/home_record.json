@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "178-b1ada716c161050ec1957bf8b4de4308",
+   "_rev": "244-1b7a3e840b44f7920e7c4e3a4d5336fb",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -4328,6 +4328,761 @@
                    "prompt": "Reviewer's notes about the prenatal care records",
                    "name": "reviewer_notes",
                    "type": "textarea"
+               }
+           ]
+       },
+       {
+           "prompt": "ER Visit and Hospital Medical Records",
+           "name": "er_visit_and_hospital_medical_records",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Maternal record identification",
+                   "name": "maternal_record_identification",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "first name",
+                           "name": "first_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Middle name",
+                           "name": "middle_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Last name",
+                           "name": "last_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Maiden name",
+                           "name": "maiden_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Medical Record No.",
+                           "name": "medical_record_no",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Basic admission and discharge information",
+                   "name": "basic_admission_and_discharge_information",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date of arrival at Hospital/ER*",
+                           "name": "date_of_arrival",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Date of hospital admission*",
+                           "name": "date_of_hospital_admission",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Time of arrival",
+                           "name": "time_of_arrival",
+                           "type": "time"
+                       },
+                       {
+                           "prompt": "Admission condition",
+                           "name": "admission_condition",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Stable"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Serious"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Critical"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Time of admission",
+                           "name": "time_of_admission",
+                           "type": "time"
+                       },
+                       {
+                           "prompt": "Admission status",
+                           "name": "admission_status",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Admitted directly to the hospital"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Admitted through the ER"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ER visit only"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Admission reason",
+                           "name": "admission_reason",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "In labor"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Planned induction/C-section"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Complications of pregnancy, not in labor"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Postpartum complications"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medical reasons not related to pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Was mother received from another hospital?",
+                           "name": "was_recieved_from_another_hospital",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "From where?",
+                           "name": "from_where",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Was mother transferred to another hospital?",
+                           "name": "was_transferred_to_another_hospital",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "To where?",
+                           "name": "to_where",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Date of hospital or ER discharge",
+                           "name": "date_of_hospital_discharge",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Time of discharge",
+                           "name": "time_of_discharge",
+                           "type": "time"
+                       },
+                       {
+                           "prompt": "Discharge pregnancy status*",
+                           "name": "discharge_pregnancy_status",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pregnant, released undelivered"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pregnant, released postpartum"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not pregnant, but pregnant within the last 12 months"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not pregnant, prior 12 months unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not evaluated for pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Discharge pregnancy status*",
+                           "name": "deceased_at_the_time_of_discharge",
+                           "type": "boolean"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Name and location of facility",
+                   "name": "name_and_location_facility",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Facility name",
+                           "name": "facility_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Type of facility*",
+                           "name": "type_of_facility",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hospital"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Free standing birthing center"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Home delivery"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clinic / Doctor's office"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Facility NPI No.",
+                           "name": "facility_npi_no",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Obstetric level of care*",
+                           "name": "obstetric_level_of_care",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Street",
+                           "name": "street",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "City",
+                           "name": "city",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "State",
+                           "name": "state",
+                           "type": "list",
+                           "values": [
+                           ]
+                       },
+                       {
+                           "prompt": "ZIP Code",
+                           "name": "zip_code",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "County",
+                           "name": "county",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Get Coordinates",
+                           "name": "get_coordinates",
+                           "type": "button"
+                       },
+                       {
+                           "prompt": "Latitude",
+                           "name": "latitude",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Longitude",
+                           "name": "longitude",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Mode of transportation to facility",
+                           "name": "mode_of_transportation_to_facility",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Private vehicle"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Ambulance"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Taxi"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Bus"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specificed"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Origin of travel",
+                           "name": "origin_of_travel",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Home"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Work"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Travel time to hospital",
+                           "name": "travel_time_to_hospital",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "value",
+                                   "name": "value",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Unit",
+                                   "name": "unit",
+                                   "type": "list",
+                                   "values": [
+                                       {
+                                           "description": "",
+                                           "value": ""
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Minute(s)"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Hour(s)"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Day(s)"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Week(s)"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Month(s)"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Year(s)"
+                                       }
+                                   ]
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Internal transfers",
+                   "name": "internal_transfers",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "From unit",
+                           "name": "from_unit",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "To unit",
+                           "name": "to_unit",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Maternal biometrics",
+                   "name": "maternal_biometrics",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Admission Weight (lbs)",
+                           "name": "admission_weight",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Height",
+                           "name": "height",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Feet",
+                                   "name": "feet",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Inches",
+                                   "name": "inches",
+                                   "type": "number"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Physical examinations and evaluations",
+                   "name": "physical_exam_and_evaluations",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Exam / evaluation",
+                           "name": "exam_evaluation",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Findings",
+                           "name": "findings",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Performed by?",
+                           "name": "performed_by",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Psychological examinations and assessments",
+                   "name": "psychological_exam_and_assesments",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Exam/ assessment",
+                           "name": "exam_assessments",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Findings",
+                           "name": "findings",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Performed by?",
+                           "name": "performed_by",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Laboratory tests",
+                   "name": "labratory_tests",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Specimen",
+                           "name": "specimen",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Test Name",
+                           "name": "test_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Result",
+                           "name": "result",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Diagnostic level",
+                           "name": "diagnostic_level",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Within normal limits"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mildly decreased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Decreased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Markedly decreased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mildly increased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Markedly increased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Flag",
+                           "name": "flag",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hightest"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lowest"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Pathology",
+                   "name": "pathology",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Exam/ assessment",
+                           "name": "exam_assessments",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Findings",
+                           "name": "findings",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Exam type",
+                           "name": "exam_type",
+                           "type": "string"
+                       }
+                   ]
                }
            ]
        }

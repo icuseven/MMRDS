@@ -773,10 +773,12 @@ function editor_paste_to_children(p_ui)
 
 		var clone_path = get_eval_string(g_copy_clip_board);
 		
-		var clone = editior_clone(eval(clone_path));
-
+		var clone = editor_clone(eval(clone_path));
+		
 
 		var paste_target = eval(item_path);
+
+		clone.name = "new_clone_name_" + paste_target.children.length;
 
 		paste_target.children.push(clone);
 
@@ -789,13 +791,37 @@ function editor_paste_to_children(p_ui)
 }
 
 
-function editior_clone(obj) 
+function editor_clone(obj) 
 {
     if (null == obj || "object" != typeof obj) return obj;
 	
     var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    for (var attr in obj) 
+	{
+        if (obj.hasOwnProperty(attr)) 
+		{
+			if(attr == "children")
+			{
+				copy[attr] = [];
+				for(var i = 0; i < obj[attr].length; i++)
+				{
+					copy[attr].push(editor_clone(obj[attr][i]));
+				}
+			}
+			else if(attr == "values")
+			{
+				copy[attr] = [];
+				for(var i = 0; i < obj[attr].length; i++)
+				{
+					copy[attr].push(editor_clone(obj[attr][i]));
+				}
+			}
+			else
+			{
+				copy[attr] = obj[attr];
+			}
+			
+		}
     }
     return copy;
 }
