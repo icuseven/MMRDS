@@ -444,7 +444,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 
            break;
 	case 'date':
-	case 'datetime':
 			result.push("<div class='date'>");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -471,6 +470,45 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
+			 break;	
+	case 'datetime':
+			result.push("<div class='date'>");
+			result.push("<span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push(" data-tooltip='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+			
+			result.push(p_metadata.prompt);
+			result.push("</span><br/> <input type='");
+			//result.push(p_metadata.type.toLowerCase());
+			result.push("date");
+			result.push("' name='");
+			result.push(p_metadata.name);
+			result.push("' value='");
+			result.push(p_data);
+			result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)'  />&nbsp;<input type='");
+			//result.push(p_metadata.type.toLowerCase());
+			result.push("time");
+			result.push("' name='");
+			result.push(p_metadata.name);
+			result.push("' value='");
+			result.push(p_data);
+			result.push("'  onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.value)'  /></div>");			
 			 break;
 		case 'time':
 			result.push("<div class='time'>");
