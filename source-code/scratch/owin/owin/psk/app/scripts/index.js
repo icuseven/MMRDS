@@ -19,7 +19,36 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       if(g_validator_map[p_metadata_path](value))
       {
         var metadata = eval(p_metadata_path);
-        eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
+
+        if(metadata.type.toLowerCase() == "datetime")
+        {
+          var input_list = document.getElementById(p_object_path);
+          var value_set = [];
+          for(var i = 0; i < input_list.children.length; i++)
+          {
+            if(input_list.children[i].nodeName.toLocaleLowerCase() == "input")
+            {
+              value_set.push(input_list.children[i].value);
+            }
+          }
+
+          if(value_set[0] == "")
+          {
+              value_set[0] = "2016-01-01";
+          }
+
+          if(value_set[1] == "")
+          {
+            value_set[1] = "00:00:00.000";
+          }
+
+          eval(p_object_path + ' = new Date("' + value_set.join("T") + 'Z")');
+        }
+        else
+        {
+          eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
+        }
+
         document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
         if(g_ui.broken_rules[p_object_path])
         {
