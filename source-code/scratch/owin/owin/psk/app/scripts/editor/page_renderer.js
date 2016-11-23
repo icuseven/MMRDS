@@ -1,4 +1,4 @@
-function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
+function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context)
 {
 
 	var result = [];
@@ -6,6 +6,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 	switch(p_metadata.type.toLowerCase())
   {
     case 'grid':
+		var is_grid_context = true;
 		result.push("<table id='");
 		result.push(p_metadata_path);
 		result.push("' class='grid'><tr><th colspan=");
@@ -32,7 +33,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			{
 				var child = p_metadata.children[j];
 				result.push("<td>");
-				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name));
+				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context));
 				result.push("</td>");
 			}
 			result.push('<td> <input type="button" value="delete" id="delete_');
@@ -214,8 +215,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			}
 			
-			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span><br/> <input type='text' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
@@ -243,7 +250,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 					result.push(">");
 				}
 				
-				result.push(p_metadata.prompt);
+				if(p_is_grid_context && p_is_grid_context == true)
+				{
+
+				}
+				else
+				{
+					result.push(p_metadata.prompt);
+				}
 				result.push("</span><br/> <textarea  rows=5 cols=40 name='");
 				result.push(p_metadata.name);
 				result.push("'  onblur='g_set_data_object_from_path(\"");
@@ -269,7 +283,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			}
 			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span><br/> <input type='Number' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
@@ -295,7 +316,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			}
 			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span> <input type='checkbox' name='");
 			result.push(p_metadata.name);
 			result.push("' checked='");
@@ -324,7 +352,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			}
 			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span>");
 
 			if(p_metadata.list_display_size && p_metadata.list_display_size!="")
@@ -460,7 +495,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			}
 			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span><br/> <input type='");
 			//result.push(p_metadata.type.toLowerCase());
 			result.push("date");
@@ -491,7 +533,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			}
 			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span><br/> <input type='");
 			//result.push(p_metap_datadata.type.toLowerCase());
 			result.push("date");
@@ -533,13 +582,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 				result.push(">");
 			} 
 			
-			result.push(p_metadata.prompt);
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
 			result.push("</span><br/> <input type='time' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
 			result.push(p_data.toISOString().split("T")[1].replace("Z",""));
 			result.push("' onblur='g_set_data_object_from_path(\"");
-				result.push(p_object_path);
+			result.push(p_object_path);
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)'   /></div>");

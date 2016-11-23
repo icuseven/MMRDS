@@ -256,7 +256,7 @@ https://webdesign.tutsplus.com/articles/quick-tip-tooltips-courtesy-of-html5-dat
 .failed-validation {
 	background-color: #ffcccc;
 }
-
+/*
 .group { float:left; }
 
 .string { clear:both; }
@@ -264,6 +264,6 @@ https://webdesign.tutsplus.com/articles/quick-tip-tooltips-courtesy-of-html5-dat
 .date { clear:both; }
 .time { clear:both; }
 .list { clear:both; }
-/*.group { clear:both; }
+.group { clear:both; }
 .form { clear:both; }
 */
