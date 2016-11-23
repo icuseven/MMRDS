@@ -48,12 +48,38 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           item.push(value);
         }
       }
+      else if(metadata.type.toLowerCase() == "datetime")
+      {
+        var input_list = document.getElementById(p_object_path);
+        var value_set = [];
+        for(var i = 0; i < input_list.children.length; i++)
+        {
+          if(input_list.children[i].nodeName.toLocaleLowerCase() == "input")
+          {
+            value_set.push(input_list.children[i].value);
+          }
+          
+        }
+
+        if(value_set[0] == "")
+        {
+            value_set[0] = "2016-01-01";
+        }
+
+        if(value_set[1] == "")
+        {
+          value_set[1] = "00:00:00.000";
+        }
+
+        eval(p_object_path + ' = new Date("' + value_set.join("T") + 'Z")');
+      }
       else
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
       }
       
-      document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+      //document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+      $("#" + p_object_path).replaceWith(page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join(""));
     }
 
     apply_validation();

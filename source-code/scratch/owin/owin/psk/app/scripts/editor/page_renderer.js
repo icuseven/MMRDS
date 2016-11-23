@@ -444,7 +444,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 
            break;
 	case 'date':
-			result.push("<div class='date'>");
+			result.push("<div class='date' id='");
+			result.push(p_object_path)
+			
+			result.push("'> ");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -464,7 +467,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push("' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
-			result.push(p_data);
+			result.push(p_data.toISOString().split("T")[0]);
 			result.push("'  onblur='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
@@ -472,7 +475,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push("\",this.value)'  /></div>");
 			 break;	
 	case 'datetime':
-			result.push("<div class='date'>");
+			
+			result.push("<div class='date' id='");
+			result.push(p_object_path)
+			result.push("'> ");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -487,12 +493,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			
 			result.push(p_metadata.prompt);
 			result.push("</span><br/> <input type='");
-			//result.push(p_metadata.type.toLowerCase());
+			//result.push(p_metap_datadata.type.toLowerCase());
 			result.push("date");
-			result.push("' name='");
+			result.push("'  name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
-			result.push(p_data);
+			result.push(p_data.toISOString().split("T")[0]);
 			result.push("'  onblur='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
@@ -503,7 +509,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push("' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
-			result.push(p_data);
+			result.push(p_data.toISOString().split("T")[1].replace("Z",""));
 			result.push("'  onblur='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
@@ -511,7 +517,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			result.push("\",this.value)'  /></div>");			
 			 break;
 		case 'time':
-			result.push("<div class='time'>");
+			result.push("<div class='time' id='");
+			result.push(p_object_path)
+			
+			result.push("'> ");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -522,13 +531,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path)
 			else
 			{
 				result.push(">");
-			}
+			} 
 			
 			result.push(p_metadata.prompt);
 			result.push("</span><br/> <input type='time' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
-			result.push(p_data);
+			result.push(p_data.toISOString().split("T")[1].replace("Z",""));
 			result.push("' onblur='g_set_data_object_from_path(\"");
 				result.push(p_object_path);
 			result.push("\",\"");

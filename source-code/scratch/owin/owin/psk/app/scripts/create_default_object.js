@@ -115,7 +115,7 @@ function create_default_object(p_metadata, p_parent)
             }
             break;
     case 'time':
-           p_parent[p_metadata.name] = "";
+           p_parent[p_metadata.name] = new Date("2016-01-01T00:00:00.000Z");
            break;
      default:
           console.log("create_default_object not processed", p_metadata);
