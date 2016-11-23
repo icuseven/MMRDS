@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "119-cc654701e718a768b6036235a6db4266",
+   "_rev": "248-8e1cf19127f8d78316b0d5fdd59ad329",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -5487,8 +5487,8 @@
                            "type": "string"
                        },
                        {
-                           "prompt": "findings",
-                           "name": "Findings",
+                           "prompt": "Finding",
+                           "name": "finding",
                            "type": "string"
                        }
                    ]
@@ -5525,6 +5525,1012 @@
                    "name": "reviewer_notes",
                    "type": "textarea",
                    "pre_fill": "This is a test.\n\nAnd another."
+               }
+           ]
+       },
+       {
+           "prompt": "Informant Interviews",
+           "name": "informant_interviews",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Date Of Interview",
+                   "name": "date_of_interview",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Interview Type*",
+                   "name": "interview_type",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Family"
+                       },
+                       {
+                           "description": "",
+                           "value": "Neighbor"
+                       },
+                       {
+                           "description": "",
+                           "value": "Friend"
+                       },
+                       {
+                           "description": "",
+                           "value": "Witness"
+                       },
+                       {
+                           "description": "",
+                           "value": "Law enforcement"
+                       },
+                       {
+                           "description": "",
+                           "value": "Health care provider"
+                       },
+                       {
+                           "description": "",
+                           "value": "EMS transport provider"
+                       },
+                       {
+                           "description": "",
+                           "value": "Coroner"
+                       },
+                       {
+                           "description": "",
+                           "value": "Medical examiner"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Information about the informant",
+                   "name": "information_about_the_informant",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Informant Name",
+                   "name": "informant_name",
+                   "type": "string"
+               },
+               {
+                   "prompt": "Age Group",
+                   "name": "age_group",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "65 or older"
+                       },
+                       {
+                           "description": "",
+                           "value": "18 to 64"
+                       },
+                       {
+                           "description": "",
+                           "value": "12 to 18"
+                       },
+                       {
+                           "description": "",
+                           "value": "6 to 11"
+                       },
+                       {
+                           "description": "",
+                           "value": "Under 6"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Relationship To Deceased",
+                   "name": "relationship_to_deceased",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "None"
+                       },
+                       {
+                           "description": "",
+                           "value": "Parent"
+                       },
+                       {
+                           "description": "",
+                           "value": "Grand Parent"
+                       },
+                       {
+                           "description": "",
+                           "value": "Sister"
+                       },
+                       {
+                           "description": "",
+                           "value": "Brother"
+                       },
+                       {
+                           "description": "",
+                           "value": "Aunt"
+                       },
+                       {
+                           "description": "",
+                           "value": "Uncle"
+                       },
+                       {
+                           "description": "",
+                           "value": "Cousin"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Extended Relationship",
+                   "name": "new_group",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Step-",
+                           "name": "step_",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "In-Law",
+                           "name": "in_law",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Half-",
+                           "name": "half_",
+                           "type": "boolean"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Ethnicity",
+                   "name": "ethnicity",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "No, Not Spanish/Hispanic/Latino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Mexican, Mexican American, Chicano"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Puerto Rican"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Cuban"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Other Spanish/Hispanic/Latino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Origin Unknown"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Race",
+                   "name": "race",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Black"
+                       },
+                       {
+                           "description": "",
+                           "value": "White"
+                       },
+                       {
+                           "description": "",
+                           "value": "American Indian / Alaska Native"
+                       },
+                       {
+                           "description": "",
+                           "value": "Hawaiian / Pacific Islander"
+                       },
+                       {
+                           "description": "",
+                           "value": "Asian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Biracial"
+                       },
+                       {
+                           "description": "",
+                           "value": "Multiracial"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Interview Narrative",
+                   "name": "interview_narrative",
+                   "type": "textarea"
+               }
+           ]
+       },
+       {
+           "prompt": "Other Medical Office Visits",
+           "name": "other_medical_office_visits",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Visit",
+                   "name": "visit",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Date Of Medical Office Visit",
+                           "name": "date_of_medical_office_visit",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Visit Type*",
+                           "name": "visit_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - Initial"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - Annual"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3 - Follow Up"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4 - Referral"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5 - Post-Partum"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "6 - Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Not Specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Arrival Time",
+                           "name": "arrival_time",
+                           "type": "time"
+                       },
+                       {
+                           "prompt": "Medical Record No",
+                           "name": "medical_record_no",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reason For Visit Or Chief Complaint",
+                           "name": "reason_for_visit_or_chief_complaint",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Medical Care Facility",
+                   "name": "medical_care_facility",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Place Type",
+                           "name": "place_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - Hospital"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - Clinic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3 - Office"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4 - Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5 - Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "6 - No Prenatal Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Not Specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Provider Type",
+                           "name": "provider_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - OBGYN"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - MFM"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3 - Family Practice"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4 - Other Subspecialist"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5 - Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Payment Source",
+                           "name": "payment_source",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - Private"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - Public"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3 - Self"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4 - Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5 - Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Not Specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Pregnancy Status*",
+                           "name": "pregnancy_status",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - Pregnant"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - Post-Partum"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Was This Provider Her Primary Prenatal Care Provider?*",
+                           "name": "was_this_provider_her_primary_prenatal_care_provider",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Location Of Medical Care Facility",
+                   "name": "location_of_medical_care_facility",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Street",
+                           "name": "street",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "City",
+                           "name": "city",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "State",
+                           "name": "state",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Zip Code",
+                           "name": "zip_code",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "County",
+                           "name": "county",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Latitude",
+                           "name": "latitude",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Longitude",
+                           "name": "longitude",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Get Coordinates",
+                           "name": "get_coordinates",
+                           "type": "button"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Relevant Medical History",
+                   "name": "relevant_medical_history",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Finding",
+                           "name": "finding",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Relevant Family History",
+                   "name": "relevant_family_history",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Finding",
+                           "name": "finding",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Relevant Social History",
+                   "name": "relevant_social_history",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Finding",
+                           "name": "finding",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "(Doctor's office or urgent care visits for other than prenatal care)",
+                   "name": "new_label",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Vital Signs",
+                   "name": "vital_signs",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Temperature",
+                           "name": "temperature",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Pulse",
+                           "name": "pulse",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Respiration",
+                           "name": "respiration",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "BP Systolic",
+                           "name": "bp_systolic",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "BP Diastolic",
+                           "name": "bp_diastolic",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Graph Temperature",
+                   "name": "graph_temperature",
+                   "type": "button"
+               },
+               {
+                   "prompt": "Graph Pulse",
+                   "name": "graph_pulse",
+                   "type": "button"
+               },
+               {
+                   "prompt": "Graph Respirations",
+                   "name": "graph_respirations",
+                   "type": "button"
+               },
+               {
+                   "prompt": "Graph BP",
+                   "name": "graph_bp",
+                   "type": "button"
+               },
+               {
+                   "prompt": "Laboratory tests",
+                   "name": "laboratory_tests",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Specimen",
+                           "name": "specimen",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Test Name",
+                           "name": "test_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Result",
+                           "name": "result",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Diagnostic level",
+                           "name": "diagnostic_level",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Within normal limits"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mildly decreased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Decreased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Markedly decreased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mildly increased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Markedly increased"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not applicable"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Flag",
+                           "name": "flag",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Diagnostic imaging and other technology",
+                   "name": "diagnostic_imaging_and_other_technology",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Technology Type",
+                           "name": "technology_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CT"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CVS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ECG"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "EEG"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MRI"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PET"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "US"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Xray"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Target/Procedure",
+                           "name": "target_procedure",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Finding",
+                           "name": "finding",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Physical Exam",
+                   "name": "physical_exam",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Body System",
+                           "name": "body_system",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Constitutional"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Eyes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Musculoskeletal"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Skin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Ear/Nose/Throat"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Neurological"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Respiratory"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Endoncrine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cardiovascular"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Psychiatric"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Gastrointestinal"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Genitourinary"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Immunologic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hemotologic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Finding",
+                           "name": "finding",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comment",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Referrals and Consultations",
+                   "name": "referrals_and_consultations",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Speciality",
+                           "name": "speciality",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reason",
+                           "name": "reason",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Recommendations",
+                           "name": "recommendations",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Medications",
+                   "name": "medications",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Medication Name",
+                           "name": "medication_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Dose / Frequency / Duration",
+                           "name": "dose_frequeny_duration",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Adverse Reaction?",
+                           "name": "adverse_reaction",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Visit Summary",
+                   "name": "new_grid",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Abnormal Findings",
+                           "name": "abnormal_findings",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Recommendations and Action Plans",
+                           "name": "recommendations_and_action_plans",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Reviewer's notes about this visit",
+                   "name": "reviewers_notes_about_this_visit",
+                   "type": "textarea"
+               }
+           ]
+       },
+       {
+           "prompt": "Committee Review",
+           "name": "committee_review",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Was this death...*",
+                   "name": "was_this_death",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Pregnancy Related",
+                           "name": "pregnancy_related",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Pregnancy Associated",
+                           "name": "new_boolean",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Not Pregnancy Related or Associated",
+                           "name": "not_pregnancy_related_or_associated",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Unable to determine if pregnancy related or associated",
+                           "name": "unable_to_determine_if_pregnancy_related_or_associated",
+                           "type": "boolean"
+                       }
+                   ]
                }
            ]
        }
