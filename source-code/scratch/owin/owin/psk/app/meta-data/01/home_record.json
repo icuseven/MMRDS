@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "169-0f371333d7bf0b11d69cbf70eef83d42",
+   "_rev": "192-cfe4b83118617f451794e5e9f1f16af1",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -4310,64 +4310,242 @@
                            "name": "state",
                            "type": "list",
                            "values": [
-{ "value":"AL- Alabama","description":""},
-{ "value":"AK- Alaska","description":""},
-{ "value":"AZ- Arizona","description":""},
-{ "value":"AR- Arkansas","description":""},
-{ "value":"CA- California","description":""},
-{ "value":"CO- Colorado","description":""},
-{ "value":"CT- Connecticut","description":""},
-{ "value":"DE- Delaware","description":""},
-{ "value":"DC- District of Columbia","description":""},
-{ "value":"FL- Florida","description":""},
-{ "value":"GA- Georgia","description":""},
-{ "value":"HI- Hawaii","description":""},
-{ "value":"ID- Idaho","description":""},
-{ "value":"IL- Illinois","description":""},
-{ "value":"IN- Indiana","description":""},
-{ "value":"IA- Iowa","description":""},
-{ "value":"KS- Kansas","description":""},
-{ "value":"KY- Kentucky","description":""},
-{ "value":"LA- Louisiana","description":""},
-{ "value":"ME- Maine","description":""},
-{ "value":"MD- Maryland","description":""},
-{ "value":"MA- Massachusetts","description":""},
-{ "value":"MI- Michigan","description":""},
-{ "value":"MN- Minnesota","description":""},
-{ "value":"MS- Mississippi","description":""},
-{ "value":"MO- Missouri","description":""},
-{ "value":"MT- Montana","description":""},
-{ "value":"NE- Nebraska","description":""},
-{ "value":"NV- Nevada","description":""},
-{ "value":"NH- New Hampshire","description":""},
-{ "value":"NJ- New Jersy","description":""},
-{ "value":"NM- New Mexico","description":""},
-{ "value":"NY- New York","description":""},
-{ "value":"NC- North Carolina","description":""},
-{ "value":"ND- North Dakota","description":""},
-{ "value":"OH- Ohio","description":""},
-{ "value":"OK- Oklahoma","description":""},
-{ "value":"OR- Oregon","description":""},
-{ "value":"PA- Pennsylvania","description":""},
-{ "value":"RI- Rhode Island","description":""},
-{ "value":"SC- South Carolina","description":""},
-{ "value":"SD- South Dakota","description":""},
-{ "value":"TN- Tennessee","description":""},
-{ "value":"TX- Texas","description":""},
-{ "value":"UT- Utah","description":""},
-{ "value":"VT- Vermont","description":""},
-{ "value":"VA- Virginia","description":""},
-{ "value":"WA- Washington","description":""},
-{ "value":"WV- West Virginia","description":""},
-{ "value":"WI- Wisconsin","description":""},
-{ "value":"WY- Wyoming","description":""},
-{ "value":"AS- American Samoa","description":""},
-{ "value":"GU- Guam","description":""},
-{ "value":"MH- Marshall Islands","description":""},
-{ "value":"MP- Northern Marianas","description":""},
-{ "value":"PR- Puerto Rico","description":""},
-{ "value":"PW- Paulau","description":""},
-{ "value":"VI- Virgin Islands","description":""}                               
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AL- Alabama"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AK- Alaska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AZ- Arizona"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AR- Arkansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CA- California"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CO- Colorado"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CT- Connecticut"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DE- Delaware"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DC- District of Columbia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "FL- Florida"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GA- Georgia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "HI- Hawaii"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ID- Idaho"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IL- Illinois"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IN- Indiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IA- Iowa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KS- Kansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KY- Kentucky"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "LA- Louisiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ME- Maine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD- Maryland"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MA- Massachusetts"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MI- Michigan"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MN- Minnesota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MS- Mississippi"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MO- Missouri"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MT- Montana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NE- Nebraska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NV- Nevada"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NH- New Hampshire"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NJ- New Jersy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NM- New Mexico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NY- New York"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NC- North Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ND- North Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OH- Ohio"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OK- Oklahoma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OR- Oregon"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PA- Pennsylvania"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "RI- Rhode Island"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SC- South Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SD- South Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TN- Tennessee"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TX- Texas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "UT- Utah"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VT- Vermont"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VA- Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WA- Washington"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WV- West Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WI- Wisconsin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WY- Wyoming"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AS- American Samoa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GU- Guam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MH- Marshall Islands"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MP- Northern Marianas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PR- Puerto Rico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PW- Paulau"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VI- Virgin Islands"
+                               }
                            ]
                        },
                        {
@@ -4770,64 +4948,242 @@
                            "name": "state",
                            "type": "list",
                            "values": [
-{ "value":"AL- Alabama","description":""},
-{ "value":"AK- Alaska","description":""},
-{ "value":"AZ- Arizona","description":""},
-{ "value":"AR- Arkansas","description":""},
-{ "value":"CA- California","description":""},
-{ "value":"CO- Colorado","description":""},
-{ "value":"CT- Connecticut","description":""},
-{ "value":"DE- Delaware","description":""},
-{ "value":"DC- District of Columbia","description":""},
-{ "value":"FL- Florida","description":""},
-{ "value":"GA- Georgia","description":""},
-{ "value":"HI- Hawaii","description":""},
-{ "value":"ID- Idaho","description":""},
-{ "value":"IL- Illinois","description":""},
-{ "value":"IN- Indiana","description":""},
-{ "value":"IA- Iowa","description":""},
-{ "value":"KS- Kansas","description":""},
-{ "value":"KY- Kentucky","description":""},
-{ "value":"LA- Louisiana","description":""},
-{ "value":"ME- Maine","description":""},
-{ "value":"MD- Maryland","description":""},
-{ "value":"MA- Massachusetts","description":""},
-{ "value":"MI- Michigan","description":""},
-{ "value":"MN- Minnesota","description":""},
-{ "value":"MS- Mississippi","description":""},
-{ "value":"MO- Missouri","description":""},
-{ "value":"MT- Montana","description":""},
-{ "value":"NE- Nebraska","description":""},
-{ "value":"NV- Nevada","description":""},
-{ "value":"NH- New Hampshire","description":""},
-{ "value":"NJ- New Jersy","description":""},
-{ "value":"NM- New Mexico","description":""},
-{ "value":"NY- New York","description":""},
-{ "value":"NC- North Carolina","description":""},
-{ "value":"ND- North Dakota","description":""},
-{ "value":"OH- Ohio","description":""},
-{ "value":"OK- Oklahoma","description":""},
-{ "value":"OR- Oregon","description":""},
-{ "value":"PA- Pennsylvania","description":""},
-{ "value":"RI- Rhode Island","description":""},
-{ "value":"SC- South Carolina","description":""},
-{ "value":"SD- South Dakota","description":""},
-{ "value":"TN- Tennessee","description":""},
-{ "value":"TX- Texas","description":""},
-{ "value":"UT- Utah","description":""},
-{ "value":"VT- Vermont","description":""},
-{ "value":"VA- Virginia","description":""},
-{ "value":"WA- Washington","description":""},
-{ "value":"WV- West Virginia","description":""},
-{ "value":"WI- Wisconsin","description":""},
-{ "value":"WY- Wyoming","description":""},
-{ "value":"AS- American Samoa","description":""},
-{ "value":"GU- Guam","description":""},
-{ "value":"MH- Marshall Islands","description":""},
-{ "value":"MP- Northern Marianas","description":""},
-{ "value":"PR- Puerto Rico","description":""},
-{ "value":"PW- Paulau","description":""},
-{ "value":"VI- Virgin Islands","description":""}                                   
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AL- Alabama"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AK- Alaska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AZ- Arizona"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AR- Arkansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CA- California"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CO- Colorado"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CT- Connecticut"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DE- Delaware"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DC- District of Columbia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "FL- Florida"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GA- Georgia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "HI- Hawaii"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ID- Idaho"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IL- Illinois"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IN- Indiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IA- Iowa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KS- Kansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KY- Kentucky"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "LA- Louisiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ME- Maine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD- Maryland"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MA- Massachusetts"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MI- Michigan"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MN- Minnesota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MS- Mississippi"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MO- Missouri"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MT- Montana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NE- Nebraska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NV- Nevada"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NH- New Hampshire"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NJ- New Jersy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NM- New Mexico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NY- New York"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NC- North Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ND- North Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OH- Ohio"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OK- Oklahoma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OR- Oregon"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PA- Pennsylvania"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "RI- Rhode Island"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SC- South Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SD- South Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TN- Tennessee"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TX- Texas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "UT- Utah"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VT- Vermont"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VA- Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WA- Washington"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WV- West Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WI- Wisconsin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WY- Wyoming"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AS- American Samoa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GU- Guam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MH- Marshall Islands"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MP- Northern Marianas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PR- Puerto Rico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PW- Paulau"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VI- Virgin Islands"
+                               }
                            ]
                        },
                        {
@@ -7511,1004 +7867,1008 @@
                            "type": "list",
                            "values": [
                                {
-                                   "value": "US- United States",
-                                   "description": ""
+                                   "description": "",
+                                   "value": ""
                                },
                                {
-                                   "value": "AF- Afghanistan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "US- United States"
                                },
                                {
-                                   "value": "AL- Albania",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AF- Afghanistan"
                                },
                                {
-                                   "value": "AG- Algeria",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AL- Albania"
                                },
                                {
-                                   "value": "AQ- American Samoa",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AG- Algeria"
                                },
                                {
-                                   "value": "AN- Andorra",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AQ- American Samoa"
                                },
                                {
-                                   "value": "AO- Angola",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AN- Andorra"
                                },
                                {
-                                   "value": "AV- Anguilla",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AO- Angola"
                                },
                                {
-                                   "value": "AY- Antarctica",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AV- Anguilla"
                                },
                                {
-                                   "value": "AC- Antigua & Barbuda",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AY- Antarctica"
                                },
                                {
-                                   "value": "AR- Argentina",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AC- Antigua & Barbuda"
                                },
                                {
-                                   "value": "AM- Armenia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AR- Argentina"
                                },
                                {
-                                   "value": "AA- Aruba",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AM- Armenia"
                                },
                                {
-                                   "value": "AS- Australia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AA- Aruba"
                                },
                                {
-                                   "value": "AU- Austria",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AS- Australia"
                                },
                                {
-                                   "value": "AJ- Azerbaijan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AU- Austria"
                                },
                                {
-                                   "value": "BF- The Bahamas",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AJ- Azerbaijan"
                                },
                                {
-                                   "value": "BA- Bahrain",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BF- The Bahamas"
                                },
                                {
-                                   "value": "FQ- Baker I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BA- Bahrain"
                                },
                                {
-                                   "value": "BG- Bangladesh",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FQ- Baker I."
                                },
                                {
-                                   "value": "BB- Barbados",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BG- Bangladesh"
                                },
                                {
-                                   "value": "BO- Belarus",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BB- Barbados"
                                },
                                {
-                                   "value": "BE- Belgium",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BO- Belarus"
                                },
                                {
-                                   "value": "BH- Belize",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BE- Belgium"
                                },
                                {
-                                   "value": "BN- Benin",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BH- Belize"
                                },
                                {
-                                   "value": "BD- Bermuda",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BN- Benin"
                                },
                                {
-                                   "value": "BT- Bhutan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BD- Bermuda"
                                },
                                {
-                                   "value": "BL- Bolivia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BT- Bhutan"
                                },
                                {
-                                   "value": "BK- Bosnia & Herzegovina",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BL- Bolivia"
                                },
                                {
-                                   "value": "BC- Botswana",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BK- Bosnia & Herzegovina"
                                },
                                {
-                                   "value": "BV- Bouvet I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BC- Botswana"
                                },
                                {
-                                   "value": "BR- Brazil",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BV- Bouvet I."
                                },
                                {
-                                   "value": "IO- British Indian Ocean Territory",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BR- Brazil"
                                },
                                {
-                                   "value": "VI- British Virgin Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IO- British Indian Ocean Territory"
                                },
                                {
-                                   "value": "BX- Brunei",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "VI- British Virgin Is."
                                },
                                {
-                                   "value": "BU- Bulgaria",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BX- Brunei"
                                },
                                {
-                                   "value": "UV- Burkina Faso",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BU- Bulgaria"
                                },
                                {
-                                   "value": "BM- Myanmar",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "UV- Burkina Faso"
                                },
                                {
-                                   "value": "BY- Burundi",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BM- Myanmar"
                                },
                                {
-                                   "value": "CB- Cambodia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BY- Burundi"
                                },
                                {
-                                   "value": "CM- Cameroon",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CB- Cambodia"
                                },
                                {
-                                   "value": "CA- Canada",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CM- Cameroon"
                                },
                                {
-                                   "value": "CV- Cape Verde",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CA- Canada"
                                },
                                {
-                                   "value": "CJ- Cayman Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CV- Cape Verde"
                                },
                                {
-                                   "value": "CT- Central African Republic",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CJ- Cayman Is."
                                },
                                {
-                                   "value": "CD- Chad",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CT- Central African Republic"
                                },
                                {
-                                   "value": "CI- Chile",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CD- Chad"
                                },
                                {
-                                   "value": "CH- China",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CI- Chile"
                                },
                                {
-                                   "value": "KT- Christmas I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CH- China"
                                },
                                {
-                                   "value": "CK- Cocos Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KT- Christmas I."
                                },
                                {
-                                   "value": "CO- Colombia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CK- Cocos Is."
                                },
                                {
-                                   "value": "CN- Comoros",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CO- Colombia"
                                },
                                {
-                                   "value": "CF- Congo",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CN- Comoros"
                                },
                                {
-                                   "value": "CW- Cook Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CF- Congo"
                                },
                                {
-                                   "value": "CS- Costa Rica",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CW- Cook Is."
                                },
                                {
-                                   "value": "IV- Cote d'Ivoire",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CS- Costa Rica"
                                },
                                {
-                                   "value": "HR- Croatia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IV- Cote d'Ivoire"
                                },
                                {
-                                   "value": "CU- Cuba",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "HR- Croatia"
                                },
                                {
-                                   "value": "CY- Cyprus",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CU- Cuba"
                                },
                                {
-                                   "value": "EZ- Czech Republic",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CY- Cyprus"
                                },
                                {
-                                   "value": "KN- North Korea",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "EZ- Czech Republic"
                                },
                                {
-                                   "value": "CG- Congo, DRC",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KN- North Korea"
                                },
                                {
-                                   "value": "DA- Denmark",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CG- Congo, DRC"
                                },
                                {
-                                   "value": "DJ- Djibouti",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "DA- Denmark"
                                },
                                {
-                                   "value": "DO- Dominica",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "DJ- Djibouti"
                                },
                                {
-                                   "value": "DR- Dominican Republic",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "DO- Dominica"
                                },
                                {
-                                   "value": "EC- Ecuador",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "DR- Dominican Republic"
                                },
                                {
-                                   "value": "EG- Egypt",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "EC- Ecuador"
                                },
                                {
-                                   "value": "ES- El Salvador",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "EG- Egypt"
                                },
                                {
-                                   "value": "EK- Equatorial Guinea",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ES- El Salvador"
                                },
                                {
-                                   "value": "ER- Eritrea",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "EK- Equatorial Guinea"
                                },
                                {
-                                   "value": "EN- Estonia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ER- Eritrea"
                                },
                                {
-                                   "value": "ET- Ethiopia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "EN- Estonia"
                                },
                                {
-                                   "value": "FK- Falkland Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ET- Ethiopia"
                                },
                                {
-                                   "value": "FO- Faroe Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FK- Falkland Is."
                                },
                                {
-                                   "value": "FJ- Fiji",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FO- Faroe Is."
                                },
                                {
-                                   "value": "FI- Finland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FJ- Fiji"
                                },
                                {
-                                   "value": "FR- France",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FI- Finland"
                                },
                                {
-                                   "value": "FG- French Guiana",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FR- France"
                                },
                                {
-                                   "value": "FP- French Polynesia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FG- French Guiana"
                                },
                                {
-                                   "value": "FS- French Southern & Antarctic Lands",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FP- French Polynesia"
                                },
                                {
-                                   "value": "GB- Gabon",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FS- French Southern & Antarctic Lands"
                                },
                                {
-                                   "value": "GA- The Gambia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GB- Gabon"
                                },
                                {
-                                   "value": "GZ- Gaza Strip",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GA- The Gambia"
                                },
                                {
-                                   "value": "GG- Georgia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GZ- Gaza Strip"
                                },
                                {
-                                   "value": "GM- Germany",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GG- Georgia"
                                },
                                {
-                                   "value": "GH- Ghana",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GM- Germany"
                                },
                                {
-                                   "value": "GI- Gibraltar",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GH- Ghana"
                                },
                                {
-                                   "value": "GO- Glorioso Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GI- Gibraltar"
                                },
                                {
-                                   "value": "GR- Greece",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GO- Glorioso Is."
                                },
                                {
-                                   "value": "GL- Greenland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GR- Greece"
                                },
                                {
-                                   "value": "GJ- Grenada",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GL- Greenland"
                                },
                                {
-                                   "value": "GP- Guadeloupe",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GJ- Grenada"
                                },
                                {
-                                   "value": "GQ- Guam",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GP- Guadeloupe"
                                },
                                {
-                                   "value": "GT- Guatemala",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GQ- Guam"
                                },
                                {
-                                   "value": "GK- Guernsey",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GT- Guatemala"
                                },
                                {
-                                   "value": "GV- Guinea",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GK- Guernsey"
                                },
                                {
-                                   "value": "PU- Guinea-Bissau",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GV- Guinea"
                                },
                                {
-                                   "value": "GY- Guyana",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PU- Guinea-Bissau"
                                },
                                {
-                                   "value": "HA- Haiti",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "GY- Guyana"
                                },
                                {
-                                   "value": "HM- Heard I. & McDonald Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "HA- Haiti"
                                },
                                {
-                                   "value": "VT- Vatican City",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "HM- Heard I. & McDonald Is."
                                },
                                {
-                                   "value": "HO- Honduras",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "VT- Vatican City"
                                },
                                {
-                                   "value": "HQ- Howland I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "HO- Honduras"
                                },
                                {
-                                   "value": "HU- Hungary",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "HQ- Howland I."
                                },
                                {
-                                   "value": "IC- Iceland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "HU- Hungary"
                                },
                                {
-                                   "value": "IN- India",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IC- Iceland"
                                },
                                {
-                                   "value": "ID- Indonesia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IN- India"
                                },
                                {
-                                   "value": "IR- Iran",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ID- Indonesia"
                                },
                                {
-                                   "value": "IZ- Iraq",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IR- Iran"
                                },
                                {
-                                   "value": "EI- Ireland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IZ- Iraq"
                                },
                                {
-                                   "value": "IM- Isle of Man",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "EI- Ireland"
                                },
                                {
-                                   "value": "IS- Israel",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IM- Isle of Man"
                                },
                                {
-                                   "value": "IT- Italy",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IS- Israel"
                                },
                                {
-                                   "value": "JM- Jamaica",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "IT- Italy"
                                },
                                {
-                                   "value": "JA- Japan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JM- Jamaica"
                                },
                                {
-                                   "value": "DQ- Jarvis I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JA- Japan"
                                },
                                {
-                                   "value": "JE- Jersey",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "DQ- Jarvis I."
                                },
                                {
-                                   "value": "JQ- Johnston Atoll",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JE- Jersey"
                                },
                                {
-                                   "value": "JO- Jordan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JQ- Johnston Atoll"
                                },
                                {
-                                   "value": "JU- Juan De Nova I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JO- Jordan"
                                },
                                {
-                                   "value": "KZ- Kazakhstan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JU- Juan De Nova I."
                                },
                                {
-                                   "value": "KE- Kenya",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KZ- Kazakhstan"
                                },
                                {
-                                   "value": "KR- Kiribati",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KE- Kenya"
                                },
                                {
-                                   "value": "KU- Kuwait",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KR- Kiribati"
                                },
                                {
-                                   "value": "KG- Kyrgyzstan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KU- Kuwait"
                                },
                                {
-                                   "value": "LA- Laos",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KG- Kyrgyzstan"
                                },
                                {
-                                   "value": "LG- Latvia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LA- Laos"
                                },
                                {
-                                   "value": "LE- Lebanon",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LG- Latvia"
                                },
                                {
-                                   "value": "LT- Lesotho",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LE- Lebanon"
                                },
                                {
-                                   "value": "LI- Liberia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LT- Lesotho"
                                },
                                {
-                                   "value": "LY- Libya",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LI- Liberia"
                                },
                                {
-                                   "value": "LS- Liechtenstein",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LY- Libya"
                                },
                                {
-                                   "value": "LH- Lithuania",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LS- Liechtenstein"
                                },
                                {
-                                   "value": "LU- Luxembourg",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LH- Lithuania"
                                },
                                {
-                                   "value": "MA- Madagascar",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LU- Luxembourg"
                                },
                                {
-                                   "value": "MI- Malawi",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MA- Madagascar"
                                },
                                {
-                                   "value": "MY- Malaysia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MI- Malawi"
                                },
                                {
-                                   "value": "MV- Maldives",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MY- Malaysia"
                                },
                                {
-                                   "value": "ML- Mali",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MV- Maldives"
                                },
                                {
-                                   "value": "MT- Malta",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ML- Mali"
                                },
                                {
-                                   "value": "RM- Marshall Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MT- Malta"
                                },
                                {
-                                   "value": "MB- Martinique",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RM- Marshall Is."
                                },
                                {
-                                   "value": "MR- Mauritania",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MB- Martinique"
                                },
                                {
-                                   "value": "MP- Mauritius",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MR- Mauritania"
                                },
                                {
-                                   "value": "MF- Mayotte",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MP- Mauritius"
                                },
                                {
-                                   "value": "MX- Mexico",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MF- Mayotte"
                                },
                                {
-                                   "value": "FM- Micronesia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MX- Mexico"
                                },
                                {
-                                   "value": "MQ- Midway Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "FM- Micronesia"
                                },
                                {
-                                   "value": "MD- Moldova",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MQ- Midway Is."
                                },
                                {
-                                   "value": "MN- Monaco",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MD- Moldova"
                                },
                                {
-                                   "value": "MG- Mongolia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MN- Monaco"
                                },
                                {
-                                   "value": "MH- Montserrat",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MG- Mongolia"
                                },
                                {
-                                   "value": "MO- Morocco",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MH- Montserrat"
                                },
                                {
-                                   "value": "MZ- Mozambique",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MO- Morocco"
                                },
                                {
-                                   "value": "WA- Namibia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MZ- Mozambique"
                                },
                                {
-                                   "value": "NR- Nauru",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WA- Namibia"
                                },
                                {
-                                   "value": "NP- Nepal",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NR- Nauru"
                                },
                                {
-                                   "value": "NL- Netherlands",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NP- Nepal"
                                },
                                {
-                                   "value": "NT- Netherlands Antilles",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NL- Netherlands"
                                },
                                {
-                                   "value": "NC- New Caledonia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NT- Netherlands Antilles"
                                },
                                {
-                                   "value": "NZ- New Zealand",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NC- New Caledonia"
                                },
                                {
-                                   "value": "NU- Nicaragua",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NZ- New Zealand"
                                },
                                {
-                                   "value": "NG- Niger",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NU- Nicaragua"
                                },
                                {
-                                   "value": "NI- Nigeria",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NG- Niger"
                                },
                                {
-                                   "value": "NE- Niue",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NI- Nigeria"
                                },
                                {
-                                   "value": "NF- Norfolk I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NE- Niue"
                                },
                                {
-                                   "value": "CQ- Northern Mariana Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NF- Norfolk I."
                                },
                                {
-                                   "value": "NO- Norway",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CQ- Northern Mariana Is."
                                },
                                {
-                                   "value": "MU- Oman",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NO- Norway"
                                },
                                {
-                                   "value": "PK- Pakistan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MU- Oman"
                                },
                                {
-                                   "value": "PS- Palau",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PK- Pakistan"
                                },
                                {
-                                   "value": "PM- Panama",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PS- Palau"
                                },
                                {
-                                   "value": "PP- Papua New Guinea",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PM- Panama"
                                },
                                {
-                                   "value": "PA- Paraguay",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PP- Papua New Guinea"
                                },
                                {
-                                   "value": "PE- Peru",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PA- Paraguay"
                                },
                                {
-                                   "value": "RP- Philippines",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PE- Peru"
                                },
                                {
-                                   "value": "PC- Pitcairn Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RP- Philippines"
                                },
                                {
-                                   "value": "PL- Poland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PC- Pitcairn Is."
                                },
                                {
-                                   "value": "PO- Portugal",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PL- Poland"
                                },
                                {
-                                   "value": "RQ- Puerto Rico",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "PO- Portugal"
                                },
                                {
-                                   "value": "QA- Qatar",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RQ- Puerto Rico"
                                },
                                {
-                                   "value": "KS- South Korea",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "QA- Qatar"
                                },
                                {
-                                   "value": "MJ- Montenegro",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "KS- South Korea"
                                },
                                {
-                                   "value": "RB- Serbia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MJ- Montenegro"
                                },
                                {
-                                   "value": "RE- Reunion",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RB- Serbia"
                                },
                                {
-                                   "value": "RO- Romania",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RE- Reunion"
                                },
                                {
-                                   "value": "RS- Russia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RO- Romania"
                                },
                                {
-                                   "value": "RW- Rwanda",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RS- Russia"
                                },
                                {
-                                   "value": "SH- St. Helena",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "RW- Rwanda"
                                },
                                {
-                                   "value": "SC- St. Kitts & Nevis",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SH- St. Helena"
                                },
                                {
-                                   "value": "ST- St. Lucia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SC- St. Kitts & Nevis"
                                },
                                {
-                                   "value": "SB- St. Pierre & Miquelon",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ST- St. Lucia"
                                },
                                {
-                                   "value": "VC- St. Vincent & the Grenadines",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SB- St. Pierre & Miquelon"
                                },
                                {
-                                   "value": "WS- Samoa",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "VC- St. Vincent & the Grenadines"
                                },
                                {
-                                   "value": "SM- San Marino",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WS- Samoa"
                                },
                                {
-                                   "value": "TP- Sao Tome & Principe",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SM- San Marino"
                                },
                                {
-                                   "value": "SA- Saudi Arabia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TP- Sao Tome & Principe"
                                },
                                {
-                                   "value": "SG- Senegal",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SA- Saudi Arabia"
                                },
                                {
-                                   "value": "SE- Seychelles",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SG- Senegal"
                                },
                                {
-                                   "value": "SL- Sierra Leone",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SE- Seychelles"
                                },
                                {
-                                   "value": "SN- Singapore",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SL- Sierra Leone"
                                },
                                {
-                                   "value": "LO- Slovakia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SN- Singapore"
                                },
                                {
-                                   "value": "SI- Slovenia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "LO- Slovakia"
                                },
                                {
-                                   "value": "BP- Solomon Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SI- Slovenia"
                                },
                                {
-                                   "value": "SO- Somalia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "BP- Solomon Is."
                                },
                                {
-                                   "value": "SF- South Africa",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SO- Somalia"
                                },
                                {
-                                   "value": "SX- South Georgia & the South Sandwich Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SF- South Africa"
                                },
                                {
-                                   "value": "SP- Spain",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SX- South Georgia & the South Sandwich Is."
                                },
                                {
-                                   "value": "CE- Sri Lanka",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SP- Spain"
                                },
                                {
-                                   "value": "SU- Sudan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "CE- Sri Lanka"
                                },
                                {
-                                   "value": "NS- Suriname",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SU- Sudan"
                                },
                                {
-                                   "value": "JN- Jan Mayen",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NS- Suriname"
                                },
                                {
-                                   "value": "SV- Svalbard",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "JN- Jan Mayen"
                                },
                                {
-                                   "value": "WZ- Swaziland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SV- Svalbard"
                                },
                                {
-                                   "value": "SW- Sweden",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WZ- Swaziland"
                                },
                                {
-                                   "value": "SZ- Switzerland",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SW- Sweden"
                                },
                                {
-                                   "value": "SY- Syria",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SZ- Switzerland"
                                },
                                {
-                                   "value": "TI- Tajikistan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "SY- Syria"
                                },
                                {
-                                   "value": "TH- Thailand",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TI- Tajikistan"
                                },
                                {
-                                   "value": "MK- Macedonia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TH- Thailand"
                                },
                                {
-                                   "value": "TT- Timor-Leste",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "MK- Macedonia"
                                },
                                {
-                                   "value": "TO- Togo",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TT- Timor-Leste"
                                },
                                {
-                                   "value": "TL- Tokelau",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TO- Togo"
                                },
                                {
-                                   "value": "TN- Tonga",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TL- Tokelau"
                                },
                                {
-                                   "value": "TD- Trinidad & Tobago",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TN- Tonga"
                                },
                                {
-                                   "value": "TS- Tunisia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TD- Trinidad & Tobago"
                                },
                                {
-                                   "value": "TU- Turkey",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TS- Tunisia"
                                },
                                {
-                                   "value": "TX- Turkmenistan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TU- Turkey"
                                },
                                {
-                                   "value": "TK- Turks & Caicos Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TX- Turkmenistan"
                                },
                                {
-                                   "value": "TV- Tuvalu",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TK- Turks & Caicos Is."
                                },
                                {
-                                   "value": "UG- Uganda",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TV- Tuvalu"
                                },
                                {
-                                   "value": "UP- Ukraine",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "UG- Uganda"
                                },
                                {
-                                   "value": "AE- United Arab Emirates",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "UP- Ukraine"
                                },
                                {
-                                   "value": "UK- United Kingdom",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "AE- United Arab Emirates"
                                },
                                {
-                                   "value": "TZ- Tanzania",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "UK- United Kingdom"
                                },
                                {
-                                   "value": "VQ- Virgin Is.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "TZ- Tanzania"
                                },
                                {
-                                   "value": "UY- Uruguay",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "VQ- Virgin Is."
                                },
                                {
-                                   "value": "UZ- Uzbekistan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "UY- Uruguay"
                                },
                                {
-                                   "value": "NH- Vanuatu",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "UZ- Uzbekistan"
                                },
                                {
-                                   "value": "VE- Venezuela",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "NH- Vanuatu"
                                },
                                {
-                                   "value": "VM- Vietnam",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "VE- Venezuela"
                                },
                                {
-                                   "value": "WQ- Wake I.",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "VM- Vietnam"
                                },
                                {
-                                   "value": "WF- Wallis & Futuna",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WQ- Wake I."
                                },
                                {
-                                   "value": "WE- West Bank",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WF- Wallis & Futuna"
                                },
                                {
-                                   "value": "WI- Western Sahara",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WE- West Bank"
                                },
                                {
-                                   "value": "YM- Yemen",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "WI- Western Sahara"
                                },
                                {
-                                   "value": "ZA- Zambia",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "YM- Yemen"
                                },
                                {
-                                   "value": "ZI- Zimbabwe",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ZA- Zambia"
                                },
                                {
-                                   "value": "SS- South Sudan",
-                                   "description": ""
+                                   "description": "",
+                                   "value": "ZI- Zimbabwe"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SS- South Sudan"
                                }
                            ]
                        },
@@ -8546,6 +8906,285 @@
                                    "value": "Not specified"
                                }
                            ]
+                       },
+                       {
+                           "prompt": "Time in the US",
+                           "name": "time_in_us",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Value",
+                                   "name": "value",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Interval",
+                                   "name": "interval",
+                                   "type": "list",
+                                   "values": [
+                                       {
+                                           "description": "",
+                                           "value": ""
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Minutes"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Hours"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Days"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Weeks"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Months"
+                                       },
+                                       {
+                                           "description": "",
+                                           "value": "Years"
+                                       }
+                                   ]
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Current living arrangements",
+                           "name": "current_living_arrangements",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Own"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Rent"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Public housing"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Live with relative"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Homeless"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Homelessness*",
+                           "name": "homelessness",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Neven"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, in last 12 months"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, but more than 12 months ago"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Religious preference",
+                           "name": "religious_preference",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Members of household",
+                   "name": "members_of_household",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Relationship",
+                           "name": "relationship",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Partner/Spouse"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Child"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Parent"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Sibling"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aunt/Uncle"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Niece/Nephew"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Grandparent"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cousin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unrelated"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Gender",
+                           "name": "gender",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Male"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Female"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Age",
+                           "name": "age",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Previous or current incarcerations(s)",
+                   "name": "incarcerations_status",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Never"
+                       },
+                       {
+                           "description": "",
+                           "value": "Previously, before pregnancy"
+                       },
+                       {
+                           "description": "",
+                           "value": "During pregnancy"
+                       },
+                       {
+                           "description": "",
+                           "value": "After pregnancy"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Details of incarcerations",
+                   "name": "incarceration_details",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date",
+                           "name": "date",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Duration",
+                           "name": "duration",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Reason",
+                           "name": "reason",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "new textarea prompt",
+                           "name": "comments",
+                           "type": "textarea"
                        }
                    ]
                }
