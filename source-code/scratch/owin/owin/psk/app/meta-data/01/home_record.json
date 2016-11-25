@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "177-3ba30280f28a09c6f1af46742098db21",
+   "_rev": "251-6321de3b6c438498b6264ebdf7acc1f2",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -6506,6 +6506,16 @@
            "cardinality": "?",
            "children": [
                {
+                   "prompt": "PREGNANCY RELATED DEATH The death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy",
+                   "name": "pregnancy_related_death",
+                   "type": "label"
+               },
+               {
+                   "prompt": "PREGNANCY ASSOCIATED DEATH The death of a woman from any cause during pregnancy or within one year of the end of pregnancy",
+                   "name": "prgnancy_associated_death",
+                   "type": "label"
+               },
+               {
                    "prompt": "Was this death...*",
                    "name": "was_this_death",
                    "type": "group",
@@ -6529,6 +6539,855 @@
                            "prompt": "Unable to determine if pregnancy related or associated",
                            "name": "unable_to_determine_if_pregnancy_related_or_associated",
                            "type": "boolean"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "How was this death identified? (primary source)*",
+                   "name": "how_was_this_death_identified_primary_source",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Obstetric ICD codes from the death certificate"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnancy check box on death certificate"
+                       },
+                       {
+                           "description": "",
+                           "value": "Record linkage of death and birth  (fetal death) certificates"
+                       },
+                       {
+                           "description": "",
+                           "value": "Record linkage of death certificate and hospital discharge data"
+                       },
+                       {
+                           "description": "",
+                           "value": "Facility reporting"
+                       },
+                       {
+                           "description": "",
+                           "value": "Obituary"
+                       },
+                       {
+                           "description": "",
+                           "value": "Social media"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Notes about key circumstances surrounding this death identified by the committee  (enter in bulleted format)",
+                   "name": "notes_about_key_circumstances_surrounding_this_death_identified_by_the_committee_enter_in_bulleted_format",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "ICD code book version",
+                   "name": "icd_code_book_version",
+                   "type": "number"
+               },
+               {
+                   "prompt": "Committee Determination of Cause(s) of Death",
+                   "name": "committee_determination_of_causes_of_death",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Type",
+                           "name": "type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Immediate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Contributing"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Underlying"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other Significant"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Cause (descriptive)",
+                           "name": "cause_descriptive",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "If Pregnancy Related, Committee Determination of Underlying Cause(s) of Death*",
+                   "name": "if_pregnancy_related_committee_determination_of_underlying_causes_of_death",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "CDC ICD-MM (Select all that apply)",
+                           "name": "cds_icd_mm_select_all_that_apply",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10 - Hemorrhage (Excludes Aneurysms or CVA)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.1 - Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.2 - Placental Abruption"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.3 Placenta Previa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.4 Ruptured Ectopic Pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.6 Placenta Acreta/Increta/Percreta"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.7 - Hemorrhage due to Retained Placenta"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.8 - Hemorrhage due to Primary DIC"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.9 - Other Hemorrhage/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20 - Infection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.0 - Chorioamnionitis/Antepartum Infection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.1 - Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.2 - Sepsis/Septic Shock"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.5 - Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.6 - Urinary Track Infection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.9 - Other Infections/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "30 - Embolism - Amniotic Fluid"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "40 - Pre-Eclampsia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "50 - Eclampsia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "60 - Chronic Hypertension with Superimposed Pre/Eclampsia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "70 - Anesthesia Complications"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80 - Cardiomyopathy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80.1 - Post-Partum/Peripartum Cardiomyopathy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80.2 - Hypertrophic Cardiomyopathy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80.9 - Other Cardiomyopathy/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "82 - Hematologic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "82.1 - Sickle Cell Anemia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "82.9 - Other Hematologic Conditions including Thrombophilias/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "83 - Collagen Vascular/Auto Immune Diseases"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "83.1 - Systemic Lupus Erythematosus (SLE)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "83.9 - Other Collagen Vascular Diseases/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "85 - Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88 - Injury"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88.1 - Intentional"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88.2 - Unintentional"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88.9 - Unknown/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89 - Cancer"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89.1 Gestational Trophoblastic Disease (GTN)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89.3 - Malignant Melanoma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89.9 - Other Malignancies/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90 - Cardiovascular Conditions"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.1 - Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.2 - Pilmonary Hypertension"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.3 - Valvular Heart Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.4 - Vascular Aneurysm/Dissection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.5 - Hypertensive Cadiovascular Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.7 - Conduction Defects/Arrhythmias"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.9 - Other Cardiovascular Disease/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91 - Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.1 - Chronic Lung Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.2 - Cystic Fibrosis"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.3 - Asthma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.9 - Other Pulmonary Disease/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "92 - Neurologic/Neurovascular Conditions (Excluding CVAs)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "92.1 - Epilepsy/Seizure Disorder"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "92.9 - Other Neurologic Diseases/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "93 - Renal Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "93.1 - Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "93.9 - Other Renal Disease/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "95 - CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96 - Metabolic/Endocrine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96.1 - Obesity"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96.2 - Diabetes Mellitus"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96.9 - Other Metabolic/Endocrine Disorders"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97 - Gastrointestinal Disorders"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97.1 - Crohn's Disease/Ulcerative Colitis"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97.2 - Lever Disease/Failure/Transplant"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97.9 - Other Gastrointestinal Diseases/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "100 - Mental Health Conditions"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "100.1 - Depression/Suicide"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "100.9 - Other Psychiatric Conditions/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "999 - Unknown COD"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "NOTE: If more than 1 is selected, please list them in order of importance begining with the most compelling",
+                   "name": "note_text",
+                   "type": "label"
+               },
+               {
+                   "prompt": "EVALUATION CRITERIA A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, community, provider, facility, and/or systems factors.",
+                   "name": "evaluation_criteria",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Was this death preventable?*",
+                   "name": "was_this_death_preventable",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Yes",
+                   "name": "yes",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "No",
+                   "name": "no",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Chance to alter outcome*",
+                   "name": "chance_to_alter_outcome",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Good Chance"
+                       },
+                       {
+                           "description": "",
+                           "value": "Some Chance"
+                       },
+                       {
+                           "description": "",
+                           "value": "No Chance"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unable to Determine"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "If there was at least some chance that the death could have been averted, what were the specific and feasible actions, which if implemented or altered, might have changed the course of events?",
+                   "name": "text",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Critical Factors Worksheet",
+                   "name": "critical_factors_worksheet",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Category",
+                           "name": "category",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Patient"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Community"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medical Care - Provider"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medical Care - Facility"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "System of Care"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Class",
+                           "name": "class",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Compliance"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Knowledge"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cultural / Religious"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Environmental"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Access"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Social Support"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Violence"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mental Health"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Chronic Disease / Conditions"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Substance Abuse"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Equipment / Technology"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Policies / Procedures"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Communication"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Continuity of Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Personnel"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Outreach"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Enforcement"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Referral"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Assessment"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Legal"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Description",
+                           "name": "description",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Actions",
+                           "name": "actions",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Delay",
+                           "name": "delay",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Seeking Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Reaching Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Receiving Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No Delays"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Prevention",
+                           "name": "prevention",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Primary"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Secondary"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Tertiary"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Impact Level",
+                           "name": "impact_level",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Small"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medium"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Large"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Extra Large"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Giant"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Prevention Types:",
+                   "name": "prevention_types",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Primary - Prevent Incidence",
+                   "name": "primar_prevent_incidence",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Secondary - Prevent Progression",
+                   "name": "secondary_prevent_progression",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Tertiary - Prevent Complications",
+                   "name": "tertiary_prevent_complications",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Expected Impact Levels:",
+                   "name": "expected_impact_levels",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Small - Education (Eat Healthy, Awareness)",
+                   "name": "small_education",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Medium - Clinical Intervention (Protocols, Prescriptions)",
+                   "name": "medium_clinical_intervention",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Large - Long Lasting Protective Intervention (Cessation Treatment, LARC)",
+                   "name": "large_long_lasting_protective_intervention",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Extra Large - Change in Context (Fluoridation, Tobacco Tax)",
+                   "name": "extra_large_change_in_context",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Giant - Socioeconomic (Poverty, Inequality)",
+                   "name": "giant_socioeconomic",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
+                   "name": "recommendations_of_the_committee",
+                   "type": "textarea"
+               }
+           ]
+       },
+       {
+           "prompt": "Social and Psychological Profile",
+           "name": "social_and_psychological_profile",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Socio-Economic Characteristics",
+                   "name": "socio_economic_characteristics",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Source of Income",
+                           "name": "source_of_income",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Self"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Spouse"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Relative"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Public Assistance"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Employment Status",
+                           "name": "employment_status",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1 - Full Time"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2 - Part Time"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3 - Self Employed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4 - Contract"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5 - Unemployed"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "6 - Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "7 - Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9 - Not Specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Occupation",
+                           "name": "occupation",
+                           "type": "string"
                        }
                    ]
                }
