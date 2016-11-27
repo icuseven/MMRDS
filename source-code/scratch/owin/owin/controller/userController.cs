@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace owin
@@ -29,9 +30,9 @@ namespace owin
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
-				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
+				owin.model.couchdb.alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.alldocs_response>(responseFromServer);
 			
-				session_response[] result =  new session_response[] 
+				owin.model.couchdb.alldocs_response[] result =  new owin.model.couchdb.alldocs_response[] 
 				{ 
 					json_result
 				}; 
@@ -46,7 +47,7 @@ namespace owin
 			} 
 
 			return null;
-			return new owin.model.couchdb.user[] { default(owin.model.couchdb.user), default(owin.model.couchdb.user) }; 
+			//return new owin.model.couchdb.user[] { default(owin.model.couchdb.user), default(owin.model.couchdb.user) }; 
 		} 
 
 		// GET api/values/5 
