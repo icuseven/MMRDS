@@ -135,6 +135,9 @@
     <Compile Include="util\GenerateAssemblyAndModule.cs" />
     <Compile Include="util\GenerateSwaggerFile.cs" />
     <Compile Include="model\metadata\value_node.cs" />
+    <Compile Include="model\couchdb\user.cs" />
+    <Compile Include="controller\userController.cs" />
+    <Compile Include="model\couchdb\alldocs_response.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
