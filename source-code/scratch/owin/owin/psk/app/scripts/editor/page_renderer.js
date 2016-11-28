@@ -126,9 +126,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</fieldset>");
 
 		result.push('<div class="search_wrapper">');
-		for(var i = 0; i < g_ui.data_list.length; i++)
+		for(var i = 0; i < p_ui.data_list.length; i++)
 		{
-			var item = g_ui.data_list[i];
+			var item = p_ui.data_list[i];
 
 			if(i % 2)
 			{

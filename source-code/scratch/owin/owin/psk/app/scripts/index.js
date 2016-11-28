@@ -305,10 +305,18 @@ window.onhashchange = function(e)
 			{
 				db.get(selected_record_id).then(function (doc) 
 				{
-					g_data._rev = doc._rev;
-          g_ui.data_list[g_selected_index] = g_data;
-					console.log('save finished');
-					console.log(doc);
+					for(var i = 0; i < g_ui.data_list.length; i++)
+          {
+            if(g_ui.data_list[i]._id == selected_record_id)
+            {
+                g_ui.data_list[i]._rev = doc._rev;
+                console.log('save finished');
+                console.log(doc);
+                break;
+            }
+          }
+          
+					
 
           if(e.isTrusted)
           {
