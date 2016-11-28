@@ -44,6 +44,10 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
           eval(p_object_path + ' = new Date("' + value_set.join("T") + 'Z")');
         }
+        else if(metadata.type.toLowerCase() == "boolean")
+        {
+          eval(p_object_path + ' = ' + value);
+        }
         else
         {
           eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
@@ -101,6 +105,10 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         }
 
         eval(p_object_path + ' = new Date("' + value_set.join("T") + 'Z")');
+      }
+      else if(metadata.type.toLowerCase() == "boolean")
+      {
+        eval(p_object_path + ' = ' + value);
       }
       else
       {
@@ -244,12 +252,6 @@ window.onhashchange = function(e)
 
     if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
     {
-
-
-      /*
-      selected_form_name: form,
-      "selected_id": selected_id,
-      "selected_child_id": selected_child_id*/
   		var section_list = document.getElementsByTagName("section");
   		for(var i = 0; i < section_list.length; i++)
   		{

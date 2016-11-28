@@ -326,15 +326,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push("</span> <input type='checkbox' name='");
 			result.push(p_metadata.name);
-			result.push("' checked='");
+			if(p_data == true)
+			{
+				result.push("' checked='true'");
+			}
+			else
+			{
+				result.push("'  value='");
+			}
 			result.push(p_data);
-			result.push("'  value='");
-			result.push(p_data);
-			result.push(" onblur='g_set_data_object_from_path(\"");
+			result.push("' onblur='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
 			result.push(p_metadata_path);
-			result.push("\",this.value)'  /></div>");
+			result.push("\",this.checked)'  /></div>");
             break;
     case 'list':
 			result.push("<div class='list' id='");

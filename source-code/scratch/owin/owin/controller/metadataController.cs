@@ -30,32 +30,39 @@ namespace owin
 		{ 
 			System.Console.WriteLine ("Recieved message.");
 			string result = null;
-
-			//"2016-06-12T13:49:24.759Z"
-			string request_string = this.get_couch_db_url() + "/metadata/2016-06-12T13:49:24.759Z";
-
-			System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
-			request.PreAuthenticate = false;
-
-
-			if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+			System.Dynamic.ExpandoObject json_result = null;
+			try
 			{
-				string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-				request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-				//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-				request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
 
+				//"2016-06-12T13:49:24.759Z"
+				string request_string = this.get_couch_db_url() + "/metadata/2016-06-12T13:49:24.759Z";
+
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+				request.PreAuthenticate = false;
+
+
+				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+				{
+					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+
+				}
+
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				result = reader.ReadToEnd ();
+
+				json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 			}
-
-
-			System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-			System.IO.Stream dataStream = response.GetResponseStream ();
-			System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-			result = reader.ReadToEnd ();
-
-			System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
-
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
 
 
 			//return result;
