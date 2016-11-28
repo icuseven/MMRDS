@@ -1,42 +1,17 @@
-var g_metadata = null;
-var g_data = null;
-var g_copy_clip_board = null;
-var g_delete_value_clip_board = null;
-var g_delete_attribute_clip_board = null;
-var g_delete_node_clip_board = null;
-
-var g_ui = { is_collapsed : [] };
 
 
-var md = {
-/*
+var g_ui = { 
+	user_summary_list:[],
+	user_list:[],
+	data:null,
+	url_state: {
+    selected_form_name: null,
+    selected_id: null,
+    selected_child_id: null,
+    path_array : []
 
-required:
-	name
-	prompt	
-	type
-
-optional:
-is_core_summary
-is_required
-
-regex_pattern
-validation
-onblur
-
-max_value
-min_value
-control_style
-radio
-checkbox
-
-
-controls:
-	label
-	button
-
-*/
-}
+  }
+};
 
 var $$ = {
 
@@ -62,8 +37,6 @@ $(function ()
   'use strict';
 
   	profile.initialize_profile();
-	document.getElementById('form_content_id').innerHTML = user_render(g_metadata, "", g_ui).join("");
-	  //load_metadata();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -83,31 +56,35 @@ $(function ()
 
 	});
 
+	load_users();
 
+	window.onhashchange = function(e)
+	{
+		if(e.isTrusted)
+		{
+			var new_url = e.newURL || window.location.href;
 
-
+			g_ui.url_state = url_monitor.get_url_state(new_url);
+		}
+	};
 });
 
 
 
-
-function load_metadata()
+function load_users()
 {
-	var metadata_url = location.protocol + '//' + location.host + '/api/metadata';
+	var metadata_url = location.protocol + '//' + location.host + '/api/user';
 
 	$.ajax({
 			url: metadata_url
 	}).done(function(response) {
-			g_metadata = response;
-
-			convert_value_to_object(g_metadata);
-
-			g_data = create_default_object(g_metadata, {});
+			g_ui.user_summary_list = response[0].rows;
+			console.log(g_ui.user_summary_list);
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_metadata, "", g_ui).join("");
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
 
 	});
 }
@@ -137,7 +114,7 @@ window.addEventListener('metadata_changed', function (e)
 
 	if(preview_window)
 	{
-		//preview_window.metadata_changed(g_metadata);
+		//preview_window.metadata_changed(g_user_list);
 
 		if(last_preview_update)
 		{
@@ -145,13 +122,13 @@ window.addEventListener('metadata_changed', function (e)
 
 			if(diff > 1000)
 			{
-				preview_window.metadata_changed(g_metadata);
+				preview_window.metadata_changed(g_user_list);
 				last_preview_update = new Date();
 			}
 		}
 		else
 		{
-			preview_window.metadata_changed(g_metadata);
+			preview_window.metadata_changed(g_user_list);
 			last_preview_update = new Date();
 		}
 	}
@@ -169,7 +146,7 @@ function open_preview_window()
 
 		window.setTimeout(function()
 		{
-			preview_window.metadata_changed(g_metadata);
+			preview_window.metadata_changed(g_user_list);
 			last_preview_update = new Date();
 		}, 3000);
 
@@ -199,7 +176,7 @@ function metadata_save()
 					url: location.protocol + '//' + location.host + '/api/metadata',
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
-					data: JSON.stringify(g_metadata),
+					data: JSON.stringify(g_user_list),
 					type: "POST",
 					beforeSend: function (request)
 					{
@@ -212,8 +189,8 @@ function metadata_save()
 						var response_obj = eval(response);
 						if(response_obj.ok)
 						{
-							g_metadata._rev = response_obj.rev; 
-							document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+							g_user_list._rev = response_obj.rev; 
+							document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_ui).join("");
 						}
 						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 					console.log("metadata sent", response);

@@ -75,7 +75,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = user_render(g_metadata, "", g_ui).join("");
+            document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
           });
         }
         else if(item.metadata=="styles/mmria.css")

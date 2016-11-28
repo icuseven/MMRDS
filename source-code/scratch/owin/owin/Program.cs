@@ -94,7 +94,7 @@ namespace owin
 
 				url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
 			}
-
+			/*
 			CancellationTokenSource cancellation = new CancellationTokenSource();
 
 			var endpoint = new System.Net.IPEndPoint(System.Net.IPAddress.Any, 8005);
@@ -106,7 +106,7 @@ namespace owin
 			Console.WriteLine("Web Socket Echo Server started at " + endpoint.ToString());
 
 			var task = Task.Run(() => AcceptWebSocketClientsAsync(server, cancellation.Token));
-			/**/
+			*/
 
 
 
