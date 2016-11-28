@@ -57,11 +57,20 @@ function monitor_changes()
             profile.initialize_profile();
           });
         }
+        else if(item.metadata=="scripts/_users/navigation_renderer.js")
+        {
+          var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
+          reload_js(script_name, function(){
+            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+          });
+        }
         else if
         (
           item.metadata=="scripts/_users/user_renderer.js" ||
           item.metadata=="scripts/_users/futon.browse.js" ||
-          item.metadata=="scripts/_users/jquery.couch.js"
+          item.metadata=="scripts/_users/jquery.couch.js" ||
+          item.metadata=="scripts/_users/index.js"
         )
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
@@ -76,7 +85,7 @@ function monitor_changes()
             //document.getElementById('form_content_id').innerHTML = user_render(g_metadata, "", g_ui).join("");
             return;
           });
-        }
+        }/*
         else if(item.metadata=="scripts/_users/index.js")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
@@ -84,7 +93,7 @@ function monitor_changes()
             //load_metadata();
             return null;
           });
-        }
+        }*/
 
 
 
@@ -105,4 +114,4 @@ function monitor_changes()
   );
 }
 
-interval_id = window.setInterval(monitor_changes, 10000);
+interval_id = window.setInterval(monitor_changes, 3000);

@@ -12,7 +12,7 @@ namespace owin
 		{ 
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/_users";
+				string request_string = this.get_couch_db_url() + "/_users/_all_docs";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -53,7 +53,36 @@ namespace owin
 		// GET api/values/5 
 		public owin.model.couchdb.user Get(string id) 
 		{ 
-			return default(owin.model.couchdb.user); 
+			owin.model.couchdb.user result = null;
+			try
+			{
+				string request_string = this.get_couch_db_url() + "/_users/" + id;
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+				request.PreAuthenticate = false;
+
+
+				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+				{
+					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+				}
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				string responseFromServer = reader.ReadToEnd ();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.user>(responseFromServer);
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return result; 
 		} 
 
 		// POST api/values 
