@@ -8,6 +8,12 @@ var g_data = null;
 var g_metadata_path = [];
 var g_validator_map = [];
 var g_validation_description_map = [];
+var g_selected_index = null;
+
+
+var default_object = null;
+
+var g_data_access = new Data_Access("http://localhost:5984/mmrds");
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
@@ -229,6 +235,49 @@ var $$ = {
 $(function ()
 {
 
+
+      var db = new PouchDB('mmrds');
+      //var db_result = db.get({_all_doc: ""})
+
+      db.allDocs(
+      {
+        include_docs: true,
+        attachments: true
+      }).then(function (result) 
+      {
+        console.log(result);
+        g_ui.data_list = [];
+        for(var i = 0; i < result.rows.length; i++)
+        {
+          g_ui.data_list.push(result.rows[i].doc);
+        }
+
+        document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+        apply_tool_tips();
+
+        var section_list = document.getElementsByTagName("section");
+          for(var i = 0; i < section_list.length; i++)
+          {
+            var section = section_list[i];
+            if(section.id == "app_summary")
+            {
+                section.style.display = "block";
+            }
+            else
+            {
+                section.style.display = "none";
+            }
+        }
+
+        //res.json({"users": result.rows});
+      }).catch(function (err) 
+      {
+        console.log(err);
+      });
+
+      //g_ui.data_list
+
 window.onhashchange = function(e)
 {
   /*
@@ -238,20 +287,112 @@ window.onhashchange = function(e)
     oldURL: "http://localhost:12345/react-test/#/",
     newURL: "http://localhost:12345/rea
   }*/
-  if(e.isTrusted)
+
+  if(g_data)
+  {
+      var db = new PouchDB('mmrds');
+      var selected_record_id = g_data._id;
+      if($.isNumeric())
+      {
+          g_selected_index = parseInt(g_ui.url_state.path_array[0]);
+      }
+      else //if(g_ui.data_list.length > 0)
+      {
+        g_selected_index = g_ui.data_list.length - 1;
+      }
+
+			db.put(g_data).then(function()
+			{
+				db.get(selected_record_id).then(function (doc) 
+				{
+					g_data._rev = doc._rev;
+          g_ui.data_list[g_selected_index] = g_data;
+					console.log('save finished');
+					console.log(doc);
+
+          if(e.isTrusted)
+          {
+
+            var new_url = e.newURL || window.location.href;
+
+            g_ui.url_state = url_monitor.get_url_state(new_url);
+
+
+
+            if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
+            {
+              g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
+
+              document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+              document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+              apply_tool_tips();
+
+
+              var section_list = document.getElementsByTagName("section");
+              for(var i = 0; i < section_list.length; i++)
+              {
+                var section = section_list[i];
+                if(section.id == g_ui.url_state.path_array[1] + "_id")
+                {
+                    section.style.display = "block";
+                }
+                else
+                {
+                    section.style.display = "none";
+                }
+              }
+            }
+            else
+            {
+              
+              g_data = null;
+
+              document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+
+              document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+              apply_tool_tips();
+
+              var section_list = document.getElementsByTagName("section");
+                for(var i = 0; i < section_list.length; i++)
+                {
+                  var section = section_list[i];
+                  if(section.id == "app_summary")
+                  {
+                      section.style.display = "block";
+                  }
+                  else
+                  {
+                      section.style.display = "none";
+                  }
+              }
+
+            }
+
+				}
+        });
+			});
+    
+   // g_data_access.set_data(g_data);
+			
+  }
+  else if(e.isTrusted)
   {
 
     var new_url = e.newURL || window.location.href;
 
     g_ui.url_state = url_monitor.get_url_state(new_url);
 
-    document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
-    document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
-    apply_tool_tips();
 
     if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
     {
+      g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
+
+      document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+      apply_tool_tips();
+
+
   		var section_list = document.getElementsByTagName("section");
   		for(var i = 0; i < section_list.length; i++)
   		{
@@ -268,6 +409,14 @@ window.onhashchange = function(e)
 		}
     else
     {
+      
+      g_data = null;
+
+      document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+      apply_tool_tips();
+
       var section_list = document.getElementsByTagName("section");
         for(var i = 0; i < section_list.length; i++)
         {
@@ -297,7 +446,8 @@ window.onhashchange = function(e)
 			url: location.protocol + '//' + location.host + '/api/metadata',
 	}).done(function(response) {
 			g_metadata = response;
-			g_data = create_default_object(g_metadata, {});
+      default_object =  create_default_object(g_metadata, {});
+			//g_data = create_default_object(g_metadata, {});
 
       create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 

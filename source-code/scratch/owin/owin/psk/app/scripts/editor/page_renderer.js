@@ -73,6 +73,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
+			if(p_data[child.name])
+			{
+
+			}
+			else
+			{
+				p_data[child.name] = create_default_object(child, {})[child.name];
+			}
 			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
 		}
 		result.push("</fieldset>");
@@ -97,6 +105,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
+			if(p_data[child.name])
+			{
+
+			}
+			else
+			{
+				p_data[child.name] = create_default_object(child, {})[child.name];
+			}
 			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
 		}
 		result.push("</section>");
@@ -484,6 +500,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
            break;
 	case 'date':
+			if(typeof(p_data) != "date")
+			{
+				p_data = new Date(p_data);
+			}
 			result.push("<div class='date' id='");
 			result.push(p_object_path)
 			
@@ -522,7 +542,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
 			 break;	
 	case 'datetime':
-			
+			if(typeof(p_data) == "string")
+			{
+				p_data = new Date(p_data);
+			}
 			result.push("<div class='date' id='");
 			result.push(p_object_path)
 			result.push("'> ");
@@ -571,6 +594,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");			
 			 break;
 		case 'time':
+			if(typeof(p_data) == "string")
+			{
+				p_data = new Date(p_data);
+			}
 			result.push("<div class='time' id='");
 			result.push(p_object_path)
 			
