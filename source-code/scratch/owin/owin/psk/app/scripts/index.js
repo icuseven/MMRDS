@@ -9,6 +9,7 @@ var g_metadata_path = [];
 var g_validator_map = [];
 var g_validation_description_map = [];
 var g_selected_index = null;
+var g_selected_delete_index = null;
 
 
 var default_object = null;
@@ -234,49 +235,7 @@ var $$ = {
 
 $(function ()
 {
-
-
-      var db = new PouchDB('mmrds');
-      //var db_result = db.get({_all_doc: ""})
-
-      db.allDocs(
-      {
-        include_docs: true,
-        attachments: true
-      }).then(function (result) 
-      {
-        console.log(result);
-        g_ui.data_list = [];
-        for(var i = 0; i < result.rows.length; i++)
-        {
-          g_ui.data_list.push(result.rows[i].doc);
-        }
-
-        document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
-        apply_tool_tips();
-
-        var section_list = document.getElementsByTagName("section");
-          for(var i = 0; i < section_list.length; i++)
-          {
-            var section = section_list[i];
-            if(section.id == "app_summary")
-            {
-                section.style.display = "block";
-            }
-            else
-            {
-                section.style.display = "none";
-            }
-        }
-
-        //res.json({"users": result.rows});
-      }).catch(function (err) 
-      {
-        console.log(err);
-      });
-
-      //g_ui.data_list
+    load_documents();
 
 window.onhashchange = function(e)
 {
@@ -316,16 +275,11 @@ window.onhashchange = function(e)
             }
           }
           
-					
-
           if(e.isTrusted)
           {
 
             var new_url = e.newURL || window.location.href;
-
             g_ui.url_state = url_monitor.get_url_state(new_url);
-
-
 
             if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
             {
@@ -354,9 +308,7 @@ window.onhashchange = function(e)
             {
               
               g_data = null;
-
               document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-
               document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
               apply_tool_tips();
 
@@ -373,9 +325,7 @@ window.onhashchange = function(e)
                       section.style.display = "none";
                   }
               }
-
             }
-
 				}
         });
 			});
@@ -541,3 +491,71 @@ function apply_validation()
     }
 }
 
+function delete_record(p_index)
+{
+
+  if(p_index == g_selected_delete_index)
+  {
+    var db = new PouchDB('mmrds');
+    g_selected_delete_index = null;
+    db.get(g_ui.data_list[p_index]._id).then(function (doc) {
+      doc._deleted = true;
+      return db.put(doc).then(function(){ load_documents() });
+    });
+  }
+  else
+  {
+      if(g_selected_delete_index)
+      {
+          var old_id = g_ui.data_list[g_selected_delete_index]._id;
+          $("div[path='" +old_id + "']").removeClass("selected-for-delete");
+      }
+
+      g_selected_delete_index = p_index;
+      var id = g_ui.data_list[p_index]._id;
+      $("div[path='" + id + "']").addClass("selected-for-delete");
+      
+  }
+}
+
+
+function load_documents()
+{
+  var db = new PouchDB('mmrds');
+  db.allDocs(
+      {
+        include_docs: true,
+        attachments: true
+      }).then(function (result) 
+      {
+        console.log(result);
+        g_ui.data_list = [];
+        for(var i = 0; i < result.rows.length; i++)
+        {
+          g_ui.data_list.push(result.rows[i].doc);
+        }
+
+        document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+        apply_tool_tips();
+
+        var section_list = document.getElementsByTagName("section");
+          for(var i = 0; i < section_list.length; i++)
+          {
+            var section = section_list[i];
+            if(section.id == "app_summary")
+            {
+                section.style.display = "block";
+            }
+            else
+            {
+                section.style.display = "none";
+            }
+        }
+
+        //res.json({"users": result.rows});
+      }).catch(function (err) 
+      {
+        console.log(err);
+      });
+}

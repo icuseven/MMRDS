@@ -256,6 +256,12 @@ https://webdesign.tutsplus.com/articles/quick-tip-tooltips-courtesy-of-html5-dat
 .failed-validation {
 	background-color: #ffcccc;
 }
+
+
+.selected-for-delete
+{
+	background-color: #777777;
+}
 /*
 .group { float:left; }
 
