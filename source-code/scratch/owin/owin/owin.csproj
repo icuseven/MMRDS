@@ -138,6 +138,7 @@
     <Compile Include="model\couchdb\user.cs" />
     <Compile Include="controller\userController.cs" />
     <Compile Include="model\couchdb\alldocs_response.cs" />
+    <Compile Include="model\couchdb\user_alldocs_response.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

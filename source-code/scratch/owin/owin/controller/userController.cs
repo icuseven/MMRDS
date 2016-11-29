@@ -8,15 +8,14 @@ namespace owin
 	public class userController: ApiController 
 	{ 
 		// GET api/values 
-		public IEnumerable<owin.model.couchdb.alldocs_response> Get() 
+		public IEnumerable<owin.model.couchdb.user_alldocs_response> Get() 
 		{ 
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/_users/_all_docs";
+				string request_string = this.get_couch_db_url() + "/_users/_all_docs?include_docs=true&skip=2";
+
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
 				request.PreAuthenticate = false;
-
 
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
@@ -30,9 +29,9 @@ namespace owin
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
-				owin.model.couchdb.alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.alldocs_response>(responseFromServer);
+				owin.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.user_alldocs_response>(responseFromServer);
 			
-				owin.model.couchdb.alldocs_response[] result =  new owin.model.couchdb.alldocs_response[] 
+				owin.model.couchdb.user_alldocs_response[] result =  new owin.model.couchdb.user_alldocs_response[] 
 				{ 
 					json_result
 				}; 
