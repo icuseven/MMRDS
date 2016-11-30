@@ -14,8 +14,6 @@ var g_ui = {
 };
 
 var $$ = {
-
-
  is_id: function(value){
    // 2016-06-12T13:49:24.759Z
     if(value)
@@ -27,6 +25,19 @@ var $$ = {
     {
         return false;
     }
+  },
+  add_new_user: function(p_name)
+  {
+	  return {
+		"_id": "org.couchdb.user:" + p_name,
+		"password_scheme": "pbkdf2",
+		"iterations": 10,
+		"name": p_name,
+		"roles": [  ],
+		"type": "user",
+		"derived_key": "a1bb5c132df5b7df7654bbfa0e93f9e304e40cfe",
+		"salt": "510427706d0deb511649021277b2c05d"
+		};
   }
 };
 
@@ -41,7 +52,7 @@ $(function ()
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
 			evt.preventDefault();
-			metadata_save();
+			//metadata_save();
 		}
 
 		if (evt.keyCode==80 && (evt.ctrlKey)){
@@ -97,82 +108,14 @@ function load_users()
 }
 
 
-function convert_value_to_object(p_metadata)
-{
-	if(p_metadata.values)
-	{
-		for(var i = 0; i < p_metadata.values.length; i++)
-		{
-			var child = p_metadata.values[i];
-			if (typeof child === 'string' || child instanceof String)
-			{
-				p_metadata.values[i] = { "value": child, "description": ""};
-			}
-		}
-	}
-
-	if(p_metadata.children)
-	{
-		for(var i = 0; i < p_metadata.children.length; i++)
-		{var metadata_changed_event = new Event('metadata_changed');
-
-window.addEventListener('metadata_changed', function (e) 
-{ 
-
-	if(preview_window)
-	{
-		//preview_window.metadata_changed(g_user_list);
-
-		if(last_preview_update)
-		{
-			var diff = new Date().getTime() - last_preview_update.getTime();
-
-			if(diff > 1000)
-			{
-				preview_window.metadata_changed(g_user_list);
-				last_preview_update = new Date();
-			}
-		}
-		else
-		{
-			preview_window.metadata_changed(g_user_list);
-			last_preview_update = new Date();
-		}
-	}
-}, false);
-
-
-var preview_window = null;
-var last_preview_update = null;
-
-function open_preview_window()
-{
-	if(! preview_window)
-	{
-		preview_window = window.open('./preview.html','_preview',null,false);
-
-		window.setTimeout(function()
-		{
-			preview_window.metadata_changed(g_user_list);
-			last_preview_update = new Date();
-		}, 3000);
 
 
 
-	}
 
 
-}
-
-			var child = p_metadata.children[i];
-			convert_value_to_object(child);
-		}
-	}
-}
 
 function metadata_save()
 {
-
 	console.log("metadata_change");
 	var json_data = { 'def': "momentum"};
 	var current_auth_session = profile.get_auth_session_cookie();

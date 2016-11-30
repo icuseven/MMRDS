@@ -3,15 +3,15 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 	var result = [];
 
 	result.push("<div style='clear:both;margin-left:10px;'>");
-	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=2>user list</th></tr>");
+	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=4>user list</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
 		var item = p_ui.user_summary_list[i];
 		Array.prototype.push.apply(result, user_entry_render(item, i));
 	}
-	result.push("<tr><td colspan=2 align=right>&nbsp;</tr>")
-	result.push("<tr><td colspan=2 align=right><input type='button' value='add user'/></tr>")
+	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
+	result.push("<tr><td colspan=4 align=right><input type='button' value='add new user'/></tr>")
 	result.push("</table></div>");
 
 
@@ -46,8 +46,20 @@ function user_entry_render(p_user, p_i)
 	result.push("<tr><td colspan=2 align=right>");
 	Array.prototype.push.apply(result, user_role_render(p_user));
 	result.push("</td></tr>")
-	result.push("</table>");
-	result.push("</td><tr>");
+	result.push("</table></td>");
+	result.push("<td>");
+	result.push("<input type='text' value='");
+	result.push(p_user.name);
+	result.push("'/>");
+	result.push("<input type='button' value='change user name'/>");	
+	result.push("<br/><br/><input type='password' value=''/>");
+	result.push("<input type='button' value='change password'/>");
+	result.push("</td>");
+	result.push("<td>")
+	//result.push("<input type='button' value='disable user'/>");
+	result.push("<br/><br/><input type='button' value='remove user'/>");
+	result.push("</td>")
+	result.push("<tr>");
 
 	return result;
 }
