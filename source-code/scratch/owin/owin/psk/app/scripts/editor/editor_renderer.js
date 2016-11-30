@@ -628,6 +628,10 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>default_value</option>');
 		result.push('<option>regex_pattern</option>');
 	}
+	else if(node_type.toLowerCase()== "grid")
+	{
+		result.push('<option>is_core_summary</option>');
+	}
 
 	result.push('<option>validation</option>');
 	result.push('<option>validation_description</option>');
