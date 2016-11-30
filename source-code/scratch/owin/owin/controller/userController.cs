@@ -8,7 +8,8 @@ namespace owin
 	public class userController: ApiController 
 	{ 
 		// GET api/values 
-		public IEnumerable<owin.model.couchdb.user_alldocs_response> Get() 
+		//public IEnumerable<owin.model.couchdb.user_alldocs_response> Get() 
+		public System.Dynamic.ExpandoObject Get() 
 		{ 
 			try
 			{
@@ -29,14 +30,19 @@ namespace owin
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
-				owin.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.user_alldocs_response>(responseFromServer);
-			
+				/*owin.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.user_alldocs_response>(responseFromServer);
 				owin.model.couchdb.user_alldocs_response[] result =  new owin.model.couchdb.user_alldocs_response[] 
 				{ 
 					json_result
 				}; 
-
+				
 				return result;
+				*/
+
+				System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+			
+				return json_result;
+
 
 			}
 			catch(Exception ex)

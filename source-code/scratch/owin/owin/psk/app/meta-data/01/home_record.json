@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "295-fd3252d4c741c95839273b32bb098392",
+   "_rev": "398-9ac350d80b433f2a2c409c1509ac7213",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -39,37 +39,37 @@
                    "validation_description": "invalid description bubba."
                },
                {
-                   "prompt": "first name",
+                   "prompt": "First Name",
                    "name": "first_name",
                    "type": "string"
                },
                {
-                   "prompt": "middle name",
+                   "prompt": "Middle Name",
                    "name": "middle_name",
                    "type": "string"
                },
                {
-                   "prompt": "last name",
+                   "prompt": "Last Name",
                    "name": "last_name",
                    "type": "string"
                },
                {
-                   "prompt": "state of death",
+                   "prompt": "State of Death",
                    "name": "state_of_death",
                    "type": "string"
                },
                {
-                   "prompt": "state of last known residence",
-                   "name": "state_of_last_known_residence",
+                   "prompt": "Location of Last Known Residence",
+                   "name": "location_of_last_known_residence",
                    "type": "string"
                },
                {
-                   "prompt": "agency-based case identifier",
+                   "prompt": "Agency-Based Case Identifier",
                    "name": "agency_case_id",
                    "type": "string"
                },
                {
-                   "prompt": "is_valid_maternal_mortality_record",
+                   "prompt": "Is_Valid_Maternal_Mortality_Record",
                    "name": "is_valid_maternal_mortality_record",
                    "type": "boolean"
                },
@@ -86,6 +86,58 @@
                    "is_core_summary": true,
                    "regex_pattern": "^(\\d\\d\\d\\\\d)?-(\\d\\d)?-(\\d\\d)?$",
                    "description": "Test tool tip. Additional text."
+               },
+               {
+                   "prompt": "How was this death identified? (primary source)*",
+                   "name": "how_was_this_death_identified",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Obstetric ICD codes from the death certificate"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnancy check box on death certificate"
+                       },
+                       {
+                           "description": "",
+                           "value": "Record linkage of death and birth  (fetal death) certificates"
+                       },
+                       {
+                           "description": "",
+                           "value": "Record linkage of death certificate and hospital discharge data"
+                       },
+                       {
+                           "description": "",
+                           "value": "Facility reporting"
+                       },
+                       {
+                           "description": "",
+                           "value": "Obituary"
+                       },
+                       {
+                           "description": "",
+                           "value": "Social media"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Primary Abstractor",
+                   "name": "primary_abstractor",
+                   "type": "string"
                },
                {
                    "prompt": "Case Progress Report",
@@ -521,11 +573,11 @@
                {
                    "prompt": "Country (if foreign born)*",
                    "name": "country_of_birth",
-                   "type":"string",
+                   "type": "string",
                    "is_core_summary": true
                },
                {
-                   "prompt": "Primary occupation",
+                   "prompt": "Primary occupation*",
                    "name": "primary_occupation",
                    "type": "String"
                },
@@ -916,7 +968,15 @@
                        },
                        {
                            "description": "",
+                           "value": "Homocide"
+                       },
+                       {
+                           "description": "",
                            "value": "Accident"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pending Investigation"
                        },
                        {
                            "description": "",
@@ -924,23 +984,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Self-inflicted"
-                       },
-                       {
-                           "description": "",
-                           "value": "Homocide"
-                       },
-                       {
-                           "description": "",
-                           "value": "Pending investigation"
-                       },
-                       {
-                           "description": "",
                            "value": "Could not be determined"
-                       },
-                       {
-                           "description": "",
-                           "value": "Not Specified"
                        }
                    ],
                    "is_core_summary": true
@@ -1019,6 +1063,10 @@
                        {
                            "description": "",
                            "value": "Unkown if pregant in last year"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not pregnant, but pregnant within past year (time unknown)"
                        },
                        {
                            "description": "",
@@ -1183,6 +1231,13 @@
                    "prompt": "Reviewer's notes about the Death Certificate",
                    "name": "reviewer_note",
                    "type": "string"
+               },
+               {
+                   "prompt": "Citizen of What Country",
+                   "name": "citizen_of_what_country",
+                   "type": "list",
+                   "values": [
+                   ]
                }
            ]
        },
@@ -9508,6 +9563,640 @@
                    "prompt": "Reviewer's Notes about the Social Services Records and Issues",
                    "name": "reviewers_notes_about_the_social_services_records_and_issues",
                    "type": "textarea"
+               }
+           ]
+       },
+       {
+           "prompt": "Mental Health Profile",
+           "name": "mental_health_profile",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Were there documented mental health conditions?",
+                   "name": "were_there_documented_mental_health_conditions",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date of Screening",
+                           "name": "date_of_screening",
+                           "type": "date"
+                       },
+                       {
+                           "prompt": "Gestational Age Weeks/Days",
+                           "name": "gestational_age",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Screening Tool",
+                           "name": "screening_tool",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Generalized Anxiety Disorder (GAD-7)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Primary Care PTSD Screen (PC-PTSD)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Edinburgh Postnatal Depression Scale (EPDS)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Postpartum Depression Screening Scale (PDSS)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Patient Health Questionnaire (PHQ-9)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Beck Depression Inventory (BDI)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Beck Depression Inventory II (BDI-II)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Center for Epidemiologic Studies Depression Scale Revised (CESD-R)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Zung Self-Rating Depression Scale (SDS)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mood Disorder Questionnaire (MSQ)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NM ASSIST"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NIDA Quick Screen"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CAGE-AIDnew value"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Alcohol Use Disorders Identification Test (AUDIT)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Drug Abuse Screening Test (DAST-10)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SAFE-T"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Columbia-Suicide Severity Rating Scale (C-SSRS)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Other",
+                           "name": "other",
+                           "type": "textarea"
+                       },
+                       {
+                           "prompt": "Referral for Treatment",
+                           "name": "referral_for_treatment",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Were there documented preexisting mental health conditions?*",
+                   "name": "were_there_documented_preexisting_mental_health_conditions",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Illness",
+                           "name": "illness",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Depression"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Anxiety Disorder (i.e. PTSD or OCD)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Psychotic Disorder"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Bipolar Disorder"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Substance Use Disorder"
+                               }
+                           ],
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Duration of Illness",
+                           "name": "duration_of_illness",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Days"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Months"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Years"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Treatment(s)",
+                           "name": "treatments",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Duration of Tx",
+                           "name": "duration_of_tx",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": "Days"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Months"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Years"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "new value"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Treatment Changed During Pregnancy",
+                           "name": "treatment_changed_during_pregnancy",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Dosage Changed During Pregnancy",
+                           "name": "dosage_changed_during_pregnancy",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "If Yes, Mental Health Provider Consultation During this Pregnancy",
+                           "name": "if_yes_mental_health_provider_consultation_during_this_pregnancy",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Did Patient Adhere to Treatment",
+                           "name": "did_patient_adhere_to_treatment",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Was the decedent treated for any of the following mental health conditions prior to the most recent pregnancy? (check all that apply)*",
+                   "name": "new_label",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Depression",
+                   "name": "depression",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Anxiety Disorder",
+                   "name": "anxiety_disorder",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Bipolar Disorder",
+                   "name": "bipolar_disorder",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Psychotic Disorder",
+                   "name": "psychotic_disorder",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Substance Use Disorder",
+                   "name": "substance_use_disorder",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Was the decedent treated for any of the following mental health conditions during the most recent pregnancy? (check all that apply)*",
+                   "name": "was_the_decedent_treated_for_any_of_the_following_mental_health_conditions_during_the_most_recent_pregnancy",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Depression"
+                       },
+                       {
+                           "description": "",
+                           "value": "Anxiety disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Bipolar disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Psychotic disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Substance use disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       }
+                   ],
+                   "is_core_summary": true,
+                   "is_multiselect": true
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "string"
+               },
+               {
+                   "prompt": "Was the decedent treated for any of the following mental health conditions after the most recent pregnancy? (check all that apply)*",
+                   "name": "was_the_decedent_treated_for_any_of_the_following_mental_health_conditions_after_the_most_recent_pregnancy",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Depression"
+                       },
+                       {
+                           "description": "",
+                           "value": "Anxiety disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Bipolar disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Psychotic disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Substance use disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       }
+                   ],
+                   "is_core_summary": true,
+                   "is_multiselect": true
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "string"
+               }
+           ]
+       },
+       {
+           "prompt": "Transport Form",
+           "name": "transport_form",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Date",
+                   "name": "date",
+                   "type": "date"
+               },
+               {
+                   "prompt": "Reason for Transport",
+                   "name": "reason_for_transport",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Maternal Conditions (Describe)",
+                   "name": "maternal_conditions",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Who Managed the Transport?",
+                   "name": "who_managed_the_transport",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Attending Physician",
+                   "name": "attending_physician",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Another Clinician",
+                   "name": "another_clinician",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "EMS/911",
+                   "name": "ems_911",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other (Specify)",
+                   "name": "other_specify",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Transport Vehicle",
+                   "name": "transport_vehicle",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Ground Ambulance",
+                   "name": "ground_ambulance",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Fixed-Wing Aircraft",
+                   "name": "fixed_wing_aircraft",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Helicopter",
+                   "name": "helicopter",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other (Specify)",
+                   "name": "other_specify",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Timing of EMS",
+                   "name": "timing_of_ems",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Call Received",
+                   "name": "call_received",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Depart for Patient Origin",
+                   "name": "depart_for_patient_origin",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Arrive at Patient Origin",
+                   "name": "arrive_at_patient_origin",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Patient Contact",
+                   "name": "patient_contact",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Depart for Referring Facility",
+                   "name": "depart_for_referring_facility",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Arrive at Referring Facility",
+                   "name": "arrive_at_referring_facility",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Origin",
+                   "name": "origin",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Trauma",
+                           "name": "trauma",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Level 1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Level 2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Level 3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Level 4"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Maternal Level of Care",
+                           "name": "maternal_level_of_care",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Birth Center"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Basic Care (Level 1)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Specialty Care (Level 2)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Subspecialty Care (Level 3)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Other (describe)",
+                           "name": "other_describe",
+                           "type": "textarea"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
                }
            ]
        }

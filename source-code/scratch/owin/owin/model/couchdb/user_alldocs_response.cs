@@ -4,10 +4,14 @@ namespace owin.model.couchdb
 {
 
 
-	public class value_struct {  
-		public string rev; 
-		public owin.model.couchdb.user doc;
-		public value_struct(){}
+	public class value_tuple 
+	{  
+		public value_tuple(){}
+		
+		public string rev { get; set; }
+
+		public owin.model.couchdb.user doc { get; set; }
+
 	}
 	public class user_alldoc_item
 	{
@@ -15,7 +19,7 @@ namespace owin.model.couchdb
 
 		public string id { get; set; } //": "16e458537602f5ef2a710089dffd9453",
 		public string key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
-		public value_struct value {get;set;}
+		public value_tuple value {get;set;}
 	
 	}
 
