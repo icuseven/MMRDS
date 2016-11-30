@@ -76,6 +76,11 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('<li><input type="button" onclick="show_print_version()" value="print core summary"></li>');
         }
         result.push('<li><input type="button" onclick="show_data_dictionary()" value="show data dictionary"></li>');
+        if(profile.user_roles.indexOf("user_admin") > -1)
+        {
+          result.push('<li><input type="button" onclick="show_user_administration()" value="view user adminstration"></li>');
+        }
+        
         result.push('</ul>');
         break;
       default:

@@ -132,10 +132,24 @@ function dictionary_render_row(p_metadata, p_path)
 			{
 				result.push("<tr><td>");
 			}
+			if(child.value == "")
+			{
+				result.push("(blank)");
+			}
+			else
+			{
+				result.push(child.value);
+			}
 			
-			result.push(child.value);
 			result.push("</td><td>")
-			result.push(child.description);
+			if(child.description == "")
+			{
+				result.push("(blank)");
+			}
+			else
+			{
+				result.push(child.description);
+			}
 			result.push('</td></tr>');
 		}
 		result.push('</table></td>');

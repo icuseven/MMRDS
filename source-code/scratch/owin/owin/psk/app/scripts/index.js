@@ -432,6 +432,11 @@ function show_data_dictionary()
   window.open("./data-dictionary", "_data_diction");
 }
 
+function show_user_administration()
+{
+  window.open("./_users", "_users");
+}
+
 
 function apply_tool_tips()
 {
