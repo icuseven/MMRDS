@@ -19,6 +19,12 @@ f.DataTableName,
 f.name
 
 
+Grid name = f.DataTableName + f.PageId + f.name
+
+Legal Values = f.SourceTableName, f.CodeColumnName, f.TextColumnName
+
+Comment Legal = f.SourceTableName, f.TextColumnName
+
 SELECT 
 	DISTINCT 
 F.DataTableName & F.PageId & "." & f.name AS Path,
