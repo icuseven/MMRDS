@@ -90,9 +90,92 @@ namespace owin
 			return result; 
 		} 
 
-		// POST api/values 
-		public void Post([FromBody]owin.model.couchdb.user value) 
+		[HttpPost]
+		public owin.couchdb.document_put_response Post() 
 		{ 
+			//bool valid_login = false;
+			owin.model.couchdb.user user = null;
+			string object_string = null;
+			owin.couchdb.document_put_response result = new owin.couchdb.document_put_response ();
+
+			try
+			{
+
+				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				// Open the stream using a StreamReader for easy access.
+				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+				// Read the content.
+				string temp = reader0.ReadToEnd ();
+
+				user = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.model.couchdb.user>(temp);
+				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+
+
+				//string metadata = DecodeUrlString(temp);
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+			}
+			try
+			{
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
+
+				string metadata_url = this.get_couch_db_url() + "/_users/"  + user._id;
+
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
+				request.Method = "PUT";
+				request.ContentType = "application/json";
+				request.ContentLength = object_string.Length;
+				request.PreAuthenticate = false;
+
+				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+				{
+					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+				}
+
+				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
+				{
+					try
+					{
+						streamWriter.Write(object_string);
+						streamWriter.Flush();
+						streamWriter.Close();
+
+
+						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+						System.IO.Stream dataStream = response.GetResponseStream ();
+						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+						string responseFromServer = reader.ReadToEnd ();
+
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.couchdb.document_put_response>(responseFromServer);
+					
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine (ex);
+					}
+				}
+
+				if (!result.ok) 
+				{
+
+				}
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+			return result;
 		} 
 
 		// PUT api/values/5 
