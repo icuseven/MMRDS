@@ -78,7 +78,14 @@ function load_users()
 	$.ajax({
 			url: metadata_url
 	}).done(function(response) {
-			g_ui.user_summary_list = response[0].rows;
+			
+			var temp = [];
+			for(var i = 0; i < response.rows.length; i++)
+			{
+				temp.push(response.rows[i].doc);
+			}
+			console.log(temp);
+			g_ui.user_summary_list = temp;
 			console.log(g_ui.user_summary_list);
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
