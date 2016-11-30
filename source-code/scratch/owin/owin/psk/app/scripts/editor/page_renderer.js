@@ -321,7 +321,22 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
      case 'boolean':
 			result.push("<div class='boolean' id='");
 			result.push(p_object_path);
-			result.push("'><span ");
+			result.push("'> <input type='checkbox' name='");
+			result.push(p_metadata.name);
+			if(p_data == true)
+			{
+				result.push("' checked='true'");
+			}
+			else
+			{
+				result.push("'  value='");
+			}
+			result.push(p_data);
+			result.push("' onblur='g_set_data_object_from_path(\"");
+			result.push(p_object_path);
+			result.push("\",\"");
+			result.push(p_metadata_path);
+			result.push("\",this.checked)'  /><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push(" data-tooltip='");
@@ -341,22 +356,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
-			result.push("</span> <input type='checkbox' name='");
-			result.push(p_metadata.name);
-			if(p_data == true)
-			{
-				result.push("' checked='true'");
-			}
-			else
-			{
-				result.push("'  value='");
-			}
-			result.push(p_data);
-			result.push("' onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.checked)'  /></div>");
+			result.push("</span></div>");
             break;
     case 'list':
 			result.push("<div class='list' id='");
