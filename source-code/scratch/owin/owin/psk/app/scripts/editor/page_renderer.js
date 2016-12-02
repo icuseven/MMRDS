@@ -60,7 +60,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("_id' class='group'><legend ");
 		if(p_metadata.description && p_metadata.description.length > 0)
 		{
-			result.push(" data-tooltip='");
+			result.push("rel='tooltip' data-original-title='");
 			result.push(p_metadata.description.replace(/'/g, "\\'"));
 			result.push("'>");
 		}
@@ -91,7 +91,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("_id' class='form'><h2 ");
 		if(p_metadata.description && p_metadata.description.length > 0)
 		{
-			result.push(" data-tooltip='");
+			result.push("rel='tooltip'  data-original-title='");
 			result.push(p_metadata.description.replace(/'/g, "\\'"));
 			result.push("'>");
 		}
@@ -176,7 +176,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
@@ -194,7 +194,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("' ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("' value='");
 			}
@@ -212,7 +212,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("' ");
 			}
@@ -258,7 +258,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("'><span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
 				{
-					result.push(" data-tooltip='");
+					result.push("rel='tooltip'  data-original-title='");
 					result.push(p_metadata.description.replace(/'/g, "\\'"));
 					result.push("'>");
 				}
@@ -291,7 +291,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
@@ -339,7 +339,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.checked)'  /><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
@@ -365,7 +365,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("'> <span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
@@ -512,7 +512,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
@@ -553,7 +553,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}
@@ -606,7 +606,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-				result.push(" data-tooltip='");
+				result.push("rel='tooltip'  data-original-title='");
 				result.push(p_metadata.description.replace(/'/g, "\\'"));
 				result.push("'>");
 			}

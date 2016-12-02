@@ -111,7 +111,7 @@ render: function ()
 	var result = [];
 	if(profile.is_logged_in)
 	{
-		result.push('<ul style="list-style:none;">');
+		result.push('<ul style="list-style-type:none;">');
 		result.push('<li><strong>USER:</strong> ');
 		result.push(profile.user_name);
 		result.push('</li>');
@@ -123,20 +123,20 @@ render: function ()
 			result.push('</td></tr>');
 		}
 		
-		result.push('</table> </li><li> <input type="button" value="Log Out" onclick="profile.logout()"/>');
+		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
 		result.push('</li>');
 		result.push('</ul>');
 	}
 	else
 	{
-		result.push('<ul style="list-style:none;">');
+		result.push('<ul style="list-style-type:none;">');
 		result.push('<li><strong>user_name:</strong> ');
 		result.push('<input type="text" name="email" value="user1" class="form-control" required />');
 		result.push('</li>');
 		result.push('<li><strong>password:</strong> ');
 		result.push('<input type="password" name="password" value="password" class="form-control" required />');
 		result.push('</li>');
-		result.push('<li><input type="button"  class="btn btn-default col-md-5" value="Log in" /></li>');
+		result.push('<li><input type="button"  class="btn btn-default" value="Log in" /></li>');
 		result.push('</ul>');
 	}
 
