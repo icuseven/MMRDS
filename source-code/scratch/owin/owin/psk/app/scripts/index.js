@@ -285,7 +285,7 @@ window.onhashchange = function(e)
             {
               g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
-              document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+              document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
               document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
               apply_tool_tips();
 
@@ -308,7 +308,7 @@ window.onhashchange = function(e)
             {
               
               g_data = null;
-              document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+              document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
               document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
               apply_tool_tips();
 
@@ -346,7 +346,7 @@ window.onhashchange = function(e)
     {
       g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
-      document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+      document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
       document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
       apply_tool_tips();
 
@@ -370,7 +370,7 @@ window.onhashchange = function(e)
       
       g_data = null;
 
-      document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+      document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
       document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
       apply_tool_tips();
@@ -411,7 +411,7 @@ window.onhashchange = function(e)
 
       g_ui.url_state = url_monitor.get_url_state(window.location.href);
 /*
-			document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+			document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
 			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
       apply_tool_tips();
@@ -540,7 +540,7 @@ function load_documents()
           g_ui.data_list.push(result.rows[i].doc);
         }
 
-        document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
         document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
         apply_tool_tips();
 

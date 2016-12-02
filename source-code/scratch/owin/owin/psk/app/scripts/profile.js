@@ -111,26 +111,25 @@ render: function ()
 	var result = [];
 	if(profile.is_logged_in)
 	{
-		result.push('<div class="login"> <input type="button" value="Log Out" class="btn-light-purple" onclick="profile.logout()"/></div>');
-		result.push('<div class="user-info">');
-		result.push('<p><strong>USER:</strong> ');
+		//result.push('<ul>');
+		result.push('<li><strong>USER:</strong> ');
 		result.push(profile.user_name);
-		result.push('</p>');
-		result.push('<p><strong>ROLES:</strong> ');
+		result.push('</li>');
+		result.push('<li><strong>ROLES:</strong> ');
 		result.push(profile.user_roles.join(','));
-		result.push('</p>');
-		result.push('</div');
+		result.push('<input type="button" value="Log Out" onclick="profile.logout()"/>');
+		result.push('</li>');
 	}
 	else
 	{
-		result.push('<div class="login"> <input type="button" value="Log in" class="btn-light-purple"/> </div>');
- 		result.push('<div id="profile_form" class="user-info">');
-		result.push('<p><strong>Email:</strong> ');
+		//result.push('<ul>');
+		result.push('<li><strong>Email:</strong> ');
 		result.push('<input type="text" name="email" value="user1" />');
-		result.push('</p>');
-		result.push('<p><strong>Password:</strong> ');
-		result.push('<input type="password" name="password" value="password" />');
-		result.push('</p></div>');
+		result.push('</li>');
+		result.push('<li><strong>Password:</strong> ');
+		result.push('<input type="password" name="password" value="password" />  <input type="button" value="Log in" />');
+		result.push('</li>');
+		//result.push('</ul>');
 	}
 
 	document.getElementById('profile_content_id').innerHTML = result.join("");

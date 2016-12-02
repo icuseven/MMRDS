@@ -8,7 +8,7 @@
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 <!--LINK href="./styles/mmria.css" type="text/css" rel="stylesheet" /-->
 <LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<LINK href="./styles/bootstrap/bootstrap-theme.min.css" type="text/css" rel="stylesheet" />
+<!--LINK href="./styles/bootstrap/bootstrap-theme.min.css" type="text/css" rel="stylesheet" /-->
 <script src="./scripts/jquery-3.1.1.min.js"></script>
 <script src="./scripts/bootstrap/bootstrap.min.js"></script>
 <script src="./bower_components/pouchdb/dist/pouchdb.min.js"></script>
@@ -32,34 +32,59 @@
 <script src="./scripts/index.js" type="text/javascript"> </script>
 </head>
 <body>
-<div id='root'>
-	<nav classes="nav_wrapper" class="navbar navbar-inverse navbar-fixed-top">
-		      <div class="container">
-        <div class="navbar-header">
+<div classes="nav_wrapper" class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+          
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
+          <img  class="navbar-brand" src="images/mmria-secondary.svg" height=75 width=100 />
+          <!--a class="navbar-brand" href="#">MMRIA</a-->
+    </div>
+    <!--div id='navigation_id' class="collapse navbar-collapse"></div-->
+    <div  class="collapse navbar-collapse">
+          <div id="navbar">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+
           </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-	</nav>
-	<div id='navigation_id' ></div>
-	<img src="images/mmria-secondary.svg" height=75 width=100 />
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><form id="profile_form">
+                            <ul id='profile_content_id' > </ul>
+                          </form>
+            </li>
+          </ul>
+    </div><!--/.nav-collapse -->
+              
+
+          
+  </div>
+  <div></div>
+</div>
+<div id='root'  class="container">
+  
+	
 	<!--h1>App Element: MMRIA</h1-->
-	<div id='profile_content_id' class="header_wrapper">App Element: MMRIA</div>
-	<div id='page_content_id' style='clear:"left"' class="container">
-		
-		<br/>
+  <div class="page-header" id="banner">
+    <div class="row">
+      <div class="col-lg-8 col-md-7 col-sm-6">
+            <h1>Paper</h1>
+            <p class="lead">Material is the metaphor</p>
+      </div>
+      
+    </div>
+  </div>
+	<div id='page_content_id' class="container">
 		<div id='form_content_id'  class="container"></div>
 	</div>
 </div>
