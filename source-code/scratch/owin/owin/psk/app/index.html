@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-<LINK href="./styles/mmria.css" type="text/css" rel="stylesheet" />
+<!--LINK href="./styles/mmria.css" type="text/css" rel="stylesheet" /-->
+<LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<LINK href="./styles/bootstrap/bootstrap-theme.min.css" type="text/css" rel="stylesheet" />
 <script src="./scripts/jquery-3.1.1.min.js"></script>
+<script src="./scripts/bootstrap/bootstrap.min.js"></script>
 <script src="./bower_components/pouchdb/dist/pouchdb.min.js"></script>
 <script src="./scripts/esprima.js"></script>
 <script src="./scripts/escodegen.browser.js"></script>
@@ -28,13 +33,34 @@
 </head>
 <body>
 <div id='root'>
+	<nav classes="nav_wrapper" class="navbar navbar-inverse navbar-fixed-top">
+		      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+	</nav>
+	<div id='navigation_id' ></div>
 	<img src="images/mmria-secondary.svg" height=75 width=100 />
 	<!--h1>App Element: MMRIA</h1-->
 	<div id='profile_content_id' class="header_wrapper">App Element: MMRIA</div>
-	<div id='page_content_id' style='clear:"left"'>
-		<nav id='navigation_id' class="nav_wrapper"></nav>
+	<div id='page_content_id' style='clear:"left"' class="container">
+		
 		<br/>
-		<div id='form_content_id'></div>
+		<div id='form_content_id'  class="container"></div>
 	</div>
 </div>
 </body>
