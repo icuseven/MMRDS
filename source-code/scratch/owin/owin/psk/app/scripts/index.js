@@ -235,9 +235,37 @@ var $$ = {
 
 $(function ()
 {
+  	profile.initialize_profile();
+
     load_documents();
 
-window.onhashchange = function(e)
+
+});
+
+
+function get_metadata()
+{
+  	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+	}).done(function(response) {
+			g_metadata = response;
+      default_object =  create_default_object(g_metadata, {});
+      create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+
+      g_ui.url_state = url_monitor.get_url_state(window.location.href);
+      if(window.onhashchange)
+      {
+        window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+      }
+      else
+      {
+        window.onhashchange = window_on_hash_change;
+        window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+      }
+	});
+}
+
+function window_on_hash_change(e)
 {
   /*
   e = HashChangeEvent
@@ -341,7 +369,6 @@ window.onhashchange = function(e)
     g_ui.url_state = url_monitor.get_url_state(new_url);
 
 
-
     if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
     {
       g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
@@ -398,29 +425,6 @@ window.onhashchange = function(e)
   }
 };
 
-	profile.initialize_profile();
-
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-	}).done(function(response) {
-			g_metadata = response;
-      default_object =  create_default_object(g_metadata, {});
-			//g_data = create_default_object(g_metadata, {});
-
-      create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-
-      g_ui.url_state = url_monitor.get_url_state(window.location.href);
-/*
-			document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-
-			document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
-      apply_tool_tips();
-      */
-      window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-
-	});
-});
-
 
 function show_print_version()
 {
@@ -429,7 +433,7 @@ function show_print_version()
 
 function show_data_dictionary()
 {
-  window.open("./data-dictionary", "_data_diction");
+  window.open("./data-dictionary", "_data_dictionary");
 }
 
 function show_user_administration()
@@ -540,6 +544,9 @@ function load_documents()
           g_ui.data_list.push(result.rows[i].doc);
         }
 
+        get_metadata();
+
+/*
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
         document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
         apply_tool_tips();
@@ -557,6 +564,7 @@ function load_documents()
                 section.style.display = "none";
             }
         }
+*/        
 
         //res.json({"users": result.rows});
       }).catch(function (err) 

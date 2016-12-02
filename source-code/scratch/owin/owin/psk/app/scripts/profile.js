@@ -111,25 +111,33 @@ render: function ()
 	var result = [];
 	if(profile.is_logged_in)
 	{
-		//result.push('<ul>');
+		result.push('<ul style="list-style:none;">');
 		result.push('<li><strong>USER:</strong> ');
 		result.push(profile.user_name);
 		result.push('</li>');
-		result.push('<li><strong>ROLES:</strong> ');
-		result.push(profile.user_roles.join(','));
-		result.push('<input type="button" value="Log Out" onclick="profile.logout()"/>');
+		result.push('<li><table><tr><th>ROLES</th></tr>');
+		for(var i = 0; i < profile.user_roles.length; i++)
+		{
+			result.push('<tr><td>');
+			result.push(profile.user_roles[i]);
+			result.push('</td></tr>');
+		}
+		
+		result.push('</table> </li><li> <input type="button" value="Log Out" onclick="profile.logout()"/>');
 		result.push('</li>');
+		result.push('</ul>');
 	}
 	else
 	{
-		//result.push('<ul>');
-		result.push('<li><strong>Email:</strong> ');
-		result.push('<input type="text" name="email" value="user1" />');
+		result.push('<ul style="list-style:none;">');
+		result.push('<li><strong>user_name:</strong> ');
+		result.push('<input type="text" name="email" value="user1" class="form-control" required />');
 		result.push('</li>');
-		result.push('<li><strong>Password:</strong> ');
-		result.push('<input type="password" name="password" value="password" />  <input type="button" value="Log in" />');
+		result.push('<li><strong>password:</strong> ');
+		result.push('<input type="password" name="password" value="password" class="form-control" required />');
 		result.push('</li>');
-		//result.push('</ul>');
+		result.push('<li><input type="button"  class="btn btn-default col-md-5" value="Log in" /></li>');
+		result.push('</ul>');
 	}
 
 	document.getElementById('profile_content_id').innerHTML = result.join("");
