@@ -61,7 +61,7 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
             window.onhashchange ({ isTrusted: true, newURL : window.location.href });
           });
         }

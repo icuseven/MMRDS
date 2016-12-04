@@ -445,13 +445,6 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  /*
-		$('[data-tooltip]').addClass('tooltip');
-		$('.tooltip').each(function() 
-    {  
-			$(this).append('<span class="tooltip-content">' + $(this).attr('data-tooltip') + '</span>');  
-		});*/
-
     apply_validation();
 }
 

@@ -157,7 +157,7 @@ function metadata_changed(p_metadata)
 		    g_ui.selected_record_index = g_ui.data_list.length -1;
 	}
 
-	document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+	document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 	document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
 	apply_tool_tips();
 }
@@ -165,8 +165,6 @@ function metadata_changed(p_metadata)
 
 function apply_tool_tips()
 {
-	$('[data-tooltip]').addClass('tooltip');
-	$('.tooltip').each(function() {  
-		$(this).append('<span class="tooltip-content">' + $(this).attr('data-tooltip') + '</span>');  
-	});
+  $('[rel=tooltip]').tooltip();
+    //apply_validation();
 }
