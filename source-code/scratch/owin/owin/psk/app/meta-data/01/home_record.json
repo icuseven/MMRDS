@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "196-4e88fe828aa0fa42673446c3e304d5e1",
+   "_rev": "573-97ba7c6ad2063657773b95c63b4d92bf",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -56,12 +56,488 @@
                {
                    "prompt": "State of Death",
                    "name": "state_of_death",
-                   "type": "string"
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "AL- Alabama"
+                       },
+                       {
+                           "description": "",
+                           "value": "AK- Alaska"
+                       },
+                       {
+                           "description": "",
+                           "value": "AZ- Arizona"
+                       },
+                       {
+                           "description": "",
+                           "value": "AR- Arkansas"
+                       },
+                       {
+                           "description": "",
+                           "value": "CA- California"
+                       },
+                       {
+                           "description": "",
+                           "value": "CO- Colorado"
+                       },
+                       {
+                           "description": "",
+                           "value": "CT- Connecticut"
+                       },
+                       {
+                           "description": "",
+                           "value": "DE- Delaware"
+                       },
+                       {
+                           "description": "",
+                           "value": "DC- District of Columbia"
+                       },
+                       {
+                           "description": "",
+                           "value": "FL- Florida"
+                       },
+                       {
+                           "description": "",
+                           "value": "GA- Georgia"
+                       },
+                       {
+                           "description": "",
+                           "value": "HI- Hawaii"
+                       },
+                       {
+                           "description": "",
+                           "value": "ID- Idaho"
+                       },
+                       {
+                           "description": "",
+                           "value": "IL- Illinois"
+                       },
+                       {
+                           "description": "",
+                           "value": "IN- Indiana"
+                       },
+                       {
+                           "description": "",
+                           "value": "IA- Iowa"
+                       },
+                       {
+                           "description": "",
+                           "value": "KS- Kansas"
+                       },
+                       {
+                           "description": "",
+                           "value": "KY- Kentucky"
+                       },
+                       {
+                           "description": "",
+                           "value": "LA- Louisiana"
+                       },
+                       {
+                           "description": "",
+                           "value": "ME- Maine"
+                       },
+                       {
+                           "description": "",
+                           "value": "MD- Maryland"
+                       },
+                       {
+                           "description": "",
+                           "value": "MA- Massachusetts"
+                       },
+                       {
+                           "description": "",
+                           "value": "MI- Michigan"
+                       },
+                       {
+                           "description": "",
+                           "value": "MN- Minnesota"
+                       },
+                       {
+                           "description": "",
+                           "value": "MS- Mississippi"
+                       },
+                       {
+                           "description": "",
+                           "value": "MO- Missouri"
+                       },
+                       {
+                           "description": "",
+                           "value": "MT- Montana"
+                       },
+                       {
+                           "description": "",
+                           "value": "NE- Nebraska"
+                       },
+                       {
+                           "description": "",
+                           "value": "NV- Nevada"
+                       },
+                       {
+                           "description": "",
+                           "value": "NH- New Hampshire"
+                       },
+                       {
+                           "description": "",
+                           "value": "NJ- New Jersy"
+                       },
+                       {
+                           "description": "",
+                           "value": "NM- New Mexico"
+                       },
+                       {
+                           "description": "",
+                           "value": "NY- New York"
+                       },
+                       {
+                           "description": "",
+                           "value": "NC- North Carolina"
+                       },
+                       {
+                           "description": "",
+                           "value": "ND- North Dakota"
+                       },
+                       {
+                           "description": "",
+                           "value": "OH- Ohio"
+                       },
+                       {
+                           "description": "",
+                           "value": "OK- Oklahoma"
+                       },
+                       {
+                           "description": "",
+                           "value": "OR- Oregon"
+                       },
+                       {
+                           "description": "",
+                           "value": "PA- Pennsylvania"
+                       },
+                       {
+                           "description": "",
+                           "value": "RI- Rhode Island"
+                       },
+                       {
+                           "description": "",
+                           "value": "SC- South Carolina"
+                       },
+                       {
+                           "description": "",
+                           "value": "SD- South Dakota"
+                       },
+                       {
+                           "description": "",
+                           "value": "TN- Tennessee"
+                       },
+                       {
+                           "description": "",
+                           "value": "TX- Texas"
+                       },
+                       {
+                           "description": "",
+                           "value": "UT- Utah"
+                       },
+                       {
+                           "description": "",
+                           "value": "VT- Vermont"
+                       },
+                       {
+                           "description": "",
+                           "value": "VA- Virginia"
+                       },
+                       {
+                           "description": "",
+                           "value": "WA- Washington"
+                       },
+                       {
+                           "description": "",
+                           "value": "WV- West Virginia"
+                       },
+                       {
+                           "description": "",
+                           "value": "WI- Wisconsin"
+                       },
+                       {
+                           "description": "",
+                           "value": "WY- Wyoming"
+                       },
+                       {
+                           "description": "",
+                           "value": "AS- American Samoa"
+                       },
+                       {
+                           "description": "",
+                           "value": "GU- Guam"
+                       },
+                       {
+                           "description": "",
+                           "value": "MH- Marshall Islands"
+                       },
+                       {
+                           "description": "",
+                           "value": "MP- Northern Marianas"
+                       },
+                       {
+                           "description": "",
+                           "value": "PR- Puerto Rico"
+                       },
+                       {
+                           "description": "",
+                           "value": "PW- Paulau"
+                       },
+                       {
+                           "description": "",
+                           "value": "VI- Virgin Islands"
+                       }
+                   ]
                },
                {
                    "prompt": "Location of Last Known Residence",
                    "name": "location_of_last_known_residence",
-                   "type": "string"
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "AL- Alabama"
+                       },
+                       {
+                           "description": "",
+                           "value": "AK- Alaska"
+                       },
+                       {
+                           "description": "",
+                           "value": "AZ- Arizona"
+                       },
+                       {
+                           "description": "",
+                           "value": "AR- Arkansas"
+                       },
+                       {
+                           "description": "",
+                           "value": "CA- California"
+                       },
+                       {
+                           "description": "",
+                           "value": "CO- Colorado"
+                       },
+                       {
+                           "description": "",
+                           "value": "CT- Connecticut"
+                       },
+                       {
+                           "description": "",
+                           "value": "DE- Delaware"
+                       },
+                       {
+                           "description": "",
+                           "value": "DC- District of Columbia"
+                       },
+                       {
+                           "description": "",
+                           "value": "FL- Florida"
+                       },
+                       {
+                           "description": "",
+                           "value": "GA- Georgia"
+                       },
+                       {
+                           "description": "",
+                           "value": "HI- Hawaii"
+                       },
+                       {
+                           "description": "",
+                           "value": "ID- Idaho"
+                       },
+                       {
+                           "description": "",
+                           "value": "IL- Illinois"
+                       },
+                       {
+                           "description": "",
+                           "value": "IN- Indiana"
+                       },
+                       {
+                           "description": "",
+                           "value": "IA- Iowa"
+                       },
+                       {
+                           "description": "",
+                           "value": "KS- Kansas"
+                       },
+                       {
+                           "description": "",
+                           "value": "KY- Kentucky"
+                       },
+                       {
+                           "description": "",
+                           "value": "LA- Louisiana"
+                       },
+                       {
+                           "description": "",
+                           "value": "ME- Maine"
+                       },
+                       {
+                           "description": "",
+                           "value": "MD- Maryland"
+                       },
+                       {
+                           "description": "",
+                           "value": "MA- Massachusetts"
+                       },
+                       {
+                           "description": "",
+                           "value": "MI- Michigan"
+                       },
+                       {
+                           "description": "",
+                           "value": "MN- Minnesota"
+                       },
+                       {
+                           "description": "",
+                           "value": "MS- Mississippi"
+                       },
+                       {
+                           "description": "",
+                           "value": "MO- Missouri"
+                       },
+                       {
+                           "description": "",
+                           "value": "MT- Montana"
+                       },
+                       {
+                           "description": "",
+                           "value": "NE- Nebraska"
+                       },
+                       {
+                           "description": "",
+                           "value": "NV- Nevada"
+                       },
+                       {
+                           "description": "",
+                           "value": "NH- New Hampshire"
+                       },
+                       {
+                           "description": "",
+                           "value": "NJ- New Jersy"
+                       },
+                       {
+                           "description": "",
+                           "value": "NM- New Mexico"
+                       },
+                       {
+                           "description": "",
+                           "value": "NY- New York"
+                       },
+                       {
+                           "description": "",
+                           "value": "NC- North Carolina"
+                       },
+                       {
+                           "description": "",
+                           "value": "ND- North Dakota"
+                       },
+                       {
+                           "description": "",
+                           "value": "OH- Ohio"
+                       },
+                       {
+                           "description": "",
+                           "value": "OK- Oklahoma"
+                       },
+                       {
+                           "description": "",
+                           "value": "OR- Oregon"
+                       },
+                       {
+                           "description": "",
+                           "value": "PA- Pennsylvania"
+                       },
+                       {
+                           "description": "",
+                           "value": "RI- Rhode Island"
+                       },
+                       {
+                           "description": "",
+                           "value": "SC- South Carolina"
+                       },
+                       {
+                           "description": "",
+                           "value": "SD- South Dakota"
+                       },
+                       {
+                           "description": "",
+                           "value": "TN- Tennessee"
+                       },
+                       {
+                           "description": "",
+                           "value": "TX- Texas"
+                       },
+                       {
+                           "description": "",
+                           "value": "UT- Utah"
+                       },
+                       {
+                           "description": "",
+                           "value": "VT- Vermont"
+                       },
+                       {
+                           "description": "",
+                           "value": "VA- Virginia"
+                       },
+                       {
+                           "description": "",
+                           "value": "WA- Washington"
+                       },
+                       {
+                           "description": "",
+                           "value": "WV- West Virginia"
+                       },
+                       {
+                           "description": "",
+                           "value": "WI- Wisconsin"
+                       },
+                       {
+                           "description": "",
+                           "value": "WY- Wyoming"
+                       },
+                       {
+                           "description": "",
+                           "value": "AS- American Samoa"
+                       },
+                       {
+                           "description": "",
+                           "value": "GU- Guam"
+                       },
+                       {
+                           "description": "",
+                           "value": "MH- Marshall Islands"
+                       },
+                       {
+                           "description": "",
+                           "value": "MP- Northern Marianas"
+                       },
+                       {
+                           "description": "",
+                           "value": "PR- Puerto Rico"
+                       },
+                       {
+                           "description": "",
+                           "value": "PW- Paulau"
+                       },
+                       {
+                           "description": "",
+                           "value": "VI- Virgin Islands"
+                       }
+                   ]
                },
                {
                    "prompt": "Agency-Based Case Identifier",
@@ -501,19 +977,19 @@
                            "type": "string"
                        },
                        {
-                           "prompt": "latitude",
+                           "prompt": "Latitude",
                            "name": "latitude",
                            "type": "string"
                        },
                        {
-                           "prompt": "longitude",
+                           "prompt": "Longitude",
                            "name": "longitude",
                            "type": "string"
                        }
                    ]
                },
                {
-                   "prompt": "Date of birth* (YYYY-MM-DD)",
+                   "prompt": "Date of Birth* (YYYY-MM-DD)",
                    "name": "date_of_birth",
                    "type": "Date",
                    "is_core_summary": true
@@ -525,7 +1001,7 @@
                    "is_core_summary": true
                },
                {
-                   "prompt": "Marital status*",
+                   "prompt": "Marital Status*",
                    "name": "marital_status",
                    "type": "List",
                    "values": [
@@ -535,7 +1011,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Married, but separated"
+                           "value": "Married, but Separated"
                        },
                        {
                            "description": "",
@@ -561,12 +1037,12 @@
                    "is_core_summary": true
                },
                {
-                   "prompt": "City of birth",
+                   "prompt": "City of Birth",
                    "name": "city_of_birth",
                    "type": "String"
                },
                {
-                   "prompt": "State of birth",
+                   "prompt": "State of Birth",
                    "name": "state_of_birth",
                    "type": "String"
                },
@@ -577,7 +1053,7 @@
                    "is_core_summary": true
                },
                {
-                   "prompt": "Primary occupation*",
+                   "prompt": "Primary Occupation*",
                    "name": "primary_occupation",
                    "type": "String"
                },
@@ -587,7 +1063,7 @@
                    "type": "String"
                },
                {
-                   "prompt": "Ever in US armed forces?",
+                   "prompt": "Ever in US Armed Forces?",
                    "name": "ever_in_us_armed_forces",
                    "type": "list",
                    "values": [
@@ -605,12 +1081,12 @@
                        },
                        {
                            "description": "",
-                           "value": "Not specified"
+                           "value": "Not Specified"
                        }
                    ]
                },
                {
-                   "prompt": "Hispanic origin?*",
+                   "prompt": "Hispanic Origin?*",
                    "name": "is_of_hispanic_origin",
                    "type": "List",
                    "values": [
@@ -636,15 +1112,15 @@
                        },
                        {
                            "description": "",
-                           "value": "Yes, other Spanish/ Hispanic/ Latino"
+                           "value": "Yes, Other Spanish/ Hispanic/ Latino"
                        },
                        {
                            "description": "",
-                           "value": "Yes, origin unknown"
+                           "value": "Yes, Origin Unknown"
                        },
                        {
                            "description": "",
-                           "value": "Not specified"
+                           "value": "Not Specified"
                        }
                    ],
                    "is_core_summary": true
@@ -769,22 +1245,22 @@
                    ]
                },
                {
-                   "prompt": "Date of injury (YYYY-MM-DD)",
+                   "prompt": "Date of Injury (YYYY-MM-DD)",
                    "name": "date_of_injury",
                    "type": "Date"
                },
                {
-                   "prompt": "Time of injury",
+                   "prompt": "Time of Injury",
                    "name": "time_of_injury",
                    "type": "Time"
                },
                {
-                   "prompt": "Place of injury (Place name, if applicable)",
+                   "prompt": "Place of Injury (Place name, if applicable)",
                    "name": "place_of_injury",
                    "type": "string"
                },
                {
-                   "prompt": "Was injury at work?",
+                   "prompt": "Was Injury at Work?",
                    "name": "was_injury_at_work",
                    "type": "list",
                    "values": [
@@ -802,12 +1278,12 @@
                        },
                        {
                            "description": "",
-                           "value": "Not specified"
+                           "value": "Not Specified"
                        }
                    ]
                },
                {
-                   "prompt": "transportation related injury?",
+                   "prompt": "Transportation related Injury?",
                    "name": "transportation_related_injury",
                    "type": "List",
                    "values": [
@@ -852,7 +1328,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Not specified"
+                           "value": "Not Specified"
                        }
                    ]
                },
@@ -894,7 +1370,7 @@
                    ]
                },
                {
-                   "prompt": "If death occured in hospital:*",
+                   "prompt": "If death occurred in hospital:*",
                    "name": "death_occured_in_hospital",
                    "type": "List",
                    "values": [
@@ -912,7 +1388,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Dead on arrival"
+                           "value": "Dead on Arrival"
                        },
                        {
                            "description": "",
@@ -990,7 +1466,7 @@
                    "is_core_summary": true
                },
                {
-                   "prompt": "Was autopsy performed?*",
+                   "prompt": "Was Autopsy Performed?*",
                    "name": "was_autopsy_performed",
                    "type": "list",
                    "values": [
@@ -1008,7 +1484,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Not specified"
+                           "value": "Not Specified"
                        }
                    ]
                },
@@ -1031,7 +1507,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Not specified"
+                           "value": "Not Specified"
                        }
                    ]
                },
@@ -1148,7 +1624,7 @@
                    "type": "number"
                },
                {
-                   "prompt": "Causes of death",
+                   "prompt": "Causes of Death",
                    "name": "causes_of_death",
                    "type": "Grid",
                    "children": [
@@ -1242,8 +1718,8 @@
            ]
        },
        {
-           "prompt": "Maternal Birth Certificate",
-           "name": "maternal_birth_certificate",
+           "prompt": "Birth/Fetal Death Certificate",
+           "name": "birth_fetal_death_certificate",
            "type": "form",
            "cardinality": "*",
            "children": [
@@ -1253,17 +1729,17 @@
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "Middle name",
+                           "prompt": "Middle Name",
                            "name": "middle_name",
                            "type": "string"
                        },
                        {
-                           "prompt": "Last name",
+                           "prompt": "Last Name",
                            "name": "last_name",
                            "type": "string"
                        },
                        {
-                           "prompt": "Maiden name",
+                           "prompt": "Maiden Name",
                            "name": "maiden_name",
                            "type": "string"
                        },
@@ -1275,7 +1751,7 @@
                    ]
                },
                {
-                   "prompt": "Father's demographics",
+                   "prompt": "Father's Demographics",
                    "name": "demographic_of_father",
                    "type": "group",
                    "children": [
@@ -1292,37 +1768,21 @@
                            "is_core_summary": true
                        },
                        {
-                           "prompt": "Marital status*",
-                           "name": "marital_status",
+                           "prompt": "Mother Married?*",
+                           "name": "mother_married",
                            "type": "List",
                            "values": [
                                {
                                    "description": "",
-                                   "value": "Married"
+                                   "value": ""
                                },
                                {
                                    "description": "",
-                                   "value": "Married, but separated"
+                                   "value": "Yes"
                                },
                                {
                                    "description": "",
-                                   "value": "Widowed"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Divorced"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Never Married"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Unknown"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Not Specified"
+                                   "value": "No"
                                }
                            ],
                            "is_core_summary": true
@@ -1555,40 +2015,43 @@
                            "is_core_summary": true
                        },
                        {
-                           "prompt": "Marital status*",
-                           "name": "marital_status",
+                           "prompt": "Mother Married?*",
+                           "name": "mother_married",
                            "type": "List",
                            "values": [
                                {
                                    "description": "",
-                                   "value": "Married"
+                                   "value": ""
                                },
                                {
                                    "description": "",
-                                   "value": "Married, but separated"
+                                   "value": "Yes"
                                },
                                {
                                    "description": "",
-                                   "value": "Widowed"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Divorced"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Never Married"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Unknown"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Not Specified"
+                                   "value": "No"
                                }
                            ],
-                           "is_core_summary": true
+                           "is_core_summary": false
+                       },
+                       {
+                           "prompt": "If mother not married, has paternity acknowledgement been signed in the hospital?",
+                           "name": "If_mother_not_married_has_paternity_acknowledgement_been_signed_in_the_hospital",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               }
+                           ]
                        },
                        {
                            "prompt": "City of birth",
@@ -1816,14 +2279,100 @@
                            "type": "String"
                        },
                        {
-                           "prompt": "Number live born*",
-                           "name": "number_live_born",
+                           "prompt": "Number of Previous Live Births (Do not include this child)*",
+                           "name": "number_of_previous_live_births",
                            "type": "String"
                        },
                        {
-                           "prompt": "Number living",
-                           "name": "number_living",
-                           "type": "String"
+                           "prompt": "Now Living",
+                           "name": "now_living",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "6"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "7"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "8"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "11"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "12"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "13"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "14"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "15"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "16"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "17"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "18"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "19"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20"
+                               }
+                           ]
                        },
                        {
                            "prompt": "Date of last other outcome",
@@ -1836,14 +2385,186 @@
                            "type": "String"
                        },
                        {
-                           "prompt": "Number dead",
-                           "name": "number_dead",
-                           "type": "number"
+                           "prompt": "Other Outcomes*",
+                           "name": "other_outcomes",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "6"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "7"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "8"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "11"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "12"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "13"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "14"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "15"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "16"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "17"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "18"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "19"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20"
+                               }
+                           ]
                        },
                        {
-                           "prompt": "Number other outcomes*",
-                           "name": "number_other_outcomes",
-                           "type": "String"
+                           "prompt": "Now Dead",
+                           "name": "now_dead",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "1"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "2"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "3"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "4"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "5"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "6"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "7"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "8"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "9"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "11"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "12"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "13"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "14"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "15"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "16"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "17"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "18"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "19"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20"
+                               }
+                           ]
                        }
                    ]
                },
@@ -1970,8 +2691,8 @@
                            "type": "String"
                        },
                        {
-                           "prompt": "How was this delivery paid*",
-                           "name": "how_was_delivery_paid",
+                           "prompt": "Principal source of payment for this delivery*",
+                           "name": "principal_source_of_payment_for_this_delivery",
                            "type": "list",
                            "values": [
                                {
@@ -2003,7 +2724,7 @@
                                    "value": "Not specified"
                                }
                            ],
-                           "is_core_summary": true
+                           "is_core_summary": false
                        },
                        {
                            "prompt": "No. of visits",
@@ -2172,8 +2893,8 @@
                    ]
                },
                {
-                   "prompt": "Maternal risk factors*",
-                   "name": "maternal_risk_factors",
+                   "prompt": "Risk Factors in this Pregnancy*",
+                   "name": "risk_factors_in_this_pregnancy",
                    "type": "list",
                    "values": [
                        {
@@ -2233,7 +2954,7 @@
                            "value": "Not specified"
                        }
                    ],
-                   "is_core_summary": true
+                   "is_core_summary": false
                },
                {
                    "prompt": "Infections present or treated during this pregnancy*",
@@ -2745,14 +3466,14 @@
                    "is_core_summary": true
                },
                {
-                   "prompt": "Toxicology",
+                   "prompt": "Toxicology*",
                    "name": "toxicology",
                    "type": "grid",
                    "children": [
                        {
                            "prompt": "Substance",
                            "name": "substance",
-                           "type": "String"
+                           "type": "textarea"
                        },
                        {
                            "prompt": "Concentration",
@@ -2808,7 +3529,8 @@
                            "name": "comment",
                            "type": "String"
                        }
-                   ]
+                   ],
+                   "is_core_summary": true
                },
                {
                    "prompt": "ICD code version",
@@ -2868,6 +3590,11 @@
                    "prompt": "Reviewer's notes about the Autopsy Report",
                    "name": "reviewer_note",
                    "type": "TextArea"
+               },
+               {
+                   "prompt": "Terminal Event / Autopsy Narrative Summary:",
+                   "name": "terminal_event_autopsy_narrative_summary",
+                   "type": "textarea"
                }
            ]
        },
@@ -2977,25 +3704,25 @@
                            "list_display_size": 1
                        },
                        {
-                           "prompt": "Payment source*",
-                           "name": "payment_source",
+                           "prompt": "Principal Source of Payment*",
+                           "name": "principal_source_of_payment",
                            "type": "List",
                            "values": [
                                {
                                    "description": "",
-                                   "value": "Private"
+                                   "value": "Private Insurance"
                                },
                                {
                                    "description": "",
-                                   "value": "Public"
+                                   "value": "Medicaid"
                                },
                                {
                                    "description": "",
-                                   "value": "Self"
+                                   "value": "Self-Pay"
                                },
                                {
                                    "description": "",
-                                   "value": "Other"
+                                   "value": "Other (Specify)"
                                },
                                {
                                    "description": "",
@@ -3003,7 +3730,7 @@
                                },
                                {
                                    "description": "",
-                                   "value": "Not specified"
+                                   "value": "Not Specified"
                                }
                            ],
                            "is_core_summary": true,
@@ -3012,7 +3739,7 @@
                        {
                            "prompt": "Specify other payment source",
                            "name": "other_payment_source",
-                           "type": "String"
+                           "type": "textarea"
                        },
                        {
                            "prompt": "Prenatal care record no.",
@@ -3100,7 +3827,7 @@
                    ]
                },
                {
-                   "prompt": "Were there pre-existing medical conditions? *",
+                   "prompt": "Were there documented preexisting medical conditions?*",
                    "name": "had_pre_existing_conditions",
                    "type": "list",
                    "values": [
@@ -3121,6 +3848,7 @@
                            "value": "Not specified"
                        }
                    ],
+                   "is_core_summary": true,
                    "list_display_size": 1
                },
                {
@@ -3131,7 +3859,62 @@
                        {
                            "prompt": "Condition",
                            "name": "condition",
-                           "type": "string"
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hypertension"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Heart Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Sickle Cell Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Anemia (pre-pregnancy)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Asthma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Systemic Lupus Erythematosus"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Seizure Disorder"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Type I Diabetes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Type II Diabetes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Malignancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Other (Specify)",
+                           "name": "other",
+                           "type": "textarea"
                        },
                        {
                            "prompt": "Duration",
@@ -3236,8 +4019,8 @@
                    ]
                },
                {
-                   "prompt": "Evidence of Substance Abuse",
-                   "name": "is_evidence_of_substance_abuse",
+                   "prompt": "Evidence of Substance Use",
+                   "name": "evidence_of_substance_use",
                    "type": "list",
                    "values": [
                        {
@@ -3263,17 +4046,27 @@
                        {
                            "prompt": "Substance",
                            "name": "substance",
-                           "type": "string"
+                           "type": "label"
                        },
                        {
-                           "prompt": "Route",
-                           "name": "route",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Duration",
-                           "name": "duration",
-                           "type": "string"
+                           "prompt": "Screening",
+                           "name": "screening",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               }
+                           ],
+                           "is_core_summary": true
                        },
                        {
                            "prompt": "Counseling / Education",
@@ -4618,7 +5411,8 @@
                {
                    "prompt": "Reviewer's notes about the prenatal care records",
                    "name": "reviewer_notes",
-                   "type": "textarea"
+                   "type": "textarea",
+                   "pre_fill": "Prenatal Care Record:  Narrative Summary Template\nShe was a gravida____para___ with a past obstetric history of ________________ (identify any complications or high risk factors) OR state no significant past OB history.  Prior surgical history includes _____________.  Her family medical history was positive for __________________.  Pre-existing medical conditions included ___________________.  She was ___ (height) and weighed _______.  Her pre-pregnancy BMI was_______.  \nIn the sentinel pregnancy she entered care at ________weeks gestation and weighed _________.  She attended __#___visits at a _________ (describe clinic setting), with a __________ (provider type) and had ___________ (type of insurance). Screening was/was not performed for substance use and was +/- for_____________________.  Screening was/was not performed for domestic violence and was found to be +/- (describe if +) _____________. Additional social determinant factors identified include________________________________________.\nThe pregnancy was complicated by ____________ (describe any complications or high risk factors).  She was referred to a (n) _____________ (describe specialist) for________________.  Diagnostic procedures during pregnancy included__________________________________.  Abnormal labs during pregnancy include ______________________.  Abnormal vital signs during pregnancy include__________________________. During the sentinel pregnancy she was on________________________________ (identify all medications)."
                }
            ]
        },
@@ -4984,9 +5778,40 @@
                            "type": "string"
                        },
                        {
-                           "prompt": "Obstetric level of care*",
-                           "name": "obstetric_level_of_care",
+                           "prompt": "Maternal levels of care*",
+                           "name": "maternal_levels_of_care",
                            "type": "string"
+                       },
+                       {
+                           "prompt": "Maternal levels of care*",
+                           "name": "maternal_levels_of_care",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Birth Center"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Basic Care (Level I)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Specialty Care (Level II)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Subspecialty Care (Level III)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                               }
+                           ]
                        },
                        {
                            "prompt": "Street",
@@ -5435,6 +6260,11 @@
                                {
                                    "prompt": "Inches",
                                    "name": "inches",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "BMI",
+                                   "name": "bmi",
                                    "type": "number"
                                }
                            ]
@@ -6447,15 +7277,23 @@
                                },
                                {
                                    "description": "",
-                                   "value": "4 - Other Subspecialist"
+                                   "value": "4 - Mental Health Specialist"
                                },
                                {
                                    "description": "",
-                                   "value": "5 - Other"
+                                   "value": "5 - Pain Management Clinic"
                                },
                                {
                                    "description": "",
-                                   "value": "9 - Unknown"
+                                   "value": "6 - Treatment Specialist"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "7 - Other Subspecialist"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "8 - Other"
                                }
                            ]
                        },
@@ -6637,8 +7475,8 @@
                    ]
                },
                {
-                   "prompt": "(Doctor's office or urgent care visits for other than prenatal care)",
-                   "name": "new_label",
+                   "prompt": "(Doctor's office or urgent care visits for other than prenatal care.This includes postpartum visits.)",
+                   "name": "urgent_care_visits_other_than_prenatal_care",
                    "type": "label"
                },
                {
@@ -7820,8 +8658,8 @@
            ]
        },
        {
-           "prompt": "Social and Psychological Profile",
-           "name": "social_and_psychological_profile",
+           "prompt": "Social and Environmental Profile",
+           "name": "social_and_environmental_profile",
            "type": "form",
            "cardinality": "?",
            "children": [
@@ -8939,27 +9777,39 @@
                                },
                                {
                                    "description": "",
-                                   "value": "Naturalized Citizen"
+                                   "value": "Legal Permanent Resident (LPR)"
                                },
                                {
                                    "description": "",
-                                   "value": "Pending Naturalization"
+                                   "value": "Refugee/ asylee"
                                },
                                {
                                    "description": "",
-                                   "value": "Visitor"
+                                   "value": "US Citizen (whether by birth or naturalized)"
                                },
                                {
                                    "description": "",
-                                   "value": "Other"
+                                   "value": "Parolee"
                                },
                                {
                                    "description": "",
-                                   "value": "Unknown"
+                                   "value": "Work Visa Holders (J and H)"
                                },
                                {
                                    "description": "",
-                                   "value": "Not Specified"
+                                   "value": "Student Visa holder"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Tourist / visitor Visa Holders (including laser visa border crossers)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Undocumented"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Non legal: victims of crime / trafficking/ unaccompanied minor adolescents"
                                }
                            ]
                        },
@@ -9347,6 +10197,16 @@
                            "type": "boolean"
                        },
                        {
+                           "prompt": "Recent trauma",
+                           "name": "recent_trauma",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "History of childhood trauma",
+                           "name": "history_of_childhood_trauma",
+                           "type": "boolean"
+                       },
+                       {
                            "prompt": "Prior_Suicide_Attempts",
                            "name": "prior_suicide_attempts",
                            "type": "boolean"
@@ -9379,14 +10239,19 @@
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "Number of Missed Prenatal Care Appointments*",
-                           "name": "number_of_missed_prenatal_care_appointments",
-                           "type": "number"
+                           "prompt": "No Prenatal Care",
+                           "name": "no_prenatal_care",
+                           "type": "boolean"
                        },
                        {
                            "prompt": "Reasons for Missed Appointments* (Check all that apply)",
                            "name": "reasons_for_missed_appoinments",
                            "type": "label"
+                       },
+                       {
+                           "prompt": "Lack of childcare",
+                           "name": "lack_of_childcare",
+                           "type": "boolean"
                        },
                        {
                            "prompt": "Appointment Conflict",
@@ -9433,6 +10298,13 @@
                            "name": "comments",
                            "type": "textarea"
                        }
+                   ]
+               },
+               {
+                   "prompt": "At the time of her death, was the decedent?",
+                   "name": "at_the_time_of_her_death_was_the_decedent",
+                   "type": "group",
+                   "children": [
                    ]
                },
                {
@@ -9558,6 +10430,404 @@
                            "type": "textarea"
                        }
                    ]
+               },
+               {
+                   "prompt": "Was there documented substance use?*",
+                   "name": "documented_substance_use",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "If yes, specify substance(s)",
+                   "name": "if_yes_specify_substances",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Alcohol",
+                           "name": "alcohol",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Analgesics (Non-Opioid)",
+                           "name": "analgesics",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Analgesic",
+                           "name": "other_analgesic",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Analgesic",
+                           "name": "other_analgesic",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Anticonvulsants (Anti-Epileptics)",
+                           "name": "anticonvulsants",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Acetazolamide (Diamox)",
+                           "name": "acetazolamide",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Carbamazepine (Neurontin)",
+                           "name": "carbamazepine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Felbamate (Felbatol)",
+                           "name": "felbamate",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Pregabalin (Lyrica)",
+                           "name": "pregabalin",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Anticonvulsant",
+                           "name": "other_anticonvulsant",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Anticonvulsant",
+                           "name": "other_anticonvulsant",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Antidepressants/Anti-anxiety",
+                           "name": "antidepressants_anti_anxiety",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Citalopram (Celexa)",
+                           "name": "citalopram",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Sertraline (Zoloft)",
+                           "name": "sertraline",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Meprobamate (Equanil)",
+                           "name": "meprobamate",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Duloxetine (Cymbalta)",
+                           "name": "duloxetine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Antidepressant",
+                           "name": "other_antidepressant",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Antidepressant",
+                           "name": "other_antidepressant",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Antipsychotics",
+                           "name": "antipsychotics",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Aripiprazole (Abilify)",
+                           "name": "aripiprazole",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Lurasidone (Latuda)",
+                           "name": "lurasidone",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Quetiapine (Seroquel)",
+                           "name": "quetiapine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Fluoxetine/Olanzapine (Symbyax)",
+                           "name": "fluoxetine_olanzapine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Antipsychotic",
+                           "name": "other_antipsychotic",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Antipsychotic",
+                           "name": "other_antipsychotic",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Benzodiazepines",
+                           "name": "benzodiazepines",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Alprazolam (Xanax)",
+                           "name": "alprazolam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Chlordiazepoxide (Librium)",
+                           "name": "chlordiazepoxide",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Diazepam (Valium)",
+                           "name": "diazepam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Lorazepam (Ativan)",
+                           "name": "lorazepam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Temazepam (Restoril)",
+                           "name": "temazepam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Clonazepam (Klonopin or Rivotril)",
+                           "name": "clonazepam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Benzodiazepine",
+                           "name": "other_benzodiazepine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Benzodiazepine",
+                           "name": "other_benzodiazepine",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Imidazopyridine hypnotic (Sleeping Aides/Sedative)",
+                           "name": "imidazopyridine_hypnotic",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Zolpidem (Ambien)",
+                           "name": "zolpidem",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Trazadone (Oleptro)",
+                           "name": "trazadone",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Midazolam (Versed)",
+                           "name": "midazolam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Aminoclonazepam",
+                           "name": "aminoclonazepam",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Doxepin (Silenor, Zonalon, Prudoxin)",
+                           "name": "doxepin",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Sedative",
+                           "name": "other_sedative",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Sedative",
+                           "name": "other_sedative",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Opioids",
+                           "name": "opioids",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Buprenorphine",
+                           "name": "buprenorphine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Fentanyl",
+                           "name": "fentanyl",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Heroin",
+                           "name": "heroin",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Hydromorphone (Dilaudid)",
+                           "name": "hydromorphone",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Methadone",
+                           "name": "methadone",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Methadone Hydrochloride",
+                           "name": "methadone_hydrochloride",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Morphine Sulfate",
+                           "name": "morphine_sulfate",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Oxycodone Hydrochloride",
+                           "name": "oxycodone_hydrochloride",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Oxymorphone Hydrochloride (Opana)",
+                           "name": "oxymorphone_hydrochloride",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Opioid",
+                           "name": "other_opioid",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Opioid",
+                           "name": "other_opioid",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Stimulants",
+                           "name": "stimulants",
+                           "type": "label",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Cocaine",
+                           "name": "cocaine",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Stimulant",
+                           "name": "other_stimulant",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Other Stimulant",
+                           "name": "other_stimulant",
+                           "type": "string",
+                           "is_core_summary": true
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Was there documented use of drugs, including prescription drugs not as prescribed, over the counter drugs not as indicated, illegally obtained or illegal substances? (check all that apply)*",
+                   "name": "documented_use_of_drugs",
+                   "type": "label"
+               },
+               {
+                   "prompt": "No Documentation",
+                   "name": "no_documentation",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Pre-pregnancy",
+                   "name": "Pre_pregnancy",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "During pregnancy",
+                   "name": "during_pregnancy",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Post-partum",
+                   "name": "post_partum",
+                   "type": "boolean"
                },
                {
                    "prompt": "Reviewer's Notes about the Social Services Records and Issues",
@@ -10004,8 +11274,8 @@
            ]
        },
        {
-           "prompt": "Transport Form",
-           "name": "transport_form",
+           "prompt": "Medical Transport",
+           "name": "medical_transport",
            "type": "form",
            "cardinality": "?",
            "children": [
@@ -10085,8 +11355,8 @@
                    "type": "textarea"
                },
                {
-                   "prompt": "Timing of EMS",
-                   "name": "timing_of_ems",
+                   "prompt": "Timing of Transport",
+                   "name": "timing_of_transport",
                    "type": "label"
                },
                {
@@ -10197,6 +11467,83 @@
                            "type": "textarea"
                        }
                    ]
+               },
+               {
+                   "prompt": "Procedures before Transport (Describe)",
+                   "name": "procedures_before_transport",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Procedures in Transport (Describe)",
+                   "name": "procedures_in_transport",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Transport Vital Signs",
+                   "name": "transport_vital_signs",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Systolic BP",
+                           "name": "systolic_bp",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Diastolic BP",
+                           "name": "diastolic_bp",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Oxygen Saturation",
+                           "name": "oxygen_saturation",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Blood Sugar",
+                           "name": "blood_sugar",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Mental status of patient during transport (describe)",
+                   "name": "mental_status_of_patient_during_transport",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Documented pertinent oral statements made by patient or others on scene",
+                   "name": "documented_pertinent_oral_statements_made_by_patient_and_other_on_scene",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Transport narrative summary",
+                   "name": "transport_narrative_summary",
+                   "type": "textarea",
+                   "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
+               }
+           ]
+       },
+       {
+           "prompt": "Case Narrative",
+           "name": "case_narrative",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "Reviewer's Notes",
+                   "name": "reviewers_notes",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Case Opening Overview",
+                   "name": "case_opening_overview",
+                   "type": "textarea",
+                   "pre_fill": ""
                }
            ]
        }
