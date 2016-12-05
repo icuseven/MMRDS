@@ -1,6 +1,6 @@
 
 var change_detection_map = {};
-var interval_ids = null;
+var interval_id = null;
 
 function monitor_changes()
 {

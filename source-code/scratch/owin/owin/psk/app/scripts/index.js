@@ -279,7 +279,7 @@ function window_on_hash_change(e)
   {
       var db = new PouchDB('mmrds');
       var selected_record_id = g_data._id;
-      if($.isNumeric())
+      if($.isNumeric(g_ui.url_state.path_array[0]))
       {
           g_selected_index = parseInt(g_ui.url_state.path_array[0]);
       }
@@ -311,6 +311,11 @@ function window_on_hash_change(e)
 
             if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
             {
+              if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
+              {
+                  save_queue.push(g_data._id);
+              }
+
               g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
               document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
@@ -334,7 +339,10 @@ function window_on_hash_change(e)
             }
             else
             {
-              
+              if(g_data && !(save_queue.indexOf(g_data._id) > -1))
+              {
+                save_queue.push(g_data._id);
+              }
               g_data = null;
               document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
               document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
@@ -394,7 +402,12 @@ function window_on_hash_change(e)
 		}
     else
     {
-      
+
+      if(g_data && !(save_queue.indexOf(g_data._id) > -1))
+      {
+        save_queue.push(g_data._id);
+      }
+              
       g_data = null;
 
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
@@ -567,3 +580,53 @@ function load_documents()
         console.log(err);
       });
 }
+
+
+var save_interval_id = null;
+var save_queue = [];
+
+function save_change_task()
+{
+  var url =  location.protocol + '//' + location.host + "/api/case";
+
+  
+
+  if(save_queue.length > 0)
+  {
+    var selected_record_id = save_queue.pop();
+
+    var db = new PouchDB('mmrds');
+    db.get(selected_record_id).then(function (doc) 
+    {
+      var auth_cookie = profile.get_auth_session_cookie();
+
+      var Set_Queue_Request = {
+        "security_token": auth_cookie,
+        "action": "save",
+        "case_list": [ doc ]
+      };
+      $.ajax({
+        url: url,
+        contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify(Set_Queue_Request),
+					type: "POST",
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("AuthSession", auth_cookie);
+					}
+      }).done(function(response) {
+        // this will be run when the AJAX request succeeds
+
+      }).fail(function(response) {
+
+        save_queue.push(selected_record_id); 
+        console.log("failed:", response);}
+      );
+      
+    });
+  }
+
+}
+
+save_interval_id = window.setInterval(save_change_task, 10000);

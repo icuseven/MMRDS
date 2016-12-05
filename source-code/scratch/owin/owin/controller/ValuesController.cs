@@ -6,9 +6,9 @@ namespace owin
 	public class ValuesController: ApiController 
 	{ 
 		// GET api/values 
-		public IEnumerable<string> Get() 
+		public Dictionary<string,string> Get() 
 		{ 
-			return new string[] { "value1", "value2" }; 
+			return new Dictionary<string,string>{{ "couchdb_url", get_couch_db_url() }}; 
 		} 
 
 		// GET api/values/5 
@@ -31,6 +31,22 @@ namespace owin
 		public void Delete(int id) 
 		{ 
 		} 
+
+		private string get_couch_db_url()
+		{
+			string result = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			{
+				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
+			} 
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+			}
+
+			return result;
+		}
 	} 
 }
 
