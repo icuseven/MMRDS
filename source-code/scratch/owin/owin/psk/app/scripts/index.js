@@ -609,7 +609,7 @@ function save_change_task()
         url: url,
         contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
-					data: JSON.stringify(Set_Queue_Request),
+					data: JSON.stringify(doc),
 					type: "POST",
 					beforeSend: function (request)
 					{

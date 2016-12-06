@@ -90,7 +90,8 @@ namespace owin
 		public owin.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
-			owin.data.api.Set_Queue_Request queue_request = null;
+			//owin.data.api.Set_Queue_Request queue_request = null;
+			System.Dynamic.ExpandoObject  queue_request = null;
 			string object_string = null;
 			owin.couchdb.document_put_response result = new owin.couchdb.document_put_response ();
 
@@ -104,7 +105,7 @@ namespace owin
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.data.api.Set_Queue_Request>(temp);
+				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp);
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
@@ -116,16 +117,30 @@ namespace owin
 				Console.WriteLine (ex);
 			}
 
-			if(queue_request.case_list.Length == 1)
+			//if(queue_request.case_list.Length == 1)
 			try
 			{
-				dynamic case_item = queue_request.case_list[0];
+				//dynamic case_item = queue_request.case_list[0];
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item, settings);
+				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_request, settings);
 
-				string metadata_url = this.get_couch_db_url() + "/mmrds/"  + case_item._id;
+				var byName = (IDictionary<string,object>)queue_request;
+				var temp_id = byName["_id"]; 
+				string id_val = null;
+
+				if(temp_id is DateTime)
+				{
+					id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
+				}
+				else
+				{
+					id_val = temp_id.ToString();
+				}
+
+
+				string metadata_url = this.get_couch_db_url() + "/mmrds/"  + id_val;
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 				request.Method = "PUT";
@@ -139,12 +154,6 @@ namespace owin
 					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
 					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
 					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-				}
-				else if(!string.IsNullOrWhiteSpace(queue_request.security_token))
-				{
-					request.Headers.Add("Cookie", "AuthSession=" + queue_request.security_token);
-					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", queue_request.security_token);
 				}
 
 				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
