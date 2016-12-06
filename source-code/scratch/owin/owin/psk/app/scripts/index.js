@@ -589,11 +589,41 @@ function save_change_task()
 {
   var url =  location.protocol + '//' + location.host + "/api/case";
 
-  
-
   if(save_queue.length > 0)
   {
+
+//http://stackoverflow.com/questions/20897033/how-to-add-cors-in-couchdb-no-access-control-allow-origin-header-is-present
+var localDB = new PouchDB('mmrds');
+var remoteDB = new PouchDB('http://localhost:5984/mmrds')
+  
+localDB.replicate.to(remoteDB).on('complete', function () {
+  console.log("yay, we're done!");
+  save_queue.pop();
+}).on('error', function (err) {
+  // boo, something went wrong!
+   console.log(" boo, something went wrong!");
+    console.log(err);
+});
+
+return;
+
     var selected_record_id = save_queue.pop();
+
+    var found_index = -1;
+    for(var i = 0; i < g_ui.data_list.length; i++)
+    {
+      if(selected_record_id == g_ui.data_list[i]._id)
+      {
+        found_index = i;
+        break;
+      }
+    }
+    
+    if(found_index > -1)
+    {
+      var obj = g_ui.data_list[found_index]._rev = response_obj.rev; 
+      db.put(obj);
+    }
 
     var db = new PouchDB('mmrds');
     db.get(selected_record_id).then(function (doc) 
@@ -615,8 +645,31 @@ function save_change_task()
 					{
 						request.setRequestHeader("AuthSession", auth_cookie);
 					}
-      }).done(function(response) {
-        // this will be run when the AJAX request succeeds
+      }).done(function(response) 
+      {
+         var response_obj = eval(response);
+						if(response_obj.ok)
+						{
+              var found_index = -1;
+              for(var i = 0; i < g_ui.data_list.length; i++)
+              {
+                if(selected_record_id == g_ui.data_list[i]._id)
+                {
+                  found_index = i;
+                  break;
+                }
+              }
+
+              if(found_index > -1)
+              {
+                var obj = g_ui.data_list[found_index]._rev = response_obj.rev; 
+                db.put(obj);
+              }
+							
+						
+						}
+						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+					console.log("metadata sent", response);
 
       }).fail(function(response) {
 
