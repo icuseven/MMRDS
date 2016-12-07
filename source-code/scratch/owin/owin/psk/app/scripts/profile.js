@@ -115,8 +115,19 @@ initialize_profile: function ()
 render: function ()
 {
 	var result = [];
+
+	
+
 	if(profile.is_logged_in)
 	{
+		result.push('<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> ');
+		result.push(profile.user_name);
+		result.push('</a>');
+		result.push('<ul class="dropdown-menu" role="menu">');
+		result.push('<li>');
+		result.push('<form id="profile_form"  role="form">');
+		result.push('<div class="form-group" id="profile_content_id">');
+
 		result.push('<ul style="list-style-type:none;">');
 		result.push('<li><strong>USER:</strong> ');
 		result.push(profile.user_name);
@@ -132,9 +143,22 @@ render: function ()
 		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
 		result.push('</li>');
 		result.push('</ul>');
+
+		result.push('</div>');
+		result.push('</form>');
+		result.push('</li>');
+		result.push('</ul>');
+
 	}
 	else
 	{
+
+		result.push('<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>');
+		result.push('<ul class="dropdown-menu" role="menu">');
+		result.push('<li>');
+		result.push('<form id="profile_form"  role="form">');
+		result.push('<div class="form-group" id="profile_content_id">');
+		
 		result.push('<ul style="list-style-type:none;">');
 		result.push('<li><strong>user_name:</strong> ');
 		result.push('<input type="text" name="email" value="user1" class="form-control" required />');
@@ -144,6 +168,12 @@ render: function ()
 		result.push('</li>');
 		result.push('<li><input type="button"  class="btn btn-default" value="Log in" /></li>');
 		result.push('</ul>');
+
+		result.push('</div>');
+		result.push('</form>');
+		result.push('</li>');
+		result.push('</ul>');
+
 	}
 
 	document.getElementById('profile_content_id').innerHTML = result.join("");
