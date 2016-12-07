@@ -26,10 +26,11 @@ var $$ = {
         return false;
     }
   },
-  add_new_user: function(p_name)
+  add_new_user: function(p_name, p_password)
   {
 	  return {
 		"_id": "org.couchdb.user:" + p_name,
+		"password": p_password,
 		"password_scheme": "pbkdf2",
 		"iterations": 10,
 		"name": p_name,
@@ -58,17 +59,6 @@ $(function ()
 			evt.preventDefault();
 			//metadata_save();
 		}
-
-		if (evt.keyCode==80 && (evt.ctrlKey)){
-			evt.preventDefault();
-			open_preview_window();
-		}
-
-		if (evt.keyCode==76 && (evt.ctrlKey)){
-			evt.preventDefault();
-			profile.initialize_profile();
-		}
-
 	});
 
 
@@ -118,19 +108,18 @@ function load_users()
 
 
 
-function metadata_save()
+function server_save(p_user)
 {
-	console.log("metadata_change");
-	var json_data = { 'def': "momentum"};
+	console.log("server save");
 	var current_auth_session = profile.get_auth_session_cookie();
 
 	if(current_auth_session)
 	{ 
 		$.ajax({
-					url: location.protocol + '//' + location.host + '/api/metadata',
+					url: location.protocol + '//' + location.host + '/api/user',
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
-					data: JSON.stringify(g_user_list),
+					data: JSON.stringify(p_user),
 					type: "POST",
 					beforeSend: function (request)
 					{
@@ -158,13 +147,14 @@ function add_new_user_click()
 	var new_user_name = document.getElementById('new_user_name').value;
 	var new_user_password = document.getElementById('new_user_password').value;
 	if(
-		new_user_name && 
-		new_user_name.length >4 &&
-		new_user_password &&
-		new_user_password.length > 8
-
+		is_valid_user_name(new_user_name) && 
+		is_valid_password(new_user_password)
 	)
 	{
+
+		var new_user = $$.add_new_user(new_user_name, new_user_password);
+		g_ui.user_summary_list.push(new_user);
+		document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
 		console.log("greatness awaits.");
 	}
 	else
@@ -172,4 +162,97 @@ function add_new_user_click()
 		console.log("got nothing.");
 	}
 	
+}
+
+
+function is_valid_user_name(p_value)
+{
+	var result = true;
+
+	if(
+		p_value && 
+		p_value.length >4
+	)
+	{
+		//console.log("greatness awaits.");
+	}
+	else
+	{
+		result = false;
+	}
+
+	return result;
+}
+
+function is_valid_password(p_value)
+{
+	var result = true;
+
+	if(
+		p_value &&
+		p_value.length > 4
+	)
+	{
+		//console.log("greatness awaits.");
+	}
+	else
+	{
+		result = false;
+	}
+
+	return result;
+	
+}
+
+function save_user(p_control)
+{
+	var user_index = -1;
+	var user_list = g_ui.user_summary_list;
+
+	for(var i = 0; i < user_list.length; i++)
+	{
+		if(user_list[i].name == p_control)
+		{
+			user_index = i;
+			break;
+		}
+	}
+
+	if(user_index > -1)
+	{
+		var user = user_list[user_index];
+		var current_auth_session = profile.get_auth_session_cookie();
+
+		if(current_auth_session)
+		{ 
+			$.ajax({
+				url: location.protocol + '//' + location.host + '/api/user',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(user),
+				type: "POST",
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("AuthSession", current_auth_session);
+				}
+			}).done(function(response) 
+			{
+				var response_obj = eval(response);
+				if(response_obj.ok)
+				{
+					for(var i = 0; i < g_ui.user_summary_list.length; i++)
+					{
+						if(g_ui.user_summary_list[i]._id == response_obj.id)
+						{
+							g_ui.user_summary_list[i]._rev = response_obj.rev; 
+							break;
+						}
+					}
+					document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+				}
+				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+				console.log("metadata sent", response);
+			});
+		}
+	}
 }

@@ -13,7 +13,7 @@ namespace owin
 		{ 
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/_users/_all_docs?include_docs=true&skip=2";
+				string request_string = this.get_couch_db_url() + "/_users/_all_docs?include_docs=true&skip=1";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				request.PreAuthenticate = false;

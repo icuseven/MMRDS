@@ -10,8 +10,10 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
 		var item = p_ui.user_summary_list[i];
-		Array.prototype.push.apply(result, user_entry_render(item, i));
-		result.push("<tr><td colspan=4 align=center><input type='button' value='save changes'/></tr>")
+		if(item._id != "org.couchdb.user:mmrds")
+		{
+			Array.prototype.push.apply(result, user_entry_render(item, i));
+		}
 	}
 	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
 	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='text' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /></tr>")
@@ -63,6 +65,10 @@ function user_entry_render(p_user, p_i)
 	result.push("<br/><br/><input type='button' value='remove user'/>");
 	result.push("</td>")
 	result.push("<tr>");
+	result.push("<tr><td colspan=4 align=center><input type='button' value='save changes' onclick='save_user(\"");
+	result.push(p_user.name);
+	result.push("\")'/></tr>")
+
 
 	return result;
 }
