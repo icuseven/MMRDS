@@ -76,13 +76,13 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<ul class="dropdown-menu" aria-labelledby="actions">');
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {
-          result.push('<li><a href="print-version" target="_print_version">print version</a></li>');
-          result.push('<li><a href="print-version" target="_print_version">print core summary</a></li>');
+          result.push('<li><a href="print-version" target="_print_version">Print Version</a></li>');
+          result.push('<li><a href="print-version" target="_print_version">Populate Core Elements</a></li>');
         }
-        result.push('<li><a href="data-dictionary" target="_data_dictionary">show data dictionary</a></li>');
+        result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
         if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)
         {
-          result.push('<li><a href="_users" target="_users">user adminstration</a></li>');
+          result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
         }
         
         result.push('</ul></li></ul>');

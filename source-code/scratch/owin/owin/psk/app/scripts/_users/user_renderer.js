@@ -31,11 +31,11 @@ function user_entry_render(p_user, p_i)
 
 	if(p_i % 2)
 	{
-		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' style='background:#DDDDDD;'><td valign=top>");
+		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' style='background:#DDDDDD;' valign=top><td>");
 	}
 	else
 	{
-		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "'><td valign=top>");
+		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' valign=top><td>");
 	}
 
 	result.push(p_user.name);
@@ -53,12 +53,19 @@ function user_entry_render(p_user, p_i)
 	result.push("</td></tr>")
 	result.push("</table></td>");
 	result.push("<td>");
+	result.push("<strong>");
+	result.push(p_user.name);
+	result.push("</strong><br/>");
+	/*
 	result.push("<input type='text' value='");
 	result.push(p_user.name);
 	result.push("'/>");
-	result.push("<input type='button' value='change user name'/>");	
-	result.push("<br/><br/><input type='password' value=''/>");
-	result.push("<input type='button' value='change password'/>");
+	result.push("<input type='button' value='change user name'/>");
+	result.push("<br/><br/>");
+	*/	
+	result.push("new password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
+	result.push("<br/>verify password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
+	result.push("<br/><input type='button' value='change password'/>");
 	result.push("</td>");
 	result.push("<td>")
 	//result.push("<input type='button' value='disable user'/>");
