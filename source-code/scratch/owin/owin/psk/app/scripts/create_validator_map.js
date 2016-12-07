@@ -118,7 +118,7 @@ function create_validator_map(p_validator_map, p_validation_description_map, p_m
 			result.push("var regexp = /");
 			result.push(p_metadata.regex_pattern);
 			result.push("/;\nvar matches_array = value.match(regexp);");
-			result.push("\nif(matches_array)\n{\t if(matches_array.length < 1) return false;\n\t}\n else return false\n\n");
+			result.push("\nif(matches_array)\n{\t if(matches_array.length < 1) return false;\n\t}\n else return false;\n\n");
 			validation_added = true;
 		}
 		catch(err)

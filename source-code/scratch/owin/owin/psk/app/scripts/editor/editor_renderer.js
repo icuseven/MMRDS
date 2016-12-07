@@ -455,7 +455,8 @@ function attribute_renderer(p_metadata, p_path)
 					}
 					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
 					result.push(p_path + "/" + prop);
-					result.push('" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
+					result.push('" reg_ex_path="' + p_path + "/" + prop + '" />  <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" />  </li>');
+					result.push(' test pattern: <input type="text" value="" onchange="check_reg_ex(this,\'' + p_path + "/" + prop + '\')"  onblur="check_reg_ex(this,\'' + p_path + "/" + prop + '\')"/>');
 					result.push(' syntax example: ^\\d\\d$ 2 digit number <a href="https://duckduckgo.com/?q=javascript+regex&t=hq&ia=web">refrence search</a>');
 					
 				break;
@@ -1338,5 +1339,32 @@ function convert_to_indexed_path(p_path)
 	result.push(temp.join("."));
 	result.push(last);
 	return result;
+
+}
+
+function check_reg_ex(p_control, p_path)
+{
+	var reg_ex_control = document.querySelector("input[reg_ex_path='" + p_path + "']");
+
+	var value = p_control.value;
+
+	var regexp = new RegExp(reg_ex_control.value);
+	var matches_array = value.match(regexp);
+	if(matches_array)
+	{
+		if(matches_array.length < 1) 
+		{
+			p_control.style.background = "#FFCCCC";
+		}
+		else
+		{
+			p_control.style.background = "#FFFFFF";
+		}
+	}
+	else 
+	{
+		p_control.style.background = "#FFCCCC";
+	}
+	
 
 }
