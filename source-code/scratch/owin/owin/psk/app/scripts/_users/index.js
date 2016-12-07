@@ -278,9 +278,39 @@ function add_role(p_user_id)
 		{
 			var user = user_list[user_index];
 			user.roles.push(selected_role.value);
+			g_ui.user_summary_list[user_index] = user;
 			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
 		}
 	}
+}
+
+
+function remove_role(p_user_id, p_role)
+{
+	var user_index = -1;
+	var user_list = g_ui.user_summary_list;
+	var escaped_id =  convert_to_jquery_id(p_user_id);
+	for(var i = 0; i < user_list.length; i++)
+	{
+		if(user_list[i]._id == p_user_id)
+		{
+			user_index = i;
+			break;
+		}
+	}
+
+	if(user_index > -1)
+	{
+		var user = user_list[user_index];
+		var role_index = user.roles.indexOf(p_role);
+		if(role_index > -1)
+		{
+			user.roles.splice(role_index, 1);
+			g_ui.user_summary_list[user_index] = user;
+			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
+		}
+	}
+
 }
 
 function convert_to_jquery_id(p_value)

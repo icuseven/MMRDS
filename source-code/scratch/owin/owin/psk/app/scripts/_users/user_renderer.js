@@ -4,7 +4,7 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 {
 	var result = [];
 
-	result.push("<div style='clear:both;margin-left:10px;'>(ctrl + 's' to save changes)");
+	result.push("<div style='clear:both;margin-left:10px;'>");
 	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=4>user list</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
@@ -46,7 +46,7 @@ function user_entry_render(p_user, p_i)
 	{
 		result.push("<tr><td>");
 		result.push(p_user.roles[j]);
-		result.push("</td><td><input type='button' value='remove role'/></td></tr>");
+		result.push("</td><td><input type='button' value='remove role' onclick='remove_role(\"" + p_user._id + "\",\"" + p_user.roles[j] + "\")'/></td></tr>");
 	}
 	result.push("<tr><td colspan=2 align=right>");
 	Array.prototype.push.apply(result, user_role_render(p_user));
