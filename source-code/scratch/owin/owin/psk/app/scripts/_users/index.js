@@ -204,14 +204,14 @@ function is_valid_password(p_value)
 	
 }
 
-function save_user(p_control)
+function save_user(p_user_id)
 {
 	var user_index = -1;
 	var user_list = g_ui.user_summary_list;
 
 	for(var i = 0; i < user_list.length; i++)
 	{
-		if(user_list[i].name == p_control)
+		if(user_list[i]._id == p_user_id)
 		{
 			user_index = i;
 			break;
@@ -255,4 +255,35 @@ function save_user(p_control)
 			});
 		}
 	}
+}
+
+function add_role(p_user_id)
+{
+	var selected_role = document.querySelector('select[path="' + p_user_id + '"]');
+	if(selected_role && selected_role.value != '')
+	{
+		var user_index = -1;
+		var user_list = g_ui.user_summary_list;
+		var escaped_id =  convert_to_jquery_id(p_user_id);
+		for(var i = 0; i < user_list.length; i++)
+		{
+			if(user_list[i]._id == p_user_id)
+			{
+				user_index = i;
+				break;
+			}
+		}
+
+		if(user_index > -1)
+		{
+			var user = user_list[user_index];
+			user.roles.push(selected_role.value);
+			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
+		}
+	}
+}
+
+function convert_to_jquery_id(p_value)
+{
+	return p_value.replace('@', 'ATT').replace(':','COL').replace(/\./g,'DOT');
 }

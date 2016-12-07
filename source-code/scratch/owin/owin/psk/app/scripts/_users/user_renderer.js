@@ -31,11 +31,11 @@ function user_entry_render(p_user, p_i)
 
 	if(p_i % 2)
 	{
-		result.push("<tr style='background:#DDDDDD;'><td valign=top>");
+		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' style='background:#DDDDDD;'><td valign=top>");
 	}
 	else
 	{
-		result.push("<tr><td valign=top>");
+		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "'><td valign=top>");
 	}
 
 	result.push(p_user.name);
@@ -62,12 +62,12 @@ function user_entry_render(p_user, p_i)
 	result.push("</td>");
 	result.push("<td>")
 	//result.push("<input type='button' value='disable user'/>");
-	result.push("<br/><br/><input type='button' value='remove user'/>");
+	result.push("<input type='button' value='remove user'/><br/><br/><input type='button' value='save user changes' onclick='save_user(\"");
+	result.push(p_user._id);
+	result.push("\")'/>");
 	result.push("</td>")
-	result.push("<tr>");
-	result.push("<tr><td colspan=4 align=center><input type='button' value='save changes' onclick='save_user(\"");
-	result.push(p_user.name);
-	result.push("\")'/></tr>")
+	result.push("</tr>");
+
 
 
 	return result;
@@ -78,7 +78,7 @@ function user_role_render(p_user)
 	var result = [];
 	var role_set = [ '', 'abstractor','committe_reviewer','form_designer', 'user_admin'];
 
-	result.push("<select size='1'>")
+	result.push("<select size='1' path='" + p_user._id + "'>")
 	for(var i = 0; i < role_set.length; i++)
 	{
 		var item = role_set[i];
@@ -99,6 +99,6 @@ function user_role_render(p_user)
 		}
 	}
 	result.push("</select>");
-	result.push("<input type='button' value='add role'/>");
+	result.push("<input type='button' value='add role' onclick='add_role(\"" + p_user._id + "\")' />");
 	return result;
 }
