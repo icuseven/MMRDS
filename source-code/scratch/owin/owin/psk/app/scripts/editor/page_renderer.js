@@ -389,14 +389,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				{
 					result.push("<br/> <input type='text' name='");
-			result.push(p_metadata.name);
-			result.push("' value='");
-			result.push(p_data);
-			result.push("' onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.value)' /> <br/> <select size=");
+					result.push(p_metadata.name);
+					result.push("' value='");
+					result.push(p_data);
+					result.push("' onblur='g_set_data_object_from_path(\"");
+					result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)' /> <br/> <select size=");
 					result.push(p_metadata.list_display_size);
 					result.push(" name='");
 				}

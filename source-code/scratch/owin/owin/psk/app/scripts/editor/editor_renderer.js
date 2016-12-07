@@ -150,6 +150,7 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(' ');
 			//result.push(p_path);
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
+			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -175,6 +176,7 @@ function editor_render(p_metadata, p_path, p_ui)
 		result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		result.push(p_metadata.name);
 		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
+		result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
 		result.push('<br/><ul  tag="attribute_list">');
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
@@ -770,31 +772,80 @@ function editor_set_value(e, p_ui)
 }
 
 
-function editor_paste_to_children(p_ui)
+function editor_paste_to_children(p_ui, p_is_index_paste)
 {
 	if(g_copy_clip_board)
 	{
-		//var path = e.attributes['path'].value;
-		var path_array = p_ui.split('/');
-		var attribute_name = p_ui[path_array.length - 1];
-		var item_path = get_eval_string(p_ui);	
+		if(p_is_index_paste)
+		{
+			var path_array = p_ui.split('/');
+			var target_index = path_array[path_array.lentgh -1];
 
-		var clone_path = get_eval_string(g_copy_clip_board);
+			path_array.splice(path_array.length -2, 2);
+
+			var collection_path = path_array.join('/');
+
+
+			var item_path = get_eval_string(collection_path);	
+
+			var clone_path = get_eval_string(g_copy_clip_board);
+			
+			var clone = editor_clone(eval(clone_path));
+			
+			var paste_target = eval(item_path);
+
+			clone.name = "new_clone_name_" + paste_target.children.length;
+
+			paste_target.children.splice(target_index, 0, clone);
+
+			if(collection_path == "")
+			{
+	
+				var node = editor_render(paste_target, "/", g_ui);
+				
+				var node_to_render = document.querySelector("div[path='/']");
+				node_to_render.innerHTML = node.join("");
+				window.dispatchEvent(metadata_changed_event);
+
+			}
+			else
+			{
+				var node = editor_render(paste_target, collection_path, g_ui);
+				
+				var node_to_render = document.querySelector("li[path='" + collection_path + "']");
+				node_to_render.innerHTML = node.join("");
+				window.dispatchEvent(metadata_changed_event);
+			}
+
+
+			
+		}
+		else
+		{
+			var path_array = p_ui.split('/');
+			var attribute_name = p_ui[path_array.length - 1];
+			var item_path = get_eval_string(p_ui);	
+
+			var clone_path = get_eval_string(g_copy_clip_board);
+			
+			var clone = editor_clone(eval(clone_path));
+			
+
+			var paste_target = eval(item_path);
+
+			clone.name = "new_clone_name_" + paste_target.children.length;
+
+			paste_target.children.push(clone);
+
+			var node = editor_render(paste_target, p_ui, g_ui);
+			
+			var node_to_render = document.querySelector("li[path='" + p_ui + "']");
+			node_to_render.innerHTML = node.join("");
+			window.dispatchEvent(metadata_changed_event);
+		}
 		
-		var clone = editor_clone(eval(clone_path));
-		
 
-		var paste_target = eval(item_path);
 
-		clone.name = "new_clone_name_" + paste_target.children.length;
-
-		paste_target.children.push(clone);
-
-		var node = editor_render(paste_target, p_ui, g_ui);
-		
-		var node_to_render = document.querySelector("li[path='" + p_ui + "']");
-		node_to_render.innerHTML = node.join("");
-		window.dispatchEvent(metadata_changed_event);
 	}
 }
 
