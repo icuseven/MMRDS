@@ -235,11 +235,22 @@ var $$ = {
 
 $(function ()
 {
+    profile.on_login_call_back = function (){
+      var localDB = new PouchDB('mmrds');
+      var remoteDB = new PouchDB('http://localhost:5984/mmrds')
+    
+      localDB.sync(remoteDB).on('complete', function () {
+        console.log("yay, we're done!");
+        load_documents();
+      }).on('error', function (err) {
+        // boo, something went wrong!
+        console.log(" boo, something went wrong!");
+          console.log(err);
+      });
+    };
+
+
   	profile.initialize_profile();
-
-    load_documents();
-
-
 });
 
 

@@ -20,6 +20,7 @@ get_auth_session_cookie: function ()
 
 	return result;
 },
+on_login_call_back: null,
 
 set_auth_session_cookie: function (p_auth_session)
 {
@@ -69,6 +70,11 @@ initialize_profile: function ()
 
 
 				profile.set_auth_session_cookie(current_auth_session);
+
+				if(profile.on_login_call_back)
+				{
+					profile.on_login_call_back();
+				}
 			}
 			else
 			{
@@ -190,6 +196,11 @@ login_response: function (response)
 		profile.auth_session = json_response.auth_session;
 
 		profile.set_auth_session_cookie(profile.auth_session);
+
+		if(profile.on_login_call_back)
+		{
+			profile.on_login_call_back();
+		}
 
 	}
 	else

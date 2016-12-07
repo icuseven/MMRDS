@@ -138,9 +138,25 @@ window.onhashchange = function(e)
     // do nothing for now
   }
 };
+/*
+    profile.on_login_call_back = function (){
+				if(g_metadata)
+				{
+					if(!g_data)
+					{
+							g_data = create_default_object(g_metadata, {});
+								g_ui.data_list.push(g_data);
+								g_ui.selected_record_id = g_data._id;
+								g_ui.selected_record_index = g_ui.data_list.length -1;
+					}
 
+					document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+					document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");
+					apply_tool_tips();
+				}
 
-	profile.initialize_profile();
+    };
+	profile.initialize_profile();*/
 
 });
 

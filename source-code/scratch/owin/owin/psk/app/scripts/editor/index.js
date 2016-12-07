@@ -188,9 +188,14 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 
+
+	profile.on_login_call_back = function (){
+			load_metadata();
+    };
+
   	profile.initialize_profile();
 
-	  load_metadata();
+	  
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){

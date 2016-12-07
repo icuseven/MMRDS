@@ -46,8 +46,12 @@ var $$ = {
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
+	/*profile.on_login_call_back = function (){
+				load_users();
+    };
+	profile.initialize_profile();*/
 
-  	profile.initialize_profile();
+	load_users();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -67,7 +71,7 @@ $(function ()
 
 	});
 
-	load_users();
+
 
 	window.onhashchange = function(e)
 	{
