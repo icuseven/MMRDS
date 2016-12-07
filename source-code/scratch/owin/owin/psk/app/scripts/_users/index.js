@@ -153,3 +153,23 @@ function metadata_save()
 
 }
 
+function add_new_user_click()
+{
+	var new_user_name = document.getElementById('new_user_name').value;
+	var new_user_password = document.getElementById('new_user_password').value;
+	if(
+		new_user_name && 
+		new_user_name.length >4 &&
+		new_user_password &&
+		new_user_password.length > 8
+
+	)
+	{
+		console.log("greatness awaits.");
+	}
+	else
+	{
+		console.log("got nothing.");
+	}
+	
+}

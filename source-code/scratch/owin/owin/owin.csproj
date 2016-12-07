@@ -155,6 +155,10 @@
     <Compile Include="model\couchdb\alldocs_response.cs" />
     <Compile Include="model\couchdb\user_alldocs_response.cs" />
     <Compile Include="util\LuceneHelper.cs" />
+    <Compile Include="model\couchdb\password\error_response.cs" />
+    <Compile Include="model\couchdb\password\success_response.cs" />
+    <Compile Include="util\email\email_handler.cs" />
+    <Compile Include="util\email\email.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2715,5 +2719,7 @@
     <Folder Include="util\" />
     <Folder Include="swashbuckle\" />
     <Folder Include="api-docs\" />
+    <Folder Include="model\couchdb\password\" />
+    <Folder Include="util\email\" />
   </ItemGroup>
 </Project>

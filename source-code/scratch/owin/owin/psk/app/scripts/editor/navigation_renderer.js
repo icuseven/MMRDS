@@ -82,7 +82,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<li><a href="data-dictionary" target="_data_dictionary">show data dictionary</a></li>');
         if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)
         {
-          result.push('<li><a href="_users" target="_users">view user adminstration</a></li>');
+          result.push('<li><a href="_users" target="_users">user adminstration</a></li>');
         }
         
         result.push('</ul></li></ul>');
