@@ -65,7 +65,7 @@ function user_entry_render(p_user, p_i)
 	*/	
 	result.push("new password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
 	result.push("<br/>verify password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
-	result.push("<br/><input type='button' value='change password'/>");
+	result.push("<br/><input type='button' value='change password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
 	result.push("</td>");
 	result.push("<td>")
 	//result.push("<input type='button' value='disable user'/>");

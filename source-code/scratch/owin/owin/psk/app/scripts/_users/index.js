@@ -161,7 +161,80 @@ function add_new_user_click()
 	{
 		console.log("got nothing.");
 	}
+}
+
+
+function change_password_user_click(p_user_id)
+{
 	
+	var new_user_password = document.querySelector('[role="confirm_1"][path="' + p_user_id + '"]').value;
+	var new_confirm_password = document.querySelector('[role="confirm_2"][path="' + p_user_id + '"]').value;
+	if(
+		is_valid_password(new_user_password) && 
+		is_valid_password(new_confirm_password) &&
+		new_user_password == new_confirm_password
+	)
+	{
+		var user_index = -1;
+		var user_list = g_ui.user_summary_list;
+		var user = null;
+		for(var i = 0; i < user_list.length; i++)
+		{
+			if(user_list[i]._id == p_user_id)
+			{
+				user = user_list[i];
+				break;
+			}
+		}
+
+
+		if(user)
+		{
+			user.password = new_user_password;
+
+			var current_auth_session = profile.get_auth_session_cookie();
+
+			if(current_auth_session)
+			{ 
+				$.ajax({
+					url: location.protocol + '//' + location.host + '/api/user',
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify(user),
+					type: "POST",
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("AuthSession", current_auth_session);
+					}
+				}).done(function(response) 
+				{
+					var response_obj = eval(response);
+					if(response_obj.ok)
+					{
+						for(var i = 0; i < g_ui.user_summary_list.length; i++)
+						{
+							if(g_ui.user_summary_list[i]._id == response_obj.id)
+							{
+								g_ui.user_summary_list[i]._rev = response_obj.rev; 
+								break;
+							}
+						}
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+						console.log("password saved sent", response);
+					}
+					//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+					
+				});
+			}
+		}
+
+		document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+		console.log("greatness awaits.");
+	}
+	else
+	{
+		console.log("got nothing.");
+	}
 }
 
 
