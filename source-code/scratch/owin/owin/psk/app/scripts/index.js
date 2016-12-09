@@ -14,7 +14,7 @@ var g_selected_delete_index = null;
 
 var default_object = null;
 
-var g_data_access = new Data_Access("http://localhost:5984/mmrds");
+//var g_data_access = new Data_Access("http://localhost:5984/mmrds");
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
@@ -38,7 +38,11 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
               value_set.push(input_list.children[i].value);
             }
           }
-
+          for(var i = 0; i < p_metadata.children.length; i++)
+          {
+            var child = p_metadata.children[i];
+            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+          }
           if(value_set[0] == "")
           {
               value_set[0] = "2016-01-01";
@@ -236,6 +240,8 @@ var $$ = {
 $(function ()
 {
     profile.on_login_call_back = function (){
+
+      /*
       var localDB = new PouchDB('mmrds');
       var remoteDB = new PouchDB('http://localhost:5984/mmrds')
     
@@ -246,7 +252,11 @@ $(function ()
         // boo, something went wrong!
         console.log(" boo, something went wrong!");
           console.log(err);
-      });
+      });*/
+
+
+      load_documents();
+
     };
 
 
@@ -693,4 +703,4 @@ return;
 
 }
 
-save_interval_id = window.setInterval(save_change_task, 10000);
+//save_interval_id = window.setInterval(save_change_task, 10000);
