@@ -703,4 +703,25 @@ return;
 
 }
 
-//save_interval_id = window.setInterval(save_change_task, 10000);
+function open_print_version(p_section)
+{
+
+	var print_window = window.open('./print-version','_print_version',null,false);
+
+	window.setTimeout(function()
+	{
+		print_window.create_print_version(g_metadata, g_data, p_section)
+	}, 1000);	
+}
+
+
+function open_blank_version(p_section)
+{
+
+	var blank_window = window.open('./print-version','_blank_version',null,false);
+
+	window.setTimeout(function()
+	{
+		blank_window.create_print_version(g_metadata, default_object, p_section)
+	}, 1000);	
+}

@@ -85,15 +85,15 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<li class="dropdown">');
           result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version  <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
+          result.push('<li><a tabindex="-1" onclick="open_print_version(\'all\')">All</a></li>');
           for(var i = 0; i < p_metadata.children.length; i++)
           {
             var child = p_metadata.children[i];
             if(child.type.toLowerCase() == 'form')
             {
-              result.push('<li><a tabindex="-1" target="_print_version" href="print-version#');
+              result.push('<li><a tabindex="-1" onclick="open_print_version(\'');
               result.push(child.name)
-              result.push('">');
+              result.push('\')">');
               result.push(child.prompt)
               result.push('</a></li>');
             }
@@ -133,15 +133,15 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<li class="dropdown">');
           result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Blank  <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
+          result.push('<li><a tabindex="-1"  onclick="open_blank_version(\'all\')">All</a></li>');
           for(var i = 0; i < p_metadata.children.length; i++)
           {
             var child = p_metadata.children[i];
             if(child.type.toLowerCase() == 'form')
             {
-              result.push('<li><a tabindex="-1" target="_print_version" href="print-version#');
+              result.push('<li><a tabindex="-1" onclick="open_blank_version(\'');
               result.push(child.name)
-              result.push('">');
+              result.push('\')">');
               result.push(child.prompt)
               result.push('</a></li>');
             }

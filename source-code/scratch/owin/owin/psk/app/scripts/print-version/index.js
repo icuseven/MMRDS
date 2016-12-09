@@ -16,23 +16,21 @@ $(function ()
 
   	//profile.initialize_profile();
 
-	  load_metadata();
+	  //load_metadata();
 });
 
 
-function create_print_version()
+function create_print_version(p_metadata, p_data, p_section)
 {
-	document.getElementById('form_content_id').innerHTML = print_version_render(g_metadata, g_data, "/", g_ui).join("");
+	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui).join("");
 
-
-	var form_split = window.location.href.split("#");
-	if(form_split.length > 1)
+	if(p_section && p_section.toLowerCase() != "all")
 	{
 		var section_list = document.getElementsByTagName("section");
 		for(var i = 0; i < section_list.length; i++)
 		{
 			var section = section_list[i];
-			if(section.id == form_split[1])
+			if(section.id == p_section)
 			{
 				section.style.display = "block";
 			}
