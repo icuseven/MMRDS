@@ -23,6 +23,26 @@ $(function ()
 function create_print_version()
 {
 	document.getElementById('form_content_id').innerHTML = print_version_render(g_metadata, g_data, "/", g_ui).join("");
+
+
+	var form_split = window.location.href.split("#");
+	if(form_split.length > 1)
+	{
+		var section_list = document.getElementsByTagName("section");
+		for(var i = 0; i < section_list.length; i++)
+		{
+			var section = section_list[i];
+			if(section.id == form_split[1])
+			{
+				section.style.display = "block";
+			}
+			else
+			{
+				section.style.display = "none";
+			}
+		}
+	}
+
 }
 
 
