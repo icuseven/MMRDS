@@ -61,31 +61,86 @@ function navigation_render(p_metadata, p_level, p_ui)
      case 'app':
         result.push('<ul  class="nav navbar-nav">');
         result.push('<li><a href="#/summary">Summary</a></li>');
+
+        // forms start
         result.push('<li class="dropdown">');
         result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Forms <span class="caret"></span></a>');
-        result.push('<ul class="dropdown-menu" aria-labelledby="themes">');
-        for(var i = 0; i < p_metadata.children.length; i++)
-        {
-          var child = p_metadata.children[i];
-          Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
-        }
-        result.push("</ul>");
+          result.push('<ul class="dropdown-menu" aria-labelledby="themes">');
+          for(var i = 0; i < p_metadata.children.length; i++)
+          {
+            var child = p_metadata.children[i];
+            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+          }
+          result.push("</ul>");
+        result.push('</li>');
+        // forms end
+        // actions start
 
         result.push('<li class="dropdown">');
         result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="actions">Actions <span class="caret"></span></a>');
-        result.push('<ul class="dropdown-menu" aria-labelledby="actions">');
+          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="actions">');
+
+            if(parseInt(p_ui.url_state.path_array[0]) >= 0)
+            {
+              //result.push('<li><a href="print-version" target="_print_version">Print Version</a></li>');
+              result.push('<li><a href="print-version" target="_print_version">Populate Core Elements</a></li>');
+            }
+
+            result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
+
+
+
+            if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)
+            {
+              result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
+            }
+
+          result.push('</ul>');
+        result.push('</li>');
+        // Actions endblank
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
-        {
-          result.push('<li><a href="print-version" target="_print_version">Print Version</a></li>');
-          result.push('<li><a href="print-version" target="_print_version">Populate Core Elements</a></li>');
+        {        
+        // print version start
+        result.push('<li class="dropdown">');
+          result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version  <span class="caret"></span></a>');
+          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">Home Record</a></li>');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">DeathCertificate</a></li>');
+          /*
+          for(var i = 0; i < p_metadata.children.length; i++)
+          {
+            var child = p_metadata.children[i];
+            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+          }
+          */
+          result.push('</ul>'); 
+        result.push('</li>')
+        // print version end
         }
-        result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
-        if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)
-        {
-          result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
-        }
-        
-        result.push('</ul></li></ul>');
+
+        // print blank start
+        result.push('<li class="dropdown">');
+          result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Blank  <span class="caret"></span></a>');
+          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">Home Record</a></li>');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">DeathCertificate</a></li>');
+          /*
+          for(var i = 0; i < p_metadata.children.length; i++)
+          {
+            var child = p_metadata.children[i];
+            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+          }
+          */
+          result.push('</ul>'); 
+        result.push('</li>')
+        // print blank end
+  
+
+
+
+        result.push('</ul>');
         break;
       default:
         break;
