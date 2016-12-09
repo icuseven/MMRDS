@@ -61,19 +61,49 @@ function navigation_render(p_metadata, p_level, p_ui)
      case 'app':
         result.push('<ul  class="nav navbar-nav">');
         result.push('<li><a href="#/summary">Summary</a></li>');
+        if(parseInt(p_ui.url_state.path_array[0]) >= 0)
+        {  
+          // forms start
+          result.push('<li class="dropdown">');
+          result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Case Forms<span class="caret"></span></a>');
+            result.push('<ul class="dropdown-menu" aria-labelledby="themes">');
+            for(var i = 0; i < p_metadata.children.length; i++)
+            {
+              var child = p_metadata.children[i];
+              Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+            }
+            result.push("</ul>");
+          result.push('</li>');
+          // forms end
+        }
 
-        // forms start
+
+
+        if(parseInt(p_ui.url_state.path_array[0]) >= 0)
+        {        
+        // print version start
         result.push('<li class="dropdown">');
-        result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Forms <span class="caret"></span></a>');
-          result.push('<ul class="dropdown-menu" aria-labelledby="themes">');
+          result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version  <span class="caret"></span></a>');
+          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
+          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
           for(var i = 0; i < p_metadata.children.length; i++)
           {
             var child = p_metadata.children[i];
-            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+            if(child.type.toLowerCase() == 'form')
+            {
+              result.push('<li><a tabindex="-1" target="_print_version" href="print-version#');
+              result.push(child.name)
+              result.push('">');
+              result.push(child.prompt)
+              result.push('</a></li>');
+            }
           }
-          result.push("</ul>");
-        result.push('</li>');
-        // forms end
+          result.push('</ul>'); 
+        result.push('</li>')
+        // print version end
+        }
+
+
         // actions start
 
         result.push('<li class="dropdown">');
@@ -97,42 +127,26 @@ function navigation_render(p_metadata, p_level, p_ui)
 
           result.push('</ul>');
         result.push('</li>');
-        // Actions endblank
-        if(parseInt(p_ui.url_state.path_array[0]) >= 0)
-        {        
-        // print version start
-        result.push('<li class="dropdown">');
-          result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version  <span class="caret"></span></a>');
-          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">Home Record</a></li>');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">DeathCertificate</a></li>');
-          /*
-          for(var i = 0; i < p_metadata.children.length; i++)
-          {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
-          }
-          */
-          result.push('</ul>'); 
-        result.push('</li>')
-        // print version end
-        }
+        // Actions end
 
         // print blank start
         result.push('<li class="dropdown">');
           result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Blank  <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
           result.push('<li><a tabindex="-1" href="print-version" target="_print_version">All</a></li>');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">Home Record</a></li>');
-          result.push('<li><a tabindex="-1" href="print-version" target="_print_version">DeathCertificate</a></li>');
-          /*
           for(var i = 0; i < p_metadata.children.length; i++)
           {
             var child = p_metadata.children[i];
-            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+            if(child.type.toLowerCase() == 'form')
+            {
+              result.push('<li><a tabindex="-1" target="_print_version" href="print-version#');
+              result.push(child.name)
+              result.push('">');
+              result.push(child.prompt)
+              result.push('</a></li>');
+            }
           }
-          */
+          
           result.push('</ul>'); 
         result.push('</li>')
         // print blank end
