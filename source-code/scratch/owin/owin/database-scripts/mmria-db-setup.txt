@@ -1,0 +1,20 @@
+metadata
+admins/roles + form_designer
+
+
+mmrds
+
+members/roles + abstractor
+
+queue
+admins/roles + abstractor
+
+
+Users:
+
+user1
+
+roles:
+	abstractor
+	form_designer
+	user_admin
