@@ -10,12 +10,12 @@ namespace owin
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable<home_record> Get() 
+		public IEnumerable< owin.model.home_record> Get() 
 		{ 
-			return new home_record[] 
+			return new  owin.model.home_record[] 
 			{ 
-				new home_record(){ 
-					id =  System.Guid.Parse("e5c511cc-40ec-4730-9656-95f53582a51b"),
+				new  owin.model.home_record(){ 
+					id =  "e5c511cc-40ec-4730-9656-95f53582a51b",
 					record_id = "VA-2011-1703",
 					first_name = "Caterina",
 					middle_name = "",
@@ -25,8 +25,8 @@ namespace owin
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = true
 				},
-				new home_record(){ 
-					id =  System.Guid.Parse("42ad2325-0713-4fd0-a49e-5b03ee38e0e3"),
+				new  owin.model.home_record(){ 
+					id =  "42ad2325-0713-4fd0-a49e-5b03ee38e0e3",
 					record_id = "TN-2011-2722",
 					first_name = "Bibiana",
 					middle_name = "",
@@ -36,8 +36,8 @@ namespace owin
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = false
 				},
-				new home_record(){ 
-					id =  System.Guid.Parse("1954deef-e6bb-4ae1-af88-15abffbba7db"),
+				new  owin.model.home_record(){ 
+					id =  "1954deef-e6bb-4ae1-af88-15abffbba7db",
 					record_id = "RI-2012-9090",
 					first_name = "Helen",
 					middle_name = "",

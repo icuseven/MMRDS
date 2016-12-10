@@ -76,9 +76,9 @@ namespace owin
 		} 
 
 		// GET api/values/5 
-		public home_record Get(int id) 
+		public owin.model.home_record Get(int id) 
 		{ 
-			return default(home_record); 
+			return default( owin.model.home_record); 
 		} 
 		/*
 		// POST api/values 

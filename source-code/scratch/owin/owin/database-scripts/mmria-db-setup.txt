@@ -9,6 +9,8 @@ members/roles + abstractor
 queue
 admins/roles + abstractor
 
+_user
+member/roles + user_admin
 
 Users:
 
@@ -18,3 +20,18 @@ roles:
 	abstractor
 	form_designer
 	user_admin
+
+
+http://docs.couchdb.org/en/2.0.0/install/unix.html#installing
+
+sudo apt-get --no-install-recommends -y install \
+    build-essential pkg-config erlang \
+    libicu-dev libmozjs185-dev libcurl4-openssl-dev
+
+
+download source
+
+./configure
+make release
+cd /rel
+sudo ./bin/couchdb

@@ -162,6 +162,8 @@
     <Compile Include="util\email\email_handler.cs" />
     <Compile Include="util\email\email.cs" />
     <Compile Include="util\cData.cs" />
+    <Compile Include="util\LuceneSearch.cs" />
+    <Compile Include="util\LuceneSearchIndexer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
