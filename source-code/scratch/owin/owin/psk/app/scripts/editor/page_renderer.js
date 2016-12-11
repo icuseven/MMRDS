@@ -86,36 +86,129 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</fieldset>");
 		break;
     case 'form':
-		result.push("<section id='");
-		result.push(p_metadata.name);
-		result.push("_id' class='form'><h2 ");
-		if(p_metadata.description && p_metadata.description.length > 0)
+		if(
+			 p_metadata.cardinality == "+" ||
+			 p_metadata.cardinality == "*"
+		
+		)
 		{
-			result.push("rel='tooltip'  data-original-title='");
-			result.push(p_metadata.description.replace(/'/g, "\\'"));
-			result.push("'>");
-		}
-		else
-		{
-			result.push(">");
-		}
-
-		result.push(p_metadata.prompt);
-		result.push("</h2>");
-		for(var i = 0; i < p_metadata.children.length; i++)
-		{
-			var child = p_metadata.children[i];
-			if(p_data[child.name])
+			result.push("<section id='");
+			result.push(p_metadata.name);
+			result.push("_id' class='form'><h2 ");
+			if(p_metadata.description && p_metadata.description.length > 0)
 			{
-
+				result.push("rel='tooltip'  data-original-title='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
 			}
 			else
 			{
-				p_data[child.name] = create_default_object(child, {})[child.name];
+				result.push(">");
 			}
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
+
+			result.push(p_metadata.prompt);
+			result.push("</h2>");
+
+			result.push('<input path="" type="button" value="add new ');
+			result.push(p_metadata.prompt);
+			result.push(' form" onclick="add_new_form_click(\'' + p_object_path + '\')" />');
+
+			result.push('<div class="search_wrapper">');
+			for(var i = 0; i < p_data.length; i++)
+			{
+				var item = p_data[i];
+				if(i % 2)
+				{
+					result.push('		  <div class="result_wrapper_grey"> <a href="');
+				}
+				else
+				{
+					result.push('		  <div class="result_wrapper"> <a href="');
+				}
+
+				result.push(p_path);
+				result.push("/");
+				result.push(i);
+				result.push("\">");
+
+				for(var j = 0; j < p_metadata[i].children.length && j < 5; j++)
+				{
+					result.push(p_data[p_metadata[i].children[j]]);
+					result.push(' ');
+				}
+				result.push('</a>');
+				result.push('</div>');
+			}
+			result.push('		</div>');
+			result.push("</section>");
+
+
+			result.push("<section id='");
+			result.push(p_metadata.name);
+			result.push("' class='form'><h2 ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push("rel='tooltip'  data-original-title='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+
+			result.push(p_metadata.prompt);
+			result.push("</h2>");
+			for(var i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				if(p_data[child.name])
+				{
+
+				}
+				else
+				{
+					p_data[child.name] = create_default_object(child, {})[child.name];
+				}
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
+			}
+			result.push("</section>");
+
 		}
-		result.push("</section>");
+		else
+		{
+
+			result.push("<section id='");
+			result.push(p_metadata.name);
+			result.push("_id' class='form'><h2 ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push("rel='tooltip'  data-original-title='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			}
+
+			result.push(p_metadata.prompt);
+			result.push("</h2>");
+			for(var i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				if(p_data[child.name])
+				{
+
+				}
+				else
+				{
+					p_data[child.name] = create_default_object(child, {})[child.name];
+				}
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
+			}
+			result.push("</section>");
+		}
 		break;
     case 'app':
 		result.push("<section id='app_summary'><h2>summary</h2>");

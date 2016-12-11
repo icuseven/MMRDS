@@ -770,3 +770,8 @@ function open_blank_version(p_section)
 		blank_window.create_print_version(g_metadata, default_object, p_section)
 	}, 1000);	
 }
+
+function add_new_form_click(p_path)
+{
+  console.log("add_new_form_click: " + p_path);
+}

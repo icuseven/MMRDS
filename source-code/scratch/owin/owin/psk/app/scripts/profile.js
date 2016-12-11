@@ -246,7 +246,7 @@ logout : function()
 		profile.auth_session='';
 		profile.render();
 	},
-  try_session_login : function()
+  try_session_login : function(p_success_call_back)
   {
 	var current_auth_session = null;
 
@@ -278,6 +278,11 @@ logout : function()
 			if(profile.on_login_call_back)
 			{
 				profile.on_login_call_back();
+			}
+
+			if(p_success_call_back)
+			{
+				p_success_call_back(current_auth_session);
 			}
 		}
 		else

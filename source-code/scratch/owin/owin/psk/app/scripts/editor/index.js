@@ -278,30 +278,37 @@ function metadata_save()
 
 	if(current_auth_session)
 	{ 
-		$.ajax({
-					url: location.protocol + '//' + location.host + '/api/metadata',
-					contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					data: JSON.stringify(g_metadata),
-					type: "POST",
-					beforeSend: function (request)
-					{
-						request.setRequestHeader("AuthSession", current_auth_session);
-					}//,
-			}).done(function(response) 
-			{
-
-
-						var response_obj = eval(response);
-						if(response_obj.ok)
-						{
-							g_metadata._rev = response_obj.rev; 
-							document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
-						}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("metadata sent", response);
-			});
+		perform_save(current_auth_session);
+	}
+	else
+	{
+		profile.try_session_login(perform_save);
 	}
 
 }
 
+
+function perform_save(current_auth_session)
+{
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(g_metadata),
+			type: "POST",
+			beforeSend: function (request)
+			{
+				request.setRequestHeader("AuthSession", current_auth_session);
+			}//,
+	}).done(function(response) 
+	{
+				var response_obj = eval(response);
+				if(response_obj.ok)
+				{
+					g_metadata._rev = response_obj.rev; 
+					document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+				}
+				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+			console.log("metadata sent", response);
+	});
+}

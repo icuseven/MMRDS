@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "573-97ba7c6ad2063657773b95c63b4d92bf",
+   "_rev": "2-fc6d5c36c936843e2bb82fb4d79e80a5",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -548,12 +548,6 @@
                    "prompt": "Is_Valid_Maternal_Mortality_Record",
                    "name": "is_valid_maternal_mortality_record",
                    "type": "boolean"
-               },
-               {
-                   "prompt": "maternal_birth_certificate",
-                   "name": "maternal_birth_certificate",
-                   "type": "home_record.maternal_birth_certificate.json",
-                   "cardinality": "?"
                },
                {
                    "prompt": "Date of Death*",
