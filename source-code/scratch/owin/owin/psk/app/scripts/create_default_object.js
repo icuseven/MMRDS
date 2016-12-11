@@ -15,6 +15,14 @@ function create_default_object(p_metadata, p_parent)
 
       break;
     case 'form':
+
+      var temp_object = {};
+      for(var i = 0; i < p_metadata.children.length; i++)
+      {
+        var child = p_metadata.children[i];
+        create_default_object(child, temp_object);
+      }
+
       if
       (
         p_metadata.cardinality && 
@@ -25,17 +33,13 @@ function create_default_object(p_metadata, p_parent)
       )
       {
         p_parent[p_metadata.name] = [];
+        p_parent[p_metadata.name].push(temp_object);
       }
       else
       {
-        p_parent[p_metadata.name] = {};
+        p_parent[p_metadata.name] = temp_object;
       }
-      
-      for(var i = 0; i < p_metadata.children.length; i++)
-      {
-        var child = p_metadata.children[i];
-        create_default_object(child, p_parent[p_metadata.name]);
-      }
+
       break;
 
     case 'group':

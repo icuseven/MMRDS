@@ -111,7 +111,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push('<input path="" type="button" value="add new ');
 			result.push(p_metadata.prompt);
-			result.push(' form" onclick="add_new_form_click(\'' + p_object_path + '\')" />');
+			result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
 
 			result.push('<div class="search_wrapper">');
 			for(var i = 0; i < p_data.length; i++)
@@ -126,14 +126,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push('		  <div class="result_wrapper"> <a href="');
 				}
 
-				result.push(p_path);
+				result.push(p_metadata.name);
 				result.push("/");
 				result.push(i);
 				result.push("\">");
 
-				for(var j = 0; j < p_metadata[i].children.length && j < 5; j++)
+				for(var j = 0; j < p_metadata.children.length && j < 5; j++)
 				{
-					result.push(p_data[p_metadata[i].children[j]]);
+					result.push(p_data[i][p_metadata.children[j]]);
 					result.push(' ');
 				}
 				result.push('</a>');

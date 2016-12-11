@@ -47,7 +47,20 @@ namespace owin
 				string responseFromServer = reader.ReadToEnd ();
 				session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<session_response>(responseFromServer);
 
-
+				if(response.Headers["Set-Cookie"] != null)
+				{
+					string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
+					string[] auth_array = set_cookie[0].Split('=');
+					if(auth_array.Length > 1)
+					{
+						string auth_session_token = auth_array[1];
+						json_result.auth_session = auth_session_token;
+					}
+					else
+					{
+						json_result.auth_session = "";
+					}
+				}
 
 				/*
 		< HTTP/1.1 200 OK

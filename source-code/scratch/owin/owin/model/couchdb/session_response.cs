@@ -8,6 +8,7 @@ namespace owin
 		{
 		}
 
+		public string auth_session {get; set;}
 		public bool ok { get; set; }
 		public UserCTX userCTX  { get; set; }
 		public Info info { get; set; }

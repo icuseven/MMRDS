@@ -771,7 +771,9 @@ function open_blank_version(p_section)
 	}, 1000);	
 }
 
-function add_new_form_click(p_path)
+function add_new_form_click(p_metadata_path, p_object_path)
 {
-  console.log("add_new_form_click: " + p_path);
+  console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
+  var new_form = create_default_object(eval(p_metadata_path), {});
+
 }

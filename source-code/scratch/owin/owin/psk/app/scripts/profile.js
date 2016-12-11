@@ -270,10 +270,17 @@ logout : function()
 			profile.is_logged_in = true;
 			profile.user_name = json_response.userCTX.name;
 			profile.user_roles = json_response.userCTX.roles;
-			profile.auth_session = current_auth_session;
+			if(json_response.auth_session)
+			{
+				profile.auth_session = json_response.auth_session;
+				profile.set_auth_session_cookie(json_response.auth_session);
+			}
+			else
+			{
+				profile.auth_session = current_auth_session;
+				profile.set_auth_session_cookie(current_auth_session);
+			}
 
-
-			profile.set_auth_session_cookie(current_auth_session);
 
 			if(profile.on_login_call_back)
 			{
@@ -282,7 +289,7 @@ logout : function()
 
 			if(p_success_call_back)
 			{
-				p_success_call_back(current_auth_session);
+				p_success_call_back(profile.auth_session);
 			}
 		}
 		else
