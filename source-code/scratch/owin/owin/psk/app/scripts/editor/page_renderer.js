@@ -117,27 +117,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			for(var i = 0; i < p_data.length; i++)
 			{
 				var item = p_data[i];
-				if(i % 2)
+				if(item)
 				{
-					result.push('		  <div class="result_wrapper_grey"> <a href="');
-				}
-				else
-				{
-					result.push('		  <div class="result_wrapper"> <a href="');
+					if(i % 2)
+					{
+						result.push('		  <div class="result_wrapper_grey"> <a href="#/');
+					}
+					else
+					{
+						result.push('		  <div class="result_wrapper"> <a href="#/');
+					}
+					result.push(p_ui.url_state.path_array.join("/"));
+					//result.push(p_metadata.name);
+					result.push("/");
+					result.push(i);
+					result.push("\">");
+
+					for(var j = 0; j < p_metadata.children.length && j < 5; j++)
+					{
+						result.push(item[p_metadata.children[j].name]);
+						result.push(' ');
+					}
+					result.push('</a>');
+					result.push('</div>');
 				}
 
-				result.push(p_metadata.name);
-				result.push("/");
-				result.push(i);
-				result.push("\">");
-
-				for(var j = 0; j < p_metadata.children.length && j < 5; j++)
-				{
-					result.push(p_data[i][p_metadata.children[j]]);
-					result.push(' ');
-				}
-				result.push('</a>');
-				result.push('</div>');
 			}
 			result.push('		</div>');
 			result.push("</section>");

@@ -164,6 +164,7 @@
     <Compile Include="util\cData.cs" />
     <Compile Include="util\LuceneSearch.cs" />
     <Compile Include="util\LuceneSearchIndexer.cs" />
+    <Compile Include="model\couchdb\document_get_response.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

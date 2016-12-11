@@ -774,6 +774,13 @@ function open_blank_version(p_section)
 function add_new_form_click(p_metadata_path, p_object_path)
 {
   console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
-  var new_form = create_default_object(eval(p_metadata_path), {});
+  var metadata = eval(p_metadata_path);
+  var form_array = eval(p_object_path);
+
+  var new_form = create_default_object(metadata, {});
+
+  form_array.push(new_form[0]);
+
+  document.getElementById(p_object_path).innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path).join("");
 
 }

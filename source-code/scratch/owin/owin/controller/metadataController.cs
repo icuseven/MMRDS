@@ -58,6 +58,7 @@ namespace owin
 				result = reader.ReadToEnd ();
 
 				json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
 			}
 			catch(Exception ex) 
 			{
@@ -173,6 +174,23 @@ namespace owin
 							string responseFromServer = reader.ReadToEnd ();
 
 							result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.couchdb.document_put_response>(responseFromServer);
+
+							if(response.Headers["Set-Cookie"] != null)
+							{
+								string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
+								string[] auth_array = set_cookie[0].Split('=');
+								if(auth_array.Length > 1)
+								{
+									string auth_session_token = auth_array[1];
+									result.auth_session = auth_session_token;
+								}
+								else
+								{
+									result.auth_session = "";
+								}
+							}
+
+
 
 						System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
 							

@@ -307,6 +307,12 @@ function perform_save(current_auth_session)
 				{
 					g_metadata._rev = response_obj.rev; 
 					document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+
+					if(response_obj.auth_session)
+					{
+						profile.auth_session = response_obj.auth_session;
+						profile.set_auth_session_cookie(response_obj.auth_session);
+					}
 				}
 				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 			console.log("metadata sent", response);
