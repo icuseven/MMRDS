@@ -143,7 +143,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(item.home_record.last_name);
 			result.push(', ');
 			result.push(item.home_record.first_name);
-			result.push('	(');
+			result.push(' - ');
 			result.push(item.home_record.date_of_death);
 			result.push('	(');
 			result.push(item.home_record.state_of_death);

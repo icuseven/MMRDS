@@ -17,8 +17,9 @@ namespace owin.util
 {
 	public static class LuceneSearchIndexer
 	{
-		static Lucene.Net.Store.Directory directory = FSDirectory.Open(new DirectoryInfo(@"C:\LuceneIndex"));
+		static Lucene.Net.Store.Directory directory = FSDirectory.Open(new DirectoryInfo(get_working_directory() + "/lucene-index"));
 		static Lucene.Net.Analysis.Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+		//public static IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.LIMITED);
 		public static void RunIndex(IList<owin.model.home_record> entities)
 		{
 			using (var writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.LIMITED))
@@ -64,6 +65,22 @@ namespace owin.util
 				}
 				writer.Optimize();
 			}
+		}
+
+		private static string get_working_directory()
+		{
+			string result = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
+				result = System.Environment.GetEnvironmentVariable ("file_root_folder");
+			}
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
+			}
+
+			return result;
 		}
 	}
 }

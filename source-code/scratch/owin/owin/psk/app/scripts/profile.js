@@ -24,9 +24,9 @@ on_login_call_back: null,
 
 set_auth_session_cookie: function (p_auth_session)
 {
-	var minutes_14 = 14;
+	var minutes_10 = 10;
 	var current_date_time = new Date();
-	var new_date_time = new Date(current_date_time.getTime() + minutes_14 * 60000);
+	var new_date_time = new Date(current_date_time.getTime() + minutes_10 * 60000);
 
 	document.cookie = "AuthSession=" + p_auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
 },
@@ -103,12 +103,7 @@ initialize_profile: function ()
 	}
 	else
 	{
-		profile.is_logged_in = false;
-		profile.user_name = null;
-		profile.user_roles = null;
-		profile.auth_session = null;
-
-		profile.render();
+		profile.try_session_login();
 	}
 },
 
@@ -250,5 +245,63 @@ logout : function()
 		profile.user_roles=[];
 		profile.auth_session='';
 		profile.render();
-	}
+	},
+  try_session_login : function()
+  {
+	var current_auth_session = null;
+
+	var url =  location.protocol + '//' + location.host + "/api/session";
+
+	$.ajax({
+		url: url,
+		method: 'GET'
+	}).done(function(response) {
+		// this will be run when the AJAX request succeeds
+
+		console.log("response\n", response);
+		var valid_login = false;
+
+		var json_response = response[0];
+
+		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
+		valid_login = json_response.userCTX.name != null;
+		if(valid_login)
+		{
+			profile.is_logged_in = true;
+			profile.user_name = json_response.userCTX.name;
+			profile.user_roles = json_response.userCTX.roles;
+			profile.auth_session = current_auth_session;
+
+
+			profile.set_auth_session_cookie(current_auth_session);
+
+			if(profile.on_login_call_back)
+			{
+				profile.on_login_call_back();
+			}
+		}
+		else
+		{
+			profile.is_logged_in = false;
+			profile.user_name = null;
+			profile.user_roles = null;
+			profile.auth_session = null;
+			profile.expire_auth_session_cookie(current_auth_session);
+		}
+
+		profile.render();
+
+	}).fail(function(response) {
+
+		profile.is_logged_in = false;
+		profile.user_name = null;
+		profile.user_roles = null;
+		profile.auth_session = null;
+
+		profile.render();
+
+		console.log("failed:", response);
+	});
+
+  }
 };

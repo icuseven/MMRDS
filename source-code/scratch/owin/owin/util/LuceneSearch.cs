@@ -15,7 +15,7 @@ namespace owin
 	public static class LuceneSearch
 	{
 		static Lucene.Net.Store.Directory directory = 
-			FSDirectory.Open(new DirectoryInfo(@"C:\LuceneIndex"));
+			FSDirectory.Open(new DirectoryInfo(get_working_directory() + "/lucene-index"));
 		static Lucene.Net.Analysis.Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
 		public static List<owin.model.home_record> Search(string propertyName, string propertyValue)
@@ -65,6 +65,22 @@ namespace owin
 			}
 
 			return home_record;
+		}
+
+		private static string get_working_directory()
+		{
+			string result = null;
+
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			{
+				result = System.Environment.GetEnvironmentVariable ("file_root_folder");
+			}
+			else
+			{
+				result = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
+			}
+
+			return result;
 		}
 	}
 }

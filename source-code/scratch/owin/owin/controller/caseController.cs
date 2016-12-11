@@ -106,6 +106,8 @@ namespace owin
 				string temp = reader0.ReadToEnd ();
 
 				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp);
+
+				//owin.util.LuceneSearchIndexer.RunIndex(new List<owin.model.home_record> { owin.model.home_record.convert(queue_request)});
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 

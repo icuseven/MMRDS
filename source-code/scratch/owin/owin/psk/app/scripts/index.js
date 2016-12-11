@@ -241,21 +241,44 @@ $(function ()
 {
     profile.on_login_call_back = function (){
 
-      /*
-      var localDB = new PouchDB('mmrds');
-      var remoteDB = new PouchDB('http://localhost:5984/mmrds')
+    get_metadata();
+
+    var localDB = new PouchDB('mmrds');
+    var remoteDB = new PouchDB('http://localhost:5984/mmrds', {skipSetup: true});
+
+    remoteDB.getSession(function (err, response) {
+
+      console.log("pouchdb.get_session()", response);
+      
+      if (err) 
+      {
+        // network error
+      } 
+      else if (!response.userCtx.name)
+      {
+          
+      } 
+      else 
+      {
+        // response.userCtx.name is the current user
+        localDB.sync(remoteDB).on('complete', function () {
+          console.log("yay, we're done!");
+          load_documents();
+        }).on('error', function (err) {
+          // boo, something went wrong!
+          console.log(" boo, something went wrong!");
+            console.log(err);
+        });
+
+      }
+    });
+
+
     
-      localDB.sync(remoteDB).on('complete', function () {
-        console.log("yay, we're done!");
-        load_documents();
-      }).on('error', function (err) {
-        // boo, something went wrong!
-        console.log(" boo, something went wrong!");
-          console.log(err);
-      });*/
 
 
-      load_documents();
+
+      //load_documents();
 
     };
 
@@ -614,18 +637,40 @@ function save_change_task()
   {
 
 //http://stackoverflow.com/questions/20897033/how-to-add-cors-in-couchdb-no-access-control-allow-origin-header-is-present
-var localDB = new PouchDB('mmrds');
-var remoteDB = new PouchDB('http://localhost:5984/mmrds')
-  
-localDB.replicate.to(remoteDB).on('complete', function () {
-  console.log("yay, we're done!");
-  save_queue.pop();
-}).on('error', function (err) {
-  // boo, something went wrong!
-   console.log(" boo, something went wrong!");
-    console.log(err);
-});
 
+//https://github.com/nolanlawson/pouchdb-authentication
+
+//var db = new PouchDB('http://localhost:5984/mydb', {skipSetup: true});
+
+    var localDB = new PouchDB('mmrds');
+    var remoteDB = new PouchDB('http://localhost:5984/mmrds', {skipSetup: true});
+    remoteDB.getSession(function (err, response)
+    {
+      
+      if (err) 
+      {
+        // network error
+      } 
+      else if (!response.userCtx.name)
+      {
+          
+      } 
+      else 
+      {
+        localDB.replicate.to(remoteDB).on('complete', function () {
+          console.log("yay, we're done!");
+          save_queue.pop();
+        }).on('error', function (err) {
+          // boo, something went wrong!
+          console.log(" boo, something went wrong!");
+            console.log(err);
+        });
+      }
+    });
+
+/*
+
+*/
 return;
 
     var selected_record_id = save_queue.pop();
