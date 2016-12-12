@@ -132,12 +132,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("/");
 					result.push(i);
 					result.push("\">");
-
+					result.push('record ');
+					result.push(i + 1);
+					/*
 					for(var j = 0; j < p_metadata.children.length && j < 5; j++)
 					{
 						result.push(item[p_metadata.children[j].name]);
 						result.push(' ');
-					}
+					}*/
 					result.push('</a>');
 					result.push('</div>');
 				}
@@ -147,36 +149,44 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</section>");
 
 
-			result.push("<section id='");
-			result.push(p_metadata.name);
-			result.push("' class='form'><h2 ");
-			if(p_metadata.description && p_metadata.description.length > 0)
-			{
-				result.push("rel='tooltip'  data-original-title='");
-				result.push(p_metadata.description.replace(/'/g, "\\'"));
-				result.push("'>");
-			}
-			else
-			{
-				result.push(">");
-			}
+			
 
-			result.push(p_metadata.prompt);
-			result.push("</h2>");
-			for(var i = 0; i < p_metadata.children.length; i++)
+			if(p_ui.url_state.path_array.length > 2)
 			{
-				var child = p_metadata.children[i];
-				if(p_data[child.name])
+				var data_index = p_ui.url_state.path_array[2];
+				result.push("<section id='");
+				result.push(p_metadata.name);
+				result.push("' class='form'><h2 ");
+				if(p_metadata.description && p_metadata.description.length > 0)
 				{
-
+					result.push("rel='tooltip'  data-original-title='");
+					result.push(p_metadata.description.replace(/'/g, "\\'"));
+					result.push("'>");
 				}
 				else
 				{
-					p_data[child.name] = create_default_object(child, {})[child.name];
+					result.push(">");
 				}
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name));
+
+				result.push(p_metadata.prompt);
+				result.push("</h2>");
+				
+				for(var i = 0; i < p_metadata.children.length; i++)
+				{
+					var child = p_metadata.children[i];
+					if(p_data[data_index][child.name])
+					{
+
+					}
+					else
+					{
+						p_data[data_index][child.name] = create_default_object(child, {})[child.name];
+					}
+					Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name));
+				}
+				result.push("</section>");
+
 			}
-			result.push("</section>");
 
 		}
 		else
@@ -216,7 +226,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		break;
     case 'app':
 		result.push("<section id='app_summary'><h2>summary</h2>");
-		result.push("<input type='button' class='btn-green' value='add new case aa' onclick='g_ui.add_new_case()' /><hr/>");
+		result.push("<input type='button' class='btn-green' value='add new case' onclick='g_ui.add_new_case()' /><hr/>");
 		result.push("<fieldset><legend>filter line listing</legend>");
 		result.push("<input type='text' id='search_text_box' value='' /> ");
 		result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");

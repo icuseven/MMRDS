@@ -368,18 +368,39 @@ function window_on_hash_change(e)
 
 
               var section_list = document.getElementsByTagName("section");
-              for(var i = 0; i < section_list.length; i++)
+
+
+              if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
               {
-                var section = section_list[i];
-                if(section.id == g_ui.url_state.path_array[1] + "_id")
+                for(var i = 0; i < section_list.length; i++)
                 {
-                    section.style.display = "block";
-                }
-                else
-                {
-                    section.style.display = "none";
+                  var section = section_list[i];
+                  if(section.id == g_ui.url_state.path_array[1])
+                  {
+                      section.style.display = "block";
+                  }
+                  else
+                  {
+                      section.style.display = "none";
+                  }
                 }
               }
+              else
+              {
+                for(var i = 0; i < section_list.length; i++)
+                {
+                  var section = section_list[i];
+                  if(section.id == g_ui.url_state.path_array[1] + "_id")
+                  {
+                      section.style.display = "block";
+                  }
+                  else
+                  {
+                      section.style.display = "none";
+                  }
+                }
+              }
+
             }
             else
             {
@@ -431,17 +452,35 @@ function window_on_hash_change(e)
 
 
   		var section_list = document.getElementsByTagName("section");
-  		for(var i = 0; i < section_list.length; i++)
-  		{
-  			var section = section_list[i];
-  			if(section.id == g_ui.url_state.path_array[1] + "_id")
-  			{
-  					section.style.display = "block";
-  			}
-  			else
-  			{
-  					section.style.display = "none";
-  			}
+      if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
+      {
+        for(var i = 0; i < section_list.length; i++)
+        {
+          var section = section_list[i];
+          if(section.id == g_ui.url_state.path_array[1])
+          {
+              section.style.display = "block";
+          }
+          else
+          {
+              section.style.display = "none";
+          }
+        }
+      }
+      else
+      {
+        for(var i = 0; i < section_list.length; i++)
+        {
+          var section = section_list[i];
+          if(section.id == g_ui.url_state.path_array[1] + "_id")
+          {
+              section.style.display = "block";
+          }
+          else
+          {
+              section.style.display = "none";
+          }
+        }
       }
 		}
     else
@@ -778,9 +817,9 @@ function add_new_form_click(p_metadata_path, p_object_path)
   var form_array = eval(p_object_path);
 
   var new_form = create_default_object(metadata, {});
+  var item = new_form[metadata.name][0];
+  form_array.push(item);
 
-  form_array.push(new_form[0]);
-
-  document.getElementById(p_object_path).innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path).join("");
+  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path).join("");
 
 }
