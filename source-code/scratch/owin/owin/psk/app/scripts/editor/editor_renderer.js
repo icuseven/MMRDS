@@ -3,7 +3,7 @@ colors.push(0xFF8888);
 colors.push(0x88FF88);
 colors.push(0x8888FF);
 
-function editor_render(p_metadata, p_path, p_ui)
+function editor_render(p_metadata, p_path, p_ui, p_object_path)
 {
 
 	var result = [];
@@ -67,13 +67,13 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push(p_path);
 			result.push('" />');
 			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" />');
-			//result.push(p_path + "/children");
+			result.push(p_object_path);
 			result.push(' <ul>');
 
 			for(var i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
-				Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i, p_ui));
+				Array.prototype.push.apply(result, editor_render(child, p_path + "/children/" + i, p_ui, p_object_path + "/" + child.name));
 			}
 
 			result.push('<li><select path="');
@@ -126,7 +126,7 @@ function editor_render(p_metadata, p_path, p_ui)
 	       for(var i = 0; i < p_metadata.children.length; i++)
 	       {
 	         var child = p_metadata.children[i];
-					 Array.prototype.push.apply(result, editor_render(child, "/children/" + i, p_ui));
+					 Array.prototype.push.apply(result, editor_render(child, "/children/" + i, p_ui, p_object_path + "/" + child.name));
 			}
 			result.push('</ul></li></ul></div>');
        break;
@@ -148,9 +148,9 @@ function editor_render(p_metadata, p_path, p_ui)
 			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
 			result.push(p_metadata.name);
 			result.push(' ');
-			//result.push(p_path);
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
+			result.push(p_object_path);
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -176,12 +176,13 @@ function editor_render(p_metadata, p_path, p_ui)
 		result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		result.push(p_metadata.name);
 		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-		result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
+		result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+		result.push(p_object_path);
 		result.push('<br/><ul  tag="attribute_list">');
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		//result.push(p_path + "/" + "values");
+		
 		result.push(' <ul>');
 
 

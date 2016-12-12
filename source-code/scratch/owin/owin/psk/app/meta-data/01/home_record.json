@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "2-fc6d5c36c936843e2bb82fb4d79e80a5",
+   "_rev": "234-b3a5201ae28d9fd418ba968a87ee3c78",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -288,7 +288,7 @@
                        },
                        {
                            "description": "",
-                           "value": "PW- Paulau"
+                           "value": "PW- Palau"
                        },
                        {
                            "description": "",
@@ -537,7 +537,9 @@
                            "description": "",
                            "value": "VI- Virgin Islands"
                        }
-                   ]
+                   ],
+                   "list_display_size": 1,
+                   "control_style": "editable"
                },
                {
                    "prompt": "Agency-Based Case Identifier",
@@ -983,6 +985,1017 @@
                    ]
                },
                {
+                   "prompt": "Citizen of What Country",
+                   "name": "citizen_of_what_country",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "US- United States"
+                       },
+                       {
+                           "description": "",
+                           "value": "AF- Afghanistan"
+                       },
+                       {
+                           "description": "",
+                           "value": "AL- Albania"
+                       },
+                       {
+                           "description": "",
+                           "value": "AG- Algeria"
+                       },
+                       {
+                           "description": "",
+                           "value": "AQ- American Samoa"
+                       },
+                       {
+                           "description": "",
+                           "value": "AN- Andorra"
+                       },
+                       {
+                           "description": "",
+                           "value": "AO- Angola"
+                       },
+                       {
+                           "description": "",
+                           "value": "AV- Anguilla"
+                       },
+                       {
+                           "description": "",
+                           "value": "AY- Antarctica"
+                       },
+                       {
+                           "description": "",
+                           "value": "AC- Antigua & Barbuda"
+                       },
+                       {
+                           "description": "",
+                           "value": "AR- Argentina"
+                       },
+                       {
+                           "description": "",
+                           "value": "AM- Armenia"
+                       },
+                       {
+                           "description": "",
+                           "value": "AA- Aruba"
+                       },
+                       {
+                           "description": "",
+                           "value": "AS- Australia"
+                       },
+                       {
+                           "description": "",
+                           "value": "AU- Austria"
+                       },
+                       {
+                           "description": "",
+                           "value": "AJ- Azerbaijan"
+                       },
+                       {
+                           "description": "",
+                           "value": "BF- The Bahamas"
+                       },
+                       {
+                           "description": "",
+                           "value": "BA- Bahrain"
+                       },
+                       {
+                           "description": "",
+                           "value": "FQ- Baker I."
+                       },
+                       {
+                           "description": "",
+                           "value": "BG- Bangladesh"
+                       },
+                       {
+                           "description": "",
+                           "value": "BB- Barbados"
+                       },
+                       {
+                           "description": "",
+                           "value": "BO- Belarus"
+                       },
+                       {
+                           "description": "",
+                           "value": "BE- Belgium"
+                       },
+                       {
+                           "description": "",
+                           "value": "BH- Belize"
+                       },
+                       {
+                           "description": "",
+                           "value": "BN- Benin"
+                       },
+                       {
+                           "description": "",
+                           "value": "BD- Bermuda"
+                       },
+                       {
+                           "description": "",
+                           "value": "BT- Bhutan"
+                       },
+                       {
+                           "description": "",
+                           "value": "BL- Bolivia"
+                       },
+                       {
+                           "description": "",
+                           "value": "BK- Bosnia & Herzegovina"
+                       },
+                       {
+                           "description": "",
+                           "value": "BC- Botswana"
+                       },
+                       {
+                           "description": "",
+                           "value": "BV- Bouvet I."
+                       },
+                       {
+                           "description": "",
+                           "value": "BR- Brazil"
+                       },
+                       {
+                           "description": "",
+                           "value": "IO- British Indian Ocean Territory"
+                       },
+                       {
+                           "description": "",
+                           "value": "VI- British Virgin Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "BX- Brunei"
+                       },
+                       {
+                           "description": "",
+                           "value": "BU- Bulgaria"
+                       },
+                       {
+                           "description": "",
+                           "value": "UV- Burkina Faso"
+                       },
+                       {
+                           "description": "",
+                           "value": "BM- Myanmar"
+                       },
+                       {
+                           "description": "",
+                           "value": "BY- Burundi"
+                       },
+                       {
+                           "description": "",
+                           "value": "CB- Cambodia"
+                       },
+                       {
+                           "description": "",
+                           "value": "CM- Cameroon"
+                       },
+                       {
+                           "description": "",
+                           "value": "CA- Canada"
+                       },
+                       {
+                           "description": "",
+                           "value": "CV- Cape Verde"
+                       },
+                       {
+                           "description": "",
+                           "value": "CJ- Cayman Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "CT- Central African Republic"
+                       },
+                       {
+                           "description": "",
+                           "value": "CD- Chad"
+                       },
+                       {
+                           "description": "",
+                           "value": "CI- Chile"
+                       },
+                       {
+                           "description": "",
+                           "value": "CH- China"
+                       },
+                       {
+                           "description": "",
+                           "value": "KT- Christmas I."
+                       },
+                       {
+                           "description": "",
+                           "value": "CK- Cocos Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "CO- Colombia"
+                       },
+                       {
+                           "description": "",
+                           "value": "CN- Comoros"
+                       },
+                       {
+                           "description": "",
+                           "value": "CF- Congo"
+                       },
+                       {
+                           "description": "",
+                           "value": "CW- Cook Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "CS- Costa Rica"
+                       },
+                       {
+                           "description": "",
+                           "value": "IV- Cote d'Ivoire"
+                       },
+                       {
+                           "description": "",
+                           "value": "HR- Croatia"
+                       },
+                       {
+                           "description": "",
+                           "value": "CU- Cuba"
+                       },
+                       {
+                           "description": "",
+                           "value": "CY- Cyprus"
+                       },
+                       {
+                           "description": "",
+                           "value": "EZ- Czech Republic"
+                       },
+                       {
+                           "description": "",
+                           "value": "KN- North Korea"
+                       },
+                       {
+                           "description": "",
+                           "value": "CG- Congo, DRC"
+                       },
+                       {
+                           "description": "",
+                           "value": "DA- Denmark"
+                       },
+                       {
+                           "description": "",
+                           "value": "DJ- Djibouti"
+                       },
+                       {
+                           "description": "",
+                           "value": "DO- Dominica"
+                       },
+                       {
+                           "description": "",
+                           "value": "DR- Dominican Republic"
+                       },
+                       {
+                           "description": "",
+                           "value": "EC- Ecuador"
+                       },
+                       {
+                           "description": "",
+                           "value": "EG- Egypt"
+                       },
+                       {
+                           "description": "",
+                           "value": "ES- El Salvador"
+                       },
+                       {
+                           "description": "",
+                           "value": "EK- Equatorial Guinea"
+                       },
+                       {
+                           "description": "",
+                           "value": "ER- Eritrea"
+                       },
+                       {
+                           "description": "",
+                           "value": "EN- Estonia"
+                       },
+                       {
+                           "description": "",
+                           "value": "ET- Ethiopia"
+                       },
+                       {
+                           "description": "",
+                           "value": "FK- Falkland Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "FO- Faroe Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "FJ- Fiji"
+                       },
+                       {
+                           "description": "",
+                           "value": "FI- Finland"
+                       },
+                       {
+                           "description": "",
+                           "value": "FR- France"
+                       },
+                       {
+                           "description": "",
+                           "value": "FG- French Guiana"
+                       },
+                       {
+                           "description": "",
+                           "value": "FP- French Polynesia"
+                       },
+                       {
+                           "description": "",
+                           "value": "FS- French Southern & Antarctic Lands"
+                       },
+                       {
+                           "description": "",
+                           "value": "GB- Gabon"
+                       },
+                       {
+                           "description": "",
+                           "value": "GA- The Gambia"
+                       },
+                       {
+                           "description": "",
+                           "value": "GZ- Gaza Strip"
+                       },
+                       {
+                           "description": "",
+                           "value": "GG- Georgia"
+                       },
+                       {
+                           "description": "",
+                           "value": "GM- Germany"
+                       },
+                       {
+                           "description": "",
+                           "value": "GH- Ghana"
+                       },
+                       {
+                           "description": "",
+                           "value": "GI- Gibraltar"
+                       },
+                       {
+                           "description": "",
+                           "value": "GO- Glorioso Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "GR- Greece"
+                       },
+                       {
+                           "description": "",
+                           "value": "GL- Greenland"
+                       },
+                       {
+                           "description": "",
+                           "value": "GJ- Grenada"
+                       },
+                       {
+                           "description": "",
+                           "value": "GP- Guadeloupe"
+                       },
+                       {
+                           "description": "",
+                           "value": "GQ- Guam"
+                       },
+                       {
+                           "description": "",
+                           "value": "GT- Guatemala"
+                       },
+                       {
+                           "description": "",
+                           "value": "GK- Guernsey"
+                       },
+                       {
+                           "description": "",
+                           "value": "GV- Guinea"
+                       },
+                       {
+                           "description": "",
+                           "value": "PU- Guinea-Bissau"
+                       },
+                       {
+                           "description": "",
+                           "value": "GY- Guyana"
+                       },
+                       {
+                           "description": "",
+                           "value": "HA- Haiti"
+                       },
+                       {
+                           "description": "",
+                           "value": "HM- Heard I. & McDonald Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "VT- Vatican City"
+                       },
+                       {
+                           "description": "",
+                           "value": "HO- Honduras"
+                       },
+                       {
+                           "description": "",
+                           "value": "HQ- Howland I."
+                       },
+                       {
+                           "description": "",
+                           "value": "HU- Hungary"
+                       },
+                       {
+                           "description": "",
+                           "value": "IC- Iceland"
+                       },
+                       {
+                           "description": "",
+                           "value": "IN- India"
+                       },
+                       {
+                           "description": "",
+                           "value": "ID- Indonesia"
+                       },
+                       {
+                           "description": "",
+                           "value": "IR- Iran"
+                       },
+                       {
+                           "description": "",
+                           "value": "IZ- Iraq"
+                       },
+                       {
+                           "description": "",
+                           "value": "EI- Ireland"
+                       },
+                       {
+                           "description": "",
+                           "value": "IM- Isle of Man"
+                       },
+                       {
+                           "description": "",
+                           "value": "IS- Israel"
+                       },
+                       {
+                           "description": "",
+                           "value": "IT- Italy"
+                       },
+                       {
+                           "description": "",
+                           "value": "JM- Jamaica"
+                       },
+                       {
+                           "description": "",
+                           "value": "JA- Japan"
+                       },
+                       {
+                           "description": "",
+                           "value": "DQ- Jarvis I."
+                       },
+                       {
+                           "description": "",
+                           "value": "JE- Jersey"
+                       },
+                       {
+                           "description": "",
+                           "value": "JQ- Johnston Atoll"
+                       },
+                       {
+                           "description": "",
+                           "value": "JO- Jordan"
+                       },
+                       {
+                           "description": "",
+                           "value": "JU- Juan De Nova I."
+                       },
+                       {
+                           "description": "",
+                           "value": "KZ- Kazakhstan"
+                       },
+                       {
+                           "description": "",
+                           "value": "KE- Kenya"
+                       },
+                       {
+                           "description": "",
+                           "value": "KR- Kiribati"
+                       },
+                       {
+                           "description": "",
+                           "value": "KU- Kuwait"
+                       },
+                       {
+                           "description": "",
+                           "value": "KG- Kyrgyzstan"
+                       },
+                       {
+                           "description": "",
+                           "value": "LA- Laos"
+                       },
+                       {
+                           "description": "",
+                           "value": "LG- Latvia"
+                       },
+                       {
+                           "description": "",
+                           "value": "LE- Lebanon"
+                       },
+                       {
+                           "description": "",
+                           "value": "LT- Lesotho"
+                       },
+                       {
+                           "description": "",
+                           "value": "LI- Liberia"
+                       },
+                       {
+                           "description": "",
+                           "value": "LY- Libya"
+                       },
+                       {
+                           "description": "",
+                           "value": "LS- Liechtenstein"
+                       },
+                       {
+                           "description": "",
+                           "value": "LH- Lithuania"
+                       },
+                       {
+                           "description": "",
+                           "value": "LU- Luxembourg"
+                       },
+                       {
+                           "description": "",
+                           "value": "MA- Madagascar"
+                       },
+                       {
+                           "description": "",
+                           "value": "MI- Malawi"
+                       },
+                       {
+                           "description": "",
+                           "value": "MY- Malaysia"
+                       },
+                       {
+                           "description": "",
+                           "value": "MV- Maldives"
+                       },
+                       {
+                           "description": "",
+                           "value": "ML- Mali"
+                       },
+                       {
+                           "description": "",
+                           "value": "MT- Malta"
+                       },
+                       {
+                           "description": "",
+                           "value": "RM- Marshall Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "MB- Martinique"
+                       },
+                       {
+                           "description": "",
+                           "value": "MR- Mauritania"
+                       },
+                       {
+                           "description": "",
+                           "value": "MP- Mauritius"
+                       },
+                       {
+                           "description": "",
+                           "value": "MF- Mayotte"
+                       },
+                       {
+                           "description": "",
+                           "value": "MX- Mexico"
+                       },
+                       {
+                           "description": "",
+                           "value": "FM- Micronesia"
+                       },
+                       {
+                           "description": "",
+                           "value": "MQ- Midway Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "MD- Moldova"
+                       },
+                       {
+                           "description": "",
+                           "value": "MN- Monaco"
+                       },
+                       {
+                           "description": "",
+                           "value": "MG- Mongolia"
+                       },
+                       {
+                           "description": "",
+                           "value": "MH- Montserrat"
+                       },
+                       {
+                           "description": "",
+                           "value": "MO- Morocco"
+                       },
+                       {
+                           "description": "",
+                           "value": "MZ- Mozambique"
+                       },
+                       {
+                           "description": "",
+                           "value": "WA- Namibia"
+                       },
+                       {
+                           "description": "",
+                           "value": "NR- Nauru"
+                       },
+                       {
+                           "description": "",
+                           "value": "NP- Nepal"
+                       },
+                       {
+                           "description": "",
+                           "value": "NL- Netherlands"
+                       },
+                       {
+                           "description": "",
+                           "value": "NT- Netherlands Antilles"
+                       },
+                       {
+                           "description": "",
+                           "value": "NC- New Caledonia"
+                       },
+                       {
+                           "description": "",
+                           "value": "NZ- New Zealand"
+                       },
+                       {
+                           "description": "",
+                           "value": "NU- Nicaragua"
+                       },
+                       {
+                           "description": "",
+                           "value": "NG- Niger"
+                       },
+                       {
+                           "description": "",
+                           "value": "NI- Nigeria"
+                       },
+                       {
+                           "description": "",
+                           "value": "NE- Niue"
+                       },
+                       {
+                           "description": "",
+                           "value": "NF- Norfolk I."
+                       },
+                       {
+                           "description": "",
+                           "value": "CQ- Northern Mariana Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "NO- Norway"
+                       },
+                       {
+                           "description": "",
+                           "value": "MU- Oman"
+                       },
+                       {
+                           "description": "",
+                           "value": "PK- Pakistan"
+                       },
+                       {
+                           "description": "",
+                           "value": "PS- Palau"
+                       },
+                       {
+                           "description": "",
+                           "value": "PM- Panama"
+                       },
+                       {
+                           "description": "",
+                           "value": "PP- Papua New Guinea"
+                       },
+                       {
+                           "description": "",
+                           "value": "PA- Paraguay"
+                       },
+                       {
+                           "description": "",
+                           "value": "PE- Peru"
+                       },
+                       {
+                           "description": "",
+                           "value": "RP- Philippines"
+                       },
+                       {
+                           "description": "",
+                           "value": "PC- Pitcairn Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "PL- Poland"
+                       },
+                       {
+                           "description": "",
+                           "value": "PO- Portugal"
+                       },
+                       {
+                           "description": "",
+                           "value": "RQ- Puerto Rico"
+                       },
+                       {
+                           "description": "",
+                           "value": "QA- Qatar"
+                       },
+                       {
+                           "description": "",
+                           "value": "KS- South Korea"
+                       },
+                       {
+                           "description": "",
+                           "value": "MJ- Montenegro"
+                       },
+                       {
+                           "description": "",
+                           "value": "RB- Serbia"
+                       },
+                       {
+                           "description": "",
+                           "value": "RE- Reunion"
+                       },
+                       {
+                           "description": "",
+                           "value": "RO- Romania"
+                       },
+                       {
+                           "description": "",
+                           "value": "RS- Russia"
+                       },
+                       {
+                           "description": "",
+                           "value": "RW- Rwanda"
+                       },
+                       {
+                           "description": "",
+                           "value": "SH- St. Helena"
+                       },
+                       {
+                           "description": "",
+                           "value": "SC- St. Kitts & Nevis"
+                       },
+                       {
+                           "description": "",
+                           "value": "ST- St. Lucia"
+                       },
+                       {
+                           "description": "",
+                           "value": "SB- St. Pierre & Miquelon"
+                       },
+                       {
+                           "description": "",
+                           "value": "VC- St. Vincent & the Grenadines"
+                       },
+                       {
+                           "description": "",
+                           "value": "WS- Samoa"
+                       },
+                       {
+                           "description": "",
+                           "value": "SM- San Marino"
+                       },
+                       {
+                           "description": "",
+                           "value": "TP- Sao Tome & Principe"
+                       },
+                       {
+                           "description": "",
+                           "value": "SA- Saudi Arabia"
+                       },
+                       {
+                           "description": "",
+                           "value": "SG- Senegal"
+                       },
+                       {
+                           "description": "",
+                           "value": "SE- Seychelles"
+                       },
+                       {
+                           "description": "",
+                           "value": "SL- Sierra Leone"
+                       },
+                       {
+                           "description": "",
+                           "value": "SN- Singapore"
+                       },
+                       {
+                           "description": "",
+                           "value": "LO- Slovakia"
+                       },
+                       {
+                           "description": "",
+                           "value": "SI- Slovenia"
+                       },
+                       {
+                           "description": "",
+                           "value": "BP- Solomon Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "SO- Somalia"
+                       },
+                       {
+                           "description": "",
+                           "value": "SF- South Africa"
+                       },
+                       {
+                           "description": "",
+                           "value": "SX- South Georgia & the South Sandwich Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "SP- Spain"
+                       },
+                       {
+                           "description": "",
+                           "value": "CE- Sri Lanka"
+                       },
+                       {
+                           "description": "",
+                           "value": "SU- Sudan"
+                       },
+                       {
+                           "description": "",
+                           "value": "NS- Suriname"
+                       },
+                       {
+                           "description": "",
+                           "value": "JN- Jan Mayen"
+                       },
+                       {
+                           "description": "",
+                           "value": "SV- Svalbard"
+                       },
+                       {
+                           "description": "",
+                           "value": "WZ- Swaziland"
+                       },
+                       {
+                           "description": "",
+                           "value": "SW- Sweden"
+                       },
+                       {
+                           "description": "",
+                           "value": "SZ- Switzerland"
+                       },
+                       {
+                           "description": "",
+                           "value": "SY- Syria"
+                       },
+                       {
+                           "description": "",
+                           "value": "TI- Tajikistan"
+                       },
+                       {
+                           "description": "",
+                           "value": "TH- Thailand"
+                       },
+                       {
+                           "description": "",
+                           "value": "MK- Macedonia"
+                       },
+                       {
+                           "description": "",
+                           "value": "TT- Timor-Leste"
+                       },
+                       {
+                           "description": "",
+                           "value": "TO- Togo"
+                       },
+                       {
+                           "description": "",
+                           "value": "TL- Tokelau"
+                       },
+                       {
+                           "description": "",
+                           "value": "TN- Tonga"
+                       },
+                       {
+                           "description": "",
+                           "value": "TD- Trinidad & Tobago"
+                       },
+                       {
+                           "description": "",
+                           "value": "TS- Tunisia"
+                       },
+                       {
+                           "description": "",
+                           "value": "TU- Turkey"
+                       },
+                       {
+                           "description": "",
+                           "value": "TX- Turkmenistan"
+                       },
+                       {
+                           "description": "",
+                           "value": "TK- Turks & Caicos Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "TV- Tuvalu"
+                       },
+                       {
+                           "description": "",
+                           "value": "UG- Uganda"
+                       },
+                       {
+                           "description": "",
+                           "value": "UP- Ukraine"
+                       },
+                       {
+                           "description": "",
+                           "value": "AE- United Arab Emirates"
+                       },
+                       {
+                           "description": "",
+                           "value": "UK- United Kingdom"
+                       },
+                       {
+                           "description": "",
+                           "value": "TZ- Tanzania"
+                       },
+                       {
+                           "description": "",
+                           "value": "VQ- Virgin Is."
+                       },
+                       {
+                           "description": "",
+                           "value": "UY- Uruguay"
+                       },
+                       {
+                           "description": "",
+                           "value": "UZ- Uzbekistan"
+                       },
+                       {
+                           "description": "",
+                           "value": "NH- Vanuatu"
+                       },
+                       {
+                           "description": "",
+                           "value": "VE- Venezuela"
+                       },
+                       {
+                           "description": "",
+                           "value": "VM- Vietnam"
+                       },
+                       {
+                           "description": "",
+                           "value": "WQ- Wake I."
+                       },
+                       {
+                           "description": "",
+                           "value": "WF- Wallis & Futuna"
+                       },
+                       {
+                           "description": "",
+                           "value": "WE- West Bank"
+                       },
+                       {
+                           "description": "",
+                           "value": "WI- Western Sahara"
+                       },
+                       {
+                           "description": "",
+                           "value": "YM- Yemen"
+                       },
+                       {
+                           "description": "",
+                           "value": "ZA- Zambia"
+                       },
+                       {
+                           "description": "",
+                           "value": "ZI- Zimbabwe"
+                       },
+                       {
+                           "description": "",
+                           "value": "SS- South Sudan"
+                       }
+                   ]
+               },
+               {
                    "prompt": "Date of Birth* (YYYY-MM-DD)",
                    "name": "date_of_birth",
                    "type": "Date",
@@ -1236,7 +2249,8 @@
                            "description": "",
                            "value": "Race not specified"
                        }
-                   ]
+                   ],
+                   "is_multiselect": true
                },
                {
                    "prompt": "Date of Injury (YYYY-MM-DD)",
@@ -1700,14 +2714,7 @@
                {
                    "prompt": "Reviewer's notes about the Death Certificate",
                    "name": "reviewer_note",
-                   "type": "string"
-               },
-               {
-                   "prompt": "Citizen of What Country",
-                   "name": "citizen_of_what_country",
-                   "type": "list",
-                   "values": [
-                   ]
+                   "type": "textarea"
                }
            ]
        },
@@ -3467,7 +4474,151 @@
                        {
                            "prompt": "Substance",
                            "name": "substance",
-                           "type": "textarea"
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": "Alcohol"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Acetaminophen"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Acetazolamide (Diamox)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Carbamazepine (Neurontin)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Felbamate (Felbatol)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pregabalin (Lyrica)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Citalopram (Celexa)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Sertraline (Zoloft)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Meprobamate (Equanil)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Duloxetine (Cymbalta)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aripiprazole (Abilify)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lurasidone (Latuda)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Quetiapine (Seroquel)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Fluoxetine/Olanzapine (Symbyax)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Alprazolam (Xanax)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Chlordiazepoxide (Librium)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Diazepam (Valium)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lorazepam (Ativan)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Temazepam (Restoril)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clonazepam (Klonopin or Rivotril)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Zolpidem (Ambien)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trazadone (Oleptro)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Midazolam (Versed)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aminoclonazepam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Doxepin (Silenor, Zonalon, Prudoxin)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Buprenorphine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Fentanyl"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Heroin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hydromorphone (Dilaudid)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Methadone"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Methadone Hydrochloride"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Morphine Sulfate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Oxycodone Hydrochloride"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Oxymorphone Hydrochloride (Opana)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cocaine"
+                               }
+                           ],
+                           "list_display_size": 1,
+                           "control_style": "editable"
                        },
                        {
                            "prompt": "Concentration",
@@ -3588,7 +4739,8 @@
                {
                    "prompt": "Terminal Event / Autopsy Narrative Summary:",
                    "name": "terminal_event_autopsy_narrative_summary",
-                   "type": "textarea"
+                   "type": "textarea",
+                   "pre_fill": "(Briefly describe in chronological fashion the events immediately preceding the terminal event.)\n\nOn _________ (date) at _____ (time)...\n(Include critical symptoms, treatments, referrals, labs, and vitals)\n\n\nShe expired on _______ (date) at _______ (time) in the __________ (facility).  The case was or was/not reported to the Medical Examiner/Coroner.  Autopsy was OR was not performed.  Core findings from the autopsy include the following:\nAutopsy performed by:\nHeight and weight:\nSystems Exam (Gross Findings):\nMicroscopic Exam:\nToxicology Results:\nCause of Death (per autopsy):"
                }
            ]
        },
@@ -3923,6 +5075,32 @@
                    ]
                },
                {
+                   "prompt": "Were there documented mental health conditions?*",
+                   "name": "were_there_documented_mental_health_conditions",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not specified"
+                       }
+                   ],
+                   "is_core_summary": true,
+                   "list_display_size": 1,
+                   "description": "If yes complete Mental Health Profile."
+               },
+               {
                    "prompt": "Family medical history",
                    "name": "family_medical_history",
                    "type": "grid",
@@ -4033,14 +5211,158 @@
                    "list_display_size": 1
                },
                {
-                   "prompt": "Evidence of Substance Abuse List",
-                   "name": "subtance_abuse_grid",
+                   "prompt": "Evidence of Substance Use",
+                   "name": "substance_use_grid",
                    "type": "grid",
                    "children": [
                        {
                            "prompt": "Substance",
                            "name": "substance",
-                           "type": "label"
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": "Alcohol"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Acetaminophen"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Acetazolamide (Diamox)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Carbamazepine (Neurontin)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Felbamate (Felbatol)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pregabalin (Lyrica)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Citalopram (Celexa)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Sertraline (Zoloft)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Meprobamate (Equanil)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Duloxetine (Cymbalta)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aripiprazole (Abilify)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lurasidone (Latuda)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Quetiapine (Seroquel)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Fluoxetine/Olanzapine (Symbyax)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Alprazolam (Xanax)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Chlordiazepoxide (Librium)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Diazepam (Valium)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lorazepam (Ativan)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Temazepam (Restoril)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clonazepam (Klonopin or Rivotril)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Zolpidem (Ambien)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trazadone (Oleptro)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Midazolam (Versed)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aminoclonazepam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Doxepin (Silenor, Zonalon, Prudoxin)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Buprenorphine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Fentanyl"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Heroin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hydromorphone (Dilaudid)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Methadone"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Methadone Hydrochloride"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Morphine Sulfate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Oxycodone Hydrochloride"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Oxymorphone Hydrochloride (Opana)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cocaine"
+                               }
+                           ],
+                           "list_display_size": 1,
+                           "control_style": "editable"
                        },
                        {
                            "prompt": "Screening",
@@ -4878,7 +6200,7 @@
                    ]
                },
                {
-                   "prompt": "Were there problems identified during the current pregnance?*",
+                   "prompt": "Were there problems identified during the current pregnancy?*",
                    "name": "were_there_problems_identified",
                    "type": "list",
                    "values": [
@@ -5774,11 +7096,6 @@
                        {
                            "prompt": "Maternal levels of care*",
                            "name": "maternal_levels_of_care",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Maternal levels of care*",
-                           "name": "maternal_levels_of_care",
                            "type": "list",
                            "values": [
                                {
@@ -5805,7 +7122,8 @@
                                    "description": "",
                                    "value": "Regional Perinatal Health Care Center (Level IV)"
                                }
-                           ]
+                           ],
+                           "is_core_summary": true
                        },
                        {
                            "prompt": "Street",
@@ -6880,259 +8198,6 @@
            ]
        },
        {
-           "prompt": "Informant Interviews",
-           "name": "informant_interviews",
-           "type": "form",
-           "cardinality": "?",
-           "children": [
-               {
-                   "prompt": "Date Of Interview",
-                   "name": "date_of_interview",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Interview Type*",
-                   "name": "interview_type",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "Family"
-                       },
-                       {
-                           "description": "",
-                           "value": "Neighbor"
-                       },
-                       {
-                           "description": "",
-                           "value": "Friend"
-                       },
-                       {
-                           "description": "",
-                           "value": "Witness"
-                       },
-                       {
-                           "description": "",
-                           "value": "Law enforcement"
-                       },
-                       {
-                           "description": "",
-                           "value": "Health care provider"
-                       },
-                       {
-                           "description": "",
-                           "value": "EMS transport provider"
-                       },
-                       {
-                           "description": "",
-                           "value": "Coroner"
-                       },
-                       {
-                           "description": "",
-                           "value": "Medical examiner"
-                       },
-                       {
-                           "description": "",
-                           "value": "Other"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Information about the informant",
-                   "name": "information_about_the_informant",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Informant Name",
-                   "name": "informant_name",
-                   "type": "string"
-               },
-               {
-                   "prompt": "Age Group",
-                   "name": "age_group",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "65 or older"
-                       },
-                       {
-                           "description": "",
-                           "value": "18 to 64"
-                       },
-                       {
-                           "description": "",
-                           "value": "12 to 18"
-                       },
-                       {
-                           "description": "",
-                           "value": "6 to 11"
-                       },
-                       {
-                           "description": "",
-                           "value": "Under 6"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Relationship To Deceased",
-                   "name": "relationship_to_deceased",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "None"
-                       },
-                       {
-                           "description": "",
-                           "value": "Parent"
-                       },
-                       {
-                           "description": "",
-                           "value": "Grand Parent"
-                       },
-                       {
-                           "description": "",
-                           "value": "Sister"
-                       },
-                       {
-                           "description": "",
-                           "value": "Brother"
-                       },
-                       {
-                           "description": "",
-                           "value": "Aunt"
-                       },
-                       {
-                           "description": "",
-                           "value": "Uncle"
-                       },
-                       {
-                           "description": "",
-                           "value": "Cousin"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Extended Relationship",
-                   "name": "new_group",
-                   "type": "group",
-                   "children": [
-                       {
-                           "prompt": "Step-",
-                           "name": "step_",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "In-Law",
-                           "name": "in_law",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Half-",
-                           "name": "half_",
-                           "type": "boolean"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Ethnicity",
-                   "name": "ethnicity",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "No, Not Spanish/Hispanic/Latino"
-                       },
-                       {
-                           "description": "",
-                           "value": "Yes, Mexican, Mexican American, Chicano"
-                       },
-                       {
-                           "description": "",
-                           "value": "Yes, Puerto Rican"
-                       },
-                       {
-                           "description": "",
-                           "value": "Yes, Cuban"
-                       },
-                       {
-                           "description": "",
-                           "value": "Yes, Other Spanish/Hispanic/Latino"
-                       },
-                       {
-                           "description": "",
-                           "value": "Yes, Origin Unknown"
-                       },
-                       {
-                           "description": "",
-                           "value": "Not Specified"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Race",
-                   "name": "race",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "Black"
-                       },
-                       {
-                           "description": "",
-                           "value": "White"
-                       },
-                       {
-                           "description": "",
-                           "value": "American Indian / Alaska Native"
-                       },
-                       {
-                           "description": "",
-                           "value": "Hawaiian / Pacific Islander"
-                       },
-                       {
-                           "description": "",
-                           "value": "Asian"
-                       },
-                       {
-                           "description": "",
-                           "value": "Biracial"
-                       },
-                       {
-                           "description": "",
-                           "value": "Multiracial"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Interview Narrative",
-                   "name": "interview_narrative",
-                   "type": "textarea"
-               }
-           ]
-       },
-       {
            "prompt": "Other Medical Office Visits",
            "name": "other_medical_office_visits",
            "type": "form",
@@ -7859,113 +8924,129 @@
            ]
        },
        {
-           "prompt": "Committee Review",
-           "name": "committee_review",
+           "prompt": "Medical Transport",
+           "name": "medical_transport",
            "type": "form",
            "cardinality": "?",
            "children": [
                {
-                   "prompt": "PREGNANCY RELATED DEATH The death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy",
-                   "name": "pregnancy_related_death",
-                   "type": "label"
+                   "prompt": "Date",
+                   "name": "date",
+                   "type": "date"
                },
                {
-                   "prompt": "PREGNANCY ASSOCIATED DEATH The death of a woman from any cause during pregnancy or within one year of the end of pregnancy",
-                   "name": "prgnancy_associated_death",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Was this death...*",
-                   "name": "was_this_death",
-                   "type": "group",
-                   "children": [
-                       {
-                           "prompt": "Pregnancy Related",
-                           "name": "pregnancy_related",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Pregnancy Associated",
-                           "name": "new_boolean",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Not Pregnancy Related or Associated",
-                           "name": "not_pregnancy_related_or_associated",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unable to determine if pregnancy related or associated",
-                           "name": "unable_to_determine_if_pregnancy_related_or_associated",
-                           "type": "boolean"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "How was this death identified? (primary source)*",
-                   "name": "how_was_this_death_identified_primary_source",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "Obstetric ICD codes from the death certificate"
-                       },
-                       {
-                           "description": "",
-                           "value": "Pregnancy check box on death certificate"
-                       },
-                       {
-                           "description": "",
-                           "value": "Record linkage of death and birth  (fetal death) certificates"
-                       },
-                       {
-                           "description": "",
-                           "value": "Record linkage of death certificate and hospital discharge data"
-                       },
-                       {
-                           "description": "",
-                           "value": "Facility reporting"
-                       },
-                       {
-                           "description": "",
-                           "value": "Obituary"
-                       },
-                       {
-                           "description": "",
-                           "value": "Social media"
-                       },
-                       {
-                           "description": "",
-                           "value": "Other"
-                       },
-                       {
-                           "description": "",
-                           "value": "Unknown"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Notes about key circumstances surrounding this death identified by the committee  (enter in bulleted format)",
-                   "name": "notes_about_key_circumstances_surrounding_this_death_identified_by_the_committee_enter_in_bulleted_format",
+                   "prompt": "Reason for Transport",
+                   "name": "reason_for_transport",
                    "type": "textarea"
                },
                {
-                   "prompt": "ICD code book version",
-                   "name": "icd_code_book_version",
-                   "type": "number"
+                   "prompt": "Maternal Conditions (Describe)",
+                   "name": "maternal_conditions",
+                   "type": "textarea"
                },
                {
-                   "prompt": "Committee Determination of Cause(s) of Death",
-                   "name": "committee_determination_of_causes_of_death",
+                   "prompt": "Who Managed the Transport?",
+                   "name": "who_managed_the_transport",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Attending Physician",
+                   "name": "attending_physician",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Another Clinician",
+                   "name": "another_clinician",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "EMS/911",
+                   "name": "ems_911",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other (Specify)",
+                   "name": "other_specify",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Transport Vehicle",
+                   "name": "transport_vehicle",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Ground Ambulance",
+                   "name": "ground_ambulance",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Fixed-Wing Aircraft",
+                   "name": "fixed_wing_aircraft",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Helicopter",
+                   "name": "helicopter",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other",
+                   "name": "other",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Other (Specify)",
+                   "name": "other_specify",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Timing of Transport",
+                   "name": "timing_of_transport",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Call Received",
+                   "name": "call_received",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Depart for Patient Origin",
+                   "name": "depart_for_patient_origin",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Arrive at Patient Origin",
+                   "name": "arrive_at_patient_origin",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Patient Contact",
+                   "name": "patient_contact",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Depart for Referring Facility",
+                   "name": "depart_for_referring_facility",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Arrive at Referring Facility",
+                   "name": "arrive_at_referring_facility",
+                   "type": "datetime"
+               },
+               {
+                   "prompt": "Origin",
+                   "name": "origin",
                    "type": "grid",
                    "children": [
                        {
-                           "prompt": "Type",
-                           "name": "type",
+                           "prompt": "Trauma",
+                           "name": "trauma",
                            "type": "list",
                            "values": [
                                {
@@ -7974,26 +9055,61 @@
                                },
                                {
                                    "description": "",
-                                   "value": "Immediate"
+                                   "value": "Level 1"
                                },
                                {
                                    "description": "",
-                                   "value": "Contributing"
+                                   "value": "Level 2"
                                },
                                {
                                    "description": "",
-                                   "value": "Underlying"
+                                   "value": "Level 3"
                                },
                                {
                                    "description": "",
-                                   "value": "Other Significant"
+                                   "value": "Level 4"
                                }
                            ]
                        },
                        {
-                           "prompt": "Cause (descriptive)",
-                           "name": "cause_descriptive",
-                           "type": "string"
+                           "prompt": "Maternal Level of Care",
+                           "name": "maternal_level_of_care",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Birth Center"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Basic Care (Level 1)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Specialty Care (Level 2)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Subspecialty Care (Level 3)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Other (describe)",
+                           "name": "other_describe",
+                           "type": "textarea"
                        },
                        {
                            "prompt": "Comment(s)",
@@ -8003,651 +9119,62 @@
                    ]
                },
                {
-                   "prompt": "If Pregnancy Related, Committee Determination of Underlying Cause(s) of Death*",
-                   "name": "if_pregnancy_related_committee_determination_of_underlying_causes_of_death",
-                   "type": "grid",
-                   "children": [
-                       {
-                           "prompt": "CDC ICD-MM (Select all that apply)",
-                           "name": "cds_icd_mm_select_all_that_apply",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10 - Hemorrhage (Excludes Aneurysms or CVA)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.1 - Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.2 - Placental Abruption"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.3 Placenta Previa"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.4 Ruptured Ectopic Pregnancy"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.6 Placenta Acreta/Increta/Percreta"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.7 - Hemorrhage due to Retained Placenta"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.8 - Hemorrhage due to Primary DIC"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "10.9 - Other Hemorrhage/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20 - Infection"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20.0 - Chorioamnionitis/Antepartum Infection"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20.1 - Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20.2 - Sepsis/Septic Shock"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20.5 - Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20.6 - Urinary Track Infection"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "20.9 - Other Infections/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "30 - Embolism - Amniotic Fluid"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "40 - Pre-Eclampsia"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "50 - Eclampsia"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "60 - Chronic Hypertension with Superimposed Pre/Eclampsia"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "70 - Anesthesia Complications"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "80 - Cardiomyopathy"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "80.1 - Post-Partum/Peripartum Cardiomyopathy"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "80.2 - Hypertrophic Cardiomyopathy"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "80.9 - Other Cardiomyopathy/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "82 - Hematologic"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "82.1 - Sickle Cell Anemia"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "82.9 - Other Hematologic Conditions including Thrombophilias/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "83 - Collagen Vascular/Auto Immune Diseases"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "83.1 - Systemic Lupus Erythematosus (SLE)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "83.9 - Other Collagen Vascular Diseases/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "85 - Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "88 - Injury"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "88.1 - Intentional"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "88.2 - Unintentional"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "88.9 - Unknown/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "89 - Cancer"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "89.1 Gestational Trophoblastic Disease (GTN)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "89.3 - Malignant Melanoma"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "89.9 - Other Malignancies/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90 - Cardiovascular Conditions"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.1 - Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.2 - Pilmonary Hypertension"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.3 - Valvular Heart Disease"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.4 - Vascular Aneurysm/Dissection"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.5 - Hypertensive Cadiovascular Disease"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.7 - Conduction Defects/Arrhythmias"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "90.9 - Other Cardiovascular Disease/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "91 - Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "91.1 - Chronic Lung Disease"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "91.2 - Cystic Fibrosis"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "91.3 - Asthma"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "91.9 - Other Pulmonary Disease/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "92 - Neurologic/Neurovascular Conditions (Excluding CVAs)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "92.1 - Epilepsy/Seizure Disorder"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "92.9 - Other Neurologic Diseases/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "93 - Renal Disease"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "93.1 - Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "93.9 - Other Renal Disease/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "95 - CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "96 - Metabolic/Endocrine"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "96.1 - Obesity"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "96.2 - Diabetes Mellitus"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "96.9 - Other Metabolic/Endocrine Disorders"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "97 - Gastrointestinal Disorders"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "97.1 - Crohn's Disease/Ulcerative Colitis"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "97.2 - Lever Disease/Failure/Transplant"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "97.9 - Other Gastrointestinal Diseases/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "100 - Mental Health Conditions"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "100.1 - Depression/Suicide"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "100.9 - Other Psychiatric Conditions/NOS"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "999 - Unknown COD"
-                               }
-                           ],
-                           "is_multiselect": true
-                       }
-                   ]
-               },
-               {
-                   "prompt": "NOTE: If more than 1 is selected, please list them in order of importance begining with the most compelling",
-                   "name": "note_text",
-                   "type": "label"
-               },
-               {
-                   "prompt": "EVALUATION CRITERIA A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, community, provider, facility, and/or systems factors.",
-                   "name": "evaluation_criteria",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Was this death preventable?*",
-                   "name": "was_this_death_preventable",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Yes",
-                   "name": "yes",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "No",
-                   "name": "no",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Chance to alter outcome*",
-                   "name": "chance_to_alter_outcome",
-                   "type": "list",
-                   "values": [
-                       {
-                           "description": "",
-                           "value": ""
-                       },
-                       {
-                           "description": "",
-                           "value": "Good Chance"
-                       },
-                       {
-                           "description": "",
-                           "value": "Some Chance"
-                       },
-                       {
-                           "description": "",
-                           "value": "No Chance"
-                       },
-                       {
-                           "description": "",
-                           "value": "Unable to Determine"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "If there was at least some chance that the death could have been averted, what were the specific and feasible actions, which if implemented or altered, might have changed the course of events?",
-                   "name": "text",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Critical Factors Worksheet",
-                   "name": "critical_factors_worksheet",
-                   "type": "grid",
-                   "children": [
-                       {
-                           "prompt": "Category",
-                           "name": "category",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Patient"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Community"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Medical Care - Provider"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Medical Care - Facility"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "System of Care"
-                               }
-                           ]
-                       },
-                       {
-                           "prompt": "Class",
-                           "name": "class",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Compliance"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Knowledge"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Cultural / Religious"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Environmental"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Access"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Social Support"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Violence"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Mental Health"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Chronic Disease / Conditions"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Substance Abuse"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Equipment / Technology"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Policies / Procedures"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Communication"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Continuity of Care"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Personnel"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Outreach"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Enforcement"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Referral"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Assessment"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Legal"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Other"
-                               }
-                           ]
-                       },
-                       {
-                           "prompt": "Description",
-                           "name": "description",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Actions",
-                           "name": "actions",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Delay",
-                           "name": "delay",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Seeking Care"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Reaching Care"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Receiving Care"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "No Delays"
-                               }
-                           ]
-                       },
-                       {
-                           "prompt": "Prevention",
-                           "name": "prevention",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Primary"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Secondary"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Tertiary"
-                               }
-                           ]
-                       },
-                       {
-                           "prompt": "Impact Level",
-                           "name": "impact_level",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Small"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Medium"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Large"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Extra Large"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Giant"
-                               }
-                           ]
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Prevention Types:",
-                   "name": "prevention_types",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Primary - Prevent Incidence",
-                   "name": "primar_prevent_incidence",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Secondary - Prevent Progression",
-                   "name": "secondary_prevent_progression",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Tertiary - Prevent Complications",
-                   "name": "tertiary_prevent_complications",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Expected Impact Levels:",
-                   "name": "expected_impact_levels",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Small - Education (Eat Healthy, Awareness)",
-                   "name": "small_education",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Medium - Clinical Intervention (Protocols, Prescriptions)",
-                   "name": "medium_clinical_intervention",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Large - Long Lasting Protective Intervention (Cessation Treatment, LARC)",
-                   "name": "large_long_lasting_protective_intervention",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Extra Large - Change in Context (Fluoridation, Tobacco Tax)",
-                   "name": "extra_large_change_in_context",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Giant - Socioeconomic (Poverty, Inequality)",
-                   "name": "giant_socioeconomic",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
-                   "name": "recommendations_of_the_committee",
+                   "prompt": "Procedures before Transport (Describe)",
+                   "name": "procedures_before_transport",
                    "type": "textarea"
+               },
+               {
+                   "prompt": "Procedures in Transport (Describe)",
+                   "name": "procedures_in_transport",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Transport Vital Signs",
+                   "name": "transport_vital_signs",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Date and Time",
+                           "name": "date_and_time",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Systolic BP",
+                           "name": "systolic_bp",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Diastolic BP",
+                           "name": "diastolic_bp",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Oxygen Saturation",
+                           "name": "oxygen_saturation",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Blood Sugar",
+                           "name": "blood_sugar",
+                           "type": "number"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Mental status of patient during transport (describe)",
+                   "name": "mental_status_of_patient_during_transport",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Documented pertinent oral statements made by patient or others on scene",
+                   "name": "documented_pertinent_oral_statements_made_by_patient_and_other_on_scene",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "Transport narrative summary",
+                   "name": "transport_narrative_summary",
+                   "type": "textarea",
+                   "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
                }
            ]
        },
@@ -10447,381 +10974,186 @@
                {
                    "prompt": "If yes, specify substance(s)",
                    "name": "if_yes_specify_substances",
-                   "type": "group",
+                   "type": "grid",
                    "children": [
                        {
-                           "prompt": "Alcohol",
-                           "name": "alcohol",
-                           "type": "boolean",
-                           "is_core_summary": true
+                           "prompt": "Documented Substance",
+                           "name": "substance",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": "Alcohol"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Acetaminophen"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Acetazolamide (Diamox)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Carbamazepine (Neurontin)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Felbamate (Felbatol)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pregabalin (Lyrica)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Citalopram (Celexa)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Sertraline (Zoloft)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Meprobamate (Equanil)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Duloxetine (Cymbalta)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aripiprazole (Abilify)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lurasidone (Latuda)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Quetiapine (Seroquel)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Fluoxetine/Olanzapine (Symbyax)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Alprazolam (Xanax)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Chlordiazepoxide (Librium)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Diazepam (Valium)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lorazepam (Ativan)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Temazepam (Restoril)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clonazepam (Klonopin or Rivotril)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Zolpidem (Ambien)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Trazadone (Oleptro)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Midazolam (Versed)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Aminoclonazepam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Doxepin (Silenor, Zonalon, Prudoxin)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Buprenorphine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Fentanyl"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Heroin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hydromorphone (Dilaudid)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Methadone"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Methadone Hydrochloride"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Morphine Sulfate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Oxycodone Hydrochloride"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Oxymorphone Hydrochloride (Opana)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cocaine"
+                               }
+                           ],
+                           "list_display_size": 1,
+                           "control_style": "editable"
                        },
                        {
-                           "prompt": "Analgesics (Non-Opioid)",
-                           "name": "analgesics",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Analgesic",
-                           "name": "other_analgesic",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Analgesic",
-                           "name": "other_analgesic",
-                           "type": "string",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Anticonvulsants (Anti-Epileptics)",
-                           "name": "anticonvulsants",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Acetazolamide (Diamox)",
-                           "name": "acetazolamide",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Carbamazepine (Neurontin)",
-                           "name": "carbamazepine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Felbamate (Felbatol)",
-                           "name": "felbamate",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Pregabalin (Lyrica)",
-                           "name": "pregabalin",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Anticonvulsant",
-                           "name": "other_anticonvulsant",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Anticonvulsant",
-                           "name": "other_anticonvulsant",
-                           "type": "string",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Antidepressants/Anti-anxiety",
-                           "name": "antidepressants_anti_anxiety",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Citalopram (Celexa)",
-                           "name": "citalopram",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Sertraline (Zoloft)",
-                           "name": "sertraline",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Meprobamate (Equanil)",
-                           "name": "meprobamate",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Duloxetine (Cymbalta)",
-                           "name": "duloxetine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Antidepressant",
-                           "name": "other_antidepressant",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Antidepressant",
-                           "name": "other_antidepressant",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Antipsychotics",
-                           "name": "antipsychotics",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Aripiprazole (Abilify)",
-                           "name": "aripiprazole",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Lurasidone (Latuda)",
-                           "name": "lurasidone",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Quetiapine (Seroquel)",
-                           "name": "quetiapine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Fluoxetine/Olanzapine (Symbyax)",
-                           "name": "fluoxetine_olanzapine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Antipsychotic",
-                           "name": "other_antipsychotic",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Antipsychotic",
-                           "name": "other_antipsychotic",
-                           "type": "string",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Benzodiazepines",
-                           "name": "benzodiazepines",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Alprazolam (Xanax)",
-                           "name": "alprazolam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Chlordiazepoxide (Librium)",
-                           "name": "chlordiazepoxide",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Diazepam (Valium)",
-                           "name": "diazepam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Lorazepam (Ativan)",
-                           "name": "lorazepam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Temazepam (Restoril)",
-                           "name": "temazepam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Clonazepam (Klonopin or Rivotril)",
-                           "name": "clonazepam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Benzodiazepine",
-                           "name": "other_benzodiazepine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Benzodiazepine",
-                           "name": "other_benzodiazepine",
-                           "type": "string",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Imidazopyridine hypnotic (Sleeping Aides/Sedative)",
-                           "name": "imidazopyridine_hypnotic",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Zolpidem (Ambien)",
-                           "name": "zolpidem",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Trazadone (Oleptro)",
-                           "name": "trazadone",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Midazolam (Versed)",
-                           "name": "midazolam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Aminoclonazepam",
-                           "name": "aminoclonazepam",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Doxepin (Silenor, Zonalon, Prudoxin)",
-                           "name": "doxepin",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Sedative",
-                           "name": "other_sedative",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Sedative",
-                           "name": "other_sedative",
-                           "type": "string",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Opioids",
-                           "name": "opioids",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Buprenorphine",
-                           "name": "buprenorphine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Fentanyl",
-                           "name": "fentanyl",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Heroin",
-                           "name": "heroin",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Hydromorphone (Dilaudid)",
-                           "name": "hydromorphone",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Methadone",
-                           "name": "methadone",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Methadone Hydrochloride",
-                           "name": "methadone_hydrochloride",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Morphine Sulfate",
-                           "name": "morphine_sulfate",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Oxycodone Hydrochloride",
-                           "name": "oxycodone_hydrochloride",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Oxymorphone Hydrochloride (Opana)",
-                           "name": "oxymorphone_hydrochloride",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Opioid",
-                           "name": "other_opioid",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Opioid",
-                           "name": "other_opioid",
-                           "type": "string",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Stimulants",
-                           "name": "stimulants",
-                           "type": "label",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Cocaine",
-                           "name": "cocaine",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Stimulant",
-                           "name": "other_stimulant",
-                           "type": "boolean",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Other Stimulant",
-                           "name": "other_stimulant",
-                           "type": "string",
-                           "is_core_summary": true
+                           "prompt": "Timing of Substance Use",
+                           "name": "timing_of_use",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No Documentation"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pre-pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "During Pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Postpartum"
+                               }
+                           ]
                        }
-                   ]
-               },
-               {
-                   "prompt": "Was there documented use of drugs, including prescription drugs not as prescribed, over the counter drugs not as indicated, illegally obtained or illegal substances? (check all that apply)*",
-                   "name": "documented_use_of_drugs",
-                   "type": "label"
-               },
-               {
-                   "prompt": "No Documentation",
-                   "name": "no_documentation",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Pre-pregnancy",
-                   "name": "Pre_pregnancy",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "During pregnancy",
-                   "name": "during_pregnancy",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Post-partum",
-                   "name": "post_partum",
-                   "type": "boolean"
+                   ],
+                   "is_core_summary": true
                },
                {
                    "prompt": "Reviewer's Notes about the Social Services Records and Issues",
@@ -11268,257 +11600,255 @@
            ]
        },
        {
-           "prompt": "Medical Transport",
-           "name": "medical_transport",
+           "prompt": "Informant Interviews",
+           "name": "informant_interviews",
            "type": "form",
            "cardinality": "?",
            "children": [
                {
-                   "prompt": "Date",
-                   "name": "date",
-                   "type": "date"
-               },
-               {
-                   "prompt": "Reason for Transport",
-                   "name": "reason_for_transport",
-                   "type": "textarea"
-               },
-               {
-                   "prompt": "Maternal Conditions (Describe)",
-                   "name": "maternal_conditions",
-                   "type": "textarea"
-               },
-               {
-                   "prompt": "Who Managed the Transport?",
-                   "name": "who_managed_the_transport",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Attending Physician",
-                   "name": "attending_physician",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Another Clinician",
-                   "name": "another_clinician",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "EMS/911",
-                   "name": "ems_911",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other",
-                   "name": "other",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other (Specify)",
-                   "name": "other_specify",
-                   "type": "textarea"
-               },
-               {
-                   "prompt": "Transport Vehicle",
-                   "name": "transport_vehicle",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Ground Ambulance",
-                   "name": "ground_ambulance",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Fixed-Wing Aircraft",
-                   "name": "fixed_wing_aircraft",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Helicopter",
-                   "name": "helicopter",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other",
-                   "name": "other",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other (Specify)",
-                   "name": "other_specify",
-                   "type": "textarea"
-               },
-               {
-                   "prompt": "Timing of Transport",
-                   "name": "timing_of_transport",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Call Received",
-                   "name": "call_received",
+                   "prompt": "Date Of Interview",
+                   "name": "date_of_interview",
                    "type": "datetime"
                },
                {
-                   "prompt": "Depart for Patient Origin",
-                   "name": "depart_for_patient_origin",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Arrive at Patient Origin",
-                   "name": "arrive_at_patient_origin",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Patient Contact",
-                   "name": "patient_contact",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Depart for Referring Facility",
-                   "name": "depart_for_referring_facility",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Arrive at Referring Facility",
-                   "name": "arrive_at_referring_facility",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Origin",
-                   "name": "origin",
-                   "type": "grid",
-                   "children": [
+                   "prompt": "Interview Type*",
+                   "name": "interview_type",
+                   "type": "list",
+                   "values": [
                        {
-                           "prompt": "Trauma",
-                           "name": "trauma",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Level 1"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Level 2"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Level 3"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Level 4"
-                               }
-                           ]
+                           "description": "",
+                           "value": ""
                        },
                        {
-                           "prompt": "Maternal Level of Care",
-                           "name": "maternal_level_of_care",
-                           "type": "list",
-                           "values": [
-                               {
-                                   "description": "",
-                                   "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Birth Center"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Basic Care (Level 1)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Specialty Care (Level 2)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Subspecialty Care (Level 3)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Regional Perinatal Health Care Center (Level IV)"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "Other"
-                               }
-                           ]
+                           "description": "",
+                           "value": "Family"
                        },
                        {
-                           "prompt": "Other (describe)",
-                           "name": "other_describe",
-                           "type": "textarea"
+                           "description": "",
+                           "value": "Neighbor"
                        },
                        {
-                           "prompt": "Comment(s)",
-                           "name": "comments",
-                           "type": "textarea"
+                           "description": "",
+                           "value": "Friend"
+                       },
+                       {
+                           "description": "",
+                           "value": "Witness"
+                       },
+                       {
+                           "description": "",
+                           "value": "Law enforcement"
+                       },
+                       {
+                           "description": "",
+                           "value": "Health care provider"
+                       },
+                       {
+                           "description": "",
+                           "value": "EMS transport provider"
+                       },
+                       {
+                           "description": "",
+                           "value": "Coroner"
+                       },
+                       {
+                           "description": "",
+                           "value": "Medical examiner"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
                        }
                    ]
                },
                {
-                   "prompt": "Procedures before Transport (Describe)",
-                   "name": "procedures_before_transport",
-                   "type": "textarea"
+                   "prompt": "Information about the informant",
+                   "name": "information_about_the_informant",
+                   "type": "label"
                },
                {
-                   "prompt": "Procedures in Transport (Describe)",
-                   "name": "procedures_in_transport",
-                   "type": "textarea"
+                   "prompt": "Informant Name",
+                   "name": "informant_name",
+                   "type": "string"
                },
                {
-                   "prompt": "Transport Vital Signs",
-                   "name": "transport_vital_signs",
-                   "type": "grid",
-                   "children": [
+                   "prompt": "Age Group",
+                   "name": "age_group",
+                   "type": "list",
+                   "values": [
                        {
-                           "prompt": "Date and Time",
-                           "name": "date_and_time",
-                           "type": "datetime"
+                           "description": "",
+                           "value": ""
                        },
                        {
-                           "prompt": "Systolic BP",
-                           "name": "systolic_bp",
-                           "type": "number"
+                           "description": "",
+                           "value": "65 or older"
                        },
                        {
-                           "prompt": "Diastolic BP",
-                           "name": "diastolic_bp",
-                           "type": "number"
+                           "description": "",
+                           "value": "18 to 64"
                        },
                        {
-                           "prompt": "Oxygen Saturation",
-                           "name": "oxygen_saturation",
-                           "type": "number"
+                           "description": "",
+                           "value": "12 to 18"
                        },
                        {
-                           "prompt": "Blood Sugar",
-                           "name": "blood_sugar",
-                           "type": "number"
+                           "description": "",
+                           "value": "6 to 11"
+                       },
+                       {
+                           "description": "",
+                           "value": "Under 6"
                        }
                    ]
                },
                {
-                   "prompt": "Mental status of patient during transport (describe)",
-                   "name": "mental_status_of_patient_during_transport",
-                   "type": "textarea"
+                   "prompt": "Relationship To Deceased",
+                   "name": "relationship_to_deceased",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "None"
+                       },
+                       {
+                           "description": "",
+                           "value": "Parent"
+                       },
+                       {
+                           "description": "",
+                           "value": "Grand Parent"
+                       },
+                       {
+                           "description": "",
+                           "value": "Sister"
+                       },
+                       {
+                           "description": "",
+                           "value": "Brother"
+                       },
+                       {
+                           "description": "",
+                           "value": "Aunt"
+                       },
+                       {
+                           "description": "",
+                           "value": "Uncle"
+                       },
+                       {
+                           "description": "",
+                           "value": "Cousin"
+                       }
+                   ]
                },
                {
-                   "prompt": "Documented pertinent oral statements made by patient or others on scene",
-                   "name": "documented_pertinent_oral_statements_made_by_patient_and_other_on_scene",
-                   "type": "textarea"
+                   "prompt": "Extended Relationship",
+                   "name": "new_group",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Step-",
+                           "name": "step_",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "In-Law",
+                           "name": "in_law",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Half-",
+                           "name": "half_",
+                           "type": "boolean"
+                       }
+                   ]
                },
                {
-                   "prompt": "Transport narrative summary",
-                   "name": "transport_narrative_summary",
-                   "type": "textarea",
-                   "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
+                   "prompt": "Ethnicity",
+                   "name": "ethnicity",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "No, Not Spanish/Hispanic/Latino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Mexican, Mexican American, Chicano"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Puerto Rican"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Cuban"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Other Spanish/Hispanic/Latino"
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes, Origin Unknown"
+                       },
+                       {
+                           "description": "",
+                           "value": "Not Specified"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Race",
+                   "name": "race",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Black"
+                       },
+                       {
+                           "description": "",
+                           "value": "White"
+                       },
+                       {
+                           "description": "",
+                           "value": "American Indian / Alaska Native"
+                       },
+                       {
+                           "description": "",
+                           "value": "Hawaiian / Pacific Islander"
+                       },
+                       {
+                           "description": "",
+                           "value": "Asian"
+                       },
+                       {
+                           "description": "",
+                           "value": "Biracial"
+                       },
+                       {
+                           "description": "",
+                           "value": "Multiracial"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Interview Narrative",
+                   "name": "interview_narrative",
+                   "type": "textarea"
                }
            ]
        },
@@ -11538,6 +11868,799 @@
                    "name": "case_opening_overview",
                    "type": "textarea",
                    "pre_fill": ""
+               }
+           ]
+       },
+       {
+           "prompt": "Committee Review",
+           "name": "committee_review",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+               {
+                   "prompt": "PREGNANCY RELATED DEATH The death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy",
+                   "name": "pregnancy_related_death",
+                   "type": "label"
+               },
+               {
+                   "prompt": "PREGNANCY ASSOCIATED DEATH The death of a woman from any cause during pregnancy or within one year of the end of pregnancy",
+                   "name": "prgnancy_associated_death",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Was this death...*",
+                   "name": "was_this_death",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Pregnancy Related",
+                           "name": "pregnancy_related",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Pregnancy Associated",
+                           "name": "new_boolean",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Not Pregnancy Related or Associated",
+                           "name": "not_pregnancy_related_or_associated",
+                           "type": "boolean"
+                       },
+                       {
+                           "prompt": "Unable to determine if pregnancy related or associated",
+                           "name": "unable_to_determine_if_pregnancy_related_or_associated",
+                           "type": "boolean"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "How was this death identified? (primary source)*",
+                   "name": "how_was_this_death_identified_primary_source",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Obstetric ICD codes from the death certificate"
+                       },
+                       {
+                           "description": "",
+                           "value": "Pregnancy check box on death certificate"
+                       },
+                       {
+                           "description": "",
+                           "value": "Record linkage of death and birth  (fetal death) certificates"
+                       },
+                       {
+                           "description": "",
+                           "value": "Record linkage of death certificate and hospital discharge data"
+                       },
+                       {
+                           "description": "",
+                           "value": "Facility reporting"
+                       },
+                       {
+                           "description": "",
+                           "value": "Obituary"
+                       },
+                       {
+                           "description": "",
+                           "value": "Social media"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Notes about key circumstances surrounding this death identified by the committee  (enter in bulleted format)",
+                   "name": "notes_about_key_circumstances_surrounding_this_death_identified_by_the_committee_enter_in_bulleted_format",
+                   "type": "textarea"
+               },
+               {
+                   "prompt": "ICD code book version",
+                   "name": "icd_code_book_version",
+                   "type": "number"
+               },
+               {
+                   "prompt": "Committee Determination of Cause(s) of Death",
+                   "name": "committee_determination_of_causes_of_death",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Type",
+                           "name": "type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Immediate"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Contributing"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Underlying"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other Significant"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Cause (descriptive)",
+                           "name": "cause_descriptive",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Comment(s)",
+                           "name": "comments",
+                           "type": "textarea"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "If Pregnancy Related, Committee Determination of Underlying Cause(s) of Death*",
+                   "name": "if_pregnancy_related_committee_determination_of_underlying_causes_of_death",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "CDC ICD-MM (Select all that apply)",
+                           "name": "cds_icd_mm_select_all_that_apply",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10 - Hemorrhage (Excludes Aneurysms or CVA)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.1 - Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.2 - Placental Abruption"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.3 Placenta Previa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.4 Ruptured Ectopic Pregnancy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.6 Placenta Acreta/Increta/Percreta"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.7 - Hemorrhage due to Retained Placenta"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.8 - Hemorrhage due to Primary DIC"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "10.9 - Other Hemorrhage/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20 - Infection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.0 - Chorioamnionitis/Antepartum Infection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.1 - Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.2 - Sepsis/Septic Shock"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.5 - Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.6 - Urinary Track Infection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "20.9 - Other Infections/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "30 - Embolism - Amniotic Fluid"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "40 - Pre-Eclampsia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "50 - Eclampsia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "60 - Chronic Hypertension with Superimposed Pre/Eclampsia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "70 - Anesthesia Complications"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80 - Cardiomyopathy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80.1 - Post-Partum/Peripartum Cardiomyopathy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80.2 - Hypertrophic Cardiomyopathy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "80.9 - Other Cardiomyopathy/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "82 - Hematologic"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "82.1 - Sickle Cell Anemia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "82.9 - Other Hematologic Conditions including Thrombophilias/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "83 - Collagen Vascular/Auto Immune Diseases"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "83.1 - Systemic Lupus Erythematosus (SLE)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "83.9 - Other Collagen Vascular Diseases/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "85 - Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88 - Injury"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88.1 - Intentional"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88.2 - Unintentional"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "88.9 - Unknown/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89 - Cancer"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89.1 Gestational Trophoblastic Disease (GTN)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89.3 - Malignant Melanoma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "89.9 - Other Malignancies/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90 - Cardiovascular Conditions"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.1 - Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.2 - Pilmonary Hypertension"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.3 - Valvular Heart Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.4 - Vascular Aneurysm/Dissection"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.5 - Hypertensive Cadiovascular Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.7 - Conduction Defects/Arrhythmias"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "90.9 - Other Cardiovascular Disease/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91 - Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.1 - Chronic Lung Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.2 - Cystic Fibrosis"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.3 - Asthma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "91.9 - Other Pulmonary Disease/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "92 - Neurologic/Neurovascular Conditions (Excluding CVAs)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "92.1 - Epilepsy/Seizure Disorder"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "92.9 - Other Neurologic Diseases/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "93 - Renal Disease"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "93.1 - Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "93.9 - Other Renal Disease/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "95 - CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96 - Metabolic/Endocrine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96.1 - Obesity"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96.2 - Diabetes Mellitus"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "96.9 - Other Metabolic/Endocrine Disorders"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97 - Gastrointestinal Disorders"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97.1 - Crohn's Disease/Ulcerative Colitis"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97.2 - Lever Disease/Failure/Transplant"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "97.9 - Other Gastrointestinal Diseases/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "100 - Mental Health Conditions"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "100.1 - Depression/Suicide"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "100.9 - Other Psychiatric Conditions/NOS"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "999 - Unknown COD"
+                               }
+                           ],
+                           "is_multiselect": true
+                       }
+                   ]
+               },
+               {
+                   "prompt": "NOTE: If more than 1 is selected, please list them in order of importance begining with the most compelling",
+                   "name": "note_text",
+                   "type": "label"
+               },
+               {
+                   "prompt": "EVALUATION CRITERIA A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, community, provider, facility, and/or systems factors.",
+                   "name": "evaluation_criteria",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Was this death preventable?*",
+                   "name": "was_this_death_preventable",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Yes",
+                   "name": "yes",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "No",
+                   "name": "no",
+                   "type": "boolean"
+               },
+               {
+                   "prompt": "Chance to alter outcome*",
+                   "name": "chance_to_alter_outcome",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Good Chance"
+                       },
+                       {
+                           "description": "",
+                           "value": "Some Chance"
+                       },
+                       {
+                           "description": "",
+                           "value": "No Chance"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unable to Determine"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "If there was at least some chance that the death could have been averted, what were the specific and feasible actions, which if implemented or altered, might have changed the course of events?",
+                   "name": "text",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Critical Factors Worksheet",
+                   "name": "critical_factors_worksheet",
+                   "type": "grid",
+                   "children": [
+                       {
+                           "prompt": "Category",
+                           "name": "category",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Patient"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Community"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medical Care - Provider"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medical Care - Facility"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "System of Care"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Class",
+                           "name": "class",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Compliance"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Knowledge"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cultural / Religious"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Environmental"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Access"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Social Support"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Violence"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mental Health"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Chronic Disease / Conditions"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Substance Abuse"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Equipment / Technology"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Policies / Procedures"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Communication"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Continuity of Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Personnel"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Outreach"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Enforcement"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Referral"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Assessment"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Legal"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Description",
+                           "name": "description",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Actions",
+                           "name": "actions",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Delay",
+                           "name": "delay",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Seeking Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Reaching Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Receiving Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No Delays"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Prevention",
+                           "name": "prevention",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Primary"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Secondary"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Tertiary"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Impact Level",
+                           "name": "impact_level",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Small"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Medium"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Large"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Extra Large"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Giant"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Prevention Types:",
+                   "name": "prevention_types",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Primary - Prevent Incidence",
+                   "name": "primar_prevent_incidence",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Secondary - Prevent Progression",
+                   "name": "secondary_prevent_progression",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Tertiary - Prevent Complications",
+                   "name": "tertiary_prevent_complications",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Expected Impact Levels:",
+                   "name": "expected_impact_levels",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Small - Education (Eat Healthy, Awareness)",
+                   "name": "small_education",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Medium - Clinical Intervention (Protocols, Prescriptions)",
+                   "name": "medium_clinical_intervention",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Large - Long Lasting Protective Intervention (Cessation Treatment, LARC)",
+                   "name": "large_long_lasting_protective_intervention",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Extra Large - Change in Context (Fluoridation, Tobacco Tax)",
+                   "name": "extra_large_change_in_context",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Giant - Socioeconomic (Poverty, Inequality)",
+                   "name": "giant_socioeconomic",
+                   "type": "label"
+               },
+               {
+                   "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
+                   "name": "recommendations_of_the_committee",
+                   "type": "textarea"
                }
            ]
        }

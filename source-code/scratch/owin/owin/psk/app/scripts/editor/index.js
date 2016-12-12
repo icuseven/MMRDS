@@ -239,7 +239,7 @@ function load_metadata()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
 
 	});
 }
@@ -273,7 +273,6 @@ function metadata_save()
 {
 
 	console.log("metadata_change");
-	var json_data = { 'def': "momentum"};
 	var current_auth_session = profile.get_auth_session_cookie();
 
 	if(current_auth_session)
@@ -306,13 +305,20 @@ function perform_save(current_auth_session)
 				if(response_obj.ok)
 				{
 					g_metadata._rev = response_obj.rev; 
-					document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+					document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
 
 					if(response_obj.auth_session)
 					{
 						profile.auth_session = response_obj.auth_session;
 						profile.set_auth_session_cookie(response_obj.auth_session);
 					}
+
+
+
+				}
+				else
+				{
+					console.log("failed to save");
 				}
 				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 			console.log("metadata sent", response);

@@ -69,14 +69,14 @@ function monitor_changes()
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_js(script_name, function(){
-            document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+            document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
           });
         }
         else if(item.metadata=="styles/mmria.css")
         {
           var script_name =  location.protocol + '//' + location.host + '/' + item.metadata;
           reload_css(script_name, function(){
-            //document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui).join("");
+            //document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
             return;
           });
         }

@@ -466,7 +466,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</span></div>");
             break;
     case 'list':
-			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable"))
+			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
 			{
 				result.push("<div class='list' id='");
 				result.push(p_object_path)
