@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "234-b3a5201ae28d9fd418ba968a87ee3c78",
+   "_rev": "321-eee1ddaedce85598980a5bd662a764ec",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -2195,7 +2195,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Ameican Indian/AK Native"
+                           "value": "American Indian/Alaska Native"
                        },
                        {
                            "description": "",
@@ -2719,59 +2719,20 @@
            ]
        },
        {
-           "prompt": "Birth/Fetal Death Certificate",
-           "name": "birth_fetal_death_certificate",
+           "prompt": "Birth/Fetal Death Certificate - Parent Section",
+           "name": "birth_fetal_death_certificate_parent",
            "type": "form",
-           "cardinality": "*",
+           "cardinality": "1",
            "children": [
                {
-                   "prompt": "Facility of delivery demographics",
-                   "name": "demographic_facility_of_delivery",
+                   "prompt": "Facility of Delivery Demographics",
+                   "name": "facility_of_delivery_demographics",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "Middle Name",
-                           "name": "middle_name",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Last Name",
-                           "name": "last_name",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Maiden Name",
-                           "name": "maiden_name",
-                           "type": "string"
-                       },
-                       {
-                           "prompt": "Medical Record No.",
-                           "name": "medical_record_number",
-                           "type": "string"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "Father's Demographics",
-                   "name": "demographic_of_father",
-                   "type": "group",
-                   "children": [
-                       {
-                           "prompt": "Date of birth* (YYYY-MM-DD)",
-                           "name": "date_of_birth",
-                           "type": "Date",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Age*",
-                           "name": "age",
-                           "type": "Number",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Mother Married?*",
-                           "name": "mother_married",
-                           "type": "List",
+                           "prompt": "Type of Place*",
+                           "name": "type_of_place",
+                           "type": "list",
                            "values": [
                                {
                                    "description": "",
@@ -2779,44 +2740,30 @@
                                },
                                {
                                    "description": "",
-                                   "value": "Yes"
+                                   "value": "Hospital"
                                },
                                {
                                    "description": "",
-                                   "value": "No"
+                                   "value": "Free standing birthing center"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Home delivery"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Clinic / Doctor's office"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
                                }
                            ],
                            "is_core_summary": true
                        },
                        {
-                           "prompt": "City of birth",
-                           "name": "city_of_birth",
-                           "type": "String"
-                       },
-                       {
-                           "prompt": "State of birth",
-                           "name": "state_of_birth",
-                           "type": "String"
-                       },
-                       {
-                           "prompt": "Country (if foreign born)*",
-                           "name": "country_of_birth",
-                           "type": "String",
-                           "is_core_summary": true
-                       },
-                       {
-                           "prompt": "Primary occupation",
-                           "name": "primary_occupation",
-                           "type": "String"
-                       },
-                       {
-                           "prompt": "Business/ Industry",
-                           "name": "occupation_business_industry",
-                           "type": "String"
-                       },
-                       {
-                           "prompt": "Ever in US armed forces?",
-                           "name": "ever_in_us_armed_forces",
+                           "prompt": "Was home delivery planned?",
+                           "name": "was_home_delivery_planned",
                            "type": "list",
                            "values": [
                                {
@@ -2838,9 +2785,34 @@
                            ]
                        },
                        {
-                           "prompt": "Hispanic origin?*",
-                           "name": "is_of_hispanic_origin",
-                           "type": "List",
+                           "prompt": "Date of Delivery*",
+                           "name": "date_of_delivery",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number",
+                                   "is_core_summary": true
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number",
+                                   "is_core_summary": true
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number",
+                                   "is_core_summary": true
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Maternal Level of Care*",
+                           "name": "maternal_level_of_care",
+                           "type": "list",
                            "values": [
                                {
                                    "description": "",
@@ -2848,33 +2820,445 @@
                                },
                                {
                                    "description": "",
-                                   "value": "No, not Spanish/ Hispanic/ Latino"
+                                   "value": "Birth Center"
                                },
                                {
                                    "description": "",
-                                   "value": "Yes, Mexican, Mexican American, Chicano"
+                                   "value": "Basic Care (Level I)"
                                },
                                {
                                    "description": "",
-                                   "value": "Yes, Puerto Rican"
+                                   "value": "Specialty Care (Level II)"
                                },
                                {
                                    "description": "",
-                                   "value": "Yes, Cuban"
+                                   "value": "Subspecialty Care (Level III)"
                                },
                                {
                                    "description": "",
-                                   "value": "Yes, other Spanish/ Hispanic/ Latino"
+                                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                               }
+                           ],
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Facility NPI No.",
+                           "name": "facility_npi_number",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Facility Name",
+                           "name": "facility_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Was Mother Transferred?*",
+                           "name": "was_mother_transferred",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
                                },
                                {
                                    "description": "",
-                                   "value": "Yes, origin unknown"
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               }
+                           ],
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "From Where?",
+                           "name": "transferred_from_where",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Attendant's Title*",
+                           "name": "attendant_type",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DO"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CNM/CM"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other midwife"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
                                },
                                {
                                    "description": "",
                                    "value": "Not specified"
                                }
                            ],
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Attendant NPI",
+                           "name": "attendant_npi",
+                           "type": "string"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Facility of Delivery Location",
+                   "name": "facility_of_delivery_location",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Street*",
+                           "name": "street",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "City*",
+                           "name": "city",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "State*",
+                           "name": "state",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AL- Alabama"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AK- Alaska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AZ- Arizona"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AR- Arkansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CA- California"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CO- Colorado"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CT- Connecticut"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DE- Delaware"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DC- District of Columbia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "FL- Florida"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GA- Georgia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "HI- Hawaii"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ID- Idaho"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IL- Illinois"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IN- Indiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IA- Iowa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KS- Kansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KY- Kentucky"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "LA- Louisiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ME- Maine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD- Maryland"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MA- Massachusetts"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MI- Michigan"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MN- Minnesota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MS- Mississippi"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MO- Missouri"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MT- Montana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NE- Nebraska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NV- Nevada"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NH- New Hampshire"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NJ- New Jersy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NM- New Mexico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NY- New York"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NC- North Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ND- North Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OH- Ohio"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OK- Oklahoma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OR- Oregon"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PA- Pennsylvania"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "RI- Rhode Island"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SC- South Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SD- South Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TN- Tennessee"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TX- Texas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "UT- Utah"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VT- Vermont"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VA- Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WA- Washington"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WV- West Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WI- Wisconsin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WY- Wyoming"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AS- American Samoa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GU- Guam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MH- Marshall Islands"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MP- Northern Marianas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PR- Puerto Rico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PW- Palau"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VI- Virgin Islands"
+                               }
+                           ],
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Zip Code*",
+                           "name": "zip_code",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "County*",
+                           "name": "county",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Latitude*",
+                           "name": "latitude",
+                           "type": "number",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Longitude*",
+                           "name": "longitude",
+                           "type": "number",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Date of Birth*",
+                           "name": "new_group",
+                           "type": "group",
+                           "children": [
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Father's Demographics",
+                   "name": "demographic_of_father",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Father's First Name",
+                           "name": "first_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Father's Middle Name",
+                           "name": "middle_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Father's Last Name",
+                           "name": "last_name",
+                           "type": "string"
+                       },
+                       {
+                           "prompt": "Date of Birth",
+                           "name": "date_of_birth",
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Age*",
+                           "name": "age",
+                           "type": "Number",
                            "is_core_summary": true
                        },
                        {
@@ -2924,11 +3308,100 @@
                                }
                            ],
                            "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Father's City of birth",
+                           "name": "city_of_birth",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Father's State of birth",
+                           "name": "state_of_birth",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Father's Country (if foreign born)*",
+                           "name": "country_of_birth",
+                           "type": "String",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Father's Primary occupation",
+                           "name": "primary_occupation",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Business/Industry",
+                           "name": "occupation_business_industry",
+                           "type": "String"
+                       },
+                       {
+                           "prompt": "Ever in US Armed Forces?",
+                           "name": "ever_in_us_armed_forces",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "Father of Hispanic Origin?*",
+                           "name": "is_father_of_hispanic_origin",
+                           "type": "List",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No, not Spanish/ Hispanic/ Latino"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Mexican, Mexican American, Chicano"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Puerto Rican"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, Cuban"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, other Spanish/ Hispanic/ Latino"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes, origin unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not specified"
+                               }
+                           ],
+                           "is_core_summary": true
                        }
                    ]
                },
                {
-                   "prompt": "Father's race",
+                   "prompt": "Father's Race",
                    "name": "race_of_father",
                    "type": "list",
                    "values": [
@@ -2942,7 +3415,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Ameican Indian/AK Native"
+                           "value": "American Indian/Alaska Native"
                        },
                        {
                            "description": "",
@@ -2996,18 +3469,35 @@
                            "description": "",
                            "value": "Race not specified"
                        }
-                   ]
+                   ],
+                   "is_multiselect": true
                },
                {
-                   "prompt": "demographic_of_mother",
-                   "name": "Mother's demographics",
+                   "prompt": "Mother's Demographics",
+                   "name": "demographic_of_mother",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "Date of birth* (YYYY-MM-DD)",
+                           "prompt": "Date of Birth",
                            "name": "date_of_birth",
-                           "type": "Date",
-                           "is_core_summary": true
+                           "type": "group",
+                           "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
+                           ]
                        },
                        {
                            "prompt": "Age*",
@@ -3194,7 +3684,301 @@
                    ]
                },
                {
-                   "prompt": "Mother's race",
+                   "prompt": "Location of Residence",
+                   "name": "location_of_residence",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Street*",
+                           "name": "street",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "City*",
+                           "name": "city",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "State*",
+                           "name": "state",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AL- Alabama"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AK- Alaska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AZ- Arizona"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AR- Arkansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CA- California"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CO- Colorado"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "CT- Connecticut"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DE- Delaware"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "DC- District of Columbia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "FL- Florida"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GA- Georgia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "HI- Hawaii"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ID- Idaho"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IL- Illinois"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IN- Indiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "IA- Iowa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KS- Kansas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "KY- Kentucky"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "LA- Louisiana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ME- Maine"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MD- Maryland"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MA- Massachusetts"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MI- Michigan"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MN- Minnesota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MS- Mississippi"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MO- Missouri"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MT- Montana"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NE- Nebraska"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NV- Nevada"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NH- New Hampshire"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NJ- New Jersy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NM- New Mexico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NY- New York"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "NC- North Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "ND- North Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OH- Ohio"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OK- Oklahoma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "OR- Oregon"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PA- Pennsylvania"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "RI- Rhode Island"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SC- South Carolina"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "SD- South Dakota"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TN- Tennessee"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "TX- Texas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "UT- Utah"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VT- Vermont"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VA- Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WA- Washington"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WV- West Virginia"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WI- Wisconsin"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "WY- Wyoming"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "AS- American Samoa"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "GU- Guam"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MH- Marshall Islands"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "MP- Northern Marianas"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PR- Puerto Rico"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "PW- Palau"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "VI- Virgin Islands"
+                               }
+                           ],
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Zip Code*",
+                           "name": "zip_code",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "County*",
+                           "name": "county",
+                           "type": "string",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Latitude*",
+                           "name": "latitude",
+                           "type": "number",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Longitude*",
+                           "name": "longitude",
+                           "type": "number",
+                           "is_core_summary": true
+                       },
+                       {
+                           "prompt": "Date of Birth*",
+                           "name": "new_group",
+                           "type": "group",
+                           "children": [
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Mother's Race",
                    "name": "race_of_mother",
                    "type": "list",
                    "values": [
@@ -3208,7 +3992,7 @@
                        },
                        {
                            "description": "",
-                           "value": "Ameican Indian/AK Native"
+                           "value": "American Indian/Alaska Native"
                        },
                        {
                            "description": "",
@@ -3262,7 +4046,8 @@
                            "description": "",
                            "value": "Race not specified"
                        }
-                   ]
+                   ],
+                   "is_multiselect": true
                },
                {
                    "prompt": "Pregnancy History",
@@ -4203,6 +4988,14 @@
            ]
        },
        {
+           "prompt": "Birth/Fetal Death Certificate - Infant/Fetal Section",
+           "name": "birth_certificate_infant_fetal_section",
+           "type": "form",
+           "cardinality": "?",
+           "children": [
+           ]
+       },
+       {
            "prompt": "Autopsy Report",
            "name": "autopsy_report",
            "type": "form",
@@ -4476,6 +5269,10 @@
                            "name": "substance",
                            "type": "list",
                            "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
                                {
                                    "description": "",
                                    "value": "Alcohol"
@@ -4783,6 +5580,10 @@
                            "values": [
                                {
                                    "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
                                    "value": "Hospital"
                                },
                                {
@@ -4824,6 +5625,10 @@
                            "values": [
                                {
                                    "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
                                    "value": "OBGYN"
                                },
                                {
@@ -4854,6 +5659,10 @@
                            "name": "principal_source_of_payment",
                            "type": "List",
                            "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
                                {
                                    "description": "",
                                    "value": "Private Insurance"
@@ -5208,6 +6017,7 @@
                            "value": "No"
                        }
                    ],
+                   "is_core_summary": true,
                    "list_display_size": 1
                },
                {
@@ -5220,6 +6030,10 @@
                            "name": "substance",
                            "type": "list",
                            "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
                                {
                                    "description": "",
                                    "value": "Alcohol"
@@ -5413,7 +6227,8 @@
                            "name": "comments",
                            "type": "textarea"
                        }
-                   ]
+                   ],
+                   "is_core_summary": true
                },
                {
                    "prompt": "Pregnancy history",
@@ -5990,6 +6805,11 @@
                            "type": "string"
                        }
                    ]
+               },
+               {
+                   "prompt": "Estimated Delivery Date",
+                   "name": "estimated_delivery_date",
+                   "type": "date"
                },
                {
                    "prompt": "Routine Monitoring",
@@ -7094,8 +7914,8 @@
                            "type": "string"
                        },
                        {
-                           "prompt": "Maternal levels of care*",
-                           "name": "maternal_levels_of_care",
+                           "prompt": "Maternal level of care*",
+                           "name": "maternal_level_of_care",
                            "type": "list",
                            "values": [
                                {
@@ -7934,6 +8754,11 @@
                    ]
                },
                {
+                   "prompt": "Estimated Delivery Date",
+                   "name": "estimated_delivery_date",
+                   "type": "date"
+               },
+               {
                    "prompt": "Vital Signs",
                    "name": "vital_signs",
                    "type": "grid",
@@ -8193,7 +9018,7 @@
                    "prompt": "Reviewer's notes about this hospitalization, delivery and / or ER visit",
                    "name": "reviewer_notes",
                    "type": "textarea",
-                   "pre_fill": "This is a test.\n\nAnd another."
+                   "pre_fill": "She presented at ____(weeks gestation) to the ______________ (ED or L& D triage or other) in a __________ (hospital level of OB care or trauma /trauma level) via _________ (method of transportation) on _________ (date) at __________(time). Her chief complaint was___________________.  Her weight on admission was __________and her presenting vital signs were__________________________.  She was screened for __________________ (describe type of screening i.e. Embolism, hemorrhage, ectopic, influenza, domestic violence, etc.)\nPhysical examination on admission found_______________________. Labs performed included _________________with ________________abnormal findings noted.  Diagnostic tests performed included_____________________________with the following abnormal findings noted______________________________. Her diagnosis was_______________________ and she was admitted to ____________ (describe unit) OR transferred to______________OR discharged to____________________.\n\n(If admitted provide brief chronological synopsis of events that occurred during the hospital stay including condition and vital signs when discharged.)\n\nIf admission to L&D complete the following template:\n\nShe labored for ____________hours and delivered via _____________ (method-if CS describe reason) by a (n) _________________ (provider type) under ____________ (anesthesia/local).  Medications administered during labor and delivery or postpartum included___________________________.  She received ____________units of blood products (delete if not applicable).  Infant weighed_______________with Apgars of________________.\nComplications during labor, delivery or postpartum (prior to discharge) include_____________________________.\nShe was discharged home on day__________.  Vitals signs at discharge included____________.  She was instructed to ___________________________ (special education or f/up appointments)."
                }
            ]
        },
@@ -8534,9 +9359,9 @@
                    ]
                },
                {
-                   "prompt": "(Doctor's office or urgent care visits for other than prenatal care.This includes postpartum visits.)",
-                   "name": "urgent_care_visits_other_than_prenatal_care",
-                   "type": "label"
+                   "prompt": "Estimated Delivery Date",
+                   "name": "estimated_delivery_date",
+                   "type": "date"
                },
                {
                    "prompt": "Vital Signs",
@@ -8921,7 +9746,8 @@
                    "name": "reviewers_notes_about_this_visit",
                    "type": "textarea"
                }
-           ]
+           ],
+           "description": "(Doctors office or urgent care visits for other than prenatal care.This includes postpartum visits.)"
        },
        {
            "prompt": "Medical Transport",
@@ -10574,258 +11400,320 @@
                    ]
                },
                {
-                   "prompt": "Documented Barriers to Health Care Access* (Check all that apply)",
-                   "name": "documented_barriers_to_health_care_access",
+                   "prompt": "Health Care Access",
+                   "name": "health_care_access",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "Child Care",
-                           "name": "child_care",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Cultural Norms",
-                           "name": "cultural_norms",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Distance",
-                           "name": "distance",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Financial",
-                           "name": "financial",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Transportation",
-                           "name": "transportation",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Mobility",
-                           "name": "mobility",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "None",
-                           "name": "none",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unknown",
-                           "name": "unknown",
-                           "type": "boolean"
+                           "prompt": "Documented Barriers to Health Care Access* (Select all that apply)",
+                           "name": "barriers_to_health_care_access",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Child Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cultural Norms"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Distance"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Financial"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Transportation"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Mobility"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ],
+                           "is_core_summary": true,
+                           "is_multiselect": true,
+                           "control_style": "checkbox"
                        },
                        {
                            "prompt": "Comment(s)",
                            "name": "comments",
-                           "type": "textarea"
+                           "type": "textarea",
+                           "is_core_summary": true
                        }
                    ]
                },
                {
-                   "prompt": "Documented Barriers to Communications* (Check all that apply)",
-                   "name": "documented_barriers_to_communications",
+                   "prompt": "Communications",
+                   "name": "communications",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "Hearing Impaired",
-                           "name": "hearing_impaired",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Functional Illiteracy",
-                           "name": "functionsl_illiteracy",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Speech Impaired",
-                           "name": "speech_impaired",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Language Differences",
-                           "name": "language_differences",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Vision Impaired",
-                           "name": "vision_impaired",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Cultural Differences",
-                           "name": "cultural_differences",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "None",
-                           "name": "none",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unknown",
-                           "name": "unknown",
-                           "type": "boolean"
+                           "prompt": "Documented Barriers to Communications* (Select all that apply)",
+                           "name": "barriers_to_communications",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Hearing Impaired"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Functional Illiteracy"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Speech Impaired"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Language Differences"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Vision Impaired"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Cultural Differences"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ],
+                           "is_core_summary": true,
+                           "is_multiselect": true,
+                           "control_style": "checkbox"
                        },
                        {
                            "prompt": "Comment(s)",
                            "name": "comments",
-                           "type": "textarea"
+                           "type": "textarea",
+                           "is_core_summary": true
                        }
                    ]
                },
                {
-                   "prompt": "Evidence of Social or Emotional Stress* (Check all that apply)",
-                   "name": "evidence_of_social_or_emotional_stress",
+                   "prompt": "Social or Emotional Stress",
+                   "name": "social_or_emotional_stress",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "History of Domestic Violence",
-                           "name": "history_of_domestic_violence",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "History of Psychiatric Hospitalizations or Treatment",
-                           "name": "history_of_psychiatric_hospitalizations_or_treatment",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Child Protective Services Involvement",
-                           "name": "child_protective_services_involvement",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "History of Substance Abuse",
-                           "name": "history_of_substance_abuse",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unemployment",
-                           "name": "unemployment",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "History of Substance Abuse Treatment",
-                           "name": "history_of_substance_abuse_treatment",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Pregnancy Unwanted",
-                           "name": "pregnancy_unwanted",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Recent trauma",
-                           "name": "recent_trauma",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "History of childhood trauma",
-                           "name": "history_of_childhood_trauma",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Prior_Suicide_Attempts",
-                           "name": "prior_suicide_attempts",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Other",
-                           "name": "other",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "None",
-                           "name": "none",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unknown",
-                           "name": "unknown",
-                           "type": "boolean"
+                           "prompt": "Evidence of Social or Emotional Stress*",
+                           "name": "evidence_of_social_or_emotional_stress",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "History of Domestic Violence"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "History of Psychiatric Hospitalizations or Treatment"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Child Protective Services Involvement"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "History of Substance Abuse"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unemployment"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "History of Substance Abuse Treatment"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Pregnancy Unwanted"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Recent trauma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "History of childhood trauma"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Prior_Suicide_Attempts"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ],
+                           "is_core_summary": true,
+                           "is_multiselect": true,
+                           "control_style": "checkbox"
                        },
                        {
                            "prompt": "Explain Further",
                            "name": "explain_further",
-                           "type": "textarea"
+                           "type": "textarea",
+                           "is_core_summary": true
                        }
                    ]
                },
                {
                    "prompt": "Utilization of Health Care System",
-                   "name": "utilization_of_health_care_system",
+                   "name": "health_care_system",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "No Prenatal Care",
-                           "name": "no_prenatal_care",
-                           "type": "boolean"
-                       },
-                       {
                            "prompt": "Reasons for Missed Appointments* (Check all that apply)",
-                           "name": "reasons_for_missed_appoinments",
-                           "type": "label"
-                       },
-                       {
-                           "prompt": "Lack of childcare",
-                           "name": "lack_of_childcare",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Appointment Conflict",
-                           "name": "appointment_conflict",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "No Transportation",
-                           "name": "no_transportation",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Busy Elsewhere",
-                           "name": "busy_elsewhere",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Forgot",
-                           "name": "forgot",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Don't Like PNC",
-                           "name": "dont_like_pnc",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Other",
-                           "name": "other",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "None",
-                           "name": "none",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unknown",
-                           "name": "unknown",
-                           "type": "boolean"
+                           "name": "reasons_for_missed_appointments",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No Prenatal Care"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Lack of childcare"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Appointment Conflict"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No Transportation"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Busy Elsewhere"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Forgot"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Don't Like PNC"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "None"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ],
+                           "is_core_summary": true,
+                           "is_multiselect": true
                        },
                        {
                            "prompt": "Comment(s)",
                            "name": "comments",
-                           "type": "textarea"
+                           "type": "textarea",
+                           "is_core_summary": true
                        }
                    ]
                },
                {
                    "prompt": "At the time of her death, was the decedent?",
-                   "name": "at_the_time_of_her_death_was_the_decedent",
-                   "type": "group",
-                   "children": [
+                   "name": "had_military_service",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Active military"
+                       },
+                       {
+                           "description": "",
+                           "value": "Military veteran"
+                       },
+                       {
+                           "description": "",
+                           "value": "Military dependent"
+                       },
+                       {
+                           "description": "",
+                           "value": "None of the above"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Is there documentation of bereavement support?",
+                   "name": "was_there_bereavement_support",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
                    ]
                },
                {
@@ -10981,6 +11869,10 @@
                            "name": "substance",
                            "type": "list",
                            "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
                                {
                                    "description": "",
                                    "value": "Alcohol"
@@ -11480,42 +12372,7 @@
                },
                {
                    "prompt": "Was the decedent treated for any of the following mental health conditions prior to the most recent pregnancy? (check all that apply)*",
-                   "name": "new_label",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Depression",
-                   "name": "depression",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Anxiety Disorder",
-                   "name": "anxiety_disorder",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Bipolar Disorder",
-                   "name": "bipolar_disorder",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Psychotic Disorder",
-                   "name": "psychotic_disorder",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Substance Use Disorder",
-                   "name": "substance_use_disorder",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other",
-                   "name": "other",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Was the decedent treated for any of the following mental health conditions during the most recent pregnancy? (check all that apply)*",
-                   "name": "was_the_decedent_treated_for_any_of_the_following_mental_health_conditions_during_the_most_recent_pregnancy",
+                   "name": "mental_health_conditions_prior_to_the_most_recent_pregnancy",
                    "type": "list",
                    "values": [
                        {
@@ -11548,7 +12405,46 @@
                        }
                    ],
                    "is_core_summary": true,
-                   "is_multiselect": true
+                   "is_multiselect": true,
+                   "control_style": "checkbox"
+               },
+               {
+                   "prompt": "Was the decedent treated for any of the following mental health conditions during the most recent pregnancy? (check all that apply)*",
+                   "name": "mental_health_conditions_during_the_most_recent_pregnancy",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Depression"
+                       },
+                       {
+                           "description": "",
+                           "value": "Anxiety disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Bipolar disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Psychotic disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Substance use disorder"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       }
+                   ],
+                   "is_core_summary": true,
+                   "is_multiselect": true,
+                   "control_style": "checkbox"
                },
                {
                    "prompt": "Other",
@@ -11557,7 +12453,7 @@
                },
                {
                    "prompt": "Was the decedent treated for any of the following mental health conditions after the most recent pregnancy? (check all that apply)*",
-                   "name": "was_the_decedent_treated_for_any_of_the_following_mental_health_conditions_after_the_most_recent_pregnancy",
+                   "name": "mental_health_conditions_after_the_most_recent_pregnancy",
                    "type": "list",
                    "values": [
                        {
@@ -11590,7 +12486,8 @@
                        }
                    ],
                    "is_core_summary": true,
-                   "is_multiselect": true
+                   "is_multiselect": true,
+                   "control_style": "checkbox"
                },
                {
                    "prompt": "Other",

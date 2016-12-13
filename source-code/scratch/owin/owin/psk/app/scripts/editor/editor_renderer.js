@@ -31,7 +31,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(p_metadata.name);
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
+			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -66,7 +66,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(' <input type="button" value="add" onclick="editor_add_to_children(this, g_ui)" path="');
 			result.push(p_path);
 			result.push('" />');
-			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" />');
+			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
 			result.push(p_object_path);
 			result.push(' <ul>');
 
@@ -149,7 +149,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(p_metadata.name);
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
+			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
 			result.push(p_object_path);
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -176,7 +176,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		result.push(p_metadata.name);
 		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-		result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+		result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
 		result.push(p_object_path);
 		result.push('<br/><ul  tag="attribute_list">');
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
@@ -1220,7 +1220,7 @@ function editor_add_form(e)
 	g_metadata.children.push(form);
 	var node = editor_render(g_metadata, "", g_ui);
 	
-	var node_to_render = document.querySelector("div[path='/']");
+	var node_to_render = document.getElementById('form_content_id');
 	node_to_render.innerHTML = node.join("");
 	window.dispatchEvent(metadata_changed_event);
 	
