@@ -31,7 +31,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(p_metadata.name);
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
-			//result.push(p_path);
+			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -781,7 +781,7 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 		if(p_is_index_paste)
 		{
 			var path_array = p_ui.split('/');
-			var target_index = path_array[path_array.lentgh -1];
+			var target_index = path_array[path_array.length -1];
 
 			path_array.splice(path_array.length -2, 2);
 
