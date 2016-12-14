@@ -1,6 +1,6 @@
 {
    "_id": "2016-06-12T13:49:24.759Z",
-   "_rev": "321-eee1ddaedce85598980a5bd662a764ec",
+   "_rev": "412-646899cf45c82d54070ccf4696888b2b",
    "name": "mmria",
    "prompt": "mmria app (ned)",
    "type": "app",
@@ -531,7 +531,7 @@
                        },
                        {
                            "description": "",
-                           "value": "PW- Paulau"
+                           "value": "PW- Palau"
                        },
                        {
                            "description": "",
@@ -545,11 +545,6 @@
                    "prompt": "Agency-Based Case Identifier",
                    "name": "agency_case_id",
                    "type": "string"
-               },
-               {
-                   "prompt": "Is_Valid_Maternal_Mortality_Record",
-                   "name": "is_valid_maternal_mortality_record",
-                   "type": "boolean"
                },
                {
                    "prompt": "Date of Death*",
@@ -841,7 +836,7 @@
                            "list_display_size": 1
                        },
                        {
-                           "prompt": "Social and psychological profile",
+                           "prompt": "Social and Environmental Profile",
                            "name": "social_and_psychological_profile",
                            "type": "list",
                            "values": [
@@ -948,7 +943,7 @@
            "cardinality": "?",
            "children": [
                {
-                   "prompt": "Place of last residence",
+                   "prompt": "Place of Last Residence",
                    "name": "place_of_last_residence",
                    "type": "group",
                    "children": [
@@ -1996,10 +1991,26 @@
                    ]
                },
                {
-                   "prompt": "Date of Birth* (YYYY-MM-DD)",
+                   "prompt": "Date of Birth*",
                    "name": "date_of_birth",
-                   "type": "Date",
-                   "is_core_summary": true
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Month",
+                           "name": "month",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Day",
+                           "name": "day",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Year",
+                           "name": "year",
+                           "type": "number"
+                       }
+                   ]
                },
                {
                    "prompt": "Age*",
@@ -2012,6 +2023,10 @@
                    "name": "marital_status",
                    "type": "List",
                    "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
                        {
                            "description": "test",
                            "value": "Married"
@@ -3209,6 +3224,21 @@
                            "name": "new_group",
                            "type": "group",
                            "children": [
+                               {
+                                   "prompt": "Month",
+                                   "name": "month",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Day",
+                                   "name": "day",
+                                   "type": "number"
+                               },
+                               {
+                                   "prompt": "Year",
+                                   "name": "year",
+                                   "type": "number"
+                               }
                            ]
                        }
                    ]
@@ -4991,7 +5021,7 @@
            "prompt": "Birth/Fetal Death Certificate - Infant/Fetal Section",
            "name": "birth_certificate_infant_fetal_section",
            "type": "form",
-           "cardinality": "?",
+           "cardinality": "*",
            "children": [
            ]
        },
@@ -5240,6 +5270,10 @@
                    "name": "was_drug_toxicology_positive",
                    "type": "List",
                    "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
                        {
                            "description": "",
                            "value": "Yes"
@@ -5531,13 +5565,8 @@
                {
                    "prompt": "Reviewer's notes about the Autopsy Report",
                    "name": "reviewer_note",
-                   "type": "TextArea"
-               },
-               {
-                   "prompt": "Terminal Event / Autopsy Narrative Summary:",
-                   "name": "terminal_event_autopsy_narrative_summary",
-                   "type": "textarea",
-                   "pre_fill": "(Briefly describe in chronological fashion the events immediately preceding the terminal event.)\n\nOn _________ (date) at _____ (time)...\n(Include critical symptoms, treatments, referrals, labs, and vitals)\n\n\nShe expired on _______ (date) at _______ (time) in the __________ (facility).  The case was or was/not reported to the Medical Examiner/Coroner.  Autopsy was OR was not performed.  Core findings from the autopsy include the following:\nAutopsy performed by:\nHeight and weight:\nSystems Exam (Gross Findings):\nMicroscopic Exam:\nToxicology Results:\nCause of Death (per autopsy):"
+                   "type": "TextArea",
+                   "pre_fill": "Terminal Event / Autopsy Narrative Summary:\n(Briefly describe in chronological fashion the events immediately preceding the terminal event.)\n\nOn _________ (date) at _____ (time)...\n(Include critical symptoms, treatments, referrals, labs, and vitals)\n\n\nShe expired on _______ (date) at _______ (time) in the __________ (facility).  The case was or was/not reported to the Medical Examiner/Coroner.  Autopsy was OR was not performed.  Core findings from the autopsy include the following:\nAutopsy performed by:\nHeight and weight:\nSystems Exam (Gross Findings):\nMicroscopic Exam:\nToxicology Results:\nCause of Death (per autopsy):"
                }
            ]
        },
@@ -5569,7 +5598,7 @@
                    "control_style": "radio"
                },
                {
-                   "prompt": "Primary prenatal care facility",
+                   "prompt": "Primary Prenatal Care Facility",
                    "name": "primary_prenatal_care_facility",
                    "type": "group",
                    "children": [
@@ -5728,7 +5757,7 @@
                    ]
                },
                {
-                   "prompt": "Location of primary prenatal care facility",
+                   "prompt": "Location of Primary Prenatal Care Facility",
                    "name": "location_of_primary_prenatal_care_facility",
                    "type": "group",
                    "children": [
@@ -6231,7 +6260,7 @@
                    "is_core_summary": true
                },
                {
-                   "prompt": "Pregnancy history",
+                   "prompt": "Pregnancy History",
                    "name": "pregnancy_history",
                    "type": "group",
                    "children": [
@@ -6345,7 +6374,7 @@
                    ]
                },
                {
-                   "prompt": "Intendedness (current prgnancy)",
+                   "prompt": "Intendedness (Current Pregnancy)",
                    "name": "intendedenes",
                    "type": "group",
                    "children": [
@@ -6428,7 +6457,7 @@
                            ]
                        },
                        {
-                           "prompt": "Date birth control was discontinued",
+                           "prompt": "Date Birth Control was Discontinued",
                            "name": "date_birth_control_was_discontinued",
                            "type": "group",
                            "children": [
@@ -6452,7 +6481,7 @@
                    ]
                },
                {
-                   "prompt": "Infertility treatment (current pregnancy)",
+                   "prompt": "Infertility Treatment (Current Pregnancy)",
                    "name": "infertility_treatment",
                    "type": "group",
                    "children": [
@@ -6578,7 +6607,7 @@
                    ]
                },
                {
-                   "prompt": "Current pregnancy",
+                   "prompt": "Current Pregnancy",
                    "name": "current_pregnancy",
                    "type": "group",
                    "children": [
@@ -6949,12 +6978,12 @@
                    ]
                },
                {
-                   "prompt": "Hightest BP*",
+                   "prompt": "Highest BP*",
                    "name": "highest_blood_pressure",
                    "type": "group",
                    "children": [
                        {
-                           "prompt": "systolic",
+                           "prompt": "Systolic",
                            "name": "systolic",
                            "type": "number"
                        },
@@ -7524,7 +7553,7 @@
                                },
                                {
                                    "description": "",
-                                   "value": "PW- Paulau"
+                                   "value": "PW- Palau"
                                },
                                {
                                    "description": "",
@@ -7546,7 +7575,7 @@
                },
                {
                    "prompt": "Reviewer's notes about the prenatal care records",
-                   "name": "reviewer_notes",
+                   "name": "reviewer_note",
                    "type": "textarea",
                    "pre_fill": "Prenatal Care Record:  Narrative Summary Template\nShe was a gravida____para___ with a past obstetric history of ________________ (identify any complications or high risk factors) OR state no significant past OB history.  Prior surgical history includes _____________.  Her family medical history was positive for __________________.  Pre-existing medical conditions included ___________________.  She was ___ (height) and weighed _______.  Her pre-pregnancy BMI was_______.  \nIn the sentinel pregnancy she entered care at ________weeks gestation and weighed _________.  She attended __#___visits at a _________ (describe clinic setting), with a __________ (provider type) and had ___________ (type of insurance). Screening was/was not performed for substance use and was +/- for_____________________.  Screening was/was not performed for domestic violence and was found to be +/- (describe if +) _____________. Additional social determinant factors identified include________________________________________.\nThe pregnancy was complicated by ____________ (describe any complications or high risk factors).  She was referred to a (n) _____________ (describe specialist) for________________.  Diagnostic procedures during pregnancy included__________________________________.  Abnormal labs during pregnancy include ______________________.  Abnormal vital signs during pregnancy include__________________________. During the sentinel pregnancy she was on________________________________ (identify all medications)."
                }
@@ -7556,7 +7585,7 @@
            "prompt": "ER Visit and Hospital Medical Records",
            "name": "er_visit_and_hospital_medical_records",
            "type": "form",
-           "cardinality": "?",
+           "cardinality": "*",
            "children": [
                {
                    "prompt": "Maternal record identification",
@@ -8190,7 +8219,7 @@
                                },
                                {
                                    "description": "",
-                                   "value": "PW- Paulau"
+                                   "value": "PW- Palau"
                                },
                                {
                                    "description": "",
@@ -8536,7 +8565,7 @@
                                },
                                {
                                    "description": "",
-                                   "value": "Hightest"
+                                   "value": "Highest"
                                },
                                {
                                    "description": "",
@@ -8792,11 +8821,21 @@
                            "prompt": "BP Diastolic",
                            "name": "bp_diastolic",
                            "type": "number"
+                       },
+                       {
+                           "prompt": "Gestational Age - Weeks",
+                           "name": "gestational_weeks",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Gestational Age - Days",
+                           "name": "gestational_days",
+                           "type": "number"
                        }
                    ]
                },
                {
-                   "prompt": "Hightest BP*",
+                   "prompt": "Highest BP*",
                    "name": "highest_bp",
                    "type": "group",
                    "children": [
@@ -9016,7 +9055,7 @@
                },
                {
                    "prompt": "Reviewer's notes about this hospitalization, delivery and / or ER visit",
-                   "name": "reviewer_notes",
+                   "name": "reviewer_note",
                    "type": "textarea",
                    "pre_fill": "She presented at ____(weeks gestation) to the ______________ (ED or L& D triage or other) in a __________ (hospital level of OB care or trauma /trauma level) via _________ (method of transportation) on _________ (date) at __________(time). Her chief complaint was___________________.  Her weight on admission was __________and her presenting vital signs were__________________________.  She was screened for __________________ (describe type of screening i.e. Embolism, hemorrhage, ectopic, influenza, domestic violence, etc.)\nPhysical examination on admission found_______________________. Labs performed included _________________with ________________abnormal findings noted.  Diagnostic tests performed included_____________________________with the following abnormal findings noted______________________________. Her diagnosis was_______________________ and she was admitted to ____________ (describe unit) OR transferred to______________OR discharged to____________________.\n\n(If admitted provide brief chronological synopsis of events that occurred during the hospital stay including condition and vital signs when discharged.)\n\nIf admission to L&D complete the following template:\n\nShe labored for ____________hours and delivered via _____________ (method-if CS describe reason) by a (n) _________________ (provider type) under ____________ (anesthesia/local).  Medications administered during labor and delivery or postpartum included___________________________.  She received ____________units of blood products (delete if not applicable).  Infant weighed_______________with Apgars of________________.\nComplications during labor, delivery or postpartum (prior to discharge) include_____________________________.\nShe was discharged home on day__________.  Vitals signs at discharge included____________.  She was instructed to ___________________________ (special education or f/up appointments)."
                }
@@ -9026,7 +9065,7 @@
            "prompt": "Other Medical Office Visits",
            "name": "other_medical_office_visits",
            "type": "form",
-           "cardinality": "?",
+           "cardinality": "*",
            "children": [
                {
                    "prompt": "Visit",
@@ -9397,6 +9436,16 @@
                            "prompt": "BP Diastolic",
                            "name": "bp_diastolic",
                            "type": "number"
+                       },
+                       {
+                           "prompt": "Gestational Age - Weeks",
+                           "name": "gestational_weeks",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Gestational Age - Days",
+                           "name": "gestational_days",
+                           "type": "number"
                        }
                    ]
                },
@@ -9743,7 +9792,7 @@
                },
                {
                    "prompt": "Reviewer's notes about this visit",
-                   "name": "reviewers_notes_about_this_visit",
+                   "name": "reviewer_note",
                    "type": "textarea"
                }
            ],
@@ -9753,7 +9802,7 @@
            "prompt": "Medical Transport",
            "name": "medical_transport",
            "type": "form",
-           "cardinality": "?",
+           "cardinality": "*",
            "children": [
                {
                    "prompt": "Date",
@@ -9771,99 +9820,104 @@
                    "type": "textarea"
                },
                {
+                   "prompt": "Transport List",
+                   "name": "transport_vehicle",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Ground Ambulance"
+                       },
+                       {
+                           "description": "",
+                           "value": "Fixed-Wing Aircraft"
+                       },
+                       {
+                           "description": "",
+                           "value": "Helicopter"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       }
+                   ],
+                   "list_display_size": 1,
+                   "control_style": "editable"
+               },
+               {
                    "prompt": "Who Managed the Transport?",
                    "name": "who_managed_the_transport",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Attending Physician",
-                   "name": "attending_physician",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Another Clinician",
-                   "name": "another_clinician",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "EMS/911",
-                   "name": "ems_911",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other",
-                   "name": "other",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other (Specify)",
-                   "name": "other_specify",
-                   "type": "textarea"
-               },
-               {
-                   "prompt": "Transport Vehicle",
-                   "name": "transport_vehicle",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Ground Ambulance",
-                   "name": "ground_ambulance",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Fixed-Wing Aircraft",
-                   "name": "fixed_wing_aircraft",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Helicopter",
-                   "name": "helicopter",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other",
-                   "name": "other",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "Other (Specify)",
-                   "name": "other_specify",
-                   "type": "textarea"
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Attending Physician"
+                       },
+                       {
+                           "description": "",
+                           "value": "Another Clinician"
+                       },
+                       {
+                           "description": "",
+                           "value": "EMS/911"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
+                       }
+                   ],
+                   "list_display_size": 1,
+                   "control_style": "editable"
                },
                {
                    "prompt": "Timing of Transport",
                    "name": "timing_of_transport",
-                   "type": "label"
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Call Received",
+                           "name": "call_received",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Depart for Patient Origin",
+                           "name": "depart_for_patient_origin",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Arrive at Patient Origin",
+                           "name": "arrive_at_patient_origin",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Patient Contact",
+                           "name": "patient_contact",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Depart for Referring Facility",
+                           "name": "depart_for_referring_facility",
+                           "type": "datetime"
+                       },
+                       {
+                           "prompt": "Arrive at Referring Facility",
+                           "name": "arrive_at_referring_facility",
+                           "type": "datetime"
+                       }
+                   ]
                },
                {
-                   "prompt": "Call Received",
-                   "name": "call_received",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Depart for Patient Origin",
-                   "name": "depart_for_patient_origin",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Arrive at Patient Origin",
-                   "name": "arrive_at_patient_origin",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Patient Contact",
-                   "name": "patient_contact",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Depart for Referring Facility",
-                   "name": "depart_for_referring_facility",
-                   "type": "datetime"
-               },
-               {
-                   "prompt": "Arrive at Referring Facility",
-                   "name": "arrive_at_referring_facility",
-                   "type": "datetime"
+                   "prompt": "Procedures before Transport (Describe)",
+                   "name": "procedures_before_transport",
+                   "type": "textarea"
                },
                {
                    "prompt": "Origin",
@@ -9945,13 +9999,8 @@
                    ]
                },
                {
-                   "prompt": "Procedures before Transport (Describe)",
-                   "name": "procedures_before_transport",
-                   "type": "textarea"
-               },
-               {
-                   "prompt": "Procedures in Transport (Describe)",
-                   "name": "procedures_in_transport",
+                   "prompt": "Procedures During Transport (Describe)",
+                   "name": "procedures_during_transport",
                    "type": "textarea"
                },
                {
@@ -9963,6 +10012,16 @@
                            "prompt": "Date and Time",
                            "name": "date_and_time",
                            "type": "datetime"
+                       },
+                       {
+                           "prompt": "Gestational Age - Weeks",
+                           "name": "gestational_weeks",
+                           "type": "number"
+                       },
+                       {
+                           "prompt": "Gestational Age - Days",
+                           "name": "gestational_days",
+                           "type": "number"
                        },
                        {
                            "prompt": "Systolic BP",
@@ -10000,7 +10059,7 @@
                    "prompt": "Transport narrative summary",
                    "name": "transport_narrative_summary",
                    "type": "textarea",
-                   "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
+                   "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ (place of origin) she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
                }
            ]
        },
@@ -11545,7 +11604,7 @@
                                },
                                {
                                    "description": "",
-                                   "value": "History of Substance Abuse"
+                                   "value": "History of Substance Use"
                                },
                                {
                                    "description": "",
@@ -11561,15 +11620,15 @@
                                },
                                {
                                    "description": "",
-                                   "value": "Recent trauma"
+                                   "value": "Recent Trauma"
                                },
                                {
                                    "description": "",
-                                   "value": "History of childhood trauma"
+                                   "value": "History of Childhood Trauma"
                                },
                                {
                                    "description": "",
-                                   "value": "Prior_Suicide_Attempts"
+                                   "value": "Prior Suicide Attempts"
                                },
                                {
                                    "description": "",
@@ -11602,6 +11661,12 @@
                    "type": "group",
                    "children": [
                        {
+                           "prompt": "No Prenatal Care",
+                           "name": "no_prenatal_care",
+                           "type": "boolean",
+                           "is_core_summary": true
+                       },
+                       {
                            "prompt": "Reasons for Missed Appointments* (Check all that apply)",
                            "name": "reasons_for_missed_appointments",
                            "type": "list",
@@ -11609,10 +11674,6 @@
                                {
                                    "description": "",
                                    "value": ""
-                               },
-                               {
-                                   "description": "",
-                                   "value": "No Prenatal Care"
                                },
                                {
                                    "description": "",
@@ -11857,7 +11918,8 @@
                            "description": "",
                            "value": "No"
                        }
-                   ]
+                   ],
+                   "is_core_summary": true
                },
                {
                    "prompt": "If yes, specify substance(s)",
@@ -12019,7 +12081,7 @@
                        },
                        {
                            "prompt": "Timing of Substance Use",
-                           "name": "timing_of_use",
+                           "name": "timing_of_substance_use",
                            "type": "list",
                            "values": [
                                {
@@ -12042,14 +12104,15 @@
                                    "description": "",
                                    "value": "Postpartum"
                                }
-                           ]
+                           ],
+                           "is_core_summary": false
                        }
                    ],
                    "is_core_summary": true
                },
                {
-                   "prompt": "Reviewer's Notes about the Social Services Records and Issues",
-                   "name": "reviewers_notes_about_the_social_services_records_and_issues",
+                   "prompt": "Reviewer's Notes about the Social and Environmental Profile",
+                   "name": "reviewer_note",
                    "type": "textarea"
                }
            ]
@@ -12071,9 +12134,14 @@
                            "type": "date"
                        },
                        {
-                           "prompt": "Gestational Age Weeks/Days",
-                           "name": "gestational_age",
+                           "prompt": "Gestational Age  - Weeks",
+                           "name": "gestational_weeks",
                            "type": "string"
+                       },
+                       {
+                           "prompt": "Gestational Age - Days",
+                           "name": "gestational_days",
+                           "type": "number"
                        },
                        {
                            "prompt": "Screening Tool",
@@ -12156,7 +12224,9 @@
                                    "description": "",
                                    "value": "Other"
                                }
-                           ]
+                           ],
+                           "list_display_size": 1,
+                           "control_style": "editable"
                        },
                        {
                            "prompt": "Other",
@@ -12260,6 +12330,10 @@
                            "values": [
                                {
                                    "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
                                    "value": "Days"
                                },
                                {
@@ -12269,10 +12343,6 @@
                                {
                                    "description": "",
                                    "value": "Years"
-                               },
-                               {
-                                   "description": "",
-                                   "value": "new value"
                                }
                            ]
                        },
@@ -12409,6 +12479,11 @@
                    "control_style": "checkbox"
                },
                {
+                   "prompt": "Other",
+                   "name": "other_prior_to_pregnancy",
+                   "type": "string"
+               },
+               {
                    "prompt": "Was the decedent treated for any of the following mental health conditions during the most recent pregnancy? (check all that apply)*",
                    "name": "mental_health_conditions_during_the_most_recent_pregnancy",
                    "type": "list",
@@ -12448,7 +12523,7 @@
                },
                {
                    "prompt": "Other",
-                   "name": "other",
+                   "name": "other_during_pregnancy",
                    "type": "string"
                },
                {
@@ -12491,7 +12566,7 @@
                },
                {
                    "prompt": "Other",
-                   "name": "other",
+                   "name": "other_after_pregnancy",
                    "type": "string"
                }
            ]
@@ -12500,7 +12575,7 @@
            "prompt": "Informant Interviews",
            "name": "informant_interviews",
            "type": "form",
-           "cardinality": "?",
+           "cardinality": "*",
            "children": [
                {
                    "prompt": "Date Of Interview",
@@ -12639,30 +12714,17 @@
                        {
                            "description": "",
                            "value": "Cousin"
+                       },
+                       {
+                           "description": "",
+                           "value": "Other"
                        }
                    ]
                },
                {
-                   "prompt": "Extended Relationship",
-                   "name": "new_group",
-                   "type": "group",
-                   "children": [
-                       {
-                           "prompt": "Step-",
-                           "name": "step_",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "In-Law",
-                           "name": "in_law",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Half-",
-                           "name": "half_",
-                           "type": "boolean"
-                       }
-                   ]
+                   "prompt": "Other Relationship",
+                   "name": "other_relationship",
+                   "type": "string"
                },
                {
                    "prompt": "Ethnicity",
@@ -12764,7 +12826,7 @@
                    "prompt": "Case Opening Overview",
                    "name": "case_opening_overview",
                    "type": "textarea",
-                   "pre_fill": ""
+                   "pre_fill": "(Paragraphs 1-4 can be used to introduce the case at an MMR meeting.  Paragraph 1 alone can be used for importing in a final complete case narrative summary.)\n\nShe was a (age, place of birth, race/ethnicity, marriage status, level education, occupation).  She was a gravida ____ para ___, who died with cause of death ____, ___ days /months, before, during or after delivery.  Medical history was significant for ___ (Pre-pregnancy risk factors or pre-existing medical conditions).  Pre-pregnancy BMI was_______. Life course issues significant for __________ (psychosocial factors).\n\nEntry into prenatal care was at ___ weeks with # visits at a ____ (describe location) with a ___ (provider type).  Prenatal history was significant for ___ (include identified obstetric risk factors).  Referrals during prenatal period were to ______________on ________ (date)."
                }
            ]
        },
@@ -12775,45 +12837,13 @@
            "cardinality": "?",
            "children": [
                {
-                   "prompt": "PREGNANCY RELATED DEATH The death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy",
-                   "name": "pregnancy_related_death",
-                   "type": "label"
+                   "prompt": "Date of Review",
+                   "name": "date_of_review",
+                   "type": "date"
                },
                {
-                   "prompt": "PREGNANCY ASSOCIATED DEATH The death of a woman from any cause during pregnancy or within one year of the end of pregnancy",
-                   "name": "prgnancy_associated_death",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Was this death...*",
-                   "name": "was_this_death",
-                   "type": "group",
-                   "children": [
-                       {
-                           "prompt": "Pregnancy Related",
-                           "name": "pregnancy_related",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Pregnancy Associated",
-                           "name": "new_boolean",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Not Pregnancy Related or Associated",
-                           "name": "not_pregnancy_related_or_associated",
-                           "type": "boolean"
-                       },
-                       {
-                           "prompt": "Unable to determine if pregnancy related or associated",
-                           "name": "unable_to_determine_if_pregnancy_related_or_associated",
-                           "type": "boolean"
-                       }
-                   ]
-               },
-               {
-                   "prompt": "How was this death identified? (primary source)*",
-                   "name": "how_was_this_death_identified_primary_source",
+                   "prompt": "Pregnancy Relatedness",
+                   "name": "pregnancy_relatedness",
                    "type": "list",
                    "values": [
                        {
@@ -12821,46 +12851,28 @@
                            "value": ""
                        },
                        {
-                           "description": "",
-                           "value": "Obstetric ICD codes from the death certificate"
+                           "description": "The death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy",
+                           "value": "Pregnancy Related"
                        },
                        {
-                           "description": "",
-                           "value": "Pregnancy check box on death certificate"
+                           "description": "The death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is NOT related to pregnancy.",
+                           "value": "Pregnancy Associated, but NOT Related"
                        },
                        {
-                           "description": "",
-                           "value": "Record linkage of death and birth  (fetal death) certificates"
+                           "description": "(i.e. woman was not pregnant within one year of her death)",
+                           "value": "Not Pregnancy Related or Associated"
                        },
                        {
-                           "description": "",
-                           "value": "Record linkage of death certificate and hospital discharge data"
-                       },
-                       {
-                           "description": "",
-                           "value": "Facility reporting"
-                       },
-                       {
-                           "description": "",
-                           "value": "Obituary"
-                       },
-                       {
-                           "description": "",
-                           "value": "Social media"
-                       },
-                       {
-                           "description": "",
-                           "value": "Other"
-                       },
-                       {
-                           "description": "",
-                           "value": "Unknown"
+                           "description": "UNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED",
+                           "value": "Unable to determine if pregnancy related or associated"
                        }
-                   ]
+                   ],
+                   "is_save_value_display_description": false,
+                   "description": "PREGNANCY RELATED DEATH \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy\nPREGNANCY ASSOCIATED DEATH, NOT RELATED \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is not related to pregnancy. \nNOT PREGNANCY RELATED OR ASSOCIATED (i.e. woman was not pregnant within one year of her death)\nUNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED"
                },
                {
                    "prompt": "Notes about key circumstances surrounding this death identified by the committee  (enter in bulleted format)",
-                   "name": "notes_about_key_circumstances_surrounding_this_death_identified_by_the_committee_enter_in_bulleted_format",
+                   "name": "notes_about_key_circumstances_surrounding_death",
                    "type": "textarea"
                },
                {
@@ -12918,8 +12930,8 @@
                    "type": "grid",
                    "children": [
                        {
-                           "prompt": "CDC ICD-MM (Select all that apply)",
-                           "name": "cds_icd_mm_select_all_that_apply",
+                           "prompt": "PMSS-MM (Select Up To Two)",
+                           "name": "pmss_mm",
                            "type": "list",
                            "values": [
                                {
@@ -13100,7 +13112,7 @@
                                },
                                {
                                    "description": "",
-                                   "value": "90.2 - Pilmonary Hypertension"
+                                   "value": "90.2 - Pulmonary Hypertension"
                                },
                                {
                                    "description": "",
@@ -13219,34 +13231,281 @@
                                    "value": "999 - Unknown COD"
                                }
                            ],
-                           "is_multiselect": true
+                           "is_multiselect": true,
+                           "description": "NOTE: If more than 1 is selected, please list them in order of importance beginning with the most compelling"
                        }
                    ]
                },
                {
-                   "prompt": "NOTE: If more than 1 is selected, please list them in order of importance begining with the most compelling",
-                   "name": "note_text",
-                   "type": "label"
+                   "prompt": "Did Obesity Contribute to the Death?",
+                   "name": "did_obesity_contribute_to_the_death",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Probably"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
                },
                {
-                   "prompt": "EVALUATION CRITERIA A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, community, provider, facility, and/or systems factors.",
-                   "name": "evaluation_criteria",
-                   "type": "label"
+                   "prompt": "Did Mental Health Conditions Contribute to the Death?",
+                   "name": "did_mental_health_conditions_contribute_to_the_death",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Probably"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
                },
                {
-                   "prompt": "Was this death preventable?*",
+                   "prompt": "Did Substance Use Disorder Contribute to the Death?",
+                   "name": "did_substance_use_disorder_contribute_to_the_death",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Probably"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "Was this Death a Suicide?",
+                   "name": "was_this_death_a_sucide",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "Probably"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ]
+               },
+               {
+                   "prompt": "",
+                   "name": "homicide_relatedness",
+                   "type": "group",
+                   "children": [
+                       {
+                           "prompt": "Was this Death a Homicide?",
+                           "name": "was_this_death_a_homicide",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Yes"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Probably"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               }
+                           ]
+                       },
+                       {
+                           "prompt": "If this death was a homicide, what was the relationship of the perpetrator to the decedent?",
+                           "name": "if_homicide_relationship_of_perpetrator",
+                           "type": "list",
+                           "values": [
+                               {
+                                   "description": "",
+                                   "value": ""
+                               },
+                               {
+                                   "description": "",
+                                   "value": "No Relationship"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Partner"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Ex-Partner"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other Relative"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other Acquaintance"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Other"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Unknown"
+                               },
+                               {
+                                   "description": "",
+                                   "value": "Not Applicable"
+                               }
+                           ]
+                       }
+                   ]
+               },
+               {
+                   "prompt": "If this death was a homicide, suicide or accidental death, list the means of fatal injury.",
+                   "name": "means_of_fatal_injury",
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Firearm"
+                       },
+                       {
+                           "description": "",
+                           "value": "Sharp instrument"
+                       },
+                       {
+                           "description": "",
+                           "value": "Blunt instrument"
+                       },
+                       {
+                           "description": "",
+                           "value": "Poisoning/ overdose"
+                       },
+                       {
+                           "description": "",
+                           "value": "Hanging/ strangulation/ suffocation"
+                       },
+                       {
+                           "description": "",
+                           "value": "Fall"
+                       },
+                       {
+                           "description": "",
+                           "value": "Punching/ kicking/ beating"
+                       },
+                       {
+                           "description": "",
+                           "value": "Explosive"
+                       },
+                       {
+                           "description": "",
+                           "value": "Drowning"
+                       },
+                       {
+                           "description": "",
+                           "value": "Fire or burns"
+                       },
+                       {
+                           "description": "",
+                           "value": "Motor vehicle"
+                       },
+                       {
+                           "description": "",
+                           "value": "Intentional neglect"
+                       },
+                       {
+                           "description": "",
+                           "value": "Unknown"
+                       }
+                   ],
+                   "list_display_size": 1,
+                   "control_style": "editable"
+               },
+               {
+                   "prompt": "Was this Death Preventable?*",
                    "name": "was_this_death_preventable",
-                   "type": "label"
-               },
-               {
-                   "prompt": "Yes",
-                   "name": "yes",
-                   "type": "boolean"
-               },
-               {
-                   "prompt": "No",
-                   "name": "no",
-                   "type": "boolean"
+                   "type": "list",
+                   "values": [
+                       {
+                           "description": "",
+                           "value": ""
+                       },
+                       {
+                           "description": "",
+                           "value": "Yes"
+                       },
+                       {
+                           "description": "",
+                           "value": "No"
+                       }
+                   ],
+                   "is_core_summary": true,
+                   "description": "A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, community, provider, facility, and/or systems factors."
                },
                {
                    "prompt": "Chance to alter outcome*",
@@ -13558,6 +13817,13 @@
                    "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
                    "name": "recommendations_of_the_committee",
                    "type": "textarea"
+               },
+               {
+                   "prompt": "new list",
+                   "name": "new_list",
+                   "type": "list",
+                   "values": [
+                   ]
                }
            ]
        }

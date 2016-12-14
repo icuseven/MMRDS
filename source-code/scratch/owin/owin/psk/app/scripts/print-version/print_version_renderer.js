@@ -59,7 +59,26 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 					}
 				}
 				break;				
-		case 'app':		
+		case 'app':
+				/*
+				result.push('<p>');
+				//result.push(p_path)
+				result.push(' <strong>')
+				result.push(p_metadata.prompt);
+				result.push('</strong>: ');
+				result.push(p_data[p_metadata.name]);
+				result.push('</p>');
+				*/
+				if(p_metadata.children)
+				{
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						if(child.type.toLowerCase() == "form" && p_data[child.name] != null)
+						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
+					}
+				}
+				break;				
 		default:
 				result.push('<p>');
 				//result.push(p_path)
