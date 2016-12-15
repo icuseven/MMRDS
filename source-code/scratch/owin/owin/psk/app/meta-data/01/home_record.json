@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "5-ea9954abe952d2c53e9071eaeacea4f7",
+  "_rev": "53-68577f70b43f4e9d2f658a8edc08fac2",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -10492,6 +10492,99 @@
           "type": "textarea"
         },
         {
+          "prompt": "Origin Information",
+          "name": "origin_information",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Place of Origin",
+              "name": "place_of_origin",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Home"
+                },
+                {
+                  "description": "",
+                  "value": "Hospital"
+                }
+              ],
+              "control_style": "editable"
+            },
+            {
+              "prompt": "If Hospital Chosen Enter Trauma Level of Care, If Known",
+              "name": "trauma_level_of_care",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Level 1"
+                },
+                {
+                  "description": "",
+                  "value": "Level 2"
+                },
+                {
+                  "description": "",
+                  "value": "Level 3"
+                },
+                {
+                  "description": "",
+                  "value": "Level 4"
+                }
+              ],
+              "list_display_size": 1
+            },
+            {
+              "prompt": "If Hospital Chosen Enter Maternal Level of Care, If Known",
+              "name": "maternal_level_of_care",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Birth Center"
+                },
+                {
+                  "description": "",
+                  "value": "Basic Care (Level 1)"
+                },
+                {
+                  "description": "",
+                  "value": "Specialty Care (Level 2)"
+                },
+                {
+                  "description": "",
+                  "value": "Subspecialty Care (Level 3)"
+                },
+                {
+                  "description": "",
+                  "value": "Regional Perinatal Health Care Center (Level IV)"
+                }
+              ],
+              "list_display_size": 1,
+              "control_style": "editable"
+            },
+            {
+              "prompt": "Comments",
+              "name": "comments",
+              "type": "textarea"
+            }
+          ]
+        },
+        {
           "prompt": "Origin",
           "name": "origin",
           "type": "grid",
@@ -10567,6 +10660,12 @@
               "prompt": "Comment(s)",
               "name": "comments",
               "type": "textarea"
+            },
+            {
+              "prompt": "new group",
+              "name": "new_group",
+              "type": "group",
+              "children": []
             }
           ]
         },
@@ -14127,7 +14226,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Patient"
+                  "value": "Patient/Family"
                 },
                 {
                   "description": "",
@@ -14143,7 +14242,7 @@
                 },
                 {
                   "description": "",
-                  "value": "System of Care"
+                  "value": "System"
                 }
               ]
             },
@@ -14158,7 +14257,11 @@
                 },
                 {
                   "description": "",
-                  "value": "Compliance"
+                  "value": "Delay"
+                },
+                {
+                  "description": "",
+                  "value": "Adherence"
                 },
                 {
                   "description": "",
@@ -14166,19 +14269,11 @@
                 },
                 {
                   "description": "",
-                  "value": "Cultural / Religious"
+                  "value": "Cultural / religious"
                 },
                 {
                   "description": "",
                   "value": "Environmental"
-                },
-                {
-                  "description": "",
-                  "value": "Access"
-                },
-                {
-                  "description": "",
-                  "value": "Social Support"
                 },
                 {
                   "description": "",
@@ -14190,11 +14285,15 @@
                 },
                 {
                   "description": "",
-                  "value": "Chronic Disease / Conditions"
+                  "value": "Substance Use"
                 },
                 {
                   "description": "",
-                  "value": "Substance Abuse"
+                  "value": "Chronic Disease"
+                },
+                {
+                  "description": "",
+                  "value": "Accss / financial"
                 },
                 {
                   "description": "",
@@ -14210,7 +14309,11 @@
                 },
                 {
                   "description": "",
-                  "value": "Continuity of Care"
+                  "value": "Continuity of Care / care coordination"
+                },
+                {
+                  "description": "",
+                  "value": "Clinical skill / quality of care"
                 },
                 {
                   "description": "",
@@ -14253,33 +14356,6 @@
               "type": "string"
             },
             {
-              "prompt": "Delay",
-              "name": "delay",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Seeking Care"
-                },
-                {
-                  "description": "",
-                  "value": "Reaching Care"
-                },
-                {
-                  "description": "",
-                  "value": "Receiving Care"
-                },
-                {
-                  "description": "",
-                  "value": "No Delays"
-                }
-              ]
-            },
-            {
               "prompt": "Prevention",
               "name": "prevention",
               "type": "list",
@@ -14312,23 +14388,23 @@
                   "value": ""
                 },
                 {
-                  "description": "",
+                  "description": "Small - Education/Counseling (Community- / Provider based health promotion and education activities)",
                   "value": "Small"
                 },
                 {
-                  "description": "",
+                  "description": "Medium - Clinical interventio and Coordination of Care across continuum of well-woman through obstetris (protocols, prescriptions)",
                   "value": "Medium"
                 },
                 {
-                  "description": "",
+                  "description": "Large - Long lasting protective intervention (Improve Rediness, Recognition and response to Obstetric Emergencies / LARC)",
                   "value": "Large"
                 },
                 {
-                  "description": "",
+                  "description": "Extra Large - Change in context (Promote environments that support healthy liing / Ensure available and accessible services)",
                   "value": "Extra Large"
                 },
                 {
-                  "description": "",
+                  "description": "Giant - address Social Determinants of Health (poverty, inequality, etc.)",
                   "value": "Giant"
                 }
               ]
@@ -14336,65 +14412,9 @@
           ]
         },
         {
-          "prompt": "Prevention Types:",
-          "name": "prevention_types",
-          "type": "label"
-        },
-        {
-          "prompt": "Primary - Prevent Incidence",
-          "name": "primar_prevent_incidence",
-          "type": "label"
-        },
-        {
-          "prompt": "Secondary - Prevent Progression",
-          "name": "secondary_prevent_progression",
-          "type": "label"
-        },
-        {
-          "prompt": "Tertiary - Prevent Complications",
-          "name": "tertiary_prevent_complications",
-          "type": "label"
-        },
-        {
-          "prompt": "Expected Impact Levels:",
-          "name": "expected_impact_levels",
-          "type": "label"
-        },
-        {
-          "prompt": "Small - Education (Eat Healthy, Awareness)",
-          "name": "small_education",
-          "type": "label"
-        },
-        {
-          "prompt": "Medium - Clinical Intervention (Protocols, Prescriptions)",
-          "name": "medium_clinical_intervention",
-          "type": "label"
-        },
-        {
-          "prompt": "Large - Long Lasting Protective Intervention (Cessation Treatment, LARC)",
-          "name": "large_long_lasting_protective_intervention",
-          "type": "label"
-        },
-        {
-          "prompt": "Extra Large - Change in Context (Fluoridation, Tobacco Tax)",
-          "name": "extra_large_change_in_context",
-          "type": "label"
-        },
-        {
-          "prompt": "Giant - Socioeconomic (Poverty, Inequality)",
-          "name": "giant_socioeconomic",
-          "type": "label"
-        },
-        {
           "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
-          "name": "recommendations_of_the_committee",
+          "name": "committee_recommendations",
           "type": "textarea"
-        },
-        {
-          "prompt": "new list",
-          "name": "new_list",
-          "type": "list",
-          "values": []
         }
       ]
     }
