@@ -108,9 +108,6 @@ namespace owin
 			var task = Task.Run(() => AcceptWebSocketClientsAsync(server, cancellation.Token));
 			*/
 
-
-
-
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
 
