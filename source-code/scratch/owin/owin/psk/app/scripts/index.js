@@ -10,11 +10,9 @@ var g_validator_map = [];
 var g_validation_description_map = [];
 var g_selected_index = null;
 var g_selected_delete_index = null;
-
+var g_couchdb_url = null;
 
 var default_object = null;
-
-//var g_data_access = new Data_Access("http://localhost:5984/mmrds");
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
@@ -239,12 +237,18 @@ var $$ = {
 
 $(function ()
 {
+  load_values();
+});
+
+
+function load_profile()
+{
     profile.on_login_call_back = function (){
 
     get_metadata();
 
     var localDB = new PouchDB('mmrds');
-    var remoteDB = new PouchDB('http://localhost:5984/mmrds', {skipSetup: true});
+    var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
 
     remoteDB.getSession(function (err, response) {
 
@@ -273,19 +277,26 @@ $(function ()
       }
     });
 
-
-    
-
-
-
       //load_documents();
 
     };
 
 
   	profile.initialize_profile();
-});
+}
 
+
+function load_values()
+{
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/values',
+	}).done(function(response) {
+			g_couchdb_url = response.couchdb_url;
+      load_profile();
+
+	});
+
+}
 
 function get_metadata()
 {
@@ -679,10 +690,8 @@ function save_change_task()
 
 //https://github.com/nolanlawson/pouchdb-authentication
 
-//var db = new PouchDB('http://localhost:5984/mydb', {skipSetup: true});
-
     var localDB = new PouchDB('mmrds');
-    var remoteDB = new PouchDB('http://localhost:5984/mmrds', {skipSetup: true});
+    var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
     remoteDB.getSession(function (err, response)
     {
       
