@@ -13,13 +13,13 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 	{
 		case 'group':
 
-				/*									
+													
 				result.push('<fieldset>');
 
 				result.push('<legend>')
 				result.push(p_metadata.prompt);
 				result.push('</legend> ');
-				*/
+				
 				
 				if(p_metadata.is_core_summary || p_metadata.is_core_summary == true)
 				{
@@ -35,7 +35,7 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 						Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
 					}
 				}
-				//result.push('</fieldset>');
+				result.push('</fieldset>');
 				break;	
 		case 'form':
 				result.push('<section id="');
