@@ -22,7 +22,7 @@ $(function ()
 
 function create_print_version(p_metadata, p_data, p_section)
 {
-	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui).join("");
+	document.getElementById('form_content_id').innerHTML = core_summary_render(p_metadata, p_data, "/", g_ui, false).join("");
 
 	if(p_section && p_section.toLowerCase() != "all")
 	{

@@ -113,7 +113,7 @@ function navigation_render(p_metadata, p_level, p_ui)
             if(parseInt(p_ui.url_state.path_array[0]) >= 0)
             {
               //result.push('<li><a href="print-version" target="_print_version">Print Version</a></li>');
-              result.push('<li><a href="print-version" target="_print_version">Populate Core Elements</a></li>');
+              result.push('<li><a onclick="open_core_summary(\'all\')">Populate Core Elements</a></li>');
             }
 
             result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');

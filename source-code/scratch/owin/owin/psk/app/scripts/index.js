@@ -808,6 +808,18 @@ function open_print_version(p_section)
 }
 
 
+function open_core_summary(p_section)
+{
+
+	var print_window = window.open('./core-summary','_core_summary',null,false);
+
+	window.setTimeout(function()
+	{
+		print_window.create_print_version(g_metadata, g_data, p_section)
+	}, 1000);	
+}
+
+
 function open_blank_version(p_section)
 {
 
