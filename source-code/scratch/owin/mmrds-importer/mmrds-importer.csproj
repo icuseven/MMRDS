@@ -56,5 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="mapping-file-set\MMRDS-Mapping-NO-GRIDS.xlsx" />
+    <None Include="mapping-file-set\Maternal_Mortality.mdb" />
   </ItemGroup>
 </Project>
