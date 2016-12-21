@@ -6,9 +6,7 @@ using Microsoft.Owin;
 using Owin;
 using System.Net.Http;
 using Swashbuckle.Application;
-using vtortola.WebSockets;
-
-
+using mmria.server;
 
 using System.Web.Http;
 
@@ -36,11 +34,11 @@ namespace mmria.server
 			{
 				switch (args [i].ToLower()) 
 				{
-				case "set_is_container_based_true":
-					System.Configuration.ConfigurationManager.AppSettings ["is_container_based"] = "true";
+				case "set_is_environment_based_true":
+					System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "true";
 					break;
-				case "set_is_container_based_false":
-					System.Configuration.ConfigurationManager.AppSettings ["is_container_based"] = "false";
+				case "set_is_environment_based_false":
+					System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "false";
 					break;
 
 				default:
@@ -59,7 +57,7 @@ namespace mmria.server
 			//da.login ("mmrds","mmrds");
 			#if (DEBUG)
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{
 				/*
 				System.Environment.SetEnvironmentVariable("geocode_api_key","7c39ae93786d4aa3adb806cb66de51b8");
@@ -73,7 +71,7 @@ namespace mmria.server
 
 			string url = null;
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{
 				System.Console.WriteLine ("using Environment");
 				System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
@@ -94,25 +92,12 @@ namespace mmria.server
 
 				url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
 			}
-			/*
-			CancellationTokenSource cancellation = new CancellationTokenSource();
 
-			var endpoint = new System.Net.IPEndPoint(System.Net.IPAddress.Any, 8005);
-			vtortola.WebSockets.WebSocketListener server = new vtortola.WebSockets.WebSocketListener(endpoint);
-			var rfc6455 = new vtortola.WebSockets.Rfc6455.WebSocketFactoryRfc6455(server);
-			server.Standards.RegisterStandard(rfc6455);
-			server.Start();
-
-			Console.WriteLine("Web Socket Echo Server started at " + endpoint.ToString());
-
-			var task = Task.Run(() => AcceptWebSocketClientsAsync(server, cancellation.Token));
-			*/
 
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
 
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{
 				bool stay_on_till_power_fail = true;
 
@@ -131,52 +116,7 @@ namespace mmria.server
 				}
 				System.Console.WriteLine ("Quit command recieved shutting down.");
 			}
-
-
 		}
-
-		static async Task AcceptWebSocketClientsAsync(WebSocketListener server, CancellationToken token)
-		{
-			while (!token.IsCancellationRequested)
-			{
-				try
-				{
-					var ws = await server.AcceptWebSocketAsync(token);
-					System.Console.WriteLine ("Connected " + ws??"Null");
-					if (ws != null)
-						Task.Run(()=>HandleConnectionAsync(ws, token));
-				}
-				catch(Exception aex)
-				{
-					System.Console.WriteLine ("Error Accepting clients: " + aex.GetBaseException().Message);
-				}
-			}
-			System.Console.WriteLine ("Server Stop accepting clients");
-		}
-
-		static async Task HandleConnectionAsync(WebSocket ws, CancellationToken cancellation)
-		{
-			try
-			{
-				while (ws.IsConnected && !cancellation.IsCancellationRequested)
-				{
-					String msg = await ws.ReadStringAsync(cancellation).ConfigureAwait(false);
-					System.Console.WriteLine ("Message: " + msg);
-					ws.WriteString(msg);
-				}
-			}
-			catch (Exception aex)
-			{
-				System.Console.WriteLine ("Error Handling connection: " + aex.GetBaseException().Message);
-				try { ws.Close(); }
-				catch { }
-			}
-			finally
-			{
-				ws.Dispose();
-			}
-		}
-
 	}
 
 
@@ -188,7 +128,7 @@ namespace mmria.server
 
 			string url = null;
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{
 				url = System.Environment.GetEnvironmentVariable ("web_site_url");
 			}
@@ -278,7 +218,7 @@ namespace mmria.server
 
 			string root = null;
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"]))
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{
 				root = System.Environment.GetEnvironmentVariable("file_root_folder");
 			}
@@ -298,37 +238,7 @@ namespace mmria.server
 				}
 			};
 			app.UseFileServer (options);
-			/*
-			*/
 
-			// websocket - start
-			//For static routes http://foo.com/ws use MapWebSocketRoute and attribute the WebSocketConnection with [WebSocketRoute('/ws')]
-			//app.MapWebSocketRoute<mmria.server.websocket.MyWebSocket>();
-
-					//For static routes http://foo.com/ws use MapWebSocketRoute
-
-			//app.Use(UpgradeToWebSockets, "/echo");
-			/*
-			app.Use(async (context, next) =>
-				{
-					if (context.WebSockets.IsWebSocketRequest)
-					{
-						WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-						await EchoWebSocket(webSocket);
-					}
-					else
-					{
-						await next();
-					}
-				});*/
-
-			//app.MapWebSocketRoute<mmria.server.websocket.MyWebSocket>("/echo");
-
-			//For dynamic routes where you may want to capture the URI arguments use a Regex route
-			//app.MapWebSocketPattern<MyWebSocket>("/captures/(?<capture1>.+)/(?<capture2>.+)");
-
-			// websocket - end
-			/**/
 		}
 			
 	}

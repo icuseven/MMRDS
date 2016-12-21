@@ -12,7 +12,7 @@ namespace mmria.server
 		public geocodeController ()
 		{
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
 				geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
 			} 
@@ -76,7 +76,7 @@ namespace mmria.server
 		{
 			string result = null;
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
 				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
 			} 

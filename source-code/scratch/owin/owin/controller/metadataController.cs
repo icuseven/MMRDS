@@ -12,7 +12,7 @@ namespace mmria.server
 
 		static metadataController()
 		{
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
 				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
 				file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
@@ -220,7 +220,7 @@ namespace mmria.server
 		{
 			string result = null;
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_container_based"])) 
+			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
 				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
 			} 
