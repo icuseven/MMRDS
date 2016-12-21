@@ -14,9 +14,6 @@ namespace mmria.server
 {
 	class Program
 	{
-		
-
-
 		// http://www.asp.net/aspnet/samples/owin-katana
 
 		//http://localhost:12345
