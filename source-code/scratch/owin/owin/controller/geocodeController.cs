@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.CSharp;
 using System.Web.Http;
 
-namespace owin
+namespace mmria.server
 {
 	public class geocodeController: ApiController 
 	{

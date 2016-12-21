@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace owin
+namespace mmria.server
 {
 	static class WatchFiles
 	{

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
+using mmria.console.data;
 
-
-namespace importer
+namespace mmria.console
 {
 	class MainClass
 	{

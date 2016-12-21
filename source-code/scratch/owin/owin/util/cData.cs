@@ -5,7 +5,7 @@ using System.Data.OleDb;
 
 
 
-namespace owin.util
+namespace mmria.server.util
 {
     public class cData
     {

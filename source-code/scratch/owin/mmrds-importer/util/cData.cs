@@ -5,7 +5,7 @@ using System.Data.OleDb;
 
 
 
-namespace importer
+namespace mmria.console.data
 {
     public class cData
     {

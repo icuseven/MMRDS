@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.CSharp;
 
 
-namespace owin.codedom
+namespace mmria.server.codedom
 {
 	public class Code_dom
 	{

@@ -12,7 +12,7 @@ using vtortola.WebSockets;
 
 using System.Web.Http;
 
-namespace owin
+namespace mmria.server
 {
 	class Program
 	{
@@ -242,7 +242,7 @@ namespace owin
 						req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
 
 					c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
-					//c.DocumentFilter<owin.swashbuckle.Document_Filter>();
+					//c.DocumentFilter<mmria.server.swashbuckle.Document_Filter>();
 
 				})
 				.EnableSwaggerUi("sandbox/{*assetPath}");
@@ -303,7 +303,7 @@ namespace owin
 
 			// websocket - start
 			//For static routes http://foo.com/ws use MapWebSocketRoute and attribute the WebSocketConnection with [WebSocketRoute('/ws')]
-			//app.MapWebSocketRoute<owin.websocket.MyWebSocket>();
+			//app.MapWebSocketRoute<mmria.server.websocket.MyWebSocket>();
 
 					//For static routes http://foo.com/ws use MapWebSocketRoute
 
@@ -322,7 +322,7 @@ namespace owin
 					}
 				});*/
 
-			//app.MapWebSocketRoute<owin.websocket.MyWebSocket>("/echo");
+			//app.MapWebSocketRoute<mmria.server.websocket.MyWebSocket>("/echo");
 
 			//For dynamic routes where you may want to capture the URI arguments use a Regex route
 			//app.MapWebSocketPattern<MyWebSocket>("/captures/(?<capture1>.+)/(?<capture2>.+)");

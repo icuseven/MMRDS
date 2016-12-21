@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Configuration;
 
-namespace owin.util.email
+namespace mmria.server.util.email
 {
 	public class Email_Handler
 	{ 

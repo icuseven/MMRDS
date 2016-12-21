@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Web;
 
 
-namespace owin
+namespace mmria.server
 {
 	public class CachingSwaggerProvider : ISwaggerProvider
 	{

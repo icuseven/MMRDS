@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin.model
+namespace mmria.server.model
 {
 	public class home_record
 	{
@@ -39,7 +39,7 @@ namespace owin.model
 		public static home_record convert(System.Dynamic.ExpandoObject value)
 		{
 			var val = value as System.Collections.Generic.IDictionary<string, object>;
-			return new owin.model.home_record
+			return new mmria.server.model.home_record
 			{
 				id = val["id"].ToString(),
 				record_id = val["record_id"].ToString(),

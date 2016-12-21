@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Linq;
 
-namespace owin
+namespace mmria.server
 {
 	public class metadataController: ApiController 
 	{ 
@@ -109,12 +109,12 @@ namespace owin
 		// POST api/values 
 		//[Route("api/metadata")]
 		[HttpPost]
-		public owin.couchdb.document_put_response Post() 
+		public mmria.server.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
-			owin.metadata.app metadata = null;
+			mmria.server.metadata.app metadata = null;
 			string object_string = null;
-			owin.couchdb.document_put_response result = new owin.couchdb.document_put_response ();
+			mmria.server.couchdb.document_put_response result = new mmria.server.couchdb.document_put_response ();
 
 			try
 			{
@@ -126,7 +126,7 @@ namespace owin
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.metadata.app>(temp);
+				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.metadata.app>(temp);
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
@@ -173,7 +173,7 @@ namespace owin
 							System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 							string responseFromServer = reader.ReadToEnd ();
 
-							result = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.couchdb.document_put_response>(responseFromServer);
+							result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.couchdb.document_put_response>(responseFromServer);
 
 							if(response.Headers["Set-Cookie"] != null)
 							{

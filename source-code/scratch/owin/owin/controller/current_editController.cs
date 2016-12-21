@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Linq;
 
-namespace owin
+namespace mmria.server
 {
 	public class current_editController: ApiController 
 	{ 
@@ -33,7 +33,7 @@ namespace owin
 		public void Post() 
 		{ 
 			bool valid_login = false;
-			owin.metadata.app metadata = null;
+			mmria.server.metadata.app metadata = null;
 
 			try
 			{
@@ -45,7 +45,7 @@ namespace owin
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.metadata.app>(temp);
+				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.metadata.app>(temp);
 
 				//string metadata = DecodeUrlString(temp);
 			}

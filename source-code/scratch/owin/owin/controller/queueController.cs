@@ -2,7 +2,7 @@
 using System.Web.Http;
 using System.Linq;
 
-namespace owin
+namespace mmria.server
 {
 	public class queueController: ApiController 
 	{
@@ -13,11 +13,11 @@ namespace owin
 		/// Post the specified set_queue_request.
 		/// </summary>
 		/// <param name="set_queue_request">Set queue request.</param>
-		public owin.data.api.Set_Queue_Response Post(owin.data.api.Set_Queue_Request set_queue_request)
+		public mmria.server.data.api.Set_Queue_Response Post(mmria.server.data.api.Set_Queue_Request set_queue_request)
 		{ 
-			owin.data.api.Set_Queue_Response result = new owin.data.api.Set_Queue_Response();
+			mmria.server.data.api.Set_Queue_Response result = new mmria.server.data.api.Set_Queue_Response();
 
-			owin.data.api.Queue_Item queue_item = new owin.data.api.Queue_Item ();
+			mmria.server.data.api.Queue_Item queue_item = new mmria.server.data.api.Queue_Item ();
 			queue_item.queue_id = System.Guid.NewGuid ().ToString ();
 			queue_item.case_list = set_queue_request.case_list;
 
@@ -43,7 +43,7 @@ namespace owin
 				request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
 			}
 
-			owin.couchdb.document_put_response put_response = null;
+			mmria.server.couchdb.document_put_response put_response = null;
 
 			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
 			{
@@ -59,7 +59,7 @@ namespace owin
 					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 					string responseFromServer = reader.ReadToEnd ();
 
-					put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<owin.couchdb.document_put_response>(responseFromServer);
+					put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.couchdb.document_put_response>(responseFromServer);
 				}
 				catch(Exception ex)
 				{

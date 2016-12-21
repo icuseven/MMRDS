@@ -10,7 +10,7 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Version = Lucene.Net.Util.Version;
-namespace owin
+namespace mmria.server
 {
 	public static class LuceneSearch
 	{
@@ -18,7 +18,7 @@ namespace owin
 			FSDirectory.Open(new DirectoryInfo(get_working_directory() + "/lucene-index"));
 		static Lucene.Net.Analysis.Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
-		public static List<owin.model.home_record> Search(string propertyName, string propertyValue)
+		public static List<mmria.server.model.home_record> Search(string propertyName, string propertyValue)
 		{
 			IndexReader indexReader = IndexReader.Open(directory, true);
 			Searcher searcher = new IndexSearcher(indexReader);
@@ -29,11 +29,11 @@ namespace owin
 			TopDocs resultDocs = searcher.Search(query, indexReader.MaxDoc);
 
 			var topDocs = resultDocs.ScoreDocs;
-			List<owin.model.home_record> home_record = new List<owin.model.home_record>();
+			List<mmria.server.model.home_record> home_record = new List<mmria.server.model.home_record>();
 			foreach (var hit in topDocs)
 			{
 				var documentFromSerach = searcher.Doc(hit.Doc);
-				home_record.Add(new owin.model.home_record
+				home_record.Add(new mmria.server.model.home_record
 					{
 						id = documentFromSerach.Get("id"),
 						record_id = documentFromSerach.Get("record_id"),

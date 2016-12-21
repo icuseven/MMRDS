@@ -2,14 +2,14 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace owin.type_buider
+namespace mmria.server.type_buider
 {
 	public static class Builder
 	{
 		//https://duckduckgo.com/?q=c%23+generate+dynamic+class&t=ironbrowser&ia=qa
 
 
-		public static Type CreateObjectFromAppMetadata(owin.metadata.app app_metadata)
+		public static Type CreateObjectFromAppMetadata(mmria.server.metadata.app app_metadata)
 		{
 			Type result = null;
 			foreach(var node in app_metadata.children)
@@ -31,7 +31,7 @@ namespace owin.type_buider
 
 
 
-		public static Type CreateObjectFromMetadata(owin.metadata.node node)
+		public static Type CreateObjectFromMetadata(mmria.server.metadata.node node)
 		{
 			Type result = null;
 

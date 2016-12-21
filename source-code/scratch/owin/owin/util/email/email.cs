@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace owin.util.email
+namespace mmria.server.util.email
 {
 	public class Email
 	{

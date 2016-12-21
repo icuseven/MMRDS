@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin.model.couchdb
+namespace mmria.server.model.couchdb
 {
 
 
@@ -10,7 +10,7 @@ namespace owin.model.couchdb
 		
 		public string rev { get; set; }
 
-		public owin.model.couchdb.user doc { get; set; }
+		public mmria.server.model.couchdb.user doc { get; set; }
 
 	}
 	public class user_alldoc_item

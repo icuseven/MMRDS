@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin.couchdb
+namespace mmria.server.couchdb
 {
 	public class document_put_response
 	{

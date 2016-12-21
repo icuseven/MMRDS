@@ -13,14 +13,14 @@ using Version = Lucene.Net.Util.Version;
 
 //https://sites.google.com/site/williamhandev/n-layer-application/application-framework/lucene-search
 
-namespace owin.util
+namespace mmria.server.util
 {
 	public static class LuceneSearchIndexer
 	{
 		static Lucene.Net.Store.Directory directory = FSDirectory.Open(new DirectoryInfo(get_working_directory() + "/lucene-index"));
 		static Lucene.Net.Analysis.Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 		//public static IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.LIMITED);
-		public static void RunIndex(IList<owin.model.home_record> entities)
+		public static void RunIndex(IList<mmria.server.model.home_record> entities)
 		{
 			using (var writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.LIMITED))
 			{

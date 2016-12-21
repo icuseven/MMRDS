@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin.data.api
+namespace mmria.server.data.api
 {
 	
 	public class Set_Queue_Request

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin
+namespace mmria.server
 {
 	public class UserCTX
 	{

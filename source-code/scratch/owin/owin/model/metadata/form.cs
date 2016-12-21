@@ -1,5 +1,5 @@
 ﻿using System;
-namespace owin.metadata
+namespace mmria.server.metadata
 {
 	public class value_node
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin
+namespace mmria.server
 {
 	public class GenerateSwaggerFile
 	{
@@ -11,7 +11,7 @@ namespace owin
 		//http://json-schema.org/
 		//http://swagger.io/specification/
 
-		public string generate(owin.metadata.app app)
+		public string generate(mmria.server.metadata.app app)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder ();
 
@@ -50,7 +50,7 @@ namespace owin
 		}
 
 
-		public void generate(System.Text.StringBuilder result, owin.metadata.node node)
+		public void generate(System.Text.StringBuilder result, mmria.server.metadata.node node)
 		{
 			switch (node.type.ToLower ()) 
 			{

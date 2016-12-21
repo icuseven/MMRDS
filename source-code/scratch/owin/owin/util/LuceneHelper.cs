@@ -10,7 +10,7 @@ using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Version = Lucene.Net.Util.Version;
 
-namespace owin.lucene
+namespace mmria.server.lucene
 {
 	public class SampleData
 	{

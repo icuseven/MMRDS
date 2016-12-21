@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace owin
+namespace mmria.server
 {
 	public class DriveSettings
 	{

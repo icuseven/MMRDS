@@ -7,7 +7,7 @@ using System.Linq;
 
 //https://wiki.apache.org/couchdb/Session_API
 
-namespace owin
+namespace mmria.server
 {
 	public class sessionController: ApiController 
 	{

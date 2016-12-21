@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owin.model.couchdb
+namespace mmria.server.model.couchdb
 {
 	public class alldoc_item
 	{

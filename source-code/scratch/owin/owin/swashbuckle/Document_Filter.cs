@@ -3,7 +3,7 @@ using Swashbuckle.Swagger;
 using System.Web.Http.Description;
 using System.Linq;
 
-namespace owin.swashbuckle
+namespace mmria.server.swashbuckle
 {
 	public class Document_Filter: IDocumentFilter
 	{

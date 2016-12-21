@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace owin
+namespace mmria.server
 {
 	public class ValuesController: ApiController 
 	{ 
