@@ -50,6 +50,8 @@
     <Compile Include="model\home_record.cs" />
     <Compile Include="util\Lib.cs" />
     <Compile Include="updater\updater_client.cs" />
+    <Compile Include="util\cPipeDelimitedReadWriter.cs" />
+    <Compile Include="util\WriteCSV.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
