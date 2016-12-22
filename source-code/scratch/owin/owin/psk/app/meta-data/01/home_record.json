@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "63-a5d0c81de96e03e6b87af7eef3781b19",
+  "_rev": "85-11ce09a2c5902e1a28cb0376e5a2b88b",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -572,7 +572,7 @@
           "type": "string"
         },
         {
-          "prompt": "How was this Death Identified? (Primary source)*",
+          "prompt": "How was this Death Identified? (Primary Source)*",
           "name": "how_was_this_death_identified",
           "type": "list",
           "values": [
@@ -822,7 +822,7 @@
               "list_display_size": 1
             },
             {
-              "prompt": "ER Visit(s) and Hospitalization(s)",
+              "prompt": "ER Visit(s) and Hospitalizations",
               "name": "er_visits_and_hospitalizations",
               "type": "list",
               "values": [
@@ -2031,7 +2031,7 @@
           ]
         },
         {
-          "prompt": "Age*",
+          "prompt": "Age at Death*",
           "name": "age",
           "type": "Number",
           "is_core_summary": true
@@ -2299,7 +2299,7 @@
           "type": "Time"
         },
         {
-          "prompt": "Place of Injury (Place name, if applicable)",
+          "prompt": "Place of Injury (Place Name, if Applicable)",
           "name": "place_of_injury",
           "type": "string"
         },
@@ -2327,7 +2327,7 @@
           ]
         },
         {
-          "prompt": "Transportation related Injury?",
+          "prompt": "Transportation Related Injury?",
           "name": "transportation_related_injury",
           "type": "List",
           "values": [
@@ -2583,7 +2583,7 @@
             },
             {
               "description": "",
-              "value": "Unkown if pregnant in last year"
+              "value": "Unknown if pregnant in last year"
             },
             {
               "description": "",
@@ -2596,7 +2596,7 @@
           ]
         },
         {
-          "prompt": "Did tobacco Contribute to Death?",
+          "prompt": "Did Tobacco Contribute to Death?",
           "name": "did_tobacco_contribute_to_death",
           "type": "List",
           "values": [
@@ -2618,7 +2618,7 @@
             },
             {
               "description": "",
-              "value": "Unkown"
+              "value": "Unknown"
             },
             {
               "description": "",
@@ -2699,7 +2699,7 @@
               "is_core_summary": true
             },
             {
-              "prompt": "Cause (descriptive)*",
+              "prompt": "Cause (Descriptive)*",
               "name": "cause_description",
               "type": "string",
               "is_core_summary": true
@@ -2792,7 +2792,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Clinic / Doctor's office"
+                  "value": "Clinic/Doctor's office"
                 },
                 {
                   "description": "",
@@ -8213,7 +8213,7 @@
       ]
     },
     {
-      "prompt": "ER Visit and Hospital Medical Records",
+      "prompt": "ER Visit(s) and Hospitalizations",
       "name": "er_visit_and_hospital_medical_records",
       "type": "form",
       "cardinality": "*",
@@ -8426,7 +8426,7 @@
               ]
             },
             {
-              "prompt": "From where?",
+              "prompt": "From Where?",
               "name": "from_where",
               "type": "string"
             },
@@ -8454,12 +8454,12 @@
               ]
             },
             {
-              "prompt": "To where?",
+              "prompt": "To Where?",
               "name": "to_where",
               "type": "string"
             },
             {
-              "prompt": "Date of hospital or ER discharge",
+              "prompt": "Date of Hospital or ER Discharge",
               "name": "date_of_hospital_discharge",
               "type": "group",
               "children": [
@@ -8481,12 +8481,12 @@
               ]
             },
             {
-              "prompt": "Time of discharge",
+              "prompt": "Time of Discharge",
               "name": "time_of_discharge",
               "type": "time"
             },
             {
-              "prompt": "Discharge pregnancy status*",
+              "prompt": "Discharge Pregnancy Status*",
               "name": "discharge_pregnancy_status",
               "type": "list",
               "values": [
@@ -8554,7 +8554,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Free standing birthing center"
+                  "value": "Free Standing Birth Center"
                 },
                 {
                   "description": "",
@@ -8562,7 +8562,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Clinic / Doctor's office"
+                  "value": "Clinic/Doctor's office"
                 },
                 {
                   "description": "",
@@ -8861,7 +8861,7 @@
               ]
             },
             {
-              "prompt": "ZIP Code",
+              "prompt": "Zip Code",
               "name": "zip_code",
               "type": "string"
             },
@@ -8886,7 +8886,7 @@
               "type": "string"
             },
             {
-              "prompt": "Mode of transportation to facility",
+              "prompt": "Mode of Transportation to Facility",
               "name": "mode_of_transportation_to_facility",
               "type": "list",
               "values": [
@@ -8925,7 +8925,7 @@
               ]
             },
             {
-              "prompt": "Origin of travel",
+              "prompt": "Origin of Travel",
               "name": "origin_of_travel",
               "type": "list",
               "values": [
@@ -8956,12 +8956,12 @@
               ]
             },
             {
-              "prompt": "Travel time to hospital",
+              "prompt": "Travel Time to Hospital",
               "name": "travel_time_to_hospital",
               "type": "group",
               "children": [
                 {
-                  "prompt": "value",
+                  "prompt": "Value",
                   "name": "value",
                   "type": "number"
                 },
@@ -9005,7 +9005,7 @@
           ]
         },
         {
-          "prompt": "Internal transfers",
+          "prompt": "Internal Transfers",
           "name": "internal_transfers",
           "type": "grid",
           "children": [
@@ -9015,12 +9015,12 @@
               "type": "datetime"
             },
             {
-              "prompt": "From unit",
+              "prompt": "From Unit",
               "name": "from_unit",
               "type": "string"
             },
             {
-              "prompt": "To unit",
+              "prompt": "To Unit",
               "name": "to_unit",
               "type": "string"
             },
@@ -9032,7 +9032,7 @@
           ]
         },
         {
-          "prompt": "Maternal biometrics",
+          "prompt": "Maternal Biometrics",
           "name": "maternal_biometrics",
           "type": "group",
           "children": [
@@ -9066,7 +9066,7 @@
           ]
         },
         {
-          "prompt": "Physical examinations and evaluations",
+          "prompt": "Physical Examinations and Evaluations",
           "name": "physical_exam_and_evaluations",
           "type": "grid",
           "children": [
@@ -9076,7 +9076,7 @@
               "type": "datetime"
             },
             {
-              "prompt": "Exam / evaluation",
+              "prompt": "Exam/Evaluation",
               "name": "exam_evaluation",
               "type": "string"
             },
@@ -9086,14 +9086,14 @@
               "type": "string"
             },
             {
-              "prompt": "Performed by?",
+              "prompt": "Performed By?",
               "name": "performed_by",
               "type": "string"
             }
           ]
         },
         {
-          "prompt": "Psychological examinations and assessments",
+          "prompt": "Psychological Examinations and Assessments",
           "name": "psychological_exam_and_assesments",
           "type": "grid",
           "children": [
@@ -9103,7 +9103,7 @@
               "type": "datetime"
             },
             {
-              "prompt": "Exam/ assessment",
+              "prompt": "Exam/Assessment",
               "name": "exam_assessments",
               "type": "string"
             },
@@ -9113,14 +9113,14 @@
               "type": "string"
             },
             {
-              "prompt": "Performed by?",
+              "prompt": "Performed By?",
               "name": "performed_by",
               "type": "string"
             }
           ]
         },
         {
-          "prompt": "Laboratory tests",
+          "prompt": "Laboratory Tests",
           "name": "labratory_tests",
           "type": "grid",
           "children": [
@@ -9145,7 +9145,7 @@
               "type": "string"
             },
             {
-              "prompt": "Diagnostic level",
+              "prompt": "Diagnostic Level",
               "name": "diagnostic_level",
               "type": "list",
               "values": [
@@ -9219,7 +9219,7 @@
               "type": "datetime"
             },
             {
-              "prompt": "Exam/ assessment",
+              "prompt": "Exam/Assessment",
               "name": "exam_assessments",
               "type": "string"
             },
@@ -9229,19 +9229,19 @@
               "type": "string"
             },
             {
-              "prompt": "Exam type",
+              "prompt": "Exam Type",
               "name": "exam_type",
               "type": "string"
             }
           ]
         },
         {
-          "prompt": "Onset of labor",
+          "prompt": "Onset of Labor",
           "name": "onset_of_labor",
           "type": "group",
           "children": [
             {
-              "prompt": "Date of onset of labor",
+              "prompt": "Date of Onset of Labor",
               "name": "date_of_onset_of_labor",
               "type": "group",
               "children": [
@@ -9268,12 +9268,12 @@
               "type": "time"
             },
             {
-              "prompt": "Date of rupture of membranes",
+              "prompt": "Date of Rupture of Membranes",
               "name": "date_of_rupture",
               "type": "group",
               "children": [
                 {
-                  "prompt": "Date of rupture of membranes",
+                  "prompt": "Date of Rupture of Membranes",
                   "name": "date_of_rupture",
                   "type": "group",
                   "children": [
@@ -9297,7 +9297,7 @@
               ]
             },
             {
-              "prompt": "Final delivery route*",
+              "prompt": "Final Delivery Route*",
               "name": "final_delivery_route",
               "type": "list",
               "values": [
@@ -9307,15 +9307,15 @@
                 },
                 {
                   "description": "",
-                  "value": "Vaginal / Spontaneous"
+                  "value": "Vaginal/Spontaneous"
                 },
                 {
                   "description": "",
-                  "value": "Vaginal / Forceps"
+                  "value": "Vaginal/Forceps"
                 },
                 {
                   "description": "",
-                  "value": "Vaginal / Vacuum"
+                  "value": "Vaginal/Vacuum"
                 },
                 {
                   "description": "",
@@ -9347,12 +9347,12 @@
               "type": "boolean"
             },
             {
-              "prompt": "Duration of labor prior to arrival (hrs)",
+              "prompt": "Duration of Labor Prior to Arrival (hrs)",
               "name": "duration_of_labor_prior_to_arrival",
               "type": "number"
             },
             {
-              "prompt": "Multiple gestation",
+              "prompt": "Multiple Gestation",
               "name": "multiple_gestation",
               "type": "list",
               "values": [
@@ -9375,7 +9375,7 @@
               ]
             },
             {
-              "prompt": "Pregnancy outcome*",
+              "prompt": "Pregnancy Outcome*",
               "name": "pregnancy_outcome",
               "type": "list",
               "values": [
@@ -9456,12 +9456,12 @@
               "type": "number"
             },
             {
-              "prompt": "Gestational Age - Weeks",
+              "prompt": "Gestational Age- Weeks",
               "name": "gestational_weeks",
               "type": "number"
             },
             {
-              "prompt": "Gestational Age - Days",
+              "prompt": "Gestational Age- Days",
               "name": "gestational_days",
               "type": "number"
             }
@@ -9485,7 +9485,7 @@
           ]
         },
         {
-          "prompt": "Were there adverse reactions to any medications?*",
+          "prompt": "Were There Adverse Reactions to Any Medications?*",
           "name": "any_adverse_reactions",
           "type": "list",
           "values": [
@@ -9504,7 +9504,7 @@
           ]
         },
         {
-          "prompt": "List of medications",
+          "prompt": "List of Medications",
           "name": "list_of_medications",
           "type": "grid",
           "children": [
@@ -9519,7 +9519,7 @@
               "type": "string"
             },
             {
-              "prompt": "Dose/ Frequency/ Duration",
+              "prompt": "Dose/Frequency/Duration",
               "name": "dose_frequency_duration",
               "type": "string"
             },
@@ -9531,7 +9531,7 @@
           ]
         },
         {
-          "prompt": "Were there any surgical procedures?*",
+          "prompt": "Were There Any Surgical Procedures?*",
           "name": "any_surgical_procedures",
           "type": "list",
           "values": [
@@ -9550,7 +9550,7 @@
           ]
         },
         {
-          "prompt": "Surgical procedures",
+          "prompt": "Surgical Procedures",
           "name": "surgical_procedures",
           "type": "grid",
           "children": [
@@ -9560,7 +9560,7 @@
               "type": "datetime"
             },
             {
-              "prompt": "Hospital unit",
+              "prompt": "Hospital Unit",
               "name": "hospital_unit",
               "type": "string"
             },
@@ -9570,7 +9570,7 @@
               "type": "string"
             },
             {
-              "prompt": "Performed by?",
+              "prompt": "Performed By?",
               "name": "performed_by",
               "type": "string"
             },
@@ -9582,7 +9582,7 @@
           ]
         },
         {
-          "prompt": "Were there any blood or blood product transfusions?*",
+          "prompt": "Were There Any Blood or Blood Product Transfusions?*",
           "name": "any_blood_transfusions",
           "type": "list",
           "values": [
@@ -9601,12 +9601,12 @@
           ]
         },
         {
-          "prompt": "Patient blood type",
+          "prompt": "Patient Blood Type",
           "name": "patient_blood_type",
           "type": "string"
         },
         {
-          "prompt": "Blood product grid",
+          "prompt": "Blood Product Grid",
           "name": "blood_product_grid",
           "type": "grid",
           "children": [
@@ -9621,19 +9621,19 @@
               "type": "string"
             },
             {
-              "prompt": "# units",
+              "prompt": "Number of Units",
               "name": "number_of_units",
               "type": "string"
             },
             {
-              "prompt": "Reaction / Complications",
+              "prompt": "Reaction/Complications",
               "name": "reaction_complications",
               "type": "string"
             }
           ]
         },
         {
-          "prompt": "Diagnostic imaging and other technology",
+          "prompt": "Diagnostic Imaging and Other Technology",
           "name": "diagnostic_imaging_grid",
           "type": "grid",
           "children": [
@@ -9660,7 +9660,7 @@
           ]
         },
         {
-          "prompt": "Referrals and consultations",
+          "prompt": "Referrals and Consultations",
           "name": "referrals_and_consultations",
           "type": "grid",
           "children": [
@@ -9670,7 +9670,7 @@
               "type": "date"
             },
             {
-              "prompt": "Specialist type",
+              "prompt": "Specialist Type",
               "name": "specialist_type",
               "type": "string"
             },
@@ -9680,14 +9680,14 @@
               "type": "string"
             },
             {
-              "prompt": "recommendations",
+              "prompt": "Recommendations",
               "name": "recommendations",
               "type": "string"
             }
           ]
         },
         {
-          "prompt": "Reviewer's notes about this hospitalization, delivery and or ER visit",
+          "prompt": "Reviewer's Notes About this Hospitalization, Delivery or ER Visit",
           "name": "reviewer_note",
           "type": "textarea",
           "pre_fill": "Fill out separate summary for each hospital visit and label each different facility by number or letter to differentiate facilities.\n\nShe presented at ____(weeks gestation) to the ______________ (ED or L& D triage or other) in a __________ (hospital level of OB care or trauma /trauma level) via _________ (method of transportation) on _________ (date) at __________(time). Her chief complaint was___________________.  Her weight on admission was __________and her presenting vital signs were__________________________.  She was screened for __________________ (describe type of screening i.e. Embolism, hemorrhage, ectopic, influenza, domestic violence, etc.)\nPhysical examination on admission found_______________________. Labs performed included _________________with ________________abnormal findings noted.  Diagnostic tests performed included_____________________________with the following abnormal findings noted______________________________. Her diagnosis was_______________________ and she was admitted to ____________ (describe unit) OR transferred to______________OR discharged to____________________.\n\n(If admitted provide brief chronological synopsis of events that occurred during the hospital stay including condition and vital signs when discharged.)\n\nIf admission to L&D complete the following template:\n\nShe labored for ____________hours and delivered via _____________ (method-if CS describe reason) by a (n) _________________ (provider type) under ____________ (anesthesia/local).  Medications administered during labor and delivery or postpartum included___________________________.  She received ____________units of blood products (delete if not applicable).  Infant weighed_______________with Apgars of________________.\nComplications during labor, delivery or postpartum (prior to discharge) include_____________________________.\nShe was discharged home on day__________.  Vitals signs at discharge included____________.  She was instructed to ___________________________ (special education or f/up appointments)."
@@ -10071,12 +10071,12 @@
               "type": "number"
             },
             {
-              "prompt": "Gestational Age - Weeks",
+              "prompt": "Gestational Age- Weeks",
               "name": "gestational_weeks",
               "type": "number"
             },
             {
-              "prompt": "Gestational Age - Days",
+              "prompt": "Gestational Age- Days",
               "name": "gestational_days",
               "type": "number"
             }
@@ -10103,7 +10103,7 @@
           "type": "button"
         },
         {
-          "prompt": "Laboratory tests",
+          "prompt": "Laboratory Tests",
           "name": "laboratory_tests",
           "type": "grid",
           "children": [
@@ -10128,7 +10128,7 @@
               "type": "string"
             },
             {
-              "prompt": "Diagnostic level",
+              "prompt": "Diagnostic Level",
               "name": "diagnostic_level",
               "type": "list",
               "values": [
@@ -10196,7 +10196,7 @@
           ]
         },
         {
-          "prompt": "Diagnostic imaging and other technology",
+          "prompt": "Diagnostic Imaging and Other Technology",
           "name": "diagnostic_imaging_and_other_technology",
           "type": "grid",
           "children": [
@@ -10308,7 +10308,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Endoncrine"
+                  "value": "Endocrine"
                 },
                 {
                   "description": "",
@@ -10363,7 +10363,7 @@
               "type": "date"
             },
             {
-              "prompt": "Speciality",
+              "prompt": "Specialty",
               "name": "speciality",
               "type": "string"
             },
@@ -10395,7 +10395,7 @@
               "type": "string"
             },
             {
-              "prompt": "Dose / Frequency / Duration",
+              "prompt": "Dose/Frequency/Duration",
               "name": "dose_frequeny_duration",
               "type": "string"
             },
@@ -10424,7 +10424,7 @@
           ]
         },
         {
-          "prompt": "Reviewer's notes about this visit",
+          "prompt": "Reviewer's Notes About This Visit",
           "name": "reviewer_note",
           "type": "textarea"
         }
@@ -10588,19 +10588,19 @@
                 },
                 {
                   "description": "",
-                  "value": "Level 1"
+                  "value": "Level I"
                 },
                 {
                   "description": "",
-                  "value": "Level 2"
+                  "value": "Level II"
                 },
                 {
                   "description": "",
-                  "value": "Level 3"
+                  "value": "Level III"
                 },
                 {
                   "description": "",
-                  "value": "Level 4"
+                  "value": "Level IV"
                 }
               ],
               "list_display_size": 1
@@ -10620,15 +10620,15 @@
                 },
                 {
                   "description": "",
-                  "value": "Basic Care (Level 1)"
+                  "value": "Basic Care (Level I)"
                 },
                 {
                   "description": "",
-                  "value": "Specialty Care (Level 2)"
+                  "value": "Specialty Care (Level II)"
                 },
                 {
                   "description": "",
-                  "value": "Subspecialty Care (Level 3)"
+                  "value": "Subspecialty Care (Level III)"
                 },
                 {
                   "description": "",
@@ -10661,19 +10661,19 @@
                 },
                 {
                   "description": "",
-                  "value": "Level 1"
+                  "value": "Level I"
                 },
                 {
                   "description": "",
-                  "value": "Level 2"
+                  "value": "Level II"
                 },
                 {
                   "description": "",
-                  "value": "Level 3"
+                  "value": "Level III"
                 },
                 {
                   "description": "",
-                  "value": "Level 4"
+                  "value": "Level IV"
                 }
               ]
             },
@@ -10692,15 +10692,15 @@
                 },
                 {
                   "description": "",
-                  "value": "Basic Care (Level 1)"
+                  "value": "Basic Care (Level I)"
                 },
                 {
                   "description": "",
-                  "value": "Specialty Care (Level 2)"
+                  "value": "Specialty Care (Level II)"
                 },
                 {
                   "description": "",
-                  "value": "Subspecialty Care (Level 3)"
+                  "value": "Subspecialty Care (Level III)"
                 },
                 {
                   "description": "",
@@ -10746,12 +10746,12 @@
               "type": "datetime"
             },
             {
-              "prompt": "Gestational Age - Weeks",
+              "prompt": "Gestational Age- Weeks",
               "name": "gestational_weeks",
               "type": "number"
             },
             {
-              "prompt": "Gestational Age - Days",
+              "prompt": "Gestational Age- Days",
               "name": "gestational_days",
               "type": "number"
             },
@@ -10778,17 +10778,17 @@
           ]
         },
         {
-          "prompt": "Mental status of patient during transport (describe)",
+          "prompt": "Mental Status of Patient During Transport (Describe)",
           "name": "mental_status_of_patient_during_transport",
           "type": "textarea"
         },
         {
-          "prompt": "Documented pertinent oral statements made by patient or others on scene",
+          "prompt": "Documented Pertinent Oral Statements Made by Patient or Others on Scene",
           "name": "documented_pertinent_oral_statements_made_by_patient_and_other_on_scene",
           "type": "textarea"
         },
         {
-          "prompt": "Transport narrative summary",
+          "prompt": "Transport Narrative Summary",
           "name": "transport_narrative_summary",
           "type": "textarea",
           "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ (place of origin) she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
@@ -10856,35 +10856,35 @@
                 },
                 {
                   "description": "",
-                  "value": "1 - Full Time"
+                  "value": "Full Time"
                 },
                 {
                   "description": "",
-                  "value": "2 - Part Time"
+                  "value": "Part Time"
                 },
                 {
                   "description": "",
-                  "value": "3 - Self Employed"
+                  "value": "Self Employed"
                 },
                 {
                   "description": "",
-                  "value": "4 - Contract"
+                  "value": "Contract"
                 },
                 {
                   "description": "",
-                  "value": "5 - Unemployed"
+                  "value": "Unemployed"
                 },
                 {
                   "description": "",
-                  "value": "6 - Other"
+                  "value": "Other"
                 },
                 {
                   "description": "",
-                  "value": "7 - Unknown"
+                  "value": "Unknown"
                 },
                 {
                   "description": "",
-                  "value": "9 - Not Specified"
+                  "value": "Not Specified"
                 }
               ]
             },
@@ -11919,7 +11919,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Refugee/ asylee"
+                  "value": "Refugee/Asylee"
                 },
                 {
                   "description": "",
@@ -11947,7 +11947,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Non legal: victims of crime / trafficking/ unaccompanied minor adolescents"
+                  "value": "Non legal: victims of crime/trafficking/unaccompanied minor adolescents"
                 }
               ]
             },
@@ -11957,7 +11957,7 @@
               "type": "time"
             },
             {
-              "prompt": "Current Living Arragements",
+              "prompt": "Current Living Arrangements",
               "name": "current_living_arrangements",
               "type": "list",
               "values": [
@@ -12409,7 +12409,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Lack of childcare"
+                  "value": "Lack of Childcare"
                 },
                 {
                   "description": "",
@@ -12429,7 +12429,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Don't Like PNC"
+                  "value": "Don't Like Prenatal Care Provider"
                 },
                 {
                   "description": "",
@@ -12456,7 +12456,7 @@
           ]
         },
         {
-          "prompt": "At the time of her death, was the decedent?",
+          "prompt": "At the Time of her Death, Was the Decedent?",
           "name": "had_military_service",
           "type": "list",
           "values": [
@@ -12487,7 +12487,7 @@
           ]
         },
         {
-          "prompt": "Is there documentation of bereavement support?",
+          "prompt": "Is There Documentation of Bereavement Support?",
           "name": "was_there_bereavement_support",
           "type": "list",
           "values": [
@@ -12535,7 +12535,7 @@
               "type": "string"
             },
             {
-              "prompt": "Compiled?",
+              "prompt": "Complied?",
               "name": "compiled",
               "type": "list",
               "values": [
@@ -12585,7 +12585,7 @@
                 },
                 {
                   "description": "",
-                  "value": "SES Charcteristics"
+                  "value": "SES Characteristics"
                 },
                 {
                   "description": "",
@@ -12634,7 +12634,7 @@
           ]
         },
         {
-          "prompt": "Was there documented substance use?*",
+          "prompt": "Was There Documented Substance Use?*",
           "name": "documented_substance_use",
           "type": "list",
           "values": [
@@ -12654,7 +12654,7 @@
           "is_core_summary": true
         },
         {
-          "prompt": "If yes, specify substance(s)",
+          "prompt": "If Yes, Specify Substance(s)",
           "name": "if_yes_specify_substances",
           "type": "grid",
           "children": [
@@ -12856,7 +12856,7 @@
       "cardinality": "?",
       "children": [
         {
-          "prompt": "Were there documented mental health conditions?",
+          "prompt": "Were There Documented Mental Health Conditions?",
           "name": "were_there_documented_mental_health_conditions",
           "type": "grid",
           "children": [
@@ -12866,12 +12866,12 @@
               "type": "date"
             },
             {
-              "prompt": "Gestational Age  - Weeks",
+              "prompt": "Gestational Age- Weeks",
               "name": "gestational_weeks",
               "type": "string"
             },
             {
-              "prompt": "Gestational Age - Days",
+              "prompt": "Gestational Age- Days",
               "name": "gestational_days",
               "type": "number"
             },
@@ -12991,7 +12991,7 @@
           ]
         },
         {
-          "prompt": "Were there documented preexisting mental health conditions?*",
+          "prompt": "Were There Documented Preexisting Mental Health Conditions?*",
           "name": "were_there_documented_preexisting_mental_health_conditions",
           "type": "grid",
           "children": [
@@ -13056,7 +13056,7 @@
               "type": "string"
             },
             {
-              "prompt": "Duration of Tx",
+              "prompt": "Duration of Treatment",
               "name": "duration_of_tx",
               "type": "list",
               "values": [
@@ -13148,7 +13148,7 @@
               ]
             },
             {
-              "prompt": "Did Patient Adhere to Treatment",
+              "prompt": "Did Patient Adhere to Treatment?",
               "name": "did_patient_adhere_to_treatment",
               "type": "list",
               "values": [
@@ -13173,7 +13173,7 @@
           ]
         },
         {
-          "prompt": "Was the decedent treated for any of the following mental health conditions prior to the most recent pregnancy? (check all that apply)*",
+          "prompt": "Was the Decedent Treated for Any of the Following Mental Health Conditions Prior to the Most Recent Pregnancy? (Check All that Apply)*",
           "name": "mental_health_conditions_prior_to_the_most_recent_pregnancy",
           "type": "list",
           "values": [
@@ -13216,7 +13216,7 @@
           "type": "string"
         },
         {
-          "prompt": "Was the decedent treated for any of the following mental health conditions during the most recent pregnancy? (check all that apply)*",
+          "prompt": "Was the Decedent Treated for Any of the Following Mental Health Conditions During the Most Recent Pregnancy? (Check All that Apply)*",
           "name": "mental_health_conditions_during_the_most_recent_pregnancy",
           "type": "list",
           "values": [
@@ -13259,7 +13259,7 @@
           "type": "string"
         },
         {
-          "prompt": "Was the decedent treated for any of the following mental health conditions after the most recent pregnancy? (check all that apply)*",
+          "prompt": "Was the Decedent Treated for Any of the Following Mental Health Conditions After the Most Recent Pregnancy? (Check All that Apply)*",
           "name": "mental_health_conditions_after_the_most_recent_pregnancy",
           "type": "list",
           "values": [
@@ -13366,7 +13366,7 @@
           ]
         },
         {
-          "prompt": "Information about the informant",
+          "prompt": "Information About the Informant",
           "name": "information_about_the_informant",
           "type": "label"
         },
@@ -13595,22 +13595,17 @@
               "value": "Not Pregnancy Related or Associated"
             },
             {
-              "description": "UNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED",
-              "value": "Unable to determine if pregnancy related or associated"
+              "description": "Unable to Determine if Pregnancy Related or Associated",
+              "value": "Unable to Determine if Pregnancy Related or Associated"
             }
           ],
           "is_save_value_display_description": false,
-          "description": "PREGNANCY RELATED DEATH \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy\nPREGNANCY ASSOCIATED DEATH, NOT RELATED \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is not related to pregnancy. \nNOT PREGNANCY RELATED OR ASSOCIATED (i.e. woman was not pregnant within one year of her death)\nUNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED"
+          "description": "PREGNANCY RELATED DEATH \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy\n\nPREGNANCY ASSOCIATED DEATH, NOT RELATED \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is not related to pregnancy. \n\nNOT PREGNANCY RELATED OR ASSOCIATED (i.e. woman was not pregnant within one year of her death)\n\nUNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED"
         },
         {
-          "prompt": "Notes about key circumstances surrounding this death identified by the committee  (enter in bulleted format)",
+          "prompt": "Notes About Key Circumstances Surrounding This Death Identified by the Committee (Enter in Bulleted Format)",
           "name": "notes_about_key_circumstances_surrounding_death",
           "type": "textarea"
-        },
-        {
-          "prompt": "ICD code book version",
-          "name": "icd_code_book_version",
-          "type": "number"
         },
         {
           "prompt": "Committee Determination of Cause(s) of Death",
@@ -13645,7 +13640,7 @@
               ]
             },
             {
-              "prompt": "Cause (descriptive)",
+              "prompt": "Cause (Descriptive)",
               "name": "cause_descriptive",
               "type": "string"
             },
@@ -13657,7 +13652,7 @@
           ]
         },
         {
-          "prompt": "If Pregnancy Related, Committee Determination of Underlying Cause(s) of Death* PMSS-MM (Select Up To Two)",
+          "prompt": "If Pregnancy Related, Committee Determination of Underlying Cause(s) of Death*   PMSS-MM (Select Up To Two)",
           "name": "pmss_mm",
           "type": "list",
           "values": [
@@ -13958,8 +13953,7 @@
               "value": "999 - Unknown COD"
             }
           ],
-          "is_multiselect": true,
-          "description": "NOTE: If more than 1 is selected, please list them in order of importance beginning with the most compelling"
+          "is_multiselect": true
         },
         {
           "prompt": "Did Obesity Contribute to the Death?",
@@ -14043,7 +14037,7 @@
           ]
         },
         {
-          "prompt": "Was this Death a Suicide?",
+          "prompt": "Was This Death a Suicide?",
           "name": "was_this_death_a_sucide",
           "type": "list",
           "values": [
@@ -14102,7 +14096,7 @@
               ]
             },
             {
-              "prompt": "If this death was a homicide, what was the relationship of the perpetrator to the decedent?",
+              "prompt": "If This Death Was a Homicide, What Was the Relationship of the Perpetrator to the Decedent?",
               "name": "if_homicide_relationship_of_perpetrator",
               "type": "list",
               "values": [
@@ -14147,7 +14141,7 @@
           ]
         },
         {
-          "prompt": "If this death was a homicide, suicide or accidental death, list the means of fatal injury.",
+          "prompt": "If This Death was a Homicide, Suicide or Accidental Death, List the Means of Fatal Injury.",
           "name": "means_of_fatal_injury",
           "type": "list",
           "values": [
@@ -14233,7 +14227,7 @@
           "description": "A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, family, community, provider, facility, and/or systems factors."
         },
         {
-          "prompt": "Chance to alter outcome*",
+          "prompt": "Chance to Alter outcome*",
           "name": "chance_to_alter_outcome",
           "type": "list",
           "values": [
@@ -14260,7 +14254,7 @@
           ]
         },
         {
-          "prompt": "If there was at least some chance that the death could have been averted, what were the specific and feasible actions, which if implemented or altered, might have changed the course of events?",
+          "prompt": "If There Was at Least Some Chance That the Death Could Have Been Averted, What Were the Specific and Feasible Actions, Which if Implemented or Altered, Might Have Changed the Course of Events?",
           "name": "text",
           "type": "label"
         },
@@ -14288,11 +14282,11 @@
                 },
                 {
                   "description": "",
-                  "value": "Medical Care - Provider"
+                  "value": "Medical Care- Provider"
                 },
                 {
                   "description": "",
-                  "value": "Medical Care - Facility"
+                  "value": "Medical Care- Facility"
                 },
                 {
                   "description": "",
@@ -14323,7 +14317,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Cultural / religious"
+                  "value": "Cultural/Rreligious"
                 },
                 {
                   "description": "",
@@ -14347,15 +14341,15 @@
                 },
                 {
                   "description": "",
-                  "value": "Accss / financial"
+                  "value": "Access/Financial"
                 },
                 {
                   "description": "",
-                  "value": "Equipment / Technology"
+                  "value": "Equipment/Technology"
                 },
                 {
                   "description": "",
-                  "value": "Policies / Procedures"
+                  "value": "Policies/Procedures"
                 },
                 {
                   "description": "",
@@ -14363,11 +14357,11 @@
                 },
                 {
                   "description": "",
-                  "value": "Continuity of Care / care coordination"
+                  "value": "Continuity of Care/Care Coordination"
                 },
                 {
                   "description": "",
-                  "value": "Clinical skill / quality of care"
+                  "value": "Clinical Skill/Quality of Care"
                 },
                 {
                   "description": "",
@@ -14442,23 +14436,23 @@
                   "value": ""
                 },
                 {
-                  "description": "Small - Education/Counseling (Community- / Provider-based health promotion and education activities)",
+                  "description": "Small - Education/Counseling (Community- / Provider-based Health Promotion and Education Activities)",
                   "value": "Small"
                 },
                 {
-                  "description": "Medium - Clinical intervention and Coordination of Care across Continuum of well-woman through obstetrics (protocols, prescriptions)",
+                  "description": "Medium - Clinical Intervention and Coordination of Care across Continuum of Well-Woman Through Obstetrics (Protocols, Prescriptions)",
                   "value": "Medium"
                 },
                 {
-                  "description": "Large - Long lasting protective intervention (Improve Readiness, Recognition and Response to Obstetric Emergencies / LARC)",
+                  "description": "Large - Long-Lasting Protective Intervention (Improve Readiness, Recognition and Response to Obstetric Emergencies / LARC)",
                   "value": "Large"
                 },
                 {
-                  "description": "Extra Large - Change in context (Promote environments that support healthy living / Ensure available and accessible services)",
+                  "description": "Extra Large - Change in Context (Promote Environments That Support Healthy Living / Ensure Available and Accessible Services)",
                   "value": "Extra Large"
                 },
                 {
-                  "description": "Giant - Address Social Determinants of Health (poverty, inequality, etc.)",
+                  "description": "Giant - Address Social Determinants of Health (Poverty, Inequality, etc.)",
                   "value": "Giant"
                 }
               ]
