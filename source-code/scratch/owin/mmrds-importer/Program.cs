@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+
 using mmria.console.data;
 
 namespace mmria.console
@@ -16,7 +19,10 @@ namespace mmria.console
 
 			foreach (System.Data.DataRow row in rs.Rows) 
 			{
-				Console.WriteLine (row[2].ToString());
+				//if (row[5].ToString().ToLower() == "grid")
+				//{
+					Console.WriteLine(row[2].ToString());
+				//}
 			}
 
 			var filename = @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv";
@@ -33,7 +39,26 @@ namespace mmria.console
 
 			foreach (System.Data.DataRow row in rs2.Rows)
 			{
-				Console.WriteLine(row["path"].ToString());
+				if (row[5].ToString().ToLower() == "grid")
+				{
+
+					var grid_table = data.GetDataTable(string.Format("Select * from [{0}] Where 1=0", row[0].ToString().Replace(".", "")));
+					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".",""), row["prompttext"].ToString().Replace(",","")));
+					foreach (System.Data.DataColumn c in grid_table.Columns)
+					{
+
+						if(c.ColumnName != "UniqueKey" &&
+							c.ColumnName != "UniqueRowId" &&
+							c.ColumnName != "GlobalRecordId" &&
+							c.ColumnName != "RECSTATUS" &&
+							c.ColumnName != "FKEY"
+	//Type - System.String
+						  )
+						{
+							Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
+						}
+					}
+				}
 			}
 			/*
 			using (var conn = new System.Data.OleDb.OleDbConnection(connString))
