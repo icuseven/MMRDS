@@ -349,7 +349,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
      case 'label':
 			result.push("<div class='label' id='");
 			result.push(p_object_path);
-			result.push("'><span ");
+			result.push("' ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -362,7 +362,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 			result.push(p_metadata.prompt);
-			result.push("</span></div>");
+			result.push("</div>");
 			break;
      case 'button':
 			result.push("<input class='button' type='button' id='");
@@ -420,11 +420,25 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata.name);
 			result.push("' value='");
 			result.push(p_data);
+			if(p_metadata.onfocus && p_metadata.onfocus != "")
+			{
+				var source_code = escodegen.generate(p_metadata.onfocus);
+				var code_array = [];
+				
+				code_array.push(source_code.substring(0, source_code.length-1));
+				code_array.push("(this);")
+
+				result.push("' onfocus='");
+				result.push(code_array.join('').replace(/'/g,"\""));
+			}
+			
 			result.push("' onblur='g_set_data_object_from_path(\"");
 			result.push(p_object_path);
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)' /></div>");
+			
+			
 			break;
 			   
 	case 'address':

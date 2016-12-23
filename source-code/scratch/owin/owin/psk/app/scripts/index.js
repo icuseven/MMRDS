@@ -7,6 +7,7 @@ var g_metadata = null;
 var g_data = null;
 var g_metadata_path = [];
 var g_validator_map = [];
+var g_event_map = [];
 var g_validation_description_map = [];
 var g_selected_index = null;
 var g_selected_delete_index = null;
