@@ -64,5 +64,6 @@
     <None Include="mapping-file-set\MMRDS-Mapping-NO-GRIDS-test.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
   </ItemGroup>
 </Project>

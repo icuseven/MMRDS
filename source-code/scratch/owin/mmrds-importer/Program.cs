@@ -7,6 +7,11 @@ using mmria.console.data;
 
 namespace mmria.console
 {
+	interface icommand
+	{
+		string summary_help();
+		string detailed_help(string method);
+	}
 	class MainClass
 	{
 		public static void Main (string[] args)
@@ -52,7 +57,6 @@ namespace mmria.console
 							c.ColumnName != "GlobalRecordId" &&
 							c.ColumnName != "RECSTATUS" &&
 							c.ColumnName != "FKEY"
-	//Type - System.String
 						  )
 						{
 							Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
