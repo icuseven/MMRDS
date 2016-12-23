@@ -208,6 +208,75 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push(p_metadata.prompt);
 			result.push("</h2>");
+
+			if(g_data && p_metadata.name == "case_narrative")
+			{
+				//death_certificate/reviewer_note
+				result.push("<h3>death_certificate/reviewer_note</h3>");
+				result.push("<p>");
+				result.push(g_data.death_certificate.reviewer_note);
+				result.push("</p>");
+
+				//birth_fetal_death_certificate_parent/reviewer_note
+				result.push("<h3>birth_fetal_death_certificate_parent/reviewer_note</h3>");
+				result.push("<p>");
+				result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
+				result.push("</p>");
+
+				
+				//birth_certificate_infant_fetal_section/reviewer_note
+				result.push("<h3>birth_certificate_infant_fetal_section/reviewer_note</h3>");
+				for(var i = 0; i < g_data.birth_certificate_infant_fetal_section.length; i++)
+				{
+					result.push("<p>");
+					result.push(g_data.birth_certificate_infant_fetal_section[i].reviewer_note);
+					result.push("</p>");
+				}
+				
+				//autopsy_report/reviewer_note
+				result.push("<h3>autopsy_report/reviewer_note</h3>");
+				result.push("<p>");
+				result.push(g_data.autopsy_report.reviewer_note);
+				result.push("</p>");
+
+				
+				//prenatal/reviewer_note
+				result.push("<h3>prenatal/reviewer_note</h3>");
+				result.push("<p>");
+				result.push(g_data.prenatal.reviewer_note);
+				result.push("</p>");
+				
+
+				
+				//er_visit_and_hospital_medical_records/reviewer_note
+				result.push("<h3>er_visit_and_hospital_medical_records/reviewer_note</h3>");
+				for(var i = 0; i < g_data.er_visit_and_hospital_medical_records.length; i++)
+				{
+					result.push("<p>");
+					result.push(g_data.er_visit_and_hospital_medical_records[i].reviewer_note);
+					result.push("</p>");
+				}
+				
+				//other_medical_office_visits/reviewer_note
+				result.push("<h3>other_medical_office_visits/reviewer_note</h3>");
+				for(var i = 0; i < g_data.er_visit_and_hospital_medical_records.length; i++)
+				{
+					result.push("<p>");
+					result.push(g_data.er_visit_and_hospital_medical_records[i].reviewer_note);
+					result.push("</p>");
+				}
+
+				
+				//social_and_environmental_profile/reviewer_note
+				result.push("<h3>social_and_environmental_profile/reviewer_note</h3>");
+				for(var i = 0; i < g_data.social_and_environmental_profile.length; i++)
+				{
+					result.push("<p>");
+					result.push(g_data.social_and_environmental_profile[i].reviewer_note);
+					result.push("</p>");
+				}
+			}
+
 			for(var i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
