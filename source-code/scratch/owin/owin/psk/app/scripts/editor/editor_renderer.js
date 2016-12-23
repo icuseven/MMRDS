@@ -326,6 +326,19 @@ function attribute_renderer(p_metadata, p_path)
 					result.push(p_metadata[prop]);
 					result.push('</li>');
 				}
+				else if(p_metadata.type.toLowerCase() == "label" && prop == "prompt")
+				{
+					result.push('<li>')
+					result.push(prop);
+					result.push('<br/><textarea rows=3 cols=35');
+					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+					result.push(p_metadata[prop]);
+					result.push('</textarea>');
+					//result.push(p_path + "/" + prop);
+					result.push('</li>');
+				}
 				else
 				{
 					result.push('<li>')
