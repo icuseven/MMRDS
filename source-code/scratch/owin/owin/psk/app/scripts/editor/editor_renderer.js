@@ -809,7 +809,14 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 			
 			var paste_target = eval(item_path);
 
-			clone.name = "new_clone_name_" + paste_target.children.length;
+			for(var i = 0; i < paste_target.children.length; i++)
+			{
+				if(clone.name == paste_target.children[i].name)
+				{
+					clone.name = "new_clone_name_" + paste_target.children.length;
+					break;
+				}
+			}
 
 			paste_target.children.splice(target_index, 0, clone);
 
@@ -848,7 +855,14 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 
 			var paste_target = eval(item_path);
 
-			clone.name = "new_clone_name_" + paste_target.children.length;
+			for(var i = 0; i < paste_target.children.length; i++)
+			{
+				if(clone.name == paste_target.children[i].name)
+				{
+					clone.name = "new_clone_name_" + paste_target.children.length;
+					break;
+				}
+			}
 
 			paste_target.children.push(clone);
 
