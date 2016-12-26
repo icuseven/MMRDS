@@ -12,6 +12,9 @@ var g_validation_description_map = [];
 var g_selected_index = null;
 var g_selected_delete_index = null;
 var g_couchdb_url = null;
+var g_localDB = null;
+var g_remoteDB = null;
+
 
 var default_object = null;
 
@@ -244,49 +247,68 @@ $(function ()
 
 function load_profile()
 {
-    profile.on_login_call_back = function (){
-
-    get_metadata();
-
-    var localDB = new PouchDB('mmrds');
-    var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
-
-/*
-    if(g_couchdb_url != location.host)
-    {
-//location.protocol + '//' + 
-    }
-    else
+    profile.on_login_call_back = function ()
     {
 
-    }*/
+      get_metadata();
 
-    remoteDB.getSession(function (err, response) {
+      g_localDB = new PouchDB('mmrds');
+      g_remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
 
-      console.log("pouchdb.get_session()", response);
-      
-      if (err) 
-      {
-        // network error
-      } 
-      else if (!response.userCtx.name)
-      {
-          
-      } 
-      else 
-      {
-        // response.userCtx.name is the current user
-        localDB.sync(remoteDB).on('complete', function () {
-          console.log("yay, we're done!");
-          load_documents();
-        }).on('error', function (err) {
-          // boo, something went wrong!
-          console.log(" boo, something went wrong!");
-            console.log(err);
-        });
+      var local_host = $mmria.get_url_components(location.href)["host"];
+      var couchdb_host = $mmria.get_url_components(g_couchdb_url)["host"];
 
+
+
+      if(local_host != couchdb_host)
+      {
+          g_remoteDB.login(profile.user_name, profile.password, function (err, response) 
+          {
+            if (err) 
+            {
+              if (err.name === 'unauthorized') 
+              {
+                // name or password incorrect
+              } 
+              else 
+              {
+                // cosmic rays, a meteor, etc.
+              }
+            }
+            else if (!response.userCtx.name)
+            {
+                
+            } 
+            else
+            {
+              sync_database();
+            }
+          });
       }
-    });
+      else
+      {
+        g_remoteDB.getSession(
+          function (err, response) 
+          {
+
+            console.log("pouchdb.get_session()", response);
+            
+            if (err) 
+            {
+              // network error
+            } 
+            else if (!response.userCtx.name)
+            {
+                
+            } 
+            else 
+            {
+              sync_database();
+            }
+        });
+      }
+
+
 
       //load_documents();
 
@@ -294,6 +316,20 @@ function load_profile()
 
 
   	profile.initialize_profile();
+}
+
+function sync_database()
+{
+
+  // response.userCtx.name is the current user
+  g_localDB.sync(g_remoteDB).on('complete', function () {
+    console.log("yay, we're done!");
+    load_documents();
+  }).on('error', function (err) {
+    // boo, something went wrong!
+    console.log(" boo, something went wrong!");
+      console.log(err);
+  });
 }
 
 
@@ -701,9 +737,9 @@ function save_change_task()
 
 //https://github.com/nolanlawson/pouchdb-authentication
 
-    var localDB = new PouchDB('mmrds');
-    var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
-    remoteDB.getSession(function (err, response)
+    //var localDB = new PouchDB('mmrds');
+    //var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
+    g_remoteDB.getSession(function (err, response)
     {
       
       if (err) 
@@ -716,7 +752,7 @@ function save_change_task()
       } 
       else 
       {
-        localDB.replicate.to(remoteDB).on('complete', function () {
+        g_localDB.replicate.to(remoteDB).on('complete', function () {
           console.log("yay, we're done!");
           save_queue.pop();
         }).on('error', function (err) {

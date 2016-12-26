@@ -188,6 +188,9 @@ login: function ()
 	)
 	{
 		var ctx = this;
+		profile.user_name = email_text;
+		profile.password = password_text;
+
 		var url =  location.protocol + '//' + location.host + "/api/session";
 		var post_data = { "userid" : email_text , "password": password_text};
 		$.ajax({
@@ -217,7 +220,7 @@ login_response: function (response)
 
 
 		profile.is_logged_in = true;
-		profile.user_name = json_response.name;
+		//profile.user_name = json_response.name;
 		profile.user_roles = json_response.roles;
 		profile.auth_session = json_response.auth_session;
 
@@ -231,6 +234,8 @@ login_response: function (response)
 	}
 	else
 	{
+		profile.user_name = '';
+		profile.password = null;
 		profile.expire_auth_session_cookie(profile.auth_session);
 	}
 
@@ -243,6 +248,8 @@ logout : function()
 		profile.expire_auth_session_cookie(profile.auth_session);
 		profile.is_logged_in=false;
 		profile.user_name='';
+		profile.user_name = '';
+		profile.password = null;
 		profile.user_roles=[];
 		profile.auth_session='';
 		profile.render();
