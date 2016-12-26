@@ -426,8 +426,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				var code_array = [];
 				
 				code_array.push(source_code.substring(0, source_code.length-1));
-				code_array.push("(this);")
-
+				code_array.push(".call(");
+				code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+				code_array.push(", this);");
 				result.push("' onfocus='");
 				result.push(code_array.join('').replace(/'/g,"\""));
 			}

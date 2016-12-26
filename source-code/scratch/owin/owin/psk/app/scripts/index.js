@@ -251,6 +251,16 @@ function load_profile()
     var localDB = new PouchDB('mmrds');
     var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
 
+/*
+    if(g_couchdb_url != location.host)
+    {
+//location.protocol + '//' + 
+    }
+    else
+    {
+
+    }*/
+
     remoteDB.getSession(function (err, response) {
 
       console.log("pouchdb.get_session()", response);

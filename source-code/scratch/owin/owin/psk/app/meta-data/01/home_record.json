@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "85-11ce09a2c5902e1a28cb0376e5a2b88b",
+  "_rev": "60-85fc7781f4df127960209a4561c2af5f",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -2907,6 +2907,10 @@
                 {
                   "description": "",
                   "value": "No"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
                 }
               ],
               "is_core_summary": true
@@ -3243,28 +3247,6 @@
               "name": "longitude",
               "type": "number",
               "is_core_summary": true
-            },
-            {
-              "prompt": "Date of Birth*",
-              "name": "new_group",
-              "type": "group",
-              "children": [
-                {
-                  "prompt": "Month",
-                  "name": "month",
-                  "type": "number"
-                },
-                {
-                  "prompt": "Day",
-                  "name": "day",
-                  "type": "number"
-                },
-                {
-                  "prompt": "Year",
-                  "name": "year",
-                  "type": "number"
-                }
-              ]
             }
           ]
         },
@@ -3311,13 +3293,13 @@
               ]
             },
             {
-              "prompt": "Age*",
+              "prompt": "Age",
               "name": "age",
               "type": "Number",
-              "is_core_summary": true
+              "is_core_summary": false
             },
             {
-              "prompt": "Education*",
+              "prompt": "Father's Education",
               "name": "education_level",
               "type": "List",
               "values": [
@@ -3362,7 +3344,7 @@
                   "value": "Not Specified"
                 }
               ],
-              "is_core_summary": true
+              "is_core_summary": false
             },
             {
               "prompt": "Father's City of Birth",
@@ -3375,10 +3357,10 @@
               "type": "String"
             },
             {
-              "prompt": "Father's Country (if Foreign Born)*",
+              "prompt": "Father's Country (if Foreign Born)",
               "name": "country_of_birth",
               "type": "String",
-              "is_core_summary": true
+              "is_core_summary": false
             },
             {
               "prompt": "Father's Primary Occupation",
@@ -3389,29 +3371,6 @@
               "prompt": "Business/Industry",
               "name": "occupation_business_industry",
               "type": "String"
-            },
-            {
-              "prompt": "Ever in US Armed Forces?",
-              "name": "ever_in_us_armed_forces",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Yes"
-                },
-                {
-                  "description": "",
-                  "value": "No"
-                },
-                {
-                  "description": "",
-                  "value": "Not specified"
-                }
-              ]
             },
             {
               "prompt": "Father of Hispanic Origin?*",
@@ -3601,17 +3560,17 @@
               ]
             },
             {
-              "prompt": "City of Birth",
+              "prompt": "Mother's City of Birth",
               "name": "city_of_birth",
               "type": "String"
             },
             {
-              "prompt": "State of Birth",
+              "prompt": "Mother's State of Birth (US)",
               "name": "state_of_birth",
               "type": "String"
             },
             {
-              "prompt": "Country of Birth (if Foreign Born)*",
+              "prompt": "Mother's Country of Birth (if Foreign Born)*",
               "name": "country_of_birth",
               "type": "String",
               "is_core_summary": true
@@ -3650,7 +3609,7 @@
               ]
             },
             {
-              "prompt": "Hispanic origin?*",
+              "prompt": "Hispanic Origin?*",
               "name": "is_of_hispanic_origin",
               "type": "List",
               "values": [
@@ -4023,12 +3982,6 @@
               "name": "longitude",
               "type": "number",
               "is_core_summary": true
-            },
-            {
-              "prompt": "Date of Birth*",
-              "name": "new_group",
-              "type": "group",
-              "children": []
             }
           ]
         },
@@ -4480,23 +4433,19 @@
                 },
                 {
                   "description": "",
-                  "value": "MD"
+                  "value": "Singleton"
                 },
                 {
                   "description": "",
-                  "value": "DO"
+                  "value": "Twins"
                 },
                 {
                   "description": "",
-                  "value": "CNM/CM"
+                  "value": "Triplets"
                 },
                 {
                   "description": "",
-                  "value": "Other midwife"
-                },
-                {
-                  "description": "",
-                  "value": "</paper-input>"
+                  "value": "More than 3"
                 },
                 {
                   "description": "",
@@ -4545,34 +4494,26 @@
                 },
                 {
                   "description": "",
-                  "value": "MD"
+                  "value": "Private Insurance"
                 },
                 {
                   "description": "",
-                  "value": "DO"
+                  "value": "Medicaid"
                 },
                 {
                   "description": "",
-                  "value": "CNM/CM"
+                  "value": "Self"
                 },
                 {
                   "description": "",
-                  "value": "Other Midwife"
-                },
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Not specified"
+                  "value": "Other"
                 }
               ],
               "is_core_summary": true
             },
             {
-              "prompt": "Number of Visits",
-              "name": "number_of_visits",
+              "prompt": "Specify Other Payor",
+              "name": "specify_other_payor",
               "type": "String"
             },
             {
@@ -4604,19 +4545,19 @@
               "is_core_summary": true
             },
             {
-              "prompt": "Specify other payor",
-              "name": "specify_other_payor",
+              "prompt": "Number of Visits",
+              "name": "number_of_visits",
               "type": "String"
             }
           ]
         },
         {
-          "prompt": "Cigarette Smoking",
+          "prompt": "Cigarette Smoking Before and During Pregnancy",
           "name": "cigarette_smoking",
           "type": "group",
           "children": [
             {
-              "prompt": "In Prior 3 Months (# of Cigarettes/Packs)",
+              "prompt": "Three Months Before Pregnancy (# of Cigarettes/Packs)",
               "name": "prior_3_months",
               "type": "number"
             },
@@ -4641,7 +4582,7 @@
               "control_style": "radio"
             },
             {
-              "prompt": "In 1st trimester (# of cigarettes/ packs)",
+              "prompt": "First Three Months of Pregnancy (# of cigarettes/ packs)",
               "name": "trimester_1st",
               "type": "number"
             },
@@ -4666,7 +4607,7 @@
               "control_style": "radio"
             },
             {
-              "prompt": "In 2nd Trimester (# of Cigarettes/Packsv)",
+              "prompt": "Second Three Months of Pregnancy (# of Cigarettes/Packs)",
               "name": "trimester_2nd",
               "type": "number"
             },
@@ -4691,7 +4632,7 @@
               "control_style": "radio"
             },
             {
-              "prompt": "In 3rd Trimester (# of Cigarettes/Packsv)",
+              "prompt": "Third Trimester of Pregnancy (# of Cigarettes/Packs)",
               "name": "trimester_3rd",
               "type": "number"
             },
@@ -4783,7 +4724,7 @@
             },
             {
               "description": "",
-              "value": "Assisted Reproductive Technology (e.g. in vitro fertilization (IVF), gamete intrafalllopian transfer (GIFT))"
+              "value": "Assisted Reproductive Technology (e.g. in vitro fertilization (IVF), gamete intrafallopian transfer (GIFT))"
             },
             {
               "description": "",
@@ -4858,7 +4799,8 @@
               "value": "Not Specified"
             }
           ],
-          "is_core_summary": true
+          "is_core_summary": true,
+          "is_multiselect": true
         },
         {
           "prompt": "Onset of Labor (Choose All That Apply)*",

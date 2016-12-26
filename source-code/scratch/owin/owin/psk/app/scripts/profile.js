@@ -4,6 +4,7 @@ var profile = {
 		user_name: null,
 		user_roles: null,
 		auth_session: null,
+		password: null,
 
 get_auth_session_cookie: function ()
 {
