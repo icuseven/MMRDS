@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace mmria.server
 {
@@ -11,7 +11,7 @@ namespace mmria.server
 		//http://json-schema.org/
 		//http://swagger.io/specification/
 
-		public string generate(mmria.server.metadata.app app)
+		public string generate(mmria.common.metadata.app app)
 		{
 			System.Text.StringBuilder result = new System.Text.StringBuilder ();
 
@@ -50,7 +50,7 @@ namespace mmria.server
 		}
 
 
-		public void generate(System.Text.StringBuilder result, mmria.server.metadata.node node)
+		public void generate(System.Text.StringBuilder result, mmria.common.metadata.node node)
 		{
 			switch (node.type.ToLower ()) 
 			{

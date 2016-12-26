@@ -1,5 +1,5 @@
-﻿using System;
-namespace mmria.server.metadata
+using System;
+namespace mmria.common.metadata
 {
 	public class form
 	{

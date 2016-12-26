@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Linq;
@@ -109,12 +109,12 @@ namespace mmria.server
 		// POST api/values 
 		//[Route("api/metadata")]
 		[HttpPost]
-		public mmria.server.couchdb.document_put_response Post() 
+		public mmria.common.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
-			mmria.server.metadata.app metadata = null;
+			mmria.common.metadata.app metadata = null;
 			string object_string = null;
-			mmria.server.couchdb.document_put_response result = new mmria.server.couchdb.document_put_response ();
+			mmria.common.couchdb.document_put_response result = new mmria.common.couchdb.document_put_response ();
 
 			try
 			{
@@ -126,7 +126,7 @@ namespace mmria.server
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.metadata.app>(temp);
+				metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(temp);
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
@@ -173,7 +173,7 @@ namespace mmria.server
 							System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 							string responseFromServer = reader.ReadToEnd ();
 
-							result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.couchdb.document_put_response>(responseFromServer);
+							result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.document_put_response>(responseFromServer);
 
 							if(response.Headers["Set-Cookie"] != null)
 							{

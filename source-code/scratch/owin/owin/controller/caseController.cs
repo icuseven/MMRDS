@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -10,11 +10,11 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable< mmria.server.model.home_record> Get() 
+		public IEnumerable< mmria.common.model.home_record> Get() 
 		{ 
-			return new  mmria.server.model.home_record[] 
+			return new  mmria.common.model.home_record[] 
 			{ 
-				new  mmria.server.model.home_record(){ 
+				new  mmria.common.model.home_record(){ 
 					id =  "e5c511cc-40ec-4730-9656-95f53582a51b",
 					record_id = "VA-2011-1703",
 					first_name = "Caterina",
@@ -25,7 +25,7 @@ namespace mmria.server
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = true
 				},
-				new  mmria.server.model.home_record(){ 
+				new  mmria.common.model.home_record(){ 
 					id =  "42ad2325-0713-4fd0-a49e-5b03ee38e0e3",
 					record_id = "TN-2011-2722",
 					first_name = "Bibiana",
@@ -36,7 +36,7 @@ namespace mmria.server
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = false
 				},
-				new  mmria.server.model.home_record(){ 
+				new  mmria.common.model.home_record(){ 
 					id =  "1954deef-e6bb-4ae1-af88-15abffbba7db",
 					record_id = "RI-2012-9090",
 					first_name = "Helen",
@@ -87,13 +87,13 @@ namespace mmria.server
 
 		// POST api/values 
 		[Route]
-		public mmria.server.couchdb.document_put_response Post() 
+		public mmria.common.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
-			//mmria.server.data.api.Set_Queue_Request queue_request = null;
+			//mmria.common.data.api.Set_Queue_Request queue_request = null;
 			System.Dynamic.ExpandoObject  queue_request = null;
 			string object_string = null;
-			mmria.server.couchdb.document_put_response result = new mmria.server.couchdb.document_put_response ();
+			mmria.common.couchdb.document_put_response result = new mmria.common.couchdb.document_put_response ();
 
 			try
 			{
@@ -107,7 +107,7 @@ namespace mmria.server
 
 				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp);
 
-				//mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.server.model.home_record> { mmria.server.model.home_record.convert(queue_request)});
+				//mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
@@ -172,7 +172,7 @@ namespace mmria.server
 						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 						string responseFromServer = reader.ReadToEnd ();
 
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.couchdb.document_put_response>(responseFromServer);
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.document_put_response>(responseFromServer);
 
 					}
 					catch(Exception ex)

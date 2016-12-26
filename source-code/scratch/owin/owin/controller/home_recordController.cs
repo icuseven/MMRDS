@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace mmria.server
@@ -7,11 +7,11 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable< mmria.server.model.home_record> Get() 
+		public IEnumerable< mmria.common.model.home_record> Get() 
 		{ 
-			return new  mmria.server.model.home_record[] 
+			return new  mmria.common.model.home_record[] 
 			{ 
-				new  mmria.server.model.home_record(){ 
+				new  mmria.common.model.home_record(){ 
 					id =  "e5c511cc-40ec-4730-9656-95f53582a51b",
 					record_id = "VA-2011-1703",
 					first_name = "Caterina",
@@ -22,7 +22,7 @@ namespace mmria.server
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = true
 				},
-				new  mmria.server.model.home_record(){ 
+				new  mmria.common.model.home_record(){ 
 					id =  "42ad2325-0713-4fd0-a49e-5b03ee38e0e3",
 					record_id = "TN-2011-2722",
 					first_name = "Bibiana",
@@ -33,7 +33,7 @@ namespace mmria.server
 					agency_case_id = "",
 					is_valid_maternal_mortality_record = false
 				},
-				new  mmria.server.model.home_record(){ 
+				new  mmria.common.model.home_record(){ 
 					id =  "1954deef-e6bb-4ae1-af88-15abffbba7db",
 					record_id = "RI-2012-9090",
 					first_name = "Helen",
@@ -83,18 +83,18 @@ namespace mmria.server
 
 
 		// GET api/values/5 
-		public  mmria.server.model.home_record Get(int id) 
+		public  mmria.common.model.home_record Get(int id) 
 		{ 
-			return default( mmria.server.model.home_record); 
+			return default( mmria.common.model.home_record); 
 		} 
 
 		// POST api/values 
-		public void Post([FromBody] mmria.server.model.home_record value) 
+		public void Post([FromBody] mmria.common.model.home_record value) 
 		{ 
 		} 
 
 		// PUT api/values/5 
-		public void Put(int id, [FromBody] mmria.server.model.home_record value) 
+		public void Put(int id, [FromBody] mmria.common.model.home_record value) 
 		{ 
 		} 
 

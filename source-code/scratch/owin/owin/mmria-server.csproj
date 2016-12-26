@@ -119,31 +119,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="controller\ValuesController.cs" />
     <Compile Include="controller\geocodeController.cs" />
-    <Compile Include="model\geocode_response.cs" />
-    <Compile Include="model\address_normalization_response.cs" />
     <Compile Include="controller\address_normalizationController.cs" />
     <Compile Include="data-access.cs" />
     <Compile Include="controller\home_recordController.cs" />
     <Compile Include="controller\sessionController.cs" />
-    <Compile Include="model\couchdb\Info.cs" />
-    <Compile Include="model\couchdb\UserCTX.cs" />
-    <Compile Include="model\couchdb\session_response.cs" />
-    <Compile Include="model\home_record.cs" />
     <Compile Include="CustomContentTypeProvider.cs" />
-    <Compile Include="model\couchdb\login_response .cs" />
-    <Compile Include="model\couchdb\logout_response.cs" />
-    <Compile Include="model\current_edit.cs" />
     <Compile Include="controller\current_editController.cs" />
     <Compile Include="DriveSettings.cs" />
     <Compile Include="WatchFiles.cs" />
     <Compile Include="controller\caseController.cs" />
     <Compile Include="controller\metadataController.cs" />
-    <Compile Include="model\metadata\app.cs" />
-    <Compile Include="model\metadata\form.cs" />
-    <Compile Include="model\metadata\node.cs" />
-    <Compile Include="model\couchdb\document_put_response.cs" />
-    <Compile Include="model\couchdb\document_put_error.cs" />
-    <Compile Include="model\Case_data.cs" />
     <Compile Include="controller\censusController.cs" />
     <Compile Include="SwaggerCustomProvider.cs" />
     <Compile Include="controller\queueController.cs" />
@@ -153,20 +138,14 @@
     <Compile Include="util\Code_dom.cs" />
     <Compile Include="util\GenerateAssemblyAndModule.cs" />
     <Compile Include="util\GenerateSwaggerFile.cs" />
-    <Compile Include="model\metadata\value_node.cs" />
-    <Compile Include="model\couchdb\user.cs" />
     <Compile Include="controller\userController.cs" />
-    <Compile Include="model\couchdb\alldocs_response.cs" />
-    <Compile Include="model\couchdb\user_alldocs_response.cs" />
     <Compile Include="util\LuceneHelper.cs" />
-    <Compile Include="model\couchdb\password\error_response.cs" />
-    <Compile Include="model\couchdb\password\success_response.cs" />
     <Compile Include="util\email\email_handler.cs" />
     <Compile Include="util\email\email.cs" />
     <Compile Include="util\cData.cs" />
     <Compile Include="util\LuceneSearch.cs" />
     <Compile Include="util\LuceneSearchIndexer.cs" />
-    <Compile Include="model\couchdb\document_get_response.cs" />
+    <Compile Include="model\couchdb\error.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -2721,13 +2700,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="controller\" />
-    <Folder Include="model\" />
-    <Folder Include="model\couchdb\" />
-    <Folder Include="model\metadata\" />
     <Folder Include="util\" />
     <Folder Include="swashbuckle\" />
     <Folder Include="api-docs\" />
-    <Folder Include="model\couchdb\password\" />
     <Folder Include="util\email\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mmria.common\mmria.common.csproj">
+      <Project>{18994598-71B1-482A-9C76-1A2A9575B7AD}</Project>
+      <Name>mmria.common</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

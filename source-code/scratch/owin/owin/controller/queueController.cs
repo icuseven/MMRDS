@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web.Http;
 using System.Linq;
 
@@ -13,11 +13,11 @@ namespace mmria.server
 		/// Post the specified set_queue_request.
 		/// </summary>
 		/// <param name="set_queue_request">Set queue request.</param>
-		public mmria.server.data.api.Set_Queue_Response Post(mmria.server.data.api.Set_Queue_Request set_queue_request)
+		public mmria.common.data.api.Set_Queue_Response Post(mmria.common.data.api.Set_Queue_Request set_queue_request)
 		{ 
-			mmria.server.data.api.Set_Queue_Response result = new mmria.server.data.api.Set_Queue_Response();
+			mmria.common.data.api.Set_Queue_Response result = new mmria.common.data.api.Set_Queue_Response();
 
-			mmria.server.data.api.Queue_Item queue_item = new mmria.server.data.api.Queue_Item ();
+			mmria.common.data.api.Queue_Item queue_item = new mmria.common.data.api.Queue_Item ();
 			queue_item.queue_id = System.Guid.NewGuid ().ToString ();
 			queue_item.case_list = set_queue_request.case_list;
 
@@ -43,7 +43,7 @@ namespace mmria.server
 				request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
 			}
 
-			mmria.server.couchdb.document_put_response put_response = null;
+			mmria.common.couchdb.document_put_response put_response = null;
 
 			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
 			{
@@ -59,7 +59,7 @@ namespace mmria.server
 					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 					string responseFromServer = reader.ReadToEnd ();
 
-					put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.couchdb.document_put_response>(responseFromServer);
+					put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.document_put_response>(responseFromServer);
 				}
 				catch(Exception ex)
 				{

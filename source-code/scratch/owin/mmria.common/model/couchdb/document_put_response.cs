@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
-namespace mmria.server.couchdb
+namespace mmria.common.couchdb
 {
-	public class document_get_response
+	public class document_put_response
 	{
 		public string auth_session {get; set;}
 
@@ -10,12 +10,10 @@ namespace mmria.server.couchdb
 		public string id { get; set; }
 		public string rev { get; set; }
 
-		public document_get_response ()
+		public document_put_response ()
 		{
 			
 		}
-
-
 	}
 }
 

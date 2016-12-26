@@ -65,5 +65,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
+    <None Include="mapping-file-set\Grid mapping merge.xls" />
   </ItemGroup>
 </Project>

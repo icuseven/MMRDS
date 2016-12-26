@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria-server", "owin\mmria-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria-console", "mmrds-importer\mmria-console.csproj", "{055046CB-CF46-4AB3-A79E-EBF49D7D713F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria.common", "mmria.common\mmria.common.csproj", "{18994598-71B1-482A-9C76-1A2A9575B7AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,5 +21,9 @@ Global
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.Build.0 = Debug|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.ActiveCfg = Release|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.Build.0 = Release|x86
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Debug|x86.Build.0 = Debug|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

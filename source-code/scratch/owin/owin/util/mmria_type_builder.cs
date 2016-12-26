@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -9,7 +9,7 @@ namespace mmria.server.type_buider
 		//https://duckduckgo.com/?q=c%23+generate+dynamic+class&t=ironbrowser&ia=qa
 
 
-		public static Type CreateObjectFromAppMetadata(mmria.server.metadata.app app_metadata)
+		public static Type CreateObjectFromAppMetadata(mmria.common.metadata.app app_metadata)
 		{
 			Type result = null;
 			foreach(var node in app_metadata.children)
@@ -31,7 +31,7 @@ namespace mmria.server.type_buider
 
 
 
-		public static Type CreateObjectFromMetadata(mmria.server.metadata.node node)
+		public static Type CreateObjectFromMetadata(mmria.common.metadata.node node)
 		{
 			Type result = null;
 

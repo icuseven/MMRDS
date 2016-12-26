@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.CSharp;
 using System.Web.Http;
@@ -76,9 +76,9 @@ namespace mmria.server
 		} 
 
 		// GET api/values/5 
-		public mmria.server.model.home_record Get(int id) 
+		public mmria.common.model.home_record Get(int id) 
 		{ 
-			return default( mmria.server.model.home_record); 
+			return default( mmria.common.model.home_record); 
 		} 
 		/*
 		// POST api/values 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -8,7 +8,7 @@ namespace mmria.server
 	public class userController: ApiController 
 	{ 
 		// GET api/values 
-		//public IEnumerable<mmria.server.model.couchdb.user_alldocs_response> Get() 
+		//public IEnumerable<mmria.common.model.couchdb.user_alldocs_response> Get() 
 		public System.Dynamic.ExpandoObject Get() 
 		{ 
 			try
@@ -30,8 +30,8 @@ namespace mmria.server
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
-				/*mmria.server.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.user_alldocs_response>(responseFromServer);
-				mmria.server.model.couchdb.user_alldocs_response[] result =  new mmria.server.model.couchdb.user_alldocs_response[] 
+				/*mmria.common.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_alldocs_response>(responseFromServer);
+				mmria.common.model.couchdb.user_alldocs_response[] result =  new mmria.common.model.couchdb.user_alldocs_response[] 
 				{ 
 					json_result
 				}; 
@@ -52,13 +52,13 @@ namespace mmria.server
 			} 
 
 			return null;
-			//return new mmria.server.model.couchdb.user[] { default(mmria.server.model.couchdb.user), default(mmria.server.model.couchdb.user) }; 
+			//return new mmria.common.model.couchdb.user[] { default(mmria.common.model.couchdb.user), default(mmria.common.model.couchdb.user) }; 
 		} 
 
 		// GET api/values/5 
-		public mmria.server.model.couchdb.user Get(string id) 
+		public mmria.common.model.couchdb.user Get(string id) 
 		{ 
-			mmria.server.model.couchdb.user result = null;
+			mmria.common.model.couchdb.user result = null;
 			try
 			{
 				string request_string = this.get_couch_db_url() + "/_users/" + id;
@@ -79,7 +79,7 @@ namespace mmria.server
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
-				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.user>(responseFromServer);
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
 			}
 			catch(Exception ex)
 			{
@@ -91,12 +91,12 @@ namespace mmria.server
 		} 
 
 		[HttpPost]
-		public mmria.server.couchdb.document_put_response Post() 
+		public mmria.common.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
-			mmria.server.model.couchdb.user user = null;
+			mmria.common.model.couchdb.user user = null;
 			string object_string = null;
-			mmria.server.couchdb.document_put_response result = new mmria.server.couchdb.document_put_response ();
+			mmria.common.couchdb.document_put_response result = new mmria.common.couchdb.document_put_response ();
 
 			try
 			{
@@ -108,7 +108,7 @@ namespace mmria.server
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.user>(temp);
+				user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(temp);
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
@@ -155,7 +155,7 @@ namespace mmria.server
 						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 						string responseFromServer = reader.ReadToEnd ();
 
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.couchdb.document_put_response>(responseFromServer);
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.document_put_response>(responseFromServer);
 					
 					}
 					catch(Exception ex)
@@ -179,7 +179,7 @@ namespace mmria.server
 		} 
 
 		// PUT api/values/5 
-		public void Put(string id, [FromBody]mmria.server.model.couchdb.user value) 
+		public void Put(string id, [FromBody]mmria.common.model.couchdb.user value) 
 		{ 
 		} 
 
