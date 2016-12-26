@@ -273,11 +273,7 @@ function load_profile()
               else 
               {
                 // cosmic rays, a meteor, etc.
-              }
-            }
-            else if (!response.userCtx.name)
-            {
-                
+              }  
             } 
             else
             {
