@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Data;
 using System.Linq;
 
@@ -18,13 +21,16 @@ namespace mmria.console
 		public static void Main(string[] args)
 		{
 
+			mmria.common.metadata.app metadata = MainClass.get_metadata();
+
 			var mmrds_data = new cData(get_mdb_connection_string("mapping-file-set/Maternal_Mortality.mdb"));
+			var directory_path = @"mapping-file-set";
+			//var main_mapping_file_name = @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv";
+				var main_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-test.csv";
+			var mapping_data = new cData(get_csv_connection_string(directory_path));
 
-			var main_mapping_file_name = @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv";
-			var mapping_data = new cData(get_csv_connection_string(System.IO.Path.GetDirectoryName(main_mapping_file_name)));
-
-			var grid_mapping_file_name = @"mapping-file-set/grid-mapping-merge.xls";
-			var grid_mapping_data = new cData(get_csv_connection_string(System.IO.Path.GetDirectoryName(grid_mapping_file_name)));
+			var grid_mapping_file_name = @"grid-mapping-merge.csv";
+			//var grid_mapping_data = new cData(get_csv_connection_string(System.IO.Path.GetDirectoryName(grid_mapping_file_name)));
 
 			var rs = mmrds_data.GetDataTable("Select * from AutopsyReport");
 
@@ -37,8 +43,8 @@ namespace mmria.console
 			}
 
 
-			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + System.IO.Path.GetFileName(main_mapping_file_name) + "]");
-
+			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "]");
+			var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
 
 
@@ -97,6 +103,36 @@ namespace mmria.console
 				@"Provider=Microsoft.Jet.OleDb.4.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
 				p_file_name
 			);
+
+			return result;
+		}
+
+		public static mmria.common.metadata.app get_metadata()
+		{
+			mmria.common.metadata.app result = null;
+
+			string URL = "http://test.mmria.org/api/metadata";
+		 	//string urlParameters = "?api_key=123";
+			string urlParameters = "";
+
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri(URL);
+
+			// Add an Accept header for JSON format.
+			client.DefaultRequestHeaders.Accept.Add(
+			new MediaTypeWithQualityHeaderValue("application/json"));
+
+			// List data response.
+			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
+			if (response.IsSuccessStatusCode)
+			{
+				// Parse the response body. Blocking!
+				result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
+			}
+			else
+			{
+				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
 
 			return result;
 		}
