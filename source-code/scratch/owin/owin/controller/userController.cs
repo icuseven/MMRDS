@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using mmria.common.model;
 
 namespace mmria.server
 {
@@ -91,12 +92,12 @@ namespace mmria.server
 		} 
 
 		[HttpPost]
-		public mmria.common.couchdb.document_put_response Post() 
+		public mmria.common.model.couchdb.document_put_response Post() 
 		{ 
 			//bool valid_login = false;
 			mmria.common.model.couchdb.user user = null;
 			string object_string = null;
-			mmria.common.couchdb.document_put_response result = new mmria.common.couchdb.document_put_response ();
+			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
 			try
 			{
@@ -155,7 +156,7 @@ namespace mmria.server
 						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 						string responseFromServer = reader.ReadToEnd ();
 
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.document_put_response>(responseFromServer);
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 					
 					}
 					catch(Exception ex)

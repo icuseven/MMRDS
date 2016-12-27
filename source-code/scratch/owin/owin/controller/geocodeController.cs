@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.CSharp;
 using System.Web.Http;
+using mmria.common.model;
 
 namespace mmria.server
 {
@@ -24,7 +25,7 @@ namespace mmria.server
 		}
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable<geocode_response> Get
+		public IEnumerable<mmria.common.model.geocode_response> Get
 		(
 			string street_address,
 			string city,

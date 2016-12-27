@@ -50,6 +50,7 @@
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="util\cPipeDelimitedReadWriter.cs" />
     <Compile Include="util\WriteCSV.cs" />
     <Compile Include="util\Case_Maker.cs" />
+    <Compile Include="util\mmria_server_api_client.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Data;
-using System.Linq;
+//using System.Threading.Tasks;
+//using System.Data;
+//using System.Linq;
 
 using mmria.console.data;
 
@@ -20,8 +20,15 @@ namespace mmria.console
 
 		public static void Main(string[] args)
 		{
+			var mmria_server = new mmria_server_api_client();
 
-			mmria.common.metadata.app metadata = MainClass.get_metadata();
+			mmria.common.metadata.app metadata = mmria_server.get_metadata();
+
+			dynamic case_data = new Case_Maker().create_default_object(metadata, new Dictionary<string,object>());
+			System.Console.WriteLine(case_data["_id"]);
+			System.Console.WriteLine(case_data["home_record"]);
+			System.Console.WriteLine(case_data["home_record"]["case_progress_report"]);
+
 
 			var mmrds_data = new cData(get_mdb_connection_string("mapping-file-set/Maternal_Mortality.mdb"));
 			var directory_path = @"mapping-file-set";

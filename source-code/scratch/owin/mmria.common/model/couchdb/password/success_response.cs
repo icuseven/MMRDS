@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mmria.server
+namespace mmria.common.model.couchdb.password
 {
 	public class success_response
 	{

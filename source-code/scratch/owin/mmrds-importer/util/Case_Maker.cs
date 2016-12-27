@@ -10,7 +10,7 @@ namespace mmria
 		}
 
 
-		public System.Dynamic.ExpandoObject create_default_object(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_parent)
+		public IDictionary<string, object> create_default_object(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_parent)
 		{
 			p_parent.Add("_id", new DateTime().ToString("s"));
 			for (var i = 0; i < p_metadata.children.Length; i++)
@@ -19,11 +19,10 @@ namespace mmria
 				create_default_object(child, p_parent);
 			}
 
-
-			return p_parent as System.Dynamic.ExpandoObject;
+			return p_parent;
 		}
 
-		public System.Dynamic.ExpandoObject create_default_object(mmria.common.metadata.node p_metadata, IDictionary<string, object> p_parent)
+		public IDictionary<string, object> create_default_object(mmria.common.metadata.node p_metadata, IDictionary<string, object> p_parent)
 		{
 
 			switch (p_metadata.type.ToLower())
@@ -76,7 +75,10 @@ namespace mmria
 					{
 						mmria.common.metadata.node child  = p_metadata.children[i];
 						create_default_object(child, temp3);
-						p_parent.Add(p_metadata.name, temp3);
+						if (!p_parent.ContainsKey(p_metadata.name))
+						{
+							p_parent.Add(p_metadata.name, temp3);
+						}
 					}
 					break;/*
 				case "app":
@@ -157,7 +159,7 @@ namespace mmria
 					break;
 			}
 
-			return p_parent as System.Dynamic.ExpandoObject;
+			return p_parent;
 		}
 
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace mmria.common.model.couchdb
+namespace mmria.common.model.couchdb.password
 {
 	public class error_response
 	{

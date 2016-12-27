@@ -1,6 +1,7 @@
 using System;
 using System.Web.Http;
 using System.Linq;
+using mmria.common.model;
 
 namespace mmria.server
 {
@@ -43,7 +44,7 @@ namespace mmria.server
 				request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
 			}
 
-			mmria.common.couchdb.document_put_response put_response = null;
+			mmria.common.model.couchdb.document_put_response put_response = null;
 
 			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
 			{
@@ -59,7 +60,7 @@ namespace mmria.server
 					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 					string responseFromServer = reader.ReadToEnd ();
 
-					put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.document_put_response>(responseFromServer);
+					put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 				}
 				catch(Exception ex)
 				{

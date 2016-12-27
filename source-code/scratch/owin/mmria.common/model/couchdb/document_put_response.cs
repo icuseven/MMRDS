@@ -1,6 +1,6 @@
 using System;
 
-namespace mmria.common.couchdb
+namespace mmria.common.model.couchdb
 {
 	public class document_put_response
 	{

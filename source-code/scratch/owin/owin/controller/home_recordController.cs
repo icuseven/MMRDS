@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Web.Http;
+using mmria.common.model;
 
 namespace mmria.server
 {

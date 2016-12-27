@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Linq;
+using mmria.common.model;
+using mmria.common.model.couchdb;
 
 namespace mmria.server
 {

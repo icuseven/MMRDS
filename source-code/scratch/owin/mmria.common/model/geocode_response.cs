@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mmria.server
+namespace mmria.common.model
 {
 	public class geocode_response
 	{

@@ -4,6 +4,7 @@ using Microsoft.CSharp;
 using System.Web.Http;
 using System.Net;
 using System.Linq;
+using mmria.common.model.couchdb;
 
 //https://wiki.apache.org/couchdb/Session_API
 

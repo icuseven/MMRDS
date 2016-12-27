@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.CSharp;
 using System.Web.Http;
+using mmria.common.model;
 
 namespace mmria.server
 {

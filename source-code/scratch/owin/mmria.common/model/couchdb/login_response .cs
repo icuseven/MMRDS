@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mmria.server
+namespace mmria.common.model.couchdb
 {
 	public class login_response
 	{

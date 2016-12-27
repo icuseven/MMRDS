@@ -30,7 +30,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="model\address_normalization_response.cs" />
     <Compile Include="model\Case_data.cs" />

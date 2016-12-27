@@ -151,7 +151,7 @@ namespace mmria.server
 		{
 			try
 			{
-				Current_Edit current_edit = new Current_Edit();
+				mmria.common.model.Current_Edit current_edit = new mmria.common.model.Current_Edit();
 				current_edit.id = key;
 				current_edit.metadata = SourceFilePath;
 				current_edit.edit_type = "javascript";

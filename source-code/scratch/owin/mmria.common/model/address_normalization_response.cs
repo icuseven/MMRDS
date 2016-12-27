@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mmria.server
+namespace mmria.common.model
 {
 	public class address_normalization_response
 	{
