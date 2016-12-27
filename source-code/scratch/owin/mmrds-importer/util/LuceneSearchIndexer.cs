@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace importer.util
 		static Lucene.Net.Store.Directory directory = FSDirectory.Open(new DirectoryInfo(get_working_directory() + "/lucene-index"));
 		static Lucene.Net.Analysis.Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 		//public static IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.LIMITED);
-		public static void RunIndex(IList<owin.model.home_record> entities)
+		public static void RunIndex(IList<mmria.common.model.home_record> entities)
 		{
 			using (var writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.LIMITED))
 			{

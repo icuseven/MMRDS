@@ -15,7 +15,6 @@ function create_default_object(p_metadata, p_parent)
 
       break;
     case 'form':
-
       var temp_object = {};
       for(var i = 0; i < p_metadata.children.length; i++)
       {
@@ -43,7 +42,6 @@ function create_default_object(p_metadata, p_parent)
       break;
 
     case 'group':
-    case 'form':
       p_parent[p_metadata.name] = {};
       for(var i = 0; i < p_metadata.children.length; i++)
       {

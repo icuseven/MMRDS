@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -28,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,11 +49,11 @@
     <Compile Include="util\LuceneSearch.cs" />
     <Compile Include="util\LuceneSearchIndexer.cs" />
     <Compile Include="util\cData.cs" />
-    <Compile Include="model\home_record.cs" />
     <Compile Include="util\Lib.cs" />
     <Compile Include="updater\updater_client.cs" />
     <Compile Include="util\cPipeDelimitedReadWriter.cs" />
     <Compile Include="util\WriteCSV.cs" />
+    <Compile Include="util\Case_Maker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -65,6 +67,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
-    <None Include="mapping-file-set\Grid mapping merge.xls" />
+    <None Include="mapping-file-set\grid-mapping-merge.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mmria.common\mmria.common.csproj">
+      <Project>{18994598-71B1-482A-9C76-1A2A9575B7AD}</Project>
+      <Name>mmria.common</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
