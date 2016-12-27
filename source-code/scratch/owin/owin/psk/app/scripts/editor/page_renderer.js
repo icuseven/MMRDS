@@ -320,7 +320,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(', ');
 			result.push(item.home_record.first_name);
 			result.push(' - ');
-			result.push(item.home_record.date_of_death);
+			result.push(item.home_record.record_id);
 			result.push('	(');
 			result.push(item.home_record.state_of_death);
 			result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');

@@ -11,44 +11,51 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable< mmria.common.model.home_record> Get() 
+		public System.Dynamic.ExpandoObject Get() 
 		{ 
-			return new  mmria.common.model.home_record[] 
-			{ 
-				new  mmria.common.model.home_record(){ 
-					id =  "e5c511cc-40ec-4730-9656-95f53582a51b",
-					record_id = "VA-2011-1703",
-					first_name = "Caterina",
-					middle_name = "",
-					last_name = "Schroeder",
-					date_of_death = "3/8/2011",
-					state_of_death = "VA",
-					agency_case_id = "",
-					is_valid_maternal_mortality_record = true
-				},
-				new  mmria.common.model.home_record(){ 
-					id =  "42ad2325-0713-4fd0-a49e-5b03ee38e0e3",
-					record_id = "TN-2011-2722",
-					first_name = "Bibiana",
-					middle_name = "",
-					last_name = "Hendriks",
-					date_of_death = "12/9/2011",
-					state_of_death = "TN",
-					agency_case_id = "",
-					is_valid_maternal_mortality_record = false
-				},
-				new  mmria.common.model.home_record(){ 
-					id =  "1954deef-e6bb-4ae1-af88-15abffbba7db",
-					record_id = "RI-2012-9090",
-					first_name = "Helen",
-					middle_name = "",
-					last_name = "Hendricks",
-					date_of_death = "RI",
-					state_of_death = "RI",
-					agency_case_id = "",
-					is_valid_maternal_mortality_record = true
-				},
-				}; 
+			try
+			{
+				string request_string = this.get_couch_db_url() + "/mmrds/_all_docs?include_docs=true";
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+				request.PreAuthenticate = false;
+
+
+				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+				{
+					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+				}
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				string responseFromServer = reader.ReadToEnd ();
+
+				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+
+				return result;
+
+				/*
+		< HTTP/1.1 200 OK
+		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
+		< Version=1; Path=/; HttpOnly
+		> ...
+		<
+		{"ok":true}*/
+
+
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return null;
 		} 
 
 		private void PutDocument(string postUrl, string document)

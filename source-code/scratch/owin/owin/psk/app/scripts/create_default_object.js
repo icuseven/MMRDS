@@ -50,7 +50,7 @@ function create_default_object(p_metadata, p_parent)
       }
       break;
     case 'app':
-        p_parent["_id"] = new Date().toISOString();
+        p_parent["_id"] = $mmria.get_new_guid();
        for(var i = 0; i < p_metadata.children.length; i++)
        {
          var child = p_metadata.children[i];

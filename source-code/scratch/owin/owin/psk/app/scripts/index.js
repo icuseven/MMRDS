@@ -251,61 +251,8 @@ function load_profile()
     {
 
       get_metadata();
-
-      g_localDB = new PouchDB('mmrds');
-      g_remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
-
-      var local_host = $mmria.get_url_components(location.href)["host"];
-      var couchdb_host = $mmria.get_url_components(g_couchdb_url)["host"];
-
-
-
-      if(local_host != couchdb_host)
-      {
-          g_remoteDB.login(profile.user_name, profile.password, function (err, response) 
-          {
-            if (err) 
-            {
-              if (err.name === 'unauthorized') 
-              {
-                // name or password incorrect
-              } 
-              else 
-              {
-                // cosmic rays, a meteor, etc.
-              }  
-            } 
-            else
-            {
-              sync_database();
-            }
-          });
-      }
-      else
-      {
-        g_remoteDB.getSession(
-          function (err, response) 
-          {
-
-            console.log("pouchdb.get_session()", response);
-            
-            if (err) 
-            {
-              // network error
-            } 
-            else if (!response.userCtx.name)
-            {
-                
-            } 
-            else 
-            {
-              sync_database();
-            }
-        });
-      }
-
-
-
+      get_case_set();
+      
       //load_documents();
 
     };
@@ -313,21 +260,6 @@ function load_profile()
 
   	profile.initialize_profile();
 }
-
-function sync_database()
-{
-
-  // response.userCtx.name is the current user
-  g_localDB.sync(g_remoteDB).on('complete', function () {
-    console.log("yay, we're done!");
-    load_documents();
-  }).on('error', function (err) {
-    // boo, something went wrong!
-    console.log(" boo, something went wrong!");
-      console.log(err);
-  });
-}
-
 
 function load_values()
 {
@@ -340,6 +272,25 @@ function load_values()
 	});
 
 }
+
+
+function get_case_set()
+{
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/case',
+	}).done(function(response) 
+  {
+        g_ui.data_list = [];
+        for(var i = 0; i < response.rows.length; i++)
+        {
+          g_ui.data_list.push(response.rows[i].doc);
+        }
+
+
+	});
+
+}
+
 
 function get_metadata()
 {
@@ -375,7 +326,6 @@ function window_on_hash_change(e)
 
   if(g_data)
   {
-      var db = new PouchDB('mmrds');
       var selected_record_id = g_data._id;
       if($.isNumeric(g_ui.url_state.path_array[0]))
       {
@@ -385,105 +335,89 @@ function window_on_hash_change(e)
       {
         g_selected_index = g_ui.data_list.length - 1;
       }
-
-			db.put(g_data).then(function()
-			{
-				db.get(selected_record_id).then(function (doc) 
-				{
-					for(var i = 0; i < g_ui.data_list.length; i++)
-          {
-            if(g_ui.data_list[i]._id == selected_record_id)
-            {
-                g_ui.data_list[i]._rev = doc._rev;
-                console.log('save finished');
-                console.log(doc);
-                break;
-            }
-          }
           
-          if(e.isTrusted)
+        if(e.isTrusted)
+        {
+
+          var new_url = e.newURL || window.location.href;
+          g_ui.url_state = url_monitor.get_url_state(new_url);
+
+          if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
           {
-
-            var new_url = e.newURL || window.location.href;
-            g_ui.url_state = url_monitor.get_url_state(new_url);
-
-            if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
+            if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
             {
-              if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
+                save_queue.push(g_data._id);
+            }
+
+            g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
+
+            document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+            apply_tool_tips();
+
+
+            var section_list = document.getElementsByTagName("section");
+
+
+            if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
+            {
+              for(var i = 0; i < section_list.length; i++)
               {
-                  save_queue.push(g_data._id);
-              }
-
-              g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
-
-              document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-              document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
-              apply_tool_tips();
-
-
-              var section_list = document.getElementsByTagName("section");
-
-
-              if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
-              {
-                for(var i = 0; i < section_list.length; i++)
+                var section = section_list[i];
+                if(section.id == g_ui.url_state.path_array[1])
                 {
-                  var section = section_list[i];
-                  if(section.id == g_ui.url_state.path_array[1])
-                  {
-                      section.style.display = "block";
-                  }
-                  else
-                  {
-                      section.style.display = "none";
-                  }
+                    section.style.display = "block";
+                }
+                else
+                {
+                    section.style.display = "none";
                 }
               }
-              else
-              {
-                for(var i = 0; i < section_list.length; i++)
-                {
-                  var section = section_list[i];
-                  if(section.id == g_ui.url_state.path_array[1] + "_id")
-                  {
-                      section.style.display = "block";
-                  }
-                  else
-                  {
-                      section.style.display = "none";
-                  }
-                }
-              }
-
             }
             else
             {
-              if(g_data && !(save_queue.indexOf(g_data._id) > -1))
+              for(var i = 0; i < section_list.length; i++)
               {
-                save_queue.push(g_data._id);
-              }
-              g_data = null;
-              document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-              document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
-              apply_tool_tips();
-
-              var section_list = document.getElementsByTagName("section");
-                for(var i = 0; i < section_list.length; i++)
+                var section = section_list[i];
+                if(section.id == g_ui.url_state.path_array[1] + "_id")
                 {
-                  var section = section_list[i];
-                  if(section.id == "app_summary")
-                  {
-                      section.style.display = "block";
-                  }
-                  else
-                  {
-                      section.style.display = "none";
-                  }
+                    section.style.display = "block";
+                }
+                else
+                {
+                    section.style.display = "none";
+                }
               }
             }
-				}
-        });
-			});
+
+          }
+          else
+          {
+            if(g_data && !(save_queue.indexOf(g_data._id) > -1))
+            {
+              save_queue.push(g_data._id);
+            }
+            g_data = null;
+            document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+            apply_tool_tips();
+
+            var section_list = document.getElementsByTagName("section");
+              for(var i = 0; i < section_list.length; i++)
+              {
+                var section = section_list[i];
+                if(section.id == "app_summary")
+                {
+                    section.style.display = "block";
+                }
+                else
+                {
+                    section.style.display = "none";
+                }
+            }
+          }
+      }
+      
     
    // g_data_access.set_data(g_data);
 			
@@ -647,15 +581,10 @@ function apply_validation()
 
 function delete_record(p_index)
 {
-
   if(p_index == g_selected_delete_index)
   {
-    var db = new PouchDB('mmrds');
-    g_selected_delete_index = null;
-    db.get(g_ui.data_list[p_index]._id).then(function (doc) {
-      doc._deleted = true;
-      return db.put(doc).then(function(){ load_documents() });
-    });
+    g_ui.data_list[p_index]._deleted = true;
+    save_queue.push(g_ui.data_list[p_index]._id);
   }
   else
   {
@@ -673,52 +602,6 @@ function delete_record(p_index)
 }
 
 
-function load_documents()
-{
-  var db = new PouchDB('mmrds');
-  db.allDocs(
-      {
-        include_docs: true,
-        attachments: true
-      }).then(function (result) 
-      {
-        console.log(result);
-        g_ui.data_list = [];
-        for(var i = 0; i < result.rows.length; i++)
-        {
-          g_ui.data_list.push(result.rows[i].doc);
-        }
-
-        get_metadata();
-
-/*
-        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
-        apply_tool_tips();
-
-        var section_list = document.getElementsByTagName("section");
-          for(var i = 0; i < section_list.length; i++)
-          {
-            var section = section_list[i];
-            if(section.id == "app_summary")
-            {
-                section.style.display = "block";
-            }
-            else
-            {
-                section.style.display = "none";
-            }
-        }
-*/        
-
-        //res.json({"users": result.rows});
-      }).catch(function (err) 
-      {
-        console.log(err);
-      });
-}
-
-
 var save_interval_id = null;
 var save_queue = [];
 
@@ -729,40 +612,7 @@ function save_change_task()
   if(save_queue.length > 0)
   {
 
-//http://stackoverflow.com/questions/20897033/how-to-add-cors-in-couchdb-no-access-control-allow-origin-header-is-present
-
-//https://github.com/nolanlawson/pouchdb-authentication
-
-    //var localDB = new PouchDB('mmrds');
-    //var remoteDB = new PouchDB(g_couchdb_url + '/mmrds', {skipSetup: true});
-    g_remoteDB.getSession(function (err, response)
-    {
-      
-      if (err) 
-      {
-        // network error
-      } 
-      else if (!response.userCtx.name)
-      {
-          
-      } 
-      else 
-      {
-        g_localDB.replicate.to(remoteDB).on('complete', function () {
-          console.log("yay, we're done!");
-          save_queue.pop();
-        }).on('error', function (err) {
-          // boo, something went wrong!
-          console.log(" boo, something went wrong!");
-            console.log(err);
-        });
-      }
-    });
-
-/*
-
-*/
-return;
+    var data_item = null;
 
     var selected_record_id = save_queue.pop();
 
@@ -771,73 +621,67 @@ return;
     {
       if(selected_record_id == g_ui.data_list[i]._id)
       {
+        data_item = g_ui.data_list[i];
         found_index = i;
         break;
       }
     }
     
-    if(found_index > -1)
+    if(found_index < 0)
     {
-      var obj = g_ui.data_list[found_index]._rev = response_obj.rev; 
-      db.put(obj);
+        return;
     }
 
-    var db = new PouchDB('mmrds');
-    db.get(selected_record_id).then(function (doc) 
+    var auth_cookie = profile.get_auth_session_cookie();
+
+    $.ajax({
+      url: url,
+      contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(data_item),
+        type: "POST",
+        beforeSend: function (request)
+        {
+          request.setRequestHeader("AuthSession", auth_cookie);
+        }
+    }).done(function(response) 
     {
-      var auth_cookie = profile.get_auth_session_cookie();
-
-      var Set_Queue_Request = {
-        "security_token": auth_cookie,
-        "action": "save",
-        "case_list": [ doc ]
-      };
-      $.ajax({
-        url: url,
-        contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					data: JSON.stringify(doc),
-					type: "POST",
-					beforeSend: function (request)
-					{
-						request.setRequestHeader("AuthSession", auth_cookie);
-					}
-      }).done(function(response) 
-      {
-         var response_obj = eval(response);
-						if(response_obj.ok)
-						{
-              var found_index = -1;
-              for(var i = 0; i < g_ui.data_list.length; i++)
+        var response_obj = eval(response);
+          if(response_obj.ok)
+          {
+            var found_index = -1;
+            for(var i = 0; i < g_ui.data_list.length; i++)
+            {
+              if(selected_record_id == g_ui.data_list[i]._id)
               {
-                if(selected_record_id == g_ui.data_list[i]._id)
-                {
-                  found_index = i;
-                  break;
-                }
+                found_index = i;
+                break;
               }
+            }
 
-              if(found_index > -1)
-              {
-                var obj = g_ui.data_list[found_index]._rev = response_obj.rev; 
-                db.put(obj);
-              }
-							
-						
-						}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("metadata sent", response);
+            if(found_index > -1)
+            {
+              var obj = g_ui.data_list[found_index]._rev = response_obj.rev; 
 
-      }).fail(function(response) {
+            }
+            
+          
+          }
+          //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+        console.log("autosave sent", response);
 
-        save_queue.push(selected_record_id); 
-        console.log("failed:", response);}
-      );
+    }).fail(function(response) {
+
+      save_queue.push(selected_record_id); 
+      console.log("failed:", response);}
+    );
       
-    });
+
   }
 
 }
+
+	window.setInterval(save_change_task, 10000);	
 
 function open_print_version(p_section)
 {
