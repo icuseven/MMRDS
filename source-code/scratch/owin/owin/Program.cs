@@ -107,7 +107,7 @@ namespace mmria.server
 			{
 				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
 				string read_line = Console.ReadLine();
-				while (read_line.ToLower () != "quit") 
+				while (string.IsNullOrWhiteSpace(read_line) || read_line.ToLower () != "quit") 
 				{
 					read_line = Console.ReadLine();
 				}
