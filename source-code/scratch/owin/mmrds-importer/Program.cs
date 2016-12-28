@@ -23,8 +23,8 @@ namespace mmria.console
 			var mmria_server = new mmria_server_api_client();
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-
-			dynamic case_data = new Case_Maker().create_default_object(metadata, new Dictionary<string,object>());
+			var case_maker = new Case_Maker();
+			dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string,object>());
 			System.Console.WriteLine(case_data["_id"]);
 			System.Console.WriteLine(case_data["home_record"]);
 			System.Console.WriteLine(case_data["home_record"]["case_progress_report"]);
@@ -57,10 +57,12 @@ namespace mmria.console
 
 			foreach (System.Data.DataRow row in rs2.Rows)
 			{
-				if (row[5].ToString().ToLower() == "grid")
+				if (row[5].ToString().ToLower() != "grid")
 				{
 
-					var grid_table = mmrds_data.GetDataTable(string.Format("Select * from [{0}] Where 1=0", row[0].ToString().Replace(".", "")));
+					var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}]", row["f#name"].ToString(), row["DataTablePath"].ToString()));
+					case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table.Rows[0][0]);
+					Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
 					foreach (System.Data.DataColumn c in grid_table.Columns)
 					{

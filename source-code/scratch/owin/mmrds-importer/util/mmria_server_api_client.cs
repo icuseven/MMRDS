@@ -134,7 +134,7 @@ namespace mmria.console
 			return result;
 		}
 
-		public mmria.common.model.couchdb.document_put_response set_case(string case_json)
+		public mmria.common.model.couchdb.document_put_response set_case2(string case_json)
 		{
 			mmria.common.model.couchdb.document_put_response result = null;
 

@@ -7,9 +7,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>mmria</RootNamespace>
     <AssemblyName>mmria-server</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <StartupObject>mmria.server.Program</StartupObject>
     <ApplicationIcon>psk\app\favicon.ico</ApplicationIcon>
+	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,7 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>6</LangVersion>
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -32,6 +34,7 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>6</LangVersion>
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -74,44 +77,21 @@
     <Reference Include="Microsoft.Web.XmlTransform">
       <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
     </Reference>
-    <Reference Include="Swashbuckle.Core">
-      <HintPath>..\packages\Swashbuckle.Core.5.5.3\lib\net40\Swashbuckle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Dataflow">
       <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
-    </Reference>
-    <Reference Include="vtortola.WebSockets.Deflate">
-      <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.Deflate.dll</HintPath>
-    </Reference>
-    <Reference Include="vtortola.WebSockets">
-      <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.dll</HintPath>
-    </Reference>
-    <Reference Include="vtortola.WebSockets.Rfc6455">
-      <HintPath>..\packages\vtortola.WebSocketListener.2.2.2.0\lib\net45\vtortola.WebSockets.Rfc6455.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging">
-      <HintPath>..\packages\Common.Logging.2.3.1\lib\net40\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Linq">
-      <HintPath>..\packages\Lucene.Net.Linq.3.6.0\lib\net40\Lucene.Net.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="NuGet.Core">
-      <HintPath>..\packages\NuGet.Core.2.14.0\lib\net40-Client\NuGet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Remotion.Linq">
-      <HintPath>..\packages\Remotion.Linq.1.15.9.0\lib\net45\Remotion.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Swashbuckle.Core">
+      <HintPath>..\..\..\..\..\..\Swashbuckle-master\Swashbuckle.Core\bin\Debug\Swashbuckle.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -139,12 +119,9 @@
     <Compile Include="util\GenerateAssemblyAndModule.cs" />
     <Compile Include="util\GenerateSwaggerFile.cs" />
     <Compile Include="controller\userController.cs" />
-    <Compile Include="util\LuceneHelper.cs" />
     <Compile Include="util\email\email_handler.cs" />
     <Compile Include="util\email\email.cs" />
     <Compile Include="util\cData.cs" />
-    <Compile Include="util\LuceneSearch.cs" />
-    <Compile Include="util\LuceneSearchIndexer.cs" />
     <Compile Include="model\couchdb\error.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

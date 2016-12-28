@@ -10,6 +10,29 @@ namespace mmria
 		}
 
 
+		public void set_value(IDictionary<string, object> p_object, string p_path, object p_value)
+		{
+			string[] path = p_path.Split('/');
+
+			IDictionary<string, object> index = p_object;
+
+			for (int i = 0; i < path.Length; i++)
+			{
+				if (index[path[i]] is IDictionary<string, object>)
+				{
+					index = index[path[i]] as IDictionary<string, object>;
+				}
+				else if (i == path.Length - 1)
+				{
+					index[path[i]] = p_value;
+				}
+				else
+				{
+					System.Console.WriteLine("This should not happen.");
+				}
+			}
+		}
+
 		public IDictionary<string, object> create_default_object(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_parent)
 		{
 			p_parent.Add("_id", new DateTime().ToString("s"));
