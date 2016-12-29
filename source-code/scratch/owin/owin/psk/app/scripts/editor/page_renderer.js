@@ -265,7 +265,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(g_data.er_visit_and_hospital_medical_records[i].reviewer_note);
 					result.push("</textarea>");
 				}
-
+///medical_transport/transport_narrative_summary
+				result.push("<h3>medical_transport/transport_narrative_summary</h3>");
+				for(var i = 0; i < g_data.medical_transport.length; i++)
+				{
+					result.push("<textarea cols=80 rows=7>");
+					result.push(g_data.medical_transport[i].transport_narrative_summary);
+					result.push("</textarea>");
+				}
 				
 				//social_and_environmental_profile/reviewer_note
 				result.push("<h3>social_and_environmental_profile/reviewer_note</h3>");
