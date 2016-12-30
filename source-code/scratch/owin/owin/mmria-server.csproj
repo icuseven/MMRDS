@@ -91,15 +91,13 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Swashbuckle.Core">
-      <HintPath>..\..\..\..\..\..\Swashbuckle-master\Swashbuckle.Core\bin\Debug\Swashbuckle.Core.dll</HintPath>
+      <HintPath>..\dll_set\Swashbuckle.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="controller\ValuesController.cs" />
-    <Compile Include="controller\geocodeController.cs" />
-    <Compile Include="controller\address_normalizationController.cs" />
     <Compile Include="data-access.cs" />
     <Compile Include="controller\home_recordController.cs" />
     <Compile Include="controller\sessionController.cs" />
@@ -109,7 +107,6 @@
     <Compile Include="WatchFiles.cs" />
     <Compile Include="controller\caseController.cs" />
     <Compile Include="controller\metadataController.cs" />
-    <Compile Include="controller\censusController.cs" />
     <Compile Include="SwaggerCustomProvider.cs" />
     <Compile Include="controller\queueController.cs" />
     <Compile Include="util\mmria_type_builder.cs" />
