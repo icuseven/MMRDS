@@ -24,11 +24,12 @@ namespace mmria.console
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
 			var case_maker = new Case_Maker();
-			dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string,object>());
+			var case_data_list = new List<dynamic>();
+/*
 			System.Console.WriteLine(case_data["_id"]);
 			System.Console.WriteLine(case_data["home_record"]);
 			System.Console.WriteLine(case_data["home_record"]["case_progress_report"]);
-
+*/
 
 			var mmrds_data = new cData(get_mdb_connection_string("mapping-file-set/Maternal_Mortality.mdb"));
 			var directory_path = @"mapping-file-set";
@@ -39,7 +40,17 @@ namespace mmria.console
 			var grid_mapping_file_name = @"grid-mapping-merge.csv";
 			//var grid_mapping_data = new cData(get_csv_connection_string(System.IO.Path.GetDirectoryName(grid_mapping_file_name)));
 
-			var rs = mmrds_data.GetDataTable("Select * from AutopsyReport");
+
+
+			var id_list = new string[] {
+				"d4234123-2322-4f46-99a8-5b936b1ec237",
+				"0e602e72-4e67-404d-9a4b-e86e6793103d",
+				"0e638e2c-cdf0-4829-bf9c-f33a86a5ef35",
+				"0ed43157-48a2-4592-961c-6db57c8e83c7",
+				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
+				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
+
+			var rs = mmrds_data.GetDataTable(string.Format("Select * from MaternalMortality Where GlobalRecordId in ('{0}')", string.Join("','", id_list)));
 
 			foreach (System.Data.DataRow row in rs.Rows)
 			{
@@ -55,29 +66,39 @@ namespace mmria.console
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
 
 
-			foreach (System.Data.DataRow row in rs2.Rows)
-			{
-				if (row[5].ToString().ToLower() != "grid")
+
+				foreach (string global_record_id in id_list)
 				{
+					dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
 
-					var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}]", row["f#name"].ToString(), row["DataTablePath"].ToString()));
-					case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table.Rows[0][0]);
-					Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
-					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
-					foreach (System.Data.DataColumn c in grid_table.Columns)
+					foreach (System.Data.DataRow row in rs2.Rows)
 					{
-
-						if (c.ColumnName != "UniqueKey" &&
-							c.ColumnName != "UniqueRowId" &&
-							c.ColumnName != "GlobalRecordId" &&
-							c.ColumnName != "RECSTATUS" &&
-							c.ColumnName != "FKEY"
-						  )
+					if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
 						{
-							Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
+							var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
+							if (grid_table.Rows.Count == 1)
+							{
+							
+							case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table.Rows[0][0]);
+							Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
+							Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
+							foreach (System.Data.DataColumn c in grid_table.Columns)
+							{
+
+								if (c.ColumnName != "UniqueKey" &&
+									c.ColumnName != "UniqueRowId" &&
+									c.ColumnName != "GlobalRecordId" &&
+									c.ColumnName != "RECSTATUS" &&
+									c.ColumnName != "FKEY"
+								  )
+								{
+									Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
+								}
+							}
 						}
 					}
 				}
+				case_data_list.Add(case_data);
 			}
 			/*
 			using (var conn = new System.Data.OleDb.OleDbConnection(connString))
