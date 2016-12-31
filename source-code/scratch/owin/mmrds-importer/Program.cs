@@ -64,18 +64,51 @@ namespace mmria.console
 			}
 
 
+			var view_data_table = get_view_data_table(mmrds_data, "DeathCertificate");
+
 			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
 			var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
 
-			var count_mapping = mapping_data.GetDataTable(string.Format("Select [MMRIA Path], Count([MMRIA Path]) From [{0}] Group By [MMRIA Path]", main_mapping_file_name));
+			var count_mapping = mapping_data.GetDataTable(string.Format("Select * [MMRIA Path], Count([MMRIA Path]) From [{0}] Group By [MMRIA Path]", main_mapping_file_name));
 			foreach (System.Data.DataRow  row in count_mapping.Rows)
 			{
 				Console.WriteLine(string.Format("{0}\t{1}", row[0].ToString(), row[1].ToString()));
 			}
+
+/*
+MaternalMortality
+DeathCertificate
+MaternalBirthCertificate
+ChildBirthCertificate
+AutopsyReport
+PrenatalCareRecord
+SocialServicesRecord
+Hospitalization
+OfficeVisits
+CommitteeReview
+Interviews
+*/
+
 			foreach (string global_record_id in id_list)
 			{
+				
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
+				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+				System.Console.WriteLine("json\n{0}", json_string);
+/*
+MaternalMortality
+1 DeathCertificate
+1 MaternalBirthCertificate
+*ChildBirthCertificate
+1AutopsyReport
+*PrenatalCareRecord
+*SocialServicesRecord
+*Hospitalization
+*OfficeVisits
+1CommitteeReview
+*Interviews
+*/
 
 				foreach (System.Data.DataRow row in rs2.Rows)
 				{
@@ -112,6 +145,8 @@ namespace mmria.console
 						}
 					}
 				}
+				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+				System.Console.WriteLine("json\n{0}", json_string);
 				case_data_list.Add(case_data);
 			}
 			/*
@@ -128,6 +163,44 @@ namespace mmria.console
 
 
 			Console.WriteLine("Hello World!");
+		}
+
+		public static System.Data.DataTable get_view_data_table(cData p_data, string p_view_name = "MaternalMortality")
+		{
+			System.Data.DataTable result = null;
+
+			System.Text.StringBuilder sql_string = new System.Text.StringBuilder();
+			System.Text.StringBuilder column_string = new System.Text.StringBuilder();
+
+			System.Data.DataTable dt = p_data.GetDataTable(string.Format("Select v.Name & p.PageId From metapages p inner join metaviews v on p.ViewId = v.ViewId  Where v.Name = '{0}'", p_view_name));
+
+			column_string.Append("Select ");
+			column_string.Append(p_view_name);
+			column_string.Append(".*,");
+			for (var i = 0; i < dt.Rows.Count; i++)
+			{
+				System.Data.DataRow row = dt.Rows[i];
+
+				column_string.Append(row[0]);
+				column_string.Append(".*,");
+
+				if (i == 0)
+				{
+					sql_string.Append(string.Format(" From {1}{0} inner join {2} on {0}.GlobalRecordId = {2}.GlobalRecordId ", p_view_name, new String('(', dt.Rows.Count-1), row[0]));
+				}/*
+				else if(i < dt.Rows.Count -1)
+				{
+					result.Append(string.Format(") inner join {1} on {0}.GlobalRecordId = {1}.GlobalRecordId ", p_view_name, row[0]));
+				}*/
+				else
+				{
+					sql_string.Append(string.Format(") inner join {1} on {0}.GlobalRecordId = {1}.GlobalRecordId ", p_view_name, row[0]));
+				}
+			}
+			column_string.Length = column_string.Length - 1; 
+			result = p_data.GetDataTable(column_string.ToString() + sql_string.ToString());
+
+			return result;
 		}
 
 		public static string get_mdb_connection_string(string p_file_name)

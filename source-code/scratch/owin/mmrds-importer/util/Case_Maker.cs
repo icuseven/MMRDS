@@ -14,21 +14,52 @@ namespace mmria
 		{
 			string[] path = p_path.Split('/');
 
-			IDictionary<string, object> index = p_object;
+			System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"\d+");
+
+			//IDictionary<string, object> index = p_object;
+			dynamic index = p_object;
+
+			if (path[1] == "abnormal_conditions_of_newborn")
+			{
+				System.Console.WriteLine("break");
+			}
+
 
 			for (int i = 0; i < path.Length; i++)
 			{
-				if (!index.ContainsKey(path[i]))
+
+				if (number_regex.IsMatch(path[i]))
+				{
+					index = index[path[i]] as IDictionary<string, object>;
+				}
+				else if (index[path[i]] is IList<object>)
+				{
+					index = index[path[i]] as IList<object>;
+				}
+			    else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
 				{ 
 					System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 				}
+
 				else if (index[path[i]] is IDictionary<string, object>)
 				{
 					index = index[path[i]] as IDictionary<string, object>;
 				}
 				else if (i == path.Length - 1)
 				{
-					index[path[i]] = p_value;
+					System.Console.WriteLine("Set Type: {0}", index[path[i]].GetType());
+					if (index[path[i]].GetType().ToString() == "System.Boolean")
+					{
+						((IList<string>)index[path[i]]).Add(p_value.ToString());
+					}
+					else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]")
+					{
+						((IList<string>)index[path[i]]).Add(p_value.ToString());
+					}
+					else
+					{
+						index[path[i]] = p_value;
+					}
 				}
 				else
 				{
@@ -87,7 +118,7 @@ namespace mmria
 					{
 						var temp2 = new List<object>();
 						temp2.Add(temp_object);
-						p_parent.Add(p_metadata.name, temp_object);
+						p_parent.Add(p_metadata.name, temp2);
 					}
 					else
 					{
