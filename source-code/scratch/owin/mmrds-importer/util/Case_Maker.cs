@@ -18,7 +18,11 @@ namespace mmria
 
 			for (int i = 0; i < path.Length; i++)
 			{
-				if (index[path[i]] is IDictionary<string, object>)
+				if (!index.ContainsKey(path[i]))
+				{ 
+					System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+				}
+				else if (index[path[i]] is IDictionary<string, object>)
 				{
 					index = index[path[i]] as IDictionary<string, object>;
 				}
@@ -28,7 +32,7 @@ namespace mmria
 				}
 				else
 				{
-					System.Console.WriteLine("This should not happen.");
+					System.Console.WriteLine("This should not happen. {0}", p_path);
 				}
 			}
 		}

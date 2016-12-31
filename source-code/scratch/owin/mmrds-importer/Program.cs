@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Linq;
+
 //using System.Threading.Tasks;
 //using System.Data;
 //using System.Linq;
@@ -15,6 +17,7 @@ namespace mmria.console
 		string summary_help();
 		string detailed_help(string method);
 	}
+
 	class MainClass
 	{
 
@@ -61,24 +64,35 @@ namespace mmria.console
 			}
 
 
-			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "]");
+			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
 			var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
 
+			var count_mapping = mapping_data.GetDataTable(string.Format("Select [MMRIA Path], Count([MMRIA Path]) From [{0}] Group By [MMRIA Path]", main_mapping_file_name));
+			foreach (System.Data.DataRow  row in count_mapping.Rows)
+			{
+				Console.WriteLine(string.Format("{0}\t{1}", row[0].ToString(), row[1].ToString()));
+			}
+			foreach (string global_record_id in id_list)
+			{
+				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
 
-
-				foreach (string global_record_id in id_list)
+				foreach (System.Data.DataRow row in rs2.Rows)
 				{
-					dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
-
-					foreach (System.Data.DataRow row in rs2.Rows)
-					{
 					if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
+					{
+						string path = row["MMRIA Path"].ToString();
+
+						string[] path_array = path.Split('/');
+
+						if (metadata.children.Where(i => i.type == "form" && i.name.ToLower() == path_array[0].ToLower() && (i.cardinality == "*" || i.cardinality == "+")).Count() > 0)
 						{
-							var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
-							if (grid_table.Rows.Count == 1)
-							{
 							
+						}
+
+						var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
+						if (grid_table.Rows.Count == 1)
+						{
 							case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table.Rows[0][0]);
 							Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
 							Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));

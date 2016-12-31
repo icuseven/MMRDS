@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "60-85fc7781f4df127960209a4561c2af5f",
+  "_rev": "171-3f10e958b407fcda437e9a5a92e877e4",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -34,7 +34,336 @@
         {
           "prompt": "Record ID",
           "name": "record_id",
-          "type": "string"
+          "type": "string",
+          "is_read_only": true,
+          "description": "Record ID is automatically generated: Enter Name, Year of Death, and then click in Record ID field.",
+          "onfocus": {
+            "type": "Program",
+            "body": [
+              {
+                "type": "ExpressionStatement",
+                "expression": {
+                  "type": "FunctionExpression",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "f"
+                  },
+                  "params": [
+                    {
+                      "type": "Identifier",
+                      "name": "x"
+                    }
+                  ],
+                  "body": {
+                    "type": "BlockStatement",
+                    "body": [
+                      {
+                        "type": "IfStatement",
+                        "test": {
+                          "type": "LogicalExpression",
+                          "operator": "&&",
+                          "left": {
+                            "type": "LogicalExpression",
+                            "operator": "&&",
+                            "left": {
+                              "type": "LogicalExpression",
+                              "operator": "&&",
+                              "left": {
+                                "type": "LogicalExpression",
+                                "operator": "&&",
+                                "left": {
+                                  "type": "LogicalExpression",
+                                  "operator": "||",
+                                  "left": {
+                                    "type": "UnaryExpression",
+                                    "operator": "!",
+                                    "argument": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "ThisExpression"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "record_id"
+                                      }
+                                    },
+                                    "prefix": true
+                                  },
+                                  "right": {
+                                    "type": "BinaryExpression",
+                                    "operator": "==",
+                                    "left": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "ThisExpression"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "record_id"
+                                      }
+                                    },
+                                    "right": {
+                                      "type": "Literal",
+                                      "value": "",
+                                      "raw": "''"
+                                    }
+                                  }
+                                },
+                                "right": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "state_of_death_record"
+                                  }
+                                }
+                              },
+                              "right": {
+                                "type": "BinaryExpression",
+                                "operator": "!=",
+                                "left": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "state_of_death_record"
+                                  }
+                                },
+                                "right": {
+                                  "type": "Literal",
+                                  "value": "",
+                                  "raw": "''"
+                                }
+                              }
+                            },
+                            "right": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_death"
+                                }
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "month"
+                              }
+                            }
+                          },
+                          "right": {
+                            "type": "BinaryExpression",
+                            "operator": ">",
+                            "left": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_death"
+                                }
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "year"
+                              }
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 2000,
+                              "raw": "2000"
+                            }
+                          }
+                        },
+                        "consequent": {
+                          "type": "BlockStatement",
+                          "body": [
+                            {
+                              "type": "ExpressionStatement",
+                              "expression": {
+                                "type": "AssignmentExpression",
+                                "operator": "=",
+                                "left": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "record_id"
+                                  }
+                                },
+                                "right": {
+                                  "type": "BinaryExpression",
+                                  "operator": "+",
+                                  "left": {
+                                    "type": "BinaryExpression",
+                                    "operator": "+",
+                                    "left": {
+                                      "type": "BinaryExpression",
+                                      "operator": "+",
+                                      "left": {
+                                        "type": "BinaryExpression",
+                                        "operator": "+",
+                                        "left": {
+                                          "type": "MemberExpression",
+                                          "computed": false,
+                                          "object": {
+                                            "type": "ThisExpression"
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "name": "state_of_death_record"
+                                          }
+                                        },
+                                        "right": {
+                                          "type": "Literal",
+                                          "value": "-",
+                                          "raw": "'-'"
+                                        }
+                                      },
+                                      "right": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "MemberExpression",
+                                          "computed": false,
+                                          "object": {
+                                            "type": "ThisExpression"
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "name": "date_of_death"
+                                          }
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "year"
+                                        }
+                                      }
+                                    },
+                                    "right": {
+                                      "type": "Literal",
+                                      "value": "-",
+                                      "raw": "'-'"
+                                    }
+                                  },
+                                  "right": {
+                                    "type": "CallExpression",
+                                    "callee": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "CallExpression",
+                                        "callee": {
+                                          "type": "MemberExpression",
+                                          "computed": false,
+                                          "object": {
+                                            "type": "CallExpression",
+                                            "callee": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "Identifier",
+                                                "name": "Math"
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "random"
+                                              }
+                                            },
+                                            "arguments": []
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "name": "toString"
+                                          }
+                                        },
+                                        "arguments": []
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "substring"
+                                      }
+                                    },
+                                    "arguments": [
+                                      {
+                                        "type": "Literal",
+                                        "value": 2,
+                                        "raw": "2"
+                                      },
+                                      {
+                                        "type": "Literal",
+                                        "value": 6,
+                                        "raw": "6"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "type": "ExpressionStatement",
+                              "expression": {
+                                "type": "AssignmentExpression",
+                                "operator": "=",
+                                "left": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "Identifier",
+                                    "name": "x"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "value"
+                                  }
+                                },
+                                "right": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "record_id"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "alternate": null
+                      }
+                    ]
+                  },
+                  "generator": false,
+                  "expression": false
+                }
+              }
+            ],
+            "sourceType": "script"
+          }
         },
         {
           "prompt": "First Name",
@@ -586,7 +915,7 @@
             },
             {
               "description": "",
-              "value": "Pregnancy Checkbox on Death Dertificate"
+              "value": "Pregnancy Checkbox on Death Certificate"
             },
             {
               "description": "",
@@ -975,9 +1304,247 @@
               "type": "string"
             },
             {
-              "prompt": "State",
+              "prompt": "State*",
               "name": "state",
-              "type": "string"
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ]
             },
             {
               "prompt": "Zip Code",
@@ -2084,7 +2651,245 @@
         {
           "prompt": "State of Birth",
           "name": "state_of_birth",
-          "type": "String"
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "AL- Alabama"
+            },
+            {
+              "description": "",
+              "value": "AK- Alaska"
+            },
+            {
+              "description": "",
+              "value": "AZ- Arizona"
+            },
+            {
+              "description": "",
+              "value": "AR- Arkansas"
+            },
+            {
+              "description": "",
+              "value": "CA- California"
+            },
+            {
+              "description": "",
+              "value": "CO- Colorado"
+            },
+            {
+              "description": "",
+              "value": "CT- Connecticut"
+            },
+            {
+              "description": "",
+              "value": "DE- Delaware"
+            },
+            {
+              "description": "",
+              "value": "DC- District of Columbia"
+            },
+            {
+              "description": "",
+              "value": "FL- Florida"
+            },
+            {
+              "description": "",
+              "value": "GA- Georgia"
+            },
+            {
+              "description": "",
+              "value": "HI- Hawaii"
+            },
+            {
+              "description": "",
+              "value": "ID- Idaho"
+            },
+            {
+              "description": "",
+              "value": "IL- Illinois"
+            },
+            {
+              "description": "",
+              "value": "IN- Indiana"
+            },
+            {
+              "description": "",
+              "value": "IA- Iowa"
+            },
+            {
+              "description": "",
+              "value": "KS- Kansas"
+            },
+            {
+              "description": "",
+              "value": "KY- Kentucky"
+            },
+            {
+              "description": "",
+              "value": "LA- Louisiana"
+            },
+            {
+              "description": "",
+              "value": "ME- Maine"
+            },
+            {
+              "description": "",
+              "value": "MD- Maryland"
+            },
+            {
+              "description": "",
+              "value": "MA- Massachusetts"
+            },
+            {
+              "description": "",
+              "value": "MI- Michigan"
+            },
+            {
+              "description": "",
+              "value": "MN- Minnesota"
+            },
+            {
+              "description": "",
+              "value": "MS- Mississippi"
+            },
+            {
+              "description": "",
+              "value": "MO- Missouri"
+            },
+            {
+              "description": "",
+              "value": "MT- Montana"
+            },
+            {
+              "description": "",
+              "value": "NE- Nebraska"
+            },
+            {
+              "description": "",
+              "value": "NV- Nevada"
+            },
+            {
+              "description": "",
+              "value": "NH- New Hampshire"
+            },
+            {
+              "description": "",
+              "value": "NJ- New Jersey"
+            },
+            {
+              "description": "",
+              "value": "NM- New Mexico"
+            },
+            {
+              "description": "",
+              "value": "NY- New York"
+            },
+            {
+              "description": "",
+              "value": "NC- North Carolina"
+            },
+            {
+              "description": "",
+              "value": "ND- North Dakota"
+            },
+            {
+              "description": "",
+              "value": "OH- Ohio"
+            },
+            {
+              "description": "",
+              "value": "OK- Oklahoma"
+            },
+            {
+              "description": "",
+              "value": "OR- Oregon"
+            },
+            {
+              "description": "",
+              "value": "PA- Pennsylvania"
+            },
+            {
+              "description": "",
+              "value": "RI- Rhode Island"
+            },
+            {
+              "description": "",
+              "value": "SC- South Carolina"
+            },
+            {
+              "description": "",
+              "value": "SD- South Dakota"
+            },
+            {
+              "description": "",
+              "value": "TN- Tennessee"
+            },
+            {
+              "description": "",
+              "value": "TX- Texas"
+            },
+            {
+              "description": "",
+              "value": "UT- Utah"
+            },
+            {
+              "description": "",
+              "value": "VT- Vermont"
+            },
+            {
+              "description": "",
+              "value": "VA- Virginia"
+            },
+            {
+              "description": "",
+              "value": "WA- Washington"
+            },
+            {
+              "description": "",
+              "value": "WV- West Virginia"
+            },
+            {
+              "description": "",
+              "value": "WI- Wisconsin"
+            },
+            {
+              "description": "",
+              "value": "WY- Wyoming"
+            },
+            {
+              "description": "",
+              "value": "AS- American Samoa"
+            },
+            {
+              "description": "",
+              "value": "GU- Guam"
+            },
+            {
+              "description": "",
+              "value": "MH- Marshall Islands"
+            },
+            {
+              "description": "",
+              "value": "MP- Northern Marianas"
+            },
+            {
+              "description": "",
+              "value": "PR- Puerto Rico"
+            },
+            {
+              "description": "",
+              "value": "PW- Palau"
+            },
+            {
+              "description": "",
+              "value": "VI- Virgin Islands"
+            }
+          ]
         },
         {
           "prompt": "Country of Birth (if Foreign Born)*",
@@ -2379,37 +3184,275 @@
         {
           "prompt": "Location Where Injury Occured",
           "name": "address_of_injury",
-          "type": "Address",
+          "type": "group",
           "children": [
             {
-              "prompt": "street",
+              "prompt": "Street",
               "name": "street",
               "type": "string"
             },
             {
-              "prompt": "city",
+              "prompt": "City",
               "name": "city",
               "type": "string"
             },
             {
-              "prompt": "state",
+              "prompt": "State*",
               "name": "state",
-              "type": "string"
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ]
             },
             {
-              "prompt": "zip_code",
+              "prompt": "Zip Code",
               "name": "zip_code",
               "type": "string"
             },
             {
-              "prompt": "latitude",
+              "prompt": "Latitude",
               "name": "latitude",
-              "type": "string"
+              "type": "number"
             },
             {
-              "prompt": "longitude",
+              "prompt": "Longitude",
               "name": "longitude",
-              "type": "string"
+              "type": "number"
             }
           ]
         },
@@ -2629,37 +3672,276 @@
         {
           "prompt": "Location Where Death Occured",
           "name": "address_of_death",
-          "type": "Address",
+          "type": "group",
           "children": [
             {
-              "prompt": "street",
+              "prompt": "Street",
               "name": "street",
               "type": "string"
             },
             {
-              "prompt": "city",
+              "prompt": "City",
               "name": "city",
               "type": "string"
             },
             {
-              "prompt": "state",
+              "prompt": "State*",
               "name": "state",
-              "type": "string"
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ],
+              "is_core_summary": false
             },
             {
-              "prompt": "zip_code",
+              "prompt": "Zip Code",
               "name": "zip_code",
               "type": "string"
             },
             {
-              "prompt": "latitude",
+              "prompt": "Latitude",
               "name": "latitude",
-              "type": "string"
+              "type": "number"
             },
             {
-              "prompt": "longitude",
+              "prompt": "Longitude",
               "name": "longitude",
-              "type": "string"
+              "type": "number"
             }
           ]
         },
@@ -2748,6 +4030,12 @@
                   "value": "Not specified"
                 }
               ]
+            },
+            {
+              "prompt": "Location Where Injury Occured",
+              "name": "address",
+              "type": "group",
+              "children": []
             }
           ]
         },
@@ -2877,9 +4165,14 @@
                 {
                   "description": "",
                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                },
+                {
+                  "description": "",
+                  "value": "Other (Describe)"
                 }
               ],
-              "is_core_summary": true
+              "is_core_summary": true,
+              "list_display_size": 1
             },
             {
               "prompt": "Facility NPI Number",
@@ -3354,7 +4647,245 @@
             {
               "prompt": "Father's State of Birth",
               "name": "state_of_birth",
-              "type": "String"
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ]
             },
             {
               "prompt": "Father's Country (if Foreign Born)",
@@ -3567,7 +5098,245 @@
             {
               "prompt": "Mother's State of Birth (US)",
               "name": "state_of_birth",
-              "type": "String"
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ]
             },
             {
               "prompt": "Mother's Country of Birth (if Foreign Born)*",
@@ -5330,7 +7099,7 @@
               ]
             },
             {
-              "prompt": "Final Route and Method of Delivery*",
+              "prompt": "D. Final Route and Method of Delivery*",
               "name": "final_route_and_method_of_delivery",
               "type": "list",
               "values": [
@@ -5646,32 +7415,32 @@
                 },
                 {
                   "description": "",
-                  "value": "1 - Medical examiner"
+                  "value": "Medical Examiner"
                 },
                 {
                   "description": "",
-                  "value": "2 - Coroner"
+                  "value": "Coroner"
                 },
                 {
                   "description": "",
-                  "value": "3 - Other"
+                  "value": "Other"
                 },
                 {
                   "description": "",
-                  "value": "4 - Unknown"
+                  "value": "Unknown"
                 },
                 {
                   "description": "",
-                  "value": "9 - Not specificed"
+                  "value": "Not specificed"
                 },
                 {
                   "description": "",
-                  "value": "Other (specify)"
+                  "value": "Other (Specify)"
                 }
               ]
             },
             {
-              "prompt": "Other (specify)",
+              "prompt": "Other (Specify)",
               "name": "other_specify",
               "type": "string"
             },
@@ -6264,9 +8033,9 @@
               "list_display_size": 1
             },
             {
-              "prompt": "Specify other Payment Source",
+              "prompt": "Specify Other Payment Source",
               "name": "other_payment_source",
-              "type": "textarea"
+              "type": "string"
             },
             {
               "prompt": "Prenatal Care Record No.",
@@ -7195,6 +8964,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Gestational Age at Last Prenatal Visit (Weeks)",
+                  "name": "gestational_age_at_last_prenatal_visit",
+                  "type": "number"
                 }
               ]
             },
@@ -7385,9 +9159,25 @@
           ]
         },
         {
-          "prompt": "Estimated Delivery Date",
-          "name": "estimated_delivery_date",
-          "type": "date"
+          "prompt": "Attended Prenatal Care Visits Alone?*",
+          "name": "attended_prenatal_visits_alone",
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "Yes"
+            },
+            {
+              "description": "",
+              "value": "No"
+            }
+          ],
+          "is_core_summary": true,
+          "description": "Not Including Children"
         },
         {
           "prompt": "Routine Monitoring",
@@ -7665,7 +9455,8 @@
               "description": "",
               "value": "Not specified"
             }
-          ]
+          ],
+          "is_core_summary": true
         },
         {
           "prompt": "List of Medications/Drugs During Pregnancy",
@@ -7719,6 +9510,62 @@
           ]
         },
         {
+          "prompt": "Were There Pre-Delivery Hospitalizations or ER Visits?*",
+          "name": "were_there_pre_delivery_hospitalizations",
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "Yes"
+            },
+            {
+              "description": "",
+              "value": "No"
+            },
+            {
+              "description": "",
+              "value": "Not specified"
+            }
+          ],
+          "is_core_summary": true
+        },
+        {
+          "prompt": "Pre-Delivery Hospitalizations Details",
+          "name": "pre_delivery_hospitalizations_details",
+          "type": "grid",
+          "children": [
+            {
+              "prompt": "Date",
+              "name": "date",
+              "type": "date"
+            },
+            {
+              "prompt": "Facility",
+              "name": "facility",
+              "type": "string"
+            },
+            {
+              "prompt": "Duration",
+              "name": "duration",
+              "type": "string"
+            },
+            {
+              "prompt": "Reason",
+              "name": "reason",
+              "type": "string"
+            },
+            {
+              "prompt": "Comment(s)",
+              "name": "comments",
+              "type": "string"
+            }
+          ]
+        },
+        {
           "prompt": "Were There Referrals to Other Medical Specialists/Subspecialties?*",
           "name": "were_medical_referrals_to_others",
           "type": "list",
@@ -7739,7 +9586,8 @@
               "description": "",
               "value": "Not specified"
             }
-          ]
+          ],
+          "is_core_summary": true
         },
         {
           "prompt": "Medical Referral Details",
@@ -8124,27 +9972,6 @@
               "type": "date"
             }
           ]
-        },
-        {
-          "prompt": "Attended Prenatal Care Visits Alone?*",
-          "name": "attended_prenatal_visits_alone",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Yes"
-            },
-            {
-              "description": "",
-              "value": "No"
-            }
-          ],
-          "is_core_summary": true,
-          "description": "Not Including Children"
         },
         {
           "prompt": "Reviewer's Notes About the Prenatal Care Records",
@@ -8545,9 +10372,15 @@
                 {
                   "description": "",
                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                },
+                {
+                  "description": "",
+                  "value": "Other (Describe)"
                 }
               ],
-              "is_core_summary": true
+              "is_core_summary": true,
+              "list_display_size": 1,
+              "control_style": "editable"
             },
             {
               "prompt": "Street",
@@ -9892,7 +11725,245 @@
             {
               "prompt": "State",
               "name": "state",
-              "type": "string"
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ]
             },
             {
               "prompt": "Zip Code",
@@ -10366,7 +12437,7 @@
           ]
         },
         {
-          "prompt": "Reviewer's Notes About This Visit",
+          "prompt": "Reviewer's Notes About This Medical Office Visit",
           "name": "reviewer_note",
           "type": "textarea"
         }
@@ -10395,35 +12466,6 @@
           "type": "textarea"
         },
         {
-          "prompt": "Transport List",
-          "name": "transport_vehicle",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Ground Ambulance"
-            },
-            {
-              "description": "",
-              "value": "Fixed-Wing Aircraft"
-            },
-            {
-              "description": "",
-              "value": "Helicopter"
-            },
-            {
-              "description": "",
-              "value": "Other"
-            }
-          ],
-          "list_display_size": 1,
-          "control_style": "editable"
-        },
-        {
           "prompt": "Who Managed the Transport?",
           "name": "who_managed_the_transport",
           "type": "list",
@@ -10443,6 +12485,35 @@
             {
               "description": "",
               "value": "EMS/911"
+            },
+            {
+              "description": "",
+              "value": "Other"
+            }
+          ],
+          "list_display_size": 1,
+          "control_style": "editable"
+        },
+        {
+          "prompt": "Transport Vehicle",
+          "name": "transport_vehicle",
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "Ground Ambulance"
+            },
+            {
+              "description": "",
+              "value": "Fixed-Wing Aircraft"
+            },
+            {
+              "description": "",
+              "value": "Helicopter"
             },
             {
               "description": "",
@@ -10488,11 +12559,6 @@
               "type": "datetime"
             }
           ]
-        },
-        {
-          "prompt": "Procedures before Transport (Describe)",
-          "name": "procedures_before_transport",
-          "type": "textarea"
         },
         {
           "prompt": "Origin Information",
@@ -10575,6 +12641,10 @@
                 {
                   "description": "",
                   "value": "Regional Perinatal Health Care Center (Level IV)"
+                },
+                {
+                  "description": "",
+                  "value": "Other (Describe)"
                 }
               ],
               "list_display_size": 1,
@@ -10588,89 +12658,9 @@
           ]
         },
         {
-          "prompt": "Origin",
-          "name": "origin",
-          "type": "grid",
-          "children": [
-            {
-              "prompt": "Trauma",
-              "name": "trauma",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Level I"
-                },
-                {
-                  "description": "",
-                  "value": "Level II"
-                },
-                {
-                  "description": "",
-                  "value": "Level III"
-                },
-                {
-                  "description": "",
-                  "value": "Level IV"
-                }
-              ]
-            },
-            {
-              "prompt": "Maternal Level of Care",
-              "name": "maternal_level_of_care",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Birth Center"
-                },
-                {
-                  "description": "",
-                  "value": "Basic Care (Level I)"
-                },
-                {
-                  "description": "",
-                  "value": "Specialty Care (Level II)"
-                },
-                {
-                  "description": "",
-                  "value": "Subspecialty Care (Level III)"
-                },
-                {
-                  "description": "",
-                  "value": "Regional Perinatal Health Care Center (Level IV)"
-                },
-                {
-                  "description": "",
-                  "value": "Other"
-                }
-              ]
-            },
-            {
-              "prompt": "Other (describe)",
-              "name": "other_describe",
-              "type": "textarea"
-            },
-            {
-              "prompt": "Comment(s)",
-              "name": "comments",
-              "type": "textarea"
-            },
-            {
-              "prompt": "new group",
-              "name": "new_group",
-              "type": "group",
-              "children": []
-            }
-          ]
+          "prompt": "Procedures Before Transport (Describe)",
+          "name": "procedures_before_transport",
+          "type": "textarea"
         },
         {
           "prompt": "Procedures During Transport (Describe)",
@@ -10730,8 +12720,86 @@
           "type": "textarea"
         },
         {
-          "prompt": "Transport Narrative Summary",
-          "name": "transport_narrative_summary",
+          "prompt": "Destination Information",
+          "name": "destination_information",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Place of Destination",
+              "name": "place_of_destination",
+              "type": "string"
+            },
+            {
+              "prompt": "Trauma Level of Care, If Known",
+              "name": "trauma_level_of_care",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Level I"
+                },
+                {
+                  "description": "",
+                  "value": "Level II"
+                },
+                {
+                  "description": "",
+                  "value": "Level III"
+                },
+                {
+                  "description": "",
+                  "value": "Level IV"
+                }
+              ],
+              "control_style": "editable"
+            },
+            {
+              "prompt": "Maternal Level of Care, If Known",
+              "name": "maternal_level_of_care",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Birth Center"
+                },
+                {
+                  "description": "",
+                  "value": "Basic Care (Level I)"
+                },
+                {
+                  "description": "",
+                  "value": "Specialty Care (Level II)"
+                },
+                {
+                  "description": "",
+                  "value": "Subspecialty Care (Level III)"
+                },
+                {
+                  "description": "",
+                  "value": "Regional Perinatal Health Care Center (Level IV)"
+                }
+              ],
+              "list_display_size": 1,
+              "control_style": "editable"
+            },
+            {
+              "prompt": "Comments",
+              "name": "comments",
+              "type": "textarea"
+            }
+          ]
+        },
+        {
+          "prompt": "Reviewer's Notes About Medical Transport",
+          "name": "reviewer_note",
           "type": "textarea",
           "pre_fill": "Transport was notified on _______ (date) at _______ (time) for_______ (reason).  Upon arrival at _______ (place of origin) she was found to be ________weeks gestation with _________________________ (briefly describe condition). Procedures during transport included__________________. She was taken to___________ (describe place/level of care)."
         }
@@ -12477,7 +14545,7 @@
               "type": "string"
             },
             {
-              "prompt": "Complied?",
+              "prompt": "Adhered?",
               "name": "compiled",
               "type": "list",
               "values": [
@@ -12500,7 +14568,7 @@
               ]
             },
             {
-              "prompt": "Reason for Non-Compliance",
+              "prompt": "Reason for Non-Adherence",
               "name": "reason_for_non_compliance",
               "type": "string"
             }
@@ -12551,7 +14619,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Utilization of Health care"
+                  "value": "Utilization of Health Care"
                 },
                 {
                   "description": "",
@@ -12785,7 +14853,7 @@
           "is_core_summary": true
         },
         {
-          "prompt": "Reviewer's Notes about the Social and Environmental Profile",
+          "prompt": "Reviewer's Notes About the Social and Environmental Profile",
           "name": "reviewer_note",
           "type": "textarea"
         }
@@ -12876,7 +14944,7 @@
                 },
                 {
                   "description": "",
-                  "value": "CAGE-AIDnew value"
+                  "value": "CAGE-AID"
                 },
                 {
                   "description": "",
@@ -12970,8 +15038,8 @@
               "is_core_summary": true
             },
             {
-              "prompt": "Duration of Illness",
-              "name": "duration_of_illness",
+              "prompt": "Duration of Condition",
+              "name": "duration_of_condition",
               "type": "list",
               "values": [
                 {
@@ -13021,7 +15089,7 @@
               ]
             },
             {
-              "prompt": "Treatment Changed During Pregnancy",
+              "prompt": "Treatment Changed During Pregnancy?",
               "name": "treatment_changed_during_pregnancy",
               "type": "list",
               "values": [
@@ -13044,7 +15112,7 @@
               ]
             },
             {
-              "prompt": "Dosage Changed During Pregnancy",
+              "prompt": "Dosage Changed During Pregnancy?",
               "name": "dosage_changed_during_pregnancy",
               "type": "list",
               "values": [
@@ -13067,7 +15135,7 @@
               ]
             },
             {
-              "prompt": "If Yes, Mental Health Provider Consultation During this Pregnancy",
+              "prompt": "If Yes, Mental Health Provider Consultation During this Pregnancy?",
               "name": "if_yes_mental_health_provider_consultation_during_this_pregnancy",
               "type": "list",
               "values": [
@@ -13242,6 +15310,11 @@
           "prompt": "Other",
           "name": "other_after_pregnancy",
           "type": "string"
+        },
+        {
+          "prompt": "Reviewer's Notes About the Mental Health Profile",
+          "name": "reviewer_note",
+          "type": "textarea"
         }
       ]
     },
@@ -13481,6 +15554,11 @@
         {
           "prompt": "Interview Narrative",
           "name": "interview_narrative",
+          "type": "textarea"
+        },
+        {
+          "prompt": "Reviewer's Notes About the Informant Interview",
+          "name": "reviewer_note",
           "type": "textarea"
         }
       ]
