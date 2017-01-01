@@ -71,12 +71,12 @@ namespace mmria.console
 			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
 			var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
-
+			/*
 			var count_mapping = mapping_data.GetDataTable(string.Format("Select * [MMRIA Path], Count([MMRIA Path]) From [{0}] Group By [MMRIA Path]", main_mapping_file_name));
 			foreach (System.Data.DataRow  row in count_mapping.Rows)
 			{
 				Console.WriteLine(string.Format("{0}\t{1}", row[0].ToString(), row[1].ToString()));
-			}
+			}*/
 
 /*
 MaternalMortality
@@ -95,9 +95,24 @@ Interviews
 			foreach (string global_record_id in id_list)
 			{
 				
+
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
+				IDictionary<string, object> updater = case_data as IDictionary<string, object>;
+
+
+
 				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
+				//var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
+
+				var grid_table = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+				if (grid_table.Length > 0)
+				{
+					updater["_id"] = global_record_id;
+					updater["date_created"] = ((DateTime)grid_table[0]["FirstSaveTime"]).ToString("s") + "Z";
+					updater["created_by"] = grid_table[0]["FirstSaveLogonName"];
+					updater["date_last_updated"] = ((DateTime)grid_table[0]["LastSaveTime"]).ToString("s") + "Z";
+					updater["last_updated_by"] = grid_table[0]["LastSaveLogonName"];
 /*
 MaternalMortality
 1 DeathCertificate
@@ -112,25 +127,24 @@ MaternalMortality
 *Interviews
 */
 
-				foreach (System.Data.DataRow row in rs2.Rows)
-				{
-					if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
+					foreach (System.Data.DataRow row in mapping_view_table.Rows)
 					{
-						string path = row["MMRIA Path"].ToString();
-
-						string[] path_array = path.Split('/');
-
-						if (metadata.children.Where(i => i.type == "form" && i.name.ToLower() == path_array[0].ToLower() && (i.cardinality == "*" || i.cardinality == "+")).Count() > 0)
+						if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
 						{
-							
-						}
+							string path = row["MMRIA Path"].ToString();
 
-						var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
-						if (grid_table.Rows.Count == 1)
-						{
-							case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table.Rows[0][0]);
+							string[] path_array = path.Split('/');
+
+							if (metadata.children.Where(i => i.type == "form" && i.name.ToLower() == path_array[0].ToLower() && (i.cardinality == "*" || i.cardinality == "+")).Count() > 0)
+							{
+								
+							}
+
+
+							case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table[0][row["f#Name"].ToString()]);
 							Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
 							Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
+							/*
 							foreach (System.Data.DataColumn c in grid_table.Columns)
 							{
 
@@ -143,7 +157,7 @@ MaternalMortality
 								{
 									Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
 								}
-							}
+							}*/
 						}
 					}
 				}

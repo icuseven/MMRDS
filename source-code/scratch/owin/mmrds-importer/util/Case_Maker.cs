@@ -47,10 +47,15 @@ namespace mmria
 				}
 				else if (i == path.Length - 1)
 				{
-					System.Console.WriteLine("Set Type: {0}", index[path[i]].GetType());
-					if (index[path[i]].GetType().ToString() == "System.Boolean")
+					//System.Console.WriteLine("Set Type: {0}", index[path[i]].GetType());
+					if (index[path[i]] == null)
 					{
-						((IList<string>)index[path[i]]).Add(p_value.ToString());
+						index[path[i]] = p_value;
+					}
+					else if (index[path[i]].GetType().ToString() == "System.Boolean")
+					{
+						//((IList<string>)index[path[i]]).Add(p_value.ToString());
+						index[path[i]] = p_value;
 					}
 					else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]")
 					{
@@ -70,7 +75,7 @@ namespace mmria
 
 		public IDictionary<string, object> create_default_object(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_parent)
 		{
-			p_parent.Add("_id", new DateTime().ToString("s"));
+			p_parent.Add("_id", Guid.NewGuid().ToString());
 			for (var i = 0; i < p_metadata.children.Length; i++)
 			{
 				mmria.common.metadata.node child = p_metadata.children[i];
@@ -170,7 +175,7 @@ namespace mmria
 					}
 					else
 					{
-						p_parent[p_metadata.name] = new Double();
+						p_parent[p_metadata.name] = new Double?();
 					}
 					break;
 				case "boolean":
@@ -180,7 +185,7 @@ namespace mmria
 					}
 					else
 					{
-						p_parent[p_metadata.name] = new Boolean();
+						p_parent[p_metadata.name] = new Boolean?();
 					}
 					break;
 				case "list":
@@ -203,11 +208,19 @@ namespace mmria
 					}
 					else
 					{
-						p_parent[p_metadata.name] = new DateTime();
+						p_parent[p_metadata.name] = new DateTime?();
 					}
 					break;
 				case "time":
-					p_parent[p_metadata.name] = DateTime.Parse("2016-01-01T00:00:00.000Z");
+					if (!string.IsNullOrWhiteSpace(p_metadata.default_value) && p_metadata.default_value != "")
+					{
+						p_parent[p_metadata.name] = DateTime.Parse(p_metadata.default_value);
+					}
+					else
+					{
+						p_parent[p_metadata.name] = new DateTime?();
+					}
+					//p_parent[p_metadata.name] = DateTime.Parse("2016-01-01T00:00:00.000Z");
 					break;
 				case "label":
 				case "button":
