@@ -32,9 +32,9 @@ namespace mmria
 				{
 					index = index[path[i]] as IDictionary<string, object>;
 				}
-				else if (index[path[i]] is IList<object>)
+				else if (index[path[i]] is List<object>)
 				{
-					index = index[path[i]] as IList<object>;
+					index = index[path[i]] as List<object>;
 				}
 			    else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
 				{ 

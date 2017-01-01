@@ -43,7 +43,34 @@ namespace mmria.console
 			var grid_mapping_file_name = @"grid-mapping-merge.csv";
 			//var grid_mapping_data = new cData(get_csv_connection_string(System.IO.Path.GetDirectoryName(grid_mapping_file_name)));
 
+			var view_name_list = new string[] {
+			"MaternalMortality",
+			"DeathCertificate",
+			"MaternalBirthCertificate",
+			"ChildBirthCertificate",
+			"AutopsyReport",
+			"PrenatalCareRecord",
+			"SocialServicesRecord",
+			"Hospitalization",
+			"OfficeVisits",
+			"CommitteeReview",
+			"Interviews"
+			};
 
+
+			var view_name_to_name_map = new Dictionary<string,string>{
+				{"MaternalMortality", "home_record" },
+				{"DeathCertificate", "death_certificate" },
+				{"MaternalBirthCertificate", "birth_fetal_death_certificate_parent" },
+				{"ChildBirthCertificate", "birth_certificate_infant_fetal_section" },
+				{"AutopsyReport", "autopsy_report" },
+				{"PrenatalCareRecord", "prenatal" },
+				{"SocialServicesRecord", "social_and_environmental_profile" },
+				{"Hospitalization", "er_visit_and_hospital_medical_records" },
+				{"OfficeVisits", "other_medical_office_visits" },
+				{"CommitteeReview", "committe_review" },
+				{"Interviews", "informant_interviews" }
+			};
 
 			var id_list = new string[] {
 				"d4234123-2322-4f46-99a8-5b936b1ec237",
@@ -53,23 +80,18 @@ namespace mmria.console
 				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
 				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
 
-			var rs = mmrds_data.GetDataTable(string.Format("Select * from MaternalMortality Where GlobalRecordId in ('{0}')", string.Join("','", id_list)));
+			//var rs = mmrds_data.GetDataTable(string.Format("Select * from MaternalMortality Where GlobalRecordId in ('{0}')", string.Join("','", id_list)));
 
+			/*
 			foreach (System.Data.DataRow row in rs.Rows)
 			{
-				//if (row[5].ToString().ToLower() == "grid")
-				//{
 				Console.WriteLine(row[2].ToString());
-				//}
-			}
+
+			}*/
 
 
-			var view_data_table = get_view_data_table(mmrds_data, "DeathCertificate");
-
-			var mapping_view_table = get_view_mapping(mmrds_data, "DeathCertificate", mapping_data, main_mapping_file_name);
-
-			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
-			var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
+			//var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
+			//var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
 			/*
 			var count_mapping = mapping_data.GetDataTable(string.Format("Select * [MMRIA Path], Count([MMRIA Path]) From [{0}] Group By [MMRIA Path]", main_mapping_file_name));
@@ -97,36 +119,55 @@ Interviews
 				
 
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
-				IDictionary<string, object> updater = case_data as IDictionary<string, object>;
-
-
 
 				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
-				//var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
 
-				var grid_table = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+				foreach (string view_name in view_name_list)
+				{
+					System.Data.DataRow[] grid_table = null;
+					System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
+
+
+
+					var mapping_view_table = get_view_mapping(mmrds_data, view_name, mapping_data, main_mapping_file_name);
+					//var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
+
+					if (view_name == "MaternalMortality")
+					{
+						grid_table = view_data_table.Select(string.Format("MaternalMortality.GlobalRecordId='{0}'", global_record_id));
+
+						IDictionary<string, object> updater = case_data as IDictionary<string, object>;
+						updater["_id"] = global_record_id;
+						updater["date_created"] = grid_table[0]["FirstSaveTime"] != DBNull.Value? ((DateTime)grid_table[0]["FirstSaveTime"]).ToString("s") + "Z": null;
+						updater["created_by"] = grid_table[0]["FirstSaveLogonName"];
+						updater["date_last_updated"] = grid_table[0]["LastSaveTime"] != DBNull.Value? ((DateTime)grid_table[0]["LastSaveTime"]).ToString("s") + "Z" : null;
+						updater["last_updated_by"] = grid_table[0]["LastSaveLogonName"];
+					}
+					else
+					{
+						grid_table = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+					}
+
+					mmria.common.metadata.node form_metadata = metadata.children.Where(c => c.type == "form" && c.name == view_name_to_name_map[view_name]).First();
+
+					foreach (System.Data.DataRow row in grid_table)
+					{
+						process_view
+						(
+							form_metadata,
+							case_maker,
+							case_data,
+							row,
+							mapping_view_table
+						);
+					}
+
+				}
+
+				/*
 				if (grid_table.Length > 0)
 				{
-					updater["_id"] = global_record_id;
-					updater["date_created"] = ((DateTime)grid_table[0]["FirstSaveTime"]).ToString("s") + "Z";
-					updater["created_by"] = grid_table[0]["FirstSaveLogonName"];
-					updater["date_last_updated"] = ((DateTime)grid_table[0]["LastSaveTime"]).ToString("s") + "Z";
-					updater["last_updated_by"] = grid_table[0]["LastSaveLogonName"];
-/*
-MaternalMortality
-1 DeathCertificate
-1 MaternalBirthCertificate
-*ChildBirthCertificate
-1AutopsyReport
-*PrenatalCareRecord
-*SocialServicesRecord
-*Hospitalization
-*OfficeVisits
-1CommitteeReview
-*Interviews
-*/
-
 					foreach (System.Data.DataRow row in mapping_view_table.Rows)
 					{
 						if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
@@ -144,23 +185,10 @@ MaternalMortality
 							case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_table[0][row["f#Name"].ToString()]);
 							Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
 							Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
-							/*
-							foreach (System.Data.DataColumn c in grid_table.Columns)
-							{
 
-								if (c.ColumnName != "UniqueKey" &&
-									c.ColumnName != "UniqueRowId" &&
-									c.ColumnName != "GlobalRecordId" &&
-									c.ColumnName != "RECSTATUS" &&
-									c.ColumnName != "FKEY"
-								  )
-								{
-									Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
-								}
-							}*/
 						}
 					}
-				}
+				}*/
 				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
 				case_data_list.Add(case_data);
@@ -234,6 +262,45 @@ MaternalMortality
 
 			return result;
 		}
+
+		public static void process_view
+		(
+			mmria.common.metadata.node metadata,
+			Case_Maker case_maker,
+			IDictionary<string, object> case_data,
+			System.Data.DataRow grid_row, 
+			System.Data.DataTable mapping_view_table
+		)
+		{
+			//var view_data_table = get_view_data_table(mmrds_data, "DeathCertificate");
+
+			//var mapping_view_table = get_view_mapping(mmrds_data, "DeathCertificate", mapping_data, main_mapping_file_name);
+
+			//grid_table = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+
+			foreach (System.Data.DataRow row in mapping_view_table.Rows)
+			{
+				if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
+				{
+					string path = row["MMRIA Path"].ToString();
+
+					string[] path_array = path.Split('/');
+
+					if (metadata.children.Where(i => i.type == "form" && i.name.ToLower() == path_array[0].ToLower() && (i.cardinality == "*" || i.cardinality == "+")).Count() > 0)
+					{
+
+					}
+
+
+					case_maker.set_value(case_data, row["MMRIA Path"].ToString(), grid_row[row["f#Name"].ToString()]);
+					Console.WriteLine(string.Format("{0}", row["MMRIA Path"].ToString().Replace(",", "")));
+					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
+
+				}
+			}
+			
+		}
+
 
 		public static string get_mdb_connection_string(string p_file_name)
 		{
