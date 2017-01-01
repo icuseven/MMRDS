@@ -66,6 +66,8 @@ namespace mmria.console
 
 			var view_data_table = get_view_data_table(mmrds_data, "DeathCertificate");
 
+			var mapping_view_table = get_view_mapping(mmrds_data, "DeathCertificate", mapping_data, main_mapping_file_name);
+
 			var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
 			var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
 			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
@@ -187,11 +189,7 @@ MaternalMortality
 				if (i == 0)
 				{
 					sql_string.Append(string.Format(" From {1}{0} inner join {2} on {0}.GlobalRecordId = {2}.GlobalRecordId ", p_view_name, new String('(', dt.Rows.Count-1), row[0]));
-				}/*
-				else if(i < dt.Rows.Count -1)
-				{
-					result.Append(string.Format(") inner join {1} on {0}.GlobalRecordId = {1}.GlobalRecordId ", p_view_name, row[0]));
-				}*/
+				}
 				else
 				{
 					sql_string.Append(string.Format(") inner join {1} on {0}.GlobalRecordId = {1}.GlobalRecordId ", p_view_name, row[0]));
@@ -199,6 +197,26 @@ MaternalMortality
 			}
 			column_string.Length = column_string.Length - 1; 
 			result = p_data.GetDataTable(column_string.ToString() + sql_string.ToString());
+
+			return result;
+		}
+
+		public static System.Data.DataTable get_view_mapping(cData p_data, string p_view_name, cData p_mapping,  string p_mapping_table_name)
+		{
+			System.Data.DataTable result = null;
+
+			System.Text.StringBuilder sql_string = new System.Text.StringBuilder();
+			System.Text.StringBuilder column_string = new System.Text.StringBuilder();
+
+			System.Data.DataTable dt = p_data.GetDataTable(string.Format("Select v.Name & p.PageId From metapages p inner join metaviews v on p.ViewId = v.ViewId  Where v.Name = '{0}'", p_view_name));
+			List<string> name_list = new List<string>();
+			foreach (System.Data.DataRow row in dt.Rows)
+			{
+				name_list.Add(row[0].ToString());
+			}
+			//string mapping_sql = string.Format("SELECT * FROM [{0}] Where DataTablePath in ('{1}') ", p_mapping_table_name, string.Join("','", name_list));
+			string mapping_sql = string.Format("SELECT * FROM [{0}] Where BaseTable = '{1}' ", p_mapping_table_name, p_view_name);
+			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;
 		}
