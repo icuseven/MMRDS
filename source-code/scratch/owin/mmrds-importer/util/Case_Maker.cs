@@ -10,67 +10,83 @@ namespace mmria
 		}
 
 
-		public void set_value(IDictionary<string, object> p_object, string p_path, object p_value)
+		public bool set_value(IDictionary<string, object> p_object, string p_path, object p_value)
 		{
-			string[] path = p_path.Split('/');
+			bool result = false;
 
-			System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"\d+");
-
-			//IDictionary<string, object> index = p_object;
-			dynamic index = p_object;
-
-			if (path[1] == "abnormal_conditions_of_newborn")
+			try
 			{
-				System.Console.WriteLine("break");
-			}
+				string[] path = p_path.Split('/');
 
+				System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
-			for (int i = 0; i < path.Length; i++)
-			{
+				//IDictionary<string, object> index = p_object;
+				dynamic index = p_object;
 
-				if (number_regex.IsMatch(path[i]))
+				if (path[1] == "abnormal_conditions_of_newborn")
 				{
-					index = index[path[i]] as IDictionary<string, object>;
-				}
-				else if (index[path[i]] is List<object>)
-				{
-					index = index[path[i]] as List<object>;
-				}
-			    else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
-				{ 
-					System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+					System.Console.WriteLine("break");
 				}
 
-				else if (index[path[i]] is IDictionary<string, object>)
+
+				for (int i = 0; i < path.Length; i++)
 				{
-					index = index[path[i]] as IDictionary<string, object>;
-				}
-				else if (i == path.Length - 1)
-				{
-					//System.Console.WriteLine("Set Type: {0}", index[path[i]].GetType());
-					if (index[path[i]] == null)
+
+					if (number_regex.IsMatch(path[i]))
 					{
-						index[path[i]] = p_value;
+						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if (index[path[i]].GetType().ToString() == "System.Boolean")
+					else if (index[path[i]] is IList<object>)
 					{
-						//((IList<string>)index[path[i]]).Add(p_value.ToString());
-						index[path[i]] = p_value;
+						index = index[path[i]] as IList<object>;
 					}
-					else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]")
+					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
 					{
-						((IList<string>)index[path[i]]).Add(p_value.ToString());
+						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+					}
+
+					else if (index[path[i]] is IDictionary<string, object>)
+					{
+						index = index[path[i]] as IDictionary<string, object>;
+					}
+					else if (i == path.Length - 1)
+					{
+						//System.Console.WriteLine("Set Type: {0}", index[path[i]].GetType());
+						if (index[path[i]] == null)
+						{
+							index[path[i]] = p_value;
+							result = true;
+						}
+						else if (index[path[i]].GetType().ToString() == "System.Boolean")
+						{
+							//((IList<string>)index[path[i]]).Add(p_value.ToString());
+							index[path[i]] = p_value;
+							result = true;
+						}
+						else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]")
+						{
+							((IList<string>)index[path[i]]).Add(p_value.ToString());
+							result = true;
+						}
+						else
+						{
+							index[path[i]] = p_value;
+							result = true;
+						}
 					}
 					else
 					{
-						index[path[i]] = p_value;
+						System.Console.WriteLine("This should not happen. {0}", p_path);
 					}
 				}
-				else
-				{
-					System.Console.WriteLine("This should not happen. {0}", p_path);
-				}
 			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+			}
+
+			return result;
+
 		}
 
 		public IDictionary<string, object> create_default_object(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_parent)
