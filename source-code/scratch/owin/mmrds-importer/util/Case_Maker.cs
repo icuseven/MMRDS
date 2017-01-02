@@ -89,6 +89,64 @@ namespace mmria
 
 		}
 
+
+		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+		{
+			dynamic result = null;
+
+			try
+			{
+				string[] path = p_path.Split('/');
+
+				System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
+
+				//IDictionary<string, object> index = p_object;
+				dynamic index = p_object;
+
+				if (path[1] == "abnormal_conditions_of_newborn")
+				{
+					System.Console.WriteLine("break");
+				}
+
+
+				for (int i = 0; i < path.Length; i++)
+				{
+
+					if (number_regex.IsMatch(path[i]))
+					{
+						index = index[int.Parse(path[i])] as IDictionary<string, object>;
+					}
+					else if (index[path[i]] is IList<object>)
+					{
+						index = index[path[i]] as IList<object>;
+					}
+					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
+					{
+						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+					}
+					else if (index[path[i]] is IDictionary<string, object>)
+					{
+						index = index[path[i]] as IDictionary<string, object>;
+					}
+					else if (i == path.Length - 1)
+					{
+						result = index[path[i]];
+					}
+					else
+					{
+						System.Console.WriteLine("This should not happen. {0}", p_path);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+			}
+
+			return result;
+
+		}
+
 		public IDictionary<string, object> create_default_object(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_parent)
 		{
 			p_parent.Add("_id", Guid.NewGuid().ToString());

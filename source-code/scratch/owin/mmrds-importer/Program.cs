@@ -28,21 +28,14 @@ namespace mmria.console
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
 			var case_maker = new Case_Maker();
 			var case_data_list = new List<dynamic>();
-/*
-			System.Console.WriteLine(case_data["_id"]);
-			System.Console.WriteLine(case_data["home_record"]);
-			System.Console.WriteLine(case_data["home_record"]["case_progress_report"]);
-*/
 
 			var mmrds_data = new cData(get_mdb_connection_string("mapping-file-set/Maternal_Mortality.mdb"));
 			var directory_path = @"mapping-file-set";
-			//var main_mapping_file_name = @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv";
 			var main_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-test.csv";
 			var mapping_data = new cData(get_csv_connection_string(directory_path));
 
 			var grid_mapping_file_name = @"grid-mapping-merge.csv";
-			//var grid_mapping_data = new cData(get_csv_connection_string(System.IO.Path.GetDirectoryName(grid_mapping_file_name)));
-
+	
 			var view_name_list = new string[] {
 			"MaternalMortality",
 			"DeathCertificate",
@@ -94,40 +87,6 @@ namespace mmria.console
 				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
 				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
 
-			//var rs = mmrds_data.GetDataTable(string.Format("Select * from MaternalMortality Where GlobalRecordId in ('{0}')", string.Join("','", id_list)));
-
-			/*
-			foreach (System.Data.DataRow row in rs.Rows)
-			{
-				Console.WriteLine(row[2].ToString());
-
-			}*/
-
-
-			//var rs2 = mapping_data.GetDataTable("SELECT * FROM [" + main_mapping_file_name + "] Where [MMRIA Path] is NOt Null And [MMRIA Path] <> ''");
-			//var rs3 = mapping_data.GetDataTable("SELECT * FROM [" + @"grid-mapping-merge.csv" + "]");
-			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
-			/*
-			var count_mapping = mapping_data.GetDataTable(string.Format("Select * [MMRIA Path], Count([MMRIA Path]) From [{0}] Group By [MMRIA Path]", main_mapping_file_name));
-			foreach (System.Data.DataRow  row in count_mapping.Rows)
-			{
-				Console.WriteLine(string.Format("{0}\t{1}", row[0].ToString(), row[1].ToString()));
-			}*/
-
-/*
-MaternalMortality
-DeathCertificate
-MaternalBirthCertificate
-ChildBirthCertificate
-AutopsyReport
-PrenatalCareRecord
-SocialServicesRecord
-Hospitalization
-OfficeVisits
-CommitteeReview
-Interviews
-*/
-
 			foreach (string global_record_id in id_list)
 			{
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
@@ -137,40 +96,40 @@ Interviews
 
 				foreach (string view_name in view_name_list)
 				{
-					System.Data.DataRow[] grid_table = null;
+					System.Data.DataRow[] view_record_data = null;
 					System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
 
-					var mapping_view_table = get_view_mapping(mmrds_data, view_name, mapping_data, main_mapping_file_name);
-					//var grid_table = mmrds_data.GetDataTable(string.Format("Select {0} from [{1}] b inner join [{2}] p on b.GlobalRecordId = p.GlobalRecordId Where b.FKEY='{3}'", row["f#name"].ToString(), row["BaseTable"].ToString(), row["DataTablePath"].ToString(), global_record_id));
+					var mapping_view_table = get_view_mapping(mapping_data, view_name, main_mapping_file_name);
+					var grid_mapping = get_grid_mapping(mapping_data, view_name, grid_mapping_file_name);
 
 					if (view_name == "MaternalMortality")
 					{
-						grid_table = view_data_table.Select(string.Format("MaternalMortality.GlobalRecordId='{0}'", global_record_id));
+						view_record_data = view_data_table.Select(string.Format("MaternalMortality.GlobalRecordId='{0}'", global_record_id));
 
 						IDictionary<string, object> updater = case_data as IDictionary<string, object>;
 						updater["_id"] = global_record_id;
-						updater["date_created"] = grid_table[0]["FirstSaveTime"] != DBNull.Value ? ((DateTime)grid_table[0]["FirstSaveTime"]).ToString("s") + "Z" : null;
-						updater["created_by"] = grid_table[0]["FirstSaveLogonName"];
-						updater["date_last_updated"] = grid_table[0]["LastSaveTime"] != DBNull.Value ? ((DateTime)grid_table[0]["LastSaveTime"]).ToString("s") + "Z" : null;
-						updater["last_updated_by"] = grid_table[0]["LastSaveLogonName"];
+						updater["date_created"] = view_record_data[0]["FirstSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["FirstSaveTime"]).ToString("s") + "Z" : null;
+						updater["created_by"] = view_record_data[0]["FirstSaveLogonName"];
+						updater["date_last_updated"] = view_record_data[0]["LastSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["LastSaveTime"]).ToString("s") + "Z" : null;
+						updater["last_updated_by"] = view_record_data[0]["LastSaveLogonName"];
 					}
 					else
 					{
-						grid_table = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+						view_record_data = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
 					}
 
 
-					if (grid_table.Length > 1)
+					if (view_record_data.Length > 1)
 					{
-						System.Console.WriteLine("multi rows: {0}\t{1}", view_name, grid_table.Length);
+						System.Console.WriteLine("multi rows: {0}\t{1}", view_name, view_record_data.Length);
 					}
 					//mmria.common.metadata.node form_metadata = metadata.children.Where(c => c.type == "form" && c.name == view_name_to_name_map[view_name]).First();
 					if (view_name_cardinality_map[view_name] == true)
 					{
 
-						for (int i = 0; i < grid_table.Length; i++)
+						for (int i = 0; i < view_record_data.Length; i++)
 						{
-							System.Data.DataRow row = grid_table[i];
+							System.Data.DataRow row = view_record_data[i];
 
 							process_view
 							(
@@ -185,7 +144,7 @@ Interviews
 					}
 					else
 					{
-						foreach (System.Data.DataRow row in grid_table)
+						foreach (System.Data.DataRow row in view_record_data)
 						{
 							process_view
 							(
@@ -254,21 +213,20 @@ Interviews
 			return result;
 		}
 
-		public static System.Data.DataTable get_view_mapping(cData p_data, string p_view_name, cData p_mapping,  string p_mapping_table_name)
+		public static System.Data.DataTable get_view_mapping(cData p_mapping,  string p_view_name,  string p_mapping_table_name)
 		{
 			System.Data.DataTable result = null;
-
-			System.Text.StringBuilder sql_string = new System.Text.StringBuilder();
-			System.Text.StringBuilder column_string = new System.Text.StringBuilder();
-
-			System.Data.DataTable dt = p_data.GetDataTable(string.Format("Select v.Name & p.PageId From metapages p inner join metaviews v on p.ViewId = v.ViewId  Where v.Name = '{0}'", p_view_name));
-			List<string> name_list = new List<string>();
-			foreach (System.Data.DataRow row in dt.Rows)
-			{
-				name_list.Add(row[0].ToString());
-			}
-			//string mapping_sql = string.Format("SELECT * FROM [{0}] Where DataTablePath in ('{1}') ", p_mapping_table_name, string.Join("','", name_list));
 			string mapping_sql = string.Format("SELECT * FROM [{0}] Where BaseTable = '{1}' ", p_mapping_table_name, p_view_name);
+			result = p_mapping.GetDataTable(mapping_sql);
+
+			return result;
+		}
+
+
+		public static System.Data.DataTable get_grid_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
+		{
+			System.Data.DataTable result = null;
+			string mapping_sql = string.Format("SELECT * FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
 			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;

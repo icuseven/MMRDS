@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />
+    <Folder Include="importer\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj">
