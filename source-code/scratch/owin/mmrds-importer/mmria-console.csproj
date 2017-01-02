@@ -67,6 +67,7 @@
     <Compile Include="util\WriteCSV.cs" />
     <Compile Include="util\Case_Maker.cs" />
     <Compile Include="util\mmria_server_api_client.cs" />
+    <Compile Include="column_index_i.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

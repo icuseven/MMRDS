@@ -97,10 +97,12 @@ namespace mmria.console
 				foreach (string view_name in view_name_list)
 				{
 					System.Data.DataRow[] view_record_data = null;
+					System.Data.DataRow[] grid_record_data = null;
 					System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
 
 					var mapping_view_table = get_view_mapping(mapping_data, view_name, main_mapping_file_name);
-					var grid_mapping = get_grid_mapping(mapping_data, view_name, grid_mapping_file_name);
+
+					var grid_table_name_list = get_grid_table_name_list(mapping_data, view_name, grid_mapping_file_name);
 
 					if (view_name == "MaternalMortality")
 					{
@@ -116,6 +118,7 @@ namespace mmria.console
 					else
 					{
 						view_record_data = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
+
 					}
 
 
@@ -140,6 +143,42 @@ namespace mmria.console
 								mapping_view_table,
 								i
 							);
+
+							int column_index = -1;
+							for(int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
+							{
+								if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
+								{
+									column_index = column_index_i;
+								}
+							}
+
+							foreach (string grid_name in grid_table_name_list)
+							{
+								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
+								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
+
+								if (grid_data.Rows.Count > 0)
+								{
+
+								}
+
+								for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
+								{
+									System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
+
+									process_grid
+									(
+										metadata,
+										case_maker,
+										case_data,
+										grid_row,
+										grid_mapping,
+										i,
+										grid_row_index
+									);
+								}
+							}
 						}
 					}
 					else
@@ -154,8 +193,46 @@ namespace mmria.console
 								row,
 								mapping_view_table
 							);
+
+
+							int column_index = -1;
+							for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
+							{
+								if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
+								{
+									column_index = column_index_i;
+								}
+							}
+
+							foreach (string grid_name in grid_table_name_list)
+							{
+								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
+								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
+
+								if (grid_data.Rows.Count > 0)
+								{
+
+								}
+								for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
+								{
+									System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
+
+									process_grid
+									(
+										metadata,
+										case_maker,
+										case_data,
+										grid_row,
+										grid_mapping,
+										null,
+										grid_row_index
+									);
+								}
+							}
 						}
+
 					}
+
 
 				}
 
@@ -163,18 +240,6 @@ namespace mmria.console
 				System.Console.WriteLine("json\n{0}", json_string);
 				case_data_list.Add(case_data);
 			}
-			/*
-			using (var conn = new System.Data.OleDb.OleDbConnection(connString))
-			{
-				conn.Open();
-				var query = "SELECT * FROM [" + System.IO.Path.GetFileName(filename) + "]";
-				using (var adapter = new System.Data.OleDb.OleDbDataAdapter(query, conn))
-				{
-					var ds = new DataSet("CSV File");
-					adapter.Fill(ds);
-				}
-			}*/
-
 
 			Console.WriteLine("Hello World!");
 		}
@@ -222,12 +287,27 @@ namespace mmria.console
 			return result;
 		}
 
-
 		public static System.Data.DataTable get_grid_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
 			System.Data.DataTable result = null;
 			string mapping_sql = string.Format("SELECT * FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
 			result = p_mapping.GetDataTable(mapping_sql);
+
+			return result;
+		}
+
+
+		public static List<string> get_grid_table_name_list(cData p_mapping, string p_view_name, string p_mapping_table_name)
+		{
+			List<string> result = new List<string>();
+			System.Data.DataTable dt = null;
+			string mapping_sql = string.Format("SELECT Distinct [Table] FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
+			dt = p_mapping.GetDataTable(mapping_sql);
+
+			foreach (System.Data.DataRow row in dt.Rows)
+			{
+				result.Add(row[0].ToString());
+			}
 
 			return result;
 		}
@@ -253,25 +333,13 @@ namespace mmria.console
 				if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
 				{
 					//List<string> path = row["MMRIA Path"].ToString();
-					List<string> path = new List<string>();
+					string path = row["MMRIA Path"].ToString();
 
 					string[] path_array = row["MMRIA Path"].ToString().Split('/');
 
 					if (index != null && index.HasValue)
 					{
-						for (int i = 0; i < path_array.Length; i++)
-						{
-							if (i == 1)
-							{
-								path.Add(index.Value.ToString());
-							}
-
-							path.Add(path_array[i]);
-						}
-					}
-					else
-					{
-						path.AddRange(path_array);
+						path = case_maker.AppendFormIndexToPath(index.Value, path);
 					}
 
 					/*
@@ -281,8 +349,8 @@ namespace mmria.console
 					}*/
 
 
-					case_maker.set_value(case_data, string.Join("/",path.ToArray()), grid_row[row["f#Name"].ToString()]);
-					Console.WriteLine(string.Format("{0}", string.Join("/", path.ToArray())));
+					case_maker.set_value(case_data, path, grid_row[row["f#Name"].ToString()]);
+					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
 
 				}
@@ -290,6 +358,44 @@ namespace mmria.console
 			
 		}
 
+
+		public static void process_grid
+		(
+			mmria.common.metadata.app metadata,
+			Case_Maker case_maker,
+			IDictionary<string, object> case_data,
+			System.Data.DataRow grid_row,
+			System.Data.DataTable mapping_view_table,
+			int? index = null,
+			int? grid_index = null
+		)
+		{
+			foreach (System.Data.DataRow row in mapping_view_table.Rows)
+			{
+				if (row["mmria_path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["mmria_path"].ToString()))
+				{
+					string path = row["mmria_path"].ToString();
+
+					string[] path_array = row["mmria_path"].ToString().Split('/');
+
+					if (index != null && index.HasValue)
+					{
+						path = case_maker.AppendFormIndexToPath(index.Value, path);
+					}
+
+					if (grid_index != null && grid_index.HasValue)
+					{
+						path = case_maker.AppendGridIndexToPath(grid_index.Value, path);
+					}
+
+					case_maker.set_value(case_data, path, grid_row[row["field"].ToString()]);
+					Console.WriteLine(string.Format("{0}", path));
+					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));
+
+				}
+			}
+
+		}
 
 		public static string get_mdb_connection_string(string p_file_name)
 		{

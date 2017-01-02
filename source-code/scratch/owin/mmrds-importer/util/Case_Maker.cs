@@ -34,6 +34,12 @@ namespace mmria
 
 					if (number_regex.IsMatch(path[i]))
 					{
+						IList<object> temp_list = index as IList<object>;
+						if (!(temp_list.Count > int.Parse(path[i])))
+						{
+
+						}
+
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
 					else if (index[path[i]] is IList<object>)
@@ -90,6 +96,49 @@ namespace mmria
 		}
 
 
+		public string AppendFormIndexToPath(int p_index, string p_path)
+		{
+			string[] path_array = p_path.Split('/');
+			List<string> path = new List<string>();
+
+				for (int i = 0; i < path_array.Length; i++)
+				{
+					if (i == 1)
+					{
+						path.Add(p_index.ToString());
+					}
+
+					path.Add(path_array[i]);
+				}
+
+			return string.Join("/", path.ToArray());
+		}
+
+
+		public string AppendGridIndexToPath(int p_index, string p_path)
+		{
+			string[] path_array = p_path.Split('/');
+			List<string> path = new List<string>();
+
+			for (int i = 0; i < path_array.Length; i++)
+			{
+				if (i == path_array.Length - 1)
+				{
+					path.Add(p_index.ToString());
+				}
+
+				path.Add(path_array[i]);
+			}
+
+			return string.Join("/", path.ToArray());
+		}
+
+		public string get_form_path(string p_path)
+		{
+			string[] path = p_path.Split('/');
+			return path[0];
+		}
+
 		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
 		{
 			dynamic result = null;
@@ -111,9 +160,17 @@ namespace mmria
 
 				for (int i = 0; i < path.Length; i++)
 				{
-
-					if (number_regex.IsMatch(path[i]))
+					if (i == path.Length - 1)
 					{
+						result = index[path[i]];
+					}
+					else if (number_regex.IsMatch(path[i]))
+					{
+						IList<object> temp_list = index as IList<object>;
+						if (!(temp_list.Count > int.Parse(path[i])))
+						{
+
+						}
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
 					else if (index[path[i]] is IList<object>)
@@ -127,10 +184,6 @@ namespace mmria
 					else if (index[path[i]] is IDictionary<string, object>)
 					{
 						index = index[path[i]] as IDictionary<string, object>;
-					}
-					else if (i == path.Length - 1)
-					{
-						result = index[path[i]];
 					}
 					else
 					{
