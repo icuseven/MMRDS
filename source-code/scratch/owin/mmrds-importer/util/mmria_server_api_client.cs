@@ -71,9 +71,9 @@ namespace mmria.console
 			return result;
 		}
 
-		public mmria.common.model.couchdb.session_response login(string p_user_id, string p_password)
+		public IEnumerable<mmria.common.model.couchdb.login_response> login(string p_user_id, string p_password)
 		{
-			mmria.common.model.couchdb.session_response result = null;
+			IEnumerable < mmria.common.model.couchdb.login_response> result = null;
 
 			string URL = "http://test.mmria.org/api/session";
 			//string userid,
@@ -94,7 +94,7 @@ namespace mmria.console
 			if (response.IsSuccessStatusCode)
 			{
 				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.model.couchdb.session_response>().Result;
+				result = response.Content.ReadAsAsync<IEnumerable<mmria.common.model.couchdb.login_response>>().Result;
 			}
 			else
 			{
@@ -104,23 +104,24 @@ namespace mmria.console
 			return result;
 		}
 
-		public mmria.common.model.couchdb.document_put_response set_case(string case_json)
+		public mmria.common.model.couchdb.document_put_response set_case(string p_auth_session_token, string case_json)
 		{
 			mmria.common.model.couchdb.document_put_response result = null;
 
-			string URL = "http://test.mmria.org/api/metadata";
-			//string urlParameters = "?api_key=123";
-			string urlParameters = "";
+			string URL = "http://test.mmria.org/api/case";
+
 
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(URL);
 
 			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Cookie", "AuthSession=" + p_auth_session_token);
+			var content = new StringContent(case_json, System.Text.Encoding.UTF8, "application/json");
 
 			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
+			HttpResponseMessage response = client.PostAsync(URL, content).Result;  // Blocking call!
 			if (response.IsSuccessStatusCode)
 			{
 				// Parse the response body. Blocking!

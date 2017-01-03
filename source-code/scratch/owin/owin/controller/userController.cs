@@ -18,6 +18,7 @@ namespace mmria.server
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				request.PreAuthenticate = false;
+				//request.Method = "GET";
 
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{

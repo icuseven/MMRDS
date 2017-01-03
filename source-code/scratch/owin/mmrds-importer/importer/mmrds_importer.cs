@@ -4,16 +4,38 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using mmria.console.data;
 
-namespace mmria.console
+namespace mmria.console.import
 {
 	public class mmrds_importer
 	{
+		private string auth_token = null;
+
 		public mmrds_importer()
 		{
 		}
-		public static void Execute(string[] args)
+		public void Execute(string[] args)
 		{
 			var mmria_server = new mmria_server_api_client();
+
+			if (args.Length > 1 && args[1].ToLower().StartsWith("auth_token"))
+			{
+				this.auth_token = args[1].Split(':')[1];
+			}
+			else
+			{
+				var session_list = mmria_server.login("", "");
+				foreach(var session in session_list)
+				if (session.ok)
+				{
+					this.auth_token = session.auth_session;
+					System.Console.WriteLine("session.auth_session\n{0}", session.auth_session);
+				}
+				else
+				{
+					System.Console.WriteLine("unable to login\n{0}", session);
+					return;
+				}
+			}
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
 			var case_maker = new Case_Maker();
@@ -69,6 +91,16 @@ namespace mmria.console
 				{"Interviews", true }
 			};
 
+			var id_record_set = mmrds_data.GetDataTable("Select Distinct GlobalRecordId From MaternalMortality");
+			string json_string = null;
+			List<string> id_list = new List<string>();
+
+			foreach (System.Data.DataRow row in id_record_set.Rows)
+			{
+				id_list.Add(row[0].ToString());
+			}
+
+			/*
 			var id_list = new string[] {
 				"d4234123-2322-4f46-99a8-5b936b1ec237",
 				"0e602e72-4e67-404d-9a4b-e86e6793103d",
@@ -76,12 +108,14 @@ namespace mmria.console
 				"0ed43157-48a2-4592-961c-6db57c8e83c7",
 				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
 				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
+			*/
+
 
 			foreach (string global_record_id in id_list)
 			{
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
 
-				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
 
 				foreach (string view_name in view_name_list)
@@ -228,13 +262,21 @@ namespace mmria.console
 
 				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
+
+				//var case_request = mmria.common.model.couchdb.
+
+				return;
 				case_data_list.Add(case_data);
 			}
 
 			Console.WriteLine("Hello World!");
+			json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data_list);
+
+			System.IO.File.AppendAllText("output.json", json_string);
+
 		}
 
-		public static System.Data.DataTable get_view_data_table(cData p_data, string p_view_name = "MaternalMortality")
+		public System.Data.DataTable get_view_data_table(cData p_data, string p_view_name = "MaternalMortality")
 		{
 			System.Data.DataTable result = null;
 
@@ -268,7 +310,7 @@ namespace mmria.console
 			return result;
 		}
 
-		public static System.Data.DataTable get_view_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
+		public System.Data.DataTable get_view_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
 			System.Data.DataTable result = null;
 			string mapping_sql = string.Format("SELECT * FROM [{0}] Where BaseTable = '{1}' ", p_mapping_table_name, p_view_name);
@@ -277,7 +319,7 @@ namespace mmria.console
 			return result;
 		}
 
-		public static System.Data.DataTable get_grid_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
+		public System.Data.DataTable get_grid_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
 			System.Data.DataTable result = null;
 			string mapping_sql = string.Format("SELECT * FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
@@ -287,7 +329,7 @@ namespace mmria.console
 		}
 
 
-		public static List<string> get_grid_table_name_list(cData p_mapping, string p_view_name, string p_mapping_table_name)
+		public List<string> get_grid_table_name_list(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
 			List<string> result = new List<string>();
 			System.Data.DataTable dt = null;
@@ -302,7 +344,7 @@ namespace mmria.console
 			return result;
 		}
 
-		public static void process_view
+		public void process_view
 		(
 			mmria.common.metadata.app metadata,
 			Case_Maker case_maker,
@@ -349,7 +391,7 @@ namespace mmria.console
 		}
 
 
-		public static void process_grid
+		public void process_grid
 		(
 			mmria.common.metadata.app metadata,
 			Case_Maker case_maker,
@@ -387,7 +429,7 @@ namespace mmria.console
 
 		}
 
-		public static string get_mdb_connection_string(string p_file_name)
+		public string get_mdb_connection_string(string p_file_name)
 		{
 			// @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv"
 			string result = string.Format(
@@ -397,7 +439,7 @@ namespace mmria.console
 
 			return result;
 		}
-		public static string get_csv_connection_string(string p_file_name)
+		public string get_csv_connection_string(string p_file_name)
 		{
 			// @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv"
 			string result = string.Format(
@@ -408,7 +450,7 @@ namespace mmria.console
 			return result;
 		}
 
-		public static mmria.common.metadata.app get_metadata()
+		public mmria.common.metadata.app get_metadata()
 		{
 			mmria.common.metadata.app result = null;
 
