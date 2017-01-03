@@ -349,7 +349,7 @@ namespace mmria.console
 					}*/
 
 
-					case_maker.set_value(case_data, path, grid_row[row["f#Name"].ToString()]);
+					case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()]);
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
 
@@ -388,7 +388,7 @@ namespace mmria.console
 						path = case_maker.AppendGridIndexToPath(grid_index.Value, path);
 					}
 
-					case_maker.set_value(case_data, path, grid_row[row["field"].ToString()]);
+					case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString()]);
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));
 

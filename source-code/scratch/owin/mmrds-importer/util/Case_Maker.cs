@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace mmria
 {
@@ -10,13 +11,14 @@ namespace mmria
 		}
 
 
-		public bool set_value(IDictionary<string, object> p_object, string p_path, object p_value)
+		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value)
 		{
 			bool result = false;
 
 			try
 			{
 				string[] path = p_path.Split('/');
+				List<string> built_path = new List<string>();
 
 				System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
@@ -31,12 +33,26 @@ namespace mmria
 
 				for (int i = 0; i < path.Length; i++)
 				{
+					built_path.Add(path[i]);
 
 					if (number_regex.IsMatch(path[i]))
 					{
 						IList<object> temp_list = index as IList<object>;
 						if (!(temp_list.Count > int.Parse(path[i])))
 						{
+							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
+							Dictionary<string, object> temp = new Dictionary<string, object>();
+							create_default_object(node, temp);
+							((IList<object>)index).Add(((IList<object>)temp[path[i - 1]])[0]);
+							/*
+							if (node.type.ToLower() == "grid")
+							{
+								((IList<object>)index).Add(((IList<object>)temp[path[i - 1]])[0]);
+							}
+							else
+							{
+								((IList<object>)index).Add(temp[path[i - 1]]);
+							}*/
 
 						}
 
@@ -188,6 +204,60 @@ namespace mmria
 					else
 					{
 						System.Console.WriteLine("This should not happen. {0}", p_path);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+			}
+
+			return result;
+
+		}
+
+
+		public mmria.common.metadata.node get_metadata_node(mmria.common.metadata.app p_object, string p_path)
+		{
+			mmria.common.metadata.node result = null;
+			System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
+			try
+			{
+				string[] path = p_path.Split('/');
+
+				for (int i = 0; i < path.Length; i++)
+				{
+					if (i == 0)
+					{
+						result = p_object.children.Where(c => c.name.Equals(path[i], StringComparison.OrdinalIgnoreCase)).First();
+					}
+					else if (number_regex.IsMatch(path[i]))
+					{
+						continue;
+					}
+					else 
+					{
+						switch (result.type.ToLower())
+						{
+							case "form":
+							case "grid":
+							case "group":
+								foreach (mmria.common.metadata.node child in result.children)
+								{
+									if (child.name.Equals(path[i], StringComparison.OrdinalIgnoreCase))
+									{
+										result = child;
+										break;
+									}
+								}
+
+								break;
+
+							default:
+								System.Console.WriteLine("get_metadata_object: {0} - {1} - {2}", path, result.type, path[i]);
+								break;
+						}
+
 					}
 				}
 			}
