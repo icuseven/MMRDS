@@ -79,6 +79,17 @@ namespace mmria.console
 				{"Interviews", true }
 			};
 
+
+			var id_record_set = mmrds_data.GetDataTable("Select Distinct GlobalRecordId From MaternalMortality");
+			string json_string = null;
+			List<string> id_list = new List<string>();
+
+			foreach (System.Data.DataRow row in id_record_set.Rows)
+			{
+				id_list.Add(row[0].ToString());
+			}
+
+			/*
 			var id_list = new string[] {
 				"d4234123-2322-4f46-99a8-5b936b1ec237",
 				"0e602e72-4e67-404d-9a4b-e86e6793103d",
@@ -86,12 +97,13 @@ namespace mmria.console
 				"0ed43157-48a2-4592-961c-6db57c8e83c7",
 				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
 				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
+			*/
 
 			foreach (string global_record_id in id_list)
 			{
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
 
-				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
 
 				foreach (string view_name in view_name_list)
@@ -242,6 +254,10 @@ namespace mmria.console
 			}
 
 			Console.WriteLine("Hello World!");
+			json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data_list);
+
+			System.IO.File.AppendAllText("output.json", json_string);
+
 		}
 
 		public static System.Data.DataTable get_view_data_table(cData p_data, string p_view_name = "MaternalMortality")

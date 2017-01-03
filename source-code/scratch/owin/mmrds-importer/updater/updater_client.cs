@@ -59,7 +59,7 @@ namespace mmria.console.updater
 
 		void worker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			Process[] processes = Process.GetProcessesByName("EpiInfo");
+			Process[] processes = Process.GetProcessesByName("mmria-server");
 			foreach (Process process in processes)
 			{
 				process.Kill();
