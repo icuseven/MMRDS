@@ -2590,8 +2590,7 @@
     <Folder Include="controller\" />
     <Folder Include="app\" />
   </ItemGroup>
-   <ItemGroup>
-    <Reference Include="System" />
+  <ItemGroup>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -2648,11 +2647,11 @@
       <HintPath>..\dll_set\Swashbuckle.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
-   <ItemGroup>
-     <ProjectReference Include="..\mmria.common\mmria.common.csproj">
-       <Project>{18994598-71B1-482A-9C76-1A2A9575B7AD}</Project>
-       <Name>mmria.common</Name>
-     </ProjectReference>
-   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mmria.common\mmria.common.csproj">
+      <Project>{18994598-71B1-482A-9C76-1A2A9575B7AD}</Project>
+      <Name>mmria.common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

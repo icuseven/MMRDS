@@ -17,6 +17,7 @@ namespace mmria.console.import
 		{
 			var mmria_server = new mmria_server_api_client();
 
+			/*
 			if (args.Length > 1 && args[1].ToLower().StartsWith("auth_token"))
 			{
 				this.auth_token = args[1].Split(':')[1];
@@ -35,7 +36,7 @@ namespace mmria.console.import
 					System.Console.WriteLine("unable to login\n{0}", session);
 					return;
 				}
-			}
+			}*/
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
 			var case_maker = new Case_Maker();
@@ -84,7 +85,7 @@ namespace mmria.console.import
 				{"ChildBirthCertificate", true },
 				{"AutopsyReport", false },
 				{"PrenatalCareRecord", true },
-				{"SocialServicesRecord", true },
+				{"SocialServicesRecord", false },
 				{"Hospitalization", true },
 				{"OfficeVisits", true },
 				{"CommitteeReview", false },
@@ -265,7 +266,7 @@ namespace mmria.console.import
 
 				//var case_request = mmria.common.model.couchdb.
 
-				return;
+				//return;
 				case_data_list.Add(case_data);
 			}
 

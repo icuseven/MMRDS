@@ -276,12 +276,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				//social_and_environmental_profile/reviewer_note
 				result.push("<h3>social_and_environmental_profile/reviewer_note</h3>");
-				for(var i = 0; i < g_data.social_and_environmental_profile.length; i++)
-				{
-					result.push("<textarea cols=80 rows=7>");
-					result.push(g_data.social_and_environmental_profile[i].reviewer_note);
-					result.push("</textarea>");
-				}
+				result.push("<textarea cols=80 rows=7>");
+				result.push(g_data.social_and_environmental_profile.reviewer_note);
+				result.push("</textarea>");
+				
 			}
 
 			for(var i = 0; i < p_metadata.children.length; i++)
