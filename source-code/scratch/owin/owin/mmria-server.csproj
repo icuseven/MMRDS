@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>mmria</RootNamespace>
     <AssemblyName>mmria-server</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <StartupObject>mmria.server.Program</StartupObject>
     <ApplicationIcon>psk\app\favicon.ico</ApplicationIcon>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -40,7 +40,6 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>6</LangVersion>
-    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -51,7 +50,6 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>6</LangVersion>
-    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>7286DB10F69EA9DB54C19ACFD43B2EADE33AD214</ManifestCertificateThumbprint>
