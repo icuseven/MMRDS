@@ -32,6 +32,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
+			result.push(' <input type="button" value="ks" onclick="editor_cut_to_children(\'' + p_path + '\', true)" />');
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -67,6 +68,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(p_path);
 			result.push('" />');
 			result.push(' <input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
+			result.push(' <input type="button" value="k" onclick="editor_cut_to_children(\'' + p_path + '\')" /> ');
 			result.push(p_object_path);
 			result.push(' <ul>');
 
@@ -101,6 +103,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(p_path);
 			result.push('" /> ');
 			result.push('<input type="button" value="p" onclick="editor_paste_to_children(\'' + p_path + '\')" /> ');
+			result.push('<input type="button" value="k" onclick="editor_cut_to_children(\'' + p_path + '\')" /> ');
 			result.push('</li>');
 				result.push('</ul></li></ul></li>');
 	      break;
@@ -150,6 +153,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+			result.push(' <input type="button" value="ks" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
 			result.push(p_object_path);
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -177,6 +181,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push(p_metadata.name);
 		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 		result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+		result.push(' <input type="button" value="ks" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
 		result.push(p_object_path);
 		result.push('<br/><ul  tag="attribute_list">');
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
@@ -877,6 +882,103 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 
 	}
 }
+
+function editor_cut_to_children(p_ui, p_is_index_paste)
+{
+	if(g_copy_clip_board)
+	{
+		if(p_is_index_paste)
+		{
+			var path_array = p_ui.split('/');
+			var target_index = path_array[path_array.length -1];
+
+			path_array.splice(path_array.length -2, 2);
+
+			var collection_path = path_array.join('/');
+
+
+			var item_path = get_eval_string(collection_path);	
+
+			var clone_path = get_eval_string(g_copy_clip_board);
+			
+			var clone = editor_clone(eval(clone_path));
+			
+			var paste_target = eval(item_path);
+
+			for(var i = 0; i < paste_target.children.length; i++)
+			{
+				if(clone.name == paste_target.children[i].name)
+				{
+					clone.name = "new_clone_name_" + paste_target.children.length;
+					break;
+				}
+			}
+
+			paste_target.children.splice(target_index, 0, clone);
+
+			if(collection_path == "")
+			{
+	
+				var node = editor_render(paste_target, "/", g_ui);
+				
+				var node_to_render = document.querySelector("div[path='/']");
+				node_to_render.innerHTML = node.join("");
+				window.dispatchEvent(metadata_changed_event);
+
+			}
+			else
+			{
+				var node = editor_render(paste_target, collection_path, g_ui);
+				
+				var node_to_render = document.querySelector("li[path='" + collection_path + "']");
+				node_to_render.innerHTML = node.join("");
+				window.dispatchEvent(metadata_changed_event);
+			}
+
+			g_delete_node_clip_board = g_copy_clip_board;
+			editor_delete_node(null, g_delete_node_clip_board);
+
+			
+		}
+		else
+		{
+			var path_array = p_ui.split('/');
+			var attribute_name = p_ui[path_array.length - 1];
+			var item_path = get_eval_string(p_ui);	
+
+			var clone_path = get_eval_string(g_copy_clip_board);
+			
+			var clone = editor_clone(eval(clone_path));
+			
+
+			var paste_target = eval(item_path);
+
+			for(var i = 0; i < paste_target.children.length; i++)
+			{
+				if(clone.name == paste_target.children[i].name)
+				{
+					clone.name = "new_clone_name_" + paste_target.children.length;
+					break;
+				}
+			}
+
+			paste_target.children.push(clone);
+
+			var node = editor_render(paste_target, p_ui, g_ui);
+			
+			var node_to_render = document.querySelector("li[path='" + p_ui + "']");
+			node_to_render.innerHTML = node.join("");
+			window.dispatchEvent(metadata_changed_event);
+
+			g_delete_node_clip_board = g_copy_clip_board;
+			editor_delete_node(null, g_delete_node_clip_board);
+		}
+		
+
+
+	}
+}
+
 
 
 function editor_clone(obj) 
