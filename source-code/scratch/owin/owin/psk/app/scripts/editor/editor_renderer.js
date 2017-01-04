@@ -32,7 +32,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" />');
-			result.push(' <input type="button" value="ks" onclick="editor_cut_to_children(\'' + p_path + '\', true)" />');
+			result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" />');
 			result.push(' <br/><ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
 			{
@@ -153,7 +153,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
-			result.push(' <input type="button" value="ks" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+			result.push(' <input type="button" value="kp" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
 			result.push(p_object_path);
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -181,7 +181,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push(p_metadata.name);
 		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 		result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
-		result.push(' <input type="button" value="ks" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
+		result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
 		result.push(p_object_path);
 		result.push('<br/><ul  tag="attribute_list">');
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
@@ -935,8 +935,16 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 				window.dispatchEvent(metadata_changed_event);
 			}
 
-			g_delete_node_clip_board = g_copy_clip_board;
-			editor_delete_node(null, g_delete_node_clip_board);
+			if(g_copy_clip_board.indexOf(collection_path) == 0)
+			{
+				g_delete_node_clip_board = g_delete_node_clip_board = collection_path + g_copy_clip_board.replace(collection_path,"").replace(/(\d+)/, function(x) { return new Number(x) + 1; });
+				editor_delete_node(null, g_delete_node_clip_board);
+			}
+			else
+			{
+				g_delete_node_clip_board = g_copy_clip_board;
+				editor_delete_node(null, g_delete_node_clip_board);
+			}
 
 			
 		}
@@ -970,8 +978,16 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 			node_to_render.innerHTML = node.join("");
 			window.dispatchEvent(metadata_changed_event);
 
-			g_delete_node_clip_board = g_copy_clip_board;
-			editor_delete_node(null, g_delete_node_clip_board);
+			if(g_copy_clip_board.indexOf(collection_path) == 0)
+			{
+				g_delete_node_clip_board = collection_path + g_copy_clip_board.replace(collection_path,"").replace(/(\d+)/, function(x) { return new Number(x) + 1; });
+				editor_delete_node(null, g_delete_node_clip_board);
+			}
+			else
+			{
+				g_delete_node_clip_board = g_copy_clip_board;
+				editor_delete_node(null, g_delete_node_clip_board);
+			}
 		}
 		
 
