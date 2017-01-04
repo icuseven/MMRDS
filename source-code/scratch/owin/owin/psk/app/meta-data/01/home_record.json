@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "171-3f10e958b407fcda437e9a5a92e877e4",
+  "_rev": "202-b58130bcde38c4eed3b1dcc7dfdee40f",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -225,15 +225,38 @@
                                         "type": "BinaryExpression",
                                         "operator": "+",
                                         "left": {
-                                          "type": "MemberExpression",
-                                          "computed": false,
-                                          "object": {
-                                            "type": "ThisExpression"
+                                          "type": "CallExpression",
+                                          "callee": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "ThisExpression"
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "state_of_death_record"
+                                              }
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "substring"
+                                            }
                                           },
-                                          "property": {
-                                            "type": "Identifier",
-                                            "name": "state_of_death_record"
-                                          }
+                                          "arguments": [
+                                            {
+                                              "type": "Literal",
+                                              "value": 0,
+                                              "raw": "0"
+                                            },
+                                            {
+                                              "type": "Literal",
+                                              "value": 2,
+                                              "raw": "2"
+                                            }
+                                          ]
                                         },
                                         "right": {
                                           "type": "Literal",
@@ -1279,6 +1302,12 @@
               "list_display_size": 1
             }
           ]
+        },
+        {
+          "prompt": "new group",
+          "name": "new_group",
+          "type": "group",
+          "children": []
         }
       ]
     },
@@ -1288,6 +1317,33 @@
       "type": "form",
       "cardinality": "?",
       "children": [
+        {
+          "prompt": "Maternal Death Certificate Identification",
+          "name": "certificate_identification",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Date of Death",
+              "name": "date_of_death",
+              "type": "date"
+            },
+            {
+              "prompt": "Time",
+              "name": "time_of_death",
+              "type": "time"
+            },
+            {
+              "prompt": "Local File No.",
+              "name": "local_file_number",
+              "type": "string"
+            },
+            {
+              "prompt": "State File No.",
+              "name": "state_file_number",
+              "type": "string"
+            }
+          ]
+        },
         {
           "prompt": "Place of Last Residence",
           "name": "place_of_last_residence",
@@ -1552,6 +1608,11 @@
               "type": "string"
             },
             {
+              "prompt": "County",
+              "name": "county",
+              "type": "string"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
               "type": "string"
@@ -1560,6 +1621,1469 @@
               "prompt": "Longitude",
               "name": "longitude",
               "type": "string"
+            },
+            {
+              "prompt": "Get Coordinates",
+              "name": "get_coordinates",
+              "type": "button"
+            }
+          ]
+        },
+        {
+          "prompt": "Demographics",
+          "name": "demographics",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Date of Birth*",
+              "name": "date_of_birth",
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number",
+                  "is_core_summary": true
+                }
+              ]
+            },
+            {
+              "prompt": "Age at Death*",
+              "name": "age",
+              "type": "Number",
+              "is_core_summary": true
+            },
+            {
+              "prompt": "Marital Status*",
+              "name": "marital_status",
+              "type": "List",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "test",
+                  "value": "Married"
+                },
+                {
+                  "description": "",
+                  "value": "Married, but Separated"
+                },
+                {
+                  "description": "",
+                  "value": "Widowed"
+                },
+                {
+                  "description": "",
+                  "value": "Divorced"
+                },
+                {
+                  "description": "",
+                  "value": "Never Married"
+                },
+                {
+                  "description": "",
+                  "value": "Unknown"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
+                }
+              ],
+              "is_core_summary": true
+            },
+            {
+              "prompt": "City of Birth",
+              "name": "city_of_birth",
+              "type": "String"
+            },
+            {
+              "prompt": "State of Birth",
+              "name": "state_of_birth",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "AL- Alabama"
+                },
+                {
+                  "description": "",
+                  "value": "AK- Alaska"
+                },
+                {
+                  "description": "",
+                  "value": "AZ- Arizona"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Arkansas"
+                },
+                {
+                  "description": "",
+                  "value": "CA- California"
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colorado"
+                },
+                {
+                  "description": "",
+                  "value": "CT- Connecticut"
+                },
+                {
+                  "description": "",
+                  "value": "DE- Delaware"
+                },
+                {
+                  "description": "",
+                  "value": "DC- District of Columbia"
+                },
+                {
+                  "description": "",
+                  "value": "FL- Florida"
+                },
+                {
+                  "description": "",
+                  "value": "GA- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "HI- Hawaii"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Idaho"
+                },
+                {
+                  "description": "",
+                  "value": "IL- Illinois"
+                },
+                {
+                  "description": "",
+                  "value": "IN- Indiana"
+                },
+                {
+                  "description": "",
+                  "value": "IA- Iowa"
+                },
+                {
+                  "description": "",
+                  "value": "KS- Kansas"
+                },
+                {
+                  "description": "",
+                  "value": "KY- Kentucky"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Louisiana"
+                },
+                {
+                  "description": "",
+                  "value": "ME- Maine"
+                },
+                {
+                  "description": "",
+                  "value": "MD- Maryland"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Massachusetts"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Michigan"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Minnesota"
+                },
+                {
+                  "description": "",
+                  "value": "MS- Mississippi"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Missouri"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Montana"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Nebraska"
+                },
+                {
+                  "description": "",
+                  "value": "NV- Nevada"
+                },
+                {
+                  "description": "",
+                  "value": "NH- New Hampshire"
+                },
+                {
+                  "description": "",
+                  "value": "NJ- New Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "NM- New Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "NY- New York"
+                },
+                {
+                  "description": "",
+                  "value": "NC- North Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "ND- North Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "OH- Ohio"
+                },
+                {
+                  "description": "",
+                  "value": "OK- Oklahoma"
+                },
+                {
+                  "description": "",
+                  "value": "OR- Oregon"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Pennsylvania"
+                },
+                {
+                  "description": "",
+                  "value": "RI- Rhode Island"
+                },
+                {
+                  "description": "",
+                  "value": "SC- South Carolina"
+                },
+                {
+                  "description": "",
+                  "value": "SD- South Dakota"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tennessee"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Texas"
+                },
+                {
+                  "description": "",
+                  "value": "UT- Utah"
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vermont"
+                },
+                {
+                  "description": "",
+                  "value": "VA- Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Washington"
+                },
+                {
+                  "description": "",
+                  "value": "WV- West Virginia"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Wisconsin"
+                },
+                {
+                  "description": "",
+                  "value": "WY- Wyoming"
+                },
+                {
+                  "description": "",
+                  "value": "AS- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "GU- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Marshall Islands"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Northern Marianas"
+                },
+                {
+                  "description": "",
+                  "value": "PR- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "PW- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "VI- Virgin Islands"
+                }
+              ]
+            },
+            {
+              "prompt": "Country (If Foreign Born)*",
+              "name": "country_of_birth",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "US- United States"
+                },
+                {
+                  "description": "",
+                  "value": "AF- Afghanistan"
+                },
+                {
+                  "description": "",
+                  "value": "AL- Albania"
+                },
+                {
+                  "description": "",
+                  "value": "AG- Algeria"
+                },
+                {
+                  "description": "",
+                  "value": "AQ- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "AN- Andorra"
+                },
+                {
+                  "description": "",
+                  "value": "AO- Angola"
+                },
+                {
+                  "description": "",
+                  "value": "AV- Anguilla"
+                },
+                {
+                  "description": "",
+                  "value": "AY- Antarctica"
+                },
+                {
+                  "description": "",
+                  "value": "AC- Antigua & Barbuda"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Argentina"
+                },
+                {
+                  "description": "",
+                  "value": "AM- Armenia"
+                },
+                {
+                  "description": "",
+                  "value": "AA- Aruba"
+                },
+                {
+                  "description": "",
+                  "value": "AS- Australia"
+                },
+                {
+                  "description": "",
+                  "value": "AU- Austria"
+                },
+                {
+                  "description": "",
+                  "value": "AJ- Azerbaijan"
+                },
+                {
+                  "description": "",
+                  "value": "BF- The Bahamas"
+                },
+                {
+                  "description": "",
+                  "value": "BA- Bahrain"
+                },
+                {
+                  "description": "",
+                  "value": "FQ- Baker I."
+                },
+                {
+                  "description": "",
+                  "value": "BG- Bangladesh"
+                },
+                {
+                  "description": "",
+                  "value": "BB- Barbados"
+                },
+                {
+                  "description": "",
+                  "value": "BO- Belarus"
+                },
+                {
+                  "description": "",
+                  "value": "BE- Belgium"
+                },
+                {
+                  "description": "",
+                  "value": "BH- Belize"
+                },
+                {
+                  "description": "",
+                  "value": "BN- Benin"
+                },
+                {
+                  "description": "",
+                  "value": "BD- Bermuda"
+                },
+                {
+                  "description": "",
+                  "value": "BT- Bhutan"
+                },
+                {
+                  "description": "",
+                  "value": "BL- Bolivia"
+                },
+                {
+                  "description": "",
+                  "value": "BK- Bosnia & Herzegovina"
+                },
+                {
+                  "description": "",
+                  "value": "BC- Botswana"
+                },
+                {
+                  "description": "",
+                  "value": "BV- Bouvet I."
+                },
+                {
+                  "description": "",
+                  "value": "BR- Brazil"
+                },
+                {
+                  "description": "",
+                  "value": "IO- British Indian Ocean Territory"
+                },
+                {
+                  "description": "",
+                  "value": "VI- British Virgin Is."
+                },
+                {
+                  "description": "",
+                  "value": "BX- Brunei"
+                },
+                {
+                  "description": "",
+                  "value": "BU- Bulgaria"
+                },
+                {
+                  "description": "",
+                  "value": "UV- Burkina Faso"
+                },
+                {
+                  "description": "",
+                  "value": "BM- Myanmar"
+                },
+                {
+                  "description": "",
+                  "value": "BY- Burundi"
+                },
+                {
+                  "description": "",
+                  "value": "CB- Cambodia"
+                },
+                {
+                  "description": "",
+                  "value": "CM- Cameroon"
+                },
+                {
+                  "description": "",
+                  "value": "CA- Canada"
+                },
+                {
+                  "description": "",
+                  "value": "CV- Cape Verde"
+                },
+                {
+                  "description": "",
+                  "value": "CJ- Cayman Is."
+                },
+                {
+                  "description": "",
+                  "value": "CT- Central African Republic"
+                },
+                {
+                  "description": "",
+                  "value": "CD- Chad"
+                },
+                {
+                  "description": "",
+                  "value": "CI- Chile"
+                },
+                {
+                  "description": "",
+                  "value": "CH- China"
+                },
+                {
+                  "description": "",
+                  "value": "KT- Christmas I."
+                },
+                {
+                  "description": "",
+                  "value": "CK- Cocos Is."
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colombia"
+                },
+                {
+                  "description": "",
+                  "value": "CN- Comoros"
+                },
+                {
+                  "description": "",
+                  "value": "CF- Congo"
+                },
+                {
+                  "description": "",
+                  "value": "CW- Cook Is."
+                },
+                {
+                  "description": "",
+                  "value": "CS- Costa Rica"
+                },
+                {
+                  "description": "",
+                  "value": "IV- Cote d'Ivoire"
+                },
+                {
+                  "description": "",
+                  "value": "HR- Croatia"
+                },
+                {
+                  "description": "",
+                  "value": "CU- Cuba"
+                },
+                {
+                  "description": "",
+                  "value": "CY- Cyprus"
+                },
+                {
+                  "description": "",
+                  "value": "EZ- Czech Republic"
+                },
+                {
+                  "description": "",
+                  "value": "KN- North Korea"
+                },
+                {
+                  "description": "",
+                  "value": "CG- Congo, DRC"
+                },
+                {
+                  "description": "",
+                  "value": "DA- Denmark"
+                },
+                {
+                  "description": "",
+                  "value": "DJ- Djibouti"
+                },
+                {
+                  "description": "",
+                  "value": "DO- Dominica"
+                },
+                {
+                  "description": "",
+                  "value": "DR- Dominican Republic"
+                },
+                {
+                  "description": "",
+                  "value": "EC- Ecuador"
+                },
+                {
+                  "description": "",
+                  "value": "EG- Egypt"
+                },
+                {
+                  "description": "",
+                  "value": "ES- El Salvador"
+                },
+                {
+                  "description": "",
+                  "value": "EK- Equatorial Guinea"
+                },
+                {
+                  "description": "",
+                  "value": "ER- Eritrea"
+                },
+                {
+                  "description": "",
+                  "value": "EN- Estonia"
+                },
+                {
+                  "description": "",
+                  "value": "ET- Ethiopia"
+                },
+                {
+                  "description": "",
+                  "value": "FK- Falkland Is."
+                },
+                {
+                  "description": "",
+                  "value": "FO- Faroe Is."
+                },
+                {
+                  "description": "",
+                  "value": "FJ- Fiji"
+                },
+                {
+                  "description": "",
+                  "value": "FI- Finland"
+                },
+                {
+                  "description": "",
+                  "value": "FR- France"
+                },
+                {
+                  "description": "",
+                  "value": "FG- French Guiana"
+                },
+                {
+                  "description": "",
+                  "value": "FP- French Polynesia"
+                },
+                {
+                  "description": "",
+                  "value": "FS- French Southern & Antarctic Lands"
+                },
+                {
+                  "description": "",
+                  "value": "GB- Gabon"
+                },
+                {
+                  "description": "",
+                  "value": "GA- The Gambia"
+                },
+                {
+                  "description": "",
+                  "value": "GZ- Gaza Strip"
+                },
+                {
+                  "description": "",
+                  "value": "GG- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "GM- Germany"
+                },
+                {
+                  "description": "",
+                  "value": "GH- Ghana"
+                },
+                {
+                  "description": "",
+                  "value": "GI- Gibraltar"
+                },
+                {
+                  "description": "",
+                  "value": "GO- Glorioso Is."
+                },
+                {
+                  "description": "",
+                  "value": "GR- Greece"
+                },
+                {
+                  "description": "",
+                  "value": "GL- Greenland"
+                },
+                {
+                  "description": "",
+                  "value": "GJ- Grenada"
+                },
+                {
+                  "description": "",
+                  "value": "GP- Guadeloupe"
+                },
+                {
+                  "description": "",
+                  "value": "GQ- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "GT- Guatemala"
+                },
+                {
+                  "description": "",
+                  "value": "GK- Guernsey"
+                },
+                {
+                  "description": "",
+                  "value": "GV- Guinea"
+                },
+                {
+                  "description": "",
+                  "value": "PU- Guinea-Bissau"
+                },
+                {
+                  "description": "",
+                  "value": "GY- Guyana"
+                },
+                {
+                  "description": "",
+                  "value": "HA- Haiti"
+                },
+                {
+                  "description": "",
+                  "value": "HM- Heard I. & McDonald Is."
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vatican City"
+                },
+                {
+                  "description": "",
+                  "value": "HO- Honduras"
+                },
+                {
+                  "description": "",
+                  "value": "HQ- Howland I."
+                },
+                {
+                  "description": "",
+                  "value": "HU- Hungary"
+                },
+                {
+                  "description": "",
+                  "value": "IC- Iceland"
+                },
+                {
+                  "description": "",
+                  "value": "IN- India"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Indonesia"
+                },
+                {
+                  "description": "",
+                  "value": "IR- Iran"
+                },
+                {
+                  "description": "",
+                  "value": "IZ- Iraq"
+                },
+                {
+                  "description": "",
+                  "value": "EI- Ireland"
+                },
+                {
+                  "description": "",
+                  "value": "IM- Isle of Man"
+                },
+                {
+                  "description": "",
+                  "value": "IS- Israel"
+                },
+                {
+                  "description": "",
+                  "value": "IT- Italy"
+                },
+                {
+                  "description": "",
+                  "value": "JM- Jamaica"
+                },
+                {
+                  "description": "",
+                  "value": "JA- Japan"
+                },
+                {
+                  "description": "",
+                  "value": "DQ- Jarvis I."
+                },
+                {
+                  "description": "",
+                  "value": "JE- Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "JQ- Johnston Atoll"
+                },
+                {
+                  "description": "",
+                  "value": "JO- Jordan"
+                },
+                {
+                  "description": "",
+                  "value": "JU- Juan De Nova I."
+                },
+                {
+                  "description": "",
+                  "value": "KZ- Kazakhstan"
+                },
+                {
+                  "description": "",
+                  "value": "KE- Kenya"
+                },
+                {
+                  "description": "",
+                  "value": "KR- Kiribati"
+                },
+                {
+                  "description": "",
+                  "value": "KU- Kuwait"
+                },
+                {
+                  "description": "",
+                  "value": "KG- Kyrgyzstan"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Laos"
+                },
+                {
+                  "description": "",
+                  "value": "LG- Latvia"
+                },
+                {
+                  "description": "",
+                  "value": "LE- Lebanon"
+                },
+                {
+                  "description": "",
+                  "value": "LT- Lesotho"
+                },
+                {
+                  "description": "",
+                  "value": "LI- Liberia"
+                },
+                {
+                  "description": "",
+                  "value": "LY- Libya"
+                },
+                {
+                  "description": "",
+                  "value": "LS- Liechtenstein"
+                },
+                {
+                  "description": "",
+                  "value": "LH- Lithuania"
+                },
+                {
+                  "description": "",
+                  "value": "LU- Luxembourg"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Madagascar"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Malawi"
+                },
+                {
+                  "description": "",
+                  "value": "MY- Malaysia"
+                },
+                {
+                  "description": "",
+                  "value": "MV- Maldives"
+                },
+                {
+                  "description": "",
+                  "value": "ML- Mali"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Malta"
+                },
+                {
+                  "description": "",
+                  "value": "RM- Marshall Is."
+                },
+                {
+                  "description": "",
+                  "value": "MB- Martinique"
+                },
+                {
+                  "description": "",
+                  "value": "MR- Mauritania"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Mauritius"
+                },
+                {
+                  "description": "",
+                  "value": "MF- Mayotte"
+                },
+                {
+                  "description": "",
+                  "value": "MX- Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "FM- Micronesia"
+                },
+                {
+                  "description": "",
+                  "value": "MQ- Midway Is."
+                },
+                {
+                  "description": "",
+                  "value": "MD- Moldova"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Monaco"
+                },
+                {
+                  "description": "",
+                  "value": "MG- Mongolia"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Montserrat"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Morocco"
+                },
+                {
+                  "description": "",
+                  "value": "MZ- Mozambique"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Namibia"
+                },
+                {
+                  "description": "",
+                  "value": "NR- Nauru"
+                },
+                {
+                  "description": "",
+                  "value": "NP- Nepal"
+                },
+                {
+                  "description": "",
+                  "value": "NL- Netherlands"
+                },
+                {
+                  "description": "",
+                  "value": "NT- Netherlands Antilles"
+                },
+                {
+                  "description": "",
+                  "value": "NC- New Caledonia"
+                },
+                {
+                  "description": "",
+                  "value": "NZ- New Zealand"
+                },
+                {
+                  "description": "",
+                  "value": "NU- Nicaragua"
+                },
+                {
+                  "description": "",
+                  "value": "NG- Niger"
+                },
+                {
+                  "description": "",
+                  "value": "NI- Nigeria"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Niue"
+                },
+                {
+                  "description": "",
+                  "value": "NF- Norfolk I."
+                },
+                {
+                  "description": "",
+                  "value": "CQ- Northern Mariana Is."
+                },
+                {
+                  "description": "",
+                  "value": "NO- Norway"
+                },
+                {
+                  "description": "",
+                  "value": "MU- Oman"
+                },
+                {
+                  "description": "",
+                  "value": "PK- Pakistan"
+                },
+                {
+                  "description": "",
+                  "value": "PS- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "PM- Panama"
+                },
+                {
+                  "description": "",
+                  "value": "PP- Papua New Guinea"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Paraguay"
+                },
+                {
+                  "description": "",
+                  "value": "PE- Peru"
+                },
+                {
+                  "description": "",
+                  "value": "RP- Philippines"
+                },
+                {
+                  "description": "",
+                  "value": "PC- Pitcairn Is."
+                },
+                {
+                  "description": "",
+                  "value": "PL- Poland"
+                },
+                {
+                  "description": "",
+                  "value": "PO- Portugal"
+                },
+                {
+                  "description": "",
+                  "value": "RQ- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "QA- Qatar"
+                },
+                {
+                  "description": "",
+                  "value": "KS- South Korea"
+                },
+                {
+                  "description": "",
+                  "value": "MJ- Montenegro"
+                },
+                {
+                  "description": "",
+                  "value": "RB- Serbia"
+                },
+                {
+                  "description": "",
+                  "value": "RE- Reunion"
+                },
+                {
+                  "description": "",
+                  "value": "RO- Romania"
+                },
+                {
+                  "description": "",
+                  "value": "RS- Russia"
+                },
+                {
+                  "description": "",
+                  "value": "RW- Rwanda"
+                },
+                {
+                  "description": "",
+                  "value": "SH- St. Helena"
+                },
+                {
+                  "description": "",
+                  "value": "SC- St. Kitts & Nevis"
+                },
+                {
+                  "description": "",
+                  "value": "ST- St. Lucia"
+                },
+                {
+                  "description": "",
+                  "value": "SB- St. Pierre & Miquelon"
+                },
+                {
+                  "description": "",
+                  "value": "VC- St. Vincent & the Grenadines"
+                },
+                {
+                  "description": "",
+                  "value": "WS- Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "SM- San Marino"
+                },
+                {
+                  "description": "",
+                  "value": "TP- Sao Tome & Principe"
+                },
+                {
+                  "description": "",
+                  "value": "SA- Saudi Arabia"
+                },
+                {
+                  "description": "",
+                  "value": "SG- Senegal"
+                },
+                {
+                  "description": "",
+                  "value": "SE- Seychelles"
+                },
+                {
+                  "description": "",
+                  "value": "SL- Sierra Leone"
+                },
+                {
+                  "description": "",
+                  "value": "SN- Singapore"
+                },
+                {
+                  "description": "",
+                  "value": "LO- Slovakia"
+                },
+                {
+                  "description": "",
+                  "value": "SI- Slovenia"
+                },
+                {
+                  "description": "",
+                  "value": "BP- Solomon Is."
+                },
+                {
+                  "description": "",
+                  "value": "SO- Somalia"
+                },
+                {
+                  "description": "",
+                  "value": "SF- South Africa"
+                },
+                {
+                  "description": "",
+                  "value": "SX- South Georgia & the South Sandwich Is."
+                },
+                {
+                  "description": "",
+                  "value": "SP- Spain"
+                },
+                {
+                  "description": "",
+                  "value": "CE- Sri Lanka"
+                },
+                {
+                  "description": "",
+                  "value": "SU- Sudan"
+                },
+                {
+                  "description": "",
+                  "value": "NS- Suriname"
+                },
+                {
+                  "description": "",
+                  "value": "JN- Jan Mayen"
+                },
+                {
+                  "description": "",
+                  "value": "SV- Svalbard"
+                },
+                {
+                  "description": "",
+                  "value": "WZ- Swaziland"
+                },
+                {
+                  "description": "",
+                  "value": "SW- Sweden"
+                },
+                {
+                  "description": "",
+                  "value": "SZ- Switzerland"
+                },
+                {
+                  "description": "",
+                  "value": "SY- Syria"
+                },
+                {
+                  "description": "",
+                  "value": "TI- Tajikistan"
+                },
+                {
+                  "description": "",
+                  "value": "TH- Thailand"
+                },
+                {
+                  "description": "",
+                  "value": "MK- Macedonia"
+                },
+                {
+                  "description": "",
+                  "value": "TT- Timor-Leste"
+                },
+                {
+                  "description": "",
+                  "value": "TO- Togo"
+                },
+                {
+                  "description": "",
+                  "value": "TL- Tokelau"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tonga"
+                },
+                {
+                  "description": "",
+                  "value": "TD- Trinidad & Tobago"
+                },
+                {
+                  "description": "",
+                  "value": "TS- Tunisia"
+                },
+                {
+                  "description": "",
+                  "value": "TU- Turkey"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Turkmenistan"
+                },
+                {
+                  "description": "",
+                  "value": "TK- Turks & Caicos Is."
+                },
+                {
+                  "description": "",
+                  "value": "TV- Tuvalu"
+                },
+                {
+                  "description": "",
+                  "value": "UG- Uganda"
+                },
+                {
+                  "description": "",
+                  "value": "UP- Ukraine"
+                },
+                {
+                  "description": "",
+                  "value": "AE- United Arab Emirates"
+                },
+                {
+                  "description": "",
+                  "value": "UK- United Kingdom"
+                },
+                {
+                  "description": "",
+                  "value": "TZ- Tanzania"
+                },
+                {
+                  "description": "",
+                  "value": "VQ- Virgin Is."
+                },
+                {
+                  "description": "",
+                  "value": "UY- Uruguay"
+                },
+                {
+                  "description": "",
+                  "value": "UZ- Uzbekistan"
+                },
+                {
+                  "description": "",
+                  "value": "NH- Vanuatu"
+                },
+                {
+                  "description": "",
+                  "value": "VE- Venezuela"
+                },
+                {
+                  "description": "",
+                  "value": "VM- Vietnam"
+                },
+                {
+                  "description": "",
+                  "value": "WQ- Wake I."
+                },
+                {
+                  "description": "",
+                  "value": "WF- Wallis & Futuna"
+                },
+                {
+                  "description": "",
+                  "value": "WE- West Bank"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Western Sahara"
+                },
+                {
+                  "description": "",
+                  "value": "YM- Yemen"
+                },
+                {
+                  "description": "",
+                  "value": "ZA- Zambia"
+                },
+                {
+                  "description": "",
+                  "value": "ZI- Zimbabwe"
+                },
+                {
+                  "description": "",
+                  "value": "SS- South Sudan"
+                }
+              ],
+              "is_core_summary": true
+            },
+            {
+              "prompt": "Primary Occupation*",
+              "name": "primary_occupation",
+              "type": "String",
+              "is_core_summary": true
+            },
+            {
+              "prompt": "Business/ Industry",
+              "name": "occupation_business_industry",
+              "type": "String"
+            },
+            {
+              "prompt": "Ever in US Armed Forces?",
+              "name": "ever_in_us_armed_forces",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Yes"
+                },
+                {
+                  "description": "",
+                  "value": "No"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
+                }
+              ]
+            },
+            {
+              "prompt": "Hispanic Origin?*",
+              "name": "is_of_hispanic_origin",
+              "type": "List",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "No, not Spanish/ Hispanic/ Latino"
+                },
+                {
+                  "description": "",
+                  "value": "Yes, Mexican, Mexican American, Chicano"
+                },
+                {
+                  "description": "",
+                  "value": "Yes, Puerto Rican"
+                },
+                {
+                  "description": "",
+                  "value": "Yes, Cuban"
+                },
+                {
+                  "description": "",
+                  "value": "Yes, Other Spanish/ Hispanic/ Latino"
+                },
+                {
+                  "description": "",
+                  "value": "Yes, Origin Unknown"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
+                }
+              ],
+              "is_core_summary": true
+            },
+            {
+              "prompt": "Education*",
+              "name": "education_level",
+              "type": "List",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "8th Grade or Less"
+                },
+                {
+                  "description": "",
+                  "value": "9th-12th grade; No Diploma"
+                },
+                {
+                  "description": "",
+                  "value": "High School Grad or GED completed"
+                },
+                {
+                  "description": "",
+                  "value": "Some College; No Degree"
+                },
+                {
+                  "description": "",
+                  "value": "Associate's Degree"
+                },
+                {
+                  "description": "",
+                  "value": "Bachelor's Degree"
+                },
+                {
+                  "description": "",
+                  "value": "Master's Degree"
+                },
+                {
+                  "description": "",
+                  "value": "Doctorate or Professional Degree"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
+                }
+              ],
+              "is_core_summary": true
             }
           ]
         },
@@ -2575,609 +4099,208 @@
           ]
         },
         {
-          "prompt": "Date of Birth*",
-          "name": "date_of_birth",
+          "prompt": "race",
+          "name": "Race",
           "type": "group",
           "children": [
             {
-              "prompt": "Month",
-              "name": "month",
-              "type": "number"
+              "prompt": "Race*",
+              "name": "race",
+              "type": "List",
+              "values": [
+                {
+                  "description": "",
+                  "value": "White"
+                },
+                {
+                  "description": "",
+                  "value": "Black"
+                },
+                {
+                  "description": "",
+                  "value": "American Indian/Alaska Native"
+                },
+                {
+                  "description": "",
+                  "value": "Native Hawaiian"
+                },
+                {
+                  "description": "",
+                  "value": "Guamanian or Chamorro"
+                },
+                {
+                  "description": "",
+                  "value": "Samoan"
+                },
+                {
+                  "description": "",
+                  "value": "Other Pacific Islander"
+                },
+                {
+                  "description": "",
+                  "value": "Asian Indian"
+                },
+                {
+                  "description": "",
+                  "value": "Filipino"
+                },
+                {
+                  "description": "",
+                  "value": "Korean"
+                },
+                {
+                  "description": "",
+                  "value": "Other Asian"
+                },
+                {
+                  "description": "",
+                  "value": "Chinese"
+                },
+                {
+                  "description": "",
+                  "value": "Japanese"
+                },
+                {
+                  "description": "",
+                  "value": "Vietnamese"
+                },
+                {
+                  "description": "",
+                  "value": "Other Race"
+                },
+                {
+                  "description": "",
+                  "value": "Race Not Specified"
+                }
+              ],
+              "is_core_summary": true,
+              "is_multiselect": true,
+              "list_display_size": 16
             },
             {
-              "prompt": "Day",
-              "name": "day",
-              "type": "number"
+              "prompt": "OMB Race Recode",
+              "name": "omb_race_recode",
+              "type": "string"
             },
             {
-              "prompt": "Year",
-              "name": "year",
-              "type": "number",
-              "is_core_summary": true
+              "prompt": "Recode",
+              "name": "cmd_recode",
+              "type": "button"
+            },
+            {
+              "prompt": "Other Race",
+              "name": "other_race",
+              "type": "string"
+            },
+            {
+              "prompt": "Other Asian",
+              "name": "other_asian",
+              "type": "string"
+            },
+            {
+              "prompt": "Other Pacific Islander",
+              "name": "other_pacific_islander",
+              "type": "string"
             }
           ]
         },
         {
-          "prompt": "Age at Death*",
-          "name": "age",
-          "type": "Number",
-          "is_core_summary": true
-        },
-        {
-          "prompt": "Marital Status*",
-          "name": "marital_status",
-          "type": "List",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "test",
-              "value": "Married"
-            },
-            {
-              "description": "",
-              "value": "Married, but Separated"
-            },
-            {
-              "description": "",
-              "value": "Widowed"
-            },
-            {
-              "description": "",
-              "value": "Divorced"
-            },
-            {
-              "description": "",
-              "value": "Never Married"
-            },
-            {
-              "description": "",
-              "value": "Unknown"
-            },
-            {
-              "description": "",
-              "value": "Not Specified"
-            }
-          ],
-          "is_core_summary": true
-        },
-        {
-          "prompt": "City of Birth",
-          "name": "city_of_birth",
-          "type": "String"
-        },
-        {
-          "prompt": "State of Birth",
-          "name": "state_of_birth",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "AL- Alabama"
-            },
-            {
-              "description": "",
-              "value": "AK- Alaska"
-            },
-            {
-              "description": "",
-              "value": "AZ- Arizona"
-            },
-            {
-              "description": "",
-              "value": "AR- Arkansas"
-            },
-            {
-              "description": "",
-              "value": "CA- California"
-            },
-            {
-              "description": "",
-              "value": "CO- Colorado"
-            },
-            {
-              "description": "",
-              "value": "CT- Connecticut"
-            },
-            {
-              "description": "",
-              "value": "DE- Delaware"
-            },
-            {
-              "description": "",
-              "value": "DC- District of Columbia"
-            },
-            {
-              "description": "",
-              "value": "FL- Florida"
-            },
-            {
-              "description": "",
-              "value": "GA- Georgia"
-            },
-            {
-              "description": "",
-              "value": "HI- Hawaii"
-            },
-            {
-              "description": "",
-              "value": "ID- Idaho"
-            },
-            {
-              "description": "",
-              "value": "IL- Illinois"
-            },
-            {
-              "description": "",
-              "value": "IN- Indiana"
-            },
-            {
-              "description": "",
-              "value": "IA- Iowa"
-            },
-            {
-              "description": "",
-              "value": "KS- Kansas"
-            },
-            {
-              "description": "",
-              "value": "KY- Kentucky"
-            },
-            {
-              "description": "",
-              "value": "LA- Louisiana"
-            },
-            {
-              "description": "",
-              "value": "ME- Maine"
-            },
-            {
-              "description": "",
-              "value": "MD- Maryland"
-            },
-            {
-              "description": "",
-              "value": "MA- Massachusetts"
-            },
-            {
-              "description": "",
-              "value": "MI- Michigan"
-            },
-            {
-              "description": "",
-              "value": "MN- Minnesota"
-            },
-            {
-              "description": "",
-              "value": "MS- Mississippi"
-            },
-            {
-              "description": "",
-              "value": "MO- Missouri"
-            },
-            {
-              "description": "",
-              "value": "MT- Montana"
-            },
-            {
-              "description": "",
-              "value": "NE- Nebraska"
-            },
-            {
-              "description": "",
-              "value": "NV- Nevada"
-            },
-            {
-              "description": "",
-              "value": "NH- New Hampshire"
-            },
-            {
-              "description": "",
-              "value": "NJ- New Jersey"
-            },
-            {
-              "description": "",
-              "value": "NM- New Mexico"
-            },
-            {
-              "description": "",
-              "value": "NY- New York"
-            },
-            {
-              "description": "",
-              "value": "NC- North Carolina"
-            },
-            {
-              "description": "",
-              "value": "ND- North Dakota"
-            },
-            {
-              "description": "",
-              "value": "OH- Ohio"
-            },
-            {
-              "description": "",
-              "value": "OK- Oklahoma"
-            },
-            {
-              "description": "",
-              "value": "OR- Oregon"
-            },
-            {
-              "description": "",
-              "value": "PA- Pennsylvania"
-            },
-            {
-              "description": "",
-              "value": "RI- Rhode Island"
-            },
-            {
-              "description": "",
-              "value": "SC- South Carolina"
-            },
-            {
-              "description": "",
-              "value": "SD- South Dakota"
-            },
-            {
-              "description": "",
-              "value": "TN- Tennessee"
-            },
-            {
-              "description": "",
-              "value": "TX- Texas"
-            },
-            {
-              "description": "",
-              "value": "UT- Utah"
-            },
-            {
-              "description": "",
-              "value": "VT- Vermont"
-            },
-            {
-              "description": "",
-              "value": "VA- Virginia"
-            },
-            {
-              "description": "",
-              "value": "WA- Washington"
-            },
-            {
-              "description": "",
-              "value": "WV- West Virginia"
-            },
-            {
-              "description": "",
-              "value": "WI- Wisconsin"
-            },
-            {
-              "description": "",
-              "value": "WY- Wyoming"
-            },
-            {
-              "description": "",
-              "value": "AS- American Samoa"
-            },
-            {
-              "description": "",
-              "value": "GU- Guam"
-            },
-            {
-              "description": "",
-              "value": "MH- Marshall Islands"
-            },
-            {
-              "description": "",
-              "value": "MP- Northern Marianas"
-            },
-            {
-              "description": "",
-              "value": "PR- Puerto Rico"
-            },
-            {
-              "description": "",
-              "value": "PW- Palau"
-            },
-            {
-              "description": "",
-              "value": "VI- Virgin Islands"
-            }
-          ]
-        },
-        {
-          "prompt": "Country of Birth (if Foreign Born)*",
-          "name": "country_of_birth",
-          "type": "string",
-          "is_core_summary": true
-        },
-        {
-          "prompt": "Primary Occupation*",
-          "name": "primary_occupation",
-          "type": "String",
-          "is_core_summary": true
-        },
-        {
-          "prompt": "Business/ Industry",
-          "name": "occupation_business_industry",
-          "type": "String"
-        },
-        {
-          "prompt": "Ever in US Armed Forces?",
-          "name": "ever_in_us_armed_forces",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Yes"
-            },
-            {
-              "description": "",
-              "value": "No"
-            },
-            {
-              "description": "",
-              "value": "Not Specified"
-            }
-          ]
-        },
-        {
-          "prompt": "Hispanic Origin?*",
-          "name": "is_of_hispanic_origin",
-          "type": "List",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "No, not Spanish/ Hispanic/ Latino"
-            },
-            {
-              "description": "",
-              "value": "Yes, Mexican, Mexican American, Chicano"
-            },
-            {
-              "description": "",
-              "value": "Yes, Puerto Rican"
-            },
-            {
-              "description": "",
-              "value": "Yes, Cuban"
-            },
-            {
-              "description": "",
-              "value": "Yes, Other Spanish/ Hispanic/ Latino"
-            },
-            {
-              "description": "",
-              "value": "Yes, Origin Unknown"
-            },
-            {
-              "description": "",
-              "value": "Not Specified"
-            }
-          ],
-          "is_core_summary": true
-        },
-        {
-          "prompt": "Education*",
-          "name": "education_level",
-          "type": "List",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "8th Grade or Less"
-            },
-            {
-              "description": "",
-              "value": "9th-12th grade; No Diploma"
-            },
-            {
-              "description": "",
-              "value": "High School Grad or GED completed"
-            },
-            {
-              "description": "",
-              "value": "Some College; No Degree"
-            },
-            {
-              "description": "",
-              "value": "Associate's Degree"
-            },
-            {
-              "description": "",
-              "value": "Bachelor's Degree"
-            },
-            {
-              "description": "",
-              "value": "Master's Degree"
-            },
-            {
-              "description": "",
-              "value": "Doctorate or Professional Degree"
-            },
-            {
-              "description": "",
-              "value": "Not Specified"
-            }
-          ],
-          "is_core_summary": true
-        },
-        {
-          "prompt": "Race*",
-          "name": "race",
-          "type": "List",
-          "values": [
-            {
-              "description": "",
-              "value": "White"
-            },
-            {
-              "description": "",
-              "value": "Black"
-            },
-            {
-              "description": "",
-              "value": "American Indian/Alaska Native"
-            },
-            {
-              "description": "",
-              "value": "Native Hawaiian"
-            },
-            {
-              "description": "",
-              "value": "Guamanian or Chamorro"
-            },
-            {
-              "description": "",
-              "value": "Samoan"
-            },
-            {
-              "description": "",
-              "value": "Other Pacific Islander"
-            },
-            {
-              "description": "",
-              "value": "Asian Indian"
-            },
-            {
-              "description": "",
-              "value": "Filipino"
-            },
-            {
-              "description": "",
-              "value": "Korean"
-            },
-            {
-              "description": "",
-              "value": "Other Asian"
-            },
-            {
-              "description": "",
-              "value": "Chinese"
-            },
-            {
-              "description": "",
-              "value": "Japanese"
-            },
-            {
-              "description": "",
-              "value": "Vietnamese"
-            },
-            {
-              "description": "",
-              "value": "Other Race"
-            },
-            {
-              "description": "",
-              "value": "Race Not Specified"
-            }
-          ],
-          "is_core_summary": true,
-          "is_multiselect": true,
-          "list_display_size": 16
-        },
-        {
-          "prompt": "Date of Injury",
-          "name": "date_of_injury",
-          "type": "Date"
-        },
-        {
-          "prompt": "Time of Injury",
-          "name": "time_of_injury",
-          "type": "Time"
-        },
-        {
-          "prompt": "Place of Injury (Place Name, if Applicable)",
-          "name": "place_of_injury",
-          "type": "string"
-        },
-        {
-          "prompt": "Was Injury at Work?",
-          "name": "was_injury_at_work",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Yes"
-            },
-            {
-              "description": "",
-              "value": "No"
-            },
-            {
-              "description": "",
-              "value": "Not Specified"
-            }
-          ]
-        },
-        {
-          "prompt": "Transportation Related Injury?",
-          "name": "transportation_related_injury",
-          "type": "List",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Driver/Operator"
-            },
-            {
-              "description": "",
-              "value": "Passenger"
-            },
-            {
-              "description": "",
-              "value": "Pedestrian"
-            },
-            {
-              "description": "",
-              "value": "Other (specify)"
-            }
-          ]
-        },
-        {
-          "prompt": "Were Seat Belts in Use?",
-          "name": "were_seat_belts_in_use",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Yes"
-            },
-            {
-              "description": "",
-              "value": "No"
-            },
-            {
-              "description": "",
-              "value": "Not Specified"
+          "prompt": "Injury Associated Information",
+          "name": "injury_associated_information",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Date of Injury",
+              "name": "date_of_injury",
+              "type": "Date"
+            },
+            {
+              "prompt": "Time of Injury",
+              "name": "time_of_injury",
+              "type": "Time"
+            },
+            {
+              "prompt": "Place of Injury (Place Name, if Applicable)",
+              "name": "place_of_injury",
+              "type": "string"
+            },
+            {
+              "prompt": "Was Injury at Work?",
+              "name": "was_injury_at_work",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Yes"
+                },
+                {
+                  "description": "",
+                  "value": "No"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
+                }
+              ]
+            },
+            {
+              "prompt": "Transportation Related Injury?",
+              "name": "transportation_related_injury",
+              "type": "List",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Driver/Operator"
+                },
+                {
+                  "description": "",
+                  "value": "Passenger"
+                },
+                {
+                  "description": "",
+                  "value": "Pedestrian"
+                },
+                {
+                  "description": "",
+                  "value": "Other (specify)"
+                }
+              ]
+            },
+            {
+              "prompt": "Other",
+              "name": "transport_related_other_specify",
+              "type": "string"
+            },
+            {
+              "prompt": "Were Seat Belts in Use?",
+              "name": "were_seat_belts_in_use",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Yes"
+                },
+                {
+                  "description": "",
+                  "value": "No"
+                },
+                {
+                  "description": "",
+                  "value": "Not Specified"
+                }
+              ]
             }
           ]
         },
@@ -4032,10 +5155,10 @@
               ]
             },
             {
-              "prompt": "Location Where Injury Occured",
-              "name": "address",
-              "type": "group",
-              "children": []
+              "prompt": "new list",
+              "name": "new_list",
+              "type": "list",
+              "values": []
             }
           ]
         },
@@ -6744,9 +7867,9 @@
           "is_multiselect": true
         },
         {
-          "prompt": "Length of Time Between Birth of Child and Death of Mother*",
+          "prompt": "Number of Days  Between Birth of Child and Death of Mother*",
           "name": "length_between_child_birth_and_death_of_mother",
-          "type": "String",
+          "type": "number",
           "is_core_summary": true
         },
         {
@@ -11465,7 +12588,7 @@
           "prompt": "Reviewer's Notes About this Hospitalization, Delivery or ER Visit",
           "name": "reviewer_note",
           "type": "textarea",
-          "pre_fill": "Fill out separate summary for each hospital visit and label each different facility by number or letter to differentiate facilities.\n\nShe presented at ____(weeks gestation) to the ______________ (ED or L& D triage or other) in a __________ (hospital level of OB care or trauma /trauma level) via _________ (method of transportation) on _________ (date) at __________(time). Her chief complaint was___________________.  Her weight on admission was __________and her presenting vital signs were__________________________.  She was screened for __________________ (describe type of screening i.e. Embolism, hemorrhage, ectopic, influenza, domestic violence, etc.)\nPhysical examination on admission found_______________________. Labs performed included _________________with ________________abnormal findings noted.  Diagnostic tests performed included_____________________________with the following abnormal findings noted______________________________. Her diagnosis was_______________________ and she was admitted to ____________ (describe unit) OR transferred to______________OR discharged to____________________.\n\n(If admitted provide brief chronological synopsis of events that occurred during the hospital stay including condition and vital signs when discharged.)\n\nIf admission to L&D complete the following template:\n\nShe labored for ____________hours and delivered via _____________ (method-if CS describe reason) by a (n) _________________ (provider type) under ____________ (anesthesia/local).  Medications administered during labor and delivery or postpartum included___________________________.  She received ____________units of blood products (delete if not applicable).  Infant weighed_______________with Apgars of________________.\nComplications during labor, delivery or postpartum (prior to discharge) include_____________________________.\nShe was discharged home on day__________.  Vitals signs at discharge included____________.  She was instructed to ___________________________ (special education or f/up appointments)."
+          "pre_fill": "(Fill out separate summary for each hospital visit and label each different facility by number or letter to differentiate facilities.)\n\nShe presented at ____(weeks gestation) to the ______________ (ED or L& D triage or other) in a __________ (hospital level of OB care or trauma /trauma level) via _________ (method of transportation) on _________ (date) at __________(time). Her chief complaint was___________________.  Her weight on admission was __________and her presenting vital signs were__________________________.  She was screened for __________________ (describe type of screening i.e. Embolism, hemorrhage, ectopic, influenza, domestic violence, etc.)\nPhysical examination on admission found_______________________. Labs performed included _________________with ________________abnormal findings noted.  Diagnostic tests performed included_____________________________with the following abnormal findings noted______________________________. Her diagnosis was_______________________ and she was admitted to ____________ (describe unit) OR transferred to______________OR discharged to____________________.\n\n(If admitted provide brief chronological synopsis of events that occurred during the hospital stay including condition and vital signs when discharged.)\n\nIf admission to L&D complete the following template:\n\nShe labored for ____________hours and delivered via _____________ (method-if CS describe reason) by a (n) _________________ (provider type) under ____________ (anesthesia/local).  Medications administered during labor and delivery or postpartum included___________________________.  She received ____________units of blood products (delete if not applicable).  Infant weighed_______________with Apgars of________________.\nComplications during labor, delivery or postpartum (prior to discharge) include_____________________________.\nShe was discharged home on day__________.  Vitals signs at discharge included____________.  She was instructed to ___________________________ (special education or f/up appointments)."
         }
       ]
     },
@@ -12811,6 +13934,56 @@
       "type": "form",
       "cardinality": "?",
       "children": [
+        {
+          "prompt": "Place of Last Residence Census Information",
+          "name": "census",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Types of Health Insurance Coverage by Age",
+              "name": "b27010",
+              "type": "string",
+              "description": "Census tract - Types of health insurance coverage by age http://api.census.gov/data/2014/acs5/variables/B27010_001E.json"
+            },
+            {
+              "prompt": "Sex by Age by Educational Attainment for the Population 18+",
+              "name": "b15001",
+              "type": "string",
+              "description": "Census tract - Sex by age by educational attainment for the population 18+ http://api.census.gov/data/2014/acs5/variables/B15001_001E.json"
+            },
+            {
+              "prompt": "Poverty Status in the Past 12 Months by Age",
+              "name": "b17020",
+              "type": "string",
+              "description": "Census tract - Poverty status in the past 12 months by age http://api.census.gov/data/2014/acs5/variables/B17020_001E.json"
+            },
+            {
+              "prompt": "Rural or Urban Status",
+              "name": "rural_or_urban",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Rural"
+                },
+                {
+                  "description": "",
+                  "value": "Urban"
+                }
+              ]
+            },
+            {
+              "prompt": "FIPS Code",
+              "name": "fips_code",
+              "type": "string"
+            }
+          ],
+          "description": "Place of last residence base on death certificate."
+        },
         {
           "prompt": "Socio-Economic Characteristics",
           "name": "socio_economic_characteristics",
@@ -15549,7 +16722,8 @@
               "description": "",
               "value": "Multiracial"
             }
-          ]
+          ],
+          "is_multiselect": true
         },
         {
           "prompt": "Interview Narrative",
@@ -15569,11 +16743,6 @@
       "type": "form",
       "cardinality": "?",
       "children": [
-        {
-          "prompt": "Reviewer's Notes",
-          "name": "reviewers_notes",
-          "type": "textarea"
-        },
         {
           "prompt": "Case Opening Overview",
           "name": "case_opening_overview",

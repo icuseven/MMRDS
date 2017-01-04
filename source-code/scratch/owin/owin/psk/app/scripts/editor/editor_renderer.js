@@ -938,11 +938,13 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 			if(g_copy_clip_board.indexOf(collection_path) == 0)
 			{
 				g_delete_node_clip_board = g_delete_node_clip_board = collection_path + g_copy_clip_board.replace(collection_path,"").replace(/(\d+)/, function(x) { return new Number(x) + 1; });
+				g_copy_clip_board = null;
 				editor_delete_node(null, g_delete_node_clip_board);
 			}
 			else
 			{
 				g_delete_node_clip_board = g_copy_clip_board;
+				g_copy_clip_board = null;
 				editor_delete_node(null, g_delete_node_clip_board);
 			}
 
@@ -981,11 +983,13 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 			if(g_copy_clip_board.indexOf(collection_path) == 0)
 			{
 				g_delete_node_clip_board = collection_path + g_copy_clip_board.replace(collection_path,"").replace(/(\d+)/, function(x) { return new Number(x) + 1; });
+				g_copy_clip_board = null;
 				editor_delete_node(null, g_delete_node_clip_board);
 			}
 			else
 			{
 				g_delete_node_clip_board = g_copy_clip_board;
+				g_copy_clip_board = null;
 				editor_delete_node(null, g_delete_node_clip_board);
 			}
 		}
