@@ -153,7 +153,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(' ');
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
-			result.push(' <input type="button" value="kp" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+			result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
 			result.push(p_object_path);
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -895,7 +895,15 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 			path_array.splice(path_array.length -2, 2);
 
 			var collection_path = path_array.join('/');
+/*
+			var is_same = /^\[\d+\]$/;
+			var reg_check = g_copy_clip_board.replace(collection_path,"");
+			if(reg_check.match(is_same))
+			{
 
+			}
+
+*/
 
 			var item_path = get_eval_string(collection_path);	
 
@@ -934,6 +942,8 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 				node_to_render.innerHTML = node.join("");
 				window.dispatchEvent(metadata_changed_event);
 			}
+
+
 
 			if(g_copy_clip_board.indexOf(collection_path) == 0)
 			{
