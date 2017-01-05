@@ -84,7 +84,7 @@ namespace mmria.console.import
 				{"MaternalBirthCertificate", false },
 				{"ChildBirthCertificate", true },
 				{"AutopsyReport", false },
-				{"PrenatalCareRecord", true },
+				{"PrenatalCareRecord", false },
 				{"SocialServicesRecord", false },
 				{"Hospitalization", true },
 				{"OfficeVisits", true },
