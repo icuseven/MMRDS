@@ -25,7 +25,7 @@ namespace mmria
 			}
 		}
 
-		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value, string p_mmrds_path)
+		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value, string p_mmrds_path, string p_prompt = null)
 		{
 			bool result = false;
 
@@ -92,22 +92,54 @@ namespace mmria
 						{
 							index[path[i]] = p_value;
 							result = true;
-						}
+						}/*
 						else if (index[path[i]].GetType().ToString() == "System.Boolean")
 						{
 							//((IList<string>)index[path[i]]).Add(p_value.ToString());
-							index[path[i]] = p_value;
-							result = true;
-						}
-						else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]")
+							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
+							if (
+								node.type.ToLower() == "list" && 
+								node.is_multiselect != null && 
+								node.is_multiselect == true &&
+								((bool)p_value) == true
+							)
+							{
+								((IList<string>)index[path[i]]).Add(p_prompt);
+								result = true;
+							}
+							else
+							{
+								index[path[i]] = p_value;
+								result = true;
+							}
+
+
+						}*/
+						else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]" && p_value is string)
 						{
 							((IList<string>)index[path[i]]).Add(p_value.ToString());
 							result = true;
 						}
 						else
 						{
-							index[path[i]] = p_value;
-							result = true;
+							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
+							if (
+									node.type.ToLower() == "list" && 
+									node.is_multiselect != null && 
+									node.is_multiselect == true 
+							)
+							{
+								if ((bool)p_value)
+								{
+									((List<string>)index[path[i]]).Add(p_prompt);
+								}
+								result = true;
+							}
+							else
+							{
+								index[path[i]] = p_value;
+								result = true;
+							}
 						}
 					}
 					else
@@ -118,7 +150,9 @@ namespace mmria
 			}
 			catch (Exception ex)
 			{
-				string key = string.Format("bad mmria path {0}\n {1}", p_mmrds_path, p_path);
+				System.Text.RegularExpressions.Regex index_path_regex = new System.Text.RegularExpressions.Regex(@"\d+/");
+
+				string key = string.Format("bad mmria path {0}\n {1}", p_mmrds_path, index_path_regex.Replace(p_path,""));
 				if (!FoundPaths.Contains(key))
 				{
 					FoundPaths.Add(key);

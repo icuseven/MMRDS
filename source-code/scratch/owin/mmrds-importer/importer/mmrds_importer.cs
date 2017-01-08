@@ -384,8 +384,14 @@ namespace mmria.console.import
 
 					}*/
 
-
-					case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()], row[0].ToString());
+					if (row["DataType"].ToString().ToLower() == "boolean")
+					{
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()], row[0].ToString(), row["prompttext"].ToString());
+					}
+					else
+					{
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()], row[0].ToString());
+					}
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
 
