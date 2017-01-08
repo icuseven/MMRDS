@@ -10,8 +10,11 @@ namespace mmria.console.import
 	{
 		private string auth_token = null;
 
+
 		public mmrds_importer()
 		{
+			
+
 		}
 		public void Execute(string[] args)
 		{
@@ -382,7 +385,7 @@ namespace mmria.console.import
 					}*/
 
 
-					case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()]);
+					case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()], row[0].ToString());
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
 
@@ -421,7 +424,7 @@ namespace mmria.console.import
 						path = case_maker.AppendGridIndexToPath(grid_index.Value, path);
 					}
 
-					case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString()]);
+					case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString()], row[0].ToString() + "." + row[2].ToString());
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));
 

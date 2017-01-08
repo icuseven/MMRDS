@@ -6,12 +6,26 @@ namespace mmria
 {
 	public class Case_Maker
 	{
+		private System.IO.StreamWriter BadMappingLog = null;
+		private System.Collections.Generic.HashSet<string> FoundPaths = null;
+
 		public Case_Maker()
 		{
+			FoundPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			BadMappingLog = new System.IO.StreamWriter("badmapping.txt");
 		}
 
 
-		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value)
+		public void add_bad_mapping(string p_key)
+		{
+			if (!FoundPaths.Contains(p_key))
+			{
+				FoundPaths.Add(p_key);
+				BadMappingLog.WriteLine(p_key);
+			}
+		}
+
+		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value, string p_mmrds_path)
 		{
 			bool result = false;
 
@@ -104,7 +118,13 @@ namespace mmria
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+				string key = string.Format("bad mmria path {0}\n {1}", p_mmrds_path, p_path);
+				if (!FoundPaths.Contains(key))
+				{
+					FoundPaths.Add(key);
+					BadMappingLog.WriteLine(key);
+				}
+				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}
 
 			return result;
