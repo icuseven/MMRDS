@@ -175,7 +175,16 @@
     <None Include="psk\app\styles\shared-styles.html" />
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="psk\app\images\DRAFT.png" />
+    <Content Include="psk\app\images\ic_steth.svg" />
+    <Content Include="psk\app\images\mmria-primary-reversed.svg" />
+    <Content Include="psk\app\images\mmria-primary.svg" />
+    <Content Include="psk\app\images\mmria-secondary-reversed.svg" />
+    <Content Include="psk\app\images\mmria-secondary.ico" />
+    <Content Include="psk\app\images\mmria-secondary.svg" />
+    <Content Include="psk\app\images\search.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj">
       <Project>{18994598-71B1-482A-9C76-1A2A9575B7AD}</Project>

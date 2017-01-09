@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria-server", "owin\mmria-server.csproj", "{D1F6116E-6874-431C-BAEA-03BA83C53F7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria-console", "mmrds-importer\mmria-console.csproj", "{055046CB-CF46-4AB3-A79E-EBF49D7D713F}"
@@ -9,27 +11,69 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria.common", "mmria.commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria.central.services", "mmria.central.services\mmria.central.services.csproj", "{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "install-setup", "install-setup\install-setup.isproj", "{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|x86 = CD_ROM|x86
 		Debug|x86 = Debug|x86
+		DVD-5|x86 = DVD-5|x86
 		Release|x86 = Release|x86
+		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Debug|x86.ActiveCfg = Debug|x86
-		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Debug|x86.Build.0 = Debug|x86
-		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Release|x86.ActiveCfg = Release|x86
-		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Release|x86.Build.0 = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.CD_ROM|x86.ActiveCfg = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.CD_ROM|x86.Build.0 = Release|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.ActiveCfg = Debug|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.Build.0 = Debug|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.DVD-5|x86.ActiveCfg = Debug|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.DVD-5|x86.Build.0 = Debug|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.ActiveCfg = Release|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.Build.0 = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.ActiveCfg = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.Build.0 = Release|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.CD_ROM|x86.ActiveCfg = Release|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.CD_ROM|x86.Build.0 = Release|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Debug|x86.ActiveCfg = Debug|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Debug|x86.Build.0 = Debug|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.DVD-5|x86.ActiveCfg = Debug|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.DVD-5|x86.Build.0 = Debug|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Release|x86.ActiveCfg = Release|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Release|x86.Build.0 = Release|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.SingleImage|x86.ActiveCfg = Release|x86
+		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.SingleImage|x86.Build.0 = Release|x86
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.CD_ROM|x86.Build.0 = Release|Any CPU
 		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Debug|x86.Build.0 = Debug|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.DVD-5|x86.Build.0 = Debug|Any CPU
 		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Release|x86.ActiveCfg = Release|Any CPU
 		{18994598-71B1-482A-9C76-1A2A9575B7AD}.Release|x86.Build.0 = Release|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{18994598-71B1-482A-9C76-1A2A9575B7AD}.SingleImage|x86.Build.0 = Release|Any CPU
+		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.CD_ROM|x86.ActiveCfg = Release|x86
+		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.CD_ROM|x86.Build.0 = Release|x86
 		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.Debug|x86.ActiveCfg = Debug|x86
 		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.Debug|x86.Build.0 = Debug|x86
+		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.DVD-5|x86.ActiveCfg = Debug|x86
+		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.DVD-5|x86.Build.0 = Debug|x86
 		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.Release|x86.ActiveCfg = Release|x86
 		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.Release|x86.Build.0 = Release|x86
+		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.SingleImage|x86.ActiveCfg = Release|x86
+		{5AF99A32-DFBA-4A55-8C85-EC5035E137C5}.SingleImage|x86.Build.0 = Release|x86
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.CD_ROM|x86.ActiveCfg = CD_ROM
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.CD_ROM|x86.Build.0 = CD_ROM
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.Debug|x86.ActiveCfg = DVD-5
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.Debug|x86.Build.0 = DVD-5
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.DVD-5|x86.ActiveCfg = DVD-5
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.DVD-5|x86.Build.0 = DVD-5
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.Release|x86.ActiveCfg = SingleImage
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.Release|x86.Build.0 = SingleImage
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.SingleImage|x86.ActiveCfg = SingleImage
+		{E1F20CA6-0884-43C2-8D47-4C43C35C1CA2}.SingleImage|x86.Build.0 = SingleImage
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
