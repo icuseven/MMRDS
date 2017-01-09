@@ -7,6 +7,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
   {
     case 'grid':
 		var is_grid_context = true;
+
 		result.push("<table id='");
 		result.push(p_metadata_path);
 		result.push("' class='grid'><tr><th colspan=");
@@ -55,6 +56,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</table>");
 		break;
     case 'group':
+		if(p_column % 2 == 0)
+		{
+			result.push("</div>");
+		}
+		if(g_metadata_summary[p_metadata_path].group_level == 0)
+		{
+			result.push("<div class='row'>");
+		}
 		result.push("<fieldset id='");
 		result.push(p_metadata.name);
 		result.push("_id' class='group'><legend ");
@@ -81,9 +90,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data[child.name] = create_default_object(child, {})[child.name];
 			}
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_row, p_column));
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_row, p_column + i));
 		}
 		result.push("</fieldset>");
+		result.push("</div>");
 		break;
     case 'form':
 		if(
@@ -388,7 +398,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("' />");
 			break;
 		case 'string':
-			result.push("<div class='string' id='");
+			result.push("<div class='col-sm-4 string' id='");
 			result.push(p_object_path);
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -449,7 +459,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			   
 	case 'address':
 	case 'textarea':
-				result.push("<div class='string' id='");
+				result.push("<div  class='col-sm-4 string' id='");
 				result.push(p_object_path);
 				result.push("'><span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
@@ -482,7 +492,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</textarea></div>");
            break;
      case 'number':
-			result.push("<div class='number' id='");
+			result.push("<div class='col-sm-4 number' id='");
 			result.push(p_object_path);
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -515,7 +525,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
            break;
      case 'boolean':
-			result.push("<div class='boolean' id='");
+			result.push("<div class='col-sm-4 boolean' id='");
 			result.push(p_object_path);
 			result.push("'> <input type='checkbox' name='");
 			result.push(p_metadata.name);
@@ -557,7 +567,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
     case 'list':
 			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
 			{
-				result.push("<div class='list' id='");
+				result.push("<div class='col-sm-4 list' id='");
 				result.push(p_object_path)
 				
 				result.push("'> <span ");
@@ -707,7 +717,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			else
 			{
-				result.push("<div class='list' id='");
+				result.push("<div class='col-sm-4 list' id='");
 				result.push(p_object_path)
 				
 				result.push("'> <span ");
@@ -854,7 +864,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}
-			result.push("<div class='date' id='");
+			result.push("<div class='col-sm-4 date' id='");
 			result.push(p_object_path)
 			
 			result.push("'> ");
@@ -896,7 +906,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}
-			result.push("<div class='date' id='");
+			result.push("<div class='col-sm-4 date' id='");
 			result.push(p_object_path)
 			result.push("'> ");
 			result.push("<span ");
@@ -948,7 +958,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}
-			result.push("<div class='time' id='");
+			result.push("<div class='col-sm-4 time' id='");
 			result.push(p_object_path)
 			
 			result.push("'> ");
