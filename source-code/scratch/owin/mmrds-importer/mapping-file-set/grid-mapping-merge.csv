@@ -41,7 +41,7 @@ DeathCertificate4DC_CoD_grid," """"", DC_ICD, System.String,death_certificate/ca
 DeathCertificate4DC_CoD_grid," """"", DC_CoDInterval, System.Double,death_certificate/causes_of_death/interval,
 DeathCertificate4DC_CoD_grid," """"", DC_CoDUnit, System.String,death_certificate/causes_of_death/interval_unit,
 DeathCertificate4DC_CoD_grid," """"", DC_CoDType, System.String,death_certificate/causes_of_death/cause_type,
-DeathCertificate4DC_CoD_grid," """"", DC_CoDCause, System.String,death_certificate/causes_of_death/cause_description,
+DeathCertificate4DC_CoD_grid," """"", DC_CoDCause, System.String,death_certificate/causes_of_death/cause_descriptive,
 Hospitalization22MR_Anesth_grid, Anesthesia," """"",,,
 Hospitalization22MR_Anesth_grid," """"", MR_ANesthMeth, System.String," """"",
 Hospitalization22MR_Anesth_grid," """"", MR_AnesthCompl, System.String," """"",
