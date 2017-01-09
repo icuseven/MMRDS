@@ -14,6 +14,7 @@ var g_selected_delete_index = null;
 var g_couchdb_url = null;
 var g_localDB = null;
 var g_remoteDB = null;
+var g_metadata_summary = [];
 
 
 var default_object = null;
@@ -66,7 +67,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
         }
 
-        document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+        document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0).join("");
         if(g_ui.broken_rules[p_object_path])
         {
           g_ui.broken_rules[p_object_path] = false;
@@ -128,8 +129,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
       }
       
-      //document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
-      $("#" + p_object_path).replaceWith(page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join(""));
+      //document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0).join("");
+      $("#" + p_object_path).replaceWith(page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0).join(""));
     }
 
     apply_validation();
@@ -142,7 +143,7 @@ function g_add_grid_item(p_object_path, p_metadata_path)
   var new_line_item = create_default_object(metadata, {});
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path).join("");
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0).join("");
   
 }
 
@@ -153,7 +154,7 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
   eval(object_string).splice(index, 1);
 
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string).join("");
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, 0, 0).join("");
   
 }
 
@@ -298,6 +299,7 @@ function get_metadata()
 			url: location.protocol + '//' + location.host + '/api/metadata',
 	}).done(function(response) {
 			g_metadata = response;
+      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
       create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
@@ -352,7 +354,7 @@ function window_on_hash_change(e)
             g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, 0, 0).join("");
             apply_tool_tips();
 
 
@@ -399,7 +401,7 @@ function window_on_hash_change(e)
             }
             g_data = null;
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0).join("");
             apply_tool_tips();
 
             var section_list = document.getElementsByTagName("section");
@@ -435,7 +437,7 @@ function window_on_hash_change(e)
       g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data").join("");
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, 0, 0).join("");
       apply_tool_tips();
 
 
@@ -482,8 +484,8 @@ function window_on_hash_change(e)
       g_data = null;
 
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object").join("");
+                                                            //page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_row, p_column)
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0).join("");
       apply_tool_tips();
 
       var section_list = document.getElementsByTagName("section");
@@ -728,6 +730,6 @@ function add_new_form_click(p_metadata_path, p_object_path)
   var item = new_form[metadata.name][0];
   form_array.push(item);
 
-  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path).join("");
+  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, false, 0, 0).join("");
 
 }

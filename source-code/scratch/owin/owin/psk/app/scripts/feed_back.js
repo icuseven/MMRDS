@@ -38,7 +38,7 @@ function monitor_changes()
           g_metadata = JSON.parse(item.metadata);
 
           document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-          document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui).join("");  
+          document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, 0, 0).join("");  
           apply_tool_tips();
 
         }

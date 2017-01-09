@@ -1,36 +1,44 @@
-function metadata_summary(p_result, p_metadata, p_path, p_left)
+function metadata_summary(p_result, p_metadata, p_path, p_left, p_group_level)
 {	
-	p_result[p_path] = metadata_summary_new_tuple(p_metadata, p_path, p_left);
+	p_result[p_path] = metadata_summary_new_tuple(p_metadata, p_path, p_left, p_group_level);
 
 	if(p_metadata.children && p_metadata.children.length > 0)
 	{		
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
+			if(child.type.toLowerCase() == "group")
+			{
+				metadata_summary(p_result, child, p_path + ".children[" + i + "]", p_left + 1, p_group_level + 1);
+			}
+			else
+			{
+				metadata_summary(p_result, child, p_path + ".children[" + i + "]", p_left + 1, p_group_level);
+			}
 
-
-			metadata_summary(p_result, child, p_path + "/" + child.name, p_left + 1);
-			metadata_summary_add_tuples(p_result[p_path], p_result[p_path + "/" + child.name])
+			metadata_summary_add_tuples(p_result[p_path], p_result[p_path + ".children[" + i + "]"])
 		}
 	}
 
 
 
 
-	return result;
+	//return result;
 }
 
 
-function metadata_summary_new_tuple(p_metadata, p_path, p_left)
+function metadata_summary_new_tuple(p_metadata, p_path, p_left, p_group_level)
 {
 
 	var result = {
+		node: p_metadata,
 		path: p_path,
 		type: p_metadata.type,
 		left: p_left,
 		right: 0,
 		children:0,
 		groups:0,
+		group_level: p_group_level,
 		dates:0,
 		datetimes:0,
 		times:0,
