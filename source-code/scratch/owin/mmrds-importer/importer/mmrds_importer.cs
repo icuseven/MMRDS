@@ -369,9 +369,9 @@ namespace mmria.console.import
 				if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
 				{
 					//List<string> path = row["MMRIA Path"].ToString();
-					string path = row["MMRIA Path"].ToString();
+					string path = row["MMRIA Path"].ToString().Trim();
 
-					string[] path_array = row["MMRIA Path"].ToString().Split('/');
+					string[] path_array = row["MMRIA Path"].ToString().Trim().Split('/');
 
 					if (index != null && index.HasValue)
 					{
@@ -386,14 +386,14 @@ namespace mmria.console.import
 
 					if (row["DataType"].ToString().ToLower() == "boolean")
 					{
-						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()], row[0].ToString(), row["prompttext"].ToString());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim(), row["prompttext"].ToString().Trim());
 					}
 					else
 					{
-						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString()], row[0].ToString());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim());
 					}
 					Console.WriteLine(string.Format("{0}", path));
-					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Replace(",", "")));
+					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Trim().Replace(",", "")));
 
 				}
 			}
@@ -416,9 +416,9 @@ namespace mmria.console.import
 			{
 				if (row["mmria_path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["mmria_path"].ToString()))
 				{
-					string path = row["mmria_path"].ToString();
+					string path = row["mmria_path"].ToString().Trim();
 
-					string[] path_array = row["mmria_path"].ToString().Split('/');
+					string[] path_array = row["mmria_path"].ToString().Trim().Split('/');
 
 					if (index != null && index.HasValue)
 					{
@@ -430,7 +430,7 @@ namespace mmria.console.import
 						path = case_maker.AppendGridIndexToPath(grid_index.Value, path);
 					}
 
-					case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString()], row[0].ToString() + "." + row[2].ToString());
+					case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim());
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));
 

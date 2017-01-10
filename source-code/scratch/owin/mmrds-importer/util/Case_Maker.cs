@@ -152,7 +152,7 @@ namespace mmria
 			{
 				System.Text.RegularExpressions.Regex index_path_regex = new System.Text.RegularExpressions.Regex(@"\d+/");
 
-				string key = string.Format("bad mmria path {0}\n {1}", p_mmrds_path, index_path_regex.Replace(p_path,""));
+				string key = string.Format("bad mmria path: {0} {1}", p_mmrds_path, index_path_regex.Replace(p_path,""));
 				if (!FoundPaths.Contains(key))
 				{
 					FoundPaths.Add(key);
