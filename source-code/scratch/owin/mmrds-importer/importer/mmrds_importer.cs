@@ -272,11 +272,12 @@ namespace mmria.console.import
 				//return;
 				case_data_list.Add(case_data);
 			}
+			case_maker.flush_bad_mapping();
 
 			Console.WriteLine("Hello World!");
 			json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data_list);
 
-			System.IO.File.AppendAllText("output.json", json_string);
+			System.IO.File.WriteAllText("output.json", json_string);
 
 		}
 

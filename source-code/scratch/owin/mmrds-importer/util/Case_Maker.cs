@@ -15,6 +15,10 @@ namespace mmria
 			BadMappingLog = new System.IO.StreamWriter("badmapping.txt");
 		}
 
+		public void flush_bad_mapping()
+		{
+			BadMappingLog.Flush();
+		}
 
 		public void add_bad_mapping(string p_key)
 		{
