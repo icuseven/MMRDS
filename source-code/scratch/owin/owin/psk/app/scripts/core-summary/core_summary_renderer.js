@@ -40,9 +40,9 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 		case 'form':
 				result.push('<section id="');
 				result.push(p_metadata.name)
-				result.push('"> <h2>')
+				result.push('"> <h3 style="color: purple">')
 				result.push(p_metadata.prompt);
-				result.push('</h2> ');
+				result.push('</h3> ');
 				//result.push(p_data[p_metadata.name]);
 				
 				if(p_metadata.children)
