@@ -33,7 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="model\address_normalization_response.cs" />
     <Compile Include="model\Case_data.cs" />
     <Compile Include="model\couchdb\alldocs_response.cs" />
     <Compile Include="model\couchdb\document_get_response.cs" />
@@ -49,15 +48,18 @@
     <Compile Include="model\couchdb\user_alldocs_response.cs" />
     <Compile Include="model\couchdb\UserCTX.cs" />
     <Compile Include="model\current_edit.cs" />
-    <Compile Include="model\geocode_response.cs" />
     <Compile Include="model\home_record.cs" />
     <Compile Include="model\metadata\app.cs" />
     <Compile Include="model\metadata\form.cs" />
     <Compile Include="model\metadata\node.cs" />
     <Compile Include="model\metadata\value_node.cs" />
+    <Compile Include="model\texas_am\address_normalization_response.cs" />
+    <Compile Include="model\texas_am\census_value.cs" />
+    <Compile Include="model\texas_am\geocode_response.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />
+    <Folder Include="model\texas_am\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
