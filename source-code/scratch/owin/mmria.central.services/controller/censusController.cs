@@ -61,11 +61,7 @@ B17020 Census tract Poverty status in the past 12 months by age http://api.censu
 			System.IO.StreamReader reader = new System.IO.StreamReader(dataStream);
 			// Read the content.
 			string responseFromServer = reader.ReadToEnd();
-
-			//dynamic json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
 			List<List<string>> json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<List<string>>>(responseFromServer);
-
-
 
 			mmria.common.model.census.Census_Variable[] result = null;
 
