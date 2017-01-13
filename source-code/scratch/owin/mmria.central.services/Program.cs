@@ -24,6 +24,7 @@ namespace mmria.server
 		//http://localhost:54321/api/session
 		//http://localhost:54321/swagger/docs/v1
 		//http://localhost:54321/sandbox/index
+		//http://localhost:54321/api/census?state=06&county=037&tract=224700
 
 		static void Main(string[] args)
 		{

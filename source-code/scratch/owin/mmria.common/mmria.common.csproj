@@ -60,10 +60,12 @@
     <Compile Include="model\texas_am\OutputGeocode.cs" />
     <Compile Include="model\texas_am\InputAddress.cs" />
     <Compile Include="model\texas_am\OutputGeocode_Value.cs" />
+    <Compile Include="model\census\Census_Variables.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />
     <Folder Include="model\texas_am\" />
+    <Folder Include="model\census\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
