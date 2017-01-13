@@ -16,14 +16,14 @@ namespace mmria.server
 	{
 		// http://www.asp.net/aspnet/samples/owin-katana
 
-		//http://localhost:12345
-		//http://localhost:12345/api/values
-		//http://localhost:12345/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
-		//http://localhost:12345/api/session?userid=mmrds&password=mmrds
-		//http://localhost:12345/api/session?userid=user1&password=password
-		//http://localhost:12345/api/session
-		//http://localhost:12345/swagger/docs/v1
-		//http://localhost:12345/sandbox/index
+		//http://localhost:54321
+		//http://localhost:54321/api/values
+		//http://localhost:54321/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
+		//http://localhost:54321/api/session?userid=mmrds&password=mmrds
+		//http://localhost:54321/api/session?userid=user1&password=password
+		//http://localhost:54321/api/session
+		//http://localhost:54321/swagger/docs/v1
+		//http://localhost:54321/sandbox/index
 
 		static void Main(string[] args)
 		{
@@ -59,7 +59,7 @@ namespace mmria.server
 				/*
 				System.Environment.SetEnvironmentVariable("geocode_api_key","7c39ae93786d4aa3adb806cb66de51b8");
 				System.Environment.SetEnvironmentVariable("couchdb_url", "http://localhost:5984");
-				System.Environment.SetEnvironmentVariable("web_site_url", "http://localhost:12345");
+				System.Environment.SetEnvironmentVariable("web_site_url", "http://localhost:54321");
 				System.Environment.SetEnvironmentVariable("file_root_folder", "/vagrant/source-code/scratch/owin/owin/psk/app");
 				*/
 			}

@@ -49,12 +49,17 @@ namespace mmria.server
 			// Read the content.
 			string responseFromServer = reader.ReadToEnd ();
 
-			dynamic json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
+			//dynamic json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseFromServer);
+			geocode_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<geocode_response>(responseFromServer);
 
 			geocode_response[] result =  new geocode_response[] 
 			{ 
+				json_result
+				/*
 				new geocode_response()
 				{ 
+					
+
 					Latitude = json_result["OutputGeocodes"][0]["OutputGeocode"]["Latitude"],
 					Longitude = json_result["OutputGeocodes"][0]["OutputGeocode"]["Longitude"],
 					NAACCRGISCoordinateQualityCode = json_result["OutputGeocodes"][0]["OutputGeocode"]["NAACCRGISCoordinateQualityCode"],
@@ -70,7 +75,8 @@ namespace mmria.server
 					ExceptionOccured = json_result["OutputGeocodes"][0]["OutputGeocode"]["ExceptionOccured"],
 					Exception = json_result["OutputGeocodes"][0]["OutputGeocode"]["Exception"],
 					ErrorMessage = json_result["OutputGeocodes"][0]["OutputGeocode"]["ErrorMessage"]
-				}
+
+				}*/
 			}; 
 
 			return result;
