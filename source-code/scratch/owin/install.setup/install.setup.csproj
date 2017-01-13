@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SampleFirst.wxs" />
+    <None Include="output.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mmria.wxs" />

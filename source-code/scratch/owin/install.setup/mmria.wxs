@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
   <Product Name='MMRIA 0.5' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
-    Language='1033' Codepage='1252' Version='1.0.0' Manufacturer='mmria.org'>
+    Language='1033' Codepage='1252' Version='0.5.0' Manufacturer='mmria.org'>
 
     <Package Id='*' Keywords='Installer' Description="mmria.org's mmria 0.5 Installer"
       Comments='MMRIA is released under the GNU 3.0 License.' Manufacturer='mmria.org'
