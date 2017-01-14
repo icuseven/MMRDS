@@ -55,7 +55,7 @@
       <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 
-    <Icon Id="Foobar10.exe" SourceFile="FoobarAppl10.exe" />
+    <Icon Id="Foobar10.exe" SourceFile="C:\Users\jhaines\Downloads\samplefirst\output\FoobarAppl10.exe" />
 
   </Product>
 </Wix>

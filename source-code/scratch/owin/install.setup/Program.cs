@@ -111,12 +111,18 @@ namespace install.setup
 			// removed components and features
 			foreach (XElement ComponentElement in ProductElement.XPathSelectElements(".//prefix:Component", namespaceManager).ToList())
 			{
-				ComponentElement.Remove();
+				if (ComponentElement.Attribute("Id").Value != "ProgramMenuDir")
+				{
+					ComponentElement.Remove();
+				}
 			}
 
 			foreach (XElement ComponentRefElement in FeatureElement.XPathSelectElements(".//prefix:ComponentRef", namespaceManager).ToList())
 			{
-				ComponentRefElement.Remove();
+				if (ComponentRefElement.Attribute("Id").Value != "ProgramMenuDir")
+				{
+					ComponentRefElement.Remove();
+				}
 			}
 
 			AddComponents(DirectoryElement, FeatureElement, new System.IO.DirectoryInfo(output_directory_path));
