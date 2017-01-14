@@ -32,17 +32,23 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\CopyFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SampleFirst.wxs" />
     <None Include="output.xml" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mmria.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="util\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

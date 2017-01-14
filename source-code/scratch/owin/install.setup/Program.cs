@@ -11,9 +11,46 @@ namespace install.setup
 {
 	class MainClass
 	{
+		static System.Collections.Generic.Dictionary<string, string> name_hash_list;
+
 		public static void Main(string[] args)
 		{
+			//C: \Users\jhaines\Downloads\samplefirst > "C:\Program Files\WiX Toolset v3.10\bin\candle" - o "C:\Users\jhaines\Downloads\samplefirst\output" output.xml
+
+			//"C:\Program Files\WiX Toolset v3.10\bin\light" output.wixobj
+			string wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
+			string input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
+			string output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
+
+			System.IO.Directory.Delete(output_directory_path, true);
+			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
+
 			//Console.WriteLine("Hello World!");
+			string name_hash_file_name = "id.csv";
+			string wix_file_name = "output.xml";
+
+
+			name_hash_list = new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+
+			if (System.IO.File.Exists(name_hash_file_name))
+			{
+
+				using (System.IO.TextReader reader = System.IO.File.OpenText(name_hash_file_name))
+				{
+					string file = reader.ReadToEnd();
+					string[] line_list = file.Split('\n');
+					for (int i = 0; i < line_list.Length; i++)
+					{
+						string[] name_hash = line_list[i].Split(',');
+						if (name_hash.Length > 1)
+						{
+							name_hash_list.Add(name_hash[0].Trim(), name_hash[1].Trim());
+						}
+
+					}
+				}
+			}
 
 			string xml = get_xml_template();
 
@@ -26,8 +63,8 @@ namespace install.setup
 
 			XElement ProductElement = wix_doc.XPathSelectElement("prefix:Wix/prefix:Product", namespaceManager);
 
-			ProductElement.Attribute("Id").SetValue(Guid.NewGuid().ToString());
-			ProductElement.Attribute("UpgradeCode").SetValue(Guid.NewGuid().ToString());
+			ProductElement.Attribute("Id").SetValue(get_id("PRODUCT_ID"));
+			ProductElement.Attribute("UpgradeCode").SetValue(get_id("PRODUCT_UPGRADECODE"));
 
 			Console.WriteLine("Product");
 			Console.WriteLine(ProductElement.Attribute("Name"));
@@ -61,19 +98,33 @@ namespace install.setup
 			print_xattribute(IconElement.Attribute("Id"), IconElement.Attribute("SourceFile"));
 
 
-			XElement DirectoryElement = ProductElement.XPathSelectElement("./prefix:Directory", namespaceManager);
+			XElement DirectoryElement = ProductElement.XPathSelectElement(".//prefix:Directory[@Id='INSTALLDIR']", namespaceManager);
 			Console.WriteLine("Directory");
 			print_xattribute(DirectoryElement.Attribute("Id"), DirectoryElement.Attribute("Name"));
+
 
 
 			XElement FeatureElement = ProductElement.XPathSelectElement("./prefix:Feature", namespaceManager);
 			Console.WriteLine("Feature");
 			print_xattribute(FeatureElement.Attribute("Id"), FeatureElement.Attribute("Level"));
 
+			// removed components and features
+			foreach (XElement ComponentElement in ProductElement.XPathSelectElements(".//prefix:Component", namespaceManager).ToList())
+			{
+				ComponentElement.Remove();
+			}
+
+			foreach (XElement ComponentRefElement in FeatureElement.XPathSelectElements(".//prefix:ComponentRef", namespaceManager).ToList())
+			{
+				ComponentRefElement.Remove();
+			}
+
+			AddComponents(DirectoryElement, FeatureElement, new System.IO.DirectoryInfo(output_directory_path));
+
 			Console.WriteLine("Components");
 			foreach (XElement ComponentElement in ProductElement.XPathSelectElements(".//prefix:Component", namespaceManager))
 			{
-				ComponentElement.Attribute("Guid").SetValue(Guid.NewGuid().ToString());
+				ComponentElement.Attribute("Guid").SetValue(get_id(ComponentElement.Attribute("Id").Value));
 
 				print_xattribute(ComponentElement.Attribute("Id"), ComponentElement.Attribute("Guid"));
 				XElement FileElement = ComponentElement.XPathSelectElement("./prefix:File", namespaceManager);
@@ -95,7 +146,20 @@ namespace install.setup
 			}
 
 
-			wix_doc.Save("output.xml");
+			wix_doc.Save(wix_file_name);
+
+			string text = File.ReadAllText(wix_file_name);
+			text = System.Text.RegularExpressions.Regex.Replace(text, "xmlns=\"\"", "");
+			File.WriteAllText(output_directory_path + "\\" + wix_file_name, text);
+
+			System.Text.StringBuilder name_hash_file_builder = new StringBuilder();
+			foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in name_hash_list)
+			{
+				name_hash_file_builder.Append(kvp.Key);
+				name_hash_file_builder.Append(",");
+				name_hash_file_builder.AppendLine(kvp.Value);
+			}
+			System.IO.File.WriteAllText(name_hash_file_name, name_hash_file_builder.ToString());
 
 			//var FieldsTypeIDs = from _FieldTypeID in wix_doc.Descendants("Field") select _FieldTypeID;
 
@@ -121,6 +185,25 @@ namespace install.setup
 
 		}
 
+		static private string get_id(string p_key)
+		{
+			string result = null;
+
+			if (name_hash_list.ContainsKey(p_key))
+			{
+				result = name_hash_list[p_key];
+			}
+			else
+			{
+				result = Guid.NewGuid().ToString();
+				name_hash_list.Add(p_key, result);
+			}
+
+			return result;
+		}
+
+
+
 		static private void print_xattribute(XAttribute value)
 		{
 			Console.WriteLine(string.Format("\t{0}", value));
@@ -131,38 +214,88 @@ namespace install.setup
 			Console.WriteLine(string.Format("\t{0} {1}", value_1, value_2));
 		}
 
-		private void DeleteNonMaxRes(string ImageName, System.IO.DirectoryInfo directoryInfo)
+		static private void AddComponents(XElement DirectoryElement, XElement FeatureElement, System.IO.DirectoryInfo directoryInfo)
 		{
-			if (!directoryInfo.FullName.Contains("MaxRes"))
+
+			FileInfo[] fileInfoSet = directoryInfo.GetFiles();
+			foreach (FileInfo fileInfo in fileInfoSet)
 			{
-				FileInfo[] fileInfoSet = directoryInfo.GetFiles();
-				foreach (FileInfo fileInfo in fileInfoSet)
-				{
-					string FileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
-					if (FileName != "NoImage" && FileName == ImageName)
-					{
-
-					}
-				}
-
-				foreach (System.IO.DirectoryInfo di in directoryInfo.GetDirectories())
-				{
-					string directoryName = di.FullName;
-
-					System.Console.WriteLine(directoryName);
-
-					DeleteNonMaxRes(ImageName, di);
-				}
+				DirectoryElement.Add(get_component(fileInfo));
+				FeatureElement.Add(create_component_ref(get_component_name(fileInfo.Name)));
 			}
-			else
+
+			foreach (System.IO.DirectoryInfo di in directoryInfo.GetDirectories())
 			{
+				string directoryName = di.FullName;
 
+				System.Console.WriteLine(directoryName);
+
+				XElement directory = create_directory(di);
+				DirectoryElement.Add(directory);
+
+				AddComponents(directory, FeatureElement, di);
 			}
+
 
 		}
 
+		static private XElement create_directory(System.IO.DirectoryInfo p_directory_info)
+		{
+			string file_name = p_directory_info.Name;
+			XElement result = new XElement
+				(
+					"Directory",
+					new XAttribute("Id", file_name),
+					new XAttribute("Name", file_name)
+				);
+			/*
+			            < Directory Id = "HTML" Name = "app" >
+*/
 
-		static public XElement new_file_node()
+			return result;
+		}
+
+		static private XElement create_component_ref(string p_name)
+		{
+			//< ComponentRef Id = "ProgramMenuDir" />
+			XElement result = new XElement
+				(
+					"ComponentRef",
+					new XAttribute("Id", p_name)
+				);
+			return result;
+
+		}
+
+		static string get_component_name(string p_file_name)
+		{
+			string result = p_file_name.ToUpper().Replace('-', '_').Replace(".", "");
+
+			return result;
+		}
+
+		static private XElement get_component(System.IO.FileInfo p_file_info)
+		{
+			string file_name = p_file_info.Name;
+			XElement result = new XElement
+				(
+					"Component",
+					new XAttribute("Id", get_component_name(file_name)),
+					new XAttribute("Guid", get_id(p_file_info.FullName)),
+					new_file_node(p_file_info)
+				);
+			/*
+			            <Component Id="HelperLibrary" Guid="bc80dba1-5013-4bcb-9604-9cc9d4a30380">
+              <File Id="HelperDLL" Name="Helper.dll" DiskId="1" Source="Helper.dll" KeyPath="yes" />
+			
+						</ Component >
+*/
+
+			return result;
+		}
+
+
+		static public XElement new_file_node(System.IO.FileInfo p_file_info)
 		{
 			/*
 			  <File 
@@ -173,13 +306,16 @@ namespace install.setup
 				KeyPath = 'yes' >	
 			*/
 			//XNamespace ns = "http://schemas.microsoft.com/wix/2006/wi";
+
+			string file_name = get_component_name(p_file_info.Name);
+
 			XElement result = new XElement
 				(
 				"File",
-				new XAttribute("Id", "FoobarEXE1"),
-				new XAttribute("Name", "FoobarAppl10"),
+				new XAttribute("Id", file_name),
+				new XAttribute("Name", file_name),
 				new XAttribute("DiskId", "1"),
-				new XAttribute("Source", "FoobarAppl10.exe"),
+					new XAttribute("Source", p_file_info.FullName),
 				new XAttribute("KeyPath", "yes")
 				);
 
@@ -228,5 +364,24 @@ namespace install.setup
 
 			return result;
 		}
+
+
+		static public string GetHash(string file_path)
+		{
+			String result;
+			StringBuilder sb = new StringBuilder();
+			System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
+
+			using (System.IO.FileStream fs = System.IO.File.OpenRead(file_path))
+			{
+				foreach (Byte b in md5Hasher.ComputeHash(fs))
+					sb.Append(b.ToString("X2").ToLowerInvariant());
+			}
+
+			result = sb.ToString();
+
+			return result;
+		}
+
 	}
 }
