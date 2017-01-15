@@ -8,12 +8,12 @@
       InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
 
     <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1" />
-    <Property Id='DiskPrompt' Value="Acme's Foobar 1.0 Installation [1]" />
+    <Property Id='DiskPrompt' Value="MMRIA 0.5 Installation [1]" />
 
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='ProgramFilesFolder' Name='PFiles'>
-        <Directory Id='Acme' Name='Acme'>
-          <Directory Id='INSTALLDIR' Name='Foobar 1.0'>
+        <Directory Id='mmria' Name='mmria'>
+          <Directory Id='INSTALLDIR' Name='MMRIA 0.5'>
 
             <Component Id='MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
               <File Id='FoobarEXE' Name='FoobarAppl10.exe' DiskId='1' Source='FoobarAppl10.exe' KeyPath='yes'>
@@ -55,7 +55,7 @@
       <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 
-    <Icon Id="Foobar10.exe" SourceFile="C:\Users\jhaines\Downloads\samplefirst\output\FoobarAppl10.exe" />
+    <Icon Id="mmria_server.exe" SourceFile="C:\Users\jhaines\Downloads\samplefirst\output\mmria-server.exe" />
 
   </Product>
 </Wix>

@@ -12,15 +12,18 @@ namespace install.setup
 	class MainClass
 	{
 		static System.Collections.Generic.Dictionary<string, string> name_hash_list;
+		static string wix_directory_path;
+		static string input_directory_path;
+		static string output_directory_path;
 
 		public static void Main(string[] args)
 		{
 			//C: \Users\jhaines\Downloads\samplefirst > "C:\Program Files\WiX Toolset v3.10\bin\candle" - o "C:\Users\jhaines\Downloads\samplefirst\output" output.xml
 
 			//"C:\Program Files\WiX Toolset v3.10\bin\light" output.wixobj
-			string wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
-			string input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
-			string output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
+			wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
+			input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
+			output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
 
 			System.IO.Directory.Delete(output_directory_path, true);
 			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
@@ -226,7 +229,7 @@ namespace install.setup
 			FileInfo[] fileInfoSet = directoryInfo.GetFiles();
 			foreach (FileInfo fileInfo in fileInfoSet)
 			{
-				if (fileInfo.Name.Equals("FoobarAppl10.exe", StringComparison.OrdinalIgnoreCase))
+				if (fileInfo.Name.Equals("mmria-server.exe", StringComparison.OrdinalIgnoreCase))
 				{
 					XElement MainComponent = get_main_component(fileInfo);
 					DirectoryElement.Add(MainComponent);
@@ -234,8 +237,9 @@ namespace install.setup
 				}
 				else
 				{
+					string component_name = get_component_name(fileInfo.FullName.ToUpper().Replace(output_directory_path.ToUpper(), ""));
 					DirectoryElement.Add(get_component(fileInfo));
-					FeatureElement.Add(create_component_ref(get_component_name(fileInfo.Name)));
+					FeatureElement.Add(create_component_ref(component_name));
 				}
 
 			}
@@ -261,7 +265,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"Directory",
-					new XAttribute("Id", file_name),
+					new XAttribute("Id", get_component_name(p_directory_info.FullName.ToUpper().Replace(output_directory_path.ToUpper(), ""))),
 					new XAttribute("Name", file_name)
 				);
 			/*
@@ -285,18 +289,24 @@ namespace install.setup
 
 		static string get_component_name(string p_file_name)
 		{
-			string result = p_file_name.ToUpper().Replace('-', '_').Replace(".", "");
-
+			string result = System.Text.RegularExpressions.Regex.Replace(p_file_name.ToUpper(), "-", "_");
+			result = System.Text.RegularExpressions.Regex.Replace(result, ":", "");
+			result = System.Text.RegularExpressions.Regex.Replace(result, "\\\\", "");
+			result = System.Text.RegularExpressions.Regex.Replace(result, "^(\\d)", delegate (System.Text.RegularExpressions.Match match)
+		{
+			string v = match.ToString();
+			return "_" + v;
+		});
 			return result;
 		}
 
 		static private XElement get_component(System.IO.FileInfo p_file_info)
 		{
-			string file_name = p_file_info.Name;
+			string file_name = get_component_name(p_file_info.FullName.ToUpper().Replace(output_directory_path.ToUpper(), ""));
 			XElement result = new XElement
 				(
 					"Component",
-					new XAttribute("Id", get_component_name(file_name)),
+					new XAttribute("Id", file_name),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info)
 				);
@@ -320,8 +330,8 @@ namespace install.setup
 					new XAttribute("Id", "MainExecutable"),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info),
-					get_shortcut("startmenuFoobar10", "ProgramMenuDir", "Foobar 1.0", "Foobar10.exe"),
-					get_shortcut("desktopFoobar10", "DesktopFolder", "Foobar 1.0", "Foobar10.exe")
+					get_shortcut("startmenummria0.5", "ProgramMenuDir", "MMRIA 0.5", "mmria_server.exe"),
+					get_shortcut("desktopmmria0.5", "DesktopFolder", "MMRIA 0.5", "mmria_server.exe")
 				);
 			/*
 		            <Component Id = 'MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
@@ -371,13 +381,13 @@ namespace install.setup
 			*/
 			//XNamespace ns = "http://schemas.microsoft.com/wix/2006/wi";
 
-			string file_name = get_component_name(p_file_info.Name);
+			string file_name = get_component_name(p_file_info.FullName.ToUpper().Replace(output_directory_path.ToUpper(),""));
 
 			XElement result = new XElement
 				(
 				"File",
 				new XAttribute("Id", file_name),
-				new XAttribute("Name", file_name),
+				new XAttribute("Name", p_file_info.Name),
 				new XAttribute("DiskId", "1"),
 					new XAttribute("Source", p_file_info.FullName),
 				new XAttribute("KeyPath", "yes")
