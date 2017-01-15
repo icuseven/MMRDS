@@ -226,8 +226,18 @@ namespace install.setup
 			FileInfo[] fileInfoSet = directoryInfo.GetFiles();
 			foreach (FileInfo fileInfo in fileInfoSet)
 			{
-				DirectoryElement.Add(get_component(fileInfo));
-				FeatureElement.Add(create_component_ref(get_component_name(fileInfo.Name)));
+				if (fileInfo.Name.Equals("FoobarAppl10.exe", StringComparison.OrdinalIgnoreCase))
+				{
+					XElement MainComponent = get_main_component(fileInfo);
+					DirectoryElement.Add(MainComponent);
+					FeatureElement.Add(create_component_ref(MainComponent.Attribute("Id").Value));
+				}
+				else
+				{
+					DirectoryElement.Add(get_component(fileInfo));
+					FeatureElement.Add(create_component_ref(get_component_name(fileInfo.Name)));
+				}
+
 			}
 
 			foreach (System.IO.DirectoryInfo di in directoryInfo.GetDirectories())
@@ -300,6 +310,54 @@ namespace install.setup
 			return result;
 		}
 
+
+		static private XElement get_main_component(System.IO.FileInfo p_file_info)
+		{
+			string file_name = p_file_info.Name;
+			XElement result = new XElement
+				(
+					"Component",
+					new XAttribute("Id", "MainExecutable"),
+					new XAttribute("Guid", get_id(p_file_info.FullName)),
+					new_file_node(p_file_info),
+					get_shortcut("startmenuFoobar10", "ProgramMenuDir", "Foobar 1.0", "Foobar10.exe"),
+					get_shortcut("desktopFoobar10", "DesktopFolder", "Foobar 1.0", "Foobar10.exe")
+				);
+			/*
+		            <Component Id = 'MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
+              <File Id = 'FoobarEXE' Name='FoobarAppl10.exe' DiskId='1' Source='FoobarAppl10.exe' KeyPath='yes'>
+                <Shortcut Id = "startmenuFoobar10" Directory="ProgramMenuDir" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
+                <Shortcut Id = "desktopFoobar10" Directory="DesktopFolder" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
+              </File>
+            </Component>
+*/
+
+			return result;
+		}
+
+
+		static private XElement get_shortcut(string p_id, string p_directory, string p_name, string p_icon)
+		{
+
+			XElement result = new XElement
+				(
+					"Shortcut",
+					new XAttribute("Id", p_id),
+					new XAttribute("Directory", p_directory),
+					new XAttribute("Name", p_name),
+					new XAttribute("WorkingDirectory", "INSTALLDIR"),
+					new XAttribute("Icon", p_icon),
+					new XAttribute("IconIndex", "0"),
+					new XAttribute("Advertise", "yes")
+				);
+			/*
+		        <Shortcut Id = "startmenuFoobar10" Directory="ProgramMenuDir" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
+                <Shortcut Id = "desktopFoobar10" Directory="DesktopFolder" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
+
+*/
+
+			return result;
+		}
 
 		static public XElement new_file_node(System.IO.FileInfo p_file_info)
 		{
