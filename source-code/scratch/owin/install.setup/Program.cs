@@ -18,9 +18,9 @@ namespace install.setup
 
 		public static void Main(string[] args)
 		{
-			//C: \Users\jhaines\Downloads\samplefirst > "C:\Program Files\WiX Toolset v3.10\bin\candle" - o "C:\Users\jhaines\Downloads\samplefirst\output" output.xml
+			//"C:\Program Files\WiX Toolset v3.10\bin\candle" -ext WixNetFxExtension output.xml
 
-			//"C:\Program Files\WiX Toolset v3.10\bin\light" output.wixobj
+			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext WixNetFxExtension output.wixobj
 			wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
 			input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
 			output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
