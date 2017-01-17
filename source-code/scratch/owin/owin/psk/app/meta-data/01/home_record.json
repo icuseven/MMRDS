@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "302-3c62aa1578a7da0b783db73f38c301b5",
+  "_rev": "344-6d766f7f5ce0b26dc4d212d6eb529935",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -32,9 +32,10 @@
       "cardinality": "1",
       "children": [
         {
-          "prompt": "Record ID",
+          "prompt": "Record ID*",
           "name": "record_id",
           "type": "string",
+          "is_core_summary": true,
           "is_read_only": true,
           "description": "Record ID is automatically generated: Enter Name, Year of Death, and then click in Record ID field.",
           "onfocus": {
@@ -1607,14 +1608,16 @@
               "type": "string"
             },
             {
-              "prompt": "Latitude",
+              "prompt": "Latitude*",
               "name": "latitude",
-              "type": "string"
+              "type": "string",
+              "is_core_summary": true
             },
             {
-              "prompt": "Longitude",
+              "prompt": "Longitude*",
               "name": "longitude",
-              "type": "string"
+              "type": "string",
+              "is_core_summary": true
             },
             {
               "prompt": "Get Coordinates",
@@ -4559,7 +4562,8 @@
                   "description": "",
                   "value": "VI- Virgin Islands"
                 }
-              ]
+              ],
+              "is_core_summary": true
             },
             {
               "prompt": "Zip Code",
@@ -4572,14 +4576,16 @@
               "type": "string"
             },
             {
-              "prompt": "Latitude",
+              "prompt": "Latitude*",
               "name": "latitude",
-              "type": "number"
+              "type": "number",
+              "is_core_summary": true
             },
             {
-              "prompt": "Longitude",
+              "prompt": "Longitude*",
               "name": "longitude",
-              "type": "number"
+              "type": "number",
+              "is_core_summary": true
             },
             {
               "prompt": "Get Coordinates",
@@ -4739,10 +4745,11 @@
                   "description": "",
                   "value": "Not Specified"
                 }
-              ]
+              ],
+              "is_core_summary": true
             },
             {
-              "prompt": "Pregnancy Status",
+              "prompt": "Pregnancy Status*",
               "name": "pregnancy_status",
               "type": "List",
               "values": [
@@ -4778,7 +4785,8 @@
                   "description": "",
                   "value": "Not Specified"
                 }
-              ]
+              ],
+              "is_core_summary": true
             },
             {
               "prompt": "Did Tobacco Contribute to Death?",
@@ -5201,7 +5209,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "is_core_summary": true
         },
         {
           "prompt": "Reviewer's Notes about the Death Certificate",
@@ -5277,7 +5286,7 @@
               ]
             },
             {
-              "prompt": "Date of Delivery*",
+              "prompt": "Date of Delivery",
               "name": "date_of_delivery",
               "type": "group",
               "children": [
@@ -5431,16 +5440,14 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Street*",
+              "prompt": "Street",
               "name": "street",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
-              "prompt": "City*",
+              "prompt": "City",
               "name": "city",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
               "prompt": "State*",
@@ -5687,16 +5694,14 @@
               "is_core_summary": true
             },
             {
-              "prompt": "Zip Code*",
+              "prompt": "Zip Code",
               "name": "zip_code",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
-              "prompt": "County*",
+              "prompt": "County",
               "name": "county",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
               "prompt": "Latitude*",
@@ -6062,10 +6067,1015 @@
               ]
             },
             {
-              "prompt": "Father's Country (if Foreign Born)",
-              "name": "country_of_birth",
-              "type": "String",
-              "is_core_summary": false
+              "prompt": "Father's Country of Birth (if Foreign Born)",
+              "name": "father_country_of_birth",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "US- United States"
+                },
+                {
+                  "description": "",
+                  "value": "AF- Afghanistan"
+                },
+                {
+                  "description": "",
+                  "value": "AL- Albania"
+                },
+                {
+                  "description": "",
+                  "value": "AG- Algeria"
+                },
+                {
+                  "description": "",
+                  "value": "AQ- American Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "AN- Andorra"
+                },
+                {
+                  "description": "",
+                  "value": "AO- Angola"
+                },
+                {
+                  "description": "",
+                  "value": "AV- Anguilla"
+                },
+                {
+                  "description": "",
+                  "value": "AY- Antarctica"
+                },
+                {
+                  "description": "",
+                  "value": "AC- Antigua & Barbuda"
+                },
+                {
+                  "description": "",
+                  "value": "AR- Argentina"
+                },
+                {
+                  "description": "",
+                  "value": "AM- Armenia"
+                },
+                {
+                  "description": "",
+                  "value": "AA- Aruba"
+                },
+                {
+                  "description": "",
+                  "value": "AS- Australia"
+                },
+                {
+                  "description": "",
+                  "value": "AU- Austria"
+                },
+                {
+                  "description": "",
+                  "value": "AJ- Azerbaijan"
+                },
+                {
+                  "description": "",
+                  "value": "BF- The Bahamas"
+                },
+                {
+                  "description": "",
+                  "value": "BA- Bahrain"
+                },
+                {
+                  "description": "",
+                  "value": "FQ- Baker I."
+                },
+                {
+                  "description": "",
+                  "value": "BG- Bangladesh"
+                },
+                {
+                  "description": "",
+                  "value": "BB- Barbados"
+                },
+                {
+                  "description": "",
+                  "value": "BO- Belarus"
+                },
+                {
+                  "description": "",
+                  "value": "BE- Belgium"
+                },
+                {
+                  "description": "",
+                  "value": "BH- Belize"
+                },
+                {
+                  "description": "",
+                  "value": "BN- Benin"
+                },
+                {
+                  "description": "",
+                  "value": "BD- Bermuda"
+                },
+                {
+                  "description": "",
+                  "value": "BT- Bhutan"
+                },
+                {
+                  "description": "",
+                  "value": "BL- Bolivia"
+                },
+                {
+                  "description": "",
+                  "value": "BK- Bosnia & Herzegovina"
+                },
+                {
+                  "description": "",
+                  "value": "BC- Botswana"
+                },
+                {
+                  "description": "",
+                  "value": "BV- Bouvet I."
+                },
+                {
+                  "description": "",
+                  "value": "BR- Brazil"
+                },
+                {
+                  "description": "",
+                  "value": "IO- British Indian Ocean Territory"
+                },
+                {
+                  "description": "",
+                  "value": "VI- British Virgin Is."
+                },
+                {
+                  "description": "",
+                  "value": "BX- Brunei"
+                },
+                {
+                  "description": "",
+                  "value": "BU- Bulgaria"
+                },
+                {
+                  "description": "",
+                  "value": "UV- Burkina Faso"
+                },
+                {
+                  "description": "",
+                  "value": "BM- Myanmar"
+                },
+                {
+                  "description": "",
+                  "value": "BY- Burundi"
+                },
+                {
+                  "description": "",
+                  "value": "CB- Cambodia"
+                },
+                {
+                  "description": "",
+                  "value": "CM- Cameroon"
+                },
+                {
+                  "description": "",
+                  "value": "CA- Canada"
+                },
+                {
+                  "description": "",
+                  "value": "CV- Cape Verde"
+                },
+                {
+                  "description": "",
+                  "value": "CJ- Cayman Is."
+                },
+                {
+                  "description": "",
+                  "value": "CT- Central African Republic"
+                },
+                {
+                  "description": "",
+                  "value": "CD- Chad"
+                },
+                {
+                  "description": "",
+                  "value": "CI- Chile"
+                },
+                {
+                  "description": "",
+                  "value": "CH- China"
+                },
+                {
+                  "description": "",
+                  "value": "KT- Christmas I."
+                },
+                {
+                  "description": "",
+                  "value": "CK- Cocos Is."
+                },
+                {
+                  "description": "",
+                  "value": "CO- Colombia"
+                },
+                {
+                  "description": "",
+                  "value": "CN- Comoros"
+                },
+                {
+                  "description": "",
+                  "value": "CF- Congo"
+                },
+                {
+                  "description": "",
+                  "value": "CW- Cook Is."
+                },
+                {
+                  "description": "",
+                  "value": "CS- Costa Rica"
+                },
+                {
+                  "description": "",
+                  "value": "IV- Cote d'Ivoire"
+                },
+                {
+                  "description": "",
+                  "value": "HR- Croatia"
+                },
+                {
+                  "description": "",
+                  "value": "CU- Cuba"
+                },
+                {
+                  "description": "",
+                  "value": "CY- Cyprus"
+                },
+                {
+                  "description": "",
+                  "value": "EZ- Czech Republic"
+                },
+                {
+                  "description": "",
+                  "value": "KN- North Korea"
+                },
+                {
+                  "description": "",
+                  "value": "CG- Congo, DRC"
+                },
+                {
+                  "description": "",
+                  "value": "DA- Denmark"
+                },
+                {
+                  "description": "",
+                  "value": "DJ- Djibouti"
+                },
+                {
+                  "description": "",
+                  "value": "DO- Dominica"
+                },
+                {
+                  "description": "",
+                  "value": "DR- Dominican Republic"
+                },
+                {
+                  "description": "",
+                  "value": "EC- Ecuador"
+                },
+                {
+                  "description": "",
+                  "value": "EG- Egypt"
+                },
+                {
+                  "description": "",
+                  "value": "ES- El Salvador"
+                },
+                {
+                  "description": "",
+                  "value": "EK- Equatorial Guinea"
+                },
+                {
+                  "description": "",
+                  "value": "ER- Eritrea"
+                },
+                {
+                  "description": "",
+                  "value": "EN- Estonia"
+                },
+                {
+                  "description": "",
+                  "value": "ET- Ethiopia"
+                },
+                {
+                  "description": "",
+                  "value": "FK- Falkland Is."
+                },
+                {
+                  "description": "",
+                  "value": "FO- Faroe Is."
+                },
+                {
+                  "description": "",
+                  "value": "FJ- Fiji"
+                },
+                {
+                  "description": "",
+                  "value": "FI- Finland"
+                },
+                {
+                  "description": "",
+                  "value": "FR- France"
+                },
+                {
+                  "description": "",
+                  "value": "FG- French Guiana"
+                },
+                {
+                  "description": "",
+                  "value": "FP- French Polynesia"
+                },
+                {
+                  "description": "",
+                  "value": "FS- French Southern & Antarctic Lands"
+                },
+                {
+                  "description": "",
+                  "value": "GB- Gabon"
+                },
+                {
+                  "description": "",
+                  "value": "GA- The Gambia"
+                },
+                {
+                  "description": "",
+                  "value": "GZ- Gaza Strip"
+                },
+                {
+                  "description": "",
+                  "value": "GG- Georgia"
+                },
+                {
+                  "description": "",
+                  "value": "GM- Germany"
+                },
+                {
+                  "description": "",
+                  "value": "GH- Ghana"
+                },
+                {
+                  "description": "",
+                  "value": "GI- Gibraltar"
+                },
+                {
+                  "description": "",
+                  "value": "GO- Glorioso Is."
+                },
+                {
+                  "description": "",
+                  "value": "GR- Greece"
+                },
+                {
+                  "description": "",
+                  "value": "GL- Greenland"
+                },
+                {
+                  "description": "",
+                  "value": "GJ- Grenada"
+                },
+                {
+                  "description": "",
+                  "value": "GP- Guadeloupe"
+                },
+                {
+                  "description": "",
+                  "value": "GQ- Guam"
+                },
+                {
+                  "description": "",
+                  "value": "GT- Guatemala"
+                },
+                {
+                  "description": "",
+                  "value": "GK- Guernsey"
+                },
+                {
+                  "description": "",
+                  "value": "GV- Guinea"
+                },
+                {
+                  "description": "",
+                  "value": "PU- Guinea-Bissau"
+                },
+                {
+                  "description": "",
+                  "value": "GY- Guyana"
+                },
+                {
+                  "description": "",
+                  "value": "HA- Haiti"
+                },
+                {
+                  "description": "",
+                  "value": "HM- Heard I. & McDonald Is."
+                },
+                {
+                  "description": "",
+                  "value": "VT- Vatican City"
+                },
+                {
+                  "description": "",
+                  "value": "HO- Honduras"
+                },
+                {
+                  "description": "",
+                  "value": "HQ- Howland I."
+                },
+                {
+                  "description": "",
+                  "value": "HU- Hungary"
+                },
+                {
+                  "description": "",
+                  "value": "IC- Iceland"
+                },
+                {
+                  "description": "",
+                  "value": "IN- India"
+                },
+                {
+                  "description": "",
+                  "value": "ID- Indonesia"
+                },
+                {
+                  "description": "",
+                  "value": "IR- Iran"
+                },
+                {
+                  "description": "",
+                  "value": "IZ- Iraq"
+                },
+                {
+                  "description": "",
+                  "value": "EI- Ireland"
+                },
+                {
+                  "description": "",
+                  "value": "IM- Isle of Man"
+                },
+                {
+                  "description": "",
+                  "value": "IS- Israel"
+                },
+                {
+                  "description": "",
+                  "value": "IT- Italy"
+                },
+                {
+                  "description": "",
+                  "value": "JM- Jamaica"
+                },
+                {
+                  "description": "",
+                  "value": "JA- Japan"
+                },
+                {
+                  "description": "",
+                  "value": "DQ- Jarvis I."
+                },
+                {
+                  "description": "",
+                  "value": "JE- Jersey"
+                },
+                {
+                  "description": "",
+                  "value": "JQ- Johnston Atoll"
+                },
+                {
+                  "description": "",
+                  "value": "JO- Jordan"
+                },
+                {
+                  "description": "",
+                  "value": "JU- Juan De Nova I."
+                },
+                {
+                  "description": "",
+                  "value": "KZ- Kazakhstan"
+                },
+                {
+                  "description": "",
+                  "value": "KE- Kenya"
+                },
+                {
+                  "description": "",
+                  "value": "KR- Kiribati"
+                },
+                {
+                  "description": "",
+                  "value": "KU- Kuwait"
+                },
+                {
+                  "description": "",
+                  "value": "KG- Kyrgyzstan"
+                },
+                {
+                  "description": "",
+                  "value": "LA- Laos"
+                },
+                {
+                  "description": "",
+                  "value": "LG- Latvia"
+                },
+                {
+                  "description": "",
+                  "value": "LE- Lebanon"
+                },
+                {
+                  "description": "",
+                  "value": "LT- Lesotho"
+                },
+                {
+                  "description": "",
+                  "value": "LI- Liberia"
+                },
+                {
+                  "description": "",
+                  "value": "LY- Libya"
+                },
+                {
+                  "description": "",
+                  "value": "LS- Liechtenstein"
+                },
+                {
+                  "description": "",
+                  "value": "LH- Lithuania"
+                },
+                {
+                  "description": "",
+                  "value": "LU- Luxembourg"
+                },
+                {
+                  "description": "",
+                  "value": "MA- Madagascar"
+                },
+                {
+                  "description": "",
+                  "value": "MI- Malawi"
+                },
+                {
+                  "description": "",
+                  "value": "MY- Malaysia"
+                },
+                {
+                  "description": "",
+                  "value": "MV- Maldives"
+                },
+                {
+                  "description": "",
+                  "value": "ML- Mali"
+                },
+                {
+                  "description": "",
+                  "value": "MT- Malta"
+                },
+                {
+                  "description": "",
+                  "value": "RM- Marshall Is."
+                },
+                {
+                  "description": "",
+                  "value": "MB- Martinique"
+                },
+                {
+                  "description": "",
+                  "value": "MR- Mauritania"
+                },
+                {
+                  "description": "",
+                  "value": "MP- Mauritius"
+                },
+                {
+                  "description": "",
+                  "value": "MF- Mayotte"
+                },
+                {
+                  "description": "",
+                  "value": "MX- Mexico"
+                },
+                {
+                  "description": "",
+                  "value": "FM- Micronesia"
+                },
+                {
+                  "description": "",
+                  "value": "MQ- Midway Is."
+                },
+                {
+                  "description": "",
+                  "value": "MD- Moldova"
+                },
+                {
+                  "description": "",
+                  "value": "MN- Monaco"
+                },
+                {
+                  "description": "",
+                  "value": "MG- Mongolia"
+                },
+                {
+                  "description": "",
+                  "value": "MH- Montserrat"
+                },
+                {
+                  "description": "",
+                  "value": "MO- Morocco"
+                },
+                {
+                  "description": "",
+                  "value": "MZ- Mozambique"
+                },
+                {
+                  "description": "",
+                  "value": "WA- Namibia"
+                },
+                {
+                  "description": "",
+                  "value": "NR- Nauru"
+                },
+                {
+                  "description": "",
+                  "value": "NP- Nepal"
+                },
+                {
+                  "description": "",
+                  "value": "NL- Netherlands"
+                },
+                {
+                  "description": "",
+                  "value": "NT- Netherlands Antilles"
+                },
+                {
+                  "description": "",
+                  "value": "NC- New Caledonia"
+                },
+                {
+                  "description": "",
+                  "value": "NZ- New Zealand"
+                },
+                {
+                  "description": "",
+                  "value": "NU- Nicaragua"
+                },
+                {
+                  "description": "",
+                  "value": "NG- Niger"
+                },
+                {
+                  "description": "",
+                  "value": "NI- Nigeria"
+                },
+                {
+                  "description": "",
+                  "value": "NE- Niue"
+                },
+                {
+                  "description": "",
+                  "value": "NF- Norfolk I."
+                },
+                {
+                  "description": "",
+                  "value": "CQ- Northern Mariana Is."
+                },
+                {
+                  "description": "",
+                  "value": "NO- Norway"
+                },
+                {
+                  "description": "",
+                  "value": "MU- Oman"
+                },
+                {
+                  "description": "",
+                  "value": "PK- Pakistan"
+                },
+                {
+                  "description": "",
+                  "value": "PS- Palau"
+                },
+                {
+                  "description": "",
+                  "value": "PM- Panama"
+                },
+                {
+                  "description": "",
+                  "value": "PP- Papua New Guinea"
+                },
+                {
+                  "description": "",
+                  "value": "PA- Paraguay"
+                },
+                {
+                  "description": "",
+                  "value": "PE- Peru"
+                },
+                {
+                  "description": "",
+                  "value": "RP- Philippines"
+                },
+                {
+                  "description": "",
+                  "value": "PC- Pitcairn Is."
+                },
+                {
+                  "description": "",
+                  "value": "PL- Poland"
+                },
+                {
+                  "description": "",
+                  "value": "PO- Portugal"
+                },
+                {
+                  "description": "",
+                  "value": "RQ- Puerto Rico"
+                },
+                {
+                  "description": "",
+                  "value": "QA- Qatar"
+                },
+                {
+                  "description": "",
+                  "value": "KS- South Korea"
+                },
+                {
+                  "description": "",
+                  "value": "MJ- Montenegro"
+                },
+                {
+                  "description": "",
+                  "value": "RB- Serbia"
+                },
+                {
+                  "description": "",
+                  "value": "RE- Reunion"
+                },
+                {
+                  "description": "",
+                  "value": "RO- Romania"
+                },
+                {
+                  "description": "",
+                  "value": "RS- Russia"
+                },
+                {
+                  "description": "",
+                  "value": "RW- Rwanda"
+                },
+                {
+                  "description": "",
+                  "value": "SH- St. Helena"
+                },
+                {
+                  "description": "",
+                  "value": "SC- St. Kitts & Nevis"
+                },
+                {
+                  "description": "",
+                  "value": "ST- St. Lucia"
+                },
+                {
+                  "description": "",
+                  "value": "SB- St. Pierre & Miquelon"
+                },
+                {
+                  "description": "",
+                  "value": "VC- St. Vincent & the Grenadines"
+                },
+                {
+                  "description": "",
+                  "value": "WS- Samoa"
+                },
+                {
+                  "description": "",
+                  "value": "SM- San Marino"
+                },
+                {
+                  "description": "",
+                  "value": "TP- Sao Tome & Principe"
+                },
+                {
+                  "description": "",
+                  "value": "SA- Saudi Arabia"
+                },
+                {
+                  "description": "",
+                  "value": "SG- Senegal"
+                },
+                {
+                  "description": "",
+                  "value": "SE- Seychelles"
+                },
+                {
+                  "description": "",
+                  "value": "SL- Sierra Leone"
+                },
+                {
+                  "description": "",
+                  "value": "SN- Singapore"
+                },
+                {
+                  "description": "",
+                  "value": "LO- Slovakia"
+                },
+                {
+                  "description": "",
+                  "value": "SI- Slovenia"
+                },
+                {
+                  "description": "",
+                  "value": "BP- Solomon Is."
+                },
+                {
+                  "description": "",
+                  "value": "SO- Somalia"
+                },
+                {
+                  "description": "",
+                  "value": "SF- South Africa"
+                },
+                {
+                  "description": "",
+                  "value": "SX- South Georgia & the South Sandwich Is."
+                },
+                {
+                  "description": "",
+                  "value": "SP- Spain"
+                },
+                {
+                  "description": "",
+                  "value": "CE- Sri Lanka"
+                },
+                {
+                  "description": "",
+                  "value": "SU- Sudan"
+                },
+                {
+                  "description": "",
+                  "value": "NS- Suriname"
+                },
+                {
+                  "description": "",
+                  "value": "JN- Jan Mayen"
+                },
+                {
+                  "description": "",
+                  "value": "SV- Svalbard"
+                },
+                {
+                  "description": "",
+                  "value": "WZ- Swaziland"
+                },
+                {
+                  "description": "",
+                  "value": "SW- Sweden"
+                },
+                {
+                  "description": "",
+                  "value": "SZ- Switzerland"
+                },
+                {
+                  "description": "",
+                  "value": "SY- Syria"
+                },
+                {
+                  "description": "",
+                  "value": "TI- Tajikistan"
+                },
+                {
+                  "description": "",
+                  "value": "TH- Thailand"
+                },
+                {
+                  "description": "",
+                  "value": "MK- Macedonia"
+                },
+                {
+                  "description": "",
+                  "value": "TT- Timor-Leste"
+                },
+                {
+                  "description": "",
+                  "value": "TO- Togo"
+                },
+                {
+                  "description": "",
+                  "value": "TL- Tokelau"
+                },
+                {
+                  "description": "",
+                  "value": "TN- Tonga"
+                },
+                {
+                  "description": "",
+                  "value": "TD- Trinidad & Tobago"
+                },
+                {
+                  "description": "",
+                  "value": "TS- Tunisia"
+                },
+                {
+                  "description": "",
+                  "value": "TU- Turkey"
+                },
+                {
+                  "description": "",
+                  "value": "TX- Turkmenistan"
+                },
+                {
+                  "description": "",
+                  "value": "TK- Turks & Caicos Is."
+                },
+                {
+                  "description": "",
+                  "value": "TV- Tuvalu"
+                },
+                {
+                  "description": "",
+                  "value": "UG- Uganda"
+                },
+                {
+                  "description": "",
+                  "value": "UP- Ukraine"
+                },
+                {
+                  "description": "",
+                  "value": "AE- United Arab Emirates"
+                },
+                {
+                  "description": "",
+                  "value": "UK- United Kingdom"
+                },
+                {
+                  "description": "",
+                  "value": "TZ- Tanzania"
+                },
+                {
+                  "description": "",
+                  "value": "VQ- Virgin Is."
+                },
+                {
+                  "description": "",
+                  "value": "UY- Uruguay"
+                },
+                {
+                  "description": "",
+                  "value": "UZ- Uzbekistan"
+                },
+                {
+                  "description": "",
+                  "value": "NH- Vanuatu"
+                },
+                {
+                  "description": "",
+                  "value": "VE- Venezuela"
+                },
+                {
+                  "description": "",
+                  "value": "VM- Vietnam"
+                },
+                {
+                  "description": "",
+                  "value": "WQ- Wake I."
+                },
+                {
+                  "description": "",
+                  "value": "WF- Wallis & Futuna"
+                },
+                {
+                  "description": "",
+                  "value": "WE- West Bank"
+                },
+                {
+                  "description": "",
+                  "value": "WI- Western Sahara"
+                },
+                {
+                  "description": "",
+                  "value": "YM- Yemen"
+                },
+                {
+                  "description": "",
+                  "value": "ZA- Zambia"
+                },
+                {
+                  "description": "",
+                  "value": "ZI- Zimbabwe"
+                },
+                {
+                  "description": "",
+                  "value": "SS- South Sudan"
+                }
+              ]
             },
             {
               "prompt": "Father's Primary Occupation",
@@ -6196,23 +7206,8 @@
                   "list_display_size": 16
                 },
                 {
-                  "prompt": "OMB Race Recode",
-                  "name": "omb_race_recode",
-                  "type": "string"
-                },
-                {
-                  "prompt": "Recode",
-                  "name": "cmd_recode",
-                  "type": "button"
-                },
-                {
                   "prompt": "Specify Other Race",
                   "name": "other_race",
-                  "type": "string"
-                },
-                {
-                  "prompt": "Specify Principle Tribe",
-                  "name": "principle_tribe",
                   "type": "string"
                 },
                 {
@@ -6224,6 +7219,21 @@
                   "prompt": "Specify Other Pacific Islander",
                   "name": "other_pacific_islander",
                   "type": "string"
+                },
+                {
+                  "prompt": "Specify Principal Tribe",
+                  "name": "principle_tribe",
+                  "type": "string"
+                },
+                {
+                  "prompt": "Father's OMB Race Recode",
+                  "name": "omb_race_recode",
+                  "type": "string"
+                },
+                {
+                  "prompt": "Recode",
+                  "name": "cmd_recode",
+                  "type": "button"
                 }
               ]
             }
@@ -7983,16 +8993,14 @@
               "is_core_summary": true
             },
             {
-              "prompt": "Zip Code*",
+              "prompt": "Zip Code",
               "name": "zip_code",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
-              "prompt": "County*",
+              "prompt": "County",
               "name": "county",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
               "prompt": "Latitude*",
@@ -8099,6 +9107,7 @@
                   "value": "Race not specified"
                 }
               ],
+              "is_core_summary": true,
               "is_multiselect": true,
               "list_display_size": 16
             },
@@ -8118,7 +9127,7 @@
               "type": "string"
             },
             {
-              "prompt": "Specify Principle Tribe",
+              "prompt": "Specify Principal Tribe",
               "name": "principle_tribe",
               "type": "string"
             },
@@ -8447,8 +9456,13 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Height (feet, inches)",
-              "name": "height",
+              "prompt": "Height (Feet)",
+              "name": "height_feet",
+              "type": "number"
+            },
+            {
+              "prompt": "Height (Inches)",
+              "name": "height_inches",
               "type": "number"
             },
             {
@@ -9831,9 +10845,10 @@
                   "type": "Number"
                 },
                 {
-                  "prompt": "BMI",
+                  "prompt": "BMI*",
                   "name": "bmi",
-                  "type": "Number"
+                  "type": "Number",
+                  "is_core_summary": true
                 }
               ]
             },
@@ -10389,6 +11404,7 @@
                   "value": "Not specified"
                 }
               ],
+              "is_core_summary": true,
               "list_display_size": 1
             }
           ]
@@ -10399,13 +11415,13 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Street*",
+              "prompt": "Street",
               "name": "street",
               "type": "string",
               "is_core_summary": false
             },
             {
-              "prompt": "City*",
+              "prompt": "City",
               "name": "city",
               "type": "string",
               "is_core_summary": false
@@ -10652,16 +11668,16 @@
                   "value": "VI- Virgin Islands"
                 }
               ],
-              "is_core_summary": false
+              "is_core_summary": true
             },
             {
-              "prompt": "Zip Code*",
+              "prompt": "Zip Code",
               "name": "zip_code",
               "type": "string",
               "is_core_summary": false
             },
             {
-              "prompt": "County*",
+              "prompt": "County",
               "name": "county",
               "type": "string",
               "is_core_summary": false
@@ -10670,13 +11686,13 @@
               "prompt": "Latitude*",
               "name": "latitude",
               "type": "number",
-              "is_core_summary": false
+              "is_core_summary": true
             },
             {
               "prompt": "Longitude*",
               "name": "longitude",
               "type": "number",
-              "is_core_summary": false
+              "is_core_summary": true
             },
             {
               "prompt": "Get Coordinates",
@@ -11220,6 +12236,7 @@
                       "value": "Other"
                     }
                   ],
+                  "is_core_summary": true,
                   "list_display_size": 1
                 },
                 {
@@ -11679,7 +12696,8 @@
                   "description": "",
                   "value": "None"
                 }
-              ]
+              ],
+              "is_core_summary": true
             },
             {
               "prompt": "Gestational Age at First Ultrasound (Weeks)",
@@ -11737,32 +12755,32 @@
               ]
             },
             {
+              "prompt": "Attended Prenatal Care Visits Alone?*",
+              "name": "attended_prenatal_visits_alone",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Yes"
+                },
+                {
+                  "description": "",
+                  "value": "No"
+                }
+              ],
+              "is_core_summary": true,
+              "description": "Not Including Children"
+            },
+            {
               "prompt": "Name, City and State of Intended Birthing Facility",
               "name": "intended_birthing_facility",
               "type": "string"
             }
           ]
-        },
-        {
-          "prompt": "Attended Prenatal Care Visits Alone?*",
-          "name": "attended_prenatal_visits_alone",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Yes"
-            },
-            {
-              "description": "",
-              "value": "No"
-            }
-          ],
-          "is_core_summary": true,
-          "description": "Not Including Children"
         },
         {
           "prompt": "Routine Monitoring",
@@ -11902,6 +12920,21 @@
           ]
         },
         {
+          "prompt": "Graph Blood Pressure",
+          "name": "cmd_graph_blood_pressure",
+          "type": "button"
+        },
+        {
+          "prompt": "Graph Weight Gain",
+          "name": "cmd_graph_weight_gain",
+          "type": "button"
+        },
+        {
+          "prompt": "Graph Hematocrit",
+          "name": "cmd_graph_hematocrit",
+          "type": "button"
+        },
+        {
           "prompt": "Highest Blood Pressure*",
           "name": "highest_blood_pressure",
           "type": "group",
@@ -12003,7 +13036,7 @@
           "type": "grid",
           "children": [
             {
-              "prompt": "Date First Noticed",
+              "prompt": "Date First Noted",
               "name": "date_1st_noted",
               "type": "date"
             },
@@ -12916,7 +13949,7 @@
                 },
                 {
                   "description": "",
-                  "value": "Clinic/Doctor's office"
+                  "value": "Clinic/Doctor's Office"
                 },
                 {
                   "description": "",
@@ -13842,7 +14875,7 @@
           "type": "button"
         },
         {
-          "prompt": "Graph BP",
+          "prompt": "Graph Blood Pressure",
           "name": "cmd_graph_bp",
           "type": "button"
         },
@@ -14789,7 +15822,7 @@
           "type": "button"
         },
         {
-          "prompt": "Graph BP",
+          "prompt": "Graph Blood Pressure",
           "name": "graph_bp",
           "type": "button"
         },
@@ -17772,25 +18805,7 @@
             {
               "prompt": "Duration of Condition",
               "name": "duration_of_condition",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Days"
-                },
-                {
-                  "description": "",
-                  "value": "Months"
-                },
-                {
-                  "description": "",
-                  "value": "Years"
-                }
-              ]
+              "type": "string"
             },
             {
               "prompt": "Treatment(s)",
@@ -17800,25 +18815,7 @@
             {
               "prompt": "Duration of Treatment",
               "name": "duration_of_tx",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Days"
-                },
-                {
-                  "description": "",
-                  "value": "Months"
-                },
-                {
-                  "description": "",
-                  "value": "Years"
-                }
-              ]
+              "type": "string"
             },
             {
               "prompt": "Treatment Changed During Pregnancy?",
@@ -18113,7 +19110,7 @@
           ]
         },
         {
-          "prompt": "Information About the Informant",
+          "prompt": "<span><strong> Information</strong> About the Informant</span>",
           "name": "information_about_the_informant",
           "type": "label"
         },
@@ -18332,11 +19329,11 @@
             },
             {
               "description": "The death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy",
-              "value": "Pregnancy Related"
+              "value": "Pregnancy-Related"
             },
             {
               "description": "The death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is NOT related to pregnancy.",
-              "value": "Pregnancy Associated, but NOT Related"
+              "value": "Pregnancy-Associated but NOT Related"
             },
             {
               "description": "(i.e. woman was not pregnant within one year of her death)",
@@ -18348,7 +19345,26 @@
             }
           ],
           "is_save_value_display_description": false,
-          "description": "PREGNANCY RELATED DEATH \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy\n\nPREGNANCY ASSOCIATED DEATH, NOT RELATED \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is not related to pregnancy. \n\nNOT PREGNANCY RELATED OR ASSOCIATED (i.e. woman was not pregnant within one year of her death)\n\nUNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED"
+          "description": "PREGNANCY-RELATED DEATH \nThe death of a woman during pregnancy or within one year of the end of pregnancy from a pregnancy complication, a chain of events initiated by pregnancy, or the aggravation of an unrelated condition by the physiologic effects of pregnancy\n\nPREGNANCY-ASSOCIATED BUT NOT RELATED DEATH\nThe death of a woman during pregnancy or within one year of the end of pregnancy from a cause that is not related to pregnancy. \n\nNOT PREGNANCY RELATED OR ASSOCIATED (i.e. woman was not pregnant within one year of her death)\n\nUNABLE TO DETERMINE IF PREGNANCY RELATED OR ASSOCIATED"
+        },
+        {
+          "prompt": "Does Committee Agree with Cause of Death Listed on Death Certificate?",
+          "name": "does_committee_agree_with_cod_on_death_certificate",
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "Yes"
+            },
+            {
+              "description": "",
+              "value": "No"
+            }
+          ]
         },
         {
           "prompt": "Notes About Key Circumstances Surrounding This Death Identified by the Committee (Enter in Bulleted Format)",
@@ -18395,308 +19411,315 @@
           ]
         },
         {
-          "prompt": "If Pregnancy Related, Committee Determination of Underlying Cause(s) of Death*   PMSS-MM (Select Up To Two)",
+          "prompt": "If Pregnancy-Related, Committee Determination of Underlying Cause of Death (PMSS-MM)*   (Select Up To Two)",
           "name": "pmss_mm",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "10 Hemorrhage (Excludes Aneurysms or CVA)"
-            },
-            {
-              "description": "",
-              "value": "10.1 Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
-            },
-            {
-              "description": "",
-              "value": "10.2 Placental Abruption"
-            },
-            {
-              "description": "",
-              "value": "10.3 Placenta Previa"
-            },
-            {
-              "description": "",
-              "value": "10.4 Ruptured Ectopic Pregnancy"
-            },
-            {
-              "description": "",
-              "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
-            },
-            {
-              "description": "",
-              "value": "10.6 Placenta Accreta/Increta/Percreta"
-            },
-            {
-              "description": "",
-              "value": "10.7 Hemorrhage due to Retained Placenta"
-            },
-            {
-              "description": "",
-              "value": "10.8 Hemorrhage due to Primary DIC"
-            },
-            {
-              "description": "",
-              "value": "10.9 Other Hemorrhage/NOS"
-            },
-            {
-              "description": "",
-              "value": "20 - Infection"
-            },
-            {
-              "description": "",
-              "value": "20.0 - Chorioamnionitis/Antepartum Infection"
-            },
-            {
-              "description": "",
-              "value": "20.1 Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
-            },
-            {
-              "description": "",
-              "value": "20.2 Sepsis/Septic Shock"
-            },
-            {
-              "description": "",
-              "value": "20.5 Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
-            },
-            {
-              "description": "",
-              "value": "20.6 Urinary Track Infection"
-            },
-            {
-              "description": "",
-              "value": "20.9 Other Infections/NOS"
-            },
-            {
-              "description": "",
-              "value": "30 Embolism - Amniotic Fluid"
-            },
-            {
-              "description": "",
-              "value": "40 Pre-Eclampsia"
-            },
-            {
-              "description": "",
-              "value": "50 Eclampsia"
-            },
-            {
-              "description": "",
-              "value": "60 Chronic Hypertension with Superimposed Pre/Eclampsia"
-            },
-            {
-              "description": "",
-              "value": "70 Anesthesia Complications"
-            },
-            {
-              "description": "",
-              "value": "80 Cardiomyopathy"
-            },
-            {
-              "description": "",
-              "value": "80.1 Post-Partum/Peripartum Cardiomyopathy"
-            },
-            {
-              "description": "",
-              "value": "80.2 Hypertrophic Cardiomyopathy"
-            },
-            {
-              "description": "",
-              "value": "80.9 Other Cardiomyopathy/NOS"
-            },
-            {
-              "description": "",
-              "value": "82 Hematologic"
-            },
-            {
-              "description": "",
-              "value": "82.1 Sickle Cell Anemia"
-            },
-            {
-              "description": "",
-              "value": "82.9 Other Hematologic Conditions including Thrombophilias/NOS"
-            },
-            {
-              "description": "",
-              "value": "83 Collagen Vascular/Auto Immune Diseases"
-            },
-            {
-              "description": "",
-              "value": "83.1 Systemic Lupus Erythematosus (SLE)"
-            },
-            {
-              "description": "",
-              "value": "83.9 Other Collagen Vascular Diseases/NOS"
-            },
-            {
-              "description": "",
-              "value": "85 Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
-            },
-            {
-              "description": "",
-              "value": "88 Injury"
-            },
-            {
-              "description": "",
-              "value": "88.1 Intentional"
-            },
-            {
-              "description": "",
-              "value": "88.2 Unintentional"
-            },
-            {
-              "description": "",
-              "value": "88.9 Unknown/NOS"
-            },
-            {
-              "description": "",
-              "value": "89 Cancer"
-            },
-            {
-              "description": "",
-              "value": "89.1 Gestational Trophoblastic Disease (GTN)"
-            },
-            {
-              "description": "",
-              "value": "89.3 Malignant Melanoma"
-            },
-            {
-              "description": "",
-              "value": "89.9 Other Malignancies/NOS"
-            },
-            {
-              "description": "",
-              "value": "90 Cardiovascular Conditions"
-            },
-            {
-              "description": "",
-              "value": "90.1 Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
-            },
-            {
-              "description": "",
-              "value": "90.2 Pulmonary Hypertension"
-            },
-            {
-              "description": "",
-              "value": "90.3 Valvular Heart Disease"
-            },
-            {
-              "description": "",
-              "value": "90.4 Vascular Aneurysm/Dissection"
-            },
-            {
-              "description": "",
-              "value": "90.5 Hypertensive Cardiovascular Disease"
-            },
-            {
-              "description": "",
-              "value": "90.7 Conduction Defects/Arrhythmias"
-            },
-            {
-              "description": "",
-              "value": "90.9 Other Cardiovascular Disease/NOS"
-            },
-            {
-              "description": "",
-              "value": "91 Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
-            },
-            {
-              "description": "",
-              "value": "91.1 Chronic Lung Disease"
-            },
-            {
-              "description": "",
-              "value": "91.2 Cystic Fibrosis"
-            },
-            {
-              "description": "",
-              "value": "91.3 Asthma"
-            },
-            {
-              "description": "",
-              "value": "91.9 Other Pulmonary Disease/NOS"
-            },
-            {
-              "description": "",
-              "value": "92 Neurologic/Neurovascular Conditions (Excluding CVAs)"
-            },
-            {
-              "description": "",
-              "value": "92.1 Epilepsy/Seizure Disorder"
-            },
-            {
-              "description": "",
-              "value": "92.9 Other Neurologic Diseases/NOS"
-            },
-            {
-              "description": "",
-              "value": "93 Renal Disease"
-            },
-            {
-              "description": "",
-              "value": "93.1 Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
-            },
-            {
-              "description": "",
-              "value": "93.9 Other Renal Disease/NOS"
-            },
-            {
-              "description": "",
-              "value": "95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
-            },
-            {
-              "description": "",
-              "value": "96 Metabolic/Endocrine"
-            },
-            {
-              "description": "",
-              "value": "96.1 Obesity"
-            },
-            {
-              "description": "",
-              "value": "96.2 Diabetes Mellitus"
-            },
-            {
-              "description": "",
-              "value": "96.9 Other Metabolic/Endocrine Disorders"
-            },
-            {
-              "description": "",
-              "value": "97 Gastrointestinal Disorders"
-            },
-            {
-              "description": "",
-              "value": "97.1 Crohn's Disease/Ulcerative Colitis"
-            },
-            {
-              "description": "",
-              "value": "97.2 Liver Disease/Failure/Transplant"
-            },
-            {
-              "description": "",
-              "value": "97.9 Other Gastrointestinal Diseases/NOS"
-            },
-            {
-              "description": "",
-              "value": "100 Mental Health Conditions"
-            },
-            {
-              "description": "",
-              "value": "100.1 Depression/Suicide"
-            },
-            {
-              "description": "",
-              "value": "100.9 Other Psychiatric Conditions/NOS"
-            },
-            {
-              "description": "",
-              "value": "999 Unknown COD"
+          "type": "grid",
+          "children": [
+            {
+              "prompt": "PMSS-MM",
+              "name": "pmss_mm",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "10 Hemorrhage (Excludes Aneurysms or CVA)"
+                },
+                {
+                  "description": "",
+                  "value": "10.1 Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
+                },
+                {
+                  "description": "",
+                  "value": "10.2 Placental Abruption"
+                },
+                {
+                  "description": "",
+                  "value": "10.3 Placenta Previa"
+                },
+                {
+                  "description": "",
+                  "value": "10.4 Ruptured Ectopic Pregnancy"
+                },
+                {
+                  "description": "",
+                  "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
+                },
+                {
+                  "description": "",
+                  "value": "10.6 Placenta Accreta/Increta/Percreta"
+                },
+                {
+                  "description": "",
+                  "value": "10.7 Hemorrhage due to Retained Placenta"
+                },
+                {
+                  "description": "",
+                  "value": "10.8 Hemorrhage due to Primary DIC"
+                },
+                {
+                  "description": "",
+                  "value": "10.9 Other Hemorrhage/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "20 Infection"
+                },
+                {
+                  "description": "",
+                  "value": "20.0 Chorioamnionitis/Antepartum Infection"
+                },
+                {
+                  "description": "",
+                  "value": "20.1 Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
+                },
+                {
+                  "description": "",
+                  "value": "20.2 Sepsis/Septic Shock"
+                },
+                {
+                  "description": "",
+                  "value": "20.5 Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
+                },
+                {
+                  "description": "",
+                  "value": "20.6 Urinary Track Infection"
+                },
+                {
+                  "description": "",
+                  "value": "20.9 Other Infections/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "30 Embolism - Amniotic Fluid"
+                },
+                {
+                  "description": "",
+                  "value": "40 Pre-Eclampsia"
+                },
+                {
+                  "description": "",
+                  "value": "50 Eclampsia"
+                },
+                {
+                  "description": "",
+                  "value": "60 Chronic Hypertension with Superimposed Pre/Eclampsia"
+                },
+                {
+                  "description": "",
+                  "value": "70 Anesthesia Complications"
+                },
+                {
+                  "description": "",
+                  "value": "80 Cardiomyopathy"
+                },
+                {
+                  "description": "",
+                  "value": "80.1 Post-Partum/Peripartum Cardiomyopathy"
+                },
+                {
+                  "description": "",
+                  "value": "80.2 Hypertrophic Cardiomyopathy"
+                },
+                {
+                  "description": "",
+                  "value": "80.9 Other Cardiomyopathy/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "82 Hematologic"
+                },
+                {
+                  "description": "",
+                  "value": "82.1 Sickle Cell Anemia"
+                },
+                {
+                  "description": "",
+                  "value": "82.9 Other Hematologic Conditions including Thrombophilias/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "83 Collagen Vascular/Auto Immune Diseases"
+                },
+                {
+                  "description": "",
+                  "value": "83.1 Systemic Lupus Erythematosus (SLE)"
+                },
+                {
+                  "description": "",
+                  "value": "83.9 Other Collagen Vascular Diseases/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "85 Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
+                },
+                {
+                  "description": "",
+                  "value": "88 Injury"
+                },
+                {
+                  "description": "",
+                  "value": "88.1 Intentional"
+                },
+                {
+                  "description": "",
+                  "value": "88.2 Unintentional"
+                },
+                {
+                  "description": "",
+                  "value": "88.9 Unknown/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "89 Cancer"
+                },
+                {
+                  "description": "",
+                  "value": "89.1 Gestational Trophoblastic Disease (GTN)"
+                },
+                {
+                  "description": "",
+                  "value": "89.3 Malignant Melanoma"
+                },
+                {
+                  "description": "",
+                  "value": "89.9 Other Malignancies/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "90 Cardiovascular Conditions"
+                },
+                {
+                  "description": "",
+                  "value": "90.1 Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
+                },
+                {
+                  "description": "",
+                  "value": "90.2 Pulmonary Hypertension"
+                },
+                {
+                  "description": "",
+                  "value": "90.3 Valvular Heart Disease"
+                },
+                {
+                  "description": "",
+                  "value": "90.4 Vascular Aneurysm/Dissection"
+                },
+                {
+                  "description": "",
+                  "value": "90.5 Hypertensive Cardiovascular Disease"
+                },
+                {
+                  "description": "",
+                  "value": "90.7 Conduction Defects/Arrhythmias"
+                },
+                {
+                  "description": "",
+                  "value": "90.9 Other Cardiovascular Disease/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "91 Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
+                },
+                {
+                  "description": "",
+                  "value": "91.1 Chronic Lung Disease"
+                },
+                {
+                  "description": "",
+                  "value": "91.2 Cystic Fibrosis"
+                },
+                {
+                  "description": "",
+                  "value": "91.3 Asthma"
+                },
+                {
+                  "description": "",
+                  "value": "91.9 Other Pulmonary Disease/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "92 Neurologic/Neurovascular Conditions (Excluding CVAs)"
+                },
+                {
+                  "description": "",
+                  "value": "92.1 Epilepsy/Seizure Disorder"
+                },
+                {
+                  "description": "",
+                  "value": "92.9 Other Neurologic Diseases/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "93 Renal Disease"
+                },
+                {
+                  "description": "",
+                  "value": "93.1 Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
+                },
+                {
+                  "description": "",
+                  "value": "93.9 Other Renal Disease/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
+                },
+                {
+                  "description": "",
+                  "value": "96 Metabolic/Endocrine"
+                },
+                {
+                  "description": "",
+                  "value": "96.1 Obesity"
+                },
+                {
+                  "description": "",
+                  "value": "96.2 Diabetes Mellitus"
+                },
+                {
+                  "description": "",
+                  "value": "96.9 Other Metabolic/Endocrine Disorders"
+                },
+                {
+                  "description": "",
+                  "value": "97 Gastrointestinal Disorders"
+                },
+                {
+                  "description": "",
+                  "value": "97.1 Crohn's Disease/Ulcerative Colitis"
+                },
+                {
+                  "description": "",
+                  "value": "97.2 Liver Disease/Failure/Transplant"
+                },
+                {
+                  "description": "",
+                  "value": "97.9 Other Gastrointestinal Diseases/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "100 Mental Health Conditions"
+                },
+                {
+                  "description": "",
+                  "value": "100.1 Depression/Suicide"
+                },
+                {
+                  "description": "",
+                  "value": "100.9 Other Psychiatric Conditions/NOS"
+                },
+                {
+                  "description": "",
+                  "value": "999 Unknown COD"
+                }
+              ]
             }
           ],
-          "is_multiselect": true
+          "is_core_summary": true
         },
         {
           "prompt": "Did Obesity Contribute to the Death?",
@@ -19156,6 +20179,33 @@
               "type": "string"
             },
             {
+              "prompt": "Delay",
+              "name": "delay",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Seeking Care"
+                },
+                {
+                  "description": "",
+                  "value": "Reaching Care"
+                },
+                {
+                  "description": "",
+                  "value": "Receiving Care"
+                },
+                {
+                  "description": "",
+                  "value": "No Delays"
+                }
+              ]
+            },
+            {
               "prompt": "Prevention",
               "name": "prevention",
               "type": "list",
@@ -19215,25 +20265,6 @@
           "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
           "name": "committee_recommendations",
           "type": "textarea"
-        },
-        {
-          "prompt": "Does Committee Agree with Cause of Death Listed on Death Certificate?",
-          "name": "does_committee_agree_with_cod_on_death_certificate",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "Yes"
-            },
-            {
-              "description": "",
-              "value": "No"
-            }
-          ]
         }
       ]
     }
