@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio 2012
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria-server", "owin\mmria-server.csproj", "{D1F6116E-6874-431C-BAEA-03BA83C53F7F}"
@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mmria.central.services", "m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "install.setup", "install.setup\install.setup.csproj", "{75C8AA26-2EE0-4355-944D-D6BD09DDCA7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esprima.NET", "Esprima.NET\Esprima.NET.csproj", "{B81E6B03-6826-4208-AAB2-AFD191801624}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|x86 = CD_ROM|x86
@@ -22,16 +24,6 @@ Global
 		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.CD_ROM|x86.ActiveCfg = Release|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.CD_ROM|x86.Build.0 = Release|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.ActiveCfg = Debug|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.Build.0 = Debug|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.DVD-5|x86.ActiveCfg = Debug|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.DVD-5|x86.Build.0 = Debug|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.ActiveCfg = Release|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.Build.0 = Release|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.ActiveCfg = Release|x86
-		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.Build.0 = Release|x86
 		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.CD_ROM|x86.ActiveCfg = Release|x86
 		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.CD_ROM|x86.Build.0 = Release|x86
 		{055046CB-CF46-4AB3-A79E-EBF49D7D713F}.Debug|x86.ActiveCfg = Debug|x86
@@ -72,6 +64,26 @@ Global
 		{75C8AA26-2EE0-4355-944D-D6BD09DDCA7A}.Release|x86.Build.0 = Release|x86
 		{75C8AA26-2EE0-4355-944D-D6BD09DDCA7A}.SingleImage|x86.ActiveCfg = Release|x86
 		{75C8AA26-2EE0-4355-944D-D6BD09DDCA7A}.SingleImage|x86.Build.0 = Release|x86
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.CD_ROM|x86.Build.0 = Release|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.Debug|x86.Build.0 = Debug|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.DVD-5|x86.Build.0 = Debug|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.Release|x86.ActiveCfg = Release|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.Release|x86.Build.0 = Release|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{B81E6B03-6826-4208-AAB2-AFD191801624}.SingleImage|x86.Build.0 = Release|Any CPU
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.CD_ROM|x86.ActiveCfg = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.CD_ROM|x86.Build.0 = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.ActiveCfg = Debug|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Debug|x86.Build.0 = Debug|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.DVD-5|x86.ActiveCfg = Debug|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.DVD-5|x86.Build.0 = Debug|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.ActiveCfg = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.Release|x86.Build.0 = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.ActiveCfg = Release|x86
+		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
