@@ -133,6 +133,7 @@
     <Compile Include="util\email\email.cs" />
     <Compile Include="util\cData.cs" />
     <Compile Include="model\couchdb\error.cs" />
+    <Compile Include="controller\validatorController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

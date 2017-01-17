@@ -45,6 +45,8 @@ namespace mmria.server
 
 			}
 
+
+
 			#if (FILE_WATCHED)
 			Console.WriteLine ("starting file watch.");
 			WatchFiles.StartWatch();
