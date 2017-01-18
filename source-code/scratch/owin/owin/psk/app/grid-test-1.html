@@ -8,10 +8,12 @@
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 <!--LINK href="./styles/mmria.css" type="text/css" rel="stylesheet" /-->
 <LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
-<link href="./styles/jquery/bootstrap-datepicker.css" type="text/css" rel="stylesheet"/>
-
+<!--link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" /-->
+<link href="./styles/bootstrap/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
+<!--link href="./styles/jquery/wickedpicker.min.css" rel="stylesheet" type="text/css" /-->
+<link href="https://unpkg.com/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
 <!--LINK href="./styles/bootstrap/bootstrap-theme.min.css" type="text/css" rel="stylesheet" /-->
+<script src="./scripts/jquery/moment.js"></script>
 <script src="./scripts/jquery-3.1.1.min.js"></script>
 <script src="./scripts/jquery-ui.min.js"></script>
 
@@ -20,9 +22,12 @@
 
 <script src="./scripts/bootstrap/bootstrap.min.js"></script>
 
-  <script type="text/javascript" src="./scripts/jquery/jquery.timepicker.js"></script>
+  <!--script type="text/javascript" src="./scripts/jquery/jquery.timepicker.js"></script-->
 
-  <script type="text/javascript" src="./scripts/jquery/bootstrap-datepicker.js"></script>
+  <script type="text/javascript" src="./scripts/bootstrap/bootstrap-datetimepicker.min.js"></script>
+
+<!--script type="text/javascript" src="./scripts/jquery/wickedpicker.min.js"></script-->
+<script src="https://unpkg.com/flatpickr"></script>
 
 <script src="./scripts/pouchdb/pouchdb.min.js"></script>
 <script src="./scripts/pouchdb/pouchdb.authentication.min.js"></script>
@@ -36,6 +41,7 @@
 <script src="scripts/editor/tree_node.js" type="text/javascript"></script>
 <script src="scripts/editor/editor.js" type="text/javascript"></script-->
  <script>
+ //$.datetimepicker.setLocale('en');
   $( function() {
 
 var availableTags = [
@@ -68,13 +74,47 @@ var availableTags = [
       source: availableTags
     });
 
+//https://github.com/xdan/datetimepicker
+//view-source:http://xdsoft.net/jqplugins/datetimepicker/
+/*
+    $( "[metadata_type='date']" ).flatpickr({minDate: new Date(), // "today" / "2016-12-20" / 1477673788975
+	maxDate: "2017-12-20",
+	enableTime: true,
 
-    $( "[metadata_type='date']" ).datepicker();
-    $( "[metadata_type='time']" ).timepicker();
+	// create an extra input solely for display purposes
+	altInput: true,
+	altFormat: "Y-m-d h:i K"});
+    $( "[metadata_type='time']" ).flatpickr({
+  enableTime: true,
+  enableDate: false
+});
+    $( "[metadata_type='datetime']" ).flatpickr({enableTime: true});
+https://chmln.github.io/flatpickr/
 
+https://eonasdan.github.io/bootstrap-datetimepicker/
+
+    */
+
+$( "[metadata_type='time']" ).datetimepicker({ //defaultDate: "01/01/1900",
+ format: 'LT'});
+//$( "[metadata_type='date']" ).datetimepicker();
+
+flatpickr("[metadata_type='date']", {
+	utc: true,
+	//defaultDate: "2016-12-27T00:00:00.000Z",
+	enableTime: false,
+});
+
+$( "[metadata_type='datetime']" ).datetimepicker();
+/*
+flatpickr("[metadata_type='datetime']", {
+	utc: true,
+	defaultDate: "2016-12-27T16:16:22.585Z",
+	enableTime: true,
+});*/
   } );
 
-
+//$(".selector").flatpickr({});
   </script>
 </head>
 <body>
@@ -128,7 +168,11 @@ var availableTags = [
     <div class="col-sm-4">
       One of three columns<br/>
       <span class="label label-default">Date of Birth</span>
+      
       <input type="text" metadata_type="date" placeholder="Date of Birth" value=""/>
+      <input type="text" metadata_type="time" placeholder="time of Birth" value=""/>
+      <input type="text" metadata_type="datetime" placeholder="Date and Time of Birth" value=""/>
+      
     </div>
     <div class="col-sm-4">
       One of three columns
