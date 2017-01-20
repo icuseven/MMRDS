@@ -1,6 +1,7 @@
 function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_row, p_column)
 {
-	var stack = [];
+
+	
 	var result = [];
 
 	switch(p_metadata.type.toLowerCase())

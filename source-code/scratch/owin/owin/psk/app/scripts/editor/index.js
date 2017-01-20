@@ -324,3 +324,64 @@ function perform_save(current_auth_session)
 			console.log("metadata sent", response);
 	});
 }
+
+
+
+var path_to_node_map = [];
+var path_to_int_map = [];
+var path_to_onblur_map = [];
+var path_to_onclick_map = [];
+var path_to_onfocus_map = [];
+var path_to_onchange_map = [];
+var path_to_validation = [];
+var object_path_to_metadata_path_map = [];
+
+//generate_validation(g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_validation, object_path_to_metadata_path_map);
+
+function generate_validation(p_metadata, p_metadata_list, p_path, p_object_list, p_object_path, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_validation, p_object_path_to_metadata_path_map)
+{
+    p_path_to_node_map[p_path] = p_metadata;
+    p_path_to_int_map[p_path] = p_metadata_list.length;
+	p_metadata_list.push(p_path);
+	p_object_list.push(p_object_path);
+
+    p_object_path_to_metadata_path_map[p_object_path] = p_path;
+
+    if(p_metadata.onblur && p_metadata.onblur != "")
+    {
+         p_path_to_onblur_map[p_path] = p_metadata.onblur;
+    }
+
+    if(p_metadata.onclick && p_metadata.onclick != "")
+    {
+        p_path_to_onclick_map[p_path] = p_metadata.onclick;
+    }
+
+    if(p_metadata.onfocus && p_metadata.onfocus != "")
+    {
+        p_path_to_onfocus_map[p_path] = p_metadata.onfocus;
+    }
+
+    if(p_metadata.onchange && p_metadata.onchange != "")
+    {
+        p_path_to_onchange_map[p_path] = p_metadata.onchange;
+    }
+ 
+    if(p_metadata.validation && p_metadata.validation != "")
+    {
+        p_path_to_validation[p_path] = p_metadata.validation;
+    }
+
+	if(p_metadata.children && p_metadata.children.length > 0)
+	{		
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+
+ 			generate_validation(child, p_metadata_list, p_path + "/children/" + i, p_object_list, p_object_path + "/" + child.name, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_validation, p_object_path_to_metadata_path_map);
+
+
+		}
+	}
+
+}
