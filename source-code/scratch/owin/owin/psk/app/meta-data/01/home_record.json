@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "344-6d766f7f5ce0b26dc4d212d6eb529935",
+  "_rev": "351-e05b9943518d675202c093060f7e2932",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -10889,12 +10889,12 @@
                 {
                   "prompt": "Finding",
                   "name": "finding",
-                  "type": "String"
+                  "type": "textarea"
                 },
                 {
                   "prompt": "Comment(s)",
                   "name": "comment",
-                  "type": "String"
+                  "type": "textarea"
                 }
               ]
             },
@@ -10906,12 +10906,12 @@
                 {
                   "prompt": "Finding",
                   "name": "finding",
-                  "type": "String"
+                  "type": "textarea"
                 },
                 {
                   "prompt": "Comment(s)",
                   "name": "comment",
-                  "type": "String"
+                  "type": "textarea"
                 }
               ]
             }
@@ -20265,6 +20265,11 @@
           "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
           "name": "committee_recommendations",
           "type": "textarea"
+        },
+        {
+          "prompt": "<strong>test</strong><p>new label prompt</p>",
+          "name": "new_label",
+          "type": "label"
         }
       ]
     }
