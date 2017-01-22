@@ -700,7 +700,7 @@ function open_print_version(p_section)
 function open_core_summary(p_section)
 {
 
-	var print_window = window.open('./core-summary','_core_summary',null,false);
+	var print_window = window.open('./core-elements','_core_summary',null,false);
 
 	window.setTimeout(function()
 	{
