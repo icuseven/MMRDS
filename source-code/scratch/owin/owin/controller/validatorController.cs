@@ -95,13 +95,12 @@ namespace mmria.server
 
 		// POST api/values 
 		[Route]
-		public mmria.common.model.couchdb.document_put_response Post() 
+		public bool Post() 
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
-			System.Dynamic.ExpandoObject  queue_request = null;
 			string object_string = null;
-			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+			bool result = false;
 
 			try
 			{
@@ -113,95 +112,27 @@ namespace mmria.server
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp);
+				string file_root_folder = null;
+				if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
+				{
+					file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
+				} 
+				else
+				{
+					file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
+				}
 
-				//mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
-				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+				System.IO.File.WriteAllText(file_root_folder + "/scripts/validator.js", temp);
 
+				result = true;
 
-
-				//string metadata = DecodeUrlString(temp);
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine (ex);
 			}
 
-			//if(queue_request.case_list.Length == 1)
-			try
-			{
-				//dynamic case_item = queue_request.case_list[0];
-
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_request, settings);
-
-				var byName = (IDictionary<string,object>)queue_request;
-				var temp_id = byName["_id"]; 
-				string id_val = null;
-
-				if(temp_id is DateTime)
-				{
-					id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
-				}
-				else
-				{
-					id_val = temp_id.ToString();
-				}
-
-
-				string metadata_url = this.get_couch_db_url() + "/mmrds/"  + id_val;
-
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
-				request.Method = "PUT";
-				request.ContentType = "application/json";
-				request.ContentLength = object_string.Length;
-				request.PreAuthenticate = false;
-
-				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
-				{
-					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-				}
-
-				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-				{
-					try
-					{
-						streamWriter.Write(object_string);
-						streamWriter.Flush();
-						streamWriter.Close();
-
-
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-						System.IO.Stream dataStream = response.GetResponseStream ();
-						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-						string responseFromServer = reader.ReadToEnd ();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-					}
-					catch(Exception ex)
-					{
-						Console.WriteLine (ex);
-					}
-				}
-
-				if (!result.ok) 
-				{
-
-				}
-
-			}
-			catch(Exception ex) 
-			{
-				Console.WriteLine (ex);
-			}
-
 			return result;
-
 		} 
 
 		private string get_couch_db_url()

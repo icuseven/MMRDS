@@ -311,6 +311,8 @@ function perform_save(current_auth_session)
 					{
 						profile.auth_session = response_obj.auth_session;
 						profile.set_auth_session_cookie(response_obj.auth_session);
+
+						perform_validation_save(g_metadata);
 					}
 
 
@@ -325,3 +327,33 @@ function perform_save(current_auth_session)
 	});
 }
 
+function perform_validation_save(p_metadata)
+{
+
+
+	output_json = [];
+	output_json.push("var path_to_onblur_map = [];\n");
+	output_json.push("var path_to_onclick_map = [];\n");
+	output_json.push("var path_to_onfocus_map = [];\n");
+	output_json.push("var path_to_onchange_map = [];\n");
+	output_json.push("var path_to_source_validation = [];\n");
+	output_json.push("var path_to_derived_validation = [];\n");
+	output_json.push("var path_to_validation_description = [];\n");
+
+	generate_validation(output_json, p_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
+	
+
+
+		$.ajax({
+			url: location.protocol + '//' + location.host + '/api/validator',
+			//contentType: 'application/text; charset=utf-8',
+			dataType: 'json',
+			data: output_json.join(""),
+			type: "POST"
+	}).done(function(response) 
+	{
+		console.log("perform_validation_save: complete");
+	}).fail(function(x) {
+    console.log(x);
+  });
+}

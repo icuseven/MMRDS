@@ -16,9 +16,23 @@ var object_path_to_metadata_path_map = [];
 
 //generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 var output_json = [] 
+
+
+
+output_json.push("var path_to_onblur_map = [];\n");
+output_json.push("var path_to_onclick_map = [];\n");
+output_json.push("var path_to_onfocus_map = [];\n");
+output_json.push("var path_to_onchange_map = [];\n");
+output_json.push("var path_to_source_validation = [];\n");
+output_json.push("var path_to_derived_validation = [];\n");
+output_json.push("var path_to_validation_description = [];\n");
+
+
 function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path, p_object_list, p_object_path, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_source_validation, p_path_to_derived_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map)
 {
     p_path_to_node_map[p_path] = p_metadata;
+
+
     p_path_to_int_map[p_path] = p_metadata_list.length;
 	p_metadata_list.push(p_path);
 	p_object_list.push(p_object_path);
@@ -27,26 +41,75 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     if(p_metadata.onblur && p_metadata.onblur != "")
     {
-		p_metadata.onblur.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
-        p_path_to_onblur_map[p_path] = p_metadata.onblur;
+		var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
+		p_metadata.onblur.body[0].id.name = f_name;
+		var test = get_code(p_metadata.onblur);
+		if(test)
+		{
+        	p_path_to_onblur_map[p_path] = test;
+			p_output_json.push(test);
+			p_output_json.push("\n");
+
+			p_output_json.push("path_to_onblur_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push(f_name);
+			p_output_json.push("';\n");
+		}
     }
 
     if(p_metadata.onclick && p_metadata.onclick != "")
     {
 		p_metadata.onclick.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_oc";
-        p_path_to_onclick_map[p_path] = p_metadata.onclick;
+		var test = get_code(p_metadata.onclick);
+		if(test)
+		{
+        	p_path_to_onclick_map[p_path] = test;
+			p_output_json.push(test);
+			p_output_json.push("\n");
+			
+			p_output_json.push("path_to_onclick_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_oc");
+			p_output_json.push("';\n");
+		}
     }
 
     if(p_metadata.onfocus && p_metadata.onfocus != "")
     {
 		p_metadata.onfocus.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
-        p_path_to_onfocus_map[p_path] = p_metadata.onfocus;
+		var test = get_code(p_metadata.onfocus);
+		if(test)
+		{
+        	p_path_to_onfocus_map[p_path] = test;
+			p_output_json.push(test);
+			p_output_json.push("\n");
+			
+			p_output_json.push("path_to_onfocus_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_of");
+			p_output_json.push("';\n");
+		}
     }
 
     if(p_metadata.onchange && p_metadata.onchange != "")
     {
 		p_metadata.onchange.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_oc";
-        p_path_to_onchange_map[p_path] = p_metadata.onchange;
+		var test = get_code(p_metadata.onchange);
+		if(test)
+		{
+        	p_path_to_onchange_map[p_path] = test;
+			p_output_json.push(test);
+			p_output_json.push("\n");
+			
+			p_output_json.push("path_to_onchange_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_oc");
+			p_output_json.push("';\n");
+		}
     }
  
     if(p_metadata.validation && p_metadata.validation != "")
@@ -54,6 +117,11 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
         p_path_to_source_validation[p_path] = p_metadata.validation;
 
+		p_output_json.push("path_to_source_validation['");
+		p_output_json.push(p_path);
+		p_output_json.push("']='");
+		p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_sv");
+		p_output_json.push("';\n");
 
 		var test = create_derived_validator_function(p_path_to_int_map, p_metadata, p_path);
 		if(test != "")
@@ -61,12 +129,24 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 			path_to_derived_validation[p_path] = test;
 			p_output_json.push(test);
 			p_output_json.push("\n");
+			
+			p_output_json.push("path_to_derived_validation['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_dv");
+			p_output_json.push("';\n");
 		}
     }
 
 	if(p_metadata.validation_description && p_metadata.validation_description != '')
 	{
 			p_path_to_validation_description[p_path] = p_metadata.validation_description;
+
+			p_output_json.push("path_to_validation_description['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push(p_metadata.validation_description);
+			p_output_json.push("';\n");
 	}
 
 	if(p_metadata.children && p_metadata.children.length > 0)
@@ -76,8 +156,6 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 			var child = p_metadata.children[i];
 
  			generate_validation(p_output_json, child, p_metadata_list, p_path + "/children/" + i, p_object_list, p_object_path + "/" + child.name, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_source_validation, p_path_to_derived_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map);
-
-
 		}
 	}
 
@@ -263,6 +341,23 @@ function create_derived_validator_function(p_path_to_int_map, p_metadata, p_path
 		return "";
 	}
 
+}
+
+
+function get_code(p_value)
+{
+	var result = null;
+
+	try
+	{
+		result = escodegen.generate(p_value);
+	}
+	catch(e)
+	{
+		console.log(e);
+	}
+
+	return result;
 }
 
 //[var].body[0].id.name
