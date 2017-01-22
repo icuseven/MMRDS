@@ -2,6 +2,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 {
 	var stack = [];
 	var result = [];
+	var current_column = p_column;
 
 	switch(p_metadata.type.toLowerCase())
   {
@@ -56,44 +57,37 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</table>");
 		break;
     case 'group':
-		if(p_column % 2 == 0)
+
+		if(g_metadata_summary[p_metadata_path].group_level < 1)
 		{
-			result.push("</div>");
+
+//current_column = 3;
+				result.push("</div>");
+				result.push("</div>");
+				result.push("<div class='row'>");
+				result.push("<div class='col-sm-4'>");
 		}
-		if(g_metadata_summary[p_metadata_path].group_level == 0)
-		{
-			result.push("<div class='row'>");
-		}
-		result.push("<fieldset id='");
+		result.push("<h3 id='");
 		result.push(p_metadata.name);
-		result.push("_id' class='group'><legend ");
-		if(p_metadata.description && p_metadata.description.length > 0)
-		{
-			result.push("rel='tooltip' data-original-title='");
-			result.push(p_metadata.description.replace(/'/g, "\\'"));
-			result.push("'>");
-		}
-		else
-		{
-			result.push(">");
-		}
+		result.push("_id' class='group'>");
 		result.push(p_metadata.prompt);
-		result.push("</legend>");
+		result.push("</h3>");
+
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
-			if(p_data[child.name])
+			if(current_column >= 3)
 			{
-
+				current_column = 0;
+				// close rows
+				result.push("</div>");
+				result.push("<div class='row'>");
 			}
-			else
-			{
-				p_data[child.name] = create_default_object(child, {})[child.name];
-			}
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_row, p_column + i));
+			result.push("<div class='col-sm-4'>");
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_row, current_column + i));
+			current_column += 1;
+			result.push("</div>");
 		}
-		result.push("</fieldset>");
-		result.push("</div>");
 		break;
     case 'form':
 		if(
@@ -192,7 +186,18 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					{
 						p_data[data_index][child.name] = create_default_object(child, {})[child.name];
 					}
-					Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, 0));
+
+					if(current_column >= 3 || g_metadata_summary[p_metadata_path].group_level < 1)
+					{
+						// close rows
+						current_column = 0;
+						result.push("</div>");
+						result.push("<div class='row'>");
+					}
+					result.push("<div class='col-sm-4'>");		
+					Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, current_column));
+					current_column += 1;
+					result.push("</div>");
 				}
 				result.push("</section>");
 

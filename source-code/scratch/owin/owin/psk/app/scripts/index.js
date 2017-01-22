@@ -301,7 +301,7 @@ function get_metadata()
 			g_metadata = response;
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
-      create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
       g_ui.url_state = url_monitor.get_url_state(window.location.href);
       if(window.onhashchange)
