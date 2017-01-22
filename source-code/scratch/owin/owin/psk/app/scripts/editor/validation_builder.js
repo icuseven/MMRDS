@@ -1,18 +1,22 @@
 
 
+var metadata_list = [];
+var object_list = [];
+
 var path_to_node_map = [];
 var path_to_int_map = [];
 var path_to_onblur_map = [];
 var path_to_onclick_map = [];
 var path_to_onfocus_map = [];
 var path_to_onchange_map = [];
-var path_to_validation = [];
+var path_to_source_validation = [];
+var path_to_derived_validation = [];
 var path_to_validation_description = [];
 var object_path_to_metadata_path_map = [];
 
-//generate_validation(g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_validation, path_to_validation_description, object_path_to_metadata_path_map);
-
-function generate_validation(p_metadata, p_metadata_list, p_path, p_object_list, p_object_path, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map)
+//generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
+var output_json = [] 
+function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path, p_object_list, p_object_path, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_source_validation, p_path_to_derived_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map)
 {
     p_path_to_node_map[p_path] = p_metadata;
     p_path_to_int_map[p_path] = p_metadata_list.length;
@@ -23,27 +27,41 @@ function generate_validation(p_metadata, p_metadata_list, p_path, p_object_list,
 
     if(p_metadata.onblur && p_metadata.onblur != "")
     {
-         p_path_to_onblur_map[p_path] = p_metadata.onblur;
+		p_metadata.onblur.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
+        p_path_to_onblur_map[p_path] = p_metadata.onblur;
     }
 
     if(p_metadata.onclick && p_metadata.onclick != "")
     {
+		p_metadata.onclick.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_oc";
         p_path_to_onclick_map[p_path] = p_metadata.onclick;
     }
 
     if(p_metadata.onfocus && p_metadata.onfocus != "")
     {
+		p_metadata.onfocus.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
         p_path_to_onfocus_map[p_path] = p_metadata.onfocus;
     }
 
     if(p_metadata.onchange && p_metadata.onchange != "")
     {
+		p_metadata.onchange.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_oc";
         p_path_to_onchange_map[p_path] = p_metadata.onchange;
     }
  
     if(p_metadata.validation && p_metadata.validation != "")
     {
-        p_path_to_validation[p_path] = p_metadata.validation;
+		p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+        p_path_to_source_validation[p_path] = p_metadata.validation;
+
+
+		var test = create_derived_validator_function(p_path_to_int_map, p_metadata, p_path);
+		if(test != "")
+		{
+			path_to_derived_validation[p_path] = test;
+			p_output_json.push(test);
+			p_output_json.push("\n");
+		}
     }
 
 	if(p_metadata.validation_description && p_metadata.validation_description != '')
@@ -57,7 +75,7 @@ function generate_validation(p_metadata, p_metadata_list, p_path, p_object_list,
 		{
 			var child = p_metadata.children[i];
 
- 			generate_validation(child, p_metadata_list, p_path + "/children/" + i, p_object_list, p_object_path + "/" + child.name, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map);
+ 			generate_validation(p_output_json, child, p_metadata_list, p_path + "/children/" + i, p_object_list, p_object_path + "/" + child.name, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_source_validation, p_path_to_derived_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map);
 
 
 		}
@@ -66,17 +84,13 @@ function generate_validation(p_metadata, p_metadata_list, p_path, p_object_list,
 }
 
 
-function create_validator_function(p_validator_map, p_validation_description_map, p_metadata, p_path)
+function create_derived_validator_function(p_path_to_int_map, p_metadata, p_path)
 {
 
-	if(p_metadata.validation_description && p_metadata.validation_description != '')
-	{
-			p_validation_description_map[p_path] = p_metadata.validation_description;
-	}
-
-
 	var result = [];
-	result.push("( function (value)\n{\n ");
+	result.push("\n function x");
+	result.push(p_path_to_int_map[p_path].toString(16));
+	result.push("_dv (value)\n{\n ");
 	var validation_added = false;
  
 	// is required
@@ -195,13 +209,25 @@ function create_validator_function(p_validator_map, p_validation_description_map
 	{
 		try
 		{
+
+			result.push("\n return x");
+			result.push(p_path_to_int_map[p_path].toString(16));
+			result.push("_sv(value);\n");
+			validation_added = true;
+
+			//[var].body[0].id.name
+			//p_metadata.validataion.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+			/*
 			var source_code = escodegen.generate(p_metadata.validation);
 			var code_array = [];
 			code_array.push("return ");
-			code_array.push(source_code.substring(0, source_code.length-1));
-			code_array.push("(value);\n")
+			code_array.push(source_code);
+			code_array.push("(value);\n");
 			validation_added = true;
 			Array.prototype.push.apply(result,code_array);
+			*/
+			
+			
 		}
 		catch(err)
 		{
@@ -224,8 +250,99 @@ function create_validator_function(p_validator_map, p_validation_description_map
 		
 	}
 
-	result.push(" return true;\n})")
+	result.push("\n}");
 
-	return result.join("");
+	//result.push(" return true;\n})");
+
+	if(validation_added)
+	{
+		return result.join("");
+	}
+	else
+	{
+		return "";
+	}
 
 }
+
+//[var].body[0].id.name
+
+var test_exp = {
+            "type": "Program",
+            "body": [
+              {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "type": "Identifier",
+                  "name": "f"
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "p_control"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "IfStatement",
+                      "test": {
+                        "type": "BinaryExpression",
+                        "operator": "==",
+                        "left": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "p_control"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "value"
+                          }
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": "",
+                          "raw": "\"\""
+                        }
+                      },
+                      "consequent": {
+                        "type": "BlockStatement",
+                        "body": [
+                          {
+                            "type": "ExpressionStatement",
+                            "expression": {
+                              "type": "AssignmentExpression",
+                              "operator": "=",
+                              "left": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "first_name"
+                                }
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": "bubba",
+                                "raw": "\"bubba\""
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "alternate": null
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false
+              }
+            ],
+            "sourceType": "script"
+          }
