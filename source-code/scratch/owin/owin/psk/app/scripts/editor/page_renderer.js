@@ -436,7 +436,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
-			result.push("</span><br/> <input  class='string' type='text' name='");
+			result.push("</span><br/>");
+			page_render_create_input(result, p_metadata, p_data, p_path, p_object_path)
+
 			result.push(p_metadata.name);
 			result.push("' value='");
 			result.push(p_data);
@@ -998,7 +1000,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 function page_render_create_input(p_result, p_metadata, p_data, p_path, p_object_path)
 {
-	p_result.push("<input  class='string' type='text' name='");
+	p_result.push("<input  class='");
+	p_result.push(p_metadata.type.toLowerCase());
+	p_result.push("' type='text' name='");
 	p_result.push(p_metadata.name);
 	p_result.push("' value='");
 	p_result.push(p_data);

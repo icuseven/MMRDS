@@ -120,28 +120,34 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
  
     if(p_metadata.validation && p_metadata.validation != "")
     {
-		p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
-        p_path_to_source_validation[p_path] = p_metadata.validation;
+			p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+			var test = get_code(p_metadata.validation);
+			if(test)
+			{
+				p_path_to_source_validation[p_path] = test;
+				p_output_json.push(test);
+				p_output_json.push("\n");
 
-		p_output_json.push("path_to_source_validation['");
-		p_output_json.push(p_path);
-		p_output_json.push("']='");
-		p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_sv");
-		p_output_json.push("';\n");
+				p_output_json.push("path_to_source_validation['");
+				p_output_json.push(p_path);
+				p_output_json.push("']='");
+				p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_sv");
+				p_output_json.push("';\n");
 
-		var test = create_derived_validator_function(p_path_to_int_map, p_metadata, p_path);
-		if(test != "")
-		{
-			path_to_derived_validation[p_path] = test;
-			p_output_json.push(test);
-			p_output_json.push("\n");
-			
-			p_output_json.push("path_to_derived_validation['");
-			p_output_json.push(p_path);
-			p_output_json.push("']='");
-			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_dv");
-			p_output_json.push("';\n");
-		}
+				test = create_derived_validator_function(p_path_to_int_map, p_metadata, p_path);
+				if(test != "")
+				{
+					path_to_derived_validation[p_path] = test;
+					p_output_json.push(test);
+					p_output_json.push("\n");
+					
+					p_output_json.push("path_to_derived_validation['");
+					p_output_json.push(p_path);
+					p_output_json.push("']='");
+					p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_dv");
+					p_output_json.push("';\n");
+				}
+			}
     }
 
 	if(p_metadata.validation_description && p_metadata.validation_description != '')
