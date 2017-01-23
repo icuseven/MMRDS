@@ -437,7 +437,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata.prompt);
 			}
 			result.push("</span><br/>");
-			page_render_create_input(result, p_metadata, p_data, p_path, p_object_path)
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
 
 			result.push(p_metadata.name);
 			result.push("' value='");
@@ -998,7 +998,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 }
 
 
-function page_render_create_input(p_result, p_metadata, p_data, p_path, p_object_path)
+function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
 {
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
@@ -1008,10 +1008,10 @@ function page_render_create_input(p_result, p_metadata, p_data, p_path, p_object
 	p_result.push(p_data);
 	if(p_metadata.onfocus && p_metadata.onfocus != "")
 	{
-		page_render_create_event(p_result, "onfocus", p_code_json, p_path, p_object_path)
+		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 	}
 	
-	page_render_create_event(p_result, "onblur", p_code_json, p_path, p_object_path)
+	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
 /*
 	p_result.push("' onblur='g_set_data_object_from_path(\"");
 	p_result.push(p_object_path);
@@ -1024,7 +1024,58 @@ function page_render_create_input(p_result, p_metadata, p_data, p_path, p_object
 }
 
 
-function page_render_create_event(p_result, p_event_name, p_code_json, p_path, p_object_path)
+function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path)
+{
+	var post_fix = null;
+
+/*
+var path_to_int_map = [];
+var path_to_onblur_map = [];
+var path_to_onclick_map = [];
+var path_to_onfocus_map = [];
+var path_to_onchange_map = [];
+var path_to_source_validation = [];
+var path_to_derived_validation = [];
+var path_to_validation_description = [];
+*/
+
+	switch(p_event_name)
+	{
+		case "onfocus":
+			post_fix = "_of";
+			break;
+		case "onchange":
+			post_fix = "_och";
+			break;
+		case "onclick":
+			post_fix = "_ocl";
+			break;
+		default:
+			console.log("page_render_create_event - missing case: " + p_event_name);
+			break;
+	}
+
+	//var source_code = escodegen.generate(p_metadata.onfocus);
+	var code_array = [];
+	
+	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
+	code_array.push(".call(");
+	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+	code_array.push(");");
+
+	code_array.push(source_code);
+	code_array.push(".call(");
+	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+	code_array.push(", this);");
+	p_result.push(" onfocus='");
+	p_result.push(p_event_name);
+	p_result.push("'");
+	p_result.push(code_array.join('').replace(/'/g,"\""));
+	
+}
+
+
+function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path)
 {
 /*
 var path_to_int_map = [];
@@ -1037,14 +1088,34 @@ var path_to_derived_validation = [];
 var path_to_validation_description = [];
 */
 
-		var source_code = escodegen.generate(p_metadata.onfocus);
+	if(p_metadata.onblur && p_metadata.onblur != "")
+	{
+		//var source_code = escodegen.generate(p_metadata.onfocus);
 		var code_array = [];
 		
-		code_array.push(source_code.substring(0, source_code.length-1));
+		
+		code_array.push("function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
+		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_ob");
 		code_array.push(".call(");
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-		code_array.push(", this);");
-		p_result.push("' onfocus='");
+		code_array.push(");\n");
+		
+		code_array.push("g_set_data_object_from_path(\"");
+		code_array.push(p_object_path);
+		code_array.push("\",\"");
+		code_array.push(p_metadata_path);
+		code_array.push("\",p_control);\n}.call()(this);");
+
+		p_result.push(" onblur='");
 		p_result.push(code_array.join('').replace(/'/g,"\""));
+	}
+	else
+	{
+		p_result.push(" onblur='g_set_data_object_from_path(\"");
+		p_result.push(p_object_path);
+		p_result.push("\",\"");
+		p_result.push(p_metadata_path);
+		p_result.push("\",this.value)'");
+	}
 	
 }

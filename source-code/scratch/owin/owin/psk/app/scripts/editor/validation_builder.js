@@ -66,7 +66,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     if(p_metadata.onclick && p_metadata.onclick != "")
     {
-		p_metadata.onclick.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_oc";
+		p_metadata.onclick.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_ocl";
 		var test = get_code(p_metadata.onclick);
 		if(test)
 		{
@@ -77,7 +77,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 			p_output_json.push("path_to_onclick_map['");
 			p_output_json.push(p_path);
 			p_output_json.push("']='");
-			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_oc");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_ocl");
 			p_output_json.push("';\n");
 		}
     }
@@ -102,7 +102,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     if(p_metadata.onchange && p_metadata.onchange != "")
     {
-		p_metadata.onchange.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_oc";
+		p_metadata.onchange.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_och";
 		var test = get_code(p_metadata.onchange);
 		if(test)
 		{
@@ -113,7 +113,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 			p_output_json.push("path_to_onchange_map['");
 			p_output_json.push(p_path);
 			p_output_json.push("']='");
-			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_oc");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_och");
 			p_output_json.push("';\n");
 		}
     }
