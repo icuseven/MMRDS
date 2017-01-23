@@ -18,7 +18,7 @@ var object_path_to_metadata_path_map = [];
 var output_json = [] 
 
 
-
+output_json.push("var path_to_int_map = [];\n");
 output_json.push("var path_to_onblur_map = [];\n");
 output_json.push("var path_to_onclick_map = [];\n");
 output_json.push("var path_to_onfocus_map = [];\n");
@@ -34,6 +34,12 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
 
     p_path_to_int_map[p_path] = p_metadata_list.length;
+			p_output_json.push("path_to_int_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']= ");
+			p_output_json.push(p_path_to_int_map[p_path]);
+			p_output_json.push(";\n");
+
 	p_metadata_list.push(p_path);
 	p_object_list.push(p_object_path);
 
