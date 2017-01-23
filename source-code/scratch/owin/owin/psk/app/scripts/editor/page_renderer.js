@@ -1043,7 +1043,7 @@ var path_to_validation_description = [];
 	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
 	code_array.push(".call(");
 	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-	code_array.push(");");
+	code_array.push(",this);");
 
 	p_result.push(" onfocus='");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
@@ -1075,7 +1075,7 @@ var path_to_validation_description = [];
 		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_ob");
 		code_array.push(".call(");
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-		code_array.push(");\n");
+		code_array.push(", p_control);\n");
 		
 		code_array.push("g_set_data_object_from_path(\"");
 		code_array.push(p_object_path);
