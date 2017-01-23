@@ -439,27 +439,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</span><br/>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
 
-			result.push(p_metadata.name);
-			result.push("' value='");
-			result.push(p_data);
-			if(p_metadata.onfocus && p_metadata.onfocus != "")
-			{
-				var source_code = escodegen.generate(p_metadata.onfocus);
-				var code_array = [];
-				
-				code_array.push(source_code.substring(0, source_code.length-1));
-				code_array.push(".call(");
-				code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-				code_array.push(", this);");
-				result.push("' onfocus='");
-				result.push(code_array.join('').replace(/'/g,"\""));
-			}
-			
-			result.push("' onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.value)' /></div>");
+			result.push("</div>");
 			
 			
 			break;
@@ -1006,6 +986,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	p_result.push(p_metadata.name);
 	p_result.push("' value='");
 	p_result.push(p_data);
+	p_result.push("'");
+
 	if(p_metadata.onfocus && p_metadata.onfocus != "")
 	{
 		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
@@ -1063,14 +1045,9 @@ var path_to_validation_description = [];
 	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
 	code_array.push(");");
 
-	code_array.push(source_code);
-	code_array.push(".call(");
-	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-	code_array.push(", this);");
 	p_result.push(" onfocus='");
-	p_result.push(p_event_name);
-	p_result.push("'");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
+	p_result.push("'");
 	
 }
 
@@ -1108,6 +1085,7 @@ var path_to_validation_description = [];
 
 		p_result.push(" onblur='");
 		p_result.push(code_array.join('').replace(/'/g,"\""));
+		p_result.push("'");
 	}
 	else
 	{

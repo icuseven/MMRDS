@@ -35,7 +35,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     p_path_to_int_map[p_path] = p_metadata_list.length;
 			p_output_json.push("path_to_int_map['");
-			p_output_json.push(p_path);
+			p_output_json.push(get_eval_string(p_path));
 			p_output_json.push("']= ");
 			p_output_json.push(p_path_to_int_map[p_path]);
 			p_output_json.push(";\n");
