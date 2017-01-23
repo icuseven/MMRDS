@@ -385,6 +385,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</div>");
 			break;
      case 'button':
+	 		page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
+/*
 			result.push("<input class='button' type='button' id='");
 			result.push(p_object_path);
 			result.push("' ");
@@ -400,7 +402,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 			result.push(p_metadata.prompt);
-			result.push("' />");
+			result.push("' />");*/
 			break;
 		case 'string':
 			result.push("<div class='col-sm-4 string' id='");
@@ -982,18 +984,44 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 {
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
-	p_result.push("' type='text' name='");
-	p_result.push(p_metadata.name);
-	p_result.push("' value='");
-	p_result.push(p_data);
-	p_result.push("'");
-
-	if(p_metadata.onfocus && p_metadata.onfocus != "")
+	if(p_metadata.type=="button")
 	{
-		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+		p_result.push("' type='button' name='");
+		p_result.push(p_metadata.name);
+		p_result.push("' value='");
+		p_result.push(p_metadata.prompt);
+		p_result.push("'");
+
+		if(p_metadata.onclick && p_metadata.onclick != "")
+		{
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+		}
 	}
-	
-	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+	else
+	{
+		p_result.push("' type='text' name='");
+		p_result.push(p_metadata.name);
+		p_result.push("' value='");
+		p_result.push(p_data);
+		p_result.push("'");
+
+		if(p_metadata.onfocus && p_metadata.onfocus != "")
+		{
+			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+		}
+
+		if(p_metadata.onchange && p_metadata.onchange != "")
+		{
+			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+		}
+		
+		if(p_metadata.onclick && p_metadata.onclick != "")
+		{
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+		}
+		
+		page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+	}
 /*
 	p_result.push("' onblur='g_set_data_object_from_path(\"");
 	p_result.push(p_object_path);
@@ -1043,9 +1071,11 @@ var path_to_validation_description = [];
 	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
 	code_array.push(".call(");
 	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-	code_array.push(",this);");
+	code_array.push(", this);");
 
-	p_result.push(" onfocus='");
+	p_result.push(" ");
+	p_result.push(p_event_name);
+	p_result.push("='");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
 	p_result.push("'");
 	
@@ -1071,7 +1101,7 @@ var path_to_validation_description = [];
 		var code_array = [];
 		
 		
-		code_array.push("function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
+		code_array.push("(function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
 		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_ob");
 		code_array.push(".call(");
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
@@ -1081,7 +1111,9 @@ var path_to_validation_description = [];
 		code_array.push(p_object_path);
 		code_array.push("\",\"");
 		code_array.push(p_metadata_path);
-		code_array.push("\",p_control);\n}.call()(this);");
+		code_array.push("\",p_control.value);\n}).call(");
+		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+		code_array.push(", event.target);");
 
 		p_result.push(" onblur='");
 		p_result.push(code_array.join('').replace(/'/g,"\""));
