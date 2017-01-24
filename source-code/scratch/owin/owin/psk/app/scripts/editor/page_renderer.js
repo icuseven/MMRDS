@@ -438,9 +438,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
-			result.push("</span><br/>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
 
+			result.push("</span><br/>");
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			
 			
@@ -470,6 +470,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(p_metadata.prompt);
 				}
+				/*
 				result.push("</span><br/> <textarea  rows=5 cols=40 name='");
 				result.push(p_metadata.name);
 				result.push("'  onblur='g_set_data_object_from_path(\"");
@@ -478,7 +479,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata_path);
 				result.push("\",this.value)' >");
 				result.push(p_data);
-				result.push("</textarea></div>");
+				result.push("</textarea></div>");*/
+				
+				result.push("</span>");
+				page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
+				result.push("</di>");
            break;
      case 'number':
 			result.push("<div class='col-sm-4 number' id='");
@@ -503,6 +508,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
+			
+			/*
 			result.push("</span><br/> <input  class='number' type='text' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
@@ -512,6 +519,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
+			*/
+			result.push("</span>");
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
+			
            break;
      case 'boolean':
 			result.push("<div class='col-sm-4 boolean' id='");
@@ -526,12 +538,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push("'  value='");
 			}
-			result.push(p_data);
-			result.push("' onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.checked)'  /><span ");
+			page_render_create_checkbox(result, p_metadata, p_data, p_metadata_path, p_object_path);
+
+			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -552,6 +561,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata.prompt);
 			}
 			result.push("</span></div>");
+
+			
+			
+			result.push("</div>");
+
             break;
     case 'list':
 			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
@@ -877,6 +891,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
+
+			/*
 			result.push("</span><br/> <input  class='date' type='");
 			//result.push(p_metadata.type.toLowerCase());
 			result.push("text");
@@ -889,6 +905,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
+			*/
+			result.push("</span>");
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
+
 			 break;	
 	case 'datetime':
 			if(typeof(p_data) == "string")
@@ -918,6 +939,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
+			/*
 			result.push("</span><br/> <input  class='datetime' type='");
 			//result.push(p_metap_datadata.type.toLowerCase());
 			result.push("text");
@@ -929,7 +951,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_object_path);
 			result.push("\",\"");
 			result.push(p_metadata_path);
-			result.push("\",this.value)'  /></div>");			
+			result.push("\",this.value)'  /></div>");
+			*/
+			result.push("</span>");
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");	
 			 break;
 		case 'time':
 			if(typeof(p_data) == "string")
@@ -960,6 +986,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
+			/*
 			result.push("</span><br/> <input  class='time' type='text' name='");
 			result.push(p_metadata.name);
 			result.push("' value='");
@@ -969,6 +996,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)'   /></div>");
+			*/
+			result.push("</span>");
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
+
 			break;
      default:
           console.log("page_render not processed", p_metadata);
@@ -1127,5 +1159,76 @@ var path_to_validation_description = [];
 		p_result.push(p_metadata_path);
 		p_result.push("\",this.value)'");
 	}
+	
+}
+
+function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
+{
+	p_result.push("<input  class='checkbox' type='checkbox' name='");
+	p_result.push(p_metadata.name);
+	if(p_data == true)
+	{
+		p_result.push("' checked='true'");
+	}
+	else
+	{
+		p_result.push("'  value='");
+	}
+	p_result.push(p_data);
+	p_result.push("' ");
+
+	if(p_metadata.onfocus && p_metadata.onfocus != "")
+	{
+		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+	}
+
+	if(p_metadata.onchange && p_metadata.onchange != "")
+	{
+		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+	}
+	
+	if(p_metadata.onclick && p_metadata.onclick != "")
+	{
+		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+	}
+	
+	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+
+
+
+	p_result.push("/>");
+	
+}
+
+
+function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
+{
+
+	p_result.push("<textarea  class='");
+	p_result.push(p_metadata.type.toLowerCase());
+	p_result.push("'<textarea'  rows=5 cols=40 name='");
+	p_result.push(p_metadata.name);
+	p_result.push("' ");
+
+	if(p_metadata.onfocus && p_metadata.onfocus != "")
+	{
+		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+	}
+
+	if(p_metadata.onchange && p_metadata.onchange != "")
+	{
+		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+	}
+	
+	if(p_metadata.onclick && p_metadata.onclick != "")
+	{
+		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+	}
+	
+	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+
+	p_result.push(" >");
+	p_result.push(p_data);
+	p_result.push("</textarea>");
 	
 }
