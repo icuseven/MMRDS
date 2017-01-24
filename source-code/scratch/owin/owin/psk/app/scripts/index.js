@@ -531,8 +531,31 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
+  $( ".time" ).datetimepicker({ format: 'LT'});
+//$( "[metadata_type='date']" ).datetimepicker();
+
+flatpickr(" .date", {
+	utc: true,
+	//defaultDate: "2016-12-27T00:00:00.000Z",
+	enableTime: false,
+});
+
+$( ".datetime" ).datetimepicker();
+
+$("input.number").TouchSpin({
+                verticalbuttons: true,
+                min: 0,
+                max: 10000,
+                step: 1,
+                maxboostedstep: 10
+            });
+
     apply_validation();
+
+
 }
+
+
 
 
 function apply_validation()

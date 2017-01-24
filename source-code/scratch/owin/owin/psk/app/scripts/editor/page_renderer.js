@@ -1157,7 +1157,15 @@ var path_to_validation_description = [];
 		p_result.push(p_object_path);
 		p_result.push("\",\"");
 		p_result.push(p_metadata_path);
-		p_result.push("\",this.value)'");
+		if(p_metadata.type=="boolean")
+		{
+			p_result.push("\",this.checked)'");
+		}
+		else
+		{
+			p_result.push("\",this.value)'");
+		}
+		
 	}
 	
 }
