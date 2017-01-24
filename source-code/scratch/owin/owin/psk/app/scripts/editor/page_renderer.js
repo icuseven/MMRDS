@@ -501,16 +501,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(p_metadata.prompt);
 				}
-				/*
-				result.push("</span><br/> <textarea  rows=5 cols=40 name='");
-				result.push(p_metadata.name);
-				result.push("'  onblur='g_set_data_object_from_path(\"");
-				result.push(p_object_path);
-				result.push("\",\"");
-				result.push(p_metadata_path);
-				result.push("\",this.value)' >");
-				result.push(p_data);
-				result.push("</textarea></div>");*/
 				
 				result.push("</span> ");
 				page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
@@ -540,17 +530,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata.prompt);
 			}
 			
-			/*
-			result.push("</span><br/> <input  class='number' type='text' name='");
-			result.push(p_metadata.name);
-			result.push("' value='");
-			result.push(p_data);
-			result.push("'  onblur='g_set_data_object_from_path(\"");
-			result.push(p_object_path);
-			result.push("\",\"");
-			result.push(p_metadata_path);
-			result.push("\",this.value)'  /></div>");
-			*/
 			result.push("</span> ");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
