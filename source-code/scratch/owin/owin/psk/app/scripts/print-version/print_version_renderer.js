@@ -47,7 +47,24 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 				result.push(' <strong>')
 				result.push(p_metadata.prompt);
 				result.push('</strong>: ');
-				result.push(p_data[p_metadata.name]);
+				//result.push(p_data[p_metadata.name]);
+				if(Array.isArray(p_data))
+				{
+					result.push("<ul>");
+					for(var i = 0; i < p_data.length; i++)
+					{
+						result.push("<li>");
+						result.push(p_data[i]);
+						result.push("</li>");
+
+					}
+					result.push("</ul>");
+				}
+				else
+				{
+					result.push(p_data);
+				}
+				
 				result.push('</p>');
 				break;				
 		case 'app':
