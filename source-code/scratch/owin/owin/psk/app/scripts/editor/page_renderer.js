@@ -60,10 +60,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 		if(p_group_level == 1)
 		{
-
-//current_column = 3;
-				result.push("</div>");
-				result.push("</div>");
 				result.push("<div class='row'>");
 				result.push("<div class='col-sm-4'>");
 		}
@@ -72,6 +68,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("_id' class='group'>");
 		result.push(p_metadata.prompt);
 		result.push("</h3>");
+
+		var group_stack = [];
 
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
@@ -83,11 +81,36 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</div>");
 				result.push("<div class='row'>");
 			}
-			result.push("<div class='col-sm-4'>");
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, current_column + i));
-			current_column += 1;
-			result.push("</div>");
+
+			if(p_group_level > 2)
+			{
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
+			}
+			else
+			{
+				result.push("<div class='col-sm-4'>");
+				if(child.type=="group")
+				{
+					//group_stack.push(child);
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
+				}
+				else
+				{
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, current_column + i));
+				}
+				
+				current_column += 1;
+				result.push("</div>");
+			}
+
 		}
+
+		if(p_group_level == 1)
+		{
+				result.push("</div>");
+				result.push("</div>");
+		}
+
 		break;
     case 'form':
 		if(
@@ -489,7 +512,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_data);
 				result.push("</textarea></div>");*/
 				
-				result.push("</span>");
+				result.push("</span> ");
 				page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
 				result.push("</di>");
            break;
@@ -528,7 +551,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
 			*/
-			result.push("</span>");
+			result.push("</span> ");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			
@@ -601,7 +624,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(p_metadata.prompt);
 				}
-				result.push("</span>");
+				result.push("</span> ");
 
 				if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				{
@@ -751,7 +774,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(p_metadata.prompt);
 				}
-				result.push("</span>");
+				result.push("</span> ");
 
 				if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				{
@@ -915,7 +938,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
 			*/
-			result.push("</span>");
+			result.push("</span> ");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 
@@ -963,7 +986,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
 			*/
-			result.push("</span>");
+			result.push("</span> ");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");	
 			 break;
@@ -1008,7 +1031,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("\",this.value)'   /></div>");
 			*/
-			result.push("</span>");
+			result.push("</span> ");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 
