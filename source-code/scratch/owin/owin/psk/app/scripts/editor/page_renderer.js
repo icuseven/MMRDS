@@ -1,4 +1,4 @@
-function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_row, p_column)
+function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_group_level, p_row, p_column)
 {
 	var stack = [];
 	var result = [];
@@ -35,7 +35,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				var child = p_metadata.children[j];
 				result.push("<td>");
-				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_row, p_column));
+				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_group_level, p_row, p_column));
 				result.push("</td>");
 			}
 			result.push('<td> <input type="button" value="delete" id="delete_');
@@ -58,7 +58,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		break;
     case 'group':
 
-		if(g_metadata_summary[p_metadata_path].group_level < 1)
+		if(p_group_level == 1)
 		{
 
 //current_column = 3;
@@ -84,7 +84,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("<div class='row'>");
 			}
 			result.push("<div class='col-sm-4'>");
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_row, current_column + i));
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, current_column + i));
 			current_column += 1;
 			result.push("</div>");
 		}
@@ -194,8 +194,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						result.push("</div>");
 						result.push("<div class='row'>");
 					}
-					result.push("<div class='col-sm-4'>");		
-					Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, current_column));
+					result.push("<div class='col-sm-4'>");
+					if(child.type=="group")
+					{
+						Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 1, 0, current_column));
+					}
+					else
+					{
+						Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, 0, current_column));
+					}
+					
 					current_column += 1;
 					result.push("</div>");
 				}
@@ -308,7 +316,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					p_data[child.name] = create_default_object(child, {})[child.name];
 				}
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_row, p_column));
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));
 			}
 			result.push("</section>");
 		}
@@ -357,7 +365,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			var child = p_metadata.children[i];
 			if(child.type.toLowerCase() == 'form')
 			{
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_row, p_column));				 		
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));				 		
 			}
 		}
 
@@ -863,10 +871,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
            break;
 	case 'date':
+	/*
 			if(typeof(p_data) != "date")
 			{
 				p_data = new Date(p_data);
-			}
+			}*/
 			result.push("<div class='col-sm-4 date' id='");
 			result.push(p_object_path)
 			
@@ -912,10 +921,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			 break;	
 	case 'datetime':
+	/*
 			if(typeof(p_data) == "string")
 			{
 				p_data = new Date(p_data);
-			}
+			}*/
 			result.push("<div class='col-sm-4 date' id='");
 			result.push(p_object_path)
 			result.push("'> ");
@@ -958,10 +968,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</div>");	
 			 break;
 		case 'time':
+		/*
 			if(typeof(p_data) == "string")
 			{
 				p_data = new Date(p_data);
-			}
+			}*/
 			result.push("<div class='col-sm-4 time' id='");
 			result.push(p_object_path)
 			
@@ -1022,7 +1033,22 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		p_result.push(p_metadata.prompt);
-		p_result.push("'");
+		p_result.push("' ");
+
+		if(p_metadata.type == "")
+		{
+			p_result.push("placeholder='");
+			if(p_metadata.prompt.length > 25)
+			{
+				p_result.push(p_metadata.prompt.substring(0, 25));
+			}
+			else
+			{
+				p_result.push(p_metadata.prompt);
+			}
+			
+			p_result.push("' ");
+		}
 
 		if(p_metadata.onclick && p_metadata.onclick != "")
 		{

@@ -49,15 +49,6 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 				result.push('</strong>: ');
 				result.push(p_data[p_metadata.name]);
 				result.push('</p>');
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
-					}
-				}
 				break;				
 		case 'app':
 				/*
@@ -85,8 +76,9 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 				result.push(' <strong>')
 				result.push(p_metadata.prompt);
 				result.push('</strong>: ');
-				result.push(p_data[p_metadata.name]);
+				result.push(p_data);
 				result.push('</p>');
+				/*
 				if(p_metadata.children)
 				{
 					for(var i = 0; i < p_metadata.children.length; i++)
@@ -95,7 +87,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 						if(p_data[child.name] != null)
 						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
 					}
-				}
+				}*/
 				break;
 	}
 

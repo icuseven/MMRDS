@@ -113,11 +113,12 @@ function create_default_object(p_metadata, p_parent)
             }
             else
             {
-              p_parent[p_metadata.name] = new Date();
+              p_parent[p_metadata.name] = "";
             }
             break;
     case 'time':
-           p_parent[p_metadata.name] = new Date("2016-01-01T00:00:00.000Z");
+           //p_parent[p_metadata.name] = new Date("2016-01-01T00:00:00.000Z");
+           p_parent[p_metadata.name] = "";
            break;
     case 'label':
     case 'button':
