@@ -1,3 +1,4 @@
+var g_data = null;
 
 
 var g_ui = { 
@@ -52,7 +53,7 @@ $(function ()
     };
 	profile.initialize_profile();*/
 
-	//load_users();
+	load_data();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -76,27 +77,20 @@ $(function ()
 
 
 
-function load_users()
+function load_data()
 {
-	var metadata_url = location.protocol + '//' + location.host + '/api/user';
+	//var metadata_url = location.protocol + '//' + location.host + '/api/user';
+	var metadata_url = 'http://db1.mmria.org/mmrds/_design/aggregate_report/_view/titles';
 
 	$.ajax({
 			url: metadata_url
 	}).done(function(response) {
 			
-			var temp = [];
-			for(var i = 0; i < response.rows.length; i++)
-			{
-				temp.push(response.rows[i].doc);
-			}
-			console.log(temp);
-			g_ui.user_summary_list = temp;
-			console.log(g_ui.user_summary_list);
-			g_ui.url_state = url_monitor.get_url_state(window.location.href);
+			g_data = response.rows;
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+			//document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
 
 	});
 }

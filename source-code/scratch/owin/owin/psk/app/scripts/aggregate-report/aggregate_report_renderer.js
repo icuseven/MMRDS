@@ -1,6 +1,6 @@
 //http://stackoverflow.com/questions/5558873/changing-user-name-and-password-in-couchdb-user-database
 
-function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_context)
+function aggregate_report_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_context)
 {
 	var result = [];
 
