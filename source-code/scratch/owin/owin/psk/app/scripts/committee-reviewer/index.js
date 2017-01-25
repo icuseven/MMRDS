@@ -289,7 +289,7 @@ function get_case_set()
 
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
         document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
-
+        
         var section_list = document.getElementsByTagName("section");
         for(var i = 0; i < section_list.length; i++)
         {
@@ -305,10 +305,7 @@ function get_case_set()
         }
 
 
-  }).fail(function(response)
-  { 
-    console.log("fail get_case_set", response)
-  });
+  }).fail(function(response){ console.log("fail get_case_set", response)});
 
 }
 
@@ -570,7 +567,7 @@ $("input.number").TouchSpin({
                 maxboostedstep: 10
             });
 
-//$("input.number").mask("#,##0[.00", {reverse: true});
+$("input.number").mask("#,##0.00", {reverse: true});
 
     apply_validation();
 

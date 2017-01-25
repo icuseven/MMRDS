@@ -10,18 +10,72 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 				result.push(p_metadata.prompt);
 				result.push('</legend> ');
 				//result.push(p_data[p_metadata.name]);
-				
-				if(p_metadata.children)
+
+				for(var i = 0; i < p_metadata.children.length; i++)
 				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
-					}
+					var child = p_metadata.children[i];
+					if(p_data[child.name] != null)
+					Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
 				}
+
 				result.push('</fieldset>');
 				break;	
+		case 'grid':
+				result.push('<table border="1">');
+				//result.push(p_path)
+				result.push('<tr><th colspan="')
+				result.push(p_metadata.children.length);
+				result.push('">')
+				result.push(p_metadata.prompt);
+				result.push('</th></tr>');
+				//result.push(p_data[p_metadata.name]);
+				result.push("<tr>");
+				for(var i = 0; i < p_metadata.children.length; i++)
+				{
+					var child = p_metadata.children[i];
+					result.push("<td>");
+					result.push(child.prompt);
+					result.push("<td>");
+				}
+				result.push("</tr>");
+
+				for(var i = 0; i < p_data.length; i++)
+				{
+					result.push("<tr>");
+					for(var j = 0; j < p_metadata.children.length; j++)
+					{
+						result.push("<td>");
+						var child = p_metadata.children[j];
+						if(p_data[i][child.name] == null)
+						{
+							result.push("&nbsp;");
+						}
+						else
+						{
+							var data = p_data[i][child.name];
+							if(Array.isArray(data))
+							{
+								result.push("<ul>");
+								for(var k = 0; k < data.length; k++)
+								{
+									result.push("<li>");
+									result.push(data[k]);
+									result.push("</li>");
+								}
+								result.push("</ul>");
+							}
+							else
+							{
+								result.push(data);
+							}
+						}
+						result.push("</td>");
+					}
+					result.push("</tr>");
+				}
+
+				result.push('</table>');
+				break;					
 		case 'form':
 				result.push('<section id="');
 				result.push(p_metadata.name)

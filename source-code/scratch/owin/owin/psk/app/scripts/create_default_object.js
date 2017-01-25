@@ -80,7 +80,7 @@ function create_default_object(p_metadata, p_parent)
             }
             else
             {
-              p_parent[p_metadata.name] = new Number();
+              p_parent[p_metadata.name] = "";
             }
            break;
      case 'boolean':

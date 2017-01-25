@@ -125,19 +125,26 @@ namespace mmria.server
 
 			if (WatchedFiles.Contains(f.Name))
 			{
-				string current_hash = GetHash (f.FullName);
-				string key_name = GetKeyName (f);
-
-				if (!WatchDictionary.ContainsKey (key_name)) 
+				try
 				{
-					WatchDictionary.Add (key_name, current_hash);
+					string current_hash = GetHash(f.FullName);
+					string key_name = GetKeyName(f);
 
-				} 
+					if (!WatchDictionary.ContainsKey(key_name))
+					{
+						WatchDictionary.Add(key_name, current_hash);
 
-				if (current_hash != WatchDictionary [key_name]) 
+					}
+
+					if (current_hash != WatchDictionary[key_name])
+					{
+						var worker = new MyTaskWorkerDelegate(MyTaskWorker);
+						worker.BeginInvoke(key_name, current_hash, null, null);
+					}
+				}
+				catch (System.Exception ex)
 				{
-					var worker = new MyTaskWorkerDelegate (MyTaskWorker);
-					worker.BeginInvoke (key_name, current_hash, null, null);
+					System.Console.Write("FileChanged exception:\n {0}", ex);
 				}
 				
 			}
