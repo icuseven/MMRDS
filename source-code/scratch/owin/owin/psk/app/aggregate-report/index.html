@@ -83,7 +83,12 @@
     <tr><td colspan=3 align=right>Year</td></tr>
     <tr>
       <td>Year of Death</td>
-      <td colspan=2 align=right><select>
+      <td colspan=2 align=right>
+        <select id="year_of_death">
+          <option>All</option>
+          <option>2007</option>
+          <option>2008</option>
+          <option>2009</option>
           <option>2010</option>
           <option>2011</option>
           <option>2012</option>
@@ -105,7 +110,8 @@
     <tr>
       <td>Date of Case Review</td>
       <td>
-        <select>
+        <select id=month_of_case_review>
+          <option>All</option>
           <option>01</option>
           <option>02</option>
           <option>03</option>
@@ -121,7 +127,11 @@
       </select>
        </td>
         <td> 
-        <select>
+        <select id=year_of_case_review>
+          <option>All</option>
+          <option>2007</option>
+          <option>2008</option>
+          <option>2009</option>
           <option>2010</option>
           <option>2011</option>
           <option>2012</option>
@@ -140,7 +150,7 @@
       </td> 
       </tr>
   </table>
-<p>http://db1.mmria.org/mmrds/_design/aggregate_report/_view/titles</p>
+<p>http://db1.mmria.org/mmrds/_design/aggregate_report/_view/all</p>
 
 <p>Total Number of Cases by Pregnancy Relatedness
 <ul>
