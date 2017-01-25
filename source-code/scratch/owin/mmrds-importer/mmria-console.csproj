@@ -69,6 +69,7 @@
     <Compile Include="column_index_i.cs" />
     <None Include="packages.config" />
     <Compile Include="importer\mmrds_importer.cs" />
+    <Compile Include="exporter\mmrds_exporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -91,6 +92,7 @@
   <ItemGroup>
     <Folder Include="model\" />
     <Folder Include="importer\" />
+    <Folder Include="exporter\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj">

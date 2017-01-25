@@ -287,8 +287,25 @@ function get_case_set()
           g_ui.data_list.push(response.rows[i].doc);
         }
 
+        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+        
+        var section_list = document.getElementsByTagName("section");
+        for(var i = 0; i < section_list.length; i++)
+        {
+          var section = section_list[i];
+          if(section.id == "app_summary")
+          {
+              section.style.display = "block";
+          }
+          else
+          {
+              section.style.display = "none";
+          }
+        }
 
-	});
+
+  }).fail(function(response){ console.log("fail get_case_set", response)});
 
 }
 

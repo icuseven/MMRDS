@@ -198,7 +198,8 @@ namespace mmria.server
 			StringBuilder sb = new StringBuilder();
 			System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
 
-			using (System.IO.FileStream fs = System.IO.File.OpenRead(file_path))
+			using (System.IO.FileStream fs = new FileStream(file_path, FileMode.Open,
+							  FileAccess.Read, FileShare.ReadWrite))
 			{
 				foreach (Byte b in md5Hasher.ComputeHash(fs))
 					sb.Append(b.ToString("X2").ToLowerInvariant());
