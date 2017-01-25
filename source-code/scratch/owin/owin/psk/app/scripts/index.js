@@ -284,7 +284,7 @@ function get_case_set()
         g_ui.data_list = [];
         for(var i = 0; i < response.rows.length; i++)
         {
-          if(response.rows[i].doc._id.indexof("_design") < 0)
+          if(response.rows[i].doc._id.indexOf("_design") < 0)
           {
             g_ui.data_list.push(response.rows[i].doc);
           }
