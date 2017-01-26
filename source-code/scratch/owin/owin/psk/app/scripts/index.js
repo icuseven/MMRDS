@@ -216,9 +216,33 @@ var g_ui = {
 		g_ui.selected_record_id = result._id;
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
+    var db = new PouchDB("mmrds");
 
-    var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
-    window.location = url;
+      db.put(g_data).then(function (doc)
+      {
+          if(g_data && g_data._id == doc.id)
+          {
+            g_data._rev = doc._rev;
+          }
+
+					for(var i = 0; i < g_ui.data_list.length; i++)
+          {
+            if(g_ui.data_list[i]._id == doc.id)
+            {
+                g_ui.data_list[i]._rev = doc.rev;
+               console.log('save finished');
+                console.log(doc);
+                break;
+            }
+          }
+
+          var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+          window.location = url;
+      });
+
+    
+
+
 
     return result;
 	}
@@ -271,6 +295,63 @@ function load_values()
       load_profile();
 
 	});
+
+}
+
+
+function replicate_db_nd_log_out()
+{
+    var db = new PouchDB('mmrds');
+    var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
+    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
+
+    db.replicate.to(remoteDB).on('complete', function () 
+    {
+        db.allDocs(
+      {
+        include_docs: true,
+        attachments: true
+      }).then(function (result) 
+      {
+
+        //console.log(result);
+        g_ui.data_list = [];
+        for(var i = 0; i < result.rows.length; i++)
+        {
+          if(result.rows[i].doc._id.indexOf("_design") < 0)
+          {
+            g_ui.data_list.push(result.rows[i].doc);
+          }
+          
+        }
+/*
+        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+
+        var section_list = document.getElementsByTagName("section");
+        for(var i = 0; i < section_list.length; i++)
+        {
+          var section = section_list[i];
+          if(section.id == "app_summary")
+          {
+              section.style.display = "block";
+          }
+          else
+          {
+              section.style.display = "none";
+          }
+        }
+*/
+
+
+      });
+
+
+
+}).on('error', function (err) {
+  console.log("db sync error", err);
+});
+
 
 }
 
@@ -408,16 +489,27 @@ function window_on_hash_change(e)
 
   if(g_data)
   {
-      var selected_record_id = g_data._id;
-      if($.isNumeric(g_ui.url_state.path_array[0]))
+
+      var db = new PouchDB('mmrds');
+      db.put(g_data).then(function (doc)
       {
-          g_selected_index = parseInt(g_ui.url_state.path_array[0]);
-      }
-      else //if(g_ui.data_list.length > 0)
-      {
-        g_selected_index = g_ui.data_list.length - 1;
-      }
-          
+          if(g_data && g_data._id == doc.id)
+          {
+            g_data._rev = doc._rev;
+          }
+
+					for(var i = 0; i < g_ui.data_list.length; i++)
+          {
+            if(g_ui.data_list[i]._id == doc.id)
+            {
+                g_ui.data_list[i]._rev = doc.rev;
+               console.log('save finished');
+                console.log(doc);
+                break;
+            }
+          }
+      });
+
         if(e.isTrusted)
         {
 
@@ -426,10 +518,11 @@ function window_on_hash_change(e)
 
           if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
           {
+            /*
             if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
             {
                 save_queue.push(g_data._id);
-            }
+            }*/
 
             g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
@@ -475,10 +568,11 @@ function window_on_hash_change(e)
           }
           else
           {
+            /*
             if(g_data && !(save_queue.indexOf(g_data._id) > -1))
             {
               save_queue.push(g_data._id);
-            }
+            }*/
             g_data = null;
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
             document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
@@ -788,7 +882,7 @@ function save_change_task()
 
 }
 
-	window.setInterval(save_change_task, 10000);	
+	//window.setInterval(save_change_task, 10000);	
 
 function open_print_version(p_section)
 {
