@@ -29,36 +29,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       if(g_validator_map[p_metadata_path](value))
       {
         var metadata = eval(p_metadata_path);
-        /*
-        if(metadata.type.toLowerCase() == "datetime")
-        {
-          var input_list = document.getElementById(p_object_path);
-          var value_set = [];
-          for(var i = 0; i < input_list.children.length; i++)
-          {
-            if(input_list.children[i].nodeName.toLocaleLowerCase() == "input")
-            {
-              value_set.push(input_list.children[i].value);
-            }
-          }
-          for(var i = 0; i < p_metadata.children.length; i++)
-          {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
-          }
-          if(value_set[0] == "")
-          {
-              value_set[0] = "2016-01-01";
-          }
 
-          if(value_set[1] == "")
-          {
-            value_set[1] = "00:00:00.000";
-          }
-
-          eval(p_object_path + ' = new Date("' + value_set.join("T") + 'Z")');
-        }
-        else*/ if(metadata.type.toLowerCase() == "boolean")
+        if(metadata.type.toLowerCase() == "boolean")
         {
           eval(p_object_path + ' = ' + value);
         }
@@ -94,32 +66,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         {
           item.push(value);
         }
-    }/*
-      else if(metadata.type.toLowerCase() == "datetime")
-      {
-        var input_list = document.getElementById(p_object_path);
-        var value_set = [];
-        for(var i = 0; i < input_list.children.length; i++)
-        {
-          if(input_list.children[i].nodeName.toLocaleLowerCase() == "input")
-          {
-            value_set.push(input_list.children[i].value);
-          }
-          
-        }
-
-        if(value_set[0] == "")
-        {
-            value_set[0] = "2016-01-01";
-        }
-
-        if(value_set[1] == "")
-        {
-          value_set[1] = "00:00:00.000";
-        }
-
-        eval(p_object_path + ' = new Date("' + value_set.join("T") + 'Z")');
-    }*/
+    }
       else if(metadata.type.toLowerCase() == "boolean")
       {
         eval(p_object_path + ' = ' + value);
@@ -281,6 +228,12 @@ function load_profile()
       //load_documents();
 
     };
+
+    profile.on_logout_call_back = function ()
+    {
+       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            document.getElementById('form_content_id').innerHTML ="";
+    }
 
 
   	profile.initialize_profile();
@@ -725,7 +678,7 @@ $("input.number").TouchSpin({
             });
 
 //$("input.number").mask("#,##0[.00", {reverse: true});
-
+$("input.number").attr("size", "15");
     apply_validation();
 
 

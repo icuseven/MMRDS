@@ -22,6 +22,7 @@ get_auth_session_cookie: function ()
 	return result;
 },
 on_login_call_back: null,
+on_logout_call_back: null,
 
 set_auth_session_cookie: function (p_auth_session)
 {
@@ -245,14 +246,39 @@ login_response: function (response)
 
 logout : function()
 	{
-		profile.expire_auth_session_cookie(profile.auth_session);
-		profile.is_logged_in=false;
-		profile.user_name='';
-		profile.user_name = '';
-		profile.password = null;
-		profile.user_roles=[];
-		profile.auth_session='';
-		profile.render();
+
+
+
+//Creating the database object
+var db = new PouchDB('mmrds');
+
+//deleting database
+db.destroy(function (err, response) {
+   if (err) 
+   {
+      console.log(err);
+   } 
+   else 
+   {
+	   console.log("database destroyed");
+   }
+
+	profile.expire_auth_session_cookie(profile.auth_session);
+	profile.is_logged_in=false;
+	profile.user_name='';
+	profile.user_name = '';
+	profile.password = null;
+	profile.user_roles=[];
+	profile.auth_session='';
+	profile.render();
+
+   if(profile.on_logout_call_back)
+   {
+	   profile.on_logout_call_back();
+   }
+});
+
+
 	},
   try_session_login : function(p_success_call_back)
   {
