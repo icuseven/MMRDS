@@ -252,7 +252,7 @@ function load_profile()
     {
 
       get_metadata();
-      get_case_set();
+      //get_case_set();
       
       //load_documents();
 
@@ -277,6 +277,60 @@ function load_values()
 
 function get_case_set()
 {
+    var db = new PouchDB('mmrds');
+    var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
+    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
+
+
+    db.sync(remoteDB).on('complete', function () 
+    {
+        db.allDocs(
+      {
+        include_docs: true,
+        attachments: true
+      }).then(function (result) 
+      {
+
+        //console.log(result);
+        g_ui.data_list = [];
+        for(var i = 0; i < result.rows.length; i++)
+        {
+          if(result.rows[i].doc._id.indexOf("_design") < 0)
+          {
+            g_ui.data_list.push(result.rows[i].doc);
+          }
+          
+        }
+
+        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+
+        var section_list = document.getElementsByTagName("section");
+        for(var i = 0; i < section_list.length; i++)
+        {
+          var section = section_list[i];
+          if(section.id == "app_summary")
+          {
+              section.style.display = "block";
+          }
+          else
+          {
+              section.style.display = "none";
+          }
+        }
+
+
+
+      });
+
+
+
+}).on('error', function (err) {
+  console.log("db sync error", err);
+});
+
+
+  /*
 	$.ajax({
 			url: location.protocol + '//' + location.host + '/api/case',
 	}).done(function(response) 
@@ -311,7 +365,7 @@ function get_case_set()
   }).fail(function(response)
   { 
     console.log("fail get_case_set", response)
-  });
+  });*/
 
 }
 
@@ -326,7 +380,10 @@ function get_metadata()
       default_object =  create_default_object(g_metadata, {});
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
-      g_ui.url_state = url_monitor.get_url_state(window.location.href);
+
+      get_case_set();
+
+     g_ui.url_state = url_monitor.get_url_state(window.location.href);
       if(window.onhashchange)
       {
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });
