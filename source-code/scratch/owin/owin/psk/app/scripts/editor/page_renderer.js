@@ -503,7 +503,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(p_metadata.prompt);
 				}
 				
-				result.push("</span> ");
+				result.push("</span><br/>");
 				page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
 				result.push("</di>");
            break;
