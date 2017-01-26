@@ -737,20 +737,56 @@ function delete_record(p_index)
 {
   if(p_index == g_selected_delete_index)
   {
-    g_ui.data_list[p_index]._deleted = true;
-    save_queue.push(g_ui.data_list[p_index]._id);
+    var data = g_ui.data_list[p_index];
+    data._deleted = true;
+
+    var db = new PouchDB("mmrds");
+
+      db.put(data).then(function (doc)
+      {
+					for(var i = 0; i < g_ui.data_list.length; i++)
+          {
+            if(g_ui.data_list[i]._id == data._id)
+            {
+                g_ui.data_list.splice(i,1);
+                break;
+            }
+          }
+
+        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+
+        var section_list = document.getElementsByTagName("section");
+        for(var i = 0; i < section_list.length; i++)
+        {
+          var section = section_list[i];
+          if(section.id == "app_summary")
+          {
+              section.style.display = "block";
+          }
+          else
+          {
+              section.style.display = "none";
+          }
+        }
+      });
+
+
+      g_selected_delete_index = null;
+
+
   }
   else
   {
-      if(g_selected_delete_index)
+      if(g_selected_delete_index != null && g_selected_delete_index > -1)
       {
           var old_id = g_ui.data_list[g_selected_delete_index]._id;
-          $("div[path='" +old_id + "']").removeClass("selected-for-delete");
+          $("div[path='" + old_id + "']").css("background", "");
       }
 
       g_selected_delete_index = p_index;
       var id = g_ui.data_list[p_index]._id;
-      $("div[path='" + id + "']").addClass("selected-for-delete");
+      $("div[path='" + id + "']").css("background", "#BBBBBB");
       
   }
 }
