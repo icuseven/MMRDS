@@ -221,19 +221,13 @@ function load_profile()
 {
     profile.on_login_call_back = function ()
     {
-
       get_metadata();
-      //get_case_set();
-      
-      //load_documents();
-
     };
 
-    profile.on_logout_call_back = function ()
+    profile.on_logout_call_back = function (p_user_name, p_password)
     {
-       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML ="";
-    }
+      replicate_db_and_log_out(p_user_name, p_password);
+    };
 
 
   	profile.initialize_profile();
@@ -252,59 +246,37 @@ function load_values()
 }
 
 
-function replicate_db_nd_log_out()
+function replicate_db_and_log_out(p_user_name, p_password)
 {
     var db = new PouchDB('mmrds');
-    var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
+    var prefix = 'http://' + p_user_name + ":" + p_password + '@';
     var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
 
     db.replicate.to(remoteDB).on('complete', function () 
     {
-        db.allDocs(
-      {
-        include_docs: true,
-        attachments: true
-      }).then(function (result) 
-      {
+        //Creating the database object
+        var db = new PouchDB('mmrds');
 
-        //console.log(result);
-        g_ui.data_list = [];
-        for(var i = 0; i < result.rows.length; i++)
-        {
-          if(result.rows[i].doc._id.indexOf("_design") < 0)
+        //deleting database
+        db.destroy(function (err, response) {
+          if (err) 
           {
-            g_ui.data_list.push(result.rows[i].doc);
+              console.log(err);
+          } 
+          else 
+          {
+            console.log("database destroyed");
           }
           
-        }
-/*
-        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
-
-        var section_list = document.getElementsByTagName("section");
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == "app_summary")
-          {
-              section.style.display = "block";
-          }
-          else
-          {
-              section.style.display = "none";
-          }
-        }
-*/
-
-
+          document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+          document.getElementById('form_content_id').innerHTML ="";
       });
 
 
 
-}).on('error', function (err) {
-  console.log("db sync error", err);
-});
-
+  }).on('error', function (err) {
+    console.log("db sync error", err);
+  });
 
 }
 

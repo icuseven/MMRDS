@@ -247,36 +247,19 @@ login_response: function (response)
 logout : function()
 	{
 
-
-
-//Creating the database object
-var db = new PouchDB('mmrds');
-
-//deleting database
-db.destroy(function (err, response) {
-   if (err) 
-   {
-      console.log(err);
-   } 
-   else 
-   {
-	   console.log("database destroyed");
-   }
+	if(profile.on_logout_call_back)
+	{
+		profile.on_logout_call_back(profile.user_name, profile.password);
+	}
 
 	profile.expire_auth_session_cookie(profile.auth_session);
 	profile.is_logged_in=false;
-	profile.user_name='';
 	profile.user_name = '';
 	profile.password = null;
 	profile.user_roles=[];
 	profile.auth_session='';
 	profile.render();
 
-   if(profile.on_logout_call_back)
-   {
-	   profile.on_logout_call_back();
-   }
-});
 
 
 	},
