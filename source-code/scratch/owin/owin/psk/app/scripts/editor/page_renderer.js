@@ -919,7 +919,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
 			*/
 			result.push("</span> ");
+			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
 			result.push("</div>");
 
 			 break;	
@@ -967,7 +969,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
 			*/
 			result.push("</span> ");
+			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");	
 			result.push("</div>");	
 			 break;
 		case 'time':
@@ -976,7 +980,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}*/
-			result.push("<div class='time' id='");
+			result.push("<div  class='time' id='");
 			result.push(p_object_path)
 			
 			result.push("'> ");
@@ -1012,7 +1016,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'   /></div>");
 			*/
 			result.push("</span> ");
+			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
 			result.push("</div>");
 
 			break;

@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "416-99d99f4032e28d75de080c60a322a09d",
+  "_rev": "106-4b1e0296a2392ddedae353a4d7dc3cd8",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -42,25 +42,26 @@
             "type": "Program",
             "body": [
               {
-                "type": "ExpressionStatement",
-                "expression": {
-                  "type": "FunctionExpression",
-                  "id": {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "type": "Identifier",
+                  "name": "f"
+                },
+                "params": [
+                  {
                     "type": "Identifier",
-                    "name": "f"
-                  },
-                  "params": [
+                    "name": "x"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
                     {
-                      "type": "Identifier",
-                      "name": "x"
-                    }
-                  ],
-                  "body": {
-                    "type": "BlockStatement",
-                    "body": [
-                      {
-                        "type": "IfStatement",
-                        "test": {
+                      "type": "IfStatement",
+                      "test": {
+                        "type": "LogicalExpression",
+                        "operator": "&&",
+                        "left": {
                           "type": "LogicalExpression",
                           "operator": "&&",
                           "left": {
@@ -71,84 +72,45 @@
                               "operator": "&&",
                               "left": {
                                 "type": "LogicalExpression",
-                                "operator": "&&",
+                                "operator": "||",
                                 "left": {
-                                  "type": "LogicalExpression",
-                                  "operator": "||",
-                                  "left": {
-                                    "type": "UnaryExpression",
-                                    "operator": "!",
-                                    "argument": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "ThisExpression"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "record_id"
-                                      }
+                                  "type": "UnaryExpression",
+                                  "operator": "!",
+                                  "argument": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "ThisExpression"
                                     },
-                                    "prefix": true
-                                  },
-                                  "right": {
-                                    "type": "BinaryExpression",
-                                    "operator": "==",
-                                    "left": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "ThisExpression"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "record_id"
-                                      }
-                                    },
-                                    "right": {
-                                      "type": "Literal",
-                                      "value": "",
-                                      "raw": "''"
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "record_id"
                                     }
-                                  }
+                                  },
+                                  "prefix": true
                                 },
                                 "right": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "ThisExpression"
+                                  "type": "BinaryExpression",
+                                  "operator": "==",
+                                  "left": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "ThisExpression"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "record_id"
+                                    }
                                   },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "state_of_death_record"
+                                  "right": {
+                                    "type": "Literal",
+                                    "value": "",
+                                    "raw": "''"
                                   }
                                 }
                               },
                               "right": {
-                                "type": "BinaryExpression",
-                                "operator": "!=",
-                                "left": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "ThisExpression"
-                                  },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "state_of_death_record"
-                                  }
-                                },
-                                "right": {
-                                  "type": "Literal",
-                                  "value": "",
-                                  "raw": "''"
-                                }
-                              }
-                            },
-                            "right": {
-                              "type": "MemberExpression",
-                              "computed": false,
-                              "object": {
                                 "type": "MemberExpression",
                                 "computed": false,
                                 "object": {
@@ -156,22 +118,89 @@
                                 },
                                 "property": {
                                   "type": "Identifier",
-                                  "name": "date_of_death"
+                                  "name": "state_of_death_record"
+                                }
+                              }
+                            },
+                            "right": {
+                              "type": "BinaryExpression",
+                              "operator": "!=",
+                              "left": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "state_of_death_record"
                                 }
                               },
-                              "property": {
-                                "type": "Identifier",
-                                "name": "month"
+                              "right": {
+                                "type": "Literal",
+                                "value": "",
+                                "raw": "''"
                               }
                             }
                           },
                           "right": {
-                            "type": "BinaryExpression",
-                            "operator": ">",
-                            "left": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
                               "type": "MemberExpression",
                               "computed": false,
                               "object": {
+                                "type": "ThisExpression"
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "date_of_death"
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "year"
+                            }
+                          }
+                        },
+                        "right": {
+                          "type": "BinaryExpression",
+                          "operator": ">",
+                          "left": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "ThisExpression"
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "date_of_death"
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "year"
+                            }
+                          },
+                          "right": {
+                            "type": "Literal",
+                            "value": 2000,
+                            "raw": "2000"
+                          }
+                        }
+                      },
+                      "consequent": {
+                        "type": "BlockStatement",
+                        "body": [
+                          {
+                            "type": "ExpressionStatement",
+                            "expression": {
+                              "type": "AssignmentExpression",
+                              "operator": "=",
+                              "left": {
                                 "type": "MemberExpression",
                                 "computed": false,
                                 "object": {
@@ -179,41 +208,13 @@
                                 },
                                 "property": {
                                   "type": "Identifier",
-                                  "name": "date_of_death"
+                                  "name": "record_id"
                                 }
                               },
-                              "property": {
-                                "type": "Identifier",
-                                "name": "year"
-                              }
-                            },
-                            "right": {
-                              "type": "Literal",
-                              "value": 2000,
-                              "raw": "2000"
-                            }
-                          }
-                        },
-                        "consequent": {
-                          "type": "BlockStatement",
-                          "body": [
-                            {
-                              "type": "ExpressionStatement",
-                              "expression": {
-                                "type": "AssignmentExpression",
-                                "operator": "=",
+                              "right": {
+                                "type": "BinaryExpression",
+                                "operator": "+",
                                 "left": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "ThisExpression"
-                                  },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "record_id"
-                                  }
-                                },
-                                "right": {
                                   "type": "BinaryExpression",
                                   "operator": "+",
                                   "left": {
@@ -223,167 +224,163 @@
                                       "type": "BinaryExpression",
                                       "operator": "+",
                                       "left": {
-                                        "type": "BinaryExpression",
-                                        "operator": "+",
-                                        "left": {
-                                          "type": "CallExpression",
-                                          "callee": {
-                                            "type": "MemberExpression",
-                                            "computed": false,
-                                            "object": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "ThisExpression"
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "state_of_death_record"
-                                              }
-                                            },
-                                            "property": {
-                                              "type": "Identifier",
-                                              "name": "substring"
-                                            }
-                                          },
-                                          "arguments": [
-                                            {
-                                              "type": "Literal",
-                                              "value": 0,
-                                              "raw": "0"
-                                            },
-                                            {
-                                              "type": "Literal",
-                                              "value": 2,
-                                              "raw": "2"
-                                            }
-                                          ]
-                                        },
-                                        "right": {
-                                          "type": "Literal",
-                                          "value": "-",
-                                          "raw": "'-'"
-                                        }
-                                      },
-                                      "right": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "MemberExpression",
-                                          "computed": false,
-                                          "object": {
-                                            "type": "ThisExpression"
-                                          },
-                                          "property": {
-                                            "type": "Identifier",
-                                            "name": "date_of_death"
-                                          }
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "year"
-                                        }
-                                      }
-                                    },
-                                    "right": {
-                                      "type": "Literal",
-                                      "value": "-",
-                                      "raw": "'-'"
-                                    }
-                                  },
-                                  "right": {
-                                    "type": "CallExpression",
-                                    "callee": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
                                         "type": "CallExpression",
                                         "callee": {
                                           "type": "MemberExpression",
                                           "computed": false,
                                           "object": {
-                                            "type": "CallExpression",
-                                            "callee": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "Identifier",
-                                                "name": "Math"
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "random"
-                                              }
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "ThisExpression"
                                             },
-                                            "arguments": []
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "state_of_death_record"
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
-                                            "name": "toString"
+                                            "name": "substring"
                                           }
                                         },
-                                        "arguments": []
+                                        "arguments": [
+                                          {
+                                            "type": "Literal",
+                                            "value": 0,
+                                            "raw": "0"
+                                          },
+                                          {
+                                            "type": "Literal",
+                                            "value": 2,
+                                            "raw": "2"
+                                          }
+                                        ]
+                                      },
+                                      "right": {
+                                        "type": "Literal",
+                                        "value": "-",
+                                        "raw": "'-'"
+                                      }
+                                    },
+                                    "right": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "ThisExpression"
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "date_of_death"
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
-                                        "name": "substring"
+                                        "name": "year"
                                       }
-                                    },
-                                    "arguments": [
-                                      {
-                                        "type": "Literal",
-                                        "value": 2,
-                                        "raw": "2"
-                                      },
-                                      {
-                                        "type": "Literal",
-                                        "value": 6,
-                                        "raw": "6"
-                                      }
-                                    ]
-                                  }
-                                }
-                              }
-                            },
-                            {
-                              "type": "ExpressionStatement",
-                              "expression": {
-                                "type": "AssignmentExpression",
-                                "operator": "=",
-                                "left": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "Identifier",
-                                    "name": "x"
+                                    }
                                   },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "value"
+                                  "right": {
+                                    "type": "Literal",
+                                    "value": "-",
+                                    "raw": "'-'"
                                   }
                                 },
                                 "right": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "ThisExpression"
+                                  "type": "CallExpression",
+                                  "callee": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "CallExpression",
+                                          "callee": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "Identifier",
+                                              "name": "Math"
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "random"
+                                            }
+                                          },
+                                          "arguments": []
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "toString"
+                                        }
+                                      },
+                                      "arguments": []
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "substring"
+                                    }
                                   },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "record_id"
-                                  }
+                                  "arguments": [
+                                    {
+                                      "type": "Literal",
+                                      "value": 2,
+                                      "raw": "2"
+                                    },
+                                    {
+                                      "type": "Literal",
+                                      "value": 6,
+                                      "raw": "6"
+                                    }
+                                  ]
                                 }
                               }
                             }
-                          ]
-                        },
-                        "alternate": null
-                      }
-                    ]
-                  },
-                  "generator": false,
-                  "expression": false
-                }
+                          },
+                          {
+                            "type": "ExpressionStatement",
+                            "expression": {
+                              "type": "AssignmentExpression",
+                              "operator": "=",
+                              "left": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "Identifier",
+                                  "name": "x"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "value"
+                                }
+                              },
+                              "right": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "record_id"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "alternate": null
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false
               }
             ],
             "sourceType": "script"
@@ -404,7 +401,90 @@
           "prompt": "Last Name",
           "name": "last_name",
           "type": "string",
-          "is_required": true
+          "is_required": true,
+          "onblur": {
+            "type": "Program",
+            "body": [
+              {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "type": "Identifier",
+                  "name": "f"
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "x"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "console"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "log"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "x"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "value"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "console"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "log"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Literal",
+                            "value": "test",
+                            "raw": "'test'"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false
+              }
+            ],
+            "sourceType": "script"
+          }
         },
         {
           "prompt": "Date of Death*",
@@ -4214,7 +4294,29 @@
             {
               "prompt": "Date of Injury",
               "name": "date_of_injury",
-              "type": "Date"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
+                }
+              ]
             },
             {
               "prompt": "Time of Injury",
@@ -9151,7 +9253,24 @@
             {
               "prompt": "Date of Last Live Birth",
               "name": "date_of_last_live_birth",
-              "type": "date"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                }
+              ]
             },
             {
               "prompt": "Live Birth Interval (Months)",
@@ -9441,7 +9560,24 @@
             {
               "prompt": "Date of Last Other Outcome",
               "name": "date_of_last_other_outcome",
-              "type": "date"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                }
+              ]
             },
             {
               "prompt": "Pregnancy Interval (Months)",
@@ -9496,12 +9632,56 @@
             {
               "prompt": "Date of Last Normal Menses",
               "name": "date_of_last_normal_menses",
-              "type": "Date"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
+                }
+              ]
             },
             {
               "prompt": "Date of First Prenatal Visit",
               "name": "date_of_1st_prenatal_visit",
-              "type": "Date"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
+                }
+              ]
             },
             {
               "prompt": "Date of Last Prenatal Visit",
@@ -12733,7 +12913,7 @@
               ]
             },
             {
-              "prompt": "Estimated Date of Confinement*",
+              "prompt": "Estimated Date of Confinement (Estimated Date of Delivery)*",
               "name": "estimated_date_of_confinement",
               "type": "group",
               "children": [
@@ -12770,6 +12950,10 @@
                 {
                   "description": "",
                   "value": "No"
+                },
+                {
+                  "description": "",
+                  "value": "Unknown"
                 }
               ],
               "is_core_summary": true,
@@ -13755,6 +13939,11 @@
               ]
             },
             {
+              "prompt": "Specify Other Status",
+              "name": "admission_status_other",
+              "type": "string"
+            },
+            {
               "prompt": "Admission Reason",
               "name": "admission_reason",
               "type": "list",
@@ -13788,6 +13977,11 @@
                   "value": "Other"
                 }
               ]
+            },
+            {
+              "prompt": "Specify Other Reason",
+              "name": "admission_reason_other",
+              "type": "string"
             },
             {
               "prompt": "Was Mother Received from Another Hospital?",
@@ -14313,9 +14507,14 @@
                 },
                 {
                   "description": "",
-                  "value": "Not specificed"
+                  "value": "Not specified"
                 }
               ]
+            },
+            {
+              "prompt": "Specify Other Mode of Transportation",
+              "name": "mode_of_transportation_to_facility_other",
+              "type": "string"
             },
             {
               "prompt": "Origin of Travel",
@@ -14347,6 +14546,11 @@
                   "value": "Not specified"
                 }
               ]
+            },
+            {
+              "prompt": "Specify Other Origin",
+              "name": "origin_of_travel_other",
+              "type": "string"
             },
             {
               "prompt": "Travel Time to Hospital",
@@ -15388,6 +15592,11 @@
                   "value": "9 - Not Specified"
                 }
               ]
+            },
+            {
+              "prompt": "Specify Other Payment Source",
+              "name": "other_payment_source",
+              "type": "string"
             },
             {
               "prompt": "Pregnancy Status*",
@@ -19470,15 +19679,15 @@
                 },
                 {
                   "description": "",
-                  "value": "20.0 Chorioamnionitis/Antepartum Infection"
-                },
-                {
-                  "description": "",
                   "value": "20.1 Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
                 },
                 {
                   "description": "",
                   "value": "20.2 Sepsis/Septic Shock"
+                },
+                {
+                  "description": "",
+                  "value": "20.4 Chorioamnionitis/Antepartum Infection"
                 },
                 {
                   "description": "",
@@ -19538,7 +19747,7 @@
                 },
                 {
                   "description": "",
-                  "value": "82.9 Other Hematologic Conditions including Thrombophilias/NOS"
+                  "value": "82.9 Other Hematologic Conditions including Thrombophilias/TTP/HUS/NOS"
                 },
                 {
                   "description": "",
@@ -19602,11 +19811,11 @@
                 },
                 {
                   "description": "",
-                  "value": "90.3 Valvular Heart Disease"
+                  "value": "90.3 Valvular Heart Disease Congenital and Acquired"
                 },
                 {
                   "description": "",
-                  "value": "90.4 Vascular Aneurysm/Dissection"
+                  "value": "90.4 Vascular Aneurysm/Dissection (Non-Cerebral)"
                 },
                 {
                   "description": "",
@@ -19614,11 +19823,19 @@
                 },
                 {
                   "description": "",
+                  "value": "90.6 Marfan's Syndrome"
+                },
+                {
+                  "description": "",
                   "value": "90.7 Conduction Defects/Arrhythmias"
                 },
                 {
                   "description": "",
-                  "value": "90.9 Other Cardiovascular Disease/NOS"
+                  "value": "90.8 Vascular Malformations Outside Head and Coronary Arteries"
+                },
+                {
+                  "description": "",
+                  "value": "90.9 Other Cardiovascular Disease, including CHF, Cardiomegaly, Cardiac Hypertrophy, Cardiac Fibrosis, Non-Acute Myocarditis/NOS"
                 },
                 {
                   "description": "",
@@ -20172,41 +20389,26 @@
               "prompt": "Description",
               "name": "description",
               "type": "string"
-            },
+            }
+          ]
+        },
+        {
+          "prompt": "<strong>test</strong><p>new label prompt</p>",
+          "name": "new_label",
+          "type": "label"
+        },
+        {
+          "prompt": "Recommendations of the Committee",
+          "name": "recommendations_of_committee",
+          "type": "grid",
+          "children": [
             {
-              "prompt": "Actions",
-              "name": "actions",
+              "prompt": "Recommendation",
+              "name": "committee_recommendations",
               "type": "string"
             },
             {
-              "prompt": "Delay",
-              "name": "delay",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Seeking Care"
-                },
-                {
-                  "description": "",
-                  "value": "Reaching Care"
-                },
-                {
-                  "description": "",
-                  "value": "Receiving Care"
-                },
-                {
-                  "description": "",
-                  "value": "No Delays"
-                }
-              ]
-            },
-            {
-              "prompt": "Prevention",
+              "prompt": "Level of Prevention",
               "name": "prevention",
               "type": "list",
               "values": [
@@ -20229,7 +20431,7 @@
               ]
             },
             {
-              "prompt": "Impact Level",
+              "prompt": "Level of Impact",
               "name": "impact_level",
               "type": "list",
               "values": [
@@ -20260,16 +20462,6 @@
               ]
             }
           ]
-        },
-        {
-          "prompt": "Recommendations of the Committee (Enter in Bulleted Format)",
-          "name": "committee_recommendations",
-          "type": "textarea"
-        },
-        {
-          "prompt": "<strong>test</strong><p>new label prompt</p>",
-          "name": "new_label",
-          "type": "label"
         }
       ]
     }
