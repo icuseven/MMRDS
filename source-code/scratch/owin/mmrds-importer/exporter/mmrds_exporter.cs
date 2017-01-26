@@ -21,13 +21,14 @@ namespace mmria.console.export
 		{
 			var mmria_server = new mmria_server_api_client();
 
-			/*
+
 			if (args.Length > 1 && args[1].ToLower().StartsWith("auth_token"))
 			{
 				this.auth_token = args[1].Split(':')[1];
 			}
 			else
 			{
+				/*
 				var session_list = mmria_server.login("", "");
 				foreach(var session in session_list)
 				if (session.ok)
@@ -39,10 +40,13 @@ namespace mmria.console.export
 				{
 					System.Console.WriteLine("unable to login\n{0}", session);
 					return;
-				}
-			}*/
+				}*/
+			}
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
+			System.Dynamic.ExpandoObject all_cases = get_all_cases();
+
+
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
 			System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
 			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> path_to_node_map = new Dictionary<string, mmria.common.metadata.node>();
@@ -166,6 +170,113 @@ namespace mmria.console.export
 				@"Provider=Microsoft.Jet.OleDb.4.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
 				p_file_name
 			);
+
+			return result;
+		}
+
+		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+		{
+			dynamic result = null;
+
+			try
+			{
+				string[] path = p_path.Split('/');
+
+				System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
+
+				//IDictionary<string, object> index = p_object;
+				dynamic index = p_object;
+
+				if (path[1] == "abnormal_conditions_of_newborn")
+				{
+					System.Console.WriteLine("break");
+				}
+
+
+				for (int i = 0; i < path.Length; i++)
+				{
+					if (i == path.Length - 1)
+					{
+						result = index[path[i]];
+					}
+					else if (number_regex.IsMatch(path[i]))
+					{
+						IList<object> temp_list = index as IList<object>;
+						if (!(temp_list.Count > int.Parse(path[i])))
+						{
+
+						}
+						index = index[int.Parse(path[i])] as IDictionary<string, object>;
+					}
+					else if (index[path[i]] is IList<object>)
+					{
+						index = index[path[i]] as IList<object>;
+					}
+					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
+					{
+						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+					}
+					else if (index[path[i]] is IDictionary<string, object>)
+					{
+						index = index[path[i]] as IDictionary<string, object>;
+					}
+					else
+					{
+						System.Console.WriteLine("This should not happen. {0}", p_path);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+			}
+
+			return result;
+
+		}
+
+
+		public System.Dynamic.ExpandoObject get_all_cases()
+		{
+			/*
+			var credential = new System.Net.NetworkCredential
+			{
+				UserName = "user1",
+				Password = "password"
+			};
+
+			var httpClientHandler = new System.Net.Http.HttpClientHandler
+			{
+				Credentials = credential,
+				PreAuthenticate = false
+			};*/
+
+			System.Dynamic.ExpandoObject result = null;
+			//string URL = "http://user1:password@db1.mmria.org/mmrds/_all_docs";
+			string URL = "http://db1.mmria.org/mmrds/_all_docs";
+			string urlParameters = "?include_docs=true";
+			//HttpClient client = new HttpClient(httpClientHandler, true);
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri(URL);
+
+			var byteArray = System.Text.Encoding.ASCII.GetBytes("user1:password");
+			client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+
+			// Add an Accept header for JSON format.
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+			// List data response.
+			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
+			if (response.IsSuccessStatusCode)
+			{
+				// Parse the response body. Blocking!
+				result = response.Content.ReadAsAsync<System.Dynamic.ExpandoObject>().Result;
+			}
+			else
+			{
+				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
 
 			return result;
 		}
