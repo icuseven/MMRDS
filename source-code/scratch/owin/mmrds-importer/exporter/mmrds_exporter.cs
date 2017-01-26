@@ -10,7 +10,8 @@ namespace mmria.console.export
 	public class mmrds_exporter
 	{
 		private string auth_token = null;
-
+		private string user_name = null;
+		private string password = null;
 
 		public mmrds_exporter()
 		{
@@ -22,9 +23,24 @@ namespace mmria.console.export
 			var mmria_server = new mmria_server_api_client();
 
 
-			if (args.Length > 1 && args[1].ToLower().StartsWith("auth_token"))
+			if (args.Length > 1)
 			{
-				this.auth_token = args[1].Split(':')[1];
+				for (var i = 1; i < args.Length; i++)
+				{
+					string arg = args[i];
+					if (arg.ToLower().StartsWith("auth_token"))
+					{
+						this.auth_token = arg.Split(':')[1];
+					}
+					else if (arg.ToLower().StartsWith("user_name"))
+					{
+						this.user_name = arg.Split(':')[1];
+					}
+					else if (arg.ToLower().StartsWith("password"))
+					{
+						this.password = arg.Split(':')[1];
+					}
+				}
 			}
 			else
 			{
@@ -44,7 +60,7 @@ namespace mmria.console.export
 			}
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-			System.Dynamic.ExpandoObject all_cases = get_all_cases();
+			System.Dynamic.ExpandoObject all_cases = get_all_cases(this.user_name, this.password);
 
 
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
@@ -236,7 +252,7 @@ namespace mmria.console.export
 		}
 
 
-		public System.Dynamic.ExpandoObject get_all_cases()
+		public System.Dynamic.ExpandoObject get_all_cases(string p_user_name, string p_password)
 		{
 			/*
 			var credential = new System.Net.NetworkCredential
@@ -248,18 +264,22 @@ namespace mmria.console.export
 			var httpClientHandler = new System.Net.Http.HttpClientHandler
 			{
 				Credentials = credential,
-				PreAuthenticate = false
-			};*/
+				PreAuthenticate = false,
+				Proxy = new WebProxy("http://127.0.0.1:8888"),
+                UseProxy = true,
+			};
+
+			HttpClient client = new HttpClient(httpClientHandler);
+			*/
 
 			System.Dynamic.ExpandoObject result = null;
-			//string URL = "http://user1:password@db1.mmria.org/mmrds/_all_docs";
 			string URL = "http://db1.mmria.org/mmrds/_all_docs";
 			string urlParameters = "?include_docs=true";
-			//HttpClient client = new HttpClient(httpClientHandler, true);
+
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(URL);
 
-			var byteArray = System.Text.Encoding.ASCII.GetBytes("user1:password");
+			var byteArray = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", p_user_name, p_password));
 			client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
 
