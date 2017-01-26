@@ -574,11 +574,11 @@ function window_on_hash_change(e)
 		}
     else
     {
-
+/*
       if(g_data && !(save_queue.indexOf(g_data._id) > -1))
       {
         save_queue.push(g_data._id);
-      }
+      }*/
               
       g_data = null;
 
@@ -769,81 +769,28 @@ var save_queue = [];
 
 function save_change_task()
 {
-  var url =  location.protocol + '//' + location.host + "/api/case";
 
-  if(save_queue.length > 0)
+  if(profile.is_logged_in && profile.user_name && profile.password)
   {
+    var db = new PouchDB('mmrds');
+    var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
+    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
 
-    var data_item = null;
-
-    var selected_record_id = save_queue.pop();
-
-    var found_index = -1;
-    for(var i = 0; i < g_ui.data_list.length; i++)
-    {
-      if(selected_record_id == g_ui.data_list[i]._id)
-      {
-        data_item = g_ui.data_list[i];
-        found_index = i;
-        break;
-      }
-    }
-    
-    if(found_index < 0)
-    {
-        return;
-    }
-
-    var auth_cookie = profile.get_auth_session_cookie();
-
-    $.ajax({
-      url: url,
-      contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(data_item),
-        type: "POST",
-        beforeSend: function (request)
-        {
-          request.setRequestHeader("AuthSession", auth_cookie);
-        }
-    }).done(function(response) 
-    {
-        var response_obj = eval(response);
-          if(response_obj.ok)
-          {
-            var found_index = -1;
-            for(var i = 0; i < g_ui.data_list.length; i++)
-            {
-              if(selected_record_id == g_ui.data_list[i]._id)
-              {
-                found_index = i;
-                break;
-              }
-            }
-
-            if(found_index > -1)
-            {
-              var obj = g_ui.data_list[found_index]._rev = response_obj.rev; 
-
-            }
-            
-          
-          }
-          //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-        console.log("autosave sent", response);
-
-    }).fail(function(response) {
-
-      save_queue.push(selected_record_id); 
-      console.log("failed:", response);}
-    );
+    db.replicate.to(remoteDB).on('complete', function (err, response) {
       
+            console.log("replicate to server: complete");
+  
+        
+    }).on('error', function (err) {
+      console.log("replicate to server error:", err);
+    });
+
 
   }
 
 }
 
-	//window.setInterval(save_change_task, 10000);	
+	window.setInterval(save_change_task, 30000);	
 
 function open_print_version(p_section)
 {
