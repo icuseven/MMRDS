@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using mmria.console.data;
+using System.Linq;
 
-namespace mmria.console.import
+namespace mmria.console.export
 {
 	public class mmrds_exporter
 	{
 		private string auth_token = null;
-
+		private string user_name = null;
+		private string password = null;
 
 		public mmrds_exporter()
 		{
@@ -20,13 +22,29 @@ namespace mmria.console.import
 		{
 			var mmria_server = new mmria_server_api_client();
 
-			/*
-			if (args.Length > 1 && args[1].ToLower().StartsWith("auth_token"))
+
+			if (args.Length > 1)
 			{
-				this.auth_token = args[1].Split(':')[1];
+				for (var i = 1; i < args.Length; i++)
+				{
+					string arg = args[i];
+					if (arg.ToLower().StartsWith("auth_token"))
+					{
+						this.auth_token = arg.Split(':')[1];
+					}
+					else if (arg.ToLower().StartsWith("user_name"))
+					{
+						this.user_name = arg.Split(':')[1];
+					}
+					else if (arg.ToLower().StartsWith("password"))
+					{
+						this.password = arg.Split(':')[1];
+					}
+				}
 			}
-			else
+			/*else
 			{
+				
 				var session_list = mmria_server.login("", "");
 				foreach(var session in session_list)
 				if (session.ok)
@@ -42,246 +60,222 @@ namespace mmria.console.import
 			}*/
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-			var case_maker = new Case_Maker();
-			var case_data_list = new List<dynamic>();
-
-			var mmrds_data = new cData(get_mdb_connection_string("mapping-file-set/Maternal_Mortality.mdb"));
-			var directory_path = @"mapping-file-set";
-			var main_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-test.csv";
-			var mapping_data = new cData(get_csv_connection_string(directory_path));
-
-			var grid_mapping_file_name = @"grid-mapping-merge.csv";
-
-			var view_name_list = new string[] {
-			"MaternalMortality",
-			"DeathCertificate",
-			"MaternalBirthCertificate",
-			"ChildBirthCertificate",
-			"AutopsyReport",
-			"PrenatalCareRecord",
-			"SocialServicesRecord",
-			"Hospitalization",
-			"OfficeVisits",
-			"CommitteeReview",
-			"Interviews"
-			};
+			dynamic all_cases = get_all_cases(this.user_name, this.password);
 
 
-			var view_name_to_name_map = new Dictionary<string, string>{
-				{"MaternalMortality", "home_record" },
-				{"DeathCertificate", "death_certificate" },
-				{"MaternalBirthCertificate", "birth_fetal_death_certificate_parent" },
-				{"ChildBirthCertificate", "birth_certificate_infant_fetal_section" },
-				{"AutopsyReport", "autopsy_report" },
-				{"PrenatalCareRecord", "prenatal" },
-				{"SocialServicesRecord", "social_and_environmental_profile" },
-				{"Hospitalization", "er_visit_and_hospital_medical_records" },
-				{"OfficeVisits", "other_medical_office_visits" },
-				{"CommitteeReview", "committe_review" },
-				{"Interviews", "informant_interviews" }
-			};
 
-			var view_name_cardinality_map = new Dictionary<string, bool>{
-				{"MaternalMortality", false },
-				{"DeathCertificate", false },
-				{"MaternalBirthCertificate", false },
-				{"ChildBirthCertificate", true },
-				{"AutopsyReport", false },
-				{"PrenatalCareRecord", false },
-				{"SocialServicesRecord", false },
-				{"Hospitalization", true },
-				{"OfficeVisits", true },
-				{"CommitteeReview", false },
-				{"Interviews", true }
-			};
-
-			var id_record_set = mmrds_data.GetDataTable("Select Distinct GlobalRecordId From MaternalMortality");
-			string json_string = null;
-			List<string> id_list = new List<string>();
-
-			foreach (System.Data.DataRow row in id_record_set.Rows)
+			foreach (KeyValuePair<string, object> kvp in all_cases)
 			{
-				id_list.Add(row[0].ToString());
+				System.Console.WriteLine(kvp.Key);
 			}
 
-			/*
-			var id_list = new string[] {
-				"d4234123-2322-4f46-99a8-5b936b1ec237",
-				"0e602e72-4e67-404d-9a4b-e86e6793103d",
-				"0e638e2c-cdf0-4829-bf9c-f33a86a5ef35",
-				"0ed43157-48a2-4592-961c-6db57c8e83c7",
-				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
-				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
-			*/
+
+			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
+			System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> path_to_node_map = new Dictionary<string, mmria.common.metadata.node>();
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> path_to_grid_map = new Dictionary<string, mmria.common.metadata.node>();
+			System.Collections.Generic.Dictionary<string, string> multi_form_to_grid_map = new Dictionary<string, string>();
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> grid_path_to_multi_form_map = new Dictionary<string, mmria.common.metadata.node>();
+
+			System.Collections.Generic.HashSet<string> path_to_flat_map = new System.Collections.Generic.HashSet<string>();
+
+			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
+
+			generate_path_map(metadata, "", "mmria_case_export", "", path_to_int_map, path_to_file_name_map, path_to_node_map, path_to_grid_map, grid_path_to_multi_form_map, multi_form_to_grid_map, path_to_flat_map);
 
 
-			foreach (string global_record_id in id_list)
+
+			int stream_file_count = 0;
+			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
 			{
-				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
+				path_to_csv_writer.Add(file_name, new WriteCSV(file_name));
+				Console.WriteLine(file_name);
+				stream_file_count++;
+			}
+			Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
-				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
-				System.Console.WriteLine("json\n{0}", json_string);
 
-				foreach (string view_name in view_name_list)
+			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			{
+				int max = 0;
+				foreach (string path in path_to_flat_map)
 				{
-					System.Data.DataRow[] view_record_data = null;
-					System.Data.DataRow[] grid_record_data = null;
-					System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
+					if(
+						path_to_node_map[path].type == "app" ||
+						path_to_node_map[path].type == "form" ||
+						path_to_node_map[path].type == "group" ||
+						path_to_node_map[path].type == "grid"
 
-					var mapping_view_table = get_view_mapping(mapping_data, view_name, main_mapping_file_name);
-
-					var grid_table_name_list = get_grid_table_name_list(mapping_data, view_name, grid_mapping_file_name);
-
-					if (view_name == "MaternalMortality")
+					  )
 					{
-						view_record_data = view_data_table.Select(string.Format("MaternalMortality.GlobalRecordId='{0}'", global_record_id));
-
-						IDictionary<string, object> updater = case_data as IDictionary<string, object>;
-						updater["_id"] = global_record_id;
-						updater["date_created"] = view_record_data[0]["FirstSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["FirstSaveTime"]).ToString("s") + "Z" : null;
-						updater["created_by"] = view_record_data[0]["FirstSaveLogonName"];
-						updater["date_last_updated"] = view_record_data[0]["LastSaveTime"] != DBNull.Value ? ((DateTime)view_record_data[0]["LastSaveTime"]).ToString("s") + "Z" : null;
-						updater["last_updated_by"] = view_record_data[0]["LastSaveLogonName"];
-					}
-					else
-					{
-						view_record_data = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
-
+						continue;
 					}
 
+					System.Console.WriteLine("path {0}", path);
+					IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
+					//process_case_row(path_to_csv_writer, case_row, "");
 
-					if (view_record_data.Length > 1)
+					System.Console.WriteLine(val);
+					max += 1;
+					if (max > 5)
 					{
-						System.Console.WriteLine("multi rows: {0}\t{1}", view_name, view_record_data.Length);
+						break;
 					}
-					//mmria.common.metadata.node form_metadata = metadata.children.Where(c => c.type == "form" && c.name == view_name_to_name_map[view_name]).First();
-					if (view_name_cardinality_map[view_name] == true)
-					{
-
-						for (int i = 0; i < view_record_data.Length; i++)
-						{
-							System.Data.DataRow row = view_record_data[i];
-
-							process_view
-							(
-								metadata,
-								case_maker,
-								case_data,
-								row,
-								mapping_view_table,
-								i
-							);
-
-							int column_index = -1;
-							for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
-							{
-								if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
-								{
-									column_index = column_index_i;
-								}
-							}
-
-							foreach (string grid_name in grid_table_name_list)
-							{
-								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
-								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
-
-								if (grid_data.Rows.Count > 0)
-								{
-
-								}
-
-								for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
-								{
-									System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
-
-									process_grid
-									(
-										metadata,
-										case_maker,
-										case_data,
-										grid_row,
-										grid_mapping,
-										i,
-										grid_row_index
-									);
-								}
-							}
-						}
-					}
-					else
-					{
-						foreach (System.Data.DataRow row in view_record_data)
-						{
-							process_view
-							(
-								metadata,
-								case_maker,
-								case_data,
-								row,
-								mapping_view_table
-							);
-
-
-							int column_index = -1;
-							for (int column_index_i = 0; column_index_i < view_data_table.Columns.Count; column_index_i++)
-							{
-								if (view_data_table.Columns[column_index_i].ColumnName.ToLower() == (view_name + ".globalrecordid").ToLower())
-								{
-									column_index = column_index_i;
-								}
-							}
-
-							foreach (string grid_name in grid_table_name_list)
-							{
-								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
-								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
-
-								if (grid_data.Rows.Count > 0)
-								{
-
-								}
-								for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
-								{
-									System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
-
-									process_grid
-									(
-										metadata,
-										case_maker,
-										case_data,
-										grid_row,
-										grid_mapping,
-										null,
-										grid_row_index
-									);
-								}
-							}
-						}
-
-					}
-
-
 				}
-
-				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
-				System.Console.WriteLine("json\n{0}", json_string);
-
-				//var case_request = mmria.common.model.couchdb.
-
-				//return;
-				case_data_list.Add(case_data);
+				break;
 			}
-			case_maker.flush_bad_mapping();
 
-			Console.WriteLine("Hello World!");
-			json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data_list);
 
-			System.IO.File.WriteAllText("output.json", json_string);
-
+			Console.WriteLine("Export Finished.");
 		}
 
-	
+
+		private void generate_path_map
+		(
+			
+			mmria.common.metadata.app p_metadata, string p_path,
+			string p_file_name,
+			string p_form_path,
+			System.Collections.Generic.Dictionary<string, int> p_path_to_int_map,
+			System.Collections.Generic.Dictionary<string, string> p_path_to_file_name_map,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_node_map,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_grid_map,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_multi_form_map,
+			System.Collections.Generic.Dictionary<string, string> p_multi_form_to_grid_map,
+			System.Collections.Generic.HashSet<string> p_path_to_flat_map
+			
+		)
+		{
+			p_path_to_int_map.Add(p_path, p_path_to_int_map.Count);
+
+
+
+			if (p_metadata.children != null)
+			{
+				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
+
+				for (var i = 0; i < children.Count; i++)
+				{
+					var child = children[i];
+
+					generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map,  p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, p_multi_form_to_grid_map, p_path_to_flat_map);
+				}
+			}
+		}
+
+
+
+		private void generate_path_map
+		(
+			mmria.common.metadata.node p_metadata, 
+			string p_path,
+			string p_file_name,
+			string p_form_path,
+			System.Collections.Generic.Dictionary<string, int> p_path_to_int_map,
+			System.Collections.Generic.Dictionary<string, string> p_path_to_file_name_map,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_node_map,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_grid_map,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_multi_form_map,
+			System.Collections.Generic.Dictionary<string, string> p_multi_form_to_grid_map,
+			System.Collections.Generic.HashSet<string> p_path_to_flat_map
+		)
+		{
+			bool is_flat_map = true;
+			string file_name = p_file_name;
+			string form_path = p_form_path;
+
+			p_path_to_int_map.Add(p_path, p_path_to_int_map.Count);
+			p_path_to_node_map.Add(p_path, p_metadata);
+			p_path_to_file_name_map.Add(p_path, convert_path_to_file_name(p_file_name));
+
+			if (p_metadata.type == "grid")
+			{
+				p_path_to_grid_map.Add(p_path, p_metadata);
+				is_flat_map = false;
+				file_name = p_path;
+				p_multi_form_to_grid_map.Add(p_path, form_path);
+			}
+
+			if (p_metadata.type == "form" && (p_metadata.cardinality == "*" || p_metadata.cardinality == "+"))
+			{
+				p_path_to_multi_form_map.Add(p_path, p_metadata);
+				is_flat_map = false;
+				file_name = p_path;
+				form_path = p_path;
+			}
+
+			if (is_flat_map)
+			{
+				p_path_to_flat_map.Add(p_path);
+			}
+
+			if (p_metadata.children != null)
+			{
+				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
+
+				for (var i = 0; i < children.Count; i++)
+				{
+					var child = children[i];
+
+					generate_path_map(child, p_path + "/" + child.name, file_name, form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, p_multi_form_to_grid_map, p_path_to_flat_map);
+				}
+			}
+		}
+
+		private string convert_path_to_file_name(string p_path)
+		{
+			//		/birth_certificate_infant_fetal_section / causes_of_death
+			// /birth_certificate_infant_fetal_section
+			bool is_added_item = false;
+
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+			string[] temp = p_path.Split('/');
+			for (int i = 0; i < temp.Length - 1; i++)
+			{
+				string[] temp2 = temp[i].Split('_');
+				for (int j = 0; j < temp2.Length; j++)
+				{
+					if (!string.IsNullOrWhiteSpace(temp2[j]))
+					{
+						result.Append(temp2[j][0]);
+						is_added_item = true;
+					}
+				}
+			}
+
+			if (is_added_item)
+			{
+				result.Append("_");
+			}
+			result.Append(temp[temp.Length - 1]);
+			result.Append(".csv");
+			return result.ToString();
+		}
+
+
+		private void process_case_row
+		(
+			System.Collections.Generic.Dictionary<string, string> p_path_to_file_name_map,
+			System.Collections.Generic.Dictionary<string, WriteCSV> p_path_to_csv_writer, 
+			System.Dynamic.ExpandoObject case_row, string p_path)
+		{
+			foreach (KeyValuePair<string, object> kvp in case_row)
+			{
+				if (kvp.Value is IList<object>)
+				{
+				}
+				else if (kvp.Value is IDictionary<string, object>)
+				{
+
+				}
+				else
+				{
+					//string val = this.get_value(
+				}
+			}
+		}
+
 		public string get_csv_connection_string(string p_file_name)
 		{
 			// @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv"
@@ -289,6 +283,119 @@ namespace mmria.console.import
 				@"Provider=Microsoft.Jet.OleDb.4.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
 				p_file_name
 			);
+
+			return result;
+		}
+
+		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+		{
+			dynamic result = null;
+			/*
+			foreach (KeyValuePair<string, object> kvp in p_object)
+			{
+				System.Console.WriteLine(kvp.Key);
+			}*/
+
+			try
+			{
+				string[] path = p_path.Split('/');
+
+				System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
+
+				//IDictionary<string, object> index = p_object;
+				dynamic index = p_object;
+
+				/*
+				if (path[1] == "abnormal_conditions_of_newborn")
+				{
+					System.Console.WriteLine("break");
+				}*/
+
+
+				for (int i = 0; i < path.Length; i++)
+				{
+					if (i == path.Length - 1)
+					{
+						result = ((IDictionary <string, object>)index)[path[i]];
+					}
+					else if (number_regex.IsMatch(path[i]))
+					{
+						IList<object> temp_list = index as IList<object>;
+						if (!(temp_list.Count > int.Parse(path[i])))
+						{
+
+						}
+						index = index[int.Parse(path[i])] as IDictionary<string, object>;
+					}
+					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
+					{
+						index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
+					}
+					else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
+					{
+						index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
+					}
+					else
+					{
+						System.Console.WriteLine("This should not happen. {0}", p_path);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+			}
+
+			return result;
+
+		}
+
+
+		public dynamic get_all_cases(string p_user_name, string p_password)
+		{
+			/*
+			var credential = new System.Net.NetworkCredential
+			{
+				UserName = "user1",
+				Password = "password"
+			};
+
+			var httpClientHandler = new System.Net.Http.HttpClientHandler
+			{
+				Credentials = credential,
+				PreAuthenticate = false,
+				Proxy = new WebProxy("http://127.0.0.1:8888"),
+                UseProxy = true,
+			};
+
+			HttpClient client = new HttpClient(httpClientHandler);
+			*/
+
+			System.Dynamic.ExpandoObject result = null;
+			string URL = "http://db1.mmria.org/mmrds/_all_docs";
+			string urlParameters = "?include_docs=true";
+
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri(URL);
+
+			var byteArray = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", p_user_name, p_password));
+			client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+
+			// Add an Accept header for JSON format.
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+			// List data response.
+			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
+			if (response.IsSuccessStatusCode)
+			{
+				// Parse the response body. Blocking!
+				result = response.Content.ReadAsAsync<System.Dynamic.ExpandoObject>().Result;
+			}
+			else
+			{
+				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
 
 			return result;
 		}

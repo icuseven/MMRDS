@@ -9,7 +9,8 @@ namespace mmria.console.import
 	public class mmrds_importer
 	{
 		private string auth_token = null;
-
+		private string user_name = null;
+		private string password = null;
 
 		public mmrds_importer()
 		{
@@ -20,13 +21,29 @@ namespace mmria.console.import
 		{
 			var mmria_server = new mmria_server_api_client();
 
-			/*
-			if (args.Length > 1 && args[1].ToLower().StartsWith("auth_token"))
+
+			if (args.Length > 1)
 			{
-				this.auth_token = args[1].Split(':')[1];
+				for (var i = 1; i < args.Length; i++)
+				{
+					string arg = args[i];
+					if (arg.ToLower().StartsWith("auth_token"))
+					{
+						this.auth_token = arg.Split(':')[1];
+					}
+					else if (arg.ToLower().StartsWith("user_name"))
+					{
+						this.user_name = arg.Split(':')[1];
+					}
+					else if (arg.ToLower().StartsWith("password"))
+					{
+						this.password = arg.Split(':')[1];
+					}
+				}
 			}
-			else
+			/*else
 			{
+				
 				var session_list = mmria_server.login("", "");
 				foreach(var session in session_list)
 				if (session.ok)

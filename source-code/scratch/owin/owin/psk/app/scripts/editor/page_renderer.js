@@ -57,12 +57,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</table>");
 		break;
     case 'group':
-
+/*
 		if(p_group_level == 1)
 		{
 				result.push("<div class='row'>");
 				result.push("<div class='col-sm-4'>");
-		}
+		}*/
 		result.push("<h3 id='");
 		result.push(p_metadata.name);
 		result.push("_id' class='group'>");
@@ -74,13 +74,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
+			/*
 			if(current_column >= 3)
 			{
 				current_column = 0;
 				// close rows
 				result.push("</div>");
 				result.push("<div class='row'>");
-			}
+			}*/
 
 			if(p_group_level > 2)
 			{
@@ -88,7 +89,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			else
 			{
-				result.push("<div class='col-sm-4'>");
+				//result.push("<div class='col-sm-4'>");
 				if(child.type=="group")
 				{
 					//group_stack.push(child);
@@ -100,17 +101,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				
 				current_column += 1;
-				result.push("</div>");
+				//result.push("</div>");
 			}
 
 		}
-
+/*
 		if(p_group_level == 1)
 		{
 				result.push("</div>");
 				result.push("</div>");
 		}
-
+*/
 		break;
     case 'form':
 		if(
@@ -136,7 +137,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata.prompt);
 			result.push("</h2>");
 
-			result.push('<input path="" type="button" value="add new ');
+			result.push('<input path="" type="button" value="Add New ');
 			result.push(p_metadata.prompt);
 			result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
 
@@ -209,7 +210,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					{
 						p_data[data_index][child.name] = create_default_object(child, {})[child.name];
 					}
-
+/*
 					if(current_column >= 3 || g_metadata_summary[p_metadata_path].group_level < 1)
 					{
 						// close rows
@@ -217,7 +218,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						result.push("</div>");
 						result.push("<div class='row'>");
 					}
-					result.push("<div class='col-sm-4'>");
+					result.push("<div class='col-sm-4'>");*/
 					if(child.type=="group")
 					{
 						Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 1, 0, current_column));
@@ -228,7 +229,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					}
 					
 					current_column += 1;
-					result.push("</div>");
+					//result.push("</div>");
 				}
 				result.push("</section>");
 
@@ -346,7 +347,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		break;
     case 'app':
 		result.push("<section id='app_summary'><h2>summary</h2>");
-		result.push("<input type='button' class='btn-green' value='add new case' onclick='g_ui.add_new_case()' /><hr/>");
+		result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 		result.push("<fieldset><legend>filter line listing</legend>");
 		result.push("<input type='text' id='search_text_box' value='' /> ");
 		result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
@@ -436,7 +437,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("' />");*/
 			break;
 		case 'string':
-			result.push("<div class='col-sm-4 string' id='");
+			result.push("<div class='string' id='");
 			result.push(p_object_path);
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -479,7 +480,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			   
 	case 'address':
 	case 'textarea':
-				result.push("<div  class='col-sm-4 string' id='");
+				result.push("<div  class='textarea' id='");
 				result.push(p_object_path);
 				result.push("'><span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
@@ -502,12 +503,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(p_metadata.prompt);
 				}
 				
-				result.push("</span> ");
+				result.push("</span><br/>");
 				page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
 				result.push("</di>");
            break;
      case 'number':
-			result.push("<div class='col-sm-4 number' id='");
+			result.push("<div class='number' id='");
 			result.push(p_object_path);
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -536,7 +537,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			
            break;
      case 'boolean':
-			result.push("<div class='col-sm-4 boolean' id='");
+			result.push("<div class='boolean' id='");
 			result.push(p_object_path);
 			result.push("'> <input type='checkbox' name='");
 			result.push(p_metadata.name);
@@ -580,7 +581,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
     case 'list':
 			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
 			{
-				result.push("<div class='col-sm-4 list' id='");
+				result.push("<div class='list' id='");
 				result.push(p_object_path)
 				
 				result.push("'> <span ");
@@ -730,7 +731,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			else
 			{
-				result.push("<div class='col-sm-4 list' id='");
+				result.push("<div class='list' id='");
 				result.push(p_object_path)
 				
 				result.push("'> <span ");
@@ -878,7 +879,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}*/
-			result.push("<div class='col-sm-4 date' id='");
+			result.push("<div class='date' id='");
 			result.push(p_object_path)
 			
 			result.push("'> ");
@@ -918,7 +919,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
 			*/
 			result.push("</span> ");
+			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
 			result.push("</div>");
 
 			 break;	
@@ -928,7 +931,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}*/
-			result.push("<div class='col-sm-4 date' id='");
+			result.push("<div class='date' id='");
 			result.push(p_object_path)
 			result.push("'> ");
 			result.push("<span ");
@@ -966,7 +969,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
 			*/
 			result.push("</span> ");
+			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");	
 			result.push("</div>");	
 			 break;
 		case 'time':
@@ -975,7 +980,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}*/
-			result.push("<div class='col-sm-4 time' id='");
+			result.push("<div  class='time' id='");
 			result.push(p_object_path)
 			
 			result.push("'> ");
@@ -1011,7 +1016,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'   /></div>");
 			*/
 			result.push("</span> ");
+			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			result.push("</div>");
 			result.push("</div>");
 
 			break;
@@ -1070,7 +1077,17 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 		}
 
-		if(p_metadata.onchange && p_metadata.onchange != "")
+
+		if(
+			p_metadata.type == "number" ||
+			p_metadata.type == "datetime" ||
+			p_metadata.type == "date" ||
+			p_metadata.type == "time" 
+		)
+		{
+			page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
+		}
+		else if(p_metadata.onchange && p_metadata.onchange != "")
 		{
 			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
 		}
@@ -1182,6 +1199,63 @@ var path_to_validation_description = [];
 	else
 	{
 		p_result.push(" onblur='g_set_data_object_from_path(\"");
+		p_result.push(p_object_path);
+		p_result.push("\",\"");
+		p_result.push(p_metadata_path);
+		if(p_metadata.type=="boolean")
+		{
+			p_result.push("\",this.checked)'");
+		}
+		else
+		{
+			p_result.push("\",this.value)'");
+		}
+		
+	}
+	
+}
+
+
+function page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
+{
+/*
+var path_to_int_map = [];
+var path_to_onblur_map = [];
+var path_to_onclick_map = [];
+var path_to_onfocus_map = [];
+var path_to_onchange_map = [];
+var path_to_source_validation = [];
+var path_to_derived_validation = [];
+var path_to_validation_description = [];
+*/
+
+	if(p_metadata.onchange && p_metadata.onchange != "")
+	{
+		//var source_code = escodegen.generate(p_metadata.onfocus);
+		var code_array = [];
+		
+		
+		code_array.push("(function x" + path_to_int_map[p_metadata_path].toString(16) + "_sob(p_control){\n");
+		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + "_och");
+		code_array.push(".call(");
+		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+		code_array.push(", p_control);\n");
+		
+		code_array.push("g_set_data_object_from_path(\"");
+		code_array.push(p_object_path);
+		code_array.push("\",\"");
+		code_array.push(p_metadata_path);
+		code_array.push("\",p_control.value);\n}).call(");
+		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+		code_array.push(", event.target);");
+
+		p_result.push(" onchange='");
+		p_result.push(code_array.join('').replace(/'/g,"\""));
+		p_result.push("'");
+	}
+	else
+	{
+		p_result.push(" onchange='g_set_data_object_from_path(\"");
 		p_result.push(p_object_path);
 		p_result.push("\",\"");
 		p_result.push(p_metadata_path);

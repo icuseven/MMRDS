@@ -32,6 +32,11 @@ namespace mmria.console
 						var importer = new mmria.console.import.mmrds_importer();
 						importer.Execute(args);
 						break;
+
+					case "export":
+						var exporter = new mmria.console.export.mmrds_exporter();
+						exporter.Execute(args);
+						break;
 					default:
 						return;
 				}
