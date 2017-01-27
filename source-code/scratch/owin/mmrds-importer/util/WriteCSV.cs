@@ -7,9 +7,9 @@ namespace mmria.console
 {
 	public class WriteCSV
 	{
-		public WriteCSV()
+		public WriteCSV(string file_name)
 		{
-			var writer = new StreamWriter("CVS.csv");
+			var writer = new StreamWriter(file_name);
 
 			/*
 			var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;AttachDbFilename=E:\\temp\\MyDatabaseData2.MDF;Integrated " +

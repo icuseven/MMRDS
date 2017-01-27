@@ -42,9 +42,9 @@ namespace mmria.console.export
 					}
 				}
 			}
-			else
+			/*else
 			{
-				/*
+				
 				var session_list = mmria_server.login("", "");
 				foreach(var session in session_list)
 				if (session.ok)
@@ -56,11 +56,18 @@ namespace mmria.console.export
 				{
 					System.Console.WriteLine("unable to login\n{0}", session);
 					return;
-				}*/
-			}
+				}
+			}*/
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-			System.Dynamic.ExpandoObject all_cases = get_all_cases(this.user_name, this.password);
+			dynamic all_cases = get_all_cases(this.user_name, this.password);
+
+
+
+			foreach (KeyValuePair<string, object> kvp in all_cases)
+			{
+				System.Console.WriteLine(kvp.Key);
+			}
 
 
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
@@ -72,19 +79,55 @@ namespace mmria.console.export
 
 			System.Collections.Generic.HashSet<string> path_to_flat_map = new System.Collections.Generic.HashSet<string>();
 
-			generate_path_map(metadata, "", "mmria_case_export.csv", "", path_to_int_map, path_to_file_name_map, path_to_node_map, path_to_grid_map, grid_path_to_multi_form_map, multi_form_to_grid_map, path_to_flat_map);
+			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
-			Console.WriteLine("Hello World!");
+			generate_path_map(metadata, "", "mmria_case_export", "", path_to_int_map, path_to_file_name_map, path_to_node_map, path_to_grid_map, grid_path_to_multi_form_map, multi_form_to_grid_map, path_to_flat_map);
+
+
 
 			int stream_file_count = 0;
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
 			{
+				path_to_csv_writer.Add(file_name, new WriteCSV(file_name));
 				Console.WriteLine(file_name);
 				stream_file_count++;
 			}
 			Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
 
+			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			{
+				int max = 0;
+				foreach (string path in path_to_flat_map)
+				{
+					if(
+						path_to_node_map[path].type == "app" ||
+						path_to_node_map[path].type == "form" ||
+						path_to_node_map[path].type == "group" ||
+						path_to_node_map[path].type == "grid"
+
+					  )
+					{
+						continue;
+					}
+
+					System.Console.WriteLine("path {0}", path);
+					IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
+					//process_case_row(path_to_csv_writer, case_row, "");
+
+					System.Console.WriteLine(val);
+					max += 1;
+					if (max > 5)
+					{
+						break;
+					}
+				}
+				break;
+			}
+
+
+			Console.WriteLine("Export Finished.");
 		}
 
 
@@ -116,10 +159,12 @@ namespace mmria.console.export
 				{
 					var child = children[i];
 
-					generate_path_map(child, p_path + "/" + child.name, p_file_name, p_form_path, p_path_to_int_map,  p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, p_multi_form_to_grid_map, p_path_to_flat_map);
+					generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map,  p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, p_multi_form_to_grid_map, p_path_to_flat_map);
 				}
 			}
 		}
+
+
 
 		private void generate_path_map
 		(
@@ -142,7 +187,7 @@ namespace mmria.console.export
 
 			p_path_to_int_map.Add(p_path, p_path_to_int_map.Count);
 			p_path_to_node_map.Add(p_path, p_metadata);
-			p_path_to_file_name_map.Add(p_path, p_file_name);
+			p_path_to_file_name_map.Add(p_path, convert_path_to_file_name(p_file_name));
 
 			if (p_metadata.type == "grid")
 			{
@@ -178,6 +223,58 @@ namespace mmria.console.export
 			}
 		}
 
+		private string convert_path_to_file_name(string p_path)
+		{
+			//		/birth_certificate_infant_fetal_section / causes_of_death
+			// /birth_certificate_infant_fetal_section
+			bool is_added_item = false;
+
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+			string[] temp = p_path.Split('/');
+			for (int i = 0; i < temp.Length - 1; i++)
+			{
+				string[] temp2 = temp[i].Split('_');
+				for (int j = 0; j < temp2.Length; j++)
+				{
+					if (!string.IsNullOrWhiteSpace(temp2[j]))
+					{
+						result.Append(temp2[j][0]);
+						is_added_item = true;
+					}
+				}
+			}
+
+			if (is_added_item)
+			{
+				result.Append("_");
+			}
+			result.Append(temp[temp.Length - 1]);
+			result.Append(".csv");
+			return result.ToString();
+		}
+
+
+		private void process_case_row
+		(
+			System.Collections.Generic.Dictionary<string, string> p_path_to_file_name_map,
+			System.Collections.Generic.Dictionary<string, WriteCSV> p_path_to_csv_writer, 
+			System.Dynamic.ExpandoObject case_row, string p_path)
+		{
+			foreach (KeyValuePair<string, object> kvp in case_row)
+			{
+				if (kvp.Value is IList<object>)
+				{
+				}
+				else if (kvp.Value is IDictionary<string, object>)
+				{
+
+				}
+				else
+				{
+					//string val = this.get_value(
+				}
+			}
+		}
 
 		public string get_csv_connection_string(string p_file_name)
 		{
@@ -193,6 +290,11 @@ namespace mmria.console.export
 		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
 		{
 			dynamic result = null;
+			/*
+			foreach (KeyValuePair<string, object> kvp in p_object)
+			{
+				System.Console.WriteLine(kvp.Key);
+			}*/
 
 			try
 			{
@@ -203,17 +305,18 @@ namespace mmria.console.export
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
+				/*
 				if (path[1] == "abnormal_conditions_of_newborn")
 				{
 					System.Console.WriteLine("break");
-				}
+				}*/
 
 
 				for (int i = 0; i < path.Length; i++)
 				{
 					if (i == path.Length - 1)
 					{
-						result = index[path[i]];
+						result = ((IDictionary <string, object>)index)[path[i]];
 					}
 					else if (number_regex.IsMatch(path[i]))
 					{
@@ -224,17 +327,13 @@ namespace mmria.console.export
 						}
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if (index[path[i]] is IList<object>)
+					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
 					{
-						index = index[path[i]] as IList<object>;
+						index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
 					}
-					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
+					else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
 					{
-						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
-					}
-					else if (index[path[i]] is IDictionary<string, object>)
-					{
-						index = index[path[i]] as IDictionary<string, object>;
+						index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
 					}
 					else
 					{
@@ -252,7 +351,7 @@ namespace mmria.console.export
 		}
 
 
-		public System.Dynamic.ExpandoObject get_all_cases(string p_user_name, string p_password)
+		public dynamic get_all_cases(string p_user_name, string p_password)
 		{
 			/*
 			var credential = new System.Net.NetworkCredential
