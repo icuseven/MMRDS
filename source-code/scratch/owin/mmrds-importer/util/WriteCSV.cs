@@ -7,25 +7,35 @@ namespace mmria.console
 {
 	public class WriteCSV
 	{
-		public WriteCSV(string file_name)
+		string file_name;
+		string folder_name = "export";
+		DataTable table;
+		public WriteCSV(string p_file_name)
 		{
-			var writer = new StreamWriter(file_name);
-
+			this.file_name = p_file_name;
 			/*
 			var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;AttachDbFilename=E:\\temp\\MyDatabaseData2.MDF;Integrated " +
 										  "Security=True;Connect Timeout=30;User Instance=True");
 			var command = new SqlCommand("select * from table_1;", connection);
 			var dataAdapter = new SqlDataAdapter(command);
 			*/
-			var table = new DataTable("temp_table");
-			//dataAdapter.Fill(table);
+			table = new DataTable("temp_table");
+
+			/*dataAdapter.Fill(table);
 			if (table == null)
 				System.Console.Write("temp_table is null");
-			WriteCSV.WriteToStream(writer, table, true, true);
-
+				*/
 		}
 
-		public static void WriteToStream(TextWriter stream, DataTable table, bool header, bool quoteall)
+		public DataTable Table { get { return this.table; } }
+
+		public void WriteToStream()
+		{
+			StreamWriter writer = new StreamWriter(folder_name + "/" + this.file_name);
+			this.WriteToStream(writer, true, true);
+		}
+
+		private void WriteToStream(TextWriter stream, bool header, bool quoteall)
 		{
 			if (header)
 			{
@@ -53,7 +63,7 @@ namespace mmria.console
 			stream.Close();
 		}
 
-		private static void WriteItem(TextWriter stream, object item, bool quoteall)
+		private void WriteItem(TextWriter stream, object item, bool quoteall)
 		{
 			if (item == null)
 				return;

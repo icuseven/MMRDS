@@ -94,39 +94,129 @@ namespace mmria.console.export
 			}
 			Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
+			// create header row
+			System.Data.DataColumn column = new System.Data.DataColumn("id", typeof(string));
+			path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(column);
+
+			foreach (string path in path_to_flat_map)
+			{
+				if (
+					path_to_node_map[path].type.ToLower() == "app" ||
+					path_to_node_map[path].type.ToLower() == "form" ||
+					path_to_node_map[path].type.ToLower() == "group" ||
+					path_to_node_map[path].type.ToLower() == "grid"
+
+				  )
+				{
+					continue;
+				}
+
+
+				switch (path_to_node_map[path].type.ToLower())
+				{
+					case "number":
+						column = new System.Data.DataColumn(path_to_int_map[path].ToString("X"), typeof(double));
+						break;
+					default:
+						column = new System.Data.DataColumn(path_to_int_map[path].ToString("X"), typeof(string));
+						break;
+
+				}
+				path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(column);
+			}
+
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
 			{
+				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				if (case_doc["_id"].ToString().StartsWith("_design"))
+				{
+					continue;
+				}
+				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
+				row["id"] = case_doc["_id"];
+
 				int max = 0;
 				foreach (string path in path_to_flat_map)
 				{
 					if(
-						path_to_node_map[path].type == "app" ||
-						path_to_node_map[path].type == "form" ||
-						path_to_node_map[path].type == "group" ||
-						path_to_node_map[path].type == "grid"
+						path_to_node_map[path].type.ToLower() == "app" ||
+						path_to_node_map[path].type.ToLower() == "form" ||
+						path_to_node_map[path].type.ToLower() == "group" ||
+						path_to_node_map[path].type.ToLower() == "grid"
 
 					  )
 					{
 						continue;
 					}
 
+					
 					System.Console.WriteLine("path {0}", path);
-					IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
-					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
-					//process_case_row(path_to_csv_writer, case_row, "");
 
+					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
+					/*
+					if (path_to_int_map[path].ToString("X") == "41")
+					{
+						System.Console.Write("pause");
+					}
+					*/
+
+					switch (path_to_node_map[path].type.ToLower())
+					{
+
+						case "number":
+							if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
+							{
+								row[path_to_int_map[path].ToString("X")] = val;
+							}
+							break;
+						case "list":
+
+							if
+								(path_to_node_map[path].is_multiselect != null &&
+							   path_to_node_map[path].is_multiselect == true 
+
+							  )
+							{
+								
+								IList<object> temp = val as IList<object>;
+								if (temp != null && temp.Count > 0)
+								{
+									
+									row[path_to_int_map[path].ToString("X")] = string.Join("|",temp);
+								}
+							}
+							else
+							{
+								if (val != null)
+								{
+									row[path_to_int_map[path].ToString("X")] = val;
+								}
+							}
+
+							break;
+						default:
+							if (val != null)
+							{
+								row[path_to_int_map[path].ToString("X")] = val;
+							}
+							break;
+
+					}
+
+					/*
 					System.Console.WriteLine(val);
 					max += 1;
 					if (max > 5)
 					{
 						break;
-					}
+					}*/
 				}
-				break;
+				path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
+				//break;
 			}
 
-
+			path_to_csv_writer["mmria_case_export.csv"].WriteToStream();
 			Console.WriteLine("Export Finished.");
 		}
 
