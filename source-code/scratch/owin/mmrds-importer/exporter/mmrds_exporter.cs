@@ -69,7 +69,6 @@ namespace mmria.console.export
 				System.Console.WriteLine(kvp.Key);
 			}
 
-
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
 			System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
 			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> path_to_node_map = new Dictionary<string, mmria.common.metadata.node>();
@@ -82,8 +81,6 @@ namespace mmria.console.export
 			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
 			generate_path_map(metadata, "", "mmria_case_export", "", path_to_int_map, path_to_file_name_map, path_to_node_map, path_to_grid_map, grid_path_to_multi_form_map, multi_form_to_grid_map, path_to_flat_map);
-
-
 
 			int stream_file_count = 0;
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
@@ -111,7 +108,6 @@ namespace mmria.console.export
 					continue;
 				}
 
-
 				switch (path_to_node_map[path].type.ToLower())
 				{
 					case "number":
@@ -134,7 +130,8 @@ namespace mmria.console.export
 					continue;
 				}
 				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
-				row["id"] = case_doc["_id"];
+				string mmria_case_id = case_doc["_id"].ToString();
+				row["id"] = mmria_case_id;
 
 				int max = 0;
 				foreach (string path in path_to_flat_map)
@@ -213,6 +210,8 @@ namespace mmria.console.export
 					}*/
 				}
 				path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
+
+
 				//break;
 			}
 

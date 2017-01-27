@@ -38,17 +38,39 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         {
           eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
         }
-
-        document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+		
+		document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
         if(g_ui.broken_rules[p_object_path])
         {
           g_ui.broken_rules[p_object_path] = false;
         } 
+
+	  var db = new PouchDB("mmrds");
+      db.put(g_data).then(function (doc)
+      {
+          if(g_data && g_data._id == doc.id)
+          {
+            g_data._rev = doc._rev;
+          }
+
+			for(var i = 0; i < g_ui.data_list.length; i++)
+          {
+            if(g_ui.data_list[i]._id == doc.id)
+            {
+                g_ui.data_list[i]._rev = doc.rev;
+               console.log('set_value save finished');
+                console.log(doc);
+                break;
+            }
+          }
+      });
+		
+
       }
       else
       {
         g_ui.broken_rules[p_object_path] = true;
-        console.log("didn't pass validation");
+        //console.log("didn't pass validation");
 
       }
     }
@@ -78,6 +100,27 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       
       //document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
       $("#" + p_object_path).replaceWith(page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join(""));
+	  
+	  var db = new PouchDB("mmrds");
+      db.put(g_data).then(function (doc)
+      {
+          if(g_data && g_data._id == doc.id)
+          {
+            g_data._rev = doc._rev;
+          }
+
+			for(var i = 0; i < g_ui.data_list.length; i++)
+          {
+            if(g_ui.data_list[i]._id == doc.id)
+            {
+                g_ui.data_list[i]._rev = doc.rev;
+               console.log('set_value save finished');
+                //console.log(doc);
+                break;
+            }
+          }
+      });
+	  
     }
 
     apply_validation();
