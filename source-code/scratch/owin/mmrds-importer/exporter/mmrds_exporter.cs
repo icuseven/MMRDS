@@ -457,7 +457,7 @@ namespace mmria.console.export
 				int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
 			}
 
-			WriteCSV mapping_document = new WriteCSV("mapping.csv");
+			WriteCSV mapping_document = new WriteCSV("field_mapping.csv");
 			System.Data.DataColumn column = null;
 
 			column = new System.Data.DataColumn("file_name", typeof(string));
@@ -485,7 +485,14 @@ namespace mmria.console.export
 					}
 					else
 					{
-						mapping_row["mmria_path"] = table_column.ColumnName;
+						switch (table_column.ColumnName)
+						{
+							case "_record_index":
+							case "_parent_index":
+							default:
+								mapping_row["mmria_path"] = table_column.ColumnName;
+								break;
+						}
 					}
 
 					mapping_row["column_name"] = table_column.ColumnName;

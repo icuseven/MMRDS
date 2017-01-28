@@ -42,7 +42,8 @@ initialize_profile: function ()
 {
 	var current_auth_session = this.get_auth_session_cookie();
 
-	if(current_auth_session)
+	//if(current_auth_session)
+	if(false)
 	{
 		var url =  location.protocol + '//' + location.host + "/api/session";
 
@@ -105,7 +106,10 @@ initialize_profile: function ()
 	}
 	else
 	{
-		profile.try_session_login();
+		//profile.try_session_login();
+		//document.getElementById('profile_content_id').innerHTML = "";
+		profile.render();
+
 	}
 },
 
