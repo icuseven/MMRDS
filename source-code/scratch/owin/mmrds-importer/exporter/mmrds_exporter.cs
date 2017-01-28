@@ -143,14 +143,13 @@ namespace mmria.console.export
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
 			{
 				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
-				if (case_doc["_id"].ToString().StartsWith("_design"))
+				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
 				{
 					continue;
 				}
 				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
 				string mmria_case_id = case_doc["_id"].ToString();
 				row["_id"] = mmria_case_id;
-
 				foreach (string path in path_to_flat_map)
 				{
 					if (
@@ -163,7 +162,6 @@ namespace mmria.console.export
 						continue;
 					}
 
-						 
 					System.Console.WriteLine("path {0}", path);
 
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
@@ -219,17 +217,14 @@ namespace mmria.console.export
 
 				}
 				path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
-				//break;
 
+				// flat grid - start
 				foreach(KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
 				{
 					string path = ptn.Key;
-
-
 					if (flat_grid_set.Contains(path_to_grid_map[path]))
 					{
 						string grid_name = path_to_grid_map[path];
-
 
 						HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -264,20 +259,20 @@ namespace mmria.console.export
 							grid_row["_record_index"] = i;
 							foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
 							{
-								foreach (mmria.common.metadata.node node in path_to_node_map[kvp.Key].children)
+								foreach (string node in grid_field_set)
 								{
 									try
 									{
-										dynamic val = grid_item_row[node.name];
+										dynamic val = grid_item_row[path_to_node_map[node].name];
 										if (val != null)
 										{
-											if (node.type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
+											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 											{
-													row[path_to_int_map[path].ToString("X")] = val;
+												grid_row[path_to_int_map[node].ToString("X")] = val;
 											}
 											else
 											{
-												row[path_to_int_map[path].ToString("X")] = val;
+												grid_row[path_to_int_map[node].ToString("X")] = val;
 											}
 										}
 									}
@@ -290,8 +285,8 @@ namespace mmria.console.export
 							path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
 						}
 					}
-
 				}
+				// flat grid - end
 
 
 			}
@@ -303,6 +298,89 @@ namespace mmria.console.export
 			Console.WriteLine("Export Finished.");
 		}
 
+
+
+		private void process_multiform_grid
+		(
+		 	IDictionary<string, object> case_doc,
+			string mmria_case_id,
+			Dictionary<string, int> path_to_int_map,
+			Dictionary<string, mmria.common.metadata.node> path_to_node_map,
+			Dictionary<string, string> path_to_grid_map,
+			Dictionary<string, WriteCSV> path_to_csv_writer,
+			HashSet<string> flat_grid_set
+		)
+		{
+			// flat grid - start
+			foreach (KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
+			{
+				string path = ptn.Key;
+				if (flat_grid_set.Contains(path_to_grid_map[path]))
+				{
+					string grid_name = path_to_grid_map[path];
+
+					HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+					foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(path) && x.Key != path))
+					{
+						grid_field_set.Add(ptgm.Key);
+					}
+
+					create_header_row
+					(
+						path_to_int_map,
+						grid_field_set,
+						path_to_node_map,
+						path_to_csv_writer[grid_name].Table,
+						true,
+						true,
+						false
+					);
+
+
+
+					dynamic raw_data = get_value(case_doc as IDictionary<string, object>, path);
+					List<object> object_data = raw_data as List<object>;
+
+					if (object_data != null)
+						for (int i = 0; i < object_data.Count; i++)
+						{
+							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+
+							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+							grid_row["_id"] = mmria_case_id;
+							grid_row["_record_index"] = i;
+							foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
+							{
+								foreach (string node in grid_field_set)
+								{
+									try
+									{
+										dynamic val = grid_item_row[path_to_node_map[node].name];
+										if (val != null)
+										{
+											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
+											{
+												grid_row[path_to_int_map[node].ToString("X")] = val;
+											}
+											else
+											{
+												grid_row[path_to_int_map[node].ToString("X")] = val;
+											}
+										}
+									}
+									catch (Exception ex)
+									{
+
+									}
+								}
+							}
+							path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+						}
+				}
+			}
+
+		}
 
 
 		private void create_header_row
