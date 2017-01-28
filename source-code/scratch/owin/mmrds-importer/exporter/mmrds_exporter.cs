@@ -450,10 +450,57 @@ namespace mmria.console.export
 
 			}
 
+
+			Dictionary<string, string> int_to_path_map = new Dictionary<string, string>();
+			foreach (KeyValuePair<string, int> ptn in path_to_int_map)
+			{
+				int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
+			}
+
+			WriteCSV mapping_document = new WriteCSV("mapping.csv");
+			System.Data.DataColumn column = null;
+
+			column = new System.Data.DataColumn("file_name", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("mmria_path", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("column_name", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
+
 			foreach (KeyValuePair<string, WriteCSV> kvp in path_to_csv_writer)
 			{
+				
+
+				foreach (System.Data.DataColumn table_column in kvp.Value.Table.Columns)
+				{
+					System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
+					mapping_row["file_name"] = kvp.Key;
+
+					if (int_to_path_map.ContainsKey(table_column.ColumnName))
+					{
+						mapping_row["mmria_path"] = int_to_path_map[table_column.ColumnName];
+					}
+					else
+					{
+						mapping_row["mmria_path"] = table_column.ColumnName;
+					}
+
+					mapping_row["column_name"] = table_column.ColumnName;
+
+
+					mapping_document.Table.Rows.Add(mapping_row);
+				}
+
+
+
 				kvp.Value.WriteToStream();
 			}
+
+			mapping_document.WriteToStream();
+
 			Console.WriteLine("Export Finished.");
 		}
 
