@@ -72,15 +72,26 @@ namespace mmria.console.export
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
 			System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
 			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> path_to_node_map = new Dictionary<string, mmria.common.metadata.node>();
-			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> path_to_grid_map = new Dictionary<string, mmria.common.metadata.node>();
-			System.Collections.Generic.Dictionary<string, string> multi_form_to_grid_map = new Dictionary<string, string>();
-			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> grid_path_to_multi_form_map = new Dictionary<string, mmria.common.metadata.node>();
+			System.Collections.Generic.Dictionary<string, string> path_to_grid_map = new Dictionary<string, string>();
+			System.Collections.Generic.Dictionary<string, string> path_to_multi_form_map = new Dictionary<string, string>();
+			System.Collections.Generic.Dictionary<string, string> grid_to_multi_form_map = new Dictionary<string, string>();
 
 			System.Collections.Generic.HashSet<string> path_to_flat_map = new System.Collections.Generic.HashSet<string>();
 
 			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
-			generate_path_map(metadata, "", "mmria_case_export", "", path_to_int_map, path_to_file_name_map, path_to_node_map, path_to_grid_map, grid_path_to_multi_form_map, multi_form_to_grid_map, path_to_flat_map);
+			generate_path_map
+			(	metadata, "", "mmria_case_export", "",
+				path_to_int_map,
+			 	path_to_file_name_map,
+			 	path_to_node_map,
+			 	path_to_grid_map, 
+				path_to_multi_form_map,
+				 false,
+			 	grid_to_multi_form_map,
+				 false,
+			 	path_to_flat_map
+			);
 
 			int stream_file_count = 0;
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
@@ -264,9 +275,11 @@ namespace mmria.console.export
 			System.Collections.Generic.Dictionary<string, int> p_path_to_int_map,
 			System.Collections.Generic.Dictionary<string, string> p_path_to_file_name_map,
 			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_node_map,
-			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_grid_map,
-			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_multi_form_map,
+			System.Collections.Generic.Dictionary<string, string> p_path_to_grid_map,
+			System.Collections.Generic.Dictionary<string, string> p_path_to_multi_form_map,
+			bool p_is_multiform_context,
 			System.Collections.Generic.Dictionary<string, string> p_multi_form_to_grid_map,
+			bool p_is_grid_context,
 			System.Collections.Generic.HashSet<string> p_path_to_flat_map
 			
 		)
@@ -283,7 +296,7 @@ namespace mmria.console.export
 				{
 					var child = children[i];
 
-					generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map,  p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, p_multi_form_to_grid_map, p_path_to_flat_map);
+					generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map,  p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, false, p_multi_form_to_grid_map, false, p_path_to_flat_map);
 				}
 			}
 		}
@@ -299,40 +312,76 @@ namespace mmria.console.export
 			System.Collections.Generic.Dictionary<string, int> p_path_to_int_map,
 			System.Collections.Generic.Dictionary<string, string> p_path_to_file_name_map,
 			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_node_map,
-			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_grid_map,
-			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_multi_form_map,
+			System.Collections.Generic.Dictionary<string, string> p_path_to_grid_map,
+			System.Collections.Generic.Dictionary<string, string> p_path_to_multi_form_map,
+			bool p_is_multiform_context,
 			System.Collections.Generic.Dictionary<string, string> p_multi_form_to_grid_map,
+			bool p_is_grid_context,
 			System.Collections.Generic.HashSet<string> p_path_to_flat_map
 		)
 		{
+
+
+			if (p_path == "death_certificate/causes_of_death")
+			{
+				System.Console.Write("break");
+			}
+
 			bool is_flat_map = true;
+			bool is_grid = false;
+			bool is_multiform = false;
+
 			string file_name = p_file_name;
 			string form_path = p_form_path;
 
 			p_path_to_int_map.Add(p_path, p_path_to_int_map.Count);
 			p_path_to_node_map.Add(p_path, p_metadata);
-			p_path_to_file_name_map.Add(p_path, convert_path_to_file_name(p_file_name));
 
-			if (p_metadata.type == "grid")
+
+
+			if (p_metadata.type.ToLower() == "grid")
 			{
-				p_path_to_grid_map.Add(p_path, p_metadata);
 				is_flat_map = false;
-				file_name = p_path;
+				is_grid = true;
+				/*
+				if (p_is_multiform_context)
+				{
+				}
+				else
+				{*/
+
+					file_name = this.convert_path_to_file_name(p_path);
+					
+				p_path_to_grid_map.Add(p_path, file_name);
 				p_multi_form_to_grid_map.Add(p_path, form_path);
+				//}
+
+			}
+			else
+			{
+				is_grid = p_is_grid_context;
 			}
 
-			if (p_metadata.type == "form" && (p_metadata.cardinality == "*" || p_metadata.cardinality == "+"))
+			if (p_metadata.type.ToLower() == "form" && (p_metadata.cardinality == "*" || p_metadata.cardinality == "+"))
 			{
-				p_path_to_multi_form_map.Add(p_path, p_metadata);
+				
 				is_flat_map = false;
-				file_name = p_path;
+				file_name = this.convert_path_to_file_name(p_path);
 				form_path = p_path;
+				is_multiform = true;
+				p_path_to_multi_form_map.Add(p_path, file_name);
+			}
+			else
+			{
+				is_multiform = p_is_multiform_context;
 			}
 
 			if (is_flat_map)
 			{
 				p_path_to_flat_map.Add(p_path);
 			}
+
+			p_path_to_file_name_map.Add(p_path, file_name);
 
 			if (p_metadata.children != null)
 			{
@@ -342,7 +391,7 @@ namespace mmria.console.export
 				{
 					var child = children[i];
 
-					generate_path_map(child, p_path + "/" + child.name, file_name, form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, p_multi_form_to_grid_map, p_path_to_flat_map);
+					generate_path_map(child, p_path + "/" + child.name, file_name, form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, is_multiform, p_multi_form_to_grid_map, is_grid, p_path_to_flat_map);
 				}
 			}
 		}
@@ -440,7 +489,15 @@ namespace mmria.console.export
 				{
 					if (i == path.Length - 1)
 					{
-						result = ((IDictionary <string, object>)index)[path[i]];
+						if (index is IDictionary<string, object>)
+						{
+							result = ((IDictionary<string, object>)index)[path[i]];
+						}
+						else
+						{
+							result = index;
+						}
+
 					}
 					else if (number_regex.IsMatch(path[i]))
 					{
