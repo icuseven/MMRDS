@@ -419,6 +419,28 @@ namespace mmria.console.export
 
 						}
 
+							HashSet<string> multifom_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+							foreach (KeyValuePair<string, string> gtmfm in grid_to_multi_form_map)
+							{
+								if (gtmfm.Value == kvp.Key)
+								{
+									multifom_grid_set.Add(gtmfm.Key);
+								}
+							}
+
+							process_multiform_grid
+							(
+								case_doc,
+								mmria_case_id,
+								i,
+								path_to_int_map,
+								path_to_node_map,
+								path_to_grid_map,
+								path_to_csv_writer,
+								multifom_grid_set
+						);
+
 
 						path_to_csv_writer[kvp.Value].Table.Rows.Add(form_row);
 					}
@@ -441,6 +463,7 @@ namespace mmria.console.export
 		(
 		 	IDictionary<string, object> case_doc,
 			string mmria_case_id,
+			int parent_record_index,
 			Dictionary<string, int> path_to_int_map,
 			Dictionary<string, mmria.common.metadata.node> path_to_node_map,
 			Dictionary<string, string> path_to_grid_map,
@@ -448,11 +471,14 @@ namespace mmria.console.export
 			HashSet<string> flat_grid_set
 		)
 		{
+
+
+
 			// flat grid - start
-			foreach (KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
+			foreach (KeyValuePair<string, string> ptn in path_to_grid_map)
 			{
 				string path = ptn.Key;
-				if (flat_grid_set.Contains(path_to_grid_map[path]))
+				if (flat_grid_set.Contains(path))
 				{
 					string grid_name = path_to_grid_map[path];
 
@@ -471,12 +497,22 @@ namespace mmria.console.export
 						path_to_csv_writer[grid_name].Table,
 						true,
 						true,
-						false
+						true
 					);
 
+					string[] temp_path = path.Split('/');
+					List<string> form_path_list = new List<string>();
+					for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
+					{
+						form_path_list.Add(temp_path[temp_path_index]);
+						if (temp_path_index == 0)
+						{
+							form_path_list.Add(parent_record_index.ToString());
+						}
 
+					}
 
-					dynamic raw_data = get_value(case_doc as IDictionary<string, object>, path);
+					dynamic raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path));
 					List<object> object_data = raw_data as List<object>;
 
 					if (object_data != null)
@@ -487,6 +523,7 @@ namespace mmria.console.export
 							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
 							grid_row["_id"] = mmria_case_id;
 							grid_row["_record_index"] = i;
+							grid_row["_parent_record_index"] = parent_record_index;
 							foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
 							{
 								foreach (string node in grid_field_set)
