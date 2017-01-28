@@ -91,36 +91,16 @@ namespace mmria.console.export
 			}
 			Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
-			// create header row
-			System.Data.DataColumn column = new System.Data.DataColumn("id", typeof(string));
-			path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(column);
-
-			foreach (string path in path_to_flat_map)
-			{
-				if (
-					path_to_node_map[path].type.ToLower() == "app" ||
-					path_to_node_map[path].type.ToLower() == "form" ||
-					path_to_node_map[path].type.ToLower() == "group" ||
-					path_to_node_map[path].type.ToLower() == "grid"
-
-				  )
-				{
-					continue;
-				}
-
-				switch (path_to_node_map[path].type.ToLower())
-				{
-					case "number":
-						column = new System.Data.DataColumn(path_to_int_map[path].ToString("X"), typeof(double));
-						break;
-					default:
-						column = new System.Data.DataColumn(path_to_int_map[path].ToString("X"), typeof(string));
-						break;
-
-				}
-				path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(column);
-			}
-
+			create_header_row
+			(
+				path_to_int_map,
+				path_to_flat_map,
+				path_to_node_map,
+				path_to_csv_writer["mmria_case_export.csv"].Table,
+				true,
+				false,
+				false
+			);
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
 			{
@@ -217,6 +197,61 @@ namespace mmria.console.export
 
 			path_to_csv_writer["mmria_case_export.csv"].WriteToStream();
 			Console.WriteLine("Export Finished.");
+		}
+
+
+
+		private void create_header_row
+		(
+			System.Collections.Generic.Dictionary<string, int> p_path_to_int_map,
+			System.Collections.Generic.HashSet<string> p_path_to_csv_set,
+			System.Collections.Generic.Dictionary<string, mmria.common.metadata.node> p_path_to_node_map,
+			System.Data.DataTable p_Table,
+			bool p_add_id,
+			bool p_add_record_index,
+			bool p_add_parent_record_index
+		)
+		{
+			System.Data.DataColumn column = null;
+			// create header row
+			if (p_add_id)
+			{
+				column = new System.Data.DataColumn("id", typeof(string));
+				p_Table.Columns.Add(column);
+			}
+
+			if (p_add_record_index)
+			{
+				column = new System.Data.DataColumn("_record_index", typeof(long));
+				p_Table.Columns.Add(column);
+			}
+
+			if (p_add_parent_record_index)
+			{
+				column = new System.Data.DataColumn("_parent_record_index", typeof(long));
+				p_Table.Columns.Add(column);
+			}
+
+			foreach (string path in p_path_to_csv_set)
+			{
+				switch (p_path_to_node_map[path].type.ToLower())
+				{
+					case "app":
+					case "form":
+					case "group":
+					case "grid":
+
+											continue;
+					case "number":
+						column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
+						break;
+					default:
+						column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
+						break;
+
+				}
+				p_Table.Columns.Add(column);
+			}
 		}
 
 
@@ -394,11 +429,11 @@ namespace mmria.console.export
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				/*
-				if (path[1] == "abnormal_conditions_of_newborn")
+
+				if (p_path == "home_record/date_of_death/is_estimated")
 				{
 					System.Console.WriteLine("break");
-				}*/
+				}
 
 
 				for (int i = 0; i < path.Length; i++)
