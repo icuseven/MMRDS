@@ -102,8 +102,6 @@ namespace mmria.console.export
 				{
 					mutiform_grid_set.Add(kvp.Value);
 				}
-
-
 			}
 
 			foreach (KeyValuePair<string, string> kvp in path_to_grid_map)
@@ -115,10 +113,17 @@ namespace mmria.console.export
 				{
 					flat_grid_set.Add(kvp.Value);
 				}
-
 			}
 
-
+			/*
+			System.Collections.Generic.HashSet<string> mutiform_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
+			{
+				if (!mutiform_set.Contains(kvp.Value))
+				{
+					mutiform_set.Add(kvp.Value);
+				}
+			}*/
 
 			int stream_file_count = 0;
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
@@ -244,8 +249,6 @@ namespace mmria.console.export
 							false
 						);
 
-
-
 						dynamic raw_data = get_value(case_doc as IDictionary<string, object>, path);
 						List<object> object_data = raw_data as List<object>;
 
@@ -288,6 +291,140 @@ namespace mmria.console.export
 				}
 				// flat grid - end
 
+
+				// multiform - start
+				foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
+				{
+					HashSet<string> form_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+					foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(kvp.Key) && x.Key != kvp.Key))
+					{
+						form_field_set.Add(ptgm.Key);
+					}
+
+
+					foreach (KeyValuePair<string, string> ptgm in path_to_grid_map)
+					{
+						form_field_set.RemoveWhere( x=> x.StartsWith(ptgm.Key, StringComparison.InvariantCultureIgnoreCase));
+
+					}
+
+
+
+					create_header_row
+					(
+						path_to_int_map,
+						form_field_set,
+						path_to_node_map,
+						path_to_csv_writer[kvp.Value].Table,
+						true,
+						true,
+						false
+					);
+
+					dynamic form_raw_data = get_value(case_doc as IDictionary<string, object>, kvp.Key);
+					List<object> form_object_data = form_raw_data as List<object>;
+
+					if (form_object_data != null)
+					for (int i = 0; i < form_object_data.Count; i++)
+					{
+						//IDictionary<string, object> form_item_row = form_object_data[i] as IDictionary<string, object>;
+
+						System.Data.DataRow form_row = path_to_csv_writer[kvp.Value].Table.NewRow();
+						form_row["_id"] = mmria_case_id;
+						form_row["_record_index"] = i;
+
+						foreach (string path in form_field_set)
+						{
+							if (
+								path_to_node_map[path].type.ToLower() == "app" ||
+								path_to_node_map[path].type.ToLower() == "form" ||
+								path_to_node_map[path].type.ToLower() == "group"||
+								path_to_node_map[path].type.ToLower() == "grid"
+
+							  )
+							{
+								continue;
+							}
+
+							System.Console.WriteLine("path {0}", path);
+
+							string[] temp_path = path.Split('/');
+							List<string> form_path_list = new List<string>();
+							for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
+							{
+								form_path_list.Add(temp_path[temp_path_index]);
+								if (temp_path_index == 0)
+								{
+									form_path_list.Add(i.ToString());
+								}
+
+							}
+
+							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
+							{
+								System.Console.Write("pause");
+							}
+
+							dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/",form_path_list));
+							/*
+							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
+							{
+								System.Console.Write("pause");
+							}
+							*/
+
+							switch (path_to_node_map[path].type.ToLower())
+							{
+
+								case "number":
+									if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
+									{
+										form_row[path_to_int_map[path].ToString("X")] = val;
+									}
+									break;
+								case "list":
+
+									if
+										(path_to_node_map[path].is_multiselect != null &&
+									   path_to_node_map[path].is_multiselect == true
+
+									  )
+									{
+
+										IList<object> temp = val as IList<object>;
+										if (temp != null && temp.Count > 0)
+										{
+
+											form_row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+										}
+									}
+									else
+									{
+										if (val != null)
+										{
+											form_row[path_to_int_map[path].ToString("X")] = val;
+										}
+									}
+
+									break;
+								default:
+									if (val != null)
+									{
+										form_row[path_to_int_map[path].ToString("X")] = val;
+									}
+									break;
+
+							}
+
+						}
+
+
+						path_to_csv_writer[kvp.Value].Table.Rows.Add(form_row);
+					}
+				}
+
+				// multiform - end
 
 			}
 
