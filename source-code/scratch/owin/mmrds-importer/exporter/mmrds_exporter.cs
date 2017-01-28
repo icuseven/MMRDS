@@ -81,7 +81,7 @@ namespace mmria.console.export
 			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
 			generate_path_map
-			(	metadata, "", "mmria_case_export", "",
+			(	metadata, "", "mmria_case_export.csv", "",
 				path_to_int_map,
 			 	path_to_file_name_map,
 			 	path_to_node_map,
@@ -92,6 +92,33 @@ namespace mmria.console.export
 				 false,
 			 	path_to_flat_map
 			);
+
+			System.Collections.Generic.HashSet<string> flat_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			System.Collections.Generic.HashSet<string> mutiform_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+			foreach (KeyValuePair<string, string> kvp in path_to_grid_map)
+			{
+				if (grid_to_multi_form_map.ContainsKey(kvp.Key))
+				{
+					mutiform_grid_set.Add(kvp.Value);
+				}
+
+
+			}
+
+			foreach (KeyValuePair<string, string> kvp in path_to_grid_map)
+			{
+				if (
+					!mutiform_grid_set.Contains(kvp.Value) &&
+					!flat_grid_set.Contains(kvp.Value)
+				)
+				{
+					flat_grid_set.Add(kvp.Value);
+				}
+
+			}
+
+
 
 			int stream_file_count = 0;
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
@@ -122,23 +149,21 @@ namespace mmria.console.export
 				}
 				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
 				string mmria_case_id = case_doc["_id"].ToString();
-				row["id"] = mmria_case_id;
+				row["_id"] = mmria_case_id;
 
-				int max = 0;
 				foreach (string path in path_to_flat_map)
 				{
-					if(
+					if (
 						path_to_node_map[path].type.ToLower() == "app" ||
 						path_to_node_map[path].type.ToLower() == "form" ||
-						path_to_node_map[path].type.ToLower() == "group" ||
-						path_to_node_map[path].type.ToLower() == "grid"
+						path_to_node_map[path].type.ToLower() == "group"
 
 					  )
 					{
 						continue;
 					}
 
-					
+						 
 					System.Console.WriteLine("path {0}", path);
 
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
@@ -192,21 +217,89 @@ namespace mmria.console.export
 
 					}
 
-					/*
-					System.Console.WriteLine(val);
-					max += 1;
-					if (max > 5)
-					{
-						break;
-					}*/
 				}
 				path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
-
-
 				//break;
+
+				foreach(KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
+				{
+					string path = ptn.Key;
+
+
+					if (flat_grid_set.Contains(path_to_grid_map[path]))
+					{
+						string grid_name = path_to_grid_map[path];
+
+
+						HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+						foreach (KeyValuePair<string,mmria.common.metadata.node> ptgm in path_to_node_map.Where( x=> x.Key.StartsWith(path) && x.Key != path))
+						{
+							grid_field_set.Add(ptgm.Key);
+						}
+
+						create_header_row
+						(
+							path_to_int_map,
+							grid_field_set,
+							path_to_node_map,
+							path_to_csv_writer[grid_name].Table,
+							true,
+							true,
+							false
+						);
+
+
+
+						dynamic raw_data = get_value(case_doc as IDictionary<string, object>, path);
+						List<object> object_data = raw_data as List<object>;
+
+						if(object_data != null)
+						for (int i = 0; i < object_data.Count; i++)
+						{
+							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+
+							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+							grid_row["_id"] = mmria_case_id;
+							grid_row["_record_index"] = i;
+							foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
+							{
+								foreach (mmria.common.metadata.node node in path_to_node_map[kvp.Key].children)
+								{
+									try
+									{
+										dynamic val = grid_item_row[node.name];
+										if (val != null)
+										{
+											if (node.type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
+											{
+													row[path_to_int_map[path].ToString("X")] = val;
+											}
+											else
+											{
+												row[path_to_int_map[path].ToString("X")] = val;
+											}
+										}
+									}
+									catch (Exception ex)
+									{
+
+									}
+								}
+							}
+							path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+						}
+					}
+
+				}
+
+
 			}
 
-			path_to_csv_writer["mmria_case_export.csv"].WriteToStream();
+			foreach (KeyValuePair<string, WriteCSV> kvp in path_to_csv_writer)
+			{
+				kvp.Value.WriteToStream();
+			}
 			Console.WriteLine("Export Finished.");
 		}
 
@@ -223,11 +316,16 @@ namespace mmria.console.export
 			bool p_add_parent_record_index
 		)
 		{
+			if (p_Table.Columns.Count > 0)
+			{
+				return;
+			}
+
 			System.Data.DataColumn column = null;
 			// create header row
 			if (p_add_id)
 			{
-				column = new System.Data.DataColumn("id", typeof(string));
+				column = new System.Data.DataColumn("_id", typeof(string));
 				p_Table.Columns.Add(column);
 			}
 
@@ -305,7 +403,7 @@ namespace mmria.console.export
 
 		private void generate_path_map
 		(
-			mmria.common.metadata.node p_metadata, 
+			mmria.common.metadata.node p_metadata,
 			string p_path,
 			string p_file_name,
 			string p_form_path,
@@ -321,11 +419,11 @@ namespace mmria.console.export
 		)
 		{
 
-
+			/*
 			if (p_path == "death_certificate/causes_of_death")
 			{
 				System.Console.Write("break");
-			}
+			}*/
 
 			bool is_flat_map = true;
 			bool is_grid = false;
@@ -350,10 +448,14 @@ namespace mmria.console.export
 				else
 				{*/
 
-					file_name = this.convert_path_to_file_name(p_path);
-					
+				file_name = this.convert_path_to_file_name(p_path);
+
 				p_path_to_grid_map.Add(p_path, file_name);
-				p_multi_form_to_grid_map.Add(p_path, form_path);
+
+				if (p_is_multiform_context)
+				{
+					p_multi_form_to_grid_map.Add(p_path, form_path);
+				}
 				//}
 
 			}
@@ -364,7 +466,7 @@ namespace mmria.console.export
 
 			if (p_metadata.type.ToLower() == "form" && (p_metadata.cardinality == "*" || p_metadata.cardinality == "+"))
 			{
-				
+
 				is_flat_map = false;
 				file_name = this.convert_path_to_file_name(p_path);
 				form_path = p_path;
@@ -376,7 +478,7 @@ namespace mmria.console.export
 				is_multiform = p_is_multiform_context;
 			}
 
-			if (is_flat_map)
+			if (is_flat_map && !(is_multiform || is_grid || p_is_grid_context || p_is_multiform_context))
 			{
 				p_path_to_flat_map.Add(p_path);
 			}
@@ -478,11 +580,11 @@ namespace mmria.console.export
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-
+				/*
 				if (p_path == "home_record/date_of_death/is_estimated")
 				{
 					System.Console.WriteLine("break");
-				}
+				}*/
 
 
 				for (int i = 0; i < path.Length; i++)
