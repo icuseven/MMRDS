@@ -22,7 +22,7 @@ var g_ui = {
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
-
+	document.getElementById('report_output_id').innerHTML = "";
 	load_values();
 });
 
@@ -65,17 +65,147 @@ function generate_report_click()
 	var month_of_case_review = document.getElementById('month_of_case_review').value;
 	var  year_of_case_review = document.getElementById('year_of_case_review').value;
 
-	document.getElementById('report_output_id').innerHTML ="process rows: "  + g_data.length;
+	var data = process_rows();
+	var ui_render = render_results(data);
+	console.log(data);
+
+	document.getElementById('report_output_id').innerHTML = ui_render.join("");
 }
 
 
 function process_rows()
 {
+	var result = create_summary_row(g_data[1].value);
+
+
 	for(var i = 0; i < g_data.length; i++)
 	{
-		var current_row = g_data[i];
+		var current_row = g_data[i].value;
+		create_detail_row(result, current_row);
 	}
 	
+
+	return result;
+}
+
+
+function render_results(p_data)
+{
+	var result = [];
+	for(var i in p_data)
+	{
+		if(!p_data.hasOwnProperty(i)) continue;
+		result.push("<p>");
+		result.push(i);
+		result.push("<ul>");
+		for(var j in p_data[i])
+		{
+			if(! p_data[i].hasOwnProperty(j)) continue;
+			result.push("<p>");
+			if(j)
+			{
+				result.push(j);
+			}
+			else
+			{
+				result.push("blank");
+			}
+			result.push(" : ");
+			result.push(p_data[i][j]);
+			result.push("</p>");
+		}
+		result.push("</ul></p>");
+
+	}
+
+	return result;
+}
+
+function create_summary_row(p_row)
+{
+	var result = {};
+
+	for(var i in p_row)
+	{
+		if(!p_row.hasOwnProperty(i)) continue;
+
+		if(i!= "id")
+		{
+			result[i] = {};
+		}
+	}
+
+	return result;
+}
+
+function create_detail_row(p_summary, p_row)
+{
+	var result = {};
+
+	for(var i in p_row)
+	{
+		if(!p_row.hasOwnProperty(i)) continue;
+
+		if(i!= "id")
+		{
+
+			if(p_summary[i][p_row[i]])
+			{
+				
+				if((i == "date_of_review" || i == "dc_date_of_death") && p_row[i])
+				{
+					var val = new Date(p_row[i]);
+					var key = [];
+					key.push(val.getFullYear());
+					key.push(pad(val.getMonth()+1,2));
+					key.push(pad(val.getDate(),2));
+
+					var whole_key = key.join("-");
+					if(p_summary[i][whole_key])
+					{
+						p_summary[i][whole_key]++;
+					}
+					else
+					{
+						p_summary[i][whole_key] = 1;
+					}
+				}
+				else
+				{
+					p_summary[i][p_row[i]]++;
+				}
+				
+			}
+			else
+			{
+				if((i == "date_of_review" || i == "dc_date_of_death") && p_row[i])
+				{
+					var val = new Date(p_row[i]);
+					var key = [];
+					key.push(val.getFullYear());
+					key.push(pad(val.getMonth()+1,2));
+					key.push(pad(val.getDate(),2));
+
+					var whole_key = key.join("-");
+					
+					p_summary[i][whole_key] = 1;
+				}
+				else
+				{
+					p_summary[i][p_row[i]] = 1;
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
+function pad(n, width) 
+{
+  z = '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
 
