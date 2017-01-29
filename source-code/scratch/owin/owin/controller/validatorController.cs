@@ -11,7 +11,13 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get() 
+
+		public System.Dynamic.ExpandoObject Get()
+		{
+			return this.Get(null);
+		}
+
+		public System.Dynamic.ExpandoObject Get(string p_uid) 
 		{ 
 			try
 			{
@@ -93,9 +99,16 @@ namespace mmria.server
 		}
 
 
+		[Route]
+		public bool Post()
+		{
+			return this.Post(null);
+		}
+
+
 		// POST api/values 
 		[Route]
-		public bool Post() 
+		public bool Post(string p_uid) 
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;

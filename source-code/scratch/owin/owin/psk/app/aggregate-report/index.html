@@ -146,11 +146,10 @@
     <tr><td colspan=3>&nbsp;</td></tr>
     <tr>
       <td colspan=3 align=right>
-        <input type=button value="generate report"/>
+        <input disabled type=button id="generate_report_button" value="generate report" onclick="generate_report_click()"/>
       </td> 
       </tr>
   </table>
-<p>http://db1.mmria.org/mmrds/_design/aggregate_report/_view/all</p>
 
 <p>Total Number of Cases by Pregnancy Relatedness
 <ul>
@@ -168,6 +167,7 @@ committee_review/pregnancy_relatedness = Not Pregnancy Related or Associated
 committee_review/pregnancy_relatedness = Unable to Determine if Pregnancy Related or Associated
 
 
+<div id="report_output_id"></div>
 
 Number of Pregnancy Related Deaths by Race-Ethnicity
 

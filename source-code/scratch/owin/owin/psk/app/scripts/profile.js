@@ -42,8 +42,7 @@ initialize_profile: function ()
 {
 	var current_auth_session = this.get_auth_session_cookie();
 
-	//if(current_auth_session)
-	if(false)
+	if(current_auth_session)
 	{
 		var url =  location.protocol + '//' + location.host + "/api/session";
 
@@ -66,7 +65,7 @@ initialize_profile: function ()
 			valid_login = json_response.userCTX.name != null;
 			if(valid_login)
 			{
-				profile.is_logged_in = true;
+				profile.is_logged_in = false;
 				profile.user_name = json_response.userCTX.name;
 				profile.user_roles = json_response.userCTX.roles;
 				profile.auth_session = current_auth_session;
@@ -74,10 +73,11 @@ initialize_profile: function ()
 
 				profile.set_auth_session_cookie(current_auth_session);
 
+				/*
 				if(profile.on_login_call_back)
 				{
 					profile.on_login_call_back();
-				}
+				}*/
 			}
 			else
 			{
@@ -106,9 +106,9 @@ initialize_profile: function ()
 	}
 	else
 	{
-		//profile.try_session_login();
+		profile.try_session_login();
 		//document.getElementById('profile_content_id').innerHTML = "";
-		profile.render();
+		//profile.render();
 
 	}
 },

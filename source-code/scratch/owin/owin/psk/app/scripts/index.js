@@ -870,6 +870,18 @@ function open_blank_version(p_section)
 	}, 1000);	
 }
 
+
+function open_aggregate_report_version(p_section)
+{
+
+	var report_window = window.open('./aggregate-report','_aggregate_report',null,false);
+
+	window.setTimeout(function()
+	{
+		report_window.load_data(profile.user_name, profile.password)
+	}, 1000);	
+}
+
 function add_new_form_click(p_metadata_path, p_object_path)
 {
   console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);

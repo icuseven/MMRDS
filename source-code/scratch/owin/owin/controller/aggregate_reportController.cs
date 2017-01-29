@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace mmria.server
 {
-	public class metadataController: ApiController 
+	public class aggregate_reportController: ApiController 
 	{ 
 		private string couchdb_url = null;
 		private string file_root_folder = null;
 
-		public metadataController()
+		public aggregate_reportController()
 		{
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
@@ -38,9 +38,7 @@ namespace mmria.server
 			System.Dynamic.ExpandoObject json_result = null;
 			try
 			{
-
-				//"2016-06-12T13:49:24.759Z"
-				string request_string = this.get_couch_db_url() + "/metadata/2016-06-12T13:49:24.759Z";
+				string request_string = this.get_couch_db_url() + "/mmrds/_design/aggregate_report/_view/all";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
