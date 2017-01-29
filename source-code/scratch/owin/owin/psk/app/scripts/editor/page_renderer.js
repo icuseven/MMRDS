@@ -57,12 +57,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</table>");
 		break;
     case 'group':
-/*
-		if(p_group_level == 1)
-		{
-				result.push("<div class='row'>");
-				result.push("<div class='col-sm-4'>");
-		}*/
 		result.push("<h3 id='");
 		result.push(p_metadata.name);
 		result.push("_id' class='group'>");
@@ -74,14 +68,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
-			/*
-			if(current_column >= 3)
-			{
-				current_column = 0;
-				// close rows
-				result.push("</div>");
-				result.push("<div class='row'>");
-			}*/
 
 			if(p_group_level > 2)
 			{
@@ -89,10 +75,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			else
 			{
-				//result.push("<div class='col-sm-4'>");
 				if(child.type=="group")
 				{
-					//group_stack.push(child);
+
 					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
 				}
 				else
@@ -101,17 +86,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				
 				current_column += 1;
-				//result.push("</div>");
-			}
 
+			}
 		}
-/*
-		if(p_group_level == 1)
-		{
-				result.push("</div>");
-				result.push("</div>");
-		}
-*/
 		break;
     case 'form':
 		if(
@@ -162,12 +139,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("\">");
 					result.push('record ');
 					result.push(i + 1);
-					/*
-					for(var j = 0; j < p_metadata.children.length && j < 5; j++)
-					{
-						result.push(item[p_metadata.children[j].name]);
-						result.push(' ');
-					}*/
+		
 					result.push('</a>');
 					result.push('</div>');
 				}
@@ -175,9 +147,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push('		</div>');
 			result.push("</section>");
-
-
-			
 
 			if(p_ui.url_state.path_array.length > 2)
 			{
@@ -210,15 +179,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					{
 						p_data[data_index][child.name] = create_default_object(child, {})[child.name];
 					}
-/*
-					if(current_column >= 3 || g_metadata_summary[p_metadata_path].group_level < 1)
-					{
-						// close rows
-						current_column = 0;
-						result.push("</div>");
-						result.push("<div class='row'>");
-					}
-					result.push("<div class='col-sm-4'>");*/
+
 					if(child.type=="group")
 					{
 						Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 1, 0, current_column));
@@ -259,20 +220,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(g_data && p_metadata.name == "case_narrative")
 			{
 				//death_certificate/reviewer_note
-				result.push("<h3>death_certificate/reviewer_note</h3>");
+				result.push("<h3>Death Certificate Reviewer_Note</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.death_certificate.reviewer_note);
 				result.push("</textarea>");
 
 				//birth_fetal_death_certificate_parent/reviewer_note
-				result.push("<h3>birth_fetal_death_certificate_parent/reviewer_note</h3>");
+				result.push("<h3>Birth Fetal Death Dertificate Parent Reviewer Note</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
 				result.push("</textarea>");
 
 				
 				//birth_certificate_infant_fetal_section/reviewer_note
-				result.push("<h3>birth_certificate_infant_fetal_section/reviewer_note</h3>");
+				result.push("<h3>Birth Certificate Infant Fetal Section Reviewer Note</h3>");
 				for(var i = 0; i < g_data.birth_certificate_infant_fetal_section.length; i++)
 				{
 					result.push("<textarea cols=80 rows=7>");
@@ -281,14 +242,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				
 				//autopsy_report/reviewer_note
-				result.push("<h3>autopsy_report/reviewer_note</h3>");
+				result.push("<h3>Autopsy Report Reviewer Note</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.autopsy_report.reviewer_note);
 				result.push("</textarea>");
 
 				
 				//prenatal/reviewer_note
-				result.push("<h3>prenatal/reviewer_note</h3>");
+				result.push("<h3>Prenatal Reviewer Note</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.prenatal.reviewer_note);
 				result.push("</textarea>");
@@ -296,33 +257,45 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				
 				//er_visit_and_hospital_medical_records/reviewer_note
-				result.push("<h3>er_visit_and_hospital_medical_records/reviewer_note</h3>");
+				result.push("<h3>ER Visit and Hospital Medical Records Reviewer Note</h3>");
 				for(var i = 0; i < g_data.er_visit_and_hospital_medical_records.length; i++)
 				{
+					result.push("<p>Note: ");
+					result.push(i+1);
+					result.push("<br/>");
 					result.push("<textarea cols=80 rows=7>");
 					result.push(g_data.er_visit_and_hospital_medical_records[i].reviewer_note);
 					result.push("</textarea>");
+					result.push("</p>");
 				}
 				
 				//other_medical_office_visits/reviewer_note
-				result.push("<h3>other_medical_office_visits/reviewer_note</h3>");
-				for(var i = 0; i < g_data.er_visit_and_hospital_medical_records.length; i++)
+				result.push("<h3>Other Medical Office Visits Reviewer Note</h3>");
+				for(var i = 0; i < g_data.other_medical_office_visits.length; i++)
 				{
+					result.push("<p>Note: ");
+					result.push(i+1);
+					result.push("<br/>");
 					result.push("<textarea cols=80 rows=7>");
-					result.push(g_data.er_visit_and_hospital_medical_records[i].reviewer_note);
+					result.push(g_data.other_medical_office_visits[i].reviewer_note);
 					result.push("</textarea>");
+					result.push("</p>");
 				}
 ///medical_transport/transport_narrative_summary
-				result.push("<h3>medical_transport/transport_narrative_summary</h3>");
+				result.push("<h3>Medical Transport/Transport Narrative Summary</h3>");
 				for(var i = 0; i < g_data.medical_transport.length; i++)
 				{
+					result.push("<p>Note: ");
+					result.push(i+1);
+					result.push("<br/>");
 					result.push("<textarea cols=80 rows=7>");
 					result.push(g_data.medical_transport[i].transport_narrative_summary);
 					result.push("</textarea>");
+					result.push("</p>");
 				}
 				
 				//social_and_environmental_profile/reviewer_note
-				result.push("<h3>social_and_environmental_profile/reviewer_note</h3>");
+				result.push("<h3>Social and Environmental Profile Reviewer Note</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.social_and_environmental_profile.reviewer_note);
 				result.push("</textarea>");
@@ -1316,7 +1289,15 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 
 	p_result.push("<textarea  class='");
 	p_result.push(p_metadata.type.toLowerCase());
-	p_result.push("'<textarea'  rows=5 cols=40 name='");
+	//hack
+	if(p_metadata.name == "case_opening_overview")
+	{
+		p_result.push("'<textarea'  rows=5 cols=80 name='");
+	}
+	else
+	{
+		p_result.push("'<textarea'  rows=5 cols=40 name='");
+	}
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
 
