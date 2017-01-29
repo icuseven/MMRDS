@@ -11,6 +11,8 @@ namespace mmria.console.import
 		private string auth_token = null;
 		private string user_name = null;
 		private string password = null;
+		private string database_path = null;
+		private string mmria_url = null;
 
 		public mmrds_importer()
 		{
@@ -19,7 +21,7 @@ namespace mmria.console.import
 		}
 		public void Execute(string[] args)
 		{
-			var mmria_server = new mmria_server_api_client();
+			
 
 
 			if (args.Length > 1)
@@ -27,17 +29,29 @@ namespace mmria.console.import
 				for (var i = 1; i < args.Length; i++)
 				{
 					string arg = args[i];
+					int index = arg.IndexOf(':');
+					string val = arg.Substring(index + 1, arg.Length - (index + 1));
+
 					if (arg.ToLower().StartsWith("auth_token"))
 					{
-						this.auth_token = arg.Split(':')[1];
+						this.auth_token = val;
 					}
 					else if (arg.ToLower().StartsWith("user_name"))
 					{
-						this.user_name = arg.Split(':')[1];
+						this.user_name = val;
 					}
 					else if (arg.ToLower().StartsWith("password"))
 					{
-						this.password = arg.Split(':')[1];
+						this.password = val;
+					}
+					else if (arg.ToLower().StartsWith("database"))
+					{
+						
+						this.database_path = val;
+					}
+					else if (arg.ToLower().StartsWith("url"))
+					{
+						this.mmria_url = val;
 					}
 				}
 			}
@@ -57,6 +71,9 @@ namespace mmria.console.import
 					return;
 				}
 			}*/
+
+			var mmria_server = new mmria_server_api_client(this.mmria_url);
+			mmria_server.login(this.user_name, this.password);
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
 			var case_maker = new Case_Maker();
@@ -284,9 +301,16 @@ namespace mmria.console.import
 				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
 				System.Console.WriteLine("json\n{0}", json_string);
 
+
+				if (case_data_list.Count == 0)
+				{
+					var result = mmria_server.set_case(json_string);
+				}
 				//var case_request = mmria.common.model.couchdb.
 
 				//return;
+
+
 				case_data_list.Add(case_data);
 			}
 			case_maker.flush_bad_mapping();

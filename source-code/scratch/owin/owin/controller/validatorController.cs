@@ -14,11 +14,6 @@ namespace mmria.server
 
 		public System.Dynamic.ExpandoObject Get()
 		{
-			return this.Get(null);
-		}
-
-		public System.Dynamic.ExpandoObject Get(string p_uid) 
-		{ 
 			try
 			{
 				string request_string = this.get_couch_db_url() + "/mmrds/_all_docs?include_docs=true";

@@ -12,6 +12,9 @@ namespace mmria.console.export
 		private string auth_token = null;
 		private string user_name = null;
 		private string password = null;
+		private string database_path = null;
+		private string database_url = null;
+		private string mmria_url = null;
 
 		public mmrds_exporter()
 		{
@@ -20,25 +23,37 @@ namespace mmria.console.export
 		}
 		public void Execute(string[] args)
 		{
-			var mmria_server = new mmria_server_api_client();
-
-
 			if (args.Length > 1)
 			{
 				for (var i = 1; i < args.Length; i++)
 				{
 					string arg = args[i];
+					int index = arg.IndexOf(':');
+					string val = arg.Substring(index + 1, arg.Length - (index + 1));
+
 					if (arg.ToLower().StartsWith("auth_token"))
 					{
-						this.auth_token = arg.Split(':')[1];
+						this.auth_token = val;
 					}
 					else if (arg.ToLower().StartsWith("user_name"))
 					{
-						this.user_name = arg.Split(':')[1];
+						this.user_name = val;
 					}
 					else if (arg.ToLower().StartsWith("password"))
 					{
-						this.password = arg.Split(':')[1];
+						this.password = val;
+					}
+					else if (arg.ToLower().StartsWith("database_url"))
+					{
+						this.database_url = val;
+					}
+					else if (arg.ToLower().StartsWith("database"))
+					{
+						this.database_path = val;
+					}
+					else if (arg.ToLower().StartsWith("url"))
+					{
+						this.mmria_url = val;
 					}
 				}
 			}
@@ -59,8 +74,11 @@ namespace mmria.console.export
 				}
 			}*/
 
+			var mmria_server = new mmria_server_api_client(this.mmria_url);
+			mmria_server.login(this.user_name, this.password);
+
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-			dynamic all_cases = get_all_cases(this.user_name, this.password);
+			dynamic all_cases = mmria_server.get_all_cases(this.database_url);
 
 
 
@@ -940,54 +958,7 @@ namespace mmria.console.export
 		}
 
 
-		public dynamic get_all_cases(string p_user_name, string p_password)
-		{
-			/*
-			var credential = new System.Net.NetworkCredential
-			{
-				UserName = "user1",
-				Password = "password"
-			};
 
-			var httpClientHandler = new System.Net.Http.HttpClientHandler
-			{
-				Credentials = credential,
-				PreAuthenticate = false,
-				Proxy = new WebProxy("http://127.0.0.1:8888"),
-                UseProxy = true,
-			};
-
-			HttpClient client = new HttpClient(httpClientHandler);
-			*/
-
-			System.Dynamic.ExpandoObject result = null;
-			string URL = "http://db1.mmria.org/mmrds/_all_docs";
-			string urlParameters = "?include_docs=true";
-
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
-
-			var byteArray = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", p_user_name, p_password));
-			client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
-
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
-			{
-				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<System.Dynamic.ExpandoObject>().Result;
-			}
-			else
-			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
-
-			return result;
-		}
 
 		public mmria.common.metadata.app get_metadata()
 		{

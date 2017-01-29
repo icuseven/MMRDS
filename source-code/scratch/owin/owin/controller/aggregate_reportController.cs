@@ -27,12 +27,6 @@ namespace mmria.server
 
 		public System.Dynamic.ExpandoObject Get()
 		{
-			return this.Get(null);
-		}
-
-
-		public System.Dynamic.ExpandoObject  Get(string p_uid) 
-		{ 
 			System.Console.WriteLine ("Recieved message.");
 			string result = null;
 			System.Dynamic.ExpandoObject json_result = null;

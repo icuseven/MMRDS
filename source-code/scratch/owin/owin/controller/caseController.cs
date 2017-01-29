@@ -100,6 +100,8 @@ namespace mmria.server
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
 			System.Dynamic.ExpandoObject  queue_request = null;
+			string auth_session_token = null;
+
 			string object_string = null;
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
@@ -160,10 +162,10 @@ namespace mmria.server
 
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
-					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+					string[] auth_session_token_array = this.Request.Headers.GetValues("Cookie").First().Split('=');
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token_array[1]);
+					auth_session_token = auth_session_token_array[1];
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token);
 				}
 
 				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
@@ -185,6 +187,7 @@ namespace mmria.server
 					}
 					catch(Exception ex)
 					{
+						Console.Write("auth_session_token: {0}", auth_session_token);
 						Console.WriteLine (ex);
 					}
 				}
@@ -197,6 +200,7 @@ namespace mmria.server
 			}
 			catch(Exception ex) 
 			{
+				Console.Write("auth_session_token: {0}", auth_session_token);
 				Console.WriteLine (ex);
 			}
 
