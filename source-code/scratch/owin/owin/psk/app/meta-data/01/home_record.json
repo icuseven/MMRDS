@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "106-4b1e0296a2392ddedae353a4d7dc3cd8",
+  "_rev": "424-6b2f5fe781ce63fb0ba86837a7e32537",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -32,12 +32,385 @@
       "cardinality": "1",
       "children": [
         {
+          "prompt": "First Name",
+          "name": "first_name",
+          "type": "string",
+          "is_required": true
+        },
+        {
+          "prompt": "Middle Name",
+          "name": "middle_name",
+          "type": "string"
+        },
+        {
+          "prompt": "Last Name",
+          "name": "last_name",
+          "type": "string",
+          "is_required": true,
+          "onblur": {
+            "type": "Program",
+            "body": [
+              {
+                "type": "FunctionDeclaration",
+                "id": {
+                  "type": "Identifier",
+                  "name": "x12aa_ob"
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "x"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "console"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "log"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "x"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "value"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "console"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "log"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Literal",
+                            "value": "test",
+                            "raw": "'test'"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false
+              }
+            ],
+            "sourceType": "script"
+          }
+        },
+        {
+          "prompt": "Date of Death*",
+          "name": "date_of_death",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Month",
+              "name": "month",
+              "type": "number"
+            },
+            {
+              "prompt": "Day",
+              "name": "day",
+              "type": "number"
+            },
+            {
+              "prompt": "Year",
+              "name": "year",
+              "type": "number",
+              "is_core_summary": true,
+              "is_required": true
+            },
+            {
+              "prompt": "Estimate",
+              "name": "is_estimated",
+              "type": "boolean"
+            }
+          ]
+        },
+        {
+          "prompt": "State of Death Record*",
+          "name": "state_of_death_record",
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "AL- Alabama"
+            },
+            {
+              "description": "",
+              "value": "AK- Alaska"
+            },
+            {
+              "description": "",
+              "value": "AZ- Arizona"
+            },
+            {
+              "description": "",
+              "value": "AR- Arkansas"
+            },
+            {
+              "description": "",
+              "value": "CA- California"
+            },
+            {
+              "description": "",
+              "value": "CO- Colorado"
+            },
+            {
+              "description": "",
+              "value": "CT- Connecticut"
+            },
+            {
+              "description": "",
+              "value": "DE- Delaware"
+            },
+            {
+              "description": "",
+              "value": "DC- District of Columbia"
+            },
+            {
+              "description": "",
+              "value": "FL- Florida"
+            },
+            {
+              "description": "",
+              "value": "GA- Georgia"
+            },
+            {
+              "description": "",
+              "value": "HI- Hawaii"
+            },
+            {
+              "description": "",
+              "value": "ID- Idaho"
+            },
+            {
+              "description": "",
+              "value": "IL- Illinois"
+            },
+            {
+              "description": "",
+              "value": "IN- Indiana"
+            },
+            {
+              "description": "",
+              "value": "IA- Iowa"
+            },
+            {
+              "description": "",
+              "value": "KS- Kansas"
+            },
+            {
+              "description": "",
+              "value": "KY- Kentucky"
+            },
+            {
+              "description": "",
+              "value": "LA- Louisiana"
+            },
+            {
+              "description": "",
+              "value": "ME- Maine"
+            },
+            {
+              "description": "",
+              "value": "MD- Maryland"
+            },
+            {
+              "description": "",
+              "value": "MA- Massachusetts"
+            },
+            {
+              "description": "",
+              "value": "MI- Michigan"
+            },
+            {
+              "description": "",
+              "value": "MN- Minnesota"
+            },
+            {
+              "description": "",
+              "value": "MS- Mississippi"
+            },
+            {
+              "description": "",
+              "value": "MO- Missouri"
+            },
+            {
+              "description": "",
+              "value": "MT- Montana"
+            },
+            {
+              "description": "",
+              "value": "NE- Nebraska"
+            },
+            {
+              "description": "",
+              "value": "NV- Nevada"
+            },
+            {
+              "description": "",
+              "value": "NH- New Hampshire"
+            },
+            {
+              "description": "",
+              "value": "NJ- New Jersey"
+            },
+            {
+              "description": "",
+              "value": "NM- New Mexico"
+            },
+            {
+              "description": "",
+              "value": "NY- New York"
+            },
+            {
+              "description": "",
+              "value": "NC- North Carolina"
+            },
+            {
+              "description": "",
+              "value": "ND- North Dakota"
+            },
+            {
+              "description": "",
+              "value": "OH- Ohio"
+            },
+            {
+              "description": "",
+              "value": "OK- Oklahoma"
+            },
+            {
+              "description": "",
+              "value": "OR- Oregon"
+            },
+            {
+              "description": "",
+              "value": "PA- Pennsylvania"
+            },
+            {
+              "description": "",
+              "value": "RI- Rhode Island"
+            },
+            {
+              "description": "",
+              "value": "SC- South Carolina"
+            },
+            {
+              "description": "",
+              "value": "SD- South Dakota"
+            },
+            {
+              "description": "",
+              "value": "TN- Tennessee"
+            },
+            {
+              "description": "",
+              "value": "TX- Texas"
+            },
+            {
+              "description": "",
+              "value": "UT- Utah"
+            },
+            {
+              "description": "",
+              "value": "VT- Vermont"
+            },
+            {
+              "description": "",
+              "value": "VA- Virginia"
+            },
+            {
+              "description": "",
+              "value": "WA- Washington"
+            },
+            {
+              "description": "",
+              "value": "WV- West Virginia"
+            },
+            {
+              "description": "",
+              "value": "WI- Wisconsin"
+            },
+            {
+              "description": "",
+              "value": "WY- Wyoming"
+            },
+            {
+              "description": "",
+              "value": "AS- American Samoa"
+            },
+            {
+              "description": "",
+              "value": "GU- Guam"
+            },
+            {
+              "description": "",
+              "value": "MH- Marshall Islands"
+            },
+            {
+              "description": "",
+              "value": "MP- Northern Marianas"
+            },
+            {
+              "description": "",
+              "value": "PR- Puerto Rico"
+            },
+            {
+              "description": "",
+              "value": "PW- Palau"
+            },
+            {
+              "description": "",
+              "value": "VI- Virgin Islands"
+            }
+          ],
+          "is_required": true
+        },
+        {
           "prompt": "Record ID*",
           "name": "record_id",
           "type": "string",
           "is_core_summary": true,
           "is_read_only": true,
-          "description": "Record ID is automatically generated: Enter Name, Year of Death, and then click in Record ID field.",
+          "description": "Record ID is automatically generated: Enter First and Last Name, Year of Death, and State of Death Record; then click in Record ID field.",
           "onfocus": {
             "type": "Program",
             "body": [
@@ -45,7 +418,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "f"
+                  "name": "x12b1_of"
                 },
                 "params": [
                   {
@@ -387,374 +760,6 @@
           }
         },
         {
-          "prompt": "First Name",
-          "name": "first_name",
-          "type": "string",
-          "is_required": true
-        },
-        {
-          "prompt": "Middle Name",
-          "name": "middle_name",
-          "type": "string"
-        },
-        {
-          "prompt": "Last Name",
-          "name": "last_name",
-          "type": "string",
-          "is_required": true,
-          "onblur": {
-            "type": "Program",
-            "body": [
-              {
-                "type": "FunctionDeclaration",
-                "id": {
-                  "type": "Identifier",
-                  "name": "f"
-                },
-                "params": [
-                  {
-                    "type": "Identifier",
-                    "name": "x"
-                  }
-                ],
-                "body": {
-                  "type": "BlockStatement",
-                  "body": [
-                    {
-                      "type": "ExpressionStatement",
-                      "expression": {
-                        "type": "CallExpression",
-                        "callee": {
-                          "type": "MemberExpression",
-                          "computed": false,
-                          "object": {
-                            "type": "Identifier",
-                            "name": "console"
-                          },
-                          "property": {
-                            "type": "Identifier",
-                            "name": "log"
-                          }
-                        },
-                        "arguments": [
-                          {
-                            "type": "MemberExpression",
-                            "computed": false,
-                            "object": {
-                              "type": "Identifier",
-                              "name": "x"
-                            },
-                            "property": {
-                              "type": "Identifier",
-                              "name": "value"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "ExpressionStatement",
-                      "expression": {
-                        "type": "CallExpression",
-                        "callee": {
-                          "type": "MemberExpression",
-                          "computed": false,
-                          "object": {
-                            "type": "Identifier",
-                            "name": "console"
-                          },
-                          "property": {
-                            "type": "Identifier",
-                            "name": "log"
-                          }
-                        },
-                        "arguments": [
-                          {
-                            "type": "Literal",
-                            "value": "test",
-                            "raw": "'test'"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                },
-                "generator": false,
-                "expression": false
-              }
-            ],
-            "sourceType": "script"
-          }
-        },
-        {
-          "prompt": "Date of Death*",
-          "name": "date_of_death",
-          "type": "group",
-          "children": [
-            {
-              "prompt": "Month",
-              "name": "month",
-              "type": "number"
-            },
-            {
-              "prompt": "Day",
-              "name": "day",
-              "type": "number"
-            },
-            {
-              "prompt": "Year",
-              "name": "year",
-              "type": "number",
-              "is_core_summary": true,
-              "is_required": true
-            }
-          ]
-        },
-        {
-          "prompt": "State of Death Record*",
-          "name": "state_of_death_record",
-          "type": "list",
-          "values": [
-            {
-              "description": "",
-              "value": ""
-            },
-            {
-              "description": "",
-              "value": "AL- Alabama"
-            },
-            {
-              "description": "",
-              "value": "AK- Alaska"
-            },
-            {
-              "description": "",
-              "value": "AZ- Arizona"
-            },
-            {
-              "description": "",
-              "value": "AR- Arkansas"
-            },
-            {
-              "description": "",
-              "value": "CA- California"
-            },
-            {
-              "description": "",
-              "value": "CO- Colorado"
-            },
-            {
-              "description": "",
-              "value": "CT- Connecticut"
-            },
-            {
-              "description": "",
-              "value": "DE- Delaware"
-            },
-            {
-              "description": "",
-              "value": "DC- District of Columbia"
-            },
-            {
-              "description": "",
-              "value": "FL- Florida"
-            },
-            {
-              "description": "",
-              "value": "GA- Georgia"
-            },
-            {
-              "description": "",
-              "value": "HI- Hawaii"
-            },
-            {
-              "description": "",
-              "value": "ID- Idaho"
-            },
-            {
-              "description": "",
-              "value": "IL- Illinois"
-            },
-            {
-              "description": "",
-              "value": "IN- Indiana"
-            },
-            {
-              "description": "",
-              "value": "IA- Iowa"
-            },
-            {
-              "description": "",
-              "value": "KS- Kansas"
-            },
-            {
-              "description": "",
-              "value": "KY- Kentucky"
-            },
-            {
-              "description": "",
-              "value": "LA- Louisiana"
-            },
-            {
-              "description": "",
-              "value": "ME- Maine"
-            },
-            {
-              "description": "",
-              "value": "MD- Maryland"
-            },
-            {
-              "description": "",
-              "value": "MA- Massachusetts"
-            },
-            {
-              "description": "",
-              "value": "MI- Michigan"
-            },
-            {
-              "description": "",
-              "value": "MN- Minnesota"
-            },
-            {
-              "description": "",
-              "value": "MS- Mississippi"
-            },
-            {
-              "description": "",
-              "value": "MO- Missouri"
-            },
-            {
-              "description": "",
-              "value": "MT- Montana"
-            },
-            {
-              "description": "",
-              "value": "NE- Nebraska"
-            },
-            {
-              "description": "",
-              "value": "NV- Nevada"
-            },
-            {
-              "description": "",
-              "value": "NH- New Hampshire"
-            },
-            {
-              "description": "",
-              "value": "NJ- New Jersey"
-            },
-            {
-              "description": "",
-              "value": "NM- New Mexico"
-            },
-            {
-              "description": "",
-              "value": "NY- New York"
-            },
-            {
-              "description": "",
-              "value": "NC- North Carolina"
-            },
-            {
-              "description": "",
-              "value": "ND- North Dakota"
-            },
-            {
-              "description": "",
-              "value": "OH- Ohio"
-            },
-            {
-              "description": "",
-              "value": "OK- Oklahoma"
-            },
-            {
-              "description": "",
-              "value": "OR- Oregon"
-            },
-            {
-              "description": "",
-              "value": "PA- Pennsylvania"
-            },
-            {
-              "description": "",
-              "value": "RI- Rhode Island"
-            },
-            {
-              "description": "",
-              "value": "SC- South Carolina"
-            },
-            {
-              "description": "",
-              "value": "SD- South Dakota"
-            },
-            {
-              "description": "",
-              "value": "TN- Tennessee"
-            },
-            {
-              "description": "",
-              "value": "TX- Texas"
-            },
-            {
-              "description": "",
-              "value": "UT- Utah"
-            },
-            {
-              "description": "",
-              "value": "VT- Vermont"
-            },
-            {
-              "description": "",
-              "value": "VA- Virginia"
-            },
-            {
-              "description": "",
-              "value": "WA- Washington"
-            },
-            {
-              "description": "",
-              "value": "WV- West Virginia"
-            },
-            {
-              "description": "",
-              "value": "WI- Wisconsin"
-            },
-            {
-              "description": "",
-              "value": "WY- Wyoming"
-            },
-            {
-              "description": "",
-              "value": "AS- American Samoa"
-            },
-            {
-              "description": "",
-              "value": "GU- Guam"
-            },
-            {
-              "description": "",
-              "value": "MH- Marshall Islands"
-            },
-            {
-              "description": "",
-              "value": "MP- Northern Marianas"
-            },
-            {
-              "description": "",
-              "value": "PR- Puerto Rico"
-            },
-            {
-              "description": "",
-              "value": "PW- Palau"
-            },
-            {
-              "description": "",
-              "value": "VI- Virgin Islands"
-            }
-          ],
-          "is_required": true
-        },
-        {
           "prompt": "Location of Last Known Residence",
           "name": "location_of_last_known_residence",
           "type": "list",
@@ -1051,6 +1056,11 @@
             }
           ],
           "is_core_summary": true
+        },
+        {
+          "prompt": "Specify Other or Multiple Sources",
+          "name": "specify_other_multiple_sources",
+          "type": "string"
         },
         {
           "prompt": "Primary Abstractor",
@@ -1731,14 +1741,1280 @@
                   "name": "year",
                   "type": "number",
                   "is_core_summary": true
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
-              ]
+              ],
+              "onblur": {
+                "type": "Program",
+                "body": [
+                  {
+                    "type": "FunctionDeclaration",
+                    "id": {
+                      "type": "Identifier",
+                      "name": "x12d2_ob"
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "name": "control"
+                      }
+                    ],
+                    "body": {
+                      "type": "BlockStatement",
+                      "body": [
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "dateold"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "death_certificate"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "demographics"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_birth"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "datenew"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "death_certificate"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "certificate_identification"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_death"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "IfStatement",
+                          "test": {
+                            "type": "LogicalExpression",
+                            "operator": "&&",
+                            "left": {
+                              "type": "LogicalExpression",
+                              "operator": "&&",
+                              "left": {
+                                "type": "LogicalExpression",
+                                "operator": "&&",
+                                "left": {
+                                  "type": "LogicalExpression",
+                                  "operator": "&&",
+                                  "left": {
+                                    "type": "UnaryExpression",
+                                    "operator": "!",
+                                    "argument": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "isNaN"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "CallExpression",
+                                          "callee": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "Identifier",
+                                                "name": "dateold"
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "year"
+                                              }
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "valueOf"
+                                            }
+                                          },
+                                          "arguments": []
+                                        }
+                                      ]
+                                    },
+                                    "prefix": true
+                                  },
+                                  "right": {
+                                    "type": "UnaryExpression",
+                                    "operator": "!",
+                                    "argument": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "isNaN"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "CallExpression",
+                                          "callee": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "Identifier",
+                                                "name": "dateold"
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "month"
+                                              }
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "valueOf"
+                                            }
+                                          },
+                                          "arguments": []
+                                        }
+                                      ]
+                                    },
+                                    "prefix": true
+                                  }
+                                },
+                                "right": {
+                                  "type": "UnaryExpression",
+                                  "operator": "!",
+                                  "argument": {
+                                    "type": "CallExpression",
+                                    "callee": {
+                                      "type": "Identifier",
+                                      "name": "isNaN"
+                                    },
+                                    "arguments": [
+                                      {
+                                        "type": "CallExpression",
+                                        "callee": {
+                                          "type": "MemberExpression",
+                                          "computed": false,
+                                          "object": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "Identifier",
+                                              "name": "dateold"
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "day"
+                                            }
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "name": "valueOf"
+                                          }
+                                        },
+                                        "arguments": []
+                                      }
+                                    ]
+                                  },
+                                  "prefix": true
+                                }
+                              },
+                              "right": {
+                                "type": "BinaryExpression",
+                                "operator": "instanceof",
+                                "left": {
+                                  "type": "Identifier",
+                                  "name": "datenew"
+                                },
+                                "right": {
+                                  "type": "Identifier",
+                                  "name": "Date"
+                                }
+                              }
+                            },
+                            "right": {
+                              "type": "UnaryExpression",
+                              "operator": "!",
+                              "argument": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isNaN"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "CallExpression",
+                                    "callee": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "datenew"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "valueOf"
+                                      }
+                                    },
+                                    "arguments": []
+                                  }
+                                ]
+                              },
+                              "prefix": true
+                            }
+                          },
+                          "consequent": {
+                            "type": "BlockStatement",
+                            "body": [
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "ynew"
+                                    },
+                                    "init": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "Identifier",
+                                          "name": "datenew"
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "getFullYear"
+                                        }
+                                      },
+                                      "arguments": []
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "mnew"
+                                    },
+                                    "init": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "Identifier",
+                                          "name": "datenew"
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "getMonth"
+                                        }
+                                      },
+                                      "arguments": []
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "dnew"
+                                    },
+                                    "init": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "Identifier",
+                                          "name": "datenew"
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "getDate"
+                                        }
+                                      },
+                                      "arguments": []
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "yold"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "dateold"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "year"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "mold"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "dateold"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "month"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "dold"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "dateold"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "day"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "diff"
+                                    },
+                                    "init": {
+                                      "type": "BinaryExpression",
+                                      "operator": "-",
+                                      "left": {
+                                        "type": "Identifier",
+                                        "name": "ynew"
+                                      },
+                                      "right": {
+                                        "type": "Identifier",
+                                        "name": "yold"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "IfStatement",
+                                "test": {
+                                  "type": "BinaryExpression",
+                                  "operator": ">",
+                                  "left": {
+                                    "type": "Identifier",
+                                    "name": "mold"
+                                  },
+                                  "right": {
+                                    "type": "Identifier",
+                                    "name": "mnew"
+                                  }
+                                },
+                                "consequent": {
+                                  "type": "ExpressionStatement",
+                                  "expression": {
+                                    "type": "UpdateExpression",
+                                    "operator": "--",
+                                    "argument": {
+                                      "type": "Identifier",
+                                      "name": "diff"
+                                    },
+                                    "prefix": false
+                                  }
+                                },
+                                "alternate": {
+                                  "type": "BlockStatement",
+                                  "body": [
+                                    {
+                                      "type": "IfStatement",
+                                      "test": {
+                                        "type": "BinaryExpression",
+                                        "operator": "==",
+                                        "left": {
+                                          "type": "Identifier",
+                                          "name": "mold"
+                                        },
+                                        "right": {
+                                          "type": "Identifier",
+                                          "name": "mnew"
+                                        }
+                                      },
+                                      "consequent": {
+                                        "type": "BlockStatement",
+                                        "body": [
+                                          {
+                                            "type": "IfStatement",
+                                            "test": {
+                                              "type": "BinaryExpression",
+                                              "operator": ">",
+                                              "left": {
+                                                "type": "Identifier",
+                                                "name": "dold"
+                                              },
+                                              "right": {
+                                                "type": "Identifier",
+                                                "name": "dnew"
+                                              }
+                                            },
+                                            "consequent": {
+                                              "type": "ExpressionStatement",
+                                              "expression": {
+                                                "type": "UpdateExpression",
+                                                "operator": "--",
+                                                "argument": {
+                                                  "type": "Identifier",
+                                                  "name": "diff"
+                                                },
+                                                "prefix": false
+                                              }
+                                            },
+                                            "alternate": null
+                                          }
+                                        ]
+                                      },
+                                      "alternate": null
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                  "type": "AssignmentExpression",
+                                  "operator": "=",
+                                  "left": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "Identifier",
+                                          "name": "g_data"
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "death_certificate"
+                                        }
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "demographics"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "age"
+                                    }
+                                  },
+                                  "right": {
+                                    "type": "Identifier",
+                                    "name": "diff"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "alternate": null
+                        }
+                      ]
+                    },
+                    "generator": false,
+                    "expression": false
+                  }
+                ],
+                "sourceType": "script"
+              }
             },
             {
               "prompt": "Age at Death*",
               "name": "age",
               "type": "Number",
-              "is_core_summary": true
+              "is_core_summary": true,
+              "onfocus": {
+                "type": "Program",
+                "body": [
+                  {
+                    "type": "FunctionDeclaration",
+                    "id": {
+                      "type": "Identifier",
+                      "name": "x12d7_of"
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "name": "control"
+                      }
+                    ],
+                    "body": {
+                      "type": "BlockStatement",
+                      "body": [
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "dateold"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "death_certificate"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "demographics"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_birth"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "datenew"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "Identifier",
+                                    "name": "g_data"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "home_record"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_death"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "IfStatement",
+                          "test": {
+                            "type": "LogicalExpression",
+                            "operator": "&&",
+                            "left": {
+                              "type": "LogicalExpression",
+                              "operator": "&&",
+                              "left": {
+                                "type": "LogicalExpression",
+                                "operator": "&&",
+                                "left": {
+                                  "type": "LogicalExpression",
+                                  "operator": "&&",
+                                  "left": {
+                                    "type": "LogicalExpression",
+                                    "operator": "&&",
+                                    "left": {
+                                      "type": "UnaryExpression",
+                                      "operator": "!",
+                                      "argument": {
+                                        "type": "CallExpression",
+                                        "callee": {
+                                          "type": "Identifier",
+                                          "name": "isNaN"
+                                        },
+                                        "arguments": [
+                                          {
+                                            "type": "CallExpression",
+                                            "callee": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "MemberExpression",
+                                                "computed": false,
+                                                "object": {
+                                                  "type": "Identifier",
+                                                  "name": "dateold"
+                                                },
+                                                "property": {
+                                                  "type": "Identifier",
+                                                  "name": "year"
+                                                }
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "valueOf"
+                                              }
+                                            },
+                                            "arguments": []
+                                          }
+                                        ]
+                                      },
+                                      "prefix": true
+                                    },
+                                    "right": {
+                                      "type": "UnaryExpression",
+                                      "operator": "!",
+                                      "argument": {
+                                        "type": "CallExpression",
+                                        "callee": {
+                                          "type": "Identifier",
+                                          "name": "isNaN"
+                                        },
+                                        "arguments": [
+                                          {
+                                            "type": "CallExpression",
+                                            "callee": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "MemberExpression",
+                                                "computed": false,
+                                                "object": {
+                                                  "type": "Identifier",
+                                                  "name": "dateold"
+                                                },
+                                                "property": {
+                                                  "type": "Identifier",
+                                                  "name": "month"
+                                                }
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "valueOf"
+                                              }
+                                            },
+                                            "arguments": []
+                                          }
+                                        ]
+                                      },
+                                      "prefix": true
+                                    }
+                                  },
+                                  "right": {
+                                    "type": "UnaryExpression",
+                                    "operator": "!",
+                                    "argument": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "isNaN"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "CallExpression",
+                                          "callee": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "MemberExpression",
+                                              "computed": false,
+                                              "object": {
+                                                "type": "Identifier",
+                                                "name": "dateold"
+                                              },
+                                              "property": {
+                                                "type": "Identifier",
+                                                "name": "day"
+                                              }
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "valueOf"
+                                            }
+                                          },
+                                          "arguments": []
+                                        }
+                                      ]
+                                    },
+                                    "prefix": true
+                                  }
+                                },
+                                "right": {
+                                  "type": "UnaryExpression",
+                                  "operator": "!",
+                                  "argument": {
+                                    "type": "CallExpression",
+                                    "callee": {
+                                      "type": "Identifier",
+                                      "name": "isNaN"
+                                    },
+                                    "arguments": [
+                                      {
+                                        "type": "CallExpression",
+                                        "callee": {
+                                          "type": "MemberExpression",
+                                          "computed": false,
+                                          "object": {
+                                            "type": "MemberExpression",
+                                            "computed": false,
+                                            "object": {
+                                              "type": "Identifier",
+                                              "name": "datenew"
+                                            },
+                                            "property": {
+                                              "type": "Identifier",
+                                              "name": "year"
+                                            }
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "name": "valueOf"
+                                          }
+                                        },
+                                        "arguments": []
+                                      }
+                                    ]
+                                  },
+                                  "prefix": true
+                                }
+                              },
+                              "right": {
+                                "type": "UnaryExpression",
+                                "operator": "!",
+                                "argument": {
+                                  "type": "CallExpression",
+                                  "callee": {
+                                    "type": "Identifier",
+                                    "name": "isNaN"
+                                  },
+                                  "arguments": [
+                                    {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "MemberExpression",
+                                          "computed": false,
+                                          "object": {
+                                            "type": "Identifier",
+                                            "name": "datenew"
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "name": "month"
+                                          }
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "valueOf"
+                                        }
+                                      },
+                                      "arguments": []
+                                    }
+                                  ]
+                                },
+                                "prefix": true
+                              }
+                            },
+                            "right": {
+                              "type": "UnaryExpression",
+                              "operator": "!",
+                              "argument": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isNaN"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "CallExpression",
+                                    "callee": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "MemberExpression",
+                                        "computed": false,
+                                        "object": {
+                                          "type": "Identifier",
+                                          "name": "datenew"
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "name": "day"
+                                        }
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "valueOf"
+                                      }
+                                    },
+                                    "arguments": []
+                                  }
+                                ]
+                              },
+                              "prefix": true
+                            }
+                          },
+                          "consequent": {
+                            "type": "BlockStatement",
+                            "body": [
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "ynew"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "datenew"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "year"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "mnew"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "datenew"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "month"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "dnew"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "datenew"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "day"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "yold"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "dateold"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "year"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "mold"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "dateold"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "month"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "dold"
+                                    },
+                                    "init": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "dateold"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "day"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "diff"
+                                    },
+                                    "init": {
+                                      "type": "BinaryExpression",
+                                      "operator": "-",
+                                      "left": {
+                                        "type": "Identifier",
+                                        "name": "ynew"
+                                      },
+                                      "right": {
+                                        "type": "Identifier",
+                                        "name": "yold"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "IfStatement",
+                                "test": {
+                                  "type": "BinaryExpression",
+                                  "operator": ">",
+                                  "left": {
+                                    "type": "Identifier",
+                                    "name": "mold"
+                                  },
+                                  "right": {
+                                    "type": "Identifier",
+                                    "name": "mnew"
+                                  }
+                                },
+                                "consequent": {
+                                  "type": "ExpressionStatement",
+                                  "expression": {
+                                    "type": "UpdateExpression",
+                                    "operator": "--",
+                                    "argument": {
+                                      "type": "Identifier",
+                                      "name": "diff"
+                                    },
+                                    "prefix": false
+                                  }
+                                },
+                                "alternate": {
+                                  "type": "BlockStatement",
+                                  "body": [
+                                    {
+                                      "type": "IfStatement",
+                                      "test": {
+                                        "type": "BinaryExpression",
+                                        "operator": "==",
+                                        "left": {
+                                          "type": "Identifier",
+                                          "name": "mold"
+                                        },
+                                        "right": {
+                                          "type": "Identifier",
+                                          "name": "mnew"
+                                        }
+                                      },
+                                      "consequent": {
+                                        "type": "BlockStatement",
+                                        "body": [
+                                          {
+                                            "type": "IfStatement",
+                                            "test": {
+                                              "type": "BinaryExpression",
+                                              "operator": ">",
+                                              "left": {
+                                                "type": "Identifier",
+                                                "name": "dold"
+                                              },
+                                              "right": {
+                                                "type": "Identifier",
+                                                "name": "dnew"
+                                              }
+                                            },
+                                            "consequent": {
+                                              "type": "ExpressionStatement",
+                                              "expression": {
+                                                "type": "UpdateExpression",
+                                                "operator": "--",
+                                                "argument": {
+                                                  "type": "Identifier",
+                                                  "name": "diff"
+                                                },
+                                                "prefix": false
+                                              }
+                                            },
+                                            "alternate": null
+                                          }
+                                        ]
+                                      },
+                                      "alternate": null
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                  "type": "AssignmentExpression",
+                                  "operator": "=",
+                                  "left": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "ThisExpression"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "age"
+                                    }
+                                  },
+                                  "right": {
+                                    "type": "Identifier",
+                                    "name": "diff"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                  "type": "AssignmentExpression",
+                                  "operator": "=",
+                                  "left": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "control"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "value"
+                                    }
+                                  },
+                                  "right": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "ThisExpression"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "age"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "alternate": null
+                        }
+                      ]
+                    },
+                    "generator": false,
+                    "expression": false
+                  }
+                ],
+                "sourceType": "script"
+              }
             },
             {
               "prompt": "Marital Status*",
@@ -5409,6 +6685,11 @@
                   "name": "year",
                   "type": "number",
                   "is_core_summary": true
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -5863,6 +7144,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -9269,6 +10555,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -9286,275 +10577,19 @@
             {
               "prompt": "Now Living",
               "name": "now_living",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "1"
-                },
-                {
-                  "description": "",
-                  "value": "2"
-                },
-                {
-                  "description": "",
-                  "value": "3"
-                },
-                {
-                  "description": "",
-                  "value": "4"
-                },
-                {
-                  "description": "",
-                  "value": "5"
-                },
-                {
-                  "description": "",
-                  "value": "6"
-                },
-                {
-                  "description": "",
-                  "value": "7"
-                },
-                {
-                  "description": "",
-                  "value": "8"
-                },
-                {
-                  "description": "",
-                  "value": "9"
-                },
-                {
-                  "description": "",
-                  "value": "10"
-                },
-                {
-                  "description": "",
-                  "value": "11"
-                },
-                {
-                  "description": "",
-                  "value": "12"
-                },
-                {
-                  "description": "",
-                  "value": "13"
-                },
-                {
-                  "description": "",
-                  "value": "14"
-                },
-                {
-                  "description": "",
-                  "value": "15"
-                },
-                {
-                  "description": "",
-                  "value": "16"
-                },
-                {
-                  "description": "",
-                  "value": "17"
-                },
-                {
-                  "description": "",
-                  "value": "18"
-                },
-                {
-                  "description": "",
-                  "value": "19"
-                },
-                {
-                  "description": "",
-                  "value": "20"
-                }
-              ]
+              "type": "number",
+              "is_core_summary": false
             },
             {
               "prompt": "Now Dead",
               "name": "now_dead",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "1"
-                },
-                {
-                  "description": "",
-                  "value": "2"
-                },
-                {
-                  "description": "",
-                  "value": "3"
-                },
-                {
-                  "description": "",
-                  "value": "4"
-                },
-                {
-                  "description": "",
-                  "value": "5"
-                },
-                {
-                  "description": "",
-                  "value": "6"
-                },
-                {
-                  "description": "",
-                  "value": "7"
-                },
-                {
-                  "description": "",
-                  "value": "8"
-                },
-                {
-                  "description": "",
-                  "value": "9"
-                },
-                {
-                  "description": "",
-                  "value": "10"
-                },
-                {
-                  "description": "",
-                  "value": "11"
-                },
-                {
-                  "description": "",
-                  "value": "12"
-                },
-                {
-                  "description": "",
-                  "value": "13"
-                },
-                {
-                  "description": "",
-                  "value": "14"
-                },
-                {
-                  "description": "",
-                  "value": "15"
-                },
-                {
-                  "description": "",
-                  "value": "16"
-                },
-                {
-                  "description": "",
-                  "value": "17"
-                },
-                {
-                  "description": "",
-                  "value": "18"
-                },
-                {
-                  "description": "",
-                  "value": "19"
-                },
-                {
-                  "description": "",
-                  "value": "20"
-                }
-              ]
+              "type": "number",
+              "is_core_summary": false
             },
             {
               "prompt": "Other Outcomes*",
               "name": "other_outcomes",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "1"
-                },
-                {
-                  "description": "",
-                  "value": "2"
-                },
-                {
-                  "description": "",
-                  "value": "3"
-                },
-                {
-                  "description": "",
-                  "value": "4"
-                },
-                {
-                  "description": "",
-                  "value": "5"
-                },
-                {
-                  "description": "",
-                  "value": "6"
-                },
-                {
-                  "description": "",
-                  "value": "7"
-                },
-                {
-                  "description": "",
-                  "value": "8"
-                },
-                {
-                  "description": "",
-                  "value": "9"
-                },
-                {
-                  "description": "",
-                  "value": "10"
-                },
-                {
-                  "description": "",
-                  "value": "11"
-                },
-                {
-                  "description": "",
-                  "value": "12"
-                },
-                {
-                  "description": "",
-                  "value": "13"
-                },
-                {
-                  "description": "",
-                  "value": "14"
-                },
-                {
-                  "description": "",
-                  "value": "15"
-                },
-                {
-                  "description": "",
-                  "value": "16"
-                },
-                {
-                  "description": "",
-                  "value": "17"
-                },
-                {
-                  "description": "",
-                  "value": "18"
-                },
-                {
-                  "description": "",
-                  "value": "19"
-                },
-                {
-                  "description": "",
-                  "value": "20"
-                }
-              ],
+              "type": "number",
               "is_core_summary": true
             },
             {
@@ -9576,6 +10611,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -9686,7 +10726,29 @@
             {
               "prompt": "Date of Last Prenatal Visit",
               "name": "date_of_last_prenatal_visit",
-              "type": "Date"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
+                }
+              ]
             },
             {
               "prompt": "Calculated Gestation (Weeks)*",
@@ -10982,6 +12044,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -11514,6 +12581,11 @@
                 }
               ],
               "list_display_size": 1
+            },
+            {
+              "prompt": "Specify Other Provider Type",
+              "name": "specify_other_provider_type",
+              "type": "String"
             },
             {
               "prompt": "Principal Source of Payment*",
@@ -12569,6 +13641,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             }
@@ -12684,6 +13761,11 @@
               ]
             },
             {
+              "prompt": "Specify Other ART Type",
+              "name": "specify_other_art_type",
+              "type": "String"
+            },
+            {
               "prompt": "Cycle Number",
               "name": "cycle_number",
               "type": "number"
@@ -12724,6 +13806,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -12746,6 +13833,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 },
                 {
                   "prompt": "Gestational Age at Last Prenatal Visit (Weeks)",
@@ -12773,6 +13865,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -12795,6 +13892,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -12931,6 +14033,21 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
+                },
+                {
+                  "prompt": "Estimate Based on Ultrasound",
+                  "name": "estimate_based_on_ultrasound",
+                  "type": "boolean"
+                },
+                {
+                  "prompt": "Estimate Based on LMP",
+                  "name": "estimate_based_on_lmp",
+                  "type": "boolean"
                 }
               ]
             },
@@ -13845,6 +14962,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -13867,6 +14989,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -14058,6 +15185,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -14860,6 +15992,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -14887,6 +16024,11 @@
                   "prompt": "Year",
                   "name": "year",
                   "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
                 }
               ]
             },
@@ -15413,7 +16555,29 @@
             {
               "prompt": "Date Of Medical Office Visit",
               "name": "date_of_medical_office_visit",
-              "type": "datetime"
+              "type": "group",
+              "children": [
+                {
+                  "prompt": "Month",
+                  "name": "month",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Day",
+                  "name": "day",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Year",
+                  "name": "year",
+                  "type": "number"
+                },
+                {
+                  "prompt": "Estimate",
+                  "name": "is_estimated",
+                  "type": "boolean"
+                }
+              ]
             },
             {
               "prompt": "Visit Type*",
@@ -15516,6 +16680,11 @@
               ]
             },
             {
+              "prompt": "Specify Other Place Type",
+              "name": "specify_other_place_type",
+              "type": "String"
+            },
+            {
               "prompt": "Provider Type",
               "name": "provider_type",
               "type": "list",
@@ -15557,6 +16726,11 @@
                   "value": "8 - Other"
                 }
               ]
+            },
+            {
+              "prompt": "Specify Other Provider ype",
+              "name": "specify_other_provider_type",
+              "type": "String"
             },
             {
               "prompt": "Payment Source",
@@ -16735,56 +17909,6 @@
       "type": "form",
       "cardinality": "?",
       "children": [
-        {
-          "prompt": "Place of Last Residence Census Information",
-          "name": "census",
-          "type": "group",
-          "children": [
-            {
-              "prompt": "Types of Health Insurance Coverage by Age",
-              "name": "b27010",
-              "type": "string",
-              "description": "Census tract - Types of health insurance coverage by age http://api.census.gov/data/2014/acs5/variables/B27010_001E.json"
-            },
-            {
-              "prompt": "Sex by Age by Educational Attainment for the Population 18+",
-              "name": "b15001",
-              "type": "string",
-              "description": "Census tract - Sex by age by educational attainment for the population 18+ http://api.census.gov/data/2014/acs5/variables/B15001_001E.json"
-            },
-            {
-              "prompt": "Poverty Status in the Past 12 Months by Age",
-              "name": "b17020",
-              "type": "string",
-              "description": "Census tract - Poverty status in the past 12 months by age http://api.census.gov/data/2014/acs5/variables/B17020_001E.json"
-            },
-            {
-              "prompt": "Rural or Urban Status",
-              "name": "rural_or_urban",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Rural"
-                },
-                {
-                  "description": "",
-                  "value": "Urban"
-                }
-              ]
-            },
-            {
-              "prompt": "FIPS Code",
-              "name": "fips_code",
-              "type": "string"
-            }
-          ],
-          "description": "Place of last residence base on death certificate."
-        },
         {
           "prompt": "Socio-Economic Characteristics",
           "name": "socio_economic_characteristics",
@@ -18364,6 +19488,11 @@
               "control_style": "checkbox"
             },
             {
+              "prompt": "Specify Other Evidence of Stress",
+              "name": "specify_other_evidence_stress",
+              "type": "string"
+            },
+            {
               "prompt": "Explain Further",
               "name": "explain_further",
               "type": "textarea",
@@ -18432,6 +19561,11 @@
               "is_multiselect": true
             },
             {
+              "prompt": "Specify Other Reason",
+              "name": "specify_other_reason",
+              "type": "string"
+            },
+            {
               "prompt": "Comment(s)",
               "name": "comments",
               "type": "textarea",
@@ -18440,7 +19574,7 @@
           ]
         },
         {
-          "prompt": "At the Time of her Death, Was the Decedent?",
+          "prompt": "Military Status at Time of Death",
           "name": "had_military_service",
           "type": "list",
           "values": [
@@ -18825,6 +19959,56 @@
             }
           ],
           "is_core_summary": true
+        },
+        {
+          "prompt": "Place of Last Residence Census Information",
+          "name": "new_clone_name_16",
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Types of Health Insurance Coverage by Age",
+              "name": "b27010",
+              "type": "string",
+              "description": "Census tract - Types of health insurance coverage by age http://api.census.gov/data/2014/acs5/variables/B27010_001E.json"
+            },
+            {
+              "prompt": "Sex by Age by Educational Attainment for the Population 18+",
+              "name": "b15001",
+              "type": "string",
+              "description": "Census tract - Sex by age by educational attainment for the population 18+ http://api.census.gov/data/2014/acs5/variables/B15001_001E.json"
+            },
+            {
+              "prompt": "Poverty Status in the Past 12 Months by Age",
+              "name": "b17020",
+              "type": "string",
+              "description": "Census tract - Poverty status in the past 12 months by age http://api.census.gov/data/2014/acs5/variables/B17020_001E.json"
+            },
+            {
+              "prompt": "Rural or Urban Status",
+              "name": "rural_or_urban",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Rural"
+                },
+                {
+                  "description": "",
+                  "value": "Urban"
+                }
+              ]
+            },
+            {
+              "prompt": "FIPS Code",
+              "name": "fips_code",
+              "type": "string"
+            }
+          ],
+          "description": "Place of last residence based on death certificate."
         },
         {
           "prompt": "Reviewer's Notes About the Social and Environmental Profile",
@@ -19263,9 +20447,26 @@
       "cardinality": "*",
       "children": [
         {
-          "prompt": "Date Of Interview",
+          "prompt": "Date of Interview",
           "name": "date_of_interview",
-          "type": "datetime"
+          "type": "group",
+          "children": [
+            {
+              "prompt": "Month",
+              "name": "month",
+              "type": "number"
+            },
+            {
+              "prompt": "Day",
+              "name": "day",
+              "type": "number"
+            },
+            {
+              "prompt": "Year",
+              "name": "year",
+              "type": "number"
+            }
+          ]
         },
         {
           "prompt": "Interview Type*",
@@ -19509,10 +20710,11 @@
       "cardinality": "?",
       "children": [
         {
-          "prompt": "Case Opening Overview",
+          "prompt": "Case Narrative",
           "name": "case_opening_overview",
           "type": "textarea",
-          "pre_fill": "(Paragraphs 1-4 can be used to introduce the case at an MMR meeting.  Paragraph 1 alone can be used for importing in a final complete case narrative summary.)\n\nShe was a (age, place of birth, race/ethnicity, marriage status, level education, occupation).  She was a gravida ____ para ___, who died with cause of death ____, ___ days /months, before, during or after delivery.  Medical history was significant for ___ (Pre-pregnancy risk factors or pre-existing medical conditions).  Pre-pregnancy BMI was_______. Life course issues significant for __________ (psychosocial factors).\n\nEntry into prenatal care was at ___ weeks with # visits at a ____ (describe location) with a ___ (provider type).  Prenatal history was significant for ___ (include identified obstetric risk factors).  Referrals during prenatal period were to ______________on ________ (date)."
+          "pre_fill": "She was a (age, place of birth, race/ethnicity, marriage status, level education, occupation).  She was a gravida ____ para ___, who died with cause of death ____, ___ days /months, before, during or after delivery.  Medical history was significant for ___ (Pre-pregnancy risk factors or pre-existing medical conditions).  Pre-pregnancy BMI was_______. Life course issues significant for __________ (psychosocial factors).\n\nEntry into prenatal care was at _______ weeks with # visits at a ____ (describe location) with a ___ (provider type).  Prenatal history was significant for ___ (include identified obstetric risk factors).  Referrals during prenatal period were to ______________on ________ (date).\n\nHealth events prior to delivery included _________.  She presented to clinic/hospital/other_______ at________ weeks gestation.  Delivery was by a (provider title)____, method was ________, with ______ anesthesia.  Obstetric complications included ________.  She presented to clinic/hospital/other________ at ________ weeks gestation.  Delivery was by a (provider title) _______, method was _______, with __________ anesthesia.  Obstetric complications included ________.  Fetus/infant was _______weeks gestation and weighed ________pounds/ounces.  Apgar scores were _______ and complications were _______.  Postpartum period (before discharge) significant for developing _______.  Mother and infant were/were not discharged (if applicable) to _______.  At _______weeks postpartum she presented to (describe location) _______.  Postpartum period (after discharge) significant for _______.\n\n(Summarize terminal event).  Autopsy was done by a _______ or was not done.  Significant findings included _______.  \n\n(Describe if any bereavement services were offered.)",
+          "description": "Use the pre-fill text below, and copy and paste from Reviewer's Notes above to create a comprehensive case narrative.  Whatever you type here is what will be printed in the Print Version."
         }
       ]
     },

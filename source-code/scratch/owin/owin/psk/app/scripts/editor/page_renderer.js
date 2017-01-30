@@ -150,7 +150,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(p_ui.url_state.path_array.length > 2)
 			{
-				var data_index = p_ui.url_state.path_array[2];
+				var data_index = parseInt(p_ui.url_state.path_array[2]);
+				var form_item = p_data[data_index];
+
 				result.push("<section id='");
 				result.push(p_metadata.name);
 				result.push("' class='form'><h2 ");
@@ -168,25 +170,26 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata.prompt);
 				result.push("</h2>");
 				
-				for(var i = 0; i < p_metadata.children.length; i++)
+				for(var i = 0; form_item && i < p_metadata.children.length; i++)
 				{
 					var child = p_metadata.children[i];
-					if(p_data[data_index][child.name])
+					//var item = p_data[data_index][child.name];
+					if(form_item[child.name])
 					{
 
 					}
 					else
 					{
-						p_data[data_index][child.name] = create_default_object(child, {})[child.name];
+						form_item[child.name] = create_default_object(child, {})[child.name];
 					}
 
 					if(child.type=="group")
 					{
-						Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 1, 0, current_column));
+						Array.prototype.push.apply(result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 1, 0, current_column));
 					}
 					else
 					{
-						Array.prototype.push.apply(result, page_render(child, p_data[data_index][child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, 0, current_column));
+						Array.prototype.push.apply(result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, 0, current_column));
 					}
 					
 					current_column += 1;
@@ -362,7 +365,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			var child = p_metadata.children[i];
 			if(child.type.toLowerCase() == 'form')
 			{
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));				 		
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));				 		
 			}
 		}
 
@@ -770,7 +773,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					for(var i = 0; i < p_metadata.values.length; i++)
 					{
 						var item = p_metadata.values[i];
-						if(p_data.indexOf(item.value) > -1)
+						if(p_data && p_data.indexOf(item.value) > -1)
 						{
 								result.push("<option value='");
 								result.push(item.value.replace(/'/g, "\\'"));
