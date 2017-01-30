@@ -29,7 +29,7 @@ namespace mmria.console.export
 				{
 					string arg = args[i];
 					int index = arg.IndexOf(':');
-					string val = arg.Substring(index + 1, arg.Length - (index + 1));
+					string val = arg.Substring(index + 1, arg.Length - (index + 1)).Trim(new char[] { '\"' });
 
 					if (arg.ToLower().StartsWith("auth_token"))
 					{
@@ -73,6 +73,52 @@ namespace mmria.console.export
 					return;
 				}
 			}*/
+
+
+			if (string.IsNullOrWhiteSpace(this.database_url))
+			{
+				this.database_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"];
+
+				if (string.IsNullOrWhiteSpace(this.database_url))
+				{
+					System.Console.WriteLine("missing database_url");
+					System.Console.WriteLine(" form database:[file path]");
+					System.Console.WriteLine(" example database:http://localhost:5984");
+
+					return;
+				}
+			}
+
+			if (string.IsNullOrWhiteSpace(this.mmria_url))
+			{
+				this.mmria_url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
+
+				if (string.IsNullOrWhiteSpace(this.mmria_url))
+				{
+					System.Console.WriteLine("missing url");
+					System.Console.WriteLine(" form url:[website_url]");
+					System.Console.WriteLine(" example url:http://localhost:12345");
+
+					return;
+				}
+
+			}
+
+			if (string.IsNullOrWhiteSpace(this.user_name))
+			{
+				System.Console.WriteLine("missing user_name");
+				System.Console.WriteLine(" form user_name:[user_name]");
+				System.Console.WriteLine(" example user_name:user1");
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(this.password))
+			{
+				System.Console.WriteLine("missing password");
+				System.Console.WriteLine(" form password:[password]");
+				System.Console.WriteLine(" example password:secret");
+				return;
+			}
 
 			var mmria_server = new mmria_server_api_client(this.mmria_url);
 			mmria_server.login(this.user_name, this.password);
