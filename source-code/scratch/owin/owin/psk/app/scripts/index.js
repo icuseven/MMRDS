@@ -98,9 +98,16 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
       }
       
-      //document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-      $("#" + p_object_path.replace(/\./g,"_")).replaceWith(new_html);
+      if(metadata.type.toLowerCase() == "grid")
+      {
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+        $("#" + p_object_path.replace(/\./g,"_")).replaceWith(new_html);
+      }
+      else
+      {
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+        $("#" + p_object_path.replace(/\./g,"_")).replaceWith(new_html);
+      }
 	  
 	  var db = new PouchDB("mmrds");
       db.put(g_data).then(function (doc)
@@ -124,7 +131,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 	  
     }
 
-    apply_validation();
+    apply_tool_tips();
   }
 }
 
@@ -135,7 +142,7 @@ function g_add_grid_item(p_object_path, p_metadata_path)
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
   document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-  
+  apply_tool_tips();
 }
 
 function g_delete_grid_item(p_object_path, p_metadata_path)

@@ -223,36 +223,39 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(g_data && p_metadata.name == "case_narrative")
 			{
 				//death_certificate/reviewer_note
-				result.push("<h3>Death Certificate Reviewer_Note</h3>");
+				result.push("<h3>Death Certificate Reviewer's Notes</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.death_certificate.reviewer_note);
 				result.push("</textarea>");
 
 				//birth_fetal_death_certificate_parent/reviewer_note
-				result.push("<h3>Birth Fetal Death Dertificate Parent Reviewer Note</h3>");
+				result.push("<h3>Birth/Fetal Death Certificate- Parent Section Reviewer's Notes</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
 				result.push("</textarea>");
 
 				
 				//birth_certificate_infant_fetal_section/reviewer_note
-				result.push("<h3>Birth Certificate Infant Fetal Section Reviewer Note</h3>");
+				result.push("<h3>Birth/Fetal Death Certificate- Infant/Fetal Section Reviewer's Notes</h3>");
 				for(var i = 0; i < g_data.birth_certificate_infant_fetal_section.length; i++)
 				{
+					result.push("<p>Note: ");
+					result.push(i+1);
+					result.push("<br/>");
 					result.push("<textarea cols=80 rows=7>");
 					result.push(g_data.birth_certificate_infant_fetal_section[i].reviewer_note);
 					result.push("</textarea>");
 				}
 				
 				//autopsy_report/reviewer_note
-				result.push("<h3>Autopsy Report Reviewer Note</h3>");
+				result.push("<h3>Autopsy Report Reviewer's Notes</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.autopsy_report.reviewer_note);
 				result.push("</textarea>");
 
 				
 				//prenatal/reviewer_note
-				result.push("<h3>Prenatal Reviewer Note</h3>");
+				result.push("<h3>Prenatal Care Record Reviewer's Notes</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.prenatal.reviewer_note);
 				result.push("</textarea>");
@@ -260,7 +263,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				
 				//er_visit_and_hospital_medical_records/reviewer_note
-				result.push("<h3>ER Visit and Hospital Medical Records Reviewer Note</h3>");
+				result.push("<h3>ER Visits and Hospitalizations Reviewer's Notes</h3>");
 				for(var i = 0; i < g_data.er_visit_and_hospital_medical_records.length; i++)
 				{
 					result.push("<p>Note: ");
@@ -273,7 +276,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				
 				//other_medical_office_visits/reviewer_note
-				result.push("<h3>Other Medical Office Visits Reviewer Note</h3>");
+				result.push("<h3>Other Medical Office Visits Reviewer's Notes</h3>");
 				for(var i = 0; i < g_data.other_medical_office_visits.length; i++)
 				{
 					result.push("<p>Note: ");
@@ -285,23 +288,42 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("</p>");
 				}
 ///medical_transport/transport_narrative_summary
-				result.push("<h3>Medical Transport/Transport Narrative Summary</h3>");
+				result.push("<h3>Medical Transport Reviewer's Notes</h3>");
 				for(var i = 0; i < g_data.medical_transport.length; i++)
 				{
 					result.push("<p>Note: ");
 					result.push(i+1);
 					result.push("<br/>");
 					result.push("<textarea cols=80 rows=7>");
-					result.push(g_data.medical_transport[i].transport_narrative_summary);
+					result.push(g_data.medical_transport[i].reviewer_note);
 					result.push("</textarea>");
 					result.push("</p>");
 				}
 				
 				//social_and_environmental_profile/reviewer_note
-				result.push("<h3>Social and Environmental Profile Reviewer Note</h3>");
+				result.push("<h3>Social and Environmental Profile Reviewer's Notes</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.social_and_environmental_profile.reviewer_note);
 				result.push("</textarea>");
+
+
+				result.push("<h3>Mental Health Profile Reviewer's Notes</h3>");
+				result.push("<textarea cols=80 rows=7>");
+				result.push(g_data.mental_health_profile.reviewer_note);
+				result.push("</textarea>");
+
+				result.push("<h3>Informant Interviews Reviewer's Notes</h3>");
+				for(var i = 0; i < g_data.other_medical_office_visits.length; i++)
+				{
+					result.push("<p>Note: ");
+					result.push(i+1);
+					result.push("<br/>");
+					result.push("<textarea cols=80 rows=7>");
+					result.push(g_data.informant_interviews[i].reviewer_note);
+					result.push("</textarea>");
+					result.push("</p>");
+				}
+
 				
 			}
 
@@ -580,19 +602,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(p_metadata.prompt);
 				}
-				result.push("</span> ");
+				result.push("</span> <br/>");
 
-				if(p_metadata.list_display_size && p_metadata.list_display_size!="")
+				if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
 				{
-					result.push("<br/> <input  class='list' type='text' name='");
-					result.push(p_metadata.name);
-					result.push("' value='");
-					result.push(p_data);
-					result.push("' onblur='g_set_data_object_from_path(\"");
-					result.push(p_object_path);
-					result.push("\",\"");
-					result.push(p_metadata_path);
-					result.push("\",this.value)' /> <br/> <select size=");
+					result.push(" <select size=");
 					result.push(p_metadata.list_display_size);
 					result.push(" name='");
 				}
@@ -601,11 +615,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					
 					if(p_metadata.values.length > 6)
 					{
-						result.push("<br/> <select size='6' name='");
+						result.push("<select size='6' name='");
 					}
 					else
 					{
-						result.push("<br/> <select size=");
+						result.push(" <select size=");
 						result.push(p_metadata.values.length);
 						result.push(" name='");
 					}
@@ -613,7 +627,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				else
 				{
-					result.push("<br/> <select size=");
+					result.push("<select size=");
 					result.push(1);
 					result.push(" name='");
 				}
@@ -628,6 +642,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
 				{
 					result.push(" multiple>");
+
 					for(var i = 0; i < p_metadata.values.length; i++)
 					{
 						var item = p_metadata.values[i];
@@ -662,7 +677,22 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 								result.push("</option>");
 						}
 					}
-					result.push("</select></div>");
+					result.push("</select>");
+
+
+				//if(p_metadata.list_display_size && p_metadata.list_display_size!="")
+				//{
+					result.push("<br/> <input placeholder='Specify Other' class='list' type='text' name='");
+					result.push(p_metadata.name);
+					result.push("' value='");
+					result.push(p_data);
+					result.push("' onblur='g_set_data_object_from_path(\"");
+					result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)' /> <br/> ");
+				//}
+
 				}
 				else
 				{
@@ -702,7 +732,22 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 							result.push("</option>");
 						}
 					}
-					result.push("</select></div>");
+					result.push("</select> ");
+
+				//if(p_metadata.list_display_size && p_metadata.list_display_size!="")
+				//{
+					result.push("<br/> <input placeholder='Specify Other' class='list' type='text' name='");
+					result.push(p_metadata.name);
+					result.push("' value='");
+					result.push(p_data);
+					result.push("' onblur='g_set_data_object_from_path(\"");
+					result.push(p_object_path);
+					result.push("\",\"");
+					result.push(p_metadata_path);
+					result.push("\",this.value)' /> <br/> ");
+				//}
+
+
 				}
 			}
 			else
@@ -730,11 +775,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(p_metadata.prompt);
 				}
-				result.push("</span> ");
+				result.push("</span> <br/> ");
 
 				if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				{
-					result.push("<br/> <select size=");
+					result.push("<select size=");
 					result.push(p_metadata.list_display_size);
 					result.push(" name='");
 				}
@@ -743,11 +788,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					
 					if(p_metadata.values.length > 6)
 					{
-						result.push("<br/> <select size='6' name='");
+						result.push("<select size='6' name='");
 					}
 					else
 					{
-						result.push("<br/> <select size=");
+						result.push("<select size=");
 						result.push(p_metadata.values.length);
 						result.push(" name='");
 					}
@@ -755,7 +800,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				else
 				{
-					result.push("<br/> <select size=");
+					result.push("<select size=");
 					result.push(1);
 					result.push(" name='");
 				}

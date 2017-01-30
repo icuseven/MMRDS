@@ -52,8 +52,6 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 			{
 				var form_item = p_data[form_index];
 
-				
-				result.push(p_metadata.name)
 				result.push('<h3 style="color: purple">')
 				result.push(p_metadata.prompt);
 				result.push(' Record: ');
@@ -111,7 +109,7 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 					{
 						var child = p_metadata.children[j];
 						result.push('<td>');
-						result.push(child.name);
+						result.push(child.prompt);
 						result.push('</td>');
 					}
 					result.push('</tr>');
