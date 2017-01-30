@@ -429,6 +429,7 @@ function get_metadata()
       default_object =  create_default_object(g_metadata, {});
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
+      //window.location.href = location.protocol + '//' + location.host;
 
       get_case_set();
 

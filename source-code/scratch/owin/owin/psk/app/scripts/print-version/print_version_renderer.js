@@ -23,9 +23,9 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 		case 'grid':
 				result.push('<table border="1">');
 				//result.push(p_path)
-				result.push('<tr><th colspan="')
+				result.push('<tr><th colspan=')
 				result.push(p_metadata.children.length);
-				result.push('">')
+				result.push('>')
 				result.push(p_metadata.prompt);
 				result.push('</th></tr>');
 				//result.push(p_data[p_metadata.name]);
@@ -35,7 +35,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 					var child = p_metadata.children[i];
 					result.push("<td>");
 					result.push(child.prompt);
-					result.push("<td>");
+					result.push("</td>");
 				}
 				result.push("</tr>");
 

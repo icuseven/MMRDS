@@ -242,6 +242,7 @@ login_response: function (response)
 		profile.user_name = '';
 		profile.password = null;
 		profile.expire_auth_session_cookie(profile.auth_session);
+		
 	}
 
 	profile.render();
@@ -264,7 +265,7 @@ logout : function()
 	profile.auth_session='';
 	profile.render();
 
-
+	window.location.href = location.protocol + '//' + location.host;
 
 	},
   try_session_login : function(p_success_call_back)
