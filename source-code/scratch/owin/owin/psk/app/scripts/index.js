@@ -99,7 +99,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       }
       
       //document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-      $("#" + p_object_path).replaceWith(page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join(""));
+      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+      $("#" + p_object_path.replace(/\./g,"_")).replaceWith(new_html);
 	  
 	  var db = new PouchDB("mmrds");
       db.put(g_data).then(function (doc)
@@ -311,6 +312,9 @@ function replicate_db_and_log_out(p_user_name, p_password)
             console.log("database destroyed");
           }
           
+          window.onhashchange = null;
+          
+          window.location.href = location.protocol + '//' + location.host;
           document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
           document.getElementById('form_content_id').innerHTML ="";
       });

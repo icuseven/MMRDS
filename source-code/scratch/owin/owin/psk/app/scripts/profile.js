@@ -265,8 +265,6 @@ logout : function()
 	profile.auth_session='';
 	profile.render();
 
-	window.location.href = location.protocol + '//' + location.host;
-
 	},
   try_session_login : function(p_success_call_back)
   {

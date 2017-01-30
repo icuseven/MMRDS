@@ -39,7 +39,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</td>");
 			}
 			result.push('<td> <input type="button" value="delete" id="delete_');
-			result.push(p_object_path + "[" + i + "]");
+			result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
 			result.push('" onclick="g_delete_grid_item(\'');
 			result.push(p_object_path + "[" + i + "]");
 			result.push("', '");
@@ -376,7 +376,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
        break;
      case 'label':
 			result.push("<div class='label' id='");
-			result.push(p_object_path);
+			result.push(p_object_path.replace(".","_"));
 			result.push("' ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -558,7 +558,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
 			{
 				result.push("<div class='list' id='");
-				result.push(p_object_path)
+				result.push(p_object_path.replace(/\./g,"_"))
 				
 				result.push("'> <span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
@@ -708,7 +708,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			else
 			{
 				result.push("<div class='list' id='");
-				result.push(p_object_path)
+				result.push(p_object_path.replace(/\./g,"_"))
 				
 				result.push("'> <span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
@@ -856,7 +856,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data = new Date(p_data);
 			}*/
 			result.push("<div class='date' id='");
-			result.push(p_object_path)
+			result.push(p_object_path.replace(/\./g,"_"))
 			
 			result.push("'> ");
 			result.push("<span ");
@@ -908,7 +908,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data = new Date(p_data);
 			}*/
 			result.push("<div class='date' id='");
-			result.push(p_object_path)
+			result.push(p_object_path.replace(/\./g,"_"))
 			result.push("'> ");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -957,7 +957,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data = new Date(p_data);
 			}*/
 			result.push("<div  class='time' id='");
-			result.push(p_object_path)
+			result.push(p_object_path.replace(/\./g,"_"))
 			
 			result.push("'> ");
 			result.push("<span ");
