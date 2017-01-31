@@ -66,10 +66,10 @@ function generate_report_click()
 	var  year_of_case_review = document.getElementById('year_of_case_review').value;
 
 	var data = process_rows();
-	var ui_render = render_results(data);
+	//var ui_render = render_results(data);
 	console.log(data);
 
-	document.getElementById('report_output_id').innerHTML = ui_render.join("");
+	document.getElementById('report_output_id').innerHTML = data.join("");
 }
 
 
@@ -84,6 +84,8 @@ function process_rows()
 		create_detail_row(result, current_row);
 	}
 	
+
+	return create_total_number_of_cases_by_pregnancy_relatedness(g_data);
 
 	return result;
 }
@@ -207,7 +209,8 @@ function pad(n, width)
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
-
+// death_certificate/Race/race
+//birth_fetal_death_certificate_parent/race_of_mother
 
 var summary_row = {
 'id': [],
@@ -225,6 +228,8 @@ var summary_row = {
 'did_substance_use_disorder_contribute_to_the_death': [],
 'was_this_death_a_sucide': [],
 'was_this_death_a_homicide': [],
+'bc_race':[],
+'dc_race':[]
 };
 
 var total_row = 
