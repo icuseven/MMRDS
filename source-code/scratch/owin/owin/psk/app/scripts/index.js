@@ -98,16 +98,43 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
       }
       
-      if(metadata.type.toLowerCase() == "grid")
+
+      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+      $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]")).replaceWith(new_html);
+
+      switch(metadata.type.toLowerCase())
       {
-        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-        $("#" + p_object_path.replace(/\./g,"_")).replaceWith(new_html);
+        case 'time':
+
+          $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " .time" ).datetimepicker({ format: 'LT'});
+          break;
+          case 'date':
+          flatpickr("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " .date", {
+            utc: true,
+            //defaultDate: "2016-12-27T00:00:00.000Z",
+            enableTime: false,
+          });
+
+          break;
+
+          case 'datetime':
+            $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " .datetime" ).datetimepicker();
+
+          break;
+
+          case 'number':
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").TouchSpin({
+                              verticalbuttons: true,
+                              min: 0,
+                              max: 10000,
+                              step: 1,
+                              maxboostedstep: 10
+                          });
+
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").attr("size", "15");
+          break;
       }
-      else
-      {
-        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-        $("#" + p_object_path.replace(/\./g,"_")).replaceWith(new_html);
-      }
+      
 	  
 	  var db = new PouchDB("mmrds");
       db.put(g_data).then(function (doc)
@@ -131,7 +158,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 	  
     }
 
-    apply_tool_tips();
+    apply_validation();
   }
 }
 

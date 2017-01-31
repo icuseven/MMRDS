@@ -35,7 +35,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				var child = p_metadata.children[j];
 				result.push("<td>");
-				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_group_level, p_row, p_column));
+				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_group_level, p_row, p_column));
 				result.push("</td>");
 			}
 			result.push('<td> <input type="button" value="delete" id="delete_');
@@ -895,11 +895,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
            break;
 	case 'date':
-	/*
-			if(typeof(p_data) != "date")
+	
+			if(p_metadata.name == "date_of_screening")
 			{
-				p_data = new Date(p_data);
-			}*/
+				console.log("break");
+			}
 			result.push("<div class='date' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
 			
