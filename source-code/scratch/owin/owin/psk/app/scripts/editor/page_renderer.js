@@ -744,7 +744,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(p_object_path);
 					result.push("\",\"");
 					result.push(p_metadata_path);
-					result.push("\",this.value)' /> <br/> ");
+					result.push("\",this.value)' /> </div> ");
 				//}
 
 
