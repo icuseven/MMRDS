@@ -23,7 +23,8 @@ ChildBirthCertificate10PO_CoFD_grid," """"", PO_CoFDCompSub, System.String,birth
 ChildBirthCertificate10PO_CoFD_grid," """"", PO_CoFDOthr, System.String,birth_certificate_infant_fetal_section/causes_of_death/other_specify,
 ChildBirthCertificate10PO_CoFD_grid," """"", PO_CoDICD, System.String,birth_certificate_infant_fetal_section/causes_of_death/icd_code,
 CommitteeReview28CR_CDCICDMM_grd, If Pregnancy Related Committee determination of Underlying cause(s) of death*," """"",,,
-CommitteeReview28CR_CDCICDMM_grd," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm/pmss_mm,in MMRIA this is not a grid but a multi-select list
+CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,in MMRIA this is not a grid but a multi-select list
+CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,in MMRIA this is not a grid but a multi-select list
 CommitteeReview28CR_CoD_grid, Committee Determination of Cause(s) of Death," """"",,,
 CommitteeReview28CR_CoD_grid," """"", CR_CodeType, System.String,committee_review/committee_determination_of_causes_of_death/type,
 CommitteeReview28CR_CoD_grid," """"", CR_CoD2, System.String,committee_review/committee_determination_of_causes_of_death/cause_descriptive,
