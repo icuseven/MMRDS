@@ -48,6 +48,21 @@ namespace mmria.server
 
 			geocode_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<geocode_response>(responseFromServer);
 
+			// make call to census if
+			/*
+			 NAACCR GIS Coordinate Quality Code
+
+naaccrCensusTractCertaintyCode
+
+				Valid Ranges Numeric ranges
+
+
+				00 - 04, 08, 
+
+				Then call census
+*/
+
+
 			geocode_response[] result =  new geocode_response[] 
 			{ 
 				json_result
