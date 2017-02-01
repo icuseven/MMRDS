@@ -35,6 +35,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				var child = p_metadata.children[j];
 				result.push("<td>");
+				if(p_data[i][child.name])
+				{
+					// do nothing 
+				}
+				else
+				{
+					p_data[i][child.name] = create_default_object(child, {})[child.name];
+				}
 				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_group_level, p_row, p_column));
 				result.push("</td>");
 			}
@@ -69,6 +77,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		{
 			var child = p_metadata.children[i];
 
+			if(p_data[child.name])
+			{
+				// do nothing 
+			}
+			else
+			{
+				p_data[child.name] = create_default_object(child, {})[child.name];
+			}
+
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
+/*
 			if(p_group_level > 2)
 			{
 				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
@@ -87,7 +106,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				current_column += 1;
 
-			}
+			}*/
 		}
 		break;
     case 'form':
@@ -332,7 +351,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				var child = p_metadata.children[i];
 				if(p_data[child.name])
 				{
-
+					// do nothing 
 				}
 				else
 				{
@@ -344,11 +363,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		}
 		break;
     case 'app':
-		result.push("<section id='app_summary'><h2>summary</h2>");
+		result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
 		result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
-		result.push("<fieldset><legend>filter line listing</legend>");
-		result.push("<input type='text' id='search_text_box' value='' /> ");
-		result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
+		
+		//result.push("<fieldset><legend>filter line listing</legend>");
+		//result.push("<input type='text' id='search_text_box' value='' /> ");
+		//result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
 		result.push("</fieldset>");
 
 		result.push('<div class="search_wrapper">');
@@ -387,6 +407,15 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			var child = p_metadata.children[i];
 			if(child.type.toLowerCase() == 'form')
 			{
+				if(p_data[child.name])
+				{
+					// do nothing 
+				}
+				else
+				{
+					p_data[child.name] = create_default_object(child, {})[child.name];
+				}
+
 				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));				 		
 			}
 		}
@@ -649,7 +678,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						if(p_data.indexOf(item.value) > -1)
 						{
 								result.push("<option value='");
-								result.push(item.value.replace(/'/g, "\\'"));
+								result.push(item.value.replace(/'/g, "&#39;"));
 								result.push("' selected>");
 								if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 								{
@@ -664,7 +693,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						else
 						{
 								result.push("<option value='");
-								result.push(item.value.replace(/'/g, "\\'"));
+								result.push(item.value.replace(/'/g, "&#39;"));
 								result.push("' >");
 								if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 								{
@@ -704,7 +733,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						if(p_data == item.value)
 						{
 							result.push("<option value='");
-							result.push(item.value.replace(/'/g, "\\'"));
+							result.push(item.value.replace(/'/g, "&#39;"));
 							result.push("' selected>");
 							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 							{
@@ -719,7 +748,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						else
 						{
 							result.push("<option value='");
-							result.push(item.value.replace(/'/g, "\\'"));
+							result.push(item.value.replace(/'/g, "&#39;"));
 							result.push("' >");
 							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 							{
@@ -759,7 +788,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				if(p_metadata.description && p_metadata.description.length > 0)
 				{
 					result.push("rel='tooltip'  data-original-title='");
-					result.push(p_metadata.description.replace(/'/g, "\\'"));
+					result.push(p_metadata.description.replace(/'/g, "&#39;"));
 					result.push("'>");
 				}
 				else
@@ -821,7 +850,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						if(p_data && p_data.indexOf(item.value) > -1)
 						{
 								result.push("<option value='");
-								result.push(item.value.replace(/'/g, "\\'"));
+								result.push(item.value.replace(/'/g, "&#39;"));
 								result.push("' selected>");
 								if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 								{
@@ -836,7 +865,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						else
 						{
 								result.push("<option value='");
-								result.push(item.value.replace(/'/g, "\\'"));
+								result.push(item.value.replace(/'/g, "&#39;"));
 								result.push("' >");
 								if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 								{
@@ -861,7 +890,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						if(p_data == item.value)
 						{
 							result.push("<option value='");
-							result.push(item.value.replace(/'/g, "\\'"));
+							result.push(item.value.replace(/'/g, "&#39;"));
 							result.push("' selected>");
 							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 							{
@@ -876,7 +905,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						else
 						{
 							result.push("<option value='");
-							result.push(item.value.replace(/'/g, "\\'"));
+							result.push(item.value.replace(/'/g, "&#39;"));
 							result.push("' >");
 							if(p_metadata.is_save_value_display_description && p_metadata.is_save_value_display_description == true)
 							{
