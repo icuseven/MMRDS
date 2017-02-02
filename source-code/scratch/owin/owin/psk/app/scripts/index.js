@@ -180,10 +180,7 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
   document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, 0, 0, 0).join("");
-  
 }
-
-
 
 var g_ui = {
   url_state: {
@@ -264,10 +261,6 @@ var g_ui = {
           var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
           window.location = url;
       });
-
-    
-
-
 
     return result;
 	}
@@ -417,43 +410,6 @@ function get_case_set()
 });
 
 
-  /*
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/case',
-	}).done(function(response) 
-  {
-        g_ui.data_list = [];
-        for(var i = 0; i < response.rows.length; i++)
-        {
-          if(response.rows[i].doc._id.indexOf("_design") < 0)
-          {
-            g_ui.data_list.push(response.rows[i].doc);
-          }
-        }
-
-        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
-
-        var section_list = document.getElementsByTagName("section");
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == "app_summary")
-          {
-              section.style.display = "block";
-          }
-          else
-          {
-              section.style.display = "none";
-          }
-        }
-
-
-  }).fail(function(response)
-  { 
-    console.log("fail get_case_set", response)
-  });*/
-
 }
 
 
@@ -465,6 +421,8 @@ function get_metadata()
 			g_metadata = response;
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
+
+      document.getElementById('form_content_id').innerHTML ="<br/><br/><br/><br/><h2>Fetching record from mmria database</h2>";
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
       //window.location.href = location.protocol + '//' + location.host;
