@@ -124,8 +124,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push("  - ");
 					result.push(g_data.home_record.record_id);
-					result.push("</h3>");
 				}
+				result.push("</h3>");
 			}
 
 			result.push('<input path="" type="button" value="Add New ');
@@ -198,8 +198,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					{
 						result.push("  - ");
 						result.push(g_data.home_record.record_id);
-						result.push("</h3>");
 					}
+					result.push("</h3>");
 				}
 
 				for(var i = 0; form_item && i < p_metadata.children.length; i++)
@@ -261,8 +261,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push("  - ");
 					result.push(g_data.home_record.record_id);
-					result.push("</h3>");
 				}
+				result.push("</h3>");
 			}
 			
 
