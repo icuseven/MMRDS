@@ -290,27 +290,58 @@ namespace mmria.console.import
 
 							foreach (string grid_name in grid_table_name_list)
 							{
-								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
+								System.Data.DataTable grid_data = null;
+								int check_index = grid_name.IndexOf("/");
+								if (check_index > 0)
+								{
+									grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name.Substring(0, check_index), row[column_index]));
+								}
+								else
+								{
+									grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));	
+								}
+
 								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
 
 								if (grid_data.Rows.Count > 0)
 								{
 
 								}
-								for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
-								{
-									System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
 
-									process_grid
-									(
-										metadata,
-										case_maker,
-										case_data,
-										grid_row,
-										grid_mapping,
-										null,
-										grid_row_index
-									);
+								if (check_index > 0)
+								{
+									int grid_row_index = int.Parse(grid_name.Substring(check_index + 1, grid_name.Length - (check_index + 1)));
+									if (grid_data.Rows.Count > grid_row_index)
+									{
+										process_grid
+											(
+												metadata,
+												case_maker,
+												case_data,
+												grid_data.Rows[grid_row_index],
+												grid_mapping,
+												null,
+												grid_row_index
+											);
+									}
+								}
+								else
+								{
+									for (int grid_row_index = 0; grid_row_index < grid_data.Rows.Count; grid_row_index++)
+									{
+										System.Data.DataRow grid_row = grid_data.Rows[grid_row_index];
+
+										process_grid
+										(
+											metadata,
+											case_maker,
+											case_data,
+											grid_row,
+											grid_mapping,
+											null,
+											grid_row_index
+										);
+									}
 								}
 							}
 						}
@@ -334,6 +365,7 @@ namespace mmria.console.import
 				//return;
 				System.IO.File.WriteAllText("import/" + global_record_id + ".json", json_string);
 
+				break;
 				case_data_list.Add(case_data);
 			}
 			case_maker.flush_bad_mapping();
