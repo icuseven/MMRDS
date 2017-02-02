@@ -87,26 +87,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
-/*
-			if(p_group_level > 2)
-			{
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
-			}
-			else
-			{
-				if(child.type=="group")
-				{
 
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
-				}
-				else
-				{
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, current_column + i));
-				}
-				
-				current_column += 1;
-
-			}*/
 		}
 		break;
     case 'form':
@@ -132,6 +113,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push(p_metadata.prompt);
 			result.push("</h2>");
+
+			if(g_data)
+			{
+				result.push("<h3  style='color: purple'>");
+				result.push(g_data.home_record.last_name);
+				result.push(", ");
+				result.push(g_data.home_record.first_name);
+				if(g_data.home_record.record_id)
+				{
+					result.push("  - ");
+					result.push(g_data.home_record.record_id);
+				}
+				result.push("</h3>");
+			}
 
 			result.push('<input path="" type="button" value="Add New ');
 			result.push(p_metadata.prompt);
@@ -187,8 +182,26 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 
 				result.push(p_metadata.prompt);
-				result.push("</h2>");
+				result.push("</h2><h4>");
+				result.push(" record: ");
+				result.push(data_index + 1);
+				result.push("</h4>");
 				
+				
+				if(g_data)
+				{
+					result.push("<h3  style='color: purple'>");
+					result.push(g_data.home_record.last_name);
+					result.push(", ");
+					result.push(g_data.home_record.first_name);
+					if(g_data.home_record.record_id)
+					{
+						result.push("  - ");
+						result.push(g_data.home_record.record_id);
+					}
+					result.push("</h3>");
+				}
+
 				for(var i = 0; form_item && i < p_metadata.children.length; i++)
 				{
 					var child = p_metadata.children[i];
@@ -238,6 +251,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push(p_metadata.prompt);
 			result.push("</h2>");
+			if(g_data)
+			{
+				result.push("<h3  style='color: purple'>");
+				result.push(g_data.home_record.last_name);
+				result.push(", ");
+				result.push(g_data.home_record.first_name);
+				if(g_data.home_record.record_id)
+				{
+					result.push("  - ");
+					result.push(g_data.home_record.record_id);
+				}
+				result.push("</h3>");
+			}
+			
 
 			if(g_data && p_metadata.name == "case_narrative")
 			{
