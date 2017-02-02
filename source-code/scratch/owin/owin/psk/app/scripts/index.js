@@ -38,6 +38,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         {
           eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
         }
+        g_data.date_last_updated = new Date();
+        g_data.last_updated_by = profile.user_name;
 		
 		document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
         if(g_ui.broken_rules[p_object_path])
@@ -97,7 +99,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
       }
-      
+      g_data.date_last_updated = new Date();
+      g_data.last_updated_by = profile.user_name;
 
       var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
       $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]")).replaceWith(new_html);
@@ -215,6 +218,11 @@ var g_ui = {
 	{
 
     var result = create_default_object(g_metadata, {});
+
+    result.date_created = new Date();
+    result.created_by = profile.user_name;
+    result.date_last_updated = new Date();
+    result.last_updated_by = profile.user_name;
 
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
