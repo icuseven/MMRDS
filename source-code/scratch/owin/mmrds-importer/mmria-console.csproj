@@ -70,11 +70,11 @@
     <None Include="packages.config" />
     <Compile Include="importer\mmrds_importer.cs" />
     <Compile Include="exporter\mmrds_exporter.cs" />
+    <Compile Include="core_element_export\core_element_exporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
-    <None Include="mapping-file-set\MMRDS-Mapping-NO-GRIDS.xlsx" />
     <None Include="mapping-file-set\Maternal_Mortality.mdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -82,9 +82,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
-    <None Include="mapping-file-set\grid-mapping-merge.xls">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="mapping-file-set\grid-mapping-merge.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -93,6 +90,7 @@
     <Folder Include="model\" />
     <Folder Include="importer\" />
     <Folder Include="exporter\" />
+    <Folder Include="core_element_export\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj">

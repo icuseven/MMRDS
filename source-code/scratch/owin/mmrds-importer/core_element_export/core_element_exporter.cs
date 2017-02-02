@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace mmria.console.export
 {
-	public class mmrds_exporter
+	public class core_element_exporter
 	{
 		private string auth_token = null;
 		private string user_name = null;
@@ -16,7 +16,7 @@ namespace mmria.console.export
 		private string database_url = null;
 		private string mmria_url = null;
 
-		public mmrds_exporter()
+		public core_element_exporter()
 		{
 			
 
@@ -64,6 +64,7 @@ namespace mmria.console.export
 				}
 			}
 
+			string core_file_name = "core_mmria_export.csv";
 
 			if (string.IsNullOrWhiteSpace(this.database_url))
 			{
@@ -75,7 +76,6 @@ namespace mmria.console.export
 					System.Console.WriteLine(" form database:[file path]");
 					System.Console.WriteLine(" example database:http://localhost:5984");
 					System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345 database_url:http://localhost:5984");
-
 					return;
 				}
 			}
@@ -90,6 +90,7 @@ namespace mmria.console.export
 					System.Console.WriteLine(" form url:[website_url]");
 					System.Console.WriteLine(" example url:http://localhost:12345");
 					System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
+
 
 					return;
 				}
@@ -139,7 +140,7 @@ namespace mmria.console.export
 			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
 			generate_path_map
-			(	metadata, "", "mmria_case_export.csv", "",
+			(	metadata, "", core_file_name, "",
 				path_to_int_map,
 			 	path_to_file_name_map,
 			 	path_to_node_map,
@@ -150,6 +151,7 @@ namespace mmria.console.export
 				 false,
 			 	path_to_flat_map
 			);
+
 
 			System.Collections.Generic.HashSet<string> flat_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			System.Collections.Generic.HashSet<string> mutiform_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -183,13 +185,16 @@ namespace mmria.console.export
 				}
 			}*/
 
+			path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name));
+
 			int stream_file_count = 0;
+			/*
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
 			{
 				path_to_csv_writer.Add(file_name, new WriteCSV(file_name));
 				Console.WriteLine(file_name);
 				stream_file_count++;
-			}
+			}*/
 			Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
 			create_header_row
@@ -197,7 +202,7 @@ namespace mmria.console.export
 				path_to_int_map,
 				path_to_flat_map,
 				path_to_node_map,
-				path_to_csv_writer["mmria_case_export.csv"].Table,
+				path_to_csv_writer[core_file_name].Table,
 				true,
 				false,
 				false
@@ -210,10 +215,13 @@ namespace mmria.console.export
 				{
 					continue;
 				}
-				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
+				System.Data.DataRow row = path_to_csv_writer[core_file_name].Table.NewRow();
 				string mmria_case_id = case_doc["_id"].ToString();
 				row["_id"] = mmria_case_id;
-				foreach (string path in path_to_flat_map)
+
+				List<string> ordered_column_list = get_core_element_list();
+
+				foreach (string path in ordered_column_list)
 				{
 					if (
 						path_to_node_map[path].type.ToLower() == "app" ||
@@ -279,8 +287,9 @@ namespace mmria.console.export
 					}
 
 				}
-				path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
+				path_to_csv_writer[core_file_name].Table.Rows.Add(row);
 
+				/*
 				// flat grid - start
 				foreach(KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
 				{
@@ -348,8 +357,9 @@ namespace mmria.console.export
 					}
 				}
 				// flat grid - end
+				*/
 
-
+				/*
 				// multiform - start
 				foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
 				{
@@ -425,12 +435,6 @@ namespace mmria.console.export
 							}
 
 							dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/",form_path_list));
-							/*
-							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
-							{
-								System.Console.Write("pause");
-							}
-							*/
 
 							switch (path_to_node_map[path].type.ToLower())
 							{
@@ -505,6 +509,7 @@ namespace mmria.console.export
 				}
 
 				// multiform - end
+				*/
 
 			}
 
@@ -515,7 +520,7 @@ namespace mmria.console.export
 				int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
 			}
 
-			WriteCSV mapping_document = new WriteCSV("field_mapping.csv");
+			WriteCSV mapping_document = new WriteCSV("core_field_mapping.csv");
 			System.Data.DataColumn column = null;
 
 			column = new System.Data.DataColumn("file_name", typeof(string));
@@ -705,8 +710,23 @@ namespace mmria.console.export
 				p_Table.Columns.Add(column);
 			}
 
-			foreach (string path in p_path_to_csv_set)
+			List<string> ordered_column_list = get_core_element_list();
+
+			for (int i = 0; i < ordered_column_list.Count; i++)
 			{
+				string path = ordered_column_list[i];
+
+				if (!p_path_to_csv_set.Contains(path))
+				{
+					continue;
+				}
+				   
+
+				if (!p_path_to_int_map.ContainsKey(path))
+				{
+					continue;
+				}
+
 				switch (p_path_to_node_map[path].type.ToLower())
 				{
 					case "app":
@@ -997,38 +1017,135 @@ namespace mmria.console.export
 
 		}
 
-
-
-
-		public mmria.common.metadata.app get_metadata()
+		private List<string> get_core_element_list()
 		{
-			mmria.common.metadata.app result = null;
+			return new List<string> {
+					"date_created",
+					"created_by",
+					"date_last_updated",
+					"last_updated_by",
+					"home_record/record_id",
+					"birth_fetal_death_certificate_parent/demographic_of_mother/age",
+					"death_certificate/demographics/age",
+					"birth_fetal_death_certificate_parent/race/race_of_mother",
+					"death_certificate/race/race",
+					"birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin",
+					"death_certificate/demographics/is_of_hispanic_origin",
+					"birth_fetal_death_certificate_parent/demographic_of_mother/mother_married",
+					"death_certificate/demographics/marital_status",
+					"birth_fetal_death_certificate_parent/demographic_of_mother/education_level",
+					"death_certificate/demographics/education_level",
+					"birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth",
+					"death_certificate/demographics/country_of_birth",
+					"birth_fetal_death_certificate_parent/location_of_residence/city",
+					"death_certificate/place_of_last_residence/city",
+					"birth_fetal_death_certificate_parent/location_of_residence/county",
+					"death_certificate/place_of_last_residence/county",
+					"birth_fetal_death_certificate_parent/location_of_residence/state",
+					"death_certificate/place_of_last_residence/state",
+					"birth_fetal_death_certificate_parent/location_of_residence/zip_code",
+					"death_certificate/place_of_last_residence/zip_code",
+					"birth_fetal_death_certificate_parent/location_of_residence/longitude",
+					"death_certificate/place_of_last_residence/longitude",
+					"birth_fetal_death_certificate_parent/location_of_residence/latitude",
+					"death_certificate/place_of_last_residence/latitude",
+					"birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery",
+					"prenatal/primary_prenatal_care_facility/principal_source_of_payment",
+					"birth_fetal_death_certificate_parent/prenatal_care/was_wic_used",
+					"prenatal/primary_prenatal_care_facility/is_use_wic",
+					"birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit",
+					"prenatal/current_pregnancy/trimester_of_first_pnc_visit",
+					"birth_fetal_death_certificate_parent/prenatal_care/number_of_visits",
+					"social_and_environmental_profile/health_care_access/barriers_to_health_care_access",
+					"social_and_environmental_profile/communications/barriers_to_communications",
+					"social_and_environmental_profile/health_care_system/reasons_for_missed_appointments",
+					"birth_fetal_death_certificate_parent/maternal_biometrics/height_feet",
+					"birth_fetal_death_certificate_parent/maternal_biometrics/height_inches",
+					"prenatal/current_pregnancy/height/feet",
+					"prenatal/current_pregnancy/height/inches",
+					"birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight",
+					"prenatal/current_pregnancy/pre_pregnancy_weight",
+					"birth_fetal_death_certificate_parent/maternal_biometrics/bmi",
+					"prenatal/current_pregnancy/bmi",
+					"prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment",
+					"birth_fetal_death_certificate_parent/pregnancy_history/number_of_previous_live_births",
+					"birth_fetal_death_certificate_parent/pregnancy_history/other_outcomes",
+					"birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy",
+					"birth_fetal_death_certificate_parent/risk_factors/number_of_c_sections",
+					"birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months_type",
+					"prenatal/pregnancy_history/gravida",
+					"prenatal/pregnancy_history/para",
+					"prenatal/pregnancy_history/abortions",
+					"prenatal/had_pre_existing_conditions",
+					"social_and_environmental_profile/documented_substance_use",
+					"social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress",
+					"birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st_type",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd_type",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd",
+					"birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd_type",
+					"birth_fetal_death_certificate_parent/prenatal_care/plurality",
+					"prenatal/were_there_problems_identified",
+					"prenatal/were_medical_referrals_to_others",
+					"prenatal/were_there_pre_delivery_hospitalizations",
+					"prenatal/evidence_of_substance_use",
+					"prenatal/highest_blood_pressure/systolic",
+					"prenatal/highest_blood_pressure/diastolic",
+					"prenatal/current_pregnancy/weight_gain",
+					"prenatal/lowest_hematocrit",
+					"prenatal/current_pregnancy/estimated_date_of_confinement/day",
+					"prenatal/current_pregnancy/estimated_date_of_confinement/month",
+					"prenatal/current_pregnancy/estimated_date_of_confinement/year",
+					"prenatal/were_there_adverse_reactions",
+					"birth_fetal_death_certificate_parent/onset_of_labor",
+					"birth_fetal_death_certificate_parent/obstetric_procedures",
+					"birth_fetal_death_certificate_parent/maternal_morbidity",
+					"birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/type_of_place",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_location/city",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_location/state",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_location/county",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_location/zip_code",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/maternal_level_of_care",
+					"birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence",
+					"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/was_mother_transferred",
+					"death_certificate/death_information/pregnancy_status",
+					"birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother",
+					"death_certificate/death_information/death_occured_in_hospital",
+					"death_certificate/death_information/death_outside_of_hospital",
+					"death_certificate/death_information/manner_of_death",
+					"death_certificate/address_of_death/city",
+					"death_certificate/address_of_death/county",
+					"death_certificate/address_of_death/state",
+					"death_certificate/address_of_death/zip_code",
+					"death_certificate/address_of_death/longitude",
+					"death_certificate/address_of_death/latitude",
+					"death_certificate/death_information/was_autopsy_performed",
+					"autopsy_report/was_drug_toxicology_positive",
+					"autopsy_report/completeness_of_autopsy_information",
+					"home_record/how_was_this_death_identified",
+					"committee_review/pregnancy_relatedness",
+					"committee_review/was_this_death_preventable",
+					"committee_review/chance_to_alter_outcome",
+					"committee_review/pmss_mm",
+					"committee_review/pmss_mm_secondary",
+					"committee_review/did_obesity_contribute_to_the_death",
+					"committee_review/did_mental_health_conditions_contribute_to_the_death",
+					"committee_review/did_substance_use_disorder_contribute_to_the_death",
+					"committee_review/was_this_death_a_sucide",
+					"committee_review/homicide_relatedness/was_this_death_a_homicide",
+					"committee_review/means_of_fatal_injury",
+					"committee_review/homicide_relatedness/if_homicide_relationship_of_perpetrator"
 
-			string URL = "http://test.mmria.org/api/metadata";
-			//string urlParameters = "?api_key=123";
-			string urlParameters = "";
-
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
-
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
-
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
-			{
-				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
-			}
-			else
-			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
-
-			return result;
+			};
 		}
+
 
 
 	}

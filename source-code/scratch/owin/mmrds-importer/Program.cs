@@ -21,6 +21,11 @@ namespace mmria.console
 	class MainClass
 	{
 
+		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
+		//export user_name:user1 password:password url:http://localhost:12345
+		//export-core user_name:user1 password:password url:http://localhost:12345
+
+
 		public static void Main(string[] args)
 		{
 
@@ -37,6 +42,12 @@ namespace mmria.console
 						var exporter = new mmria.console.export.mmrds_exporter();
 						exporter.Execute(args);
 						break;
+					case "export-core":
+						var core_exporter = new mmria.console.export.core_element_exporter();
+						core_exporter.Execute(args);
+						break;
+
+
 					default:
 						return;
 				}

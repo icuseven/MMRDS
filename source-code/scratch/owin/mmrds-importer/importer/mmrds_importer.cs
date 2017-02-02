@@ -14,6 +14,9 @@ namespace mmria.console.import
 		private string database_path = null;
 		private string mmria_url = null;
 
+
+		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
+
 		public mmrds_importer()
 		{
 			
@@ -21,7 +24,10 @@ namespace mmria.console.import
 		}
 		public void Execute(string[] args)
 		{
-			
+			if (!System.IO.Directory.Exists("import"))
+			{
+				System.IO.Directory.CreateDirectory("import");
+			}
 
 
 			if (args.Length > 1)
@@ -44,7 +50,7 @@ namespace mmria.console.import
 					{
 						this.password = val;
 					}
-					else if (arg.ToLower().StartsWith("database"))
+					else if (arg.ToLower().StartsWith("database_file_path"))
 					{
 						
 						this.database_path = val;
@@ -55,29 +61,15 @@ namespace mmria.console.import
 					}
 				}
 			}
-			/*else
-			{
-				
-				var session_list = mmria_server.login("", "");
-				foreach(var session in session_list)
-				if (session.ok)
-				{
-					this.auth_token = session.auth_session;
-					System.Console.WriteLine("session.auth_session\n{0}", session.auth_session);
-				}
-				else
-				{
-					System.Console.WriteLine("unable to login\n{0}", session);
-					return;
-				}
-			}*/
 
 			if (string.IsNullOrWhiteSpace(this.database_path))
 			{
 				System.Console.WriteLine("missing database_path");
 				System.Console.WriteLine(" form database:[file path]");
-				System.Console.WriteLine(" example 1 database:c:\\temp\\maternal_mortality.mdb");
-				System.Console.WriteLine(" example 2 database:\"c:\\temp folder\\maternal_mortality.mdb\"");
+				System.Console.WriteLine(" example 1 database_file_path:c:\\temp\\maternal_mortality.mdb");
+				System.Console.WriteLine(" example 2 database_file_path:\"c:\\temp folder\\maternal_mortality.mdb\"");
+				System.Console.WriteLine(" example 3 database_file_path:mapping-file-set\\maternal_mortality.mdb\"");
+				System.Console.WriteLine(" mmria.exe import user_name:user1 password:secret url:http://localhost:12345 database_file_path:\"c:\\temp folder\\maternal_mortality.mdb\"");
 
 				return;
 			}
@@ -178,17 +170,6 @@ namespace mmria.console.import
 			{
 				id_list.Add(row[0].ToString());
 			}
-
-			/*
-			var id_list = new string[] {
-				"d4234123-2322-4f46-99a8-5b936b1ec237",
-				"0e602e72-4e67-404d-9a4b-e86e6793103d",
-				"0e638e2c-cdf0-4829-bf9c-f33a86a5ef35",
-				"0ed43157-48a2-4592-961c-6db57c8e83c7",
-				"0fa4cad4-805d-45e5-b5e7-71eb33710765",
-				"0fc0b3de-c964-4b95-b110-de0636f5ce3d"};
-			*/
-
 
 			foreach (string global_record_id in id_list)
 			{
