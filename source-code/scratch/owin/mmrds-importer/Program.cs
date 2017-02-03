@@ -25,6 +25,9 @@ namespace mmria.console
 		//export user_name:user1 password:password url:http://localhost:12345
 		//export-core user_name:user1 password:password url:http://localhost:12345
 
+		//export user_name:user1 password:password url:http://test.mmria.org
+		//export-core user_name:user1 password:password url:http://test.mmria.org
+		//import user_name:user1 password:password database_file_path:c:\temp\Maternal_Mortality.mdb url:http://test.mmria.org
 
 		public static void Main(string[] args)
 		{

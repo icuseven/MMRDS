@@ -112,7 +112,7 @@ namespace mmria.console.import
 			var case_maker = new Case_Maker();
 			var case_data_list = new List<dynamic>();
 
-			var mmrds_data = new cData(get_mdb_connection_string("mapping-file-set/Maternal_Mortality.mdb"));
+			var mmrds_data = new cData(get_mdb_connection_string(this.database_path));
 			var directory_path = @"mapping-file-set";
 			var main_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-test.csv";
 			var mapping_data = new cData(get_csv_connection_string(directory_path));

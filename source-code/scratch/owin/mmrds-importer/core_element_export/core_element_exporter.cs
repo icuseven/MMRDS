@@ -122,11 +122,12 @@ namespace mmria.console.export
 			dynamic all_cases = mmria_server.get_all_cases(this.database_url);
 
 
-
+			/*
 			foreach (KeyValuePair<string, object> kvp in all_cases)
 			{
 				System.Console.WriteLine(kvp.Key);
 			}
+			*/
 
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
 			System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
@@ -208,9 +209,11 @@ namespace mmria.console.export
 				false
 			);
 
-			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			//foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			foreach (System.Dynamic.ExpandoObject case_row in all_cases)
 			{
-				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
 				{
 					continue;
