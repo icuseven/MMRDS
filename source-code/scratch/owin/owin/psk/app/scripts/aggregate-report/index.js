@@ -49,7 +49,7 @@ function load_data(p_uid, p_pwd)
 			
 			g_data = response.rows;
 
-			document.getElementById('generate_report_button').disabled = false;
+			//document.getElementById('generate_report_button').disabled = false;
 			//process_rows();
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
@@ -65,11 +65,18 @@ function generate_report_click()
 	var month_of_case_review = document.getElementById('month_of_case_review').value;
 	var  year_of_case_review = document.getElementById('year_of_case_review').value;
 
-	var data = process_rows();
-	//var ui_render = render_results(data);
-	console.log(data);
+	if(g_data)
+	{
+		var data = process_rows();
+		//var ui_render = render_results(data);
+		console.log(data);
 
-	document.getElementById('report_output_id').innerHTML = data.join("");
+		document.getElementById('report_output_id').innerHTML = data.join("");
+	}
+	else
+	{
+		document.getElementById('report_output_id').innerHTML = "";
+	}
 }
 
 
