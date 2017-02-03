@@ -121,11 +121,11 @@ namespace mmria.console.export
 			dynamic all_cases = mmria_server.get_all_cases(this.database_url);
 
 
-
+			/*
 			foreach (KeyValuePair<string, object> kvp in all_cases)
 			{
 				System.Console.WriteLine(kvp.Key);
-			}
+			}*/
 
 			System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
 			System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
@@ -203,9 +203,11 @@ namespace mmria.console.export
 				false
 			);
 
-			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			//foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			foreach (System.Dynamic.ExpandoObject case_row in all_cases)
 			{
-				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
 				{
 					continue;
@@ -234,48 +236,56 @@ namespace mmria.console.export
 						System.Console.Write("pause");
 					}
 					*/
-
-					switch (path_to_node_map[path].type.ToLower())
+					try
 					{
+						switch (path_to_node_map[path].type.ToLower())
+						{
 
-						case "number":
-							if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
-							{
-								row[path_to_int_map[path].ToString("X")] = val;
-							}
-							break;
-						case "list":
+							case "number":
+								int try_int = 0;
 
-							if
-								(path_to_node_map[path].is_multiselect != null &&
-							   path_to_node_map[path].is_multiselect == true 
-
-							  )
-							{
-								
-								IList<object> temp = val as IList<object>;
-								if (temp != null && temp.Count > 0)
+								if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())) && int.TryParse(val.ToString(), out try_int))
 								{
-									
-									row[path_to_int_map[path].ToString("X")] = string.Join("|",temp);
+									row[path_to_int_map[path].ToString("X")] = val;
 								}
-							}
-							else
-							{
+								break;
+							case "list":
+
+								if
+									(path_to_node_map[path].is_multiselect != null &&
+								   path_to_node_map[path].is_multiselect == true
+
+								  )
+								{
+
+									IList<object> temp = val as IList<object>;
+									if (temp != null && temp.Count > 0)
+									{
+
+										row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+									}
+								}
+								else
+								{
+									if (val != null)
+									{
+										row[path_to_int_map[path].ToString("X")] = val;
+									}
+								}
+
+								break;
+							default:
 								if (val != null)
 								{
 									row[path_to_int_map[path].ToString("X")] = val;
 								}
-							}
+								break;
 
-							break;
-						default:
-							if (val != null)
-							{
-								row[path_to_int_map[path].ToString("X")] = val;
-							}
-							break;
-
+						}
+					}
+					catch (Exception ex)
+					{
+						System.Console.Write("bad export value: {0} - {1}", val, path);
 					}
 
 				}

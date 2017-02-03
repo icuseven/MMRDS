@@ -234,6 +234,8 @@ namespace mmria.console
 
 		public dynamic get_all_cases(string p_database_url)
 		{
+			return get_all_cases();
+
 			this.database_url = p_database_url;
 			/*
 			var credential = new System.Net.NetworkCredential
@@ -277,6 +279,22 @@ namespace mmria.console
 			else
 			{
 				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
+
+			return result;
+		}
+
+		public dynamic get_all_cases()
+		{
+			dynamic result = new List<System.Dynamic.ExpandoObject>();
+
+			foreach (string file_name in System.IO.Directory.GetFiles("import", "*"))
+			{
+
+				string json_string = System.IO.File.OpenText(file_name).ReadToEnd();
+				System.Dynamic.ExpandoObject case_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(json_string);
+				result.Add(case_data);
+
 			}
 
 			return result;

@@ -321,7 +321,7 @@ namespace mmria.console.import
 												grid_data.Rows[grid_row_index],
 												grid_mapping,
 												null,
-												grid_row_index
+												null
 											);
 									}
 								}
@@ -365,7 +365,7 @@ namespace mmria.console.import
 				//return;
 				System.IO.File.WriteAllText("import/" + global_record_id + ".json", json_string);
 
-				break;
+				//break;
 				case_data_list.Add(case_data);
 			}
 			case_maker.flush_bad_mapping();
@@ -515,6 +515,11 @@ namespace mmria.console.import
 				{
 					string path = row["mmria_path"].ToString().Trim();
 
+					if (path == "committee_review/pmss_mm")
+					{
+						System.Console.Write("break");
+					}
+
 					string[] path_array = row["mmria_path"].ToString().Trim().Split('/');
 
 					if (index != null && index.HasValue)
@@ -527,7 +532,16 @@ namespace mmria.console.import
 						path = case_maker.AppendGridIndexToPath(grid_index.Value, path);
 					}
 
-					case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim());
+					int check_index = row[0].ToString().IndexOf("/");
+					if (check_index > -1)
+					{
+						string table_name = row[0].ToString().Trim().Substring(0, check_index);
+						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], table_name + "." + row[2].ToString().Trim());
+					}
+					else
+					{
+						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim());
+					}
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));
 
