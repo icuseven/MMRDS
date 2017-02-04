@@ -23,9 +23,11 @@ namespace mmria.console.export
 		}
 		public void Execute(string[] args)
 		{
-			if (!System.IO.Directory.Exists("export"))
+			string export_directory = System.Configuration.ConfigurationManager.AppSettings["export_directory"];
+
+			if (!System.IO.Directory.Exists(export_directory))
 			{
-				System.IO.Directory.CreateDirectory("export");
+				System.IO.Directory.CreateDirectory(export_directory);
 			}
 
 

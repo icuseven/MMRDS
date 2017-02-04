@@ -8,10 +8,11 @@ namespace mmria.console
 	public class WriteCSV
 	{
 		string file_name;
-		string folder_name = "export";
+		string folder_name;
 		DataTable table;
 		public WriteCSV(string p_file_name)
 		{
+			this.folder_name = System.Configuration.ConfigurationManager.AppSettings["export_directory"];
 			this.file_name = p_file_name;
 			/*
 			var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;AttachDbFilename=E:\\temp\\MyDatabaseData2.MDF;Integrated " +

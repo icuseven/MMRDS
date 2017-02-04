@@ -24,9 +24,11 @@ namespace mmria.console.import
 		}
 		public void Execute(string[] args)
 		{
-			if (!System.IO.Directory.Exists("import"))
+			string import_directory = System.Configuration.ConfigurationManager.AppSettings["import_directory"];
+
+			if (!System.IO.Directory.Exists(import_directory))
 			{
-				System.IO.Directory.CreateDirectory("import");
+				System.IO.Directory.CreateDirectory(import_directory);
 			}
 
 
@@ -363,7 +365,7 @@ namespace mmria.console.import
 				*/
 
 				//return;
-				System.IO.File.WriteAllText("import/" + global_record_id + ".json", json_string);
+				System.IO.File.WriteAllText(import_directory + "/" + global_record_id + ".json", json_string);
 
 				//break;
 				case_data_list.Add(case_data);
