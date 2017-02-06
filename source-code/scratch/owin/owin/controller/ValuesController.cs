@@ -12,14 +12,17 @@ namespace mmria.server
 		} 
 
 		// GET api/values/5 
-		public string Get(int id) 
+		public  Dictionary<string,string>  Get(string value) 
 		{ 
-			return "value"; 
+			System.Environment.SetEnvironmentVariable("couchdb_url", value);
+
+			return new Dictionary<string,string>{{ "couchdb_url", get_couch_db_url() }};
 		} 
 
 		// POST api/values 
 		public void Post([FromBody]string value) 
 		{ 
+			System.Environment.SetEnvironmentVariable("couchdb_url", value);
 		} 
 
 		// PUT api/values/5 
