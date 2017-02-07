@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "424-6b2f5fe781ce63fb0ba86837a7e32537",
+  "_rev": "538-f2d3f731347bb5064d0ae1d6c5ffdc4d",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -54,7 +54,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "x12aa_ob"
+                  "name": "x3d2_ob"
                 },
                 "params": [
                   {
@@ -418,7 +418,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "x12b1_of"
+                  "name": "x3d9_of"
                 },
                 "params": [
                   {
@@ -445,60 +445,84 @@
                               "operator": "&&",
                               "left": {
                                 "type": "LogicalExpression",
-                                "operator": "||",
+                                "operator": "&&",
                                 "left": {
-                                  "type": "UnaryExpression",
-                                  "operator": "!",
-                                  "argument": {
-                                    "type": "MemberExpression",
-                                    "computed": false,
-                                    "object": {
-                                      "type": "ThisExpression"
-                                    },
-                                    "property": {
-                                      "type": "Identifier",
-                                      "name": "record_id"
-                                    }
-                                  },
-                                  "prefix": true
-                                },
-                                "right": {
-                                  "type": "BinaryExpression",
-                                  "operator": "==",
+                                  "type": "LogicalExpression",
+                                  "operator": "||",
                                   "left": {
-                                    "type": "MemberExpression",
-                                    "computed": false,
-                                    "object": {
-                                      "type": "ThisExpression"
+                                    "type": "UnaryExpression",
+                                    "operator": "!",
+                                    "argument": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "ThisExpression"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "record_id"
+                                      }
                                     },
-                                    "property": {
-                                      "type": "Identifier",
-                                      "name": "record_id"
-                                    }
+                                    "prefix": true
                                   },
                                   "right": {
-                                    "type": "Literal",
-                                    "value": "",
-                                    "raw": "''"
+                                    "type": "BinaryExpression",
+                                    "operator": "==",
+                                    "left": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "ThisExpression"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "record_id"
+                                      }
+                                    },
+                                    "right": {
+                                      "type": "Literal",
+                                      "value": "",
+                                      "raw": "''"
+                                    }
+                                  }
+                                },
+                                "right": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "state_of_death_record"
                                   }
                                 }
                               },
                               "right": {
-                                "type": "MemberExpression",
-                                "computed": false,
-                                "object": {
-                                  "type": "ThisExpression"
+                                "type": "BinaryExpression",
+                                "operator": "!=",
+                                "left": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "state_of_death_record"
+                                  }
                                 },
-                                "property": {
-                                  "type": "Identifier",
-                                  "name": "state_of_death_record"
+                                "right": {
+                                  "type": "Literal",
+                                  "value": "",
+                                  "raw": "''"
                                 }
                               }
                             },
                             "right": {
-                              "type": "BinaryExpression",
-                              "operator": "!=",
-                              "left": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
                                 "type": "MemberExpression",
                                 "computed": false,
                                 "object": {
@@ -506,39 +530,47 @@
                                 },
                                 "property": {
                                   "type": "Identifier",
-                                  "name": "state_of_death_record"
+                                  "name": "date_of_death"
                                 }
                               },
-                              "right": {
-                                "type": "Literal",
-                                "value": "",
-                                "raw": "''"
+                              "property": {
+                                "type": "Identifier",
+                                "name": "year"
                               }
                             }
                           },
                           "right": {
-                            "type": "MemberExpression",
-                            "computed": false,
-                            "object": {
+                            "type": "BinaryExpression",
+                            "operator": ">",
+                            "left": {
                               "type": "MemberExpression",
                               "computed": false,
                               "object": {
-                                "type": "ThisExpression"
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "date_of_death"
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
-                                "name": "date_of_death"
+                                "name": "year"
                               }
                             },
-                            "property": {
-                              "type": "Identifier",
-                              "name": "year"
+                            "right": {
+                              "type": "Literal",
+                              "value": 999,
+                              "raw": "999"
                             }
                           }
                         },
                         "right": {
                           "type": "BinaryExpression",
-                          "operator": ">",
+                          "operator": "<",
                           "left": {
                             "type": "MemberExpression",
                             "computed": false,
@@ -560,8 +592,8 @@
                           },
                           "right": {
                             "type": "Literal",
-                            "value": 2000,
-                            "raw": "2000"
+                            "value": 2500,
+                            "raw": "2500"
                           }
                         }
                       },
@@ -1058,7 +1090,7 @@
           "is_core_summary": true
         },
         {
-          "prompt": "Specify Other or Multiple Sources",
+          "prompt": "Specify Other or Additional Sources",
           "name": "specify_other_multiple_sources",
           "type": "string"
         },
@@ -1408,12 +1440,7 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Date of Death",
-              "name": "date_of_death",
-              "type": "date"
-            },
-            {
-              "prompt": "Time",
+              "prompt": "Time of Death",
               "name": "time_of_death",
               "type": "time"
             },
@@ -1685,7 +1712,8 @@
                   "description": "",
                   "value": "VI- Virgin Islands"
                 }
-              ]
+              ],
+              "is_core_summary": true
             },
             {
               "prompt": "Zip Code",
@@ -1755,7 +1783,7 @@
                     "type": "FunctionDeclaration",
                     "id": {
                       "type": "Identifier",
-                      "name": "x12d2_ob"
+                      "name": "x3f9_ob"
                     },
                     "params": [
                       {
@@ -2346,7 +2374,7 @@
               }
             },
             {
-              "prompt": "Age at Death*",
+              "prompt": "Age at death*",
               "name": "age",
               "type": "Number",
               "is_core_summary": true,
@@ -2357,7 +2385,7 @@
                     "type": "FunctionDeclaration",
                     "id": {
                       "type": "Identifier",
-                      "name": "x12d7_of"
+                      "name": "x3fe_of"
                     },
                     "params": [
                       {
@@ -3026,7 +3054,7 @@
                   "value": ""
                 },
                 {
-                  "description": "test",
+                  "description": "",
                   "value": "Married"
                 },
                 {
@@ -4323,12 +4351,12 @@
               "is_core_summary": true
             },
             {
-              "prompt": "Business/ Industry",
+              "prompt": "Business/Industry",
               "name": "occupation_business_industry",
               "type": "String"
             },
             {
-              "prompt": "Ever in US Armed Forces?",
+              "prompt": "Ever in U.S. Armed Forces?",
               "name": "ever_in_us_armed_forces",
               "type": "list",
               "values": [
@@ -5700,7 +5728,7 @@
               "type": "string"
             },
             {
-              "prompt": "State*",
+              "prompt": "State",
               "name": "state",
               "type": "list",
               "values": [
@@ -5940,8 +5968,7 @@
                   "description": "",
                   "value": "VI- Virgin Islands"
                 }
-              ],
-              "is_core_summary": true
+              ]
             },
             {
               "prompt": "Zip Code",
@@ -5954,16 +5981,14 @@
               "type": "string"
             },
             {
-              "prompt": "Latitude*",
+              "prompt": "Latitude",
               "name": "latitude",
-              "type": "number",
-              "is_core_summary": true
+              "type": "number"
             },
             {
-              "prompt": "Longitude*",
+              "prompt": "Longitude",
               "name": "longitude",
-              "type": "number",
-              "is_core_summary": true
+              "type": "number"
             },
             {
               "prompt": "Get Coordinates",
@@ -6671,8 +6696,7 @@
                 {
                   "prompt": "Month",
                   "name": "month",
-                  "type": "number",
-                  "is_core_summary": true
+                  "type": "number"
                 },
                 {
                   "prompt": "Day",
@@ -8476,7 +8500,7 @@
               "type": "String"
             },
             {
-              "prompt": "Father of Hispanic Origin?*",
+              "prompt": "Father of Hispanic Origin?",
               "name": "is_father_of_hispanic_origin",
               "type": "List",
               "values": [
@@ -8512,8 +8536,7 @@
                   "description": "",
                   "value": "Not specified"
                 }
-              ],
-              "is_core_summary": true
+              ]
             },
             {
               "prompt": "Father's Race",
@@ -10030,7 +10053,7 @@
               ]
             },
             {
-              "prompt": "Hispanic Origin?*",
+              "prompt": "Mother of Hispanic Origin?*",
               "name": "is_of_hispanic_origin",
               "type": "List",
               "values": [
@@ -10125,16 +10148,14 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Street*",
+              "prompt": "Street",
               "name": "street",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
-              "prompt": "City*",
+              "prompt": "City",
               "name": "city",
-              "type": "string",
-              "is_core_summary": true
+              "type": "string"
             },
             {
               "prompt": "State*",
@@ -10426,7 +10447,7 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Mother's Race (Select All That Apply)",
+              "prompt": "Mother's Race (Select All That Apply)*",
               "name": "race_of_mother",
               "type": "list",
               "values": [
@@ -10890,7 +10911,7 @@
           ]
         },
         {
-          "prompt": "Cigarette Smoking Before and During Pregnancy*",
+          "prompt": "Cigarette Smoking Before and During Pregnancy",
           "name": "cigarette_smoking",
           "type": "group",
           "children": [
@@ -11082,7 +11103,9 @@
                   "value": "Not Specified"
                 }
               ],
-              "is_core_summary": true
+              "is_core_summary": true,
+              "is_multiselect": true,
+              "list_display_size": 14
             },
             {
               "prompt": "Number of C-sections",
@@ -11150,7 +11173,8 @@
             }
           ],
           "is_core_summary": true,
-          "is_multiselect": true
+          "is_multiselect": true,
+          "list_display_size": 13
         },
         {
           "prompt": "Onset of Labor (Choose All That Apply)*",
@@ -11183,10 +11207,11 @@
             }
           ],
           "is_core_summary": true,
-          "is_multiselect": true
+          "is_multiselect": true,
+          "list_display_size": 6
         },
         {
-          "prompt": "Obstetric Procedures (Check All that Apply)*",
+          "prompt": "Obstetric Procedures (Select All that Apply)*",
           "name": "obstetric_procedures",
           "type": "list",
           "values": [
@@ -11220,10 +11245,11 @@
             }
           ],
           "is_core_summary": true,
-          "is_multiselect": true
+          "is_multiselect": true,
+          "list_display_size": 7
         },
         {
-          "prompt": "Characteristics of Labor and Delivery (Check All That Apply)*",
+          "prompt": "Characteristics of Labor and Delivery (Select All That Apply)*",
           "name": "characteristics_of_labor_and_delivery",
           "type": "list",
           "values": [
@@ -11277,10 +11303,11 @@
             }
           ],
           "is_core_summary": true,
-          "is_multiselect": true
+          "is_multiselect": true,
+          "list_display_size": 12
         },
         {
-          "prompt": "Maternal Morbidity (Check All That Apply)*",
+          "prompt": "Maternal Morbidity (Select All That Apply)*",
           "name": "maternal_morbidity",
           "type": "list",
           "values": [
@@ -11322,7 +11349,8 @@
             }
           ],
           "is_core_summary": true,
-          "is_multiselect": true
+          "is_multiselect": true,
+          "list_display_size": 9
         },
         {
           "prompt": "Number of Days  Between Birth of Child and Death of Mother*",
@@ -11437,14 +11465,8 @@
               "type": "group",
               "children": [
                 {
-                  "prompt": "Value*",
-                  "name": "value",
-                  "type": "number",
-                  "is_core_summary": true
-                },
-                {
-                  "prompt": "Unit Type*",
-                  "name": "value_unit",
+                  "prompt": "Unit of Measurement",
+                  "name": "unit_of_measurement",
                   "type": "list",
                   "values": [
                     {
@@ -11453,13 +11475,24 @@
                     },
                     {
                       "description": "",
-                      "value": "lbs"
+                      "value": "Grams"
                     },
                     {
                       "description": "",
-                      "value": "grams"
+                      "value": "Pounds/Ounces"
                     }
-                  ],
+                  ]
+                },
+                {
+                  "prompt": "Value (Grams or Pounds)*",
+                  "name": "grams_or_pounds",
+                  "type": "number",
+                  "is_core_summary": true
+                },
+                {
+                  "prompt": "Value (Ounces)*",
+                  "name": "ounces",
+                  "type": "number",
                   "is_core_summary": true
                 }
               ]
@@ -12971,7 +13004,7 @@
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea"
+              "type": "string"
             }
           ]
         },
@@ -13063,7 +13096,7 @@
             {
               "prompt": "Other (Specify)",
               "name": "other",
-              "type": "textarea"
+              "type": "string"
             },
             {
               "prompt": "Duration",
@@ -13073,7 +13106,7 @@
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea"
+              "type": "string"
             }
           ]
         },
@@ -13189,12 +13222,12 @@
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea"
+              "type": "string"
             }
           ]
         },
         {
-          "prompt": "Evidence of Substance Use",
+          "prompt": "Was There Evidence of Substance Use?",
           "name": "evidence_of_substance_use",
           "type": "list",
           "values": [
@@ -13419,7 +13452,7 @@
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea"
+              "type": "string"
             }
           ],
           "is_core_summary": true
@@ -13432,17 +13465,20 @@
             {
               "prompt": "Gravida*",
               "name": "gravida",
-              "type": "string"
+              "type": "string",
+              "is_core_summary": true
             },
             {
               "prompt": "Para*",
               "name": "para",
-              "type": "string"
+              "type": "string",
+              "is_core_summary": true
             },
             {
               "prompt": "Abortions*",
               "name": "abortions",
-              "type": "string"
+              "type": "string",
+              "is_core_summary": true
             },
             {
               "prompt": "Specify Details Below:",
@@ -13504,7 +13540,7 @@
                 {
                   "prompt": "Method of Delivery",
                   "name": "method_of_delivery",
-                  "type": "number"
+                  "type": "string"
                 },
                 {
                   "prompt": "Complication(s)",
@@ -13811,6 +13847,16 @@
                   "prompt": "Estimate",
                   "name": "is_estimated",
                   "type": "boolean"
+                },
+                {
+                  "prompt": "GA- Weeks",
+                  "name": "gestational_age_weeks",
+                  "type": "number"
+                },
+                {
+                  "prompt": "GA- Days",
+                  "name": "gestational_age_days",
+                  "type": "number"
                 }
               ]
             },
@@ -14015,7 +14061,7 @@
               ]
             },
             {
-              "prompt": "Estimated Date of Confinement (Estimated Date of Delivery)*",
+              "prompt": "Estimated Date of Confinement (Estimated Date of Delivery)",
               "name": "estimated_date_of_confinement",
               "type": "group",
               "children": [
@@ -14094,6 +14140,16 @@
               "type": "datetime"
             },
             {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
+            },
+            {
               "prompt": "Systolic BP",
               "name": "systolic_bp",
               "type": "number"
@@ -14122,19 +14178,19 @@
                 },
                 {
                   "description": "",
-                  "value": "+1"
+                  "value": "1+"
                 },
                 {
                   "description": "",
-                  "value": "+2"
+                  "value": "2+"
                 },
                 {
                   "description": "",
-                  "value": "+3"
+                  "value": "3+"
                 },
                 {
                   "description": "",
-                  "value": "+4"
+                  "value": "4+"
                 }
               ]
             },
@@ -14157,19 +14213,19 @@
                 },
                 {
                   "description": "",
-                  "value": "+1"
+                  "value": "1+"
                 },
                 {
                   "description": "",
-                  "value": "+2"
+                  "value": "2+"
                 },
                 {
                   "description": "",
-                  "value": "+3"
+                  "value": "3+"
                 },
                 {
                   "description": "",
-                  "value": "+4"
+                  "value": "4+"
                 }
               ]
             },
@@ -14192,19 +14248,19 @@
                 },
                 {
                   "description": "",
-                  "value": "+1"
+                  "value": "1+"
                 },
                 {
                   "description": "",
-                  "value": "+2"
+                  "value": "2+"
                 },
                 {
                   "description": "",
-                  "value": "+3"
+                  "value": "3+"
                 },
                 {
                   "description": "",
-                  "value": "+4"
+                  "value": "4+"
                 }
               ]
             },
@@ -14243,12 +14299,14 @@
             {
               "prompt": "Systolic",
               "name": "systolic",
-              "type": "number"
+              "type": "number",
+              "is_core_summary": true
             },
             {
               "prompt": "Diastolic",
               "name": "diastolic",
-              "type": "number"
+              "type": "number",
+              "is_core_summary": true
             }
           ]
         },
@@ -14267,6 +14325,16 @@
               "prompt": "Date and Time",
               "name": "date_and_time",
               "type": "datetime"
+            },
+            {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
             },
             {
               "prompt": "Test/Procedure",
@@ -14296,6 +14364,16 @@
               "type": "date"
             },
             {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
+            },
+            {
               "prompt": "Procedure",
               "name": "procedure",
               "type": "string"
@@ -14303,7 +14381,7 @@
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea"
+              "type": "string"
             }
           ]
         },
@@ -14342,6 +14420,16 @@
               "type": "date"
             },
             {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
+            },
+            {
               "prompt": "Problem",
               "name": "problem",
               "type": "string"
@@ -14349,7 +14437,7 @@
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea"
+              "type": "string"
             }
           ]
         },
@@ -14386,6 +14474,16 @@
               "prompt": "Date",
               "name": "date",
               "type": "date"
+            },
+            {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
             },
             {
               "prompt": "Medication",
@@ -14463,6 +14561,16 @@
               "type": "date"
             },
             {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
+            },
+            {
               "prompt": "Facility",
               "name": "facility",
               "type": "string"
@@ -14517,6 +14625,16 @@
               "prompt": "Date",
               "name": "date",
               "type": "date"
+            },
+            {
+              "prompt": "GA- Weeks",
+              "name": "gestational_age_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "GA- Days",
+              "name": "gestational_age_days",
+              "type": "number"
             },
             {
               "prompt": "Type of Specialist",
@@ -14944,7 +15062,7 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Date of Arrival at Hospital/ER*",
+              "prompt": "Date of Arrival at Hospital/ER",
               "name": "date_of_arrival",
               "type": "group",
               "children": [
@@ -14971,7 +15089,7 @@
               ]
             },
             {
-              "prompt": "Date of Hospital Admission*",
+              "prompt": "Date of Hospital Admission",
               "name": "date_of_hospital_admission",
               "type": "group",
               "children": [
@@ -16189,19 +16307,21 @@
           ]
         },
         {
-          "prompt": "Highest BP*",
+          "prompt": "Highest BP",
           "name": "highest_bp",
           "type": "group",
           "children": [
             {
-              "prompt": "Systolic BP",
+              "prompt": "Systolic BP*",
               "name": "systolic_bp",
-              "type": "number"
+              "type": "number",
+              "is_core_summary": true
             },
             {
-              "prompt": "Diastolic BP",
+              "prompt": "Diastolic BP*",
               "name": "diastolic_bp",
-              "type": "number"
+              "type": "number",
+              "is_core_summary": true
             }
           ]
         },
@@ -19304,7 +19424,7 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Documented Barriers to Health Care Access* (Select all that apply)",
+              "prompt": "Documented Barriers to Health Care Access* (Select All That Apply)",
               "name": "barriers_to_health_care_access",
               "type": "list",
               "values": [
@@ -19347,13 +19467,13 @@
               ],
               "is_core_summary": true,
               "is_multiselect": true,
+              "list_display_size": 9,
               "control_style": "checkbox"
             },
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea",
-              "is_core_summary": true
+              "type": "textarea"
             }
           ]
         },
@@ -19363,7 +19483,7 @@
           "type": "group",
           "children": [
             {
-              "prompt": "Documented Barriers to Communications* (Select all that apply)",
+              "prompt": "Documented Barriers to Communications* (Select All That Apply)",
               "name": "barriers_to_communications",
               "type": "list",
               "values": [
@@ -19406,13 +19526,13 @@
               ],
               "is_core_summary": true,
               "is_multiselect": true,
+              "list_display_size": 9,
               "control_style": "checkbox"
             },
             {
               "prompt": "Comment(s)",
               "name": "comments",
-              "type": "textarea",
-              "is_core_summary": true
+              "type": "textarea"
             }
           ]
         },
@@ -19485,6 +19605,7 @@
               ],
               "is_core_summary": true,
               "is_multiselect": true,
+              "list_display_size": 14,
               "control_style": "checkbox"
             },
             {
@@ -19495,8 +19616,7 @@
             {
               "prompt": "Explain Further",
               "name": "explain_further",
-              "type": "textarea",
-              "is_core_summary": true
+              "type": "textarea"
             }
           ]
         },
@@ -19506,13 +19626,13 @@
           "type": "group",
           "children": [
             {
-              "prompt": "No Prenatal Care",
+              "prompt": "No Prenatal Care*",
               "name": "no_prenatal_care",
               "type": "boolean",
               "is_core_summary": true
             },
             {
-              "prompt": "Reasons for Missed Appointments* (Check all that apply)",
+              "prompt": "Reasons for Missed Appointments (Select All That Apply)*",
               "name": "reasons_for_missed_appointments",
               "type": "list",
               "values": [
@@ -19558,18 +19678,13 @@
                 }
               ],
               "is_core_summary": true,
-              "is_multiselect": true
+              "is_multiselect": true,
+              "list_display_size": 10
             },
             {
               "prompt": "Specify Other Reason",
               "name": "specify_other_reason",
               "type": "string"
-            },
-            {
-              "prompt": "Comment(s)",
-              "name": "comments",
-              "type": "textarea",
-              "is_core_summary": true
             }
           ]
         },
@@ -19961,8 +20076,8 @@
           "is_core_summary": true
         },
         {
-          "prompt": "Place of Last Residence Census Information",
-          "name": "new_clone_name_16",
+          "prompt": "Census Tract Information Based on Place of Last Residence- UNDER CONSTRUCTION",
+          "name": "census_information",
           "type": "group",
           "children": [
             {
@@ -20023,141 +20138,6 @@
       "type": "form",
       "cardinality": "?",
       "children": [
-        {
-          "prompt": "Were There Documented Mental Health Conditions?",
-          "name": "were_there_documented_mental_health_conditions",
-          "type": "grid",
-          "children": [
-            {
-              "prompt": "Date of Screening",
-              "name": "date_of_screening",
-              "type": "date"
-            },
-            {
-              "prompt": "Gestational Age- Weeks",
-              "name": "gestational_weeks",
-              "type": "string"
-            },
-            {
-              "prompt": "Gestational Age- Days",
-              "name": "gestational_days",
-              "type": "number"
-            },
-            {
-              "prompt": "Screening Tool",
-              "name": "screening_tool",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Generalized Anxiety Disorder (GAD-7)"
-                },
-                {
-                  "description": "",
-                  "value": "Primary Care PTSD Screen (PC-PTSD)"
-                },
-                {
-                  "description": "",
-                  "value": "Edinburgh Postnatal Depression Scale (EPDS)"
-                },
-                {
-                  "description": "",
-                  "value": "Postpartum Depression Screening Scale (PDSS)"
-                },
-                {
-                  "description": "",
-                  "value": "Patient Health Questionnaire (PHQ-9)"
-                },
-                {
-                  "description": "",
-                  "value": "Beck Depression Inventory (BDI)"
-                },
-                {
-                  "description": "",
-                  "value": "Beck Depression Inventory-II (BDI-II)"
-                },
-                {
-                  "description": "",
-                  "value": "Center for Epidemiologic Studies Depression Scale Revised (CESD-R)"
-                },
-                {
-                  "description": "",
-                  "value": "Zung Self-Rating Depression Scale (SDS)"
-                },
-                {
-                  "description": "",
-                  "value": "Mood Disorder Questionnaire (MSQ)"
-                },
-                {
-                  "description": "",
-                  "value": "NM ASSIST"
-                },
-                {
-                  "description": "",
-                  "value": "NIDA Quick Screen"
-                },
-                {
-                  "description": "",
-                  "value": "CAGE-AID"
-                },
-                {
-                  "description": "",
-                  "value": "Alcohol Use Disorders Identification Test (AUDIT)"
-                },
-                {
-                  "description": "",
-                  "value": "Drug Abuse Screening Test (DAST-10)"
-                },
-                {
-                  "description": "",
-                  "value": "SAFE-T"
-                },
-                {
-                  "description": "",
-                  "value": "Columbia-Suicide Severity Rating Scale (C-SSRS)"
-                },
-                {
-                  "description": "",
-                  "value": "Other"
-                }
-              ],
-              "list_display_size": 1,
-              "control_style": "editable"
-            },
-            {
-              "prompt": "Other",
-              "name": "other",
-              "type": "textarea"
-            },
-            {
-              "prompt": "Referral for Treatment",
-              "name": "referral_for_treatment",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "Yes"
-                },
-                {
-                  "description": "",
-                  "value": "No"
-                },
-                {
-                  "description": "",
-                  "value": "Unknown"
-                }
-              ]
-            }
-          ]
-        },
         {
           "prompt": "Were There Documented Preexisting Mental Health Conditions?*",
           "name": "were_there_documented_preexisting_mental_health_conditions",
@@ -20305,7 +20285,141 @@
           ]
         },
         {
-          "prompt": "Was the Decedent Treated for Any of the Following Mental Health Conditions Prior to the Most Recent Pregnancy? (Check All that Apply)*",
+          "prompt": "Were There Documented Screenings and Referrals for Mental Health Conditions?",
+          "name": "were_there_documented_mental_health_conditions",
+          "type": "grid",
+          "children": [
+            {
+              "prompt": "Date of Screening",
+              "name": "date_of_screening",
+              "type": "date"
+            },
+            {
+              "prompt": "Gestational Age- Weeks",
+              "name": "gestational_weeks",
+              "type": "number"
+            },
+            {
+              "prompt": "Gestational Age- Days",
+              "name": "gestational_days",
+              "type": "number"
+            },
+            {
+              "prompt": "Screening Tool",
+              "name": "screening_tool",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Generalized Anxiety Disorder (GAD-7)"
+                },
+                {
+                  "description": "",
+                  "value": "Primary Care PTSD Screen (PC-PTSD)"
+                },
+                {
+                  "description": "",
+                  "value": "Edinburgh Postnatal Depression Scale (EPDS)"
+                },
+                {
+                  "description": "",
+                  "value": "Postpartum Depression Screening Scale (PDSS)"
+                },
+                {
+                  "description": "",
+                  "value": "Patient Health Questionnaire (PHQ-9)"
+                },
+                {
+                  "description": "",
+                  "value": "Beck Depression Inventory (BDI)"
+                },
+                {
+                  "description": "",
+                  "value": "Beck Depression Inventory-II (BDI-II)"
+                },
+                {
+                  "description": "",
+                  "value": "Center for Epidemiologic Studies Depression Scale Revised (CESD-R)"
+                },
+                {
+                  "description": "",
+                  "value": "Zung Self-Rating Depression Scale (SDS)"
+                },
+                {
+                  "description": "",
+                  "value": "Mood Disorder Questionnaire (MSQ)"
+                },
+                {
+                  "description": "",
+                  "value": "NM ASSIST"
+                },
+                {
+                  "description": "",
+                  "value": "NIDA Quick Screen"
+                },
+                {
+                  "description": "",
+                  "value": "CAGE-AID"
+                },
+                {
+                  "description": "",
+                  "value": "Alcohol Use Disorders Identification Test (AUDIT)"
+                },
+                {
+                  "description": "",
+                  "value": "Drug Abuse Screening Test (DAST-10)"
+                },
+                {
+                  "description": "",
+                  "value": "SAFE-T"
+                },
+                {
+                  "description": "",
+                  "value": "Columbia-Suicide Severity Rating Scale (C-SSRS)"
+                },
+                {
+                  "description": "",
+                  "value": "Other"
+                }
+              ],
+              "list_display_size": 1
+            },
+            {
+              "prompt": "Other",
+              "name": "other",
+              "type": "string"
+            },
+            {
+              "prompt": "Referral for Treatment",
+              "name": "referral_for_treatment",
+              "type": "list",
+              "values": [
+                {
+                  "description": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "value": "Yes"
+                },
+                {
+                  "description": "",
+                  "value": "No"
+                },
+                {
+                  "description": "",
+                  "value": "Unknown"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "prompt": "Was the Decedent TREATED for Any of the Following Mental Health Conditions PRIOR TO the Most Recent Pregnancy? (Select All that Apply)*",
           "name": "mental_health_conditions_prior_to_the_most_recent_pregnancy",
           "type": "list",
           "values": [
@@ -20340,6 +20454,7 @@
           ],
           "is_core_summary": true,
           "is_multiselect": true,
+          "list_display_size": 7,
           "control_style": "checkbox"
         },
         {
@@ -20348,7 +20463,7 @@
           "type": "string"
         },
         {
-          "prompt": "Was the Decedent Treated for Any of the Following Mental Health Conditions During the Most Recent Pregnancy? (Check All that Apply)*",
+          "prompt": "Was the Decedent TREATED for Any of the Following Mental Health Conditions DURING the Most Recent Pregnancy? (Select All that Apply)*",
           "name": "mental_health_conditions_during_the_most_recent_pregnancy",
           "type": "list",
           "values": [
@@ -20383,6 +20498,7 @@
           ],
           "is_core_summary": true,
           "is_multiselect": true,
+          "list_display_size": 7,
           "control_style": "checkbox"
         },
         {
@@ -20391,7 +20507,7 @@
           "type": "string"
         },
         {
-          "prompt": "Was the Decedent Treated for Any of the Following Mental Health Conditions After the Most Recent Pregnancy? (Check All that Apply)*",
+          "prompt": "Was the Decedent TREATED for Any of the Following Mental Health Conditions AFTER the Most Recent Pregnancy? (Select All that Apply)*",
           "name": "mental_health_conditions_after_the_most_recent_pregnancy",
           "type": "list",
           "values": [
@@ -20426,6 +20542,7 @@
           ],
           "is_core_summary": true,
           "is_multiselect": true,
+          "list_display_size": 7,
           "control_style": "checkbox"
         },
         {
@@ -20710,7 +20827,7 @@
       "cardinality": "?",
       "children": [
         {
-          "prompt": "Case Narrative",
+          "prompt": "Case Narrative- Use the pre-fill text below, and copy and paste from Reviewer's Notes above to create a comprehensive case narrative.  Whatever you type here is what will be printed in the Print Version.",
           "name": "case_opening_overview",
           "type": "textarea",
           "pre_fill": "She was a (age, place of birth, race/ethnicity, marriage status, level education, occupation).  She was a gravida ____ para ___, who died with cause of death ____, ___ days /months, before, during or after delivery.  Medical history was significant for ___ (Pre-pregnancy risk factors or pre-existing medical conditions).  Pre-pregnancy BMI was_______. Life course issues significant for __________ (psychosocial factors).\n\nEntry into prenatal care was at _______ weeks with # visits at a ____ (describe location) with a ___ (provider type).  Prenatal history was significant for ___ (include identified obstetric risk factors).  Referrals during prenatal period were to ______________on ________ (date).\n\nHealth events prior to delivery included _________.  She presented to clinic/hospital/other_______ at________ weeks gestation.  Delivery was by a (provider title)____, method was ________, with ______ anesthesia.  Obstetric complications included ________.  She presented to clinic/hospital/other________ at ________ weeks gestation.  Delivery was by a (provider title) _______, method was _______, with __________ anesthesia.  Obstetric complications included ________.  Fetus/infant was _______weeks gestation and weighed ________pounds/ounces.  Apgar scores were _______ and complications were _______.  Postpartum period (before discharge) significant for developing _______.  Mother and infant were/were not discharged (if applicable) to _______.  At _______weeks postpartum she presented to (describe location) _______.  Postpartum period (after discharge) significant for _______.\n\n(Summarize terminal event).  Autopsy was done by a _______ or was not done.  Significant findings included _______.  \n\n(Describe if any bereavement services were offered.)",
@@ -20818,327 +20935,635 @@
               "prompt": "Cause (Descriptive)",
               "name": "cause_descriptive",
               "type": "string"
+            },
+            {
+              "prompt": "Comments",
+              "name": "comments",
+              "type": "string"
             }
           ]
         },
         {
-          "prompt": "If Pregnancy-Related, Committee Determination of Underlying Cause of Death (PMSS-MM)*   (Select Up To Two)",
+          "prompt": "If Pregnancy-Related, Committee Determination of Primary Underlying Cause of Death (PMSS-MM)",
           "name": "pmss_mm",
-          "type": "grid",
-          "children": [
+          "type": "list",
+          "values": [
             {
-              "prompt": "PMSS-MM",
-              "name": "pmss_mm",
-              "type": "list",
-              "values": [
-                {
-                  "description": "",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "value": "10 Hemorrhage (Excludes Aneurysms or CVA)"
-                },
-                {
-                  "description": "",
-                  "value": "10.1 Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
-                },
-                {
-                  "description": "",
-                  "value": "10.2 Placental Abruption"
-                },
-                {
-                  "description": "",
-                  "value": "10.3 Placenta Previa"
-                },
-                {
-                  "description": "",
-                  "value": "10.4 Ruptured Ectopic Pregnancy"
-                },
-                {
-                  "description": "",
-                  "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
-                },
-                {
-                  "description": "",
-                  "value": "10.6 Placenta Accreta/Increta/Percreta"
-                },
-                {
-                  "description": "",
-                  "value": "10.7 Hemorrhage due to Retained Placenta"
-                },
-                {
-                  "description": "",
-                  "value": "10.8 Hemorrhage due to Primary DIC"
-                },
-                {
-                  "description": "",
-                  "value": "10.9 Other Hemorrhage/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "20 Infection"
-                },
-                {
-                  "description": "",
-                  "value": "20.1 Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
-                },
-                {
-                  "description": "",
-                  "value": "20.2 Sepsis/Septic Shock"
-                },
-                {
-                  "description": "",
-                  "value": "20.4 Chorioamnionitis/Antepartum Infection"
-                },
-                {
-                  "description": "",
-                  "value": "20.5 Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
-                },
-                {
-                  "description": "",
-                  "value": "20.6 Urinary Track Infection"
-                },
-                {
-                  "description": "",
-                  "value": "20.9 Other Infections/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "30 Embolism - Amniotic Fluid"
-                },
-                {
-                  "description": "",
-                  "value": "40 Pre-Eclampsia"
-                },
-                {
-                  "description": "",
-                  "value": "50 Eclampsia"
-                },
-                {
-                  "description": "",
-                  "value": "60 Chronic Hypertension with Superimposed Pre/Eclampsia"
-                },
-                {
-                  "description": "",
-                  "value": "70 Anesthesia Complications"
-                },
-                {
-                  "description": "",
-                  "value": "80 Cardiomyopathy"
-                },
-                {
-                  "description": "",
-                  "value": "80.1 Post-Partum/Peripartum Cardiomyopathy"
-                },
-                {
-                  "description": "",
-                  "value": "80.2 Hypertrophic Cardiomyopathy"
-                },
-                {
-                  "description": "",
-                  "value": "80.9 Other Cardiomyopathy/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "82 Hematologic"
-                },
-                {
-                  "description": "",
-                  "value": "82.1 Sickle Cell Anemia"
-                },
-                {
-                  "description": "",
-                  "value": "82.9 Other Hematologic Conditions including Thrombophilias/TTP/HUS/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "83 Collagen Vascular/Auto Immune Diseases"
-                },
-                {
-                  "description": "",
-                  "value": "83.1 Systemic Lupus Erythematosus (SLE)"
-                },
-                {
-                  "description": "",
-                  "value": "83.9 Other Collagen Vascular Diseases/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "85 Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
-                },
-                {
-                  "description": "",
-                  "value": "88 Injury"
-                },
-                {
-                  "description": "",
-                  "value": "88.1 Intentional"
-                },
-                {
-                  "description": "",
-                  "value": "88.2 Unintentional"
-                },
-                {
-                  "description": "",
-                  "value": "88.9 Unknown/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "89 Cancer"
-                },
-                {
-                  "description": "",
-                  "value": "89.1 Gestational Trophoblastic Disease (GTN)"
-                },
-                {
-                  "description": "",
-                  "value": "89.3 Malignant Melanoma"
-                },
-                {
-                  "description": "",
-                  "value": "89.9 Other Malignancies/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "90 Cardiovascular Conditions"
-                },
-                {
-                  "description": "",
-                  "value": "90.1 Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
-                },
-                {
-                  "description": "",
-                  "value": "90.2 Pulmonary Hypertension"
-                },
-                {
-                  "description": "",
-                  "value": "90.3 Valvular Heart Disease Congenital and Acquired"
-                },
-                {
-                  "description": "",
-                  "value": "90.4 Vascular Aneurysm/Dissection (Non-Cerebral)"
-                },
-                {
-                  "description": "",
-                  "value": "90.5 Hypertensive Cardiovascular Disease"
-                },
-                {
-                  "description": "",
-                  "value": "90.6 Marfan's Syndrome"
-                },
-                {
-                  "description": "",
-                  "value": "90.7 Conduction Defects/Arrhythmias"
-                },
-                {
-                  "description": "",
-                  "value": "90.8 Vascular Malformations Outside Head and Coronary Arteries"
-                },
-                {
-                  "description": "",
-                  "value": "90.9 Other Cardiovascular Disease, including CHF, Cardiomegaly, Cardiac Hypertrophy, Cardiac Fibrosis, Non-Acute Myocarditis/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "91 Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
-                },
-                {
-                  "description": "",
-                  "value": "91.1 Chronic Lung Disease"
-                },
-                {
-                  "description": "",
-                  "value": "91.2 Cystic Fibrosis"
-                },
-                {
-                  "description": "",
-                  "value": "91.3 Asthma"
-                },
-                {
-                  "description": "",
-                  "value": "91.9 Other Pulmonary Disease/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "92 Neurologic/Neurovascular Conditions (Excluding CVAs)"
-                },
-                {
-                  "description": "",
-                  "value": "92.1 Epilepsy/Seizure Disorder"
-                },
-                {
-                  "description": "",
-                  "value": "92.9 Other Neurologic Diseases/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "93 Renal Disease"
-                },
-                {
-                  "description": "",
-                  "value": "93.1 Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
-                },
-                {
-                  "description": "",
-                  "value": "93.9 Other Renal Disease/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
-                },
-                {
-                  "description": "",
-                  "value": "96 Metabolic/Endocrine"
-                },
-                {
-                  "description": "",
-                  "value": "96.1 Obesity"
-                },
-                {
-                  "description": "",
-                  "value": "96.2 Diabetes Mellitus"
-                },
-                {
-                  "description": "",
-                  "value": "96.9 Other Metabolic/Endocrine Disorders"
-                },
-                {
-                  "description": "",
-                  "value": "97 Gastrointestinal Disorders"
-                },
-                {
-                  "description": "",
-                  "value": "97.1 Crohn's Disease/Ulcerative Colitis"
-                },
-                {
-                  "description": "",
-                  "value": "97.2 Liver Disease/Failure/Transplant"
-                },
-                {
-                  "description": "",
-                  "value": "97.9 Other Gastrointestinal Diseases/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "100 Mental Health Conditions"
-                },
-                {
-                  "description": "",
-                  "value": "100.1 Depression/Suicide"
-                },
-                {
-                  "description": "",
-                  "value": "100.9 Other Psychiatric Conditions/NOS"
-                },
-                {
-                  "description": "",
-                  "value": "999 Unknown COD"
-                }
-              ]
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "10 Hemorrhage (Excludes Aneurysms or CVA)"
+            },
+            {
+              "description": "",
+              "value": "10.1 Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
+            },
+            {
+              "description": "",
+              "value": "10.2 Placental Abruption"
+            },
+            {
+              "description": "",
+              "value": "10.3 Placenta Previa"
+            },
+            {
+              "description": "",
+              "value": "10.4 Ruptured Ectopic Pregnancy"
+            },
+            {
+              "description": "",
+              "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
+            },
+            {
+              "description": "",
+              "value": "10.6 Placenta Accreta/Increta/Percreta"
+            },
+            {
+              "description": "",
+              "value": "10.7 Hemorrhage due to Retained Placenta"
+            },
+            {
+              "description": "",
+              "value": "10.8 Hemorrhage due to Primary DIC"
+            },
+            {
+              "description": "",
+              "value": "10.9 Other Hemorrhage/NOS"
+            },
+            {
+              "description": "",
+              "value": "20 Infection"
+            },
+            {
+              "description": "",
+              "value": "20.1 Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
+            },
+            {
+              "description": "",
+              "value": "20.2 Sepsis/Septic Shock"
+            },
+            {
+              "description": "",
+              "value": "20.4 Chorioamnionitis/Antepartum Infection"
+            },
+            {
+              "description": "",
+              "value": "20.5 Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
+            },
+            {
+              "description": "",
+              "value": "20.6 Urinary Tract Infection"
+            },
+            {
+              "description": "",
+              "value": "20.9 Other Infections/NOS"
+            },
+            {
+              "description": "",
+              "value": "30 Embolism - Amniotic Fluid"
+            },
+            {
+              "description": "",
+              "value": "40 Pre-Eclampsia"
+            },
+            {
+              "description": "",
+              "value": "50 Eclampsia"
+            },
+            {
+              "description": "",
+              "value": "60 Chronic Hypertension with Superimposed Pre/Eclampsia"
+            },
+            {
+              "description": "",
+              "value": "70 Anesthesia Complications"
+            },
+            {
+              "description": "",
+              "value": "80 Cardiomyopathy"
+            },
+            {
+              "description": "",
+              "value": "80.1 Post-Partum/Peripartum Cardiomyopathy"
+            },
+            {
+              "description": "",
+              "value": "80.2 Hypertrophic Cardiomyopathy"
+            },
+            {
+              "description": "",
+              "value": "80.9 Other Cardiomyopathy/NOS"
+            },
+            {
+              "description": "",
+              "value": "82 Hematologic"
+            },
+            {
+              "description": "",
+              "value": "82.1 Sickle Cell Anemia"
+            },
+            {
+              "description": "",
+              "value": "82.9 Other Hematologic Conditions including Thrombophilias/TTP/HUS/NOS"
+            },
+            {
+              "description": "",
+              "value": "83 Collagen Vascular/Auto Immune Diseases"
+            },
+            {
+              "description": "",
+              "value": "83.1 Systemic Lupus Erythematosus (SLE)"
+            },
+            {
+              "description": "",
+              "value": "83.9 Other Collagen Vascular Diseases/NOS"
+            },
+            {
+              "description": "",
+              "value": "85 Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
+            },
+            {
+              "description": "",
+              "value": "88 Injury"
+            },
+            {
+              "description": "",
+              "value": "88.1 Intentional"
+            },
+            {
+              "description": "",
+              "value": "88.2 Unintentional"
+            },
+            {
+              "description": "",
+              "value": "88.9 Unknown/NOS"
+            },
+            {
+              "description": "",
+              "value": "89 Cancer"
+            },
+            {
+              "description": "",
+              "value": "89.1 Gestational Trophoblastic Disease (GTN)"
+            },
+            {
+              "description": "",
+              "value": "89.3 Malignant Melanoma"
+            },
+            {
+              "description": "",
+              "value": "89.9 Other Malignancies/NOS"
+            },
+            {
+              "description": "",
+              "value": "90 Cardiovascular Conditions"
+            },
+            {
+              "description": "",
+              "value": "90.1 Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
+            },
+            {
+              "description": "",
+              "value": "90.2 Pulmonary Hypertension"
+            },
+            {
+              "description": "",
+              "value": "90.3 Valvular Heart Disease Congenital and Acquired"
+            },
+            {
+              "description": "",
+              "value": "90.4 Vascular Aneurysm/Dissection (Non-Cerebral)"
+            },
+            {
+              "description": "",
+              "value": "90.5 Hypertensive Cardiovascular Disease"
+            },
+            {
+              "description": "",
+              "value": "90.6 Marfan's Syndrome"
+            },
+            {
+              "description": "",
+              "value": "90.7 Conduction Defects/Arrhythmias"
+            },
+            {
+              "description": "",
+              "value": "90.8 Vascular Malformations Outside Head and Coronary Arteries"
+            },
+            {
+              "description": "",
+              "value": "90.9 Other Cardiovascular Disease, including CHF, Cardiomegaly, Cardiac Hypertrophy, Cardiac Fibrosis, Non-Acute Myocarditis/NOS"
+            },
+            {
+              "description": "",
+              "value": "91 Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
+            },
+            {
+              "description": "",
+              "value": "91.1 Chronic Lung Disease"
+            },
+            {
+              "description": "",
+              "value": "91.2 Cystic Fibrosis"
+            },
+            {
+              "description": "",
+              "value": "91.3 Asthma"
+            },
+            {
+              "description": "",
+              "value": "91.9 Other Pulmonary Disease/NOS"
+            },
+            {
+              "description": "",
+              "value": "92 Neurologic/Neurovascular Conditions (Excluding CVAs)"
+            },
+            {
+              "description": "",
+              "value": "92.1 Epilepsy/Seizure Disorder"
+            },
+            {
+              "description": "",
+              "value": "92.9 Other Neurologic Diseases/NOS"
+            },
+            {
+              "description": "",
+              "value": "93 Renal Disease"
+            },
+            {
+              "description": "",
+              "value": "93.1 Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
+            },
+            {
+              "description": "",
+              "value": "93.9 Other Renal Disease/NOS"
+            },
+            {
+              "description": "",
+              "value": "95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
+            },
+            {
+              "description": "",
+              "value": "96 Metabolic/Endocrine"
+            },
+            {
+              "description": "",
+              "value": "96.1 Obesity"
+            },
+            {
+              "description": "",
+              "value": "96.2 Diabetes Mellitus"
+            },
+            {
+              "description": "",
+              "value": "96.9 Other Metabolic/Endocrine Disorders"
+            },
+            {
+              "description": "",
+              "value": "97 Gastrointestinal Disorders"
+            },
+            {
+              "description": "",
+              "value": "97.1 Crohn's Disease/Ulcerative Colitis"
+            },
+            {
+              "description": "",
+              "value": "97.2 Liver Disease/Failure/Transplant"
+            },
+            {
+              "description": "",
+              "value": "97.9 Other Gastrointestinal Diseases/NOS"
+            },
+            {
+              "description": "",
+              "value": "100 Mental Health Conditions"
+            },
+            {
+              "description": "",
+              "value": "100.1 Depression/Suicide"
+            },
+            {
+              "description": "",
+              "value": "100.9 Other Psychiatric Conditions/NOS"
+            },
+            {
+              "description": "",
+              "value": "999 Unknown COD"
             }
-          ],
-          "is_core_summary": true
+          ]
+        },
+        {
+          "prompt": "If Applicable: Committee Determination of Secondary Underlying Cause of Death (PMSS-MM)",
+          "name": "pmss_mm_secondary",
+          "type": "list",
+          "values": [
+            {
+              "description": "",
+              "value": ""
+            },
+            {
+              "description": "",
+              "value": "10 Hemorrhage (Excludes Aneurysms or CVA)"
+            },
+            {
+              "description": "",
+              "value": "10.1 Hemorrhage - Rupture/Laceration/Intraabdominal Bleeding"
+            },
+            {
+              "description": "",
+              "value": "10.2 Placental Abruption"
+            },
+            {
+              "description": "",
+              "value": "10.3 Placenta Previa"
+            },
+            {
+              "description": "",
+              "value": "10.4 Ruptured Ectopic Pregnancy"
+            },
+            {
+              "description": "",
+              "value": "10.5 Hemorrhage - Uterine Atony/Post-Partum Hemorrhage"
+            },
+            {
+              "description": "",
+              "value": "10.6 Placenta Accreta/Increta/Percreta"
+            },
+            {
+              "description": "",
+              "value": "10.7 Hemorrhage due to Retained Placenta"
+            },
+            {
+              "description": "",
+              "value": "10.8 Hemorrhage due to Primary DIC"
+            },
+            {
+              "description": "",
+              "value": "10.9 Other Hemorrhage/NOS"
+            },
+            {
+              "description": "",
+              "value": "20 Infection"
+            },
+            {
+              "description": "",
+              "value": "20.1 Post-Partum Genital Tract (e.g., of the Uterus/Pelvis/Perineum/Necrotizing Fasciitis)"
+            },
+            {
+              "description": "",
+              "value": "20.2 Sepsis/Septic Shock"
+            },
+            {
+              "description": "",
+              "value": "20.4 Chorioamnionitis/Antepartum Infection"
+            },
+            {
+              "description": "",
+              "value": "20.5 Non-Pelvic Infections (e.g., Pneumonia, TB, Meningitis, HIV)"
+            },
+            {
+              "description": "",
+              "value": "20.6 Urinary Track Infection"
+            },
+            {
+              "description": "",
+              "value": "20.9 Other Infections/NOS"
+            },
+            {
+              "description": "",
+              "value": "30 Embolism - Amniotic Fluid"
+            },
+            {
+              "description": "",
+              "value": "40 Pre-Eclampsia"
+            },
+            {
+              "description": "",
+              "value": "50 Eclampsia"
+            },
+            {
+              "description": "",
+              "value": "60 Chronic Hypertension with Superimposed Pre/Eclampsia"
+            },
+            {
+              "description": "",
+              "value": "70 Anesthesia Complications"
+            },
+            {
+              "description": "",
+              "value": "80 Cardiomyopathy"
+            },
+            {
+              "description": "",
+              "value": "80.1 Post-Partum/Peripartum Cardiomyopathy"
+            },
+            {
+              "description": "",
+              "value": "80.2 Hypertrophic Cardiomyopathy"
+            },
+            {
+              "description": "",
+              "value": "80.9 Other Cardiomyopathy/NOS"
+            },
+            {
+              "description": "",
+              "value": "82 Hematologic"
+            },
+            {
+              "description": "",
+              "value": "82.1 Sickle Cell Anemia"
+            },
+            {
+              "description": "",
+              "value": "82.9 Other Hematologic Conditions including Thrombophilias/TTP/HUS/NOS"
+            },
+            {
+              "description": "",
+              "value": "83 Collagen Vascular/Auto Immune Diseases"
+            },
+            {
+              "description": "",
+              "value": "83.1 Systemic Lupus Erythematosus (SLE)"
+            },
+            {
+              "description": "",
+              "value": "83.9 Other Collagen Vascular Diseases/NOS"
+            },
+            {
+              "description": "",
+              "value": "85 Conditions Unique to Pregnancy (e.g., Gestational Diabetes, Hyperemesis, Liver Disease of Pregnancy)"
+            },
+            {
+              "description": "",
+              "value": "88 Injury"
+            },
+            {
+              "description": "",
+              "value": "88.1 Intentional"
+            },
+            {
+              "description": "",
+              "value": "88.2 Unintentional"
+            },
+            {
+              "description": "",
+              "value": "88.9 Unknown/NOS"
+            },
+            {
+              "description": "",
+              "value": "89 Cancer"
+            },
+            {
+              "description": "",
+              "value": "89.1 Gestational Trophoblastic Disease (GTN)"
+            },
+            {
+              "description": "",
+              "value": "89.3 Malignant Melanoma"
+            },
+            {
+              "description": "",
+              "value": "89.9 Other Malignancies/NOS"
+            },
+            {
+              "description": "",
+              "value": "90 Cardiovascular Conditions"
+            },
+            {
+              "description": "",
+              "value": "90.1 Coronary Artery Disease/Myocardial Infarction (MI)/Atherosclerotic Cardiovascular Disease"
+            },
+            {
+              "description": "",
+              "value": "90.2 Pulmonary Hypertension"
+            },
+            {
+              "description": "",
+              "value": "90.3 Valvular Heart Disease Congenital and Acquired"
+            },
+            {
+              "description": "",
+              "value": "90.4 Vascular Aneurysm/Dissection (Non-Cerebral)"
+            },
+            {
+              "description": "",
+              "value": "90.5 Hypertensive Cardiovascular Disease"
+            },
+            {
+              "description": "",
+              "value": "90.6 Marfan's Syndrome"
+            },
+            {
+              "description": "",
+              "value": "90.7 Conduction Defects/Arrhythmias"
+            },
+            {
+              "description": "",
+              "value": "90.8 Vascular Malformations Outside Head and Coronary Arteries"
+            },
+            {
+              "description": "",
+              "value": "90.9 Other Cardiovascular Disease, including CHF, Cardiomegaly, Cardiac Hypertrophy, Cardiac Fibrosis, Non-Acute Myocarditis/NOS"
+            },
+            {
+              "description": "",
+              "value": "91 Pulmonary Conditions (Excludes ARDS (Adult Respiratory Distress Syndrome))"
+            },
+            {
+              "description": "",
+              "value": "91.1 Chronic Lung Disease"
+            },
+            {
+              "description": "",
+              "value": "91.2 Cystic Fibrosis"
+            },
+            {
+              "description": "",
+              "value": "91.3 Asthma"
+            },
+            {
+              "description": "",
+              "value": "91.9 Other Pulmonary Disease/NOS"
+            },
+            {
+              "description": "",
+              "value": "92 Neurologic/Neurovascular Conditions (Excluding CVAs)"
+            },
+            {
+              "description": "",
+              "value": "92.1 Epilepsy/Seizure Disorder"
+            },
+            {
+              "description": "",
+              "value": "92.9 Other Neurologic Diseases/NOS"
+            },
+            {
+              "description": "",
+              "value": "93 Renal Disease"
+            },
+            {
+              "description": "",
+              "value": "93.1 Chronic Renal Failure/End-Stage Renal Disease (ESRD)"
+            },
+            {
+              "description": "",
+              "value": "93.9 Other Renal Disease/NOS"
+            },
+            {
+              "description": "",
+              "value": "95 CerebrovascularAccident (Hemorrhage/Thrombosis/Aneurysm/Malformation) not secondary to Hypertension"
+            },
+            {
+              "description": "",
+              "value": "96 Metabolic/Endocrine"
+            },
+            {
+              "description": "",
+              "value": "96.1 Obesity"
+            },
+            {
+              "description": "",
+              "value": "96.2 Diabetes Mellitus"
+            },
+            {
+              "description": "",
+              "value": "96.9 Other Metabolic/Endocrine Disorders"
+            },
+            {
+              "description": "",
+              "value": "97 Gastrointestinal Disorders"
+            },
+            {
+              "description": "",
+              "value": "97.1 Crohn's Disease/Ulcerative Colitis"
+            },
+            {
+              "description": "",
+              "value": "97.2 Liver Disease/Failure/Transplant"
+            },
+            {
+              "description": "",
+              "value": "97.9 Other Gastrointestinal Diseases/NOS"
+            },
+            {
+              "description": "",
+              "value": "100 Mental Health Conditions"
+            },
+            {
+              "description": "",
+              "value": "100.1 Depression/Suicide"
+            },
+            {
+              "description": "",
+              "value": "100.9 Other Psychiatric Conditions/NOS"
+            },
+            {
+              "description": "",
+              "value": "999 Unknown COD"
+            }
+          ]
         },
         {
           "prompt": "Did Obesity Contribute to the Death?",
@@ -21391,7 +21816,7 @@
           "control_style": "editable"
         },
         {
-          "prompt": "Was this Death Preventable?*",
+          "prompt": "Was this Death Preventable?",
           "name": "was_this_death_preventable",
           "type": "list",
           "values": [
@@ -21408,11 +21833,10 @@
               "value": "No"
             }
           ],
-          "is_core_summary": true,
           "description": "A death is considered preventable if the committee determines that there was at least some chance of a death being averted by one or more reasonable changes to patient, family, community, provider, facility, and/or systems factors."
         },
         {
-          "prompt": "Chance to Alter Outcome*",
+          "prompt": "Chance to Alter Outcome",
           "name": "chance_to_alter_outcome",
           "type": "list",
           "values": [
@@ -21436,8 +21860,7 @@
               "description": "",
               "value": "Unable to Determine"
             }
-          ],
-          "is_core_summary": true
+          ]
         },
         {
           "prompt": "If There Was at Least Some Chance That the Death Could Have Been Averted, What Were the Specific and Feasible Actions, Which if Implemented or Altered, Might Have Changed the Course of Events?",
