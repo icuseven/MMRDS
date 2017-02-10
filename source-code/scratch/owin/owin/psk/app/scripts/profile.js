@@ -237,7 +237,12 @@ login_response: function (response)
 
 		profile.set_auth_session_cookie(profile.auth_session);
 
-		if(profile.on_login_call_back)
+		if(profile.user_roles.length == 1 && profile.user_roles[0].indexOf("committe_member"))
+		{
+			var url =  location.protocol + '//' + location.host + "/committe-member";
+			window.location.href = url;
+		}
+		else if(profile.on_login_call_back)
 		{
 			profile.on_login_call_back();
 		}
