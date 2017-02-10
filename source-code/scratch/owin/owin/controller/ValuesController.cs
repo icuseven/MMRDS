@@ -22,7 +22,7 @@ namespace mmria.server
 		// POST api/values 
 		public void Post([FromBody]string value) 
 		{ 
-			System.Environment.SetEnvironmentVariable("couchdb_url", value);
+			//System.Environment.SetEnvironmentVariable("couchdb_url", value);
 		} 
 
 		// PUT api/values/5 
