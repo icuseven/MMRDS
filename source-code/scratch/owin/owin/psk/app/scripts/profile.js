@@ -73,9 +73,9 @@ initialize_profile: function ()
 
 				profile.set_auth_session_cookie(current_auth_session);
 
-				if(profile.user_roles.length == 1 && profile.user_roles[0].indexOf("committe_member"))
+				if(profile.user_roles.length == 1 && profile.user_roles[0].indexOf("committee_member"))
 				{
-					var url =  location.protocol + '//' + location.host + "/committe-member";
+					var url =  location.protocol + '//' + location.host + "/committee-member";
 					window.location.href = url;
 				}
 
@@ -237,9 +237,9 @@ login_response: function (response)
 
 		profile.set_auth_session_cookie(profile.auth_session);
 
-		if(profile.user_roles.length == 1 && profile.user_roles[0].indexOf("committe_member"))
+		if(profile.user_roles.length == 1 && profile.user_roles[0].indexOf("committee_member"))
 		{
-			var url =  location.protocol + '//' + location.host + "/committe-member";
+			var url =  location.protocol + '//' + location.host + "/committee-member";
 			window.location.href = url;
 		}
 		else if(profile.on_login_call_back)
