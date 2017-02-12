@@ -49,8 +49,8 @@ $(function ()
   'use strict';
 	/*profile.on_login_call_back = function (){
 				load_users();
-    };
-	profile.initialize_profile();*/
+    };*/
+	profile.initialize_profile();
 
 	load_users();
 

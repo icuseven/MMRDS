@@ -83,7 +83,7 @@ function user_entry_render(p_user, p_i)
 function user_role_render(p_user)
 {
 	var result = [];
-	var role_set = [ '', 'abstractor','committe_reviewer','form_designer', 'user_admin'];
+	var role_set = [ '', 'abstractor','committee_member','form_designer', 'user_admin'];
 
 	result.push("<select size='1' path='" + p_user._id + "'>")
 	for(var i = 0; i < role_set.length; i++)
