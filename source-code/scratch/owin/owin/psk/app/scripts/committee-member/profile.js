@@ -291,45 +291,57 @@ logout : function()
 
 		console.log("response\n", response);
 		var valid_login = false;
-
-		var json_response = response[0];
-
-		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-		valid_login = json_response.userCTX.name != null;
-		if(valid_login)
+		if(response)
 		{
-			profile.is_logged_in = true;
-			profile.user_name = json_response.userCTX.name;
-			profile.user_roles = json_response.userCTX.roles;
-			if(json_response.auth_session)
+
+
+			var json_response = response[0];
+
+			//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
+			valid_login = json_response.userCTX.name != null;
+			if(valid_login)
 			{
-				profile.auth_session = json_response.auth_session;
-				profile.set_auth_session_cookie(json_response.auth_session);
+				profile.is_logged_in = true;
+				profile.user_name = json_response.userCTX.name;
+				profile.user_roles = json_response.userCTX.roles;
+				if(json_response.auth_session)
+				{
+					profile.auth_session = json_response.auth_session;
+					profile.set_auth_session_cookie(json_response.auth_session);
+				}
+				else
+				{
+					profile.auth_session = current_auth_session;
+					profile.set_auth_session_cookie(current_auth_session);
+				}
+
+
+				if(profile.on_login_call_back)
+				{
+					profile.on_login_call_back();
+				}
+
+				if(p_success_call_back)
+				{
+					p_success_call_back(profile.auth_session);
+				}
 			}
 			else
 			{
-				profile.auth_session = current_auth_session;
-				profile.set_auth_session_cookie(current_auth_session);
-			}
-
-
-			if(profile.on_login_call_back)
-			{
-				profile.on_login_call_back();
-			}
-
-			if(p_success_call_back)
-			{
-				p_success_call_back(profile.auth_session);
+				profile.is_logged_in = false;
+				profile.user_name = null;
+				profile.user_roles = null;
+				profile.auth_session = null;
+				profile.expire_auth_session_cookie(current_auth_session);
 			}
 		}
-		else
+		else 
 		{
-			profile.is_logged_in = false;
-			profile.user_name = null;
-			profile.user_roles = null;
-			profile.auth_session = null;
-			profile.expire_auth_session_cookie(current_auth_session);
+				profile.is_logged_in = false;
+				profile.user_name = null;
+				profile.user_roles = null;
+				profile.auth_session = null;
+				profile.expire_auth_session_cookie(current_auth_session);
 		}
 
 		profile.render();

@@ -236,6 +236,10 @@ login_response: function (response)
 
 
 		profile.is_logged_in = true;
+
+		$mmria.addCookie("uid", profile.user_name);
+		$mmria.addCookie("pwd", profile.password);
+
 		//profile.user_name = json_response.name;
 		profile.user_roles = json_response.roles;
 		profile.auth_session = json_response.auth_session;
@@ -279,6 +283,12 @@ logout : function()
 	profile.password = null;
 	profile.user_roles=[];
 	profile.auth_session='';
+
+	$mmria.removeCookie("uid");
+	$mmria.removeCookie("pwd");
+	//$mmria.removeCookie("AuthSession", profile.auth_session);
+
+
 	profile.render();
 
 	},

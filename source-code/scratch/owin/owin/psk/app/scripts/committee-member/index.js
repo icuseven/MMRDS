@@ -242,12 +242,41 @@ var $$ = {
 
 $(function ()
 {
+
+	console.log($mmria.getCookie("uid"));
+	console.log($mmria.getCookie("pwd"));
+  console.log($mmria.getCookie("AuthSession"));
+
   load_values();
 });
 
 
 function load_profile()
 {
+
+  if($mmria.getCookie("AuthSession"))
+  {
+    profile.initialize_profile();
+  }
+  else
+	{
+
+
+
+				profile.user_name = $mmria.getCookie("uid");
+				profile.password = $mmria.getCookie("pwd");
+
+				var url =  location.protocol + '//' + location.host + "/api/session";
+				var post_data = { "userid" : $mmria.getCookie("uid") , "password": $mmria.getCookie("pwd") };
+				$.ajax({
+					"url": url,
+					data: post_data
+				}).done(profile.login_response).fail(function(response) {
+						console.log("fail bubba");console.log(response);
+				});
+
+  }
+/*
     profile.on_login_call_back = function ()
     {
 
@@ -256,10 +285,10 @@ function load_profile()
       
       //load_documents();
 
-    };
+    };*/
 
 
-  	profile.initialize_profile();
+  	
 }
 
 function load_values()
