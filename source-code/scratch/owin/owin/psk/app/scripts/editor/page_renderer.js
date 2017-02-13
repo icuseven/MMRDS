@@ -151,7 +151,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("/");
 					result.push(i);
 					result.push("\">");
-					result.push('record ');
+					result.push('Record ');
 					result.push(i + 1);
 		
 					result.push('</a>');

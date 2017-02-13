@@ -295,6 +295,18 @@ $(function ()
   load_values();
 });
 
+function load_values()
+{
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/values',
+	}).done(function(response) {
+			g_couchdb_url = response.couchdb_url;
+      load_profile();
+
+	});
+
+}
+
 
 function load_profile()
 {
@@ -312,17 +324,6 @@ function load_profile()
   	profile.initialize_profile();
 }
 
-function load_values()
-{
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
-	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
-      load_profile();
-
-	});
-
-}
 
 
 function replicate_db_and_log_out(p_user_name, p_password)
