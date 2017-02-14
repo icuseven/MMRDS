@@ -234,7 +234,7 @@ namespace mmria.console
 
 		public dynamic get_all_cases(string p_database_url)
 		{
-			return get_all_cases();
+			//return get_all_cases();
 
 			this.database_url = p_database_url;
 			/*

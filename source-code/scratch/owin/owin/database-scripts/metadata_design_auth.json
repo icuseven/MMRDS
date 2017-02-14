@@ -1,0 +1,5 @@
+{
+  "_id": "_design/auth",
+  "_rev": "2-1209823d16d11087436de1a43e752601",
+  "validate_doc_update": "function(newDoc, oldDoc, userCtx) {   if (userCtx.roles.indexOf('_admin') !== -1 || userCtx.roles.indexOf('form_designer') !== -1) {     return;   } else {     throw({forbidden: 'This DB is read-only'});   }   }"
+}

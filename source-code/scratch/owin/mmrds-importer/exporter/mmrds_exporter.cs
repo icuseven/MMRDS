@@ -206,11 +206,11 @@ namespace mmria.console.export
 				false
 			);
 
-			//foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
-			foreach (System.Dynamic.ExpandoObject case_row in all_cases)
+			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+			//foreach (System.Dynamic.ExpandoObject case_row in all_cases)
 			{
-				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
-				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
 				{
 					continue;

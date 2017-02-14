@@ -9,10 +9,10 @@ namespace mmria
 		private System.IO.StreamWriter BadMappingLog = null;
 		private System.Collections.Generic.HashSet<string> FoundPaths = null;
 
-		public Case_Maker()
+		public Case_Maker(string p_import_directory)
 		{
 			FoundPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-			BadMappingLog = new System.IO.StreamWriter("badmapping.txt");
+			BadMappingLog = new System.IO.StreamWriter(p_import_directory + "/badmapping.txt");
 		}
 
 		public void flush_bad_mapping()

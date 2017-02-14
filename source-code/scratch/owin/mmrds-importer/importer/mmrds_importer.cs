@@ -111,7 +111,7 @@ namespace mmria.console.import
 			mmria_server.login(this.user_name, this.password);
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-			var case_maker = new Case_Maker();
+			var case_maker = new Case_Maker(import_directory);
 			var case_data_list = new List<dynamic>();
 
 			var mmrds_data = new cData(get_mdb_connection_string(this.database_path));
@@ -375,7 +375,7 @@ namespace mmria.console.import
 			Console.WriteLine("Hello World!");
 			json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data_list);
 
-			System.IO.File.WriteAllText("output.json", json_string);
+			System.IO.File.WriteAllText(import_directory + "/output.json", json_string);
 
 		}
 
