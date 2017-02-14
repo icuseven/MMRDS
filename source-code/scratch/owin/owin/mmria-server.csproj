@@ -135,6 +135,7 @@
     <Compile Include="model\couchdb\error.cs" />
     <Compile Include="controller\validatorController.cs" />
     <Compile Include="controller\aggregate_reportController.cs" />
+    <Compile Include="controller\deidentifiedController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
