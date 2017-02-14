@@ -41,11 +41,17 @@ namespace mmria.server
 
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
-					string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-					//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-
+					string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
+					for(int i = 0; i < cookie_set.Length; i++)
+					{
+						string[] auth_session_token = cookie_set[i].Split('=');
+						if(auth_session_token[0].Trim() == "AuthSession")
+						{
+							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+							break;
+						}
+					}
 				}
 
 
@@ -150,10 +156,17 @@ namespace mmria.server
 
 					if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 					{
-						string[] auth_session_token = this.Request.Headers.GetValues("Cookie").First().Split('=');
-						request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-						//request.Headers.Add(this.Request.Headers.GetValues("Cookie").First(), "");
-						request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+						string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
+						for(int i = 0; i < cookie_set.Length; i++)
+						{
+							string[] auth_session_token = cookie_set[i].Split('=');
+							if(auth_session_token[0].Trim() == "AuthSession")
+							{
+								request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
+								request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+								break;
+							}
+						}
 					}
 
 					using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))

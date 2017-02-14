@@ -243,37 +243,52 @@ var $$ = {
 $(function ()
 {
 
-	console.log($mmria.getCookie("uid"));
-	console.log($mmria.getCookie("pwd"));
-  console.log($mmria.getCookie("AuthSession"));
-
   load_values();
 });
+
+
+function load_values()
+{
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/values',
+	}).done(function(response) {
+			g_couchdb_url = response.couchdb_url;
+      load_profile();
+
+	});
+
+}
+
 
 
 function load_profile()
 {
 
+  var uid = $mmria.getCookie("uid");
+	var pwd = $mmria.getCookie("pwd");
+  var auth_session = $mmria.getCookie("AuthSession");
+
+
   if($mmria.getCookie("AuthSession"))
   {
-    profile.initialize_profile();
+		profile.is_logged_in = true;
+		profile.user_name = uid;
+    profile.password = pwd;
+		profile.user_roles = [ "committee-member" ];
+		profile.auth_session = auth_session;
+    profile.render();
+    get_metadata();
+    get_case_set();
   }
   else
 	{
 
-
-
-				profile.user_name = $mmria.getCookie("uid");
-				profile.password = $mmria.getCookie("pwd");
-
-				var url =  location.protocol + '//' + location.host + "/api/session";
-				var post_data = { "userid" : $mmria.getCookie("uid") , "password": $mmria.getCookie("pwd") };
-				$.ajax({
-					"url": url,
-					data: post_data
-				}).done(profile.login_response).fail(function(response) {
-						console.log("fail bubba");console.log(response);
-				});
+    profile.is_logged_in=false;
+    profile.user_name = '';
+    profile.password = null;
+    profile.user_roles=[];
+    profile.auth_session='';
+    profile.render();
 
   }
 /*
@@ -289,18 +304,6 @@ function load_profile()
 
 
   	
-}
-
-function load_values()
-{
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
-	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
-      load_profile();
-
-	});
-
 }
 
 
