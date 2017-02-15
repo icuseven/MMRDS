@@ -316,7 +316,11 @@ function get_case_set()
         g_ui.data_list = [];
         for(var i = 0; i < response.rows.length; i++)
         {
-          g_ui.data_list.push(response.rows[i].doc);
+          if(response.rows[i].doc._id.indexOf("_design") < 0)
+          {
+            g_ui.data_list.push(response.rows[i].doc);
+          }
+          
         }
 
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");

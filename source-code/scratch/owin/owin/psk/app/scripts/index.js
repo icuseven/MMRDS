@@ -350,8 +350,9 @@ function replicate_db_and_log_out(p_user_name, p_password)
           
           window.onhashchange = null;
           
-          window.location.href = location.protocol + '//' + location.host;
-          document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+          //window.location.href = location.protocol + '//' + location.host;
+          //document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+          document.getElementById('navbar').innerHTML = "";
           document.getElementById('form_content_id').innerHTML ="";
       });
 

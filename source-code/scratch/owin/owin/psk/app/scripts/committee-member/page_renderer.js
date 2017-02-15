@@ -391,8 +391,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		break;
     case 'app':
 		result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
-		result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
-		
 		//result.push("<fieldset><legend>filter line listing</legend>");
 		//result.push("<input type='text' id='search_text_box' value='' /> ");
 		//result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
@@ -420,7 +418,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(item.home_record.record_id);
 			result.push('	(');
 			result.push(item.home_record.state_of_death);
-			result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
+			result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> </p>');
 			result.push('</div>');
 			
 		}

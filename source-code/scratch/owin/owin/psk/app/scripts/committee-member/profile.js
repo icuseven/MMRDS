@@ -279,7 +279,16 @@ logout : function()
 	profile.password = null;
 	profile.user_roles=[];
 	profile.auth_session='';
+
 	profile.render();
+
+
+	window.onhashchange = null;
+	
+	document.getElementById('navbar').innerHTML = "";
+	document.getElementById('form_content_id').innerHTML ="";
+
+	window.location.href = location.protocol + '//' + location.host;
 
 	},
   try_session_login : function(p_success_call_back)

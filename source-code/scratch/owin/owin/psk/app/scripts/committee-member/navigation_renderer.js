@@ -82,6 +82,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {        
         // print version start
+        /*
         result.push('<li class="dropdown">');
           result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version  <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
@@ -100,6 +101,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           }
           result.push('</ul>'); 
         result.push('</li>')
+        */
         // print version end
         }
 
@@ -131,6 +133,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         // Actions end
 
         // print blank start
+        /*
         result.push('<li class="dropdown">');
           result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Blank  <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
@@ -150,6 +153,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           
           result.push('</ul>'); 
         result.push('</li>')
+        */
         // print blank end
   
 
