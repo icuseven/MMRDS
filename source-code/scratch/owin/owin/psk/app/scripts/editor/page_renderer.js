@@ -559,7 +559,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				result.push("</span><br/>");
 				page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
-				result.push("</di>");
+				result.push("</div>");
            break;
      case 'number':
 			result.push("<div class='number' id='");
