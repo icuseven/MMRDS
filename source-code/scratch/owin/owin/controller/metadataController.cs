@@ -47,7 +47,7 @@ namespace mmria.server
 					for(int i = 0; i < cookie_set.Length; i++)
 					{
 						string[] auth_session_token = cookie_set[i].Split('=');
-						if(auth_session_token[0].Trim() == "AuthSession")
+						if(auth_session_token[0].Trim() == "AuthSession" && auth_session_token[1] != "null")
 						{
 							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
 							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);

@@ -124,7 +124,7 @@ var $mmria = function()
             return null;
         },
         removeCookie: function (name) {
-            createCookie(name,"",-1);
+            $mmria.addCookie(name,"",-1);
         }
 
 

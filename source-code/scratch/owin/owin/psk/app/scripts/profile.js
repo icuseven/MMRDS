@@ -24,20 +24,6 @@ get_auth_session_cookie: function ()
 on_login_call_back: null,
 on_logout_call_back: null,
 
-set_auth_session_cookie: function (p_auth_session)
-{
-	var minutes_10 = 10;
-	var current_date_time = new Date();
-	var new_date_time = new Date(current_date_time.getTime() + minutes_10 * 60000);
-
-	document.cookie = "AuthSession=" + p_auth_session + "; expires=" + new_date_time.toGMTString() + "; path=/";
-},
-
-expire_auth_session_cookie: function (p_auth_session)
-{
-	document.cookie = "AuthSession=" + p_auth_session + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-},
-
 initialize_profile: function ()
 {
 	var current_auth_session = this.get_auth_session_cookie();
@@ -71,7 +57,7 @@ initialize_profile: function ()
 				profile.auth_session = current_auth_session;
 
 
-				profile.set_auth_session_cookie(current_auth_session);
+				$mmria.addCookie("AuthSession", profile.auth_session);
 
 				var url =  location.protocol + '//' + location.host + "/committee-member";
 				if(
@@ -93,7 +79,7 @@ initialize_profile: function ()
 				profile.user_name = null;
 				profile.user_roles = null;
 				profile.auth_session = null;
-				profile.expire_auth_session_cookie(current_auth_session);
+				$mmria.removeCookie("AuthSession");
 			}
 
 			profile.render();
@@ -239,14 +225,14 @@ login_response: function (response)
 
 		profile.is_logged_in = true;
 
-		$mmria.addCookie("uid", profile.user_name);
-		$mmria.addCookie("pwd", profile.password);
-
 		//profile.user_name = json_response.name;
 		profile.user_roles = json_response.roles;
 		profile.auth_session = json_response.auth_session;
 
-		profile.set_auth_session_cookie(profile.auth_session);
+		$mmria.addCookie("uid", profile.user_name);
+		$mmria.addCookie("pwd", profile.password);
+		$mmria.addCookie("roles", json_response.roles);
+		$mmria.addCookie("AuthSession", profile.auth_session);
 
 		var url =  location.protocol + '//' + location.host + "/committee-member";
 		if(
@@ -267,7 +253,7 @@ login_response: function (response)
 	{
 		profile.user_name = '';
 		profile.password = null;
-		profile.expire_auth_session_cookie(profile.auth_session);
+		$mmria.removeCookie("AuthSession");
 		
 	}
 
@@ -283,7 +269,7 @@ logout : function()
 		profile.on_logout_call_back(profile.user_name, profile.password);
 	}
 
-	profile.expire_auth_session_cookie(profile.auth_session);
+	
 	profile.is_logged_in=false;
 	profile.user_name = '';
 	profile.password = null;
@@ -292,7 +278,9 @@ logout : function()
 
 	$mmria.removeCookie("uid");
 	$mmria.removeCookie("pwd");
-	//$mmria.removeCookie("AuthSession", profile.auth_session);
+	$mmria.removeCookie("roles");
+	$mmria.removeCookie("AuthSession");
+
 
 
 	profile.render();
@@ -324,15 +312,18 @@ logout : function()
 				profile.is_logged_in = true;
 				profile.user_name = json_response.userCTX.name;
 				profile.user_roles = json_response.userCTX.roles;
+
 				if(json_response.auth_session)
 				{
 					profile.auth_session = json_response.auth_session;
-					profile.set_auth_session_cookie(json_response.auth_session);
+					$mmria.addCookie("AuthSession", profile.auth_session);
+
 				}
 				else
 				{
 					profile.auth_session = current_auth_session;
-					profile.set_auth_session_cookie(current_auth_session);
+					$mmria.addCookie("AuthSession", profile.auth_session);
+
 				}
 				
 				if(profile.user_roles.legnth == 1 && profile.user_roles[0]=="committee_member")
@@ -356,7 +347,7 @@ logout : function()
 				profile.user_name = null;
 				profile.user_roles = null;
 				profile.auth_session = null;
-				profile.expire_auth_session_cookie(current_auth_session);
+				$mmria.removeCookie("AuthSession");
 			}
 		}
 		else
@@ -365,7 +356,7 @@ logout : function()
 			profile.user_name = null;
 			profile.user_roles = null;
 			profile.auth_session = null;
-			profile.expire_auth_session_cookie(current_auth_session);
+			$mmria.removeCookie("AuthSession");
 		}
 
 		profile.render();
