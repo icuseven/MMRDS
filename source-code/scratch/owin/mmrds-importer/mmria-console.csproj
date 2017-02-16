@@ -71,6 +71,9 @@
     <Compile Include="importer\mmrds_importer.cs" />
     <Compile Include="exporter\mmrds_exporter.cs" />
     <Compile Include="core_element_export\core_element_exporter.cs" />
+    <None Include="mapping-file-set\MMRDS-Mapping-NO-GRIDS-lookup-values.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

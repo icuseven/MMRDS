@@ -111,15 +111,29 @@ namespace mmria.console.import
 			mmria_server.login(this.user_name, this.password);
 
 			mmria.common.metadata.app metadata = mmria_server.get_metadata();
-			var case_maker = new Case_Maker(import_directory);
-			var case_data_list = new List<dynamic>();
 
 			var mmrds_data = new cData(get_mdb_connection_string(this.database_path));
+
 			var directory_path = @"mapping-file-set";
 			var main_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-test.csv";
 			var mapping_data = new cData(get_csv_connection_string(directory_path));
 
 			var grid_mapping_file_name = @"grid-mapping-merge.csv";
+
+
+			var lookup_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-lookup-values.csv";
+			var lookup_mapping_table = get_look_up_mappings(mapping_data, lookup_mapping_file_name);
+
+		
+			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value1 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value2 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+			//mmria_path value1  value2 mmria_value
+
+
+
+			var case_maker = new Case_Maker(import_directory, lookup_value1, lookup_value2);
+			var case_data_list = new List<dynamic>();
+
 
 			var view_name_list = new string[] {
 			"MaternalMortality",
@@ -417,6 +431,15 @@ namespace mmria.console.import
 		{
 			System.Data.DataTable result = null;
 			string mapping_sql = string.Format("SELECT * FROM [{0}] Where BaseTable = '{1}' ", p_mapping_table_name, p_view_name);
+			result = p_mapping.GetDataTable(mapping_sql);
+
+			return result;
+		}
+
+		public System.Data.DataTable get_look_up_mappings(cData p_mapping, string p_mapping_table_name)
+		{
+			System.Data.DataTable result = null;
+			string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
 			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;

@@ -8,11 +8,20 @@ namespace mmria
 	{
 		private System.IO.StreamWriter BadMappingLog = null;
 		private System.Collections.Generic.HashSet<string> FoundPaths = null;
+		private System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value1 = null;
+		private System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value2 = null;
 
-		public Case_Maker(string p_import_directory)
+		public Case_Maker
+		(
+			string p_import_directory,
+			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> p_lookup_1,
+			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> p_lookup_2
+		)
 		{
 			FoundPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			BadMappingLog = new System.IO.StreamWriter(p_import_directory + "/badmapping.txt");
+			this.lookup_value1 = p_lookup_1;
+			this.lookup_value2 = p_lookup_2;
 		}
 
 		public void flush_bad_mapping()
