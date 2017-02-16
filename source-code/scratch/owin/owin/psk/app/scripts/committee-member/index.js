@@ -274,7 +274,7 @@ function load_profile()
 		profile.is_logged_in = true;
 		profile.user_name = uid;
     profile.password = pwd;
-		profile.user_roles = [ "committee-member" ];
+		profile.user_roles = [ "committee_member" ];
 		profile.auth_session = auth_session;
     profile.render();
     get_metadata();
@@ -712,7 +712,7 @@ function save_change_task()
         return;
     }
 
-    var auth_cookie = profile.get_auth_session_cookie();
+    var auth_cookie = $mmria.getCookie("AuthSession");
 
     $.ajax({
       url: url,
