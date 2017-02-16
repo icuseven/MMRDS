@@ -273,7 +273,7 @@ function metadata_save()
 {
 
 	console.log("metadata_change");
-	var current_auth_session = profile.get_auth_session_cookie();
+	var current_auth_session = $mmria.getCookie("AuthSession");
 
 	if(current_auth_session)
 	{ 
@@ -310,7 +310,7 @@ function perform_save(current_auth_session)
 					if(response_obj.auth_session)
 					{
 						profile.auth_session = response_obj.auth_session;
-						profile.set_auth_session_cookie(response_obj.auth_session);
+						$mmria.addCookie("AuthSession", response_obj.auth_session);
 
 						perform_validation_save(g_metadata);
 					}
