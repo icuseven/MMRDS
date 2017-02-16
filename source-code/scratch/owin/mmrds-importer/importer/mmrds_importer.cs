@@ -127,11 +127,82 @@ namespace mmria.console.import
 		
 			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value1 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
 			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value2 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
-			//mmria_path value1  value2 mmria_value
-
 
 
 			var case_maker = new Case_Maker(import_directory, lookup_value1, lookup_value2);
+
+			foreach (System.Data.DataRow row in lookup_mapping_table.Rows)
+			{
+				//mmria_path value1  value2 mmria_value
+				string mmria_path = row["mmria_path"].ToString();
+				string value1 = null;
+				string value2 = null;
+				string mmria_value = null;
+
+
+				if (row["value1"] != DBNull.Value)
+				{
+					value1 = row["value1"].ToString();
+				}
+
+				if (row["value2"] != DBNull.Value)
+				{
+					value2 = row["value2"].ToString();
+				}
+
+				if (row["mmria_value"] != DBNull.Value)
+				{
+					if (row["mmria_value"].ToString() == "(blank)")
+					{
+						mmria_value = "";
+					}
+					else
+					{
+						mmria_value = row["mmria_value"].ToString();
+					}
+				}
+
+				if (value1 == null && mmria_value != null && mmria_value == "")
+				{
+					value1 = "";
+				}
+
+
+				if (value2 == null && mmria_value != null && mmria_value == "")
+				{
+					value2 = "";
+				}
+
+				if (!lookup_value1.ContainsKey(mmria_path))
+				{
+					lookup_value1[mmria_path] = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+				}
+
+				if (!lookup_value2.ContainsKey(mmria_path))
+				{
+					lookup_value2[mmria_path] = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+				}
+
+				if (mmria_value != null && value1 != null && !lookup_value1[mmria_path].ContainsKey(value1))
+				{
+					lookup_value1[mmria_path].Add(value1, mmria_value);
+				}
+				else if (mmria_value != null && value1 != null && mmria_value != "" && value1 != "")
+				{
+					case_maker.add_bad_mapping(string.Format("duplicate lookup: {0} - {1}", mmria_path, value1));
+				}
+
+				if (mmria_value != null && value2 != null && !lookup_value2[mmria_path].ContainsKey(value2))
+				{
+					lookup_value2[mmria_path].Add(value2, mmria_value);
+				}
+				else if (mmria_value != null && value2 != null && mmria_value != "" && value2 != "")
+				{
+					case_maker.add_bad_mapping(string.Format("duplicate lookup: {0} - {1}", mmria_path, value2));
+				}
+			}
+
+
 			var case_data_list = new List<dynamic>();
 
 

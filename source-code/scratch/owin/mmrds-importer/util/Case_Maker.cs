@@ -105,29 +105,7 @@ namespace mmria
 						{
 							index[path[i]] = p_value;
 							result = true;
-						}/*
-						else if (index[path[i]].GetType().ToString() == "System.Boolean")
-						{
-							//((IList<string>)index[path[i]]).Add(p_value.ToString());
-							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
-							if (
-								node.type.ToLower() == "list" && 
-								node.is_multiselect != null && 
-								node.is_multiselect == true &&
-								((bool)p_value) == true
-							)
-							{
-								((IList<string>)index[path[i]]).Add(p_prompt);
-								result = true;
-							}
-							else
-							{
-								index[path[i]] = p_value;
-								result = true;
-							}
-
-
-						}*/
+						}
 						else if (index[path[i]].GetType().ToString() == "System.Collections.Generic.IList`1[System.String]" && p_value is string)
 						{
 							((IList<string>)index[path[i]]).Add(p_value.ToString());
@@ -135,7 +113,8 @@ namespace mmria
 						}
 						else
 						{
-							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
+							string metadata_path = string.Join("/", built_path.ToArray());
+							var node = get_metadata_node(p_metadata, metadata_path);
 							if (
 									node.type.ToLower() == "list" && 
 									node.is_multiselect != null && 
@@ -144,13 +123,49 @@ namespace mmria
 							{
 								if ((bool)p_value)
 								{
-									((List<string>)index[path[i]]).Add(p_prompt);
+									if (
+										this.lookup_value1.ContainsKey(metadata_path) &&
+										this.lookup_value1[metadata_path].ContainsKey(p_prompt)
+									)
+									{
+										((List<string>)index[path[i]]).Add(this.lookup_value1[metadata_path][p_prompt]);
+									}
+									else if (
+										this.lookup_value2.ContainsKey(metadata_path) &&
+										this.lookup_value2[metadata_path].ContainsKey(p_prompt)
+
+									)
+									{
+										((List<string>)index[path[i]]).Add(this.lookup_value2[metadata_path][p_prompt]);
+									}
+									else
+									{
+										((List<string>)index[path[i]]).Add(p_prompt);
+									}
 								}
 								result = true;
 							}
 							else
 							{
-								index[path[i]] = p_value;
+								if (
+									this.lookup_value1.ContainsKey(metadata_path) &&
+									this.lookup_value1[metadata_path].ContainsKey(p_value.ToString())
+								)
+								{
+									index[path[i]] = this.lookup_value1[metadata_path][p_value.ToString()];
+								}
+								else if (
+									this.lookup_value2.ContainsKey(metadata_path) &&
+									this.lookup_value2[metadata_path].ContainsKey(p_value.ToString())
+
+								)
+								{
+									index[path[i]] = this.lookup_value2[metadata_path][p_value.ToString()];
+								}
+								else
+								{
+									index[path[i]] = p_value;
+								}
 								result = true;
 							}
 						}
