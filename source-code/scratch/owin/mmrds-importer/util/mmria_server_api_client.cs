@@ -234,7 +234,12 @@ namespace mmria.console
 
 		public dynamic get_all_cases(string p_database_url)
 		{
-			//return get_all_cases();
+			bool is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+
+			if (is_offline_mode)
+			{
+				return get_all_cases();
+			}
 
 			this.database_url = p_database_url;
 			/*

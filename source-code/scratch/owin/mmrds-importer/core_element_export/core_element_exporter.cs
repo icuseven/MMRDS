@@ -15,10 +15,11 @@ namespace mmria.console.export
 		private string database_path = null;
 		private string database_url = null;
 		private string mmria_url = null;
+		private bool is_offline_mode;
 
 		public core_element_exporter()
 		{
-			
+			this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
 
 		}
 		public void Execute(string[] args)
@@ -211,10 +212,30 @@ namespace mmria.console.export
 				false
 			);
 
-			foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
-			//foreach (System.Dynamic.ExpandoObject case_row in all_cases)
+			dynamic all_cases_rows;
+			if (this.is_offline_mode)
 			{
-				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				all_cases_rows = all_cases;
+			}
+			else
+			{
+				all_cases_rows = all_cases.rows;
+			}
+
+
+			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
+			{
+				IDictionary<string, object> case_doc;
+				if (this.is_offline_mode)
+				{
+					case_doc = case_row as IDictionary<string, object>;
+				}
+				else
+				{
+					case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
+				}
+
+				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
 				{

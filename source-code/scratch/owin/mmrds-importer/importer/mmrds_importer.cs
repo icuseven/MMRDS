@@ -13,7 +13,7 @@ namespace mmria.console.import
 		private string password = null;
 		private string database_path = null;
 		private string mmria_url = null;
-
+		private bool is_offline_mode = false;
 
 		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
 
@@ -25,6 +25,7 @@ namespace mmria.console.import
 		public void Execute(string[] args)
 		{
 			string import_directory = System.Configuration.ConfigurationManager.AppSettings["import_directory"];
+			this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
 
 			if (!System.IO.Directory.Exists(import_directory))
 			{
