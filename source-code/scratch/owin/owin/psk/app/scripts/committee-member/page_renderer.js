@@ -375,18 +375,21 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 			}
 
-			for(var i = 0; i < p_metadata.children.length; i++)
+			if(p_ui.url_state.path_array.length > 1)
 			{
-				var child = p_metadata.children[i];
-				if(p_data[child.name])
+				for(var i = 0; i < p_metadata.children.length; i++)
 				{
-					// do nothing 
+					var child = p_metadata.children[i];
+					if(p_data[child.name])
+					{
+						// do nothing 
+					}
+					else
+					{
+						p_data[child.name] = create_default_object(child, {})[child.name];
+					}
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));
 				}
-				else
-				{
-					p_data[child.name] = create_default_object(child, {})[child.name];
-				}
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));
 			}
 			result.push("</section>");
 		}
