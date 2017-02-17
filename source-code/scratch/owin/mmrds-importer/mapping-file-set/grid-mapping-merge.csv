@@ -34,7 +34,7 @@ CommitteeReview29CR_FactAct_grid," """"", CR_FactorCat, System.String,committee_
 CommitteeReview29CR_FactAct_grid," """"", CR_Factor1, System.String,committee_review/critical_factors_worksheet/class,
 CommitteeReview29CR_FactAct_grid," """"", CR_FactorDesc, System.String,committee_review/critical_factors_worksheet/description,
 CommitteeReview29CR_FactAct_grid," """"", CR_Action, System.String,committee_review/recommendations_of_committee/committee_recommendations ,
-CommitteeReview29CR_FactAct_grid," """"", CR_Delay, System.String,committee_review/critical_factors_worksheet/delay,we chose to drop this field in MMRIA
+CommitteeReview29CR_FactAct_grid," """"", CR_Delay, System.String,,we chose to drop this field in MMRIA
 CommitteeReview29CR_FactAct_grid," """"", CR_PreventType, System.String,committee_review/recommendations_of_committee/prevention,
 CommitteeReview29CR_FactAct_grid," """"", CR_ImpactLev, System.String,committee_review/recommendations_of_committee/impact_level,
 DeathCertificate4DC_CoD_grid, Causes of Death (enter UNDERLYING cause first)," """"",,,
