@@ -526,7 +526,7 @@ function attribute_renderer(p_metadata, p_path)
 						{
 							result.push("selected");
 						}
-						result.push(">");
+						result.push("> ");
 						
 						result.push(i);
 						result.push("</option>");
