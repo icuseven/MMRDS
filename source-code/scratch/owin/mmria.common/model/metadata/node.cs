@@ -17,12 +17,14 @@ namespace mmria.common.metadata
 		public bool? is_multiselect{ get; set; } 
 		public bool? is_save_value_display_description { get; set; } 
 		public int? list_display_size { get; set; }
-		public string control_style { get; set; } 
 
+		public string control_style { get; set; } 
 		public string default_value { get; set; } 
 		public string pre_fill { get; set; } 
 
 		public string regex_pattern { get; set; } 
+
+		public string decimal_precision { get; set; } 
 
 
 		public string description { get; set; }

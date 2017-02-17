@@ -1,19 +1,19 @@
 using System;
 namespace mmria.common.metadata
 {
-	public class form
+	
+	public class value_node
 	{
-		public string prompt { get; set; }
-		public string name { get; set; }
-		public string type { get; set; } //= "form"
-		public string cardinality { get; set; } 
-		public node[] children { get; set; } 
+		public string description { get; set; }
+		public string value { get; set; }
 
-		public form()
+
+		public value_node()
 		{
 
 
 		}
 	}
+
 }
 

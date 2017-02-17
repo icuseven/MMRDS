@@ -388,8 +388,7 @@ function attribute_renderer(p_metadata, p_path)
 					//result.push(p_path + "/" + prop);
 					result.push('</li>');
 				}
-			
-				break;				
+				break;
 			case "is_core_summary":
 			case "is_required":
 			case "is_multiselect":
@@ -422,6 +421,7 @@ function attribute_renderer(p_metadata, p_path)
 			case "onclick":
 			case "onfocus":
 			case "onchange":
+			case "global":
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
@@ -501,6 +501,41 @@ function attribute_renderer(p_metadata, p_path)
 					
 					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
 					break;
+				case "decimal_precision":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <select ');
+					result.push(' onchange="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" > ');
+
+					if(p_metadata[prop] && p_metadata[prop] == "")
+					{
+						result.push("<option selected></option>");
+					}
+					else
+					{
+						result.push("<option></option>");
+					}
+
+
+					for(var i = 0; i < 6; i++)
+					{
+						result.push("<option ");
+						if(p_metadata[prop] && p_metadata[prop] == i)
+						{
+							result.push("selected");
+						}
+						result.push(">");
+						
+						result.push(i);
+						result.push("</option>");
+					}
+					result.push('</select>');
+					//result.push(p_path + "/" + prop);
+					
+					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
+					break;					
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
 				{
@@ -640,6 +675,11 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>is_required</option>');
 		result.push('<option>is_read_only</option>');
 		
+		if(node_type.toLowerCase()== "number")
+		{
+			result.push('<option>decimal_precision</option>');
+		}
+
 		if(is_list)
 		{
 			result.push('<option>is_multiselect</option>');
@@ -650,9 +690,14 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>default_value</option>');
 		result.push('<option>regex_pattern</option>');
 	}
-	else if(node_type.toLowerCase()== "grid")
+	else if(node_type.toLowerCase()== "grid" || node_type.toLowerCase()== "group")
 	{
 		result.push('<option>is_core_summary</option>');
+	}
+
+	if(node_type.toLowerCase()== "app")
+	{
+		result.push('<option>global</option>');
 	}
 
 	result.push('<option>validation</option>');
@@ -1190,6 +1235,18 @@ function editor_add_to_attributes(e, p_ui)
 			
 				window.dispatchEvent(metadata_changed_event);
 				break;
+			case "decimal_precision":
+				var path = e.attributes['path'].value;
+				var item = get_eval_string(path);
+				eval(item)[attribute] = new Number(1);
+					
+				var node = editor_render(eval(item), path, g_ui);
+	
+				var node_to_render = document.querySelector("li[path='" + path + "']");
+				node_to_render.innerHTML = node.join("");
+			
+				window.dispatchEvent(metadata_changed_event);
+				break;				
 			default:
 				console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
