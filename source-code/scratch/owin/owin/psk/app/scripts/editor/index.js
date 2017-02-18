@@ -305,15 +305,15 @@ function perform_save(current_auth_session)
 				if(response_obj.ok)
 				{
 					g_metadata._rev = response_obj.rev; 
+					
 					document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
 
 					if(response_obj.auth_session)
 					{
 						profile.auth_session = response_obj.auth_session;
 						$mmria.addCookie("AuthSession", response_obj.auth_session);
-
-						perform_validation_save(g_metadata);
 					}
+					perform_validation_save(g_metadata);
 
 
 

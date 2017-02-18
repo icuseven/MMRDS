@@ -1276,7 +1276,7 @@ function editor_delete_attribute(e, p_path)
 
 		var node = editor_render(eval(begin), parent_path, g_ui);
 
-		var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+		var node_to_render = document.querySelector("li[path='" + parent_path + "'], li select[path='" + parent_path + "']");
 		node_to_render.innerHTML = node.join("");
 		window.dispatchEvent(metadata_changed_event);
 	}
@@ -1286,7 +1286,7 @@ function editor_delete_attribute(e, p_path)
 
 		if(g_delete_attribute_clip_board)
 		{
-			node_to_render = document.querySelector("li input[path='" + g_delete_attribute_clip_board + "']").parentElement;
+			node_to_render = document.querySelector("li input[path='" + g_delete_attribute_clip_board + "'], li select[path='" + g_delete_attribute_clip_board + "']").parentElement;
 
 			if(node_to_render)
 			{
@@ -1294,7 +1294,7 @@ function editor_delete_attribute(e, p_path)
 			}
 		}
 
-		node_to_render = document.querySelector("li input[path='" + p_path + "']").parentElement;
+		node_to_render = document.querySelector("li input[path='" + p_path + "'], li select[path='" + p_path + "']").parentElement;
 		g_delete_attribute_clip_board = p_path;
 		node_to_render.style.background = "#999999";
 	}
