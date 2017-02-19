@@ -734,6 +734,7 @@ function render_attribute_add_control(p_path, node_type)
 	if(node_type.toLowerCase()== "chart")
 	{
 		result.push('<option>x_start</option>');
+		result.push('<option>control_style</option>');
 		result.push('</select>');
 		result.push(' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="');
 		result.push(p_path);
