@@ -224,6 +224,33 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push('</ul></li></ul></li>');
 
 		break;
+
+		case 'chart':
+			result.push('<li path="');
+			result.push(p_path);
+			result.push('">');
+			result.push('<input type="button" value="-" onclick="editor_toggle(this, g_ui)"/> ');
+			result.push('<input type="button" value="^" onclick="editor_move_up(this, g_ui)"/> <input type="button" value="c" onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
+			result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')" /> ');
+			result.push(p_metadata.name);
+			result.push(' ');
+			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
+			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
+			result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
+			result.push(p_object_path);
+			result.push(' <ul tag="attribute_list" ');
+			if(p_ui.is_collapsed[p_path])
+			{
+				result.push(' style="display:none">');
+			}
+			else
+			{
+			result.push(' style="display:block">');
+			}
+			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
+			result.push('</ul></li>');
+
+           break;		
      default:
           console.log("editor_render not processed", p_metadata);
        break;
@@ -248,7 +275,8 @@ var valid_types = [
 "boolean",
 "label",
 "button",
-"address"
+"address",
+"chart"
 ];
 
 
@@ -424,8 +452,19 @@ function attribute_renderer(p_metadata, p_path)
 			case "global":
 					result.push('<li>')
 					result.push(prop);
-					result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
-					result.push(p_path + "/" + prop);
+
+					if(p_metadata.type.toLowerCase() == "app")
+					{
+						result.push(' : <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="/');
+						result.push(prop);
+					}
+					else
+					{
+						result.push(' : <input type="button" value="d" path="' + p_path + "/" + prop + '" onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')" /> <br/> <textarea rows=5 cols=50 onBlur="editor_set_value(this, g_ui)" path="');
+						result.push(p_path + "/" + prop);
+					}
+				
+					
 					result.push('">');
 					
 					if(p_metadata[prop] && p_metadata[prop]!="")
@@ -481,7 +520,7 @@ function attribute_renderer(p_metadata, p_path)
 				break;
 
 				case "list_display_size":
-									result.push('<li>')
+					result.push('<li>')
 					result.push(prop);
 					result.push(' : <input type="number" value="');
 					result.push(p_metadata[prop]);
@@ -535,10 +574,33 @@ function attribute_renderer(p_metadata, p_path)
 					//result.push(p_path + "/" + prop);
 					
 					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
-					break;					
+					break;
+
+				case "chart":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : <input type="text" value="');
+					result.push(p_metadata[prop]);
+					result.push('" size=');
+					if(p_metadata[prop])
+					{
+						result.push((p_metadata[prop].length)?  p_metadata[prop].length + 5: 5);
+					}
+					else
+					{
+						result.push(15);
+					}
+					result.push(' onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+					//result.push(p_path + "/" + prop);
+					
+					result.push(' <input type="button" value="d"  onclick="editor_delete_attribute(this,\'' + p_path + "/" + prop + '\')"/> </li>');
+				break;					
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
 				{
+					
 					result.push('<li>')
 					result.push(prop);
 					result.push(' : ');
@@ -669,6 +731,16 @@ function render_attribute_add_control(p_path, node_type)
 	result.push('<option></option>');
 	result.push('<option>description</option>');
 
+	if(node_type.toLowerCase()== "chart")
+	{
+		result.push('<option>x_start</option>');
+		result.push('</select>');
+		result.push(' <input type="button" value="add optional attribute" onclick="editor_add_to_attributes(this, g_ui)" path="');
+		result.push(p_path);
+		result.push('" /> ');
+		return result;
+	}
+
 	if(!is_collection_node)
 	{
 		result.push('<option>is_core_summary</option>');
@@ -699,6 +771,8 @@ function render_attribute_add_control(p_path, node_type)
 	{
 		result.push('<option>global</option>');
 	}
+
+
 
 	result.push('<option>validation</option>');
 	result.push('<option>validation_description</option>');
@@ -1125,7 +1199,7 @@ function editor_add_to_children(e, p_ui)
 			case "textarea":
 			case "boolean":
 			case "label":
-			case "button":			
+			case "button":	
 					eval(item_path).push(md.create_value("new_" + element_value, "new " + element_value + " prompt", element_value));
 
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
@@ -1134,6 +1208,14 @@ function editor_add_to_children(e, p_ui)
 					node_to_render.innerHTML = node.join("");
 					window.dispatchEvent(metadata_changed_event);
 
+					break;
+			case "chart":
+					eval(item_path).push(md.create_chart("new_" + element_value, "new " + element_value));
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");					
+					window.dispatchEvent(metadata_changed_event);
 					break;
 			case "list":
 					eval(item_path).push(md.create_value_list("new_" + element_value, "new " + element_value, element_value, "list"));
@@ -1212,6 +1294,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "max_value":
 			case "min_value":
 			case "control_style":
+			case "x_start":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 				eval(item)[attribute] = new String();

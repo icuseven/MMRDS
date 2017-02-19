@@ -96,6 +96,16 @@ return {
 			}
 		}
 	},
+	create_chart: function(p_name, p_prompt)
+	{
+		return {
+			"name": p_name,
+			"prompt": p_prompt,
+			"type": "chart",
+			"x_axis": "",
+			"y_axis":""
+		}
+	},
 	create_value_list: function(p_name, p_prompt, p_type)
 	{
 		return {
