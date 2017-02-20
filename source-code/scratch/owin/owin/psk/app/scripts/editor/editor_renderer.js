@@ -309,7 +309,9 @@ function attribute_renderer(p_metadata, p_path)
 						p_metadata[prop].toLowerCase() == "app" ||
 						p_metadata[prop].toLowerCase() == "list" ||
 						p_metadata[prop].toLowerCase() == "group" ||
-						p_metadata[prop].toLowerCase() == "form"
+						p_metadata[prop].toLowerCase() == "form" ||
+						p_metadata[prop].toLowerCase() == "chart" 
+
 					)
 					{
 						result.push(p_metadata[prop]);
@@ -858,6 +860,7 @@ function editor_set_value(e, p_ui)
 		case "onclick":
 		case "onfocus":
 		case "onchange":
+		case "global":
 			try
 			{
 				var valid_code = esprima.parse(e.value);

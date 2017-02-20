@@ -103,7 +103,11 @@ return {
 			"prompt": p_prompt,
 			"type": "chart",
 			"x_axis": "",
-			"y_axis":""
+			"y_axis":"",
+			"x_label": "",
+			"y_label":"",
+			"x_type": "",
+			"y_type":""
 		}
 	},
 	create_value_list: function(p_name, p_prompt, p_type)
@@ -330,7 +334,7 @@ function perform_save(current_auth_session)
 				}
 				else
 				{
-					console.log("failed to save");
+					console.log("failed to save", response_obj);
 				}
 				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 			console.log("metadata sent", response);

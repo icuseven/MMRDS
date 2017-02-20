@@ -118,7 +118,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
  
-    if(p_metadata.validation && p_metadata.validation != "")
+    if(p_metadata.validation && p_metadata.validation != "" && p_metadata.validataion != ";")
     {
 			p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
 			var test = get_code(p_metadata.validation);

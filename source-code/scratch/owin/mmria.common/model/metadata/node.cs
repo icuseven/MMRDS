@@ -26,8 +26,15 @@ namespace mmria.common.metadata
 
 		public string decimal_precision { get; set; } 
 
-		public string x_axis { get; set; } 
+		public string x_axis { get; set; }
+		public string x_label { get; set; } 
+		public string x_type { get; set; } 
+
+
 		public string y_axis { get; set; } 
+		public string y_label { get; set; } 
+		public string y_type { get; set; } 
+
 		public string x_start { get; set; } 
 
 
