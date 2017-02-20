@@ -1103,6 +1103,40 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</div>");
 
 			break;
+		case 'chart':
+			result.push("<div  class='chart' id='");
+			result.push(p_object_path.replace(/\./g,"_"))
+			
+			result.push("'> ");
+			result.push("<span ");
+			if(p_metadata.description && p_metadata.description.length > 0)
+			{
+				result.push("rel='tooltip'  data-original-title='");
+				result.push(p_metadata.description.replace(/'/g, "\\'"));
+				result.push("'>");
+			}
+			else
+			{
+				result.push(">");
+			} 
+			
+			if(p_is_grid_context && p_is_grid_context == true)
+			{
+
+			}
+			else
+			{
+				result.push(p_metadata.prompt);
+			}
+			result.push("</span> ");
+			result.push("<div type='chart' style='position:relative' name='");
+			result.push(p_metadata.name);
+			result.push(">");
+			
+			result.push("</div>");
+			result.push("</div>");
+
+			break;			
      default:
           console.log("page_render not processed", p_metadata);
        break;
