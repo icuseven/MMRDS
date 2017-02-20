@@ -1,8 +1,8 @@
-function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_group_level, p_row, p_column)
+function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_post_html_render)
 {
 	var stack = [];
 	var result = [];
-	var current_column = p_column;
+
 
 	switch(p_metadata.type.toLowerCase())
   {
@@ -43,7 +43,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					p_data[i][child.name] = create_default_object(child, {})[child.name];
 				}
-				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_group_level, p_row, p_column));
+				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_post_html_render));
 				result.push("</td>");
 			}
 			result.push('<td> <input type="button" value="delete" id="delete_');
@@ -86,7 +86,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data[child.name] = create_default_object(child, {})[child.name];
 			}
 
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level + 1, p_row, current_column + i));
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_post_html_render));
 
 		}
 		break;
@@ -217,14 +217,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 					if(child.type=="group")
 					{
-						Array.prototype.push.apply(result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 1, 0, current_column));
+						Array.prototype.push.apply(result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, p_post_html_render));
 					}
 					else
 					{
-						Array.prototype.push.apply(result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, 0, 0, current_column));
+						Array.prototype.push.apply(result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, p_post_html_render));
 					}
 					
-					current_column += 1;
 					//result.push("</div>");
 				}
 				result.push("</section>");
@@ -385,7 +384,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					p_data[child.name] = create_default_object(child, {})[child.name];
 				}
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_post_html_render));
 			}
 			result.push("</section>");
 		}
@@ -446,7 +445,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						p_data[child.name] = create_default_object(child, {})[child.name];
 					}
 
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_group_level, p_row, p_column));				 		
+					if(p_ui.url_state.path_array[1] == child.name)
+					{
+						Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_post_html_render));				 		
+					}
 				}
 			}
 		}
