@@ -57,7 +57,7 @@ var $mmria = function()
                     if (object.hasOwnProperty(key)) {
                         child = object[key];
                         if (typeof child === 'object' && child !== null) {
-                            visit(child, f);
+                            $mmria.mapEsprimaASt(child, f);
                         }
                     }
                 }

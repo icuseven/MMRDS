@@ -17,6 +17,29 @@ var object_path_to_metadata_path_map = [];
 //generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 var output_json = [] 
 
+function generate_global(p_output_json, p_metadata)
+{
+		global_ast.properties = [];
+		map_ast(p_metadata.global, create_global_ast);
+		var ast = global_ast.generate();
+		var test = get_code(ast);
+		if(test)
+		{
+			p_output_json.push(test);
+			p_output_json.push("\n");
+		}
+
+		if(p_metadata.validation && p_metadata.validation != "")
+		{
+			p_metadata.validation.body[0].id.name ="$validator";
+			var test = get_code(p_metadata.validation);
+			if(test)
+			{
+				p_output_json.push(test);
+				p_output_json.push("\n");
+			}
+		}
+}
 
 output_json.push("var path_to_int_map = [];\n");
 output_json.push("var path_to_onblur_map = [];\n");
@@ -118,7 +141,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
  
-    if(p_metadata.validation && p_metadata.validation != "" && p_metadata.validataion != ";")
+    if(p_metadata.validation && p_metadata.validation != "" && p_metadata.type!= "app")
     {
 			p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
 			var test = get_code(p_metadata.validation);
@@ -453,3 +476,89 @@ var test_exp = {
             ],
             "sourceType": "script"
           }
+
+
+var global_ast =  {
+	properties: [],
+	generate: function() { return {
+    "type": "Program",
+    "body": [
+{
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "$global"
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "properties": global_ast.properties
+            }
+          }
+        ],
+        "kind": "var"
+      }
+    ],
+    "sourceType": "script"
+  }}
+	
+};
+
+
+var create_property_ast = function(
+	p_name,
+	p_params,
+	p_body
+) 
+{
+	return {
+                  "type": "Property",
+                  "key": {
+                    "type": "Identifier",
+                    "name": p_name
+                  },
+                  "computed": false,
+                  "value": {
+                    "type": "FunctionExpression",
+                    "id": null,
+                    "params": p_params,
+                    "body": p_body,
+                    "generator": false,
+                    "expression": false
+                  },
+                  "kind": "init",
+                  "method": false,
+                  "shorthand": false
+                }
+
+};
+
+function map_ast(object, f) 
+{
+				var key, child;
+
+				if (f.call(null, object) === false) {
+						return;
+				}
+				for (key in object) {
+						if (object.hasOwnProperty(key)) {
+								child = object[key];
+								if (typeof child === 'object' && child !== null) {
+										map_ast(child, f);
+								}
+						}
+				}
+}
+
+function create_global_ast(x)
+{
+     if(x.type && x.type == "FunctionDeclaration")
+     {
+				var res = create_property_ast(x.id.name, x.params, x.body);
+			 global_ast.properties.push(res);
+         
+     }
+     
+}

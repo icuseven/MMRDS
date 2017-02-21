@@ -346,6 +346,9 @@ function perform_validation_save(p_metadata)
 
 
 	output_json = [];
+
+	generate_global(output_json, p_metadata);
+
 	output_json.push("var path_to_int_map = [];\n");
 	output_json.push("var path_to_onblur_map = [];\n");
 	output_json.push("var path_to_onclick_map = [];\n");
