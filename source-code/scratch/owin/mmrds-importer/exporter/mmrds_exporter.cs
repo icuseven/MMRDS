@@ -270,7 +270,18 @@ namespace mmria.console.export
 
 								if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())) && int.TryParse(val.ToString(), out try_int))
 								{
-									row[path_to_int_map[path].ToString("X")] = val;
+									//row[path_to_int_map[path ].ToString("X")] = val;
+									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+									{
+										row[convert_path_to_field_name(path)] = val;
+									}
+									else
+									{
+										row[path_to_int_map[path].ToString("X")] = val;
+									}
+									    
+									
+
 								}
 								break;
 							case "list":
@@ -286,14 +297,29 @@ namespace mmria.console.export
 									if (temp != null && temp.Count > 0)
 									{
 
-										row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+										{
+											row[convert_path_to_field_name(path)] = string.Join("|", temp);
+										}
+										else
+										{
+											row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+										}
 									}
 								}
 								else
 								{
 									if (val != null)
 									{
-										row[path_to_int_map[path].ToString("X")] = val;
+										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+										{
+											row[convert_path_to_field_name(path)] = val;
+										}
+										else
+										{
+											row[path_to_int_map[path].ToString("X")] = val;
+										}
+
 									}
 								}
 
@@ -301,7 +327,15 @@ namespace mmria.console.export
 							default:
 								if (val != null)
 								{
-									row[path_to_int_map[path].ToString("X")] = val;
+									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+									{
+										row[convert_path_to_field_name(path)] = val;
+									}
+									else
+									{
+										row[path_to_int_map[path].ToString("X")] = val;
+									}
+
 								}
 								break;
 
@@ -472,7 +506,15 @@ namespace mmria.console.export
 								case "number":
 									if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
 									{
-										form_row[path_to_int_map[path].ToString("X")] = val;
+										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+										{
+											form_row[convert_path_to_field_name(path)] = val;
+										}
+										else
+										{
+											form_row[path_to_int_map[path].ToString("X")] = val;
+										}
+		
 									}
 									break;
 								case "list":
@@ -487,15 +529,29 @@ namespace mmria.console.export
 										IList<object> temp = val as IList<object>;
 										if (temp != null && temp.Count > 0)
 										{
+											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+											{
+												form_row[convert_path_to_field_name(path)] = string.Join("|", temp);
+											}
+											else
+											{
+												form_row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+											}
 
-											form_row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
 										}
 									}
 									else
 									{
 										if (val != null)
 										{
-											form_row[path_to_int_map[path].ToString("X")] = val;
+											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+											{
+												form_row[convert_path_to_field_name(path)] = val;
+											}
+											else
+											{
+												form_row[path_to_int_map[path].ToString("X")] = val;
+											}
 										}
 									}
 
@@ -503,7 +559,14 @@ namespace mmria.console.export
 								default:
 									if (val != null)
 									{
-										form_row[path_to_int_map[path].ToString("X")] = val;
+										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+										{
+											form_row[convert_path_to_field_name(path)] = val;
+										}
+										else
+										{
+											form_row[path_to_int_map[path].ToString("X")] = val;
+										}
 									}
 									break;
 
@@ -543,10 +606,19 @@ namespace mmria.console.export
 			}
 
 
-			Dictionary<string, string> int_to_path_map = new Dictionary<string, string>();
+			Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			foreach (KeyValuePair<string, int> ptn in path_to_int_map)
 			{
-				int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
+				//int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
+				string key = convert_path_to_field_name(ptn.Key);
+				if (int_to_path_map.ContainsKey(key))
+				{
+					int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
+				}
+				else
+				{
+					int_to_path_map.Add(key, ptn.Key);
+				}
 			}
 
 			WriteCSV mapping_document = new WriteCSV("field_mapping.csv");
@@ -750,14 +822,27 @@ namespace mmria.console.export
 
 											continue;
 					case "number":
-						column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
+						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
+						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
 						break;
 					default:
-						column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
+						
+						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
+						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
 						break;
 
 				}
-				p_Table.Columns.Add(column);
+
+				try
+				{
+					p_Table.Columns.Add(column);
+				}
+				catch (Exception ex)
+				{
+					column.ColumnName = "_" + p_path_to_int_map[path].ToString("X");
+					p_Table.Columns.Add(column);
+				}
+
 			}
 		}
 
@@ -795,6 +880,79 @@ namespace mmria.console.export
 					generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map,  p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, false, p_multi_form_to_grid_map, false, p_path_to_flat_map);
 				}
 			}
+		}
+
+
+		private string convert_path_to_field_name(string p_path)
+		{
+			//		/birth_certificate_infant_fetal_section / causes_of_death
+			// /birth_certificate_infant_fetal_section
+			bool is_added_item = false;
+			int form_prefix = 0;
+			int field_prefix = 0;
+
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+			string[] temp = p_path.Split('/');
+
+			for (int i = 0; i < temp.Length; i++)
+			{
+				string[] temp2 = temp[i].Split('_');
+				for (int j = 0; j < temp2.Length; j++)
+				{
+					if (i == 0 && form_prefix < 3 && i != temp.Length - 1)
+					{
+						if (!string.IsNullOrWhiteSpace(temp2[j]))
+						{
+							result.Append(temp2[j][0]);
+							is_added_item = true;
+						}
+						form_prefix++;
+					}
+					else if (i == temp.Length - 1)
+					{
+						if (j == 0 && result.Length != 0 && j < temp2.Length - 1)
+						{
+							result.Append("_");
+							if (!string.IsNullOrWhiteSpace(temp2[j]))
+							{
+								result.Append(temp2[j][0]);
+								is_added_item = true;
+							}
+						}
+						else if (j < temp2.Length - 1)
+						{
+							if (!string.IsNullOrWhiteSpace(temp2[j]))
+							{
+								result.Append(temp2[j][0]);
+								is_added_item = true;
+							}
+						}
+						else
+						{
+							result.Append("_");
+							if (temp2[j].Length > 5)
+							{
+								result.Append(temp2[j].Substring(0, 5));
+							}
+							else
+							{
+								result.Append(temp2[j]);
+							}
+							return result.ToString();
+						}
+
+
+
+					}
+					else if (!string.IsNullOrWhiteSpace(temp2[j]))
+					{
+						result.Append(temp2[j][0]);
+						is_added_item = true;
+					}
+				}
+			}
+
+			return result.ToString();
 		}
 
 
