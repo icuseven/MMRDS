@@ -434,7 +434,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			for(var i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
-				if(child.type.toLowerCase() == 'form')
+				if(child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name)
 				{
 					if(p_data[child.name])
 					{
@@ -445,10 +445,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						p_data[child.name] = create_default_object(child, {})[child.name];
 					}
 
-					if(p_ui.url_state.path_array[1] == child.name)
-					{
-						Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_post_html_render));				 		
-					}
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_post_html_render));				 		
+					
 				}
 			}
 		}
@@ -1130,13 +1128,34 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
-			result.push("</span> ");
-			result.push("<div type='chart' style='position:relative' name='");
-			result.push(p_metadata.name);
-			result.push(">");
+			result.push("</span>");
+			result.push("</div>");
+
+
+			p_post_html_render.push("  c3.generate({");
+			p_post_html_render.push("  size: {");
+			p_post_html_render.push("  height: 240,");
+			p_post_html_render.push("  width: 480");
+			p_post_html_render.push("  },");
+			p_post_html_render.push("  bindto: '#");
+			p_post_html_render.push(p_object_path.replace(/\./g,"_"));
+			p_post_html_render.push("',");
+			p_post_html_render.push("  data: {");
+			p_post_html_render.push("      columns: [");
+			p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
+			p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
+
+			var y_axis_paths = p_metadata.y_axis.split(",");
+			for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
+			{
+				//p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
+			}
 			
-			result.push("</div>");
-			result.push("</div>");
+			p_post_html_render.push("  ]");
+			p_post_html_render.push("  }");
+			p_post_html_render.push("  });");
+
+	
 
 			break;			
      default:
@@ -1148,6 +1167,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 }
 
+
+function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui)
+{
+	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
+	// p_ui.url_state.path_array.length
+	var result = [];
+	//var metadata = eval(convert_metadata_path_to_object(p_metadata_path));
+
+
+	result.push("['" + p_metadata_path + "'");
+	// ['data2', 50, 20, 10, 40, 15, 25]
+	result.push(50, 20, 10, 40, 15, 25);
+
+	//result = ['data2', 50, 20, 10, 40, 15, 25];
+	result[result.length-1] = result[result.length-1] + "]";
+	return result.join(",");
+}
+
+function convert_metadata_path_to_object(p_path)
+{
+	var result = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+
+
+	return result;
+}
 
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
 {

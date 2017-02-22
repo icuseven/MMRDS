@@ -41,11 +41,17 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         g_data.date_last_updated = new Date();
         g_data.last_updated_by = profile.user_name;
 		
-		document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-        if(g_ui.broken_rules[p_object_path])
-        {
-          g_ui.broken_rules[p_object_path] = false;
-        } 
+    var post_html_call_back = [];
+		document.getElementById(p_object_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
+    if(post_html_call_back.length > 0)
+    {
+      eval(post_html_call_back.join(""));
+    }
+
+    if(g_ui.broken_rules[p_object_path])
+    {
+      g_ui.broken_rules[p_object_path] = false;
+    } 
 
 	  var db = new PouchDB("mmrds");
       db.put(g_data).then(function (doc)
@@ -102,7 +108,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 
-      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+      var post_html_call_back = [];
+      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
       $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]")).replaceWith(new_html);
 
       switch(metadata.type.toLowerCase())
@@ -136,6 +143,10 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").attr("size", "15");
           break;
+      }
+      if(post_html_call_back.length > 0)
+      {
+        eval(post_html_call_back.join(""));
       }
       
 	  
@@ -171,8 +182,13 @@ function g_add_grid_item(p_object_path, p_metadata_path)
   var new_line_item = create_default_object(metadata, {});
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
+  var post_html_call_back = [];
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
   apply_tool_tips();
+  if(post_html_call_back.length > 0)
+  {
+    eval(post_html_call_back.join(""));
+  }
 }
 
 function g_delete_grid_item(p_object_path, p_metadata_path)
@@ -182,7 +198,12 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
   eval(object_string).splice(index, 1);
 
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, 0, 0, 0).join("");
+  var post_html_call_back = [];
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, post_html_call_back).join("");
+  if(post_html_call_back.length > 0)
+  {
+    eval(post_html_call_back.join(""));
+  }
 }
 
 var g_ui = {
@@ -392,8 +413,13 @@ function get_case_set()
           
         }
 
+        var post_html_call_back = [];
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
+        if(post_html_call_back.length > 0)
+        {
+          eval(post_html_call_back.join(""));
+        }
 
         var section_list = document.getElementsByTagName("section");
         for(var i = 0; i < section_list.length; i++)
@@ -501,9 +527,14 @@ function window_on_hash_change(e)
 
             g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
+            var post_html_call_back = [];
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, 0, 0, 0).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, post_html_call_back).join("");
             apply_tool_tips();
+            if(post_html_call_back.length > 0)
+            {
+              eval(post_html_call_back.join(""));
+            }
 
 
             var section_list = document.getElementsByTagName("section");
@@ -549,9 +580,14 @@ function window_on_hash_change(e)
               save_queue.push(g_data._id);
             }*/
             g_data = null;
+            var post_html_call_back = []
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
             apply_tool_tips();
+            if(post_html_call_back.length > 0)
+            {
+              eval(post_html_call_back.join(""));
+            }
 
             var section_list = document.getElementsByTagName("section");
               for(var i = 0; i < section_list.length; i++)
@@ -585,10 +621,14 @@ function window_on_hash_change(e)
     {
       g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
+      var post_html_call_back = [];
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, 0, 0, 0).join("");
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, post_html_call_back).join("");
       apply_tool_tips();
-
+      if(post_html_call_back.length > 0)
+      {
+        eval(post_html_call_back.join(""));
+      }
 
   		var section_list = document.getElementsByTagName("section");
       if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
@@ -632,10 +672,15 @@ function window_on_hash_change(e)
               
       g_data = null;
 
+      var post_html_call_back = [];
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-                                                            //page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_row, p_column)
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+                                                            //page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context,post_html_call_back)
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
       apply_tool_tips();
+      if(post_html_call_back.length > 0)
+      {
+        eval(post_html_call_back.join(""));
+      }
 
       var section_list = document.getElementsByTagName("section");
         for(var i = 0; i < section_list.length; i++)
@@ -775,8 +820,14 @@ function delete_record(p_index)
             }
           }
 
+        var post_html_call_back = [];
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
+        if(post_html_call_back.length > 0)
+        {
+          eval(post_html_call_back.join(""));
+        }
+
 
         var section_list = document.getElementsByTagName("section");
         for(var i = 0; i < section_list.length; i++)
@@ -899,6 +950,10 @@ function add_new_form_click(p_metadata_path, p_object_path)
   var item = new_form[metadata.name][0];
   form_array.push(item);
 
-  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-
+  var post_html_call_back = [];
+  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
+  if(post_html_call_back.length > 0)
+  {
+    eval(post_html_call_back.join(""));
+  }
 }
