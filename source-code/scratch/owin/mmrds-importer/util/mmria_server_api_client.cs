@@ -293,12 +293,20 @@ namespace mmria.console
 		{
 			dynamic result = new List<System.Dynamic.ExpandoObject>();
 
-			foreach (string file_name in System.IO.Directory.GetFiles("import", "*"))
-			{
+			string import_directory = System.Configuration.ConfigurationManager.AppSettings["import_directory"];
 
-				string json_string = System.IO.File.OpenText(file_name).ReadToEnd();
-				System.Dynamic.ExpandoObject case_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(json_string);
-				result.Add(case_data);
+			foreach (string file_name in System.IO.Directory.GetFiles(import_directory, "*.json"))
+			{
+				try
+				{
+					string json_string = System.IO.File.OpenText(file_name).ReadToEnd();
+					System.Dynamic.ExpandoObject case_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(json_string);
+					result.Add(case_data);
+				}
+				catch (Exception ex)
+				{
+					// do nothing
+				}
 
 			}
 

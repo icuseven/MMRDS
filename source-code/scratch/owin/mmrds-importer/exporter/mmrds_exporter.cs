@@ -253,6 +253,15 @@ namespace mmria.console.export
 
 					System.Console.WriteLine("path {0}", path);
 
+					if (
+						path_to_node_map[path].type.ToLower() == "list" &&
+						path_to_node_map[path].is_multiselect != null &&
+								   path_to_node_map[path].is_multiselect == true
+					  )
+					{
+						System.Console.WriteLine("break");
+					}
+
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
 					/*
 					if (path_to_int_map[path].ToString("X") == "41")
@@ -293,7 +302,7 @@ namespace mmria.console.export
 								  )
 								{
 
-									IList<object> temp = val as IList<object>;
+									List<object> temp = val as List<object>;
 									if (temp != null && temp.Count > 0)
 									{
 
@@ -397,11 +406,27 @@ namespace mmria.console.export
 										{
 											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 											{
-												grid_row[path_to_int_map[node].ToString("X")] = val;
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												{
+													grid_row[convert_path_to_field_name(node)] = val;
+												}
+												else
+												{
+
+													grid_row[path_to_int_map[node].ToString("X")] = val;
+												}
 											}
 											else
 											{
-												grid_row[path_to_int_map[node].ToString("X")] = val;
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												{
+													grid_row[convert_path_to_field_name(node)] = val;
+												}
+												else
+												{
+
+													grid_row[path_to_int_map[node].ToString("X")] = val;
+												}
 											}
 										}
 									}
@@ -487,12 +512,18 @@ namespace mmria.console.export
 
 							}
 
-							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
+							if (path.Trim() == "death_certificate/place_of_last_residence/latitude")
 							{
 								System.Console.Write("pause");
 							}
 
 							dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/",form_path_list));
+
+							if (path.Trim() == "death_certificate/place_of_last_residence/latitude" && val != null)
+							{
+								System.Console.Write("pause");
+							}
+
 							/*
 							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
 							{
@@ -753,11 +784,28 @@ namespace mmria.console.export
 										{
 											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 											{
-												grid_row[path_to_int_map[node].ToString("X")] = val;
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												{
+													grid_row[convert_path_to_field_name(node)] = val;
+												}
+												else
+												{
+
+													grid_row[path_to_int_map[node].ToString("X")] = val;
+												}
+												
 											}
 											else
 											{
-												grid_row[path_to_int_map[node].ToString("X")] = val;
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												{
+													grid_row[convert_path_to_field_name(node)] = val;
+												}
+												else
+												{
+
+													grid_row[path_to_int_map[node].ToString("X")] = val;
+												}
 											}
 										}
 									}
