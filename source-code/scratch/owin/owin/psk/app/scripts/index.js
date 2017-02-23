@@ -71,7 +71,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
                 break;
             }
           }
-      });
+      }).catch(function (err) {
+  console.log(err);
+});
 		
 
       }
@@ -133,6 +135,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           break;
 
           case 'number':
+
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric();
+              /*
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").TouchSpin({
                               verticalbuttons: true,
                               decimals: 3,
@@ -140,7 +145,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
                               max: 10000,
                               step: 1,
                               maxboostedstep: 10
-                          });
+                          });*/
 
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").attr("size", "15");
           break;
@@ -170,7 +175,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
             }
           }
           
-      });
+      }).catch(function (err) {
+  console.log(err);
+});
 	  
     }
 
@@ -268,28 +275,6 @@ var g_ui = {
 
 		g_ui.selected_record_id = result._id;
 		g_ui.selected_record_index = g_ui.data_list.length -1;
-
-/*
-    var db = new PouchDB("mmrds");
-      db.put(g_data).then(function (doc)
-      {
-          if(g_data && g_data._id == doc.id)
-          {
-            g_data._rev = doc.rev;
-            console.log('set_value save finished');
-          }
-          else for(var i = 0; i < g_ui.data_list.length; i++)
-          {
-            if(g_ui.data_list[i]._id == doc.id)
-            {
-                g_ui.data_list[i]._rev = doc.rev;
-                console.log('set_value save finished');
-                //console.log(doc);
-                break;
-            }
-          }
-
-      });*/
 
     var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
     window.location = url;
@@ -493,27 +478,6 @@ function window_on_hash_change(e)
 
   if(g_data)
   {
-
-      /*
-      var db = new PouchDB('mmrds');
-      db.put(g_data).then(function (doc)
-      {
-          if(g_data && g_data._id == doc.id)
-          {
-            g_data._rev = doc.rev;
-            console.log('set_value save finished');
-          }
-          else for(var i = 0; i < g_ui.data_list.length; i++)
-          {
-            if(g_ui.data_list[i]._id == doc.id)
-            {
-                g_ui.data_list[i]._rev = doc.rev;
-                console.log('set_value save finished');
-                //console.log(doc);
-                break;
-            }
-          }
-      });*/
 
         if(e.isTrusted)
         {
@@ -740,6 +704,11 @@ flatpickr(" .date", {
 
 $( ".datetime" ).datetimepicker();
 
+
+$("input.number").numeric();
+
+/*
+
 $("input.number").TouchSpin({
                 verticalbuttons: true,
 				decimals: 3,
@@ -747,7 +716,7 @@ $("input.number").TouchSpin({
                 max: 10000,
                 step: 1,
                 maxboostedstep: 10
-            });
+            });*/
 
 //$("input.number").mask("#,##0[.00", {reverse: true});
 $("input.number").attr("size", "15");

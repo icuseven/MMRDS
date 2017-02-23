@@ -1263,7 +1263,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 		}
 
-
+/*
 		if(
 			p_metadata.type == "number" ||
 			p_metadata.type == "datetime" ||
@@ -1273,7 +1273,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		{
 			page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
 		}
-		else if(p_metadata.onchange && p_metadata.onchange != "")
+		else */if(p_metadata.onchange && p_metadata.onchange != "")
 		{
 			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
 		}
@@ -1382,7 +1382,7 @@ var path_to_validation_description = [];
 		p_result.push(code_array.join('').replace(/'/g,"\""));
 		p_result.push("'");
 	}
-	else
+	else //if(p_metadata.type!="number")
 	{
 		p_result.push(" onblur='g_set_data_object_from_path(\"");
 		p_result.push(p_object_path);
