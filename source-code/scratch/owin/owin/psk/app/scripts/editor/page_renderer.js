@@ -1142,13 +1142,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			p_post_html_render.push("',");
 			p_post_html_render.push("  data: {");
 			p_post_html_render.push("      columns: [");
-			p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
-			p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
+			//p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
+			//p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
 
 			var y_axis_paths = p_metadata.y_axis.split(",");
 			for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
 			{
-				//p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
+				p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
+				if(y_index < y_axis_paths.length-1)
+				{
+					p_post_html_render.push(",");
+				}
 			}
 			
 			p_post_html_render.push("  ]");
@@ -1173,22 +1177,43 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui)
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
 	var result = [];
-	//var metadata = eval(convert_metadata_path_to_object(p_metadata_path));
+	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
+	var array = eval(array_field[0]);
+	var field = array_field[1];
 
-	result.push("['" + p_metadata_path + "'");
+	result.push("['" + array_field[1] + "'");
 	// ['data2', 50, 20, 10, 40, 15, 25]
-	result.push(50, 20, 10, 40, 15, 25);
+	//result.push(50, 20, 10, 40, 15, 25);
 
 	//result = ['data2', 50, 20, 10, 40, 15, 25];
+	for(var i = 0; i < array.length; i++)
+	{
+		var val = array[i][field];
+		if(val)
+		{
+			result.push(parseFloat(val));
+		}
+		else
+		{
+			result.push(0);
+		}
+		
+	}
+
 	result[result.length-1] = result[result.length-1] + "]";
 	return result.join(",");
 }
 
-function convert_metadata_path_to_object(p_path)
+function convert_dictionary_path_to_array_field(p_path)
 {
-	var result = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = []
+	var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	result.push(temp.substr(0, index));
+	result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
 	return result;
 }
