@@ -19,28 +19,6 @@ var g_metadata_summary = [];
 
 var default_object = null;
 
-function g_add_grid_item(p_object_path, p_metadata_path)
-{
-  var metadata = eval(p_metadata_path);
-  var new_line_item = create_default_object(metadata, {});
-  eval(p_object_path).push(new_line_item[metadata.name][0]);
-
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-  
-}
-
-function g_delete_grid_item(p_object_path, p_metadata_path)
-{
-  var metadata = eval(p_metadata_path);
-  var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
-  var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
-  eval(object_string).splice(index, 1);
-
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, 0, 0, 0).join("");
-  
-}
-
-
 
 var g_ui = {
   url_state: {
@@ -541,32 +519,6 @@ function apply_validation()
     }
 }
 
-function delete_record(p_index)
-{
-  if(p_index == g_selected_delete_index)
-  {
-    g_ui.data_list[p_index]._deleted = true;
-    save_queue.push(g_ui.data_list[p_index]._id);
-  }
-  else
-  {
-      if(g_selected_delete_index)
-      {
-          var old_id = g_ui.data_list[g_selected_delete_index]._id;
-          $("div[path='" +old_id + "']").removeClass("selected-for-delete");
-      }
-
-      g_selected_delete_index = p_index;
-      var id = g_ui.data_list[p_index]._id;
-      $("div[path='" + id + "']").addClass("selected-for-delete");
-      
-  }
-}
-
-
-var save_interval_id = null;
-var save_queue = [];
-
 
 function open_print_version(p_section)
 {
@@ -603,16 +555,3 @@ function open_blank_version(p_section)
 	}, 1000);	
 }
 
-function add_new_form_click(p_metadata_path, p_object_path)
-{
-  console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
-  var metadata = eval(p_metadata_path);
-  var form_array = eval(p_object_path);
-
-  var new_form = create_default_object(metadata, {});
-  var item = new_form[metadata.name][0];
-  form_array.push(item);
-
-  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, false, 0, 0, 0).join("");
-
-}
