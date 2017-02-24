@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Owin;
 
 namespace mmria.WebSockets
 {	
 	//https://github.com/bryceg/Owin.WebSocket
 		//http://owin.org/spec/extensions/owin-WebSocket-Extension-v0.3.0.htm
+
+	//http://stackoverflow.com/questions/30836647/owin-websockets-understanding-iowincontext-and-websocketaccept
+
 	 using WebSocketFunc =
 		 Func<
 			IDictionary<string, object>, // WebSocket Environment
@@ -51,6 +55,30 @@ namespace mmria.WebSockets
 			System.Threading.CancellationToken /* cancel */,
 			Task
 		>;
+
+	public class websocket
+	{
+		public void Configuration(IAppBuilder app)
+		{
+			app.Use(UpgradeToWebSockets);
+			app.UseWelcomePage();
+		}
+
+		// Run once per request
+		private Task UpgradeToWebSockets(Microsoft.Owin.IOwinContext context, Func<Task> next)
+		{
+			WebSocketReceiveAsync accept = context.Get<WebSocketReceiveAsync>("websocket.Accept");
+			if (accept == null)
+			{
+				// Not a websocket request
+				return next();
+			}
+
+			accept(null, WebSocketSendAsync);
+
+			return Task.FromResult<object>(null);
+		}
+	}
 }
 
 
