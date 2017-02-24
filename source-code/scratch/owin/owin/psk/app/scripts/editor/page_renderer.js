@@ -566,7 +566,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</div>");
            break;
      case 'number':
-			result.push("<div class='number' id='");
+			result.push("<div class='number");
+			if(
+				p_metadata.decimal_precision && 
+				p_metadata.decimal_precision != "" && 
+				p_metadata.decimal_precision != "1"
+			)
+			{
+				result.push(p_metadata.decimal_precision);
+			}
+
+			result.push(" id='");
 			result.push(p_object_path);
 			result.push("'><span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -1140,8 +1150,27 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			p_post_html_render.push("  bindto: '#");
 			p_post_html_render.push(p_object_path.replace(/\./g,"_"));
 			p_post_html_render.push("',");
+/*
+			if(p_metadata.x_axis && p_metadata.x_axis != "")
+			{
+				p_post_html_render.push("axis: {");
+				p_post_html_render.push("x: {");
+				p_post_html_render.push("type: 'timeseries',");
+				p_post_html_render.push("tick: {");
+				p_post_html_render.push(" values: [");
+				p_post_html_render.push(get_chart_x_ticks_from_path(p_metadata, p_metadata.x_axis, p_ui));
+				p_post_html_render.push("]");
+				p_post_html_render.push("}");
+				p_post_html_render.push("        }},");
+			}*/
+
 			p_post_html_render.push("  data: {");
 			p_post_html_render.push("      columns: [");
+
+			if(p_metadata.x_axis && p_metadata.x_axis != "")
+			{
+				p_post_html_render.push(get_chart_x_range_from_path(p_metadata, p_metadata.x_axis, p_ui));
+			}
 			//p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
 			//p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
 
@@ -1171,6 +1200,73 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 }
 
+function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
+{
+	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
+	// p_ui.url_state.path_array.length
+	var result = [];
+	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+
+	var array = eval(array_field[0]);
+	var field = array_field[1];
+
+	result.push("[");
+	//result.push("['x'");
+	// ['data2', 50, 20, 10, 40, 15, 25]
+	//result.push(50, 20, 10, 40, 15, 25);
+
+	//result = ['data2', 50, 20, 10, 40, 15, 25];
+	for(var i = 0; i < array.length; i++)
+	{
+		var val = array[i][field];
+		if(val)
+		{
+			result.push(parseFloat(val));
+		}
+		else
+		{
+			result.push(0);
+		}
+		
+	}
+
+	result[result.length-1] = result[result.length-1] + "]";
+	return result.join(",");
+}
+
+function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
+{
+	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
+	// p_ui.url_state.path_array.length
+	var result = [];
+	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+
+	var array = eval(array_field[0]);
+	var field = array_field[1];
+
+
+	result.push("['x'");
+	// ['data2', 50, 20, 10, 40, 15, 25]
+	//result.push(50, 20, 10, 40, 15, 25);
+
+	//result = ['data2', 50, 20, 10, 40, 15, 25];
+	for(var i = 0; i < array.length; i++)
+	{
+		var val = array[i][field];
+		if(val)
+		{
+			result.push(parseFloat(val));
+		}
+		else
+		{
+			result.push(0);
+		}
+		
+	}
+
+	result[result.length-1] = result[result.length-1] + "]";
+	return result.join(",") + ",";
+}
 
 function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui)
 {
