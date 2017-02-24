@@ -1,11 +1,1761 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "436-019b4474b40581537f82039dbb46f58c",
+  "_rev": "437-d68b319557cd8233781a9f18cf7b37ab",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
-  "global":"",
-  "validation":"",
+  "validation": {
+    "type": "Program",
+    "body": [
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "$validator"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "x"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": []
+        },
+        "generator": false,
+        "expression": false
+      }
+    ],
+    "sourceType": "script"
+  },
+  "global": {
+    "type": "Program",
+    "body": [
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "calc_days"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "p_start_date"
+          },
+          {
+            "type": "Identifier",
+            "name": "p_end_date"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "days"
+                  },
+                  "init": {
+                    "type": "Literal",
+                    "value": null,
+                    "raw": "null"
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "IfStatement",
+              "test": {
+                "type": "BinaryExpression",
+                "operator": ">",
+                "left": {
+                  "type": "Identifier",
+                  "name": "p_end_date"
+                },
+                "right": {
+                  "type": "Identifier",
+                  "name": "p_start_date"
+                }
+              },
+              "consequent": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_start_date"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "p_start_date"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "getTime"
+                            }
+                          },
+                          "arguments": []
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 86400000,
+                          "raw": "86400000"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_end_date"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "p_end_date"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "getTime"
+                            }
+                          },
+                          "arguments": []
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 86400000,
+                          "raw": "86400000"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "days"
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Math"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "trunc"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "BinaryExpression",
+                            "operator": "-",
+                            "left": {
+                              "type": "Identifier",
+                              "name": "p_end_date"
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "name": "p_start_date"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "alternate": null
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "Identifier",
+                "name": "days"
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "expression": false
+      },
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "calc_weeks"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "p_start_date"
+          },
+          {
+            "type": "Identifier",
+            "name": "p_end_date"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "weeks"
+                  },
+                  "init": {
+                    "type": "Literal",
+                    "value": null,
+                    "raw": "null"
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "IfStatement",
+              "test": {
+                "type": "BinaryExpression",
+                "operator": ">",
+                "left": {
+                  "type": "Identifier",
+                  "name": "p_end_date"
+                },
+                "right": {
+                  "type": "Identifier",
+                  "name": "p_start_date"
+                }
+              },
+              "consequent": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_start_date"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "p_start_date"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "getTime"
+                            }
+                          },
+                          "arguments": []
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 604800000,
+                          "raw": "604800000"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_end_date"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "p_end_date"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "getTime"
+                            }
+                          },
+                          "arguments": []
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 604800000,
+                          "raw": "604800000"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "weeks"
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Math"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "trunc"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "BinaryExpression",
+                            "operator": "-",
+                            "left": {
+                              "type": "Identifier",
+                              "name": "p_end_date"
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "name": "p_start_date"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "alternate": null
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "Identifier",
+                "name": "weeks"
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "expression": false
+      },
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "calc_years"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "p_start_date"
+          },
+          {
+            "type": "Identifier",
+            "name": "p_end_date"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "years"
+                  },
+                  "init": {
+                    "type": "Literal",
+                    "value": null,
+                    "raw": "null"
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "IfStatement",
+              "test": {
+                "type": "BinaryExpression",
+                "operator": ">",
+                "left": {
+                  "type": "Identifier",
+                  "name": "p_end_date"
+                },
+                "right": {
+                  "type": "Identifier",
+                  "name": "p_start_date"
+                }
+              },
+              "consequent": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_start_date"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "p_start_date"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "getTime"
+                            }
+                          },
+                          "arguments": []
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 31536000000,
+                          "raw": "31536000000"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_end_date"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "p_end_date"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "getTime"
+                            }
+                          },
+                          "arguments": []
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 31536000000,
+                          "raw": "31536000000"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "years"
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Math"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "trunc"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "BinaryExpression",
+                            "operator": "-",
+                            "left": {
+                              "type": "Identifier",
+                              "name": "p_end_date"
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "name": "p_start_date"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "alternate": null
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "Identifier",
+                "name": "years"
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "expression": false
+      },
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "calc_bmi"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "p_height"
+          },
+          {
+            "type": "Identifier",
+            "name": "p_weight"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "bmi"
+                  },
+                  "init": {
+                    "type": "Literal",
+                    "value": null,
+                    "raw": "null"
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "IfStatement",
+              "test": {
+                "type": "LogicalExpression",
+                "operator": "&&",
+                "left": {
+                  "type": "LogicalExpression",
+                  "operator": "&&",
+                  "left": {
+                    "type": "LogicalExpression",
+                    "operator": "&&",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "operator": ">",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_height"
+                      },
+                      "right": {
+                        "type": "Literal",
+                        "value": 24,
+                        "raw": "24"
+                      }
+                    },
+                    "right": {
+                      "type": "BinaryExpression",
+                      "operator": "<",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_height"
+                      },
+                      "right": {
+                        "type": "Literal",
+                        "value": 109,
+                        "raw": "109"
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "BinaryExpression",
+                    "operator": ">",
+                    "left": {
+                      "type": "Identifier",
+                      "name": "p_weight"
+                    },
+                    "right": {
+                      "type": "Literal",
+                      "value": 50,
+                      "raw": "50"
+                    }
+                  }
+                },
+                "right": {
+                  "type": "BinaryExpression",
+                  "operator": "<",
+                  "left": {
+                    "type": "Identifier",
+                    "name": "p_weight"
+                  },
+                  "right": {
+                    "type": "Literal",
+                    "value": 800,
+                    "raw": "800"
+                  }
+                }
+              },
+              "consequent": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "/=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_height"
+                      },
+                      "right": {
+                        "type": "Literal",
+                        "value": 39.3700787,
+                        "raw": "39.3700787"
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "/=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "p_weight"
+                      },
+                      "right": {
+                        "type": "Literal",
+                        "value": 2.20462,
+                        "raw": "2.20462"
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "bmi"
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "/",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "Math"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "round"
+                            }
+                          },
+                          "arguments": [
+                            {
+                              "type": "BinaryExpression",
+                              "operator": "*",
+                              "left": {
+                                "type": "BinaryExpression",
+                                "operator": "/",
+                                "left": {
+                                  "type": "Identifier",
+                                  "name": "p_weight"
+                                },
+                                "right": {
+                                  "type": "CallExpression",
+                                  "callee": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "Math"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "pow"
+                                    }
+                                  },
+                                  "arguments": [
+                                    {
+                                      "type": "Identifier",
+                                      "name": "p_height"
+                                    },
+                                    {
+                                      "type": "Literal",
+                                      "value": 2,
+                                      "raw": "2"
+                                    }
+                                  ]
+                                }
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": 10,
+                                "raw": "10"
+                              }
+                            }
+                          ]
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 10,
+                          "raw": "10"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "alternate": null
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "Identifier",
+                "name": "bmi"
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "expression": false
+      },
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "calc_distance"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "lat1"
+          },
+          {
+            "type": "Identifier",
+            "name": "lon1"
+          },
+          {
+            "type": "Identifier",
+            "name": "lat2"
+          },
+          {
+            "type": "Identifier",
+            "name": "lon2"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "radlat1"
+                  },
+                  "init": {
+                    "type": "BinaryExpression",
+                    "operator": "/",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "operator": "*",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "Identifier",
+                          "name": "Math"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "PI"
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "name": "lat1"
+                      }
+                    },
+                    "right": {
+                      "type": "Literal",
+                      "value": 180,
+                      "raw": "180"
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "radlat2"
+                  },
+                  "init": {
+                    "type": "BinaryExpression",
+                    "operator": "/",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "operator": "*",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "Identifier",
+                          "name": "Math"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "PI"
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "name": "lat2"
+                      }
+                    },
+                    "right": {
+                      "type": "Literal",
+                      "value": 180,
+                      "raw": "180"
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "theta"
+                  },
+                  "init": {
+                    "type": "BinaryExpression",
+                    "operator": "-",
+                    "left": {
+                      "type": "Identifier",
+                      "name": "lon1"
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "name": "lon2"
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "radtheta"
+                  },
+                  "init": {
+                    "type": "BinaryExpression",
+                    "operator": "/",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "operator": "*",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "Identifier",
+                          "name": "Math"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "PI"
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "name": "theta"
+                      }
+                    },
+                    "right": {
+                      "type": "Literal",
+                      "value": 180,
+                      "raw": "180"
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "dist"
+                  },
+                  "init": {
+                    "type": "BinaryExpression",
+                    "operator": "+",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "operator": "*",
+                      "left": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Math"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "sin"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "radlat1"
+                          }
+                        ]
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Math"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "sin"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "radlat2"
+                          }
+                        ]
+                      }
+                    },
+                    "right": {
+                      "type": "BinaryExpression",
+                      "operator": "*",
+                      "left": {
+                        "type": "BinaryExpression",
+                        "operator": "*",
+                        "left": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "Math"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "cos"
+                            }
+                          },
+                          "arguments": [
+                            {
+                              "type": "Identifier",
+                              "name": "radlat1"
+                            }
+                          ]
+                        },
+                        "right": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "Math"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "cos"
+                            }
+                          },
+                          "arguments": [
+                            {
+                              "type": "Identifier",
+                              "name": "radlat2"
+                            }
+                          ]
+                        }
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Math"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "cos"
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "radtheta"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "AssignmentExpression",
+                "operator": "=",
+                "left": {
+                  "type": "Identifier",
+                  "name": "dist"
+                },
+                "right": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "MemberExpression",
+                    "computed": false,
+                    "object": {
+                      "type": "Identifier",
+                      "name": "Math"
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "acos"
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "type": "Identifier",
+                      "name": "dist"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "AssignmentExpression",
+                "operator": "=",
+                "left": {
+                  "type": "Identifier",
+                  "name": "dist"
+                },
+                "right": {
+                  "type": "BinaryExpression",
+                  "operator": "/",
+                  "left": {
+                    "type": "BinaryExpression",
+                    "operator": "*",
+                    "left": {
+                      "type": "Identifier",
+                      "name": "dist"
+                    },
+                    "right": {
+                      "type": "Literal",
+                      "value": 180,
+                      "raw": "180"
+                    }
+                  },
+                  "right": {
+                    "type": "MemberExpression",
+                    "computed": false,
+                    "object": {
+                      "type": "Identifier",
+                      "name": "Math"
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "PI"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "AssignmentExpression",
+                "operator": "=",
+                "left": {
+                  "type": "Identifier",
+                  "name": "dist"
+                },
+                "right": {
+                  "type": "BinaryExpression",
+                  "operator": "/",
+                  "left": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "MemberExpression",
+                      "computed": false,
+                      "object": {
+                        "type": "Identifier",
+                        "name": "Math"
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "name": "round"
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "BinaryExpression",
+                        "operator": "*",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "operator": "*",
+                          "left": {
+                            "type": "BinaryExpression",
+                            "operator": "*",
+                            "left": {
+                              "type": "Identifier",
+                              "name": "dist"
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 60,
+                              "raw": "60"
+                            }
+                          },
+                          "right": {
+                            "type": "Literal",
+                            "value": 1.1515,
+                            "raw": "1.1515"
+                          }
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 100,
+                          "raw": "100"
+                        }
+                      }
+                    ]
+                  },
+                  "right": {
+                    "type": "Literal",
+                    "value": 100,
+                    "raw": "100"
+                  }
+                }
+              }
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "Identifier",
+                "name": "dist"
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "expression": false
+      },
+      {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "isValidDate"
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "year"
+          },
+          {
+            "type": "Identifier",
+            "name": "month"
+          },
+          {
+            "type": "Identifier",
+            "name": "day"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "months31"
+                  },
+                  "init": {
+                    "type": "ArrayExpression",
+                    "elements": [
+                      {
+                        "type": "Literal",
+                        "value": 1,
+                        "raw": "1"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 3,
+                        "raw": "3"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 5,
+                        "raw": "5"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 7,
+                        "raw": "7"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 8,
+                        "raw": "8"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 10,
+                        "raw": "10"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 12,
+                        "raw": "12"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "months30"
+                  },
+                  "init": {
+                    "type": "ArrayExpression",
+                    "elements": [
+                      {
+                        "type": "Literal",
+                        "value": 4,
+                        "raw": "4"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 6,
+                        "raw": "6"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 9,
+                        "raw": "9"
+                      },
+                      {
+                        "type": "Literal",
+                        "value": 11,
+                        "raw": "11"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "months28"
+                  },
+                  "init": {
+                    "type": "ArrayExpression",
+                    "elements": [
+                      {
+                        "type": "Literal",
+                        "value": 2,
+                        "raw": "2"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "isLeap"
+                  },
+                  "init": {
+                    "type": "LogicalExpression",
+                    "operator": "||",
+                    "left": {
+                      "type": "LogicalExpression",
+                      "operator": "&&",
+                      "left": {
+                        "type": "BinaryExpression",
+                        "operator": "===",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "operator": "%",
+                          "left": {
+                            "type": "Identifier",
+                            "name": "year"
+                          },
+                          "right": {
+                            "type": "Literal",
+                            "value": 4,
+                            "raw": "4"
+                          }
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 0,
+                          "raw": "0"
+                        }
+                      },
+                      "right": {
+                        "type": "BinaryExpression",
+                        "operator": "!==",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "operator": "%",
+                          "left": {
+                            "type": "Identifier",
+                            "name": "year"
+                          },
+                          "right": {
+                            "type": "Literal",
+                            "value": 100,
+                            "raw": "100"
+                          }
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 0,
+                          "raw": "0"
+                        }
+                      }
+                    },
+                    "right": {
+                      "type": "BinaryExpression",
+                      "operator": "===",
+                      "left": {
+                        "type": "BinaryExpression",
+                        "operator": "%",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "year"
+                        },
+                        "right": {
+                          "type": "Literal",
+                          "value": 400,
+                          "raw": "400"
+                        }
+                      },
+                      "right": {
+                        "type": "Literal",
+                        "value": 0,
+                        "raw": "0"
+                      }
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "valid"
+                  },
+                  "init": {
+                    "type": "LogicalExpression",
+                    "operator": "||",
+                    "left": {
+                      "type": "LogicalExpression",
+                      "operator": "||",
+                      "left": {
+                        "type": "LogicalExpression",
+                        "operator": "||",
+                        "left": {
+                          "type": "LogicalExpression",
+                          "operator": "&&",
+                          "left": {
+                            "type": "BinaryExpression",
+                            "operator": "!==",
+                            "left": {
+                              "type": "CallExpression",
+                              "callee": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "Identifier",
+                                  "name": "months31"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "indexOf"
+                                }
+                              },
+                              "arguments": [
+                                {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              ]
+                            },
+                            "right": {
+                              "type": "UnaryExpression",
+                              "operator": "-",
+                              "argument": {
+                                "type": "Literal",
+                                "value": 1,
+                                "raw": "1"
+                              },
+                              "prefix": true
+                            }
+                          },
+                          "right": {
+                            "type": "BinaryExpression",
+                            "operator": "<=",
+                            "left": {
+                              "type": "Identifier",
+                              "name": "day"
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 31,
+                              "raw": "31"
+                            }
+                          }
+                        },
+                        "right": {
+                          "type": "LogicalExpression",
+                          "operator": "&&",
+                          "left": {
+                            "type": "BinaryExpression",
+                            "operator": "!==",
+                            "left": {
+                              "type": "CallExpression",
+                              "callee": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "Identifier",
+                                  "name": "months30"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "indexOf"
+                                }
+                              },
+                              "arguments": [
+                                {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              ]
+                            },
+                            "right": {
+                              "type": "UnaryExpression",
+                              "operator": "-",
+                              "argument": {
+                                "type": "Literal",
+                                "value": 1,
+                                "raw": "1"
+                              },
+                              "prefix": true
+                            }
+                          },
+                          "right": {
+                            "type": "BinaryExpression",
+                            "operator": "<=",
+                            "left": {
+                              "type": "Identifier",
+                              "name": "day"
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 30,
+                              "raw": "30"
+                            }
+                          }
+                        }
+                      },
+                      "right": {
+                        "type": "LogicalExpression",
+                        "operator": "&&",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "operator": "!==",
+                          "left": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "Identifier",
+                                "name": "months28"
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "indexOf"
+                              }
+                            },
+                            "arguments": [
+                              {
+                                "type": "Identifier",
+                                "name": "month"
+                              }
+                            ]
+                          },
+                          "right": {
+                            "type": "UnaryExpression",
+                            "operator": "-",
+                            "argument": {
+                              "type": "Literal",
+                              "value": 1,
+                              "raw": "1"
+                            },
+                            "prefix": true
+                          }
+                        },
+                        "right": {
+                          "type": "BinaryExpression",
+                          "operator": "<=",
+                          "left": {
+                            "type": "Identifier",
+                            "name": "day"
+                          },
+                          "right": {
+                            "type": "Literal",
+                            "value": 28,
+                            "raw": "28"
+                          }
+                        }
+                      }
+                    },
+                    "right": {
+                      "type": "LogicalExpression",
+                      "operator": "&&",
+                      "left": {
+                        "type": "LogicalExpression",
+                        "operator": "&&",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "operator": "!==",
+                          "left": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "Identifier",
+                                "name": "months28"
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "indexOf"
+                              }
+                            },
+                            "arguments": [
+                              {
+                                "type": "Identifier",
+                                "name": "month"
+                              }
+                            ]
+                          },
+                          "right": {
+                            "type": "UnaryExpression",
+                            "operator": "-",
+                            "argument": {
+                              "type": "Literal",
+                              "value": 1,
+                              "raw": "1"
+                            },
+                            "prefix": true
+                          }
+                        },
+                        "right": {
+                          "type": "BinaryExpression",
+                          "operator": "<=",
+                          "left": {
+                            "type": "Identifier",
+                            "name": "day"
+                          },
+                          "right": {
+                            "type": "Literal",
+                            "value": 29,
+                            "raw": "29"
+                          }
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "name": "isLeap"
+                      }
+                    }
+                  }
+                }
+              ],
+              "kind": "var"
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "Identifier",
+                "name": "valid"
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "expression": false
+      }
+    ],
+    "sourceType": "script"
+  },
   "children": [
     {
       "prompt": "date_created",
@@ -56,7 +1806,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "x7a0_ob"
+                  "name": "x8_ob"
                 },
                 "params": [
                   {
@@ -1035,7 +2785,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "x7a7_of"
+                  "name": "xf_of"
                 },
                 "params": [
                   {
@@ -3106,19 +4856,21 @@
               "type": "string"
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "string"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "string"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "get_coordinates",
-              "type": "button"
+              "type": "number",
+              "decimal_precision": "4"
             }
           ]
         },
@@ -3776,7 +5528,7 @@
                     "type": "FunctionDeclaration",
                     "id": {
                       "type": "Identifier",
-                      "name": "x7c7_ob"
+                      "name": "x2f_ob"
                     },
                     "params": [
                       {
@@ -4378,7 +6130,7 @@
                     "type": "FunctionDeclaration",
                     "id": {
                       "type": "Identifier",
-                      "name": "x7cc_of"
+                      "name": "x7ce_of"
                     },
                     "params": [
                       {
@@ -8592,6 +10344,11 @@
               "type": "string"
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "cmd_get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
               "type": "number",
@@ -8602,11 +10359,6 @@
               "name": "longitude",
               "type": "number",
               "decimal_precision": "4"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "cmd_get_coordinates",
-              "type": "button"
             }
           ]
         },
@@ -9120,19 +10872,21 @@
               "type": "string"
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "cmd_get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "number"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "number"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "cmd_get_coordinates",
-              "type": "button"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Estimated Distance (Miles) Between Residence and Place of Death*",
@@ -10343,19 +12097,21 @@
               "type": "string"
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "cmd_get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "number"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "number"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "cmd_get_coordinates",
-              "type": "button"
+              "type": "number",
+              "decimal_precision": "4"
             }
           ]
         },
@@ -14878,19 +16634,21 @@
               "type": "string"
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "cmd_get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "number"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "number"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "cmd_get_coordinates",
-              "type": "button"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Estimated Distance from Residence to Place of Delivery* (In Miles)",
@@ -16373,7 +18131,8 @@
               "prompt": "BMI*",
               "name": "bmi",
               "type": "number",
-              "is_core_summary": true
+              "is_core_summary": true,
+              "decimal_precision": "1"
             }
           ]
         },
@@ -19066,12 +20825,14 @@
                 {
                   "prompt": "5 Minute",
                   "name": "minute_5",
-                  "type": "number"
+                  "type": "number",
+                  "decimal_precision": "0"
                 },
                 {
                   "prompt": "10 Minute",
                   "name": "minute_10",
                   "type": "number",
+                  "decimal_precision": "0",
                   "description": "(if 5 minute score is less than 6)"
                 }
               ]
@@ -20272,7 +22033,8 @@
                   "prompt": "BMI*",
                   "name": "bmi",
                   "type": "Number",
-                  "is_core_summary": true
+                  "is_core_summary": true,
+                  "decimal_precision": "1"
                 }
               ]
             },
@@ -21112,19 +22874,21 @@
               "is_core_summary": false
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "cmd_get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "number"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "number"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "cmd_get_coordinates",
-              "type": "button"
+              "type": "number",
+              "decimal_precision": "4"
             }
           ]
         },
@@ -21271,7 +23035,7 @@
             },
             {
               "description": "",
-              "value": "Not specified"
+              "value": "Not Specified"
             }
           ],
           "is_core_summary": true,
@@ -21612,19 +23376,19 @@
             {
               "prompt": "Gravida*",
               "name": "gravida",
-              "type": "string",
+              "type": "number",
               "is_core_summary": true
             },
             {
               "prompt": "Para*",
               "name": "para",
-              "type": "string",
+              "type": "number",
               "is_core_summary": true
             },
             {
               "prompt": "Abortions*",
               "name": "abortions",
-              "type": "string",
+              "type": "number",
               "is_core_summary": true
             },
             {
@@ -21635,7 +23399,7 @@
                 {
                   "prompt": "Date Ended",
                   "name": "date_ended",
-                  "type": "string"
+                  "type": "date"
                 },
                 {
                   "prompt": "Outcome",
@@ -25190,7 +26954,8 @@
               "prompt": "BMI*",
               "name": "bmi",
               "type": "number",
-              "is_core_summary": true
+              "is_core_summary": true,
+              "decimal_precision": "1"
             },
             {
               "prompt": "Weight at First Visit (lbs)*",
@@ -29388,12 +31153,14 @@
             {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "string"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "string"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Mode of Transportation to Facility",
@@ -29579,7 +31346,8 @@
                 {
                   "prompt": "BMI",
                   "name": "bmi",
-                  "type": "number"
+                  "type": "number",
+                  "decimal_precision": "1"
                 }
               ]
             }
@@ -32725,19 +34493,21 @@
               "type": "string"
             },
             {
+              "prompt": "Get Coordinates",
+              "name": "get_coordinates",
+              "type": "button"
+            },
+            {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "string"
+              "type": "number",
+              "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "string"
-            },
-            {
-              "prompt": "Get Coordinates",
-              "name": "get_coordinates",
-              "type": "button"
+              "type": "number",
+              "decimal_precision": "4"
             }
           ]
         },
@@ -32805,7 +34575,8 @@
             {
               "prompt": "Temperature",
               "name": "temperature",
-              "type": "number"
+              "type": "number",
+              "decimal_precision": "1"
             },
             {
               "prompt": "Pulse",
@@ -38259,6 +40030,17 @@
               ]
             }
           ]
+        },
+        {
+          "prompt": "new chart",
+          "name": "new_chart",
+          "type": "chart",
+          "x_axis": "",
+          "x_label": "",
+          "x_type": "",
+          "y_axis": "",
+          "y_label": "",
+          "y_type": ""
         }
       ]
     }

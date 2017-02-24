@@ -229,6 +229,22 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   }
 }
 
+function g_delete_record_item(p_object_path, p_metadata_path)
+{
+  var metadata = eval(p_metadata_path);
+  var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
+  var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+  eval(object_string).splice(index, 1);
+
+  var post_html_call_back = [];
+  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, post_html_call_back).join("");
+  if(post_html_call_back.length > 0)
+  {
+    eval(post_html_call_back.join(""));
+  }
+}
+
+
 var g_ui = {
   url_state: {
     selected_form_name: null,
@@ -862,6 +878,8 @@ function delete_record(p_index)
       
   }
 }
+
+
 
 
 var save_interval_id = null;

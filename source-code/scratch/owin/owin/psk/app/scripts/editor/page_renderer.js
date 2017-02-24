@@ -151,9 +151,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("/");
 					result.push(i);
 					result.push("\">");
-					result.push('Record ');
+					result.push('View Record ');
 					result.push(i + 1);
 		
+					result.push('</a>&nbsp;|&nbsp;');
+					result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
+					result.push("\">");
+					result.push('Delete Record ');
+					result.push(i + 1);
 					result.push('</a>');
 					result.push('</div>');
 				}
