@@ -136,7 +136,6 @@
     <Compile Include="controller\validatorController.cs" />
     <Compile Include="controller\aggregate_reportController.cs" />
     <Compile Include="controller\deidentifiedController.cs" />
-    <Compile Include="util\websocket.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

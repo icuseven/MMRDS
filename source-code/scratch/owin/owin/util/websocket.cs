@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Owin;
@@ -9,6 +10,18 @@ namespace mmria.WebSockets
 		//http://owin.org/spec/extensions/owin-WebSocket-Extension-v0.3.0.htm
 
 	//http://stackoverflow.com/questions/30836647/owin-websockets-understanding-iowincontext-and-websocketaccept
+
+	using WebSocketAccept =
+		Action
+		<
+		IDictionary<string, object>, // WebSocket Accept parameters
+	Func // WebSocketFunc callback
+	<
+	IDictionary<string, object>, // WebSocket environment
+	Task // Complete
+	>
+	>;
+
 
 	 using WebSocketFunc =
 		 Func<
@@ -67,16 +80,39 @@ namespace mmria.WebSockets
 		// Run once per request
 		private Task UpgradeToWebSockets(Microsoft.Owin.IOwinContext context, Func<Task> next)
 		{
-			WebSocketReceiveAsync accept = context.Get<WebSocketReceiveAsync>("websocket.Accept");
+			WebSocketAccept accept = context.Get<WebSocketAccept>("websocket.Accept");
 			if (accept == null)
 			{
 				// Not a websocket request
 				return next();
 			}
 
-			accept(null, WebSocketSendAsync);
+			accept(null, WebSocketEcho);
 
 			return Task.FromResult<object>(null);
+		}
+
+
+		private async Task WebSocketEcho(IDictionary<string, object> websocketContext)
+		{
+			var sendAsync = (WebSocketSendAsync)websocketContext["websocket.SendAsync"];
+			var receiveAsync = (WebSocketReceiveAsync)websocketContext["websocket.ReceiveAsync"];
+			var closeAsync = (WebSocketCloseAsync)websocketContext["websocket.CloseAsync"];
+			var callCancelled = (CancellationToken)websocketContext["websocket.CallCancelled"];
+
+			byte[] buffer = new byte[1024];
+			WebSocketReceiveAsync received = await receiveAsync(new ArraySegment<byte>(buffer), callCancelled);
+
+			object status;
+			while (!websocketContext.TryGetValue("websocket.ClientCloseStatus", out status) || (int)status == 0)
+			{
+				// Echo anything we receive
+				await sendAsync(new ArraySegment<byte>(buffer, 0, received.Item3), received.Item1, received.Item2, callCancelled);
+
+				received = await receiveAsync(new ArraySegment<byte>(buffer), callCancelled);
+			}
+
+			await closeAsync((int)websocketContext["websocket.ClientCloseStatus"], (string)websocketContext["websocket.ClientCloseDescription"], callCancelled);
 		}
 	}
 }
