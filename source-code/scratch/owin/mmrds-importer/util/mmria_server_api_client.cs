@@ -192,7 +192,10 @@ namespace mmria.console
 
 			if (json_response.ok == true)
 			{
-				this.auth_token = json_response.auth_session;
+				if (json_response.auth_session != null && !string.IsNullOrWhiteSpace(json_response.auth_session))
+				{
+					this.auth_token = json_response.auth_session;
+				}
 			}
 			else
 			{
