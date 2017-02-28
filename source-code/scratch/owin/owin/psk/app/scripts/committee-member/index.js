@@ -259,10 +259,6 @@ function window_on_hash_change(e)
 
           if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
           {
-            if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
-            {
-                save_queue.push(g_data._id);
-            }
 
             g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
