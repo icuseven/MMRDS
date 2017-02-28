@@ -1,6 +1,6 @@
 {
   "_id": "2016-06-12T13:49:24.759Z",
-  "_rev": "437-d68b319557cd8233781a9f18cf7b37ab",
+  "_rev": "132-31a551d1671e14d6e5417030f424a9eb",
   "name": "mmria",
   "prompt": "mmria app (ned)",
   "type": "app",
@@ -480,8 +480,8 @@
                         },
                         "right": {
                           "type": "Literal",
-                          "value": 31536000000,
-                          "raw": "31536000000"
+                          "value": 31557600000,
+                          "raw": "31557600000"
                         }
                       }
                     }
@@ -516,8 +516,8 @@
                         },
                         "right": {
                           "type": "Literal",
-                          "value": 31536000000,
-                          "raw": "31536000000"
+                          "value": 31557600000,
+                          "raw": "31557600000"
                         }
                       }
                     }
@@ -1806,7 +1806,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "x8_ob"
+                  "name": "x38_ob"
                 },
                 "params": [
                   {
@@ -2785,7 +2785,7 @@
                 "type": "FunctionDeclaration",
                 "id": {
                   "type": "Identifier",
-                  "name": "xf_of"
+                  "name": "x3f_of"
                 },
                 "params": [
                   {
@@ -5523,598 +5523,7 @@
               ],
               "onblur": {
                 "type": "Program",
-                "body": [
-                  {
-                    "type": "FunctionDeclaration",
-                    "id": {
-                      "type": "Identifier",
-                      "name": "x2f_ob"
-                    },
-                    "params": [
-                      {
-                        "type": "Identifier",
-                        "name": "control"
-                      }
-                    ],
-                    "body": {
-                      "type": "BlockStatement",
-                      "body": [
-                        {
-                          "type": "VariableDeclaration",
-                          "declarations": [
-                            {
-                              "type": "VariableDeclarator",
-                              "id": {
-                                "type": "Identifier",
-                                "name": "dateold"
-                              },
-                              "init": {
-                                "type": "MemberExpression",
-                                "computed": false,
-                                "object": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "MemberExpression",
-                                    "computed": false,
-                                    "object": {
-                                      "type": "Identifier",
-                                      "name": "g_data"
-                                    },
-                                    "property": {
-                                      "type": "Identifier",
-                                      "name": "death_certificate"
-                                    }
-                                  },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "demographics"
-                                  }
-                                },
-                                "property": {
-                                  "type": "Identifier",
-                                  "name": "date_of_birth"
-                                }
-                              }
-                            }
-                          ],
-                          "kind": "var"
-                        },
-                        {
-                          "type": "VariableDeclaration",
-                          "declarations": [
-                            {
-                              "type": "VariableDeclarator",
-                              "id": {
-                                "type": "Identifier",
-                                "name": "datenew"
-                              },
-                              "init": {
-                                "type": "MemberExpression",
-                                "computed": false,
-                                "object": {
-                                  "type": "MemberExpression",
-                                  "computed": false,
-                                  "object": {
-                                    "type": "MemberExpression",
-                                    "computed": false,
-                                    "object": {
-                                      "type": "Identifier",
-                                      "name": "g_data"
-                                    },
-                                    "property": {
-                                      "type": "Identifier",
-                                      "name": "death_certificate"
-                                    }
-                                  },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "name": "certificate_identification"
-                                  }
-                                },
-                                "property": {
-                                  "type": "Identifier",
-                                  "name": "date_of_death"
-                                }
-                              }
-                            }
-                          ],
-                          "kind": "var"
-                        },
-                        {
-                          "type": "IfStatement",
-                          "test": {
-                            "type": "LogicalExpression",
-                            "operator": "&&",
-                            "left": {
-                              "type": "LogicalExpression",
-                              "operator": "&&",
-                              "left": {
-                                "type": "LogicalExpression",
-                                "operator": "&&",
-                                "left": {
-                                  "type": "LogicalExpression",
-                                  "operator": "&&",
-                                  "left": {
-                                    "type": "UnaryExpression",
-                                    "operator": "!",
-                                    "argument": {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "Identifier",
-                                        "name": "isNaN"
-                                      },
-                                      "arguments": [
-                                        {
-                                          "type": "CallExpression",
-                                          "callee": {
-                                            "type": "MemberExpression",
-                                            "computed": false,
-                                            "object": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "Identifier",
-                                                "name": "dateold"
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "year"
-                                              }
-                                            },
-                                            "property": {
-                                              "type": "Identifier",
-                                              "name": "valueOf"
-                                            }
-                                          },
-                                          "arguments": []
-                                        }
-                                      ]
-                                    },
-                                    "prefix": true
-                                  },
-                                  "right": {
-                                    "type": "UnaryExpression",
-                                    "operator": "!",
-                                    "argument": {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "Identifier",
-                                        "name": "isNaN"
-                                      },
-                                      "arguments": [
-                                        {
-                                          "type": "CallExpression",
-                                          "callee": {
-                                            "type": "MemberExpression",
-                                            "computed": false,
-                                            "object": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "Identifier",
-                                                "name": "dateold"
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "month"
-                                              }
-                                            },
-                                            "property": {
-                                              "type": "Identifier",
-                                              "name": "valueOf"
-                                            }
-                                          },
-                                          "arguments": []
-                                        }
-                                      ]
-                                    },
-                                    "prefix": true
-                                  }
-                                },
-                                "right": {
-                                  "type": "UnaryExpression",
-                                  "operator": "!",
-                                  "argument": {
-                                    "type": "CallExpression",
-                                    "callee": {
-                                      "type": "Identifier",
-                                      "name": "isNaN"
-                                    },
-                                    "arguments": [
-                                      {
-                                        "type": "CallExpression",
-                                        "callee": {
-                                          "type": "MemberExpression",
-                                          "computed": false,
-                                          "object": {
-                                            "type": "MemberExpression",
-                                            "computed": false,
-                                            "object": {
-                                              "type": "Identifier",
-                                              "name": "dateold"
-                                            },
-                                            "property": {
-                                              "type": "Identifier",
-                                              "name": "day"
-                                            }
-                                          },
-                                          "property": {
-                                            "type": "Identifier",
-                                            "name": "valueOf"
-                                          }
-                                        },
-                                        "arguments": []
-                                      }
-                                    ]
-                                  },
-                                  "prefix": true
-                                }
-                              },
-                              "right": {
-                                "type": "BinaryExpression",
-                                "operator": "instanceof",
-                                "left": {
-                                  "type": "Identifier",
-                                  "name": "datenew"
-                                },
-                                "right": {
-                                  "type": "Identifier",
-                                  "name": "Date"
-                                }
-                              }
-                            },
-                            "right": {
-                              "type": "UnaryExpression",
-                              "operator": "!",
-                              "argument": {
-                                "type": "CallExpression",
-                                "callee": {
-                                  "type": "Identifier",
-                                  "name": "isNaN"
-                                },
-                                "arguments": [
-                                  {
-                                    "type": "CallExpression",
-                                    "callee": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "datenew"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "valueOf"
-                                      }
-                                    },
-                                    "arguments": []
-                                  }
-                                ]
-                              },
-                              "prefix": true
-                            }
-                          },
-                          "consequent": {
-                            "type": "BlockStatement",
-                            "body": [
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "ynew"
-                                    },
-                                    "init": {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "Identifier",
-                                          "name": "datenew"
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "getFullYear"
-                                        }
-                                      },
-                                      "arguments": []
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "mnew"
-                                    },
-                                    "init": {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "Identifier",
-                                          "name": "datenew"
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "getMonth"
-                                        }
-                                      },
-                                      "arguments": []
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "dnew"
-                                    },
-                                    "init": {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "Identifier",
-                                          "name": "datenew"
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "getDate"
-                                        }
-                                      },
-                                      "arguments": []
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "yold"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "dateold"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "year"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "mold"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "dateold"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "month"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "dold"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "dateold"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "day"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "diff"
-                                    },
-                                    "init": {
-                                      "type": "BinaryExpression",
-                                      "operator": "-",
-                                      "left": {
-                                        "type": "Identifier",
-                                        "name": "ynew"
-                                      },
-                                      "right": {
-                                        "type": "Identifier",
-                                        "name": "yold"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "IfStatement",
-                                "test": {
-                                  "type": "BinaryExpression",
-                                  "operator": ">",
-                                  "left": {
-                                    "type": "Identifier",
-                                    "name": "mold"
-                                  },
-                                  "right": {
-                                    "type": "Identifier",
-                                    "name": "mnew"
-                                  }
-                                },
-                                "consequent": {
-                                  "type": "ExpressionStatement",
-                                  "expression": {
-                                    "type": "UpdateExpression",
-                                    "operator": "--",
-                                    "argument": {
-                                      "type": "Identifier",
-                                      "name": "diff"
-                                    },
-                                    "prefix": false
-                                  }
-                                },
-                                "alternate": {
-                                  "type": "BlockStatement",
-                                  "body": [
-                                    {
-                                      "type": "IfStatement",
-                                      "test": {
-                                        "type": "BinaryExpression",
-                                        "operator": "==",
-                                        "left": {
-                                          "type": "Identifier",
-                                          "name": "mold"
-                                        },
-                                        "right": {
-                                          "type": "Identifier",
-                                          "name": "mnew"
-                                        }
-                                      },
-                                      "consequent": {
-                                        "type": "BlockStatement",
-                                        "body": [
-                                          {
-                                            "type": "IfStatement",
-                                            "test": {
-                                              "type": "BinaryExpression",
-                                              "operator": ">",
-                                              "left": {
-                                                "type": "Identifier",
-                                                "name": "dold"
-                                              },
-                                              "right": {
-                                                "type": "Identifier",
-                                                "name": "dnew"
-                                              }
-                                            },
-                                            "consequent": {
-                                              "type": "ExpressionStatement",
-                                              "expression": {
-                                                "type": "UpdateExpression",
-                                                "operator": "--",
-                                                "argument": {
-                                                  "type": "Identifier",
-                                                  "name": "diff"
-                                                },
-                                                "prefix": false
-                                              }
-                                            },
-                                            "alternate": null
-                                          }
-                                        ]
-                                      },
-                                      "alternate": null
-                                    }
-                                  ]
-                                }
-                              },
-                              {
-                                "type": "ExpressionStatement",
-                                "expression": {
-                                  "type": "AssignmentExpression",
-                                  "operator": "=",
-                                  "left": {
-                                    "type": "MemberExpression",
-                                    "computed": false,
-                                    "object": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "Identifier",
-                                          "name": "g_data"
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "death_certificate"
-                                        }
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "demographics"
-                                      }
-                                    },
-                                    "property": {
-                                      "type": "Identifier",
-                                      "name": "age"
-                                    }
-                                  },
-                                  "right": {
-                                    "type": "Identifier",
-                                    "name": "diff"
-                                  }
-                                }
-                              }
-                            ]
-                          },
-                          "alternate": null
-                        }
-                      ]
-                    },
-                    "generator": false,
-                    "expression": false
-                  }
-                ],
+                "body": [],
                 "sourceType": "script"
               }
             },
@@ -6130,7 +5539,7 @@
                     "type": "FunctionDeclaration",
                     "id": {
                       "type": "Identifier",
-                      "name": "x7ce_of"
+                      "name": "mothers_age_death"
                     },
                     "params": [
                       {
@@ -6148,7 +5557,121 @@
                               "type": "VariableDeclarator",
                               "id": {
                                 "type": "Identifier",
-                                "name": "dateold"
+                                "name": "years"
+                              },
+                              "init": {
+                                "type": "Literal",
+                                "value": null,
+                                "raw": "null"
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_year"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "year"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_month"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_day"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "ThisExpression"
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "day"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_year"
                               },
                               "init": {
                                 "type": "MemberExpression",
@@ -6165,17 +5688,17 @@
                                     },
                                     "property": {
                                       "type": "Identifier",
-                                      "name": "death_certificate"
+                                      "name": "home_record"
                                     }
                                   },
                                   "property": {
                                     "type": "Identifier",
-                                    "name": "demographics"
+                                    "name": "date_of_death"
                                   }
                                 },
                                 "property": {
                                   "type": "Identifier",
-                                  "name": "date_of_birth"
+                                  "name": "year"
                                 }
                               }
                             }
@@ -6189,7 +5712,7 @@
                               "type": "VariableDeclarator",
                               "id": {
                                 "type": "Identifier",
-                                "name": "datenew"
+                                "name": "p_end_month"
                               },
                               "init": {
                                 "type": "MemberExpression",
@@ -6198,17 +5721,66 @@
                                   "type": "MemberExpression",
                                   "computed": false,
                                   "object": {
-                                    "type": "Identifier",
-                                    "name": "g_data"
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "home_record"
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
-                                    "name": "home_record"
+                                    "name": "date_of_death"
                                   }
                                 },
                                 "property": {
                                   "type": "Identifier",
-                                  "name": "date_of_death"
+                                  "name": "month"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_day"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "home_record"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_death"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "day"
                                 }
                               }
                             }
@@ -6221,248 +5793,64 @@
                             "type": "LogicalExpression",
                             "operator": "&&",
                             "left": {
-                              "type": "LogicalExpression",
-                              "operator": "&&",
+                              "type": "BinaryExpression",
+                              "operator": "==",
                               "left": {
-                                "type": "LogicalExpression",
-                                "operator": "&&",
-                                "left": {
-                                  "type": "LogicalExpression",
-                                  "operator": "&&",
-                                  "left": {
-                                    "type": "LogicalExpression",
-                                    "operator": "&&",
-                                    "left": {
-                                      "type": "UnaryExpression",
-                                      "operator": "!",
-                                      "argument": {
-                                        "type": "CallExpression",
-                                        "callee": {
-                                          "type": "Identifier",
-                                          "name": "isNaN"
-                                        },
-                                        "arguments": [
-                                          {
-                                            "type": "CallExpression",
-                                            "callee": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "MemberExpression",
-                                                "computed": false,
-                                                "object": {
-                                                  "type": "Identifier",
-                                                  "name": "dateold"
-                                                },
-                                                "property": {
-                                                  "type": "Identifier",
-                                                  "name": "year"
-                                                }
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "valueOf"
-                                              }
-                                            },
-                                            "arguments": []
-                                          }
-                                        ]
-                                      },
-                                      "prefix": true
-                                    },
-                                    "right": {
-                                      "type": "UnaryExpression",
-                                      "operator": "!",
-                                      "argument": {
-                                        "type": "CallExpression",
-                                        "callee": {
-                                          "type": "Identifier",
-                                          "name": "isNaN"
-                                        },
-                                        "arguments": [
-                                          {
-                                            "type": "CallExpression",
-                                            "callee": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "MemberExpression",
-                                                "computed": false,
-                                                "object": {
-                                                  "type": "Identifier",
-                                                  "name": "dateold"
-                                                },
-                                                "property": {
-                                                  "type": "Identifier",
-                                                  "name": "month"
-                                                }
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "valueOf"
-                                              }
-                                            },
-                                            "arguments": []
-                                          }
-                                        ]
-                                      },
-                                      "prefix": true
-                                    }
-                                  },
-                                  "right": {
-                                    "type": "UnaryExpression",
-                                    "operator": "!",
-                                    "argument": {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "Identifier",
-                                        "name": "isNaN"
-                                      },
-                                      "arguments": [
-                                        {
-                                          "type": "CallExpression",
-                                          "callee": {
-                                            "type": "MemberExpression",
-                                            "computed": false,
-                                            "object": {
-                                              "type": "MemberExpression",
-                                              "computed": false,
-                                              "object": {
-                                                "type": "Identifier",
-                                                "name": "dateold"
-                                              },
-                                              "property": {
-                                                "type": "Identifier",
-                                                "name": "day"
-                                              }
-                                            },
-                                            "property": {
-                                              "type": "Identifier",
-                                              "name": "valueOf"
-                                            }
-                                          },
-                                          "arguments": []
-                                        }
-                                      ]
-                                    },
-                                    "prefix": true
-                                  }
-                                },
-                                "right": {
-                                  "type": "UnaryExpression",
-                                  "operator": "!",
-                                  "argument": {
-                                    "type": "CallExpression",
-                                    "callee": {
-                                      "type": "Identifier",
-                                      "name": "isNaN"
-                                    },
-                                    "arguments": [
-                                      {
-                                        "type": "CallExpression",
-                                        "callee": {
-                                          "type": "MemberExpression",
-                                          "computed": false,
-                                          "object": {
-                                            "type": "MemberExpression",
-                                            "computed": false,
-                                            "object": {
-                                              "type": "Identifier",
-                                              "name": "datenew"
-                                            },
-                                            "property": {
-                                              "type": "Identifier",
-                                              "name": "year"
-                                            }
-                                          },
-                                          "property": {
-                                            "type": "Identifier",
-                                            "name": "valueOf"
-                                          }
-                                        },
-                                        "arguments": []
-                                      }
-                                    ]
-                                  },
-                                  "prefix": true
-                                }
-                              },
-                              "right": {
-                                "type": "UnaryExpression",
-                                "operator": "!",
-                                "argument": {
-                                  "type": "CallExpression",
-                                  "callee": {
-                                    "type": "Identifier",
-                                    "name": "isNaN"
-                                  },
-                                  "arguments": [
-                                    {
-                                      "type": "CallExpression",
-                                      "callee": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "MemberExpression",
-                                          "computed": false,
-                                          "object": {
-                                            "type": "Identifier",
-                                            "name": "datenew"
-                                          },
-                                          "property": {
-                                            "type": "Identifier",
-                                            "name": "month"
-                                          }
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "valueOf"
-                                        }
-                                      },
-                                      "arguments": []
-                                    }
-                                  ]
-                                },
-                                "prefix": true
-                              }
-                            },
-                            "right": {
-                              "type": "UnaryExpression",
-                              "operator": "!",
-                              "argument": {
                                 "type": "CallExpression",
                                 "callee": {
                                   "type": "Identifier",
-                                  "name": "isNaN"
+                                  "name": "isValidDate"
                                 },
                                 "arguments": [
                                   {
-                                    "type": "CallExpression",
-                                    "callee": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "MemberExpression",
-                                        "computed": false,
-                                        "object": {
-                                          "type": "Identifier",
-                                          "name": "datenew"
-                                        },
-                                        "property": {
-                                          "type": "Identifier",
-                                          "name": "day"
-                                        }
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "valueOf"
-                                      }
-                                    },
-                                    "arguments": []
+                                    "type": "Identifier",
+                                    "name": "p_start_year"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_month"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_day"
                                   }
                                 ]
                               },
-                              "prefix": true
+                              "right": {
+                                "type": "Literal",
+                                "value": true,
+                                "raw": "true"
+                              }
+                            },
+                            "right": {
+                              "type": "BinaryExpression",
+                              "operator": "==",
+                              "left": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isValidDate"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_year"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_month"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_day"
+                                  }
+                                ]
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": true,
+                                "raw": "true"
+                              }
                             }
                           },
                           "consequent": {
@@ -6475,254 +5863,96 @@
                                     "type": "VariableDeclarator",
                                     "id": {
                                       "type": "Identifier",
-                                      "name": "ynew"
+                                      "name": "p_start_date"
                                     },
                                     "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
+                                      "type": "NewExpression",
+                                      "callee": {
                                         "type": "Identifier",
-                                        "name": "datenew"
+                                        "name": "Date"
                                       },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "year"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "mnew"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "datenew"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "month"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "dnew"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "datenew"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "day"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "yold"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "dateold"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "year"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "mold"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "dateold"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "month"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "dold"
-                                    },
-                                    "init": {
-                                      "type": "MemberExpression",
-                                      "computed": false,
-                                      "object": {
-                                        "type": "Identifier",
-                                        "name": "dateold"
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "name": "day"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "VariableDeclaration",
-                                "declarations": [
-                                  {
-                                    "type": "VariableDeclarator",
-                                    "id": {
-                                      "type": "Identifier",
-                                      "name": "diff"
-                                    },
-                                    "init": {
-                                      "type": "BinaryExpression",
-                                      "operator": "-",
-                                      "left": {
-                                        "type": "Identifier",
-                                        "name": "ynew"
-                                      },
-                                      "right": {
-                                        "type": "Identifier",
-                                        "name": "yold"
-                                      }
-                                    }
-                                  }
-                                ],
-                                "kind": "var"
-                              },
-                              {
-                                "type": "IfStatement",
-                                "test": {
-                                  "type": "BinaryExpression",
-                                  "operator": ">",
-                                  "left": {
-                                    "type": "Identifier",
-                                    "name": "mold"
-                                  },
-                                  "right": {
-                                    "type": "Identifier",
-                                    "name": "mnew"
-                                  }
-                                },
-                                "consequent": {
-                                  "type": "ExpressionStatement",
-                                  "expression": {
-                                    "type": "UpdateExpression",
-                                    "operator": "--",
-                                    "argument": {
-                                      "type": "Identifier",
-                                      "name": "diff"
-                                    },
-                                    "prefix": false
-                                  }
-                                },
-                                "alternate": {
-                                  "type": "BlockStatement",
-                                  "body": [
-                                    {
-                                      "type": "IfStatement",
-                                      "test": {
-                                        "type": "BinaryExpression",
-                                        "operator": "==",
-                                        "left": {
+                                      "arguments": [
+                                        {
                                           "type": "Identifier",
-                                          "name": "mold"
+                                          "name": "p_start_year"
                                         },
-                                        "right": {
+                                        {
                                           "type": "Identifier",
-                                          "name": "mnew"
+                                          "name": "p_start_month"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_day"
                                         }
-                                      },
-                                      "consequent": {
-                                        "type": "BlockStatement",
-                                        "body": [
-                                          {
-                                            "type": "IfStatement",
-                                            "test": {
-                                              "type": "BinaryExpression",
-                                              "operator": ">",
-                                              "left": {
-                                                "type": "Identifier",
-                                                "name": "dold"
-                                              },
-                                              "right": {
-                                                "type": "Identifier",
-                                                "name": "dnew"
-                                              }
-                                            },
-                                            "consequent": {
-                                              "type": "ExpressionStatement",
-                                              "expression": {
-                                                "type": "UpdateExpression",
-                                                "operator": "--",
-                                                "argument": {
-                                                  "type": "Identifier",
-                                                  "name": "diff"
-                                                },
-                                                "prefix": false
-                                              }
-                                            },
-                                            "alternate": null
-                                          }
-                                        ]
-                                      },
-                                      "alternate": null
+                                      ]
                                     }
-                                  ]
-                                }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "p_end_date"
+                                    },
+                                    "init": {
+                                      "type": "NewExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "Date"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_year"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_month"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_day"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "years"
+                                    },
+                                    "init": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "calc_years"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_date"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
                               },
                               {
                                 "type": "ExpressionStatement",
@@ -6741,8 +5971,12 @@
                                     }
                                   },
                                   "right": {
-                                    "type": "Identifier",
-                                    "name": "diff"
+                                    "type": "CallExpression",
+                                    "callee": {
+                                      "type": "Identifier",
+                                      "name": "mothers_age_death"
+                                    },
+                                    "arguments": []
                                   }
                                 }
                               },
@@ -12780,7 +12014,574 @@
               "prompt": "Age",
               "name": "age",
               "type": "Number",
-              "is_core_summary": false
+              "is_core_summary": false,
+              "onfocus": {
+                "type": "Program",
+                "body": [
+                  {
+                    "type": "FunctionDeclaration",
+                    "id": {
+                      "type": "Identifier",
+                      "name": "fathers_age_delivery"
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "body": [
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "years"
+                              },
+                              "init": {
+                                "type": "Literal",
+                                "value": null,
+                                "raw": "null"
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_year"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "demographic_of_father"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "year"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_month"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "demographic_of_father"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_day"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "demographic_of_father"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "day"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_year"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "facility_of_delivery_demographics"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_delivery"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "year"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_month"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "facility_of_delivery_demographics"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_delivery"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_day"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "facility_of_delivery_demographics"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_delivery"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "day"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "IfStatement",
+                          "test": {
+                            "type": "LogicalExpression",
+                            "operator": "&&",
+                            "left": {
+                              "type": "BinaryExpression",
+                              "operator": "==",
+                              "left": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isValidDate"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_year"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_month"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_day"
+                                  }
+                                ]
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": true,
+                                "raw": "true"
+                              }
+                            },
+                            "right": {
+                              "type": "BinaryExpression",
+                              "operator": "==",
+                              "left": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isValidDate"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_year"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_month"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_day"
+                                  }
+                                ]
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": true,
+                                "raw": "true"
+                              }
+                            }
+                          },
+                          "consequent": {
+                            "type": "BlockStatement",
+                            "body": [
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "p_start_date"
+                                    },
+                                    "init": {
+                                      "type": "NewExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "Date"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_year"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_month"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_day"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "p_end_date"
+                                    },
+                                    "init": {
+                                      "type": "NewExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "Date"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_year"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_month"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_day"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "years"
+                                    },
+                                    "init": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "calc_years"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_date"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              }
+                            ]
+                          },
+                          "alternate": null
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "years"
+                          }
+                        }
+                      ]
+                    },
+                    "generator": false,
+                    "expression": false
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "age"
+                        }
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "fathers_age_delivery"
+                        },
+                        "arguments": []
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "Identifier",
+                          "name": "control"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "value"
+                        }
+                      },
+                      "right": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "age"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "sourceType": "script"
+              }
             },
             {
               "prompt": "Father's Education",
@@ -14932,7 +14733,592 @@
               "prompt": "Age*",
               "name": "age",
               "type": "Number",
-              "is_core_summary": true
+              "is_core_summary": true,
+              "onfocus": {
+                "type": "Program",
+                "body": [
+                  {
+                    "type": "FunctionDeclaration",
+                    "id": {
+                      "type": "Identifier",
+                      "name": "mothers_age_delivery"
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "body": [
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "years"
+                              },
+                              "init": {
+                                "type": "Literal",
+                                "value": null,
+                                "raw": "null"
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_year"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "demographic_of_mother"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "year"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_month"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "demographic_of_mother"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_start_day"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "demographic_of_mother"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_birth"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "day"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_year"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "facility_of_delivery_demographics"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_delivery"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "year"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_month"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "facility_of_delivery_demographics"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_delivery"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "month"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_end_day"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "MemberExpression",
+                                      "computed": false,
+                                      "object": {
+                                        "type": "Identifier",
+                                        "name": "g_data"
+                                      },
+                                      "property": {
+                                        "type": "Identifier",
+                                        "name": "birth_fetal_death_certificate_parent"
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "facility_of_delivery_demographics"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "date_of_delivery"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "day"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "IfStatement",
+                          "test": {
+                            "type": "LogicalExpression",
+                            "operator": "&&",
+                            "left": {
+                              "type": "BinaryExpression",
+                              "operator": "==",
+                              "left": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isValidDate"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_year"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_month"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_start_day"
+                                  }
+                                ]
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": true,
+                                "raw": "true"
+                              }
+                            },
+                            "right": {
+                              "type": "BinaryExpression",
+                              "operator": "==",
+                              "left": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "isValidDate"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_year"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_month"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_end_day"
+                                  }
+                                ]
+                              },
+                              "right": {
+                                "type": "Literal",
+                                "value": true,
+                                "raw": "true"
+                              }
+                            }
+                          },
+                          "consequent": {
+                            "type": "BlockStatement",
+                            "body": [
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "p_start_date"
+                                    },
+                                    "init": {
+                                      "type": "NewExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "Date"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_year"
+                                        },
+                                        {
+                                          "type": "BinaryExpression",
+                                          "operator": "+",
+                                          "left": {
+                                            "type": "Identifier",
+                                            "name": "p_start_month"
+                                          },
+                                          "right": {
+                                            "type": "Literal",
+                                            "value": 1,
+                                            "raw": "1"
+                                          }
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_day"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "p_end_date"
+                                    },
+                                    "init": {
+                                      "type": "NewExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "Date"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_year"
+                                        },
+                                        {
+                                          "type": "BinaryExpression",
+                                          "operator": "+",
+                                          "left": {
+                                            "type": "Identifier",
+                                            "name": "p_end_month"
+                                          },
+                                          "right": {
+                                            "type": "Literal",
+                                            "value": 1,
+                                            "raw": "1"
+                                          }
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_day"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              },
+                              {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                  {
+                                    "type": "VariableDeclarator",
+                                    "id": {
+                                      "type": "Identifier",
+                                      "name": "years"
+                                    },
+                                    "init": {
+                                      "type": "CallExpression",
+                                      "callee": {
+                                        "type": "Identifier",
+                                        "name": "calc_years"
+                                      },
+                                      "arguments": [
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_start_date"
+                                        },
+                                        {
+                                          "type": "Identifier",
+                                          "name": "p_end_date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "kind": "var"
+                              }
+                            ]
+                          },
+                          "alternate": null
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "years"
+                          }
+                        }
+                      ]
+                    },
+                    "generator": false,
+                    "expression": false
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "age"
+                        }
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "mothers_age_delivery"
+                        },
+                        "arguments": []
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "Identifier",
+                          "name": "control"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "value"
+                        }
+                      },
+                      "right": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "age"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "sourceType": "script"
+              }
             },
             {
               "prompt": "Mother Married?*",
@@ -18132,7 +18518,296 @@
               "name": "bmi",
               "type": "number",
               "is_core_summary": true,
-              "decimal_precision": "1"
+              "decimal_precision": "1",
+              "onfocus": {
+                "type": "Program",
+                "body": [
+                  {
+                    "type": "FunctionDeclaration",
+                    "id": {
+                      "type": "Identifier",
+                      "name": "prepregnancy_bmi"
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "body": [
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "bmi"
+                              },
+                              "init": {
+                                "type": "Literal",
+                                "value": null,
+                                "raw": "null"
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_height_feet"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "birth_fetal_death_certificate_parent"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "maternal_biometrics"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "height_feet"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_height_inches"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "birth_fetal_death_certificate_parent"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "maternal_biometrics"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "height_inches"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_weight"
+                              },
+                              "init": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "MemberExpression",
+                                  "computed": false,
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "computed": false,
+                                    "object": {
+                                      "type": "Identifier",
+                                      "name": "g_data"
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "name": "birth_fetal_death_certificate_parent"
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "name": "maternal_biometrics"
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "pre_pregnancy_weight"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "p_height"
+                              },
+                              "init": {
+                                "type": "BinaryExpression",
+                                "operator": "+",
+                                "left": {
+                                  "type": "BinaryExpression",
+                                  "operator": "*",
+                                  "left": {
+                                    "type": "Identifier",
+                                    "name": "p_height_feet"
+                                  },
+                                  "right": {
+                                    "type": "Literal",
+                                    "value": 12,
+                                    "raw": "12"
+                                  }
+                                },
+                                "right": {
+                                  "type": "Identifier",
+                                  "name": "p_height_inches"
+                                }
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "VariableDeclaration",
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "id": {
+                                "type": "Identifier",
+                                "name": "bmi"
+                              },
+                              "init": {
+                                "type": "CallExpression",
+                                "callee": {
+                                  "type": "Identifier",
+                                  "name": "calc_bmi"
+                                },
+                                "arguments": [
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_height"
+                                  },
+                                  {
+                                    "type": "Identifier",
+                                    "name": "p_weight"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "kind": "var"
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "bmi"
+                          }
+                        }
+                      ]
+                    },
+                    "generator": false,
+                    "expression": false
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "bmi"
+                        }
+                      },
+                      "right": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "prepregnancy_bmi"
+                        },
+                        "arguments": []
+                      }
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "Identifier",
+                          "name": "control"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "value"
+                        }
+                      },
+                      "right": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "bmi"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "sourceType": "script"
+              }
             }
           ]
         },
@@ -40032,13 +40707,13 @@
           ]
         },
         {
-          "prompt": "new chart",
-          "name": "new_chart",
+          "prompt": "Test Chart",
+          "name": "test_chart",
           "type": "chart",
           "x_axis": "",
           "x_label": "",
           "x_type": "",
-          "y_axis": "",
+          "y_axis": "prenatal/routine_monitoring/systolic_bp, prenatal/routine_monitoring/diastolic",
           "y_label": "",
           "y_type": ""
         }

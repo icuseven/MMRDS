@@ -68,7 +68,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     p_object_path_to_metadata_path_map[p_object_path] = p_path;
 
-    if(p_metadata.onblur && p_metadata.onblur != "")
+    if(p_metadata.onblur && p_metadata.onblur != "" && p_metadata.onblur.body.length > 0)
     {
 		var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
 		p_metadata.onblur.body[0].id.name = f_name;
@@ -87,7 +87,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
 
-    if(p_metadata.onclick && p_metadata.onclick != "")
+    if(p_metadata.onclick && p_metadata.onclick != "" && p_metadata.onclick.body.length > 0)
     {
 		p_metadata.onclick.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_ocl";
 		var test = get_code(p_metadata.onclick);
@@ -105,7 +105,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
 
-    if(p_metadata.onfocus && p_metadata.onfocus != "")
+    if(p_metadata.onfocus && p_metadata.onfocus != ""  && p_metadata.onfocus.body.length > 0)
     {
 		p_metadata.onfocus.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
 		var test = get_code(p_metadata.onfocus);
@@ -123,7 +123,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
 
-    if(p_metadata.onchange && p_metadata.onchange != "")
+    if(p_metadata.onchange && p_metadata.onchange != "" && p_metadata.onchange.body.length > 0)
     {
 		p_metadata.onchange.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_och";
 		var test = get_code(p_metadata.onchange);
@@ -141,7 +141,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
  
-    if(p_metadata.validation && p_metadata.validation != "" && p_metadata.type!= "app")
+    if(p_metadata.validation && p_metadata.validation != "" && p_metadata.type!= "app" && p_metadata.validation.body.length > 0)
     {
 			p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
 			var test = get_code(p_metadata.validation);
