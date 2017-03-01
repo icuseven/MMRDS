@@ -10,10 +10,11 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 
 	var result = [];
 	switch(p_metadata.type.toLowerCase())
-	{
+	{ 
 		case 'group':
 
-				if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
+				if(g_metadata_summary[p_metadata_path].is_core_summary > 0 ||
+					p_metadata.is_core_summary && p_metadata.is_core_summary == true)
 				{						
 					result.push('<fieldset>');
 
@@ -98,7 +99,8 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 				break;	
 		case "grid":
 				if(
-					g_metadata_summary[p_metadata_path].is_core_summary > 0
+					
+					p_metadata.is_core_summary && p_metadata.is_core_summary == true
 
 				)
 				{
@@ -137,6 +139,65 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 									result.push("&nbsp;");
 								}
 								result.push('</td>');
+							}
+							result.push('</tr>');
+						}
+					}
+					result.push('</table>');
+				}
+				else if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
+				{
+					result.push('<table border=1>');
+					result.push('<tr><th colspan=')
+					var colspan = 0;
+					for(var j = 0; j < p_metadata.children.length; j++)
+					{
+						var child = p_metadata.children[j];
+						if(child.is_core_summary && child.is_core_summary == true)
+						{
+							colspan = colspan + 1;	
+						}
+					}
+					result.push(colspan);
+					result.push('>');
+					result.push(p_metadata.prompt);
+					result.push('</th></tr>');
+
+					result.push('<tr>');
+					for(var j = 0; j < p_metadata.children.length; j++)
+					{
+						var child = p_metadata.children[j];
+						if(child.is_core_summary && child.is_core_summary == true)
+						{
+							result.push('<td>');
+							result.push(child.prompt);
+							result.push('</td>');
+						}
+
+					}
+					result.push('</tr>');
+
+					for(var i = 0; i < p_data.length; i++)
+					{
+						if(p_data[i] != null)
+						{
+							result.push('<tr>');
+							for(var j = 0; j < p_metadata.children.length; j++)
+							{
+								var child = p_metadata.children[j];
+								if(child.is_core_summary && child.is_core_summary == true)
+								{
+									result.push('<td>');
+									if(p_data[i][child.name] != null)
+									{
+										result.push(p_data[i][child.name]);
+									}
+									else
+									{
+										result.push("&nbsp;");
+									}
+									result.push('</td>');
+								}
 							}
 							result.push('</tr>');
 						}
