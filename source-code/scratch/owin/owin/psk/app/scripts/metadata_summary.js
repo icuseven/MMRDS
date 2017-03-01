@@ -4,6 +4,7 @@ function metadata_summary(p_result, p_metadata, p_path, p_left, p_group_level)
 
 	if(p_metadata.children && p_metadata.children.length > 0)
 	{		
+		var total_core_summary = 0;
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
@@ -14,6 +15,12 @@ function metadata_summary(p_result, p_metadata, p_path, p_left, p_group_level)
 			else
 			{
 				metadata_summary(p_result, child, p_path + ".children[" + i + "]", p_left + 1, p_group_level);
+			}
+
+
+			if(child['is_core_summary'] && child['is_core_summary'] == true)
+			{ 
+				p_result[p_path].is_core_summary = p_result[p_path].is_core_summary + 1;
 			}
 
 			metadata_summary_add_tuples(p_result[p_path], p_result[p_path + ".children[" + i + "]"])
@@ -50,7 +57,7 @@ function metadata_summary_new_tuple(p_metadata, p_path, p_left, p_group_level)
 		forms:0,
 		lists:0,
 		list_values: 0,
-		is_core_summary:0,
+		is_core_summary: 0,
 		is_required:0,
 		is_multiselect:0,
 		is_read_only:0,

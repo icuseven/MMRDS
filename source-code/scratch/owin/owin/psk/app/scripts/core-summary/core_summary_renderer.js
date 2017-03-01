@@ -1,4 +1,4 @@
-function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summary)
+function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summary, p_metadata_path)
 {
 	var is_core_summary = false;
 
@@ -13,34 +13,39 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 	{
 		case 'group':
 
-													
-				result.push('<fieldset>');
+				if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
+				{						
+					result.push('<fieldset>');
 
-				result.push('<legend>')
-				result.push(p_metadata.prompt);
-				result.push('</legend> ');
-				
-				
-				if(p_metadata.is_core_summary || p_metadata.is_core_summary == true)
-				{
-					is_core_summary = true;
-				}
-
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
+					result.push('<legend>')
+					result.push(p_metadata.prompt);
+					result.push('</legend> ');
+					
+					
+					if(p_metadata.is_core_summary || p_metadata.is_core_summary == true)
 					{
-						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+						is_core_summary = true;
 					}
+
+					if(p_metadata.children)
+					{
+						for(var i = 0; i < p_metadata.children.length; i++)
+						{
+							var child = p_metadata.children[i];
+							if(p_data[child.name] != null)
+							Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
+						}
+					}
+					result.push('</fieldset>');
 				}
-				result.push('</fieldset>');
 				break;	
 		case 'form':
 		if(
-			 p_metadata.cardinality == "+" ||
-			 p_metadata.cardinality == "*"
+			g_metadata_summary[p_metadata_path].is_core_summary > 0 && 
+			(
+				p_metadata.cardinality == "+" ||
+			 	p_metadata.cardinality == "*"
+			)
 		
 		)
 		{
@@ -65,12 +70,12 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 					{
 						var child = p_metadata.children[i];
 						if(form_item[child.name] != null)
-						Array.prototype.push.apply(result, core_summary_render(child, form_item[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+						Array.prototype.push.apply(result, core_summary_render(child, form_item[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
 					}
 				}
 			}
 		}
-		else
+		else if(g_metadata_summary[p_metadata_path].is_core_summary > 0)
 		{
 				result.push('<section id="');
 				result.push(p_metadata.name)
@@ -85,7 +90,7 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 					{
 						var child = p_metadata.children[i];
 						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+						Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, p_metadata_path  + ".children[" + i + "]"));
 					}
 				}
 			}
@@ -93,8 +98,8 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 				break;	
 		case "grid":
 				if(
-					(p_metadata.is_core_summary || p_metadata.is_core_summary == true) ||
-					is_core_summary == true
+					g_metadata_summary[p_metadata_path].is_core_summary > 0
+
 				)
 				{
 					result.push('<table border=1>');
@@ -160,7 +165,7 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 					{
 						var child = p_metadata.children[i];
 						if(child.type.toLowerCase() == "form" && p_data[child.name] != null)
-						Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary));
+						Array.prototype.push.apply(result, core_summary_render(child, p_data[child.name], p_path + "." + child.name, p_ui, is_core_summary, "g_metadata.children[" + i + "]"));
 					}
 				}
 				break;		

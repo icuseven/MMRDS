@@ -4,6 +4,7 @@ var g_copy_clip_board = null;
 var g_delete_value_clip_board = null;
 var g_delete_attribute_clip_board = null;
 var g_delete_node_clip_board = null;
+var g_metadata_summary = [];
 
 var g_ui = { is_collapsed : [] };
 
@@ -22,7 +23,8 @@ $(function ()
 
 function create_print_version(p_metadata, p_data, p_section)
 {
-	document.getElementById('form_content_id').innerHTML = core_summary_render(p_metadata, p_data, "/", g_ui, false).join("");
+	metadata_summary(g_metadata_summary, p_metadata, "g_metadata", 0, 0);
+	document.getElementById('form_content_id').innerHTML = core_summary_render(p_metadata, p_data, "/", g_ui, false, "").join("");
 
 	if(p_section && p_section.toLowerCase() != "all")
 	{
@@ -53,6 +55,7 @@ function load_metadata()
 			url: metadata_url
 	}).done(function(response) {
 			g_metadata = response;
+			metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
 			g_data = create_default_object(g_metadata, {});
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
