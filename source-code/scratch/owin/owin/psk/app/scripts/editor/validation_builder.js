@@ -35,7 +35,7 @@ function generate_global(p_output_json, p_metadata)
 		g_ast = esprima.parse(global_code, { comment: true, loc: true });
 
 		//map_ast(p_metadata.global, create_global_ast);
-		map_ast(g_ast, create_global_ast);
+		map_ast(g_ast, create_global_ast, output_json);
 		var ast = global_ast.generate();
 
 		if(g_validator_ast && g_validator_ast != "")
@@ -592,7 +592,7 @@ function map_ast(object, f)
 				}
 }
 
-function create_global_ast(x)
+function create_global_ast(x, p_output_json)
 {
      if(x.type)
 		 {
@@ -612,22 +612,59 @@ function create_global_ast(x)
 								var path_and_event = find_path_and_event(x.loc.start.line, g_ast.comments);
 								if(path_and_event && path_and_event.path && path_and_event.event)
 								{
-									var f_name = "x" + dictionary_path_to_int_map[path_and_event.path].toString(16);
+									var p_path = path_and_event.path;
+									var f_name = "x" + dictionary_path_to_int_map[p_path].toString(16);
 									switch(path_and_event.event)
 									{
 											case 'oblur':
 													f_name += "_ob";
+													p_output_json.push("\n");
+													p_output_json.push("path_to_onblur_map['");
+													p_output_json.push(p_path);
+													p_output_json.push("']='");
+													p_output_json.push(f_name);
+													p_output_json.push("';\n");
+
 													break;
 											case 'onfocus':
 													f_name += "_of";
+													p_output_json.push("\n");
+													
+													p_output_json.push("path_to_onfocus_map['");
+													p_output_json.push(p_path);
+													p_output_json.push("']='");
+													p_output_json.push(f_name);
+													p_output_json.push("';\n");													
 													break;
 											case 'onclick':
 													f_name += "_ocl";
+													p_output_json.push("\n");
+													
+													p_output_json.push("path_to_onclick_map['");
+													p_output_json.push(p_path);
+													p_output_json.push("']='");
+													p_output_json.push(f_name);
+													p_output_json.push("';\n");													
 													break;
 											case 'onchange':
 													f_name += "_och";
+													p_output_json.push("\n");
+													
+													p_output_json.push("path_to_onchange_map['");
+													p_output_json.push(p_path);
+													p_output_json.push("']='");
+													p_output_json.push(f_name);
+													p_output_json.push("';\n");													
 											case 'validate':
 													f_name += "_sv";
+													p_output_json.push("\n");
+
+													p_output_json.push("path_to_source_validation['");
+													p_output_json.push(p_path);
+													p_output_json.push("']='");
+													p_output_json.push(f_name);
+													p_output_json.push("';\n");
+
 													break;
 									}
 
