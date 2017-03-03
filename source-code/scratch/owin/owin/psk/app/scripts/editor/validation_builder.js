@@ -5,6 +5,7 @@ var object_list = [];
 
 var path_to_node_map = [];
 var path_to_int_map = [];
+var dictionary_path_to_int_map = [];
 var path_to_onblur_map = [];
 var path_to_onclick_map = [];
 var path_to_onfocus_map = [];
@@ -23,7 +24,7 @@ var output_json = []
 function generate_global(p_output_json, p_metadata)
 {
 
-		generate_path_to_int_map(p_metadata, "", path_to_int_map);
+		generate_dictionary_path_to_int_map(p_metadata, "", dictionary_path_to_int_map);
 
 		global_ast.properties = [];
 
@@ -64,9 +65,9 @@ output_json.push("var path_to_validation_description = [];\n");
 
 
 
-function generate_path_to_int_map(p_metadata, p_dictionary_path, p_path_to_int_map)
+function generate_dictionary_path_to_int_map(p_metadata, p_dictionary_path, p_dictionary_path_to_int_map)
 {
-    path_to_int_map[p_dictionary_path] = path_to_int_map.length;
+    p_dictionary_path_to_int_map[p_dictionary_path] = p_dictionary_path_to_int_map.length;
 
 		if(p_metadata.children && p_metadata.children.length > 0)
 		{		
@@ -75,11 +76,11 @@ function generate_path_to_int_map(p_metadata, p_dictionary_path, p_path_to_int_m
 				var child = p_metadata.children[i];
 				if(p_dictionary_path == "")
 				{
-					generate_path_to_int_map(child, child.name, p_path_to_int_map);
+					generate_dictionary_path_to_int_map(child, child.name, p_dictionary_path_to_int_map);
 				}
 				else
 				{
-					generate_path_to_int_map(child, p_dictionary_path + "/" + child.name, p_path_to_int_map);
+					generate_dictionary_path_to_int_map(child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map);
 				}
 				
 			}
@@ -609,7 +610,7 @@ function create_global_ast(x)
 								var path_and_event = find_path_and_event(x.loc.start.line, g_ast.comments);
 								if(path_and_event && path_and_event.path && path_and_event.event)
 								{
-									var f_name = "x" + path_to_int_map[path_and_event.path].toString(16);
+									var f_name = "x" + dictionary_path_to_int_map[path_and_event.path].toString(16);
 									switch(path_and_event.event)
 									{
 											case 'oblur':

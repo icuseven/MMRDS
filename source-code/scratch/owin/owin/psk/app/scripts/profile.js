@@ -8,7 +8,8 @@ var profile = {
 
 get_auth_session_cookie: function ()
 {
-	var result = null;
+	var result = $mmria.getCookie("AuthSession");
+	/*
 	var cookie_string = new String(document.cookie);
 	if(cookie_string.length > 0)
 	{
@@ -17,7 +18,7 @@ get_auth_session_cookie: function ()
 		{
 			result=cookie_array[1];
 		}
-	}
+	}*/
 
 	return result;
 },

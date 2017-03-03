@@ -473,7 +473,15 @@ function attribute_renderer(p_metadata, p_path)
 					{
 						try
 						{
-							result.push(escodegen.generate(p_metadata[prop]));
+							if(p_metadata[prop].comments)
+							{
+								var temp_ast = escodegen.attachComments(p_metadata[prop], p_metadata[prop].comments, p_metadata[prop].tokens);
+								result.push(escodegen.generate(temp_ast, { comment: true }));
+							}
+							else
+							{
+								result.push(escodegen.generate(p_metadata[prop]));
+							}
 						}
 						catch(err)
 						{
