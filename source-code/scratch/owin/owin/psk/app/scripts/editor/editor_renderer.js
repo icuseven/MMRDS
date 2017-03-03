@@ -863,7 +863,7 @@ function editor_set_value(e, p_ui)
 		case "global":
 			try
 			{
-				var valid_code = esprima.parse(e.value);
+				var valid_code = esprima.parse(e.value, { comment: true, tokens: true, range: true });
 				var object_array = convert_to_indexed_path(item_path);
 				var node_to_update = eval(object_array[0]);
 				var attribute_text = object_array[1];

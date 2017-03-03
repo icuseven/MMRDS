@@ -14,20 +14,35 @@ var path_to_derived_validation = [];
 var path_to_validation_description = [];
 var object_path_to_metadata_path_map = [];
 var g_ast = null;
+var g_function_array = [];
+var g_validator_ast = null;
 
 //generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 var output_json = [] 
 
 function generate_global(p_output_json, p_metadata)
 {
+
+		generate_path_to_int_map(p_metadata, "", path_to_int_map);
+
 		global_ast.properties = [];
 
-		var global_code = escodegen.generate(p_metadata.global);
-		g_ast = esprima.parse(global_code, { comment: true, range: true, loc: true });
+
+		var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
+		var global_code = escodegen.generate(temp_ast, { comment: true });
+		g_ast = esprima.parse(global_code, { comment: true, loc: true });
 
 		//map_ast(p_metadata.global, create_global_ast);
 		map_ast(g_ast, create_global_ast);
 		var ast = global_ast.generate();
+
+		if(g_validator_ast && g_validator_ast != "")
+		{
+			ast.body.push(g_validator_ast);
+		}
+
+		Array.prototype.push.apply(ast.body, g_function_array);
+
 		var test = get_code(ast);
 		if(test)
 		{
@@ -35,15 +50,7 @@ function generate_global(p_output_json, p_metadata)
 			p_output_json.push("\n");
 		}
 
-		if(validator_ast && validator_ast != "")
-		{
-			var test = get_code(p_metadata.validation);
-			if(test)
-			{
-				p_output_json.push(test);
-				p_output_json.push("\n");
-			}
-		}
+
 }
 
 output_json.push("var path_to_int_map = [];\n");
@@ -55,6 +62,30 @@ output_json.push("var path_to_source_validation = [];\n");
 output_json.push("var path_to_derived_validation = [];\n");
 output_json.push("var path_to_validation_description = [];\n");
 
+
+
+function generate_path_to_int_map(p_metadata, p_dictionary_path, p_path_to_int_map)
+{
+    path_to_int_map[p_dictionary_path] = path_to_int_map.length;
+
+		if(p_metadata.children && p_metadata.children.length > 0)
+		{		
+			for(var i = 0; i < p_metadata.children.length; i++)
+			{
+				var child = p_metadata.children[i];
+				if(p_dictionary_path == "")
+				{
+					generate_path_to_int_map(child, child.name, p_path_to_int_map);
+				}
+				else
+				{
+					generate_path_to_int_map(child, p_dictionary_path + "/" + child.name, p_path_to_int_map);
+				}
+				
+			}
+		}
+
+}
 
 function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path, p_object_list, p_object_path, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_source_validation, p_path_to_derived_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map)
 {
@@ -482,7 +513,7 @@ var test_exp = {
             "sourceType": "script"
           }
 
-var validator_ast = null;
+
 
 var global_ast =  {
 	properties: [],
@@ -566,7 +597,7 @@ function create_global_ast(x)
 				{
 						if(x.id.name.indexOf('$validator') == 0)
 						{
-								validator_ast = x;
+								g_validator_ast = x;
 						}
 						else if(x.id.name.indexOf('$') == 0)
 						{
@@ -578,7 +609,7 @@ function create_global_ast(x)
 								var path_and_event = find_path_and_event(x.loc.start.line, g_ast.comments);
 								if(path_and_event && path_and_event.path && path_and_event.event)
 								{
-									var f_name = "x" + p_path_to_int_map[path_and_event[0]].toString(16);
+									var f_name = "x" + path_to_int_map[path_and_event.path].toString(16);
 									switch(path_and_event.event)
 									{
 											case 'oblur':
@@ -596,6 +627,9 @@ function create_global_ast(x)
 													f_name += "_sv";
 													break;
 									}
+
+									x.id.name = f_name;
+									g_function_array.push(x)
 									 
 								}
 						}
@@ -612,7 +646,7 @@ function find_path_and_event(p_start_line, p_comment_ast)
 	for(var i = 0; i < p_comment_ast.length; i++)
 	{
 		var comment = p_comment_ast[i];
-		var diff = p_start_line - comment.loc.end;
+		var diff = p_start_line - comment.loc.end.line;
 		if(diff > 0 && diff < 3)
 		{
 				result = { path: null, event: null };
@@ -636,5 +670,13 @@ function find_path_and_event(p_start_line, p_comment_ast)
 		}
 	}
 
-	return result;
+	if(result && result.path && result.event)
+	{
+		return result;
+	}
+	else
+	{
+		return null;
+	}
+	
 }

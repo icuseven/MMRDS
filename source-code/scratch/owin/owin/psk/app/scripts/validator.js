@@ -70,6 +70,22 @@ var $global = {
     };
 function $validator(x) {
 }
+function x0(control) {
+    var years = null;
+    var p_start_year = this.date_of_birth.year;
+    var p_start_month = this.date_of_birth.month;
+    var p_start_day = this.date_of_birth.day;
+    var p_end_year = g_data.home_record.date_of_death.year;
+    var p_end_month = g_data.home_record.date_of_death.month;
+    var p_end_day = g_data.home_record.date_of_death.day;
+    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
+        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
+        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
+        var years = calc_years(p_start_date, p_end_date);
+        this.age = mothers_age_death();
+        control.value = this.age;
+    }
+}
 var path_to_int_map = [];
 var path_to_onblur_map = [];
 var path_to_onclick_map = [];
