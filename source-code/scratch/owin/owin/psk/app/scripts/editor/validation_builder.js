@@ -6,6 +6,7 @@ var object_list = [];
 var path_to_node_map = [];
 var path_to_int_map = [];
 var dictionary_path_to_int_map = [];
+var dictionary_path_to_path_map = [];
 var path_to_onblur_map = [];
 var path_to_onclick_map = [];
 var path_to_onfocus_map = [];
@@ -24,7 +25,7 @@ var output_json = []
 function generate_global(p_output_json, p_metadata)
 {
 
-		generate_dictionary_path_to_int_map(p_metadata, "", dictionary_path_to_int_map);
+		generate_dictionary_path_to_int_map(p_metadata, "", dictionary_path_to_int_map, "", dictionary_path_to_path_map);
 
 		global_ast.properties = [];
 
@@ -65,9 +66,10 @@ output_json.push("var path_to_validation_description = [];\n");
 
 
 
-function generate_dictionary_path_to_int_map(p_metadata, p_dictionary_path, p_dictionary_path_to_int_map)
+function generate_dictionary_path_to_int_map(p_metadata, p_dictionary_path, p_dictionary_path_to_int_map, p_path, p_dictionary_path_to_path_map)
 {
     p_dictionary_path_to_int_map[p_dictionary_path] = p_dictionary_path_to_int_map.length;
+		p_dictionary_path_to_path_map[p_dictionary_path] = p_path;
 
 		if(p_metadata.children && p_metadata.children.length > 0)
 		{		
@@ -76,11 +78,11 @@ function generate_dictionary_path_to_int_map(p_metadata, p_dictionary_path, p_di
 				var child = p_metadata.children[i];
 				if(p_dictionary_path == "")
 				{
-					generate_dictionary_path_to_int_map(child, child.name, p_dictionary_path_to_int_map);
+					generate_dictionary_path_to_int_map(child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
 				}
 				else
 				{
-					generate_dictionary_path_to_int_map(child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map);
+					generate_dictionary_path_to_int_map(child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
 				}
 				
 			}
