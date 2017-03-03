@@ -13,6 +13,7 @@ var path_to_source_validation = [];
 var path_to_derived_validation = [];
 var path_to_validation_description = [];
 var object_path_to_metadata_path_map = [];
+var g_ast = null;
 
 //generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 var output_json = [] 
@@ -20,7 +21,12 @@ var output_json = []
 function generate_global(p_output_json, p_metadata)
 {
 		global_ast.properties = [];
-		map_ast(p_metadata.global, create_global_ast);
+
+		var global_code = escodegen.generate(p_metadata.global);
+		g_ast = esprima.parse(global_code, { comment: true, range: true, loc: true });
+
+		//map_ast(p_metadata.global, create_global_ast);
+		map_ast(g_ast, create_global_ast);
 		var ast = global_ast.generate();
 		var test = get_code(ast);
 		if(test)
@@ -29,9 +35,8 @@ function generate_global(p_output_json, p_metadata)
 			p_output_json.push("\n");
 		}
 
-		if(p_metadata.validation && p_metadata.validation != "")
+		if(validator_ast && validator_ast != "")
 		{
-			p_metadata.validation.body[0].id.name ="$validator";
 			var test = get_code(p_metadata.validation);
 			if(test)
 			{
@@ -477,6 +482,7 @@ var test_exp = {
             "sourceType": "script"
           }
 
+var validator_ast = null;
 
 var global_ast =  {
 	properties: [],
@@ -554,11 +560,81 @@ function map_ast(object, f)
 
 function create_global_ast(x)
 {
-     if(x.type && x.type == "FunctionDeclaration")
-     {
-				var res = create_property_ast(x.id.name, x.params, x.body);
-			 global_ast.properties.push(res);
-         
-     }
-     
+     if(x.type)
+		 {
+				if(x.type == "FunctionDeclaration")
+				{
+						if(x.id.name.indexOf('$validator') == 0)
+						{
+								validator_ast = x;
+						}
+						else if(x.id.name.indexOf('$') == 0)
+						{
+							var res = create_property_ast(x.id.name.substring(1), x.params, x.body);
+							global_ast.properties.push(res);
+						}
+						else
+						{
+								var path_and_event = find_path_and_event(x.loc.start.line, g_ast.comments);
+								if(path_and_event && path_and_event.path && path_and_event.event)
+								{
+									var f_name = "x" + p_path_to_int_map[path_and_event[0]].toString(16);
+									switch(path_and_event.event)
+									{
+											case 'oblur':
+													f_name += "_ob";
+													break;
+											case 'onfocus':
+													f_name += "_of";
+													break;
+											case 'onclick':
+													f_name += "_ocl";
+													break;
+											case 'onchange':
+													f_name += "_och";
+											case 'validate':
+													f_name += "_sv";
+													break;
+									}
+									 
+								}
+						}
+						
+
+				}
+		 }
+}
+
+function find_path_and_event(p_start_line, p_comment_ast)
+{
+	var result = null;
+
+	for(var i = 0; i < p_comment_ast.length; i++)
+	{
+		var comment = p_comment_ast[i];
+		var diff = p_start_line - comment.loc.end;
+		if(diff > 0 && diff < 3)
+		{
+				result = { path: null, event: null };
+
+				var check = comment.value.split("\n");
+				for(var j = 0; j < check.length; j++)
+				{
+					if(check[j].indexOf("path=") >= 0)
+					{
+							var pair = check[j].split("=");
+							result.path = pair[1].trim();
+
+					}
+					else if(check[j].indexOf("event=") >= 0)
+					{
+							var pair = check[j].split("=");
+							result.event = pair[1].trim();
+					}
+				}
+				break;
+		}
+	}
+
+	return result;
 }
