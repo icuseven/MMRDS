@@ -106,6 +106,15 @@
     <Reference Include="Swashbuckle.Core">
       <HintPath>..\dll_set\Swashbuckle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\packages\Quartz.2.5.0\lib\net40\Quartz.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -163,6 +172,7 @@
     <None Include="psk\app\styles\main.css" />
     <None Include="psk\app\styles\shared-styles.html" />
     <None Include="app.config" />
+    <None Include="job_scheduling_data_2_0.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="psk\app\images\DRAFT.png" />
