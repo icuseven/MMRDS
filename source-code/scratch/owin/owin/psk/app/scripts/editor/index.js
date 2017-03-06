@@ -345,6 +345,26 @@ function perform_validation_save(p_metadata)
 {
 
 
+	metadata_list = [];
+	object_list = [];
+
+	path_to_node_map = [];
+	path_to_int_map = [];
+	dictionary_path_to_int_map = [];
+	dictionary_path_to_path_map = [];
+	is_added_function_map = {};
+	path_to_onblur_map = [];
+	path_to_onclick_map = [];
+	path_to_onfocus_map = [];
+	path_to_onchange_map = [];
+	path_to_source_validation = [];
+	path_to_derived_validation = [];
+	path_to_validation_description = [];
+	object_path_to_metadata_path_map = [];
+	g_ast = null;
+	g_function_array = [];
+	g_validator_ast = null;
+
 	output_json = [];
 
 

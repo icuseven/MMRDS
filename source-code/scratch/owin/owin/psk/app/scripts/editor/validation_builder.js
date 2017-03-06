@@ -52,9 +52,29 @@ function generate_global(p_output_json, p_metadata)
 			p_output_json.push(test);
 			p_output_json.push("\n");
 		}
+}
 
+function generate_derived_validator(p_output_json, p_metadata)
+{
+	if(p_metadata.children && p_metadata.children.length > 0)
+	{		
+		for(var i = 0; i < p_metadata.children.length; i++)
+		{
+			var child = p_metadata.children[i];
+			if(p_dictionary_path == "")
+			{
+				generate_derived_validator(p_number + 1, child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
+			}
+			else
+			{
+				generate_derived_validator(p_number + 1, child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
+			}
+			
+		}
+	}
 
 }
+
 
 output_json.push("var path_to_int_map = [];\n");
 output_json.push("var path_to_onblur_map = [];\n");
@@ -108,9 +128,9 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     p_object_path_to_metadata_path_map[p_object_path] = p_path;
 
-    if(p_metadata.onblur && p_metadata.onblur != "" && p_metadata.onblur.body.length > 0)
+	var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
+    if(is_added_function_map[f_name])
     {
-		var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
 		p_metadata.onblur.body[0].id.name = f_name;
 		var test = get_code(p_metadata.onblur);
 		if(test)
@@ -127,9 +147,10 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
 
-    if(p_metadata.onclick && p_metadata.onclick != "" && p_metadata.onclick.body.length > 0)
+	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ocl";
+    if(is_added_function_map[f_name])
     {
-		p_metadata.onclick.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_ocl";
+		p_metadata.onclick.body[0].id.name = f_name;
 		var test = get_code(p_metadata.onclick);
 		if(test)
 		{
@@ -145,9 +166,10 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
 
-    if(p_metadata.onfocus && p_metadata.onfocus != ""  && p_metadata.onfocus.body.length > 0)
+	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
+    if(is_added_function_map[f_name])
     {
-		p_metadata.onfocus.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
+		p_metadata.onfocus.body[0].id.name = f_name;
 		var test = get_code(p_metadata.onfocus);
 		if(test)
 		{
@@ -163,9 +185,10 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
 
-    if(p_metadata.onchange && p_metadata.onchange != "" && p_metadata.onchange.body.length > 0)
+	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_och";
+    if(is_added_function_map[f_name])
     {
-		p_metadata.onchange.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_och";
+		p_metadata.onchange.body[0].id.name = f_name;
 		var test = get_code(p_metadata.onchange);
 		if(test)
 		{
@@ -181,9 +204,10 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 		}
     }
  
-    if(p_metadata.validation && p_metadata.validation != "" && p_metadata.type!= "app" && p_metadata.validation.body.length > 0)
+	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+    if(is_added_function_map[f_name])
     {
-			p_metadata.validation.body[0].id.name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+			p_metadata.validation.body[0].id.name = f_name;
 			var test = get_code(p_metadata.validation);
 			if(test)
 			{
@@ -197,7 +221,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 				p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_sv");
 				p_output_json.push("';\n");
 
-				test = create_derived_validator_function(p_path_to_int_map, p_metadata, p_path);
+				test = add_derived_validator_function(p_path_to_int_map, p_metadata, p_path)(p_path_to_int_map, p_metadata, p_path);
 				if(test != "")
 				{
 					path_to_derived_validation[p_path] = test;
@@ -213,6 +237,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 			}
     }
 
+	
 	if(p_metadata.validation_description && p_metadata.validation_description != '')
 	{
 			p_path_to_validation_description[p_path] = p_metadata.validation_description;
@@ -236,6 +261,172 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
 }
 
+
+function add_derived_validator_function(p_path_to_int_map, p_metadata, p_path)
+{
+
+	var result = [];
+	result.push("\n function x");
+	result.push(p_path_to_int_map[p_path].toString(16));
+	result.push("_dv (value)\n{\n ");
+	var validation_added = false;
+ 
+	// is required
+	// max_value
+	// min_value
+	// regex_pattern
+	// validator
+	// is_read_only
+
+
+	if(p_metadata.is_read_only && p_metadata.is_read_only == true)
+	{
+			result.push("\nreturn false;\n");
+			validation_added = true;
+	}
+
+	switch(p_metadata.type.toLowerCase())
+	{
+		case "number":
+			if(p_metadata.is_required && p_metadata.is_required == true)
+			{
+					result.push("if(value == null || value == '') return false;\n");
+					validation_added = true;
+			}
+
+			if(p_metadata.max_value && p_metadata.max_value == true)
+			{
+					result.push("if(value > new Number(");
+					result.push(p_metadata.max_value);
+					result.push(")) return false;\n");
+					validation_added = true;
+			}
+			
+			if(p_metadata.min_value && p_metadata.min_value == true)
+			{
+					result.push("if(value < new Number(");
+					result.push(p_metadata.min_value);
+					result.push(")) return false;\n");
+					validation_added = true;
+			}
+			break;
+		case "date":
+		case "datetime":
+			if(p_metadata.is_required && p_metadata.is_required == true)
+			{
+					result.push("if(value == null || value == '') return false;\n");
+					validation_added = true;
+			}
+
+			if(p_metadata.max_value && p_metadata.max_value == true)
+			{
+					result.push("if(value > new Date(");
+					result.push(p_metadata.max_value);
+					result.push(")) return false;\n");
+					validation_added = true;
+			}
+			
+			if(p_metadata.min_value && p_metadata.min_value == true)
+			{
+					result.push("if(value < new Date(");
+					result.push(p_metadata.min_value);
+					result.push(")) return false;\n");
+					validation_added = true;
+			}
+			break;
+		case "string":
+		default:
+			if(p_metadata.is_required && p_metadata.is_required == true)
+			{
+				result.push("if(value == null || value == '') return false;\n");
+				validation_added = true;
+			}
+
+			if(p_metadata.max_value && p_metadata.max_value == true)
+			{
+					result.push("if(value.length > new Number(");
+					result.push(p_metadata.max_value);
+					result.push(")) return false;\n");
+					validation_added = true;
+			}
+			
+			if(p_metadata.min_value && p_metadata.min_value == true)
+			{
+					result.push("if(value.length < new Number(");
+					result.push(p_metadata.min_value);
+					result.push(")) return false;\n");
+					validation_added = true;
+			}			
+			break;
+	}
+
+	if(p_metadata.regex_pattern && p_metadata.regex_pattern.length > 0)
+	{
+		try
+		{
+			var reg_exp = new RegExp(p_metadata.regex_pattern);
+		
+			result.push("var regexp = /");
+			result.push(p_metadata.regex_pattern);
+			result.push("/;\nvar matches_array = value.match(regexp);");
+			result.push("\nif(matches_array)\n{\t if(matches_array.length < 1) return false;\n\t}\n else return false;\n\n");
+			validation_added = true;
+		}
+		catch(err)
+		{
+
+		}
+	}
+
+	var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+
+	if
+	(
+		is_added_function_map[f_name]
+	)
+	{
+		try
+		{
+			result.push("\n return x");
+			result.push(p_path_to_int_map[p_path].toString(16));
+			result.push("_sv(value);\n");
+			validation_added = true;
+		}
+		catch(err)
+		{
+			/*
+			try
+			{
+				var code_array = [];
+				code_array.push("return ");
+				code_array.push(p_metadata.validation);
+				code_array.push("(value);\n")
+				validation_added = true;
+				Array.prototype.push.apply(result,code_array);
+			}
+			catch(err2)
+			{
+
+			}*/
+			
+		}
+		
+	}
+
+	result.push("\n}");
+
+	//result.push(" return true;\n})");
+
+	if(validation_added)
+	{
+		return result.join("");
+	}
+	else
+	{
+		return "";
+	}
+
+}
 
 function create_derived_validator_function(p_path_to_int_map, p_metadata, p_path)
 {

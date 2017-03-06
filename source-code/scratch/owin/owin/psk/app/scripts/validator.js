@@ -15,11 +15,6 @@ path_to_int_map['g_metadata.children[4]']= 5;
 path_to_int_map['g_metadata.children[4].children[0]']= 6;
 path_to_int_map['g_metadata.children[4].children[1]']= 7;
 path_to_int_map['g_metadata.children[4].children[2]']= 8;
-function x8_ob(x) {
-    console.log(x.value);
-    console.log('test');
-}
-path_to_onblur_map['/children/4/children/2']='x8_ob';
 path_to_int_map['g_metadata.children[4].children[3]']= 9;
 path_to_int_map['g_metadata.children[4].children[3].children[0]']= 10;
 path_to_int_map['g_metadata.children[4].children[3].children[1]']= 11;
@@ -27,13 +22,6 @@ path_to_int_map['g_metadata.children[4].children[3].children[2]']= 12;
 path_to_int_map['g_metadata.children[4].children[3].children[3]']= 13;
 path_to_int_map['g_metadata.children[4].children[4]']= 14;
 path_to_int_map['g_metadata.children[4].children[5]']= 15;
-function xf_of(x) {
-    if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && this.date_of_death.year > 999 && this.date_of_death.year < 2500) {
-        this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + Math.random().toString().substring(2, 6);
-        x.value = this.record_id;
-    }
-}
-path_to_onfocus_map['/children/4/children/5']='xf_of';
 path_to_int_map['g_metadata.children[4].children[6]']= 16;
 path_to_int_map['g_metadata.children[4].children[7]']= 17;
 path_to_int_map['g_metadata.children[4].children[8]']= 18;
@@ -71,23 +59,6 @@ path_to_int_map['g_metadata.children[5].children[2].children[0].children[1]']= 4
 path_to_int_map['g_metadata.children[5].children[2].children[0].children[2]']= 50;
 path_to_int_map['g_metadata.children[5].children[2].children[0].children[3]']= 51;
 path_to_int_map['g_metadata.children[5].children[2].children[1]']= 52;
-function x34_of(control) {
-    var years = null;
-    var p_start_year = this.date_of_birth.year;
-    var p_start_month = this.date_of_birth.month;
-    var p_start_day = this.date_of_birth.day;
-    var p_end_year = g_data.home_record.date_of_death.year;
-    var p_end_month = g_data.home_record.date_of_death.month;
-    var p_end_day = g_data.home_record.date_of_death.day;
-    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = calc_years(p_start_date, p_end_date);
-        this.age = mothers_age_death();
-        control.value = this.age;
-    }
-}
-path_to_onfocus_map['/children/5/children/2/children/1']='x34_of';
 path_to_int_map['g_metadata.children[5].children[2].children[2]']= 53;
 path_to_int_map['g_metadata.children[5].children[2].children[3]']= 54;
 path_to_int_map['g_metadata.children[5].children[2].children[4]']= 55;
@@ -191,24 +162,6 @@ path_to_int_map['g_metadata.children[6].children[2].children[3].children[1]']= 1
 path_to_int_map['g_metadata.children[6].children[2].children[3].children[2]']= 153;
 path_to_int_map['g_metadata.children[6].children[2].children[3].children[3]']= 154;
 path_to_int_map['g_metadata.children[6].children[2].children[4]']= 155;
-function x9b_of() {
-    var years = null;
-    var p_start_year = g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.year;
-    var p_start_month = g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.month;
-    var p_start_day = g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.day;
-    var p_end_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year;
-    var p_end_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month;
-    var p_end_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day;
-    if (isValidDate(p_start_year, p_start_month, p_start_day) == true && isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = calc_years(p_start_date, p_end_date);
-    }
-    return years;
-}
-this.age = fathers_age_delivery();
-control.value = this.age;
-path_to_onfocus_map['/children/6/children/2/children/4']='x9b_of';
 path_to_int_map['g_metadata.children[6].children[2].children[5]']= 156;
 path_to_int_map['g_metadata.children[6].children[2].children[6]']= 157;
 path_to_int_map['g_metadata.children[6].children[2].children[7]']= 158;
@@ -237,24 +190,6 @@ path_to_int_map['g_metadata.children[6].children[4].children[0].children[1]']= 1
 path_to_int_map['g_metadata.children[6].children[4].children[0].children[2]']= 181;
 path_to_int_map['g_metadata.children[6].children[4].children[0].children[3]']= 182;
 path_to_int_map['g_metadata.children[6].children[4].children[1]']= 183;
-function xb7_of() {
-    var years = null;
-    var p_start_year = g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.year;
-    var p_start_month = g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.month;
-    var p_start_day = g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.day;
-    var p_end_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year;
-    var p_end_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month;
-    var p_end_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day;
-    if (isValidDate(p_start_year, p_start_month, p_start_day) == true && isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month + 1, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month + 1, p_end_day);
-        var years = calc_years(p_start_date, p_end_date);
-    }
-    return years;
-}
-this.age = mothers_age_delivery();
-control.value = this.age;
-path_to_onfocus_map['/children/6/children/4/children/1']='xb7_of';
 path_to_int_map['g_metadata.children[6].children[4].children[2]']= 184;
 path_to_int_map['g_metadata.children[6].children[4].children[3]']= 185;
 path_to_int_map['g_metadata.children[6].children[4].children[4]']= 186;
@@ -308,18 +243,6 @@ path_to_int_map['g_metadata.children[6].children[8].children[2]']= 233;
 path_to_int_map['g_metadata.children[6].children[8].children[3]']= 234;
 path_to_int_map['g_metadata.children[6].children[8].children[4]']= 235;
 path_to_int_map['g_metadata.children[6].children[8].children[5]']= 236;
-function xec_of() {
-    var bmi = null;
-    var p_height_feet = g_data.birth_fetal_death_certificate_parent.maternal_biometrics.height_feet;
-    var p_height_inches = g_data.birth_fetal_death_certificate_parent.maternal_biometrics.height_inches;
-    var p_weight = g_data.birth_fetal_death_certificate_parent.maternal_biometrics.pre_pregnancy_weight;
-    var p_height = p_height_feet * 12 + p_height_inches;
-    var bmi = calc_bmi(p_height, p_weight);
-    return bmi;
-}
-this.bmi = prepregnancy_bmi();
-control.value = this.bmi;
-path_to_onfocus_map['/children/6/children/8/children/5']='xec_of';
 path_to_int_map['g_metadata.children[6].children[9]']= 237;
 path_to_int_map['g_metadata.children[6].children[9].children[0]']= 238;
 path_to_int_map['g_metadata.children[6].children[9].children[0].children[0]']= 239;
@@ -1057,9 +980,9 @@ path_to_int_map['g_metadata.children[17].children[18].children[1]']= 970;
 path_to_int_map['g_metadata.children[17].children[18].children[2]']= 971;
 path_to_int_map['g_metadata.children[17].children[19]']= 972;
 
-path_to_onblur_map['g_metadata.children[5].children[2].children[1]']='x34_ob';
+path_to_onfocus_map['g_metadata.children[5].children[2].children[1]']='x34_of';
 var $global = {
-        calc__days: function (p_stardate, p_end_date) {
+        calc_days: function (p_start_date, p_end_date) {
             var days = null;
             if (p_end_date > p_start_date) {
                 p_start_date = p_start_date.getTime() / 86400000;
@@ -1106,7 +1029,10 @@ var $global = {
             dist = Math.round(dist * 60 * 1.1515 * 100) / 100;
             return dist;
         },
-        isValidDate: function (year, month, day) {
+        isValidDate: function (p_year, p_month, p_day) {
+            var year = parseInt(p_year);
+            var month = parseInt(p_month);
+            var day = parseInt(p_day);
             var months31 = [
                     1,
                     3,
@@ -1129,19 +1055,21 @@ var $global = {
         }
     };
 function $validator(x) {
+    return true;
 }
-function x34_ob(control) {
+function x34_of(control) {
     var years = null;
     var p_start_year = this.date_of_birth.year;
     var p_start_month = this.date_of_birth.month;
     var p_start_day = this.date_of_birth.day;
+    var p_end_year = g_data.home_record.date_of_death.year;
     var p_end_year = g_data.home_record.date_of_death.year;
     var p_end_month = g_data.home_record.date_of_death.month;
     var p_end_day = g_data.home_record.date_of_death.day;
     if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
         var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
         var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = calc_years(p_start_date, p_end_date);
+        var years = $global.calc_years(p_start_date, p_end_date);
         this.age = years;
         control.value = this.age;
     }
