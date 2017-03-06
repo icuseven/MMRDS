@@ -138,7 +138,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
               //$("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric();
 
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric({ decimalPlaces: 1 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric();
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number0").numeric({ decimal: false });
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number1").numeric({ decimalPlaces: 1 });
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number2").numeric({  decimalPlaces: 2 });
@@ -737,7 +737,7 @@ flatpickr(" .date", {
 $( ".datetime" ).datetimepicker();
 
 
-$("input.number").numeric({ decimalPlaces: 1 });
+$("input.number").numeric();
 $("input.number0").numeric({ decimal: false });
 $("input.number1").numeric({ decimalPlaces: 1 });
 $("input.number2").numeric({  decimalPlaces: 2 });
