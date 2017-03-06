@@ -138,14 +138,16 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
               //$("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric();
 
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric({ negative: false, decimalPlaces: 1 });
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number0").numeric({ decimal: false, negative: false });
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number2").numeric({  negative: false, decimalPlaces: 2 });
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number3").numeric({ negative: false, decimalPlaces: 3 });
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number4").numeric({ negative: false, decimalPlaces: 4 });
-              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number5").numeric({  negative: false, decimalPlaces: 5 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").numeric({ decimalPlaces: 1 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number0").numeric({ decimal: false });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number1").numeric({ decimalPlaces: 1 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number2").numeric({  decimalPlaces: 2 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number3").numeric({  decimalPlaces: 3 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number4").numeric({  decimalPlaces: 4 });
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number5").numeric({  decimalPlaces: 5 });
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number").attr("size", "15");
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number0").attr("size", "15");
+              $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number1").attr("size", "15");
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number2").attr("size", "15");
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number3").attr("size", "15");
               $("#" + p_object_path.replace(/\./g,"_").replace(/\[/, "\\[").replace(/\]/, "\\]") + " input.number4").attr("size", "15");
@@ -735,14 +737,16 @@ flatpickr(" .date", {
 $( ".datetime" ).datetimepicker();
 
 
-$("input.number").numeric({ negative: false, decimalPlaces: 1 });
-$("input.number0").numeric({ decimal: false, negative: false });
-$("input.number2").numeric({  negative: false, decimalPlaces: 2 });
-$("input.number3").numeric({ negative: false, decimalPlaces: 3 });
-$("input.number4").numeric({ negative: false, decimalPlaces: 4 });
-$("input.number5").numeric({  negative: false, decimalPlaces: 5 });
+$("input.number").numeric({ decimalPlaces: 1 });
+$("input.number0").numeric({ decimal: false });
+$("input.number1").numeric({ decimalPlaces: 1 });
+$("input.number2").numeric({  decimalPlaces: 2 });
+$("input.number3").numeric({ decimalPlaces: 3 });
+$("input.number4").numeric({ decimalPlaces: 4 });
+$("input.number5").numeric({ decimalPlaces: 5 });
 $("input.number").attr("size", "15");
 $("input.number0").attr("size", "15");
+$("input.number1").attr("size", "15");
 $("input.number2").attr("size", "15");
 $("input.number3").attr("size", "15");
 $("input.number4").attr("size", "15");

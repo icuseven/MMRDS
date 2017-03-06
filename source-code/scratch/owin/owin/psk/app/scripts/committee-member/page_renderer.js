@@ -600,7 +600,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			
 			result.push("</span> ");
-			result.push(p_data);
+			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
+			if(de_identified_list[dictionary_path] && de_identified_list[dictionary_path] == true)
+			{
+				result.push("de-identified");
+			}
+			else
+			{
+				result.push(p_data);
+			}
+
+			
 			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			
@@ -1012,7 +1022,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
+			if(de_identified_list[dictionary_path] && de_identified_list[dictionary_path] == true)
+			{
+				result.push("de-identified");
+			}
+			else
+			{
+				result.push(p_data);
+			}
+			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			result.push("</div>");
 
@@ -1062,7 +1081,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
+			if(de_identified_list[dictionary_path] && de_identified_list[dictionary_path] == true)
+			{
+				result.push("de-identified");
+			}
+			else
+			{
+				result.push(p_data);
+			}
+			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");	
 			result.push("</div>");	
 			 break;
@@ -1109,7 +1137,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			var dictionary_path = p_object_path.replace("g_data.", "").replace(/\./g,"/");
+			if(de_identified_list[dictionary_path] && de_identified_list[dictionary_path] == true)
+			{
+				result.push("de-identified");
+			}
+			else
+			{
+				result.push(p_data);
+			}
+			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			result.push("</div>");
 
