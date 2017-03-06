@@ -7,6 +7,7 @@ var path_to_node_map = [];
 var path_to_int_map = [];
 var dictionary_path_to_int_map = [];
 var dictionary_path_to_path_map = [];
+var is_added_function_map = {};
 var path_to_onblur_map = [];
 var path_to_onclick_map = [];
 var path_to_onfocus_map = [];
@@ -25,7 +26,7 @@ var output_json = []
 function generate_global(p_output_json, p_metadata)
 {
 
-		generate_dictionary_path_to_int_map(p_metadata, "", dictionary_path_to_int_map, "", dictionary_path_to_path_map);
+		generate_dictionary_path_to_int_map(0, p_metadata, "", dictionary_path_to_int_map, "", dictionary_path_to_path_map);
 
 		global_ast.properties = [];
 
@@ -66,9 +67,9 @@ output_json.push("var path_to_validation_description = [];\n");
 
 
 
-function generate_dictionary_path_to_int_map(p_metadata, p_dictionary_path, p_dictionary_path_to_int_map, p_path, p_dictionary_path_to_path_map)
+function generate_dictionary_path_to_int_map(p_number, p_metadata, p_dictionary_path, p_dictionary_path_to_int_map, p_path, p_dictionary_path_to_path_map)
 {
-    p_dictionary_path_to_int_map[p_dictionary_path] = p_dictionary_path_to_int_map.length;
+    p_dictionary_path_to_int_map[p_dictionary_path] = p_number;
 		p_dictionary_path_to_path_map[p_dictionary_path] = p_path;
 
 		if(p_metadata.children && p_metadata.children.length > 0)
@@ -78,11 +79,11 @@ function generate_dictionary_path_to_int_map(p_metadata, p_dictionary_path, p_di
 				var child = p_metadata.children[i];
 				if(p_dictionary_path == "")
 				{
-					generate_dictionary_path_to_int_map(child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
+					generate_dictionary_path_to_int_map(p_number + 1, child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
 				}
 				else
 				{
-					generate_dictionary_path_to_int_map(child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
+					generate_dictionary_path_to_int_map(p_number + 1, child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
 				}
 				
 			}
@@ -575,18 +576,18 @@ var create_property_ast = function(
 
 };
 
-function map_ast(object, f) 
+function map_ast(object, f, p_output) 
 {
 				var key, child;
 
-				if (f.call(null, object) === false) {
+				if (f.call(null, object, p_output) === false) {
 						return;
 				}
 				for (key in object) {
 						if (object.hasOwnProperty(key)) {
 								child = object[key];
 								if (typeof child === 'object' && child !== null) {
-										map_ast(child, f);
+										map_ast(child, f, p_output);
 								}
 						}
 				}
@@ -612,15 +613,16 @@ function create_global_ast(x, p_output_json)
 								var path_and_event = find_path_and_event(x.loc.start.line, g_ast.comments);
 								if(path_and_event && path_and_event.path && path_and_event.event)
 								{
-									var p_path = path_and_event.path;
-									var f_name = "x" + dictionary_path_to_int_map[p_path].toString(16);
+									var dictionary_path = path_and_event.path;
+									var p_path = dictionary_path_to_path_map[dictionary_path];
+									var f_name = "x" + path_to_int_map[p_path].toString(16);
 									switch(path_and_event.event)
 									{
-											case 'oblur':
+											case 'onblur':
 													f_name += "_ob";
 													p_output_json.push("\n");
 													p_output_json.push("path_to_onblur_map['");
-													p_output_json.push(p_path);
+													p_output_json.push(get_eval_string(p_path));
 													p_output_json.push("']='");
 													p_output_json.push(f_name);
 													p_output_json.push("';\n");
@@ -631,7 +633,7 @@ function create_global_ast(x, p_output_json)
 													p_output_json.push("\n");
 													
 													p_output_json.push("path_to_onfocus_map['");
-													p_output_json.push(p_path);
+													p_output_json.push(get_eval_string(p_path));
 													p_output_json.push("']='");
 													p_output_json.push(f_name);
 													p_output_json.push("';\n");													
@@ -641,7 +643,7 @@ function create_global_ast(x, p_output_json)
 													p_output_json.push("\n");
 													
 													p_output_json.push("path_to_onclick_map['");
-													p_output_json.push(p_path);
+													p_output_json.push(get_eval_string(p_path));
 													p_output_json.push("']='");
 													p_output_json.push(f_name);
 													p_output_json.push("';\n");													
@@ -651,7 +653,7 @@ function create_global_ast(x, p_output_json)
 													p_output_json.push("\n");
 													
 													p_output_json.push("path_to_onchange_map['");
-													p_output_json.push(p_path);
+													p_output_json.push(get_eval_string(p_path));
 													p_output_json.push("']='");
 													p_output_json.push(f_name);
 													p_output_json.push("';\n");													
@@ -660,7 +662,7 @@ function create_global_ast(x, p_output_json)
 													p_output_json.push("\n");
 
 													p_output_json.push("path_to_source_validation['");
-													p_output_json.push(p_path);
+													p_output_json.push(get_eval_string(p_path));
 													p_output_json.push("']='");
 													p_output_json.push(f_name);
 													p_output_json.push("';\n");
@@ -669,6 +671,7 @@ function create_global_ast(x, p_output_json)
 									}
 
 									x.id.name = f_name;
+									is_added_function_map[f_name] = true;
 									g_function_array.push(x)
 									 
 								}

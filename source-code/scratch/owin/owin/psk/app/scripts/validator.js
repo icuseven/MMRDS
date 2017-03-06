@@ -1,95 +1,3 @@
-var $global = {
-        calc_days: function (p_start_date, p_end_date) {
-            var days = null;
-            if (p_end_date > p_start_date) {
-                p_start_date = p_start_date.getTime() / 86400000;
-                p_end_date = p_end_date.getTime() / 86400000;
-                days = Math.trunc(p_end_date - p_start_date);
-            }
-            return days;
-        },
-        calc_weeks: function (p_start_date, p_end_date) {
-            var weeks = null;
-            if (p_end_date > p_start_date) {
-                p_start_date = p_start_date.getTime() / 604800000;
-                p_end_date = p_end_date.getTime() / 604800000;
-                weeks = Math.trunc(p_end_date - p_start_date);
-            }
-            return weeks;
-        },
-        calc_years: function (p_start_date, p_end_date) {
-            var years = null;
-            if (p_end_date > p_start_date) {
-                p_start_date = p_start_date.getTime() / 31557600000;
-                p_end_date = p_end_date.getTime() / 31557600000;
-                years = Math.trunc(p_end_date - p_start_date);
-            }
-            return years;
-        },
-        calc_bmi: function (p_height, p_weight) {
-            var bmi = null;
-            if (p_height > 24 && p_height < 109 && p_weight > 50 && p_weight < 800) {
-                p_height /= 39.3700787;
-                p_weight /= 2.20462;
-                bmi = Math.round(p_weight / Math.pow(p_height, 2) * 10) / 10;
-            }
-            return bmi;
-        },
-        calc_distance: function (lat1, lon1, lat2, lon2) {
-            var radlat1 = Math.PI * lat1 / 180;
-            var radlat2 = Math.PI * lat2 / 180;
-            var theta = lon1 - lon2;
-            var radtheta = Math.PI * theta / 180;
-            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-            dist = Math.acos(dist);
-            dist = dist * 180 / Math.PI;
-            dist = Math.round(dist * 60 * 1.1515 * 100) / 100;
-            return dist;
-        },
-        isValidDate: function (p_year, p_month, p_day) {
-            var year = parseInt(p_year);
-            var month = parseInt(p_month);
-            var day = parseInt(p_day);
-            var months31 = [
-                    1,
-                    3,
-                    5,
-                    7,
-                    8,
-                    10,
-                    12
-                ];
-            var months30 = [
-                    4,
-                    6,
-                    9,
-                    11
-                ];
-            var months28 = [2];
-            var isLeap = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
-            var valid = months31.indexOf(month) !== -1 && day <= 31 || months30.indexOf(month) !== -1 && day <= 30 || months28.indexOf(month) !== -1 && day <= 28 || months28.indexOf(month) !== -1 && day <= 29 && isLeap;
-            return valid;
-        }
-    };
-function $validator(x) {
-    return true;
-}
-function x0_of(control) {
-    var years = null;
-    var p_start_year = this.date_of_birth.year;
-    var p_start_month = this.date_of_birth.month;
-    var p_start_day = this.date_of_birth.day;
-    var p_end_year = this.date_of_death.year;
-    var p_end_month = g_data.home_record.date_of_death.month;
-    var p_end_day = g_data.home_record.date_of_death.day;
-    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = $global.calc_years(p_start_date, p_end_date);
-        this.age = years;
-        control.value = this.age;
-    }
-}
 var path_to_int_map = [];
 var path_to_onblur_map = [];
 var path_to_onclick_map = [];
@@ -105,10 +13,6 @@ path_to_int_map['g_metadata.children[2]']= 3;
 path_to_int_map['g_metadata.children[3]']= 4;
 path_to_int_map['g_metadata.children[4]']= 5;
 path_to_int_map['g_metadata.children[4].children[0]']= 6;
-function x6_ob(x) {
-    $global.log('test bubba');
-}
-path_to_onblur_map['/children/4/children/0']='x6_ob';
 path_to_int_map['g_metadata.children[4].children[1]']= 7;
 path_to_int_map['g_metadata.children[4].children[2]']= 8;
 function x8_ob(x) {
@@ -162,34 +66,7 @@ path_to_int_map['g_metadata.children[5].children[1].children[7]']= 44;
 path_to_int_map['g_metadata.children[5].children[1].children[8]']= 45;
 path_to_int_map['g_metadata.children[5].children[2]']= 46;
 path_to_int_map['g_metadata.children[5].children[2].children[0]']= 47;
-function x2f_ob(control) {
-    var dateold = g_data.death_certificate.demographics.date_of_birth;
-    var datenew = g_data.death_certificate.certificate_identification.date_of_death;
-    if (!isNaN(dateold.year.valueOf()) && !isNaN(dateold.month.valueOf()) && !isNaN(dateold.day.valueOf()) && datenew instanceof Date && !isNaN(datenew.valueOf())) {
-        var ynew = datenew.getFullYear();
-        var mnew = datenew.getMonth();
-        var dnew = datenew.getDate();
-        var yold = dateold.year;
-        var mold = dateold.month;
-        var dold = dateold.day;
-        var diff = ynew - yold;
-        if (mold > mnew)
-            diff--;
-        else {
-            if (mold == mnew) {
-                if (dold > dnew)
-                    diff--;
-            }
-        }
-        g_data.death_certificate.demographics.age = diff;
-    }
-}
-path_to_onblur_map['/children/5/children/2/children/0']='x2f_ob';
 path_to_int_map['g_metadata.children[5].children[2].children[0].children[0]']= 48;
-function x30_ob(x) {
-    $global.log('test bubba');
-}
-path_to_onblur_map['/children/5/children/2/children/0/children/0']='x30_ob';
 path_to_int_map['g_metadata.children[5].children[2].children[0].children[1]']= 49;
 path_to_int_map['g_metadata.children[5].children[2].children[0].children[2]']= 50;
 path_to_int_map['g_metadata.children[5].children[2].children[0].children[3]']= 51;
@@ -199,10 +76,10 @@ function x34_of(control) {
     var p_start_year = this.date_of_birth.year;
     var p_start_month = this.date_of_birth.month;
     var p_start_day = this.date_of_birth.day;
-    var p_end_year = this.date_of_death.year;
+    var p_end_year = g_data.home_record.date_of_death.year;
     var p_end_month = g_data.home_record.date_of_death.month;
     var p_end_day = g_data.home_record.date_of_death.day;
-    if (isValidDate(p_start_year, p_start_month, p_start_day) == true && isValidDate(p_end_year, p_end_month, p_end_day) == true) {
+    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
         var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
         var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
         var years = calc_years(p_start_date, p_end_date);
@@ -314,6 +191,24 @@ path_to_int_map['g_metadata.children[6].children[2].children[3].children[1]']= 1
 path_to_int_map['g_metadata.children[6].children[2].children[3].children[2]']= 153;
 path_to_int_map['g_metadata.children[6].children[2].children[3].children[3]']= 154;
 path_to_int_map['g_metadata.children[6].children[2].children[4]']= 155;
+function x9b_of() {
+    var years = null;
+    var p_start_year = g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.year;
+    var p_start_month = g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.month;
+    var p_start_day = g_data.birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.day;
+    var p_end_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year;
+    var p_end_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month;
+    var p_end_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day;
+    if (isValidDate(p_start_year, p_start_month, p_start_day) == true && isValidDate(p_end_year, p_end_month, p_end_day) == true) {
+        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
+        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
+        var years = calc_years(p_start_date, p_end_date);
+    }
+    return years;
+}
+this.age = fathers_age_delivery();
+control.value = this.age;
+path_to_onfocus_map['/children/6/children/2/children/4']='x9b_of';
 path_to_int_map['g_metadata.children[6].children[2].children[5]']= 156;
 path_to_int_map['g_metadata.children[6].children[2].children[6]']= 157;
 path_to_int_map['g_metadata.children[6].children[2].children[7]']= 158;
@@ -342,6 +237,24 @@ path_to_int_map['g_metadata.children[6].children[4].children[0].children[1]']= 1
 path_to_int_map['g_metadata.children[6].children[4].children[0].children[2]']= 181;
 path_to_int_map['g_metadata.children[6].children[4].children[0].children[3]']= 182;
 path_to_int_map['g_metadata.children[6].children[4].children[1]']= 183;
+function xb7_of() {
+    var years = null;
+    var p_start_year = g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.year;
+    var p_start_month = g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.month;
+    var p_start_day = g_data.birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.day;
+    var p_end_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year;
+    var p_end_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month;
+    var p_end_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day;
+    if (isValidDate(p_start_year, p_start_month, p_start_day) == true && isValidDate(p_end_year, p_end_month, p_end_day) == true) {
+        var p_start_date = new Date(p_start_year, p_start_month + 1, p_start_day);
+        var p_end_date = new Date(p_end_year, p_end_month + 1, p_end_day);
+        var years = calc_years(p_start_date, p_end_date);
+    }
+    return years;
+}
+this.age = mothers_age_delivery();
+control.value = this.age;
+path_to_onfocus_map['/children/6/children/4/children/1']='xb7_of';
 path_to_int_map['g_metadata.children[6].children[4].children[2]']= 184;
 path_to_int_map['g_metadata.children[6].children[4].children[3]']= 185;
 path_to_int_map['g_metadata.children[6].children[4].children[4]']= 186;
@@ -395,6 +308,18 @@ path_to_int_map['g_metadata.children[6].children[8].children[2]']= 233;
 path_to_int_map['g_metadata.children[6].children[8].children[3]']= 234;
 path_to_int_map['g_metadata.children[6].children[8].children[4]']= 235;
 path_to_int_map['g_metadata.children[6].children[8].children[5]']= 236;
+function xec_of() {
+    var bmi = null;
+    var p_height_feet = g_data.birth_fetal_death_certificate_parent.maternal_biometrics.height_feet;
+    var p_height_inches = g_data.birth_fetal_death_certificate_parent.maternal_biometrics.height_inches;
+    var p_weight = g_data.birth_fetal_death_certificate_parent.maternal_biometrics.pre_pregnancy_weight;
+    var p_height = p_height_feet * 12 + p_height_inches;
+    var bmi = calc_bmi(p_height, p_weight);
+    return bmi;
+}
+this.bmi = prepregnancy_bmi();
+control.value = this.bmi;
+path_to_onfocus_map['/children/6/children/8/children/5']='xec_of';
 path_to_int_map['g_metadata.children[6].children[9]']= 237;
 path_to_int_map['g_metadata.children[6].children[9].children[0]']= 238;
 path_to_int_map['g_metadata.children[6].children[9].children[0].children[0]']= 239;
@@ -1131,3 +1056,93 @@ path_to_int_map['g_metadata.children[17].children[18].children[0]']= 969;
 path_to_int_map['g_metadata.children[17].children[18].children[1]']= 970;
 path_to_int_map['g_metadata.children[17].children[18].children[2]']= 971;
 path_to_int_map['g_metadata.children[17].children[19]']= 972;
+
+path_to_onblur_map['g_metadata.children[5].children[2].children[1]']='x34_ob';
+var $global = {
+        calc__days: function (p_stardate, p_end_date) {
+            var days = null;
+            if (p_end_date > p_start_date) {
+                p_start_date = p_start_date.getTime() / 86400000;
+                p_end_date = p_end_date.getTime() / 86400000;
+                days = Math.trunc(p_end_date - p_start_date);
+            }
+            return days;
+        },
+        calc_weeks: function (p_start_date, p_end_date) {
+            var weeks = null;
+            if (p_end_date > p_start_date) {
+                p_start_date = p_start_date.getTime() / 604800000;
+                p_end_date = p_end_date.getTime() / 604800000;
+                weeks = Math.trunc(p_end_date - p_start_date);
+            }
+            return weeks;
+        },
+        calc_years: function (p_start_date, p_end_date) {
+            var years = null;
+            if (p_end_date > p_start_date) {
+                p_start_date = p_start_date.getTime() / 31557600000;
+                p_end_date = p_end_date.getTime() / 31557600000;
+                years = Math.trunc(p_end_date - p_start_date);
+            }
+            return years;
+        },
+        calc_bmi: function (p_height, p_weight) {
+            var bmi = null;
+            if (p_height > 24 && p_height < 109 && p_weight > 50 && p_weight < 800) {
+                p_height /= 39.3700787;
+                p_weight /= 2.20462;
+                bmi = Math.round(p_weight / Math.pow(p_height, 2) * 10) / 10;
+            }
+            return bmi;
+        },
+        calc_distance: function (lat1, lon1, lat2, lon2) {
+            var radlat1 = Math.PI * lat1 / 180;
+            var radlat2 = Math.PI * lat2 / 180;
+            var theta = lon1 - lon2;
+            var radtheta = Math.PI * theta / 180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = Math.round(dist * 60 * 1.1515 * 100) / 100;
+            return dist;
+        },
+        isValidDate: function (year, month, day) {
+            var months31 = [
+                    1,
+                    3,
+                    5,
+                    7,
+                    8,
+                    10,
+                    12
+                ];
+            var months30 = [
+                    4,
+                    6,
+                    9,
+                    11
+                ];
+            var months28 = [2];
+            var isLeap = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+            var valid = months31.indexOf(month) !== -1 && day <= 31 || months30.indexOf(month) !== -1 && day <= 30 || months28.indexOf(month) !== -1 && day <= 28 || months28.indexOf(month) !== -1 && day <= 29 && isLeap;
+            return valid;
+        }
+    };
+function $validator(x) {
+}
+function x34_ob(control) {
+    var years = null;
+    var p_start_year = this.date_of_birth.year;
+    var p_start_month = this.date_of_birth.month;
+    var p_start_day = this.date_of_birth.day;
+    var p_end_year = g_data.home_record.date_of_death.year;
+    var p_end_month = g_data.home_record.date_of_death.month;
+    var p_end_day = g_data.home_record.date_of_death.day;
+    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
+        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
+        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
+        var years = calc_years(p_start_date, p_end_date);
+        this.age = years;
+        control.value = this.age;
+    }
+}
