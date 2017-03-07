@@ -1346,7 +1346,10 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			p_result.push("' ");
 		}
 
-		if(p_metadata.onclick && p_metadata.onclick != "")
+
+
+		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+		if(path_to_onclick_map[p_metadata_path])
 		{
 			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
 		}
@@ -1359,7 +1362,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(p_data);
 		p_result.push("'");
 
-		if(p_metadata.onfocus && p_metadata.onfocus != "")
+		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+		if(path_to_onfocus_map[p_metadata_path])
 		{
 			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 		}
@@ -1374,12 +1378,15 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		{
 			page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
 		}
-		else */if(p_metadata.onchange && p_metadata.onchange != "")
+		else */
+		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+		if(path_to_onchange_map[p_metadata_path])
 		{
 			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
 		}
 		
-		if(p_metadata.onclick && p_metadata.onclick != "")
+		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+		if(path_to_onclick_map[p_metadata_path])
 		{
 			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
 		}
@@ -1458,8 +1465,8 @@ var path_to_source_validation = [];
 var path_to_derived_validation = [];
 var path_to_validation_description = [];
 */
-
-	if(p_metadata.onblur && p_metadata.onblur != "")
+	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
+	if(path_to_onblur_map[p_metadata_path])
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
 		var code_array = [];
@@ -1516,7 +1523,8 @@ var path_to_derived_validation = [];
 var path_to_validation_description = [];
 */
 
-	if(p_metadata.onchange && p_metadata.onchange != "")
+	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+	if(path_to_onchange_map[p_metadata_path])
 	{
 		//var source_code = escodegen.generate(p_metadata.onfocus);
 		var code_array = [];
@@ -1574,17 +1582,20 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(p_data);
 	p_result.push("' ");
 
-	if(p_metadata.onfocus && p_metadata.onfocus != "")
+	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+	if(path_to_onfocus_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 	}
 
-	if(p_metadata.onchange && p_metadata.onchange != "")
+	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+	if(path_to_onchange_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
 	}
 	
-	if(p_metadata.onclick && p_metadata.onclick != "")
+	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+	if(path_to_onclick_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
 	}
@@ -1615,17 +1626,20 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
 
-	if(p_metadata.onfocus && p_metadata.onfocus != "")
+	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+	if(path_to_onfocus_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 	}
 
-	if(p_metadata.onchange && p_metadata.onchange != "")
+	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ochs";
+	if(path_to_onchange_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
 	}
 	
-	if(p_metadata.onclick && p_metadata.onclick != "")
+	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+	if(path_to_onclick_map[p_metadata_path])
 	{
 		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
 	}

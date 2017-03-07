@@ -1172,3 +1172,9 @@ function xdb_of(control) {
         control.value = this.live_birth_interval;
     }
 }
+path_to_onfocus_map['g_metadata.children[5].children[2].children[1]']='x34_of';
+path_to_onfocus_map['g_metadata.children[6].children[2].children[4]']='x9b_of';
+path_to_onfocus_map['g_metadata.children[6].children[4].children[1]']='xb7_of';
+path_to_onfocus_map['g_metadata.children[6].children[7].children[1]']='xdb_of';
+path_to_onfocus_map['g_metadata.children[6].children[8].children[4]']='xeb_of';
+path_to_onfocus_map['g_metadata.children[6].children[8].children[5]']='xec_of';

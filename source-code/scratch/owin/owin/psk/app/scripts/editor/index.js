@@ -382,6 +382,8 @@ function perform_validation_save(p_metadata)
 	
 	generate_global(output_json, p_metadata);
 
+	generate_derived_validator(output_json, p_metadata, "", path_to_int_map);
+
 		$.ajax({
 			url: location.protocol + '//' + location.host + '/api/validator',
 			//contentType: 'application/text; charset=utf-8',

@@ -54,22 +54,82 @@ function generate_global(p_output_json, p_metadata)
 		}
 }
 
-function generate_derived_validator(p_output_json, p_metadata)
+function generate_derived_validator(p_output_json, p_metadata, p_path,  p_path_to_int_map)
 {
+
+	var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
+    if(is_added_function_map[f_name])
+    {
+			p_output_json.push("path_to_onblur_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push(f_name);
+			p_output_json.push("';\n");
+
+    }
+
+		f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ocl";
+    if(is_added_function_map[f_name])
+    {
+			p_output_json.push("path_to_onclick_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_ocl");
+			p_output_json.push("';\n");
+
+    }
+
+		f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
+    if(is_added_function_map[f_name])
+    {
+			p_output_json.push("path_to_onfocus_map['");
+			p_output_json.push(get_eval_string(p_path));
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_of");
+			p_output_json.push("';\n");
+		
+    }
+
+		f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_och";
+    if(is_added_function_map[f_name])
+    {
+			p_output_json.push("path_to_onchange_map['");
+			p_output_json.push(p_path);
+			p_output_json.push("']='");
+			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_och");
+			p_output_json.push("';\n");
+
+    }
+ 
+		f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
+    if(is_added_function_map[f_name])
+    {
+				p_output_json.push("path_to_source_validation['");
+				p_output_json.push(p_path);
+				p_output_json.push("']='");
+				p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_sv");
+				p_output_json.push("';\n");
+
+				var test = add_derived_validator_function(p_path_to_int_map, p_metadata, p_path)(p_path_to_int_map, p_metadata, p_path);
+				if(test)
+				{
+					p_output_json.push("path_to_derived_validation['");
+					p_output_json.push(p_path);
+					p_output_json.push("']='");
+					p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_dv");
+					p_output_json.push("';\n");
+				}
+			}
+    
+
+
 	if(p_metadata.children && p_metadata.children.length > 0)
 	{		
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
 			var child = p_metadata.children[i];
-			if(p_dictionary_path == "")
-			{
-				generate_derived_validator(p_number + 1, child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
-			}
-			else
-			{
-				generate_derived_validator(p_number + 1, child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
-			}
-			
+
+			generate_derived_validator(p_output_json, child, p_path + "/children/" + i, p_path_to_int_map);
 		}
 	}
 
@@ -91,6 +151,8 @@ function generate_dictionary_path_to_int_map(p_number, p_metadata, p_dictionary_
 {
     p_dictionary_path_to_int_map[p_dictionary_path] = p_number;
 		p_dictionary_path_to_path_map[p_dictionary_path] = p_path;
+
+
 
 		if(p_metadata.children && p_metadata.children.length > 0)
 		{		
@@ -128,114 +190,7 @@ function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path,
 
     p_object_path_to_metadata_path_map[p_object_path] = p_path;
 
-	var f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ob";
-    if(is_added_function_map[f_name])
-    {
-		p_metadata.onblur.body[0].id.name = f_name;
-		var test = get_code(p_metadata.onblur);
-		if(test)
-		{
-        	p_path_to_onblur_map[p_path] = test;
-			p_output_json.push(test);
-			p_output_json.push("\n");
 
-			p_output_json.push("path_to_onblur_map['");
-			p_output_json.push(p_path);
-			p_output_json.push("']='");
-			p_output_json.push(f_name);
-			p_output_json.push("';\n");
-		}
-    }
-
-	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_ocl";
-    if(is_added_function_map[f_name])
-    {
-		p_metadata.onclick.body[0].id.name = f_name;
-		var test = get_code(p_metadata.onclick);
-		if(test)
-		{
-        	p_path_to_onclick_map[p_path] = test;
-			p_output_json.push(test);
-			p_output_json.push("\n");
-			
-			p_output_json.push("path_to_onclick_map['");
-			p_output_json.push(p_path);
-			p_output_json.push("']='");
-			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_ocl");
-			p_output_json.push("';\n");
-		}
-    }
-
-	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_of";
-    if(is_added_function_map[f_name])
-    {
-		p_metadata.onfocus.body[0].id.name = f_name;
-		var test = get_code(p_metadata.onfocus);
-		if(test)
-		{
-        	p_path_to_onfocus_map[p_path] = test;
-			p_output_json.push(test);
-			p_output_json.push("\n");
-			
-			p_output_json.push("path_to_onfocus_map['");
-			p_output_json.push(p_path);
-			p_output_json.push("']='");
-			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_of");
-			p_output_json.push("';\n");
-		}
-    }
-
-	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_och";
-    if(is_added_function_map[f_name])
-    {
-		p_metadata.onchange.body[0].id.name = f_name;
-		var test = get_code(p_metadata.onchange);
-		if(test)
-		{
-        	p_path_to_onchange_map[p_path] = test;
-			p_output_json.push(test);
-			p_output_json.push("\n");
-			
-			p_output_json.push("path_to_onchange_map['");
-			p_output_json.push(p_path);
-			p_output_json.push("']='");
-			p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_och");
-			p_output_json.push("';\n");
-		}
-    }
- 
-	f_name = "x" + p_path_to_int_map[p_path].toString(16) + "_sv";
-    if(is_added_function_map[f_name])
-    {
-			p_metadata.validation.body[0].id.name = f_name;
-			var test = get_code(p_metadata.validation);
-			if(test)
-			{
-				p_path_to_source_validation[p_path] = test;
-				p_output_json.push(test);
-				p_output_json.push("\n");
-
-				p_output_json.push("path_to_source_validation['");
-				p_output_json.push(p_path);
-				p_output_json.push("']='");
-				p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_sv");
-				p_output_json.push("';\n");
-
-				test = add_derived_validator_function(p_path_to_int_map, p_metadata, p_path)(p_path_to_int_map, p_metadata, p_path);
-				if(test != "")
-				{
-					path_to_derived_validation[p_path] = test;
-					p_output_json.push(test);
-					p_output_json.push("\n");
-					
-					p_output_json.push("path_to_derived_validation['");
-					p_output_json.push(p_path);
-					p_output_json.push("']='");
-					p_output_json.push("x" + p_path_to_int_map[p_path].toString(16) + "_dv");
-					p_output_json.push("';\n");
-				}
-			}
-    }
 
 	
 	if(p_metadata.validation_description && p_metadata.validation_description != '')
