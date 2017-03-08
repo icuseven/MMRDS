@@ -165,7 +165,7 @@ namespace mmria.console
 
 
 			System.Net.CookieContainer cookieContainer = new System.Net.CookieContainer();
-			cookieContainer.Add(new System.Uri("http://localhost:12345"), new System.Net.Cookie("AuthSession", this.auth_token));
+			cookieContainer.Add(new System.Uri(this.mmria_url), new System.Net.Cookie("AuthSession", this.auth_token));
 
 			var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
 
@@ -315,6 +315,8 @@ namespace mmria.console
 
 			return result;
 		}
+
+
 
 	}
 }
