@@ -1179,15 +1179,35 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//p_post_html_render.push("  ['data1', 30, 200, 100, 400, 150, 250],");
 			//p_post_html_render.push("['data2', 50, 20, 10, 40, 15, 25]")
 
-			var y_axis_paths = p_metadata.y_axis.split(",");
-			for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
+
+			if(p_metadata.y_label && p_metadata.y_label != "")
 			{
-				p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
-				if(y_index < y_axis_paths.length-1)
+				var y_labels = p_metadata.y_axis.split(",");
+				var y_axis_paths = p_metadata.y_axis.split(",");
+				for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
 				{
-					p_post_html_render.push(",");
+					p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui, y_labels[y_index]));
+					if(y_index < y_axis_paths.length-1)
+					{
+						p_post_html_render.push(",");
+					}
 				}
 			}
+			else
+			{
+
+				var y_axis_paths = p_metadata.y_axis.split(",");
+				for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
+				{
+					p_post_html_render.push(get_chart_y_range_from_path(p_metadata, y_axis_paths[y_index], p_ui));
+					if(y_index < y_axis_paths.length-1)
+					{
+						p_post_html_render.push(",");
+					}
+				}
+			}
+
+
 			
 			p_post_html_render.push("  ]");
 			p_post_html_render.push("  }");
@@ -1273,7 +1293,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 	return result.join(",") + ",";
 }
 
-function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui)
+function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
@@ -1283,7 +1303,14 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui)
 	var array = eval(array_field[0]);
 	var field = array_field[1];
 
-	result.push("['" + array_field[1] + "'");
+	if(p_label)
+	{
+		result.push("['" + p_label + "'");
+	}
+	else
+	{
+		result.push("['" + array_field[1] + "'");
+	}
 	// ['data2', 50, 20, 10, 40, 15, 25]
 	//result.push(50, 20, 10, 40, 15, 25);
 
