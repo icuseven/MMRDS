@@ -370,6 +370,7 @@ function perform_validation_save(p_metadata)
 
 
 	output_json.push("var path_to_int_map = [];\n");
+	output_json.push("var dictionary_path_to_path_map = [];\n");
 	output_json.push("var path_to_onblur_map = [];\n");
 	output_json.push("var path_to_onclick_map = [];\n");
 	output_json.push("var path_to_onfocus_map = [];\n");
@@ -382,7 +383,22 @@ function perform_validation_save(p_metadata)
 	
 	generate_global(output_json, p_metadata);
 
+	for(var key in dictionary_path_to_path_map)
+	{
+		if (dictionary_path_to_path_map.hasOwnProperty(key)) 
+		{
+			output_json.push("dictionary_path_to_path_map['");
+			output_json.push(key);
+			output_json.push("']='");
+			output_json.push(get_eval_string(dictionary_path_to_path_map[key]));
+			output_json.push("';\n");
+		}
+	}
+	
+
 	generate_derived_validator(output_json, p_metadata, "", path_to_int_map);
+
+
 
 		$.ajax({
 			url: location.protocol + '//' + location.host + '/api/validator',

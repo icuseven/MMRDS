@@ -30,10 +30,11 @@ function generate_global(p_output_json, p_metadata)
 
 		global_ast.properties = [];
 
-
-		var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
-		var global_code = escodegen.generate(temp_ast, { comment: true });
-		g_ast = esprima.parse(global_code, { comment: true, loc: true });
+		g_ast = p_metadata.global;
+		//var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
+		//g_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
+		//var global_code = escodegen.generate(temp_ast, { comment: true });
+		//g_ast = esprima.parse(global_code, { comment: true, loc: true });
 
 		//map_ast(p_metadata.global, create_global_ast);
 		map_ast(g_ast, create_global_ast, output_json);
@@ -147,10 +148,12 @@ output_json.push("var path_to_validation_description = [];\n");
 
 
 
+
 function generate_dictionary_path_to_int_map(p_number, p_metadata, p_dictionary_path, p_dictionary_path_to_int_map, p_path, p_dictionary_path_to_path_map)
 {
     p_dictionary_path_to_int_map[p_dictionary_path] = p_number;
 		p_dictionary_path_to_path_map[p_dictionary_path] = p_path;
+
 
 
 
@@ -176,7 +179,6 @@ function generate_dictionary_path_to_int_map(p_number, p_metadata, p_dictionary_
 function generate_validation(p_output_json, p_metadata, p_metadata_list, p_path, p_object_list, p_object_path, p_path_to_node_map, p_path_to_int_map, p_path_to_onblur_map, p_path_to_onclick_map, p_path_to_onfocus_map, p_path_to_onchange_map, p_path_to_source_validation, p_path_to_derived_validation, p_path_to_validation_description, p_object_path_to_metadata_path_map)
 {
     p_path_to_node_map[p_path] = p_metadata;
-
 
     p_path_to_int_map[p_path] = p_metadata_list.length;
 			p_output_json.push("path_to_int_map['");

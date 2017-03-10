@@ -125,9 +125,15 @@ var $mmria = function()
         },
         removeCookie: function (name) {
             $mmria.addCookie(name,"",-1);
+        },
+        set_control_value: function(p_dictionary_path, p_value)
+        {
+            var path = dictionary_path_to_path_map[p_dictionary_path];
+            if(path)
+            {
+                
+            }
         }
-
-
     };
 
 }();
