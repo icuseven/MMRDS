@@ -22,8 +22,8 @@ var default_object = null;
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
   var current_value = eval(p_object_path);
-  if(current_value != value)
-  {
+  //if(current_value != value)
+  //{
     if(g_validator_map[p_metadata_path])
     {
       if(g_validator_map[p_metadata_path](value))
@@ -198,7 +198,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
     }
 
     apply_validation();
-  }
+  //}
 }
 
 function g_add_grid_item(p_object_path, p_metadata_path)
