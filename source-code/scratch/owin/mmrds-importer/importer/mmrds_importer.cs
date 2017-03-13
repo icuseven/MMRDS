@@ -572,11 +572,11 @@ namespace mmria.console.import
 						path = case_maker.AppendFormIndexToPath(index.Value, path);
 					}
 
-					/*
-					if (metadata.children.Where(i => i.type == "form" && i.name.ToLower() == path_array[0].ToLower() && (i.cardinality == "*" || i.cardinality == "+")).Count() > 0)
-					{
 
-					}*/
+					if (path == "home_record/case_progress_report/death_certificate")
+					{
+						System.Console.Write("break\n");
+					}
 
 					if (row["DataType"].ToString().ToLower() == "boolean")
 					{

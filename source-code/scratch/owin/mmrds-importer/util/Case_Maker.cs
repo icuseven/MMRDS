@@ -149,22 +149,29 @@ namespace mmria
 							{
 								if (
 									this.lookup_value1.ContainsKey(metadata_path) &&
-									this.lookup_value1[metadata_path].ContainsKey(p_value.ToString())
+									this.lookup_value1[metadata_path].ContainsKey(p_value.ToString().Trim())
 								)
 								{
-									index[path[i]] = this.lookup_value1[metadata_path][p_value.ToString()];
+									index[path[i]] = this.lookup_value1[metadata_path][p_value.ToString().Trim()];
 								}
 								else if (
 									this.lookup_value2.ContainsKey(metadata_path) &&
-									this.lookup_value2[metadata_path].ContainsKey(p_value.ToString())
+									this.lookup_value2[metadata_path].ContainsKey(p_value.ToString().Trim())
 
 								)
 								{
-									index[path[i]] = this.lookup_value2[metadata_path][p_value.ToString()];
+									index[path[i]] = this.lookup_value2[metadata_path][p_value.ToString().Trim()];
 								}
 								else
 								{
-									index[path[i]] = p_value;
+									if (p_value is string)
+									{
+										index[path[i]] = p_value.ToString().Trim();
+									}
+									else
+									{
+										index[path[i]] = p_value;
+									}
 								}
 								result = true;
 							}
