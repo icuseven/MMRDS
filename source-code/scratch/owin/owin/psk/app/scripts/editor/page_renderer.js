@@ -464,7 +464,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
      case 'label':
 			result.push("<div class='label' id='");
 			result.push(p_object_path.replace(".","_"));
+			result.push("'");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
 			result.push("' ");
+
+
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -502,7 +507,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		case 'string':
 			result.push("<div class='string' id='");
 			result.push(p_object_path);
-			result.push("'><span ");
+			result.push("'");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
+			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -545,7 +555,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 	case 'textarea':
 				result.push("<div  class='textarea' id='");
 				result.push(p_object_path);
-				result.push("'><span ");
+				result.push("'");
+
+				result.push(" mpath='");
+				result.push(p_metadata_path);
+				result.push("' ");
+
+				result.push(">");
+				result.push("<span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
 				{
 					result.push("rel='tooltip'  data-original-title='");
@@ -583,7 +600,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push(" id='");
 			result.push(p_object_path);
-			result.push("'><span ");
+			result.push("'");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
+			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -612,7 +634,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
      case 'boolean':
 			result.push("<div class='boolean' id='");
 			result.push(p_object_path);
-			result.push("'> <input type='checkbox' name='");
+			result.push("' ");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
+			result.push(" <input type='checkbox' name='");
 			result.push(p_metadata.name);
 			if(p_data == true)
 			{
@@ -657,7 +684,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("<div class='list' id='");
 				result.push(p_object_path.replace(/\./g,"_"))
 				
-				result.push("'> <span ");
+				result.push("' ");
+				result.push(" mpath='");
+				result.push(p_metadata_path);
+				result.push("' ");
+				result.push(">");
+				result.push("<span ");
+
 				if(p_metadata.description && p_metadata.description.length > 0)
 				{
 					result.push("rel='tooltip'  data-original-title='");
@@ -830,7 +863,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("<div class='list' id='");
 				result.push(p_object_path.replace(/\./g,"_"))
 				
-				result.push("'> <span ");
+				result.push("' ");
+				result.push(" mpath='");
+				result.push(p_metadata_path);
+				result.push("' ");
+				result.push(">");
+				result.push("<span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
 				{
 					result.push("rel='tooltip'  data-original-title='");
@@ -978,7 +1016,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<div class='date' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
 			
-			result.push("'> ");
+			result.push("' ");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -1029,7 +1071,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}*/
 			result.push("<div class='date' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
-			result.push("'> ");
+			result.push("' ");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -1079,7 +1125,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<div  class='time' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
 			
-			result.push("'> ");
+			result.push("' ");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -1122,7 +1172,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<div  class='chart' id='");
 			result.push(p_object_path.replace(/\./g,"_"))
 			
-			result.push("'> ");
+			result.push("' ");
+			result.push(" mpath='");
+			result.push(p_metadata_path);
+			result.push("' ");
+			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -1182,7 +1236,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(p_metadata.y_label && p_metadata.y_label != "")
 			{
-				var y_labels = p_metadata.y_axis.split(",");
+				var y_labels = p_metadata.y_label.split(",");
 				var y_axis_paths = p_metadata.y_axis.split(",");
 				for(var y_index = 0; y_index < y_axis_paths.length; y_index++)
 				{
