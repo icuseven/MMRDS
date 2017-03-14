@@ -300,6 +300,13 @@ namespace mmria.console
 
 			foreach (string file_name in System.IO.Directory.GetFiles(import_directory, "*.json"))
 			{
+				/*
+				if (file_name != "d0e08da8-d306-4a9a-a5ff-9f1d54702091.json")
+				{
+					continue;
+				}*/
+			
+
 				try
 				{
 					string json_string = System.IO.File.OpenText(file_name).ReadToEnd();

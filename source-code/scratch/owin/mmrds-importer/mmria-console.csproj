@@ -74,6 +74,7 @@
     <None Include="mapping-file-set\MMRDS-Mapping-NO-GRIDS-lookup-values.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="util\cURL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
