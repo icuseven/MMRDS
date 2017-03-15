@@ -588,15 +588,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</div>");
            break;
      case 'number':
-			result.push("<div class='number");
-			if(
-				p_metadata.decimal_precision && 
-				p_metadata.decimal_precision != "" && 
-				p_metadata.decimal_precision != "1"
-			)
-			{
-				result.push(p_metadata.decimal_precision);
-			}
+			result.push("<div class='number' ");
+
 
 			result.push(" id='");
 			result.push(p_object_path);
@@ -1404,6 +1397,19 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 {
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
+	
+	if
+	(
+		p_metadata.type.toLowerCase() == "number" && 	
+		p_metadata.decimal_precision && 
+		p_metadata.decimal_precision != ""
+	)
+	{
+				result.push(p_metadata.decimal_precision);
+	}
+	//result.push("'");
+	
+	
 	if(p_metadata.type=="button")
 	{
 		p_result.push("' type='button' name='");

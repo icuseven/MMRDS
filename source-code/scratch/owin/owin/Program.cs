@@ -125,6 +125,9 @@ namespace mmria.server
 		public void Configuration(IAppBuilder app)
 		{
 
+			//app.Use(typeof(RequestSizeLimitingMiddleware), long.MaxValue);
+
+
 			string url = null;
 
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
