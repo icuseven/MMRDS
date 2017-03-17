@@ -177,7 +177,7 @@ namespace mmria.server
 						{
 							streamWriter.Write(object_string);
 							streamWriter.Flush();
-							streamWriter.Close();
+							//streamWriter.Close();
 
 
 							System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();

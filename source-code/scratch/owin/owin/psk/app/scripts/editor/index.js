@@ -289,6 +289,12 @@ function metadata_save()
 	console.log("metadata_change");
 	var current_auth_session = $mmria.getCookie("AuthSession");
 
+	if(current_auth_session == null && profile.auth_session != null)
+	{ 
+		current_auth_session = profile.auth_session;
+		$mmria.addCookie("AuthSession", profile.auth_session);
+	}
+
 	if(current_auth_session)
 	{ 
 		perform_save(current_auth_session);

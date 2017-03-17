@@ -13,6 +13,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		case 'grid':
 		case 'group':
 		case 'form':
+		case 'lookup':
 			result.push('<li path="');
 			result.push(p_path);
 			/*
@@ -120,6 +121,26 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			 result.push(' style="display:block">');
 			}
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, "/"));
+			// lookup - begin
+			if(p_metadata.lookup)
+			{
+				result.push('<li path="');
+				result.push(p_path + "/lookup");
+				result.push('"><input type="button" value="-" onclick="editor_toggle(this, g_ui)" /> lookup: <input type="button" value="add list" onclick="editor_add_list(this)"/> ');
+				//result.push(p_path + "/children");
+				result.push('<ul>');
+
+				for(var i = 0; i < p_metadata.lookup.length; i++)
+				{
+					var child = p_metadata.lookup[i];
+					Array.prototype.push.apply(result, editor_render(child, "/lookup/" + i, p_ui, p_object_path + "/" + child.name));
+				}
+				result.push('</ul></li>');
+			}
+			// lookup - end
+
+
+
 			result.push('<li path="');
 			result.push(p_path + "/children");
 			result.push('"><input type="button" value="-" onclick="editor_toggle(this, g_ui)" /> children: <input type="button" value="add" onclick="editor_add_form(this)"/> ');
@@ -477,6 +498,7 @@ function attribute_renderer(p_metadata, p_path)
 							{
 								var temp_ast = escodegen.attachComments(p_metadata[prop], p_metadata[prop].comments, p_metadata[prop].tokens);
 								result.push(escodegen.generate(temp_ast, { comment: true }));
+								//result.push(escodegen.generate(p_metadata[prop], { comment: true }));
 							}
 							else
 							{
@@ -610,12 +632,14 @@ function attribute_renderer(p_metadata, p_path)
 			default:
 				if(p_metadata.type.toLowerCase() == "app")
 				{
-					
-					result.push('<li>')
-					result.push(prop);
-					result.push(' : ');
-					result.push(p_metadata[prop]);
-					result.push('</li>');
+					if(prop != "lookup")
+					{
+						result.push('<li>')
+						result.push(prop);
+						result.push(' : ');
+						result.push(p_metadata[prop]);
+						result.push('</li>');
+					}
 				}
 				else
 				{
@@ -713,6 +737,7 @@ function render_attribute_add_control(p_path, node_type)
 		case "form":
 		case "group":
 		case "grid":
+		case 'lookup':
 			is_collection_node = true;
 			break;
 		case "list":
@@ -1229,6 +1254,7 @@ function editor_add_to_children(e, p_ui)
 					node_to_render.innerHTML = node.join("");					
 					window.dispatchEvent(metadata_changed_event);
 					break;
+			
 			case "list":
 					eval(item_path).push(md.create_value_list("new_" + element_value, "new " + element_value, element_value, "list"));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
@@ -1245,6 +1271,14 @@ function editor_add_to_children(e, p_ui)
 					node_to_render.innerHTML = node.join("");		
 					window.dispatchEvent(metadata_changed_event);			
 					break;
+			case "lookup":
+					eval(item_path).push(md.create_group("new_" + element_value, "new " + element_value, element_value));
+					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
+
+					var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+					node_to_render.innerHTML = node.join("");		
+					window.dispatchEvent(metadata_changed_event);			
+					break;	
 			case "group":
 					eval(item_path).push(md.create_group("new_" + element_value, "new " + element_value, element_value));
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
@@ -1537,6 +1571,21 @@ function editor_add_form(e)
 	
 }
 
+
+function editor_add_list(e)
+{
+	var list = md.create_value_list(			
+			'new_list_name',
+			'list prompt',
+			'list');
+	g_metadata.lookup.push(list);
+	var node = editor_render(g_metadata, "", g_ui);
+	
+	var node_to_render = document.getElementById('form_content_id');
+	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
+	
+}
 
 function editor_toggle(e, p_ui)
 {
