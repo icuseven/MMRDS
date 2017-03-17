@@ -13,7 +13,6 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		case 'grid':
 		case 'group':
 		case 'form':
-		case 'lookup':
 			result.push('<li path="');
 			result.push(p_path);
 			/*
@@ -833,6 +832,7 @@ function render_attribute_add_control(p_path, node_type)
 		if(is_list)
 		{
 			result.push('<option>control_style</option>');
+			result.push('<option>path_reference</option>');
 		}
 	}
 	result.push('</select>');
@@ -957,7 +957,14 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 			var path_array = p_ui.split('/');
 			var target_index = path_array[path_array.length -1];
 
-			path_array.splice(path_array.length -2, 2);
+			if(path_array[1] != "lookup")
+			{
+				path_array.splice(path_array.length -2, 2);
+			}
+			else
+			{
+				path_array.splice(path_array.length -1, 1);
+			}
 
 			var collection_path = path_array.join('/');
 
@@ -970,20 +977,41 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 			
 			var paste_target = eval(item_path);
 
-			for(var i = 0; i < paste_target.children.length; i++)
+			if(paste_target.children)
 			{
-				if(clone.name == paste_target.children[i].name)
+				for(var i = 0; i < paste_target.children.length; i++)
 				{
-					clone.name = "new_clone_name_" + paste_target.children.length;
-					break;
+					if(clone.name == paste_target.children[i].name)
+					{
+						clone.name = "new_clone_name_" + paste_target.children.length;
+						break;
+					}
 				}
+
+				paste_target.children.splice(target_index, 0, clone);
 			}
+			else
+			{
+				for(var i = 0; i < paste_target.length; i++)
+				{
+					if(clone.name == paste_target[i].name)
+					{
+						clone.name = "new_clone_name_" + paste_target.length;
+						break;
+					}
+				}
 
-			paste_target.children.splice(target_index, 0, clone);
-
-			if(collection_path == "")
+				paste_target.splice(target_index, 0, clone);
+			}
+		
+		
+			if(collection_path == "" || collection_path == "/lookup")
 			{
 	
+				if(collection_path=="/lookup")
+				{
+					paste_target = g_metadata;
+				}
 				var node = editor_render(paste_target, "/", g_ui);
 				
 				var node_to_render = document.querySelector("div[path='/']");
@@ -1039,6 +1067,7 @@ function editor_paste_to_children(p_ui, p_is_index_paste)
 	}
 }
 
+
 function editor_cut_to_children(p_ui, p_is_index_paste)
 {
 	if(g_copy_clip_board)
@@ -1048,18 +1077,16 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 			var path_array = p_ui.split('/');
 			var target_index = path_array[path_array.length -1];
 
-			path_array.splice(path_array.length -2, 2);
-
-			var collection_path = path_array.join('/');
-/*
-			var is_same = /^\[\d+\]$/;
-			var reg_check = g_copy_clip_board.replace(collection_path,"");
-			if(reg_check.match(is_same))
+			if(path_array[1] != "lookup")
 			{
-
+				path_array.splice(path_array.length -2, 2);
+			}
+			else
+			{
+				path_array.splice(path_array.length -1, 1);
 			}
 
-*/
+			var collection_path = path_array.join('/');
 
 			var item_path = get_eval_string(collection_path);	
 
@@ -1069,19 +1096,40 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 			
 			var paste_target = eval(item_path);
 
-			for(var i = 0; i < paste_target.children.length; i++)
+			if(paste_target.children)
 			{
-				if(clone.name == paste_target.children[i].name)
+				for(var i = 0; i < paste_target.children.length; i++)
 				{
-					clone.name = "new_clone_name_" + paste_target.children.length;
-					break;
+					if(clone.name == paste_target.children[i].name)
+					{
+						clone.name = "new_clone_name_" + paste_target.children.length;
+						break;
+					}
 				}
+
+				paste_target.children.splice(target_index, 0, clone);
+			}
+			else
+			{
+				for(var i = 0; i < paste_target.length; i++)
+				{
+					if(clone.name == paste_target[i].name)
+					{
+						clone.name = "new_clone_name_" + paste_target.length;
+						break;
+					}
+				}
+
+				paste_target.splice(target_index, 0, clone);
 			}
 
-			paste_target.children.splice(target_index, 0, clone);
-
-			if(collection_path == "")
+			if(collection_path == "" || collection_path == "/lookup")
 			{
+	
+				if(collection_path=="/lookup")
+				{
+					paste_target = g_metadata;
+				}
 	
 				var node = editor_render(paste_target, "/", g_ui);
 				
@@ -1164,7 +1212,6 @@ function editor_cut_to_children(p_ui, p_is_index_paste)
 
 	}
 }
-
 
 
 function editor_clone(obj) 

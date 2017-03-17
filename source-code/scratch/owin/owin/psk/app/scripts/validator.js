@@ -981,6 +981,8 @@ path_to_int_map['g_metadata.children[17].children[18].children[1]']= 970;
 path_to_int_map['g_metadata.children[17].children[18].children[2]']= 971;
 path_to_int_map['g_metadata.children[17].children[19]']= 972;
 
+path_to_onfocus_map['g_metadata.children[4].children[5]']='xf_of';
+
 path_to_onfocus_map['g_metadata.children[5].children[2].children[1]']='x34_of';
 
 path_to_onfocus_map['g_metadata.children[6].children[4].children[1]']='xb7_of';
@@ -992,6 +994,20 @@ path_to_onfocus_map['g_metadata.children[6].children[8].children[5]']='xec_of';
 path_to_onfocus_map['g_metadata.children[6].children[8].children[4]']='xeb_of';
 
 path_to_onfocus_map['g_metadata.children[6].children[7].children[1]']='xdb_of';
+
+path_to_onfocus_map['g_metadata.children[6].children[7].children[7]']='xe5_of';
+
+path_to_onfocus_map['g_metadata.children[6].children[9].children[3]']='xfd_of';
+
+path_to_onfocus_map['g_metadata.children[9].children[13].children[1].children[4]']='x1c6_of';
+
+path_to_onfocus_map['g_metadata.children[9].children[13].children[0].children[4]']='x1bf_of';
+
+path_to_onfocus_map['g_metadata.children[5].children[8].children[9]']='x6f_of';
+
+path_to_onfocus_map['g_metadata.children[6].children[5].children[8]']='xcb_of';
+
+path_to_onfocus_map['g_metadata.children[6].children[17]']='x118_of';
 var $global = {
         calc_days: function (p_start_date, p_end_date) {
             var days = null;
@@ -1062,8 +1078,8 @@ var $global = {
             result = [];
             var weeks = null;
             var days = null;
-            weeks = Math.trunc(calc_days(p_start_date, p_end_date) / 7);
-            days = calc_days(p_start_date, p_end_date) % 7;
+            weeks = Math.trunc($global.calc_days(p_start_date, p_end_date) / 7);
+            days = $global.calc_days(p_start_date, p_end_date) % 7;
             result.push(weeks);
             result.push(days);
             return result;
@@ -1073,104 +1089,256 @@ var $global = {
             var weeks = null;
             var days = null;
             if (p_start_date <= p_end_date) {
-                if (calc_days(p_start_date, p_end_date) % 7 == 0) {
-                    var weeks = 40 - Math.trunc(calc_days(p_start_date, p_end_date) / 7);
-                    var days = calc_days(p_start_date, p_end_date) % 7;
+                if ($global.calc_days(p_start_date, p_end_date) % 7 == 0) {
+                    var weeks = 40 - Math.trunc($global.calc_days(p_start_date, p_end_date) / 7);
+                    var days = $global.calc_days(p_start_date, p_end_date) % 7;
                 } else {
-                    var weeks = 39 - Math.trunc(calc_days(p_start_date, p_end_date) / 7);
-                    var days = 7 - calc_days(p_start_date, p_end_date) % 7;
+                    var weeks = 39 - Math.trunc($global.calc_days(p_start_date, p_end_date) / 7);
+                    var days = 7 - $global.calc_days(p_start_date, p_end_date) % 7;
                 }
             } else if (p_start_date > p_end_date) {
-                var weeks = 40 - Math.trunc(calc_days(p_start_date, p_end_date) / 7);
-                var days = calc_days(p_start_date, p_end_date) % 7 * -1;
+                var weeks = 40 - Math.trunc($global.calc_days(p_start_date, p_end_date) / 7);
+                var days = $global.calc_days(p_start_date, p_end_date) % 7 * -1;
             }
             result.push(weeks);
             result.push(days);
             return result;
         }
     };
-function x34_of() {
-    var years = null;
-    var p_start_year = this.year;
-    var p_start_month = this.month;
-    var p_start_day = this.day;
-    var p_end_year = g_data.home_record.date_of_death.year;
-    var p_end_month = g_data.home_record.date_of_death.month;
-    var p_end_day = g_data.home_record.date_of_death.day;
-    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = $global.calc_years(p_start_date, p_end_date);
-        this.age = years;
-        control.value = this.age;
+function xf_of(p_control) {
+    if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && parseInt(this.date_of_death.year) > 999 && parseInt(this.date_of_death.year) < 2500) {
+        this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + Math.random().toString().substring(2, 6);
+        p_control.value = this.record_id;
     }
 }
-function xb7_of(control) {
+function x34_of(p_control) {
     var years = null;
-    var p_start_year = this.year;
-    var p_start_month = this.month;
-    var p_start_day = this.day;
-    var p_end_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year;
-    var p_end_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month;
-    var p_end_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day;
-    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = calc_years(p_start_date, p_end_date);
+    var start_year = parseInt(this.date_of_birth.year);
+    var start_month = parseInt(this.date_of_birth.month);
+    var start_day = parseInt(this.date_of_birth.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var years = $global.calc_years(start_date, end_date);
         this.age = years;
-        control.value = this.age;
+        p_control.value = this.age;
     }
 }
-function x9b_of(control) {
+function xb7_of(p_control) {
     var years = null;
-    var p_start_year = this.year;
-    var p_start_month = this.month;
-    var p_start_day = this.day;
-    var p_end_year = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year;
-    var p_end_month = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month;
-    var p_end_day = g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day;
-    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        var years = calc_years(p_start_date, p_end_date);
+    var start_year = parseInt(this.date_of_birth.year);
+    var start_month = parseInt(this.date_of_birth.month);
+    var start_day = parseInt(this.date_of_birth.day);
+    var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var years = $global.calc_years(start_date, end_date);
         this.age = years;
-        control.value = this.age;
+        p_control.value = this.age;
     }
 }
-function xec_of(control) {
+function x9b_of(p_control) {
+    var years = null;
+    var start_year = parseInt(this.date_of_birth.year);
+    var start_month = parseInt(this.date_of_birth.month);
+    var start_day = parseInt(this.date_of_birth.day);
+    var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var years = $global.calc_years(start_date, end_date);
+        this.age = years;
+        p_control.value = this.age;
+    }
+}
+function xec_of(p_control) {
     var bmi = null;
-    var p_height_feet = this.height_feet;
-    var p_height_inches = this.height_inches;
-    var p_weight = this.pre_pregnancy_weight;
-    var p_height = p_height_feet * 12 + p_height_inches;
-    if (p_height > 24 && p_height < 108 && p_weight > 50 && p_weight < 800) {
-        var bmi = $global.calc_bmi(p_height, p_weight);
+    var height_feet = parseFloat(this.height_feet);
+    var height_inches = parseFloat(this.height_inches);
+    var weight = parseFloat(this.pre_pregnancy_weight);
+    var height = height_feet * 12 + height_inches;
+    if (height > 24 && height < 108 && weight > 50 && weight < 800) {
+        var bmi = $global.calc_bmi(height, weight);
         this.bmi = bmi;
-        control.value = this.bmi;
+        p_control.value = this.bmi;
     }
 }
-function xeb_of(control) {
-    var weight_diff = null;
-    if (this.weight_at_delivery > 50 && this.weight_at_delivery < 800 && this.pre_pregnancy_weight > 50 && this.pre_pregnancy_weight < 800) {
-        weight_diff = this.weight_at_delivery - this.pre_pregnancy_weight;
-        this.weight_gain = weight_diff;
-        control.value = this.weight_gain;
+function xeb_of(p_control) {
+    var weight_del = parseFloat(this.weight_at_delivery);
+    var weight_pp = parseFloat(this.pre_pregnancy_weight);
+    if (weight_del > 50 && weight_del < 800 && weight_pp > 50 && weight_pp < 800) {
+        var gain = weight_del - weight_pp;
+        this.weight_gain = gain;
+        p_control.value = this.weight_gain;
     }
 }
-function xdb_of(control) {
+function xdb_of(p_control) {
     var interval = null;
-    var p_start_year = g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year;
-    var p_start_month = g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month;
-    var p_start_day = g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.day;
-    var p_end_year = this.year;
-    var p_end_month = this.month;
-    var p_end_day = this.day;
-    if ($global.isValidDate(p_start_year, p_start_month, p_start_day) == true && $global.isValidDate(p_end_year, p_end_month, p_end_day) == true) {
-        var p_start_date = new Date(p_start_year, p_start_month, p_start_day);
-        var p_end_date = new Date(p_end_year, p_end_month, p_end_day);
-        interval = Math.trunc($global.calc_days(p_start_date, p_end_date) / 30.4375);
+    var start_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year);
+    var start_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month);
+    var start_day = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.day);
+    var event_year = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var event_month = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var event_day = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var event_date = new Date(event_year, event_month - 1, event_day);
+        interval = Math.trunc($global.calc_days(start_date, event_date) / 30.4375);
         this.live_birth_interval = interval;
-        control.value = this.live_birth_interval;
+        p_control.value = this.live_birth_interval;
+    }
+}
+function xe5_of(p_control) {
+    var interval = null;
+    var fd_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.year);
+    var fd_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.month);
+    var fd_day = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.day);
+    var lb_year = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year);
+    var lb_month = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month);
+    var lb_day = parseFloat(g_data.birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.day);
+    var event_year = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var event_month = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var event_day = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    if ($global.isValidDate(fd_year, fd_month, fd_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+        var fd_date = new Date(fd_year, fd_month - 1, fd_day);
+        var event_date = new Date(event_year, event_month - 1, event_day);
+        interval = Math.trunc($global.calc_days(fd_date, event_date) / 30.4375);
+        this.pregnancy_interval = interval;
+        p_control.value = this.pregnancy_interval;
+    } else if ($global.isValidDate(lb_year, lb_month, lb_day) == true && $global.isValidDate(event_year, event_month, event_day) == true) {
+        var lb_date = new Date(lb_year, lb_month - 1, lb_day);
+        var event_date = new Date(event_year, event_month - 1, event_day);
+        interval = Math.trunc($global.calc_days(lb_date, end_date) / 30.4375);
+        this.pregnancy_interval = interval;
+        p_control.value = this.pregnancy_interval;
+    }
+}
+function xfd_of(p_control) {
+    var ga_lmp = [];
+    var weeks = null;
+    var days = null;
+    var event_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var event_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var event_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var lmp_year = parseInt(this.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(this.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(this.date_of_last_normal_menses.day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    var event_date = new Date(event_year, event_month - 1, event_day);
+    if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
+        ga_lmp = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga_lmp.length > 1) {
+            this.calculated_gestation = ga_lmp.join();
+            p_control.value = this.calculated_gestation;
+        }
+    }
+}
+function x1c6_of(p_control) {
+    var ga = [];
+    var weeks = null;
+    var days = null;
+    var event_year = parseInt(this.year);
+    var event_month = parseInt(this.month);
+    var event_day = parseInt(this.day);
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    var event_date = new Date(event_year, event_month - 1, event_day);
+    if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
+        ga = $global.calc_ga_edd(edd_date, event_date);
+        if (ga.length > 1) {
+            this.gestational_age_at_last_prenatal_visit = ga.join();
+            p_control.value = this.gestational_age_at_last_prenatal_visit;
+        }
+    } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
+        ga = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga.length > 1) {
+            this.gestational_age_at_last_prenatal_visit = ga.join();
+            p_control.value = this.gestational_age_at_last_prenatal_visit;
+        }
+    }
+}
+function x1bf_of(p_control) {
+    var ga = [];
+    var weeks = null;
+    var days = null;
+    var event_year = parseInt(this.year);
+    var event_month = parseInt(this.month);
+    var event_day = parseInt(this.day);
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    var event_date = new Date(event_year, event_month - 1, event_day);
+    if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
+        ga = $global.calc_ga_edd(edd_date, event_date);
+        if (ga.length > 1) {
+            this.gestational_age_weeks = ga.join();
+            p_control.value = this.gestational_age_weeks;
+        }
+    } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
+        ga = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga.length > 1) {
+            this.gestational_age_weeks = ga.join();
+            p_control.value = this.gestational_age_weeks;
+        }
+    }
+}
+function x6f_of(p_control) {
+    var dist = null;
+    var res_lat = parseFloat(g_data.death_certificate.place_of_last_residence.latitude);
+    var res_lon = parseFloat(g_data.death_certificate.place_of_last_residence.longitude);
+    var hos_lat = parseFloat(this.latitude);
+    var hos_lon = parseFloat(this.longitude);
+    if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
+        dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
+        this.estimated_death_distance_from_residence = dist;
+        p_control.value = this.estimated_death_distance_from_residence;
+    }
+}
+function xcb_of(p_control) {
+    var dist = null;
+    var res_lat = parseFloat(this.latitude);
+    var res_lon = parseFloat(this.longitude);
+    var hos_lat = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_location.latitude);
+    var hos_lon = parseFloat(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_location.longitude);
+    if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
+        dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
+        this.estimated_distance_from_residence = dist;
+        p_control.value = this.estimated_distance_from_residence;
+    }
+}
+function x118_of(p_control) {
+    var days = null;
+    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
+    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
+    var end_year = parseInt(g_data.home_record.date_of_death.year);
+    var end_month = parseInt(g_data.home_record.date_of_death.month);
+    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+        var start_date = new Date(start_year, start_month - 1, start_day);
+        var end_date = new Date(end_year, end_month - 1, end_day);
+        var days = $global.calc_days(start_date, end_date);
+        this.length_between_child_birth_and_death_of_mother = days;
+        p_control.value = this.length_between_child_birth_and_death_of_mother;
     }
 }
 dictionary_path_to_path_map['']='g_metadata';
@@ -2145,10 +2313,18 @@ dictionary_path_to_path_map['committee_review/recommendations_of_committee']='g_
 dictionary_path_to_path_map['committee_review/recommendations_of_committee/committee_recommendations']='g_metadata.children[17].children[18].children[0]';
 dictionary_path_to_path_map['committee_review/recommendations_of_committee/prevention']='g_metadata.children[17].children[18].children[1]';
 dictionary_path_to_path_map['committee_review/recommendations_of_committee/impact_level']='g_metadata.children[17].children[18].children[2]';
-dictionary_path_to_path_map['committee_review/test_chart']='g_metadata.children[17].children[19]';
+dictionary_path_to_path_map['committee_review/new_chart']='g_metadata.children[17].children[19]';
+path_to_onfocus_map['g_metadata.children[4].children[5]']='xf_of';
 path_to_onfocus_map['g_metadata.children[5].children[2].children[1]']='x34_of';
+path_to_onfocus_map['g_metadata.children[5].children[8].children[9]']='x6f_of';
 path_to_onfocus_map['g_metadata.children[6].children[2].children[4]']='x9b_of';
 path_to_onfocus_map['g_metadata.children[6].children[4].children[1]']='xb7_of';
+path_to_onfocus_map['g_metadata.children[6].children[5].children[8]']='xcb_of';
 path_to_onfocus_map['g_metadata.children[6].children[7].children[1]']='xdb_of';
+path_to_onfocus_map['g_metadata.children[6].children[7].children[7]']='xe5_of';
 path_to_onfocus_map['g_metadata.children[6].children[8].children[4]']='xeb_of';
 path_to_onfocus_map['g_metadata.children[6].children[8].children[5]']='xec_of';
+path_to_onfocus_map['g_metadata.children[6].children[9].children[3]']='xfd_of';
+path_to_onfocus_map['g_metadata.children[6].children[17]']='x118_of';
+path_to_onfocus_map['g_metadata.children[9].children[13].children[0].children[4]']='x1bf_of';
+path_to_onfocus_map['g_metadata.children[9].children[13].children[1].children[4]']='x1c6_of';

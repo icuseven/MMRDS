@@ -37,6 +37,8 @@ namespace mmria.common.metadata
 
 		public string x_start { get; set; } 
 
+		public string path_reference { get; set; } 
+
 
 		public string description { get; set; }
 		public string validation_description { get; set; }
