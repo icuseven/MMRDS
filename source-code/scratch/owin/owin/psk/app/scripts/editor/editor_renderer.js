@@ -739,10 +739,10 @@ function render_path_reference_control(p_path, p_value)
 	result.push('<select onChange="editor_set_value(this, g_ui)" path="');
 	result.push(p_path);
 	result.push('">');
-
+	result.push('<option></option>');
 	for(var i = 0; i < g_metadata.lookup.length; i++)
 	{
-		var lookup_path = "/lookup/" + g_metadata.lookup[i].name;
+		var lookup_path = "lookup/" + g_metadata.lookup[i].name;
 
 
 		if(p_value == lookup_path)

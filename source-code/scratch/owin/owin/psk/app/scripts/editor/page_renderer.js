@@ -744,9 +744,21 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(" multiple>");
 
-					for(var i = 0; i < p_metadata.values.length; i++)
+					var metadata_value_list = p_metadata.values;
+
+					if(p_metadata.path_reference && p_metadata.path_reference != "")
 					{
-						var item = p_metadata.values[i];
+						metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+						if(metadata_value_list == null)	
+						{
+							metadata_value_list = p_metadata.values;
+						}
+					}
+
+					for(var i = 0; i < metadata_value_list.length; i++)
+					{
+						var item = metadata_value_list.values[i];
 						if(p_data.indexOf(item.value) > -1)
 						{
 								result.push("<option value='");
@@ -799,9 +811,23 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(">");
 
-					for(var i = 0; i < p_metadata.values.length; i++)
+
+
+					var metadata_value_list = p_metadata.values;
+
+					if(p_metadata.path_reference && p_metadata.path_reference != "")
 					{
-						var item = p_metadata.values[i];
+						metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+						if(metadata_value_list == null)	
+						{
+							metadata_value_list = p_metadata.values;
+						}
+					}
+
+					for(var i = 0; i < metadata_value_list.length; i++)
+					{
+						var item = metadata_value_list[i];
 						if(p_data == item.value)
 						{
 							result.push("<option value='");
@@ -921,9 +947,21 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
 				{
 					result.push(" multiple>");
-					for(var i = 0; i < p_metadata.values.length; i++)
+					var metadata_value_list = p_metadata.values;
+
+					if(p_metadata.path_reference && p_metadata.path_reference != "")
 					{
-						var item = p_metadata.values[i];
+						metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+						if(metadata_value_list == null)	
+						{
+							metadata_value_list = p_metadata.values;
+						}
+					}
+
+					for(var i = 0; i < metadata_value_list.length; i++)
+					{
+						var item = metadata_value_list[i];
 						if(p_data && p_data.indexOf(item.value) > -1)
 						{
 								result.push("<option value='");
@@ -961,9 +999,22 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push(">");
 
-					for(var i = 0; i < p_metadata.values.length; i++)
+
+					var metadata_value_list = p_metadata.values;
+
+					if(p_metadata.path_reference && p_metadata.path_reference != "")
 					{
-						var item = p_metadata.values[i];
+						metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+						if(metadata_value_list == null)	
+						{
+							metadata_value_list = p_metadata.values;
+						}
+					}
+
+					for(var i = 0; i < metadata_value_list.length; i++)
+					{
+						var item = metadata_value_list[i];
 						if(p_data == item.value)
 						{
 							result.push("<option value='");
@@ -1389,6 +1440,33 @@ function convert_dictionary_path_to_array_field(p_path)
 	var index = temp.lastIndexOf('.');
 	result.push(temp.substr(0, index));
 	result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	return result;
+}
+
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = null;
+	var temp_result = []
+	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	var lookup_list = eval(temp_result[0]);
+
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
 
 	return result;
 }
