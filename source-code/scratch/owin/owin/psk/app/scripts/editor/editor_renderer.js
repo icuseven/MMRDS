@@ -132,7 +132,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 				for(var i = 0; i < p_metadata.lookup.length; i++)
 				{
 					var child = p_metadata.lookup[i];
-					Array.prototype.push.apply(result, editor_render(child, "/lookup/" + i, p_ui, p_object_path + "/" + child.name));
+					Array.prototype.push.apply(result, editor_render(child, "/lookup/" + i, p_ui, p_object_path + "/lookup/" + child.name));
 				}
 				result.push('</ul></li>');
 			}
@@ -439,6 +439,15 @@ function attribute_renderer(p_metadata, p_path)
 					result.push('</li>');
 				}
 				break;
+			case "path_reference":
+					result.push('<li>')
+					result.push(prop);
+					result.push(' : ');
+					Array.prototype.push.apply(result, render_path_reference_control(p_path + "/" + prop, p_metadata[prop]));
+					result.push(" ");
+					//result.push(p_path + "/" + prop);
+					result.push('</li>');
+				break;
 			case "is_core_summary":
 			case "is_required":
 			case "is_multiselect":
@@ -713,6 +722,40 @@ function render_cardinality_control(p_path, p_value)
 	else
 	{
 		result.push('<option>+</option>');
+	}
+	
+	result.push('</select>');
+
+	
+	return result;
+}
+
+
+
+function render_path_reference_control(p_path, p_value)
+{
+	var result = [];
+	
+	result.push('<select onChange="editor_set_value(this, g_ui)" path="');
+	result.push(p_path);
+	result.push('">');
+
+	for(var i = 0; i < g_metadata.lookup.length; i++)
+	{
+		var lookup_path = "/lookup/" + g_metadata.lookup[i].name;
+
+
+		if(p_value == lookup_path)
+		{
+			result.push('<option selected>');
+		}
+		else
+		{
+			result.push('<option>');
+		}
+		result.push(lookup_path);
+		result.push('</option>');
+
 	}
 	
 	result.push('</select>');
@@ -1387,6 +1430,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "max_value":
 			case "min_value":
 			case "control_style":
+			case "path_reference":
 			case "x_start":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
