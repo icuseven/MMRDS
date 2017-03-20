@@ -5,12 +5,40 @@ using System.Linq;
 
 namespace mmria.server
 {
-	public class metadataController: ApiController 
+	public class db_setupController: ApiController 
 	{ 
 		private string couchdb_url = null;
 		private string file_root_folder = null;
 
-		public metadataController()
+
+		/*
+
+curl -X PUT http://uid:pwd@target_db_url/_users
+curl -X PUT http://uid:pwd@target_db_url/_replicator
+curl -X PUT http://uid:pwd@target_db_url/_global_changes
+curl -X PUT http://uid:pwd@target_db_url/metadata
+curl -X PUT http://uid:pwd@target_db_url/mmrds
+
+curl -vX POST http://uid:pwd@target_db_url/_replicate \
+     -d '{"source":"http://uid:pwd@source_db_url/_users","target":"http://uid:pwd@target_db_url/_users"}' \
+     -H "Content-Type:application/json"
+ 
+	 
+curl -vX POST http://uid:pwd@target_db_url/_replicate \
+     -d '{"source":"http://muid:pwd@source_db_url/metadata","target":"http://uid:pwd@target_db_url/metadata"}' \
+     -H "Content-Type:application/json"
+	 
+curl -vX POST http://uid:pwd@target_db_url/_replicate \
+     -d '{"source":"http://uid:pwd@source_db_url","target":"http://uid:pwd@target_db_url/mmrds"}' \
+     -H "Content-Type:application/json"
+	 
+
+
+
+		 */
+
+
+		public db_setupController()
 		{
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
@@ -25,7 +53,12 @@ namespace mmria.server
 
 		}
 
-		public System.Dynamic.ExpandoObject Get()
+		public System.Dynamic.ExpandoObject Get
+		(
+			string p_user_name, 
+			string p_password,
+			string p_source_db
+		)
 		{
 			System.Console.WriteLine ("Recieved message.");
 			string result = null;
