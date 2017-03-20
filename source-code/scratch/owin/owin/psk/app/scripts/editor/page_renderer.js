@@ -1483,7 +1483,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_metadata.decimal_precision != ""
 	)
 	{
-				result.push(p_metadata.decimal_precision);
+				p_result.push(p_metadata.decimal_precision);
 	}
 	//result.push("'");
 	
