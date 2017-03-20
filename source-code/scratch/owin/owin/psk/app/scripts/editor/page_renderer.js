@@ -1339,7 +1339,7 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 	//result.push(50, 20, 10, 40, 15, 25);
 
 	//result = ['data2', 50, 20, 10, 40, 15, 25];
-	for(var i = 0; i < array.length; i++)
+	for(var i = 0; array && i < array.length; i++)
 	{
 		var val = array[i][field];
 		if(val)
