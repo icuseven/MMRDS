@@ -1331,30 +1331,39 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui)
 	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
 	var array = eval(array_field[0]);
-	var field = array_field[1];
 
-	result.push("[");
-	//result.push("['x'");
-	// ['data2', 50, 20, 10, 40, 15, 25]
-	//result.push(50, 20, 10, 40, 15, 25);
-
-	//result = ['data2', 50, 20, 10, 40, 15, 25];
-	for(var i = 0; array && i < array.length; i++)
+	if(array)
 	{
-		var val = array[i][field];
-		if(val)
-		{
-			result.push(parseFloat(val));
-		}
-		else
-		{
-			result.push(0);
-		}
-		
-	}
+		var field = array_field[1];
 
-	result[result.length-1] = result[result.length-1] + "]";
-	return result.join(",");
+		result.push("[");
+		//result.push("['x'");
+		// ['data2', 50, 20, 10, 40, 15, 25]
+		//result.push(50, 20, 10, 40, 15, 25);
+
+		//result = ['data2', 50, 20, 10, 40, 15, 25];
+		for(var i = 0; i < array.length; i++)
+		{
+			var val = array[i][field];
+			if(val)
+			{
+				result.push(parseFloat(val));
+			}
+			else
+			{
+				result.push(0);
+			}
+			
+		}
+
+		result[result.length-1] = result[result.length-1] + "]";
+		return result.join(",");
+	}
+	else
+	{
+		return "";
+	}
+	
 }
 
 function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
@@ -1365,30 +1374,37 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
 	var array = eval(array_field[0]);
-	var field = array_field[1];
-
-
-	result.push("['x'");
-	// ['data2', 50, 20, 10, 40, 15, 25]
-	//result.push(50, 20, 10, 40, 15, 25);
-
-	//result = ['data2', 50, 20, 10, 40, 15, 25];
-	for(var i = 0; array && i < array.length; i++)
+	if(array)
 	{
-		var val = array[i][field];
-		if(val)
-		{
-			result.push(parseFloat(val));
-		}
-		else
-		{
-			result.push(0);
-		}
-		
-	}
+		var field = array_field[1];
 
-	result[result.length-1] = result[result.length-1] + "]";
-	return result.join(",") + ",";
+
+		result.push("['x'");
+		// ['data2', 50, 20, 10, 40, 15, 25]
+		//result.push(50, 20, 10, 40, 15, 25);
+
+		//result = ['data2', 50, 20, 10, 40, 15, 25];
+		for(var i = 0; i < array.length; i++)
+		{
+			var val = array[i][field];
+			if(val)
+			{
+				result.push(parseFloat(val));
+			}
+			else
+			{
+				result.push(0);
+			}
+			
+		}
+
+		result[result.length-1] = result[result.length-1] + "]";
+		return result.join(",") + ",";
+	}
+	else
+	{
+		return "";
+	}
 }
 
 function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
@@ -1399,6 +1415,7 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
 	var array = eval(array_field[0]);
+
 	var field = array_field[1];
 
 	if(p_label)
@@ -1409,26 +1426,34 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 	{
 		result.push("['" + array_field[1] + "'");
 	}
-	// ['data2', 50, 20, 10, 40, 15, 25]
-	//result.push(50, 20, 10, 40, 15, 25);
-
-	//result = ['data2', 50, 20, 10, 40, 15, 25];
-	for(var i = 0; array && i < array.length; i++)
+	
+	if(array)
 	{
-		var val = array[i][field];
-		if(val)
-		{
-			result.push(parseFloat(val));
-		}
-		else
-		{
-			result.push(0);
-		}
-		
-	}
+		// ['data2', 50, 20, 10, 40, 15, 25]
+		//result.push(50, 20, 10, 40, 15, 25);
 
-	result[result.length-1] = result[result.length-1] + "]";
-	return result.join(",");
+		//result = ['data2', 50, 20, 10, 40, 15, 25];
+		for(var i = 0; i < array.length; i++)
+		{
+			var val = array[i][field];
+			if(val)
+			{
+				result.push(parseFloat(val));
+			}
+			else
+			{
+				result.push(0);
+			}
+			
+		}
+
+		result[result.length-1] = result[result.length-1] + "]";
+		return result.join(",");
+	}
+	else
+	{
+		return result.join("") + "]";;
+	}
 }
 
 function convert_dictionary_path_to_array_field(p_path)
