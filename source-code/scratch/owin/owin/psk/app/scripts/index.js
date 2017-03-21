@@ -533,7 +533,15 @@ function window_on_hash_change(e)
             apply_tool_tips();
             if(post_html_call_back.length > 0)
             {
-              eval(post_html_call_back.join(""));
+              try
+              {
+                eval(post_html_call_back.join(""));
+              }
+              catch(ex)
+              {
+                console.log(ex);
+              }
+              
             }
 
 

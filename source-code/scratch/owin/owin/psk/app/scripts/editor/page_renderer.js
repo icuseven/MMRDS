@@ -1214,7 +1214,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;
 		case 'chart':
 			result.push("<div  class='chart' id='");
-			result.push(p_object_path.replace(/\./g,"_"))
+			result.push(p_object_path.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_"));
 			
 			result.push("' ");
 			result.push(" mpath='");
@@ -1251,7 +1251,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			p_post_html_render.push("  width: 480");
 			p_post_html_render.push("  },");
 			p_post_html_render.push("  bindto: '#");
-			p_post_html_render.push(p_object_path.replace(/\./g,"_"));
+			p_post_html_render.push(p_object_path.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_"));
 			p_post_html_render.push("',");
 /*
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
