@@ -463,7 +463,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
        break;
      case 'label':
 			result.push("<div class='label' id='");
-			result.push(p_object_path.replace(".","_"));
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("'");
 			result.push(" mpath='");
 			result.push(p_metadata_path);
@@ -506,7 +506,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;
 		case 'string':
 			result.push("<div class='string' id='");
-			result.push(p_object_path);
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("'");
 			result.push(" mpath='");
 			result.push(p_metadata_path);
@@ -554,7 +554,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 	case 'address':
 	case 'textarea':
 				result.push("<div  class='textarea' id='");
-				result.push(p_object_path);
+				result.push(convert_object_path_to_jquery_id(p_object_path));
 				result.push("'");
 
 				result.push(" mpath='");
@@ -592,7 +592,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 			result.push(" id='");
-			result.push(p_object_path);
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("'");
 			result.push(" mpath='");
 			result.push(p_metadata_path);
@@ -626,7 +626,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
            break;
      case 'boolean':
 			result.push("<div class='boolean' id='");
-			result.push(p_object_path);
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("' ");
 			result.push(" mpath='");
 			result.push(p_metadata_path);
@@ -675,7 +675,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
 			{
 				result.push("<div class='list' id='");
-				result.push(p_object_path.replace(/\./g,"_"))
+				result.push(convert_object_path_to_jquery_id(p_object_path));
 				
 				result.push("' ");
 				result.push(" mpath='");
@@ -880,7 +880,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			else
 			{
 				result.push("<div class='list' id='");
-				result.push(p_object_path.replace(/\./g,"_"))
+				result.push(convert_object_path_to_jquery_id(p_object_path));
 				
 				result.push("' ");
 				result.push(" mpath='");
@@ -1058,7 +1058,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				console.log("break");
 			}
 			result.push("<div class='date' id='");
-			result.push(p_object_path.replace(/\./g,"_"))
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			
 			result.push("' ");
 			result.push(" mpath='");
@@ -1114,7 +1114,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data = new Date(p_data);
 			}*/
 			result.push("<div class='date' id='");
-			result.push(p_object_path.replace(/\./g,"_"))
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("' ");
 			result.push(" mpath='");
 			result.push(p_metadata_path);
@@ -1167,7 +1167,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data = new Date(p_data);
 			}*/
 			result.push("<div  class='time' id='");
-			result.push(p_object_path.replace(/\./g,"_"))
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			
 			result.push("' ");
 			result.push(" mpath='");
@@ -1214,7 +1214,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;
 		case 'chart':
 			result.push("<div  class='chart' id='");
-			result.push(p_object_path.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_"));
+			result.push(convert_object_path_to_jquery_id(p_object_path));
 			
 			result.push("' ");
 			result.push(" mpath='");
@@ -1840,4 +1840,9 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(p_data);
 	p_result.push("</textarea>");
 	
+}
+
+function convert_object_path_to_jquery_id(p_value)
+{
+	return p_value.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_")
 }
