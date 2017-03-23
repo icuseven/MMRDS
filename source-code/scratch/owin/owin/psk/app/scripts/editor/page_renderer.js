@@ -1251,9 +1251,23 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			p_post_html_render.push("  width: 480");
 			p_post_html_render.push("  },");
 			p_post_html_render.push("  bindto: '#");
-			p_post_html_render.push(p_object_path.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_"));
+			p_post_html_render.push(convert_object_path_to_jquery_id(p_object_path));
 			p_post_html_render.push("',");
+
+
+
+
+
 /*
+
+
+d3.select('#chart svg').append('text')
+    .attr('x', d3.select('#chart svg').node().getBoundingClientRect().width / 2)
+    .attr('y', 16)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '1.4em')
+    .text('Title of this chart');
+
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
 			{
 				p_post_html_render.push("axis: {");
@@ -1311,7 +1325,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			p_post_html_render.push("  }");
 			p_post_html_render.push("  });");
 
-	
+			p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').append('text')");
+			p_post_html_render.push("     .attr('x', d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').node().getBoundingClientRect().width / 2)");
+			p_post_html_render.push("     .attr('y', 16)");
+			p_post_html_render.push("     .attr('text-anchor', 'middle')");
+			p_post_html_render.push("     .style('font-size', '1.4em')");
+			p_post_html_render.push("     .text('" + p_metadata.prompt + "');");
 
 			break;			
      default:
