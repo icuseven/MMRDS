@@ -128,11 +128,7 @@ var $mmria = function()
         },
         set_control_value: function(p_dictionary_path, p_value)
         {
-            var path = dictionary_path_to_path_map[p_dictionary_path];
-            if(path)
-            {
-                
-            }
+            $('[dpath="' + p_dictionary_path + '"]').val(p_value);
         }
     };
 

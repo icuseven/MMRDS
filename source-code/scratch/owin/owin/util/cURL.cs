@@ -11,42 +11,66 @@ namespace mmria
 	//http://stackoverflow.com/questions/21255725/webrequest-equivalent-to-curl-command
 	public class cURL
 	{
-		public cURL (string method, string headers, string url, string pay_load)
+		string method;
+		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers;
+		string url;
+		string pay_load;
+
+		public cURL (string p_method, string p_headers, string p_url, string p_pay_load)
 		{
+			System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
+
+			switch (p_method.ToUpper ()) 
+			{
+				case "PUT":
+					this.method = "PUT";
+					break;
+				case "POST":
+					this.method = "POST";
+					break;
+				case "DELETE":
+					this.method = "DELETE";
+					break;
+				case "GET":
+				default:
+					this.method = "GET";
+					break;
+			}
+
+			url = p_url;
+			pay_load = p_pay_load;
+			string[] name_value_list = p_headers.Split ('|');
+			foreach (string name_value in name_value_list) 
+			{
+				string[] n_v = name_value.Split(' ');
+				this.headers.Add(new System.Collections.Generic.KeyValuePair<string,string>(n_v[0], n_v[1]));
+			}
 		}
 
+
+		public cURL AddHeader(string p_name, string p_value)
+		{
+			this.headers.Add(new System.Collections.Generic.KeyValuePair<string,string>(p_name, p_value));
+			return this;
+		}
 
 		public string execute ()
 		{
-			//curl http://IP:PORT/my/path/to/endpoint -H 'Content-type:application/json' -d '[{...json data...}]'
-			var url = "http://IP:PORT/my/path/to/endpoint";
-			var jsonData = "[{...json data...}]";
-			string response = null;
-			using (var client = new WebClient())
-			{
-				client.Headers.Add("content-type", "application/json");
-				response = client.UploadString(url, jsonData);
-			}
+			string result = null;
 
-			return response;
-		}
-
-		public static void PostJsonDataToApi(string jsonData)
-		{
-			string thePostBody = "";
-
-			var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.somewhere.com/v2/cases");
+			var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url);
 			httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
 			httpWebRequest.ContentType = "application/json";
 			httpWebRequest.Accept = "*/*";
-			httpWebRequest.Method = "POST";
-			httpWebRequest.Headers.Add("Authorization", "Basic ThisShouldbeBase64String"); // "Basic 4dfsdfsfs4sf5ssfsdfs=="
+			httpWebRequest.Method = this.method;
+			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.headers) 
+			{
+				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
+			}
+
 			using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
 			{
-				// we want to remove new line characters otherwise it will return an error
-				jsonData= thePostBody.Replace("\n", ""); 
-				jsonData= thePostBody.Replace("\r", "");
-				streamWriter.Write(jsonData);
+				streamWriter.Write(this.pay_load);
 				streamWriter.Flush();
 				streamWriter.Close();
 			}
@@ -54,26 +78,28 @@ namespace mmria
 			try
 			{
 				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
-				string respStr = new StreamReader(resp.GetResponseStream()).ReadToEnd();
-				Console.WriteLine("Response : " + respStr); // if you want see the output
+				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
+				//Console.WriteLine("Response : " + respStr); // if you want see the output
 			}
 			catch(Exception ex)
 			{
 				//process exception here   
+				result = ex.ToString();
 			}
 
+			return result;
 		}
 
-		public mmria.common.metadata.app get_metadata(string URL)
+		public string get_metadata()
 		{
-			mmria.common.metadata.app result = null;
+			string result = null;
 
 			//string URL = this.mmria_url + "/api/metadata";
 			//string urlParameters = "?api_key=123";
 			string urlParameters = "";
 
 			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
+			client.BaseAddress = new Uri(this.url);
 
 			// Add an Accept header for JSON format.
 			client.DefaultRequestHeaders.Accept.Add(
@@ -84,7 +110,7 @@ namespace mmria
 			if (response.IsSuccessStatusCode)
 			{
 				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
+				result = response.Content.ReadAsAsync<string>().Result;
 			}
 			else
 			{

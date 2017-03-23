@@ -167,6 +167,8 @@ namespace mmria.server
 				request.ContentLength = object_string.Length;
 				request.PreAuthenticate = false;
 
+				System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
+
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
 					string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
@@ -175,9 +177,17 @@ namespace mmria.server
 						string[] auth_session_token_item = cookie_set[i].Split('=');
 						if(auth_session_token_item[0].Trim() == "AuthSession")
 						{
+							
 							auth_session_token = auth_session_token_item[1];
 							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token);
 							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token);
+
+							headerBuilder.Append("content-type application/json|");
+							headerBuilder.Append("Cookie  AuthSession=");
+							headerBuilder.Append(auth_session_token);
+							headerBuilder.Append("|X-CouchDB-WWW-Authenticate ");
+							headerBuilder.Append(auth_session_token);
+
 							break;
 						}
 					}
@@ -198,6 +208,40 @@ namespace mmria.server
 						string responseFromServer = reader.ReadToEnd ();
 
 						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+
+						// send to de-identify
+						System.Threading.Tasks.Task.Run
+						( 
+							new Action(()=> 
+							{
+								var x = new cURL(
+										"PUT",
+										headerBuilder.ToString(),
+										this.get_couch_db_url() + "/de_id/"  + id_val,
+										object_string
+
+								);
+								x.execute();
+							})
+						);
+
+
+						// send to aggregate
+						System.Threading.Tasks.Task.Run
+						( 
+							new Action(()=> 
+								{
+									var x = new cURL(
+										"PUT",
+										headerBuilder.ToString(),
+										this.get_couch_db_url() + "/aggr/"  + id_val,
+										object_string
+
+									);
+									x.execute();
+								})
+						);
 
 					}
 					catch(Exception ex)
