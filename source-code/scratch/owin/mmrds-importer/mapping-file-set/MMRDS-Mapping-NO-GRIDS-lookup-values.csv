@@ -1353,9 +1353,9 @@ MaternalBirthCertificate7.BC_CalcGest,MaternalBirthCertificate,MaternalBirthCert
 MaternalBirthCertificate8.BC_CervCercl,MaternalBirthCertificate,MaternalBirthCertificate8,BC_CervCercl,Cervical cerclage,Checkbox,Boolean,birth_fetal_death_certificate_parent/obstetric_procedures,Cervical cerclage,,Cervical Cerclage,,
 MaternalBirthCertificate8.BC_Chlam1,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Chlam1,Chlamydia,Checkbox,Boolean,birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy,Chlamydia,,Chlamydia,,
 MaternalBirthCertificate8.BC_ChorioInf,MaternalBirthCertificate,MaternalBirthCertificate8,BC_ChorioInf,"Clinical chorioamnionitis diagnosed
-during labor or maternal tempurature 
+during labor or maternal temperature 
 >= 38 degrees C (100.4 degrees F)",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Clinical chorioamnionitis diagnosed
-during labor or maternal tempurature 
+during labor or maternal temperature 
 >= 38 degrees C (100.4 degrees F)",,Clinical chorioamnionitis diagnosed during labor or maternal temperature >= 38 degrees C(100.4 degrees F),,
 MaternalBirthCertificate8.BC_CMV1,MaternalBirthCertificate,MaternalBirthCertificate8,BC_CMV1,Cytomegalovirus,Checkbox,Boolean,birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy,Cytomegalovirus,,Cytomegalovirus,,
 MaternalBirthCertificate7.BC_D1PNV,MaternalBirthCertificate,MaternalBirthCertificate7,BC_D1PNV,Calculated date,Date,Date,,,,,,
