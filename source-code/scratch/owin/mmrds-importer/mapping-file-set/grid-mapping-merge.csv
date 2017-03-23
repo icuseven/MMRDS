@@ -1,4 +1,4 @@
-table,prompt,field,data_type,mmria_path,
+table,prompt,field,data_type,mmria_path,Comment
 AutopsyReport12AR_COD_grid, Coroner / Medical Examiner Causes of Death," """"",,,
 AutopsyReport12AR_COD_grid," """"", AR_COD1, System.String,autopsy_report/causes_of_death/cause,
 AutopsyReport12AR_COD_grid," """"", AR_ICDcode, System.String,autopsy_report/causes_of_death/icd_code,
@@ -41,7 +41,7 @@ DeathCertificate4DC_CoD_grid, Causes of Death (enter UNDERLYING cause first)," "
 DeathCertificate4DC_CoD_grid," """"", DC_ICD, System.String,death_certificate/causes_of_death/icd_code,
 DeathCertificate4DC_CoD_grid," """"", DC_CoDInterval, System.Double,death_certificate/causes_of_death/interval,
 DeathCertificate4DC_CoD_grid," """"", DC_CoDUnit, System.String,death_certificate/causes_of_death/interval_unit,
-DeathCertificate4DC_CoD_grid," """"", DC_CoDType, System.String,death_certificate/causes_of_death/cause_type,
+DeathCertificate4DC_CoD_grid," """"", DC_CoDType, System.String,death_certificate/causes_of_death/cause_type,Last option not transferring;
 DeathCertificate4DC_CoD_grid," """"", DC_CoDCause, System.String,death_certificate/causes_of_death/cause_descriptive,
 Hospitalization22MR_Anesth_grid, Anesthesia," """"",,,
 Hospitalization22MR_Anesth_grid," """"", MR_ANesthMeth, System.String,er_visit_and_hospital_medical_records/anesthesia/method,
