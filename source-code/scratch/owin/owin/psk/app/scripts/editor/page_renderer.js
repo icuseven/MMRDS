@@ -1,4 +1,4 @@
-function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_post_html_render)
+function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
 	var stack = [];
 	var result = [];
@@ -43,7 +43,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					p_data[i][child.name] = create_default_object(child, {})[child.name];
 				}
-				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, is_grid_context, p_post_html_render));
+				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, p_dictionary_path + "/" + child.name, is_grid_context, p_post_html_render));
 				result.push("</td>");
 			}
 			result.push('<td> <input type="button" value="delete" id="delete_');
@@ -86,7 +86,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_data[child.name] = create_default_object(child, {})[child.name];
 			}
 
-			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_post_html_render));
+			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 
 		}
 		break;
@@ -222,11 +222,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 					if(child.type=="group")
 					{
-						Array.prototype.push.apply(result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, p_post_html_render));
+						Array.prototype.push.apply(result, page_render(child,form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 					}
 					else
 					{
-						Array.prototype.push.apply(result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, false, p_post_html_render));
+						Array.prototype.push.apply(result, page_render(child, form_item[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + data_index + "]." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 					}
 					
 					//result.push("</div>");
@@ -389,7 +389,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					p_data[child.name] = create_default_object(child, {})[child.name];
 				}
-				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, false, p_post_html_render));
+				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 			}
 			result.push("</section>");
 		}
@@ -450,7 +450,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 						p_data[child.name] = create_default_object(child, {})[child.name];
 					}
 
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, false, p_post_html_render));				 		
+					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));				 		
 					
 				}
 			}
@@ -485,7 +485,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</div>");
 			break;
      case 'button':
-	 		page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
+	 		page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 /*
 			result.push("<input class='button' type='button' id='");
 			result.push(p_object_path);
@@ -545,7 +545,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 			result.push("</span><br/>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			result.push("</div>");
 			
 			
@@ -620,7 +620,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			
 			result.push("</span> ");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			result.push("</div>");
 			
            break;
@@ -1102,7 +1102,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			result.push("</div>");
 			result.push("</div>");
 
@@ -1156,7 +1156,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			result.push("</div>");	
 			result.push("</div>");	
 			 break;
@@ -1207,7 +1207,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
-			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
+			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			result.push("</div>");
 			result.push("</div>");
 
@@ -1496,7 +1496,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
-function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
+function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
@@ -1512,6 +1512,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 	//result.push("'");
 	
+	p_result.push("' dpath='");
+	p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
 	
 	if(p_metadata.type=="button")
 	{

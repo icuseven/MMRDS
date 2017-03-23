@@ -42,7 +42,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         g_data.last_updated_by = profile.user_name;
 		
     var post_html_call_back = [];
-		document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
+		document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));
@@ -111,7 +111,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_data.last_updated_by = profile.user_name;
 
       var post_html_call_back = [];
-      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
+      var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
       $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
 
       switch(metadata.type.toLowerCase())
@@ -208,7 +208,7 @@ function g_add_grid_item(p_object_path, p_metadata_path)
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
   var post_html_call_back = [];
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
   apply_tool_tips();
   if(post_html_call_back.length > 0)
   {
@@ -224,7 +224,7 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
   var post_html_call_back = [];
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, post_html_call_back).join("");
+  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
   if(post_html_call_back.length > 0)
   {
     eval(post_html_call_back.join(""));
@@ -239,7 +239,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
   var post_html_call_back = [];
-  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, false, post_html_call_back).join("");
+  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
   if(post_html_call_back.length > 0)
   {
     eval(post_html_call_back.join(""));
@@ -435,7 +435,7 @@ function get_case_set()
 
         var post_html_call_back = [];
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
         if(post_html_call_back.length > 0)
         {
           eval(post_html_call_back.join(""));
@@ -529,7 +529,7 @@ function window_on_hash_change(e)
 
             var post_html_call_back = [];
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, post_html_call_back).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", "", false, post_html_call_back).join("");
             apply_tool_tips();
             if(post_html_call_back.length > 0)
             {
@@ -590,7 +590,7 @@ function window_on_hash_change(e)
             g_data = null;
             var post_html_call_back = []
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
+            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
             apply_tool_tips();
             if(post_html_call_back.length > 0)
             {
@@ -631,7 +631,7 @@ function window_on_hash_change(e)
 
       var post_html_call_back = [];
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", false, post_html_call_back).join("");
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", "", false, post_html_call_back).join("");
       apply_tool_tips();
       if(post_html_call_back.length > 0)
       {
@@ -683,7 +683,7 @@ function window_on_hash_change(e)
       var post_html_call_back = [];
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
                                                             //page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context,post_html_call_back)
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
       apply_tool_tips();
       if(post_html_call_back.length > 0)
       {
@@ -849,7 +849,7 @@ function delete_record(p_index)
 
         var post_html_call_back = [];
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, post_html_call_back).join("");
+        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
         if(post_html_call_back.length > 0)
         {
           eval(post_html_call_back.join(""));
@@ -980,7 +980,7 @@ function add_new_form_click(p_metadata_path, p_object_path)
   form_array.push(item);
 
   var post_html_call_back = [];
-  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, false, post_html_call_back).join("");
+  document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
   if(post_html_call_back.length > 0)
   {
     eval(post_html_call_back.join(""));
