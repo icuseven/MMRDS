@@ -19,6 +19,13 @@ var g_metadata_summary = [];
 
 var default_object = null;
 
+
+function g_set_test(p_object_path, p_metadata_path, value)
+{
+    console.log("i've been called.");
+}
+
+
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
   var current_value = eval(p_object_path);
@@ -123,8 +130,11 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           case 'date':
           flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " .date", {
             utc: true,
-            //defaultDate: "2016-12-27T00:00:00.000Z",
             enableTime: false,
+            defaultDate: value,
+            onChange: function(selectedDates, p_value, instance) {
+                g_set_data_object_from_path(p_object_path, p_metadata_path, p_value);
+            }
           });
 
           break;
@@ -735,12 +745,16 @@ function apply_tool_tips()
   $('[rel=tooltip]').tooltip();
   $( ".time" ).datetimepicker({ format: 'LT'});
 //$( "[metadata_type='date']" ).datetimepicker();
-
+/*
 flatpickr(" .date", {
 	utc: true,
 	//defaultDate: "2016-12-27T00:00:00.000Z",
 	enableTime: false,
-});
+  onSelect: function(p_value,evnt) 
+  {
+                g_set_data_object_from_path(p_object_path, p_metadata_path, p_value);
+  }
+});*/
 
 $( ".datetime" ).datetimepicker();
 

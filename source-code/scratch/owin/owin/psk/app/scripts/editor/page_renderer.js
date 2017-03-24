@@ -1106,6 +1106,19 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</div>");
 			result.push("</div>");
 
+			p_post_html_render.push('flatpickr("#' + convert_object_path_to_jquery_id(p_object_path) + ' .date", {');
+			p_post_html_render.push('	utc: true,');
+			p_post_html_render.push('	defaultDate: "');
+			p_post_html_render.push(p_data);
+			p_post_html_render.push('",');
+			p_post_html_render.push('	enableTime: false,');
+			p_post_html_render.push('  onChange: function(selectedDates, p_value, instance)  ');
+			p_post_html_render.push('  {');
+			p_post_html_render.push('                g_set_data_object_from_path("' + p_object_path + '", "' + p_metadata_path + '", p_value);');
+			p_post_html_render.push('  }');
+			p_post_html_render.push('});');
+
+
 			 break;	
 	case 'datetime':
 	/*
