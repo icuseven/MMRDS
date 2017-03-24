@@ -19,13 +19,6 @@ var g_metadata_summary = [];
 
 var default_object = null;
 
-
-function g_set_test(p_object_path, p_metadata_path, value)
-{
-    console.log("i've been called.");
-}
-
-
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
   var current_value = eval(p_object_path);
