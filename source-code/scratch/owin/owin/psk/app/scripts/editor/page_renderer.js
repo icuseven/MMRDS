@@ -1280,21 +1280,26 @@ d3.select('#chart svg').append('text')
     .attr('text-anchor', 'middle')
     .style('font-size', '1.4em')
     .text('Title of this chart');
-
+*/
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
 			{
 				p_post_html_render.push("axis: {");
 				p_post_html_render.push("x: {");
 				p_post_html_render.push("type: 'timeseries',");
+				p_post_html_render.push("localtime: false,");
 				p_post_html_render.push("tick: {");
-				p_post_html_render.push(" values: [");
-				p_post_html_render.push(get_chart_x_ticks_from_path(p_metadata, p_metadata.x_axis, p_ui));
-				p_post_html_render.push("]");
+				p_post_html_render.push(" format: '%Y-%m-%d %H:%M:%S'");
 				p_post_html_render.push("}");
 				p_post_html_render.push("        }},");
-			}*/
+			}
 
 			p_post_html_render.push("  data: {");
+
+			if(p_metadata.x_axis && p_metadata.x_axis != "")
+			{
+				p_post_html_render.push("x: 'x',");
+			}
+
 			p_post_html_render.push("      columns: [");
 
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
@@ -1421,7 +1426,15 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 			var val = array[i][field];
 			if(val)
 			{
-				result.push(parseFloat(val));
+				var res = val.match(/\d\d\d\d-\d\d-\d+/);
+				if(res)
+				{
+					result.push("'" + val +"'");
+				}
+				else
+				{
+					result.push(parseFloat(val));
+				}
 			}
 			else
 			{
