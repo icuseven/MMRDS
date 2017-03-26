@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+using System.Collections.Generic;
 using Owin;
 using System.Net.Http;
 using Swashbuckle.Application;
-using mmria.server;
-
 using System.Web.Http;
+using Quartz;
+using Quartz.Impl;
 
 namespace mmria.server
 {
 	class Program
 	{
+
+		public static IList<string> JobInfoList;
+		public static int NumberOfJobInfoList_Call_Count = 0;
+		public static IList<DateTime> DateOfLastJobInfoList_Call;
+
 		// http://www.asp.net/aspnet/samples/owin-katana
 
 		//http://localhost:12345
@@ -95,6 +98,56 @@ namespace mmria.server
 
 			Microsoft.Owin.Hosting.WebApp.Start(url);            
 			Console.WriteLine("Listening at " + url);
+
+
+			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
+			//log.Debug("Application_Start");
+			Program.DateOfLastJobInfoList_Call = new List<DateTime>();
+
+			mmria.server.model.check_for_changes icims_data_call_job = new mmria.server.model.check_for_changes();
+			Program.JobInfoList = icims_data_call_job.GetJobInfo();
+			Program.NumberOfJobInfoList_Call_Count++;
+			Program.DateOfLastJobInfoList_Call.Add(DateTime.Now);
+
+			StdSchedulerFactory sf = new StdSchedulerFactory();
+			IScheduler sched = sf.GetScheduler();
+			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate(null, 15);
+
+			//Quartz.Impl.Calendar.CronCalendar cronCal = new Quartz.Impl.Calendar.CronCalendar("0 * * * *");
+			//sched.AddCalendar("HourlyCal", cronCal, true, true);
+
+			// job1 will only fire once at date/time "ts"
+			IJobDetail data_job = JobBuilder.Create<mmria.server.model.check_for_changes>()
+				.WithIdentity("data_job", "group1")
+				.Build();
+
+			string cron_schedule = System.Configuration.ConfigurationManager.AppSettings["cron_schedule"];
+
+			ITrigger trigger = (ITrigger)TriggerBuilder.Create()
+														  .WithIdentity("trigger1", "group1")
+														  .StartAt(startTime)
+														  .WithCronSchedule(cron_schedule)
+														  .Build();
+
+			//trigger.RepeatCount = 1;
+			//trigger.RepeatInterval = TimeSpan.FromMinutes(1);
+
+			// schedule it to run!
+			DateTimeOffset? ft = sched.ScheduleJob(data_job, trigger);
+			//log.DebugFormat(data_job.Key + " will run at: " + ft);
+			/*log.DebugFormat(data_job.Key +
+                     " will run at: " + ft +
+                     " and repeat: " + trigger..RepeatCount +
+                     " times, every " + trigger.RepeatInterval.TotalSeconds + " seconds");*/
+
+
+			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
+
+			sched.Start();
+
+
+
+
 
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{

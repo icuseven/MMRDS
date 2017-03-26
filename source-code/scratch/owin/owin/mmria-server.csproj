@@ -148,6 +148,7 @@
     <Compile Include="util\cURL.cs" />
     <Compile Include="util\bgr.cs" />
     <Compile Include="controller\db_setupController.cs" />
+    <Compile Include="model\iCIMS_Data_Call_Job.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
