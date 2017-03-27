@@ -16,6 +16,7 @@ namespace mmria.server
 		public static IList<string> JobInfoList;
 		public static int NumberOfJobInfoList_Call_Count = 0;
 		public static IList<DateTime> DateOfLastJobInfoList_Call;
+		public static string Last_Seq = null;
 
 		// http://www.asp.net/aspnet/samples/owin-katana
 
@@ -104,7 +105,7 @@ namespace mmria.server
 			//log.Debug("Application_Start");
 			Program.DateOfLastJobInfoList_Call = new List<DateTime>();
 
-			mmria.server.model.check_for_changes icims_data_call_job = new mmria.server.model.check_for_changes();
+			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job();
 			Program.JobInfoList = icims_data_call_job.GetJobInfo();
 			Program.NumberOfJobInfoList_Call_Count++;
 			Program.DateOfLastJobInfoList_Call.Add(DateTime.Now);
@@ -117,7 +118,7 @@ namespace mmria.server
 			//sched.AddCalendar("HourlyCal", cronCal, true, true);
 
 			// job1 will only fire once at date/time "ts"
-			IJobDetail data_job = JobBuilder.Create<mmria.server.model.check_for_changes>()
+			IJobDetail data_job = JobBuilder.Create<mmria.server.model.check_for_changes_job>()
 				.WithIdentity("data_job", "group1")
 				.Build();
 

@@ -7,7 +7,7 @@ using Quartz.Impl;
 
 namespace mmria.server.model
 {
-	public class check_for_changes : IJob
+	public class check_for_changes_job : IJob
     {
         void IJob.Execute(IJobExecutionContext context)
         {
@@ -40,6 +40,20 @@ namespace mmria.server.model
         {
             List<string> result = new List<string>();
 			/*
+			 curl -X GET $HOST/db/_changes 
+			 curl -X GET $HOST/db/_changes?since=1
+
+				http://db1.mmria.org/mmrds/_changes?since=3235-g1AAAAIseJyV0UEKwjAQBdDRKorgGSqeIEntNK7sTTSxhVJqIuheb1L3HkJPIN5Ab1LTpCtFaDcTGIZH-L8AgHHmJTBVWukkjZXO9OFYmHVfgPSrqsozTwJ4_s7sRilyzgj5vv8jyJmZcuUQ8bACCZdbTMO2QlwL60bYWwEjwmUg2gqbWjg1wtMKQiAiW7QU1MBMOJvHIKWLYzhxcRAZIOWdoIuDbvV3rlaRgiaUR52Uu1NetVJahTOT6hY7KW-nNB335q6hCDllPw3lHw3Uqkc
+
+			{
+				"seq":12, // update_seq created when document changed
+				"id":"foo", // document id
+				"changes":  /// one or more changes
+					[
+						{"rev":"1-23202479633c2b380f79507a776743d5"}
+					]
+			}
+			 
             string get_job_search_result_json = Get_Job_Set();
 
             DGJobAPI.Models.GetJobSearchResult get_job_search_result = Newtonsoft.Json.JsonConvert.DeserializeObject<DGJobAPI.Models.GetJobSearchResult>(get_job_search_result_json);
