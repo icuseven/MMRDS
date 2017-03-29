@@ -67,7 +67,7 @@ namespace mmria.server.model
 						{"rev":"1-23202479633c2b380f79507a776743d5"}
 					]
 			}
-			 
+
             string get_job_search_result_json = Get_Job_Set();
 
             DGJobAPI.Models.GetJobSearchResult get_job_search_result = Newtonsoft.Json.JsonConvert.DeserializeObject<DGJobAPI.Models.GetJobSearchResult>(get_job_search_result_json);
@@ -87,7 +87,7 @@ namespace mmria.server.model
             }
 
             return result.OrderByDescending(j => j.date_last_updated).Take(100).ToList();
-			*/
+			*/ 
 			return result;
         }
 
