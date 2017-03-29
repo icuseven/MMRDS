@@ -129,6 +129,33 @@ var $mmria = function()
         set_control_value: function(p_dictionary_path, p_value)
         {
             $('[dpath="' + p_dictionary_path + '"]').val(p_value);
+        },
+        save_current_record: function()
+        {
+             var db = new PouchDB("mmrds");
+             if(g_data)
+             {
+                db.put(g_data).then(function (doc)
+                {
+                    if(g_data && g_data._id == doc.id)
+                    {
+                        g_data._rev = doc.rev;
+                        console.log('set_value save finished');
+                    }
+                    else for(var i = 0; i < g_ui.data_list.length; i++)
+                    {
+                        if(g_ui.data_list[i]._id == doc.id)
+                        {
+                            g_ui.data_list[i]._rev = doc.rev;
+                            console.log('set_value save finished');
+                            break;
+                        }
+                    }
+                }).catch(function (err) 
+                {
+                    console.log(err);
+                });
+             }
         }
     };
 
