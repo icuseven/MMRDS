@@ -2,35 +2,54 @@ var $mmria = function()
 {
     return {
 
-        get_geocode_info: function()
+        get_geocode_info: function(p_street, p_city, p_state, p_zip, p_call_back_action)
         {
+            
+            var request = [];
+            
+            request.push("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress=")
+            request.push(p_street);
+            request.push("&city=");
+            request.push(p_city);
+            request.push("&state=");
+            request.push(p_state);
+            request.push("&zip=")
+            request.push(p_zip);
+            request.push("&apikey=");
+            request.push("7c39ae93786d4aa3adb806cb66de51b8");
+            request.push("&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
 
-            $.ajax({
-                    url: location.protocol + '//' + location.host + '/api/values',
-            }).done(function(response) {
-                    g_couchdb_url = response.couchdb_url;
-            load_profile();
+            var geocode_url = request.join("");
+
+            $.ajax(
+            {
+                    url: geocode_url
+            }
+            ).done(function(response) 
+            {
+                
+                var geo_data = null;
+                
+                var data = eval('(' + response + ')');
+                // set the latitude and logitude
+                //death_certificate/place_of_last_residence/latitude
+                //death_certificate/place_of_last_residence/longitude
+                if
+                (
+                    data &&
+                    data.OutputGeocodes &&
+                    data.OutputGeocodes.length > 0
+                )
+                {
+                    geo_data = { 
+                            latitude: data.OutputGeocodes[0].OutputGeocode.Latitude,
+                            longitude: data.OutputGeocodes[0].OutputGeocode.Longitude
+                        };
+                }
+                
+                p_call_back_action(geo_data);
 
             });
-        },
-        generate_record_id : function f(p_control) 
-        {
-            if 
-            (
-                (!p_control.value || p_control.value == '') && 
-                (
-                    this.state_of_death_record &&
-                    this.state_of_death_record != '' &&
-                    this.date_of_death &&
-                    this.date_of_death.year > 2000 &&
-                    this.record_id &&
-                    this.record_id != ''
-                )
-            ) 
-            {
-                this.record_id = this.state_of_death_record + '-' + this.date_of_death.year + '-' + Math.random().toString().substring(2, 6);
-                p_control.value = this.record_id;
-            }
         },
         compose : function() 
         {
