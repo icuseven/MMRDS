@@ -256,7 +256,13 @@ namespace mmria.console.import
 
 			foreach (System.Data.DataRow row in id_record_set.Rows)
 			{
-				if (row[0].ToString() != "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
+				if 
+				(
+					row[0].ToString() != "d0e08da8-d306-4a9a-a5ff-9f1d54702091" &&
+					row[0].ToString() != "244da20f-41cc-4300-ad94-618004a51917" &&
+					row[0].ToString() != "e98ce2be-4446-439a-bb63-d9b4e690e3c3" &&
+					row[0].ToString() != "b5003bc5-1ab3-4ba2-8aea-9f3717c9682a"
+				)
 				{
 					continue;
 				}
