@@ -147,12 +147,13 @@ namespace mmria.server
 
 			//sched.Start();
 
-
+			/*
 
 			var curl = new cURL ("GET", null, "http://mmrds:mmrds@db1.mmria.org/mmrds/_changes", null);
 			string res = curl.execute ();
 			System.Console.WriteLine ("get_job_info");
 			System.Console.WriteLine (res);
+			*/
 
 
 

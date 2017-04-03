@@ -135,7 +135,8 @@ namespace mmria.console.import
 			foreach (System.Data.DataRow row in lookup_mapping_table.Rows)
 			{
 				//mmria_path value1  value2 mmria_value
-				string mmria_path = row["mmria_path"].ToString().Trim();
+				//string mmria_path = row["mmria_path"].ToString().Trim();
+				string mmria_path = row["source_path"].ToString().Trim() + "|" + row["mmria_path"].ToString().Trim();
 				string value1 = null;
 				string value2 = null;
 				string mmria_value = null;
@@ -522,7 +523,7 @@ namespace mmria.console.import
 		public System.Data.DataTable get_look_up_mappings(cData p_mapping, string p_mapping_table_name)
 		{
 			System.Data.DataTable result = null;
-			string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
+			string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
 			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;
@@ -591,11 +592,11 @@ namespace mmria.console.import
 
 					if (row["DataType"].ToString().ToLower() == "boolean")
 					{
-						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim(), row["prompttext"].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim(), row["prompttext"].ToString().Trim(), row[0].ToString().Trim());
 					}
 					else
 					{
-						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim(), null, row[0].ToString().Trim());
 					}
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Trim().Replace(",", "")));
@@ -644,11 +645,11 @@ namespace mmria.console.import
 					if (check_index > -1)
 					{
 						string table_name = row[0].ToString().Trim().Substring(0, check_index);
-						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], table_name + "." + row[2].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], table_name + "." + row[2].ToString().Trim(), null, row[0].ToString().Trim());
 					}
 					else
 					{
-						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim(), null, row[0].ToString().Trim());
 					}
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));

@@ -38,7 +38,7 @@ namespace mmria
 			}
 		}
 
-		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value, string p_mmrds_path, string p_prompt = null)
+		public bool set_value(mmria.common.metadata.app p_metadata, IDictionary<string, object> p_object, string p_path, object p_value, string p_mmrds_path, string p_prompt = null, string p_source_path = null)
 		{
 			bool result = false;
 
@@ -55,6 +55,10 @@ namespace mmria
 
 				if (path.Length > 2 && path[2].Trim() == "record_type" && (bool) p_value)
 				{
+
+					//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
+					//birth_certificate_infant_fetal_section/congenital_anomalies
+
 					System.Console.WriteLine("break");
 				}
 
@@ -121,7 +125,18 @@ namespace mmria
 						else
 						{
 							string metadata_path = string.Join("/", built_path.ToArray());
-							string dictionary_path = string.Join("/", dictionary_path_list.ToArray());
+							string dictionary_path = null;
+
+							if (p_source_path != null)
+							{
+								dictionary_path = p_source_path + "|" + string.Join("/", dictionary_path_list.ToArray());
+							}
+							else
+							{
+								dictionary_path = string.Join("/", dictionary_path_list.ToArray());
+							}
+
+
 
 							var node = get_metadata_node(p_metadata, metadata_path);
 							if (
