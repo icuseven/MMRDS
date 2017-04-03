@@ -135,7 +135,7 @@ namespace mmria.console.import
 			foreach (System.Data.DataRow row in lookup_mapping_table.Rows)
 			{
 				//mmria_path value1  value2 mmria_value
-				string mmria_path = row["mmria_path"].ToString();
+				string mmria_path = row["mmria_path"].ToString().Trim();
 				string value1 = null;
 				string value2 = null;
 				string mmria_value = null;
@@ -143,12 +143,12 @@ namespace mmria.console.import
 
 				if (row["value1"] != DBNull.Value)
 				{
-					value1 = row["value1"].ToString();
+					value1 = row["value1"].ToString().Trim();
 				}
 
 				if (row["value2"] != DBNull.Value)
 				{
-					value2 = row["value2"].ToString();
+					value2 = row["value2"].ToString().Trim();
 				}
 
 				if (row["mmria_value"] != DBNull.Value)
@@ -159,7 +159,7 @@ namespace mmria.console.import
 					}
 					else
 					{
-						mmria_value = row["mmria_value"].ToString();
+						mmria_value = row["mmria_value"].ToString().Trim();
 					}
 				}
 

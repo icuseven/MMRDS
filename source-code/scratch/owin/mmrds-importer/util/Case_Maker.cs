@@ -46,13 +46,14 @@ namespace mmria
 			{
 				string[] path = p_path.Split('/');
 				List<string> built_path = new List<string>();
+				List<string> dictionary_path_list = new List<string>();
 
 				System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				if (path[1] == "abnormal_conditions_of_newborn")
+				if (path.Length > 2 && path[2].Trim() == "record_type" && (bool) p_value)
 				{
 					System.Console.WriteLine("break");
 				}
@@ -61,6 +62,12 @@ namespace mmria
 				for (int i = 0; i < path.Length; i++)
 				{
 					built_path.Add(path[i]);
+
+
+					if (!number_regex.IsMatch(path[i]))
+					{
+						dictionary_path_list.Add(path[i]);
+					}
 
 					if (number_regex.IsMatch(path[i]))
 					{
@@ -114,6 +121,8 @@ namespace mmria
 						else
 						{
 							string metadata_path = string.Join("/", built_path.ToArray());
+							string dictionary_path = string.Join("/", dictionary_path_list.ToArray());
+
 							var node = get_metadata_node(p_metadata, metadata_path);
 							if (
 									node.type.ToLower() == "list" && 
@@ -121,46 +130,117 @@ namespace mmria
 									node.is_multiselect == true 
 							)
 							{
-								if ((bool)p_value)
+
+								if (p_value is bool)
+								{
+									if ((bool)p_value)
+									{
+										if (
+											this.lookup_value1.ContainsKey(dictionary_path) &&
+											this.lookup_value1[dictionary_path].ContainsKey(p_prompt)
+										)
+										{
+											((List<string>)index[path[i]]).Add(this.lookup_value1[dictionary_path][p_prompt]);
+											result = true;
+										}
+										else if (
+											this.lookup_value2.ContainsKey(dictionary_path) &&
+											this.lookup_value2[dictionary_path].ContainsKey(p_prompt)
+
+										)
+										{
+											((List<string>)index[path[i]]).Add(this.lookup_value2[dictionary_path][p_prompt]);
+											result = true;
+										}
+										else
+										{
+											((List<string>)index[path[i]]).Add(p_prompt);
+											result = true;
+										}
+									}
+								}
+								else
 								{
 									if (
-										this.lookup_value1.ContainsKey(metadata_path) &&
-										this.lookup_value1[metadata_path].ContainsKey(p_prompt)
+										this.lookup_value1.ContainsKey(dictionary_path) &&
+										this.lookup_value1[dictionary_path].ContainsKey(p_value.ToString().Trim())
 									)
 									{
-										((List<string>)index[path[i]]).Add(this.lookup_value1[metadata_path][p_prompt]);
+										index[path[i]] = this.lookup_value1[dictionary_path][p_value.ToString().Trim()];
+										result = true;
 									}
 									else if (
-										this.lookup_value2.ContainsKey(metadata_path) &&
-										this.lookup_value2[metadata_path].ContainsKey(p_prompt)
+										this.lookup_value2.ContainsKey(dictionary_path) &&
+										this.lookup_value2[dictionary_path].ContainsKey(p_value.ToString().Trim())
 
 									)
 									{
-										((List<string>)index[path[i]]).Add(this.lookup_value2[metadata_path][p_prompt]);
+										index[path[i]] = this.lookup_value2[dictionary_path][p_value.ToString().Trim()];
+										result = true;
 									}
 									else
 									{
-										((List<string>)index[path[i]]).Add(p_prompt);
+										if (p_value is string)
+										{
+											index[path[i]] = p_value.ToString().Trim();
+										}
+										else
+										{
+											index[path[i]] = p_value;
+										}
+										result = true;
 									}
 								}
-								result = true;
+
 							}
 							else
 							{
-								if (
-									this.lookup_value1.ContainsKey(metadata_path) &&
-									this.lookup_value1[metadata_path].ContainsKey(p_value.ToString().Trim())
+								if 
+								(
+										node.type.ToLower() == "list" &&
+										p_value is bool
 								)
 								{
-									index[path[i]] = this.lookup_value1[metadata_path][p_value.ToString().Trim()];
+									if ((bool)p_value)
+									{
+										if (
+											this.lookup_value1.ContainsKey(dictionary_path) &&
+											this.lookup_value1[dictionary_path].ContainsKey(p_prompt)
+										)
+										{
+											index[path[i]] = this.lookup_value1[dictionary_path][p_prompt];
+											result = true;
+										}
+										else if (
+											this.lookup_value2.ContainsKey(dictionary_path) &&
+											this.lookup_value2[dictionary_path].ContainsKey(p_prompt)
+
+										)
+										{
+											index[path[i]] = this.lookup_value2[dictionary_path][p_prompt];
+											result = true;
+										}
+										else
+										{
+											index[path[i]] = p_prompt;
+											result = true;
+										}
+									}
 								}
 								else if (
-									this.lookup_value2.ContainsKey(metadata_path) &&
-									this.lookup_value2[metadata_path].ContainsKey(p_value.ToString().Trim())
+									this.lookup_value1.ContainsKey(dictionary_path) &&
+									this.lookup_value1[dictionary_path].ContainsKey(p_value.ToString().Trim())
+								)
+								{
+									index[path[i]] = this.lookup_value1[dictionary_path][p_value.ToString().Trim()];
+								}
+								else if (
+									this.lookup_value2.ContainsKey(dictionary_path) &&
+									this.lookup_value2[dictionary_path].ContainsKey(p_value.ToString().Trim())
 
 								)
 								{
-									index[path[i]] = this.lookup_value2[metadata_path][p_value.ToString().Trim()];
+									index[path[i]] = this.lookup_value2[dictionary_path][p_value.ToString().Trim()];
 								}
 								else
 								{
