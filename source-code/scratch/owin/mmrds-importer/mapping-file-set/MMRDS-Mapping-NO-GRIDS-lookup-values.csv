@@ -47,9 +47,7 @@ ChildBirthCertificate9.PO_Alive,ChildBirthCertificate,ChildBirthCertificate9,PO_
 ChildBirthCertificate9.PO_Alive,ChildBirthCertificate,ChildBirthCertificate9,PO_Alive,Is infant living at time of report?,Comment Legal,Unknown,birth_certificate_infant_fetal_section/biometrics_and_demographics/is_infant_living_at_time_of_report,3,"3 - Infant transferred, status unknown","Infant transferred, status unknown",,
 ChildBirthCertificate9.PO_Alive,ChildBirthCertificate,ChildBirthCertificate9,PO_Alive,Is infant living at time of report?,Comment Legal,Unknown,birth_certificate_infant_fetal_section/biometrics_and_demographics/is_infant_living_at_time_of_report,9,9 - Not specified,Not specified,,
 ChildBirthCertificate10.PO_Anenceph,ChildBirthCertificate,ChildBirthCertificate10,PO_Anenceph,Anencephaly,Checkbox,Boolean,birth_certificate_infant_fetal_section/congenital_anomalies,Anencephaly,,Anencephaly,,
-ChildBirthCertificate9.PO_Antibiotics,ChildBirthCertificate,ChildBirthCertificate9,PO_Antibiotics,"Antibiotics received by the newborn 
-for suspected neonatal sepsis",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Antibiotics received by the newborn 
-for suspected neonatal sepsis",,Antibiotics received by the newborn for suspected neonatal sepsis,,
+ChildBirthCertificate9.PO_Antibiotics,ChildBirthCertificate,ChildBirthCertificate9,PO_Antibiotics,"Antibiotics received by the newborn for suspected neonatal sepsis",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Antibiotics received by the newborn for suspected neonatal sepsis",,Antibiotics received by the newborn for suspected neonatal sepsis,,
 ChildBirthCertificate9.PO_APGAR10,ChildBirthCertificate,ChildBirthCertificate9,PO_APGAR10,10 minute,Number,Number,birth_certificate_infant_fetal_section/biometrics_and_demographics/apgar_scores/minute_10,,,,,
 ChildBirthCertificate9.PO_APGAR5,ChildBirthCertificate,ChildBirthCertificate9,PO_APGAR5,5 minute,Number,Number,birth_certificate_infant_fetal_section/biometrics_and_demographics/apgar_scores/minute_5,,,,,
 ChildBirthCertificate9.PO_BDoB,ChildBirthCertificate,ChildBirthCertificate9,PO_BDoB,Date of delivery*,Date,Date,birth_certificate_infant_fetal_section/record_identification/date_of_delivery,,,,,
@@ -105,18 +103,13 @@ ChildBirthCertificate9.PO_InfTrans24,ChildBirthCertificate,ChildBirthCertificate
 ChildBirthCertificate9.PO_InfTrans24,ChildBirthCertificate,ChildBirthCertificate9,PO_InfTrans24,Was infant transferred within 24 hrs of delivery?,Legal Values,Unknown,birth_certificate_infant_fetal_section/biometrics_and_demographics/was_infant_transferred_within_24_hours,1,1 - Yes,Yes,,
 ChildBirthCertificate9.PO_InfTrans24,ChildBirthCertificate,ChildBirthCertificate9,PO_InfTrans24,Was infant transferred within 24 hrs of delivery?,Legal Values,Unknown,birth_certificate_infant_fetal_section/biometrics_and_demographics/was_infant_transferred_within_24_hours,2,2 - No,No,,
 ChildBirthCertificate9.PO_InfTrans24,ChildBirthCertificate,ChildBirthCertificate9,PO_InfTrans24,Was infant transferred within 24 hrs of delivery?,Legal Values,Unknown,birth_certificate_infant_fetal_section/biometrics_and_demographics/was_infant_transferred_within_24_hours,9,9 - Not specified,Not Specified,,
-ChildBirthCertificate9.PO_injury,ChildBirthCertificate,ChildBirthCertificate9,PO_injury,"Significant birth injury (skeletal fracture(s), 
-peripheral nerve injury, and/or soft tissue/solid 
-organ hemorrhage which requires intervention)",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Significant birth injury (skeletal fracture(s), 
-peripheral nerve injury, and/or soft tissue/solid 
+ChildBirthCertificate9.PO_injury,ChildBirthCertificate,ChildBirthCertificate9,PO_injury,"Significant birth injury (skeletal fracture(s), peripheral nerve injury, and/or soft tissue/solid organ hemorrhage which requires intervention",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Significant birth injury (skeletal fracture(s), peripheral nerve injury, and/or soft tissue/soli
 organ hemorrhage which requires intervention)",,"Significant birth injury (skeletal fracture(s), peripheral nerve injury and or soft tissue or solid organ hemorrhage which requires intervention)",,
 ChildBirthCertificate9.PO_LabTrial,ChildBirthCertificate,ChildBirthCertificate9,PO_LabTrial,"If Cesarean, was a trial of labor attempted?",Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/if_cesarean_was_trial_of_labor_attempted,,,(blank),,
 ChildBirthCertificate9.PO_LabTrial,ChildBirthCertificate,ChildBirthCertificate9,PO_LabTrial,"If Cesarean, was a trial of labor attempted?",Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/if_cesarean_was_trial_of_labor_attempted,1,1 - Yes,Yes,,
 ChildBirthCertificate9.PO_LabTrial,ChildBirthCertificate,ChildBirthCertificate9,PO_LabTrial,"If Cesarean, was a trial of labor attempted?",Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/if_cesarean_was_trial_of_labor_attempted,2,2 - No,No,,
 ChildBirthCertificate9.PO_LabTrial,ChildBirthCertificate,ChildBirthCertificate9,PO_LabTrial,"If Cesarean, was a trial of labor attempted?",Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/if_cesarean_was_trial_of_labor_attempted,9,9 - Not specified,Not Specified,,
-ChildBirthCertificate10.PO_LimbRed,ChildBirthCertificate,ChildBirthCertificate10,PO_LimbRed,"Limb reduction defect (excluding 
-congenital amputation and dwarfing 
-syndromes)",Checkbox,Boolean,birth_certificate_infant_fetal_section/congenital_anomalies,"Limb reduction defect (excluding 
+ChildBirthCertificate10.PO_LimbRed,ChildBirthCertificate,ChildBirthCertificate10,PO_LimbRed,"Limb reduction defect (excluding congenital amputation and dwarfing syndromes)",Checkbox,Boolean,birth_certificate_infant_fetal_section/congenital_anomalies,"Limb reduction defect (excluding 
 congenital amputation and dwarfing 
 syndromes)",,Limb reduction defect (excluding congenital amputation and dwarfing syndromes),,
 ChildBirthCertificate9.PO_LocCertNo,ChildBirthCertificate,ChildBirthCertificate9,PO_LocCertNo,Local file no.,Text,Text,birth_certificate_infant_fetal_section/record_identification/local_file_number,,,,,
@@ -139,8 +132,7 @@ ChildBirthCertificate9.PO_Sex,ChildBirthCertificate,ChildBirthCertificate9,PO_Se
 ChildBirthCertificate9.PO_Sex,ChildBirthCertificate,ChildBirthCertificate9,PO_Sex,Gender,Comment Legal,Unknown,birth_certificate_infant_fetal_section/biometrics_and_demographics/gender,9,9 - Not specified,Not Specified,,
 ChildBirthCertificate10.PO_SpinaBif,ChildBirthCertificate,ChildBirthCertificate10,PO_SpinaBif,Meningomyelocele/Spina bifida,Checkbox,Boolean,birth_certificate_infant_fetal_section/congenital_anomalies,Meningomyelocele/Spina bifida,,Meningomyelocele or Spina bifida,,
 ChildBirthCertificate9.PO_StateCertNo,ChildBirthCertificate,ChildBirthCertificate9,PO_StateCertNo,State file no.,Text,Text,birth_certificate_infant_fetal_section/record_identification/state_file_number,,,,,
-ChildBirthCertificate9.PO_Surfactant,ChildBirthCertificate,ChildBirthCertificate9,PO_Surfactant,"Newborn given surfactant 
-replacement therapy",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Newborn given surfactant 
+ChildBirthCertificate9.PO_Surfactant,ChildBirthCertificate,ChildBirthCertificate9,PO_Surfactant,"Newborn given surfactant replacement therapy",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Newborn given surfactant 
 replacement therapy",,Newborn given surfactant replacement therapy,,
 ChildBirthCertificate9.PO_TOB,ChildBirthCertificate,ChildBirthCertificate9,PO_TOB,Time of delivery,Time,Time,birth_certificate_infant_fetal_section/record_identification/time_of_delivery,,,,,
 ChildBirthCertificate9.PO_Trans2Fac,ChildBirthCertificate,ChildBirthCertificate9,PO_Trans2Fac,"Specify facility, city, and state:",Text,Text,birth_certificate_infant_fetal_section/biometrics_and_demographics/facility_city_state,,,,,
@@ -148,8 +140,7 @@ ChildBirthCertificate9.PO_VacExtr,ChildBirthCertificate,ChildBirthCertificate9,P
 ChildBirthCertificate9.PO_VacExtr,ChildBirthCertificate,ChildBirthCertificate9,PO_VacExtr,B. Was delivery with vacuum extraction attempted but unsuccessful?,Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful,1,1 - Yes,Yes,,
 ChildBirthCertificate9.PO_VacExtr,ChildBirthCertificate,ChildBirthCertificate9,PO_VacExtr,B. Was delivery with vacuum extraction attempted but unsuccessful?,Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful,2,2 - No,No,,
 ChildBirthCertificate9.PO_VacExtr,ChildBirthCertificate,ChildBirthCertificate9,PO_VacExtr,B. Was delivery with vacuum extraction attempted but unsuccessful?,Legal Values,Unknown,birth_certificate_infant_fetal_section/method_of_delivery/was_delivery_with_vacuum_extration_attempted_but_unsuccessful,9,9 - Not specified,Not Specified,,
-ChildBirthCertificate9.PO_Vent,ChildBirthCertificate,ChildBirthCertificate9,PO_Vent,"Assisted ventilation required
-immediately following delivery",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Assisted ventilation required
+ChildBirthCertificate9.PO_Vent,ChildBirthCertificate,ChildBirthCertificate9,PO_Vent,"Assisted ventilation requiredimmediately following delivery",Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,"Assisted ventilation required
 immediately following delivery",,Assisted ventilation required immediately following delivery,,
 ChildBirthCertificate9.PO_Vent6,ChildBirthCertificate,ChildBirthCertificate9,PO_Vent6,Assisted ventilation required for more than 6 hours,Checkbox,Boolean,birth_certificate_infant_fetal_section/abnormal_conditions_of_newborn,Assisted ventilation required for more than 6 hours,,Assisted ventilation required for more than 6 hours,,
 CommitteeReview29.CR_AlterOC,CommitteeReview,CommitteeReview29,CR_AlterOC,Chance to alter outcome*,Legal Values,Unknown,committee_review/chance_to_alter_outcome,,,(blank),,
@@ -176,8 +167,7 @@ CommitteeReview28.CR_MMRecord,CommitteeReview,CommitteeReview28,CR_MMRecord,How 
 CommitteeReview28.CR_MMRecord,CommitteeReview,CommitteeReview28,CR_MMRecord,How was this death identified? (primary source)*,Legal Values,Unknown,home_record/how_was_this_death_identified,Unknown,,Unknown,,
 CommitteeReview28.CR_Name1,CommitteeReview,CommitteeReview28,CR_Name1,Name,Text,Text,,,,,,Copied from home record in MMRDS; Not needed in MMRIA
 CommitteeReview28.CR_NotPgRelOrAssoc,CommitteeReview,CommitteeReview28,CR_NotPgRelOrAssoc,Not pregnancy related or associated,Checkbox,Boolean,committee_review/pregnancy_relatedness,Not pregnancy related or associated,,Not Pregnancy Related or Associated (i.e. False Positive),,
-CommitteeReview28.CR_OthMMRec,CommitteeReview,CommitteeReview28,CR_OthMMRec,"Specify other
-or multiples:",Text,Text,home_record/specify_other_multiple_sources,,,,,"should go after ""How Was This Death Identified?"""
+CommitteeReview28.CR_OthMMRec,CommitteeReview,CommitteeReview28,CR_OthMMRec,"Specify other or multiples:",Text,Text,home_record/specify_other_multiple_sources,,,,,"should go after ""How Was This Death Identified?"""
 CommitteeReview28.CR_PgAssoc,CommitteeReview,CommitteeReview28,CR_PgAssoc,Pregnancy associated,Checkbox,Boolean,committee_review/pregnancy_relatedness,Pregnancy associated,,Pregnancy-Associated but NOT Related,,
 CommitteeReview28.CR_PgRelated1,CommitteeReview,CommitteeReview28,CR_PgRelated1,Pregnancy related,Checkbox,Boolean,committee_review/pregnancy_relatedness,Pregnancy related,,Pregnancy-Related,,
 CommitteeReview28.CR_PgStatusUndeter,CommitteeReview,CommitteeReview28,CR_PgStatusUndeter,Unable to determine if pregnancy related or associated,Checkbox,Boolean,committee_review/pregnancy_relatedness,Unable to determine if pregnancy related or associated,,Unable to Determine if Pregnancy Related or Associated,,
@@ -843,8 +833,7 @@ Hospitalization22.MR_DOoL,Hospitalization,Hospitalization22,MR_DOoL,Calculated d
 Hospitalization22.MR_DOoL_flag,Hospitalization,Hospitalization22,MR_DOoL_flag,Estimate,Checkbox,Boolean,er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/is_estimated,,,,,
 Hospitalization22.MR_DRoM,Hospitalization,Hospitalization22,MR_DRoM,Calculated date,Date,Date,,,,,,
 Hospitalization22.MR_DRoM_flag,Hospitalization,Hospitalization22,MR_DRoM_flag,Estimate,Checkbox,Boolean,er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/is_estimated,,,,,
-Hospitalization22.MR_DurLabPAr,Hospitalization,Hospitalization22,MR_DurLabPAr,"Duration of labor prior 
-to arrival (hrs)",Number,Number,er_visit_and_hospital_medical_records/onset_of_labor/duration_of_labor_prior_to_arrival,,,,,
+Hospitalization22.MR_DurLabPAr,Hospitalization,Hospitalization22,MR_DurLabPAr,"Duration of labor prior to arrival (hrs)",Number,Number,er_visit_and_hospital_medical_records/onset_of_labor/duration_of_labor_prior_to_arrival,,,,,
 Hospitalization20.MR_ERDate,Hospitalization,Hospitalization20,MR_ERDate,Calculated date,Date,Date,,,,,,
 Hospitalization20.MR_ERDate_flag,Hospitalization,Hospitalization20,MR_ERDate_flag,Estimate,Checkbox,Boolean,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/is_estimated,,,,,
 Hospitalization20.MR_ERTime,Hospitalization,Hospitalization20,MR_ERTime,Time of arrival,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/time_of_arrival ,,,,,
@@ -878,14 +867,10 @@ Hospitalization20.MR_MTransOut,Hospitalization,Hospitalization20,MR_MTransOut,Wa
 Hospitalization20.MR_MTransOut,Hospitalization,Hospitalization20,MR_MTransOut,Was mother transferred to another hospital?,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/was_transferred_to_another_hospital,1 - Yes,1,Yes,,
 Hospitalization20.MR_MTransOut,Hospitalization,Hospitalization20,MR_MTransOut,Was mother transferred to another hospital?,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/was_transferred_to_another_hospital,2 - No,2,No,,
 Hospitalization20.MR_MTransOut,Hospitalization,Hospitalization20,MR_MTransOut,Was mother transferred to another hospital?,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/was_transferred_to_another_hospital,9 - Not specified,9,Not Specified,,
-Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple 
-gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,,,(blank),,
-Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple 
-gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,1 - Yes,1,Yes,,
-Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple 
-gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,2 - No,2,No,,
-Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple 
-gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,9 - Not specified,9,Not Specified,,
+Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,,,(blank),,
+Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,1 - Yes,1,Yes,,
+Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,2 - No,2,No,,
+Hospitalization22.MR_MultiGest,Hospitalization,Hospitalization22,MR_MultiGest,"Multiple gestation",Comment Legal,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/multiple_gestation,9 - Not specified,9,Not Specified,,
 Hospitalization20.MR_Name1,Hospitalization,Hospitalization20,MR_Name1,Name,Text,Text,,,,,,Copied from home record in MMRDS; Not needed in MMRIA
 Hospitalization24.MR_Notes,Hospitalization,Hospitalization24,MR_Notes,"Reviewer's notes about this hospitalization, delivery and/or ER visit",Multiline,Text,er_visit_and_hospital_medical_records/reviewer_note,,,,,
 Hospitalization20.MR_OBCareLev,Hospitalization,Hospitalization20,MR_OBCareLev,Obstetric Level of Care*,Legal Values,Unknown,er_visit_and_hospital_medical_records/name_and_location_facility/maternal_level_of_care,,,(blank),,
@@ -901,22 +886,14 @@ Hospitalization20.MR_OthrTMode,Hospitalization,Hospitalization20,MR_OthrTMode,Sp
 Hospitalization20.MR_OthrTrans,Hospitalization,Hospitalization20,MR_OthrTrans,Specify other origin,Text,Text,er_visit_and_hospital_medical_records/name_and_location_facility/origin_of_travel_other,,,,,
 Hospitalization21.MR_Path_grid,Hospitalization,Hospitalization21,MR_Path_grid,Pathology,Grid,Unknown,,,,,,
 Hospitalization21.MR_PExam_grid,Hospitalization,Hospitalization21,MR_PExam_grid,Physical examinations and evaluations,Grid,Unknown,,,,,,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,,,(blank),,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Livebirth,,Livebirth,,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Stillbirth (=>20 wks),,Stillbirth (=>20 wks),,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Miscarriage (< 20 wks),,Miscarriage (< 20 wks),,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Induced abortion,,Induced abortion,,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Ectopic pregnancy,,Ectopic pregnancy,,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Livebirth/Stillbirth,,Livebirth/Stillbirth,,
-Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy 
-outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Other,,Other,,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,,,(blank),,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Livebirth,,Livebirth,,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Stillbirth (=>20 wks),,Stillbirth (=>20 wks),,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Miscarriage (< 20 wks),,Miscarriage (< 20 wks),,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Induced abortion,,Induced abortion,,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Ectopic pregnancy,,Ectopic pregnancy,,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Livebirth/Stillbirth,,Livebirth/Stillbirth,,
+Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,"Pregnancy outcome*",Legal Values,Unknown,er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome,Other,,Other,,
 Hospitalization20.MR_PGStatus,Hospitalization,Hospitalization20,MR_PGStatus,Discharge pregnancy status*,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/discharge_pregnancy_status,,,(blank),,
 Hospitalization20.MR_PGStatus,Hospitalization,Hospitalization20,MR_PGStatus,Discharge pregnancy status*,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/discharge_pregnancy_status,"1 - Pregnant, released undelivered",1,"Pregnant, released undelivered",,
 Hospitalization20.MR_PGStatus,Hospitalization,Hospitalization20,MR_PGStatus,Discharge pregnancy status*,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/discharge_pregnancy_status,"2 - Pregnant, released postpartum",2,"Pregnant, released postpartum",,
@@ -1354,9 +1331,7 @@ MaternalBirthCertificate8.BC_CervCercl,MaternalBirthCertificate,MaternalBirthCer
 MaternalBirthCertificate8.BC_Chlam1,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Chlam1,Chlamydia,Checkbox,Boolean,birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy,Chlamydia,,Chlamydia,,
 MaternalBirthCertificate8.BC_ChorioInf,MaternalBirthCertificate,MaternalBirthCertificate8,BC_ChorioInf,"Clinical chorioamnionitis diagnosed
 during labor or maternal temperature 
->= 38 degrees C (100.4 degrees F)",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Clinical chorioamnionitis diagnosed
-during labor or maternal temperature 
->= 38 degrees C (100.4 degrees F)",,Clinical chorioamnionitis diagnosed during labor or maternal temperature >= 38 degrees C(100.4 degrees F),,
+>= 38 degrees C (100.4 degrees F)",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Clinical chorioamnionitis diagnosed during labor or maternal temperature >= 38 degrees C (100.4 degrees F)",,Clinical chorioamnionitis diagnosed during labor or maternal temperature >= 38 degrees C (100.4 degrees F),,
 MaternalBirthCertificate8.BC_CMV1,MaternalBirthCertificate,MaternalBirthCertificate8,BC_CMV1,Cytomegalovirus,Checkbox,Boolean,birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy,Cytomegalovirus,,Cytomegalovirus,,
 MaternalBirthCertificate7.BC_D1PNV,MaternalBirthCertificate,MaternalBirthCertificate7,BC_D1PNV,Calculated date,Date,Date,,,,,,
 MaternalBirthCertificate7.BC_D1PNV_flag,MaternalBirthCertificate,MaternalBirthCertificate7,BC_D1PNV_flag,Estimate,Checkbox,Boolean,birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/is_estimated ,,,,,
@@ -1702,11 +1677,7 @@ MaternalBirthCertificate5.BC_FEduc,MaternalBirthCertificate,MaternalBirthCertifi
 MaternalBirthCertificate5.BC_FEduc,MaternalBirthCertificate,MaternalBirthCertificate5,BC_FEduc,Father's education,Legal Values,Unknown,birth_fetal_death_certificate_parent/demographic_of_father/education_level,Master's degree,,Master's Degree,,""""""
 MaternalBirthCertificate5.BC_FEduc,MaternalBirthCertificate,MaternalBirthCertificate5,BC_FEduc,Father's education,Legal Values,Unknown,birth_fetal_death_certificate_parent/demographic_of_father/education_level,Doctorate or Professional degree,,Doctorate or Professional Degree,,
 MaternalBirthCertificate5.BC_FEduc,MaternalBirthCertificate,MaternalBirthCertificate5,BC_FEduc,Father's education,Legal Values,Unknown,birth_fetal_death_certificate_parent/demographic_of_father/education_level,Not specified,,Not Specified,,
-MaternalBirthCertificate8.BC_FetIntolLab,MaternalBirthCertificate,MaternalBirthCertificate8,BC_FetIntolLab,"Fetal intolerance of labor such that 1 or more of 
-the following actions was taken: in-utero resuscitative 
-measures, further fetal assessment, or operative delivery",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Fetal intolerance of labor such that 1 or more of 
-the following actions was taken: in-utero resuscitative 
-measures, further fetal assessment, or operative delivery",,"Fetal intolerance of labor such that one or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",,
+MaternalBirthCertificate8.BC_FetIntolLab,MaternalBirthCertificate,MaternalBirthCertificate8,BC_FetIntolLab,"Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Fetal intolerance of labor such that 1 or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",,"Fetal intolerance of labor such that one or more of the following actions was taken: in-utero resuscitative measures, further fetal assessment, or operative delivery",,
 MaternalBirthCertificate5.BC_FFilipino,MaternalBirthCertificate,MaternalBirthCertificate5,BC_FFilipino,Filipino,Checkbox,Boolean,birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father,Filipino,,Filipino,,
 MaternalBirthCertificate5.BC_FFName,MaternalBirthCertificate,MaternalBirthCertificate5,BC_FFName,Father's first name,Text,Text,birth_fetal_death_certificate_parent/demographic_of_father/first_name,,,,,
 MaternalBirthCertificate5.BC_FGuamanian,MaternalBirthCertificate,MaternalBirthCertificate5,BC_FGuamanian,Guamanian or Chamorro,Checkbox,Boolean,birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father,Guamanian or Chamorro,,Guamanian or Chamorro,,
@@ -2076,9 +2047,7 @@ MaternalBirthCertificate7.BC_SMKPriorCig,MaternalBirthCertificate,MaternalBirthC
 MaternalBirthCertificate7.BC_SMKPriorPks,MaternalBirthCertificate,MaternalBirthCertificate7,BC_SMKPriorPks,Packs,Checkbox,Boolean,birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months_type,Packs,,Pack(s),,
 MaternalBirthCertificate7.BC_SmokeNS,MaternalBirthCertificate,MaternalBirthCertificate7,BC_SmokeNS,Not specified,Checkbox,Boolean,birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified,Not specified,,Not Specified,,
 MaternalBirthCertificate8.BC_SpinAnesth,MaternalBirthCertificate,MaternalBirthCertificate8,BC_SpinAnesth,Epidural or spinal anesthesia during labor,Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,Epidural or spinal anesthesia during labor,,Epidural or spinal anesthesia during labor,,
-MaternalBirthCertificate8.BC_Steroids,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Steroids,"Steroids for fetal lung maturation
-received by mother prior to delivery",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Steroids for fetal lung maturation
-received by mother prior to delivery",,Steroids (glucocorticoids) for fetal lung maturation received by mother prior to delivery,,
+MaternalBirthCertificate8.BC_Steroids,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Steroids,"Steroids for fetal lung maturation received by mother prior to delivery",Checkbox,Boolean,birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery,"Steroids for fetal lung maturation received by mother prior to delivery",,Steroids (glucocorticoids) for fetal lung maturation received by mother prior to delivery,,
 MaternalBirthCertificate8.BC_Syph,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Syph,Syphilis,Checkbox,Boolean,birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy,Syphilis,,Syphilis,,
 MaternalBirthCertificate8.BC_Toco,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Toco,Tocolysis,Checkbox,Boolean,birth_fetal_death_certificate_parent/obstetric_procedures,Tocolysis,,Tocolysis,,
 MaternalBirthCertificate8.BC_Toxopl,MaternalBirthCertificate,MaternalBirthCertificate8,BC_Toxopl,Toxoplasmosis,Checkbox,Boolean,birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy,Toxoplasmosis,,Toxoplasmosis (fetal death(s) only),,
@@ -2158,32 +2127,20 @@ MaternalMortality1.MM_IInterview,MaternalMortality,MaternalMortality1,MM_IInterv
 MaternalMortality1.MM_IInterview,MaternalMortality,MaternalMortality1,MM_IInterview,Informant Interviews,Comment Legal,Unknown,home_record/case_progress_report/informant_interviews,4 - Not available,4,Not Available,,
 MaternalMortality1.MM_IInterview,MaternalMortality,MaternalMortality1,MM_IInterview,Informant Interviews,Comment Legal,Unknown,home_record/case_progress_report/informant_interviews,9 - Not applicable,9,Not Applicable,,
 MaternalMortality1.MM_LName,MaternalMortality,MaternalMortality1,MM_LName,Last Name,Text,Text,home_record/last_name,,,,,
-MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate
-(Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,,,(blank),,
-MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate
-(Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,1 - Not started,1,Not Started,,
-MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate
-(Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,2 - In progress,2,In Progress,,
-MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate
-(Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,3 - Completed,3,Completed,,
-MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate
-(Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,4 - Not available,4,Not Available,,
-MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate
-(Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,9 - Not applicable,9,Not Applicable,,
+MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate (Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,,,(blank),,
+MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate (Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,1 - Not started,1,Not Started,,
+MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate (Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,2 - In progress,2,In Progress,,
+MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate (Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,3 - Completed,3,Completed,,
+MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate (Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,4 - Not available,4,Not Available,,
+MaternalMortality1.MM_MBC,MaternalMortality,MaternalMortality1,MM_MBC," Birth certificate (Parent section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_parent_section,9 - Not applicable,9,Not Applicable,,
 MaternalMortality1.MM_MDoD,MaternalMortality,MaternalMortality1,MM_MDoD,Month,Number,Number,home_record/date_of_death/month,,,,,
 MaternalMortality1.MM_MName,MaternalMortality,MaternalMortality1,MM_MName,Middle Name,Text,Text,home_record/middle_name,,,,,
-MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)
-(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,,,(blank),,
-MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)
-(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,1 - Not started,1,Not Started,,
-MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)
-(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,2 - In progress,2,In Progress,,
-MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)
-(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,3 - Completed,3,Completed,,
-MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)
-(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,4 - Not available,4,Not Available,,
-MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)
-(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,9 - Not applicable,9,Not Applicable,,
+MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,,,(blank),,
+MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,1 - Not started,1,Not Started,,
+MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,2 - In progress,2,In Progress,,
+MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,3 - Completed,3,Completed,,
+MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,4 - Not available,4,Not Available,,
+MaternalMortality1.MM_NBC,MaternalMortality,MaternalMortality1,MM_NBC,"Birth certificate(s)(Infant or fetal death section)",Comment Legal,Unknown,home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section,9 - Not applicable,9,Not Applicable,,
 MaternalMortality1.MM_OthMedVis,MaternalMortality,MaternalMortality1,MM_OthMedVis,Other Medical Visits,Comment Legal,Unknown,home_record/case_progress_report/other_medical_visits,,,(blank),,
 MaternalMortality1.MM_OthMedVis,MaternalMortality,MaternalMortality1,MM_OthMedVis,Other Medical Visits,Comment Legal,Unknown,home_record/case_progress_report/other_medical_visits,1 - Not started,1,Not Started,,
 MaternalMortality1.MM_OthMedVis,MaternalMortality,MaternalMortality1,MM_OthMedVis,Other Medical Visits,Comment Legal,Unknown,home_record/case_progress_report/other_medical_visits,2 - In progress,2,In Progress,,
@@ -2267,8 +2224,7 @@ MaternalMortality1.MM_SS,MaternalMortality,MaternalMortality1,MM_SS,Social and p
 MaternalMortality1.MM_SS,MaternalMortality,MaternalMortality1,MM_SS,Social and psychological profile,Comment Legal,Unknown,home_record/case_progress_report/social_and_psychological_profile,3 - Completed,3,Completed,,
 MaternalMortality1.MM_SS,MaternalMortality,MaternalMortality1,MM_SS,Social and psychological profile,Comment Legal,Unknown,home_record/case_progress_report/social_and_psychological_profile,4 - Not available,4,Not Available,,
 MaternalMortality1.MM_SS,MaternalMortality,MaternalMortality1,MM_SS,Social and psychological profile,Comment Legal,Unknown,home_record/case_progress_report/social_and_psychological_profile,9 - Not applicable,9,Not Applicable,,
-MaternalMortality1.MM_VRec_Flag,MaternalMortality,MaternalMortality1,MM_VRec_Flag,"Valid record 
-indicator",Text,Text,,,,,,
+MaternalMortality1.MM_VRec_Flag,MaternalMortality,MaternalMortality1,MM_VRec_Flag,"Valid record indicator",Text,Text,,,,,,
 MaternalMortality1.MM_YDoD,MaternalMortality,MaternalMortality1,MM_YDoD,Year,Number,Number,home_record/date_of_death/year,,,,,
 MaternalMortality1.RecName,MaternalMortality,MaternalMortality1,RecName,Name,Text,Text,,,,,,"Concatenated name field,; not needed in MMRIA"
 MaternalMortality1.RecNo,MaternalMortality,MaternalMortality1,RecNo,Record ID,Text,Text,home_record/record_id,,,,,
@@ -2305,9 +2261,7 @@ OfficeVisits25.MV_PlaceType,OfficeVisits,OfficeVisits25,MV_PlaceType,Place type,
 OfficeVisits25.MV_PlaceType,OfficeVisits,OfficeVisits25,MV_PlaceType,Place type,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/place_type,5 - Unknown,5,Unknown,,""""""
 OfficeVisits25.MV_PlaceType,OfficeVisits,OfficeVisits25,MV_PlaceType,Place type,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/place_type,6 - No prenatal care,6,No Prenatal Care,,""""""
 OfficeVisits25.MV_PlaceType,OfficeVisits,OfficeVisits25,MV_PlaceType,Place type,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/place_type,9 - Not specified,9,Not Specified,,""""""
-OfficeVisits25.MV_PNCProvider1,OfficeVisits,OfficeVisits25,MV_PNCProvider1,"Was this provider her
-primary prenatal
-care provider?*",Yes/No,YesNo,other_medical_office_visits/medical_care_facility/was_this_provider_her_primary_prenatal_care_provider,,,,,
+OfficeVisits25.MV_PNCProvider1,OfficeVisits,OfficeVisits25,MV_PNCProvider1,"Was this provider her primary prenatal care provider?*",Yes/No,YesNo,other_medical_office_visits/medical_care_facility/was_this_provider_her_primary_prenatal_care_provider,,,,,
 OfficeVisits25.MV_PregStat,OfficeVisits,OfficeVisits25,MV_PregStat,Pregnancy status*,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/pregnancy_status,,,(blank),,Do we want to change these to just plain option values rather than having them formatted like comment legal values?
 OfficeVisits25.MV_PregStat,OfficeVisits,OfficeVisits25,MV_PregStat,Pregnancy status*,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/pregnancy_status,1 - Pregnant,1,Pregnant,,""""""
 OfficeVisits25.MV_PregStat,OfficeVisits,OfficeVisits25,MV_PregStat,Pregnancy status*,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/pregnancy_status,2 - Post-partum,2,Post-Partum,,""""""
@@ -2408,14 +2362,10 @@ PrenatalCareRecord14.PC_ARTType,PrenatalCareRecord,PrenatalCareRecord14,PC_ARTTy
 PrenatalCareRecord14.PC_ARTType,PrenatalCareRecord,PrenatalCareRecord14,PC_ARTType,ART Type,Comment Legal,Unknown,prenatal/infertility_treatment/art_type,4 - Intracytoplasmic sperm injection (ICSI),4,Intracytoplasmic sperm injection (ICSI),,
 PrenatalCareRecord14.PC_ARTType,PrenatalCareRecord,PrenatalCareRecord14,PC_ARTType,ART Type,Comment Legal,Unknown,prenatal/infertility_treatment/art_type,5 - Other,5,Other,,
 PrenatalCareRecord14.PC_ARTType,PrenatalCareRecord,PrenatalCareRecord14,PC_ARTType,ART Type,Comment Legal,Unknown,prenatal/infertility_treatment/art_type,6 - Unknown,6,Unknown,,
-PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive 
-Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,,,(blank),,
-PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive 
-Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,1 - Yes,1,Yes,,
-PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive 
-Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,2 - No,2,No,,
-PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive 
-Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,9 - Not specified,9,Not Specified,,
+PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,,,(blank),,
+PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,1 - Yes,1,Yes,,
+PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,2 - No,2,No,,
+PrenatalCareRecord14.PC_CPART,PrenatalCareRecord,PrenatalCareRecord14,PC_CPART,"Assisted Reproductive Technology (ART)",Legal Values,Unknown,prenatal/infertility_treatment/assisted_reproductive_technology,9 - Not specified,9,Not Specified,,
 PrenatalCareRecord14.PC_BMI,PrenatalCareRecord,PrenatalCareRecord14,PC_BMI,BMI*,Number,Number,prenatal/current_pregnancy/bmi,,,,,
 PrenatalCareRecord14.PC_D1PNV,PrenatalCareRecord,PrenatalCareRecord14,PC_D1PNV,Calculated date,Date,Date,,,,,,
 PrenatalCareRecord14.PC_D1US,PrenatalCareRecord,PrenatalCareRecord14,PC_D1US,Calculated date,Date,Date,,,,,,
@@ -2433,14 +2383,10 @@ PrenatalCareRecord14.PC_DDLPNV,PrenatalCareRecord,PrenatalCareRecord14,PC_DDLPNV
 PrenatalCareRecord14.PC_DDStopBC,PrenatalCareRecord,PrenatalCareRecord14,PC_DDStopBC,Day,Number,Number,prenatal/intendedenes/date_birth_control_was_discontinued/day,,,,,
 PrenatalCareRecord14.PC_DEstDoC,PrenatalCareRecord,PrenatalCareRecord14,PC_DEstDoC,Day,Number,Number,prenatal/current_pregnancy/estimated_date_of_confinement/day,,,,,
 PrenatalCareRecord15.PC_PgProc_Grid,PrenatalCareRecord,PrenatalCareRecord15,PC_PgProc_Grid,Diagnostic procedures,Grid,Unknown,,,,,,
-PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result 
-from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,,,(blank),,
-PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result 
-from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,1 - Yes,1,Yes,,
-PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result 
-from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,2 - No,2,No,,
-PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result 
-from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,9 - Not specified,9,Not Specified,,
+PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,,,(blank),,
+PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,1 - Yes,1,Yes,,
+PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,2 - No,2,No,,
+PrenatalCareRecord14.PC_InferTreat,PrenatalCareRecord,PrenatalCareRecord14,PC_InferTreat,"Did this pregnancy result from infertility treatment?*",Legal Values,Unknown,prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment,9 - Not specified,9,Not Specified,,
 PrenatalCareRecord14.PC_ARTEmGrow,PrenatalCareRecord,PrenatalCareRecord14,PC_ARTEmGrow,Embryos growing,Number,Number,prenatal/infertility_treatment/embryos_growing,,,,,
 PrenatalCareRecord14.PC_ARTEmTrans,PrenatalCareRecord,PrenatalCareRecord14,PC_ARTEmTrans,Embryos transferred,Number,Number,prenatal/infertility_treatment/embryos_transferred,,,,,
 PrenatalCareRecord14.PC_D1PNV_flag,PrenatalCareRecord,PrenatalCareRecord14,PC_D1PNV_flag,Estimate,Checkbox,Boolean,prenatal/current_pregnancy/date_of_1st_prenatal_visit/is_estimated,,,,,
@@ -2452,18 +2398,12 @@ PrenatalCareRecord14.PC_EstDoC_flag,PrenatalCareRecord,PrenatalCareRecord14,PC_E
 PrenatalCareRecord13.PC_SubAb_grid,PrenatalCareRecord,PrenatalCareRecord13,PC_SubAb_grid,Evidence of Substance Abuse,Grid,Unknown,,,,,,
 PrenatalCareRecord13.PC_FamHist_grid,PrenatalCareRecord,PrenatalCareRecord13,PC_FamHist_grid,Family medical history,Grid,Unknown,,,,,,
 PrenatalCareRecord14.PC_HtFeet,PrenatalCareRecord,PrenatalCareRecord14,PC_HtFeet,Feet,Number,Number,prenatal/current_pregnancy/height/feet,,,,,
-PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing 
-drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,,,(blank),,
-PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing 
-drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,1 - Yes,1,Yes,,
-PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing 
-drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,2 - No,2,No,,
-PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing 
-drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,9 - Not specified,9,Not Specified,,
-PrenatalCareRecord14.PC_USGest,PrenatalCareRecord,PrenatalCareRecord14,PC_USGest,"Gestational age at 1st 
-Ultrasound (weeks)",Number,Number,prenatal/current_pregnancy/gestational_age_at_first_ultrasound,,,,,
-PrenatalCareRecord14.PC_CalcGest,PrenatalCareRecord,PrenatalCareRecord14,PC_CalcGest,"Gestational age at last 
-prenatal visit (weeks)",Number,Number,prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit,,,,,
+PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,,,(blank),,
+PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,1 - Yes,1,Yes,,
+PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,2 - No,2,No,,
+PrenatalCareRecord14.PC_FertEDrugs,PrenatalCareRecord,PrenatalCareRecord14,PC_FertEDrugs,"Fertility enhancing drugs",Comment Legal,Unknown,prenatal/infertility_treatment/fertility_enhanding_drugs,9 - Not specified,9,Not Specified,,
+PrenatalCareRecord14.PC_USGest,PrenatalCareRecord,PrenatalCareRecord14,PC_USGest,"Gestational age at 1st Ultrasound (weeks)",Number,Number,prenatal/current_pregnancy/gestational_age_at_first_ultrasound,,,,,
+PrenatalCareRecord14.PC_CalcGest,PrenatalCareRecord,PrenatalCareRecord14,PC_CalcGest,"Gestational age at last prenatal visit (weeks)",Number,Number,prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit,,,,,
 PrenatalCareRecord14.PC_Gravida,PrenatalCareRecord,PrenatalCareRecord14,PC_Gravida,Gravida*,Number,Number,prenatal/pregnancy_history/gravida,,,,,
 PrenatalCareRecord15.PC_HighestSBP,PrenatalCareRecord,PrenatalCareRecord15,PC_HighestSBP,Highest BP*,Number,Number,prenatal/highest_blood_pressure/systolic,,,,,
 PrenatalCareRecord14.PC_HgtInch,PrenatalCareRecord,PrenatalCareRecord14,PC_HgtInch,Inches,Number,Number,prenatal/current_pregnancy/height/inches,,,,,
@@ -2481,8 +2421,7 @@ PrenatalCareRecord14.PC_MEstDoC,PrenatalCareRecord,PrenatalCareRecord14,PC_MEstD
 PrenatalCareRecord13.PC_RecTypeM,PrenatalCareRecord,PrenatalCareRecord13,PC_RecTypeM,Multiple,Checkbox,Boolean,prenatal/number_of_pnc_sources,Multiple,,Multiple,,
 PrenatalCareRecord13.PC_Name1,PrenatalCareRecord,PrenatalCareRecord13,PC_Name1,Name,Text,Text,,,,,,Copied from home record in MMRDS; Not needed in MMRIA
 PrenatalCareRecord14.PC_BirthFac,PrenatalCareRecord,PrenatalCareRecord14,PC_BirthFac,"Name, city, and state of intended birthing facility",Text,Text,prenatal/current_pregnancy/intended_birthing_facility,,,,,
-PrenatalCareRecord14.PC_NFetus,PrenatalCareRecord,PrenatalCareRecord14,PC_NFetus,"Number 
-of fetuses",Number,Number,prenatal/current_pregnancy/number_of_fetuses,,,,,
+PrenatalCareRecord14.PC_NFetus,PrenatalCareRecord,PrenatalCareRecord14,PC_NFetus,"Number of fetuses",Number,Number,prenatal/current_pregnancy/number_of_fetuses,,,,,
 PrenatalCareRecord15.PC_OthrTest_Grid,PrenatalCareRecord,PrenatalCareRecord15,PC_OthrTest_Grid,Other laboratory tests,Grid,Unknown,,,,,,
 PrenatalCareRecord14.PC_Para,PrenatalCareRecord,PrenatalCareRecord14,PC_Para,Para*,Number,Number,prenatal/pregnancy_history/para,,,,,
 PrenatalCareRecord13.PC_Insurance2,PrenatalCareRecord,PrenatalCareRecord13,PC_Insurance2,Payment source*,Legal Values,Unknown,prenatal/primary_prenatal_care_facility/other_payment_source,,,,,Not a legal value field; text
