@@ -106,7 +106,8 @@ namespace mmria.server
 			Program.DateOfLastJobInfoList_Call = new List<DateTime>();
 
 			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job();
-			Program.JobInfoList = icims_data_call_job.GetJobInfo();
+
+			//Program.JobInfoList = icims_data_call_job.GetJobInfo();
 			Program.NumberOfJobInfoList_Call_Count++;
 			Program.DateOfLastJobInfoList_Call.Add(DateTime.Now);
 
@@ -144,7 +145,14 @@ namespace mmria.server
 
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
-			sched.Start();
+			//sched.Start();
+
+
+
+			var curl = new cURL ("GET", null, "http://mmrds:mmrds@db1.mmria.org/mmrds/_changes", null);
+			string res = curl.execute ();
+			System.Console.WriteLine ("get_job_info");
+			System.Console.WriteLine (res);
 
 
 

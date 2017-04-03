@@ -30,9 +30,26 @@ namespace mmria.server.model
 
             JobKey jobKey = context.JobDetail.Key;
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
+			//GetJobInfo();
 
-            Program.JobInfoList = GetJobInfo();
+			/*
+			System.Threading.Tasks.Task.Run
+			( 
+				new Action(()=> 
+					{
+						var curl = new cURL ("GET", null, "http://mmrds:mmrds@db1.mmria.org/mmrds/_changes", null);
+						string res = curl.execute ();
+						System.Console.WriteLine ("get_job_info");
+						System.Console.WriteLine (res);
+					})
+			);*/
 
+
+
+
+            //Program.JobInfoList = GetJobInfo();
+
+			/*
             if (Program.NumberOfJobInfoList_Call_Count < int.MaxValue)
             {
                 Program.NumberOfJobInfoList_Call_Count++;
@@ -44,15 +61,23 @@ namespace mmria.server.model
             }
 
             Program.DateOfLastJobInfoList_Call.Add(DateTime.Now);
+			*/
 
             //log.DebugFormat("iCIMS_Data_Call_Job says: finishing {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
         }
 
 
 
-        public IList<string> GetJobInfo()
+		public mmria.server.model.couchdb.c_change_result GetJobInfo()
         {
-            List<string> result = new List<string>();
+			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
+			var curl = new cURL ("GET", null, "http://mmrds:mmrds@db1.mmria.org/mmrds/_changes", null);
+			string res = curl.execute ();
+			System.Console.WriteLine ("get_job_info");
+			System.Console.WriteLine (res);
+
+			//json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
 			/*
 			 curl -X GET $HOST/db/_changes 
 			 curl -X GET $HOST/db/_changes?since=1

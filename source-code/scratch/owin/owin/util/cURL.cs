@@ -18,7 +18,7 @@ namespace mmria
 
 		public cURL (string p_method, string p_headers, string p_url, string p_pay_load)
 		{
-			System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
+			this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
 
 			switch (p_method.ToUpper ()) 
 			{
@@ -39,11 +39,16 @@ namespace mmria
 
 			url = p_url;
 			pay_load = p_pay_load;
-			string[] name_value_list = p_headers.Split ('|');
-			foreach (string name_value in name_value_list) 
+			if (p_headers != null) 
 			{
-				string[] n_v = name_value.Split(' ');
-				this.headers.Add(new System.Collections.Generic.KeyValuePair<string,string>(n_v[0], n_v[1]));
+				string[] name_value_list = p_headers.Split ('|');
+
+				foreach (string name_value in name_value_list) 
+				{
+					string[] n_v = name_value.Split (' ');
+					this.headers.Add (new System.Collections.Generic.KeyValuePair<string,string> (n_v [0], n_v [1]));
+				}
+
 			}
 		}
 
@@ -68,11 +73,14 @@ namespace mmria
 				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
 			}
 
-			using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+			if (this.pay_load != null) 
 			{
-				streamWriter.Write(this.pay_load);
-				streamWriter.Flush();
-				streamWriter.Close();
+				using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) 
+				{
+					streamWriter.Write (this.pay_load);
+					streamWriter.Flush ();
+					streamWriter.Close ();
+				}
 			}
 
 			try
