@@ -15,6 +15,8 @@ namespace mmria
 		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers;
 		string url;
 		string pay_load;
+		string user_id;
+		string password;
 
 		public cURL (string p_method, string p_headers, string p_url, string p_pay_load)
 		{
@@ -68,6 +70,14 @@ namespace mmria
 			httpWebRequest.ContentType = "application/json";
 			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
+
+			if (!string.IsNullOrWhiteSpace(this.user_id) && !string.IsNullOrWhiteSpace(this.password))
+			{
+				string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(this.user_id + ":" + this.password));
+				httpWebRequest.Headers.Add("Authorization", "Basic " + encoded);
+			}
+
+
 			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.headers) 
 			{
 				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
@@ -252,6 +262,16 @@ namespace mmria
 				// Write the output.
 				return await reader.ReadToEndAsync();
 			}
+		}
+
+		public cURL add_authentication_header(string p_username,
+		string p_password)
+		{
+
+			this.user_id = p_username;
+			this.password = p_password;
+
+			return this;
 		}
 	}
 }
