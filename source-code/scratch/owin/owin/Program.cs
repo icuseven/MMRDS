@@ -13,7 +13,7 @@ namespace mmria.server
 	class Program
 	{
 
-		public static IList<mmria.server.model.couchdb.c_seq> Change_Sequence_List;
+		public static Dictionary<string, string> Change_Sequence_List;
 		public static int Change_Sequence_Call_Count = 0;
 		public static IList<DateTime> DateOfLastChange_Sequence_Call;
 		public static string Last_Change_Sequence = null;
@@ -101,6 +101,7 @@ namespace mmria.server
 			Console.WriteLine("Listening at " + url);
 
 
+			Program.Change_Sequence_List = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime>();

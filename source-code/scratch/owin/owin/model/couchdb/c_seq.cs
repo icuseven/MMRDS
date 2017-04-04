@@ -11,12 +11,12 @@ namespace mmria.server.model.couchdb
 	{
 		public string seq { get; set;}
 		public string id  { get; set;}
-		public System.Collections.Generic.List<c_change> check_for_changes_job { get; set; }
+		public System.Collections.Generic.List<c_change> changes { get; set; }
 		//public List<string changes
 		//{"seq":216,"id":"02279162-6be3-49e4-930f-42eed7cd4706","changes":[{"rev":"44-ed1f83ba14c23de63b90246863c2bc79"}]}
 		public c_seq ()
 		{
-			check_for_changes_job = new System.Collections.Generic.List<c_change> ();
+			changes = new System.Collections.Generic.List<c_change> ();
 		}
 	}
 

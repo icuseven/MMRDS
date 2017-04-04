@@ -38,9 +38,6 @@ namespace mmria.server.model
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
 			mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence);
 
-
-
-
 			if (Program.Change_Sequence_Call_Count < int.MaxValue)
 			{
 				Program.Change_Sequence_Call_Count++;
@@ -111,6 +108,28 @@ namespace mmria.server.model
 			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
 			System.Console.WriteLine("get_job_info.last_seq");
 			System.Console.WriteLine(result.last_seq);
+
+			if (Program.Last_Change_Sequence != result.last_seq)
+			{
+				foreach (mmria.server.model.couchdb.c_seq seq in result.results)
+				{
+					if (Program.Change_Sequence_List.ContainsKey(seq.id))
+					{
+						if
+						(
+							seq.changes.Count > 0 &&
+							Program.Change_Sequence_List[seq.id] != seq.changes[0].rev
+						)
+						{
+							Program.Change_Sequence_List[seq.id] = seq.changes[0].rev;
+						}
+					}
+					else
+					{
+						Program.Change_Sequence_List.Add(seq.id, seq.changes[0].rev);
+					}
+				}
+			}
 			/*
 			 curl -X GET $HOST/db/_changes 
 			 curl -X GET $HOST/db/_changes?since=1
