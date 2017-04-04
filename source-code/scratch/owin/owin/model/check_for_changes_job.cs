@@ -30,7 +30,7 @@ namespace mmria.server.model
 
             JobKey jobKey = context.JobDetail.Key;
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-			//GetJobInfo();
+			GetJobInfo();
 
 			/*
 			System.Threading.Tasks.Task.Run
@@ -71,13 +71,13 @@ namespace mmria.server.model
 		public mmria.server.model.couchdb.c_change_result GetJobInfo()
         {
 			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
-			var curl = new cURL ("GET", null, "http://mmrds:mmrds@db1.mmria.org/mmrds/_changes", null);
+			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, "mmrds", "mmrds");
 			string res = curl.execute ();
-			System.Console.WriteLine ("get_job_info");
-			System.Console.WriteLine (res);
 
-			//json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
+			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+			System.Console.WriteLine("get_job_info.last_seq");
+			System.Console.WriteLine(result.last_seq);
 			/*
 			 curl -X GET $HOST/db/_changes 
 			 curl -X GET $HOST/db/_changes?since=1

@@ -9,7 +9,7 @@ namespace mmria.server.model.couchdb
 	}
 	public class c_seq
 	{
-		public long seq { get; set;}
+		public string seq { get; set;}
 		public string id  { get; set;}
 		public System.Collections.Generic.List<c_change> check_for_changes_job { get; set; }
 		//public List<string changes
@@ -24,7 +24,7 @@ namespace mmria.server.model.couchdb
 	{
 		public System.Collections.Generic.List<c_seq> results { get; set; }
 		public string last_seq  { get; set;}
-		public long  pending { get; set;}
+		public string  pending { get; set;}
 
 		public c_change_result()
 		{

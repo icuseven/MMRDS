@@ -145,16 +145,17 @@ namespace mmria.server
 
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
-			//sched.Start();
+			sched.Start();
 
 
-
-			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null);
-			curl.add_authentication_header("mmrds", "mmrds");
+			/*
+			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, "mmrds", "mmrds");
 			string res = curl.execute ();
-			System.Console.WriteLine ("get_job_info");
-			System.Console.WriteLine (res);
-			/**/
+			mmria.server.model.couchdb.c_change_result result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+			System.Console.WriteLine("get_job_info.last_seq");
+			System.Console.WriteLine(result.last_seq);
+
+			*/
 
 
 
