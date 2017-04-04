@@ -10,16 +10,22 @@ namespace mmria.server.model
 	public class check_for_changes_job : IJob
     {
 		string couch_db_url = null;
+		string user_name = null;
+		string password = null;
 
 		public check_for_changes_job()
 		{
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
 				this.couch_db_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+				this.user_name = System.Environment.GetEnvironmentVariable("timer_user_name");
+				this.password = System.Environment.GetEnvironmentVariable("timer_password");
 			} 
 			else
 			{
 				this.couch_db_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+				this.user_name = System.Configuration.ConfigurationManager.AppSettings["timer_user_name"];
+				this.password = System.Configuration.ConfigurationManager.AppSettings["timer_password"];
 			}
 		}
 
@@ -30,7 +36,24 @@ namespace mmria.server.model
 
             JobKey jobKey = context.JobDetail.Key;
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-			GetJobInfo();
+			mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence);
+
+
+
+
+			if (Program.Change_Sequence_Call_Count < int.MaxValue)
+			{
+				Program.Change_Sequence_Call_Count++;
+			}
+
+			if (Program.DateOfLastChange_Sequence_Call.Count > 10)
+			{
+				Program.DateOfLastChange_Sequence_Call.Clear();
+			}
+
+			Program.DateOfLastChange_Sequence_Call.Add(DateTime.Now);
+
+			Program.Last_Change_Sequence = latest_change_set.last_seq;
 
 			/*
 			System.Threading.Tasks.Task.Run
@@ -68,10 +91,20 @@ namespace mmria.server.model
 
 
 
-		public mmria.server.model.couchdb.c_change_result GetJobInfo()
+		public mmria.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence)
         {
 			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
-			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, "mmrds", "mmrds");
+			string url = null;
+
+			if (string.IsNullOrWhiteSpace(p_last_sequence))
+			{
+				url = get_couch_db_url() + "/mmrds/_changes";
+			}
+			else
+			{
+				url = get_couch_db_url() + "/mmrds/_changes?since=" + p_last_sequence;
+			}
+			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
 			string res = curl.execute ();
 
 

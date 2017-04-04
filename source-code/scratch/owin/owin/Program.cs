@@ -13,10 +13,10 @@ namespace mmria.server
 	class Program
 	{
 
-		public static IList<string> JobInfoList;
-		public static int NumberOfJobInfoList_Call_Count = 0;
-		public static IList<DateTime> DateOfLastJobInfoList_Call;
-		public static string Last_Seq = null;
+		public static IList<mmria.server.model.couchdb.c_seq> Change_Sequence_List;
+		public static int Change_Sequence_Call_Count = 0;
+		public static IList<DateTime> DateOfLastChange_Sequence_Call;
+		public static string Last_Change_Sequence = null;
 
 		// http://www.asp.net/aspnet/samples/owin-katana
 
@@ -103,13 +103,13 @@ namespace mmria.server
 
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
-			Program.DateOfLastJobInfoList_Call = new List<DateTime>();
+			Program.DateOfLastChange_Sequence_Call = new List<DateTime>();
 
 			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job();
 
 			//Program.JobInfoList = icims_data_call_job.GetJobInfo();
-			Program.NumberOfJobInfoList_Call_Count++;
-			Program.DateOfLastJobInfoList_Call.Add(DateTime.Now);
+			Program.Change_Sequence_Call_Count++;
+			Program.DateOfLastChange_Sequence_Call.Add(DateTime.Now);
 
 			StdSchedulerFactory sf = new StdSchedulerFactory();
 			IScheduler sched = sf.GetScheduler();
