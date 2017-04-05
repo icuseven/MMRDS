@@ -100,9 +100,13 @@ namespace mmria.server.model
 								//System.Console.WriteLine("Get case");
 								//System.Console.WriteLine(document_json);
 
-
+								//<database>/_design/<design>/_update/<function>/<docid>
+								///de_id/_design/auth/_update/in-place/<docid> 
 								string de_identfied_url = this.get_couch_db_url() + "/de_id/" + kvp.Key + "?new_edits=false";
-								var de_identfied_curl = new cURL("PUT", null, de_identfied_url, document_json, this.user_name, this.password);
+
+								string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
+
+								var de_identfied_curl = new cURL("PUT", null, de_identfied_url, de_identified_json, this.user_name, this.password);
 								try
 								{
 									string de_id_result = de_identfied_curl.execute();

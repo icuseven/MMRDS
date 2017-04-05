@@ -151,6 +151,7 @@
     <Compile Include="model\check_for_changes_job.cs" />
     <Compile Include="controller\syncController.cs" />
     <Compile Include="model\couchdb\c_seq.cs" />
+    <Compile Include="util\c_de_identifier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
