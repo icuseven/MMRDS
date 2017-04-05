@@ -43,7 +43,12 @@ var $mmria = function()
                 {
                     geo_data = { 
                             latitude: data.OutputGeocodes[0].OutputGeocode.Latitude,
-                            longitude: data.OutputGeocodes[0].OutputGeocode.Longitude
+                            longitude: data.OutputGeocodes[0].OutputGeocode.Longitude,
+							NAACCRGISCoordinateQualityCode: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityCode,
+							NAACCRGISCoordinateQualityType: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityType,
+							CensusCbsaFips : data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaFips,
+							CensusCbsaMicro : data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaMicro
+							
                         };
                 }
                 

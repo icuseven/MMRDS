@@ -95,13 +95,13 @@ namespace mmria.server.model
 								System.Console.WriteLine(ex);
 							}
 
-							if (!string.IsNullOrEmpty(document_json))
+							if (!string.IsNullOrEmpty(document_json) && document_json.IndexOf("\"_id\":\"_design/") < 0)
 							{
 								//System.Console.WriteLine("Get case");
 								//System.Console.WriteLine(document_json);
 
 
-								string de_identfied_url = this.get_couch_db_url() + "/de_id/" + kvp.Key;
+								string de_identfied_url = this.get_couch_db_url() + "/de_id/" + kvp.Key + "?new_edits=false";
 								var de_identfied_curl = new cURL("PUT", null, de_identfied_url, document_json, this.user_name, this.password);
 								try
 								{
