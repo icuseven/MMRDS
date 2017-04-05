@@ -38,6 +38,30 @@ namespace mmria.server.model
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
 			mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence);
 
+			Dictionary<string, string> response_results = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+			
+			if (Program.Last_Change_Sequence != latest_change_set.last_seq)
+			{
+				foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
+				{
+					if (response_results.ContainsKey(seq.id))
+					{
+						if
+						(
+							seq.changes.Count > 0 &&
+							response_results[seq.id] != seq.changes[0].rev
+						)
+						{
+							response_results[seq.id] = seq.changes[0].rev;
+						}
+					}
+					else
+					{
+						response_results.Add(seq.id, seq.changes[0].rev);
+					}
+				}
+			}
+
 			if (Program.Change_Sequence_Call_Count < int.MaxValue)
 			{
 				Program.Change_Sequence_Call_Count++;
@@ -52,18 +76,49 @@ namespace mmria.server.model
 
 			Program.Last_Change_Sequence = latest_change_set.last_seq;
 
-			/*
-			System.Threading.Tasks.Task.Run
-			( 
-				new Action(()=> 
-					{
-						var curl = new cURL ("GET", null, "http://mmrds:mmrds@db1.mmria.org/mmrds/_changes", null);
-						string res = curl.execute ();
-						System.Console.WriteLine ("get_job_info");
-						System.Console.WriteLine (res);
-					})
-			);*/
+			foreach (KeyValuePair<string, string> kvp in response_results)
+			{
+				System.Threading.Tasks.Task.Run
+				(
+					new Action(() =>
+						{
+							string document_url = this.get_couch_db_url() + "/mmrds/" + kvp.Key;
+							var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
+							string document_json = null;
+							try
+							{
+								document_json = document_curl.execute();
+							}
+							catch (Exception ex)
+							{
+								System.Console.WriteLine("Get case");
+								System.Console.WriteLine(ex);
+							}
 
+							if (!string.IsNullOrEmpty(document_json))
+							{
+								//System.Console.WriteLine("Get case");
+								//System.Console.WriteLine(document_json);
+
+
+								string de_identfied_url = this.get_couch_db_url() + "/de_id/" + kvp.Key;
+								var de_identfied_curl = new cURL("PUT", null, de_identfied_url, document_json, this.user_name, this.password);
+								try
+								{
+									string de_id_result = de_identfied_curl.execute();
+									System.Console.WriteLine("sync de_id");
+									System.Console.WriteLine(de_id_result);
+
+								}
+								catch (Exception ex)
+								{
+									System.Console.WriteLine("sync de_id");
+									System.Console.WriteLine(ex);
+								}
+							}
+						})
+				);
+			}
 
 
 
@@ -90,6 +145,7 @@ namespace mmria.server.model
 
 		public mmria.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence)
         {
+
 			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
 			string url = null;
 
@@ -102,34 +158,13 @@ namespace mmria.server.model
 				url = get_couch_db_url() + "/mmrds/_changes?since=" + p_last_sequence;
 			}
 			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
-			string res = curl.execute ();
-
-
+			string res = curl.execute();
+			
 			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
-			System.Console.WriteLine("get_job_info.last_seq");
-			System.Console.WriteLine(result.last_seq);
+			//System.Console.WriteLine("get_job_info.last_seq");
+			//System.Console.WriteLine(result.last_seq);
 
-			if (Program.Last_Change_Sequence != result.last_seq)
-			{
-				foreach (mmria.server.model.couchdb.c_seq seq in result.results)
-				{
-					if (Program.Change_Sequence_List.ContainsKey(seq.id))
-					{
-						if
-						(
-							seq.changes.Count > 0 &&
-							Program.Change_Sequence_List[seq.id] != seq.changes[0].rev
-						)
-						{
-							Program.Change_Sequence_List[seq.id] = seq.changes[0].rev;
-						}
-					}
-					else
-					{
-						Program.Change_Sequence_List.Add(seq.id, seq.changes[0].rev);
-					}
-				}
-			}
+
 			/*
 			 curl -X GET $HOST/db/_changes 
 			 curl -X GET $HOST/db/_changes?since=1
