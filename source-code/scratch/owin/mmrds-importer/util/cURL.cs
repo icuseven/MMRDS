@@ -70,7 +70,8 @@ namespace mmria
 			var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url);
 			httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
 			httpWebRequest.ContentType = "application/json";
-			httpWebRequest.Accept = "*/*";
+			httpWebRequest.PreAuthenticate = false;
+			//httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
 
 			if (!string.IsNullOrWhiteSpace(this.user_id) && !string.IsNullOrWhiteSpace(this.password))
@@ -87,6 +88,8 @@ namespace mmria
 
 			if (this.pay_load != null)
 			{
+				httpWebRequest.ContentLength = this.pay_load.Length;
+
 				using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
 				{
 					streamWriter.Write(this.pay_load);
@@ -95,17 +98,17 @@ namespace mmria
 				}
 			}
 
-			try
-			{
-				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
-				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
-				//Console.WriteLine("Response : " + respStr); // if you want see the output
-			}
-			catch (Exception ex)
-			{
-				//process exception here   
-				result = ex.ToString();
-			}
+			//try
+			//{
+			HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
+			result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
+			//Console.WriteLine("Response : " + respStr); // if you want see the output
+			//}
+			//catch(Exception ex)
+			//{
+			//process exception here   
+			//	result = ex.ToString();
+			//}
 
 			return result;
 		}

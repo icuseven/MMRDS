@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace mmria
 {
-
-	//http://stackoverflow.com/questions/21255725/webrequest-equivalent-to-curl-command
 	public class cURL
 	{
 		string method;

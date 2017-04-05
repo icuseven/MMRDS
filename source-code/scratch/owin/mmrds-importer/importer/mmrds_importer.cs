@@ -451,8 +451,7 @@ namespace mmria.console.import
 
 				}
 
-				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
-				System.Console.WriteLine("json\n{0}", json_string);
+
 
 
 				/*
@@ -461,6 +460,61 @@ namespace mmria.console.import
 					var result = mmria_server.set_case(json_string);
 				}
 				*/
+				try
+				{
+					string document_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"] + "/mmrds/" + global_record_id;
+					var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
+					string document_json = null;
+
+					document_json = document_curl.execute();
+					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_json);
+					IDictionary<string, object> updater = case_data as IDictionary<string, object>;
+					updater["_rev"] = ((IDictionary<string, object>)result)["_rev"];
+					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+					System.Console.WriteLine("json\n{0}", json_string);
+
+					var update_curl = new cURL("PUT", null, document_url, json_string, this.user_name, this.password);
+					try
+					{
+						string de_id_result = update_curl.execute();
+						System.Console.WriteLine("update id");
+						System.Console.WriteLine(de_id_result);
+
+					}
+					catch (Exception ex)
+					{
+						System.Console.WriteLine("sync de_id");
+						System.Console.WriteLine(ex);
+					}
+
+
+				}
+				catch (Exception ex)
+				{
+					System.Console.WriteLine("Get case");
+					System.Console.WriteLine(ex);
+
+					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+
+					string document_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"] + "/mmrds/" + global_record_id;
+					var update_curl = new cURL("PUT", null, document_url, json_string, this.user_name, this.password);
+					try
+					{
+						string de_id_result = update_curl.execute();
+						System.Console.WriteLine("update id");
+						System.Console.WriteLine(de_id_result);
+
+					}
+					catch (Exception ex2)
+					{
+						System.Console.WriteLine("sync de_id");
+						System.Console.WriteLine(ex2);
+					}
+					System.Console.WriteLine("json\n{0}", json_string);
+
+				}
+
+
 
 				//return;
 				System.IO.File.WriteAllText(import_directory + "/" + global_record_id + ".json", json_string);
