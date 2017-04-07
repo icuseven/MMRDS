@@ -1126,7 +1126,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				p_data = new Date(p_data);
 			}*/
-			result.push("<div class='date' id='");
+			result.push("<div class='datetime' id='");
 			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("' ");
 			result.push(" mpath='");
@@ -1166,10 +1166,20 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",\"");
 			result.push(p_metadata_path);
 			result.push("\",this.value)'  /></div>");
+			https://eonasdan.github.io/bootstrap-datetimepicker/
 			*/
 			result.push("</span> ");
 			result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+
+			p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input.datetime").datetimepicker({');
+			p_post_html_render.push('	format:"YYYY-MM-DD hh:mm:ss", defaultDate: "');
+			//p_post_html_render.push('	utc: true, defaultDate: "');
+			
+			p_post_html_render.push(p_data);
+			p_post_html_render.push('"}');
+			p_post_html_render.push(');');
+
 			result.push("</div>");	
 			result.push("</div>");	
 			 break;

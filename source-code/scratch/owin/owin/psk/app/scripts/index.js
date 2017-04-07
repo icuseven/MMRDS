@@ -133,8 +133,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           break;
 
           case 'datetime':
-            $("#" + convert_object_path_to_jquery_id(p_object_path) + " .datetime" ).datetimepicker();
-
+            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker({
+                format:"YYYY-MM-DD hh:mm:ss",
+				        defaultDate: value });
           break;
 
           case 'number':
@@ -749,7 +750,7 @@ flatpickr(" .date", {
   }
 });*/
 
-$( ".datetime" ).datetimepicker();
+//$( ".datetime" ).datetimepicker();
 
 
 $("input.number").numeric();
