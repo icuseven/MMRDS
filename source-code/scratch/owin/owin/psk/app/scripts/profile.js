@@ -27,7 +27,7 @@ on_logout_call_back: null,
 
 initialize_profile: function ()
 {
-	var current_auth_session = this.get_auth_session_cookie();
+	var current_auth_session = $mmria.getCookie("AuthSession");
 
 	if(current_auth_session)
 	{
@@ -52,13 +52,11 @@ initialize_profile: function ()
 			valid_login = json_response.userCTX.name != null;
 			if(valid_login)
 			{
-				profile.is_logged_in = false;
-				profile.user_name = json_response.userCTX.name;
-				profile.user_roles = json_response.userCTX.roles;
+				profile.is_logged_in = true;
+				profile.user_name = $mmria.getCookie("uid");
+				profile.password = $mmria.getCookie("pwd");
+				profile.user_roles = $mmria.getCookie("roles");
 				profile.auth_session = current_auth_session;
-
-
-				$mmria.addCookie("AuthSession", profile.auth_session);
 
 				var url =  location.protocol + '//' + location.host + "/committee-member";
 				if(
@@ -80,6 +78,7 @@ initialize_profile: function ()
 				profile.user_name = null;
 				profile.user_roles = null;
 				profile.auth_session = null;
+				profile.password = null;
 				$mmria.removeCookie("AuthSession");
 			}
 
@@ -91,7 +90,7 @@ initialize_profile: function ()
 			profile.user_name = null;
 			profile.user_roles = null;
 			profile.auth_session = null;
-
+			profile.password = null;
 			profile.render();
 
 			console.log("failed:", response);
