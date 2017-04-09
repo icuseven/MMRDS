@@ -3,7 +3,7 @@ namespace mmria.server.model
 {
 	public class c_aggregate
 	{
-		public string id { get; set; }
+		public string _id { get; set; }
 		public string hr_date_of_death_year { get; set; }
 		public string dc_date_of_death { get; set; }
 		public string date_of_review { get; set; }

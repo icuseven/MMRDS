@@ -70,7 +70,7 @@ namespace mmria.server.util
 
 			aggregate = new mmria.server.model.c_aggregate();
 
-			aggregate.id = get_value(source_object, "_id");
+			aggregate._id = get_value(source_object, "_id");
 			aggregate.hr_date_of_death_year = get_value(source_object, "home_record/date_of_death/year");
 			aggregate.dc_date_of_death = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
 			aggregate.date_of_review = get_value(source_object, "committee_review/date_of_review");
@@ -104,7 +104,7 @@ namespace mmria.server.util
 		}
 
 
-		public string get_value(System.Dynamic.ExpandoObject p_object, string p_path)
+		public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
 		{
 			dynamic result = null;
 
