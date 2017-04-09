@@ -52,11 +52,16 @@ initialize_profile: function ()
 			valid_login = json_response.userCTX.name != null;
 			if(valid_login)
 			{
+				if(json_response.auth_session)
+				{
+					$mmria.addCookie("AuthSession", json_response.auth_session);
+				}
+
 				profile.is_logged_in = true;
 				profile.user_name = $mmria.getCookie("uid");
 				profile.password = $mmria.getCookie("pwd");
 				profile.user_roles = $mmria.getCookie("roles");
-				profile.auth_session = current_auth_session;
+				profile.auth_session = $mmria.getCookie("AuthSession");;
 
 				var url =  location.protocol + '//' + location.host + "/committee-member";
 				if(
