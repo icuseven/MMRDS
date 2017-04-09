@@ -65,34 +65,36 @@ namespace mmria.server.util
 
 			mmria.server.model.c_aggregate aggregate = null;
 
-			dynamic source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(source_json);
+			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(source_json);
+			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
-			aggregate = new mmria.server.model.c_aggregate
-			{
-				id = source_object._id,
-				hr_date_of_death_year = source_object.home_record.date_of_death.year,
-				dc_date_of_death = source_object.death_certificate.certificate_identification.date_of_death,
-				date_of_review = source_object.committee_review.date_of_review,
-				was_this_death_preventable = source_object.committee_review.was_this_death_preventable,
-				pregnancy_relatedness = source_object.committee_review.pregnancy_relatedness,
-				bc_is_of_hispanic_origin = source_object.birth_fetal_death_certificate_parent.demographic_of_mother.is_of_hispanic_origin,
-				dc_is_of_hispanic_origin = source_object.death_certificate.demographics.is_of_hispanic_origin,
-				age = source_object.death_certificate.demographics.age,
-				pmss = source_object.committee_review.pmss_mm,
-				did_obesity_contribute_to_the_death = source_object.committee_review.did_obesity_contribute_to_the_death,
-				did_mental_health_conditions_contribute_to_the_death = source_object.committee_review.did_mental_health_conditions_contribute_to_the_death,
-				did_substance_use_disorder_contribute_to_the_death = source_object.committee_review.did_substance_use_disorder_contribute_to_the_death,
-				was_this_death_a_sucide = source_object.committee_review.was_this_death_a_sucide,
-				was_this_death_a_homicide = source_object.committee_review.homicide_relatedness.was_this_death_a_homicide,
-				dc_race = source_object.death_certificate.race.race,
-				bc_race = source_object.birth_fetal_death_certificate_parent.race.race_of_mother"
-			};
+			aggregate = new mmria.server.model.c_aggregate();
+
+			aggregate.id = get_value(source_object, "_id");
+			aggregate.hr_date_of_death_year = get_value(source_object, "home_record/date_of_death/year");
+			aggregate.dc_date_of_death = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
+			aggregate.date_of_review = get_value(source_object, "committee_review/date_of_review");
+			aggregate.was_this_death_preventable = get_value(source_object, "committee_review/was_this_death_preventable");
+			aggregate.pregnancy_relatedness = get_value(source_object, "committee_review/pregnancy_relatedness");
+			aggregate.bc_is_of_hispanic_origin = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			aggregate.dc_is_of_hispanic_origin = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
+			aggregate.age = get_value(source_object, "death_certificate/demographics/age");
+			aggregate.pmss = get_value(source_object, "committee_review/pmss_mm");
+			aggregate.did_obesity_contribute_to_the_death = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
+			aggregate.did_mental_health_conditions_contribute_to_the_death = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+			aggregate.did_substance_use_disorder_contribute_to_the_death = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+			aggregate.was_this_death_a_sucide = get_value(source_object, "committee_review/was_this_death_a_sucide");
+			aggregate.was_this_death_a_homicide = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
+			aggregate.dc_race = get_value(source_object, "death_certificate/race/race");
+			aggregate.bc_race = get_value(source_object, "birth_fetal_death_certificate_parent.race.race_of_mother");
 
 
+
+			/*
 			foreach (string path in aggregator_set) 
 			{
 				get_value (source_object, path);
-			}
+			}*/
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -102,7 +104,7 @@ namespace mmria.server.util
 		}
 
 
-		public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path)
+		public string get_value(System.Dynamic.ExpandoObject p_object, string p_path)
 		{
 			dynamic result = null;
 
@@ -115,10 +117,11 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
+				/*
 				if (path[1] == "abnormal_conditions_of_newborn")
 				{
 					System.Console.WriteLine("break");
-				}
+				}*/
 
 
 				for (int i = 0; i < path.Length; i++)
@@ -126,7 +129,36 @@ namespace mmria.server.util
 					
 					if(i == 0)
 					{
-						index = ((IDictionary<string, object>)p_object)[path[i]];
+
+						if (i == path.Length - 1)
+						{
+							var val = ((IDictionary<string, object>)index)[path[i]]; 
+
+							if(val != null)
+							{
+								if(val.GetType() is System.DateTime)
+								{
+									System.DateTime? temp_date_time = ((IDictionary<string, object>)index)[path[i]] as System.DateTime?;
+									result = temp_date_time.Value.ToUniversalTime().ToString("u");	
+								}
+								else if(val.GetType() is string)
+								{
+									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+								}
+								else
+								{
+									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+								}
+							}
+							else
+							{
+								result = val;	
+							}
+						}
+						else
+						{
+							index = ((IDictionary<string, object>)p_object)[path[i]];
+						}
 					}
 					else if (i == path.Length - 1)
 					{
@@ -134,15 +166,26 @@ namespace mmria.server.util
 						{
 							var val = ((IDictionary<string, object>)index)[path[i]]; 
 
-							if(val.GetType() == typeof(string))
+							if(val != null)
 							{
-								((IDictionary<string, object>)index)[path[i]] = "de-identified";	
+								if(val.GetType() is System.DateTime)
+								{
+									System.DateTime? temp_date_time = ((IDictionary<string, object>)index)[path[i]] as System.DateTime?;
+									result = temp_date_time.Value.ToUniversalTime().ToString("u");	
+								}
+								else if(val.GetType() is string)
+								{
+									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+								}
+								else
+								{
+									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+								}
 							}
 							else
 							{
-								((IDictionary<string, object>)index)[path[i]] = null;	
+								result = val;	
 							}
-							result = "de-identified";
 						}
 						else
 						{

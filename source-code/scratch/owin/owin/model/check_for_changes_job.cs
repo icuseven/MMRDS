@@ -73,7 +73,7 @@ namespace mmria.server.model
 				(
 					new Action(() =>
 						{
-							string document_url = this.get_couch_db_url() + "/mmrds/" + kvp.Key;
+							string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
 							var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
 							string document_json = null;
 							try
@@ -92,8 +92,10 @@ namespace mmria.server.model
 								//System.Console.WriteLine(document_json);
 
 								//<database>/_design/<design>/_update/<function>/<docid>
-								///de_id/_design/auth/_update/in-place/<docid> 
-								string de_identfied_url = this.get_couch_db_url() + "/de_id/" + kvp.Key + "?new_edits=false";
+								//de_id/_design/auth/_update/in-place/<docid> 
+
+						/*
+								string de_identfied_url = Program.config_couchdb_url + "/de_id/" + kvp.Key + "?new_edits=false";
 
 								string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
 
@@ -110,6 +112,30 @@ namespace mmria.server.model
 									System.Console.WriteLine("sync de_id");
 									System.Console.WriteLine(ex);
 								}
+
+						*/
+
+
+								string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
+
+								try
+								{
+									string aggregate_json = new mmria.server.util.c_aggregator(document_json).execute();
+
+									var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json, this.user_name, this.password);
+
+									string aggregate_result = aggregate_curl.execute();
+									System.Console.WriteLine("sync aggregate_id");
+									System.Console.WriteLine(aggregate_result);
+
+								}
+								catch (Exception ex)
+								{
+									System.Console.WriteLine("sync aggregate_id");
+									System.Console.WriteLine(ex);
+								}
+
+
 							}
 						})
 				);
@@ -146,11 +172,11 @@ namespace mmria.server.model
 
 			if (string.IsNullOrWhiteSpace(p_last_sequence))
 			{
-				url = get_couch_db_url() + "/mmrds/_changes";
+				url = Program.config_couchdb_url + "/mmrds/_changes";
 			}
 			else
 			{
-				url = get_couch_db_url() + "/mmrds/_changes?since=" + p_last_sequence;
+				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
 			}
 			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
 			string res = curl.execute();
@@ -293,22 +319,6 @@ namespace mmria.server.model
                 return result;
             }
         }
-
-		private string get_couch_db_url()
-		{
-			string result = null;
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
-
-			return result;
-		}
     }
 
 }

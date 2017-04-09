@@ -124,10 +124,11 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
+				/*
 				if (path[1] == "abnormal_conditions_of_newborn")
 				{
 					System.Console.WriteLine("break");
-				}
+				}*/
 
 
 				for (int i = 0; i < path.Length; i++)

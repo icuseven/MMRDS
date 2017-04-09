@@ -174,14 +174,79 @@ namespace mmria.server
 			//sched.Start();
 
 
-			/*
+
 			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, "mmrds", "mmrds");
 			string res = curl.execute ();
-			mmria.server.model.couchdb.c_change_result result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
-			System.Console.WriteLine("get_job_info.last_seq");
-			System.Console.WriteLine(result.last_seq);
+			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+			//System.Console.WriteLine("get_job_info.last_seq");
+			//System.Console.WriteLine(latest_change_set.last_seq);
 
-			*/
+
+			Dictionary<string, string> response_results = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+			
+			if (Program.Last_Change_Sequence != latest_change_set.last_seq)
+			{
+				foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
+				{
+					if (response_results.ContainsKey(seq.id))
+					{
+						if
+						(
+							seq.changes.Count > 0 &&
+							response_results[seq.id] != seq.changes[0].rev
+						)
+						{
+							response_results[seq.id] = seq.changes[0].rev;
+						}
+					}
+					else
+					{
+						response_results.Add(seq.id, seq.changes[0].rev);
+					}
+				}
+			}
+
+			foreach (KeyValuePair<string, string> kvp in response_results)
+			{
+				string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
+				var document_curl = new cURL("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				string document_json = null;
+
+				try
+				{
+					document_json = document_curl.execute();
+				}
+				catch (Exception ex)
+				{
+					System.Console.WriteLine("Get case");
+					System.Console.WriteLine(ex);
+				}
+
+				if (!string.IsNullOrEmpty(document_json) && document_json.IndexOf("\"_id\":\"_design/") < 0)
+				{
+					string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
+
+					try
+					{
+						string aggregate_json = new mmria.server.util.c_aggregator(document_json).execute();
+
+						var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
+
+						string aggregate_result = aggregate_curl.execute();
+						System.Console.WriteLine("sync aggregate_id");
+						System.Console.WriteLine(aggregate_result);
+
+					}
+					catch (Exception ex)
+					{
+						System.Console.WriteLine("sync aggregate_id");
+						System.Console.WriteLine(ex);
+					}
+				}
+			}
+
+
+			
 
 
 
