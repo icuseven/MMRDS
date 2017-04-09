@@ -22,7 +22,7 @@ namespace mmria.server
 			queue_item.queue_id = System.Guid.NewGuid ().ToString ();
 			queue_item.case_list = set_queue_request.case_list;
 
-			string queue_url = this.get_couch_db_url() + "/queue/"  + queue_item.queue_id;
+			string queue_url = Program.config_couchdb_url + "/queue/"  + queue_item.queue_id;
 
 			string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_item);
 
@@ -80,22 +80,6 @@ namespace mmria.server
 
 			//if(put_response.
 
-
-			return result;
-		}
-
-		private string get_couch_db_url()
-		{
-			string result = null;
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
 
 			return result;
 		}

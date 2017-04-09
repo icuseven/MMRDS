@@ -7,9 +7,6 @@ namespace mmria.server
 {
 	public class syncController: ApiController 
 	{ 
-		private string couchdb_url = null;
-		private string file_root_folder = null;
-
 
 		/*
 
@@ -40,17 +37,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 		public syncController()
 		{
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
-				file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-			} 
-			else
-			{
-				couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-				file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
-			}
-
+			
 		}
 
 		public string Get
@@ -316,7 +303,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 
 
-						System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
+						System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(Program.config_file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
 							
 						}
 						catch(Exception ex)

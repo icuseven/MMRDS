@@ -8,16 +8,17 @@ namespace mmria.server
 		// GET api/values 
 		public Dictionary<string,string> Get() 
 		{ 
-			return new Dictionary<string,string>{{ "couchdb_url", get_couch_db_url() }}; 
+			return new Dictionary<string,string>{{ "couchdb_url", Program.config_couchdb_url }}; 
 		} 
 
 		// GET api/values/5 
+		/*
 		public  Dictionary<string,string>  Get(string value) 
 		{ 
 			System.Environment.SetEnvironmentVariable("couchdb_url", value);
 
-			return new Dictionary<string,string>{{ "couchdb_url", get_couch_db_url() }};
-		} 
+			return new Dictionary<string,string>{{ "couchdb_url", Program.config_couchdb_url }};
+		}*/
 
 		// POST api/values 
 		public void Post([FromBody]string value) 
@@ -35,21 +36,7 @@ namespace mmria.server
 		{ 
 		} 
 
-		private string get_couch_db_url()
-		{
-			string result = null;
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
-
-			return result;
-		}
 	} 
 }
 

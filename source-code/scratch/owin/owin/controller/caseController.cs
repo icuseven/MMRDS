@@ -9,13 +9,15 @@ namespace mmria.server
 {
 	public class caseController: ApiController 
 	{ 
+
+
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		public System.Dynamic.ExpandoObject Get() 
 		{ 
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/mmrds/_all_docs?include_docs=true";
+				string request_string = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -159,7 +161,7 @@ namespace mmria.server
 				}
 
 
-				string metadata_url = this.get_couch_db_url() + "/mmrds/"  + id_val;
+				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 				request.Method = "PUT";
@@ -218,7 +220,7 @@ namespace mmria.server
 								var x = new cURL(
 										"PUT",
 										headerBuilder.ToString(),
-										this.get_couch_db_url() + "/de_id/"  + id_val,
+										Program.config_couchdb_url + "/de_id/"  + id_val,
 										object_string
 
 								);
@@ -235,7 +237,7 @@ namespace mmria.server
 									var x = new cURL(
 										"PUT",
 										headerBuilder.ToString(),
-										this.get_couch_db_url() + "/aggr/"  + id_val,
+										Program.config_couchdb_url + "/aggr/"  + id_val,
 										object_string
 
 									);
@@ -266,22 +268,6 @@ namespace mmria.server
 			return result;
 
 		} 
-
-		private string get_couch_db_url()
-		{
-			string result = null;
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
-
-			return result;
-		}
 
 	} 
 }

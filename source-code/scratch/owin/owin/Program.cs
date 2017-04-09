@@ -13,6 +13,15 @@ namespace mmria.server
 	class Program
 	{
 
+		public static string config_geocode_api_key;
+		public static string config_geocode_api_url;
+		public static string config_couchdb_url;
+		public static string config_web_site_url;
+		public static string config_file_root_folder;
+		public static string config_timer_user_name;
+		public static string config_timer_password;
+		public static string config_cron_schedule;
+
 		public static Dictionary<string, string> Change_Sequence_List;
 		public static int Change_Sequence_Call_Count = 0;
 		public static IList<DateTime> DateOfLastChange_Sequence_Call;
@@ -71,34 +80,49 @@ namespace mmria.server
 			}
 			#endif
 
-
-			string url = null;
-
 			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 			{
 				System.Console.WriteLine ("using Environment");
 				System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
+				System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
 				System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
 				System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
 				System.Console.WriteLine ("file_root_folder: {0}", System.Environment.GetEnvironmentVariable ("file_root_folder"));
 
+				Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
+				Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
+				Program.config_couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+				Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+				Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
+				Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
+				Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
+				Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
 
-				url = System.Environment.GetEnvironmentVariable ("web_site_url");
 			}
 			else
 			{
 				System.Console.WriteLine("using AppSettings");
 				System.Console.WriteLine("geocode_api_key: {0}", System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"]);
+				System.Console.WriteLine("geocode_api_url: {0}", System.Configuration.ConfigurationManager.AppSettings["geocode_api_url"]);
 				System.Console.WriteLine("couchdb_url: {0}", System.Configuration.ConfigurationManager.AppSettings["couchdb_url"]);
 				System.Console.WriteLine("web_site_url: {0}", System.Configuration.ConfigurationManager.AppSettings["web_site_url"]);
 				System.Console.WriteLine("file_root_folder: {0}", System.Configuration.ConfigurationManager.AppSettings["file_root_folder"]);
 
-				url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
+
+				Program.config_geocode_api_key = System.Configuration.ConfigurationManager.AppSettings["geocode_api_key"];
+				Program.config_geocode_api_url = System.Configuration.ConfigurationManager.AppSettings["geocode_api_url"];
+				Program.config_couchdb_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"];
+				Program.config_web_site_url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
+				Program.config_file_root_folder = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
+				Program.config_timer_user_name = System.Configuration.ConfigurationManager.AppSettings["timer_user_name"];
+				Program.config_timer_password = System.Configuration.ConfigurationManager.AppSettings["timer_password"];
+				Program.config_cron_schedule = System.Configuration.ConfigurationManager.AppSettings["cron_schedule"];
+
 			}
 
 
-			Microsoft.Owin.Hosting.WebApp.Start(url);            
-			Console.WriteLine("Listening at " + url);
+			Microsoft.Owin.Hosting.WebApp.Start(Program.config_web_site_url);            
+			Console.WriteLine("Listening at " + Program.config_web_site_url);
 
 
 			Program.Change_Sequence_List = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -125,6 +149,7 @@ namespace mmria.server
 				.Build();
 
 			string cron_schedule = System.Configuration.ConfigurationManager.AppSettings["cron_schedule"];
+
 
 			ITrigger trigger = (ITrigger)TriggerBuilder.Create()
 														  .WithIdentity("trigger1", "group1")
