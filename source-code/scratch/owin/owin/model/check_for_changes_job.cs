@@ -15,18 +15,9 @@ namespace mmria.server.model
 
 		public check_for_changes_job()
 		{
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				this.couch_db_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
-				this.user_name = System.Environment.GetEnvironmentVariable("timer_user_name");
-				this.password = System.Environment.GetEnvironmentVariable("timer_password");
-			} 
-			else
-			{
-				this.couch_db_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-				this.user_name = System.Configuration.ConfigurationManager.AppSettings["timer_user_name"];
-				this.password = System.Configuration.ConfigurationManager.AppSettings["timer_password"];
-			}
+				this.couch_db_url = Program.config_couchdb_url;
+				this.user_name = Program.config_timer_user_name;
+				this.password = Program.config_timer_password;
 		}
 
         void IJob.Execute(IJobExecutionContext context)

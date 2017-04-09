@@ -63,8 +63,30 @@ namespace mmria.server.util
 		{
 			string result = null;
 
-			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(source_json);
+			mmria.server.model.c_aggregate aggregate = null;
 
+			dynamic source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(source_json);
+
+			aggregate = new mmria.server.model.c_aggregate
+			{
+				id = source_object._id,
+				hr_date_of_death_year = source_object.home_record.date_of_death.year,
+				dc_date_of_death = source_object.death_certificate.certificate_identification.date_of_death,
+				date_of_review = source_object.committee_review.date_of_review,
+				was_this_death_preventable = source_object.committee_review.was_this_death_preventable,
+				pregnancy_relatedness = source_object.committee_review.pregnancy_relatedness,
+				bc_is_of_hispanic_origin = source_object.birth_fetal_death_certificate_parent.demographic_of_mother.is_of_hispanic_origin,
+				dc_is_of_hispanic_origin = source_object.death_certificate.demographics.is_of_hispanic_origin,
+				age = source_object.death_certificate.demographics.age,
+				pmss = source_object.committee_review.pmss_mm,
+				did_obesity_contribute_to_the_death = source_object.committee_review.did_obesity_contribute_to_the_death,
+				did_mental_health_conditions_contribute_to_the_death = source_object.committee_review.did_mental_health_conditions_contribute_to_the_death,
+				did_substance_use_disorder_contribute_to_the_death = source_object.committee_review.did_substance_use_disorder_contribute_to_the_death,
+				was_this_death_a_sucide = source_object.committee_review.was_this_death_a_sucide,
+				was_this_death_a_homicide = source_object.committee_review.homicide_relatedness.was_this_death_a_homicide,
+				dc_race = source_object.death_certificate.race.race,
+				bc_race = source_object.birth_fetal_death_certificate_parent.race.race_of_mother"
+			};
 
 
 			foreach (string path in aggregator_set) 
@@ -74,7 +96,7 @@ namespace mmria.server.util
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-			result = Newtonsoft.Json.JsonConvert.SerializeObject(source_object, settings);
+			result = Newtonsoft.Json.JsonConvert.SerializeObject(aggregate, settings);
 
 			return result;
 		}
