@@ -63,6 +63,7 @@ initialize_profile: function ()
 				profile.user_roles = $mmria.getCookie("roles");
 				profile.auth_session = $mmria.getCookie("AuthSession");;
 
+				/*
 				var url =  location.protocol + '//' + location.host + "/committee-member";
 				if(
 					profile.user_roles.length == 1 && 
@@ -72,7 +73,8 @@ initialize_profile: function ()
 				{
 					window.location.href = url;
 				}
-				else if(profile.on_login_call_back)
+				else*/
+				if(profile.on_login_call_back)
 				{
 					profile.on_login_call_back();
 				}

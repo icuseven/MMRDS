@@ -1376,8 +1376,11 @@ function x104_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga_lmp = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga_lmp.length > 1) {
-            this.calculated_gestation = ga_lmp.join();
-            p_control.value = this.calculated_gestation;
+            g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation = ga_lmp[0];
+            g_data.birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days = ga_lmp[1];
+            $mmria.save_current_record();
+            $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation', ga_lmp[0]);
+            $mmria.set_control_value('birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days', ga_lmp[1]);
         }
     }
 }
@@ -1400,16 +1403,20 @@ function x1e2_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
+            g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+            $mmria.save_current_record();
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit', ga[0]);
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days', ga[1]);
-            $mmria.save_current_record();
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
+            g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = ga[1];
+            $mmria.save_current_record();
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit', ga[0]);
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days', ga[1]);
-            $mmria.save_current_record();
         }
     }
 }
@@ -1432,16 +1439,20 @@ function x1d4_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
+            g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
+            $mmria.save_current_record();
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks', ga[0]);
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days', ga[1]);
-            $mmria.save_current_record();
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
+            g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = ga[0];
+            g_data.prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = ga[1];
+            $mmria.save_current_record();
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks', ga[0]);
             $mmria.set_control_value('prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days', ga[1]);
-            $mmria.save_current_record();
         }
     }
 }
@@ -1556,11 +1567,48 @@ function x2e_ocl(p_control) {
         if (geo_data && geo_data.latitude && geo_data.longitude) {
             g_data.death_certificate.place_of_last_residence.latitude = geo_data.latitude;
             g_data.death_certificate.place_of_last_residence.longitude = geo_data.longitude;
+            $mmria.save_current_record();
             $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
             $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-            $mmria.save_current_record();
         }
     });
+}
+function x247(p_control) {
+    var ga = [];
+    var weeks = null;
+    var days = null;
+    var current_er_index = $global.get_current_multiform_index();
+    var event_year = parseInt(this.year);
+    var event_month = parseInt(this.month);
+    var event_day = parseInt(this.day);
+    var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
+    var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
+    var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
+    var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
+    var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
+    var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
+    var edd_date = new Date(edd_year, edd_month - 1, edd_day);
+    var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
+    var event_date = new Date(event_year, event_month - 1, event_day);
+    if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
+        ga = $global.calc_ga_edd(event_date, edd_date);
+        if (ga.length > 1) {
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+            $mmria.save_current_record();
+            $mmria.set_control_value('er_visit_and_hospital_medical_records[current_er_index]/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', ga[0]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records[current_er_index]/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', ga[1]);
+        }
+    } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
+        ga = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga.length > 1) {
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
+            $mmria.save_current_record();
+            $mmria.set_control_value('er_visit_and_hospital_medical_records[current_er_index]/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', ga[0]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records[current_er_index]/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', ga[1]);
+        }
+    }
 }
 dictionary_path_to_path_map['']='g_metadata';
 dictionary_path_to_path_map['date_created']='g_metadata.children[0]';
@@ -1826,8 +1874,8 @@ dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/
 dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days']='g_metadata.children[6].children[9].children[4]';
 dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/obsteric_estimate_of_gestation']='g_metadata.children[6].children[9].children[5]';
 dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/plurality']='g_metadata.children[6].children[9].children[6]';
-dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/was_wic_used']='g_metadata.children[6].children[9].children[7]';
-dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/specify_if_greater_than_3']='g_metadata.children[6].children[9].children[8]';
+dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/specify_if_greater_than_3']='g_metadata.children[6].children[9].children[7]';
+dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/was_wic_used']='g_metadata.children[6].children[9].children[8]';
 dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery']='g_metadata.children[6].children[9].children[9]';
 dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/specify_other_payor']='g_metadata.children[6].children[9].children[10]';
 dictionary_path_to_path_map['birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit']='g_metadata.children[6].children[9].children[11]';
