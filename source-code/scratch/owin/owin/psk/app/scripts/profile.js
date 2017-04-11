@@ -61,7 +61,7 @@ initialize_profile: function ()
 				profile.user_name = $mmria.getCookie("uid");
 				profile.password = $mmria.getCookie("pwd");
 				profile.user_roles = $mmria.getCookie("roles");
-				profile.auth_session = $mmria.getCookie("AuthSession");;
+				profile.auth_session = $mmria.getCookie("AuthSession");
 
 				/*
 				var url =  location.protocol + '//' + location.host + "/committee-member";

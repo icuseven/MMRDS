@@ -20,6 +20,7 @@ namespace mmria.server.util
 		'dc_is_of_hispanic_origin': doc.death_certificate.demographics.is_of_hispanic_origin,
 		'age': doc.death_certificate.demographics.age,
 		'pmss': doc.committee_review.pmss_mm,
+		'pmss_mm_secondary': doc.committee_review.pmss_mm_secondary,
 		'did_obesity_contribute_to_the_death': doc.committee_review.did_obesity_contribute_to_the_death,
 		'did_mental_health_conditions_contribute_to_the_death': doc.committee_review.did_mental_health_conditions_contribute_to_the_death,
 		'did_substance_use_disorder_contribute_to_the_death': doc.committee_review.did_substance_use_disorder_contribute_to_the_death,
@@ -42,6 +43,7 @@ namespace mmria.server.util
 			"death_certificate/demographics/is_of_hispanic_origin",
 			"death_certificate/demographics/age",
 			"committee_review/pmss_mm",
+			"committee_review/pmss_mm_secondary",
 			"committee_review/did_obesity_contribute_to_the_death",
 			"committee_review/did_mental_health_conditions_contribute_to_the_death",
 			"committee_review/did_substance_use_disorder_contribute_to_the_death",
@@ -70,24 +72,58 @@ namespace mmria.server.util
 
 			aggregate = new mmria.server.model.c_aggregate();
 
-			aggregate._id = get_value(source_object, "_id");
-			aggregate.hr_date_of_death_year = get_value(source_object, "home_record/date_of_death/year");
-			aggregate.dc_date_of_death = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
-			aggregate.date_of_review = get_value(source_object, "committee_review/date_of_review");
-			aggregate.was_this_death_preventable = get_value(source_object, "committee_review/was_this_death_preventable");
-			aggregate.pregnancy_relatedness = get_value(source_object, "committee_review/pregnancy_relatedness");
-			aggregate.bc_is_of_hispanic_origin = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
-			aggregate.dc_is_of_hispanic_origin = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
-			aggregate.age = get_value(source_object, "death_certificate/demographics/age");
-			aggregate.pmss = get_value(source_object, "committee_review/pmss_mm");
-			aggregate.did_obesity_contribute_to_the_death = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
-			aggregate.did_mental_health_conditions_contribute_to_the_death = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-			aggregate.did_substance_use_disorder_contribute_to_the_death = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-			aggregate.was_this_death_a_sucide = get_value(source_object, "committee_review/was_this_death_a_sucide");
-			aggregate.was_this_death_a_homicide = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
-			aggregate.dc_race = get_value(source_object, "death_certificate/race/race");
-			aggregate.bc_race = get_value(source_object, "birth_fetal_death_certificate_parent.race.race_of_mother");
 
+
+			try
+			{
+
+				aggregate._id = get_value(source_object, "_id");
+
+
+
+				if
+				(
+					aggregate._id == "b5003bc5-1ab3-4ba2-8aea-9f3717c9682a" 
+				)
+				{
+					System.Console.Write("break");
+				}
+
+				aggregate.hr_date_of_death_year = get_value(source_object, "home_record/date_of_death/year");
+				aggregate.dc_date_of_death = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
+				aggregate.date_of_review = get_value(source_object, "committee_review/date_of_review");
+
+				aggregate.pregnancy_relatedness = get_value(source_object, "committee_review/pregnancy_relatedness");
+
+				aggregate.age = get_value(source_object, "death_certificate/demographics/age");
+				aggregate.pmss = get_value(source_object, "committee_review/pmss_mm");
+				aggregate.pmss_mm_secondary = get_value(source_object, "committee_review/pmss_mm_secondary");
+
+
+				System.Console.WriteLine ("here");
+				aggregate.dc_race = get_value(source_object, "death_certificate/race/race");
+				aggregate.bc_race = get_value(source_object, "birth_fetal_death_certificate_parent.race.race_of_mother");
+
+				System.Console.WriteLine ("here");
+				aggregate.bc_is_of_hispanic_origin = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+				aggregate.dc_is_of_hispanic_origin = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
+
+				System.Console.WriteLine ("here");
+				aggregate.did_obesity_contribute_to_the_death = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
+				aggregate.did_mental_health_conditions_contribute_to_the_death = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				aggregate.did_substance_use_disorder_contribute_to_the_death = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+
+				System.Console.WriteLine ("here");
+
+				aggregate.was_this_death_preventable = get_value(source_object, "committee_review/was_this_death_preventable");
+				aggregate.was_this_death_a_sucide = get_value(source_object, "committee_review/was_this_death_a_sucide");
+				aggregate.was_this_death_a_homicide = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
+
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 
 
 			/*
@@ -130,29 +166,48 @@ namespace mmria.server.util
 					if(i == 0)
 					{
 
-						if (i == path.Length - 1)
+						if (i == path.Length - 1 && index is IDictionary<string, object>)
 						{
-							var val = ((IDictionary<string, object>)index)[path[i]]; 
+							
+							IDictionary<string, object> dictionary_object = index as IDictionary<string, object>;
+
+							object val = null;
+
+							if(dictionary_object.ContainsKey(path[i]))
+							{
+								val = dictionary_object[path[i]]; 
+							}
 
 							if(val != null)
 							{
-								if(val.GetType() is System.DateTime)
+								if(val.GetType() == typeof(System.DateTime))
 								{
-									System.DateTime? temp_date_time = ((IDictionary<string, object>)index)[path[i]] as System.DateTime?;
-									result = temp_date_time.Value.ToUniversalTime().ToString("u");	
+									System.DateTime? temp_date_time = val as System.DateTime?;
+									result = temp_date_time.Value;	
 								}
-								else if(val.GetType() is string)
+								else if(val.GetType() == typeof(string))
 								{
-									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+									result = val.ToString();	
+								}
+
+								else if(val.GetType() == typeof(System.Collections.Generic.List<string>))
+								{
+									
+									result = val as System.Collections.Generic.List<string>;	
+								}
+								else if(val.GetType() == typeof(System.Collections.Generic.List<object>))
+								{
+
+									result = val as System.Collections.Generic.List<object>;	
 								}
 								else
 								{
-									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+									result = val;	
 								}
 							}
 							else
 							{
-								result = val;	
+								result = null;	
 							}
 						}
 						else
@@ -162,29 +217,49 @@ namespace mmria.server.util
 					}
 					else if (i == path.Length - 1)
 					{
-						if (index is IDictionary<string, object> && ((IDictionary<string, object>)index).ContainsKey(path[i]))
+						if (index is IDictionary<string, object>)
 						{
-							var val = ((IDictionary<string, object>)index)[path[i]]; 
+
+							IDictionary<string, object> dictionary_object = index as IDictionary<string, object>;
+
+							object val = null;
+
+							if(dictionary_object.ContainsKey(path[i]))
+							{
+									val = dictionary_object[path[i]]; 
+							}
 
 							if(val != null)
 							{
-								if(val.GetType() is System.DateTime)
+								if(val.GetType() == typeof(System.DateTime))
 								{
-									System.DateTime? temp_date_time = ((IDictionary<string, object>)index)[path[i]] as System.DateTime?;
-									result = temp_date_time.Value.ToUniversalTime().ToString("u");	
+									System.DateTime? temp_date_time = val as System.DateTime?;
+									result = temp_date_time.Value;	
 								}
-								else if(val.GetType() is string)
+								else if(val.GetType() == typeof(string))
 								{
-									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+									result = val.ToString();	
+								}
+
+								else if(val.GetType() == typeof(System.Collections.Generic.List<string>))
+								{
+
+									result = val as System.Collections.Generic.List<string>;	
+								}
+								else if(val.GetType() == typeof(System.Collections.Generic.List<object>))
+								{
+
+									result = val as System.Collections.Generic.List<object>;	
 								}
 								else
 								{
-									result = ((IDictionary<string, object>)index)[path[i]].ToString();	
+									result = val;	
 								}
+
 							}
 							else
 							{
-								result = val;	
+								result = null;	
 							}
 						}
 						else

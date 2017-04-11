@@ -120,11 +120,14 @@ namespace mmria.server
 
 			}
 
-
+			// ****   Web Server - Start
 			Microsoft.Owin.Hosting.WebApp.Start(Program.config_web_site_url);            
 			Console.WriteLine("Listening at " + Program.config_web_site_url);
 
+			// ****   Web Server - End
 
+
+			// ****   Quartz Timer - Start
 			Program.Change_Sequence_List = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
@@ -148,7 +151,7 @@ namespace mmria.server
 				.WithIdentity("data_job", "group1")
 				.Build();
 
-			string cron_schedule = System.Configuration.ConfigurationManager.AppSettings["cron_schedule"];
+			string cron_schedule = Program.config_cron_schedule;
 
 
 			ITrigger trigger = (ITrigger)TriggerBuilder.Create()
@@ -174,8 +177,8 @@ namespace mmria.server
 			//sched.Start();
 
 
-			/*
-			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, "mmrds", "mmrds");
+			
+			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 			string res = curl.execute ();
 			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
 			//System.Console.WriteLine("get_job_info.last_seq");
@@ -215,6 +218,31 @@ namespace mmria.server
 				try
 				{
 					document_json = document_curl.execute();
+
+
+					if (!string.IsNullOrEmpty(document_json) && document_json.IndexOf("\"_id\":\"_design/") < 0)
+					{
+						//string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
+						string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key;
+
+						try
+						{
+							string aggregate_json = new mmria.server.util.c_aggregator(document_json).execute();
+
+							var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
+
+							string aggregate_result = aggregate_curl.execute();
+							System.Console.WriteLine("sync aggregate_id");
+							System.Console.WriteLine(aggregate_result);
+
+						}
+						catch (Exception ex)
+						{
+							System.Console.WriteLine("sync aggregate_id");
+							System.Console.WriteLine(ex);
+						}
+					}
+
 				}
 				catch (Exception ex)
 				{
@@ -222,32 +250,12 @@ namespace mmria.server
 					System.Console.WriteLine(ex);
 				}
 
-				if (!string.IsNullOrEmpty(document_json) && document_json.IndexOf("\"_id\":\"_design/") < 0)
-				{
-					string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
 
-					try
-					{
-						string aggregate_json = new mmria.server.util.c_aggregator(document_json).execute();
-
-						var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
-
-						string aggregate_result = aggregate_curl.execute();
-						System.Console.WriteLine("sync aggregate_id");
-						System.Console.WriteLine(aggregate_result);
-
-					}
-					catch (Exception ex)
-					{
-						System.Console.WriteLine("sync aggregate_id");
-						System.Console.WriteLine(ex);
-					}
-				}
 			}
-*/
+
 
 			
-
+			// ****   Quartz Timer - End
 
 
 
