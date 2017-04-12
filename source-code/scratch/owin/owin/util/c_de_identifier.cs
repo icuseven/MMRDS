@@ -97,6 +97,12 @@ namespace mmria.server.util
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(source_json);
 
 
+			IDictionary<string, object> expando_object = source_object as IDictionary<string, object>;
+			expando_object.Remove("_rev");
+
+
+
+
 
 			foreach (string path in de_identified_set) 
 			{

@@ -18,6 +18,22 @@ namespace mmria.server.util
 
 
 
+		private string set_revision(string p_document, string p_revision_id)
+		{
+
+			string result = null;
+
+
+			var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(p_document);
+			IDictionary<string, object> expando_object = request_result as IDictionary<string, object>;
+			expando_object ["_rev"] = p_revision_id;
+
+			result =  Newtonsoft.Json.JsonConvert.SerializeObject(expando_object);
+
+			return result;
+		}
+
+
 		private string get_revision(string p_document_url)
 		{
 
@@ -34,9 +50,13 @@ namespace mmria.server.util
 				IDictionary<string, object> updater = request_result as IDictionary<string, object>;
 				result = updater["_rev"].ToString();
 			}
-			catch(Exception Ex) 
+			catch(Exception ex) 
 			{
-
+				if (!(ex.Message.IndexOf ("(404) Object Not Found") > -1)) 
+				{
+					System.Console.WriteLine ("c_sync_document.get_revision");
+					System.Console.WriteLine (ex);
+				}
 			}
 
 			return result;
@@ -55,8 +75,12 @@ namespace mmria.server.util
 			{
 				de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id;
 			}
+			else
 			{
-				de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
+				//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
+				de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id;
+				de_identified_json = set_revision (de_identified_json, de_identified_revision);
+
 			}
 			var de_identfied_curl = new cURL("PUT", null, de_identfied_url, de_identified_json, Program.config_timer_user_name, Program.config_timer_password);
 			try
@@ -68,7 +92,7 @@ namespace mmria.server.util
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("sync de_id");
+				System.Console.WriteLine("c_sync_document de_id");
 				System.Console.WriteLine(ex);
 			}
 
@@ -87,13 +111,16 @@ namespace mmria.server.util
 				{
 					aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id;
 				}
+				else
 				{
-					aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id + "?new_edits=false";
+					//aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id + "?new_edits=false";
+					aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id;
+					aggregate_json = set_revision (aggregate_json, aggregate_revision);
 				}
 				var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
 
 				string aggregate_result = aggregate_curl.execute();
-				System.Console.WriteLine("sync aggregate_id");
+				System.Console.WriteLine("c_sync_document aggregate_id");
 				System.Console.WriteLine(aggregate_result);
 
 			}

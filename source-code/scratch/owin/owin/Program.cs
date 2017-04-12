@@ -191,20 +191,23 @@ namespace mmria.server
 			{
 				foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
 				{
-					if (response_results.ContainsKey(seq.id))
+					if (seq.deleted == null) 
 					{
-						if
-						(
-							seq.changes.Count > 0 &&
-							response_results[seq.id] != seq.changes[0].rev
-						)
+						if (response_results.ContainsKey (seq.id)) 
 						{
-							response_results[seq.id] = seq.changes[0].rev;
+							if 
+							(
+								seq.changes.Count > 0 &&
+								response_results [seq.id] != seq.changes [0].rev
+							)
+							{
+								response_results [seq.id] = seq.changes [0].rev;
+							}
+						} 
+						else 
+						{
+							response_results.Add (seq.id, seq.changes [0].rev);
 						}
-					}
-					else
-					{
-						response_results.Add(seq.id, seq.changes[0].rev);
 					}
 				}
 			}
@@ -222,25 +225,9 @@ namespace mmria.server
 
 					if (!string.IsNullOrEmpty(document_json) && document_json.IndexOf("\"_id\":\"_design/") < 0)
 					{
-						//string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
-						string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key;
 
-						try
-						{
-							string aggregate_json = new mmria.server.util.c_aggregator(document_json).execute();
-
-							var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
-
-							string aggregate_result = aggregate_curl.execute();
-							System.Console.WriteLine("sync aggregate_id");
-							System.Console.WriteLine(aggregate_result);
-
-						}
-						catch (Exception ex)
-						{
-							System.Console.WriteLine("sync aggregate_id");
-							System.Console.WriteLine(ex);
-						}
+						mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document(kvp.Key, document_json);
+						sync_document.execute();
 					}
 
 				}

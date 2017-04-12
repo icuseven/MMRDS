@@ -71,7 +71,7 @@ namespace mmria
 			httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
 			httpWebRequest.ContentType = "application/json";
 			httpWebRequest.PreAuthenticate = false;
-			//httpWebRequest.Accept = "*/*";
+			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
 
 			if (!string.IsNullOrWhiteSpace(this.user_id) && !string.IsNullOrWhiteSpace(this.password))
@@ -88,7 +88,7 @@ namespace mmria
 
 			if (this.pay_load != null) 
 			{
-				httpWebRequest.ContentLength = this.pay_load.Length;
+				//httpWebRequest.ContentLength = this.pay_load.Length;
 
 				using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) 
 				{

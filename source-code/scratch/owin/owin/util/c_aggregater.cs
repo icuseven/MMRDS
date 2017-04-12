@@ -72,58 +72,250 @@ namespace mmria.server.util
 
 			aggregate = new mmria.server.model.c_aggregate();
 
+			aggregate._id = get_value(source_object, "_id");
+
+			if
+			(
+				aggregate._id == "b5003bc5-1ab3-4ba2-8aea-9f3717c9682a" 
+			)
+			{
+				System.Console.Write("break");
+			}
+
+			object val = null;
+
+			try
+			{
+				val = get_value(source_object, "home_record/date_of_death/year");
+				if(val != null)
+				{
+					aggregate.hr_date_of_death_year = System.Convert.ToInt64(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 
 
 			try
 			{
-
-				aggregate._id = get_value(source_object, "_id");
-
-
-
-				if
-				(
-					aggregate._id == "b5003bc5-1ab3-4ba2-8aea-9f3717c9682a" 
-				)
+				val = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
+				if(val != null)
 				{
-					System.Console.Write("break");
+					aggregate.dc_date_of_death = System.Convert.ToDateTime(val);
 				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 
-				aggregate.hr_date_of_death_year = get_value(source_object, "home_record/date_of_death/year");
-				aggregate.dc_date_of_death = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
-				aggregate.date_of_review = get_value(source_object, "committee_review/date_of_review");
+			try
+			{
+				val = get_value(source_object, "committee_review/date_of_review");
+				if(val != null)
+				{
+					aggregate.date_of_review = System.Convert.ToDateTime(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 
-				aggregate.pregnancy_relatedness = get_value(source_object, "committee_review/pregnancy_relatedness");
-
-				aggregate.age = get_value(source_object, "death_certificate/demographics/age");
-				aggregate.pmss = get_value(source_object, "committee_review/pmss_mm");
-				aggregate.pmss_mm_secondary = get_value(source_object, "committee_review/pmss_mm_secondary");
 
 
-				System.Console.WriteLine ("here");
-				aggregate.dc_race = get_value(source_object, "death_certificate/race/race");
-				aggregate.bc_race = get_value(source_object, "birth_fetal_death_certificate_parent.race.race_of_mother");
+			try
+			{	
+				val = get_value(source_object, "committee_review/pregnancy_relatedness");
+				if(val != null)
+				{
+					aggregate.pregnancy_relatedness = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 
-				System.Console.WriteLine ("here");
-				aggregate.bc_is_of_hispanic_origin = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
-				aggregate.dc_is_of_hispanic_origin = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
 
-				System.Console.WriteLine ("here");
-				aggregate.did_obesity_contribute_to_the_death = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
-				aggregate.did_mental_health_conditions_contribute_to_the_death = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				aggregate.did_substance_use_disorder_contribute_to_the_death = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
 
-				System.Console.WriteLine ("here");
+			try
+			{
+				val = get_value(source_object, "death_certificate/demographics/age");
+				if(val != null)
+				{
+					aggregate.age = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
 
-				aggregate.was_this_death_preventable = get_value(source_object, "committee_review/was_this_death_preventable");
-				aggregate.was_this_death_a_sucide = get_value(source_object, "committee_review/was_this_death_a_sucide");
-				aggregate.was_this_death_a_homicide = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
+			try
+			{
+				val = get_value(source_object, "committee_review/pmss_mm");
+				if(val != null)
+				{
+					aggregate.pmss =System.Convert.ToString(val) ;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{
+				val = get_value(source_object, "committee_review/pmss_mm_secondary");
+				if(val != null)
+				{
+					aggregate.pmss_mm_secondary = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{
+				val = get_value(source_object, "death_certificate/race/race");
+				if(val != null)
+				{
+					aggregate.dc_race = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "birth_fetal_death_certificate_parent.race.race_of_mother");
+				if(val != null)
+				{
+					aggregate.bc_race = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{
+				val = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+				if(val != null)
+				{
+					aggregate.bc_is_of_hispanic_origin = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
+				if(val != null)
+				{
+					aggregate.dc_is_of_hispanic_origin = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
+				if(val != null)
+				{
+					aggregate.did_obesity_contribute_to_the_death = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{
+				val = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null)
+				{
+					aggregate.did_mental_health_conditions_contribute_to_the_death = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null)
+				{
+					aggregate.did_substance_use_disorder_contribute_to_the_death = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "committee_review/was_this_death_preventable");
+				if(val != null)
+				{
+					aggregate.was_this_death_preventable = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "committee_review/was_this_death_a_sucide");
+				if(val != null)
+				{
+					aggregate.was_this_death_a_sucide = System.Convert.ToString(val);
+				}
 
 			}
 			catch(Exception ex)
 			{
 				System.Console.WriteLine (ex);
 			}
+
+			try
+			{
+				val = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
+				if(val != null)
+				{
+					aggregate.was_this_death_a_homicide = System.Convert.ToString(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 
 
 			/*
@@ -133,7 +325,7 @@ namespace mmria.server.util
 			}*/
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 			result = Newtonsoft.Json.JsonConvert.SerializeObject(aggregate, settings);
 
 			return result;
