@@ -154,6 +154,7 @@
     <Compile Include="util\c_de_identifier.cs" />
     <Compile Include="util\c_aggregater.cs" />
     <Compile Include="model\c_aggregate.cs" />
+    <Compile Include="util\c_sync_document.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
