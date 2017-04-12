@@ -5,6 +5,7 @@
 
 var g_metadata = null;
 var g_data = null;
+var g_source_db = null;
 var g_metadata_path = [];
 var g_validator_map = [];
 var g_event_map = [];
@@ -21,6 +22,11 @@ var default_object = null;
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
+    if(g_source_db=="de_id")
+    {
+      return;
+    }
+
   var current_value = eval(p_object_path);
   //if(current_value != value)
   //{
@@ -53,7 +59,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_ui.broken_rules[p_object_path] = false;
     } 
 
-	  var db = new PouchDB("mmrds");
+	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
       {
           if(g_data && g_data._id == doc.id)
@@ -176,7 +182,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       }
       
 	  
-	  var db = new PouchDB("mmrds");
+	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
       {
           if(g_data && g_data._id == doc.id)
@@ -358,6 +364,10 @@ function load_profile()
     profile.on_login_call_back = function ()
     {
       get_metadata();
+      if(g_source_db == "mmrds")
+      {
+        window.setInterval(save_change_task, 30000);	
+      }
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)
@@ -373,48 +383,77 @@ function load_profile()
 
 function replicate_db_and_log_out(p_user_name, p_password)
 {
-    var db = new PouchDB('mmrds');
+    var db = new PouchDB(g_source_db);
     var prefix = 'http://' + p_user_name + ":" + p_password + '@';
-    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
+    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
-    db.replicate.to(remoteDB).on('complete', function () 
+    if(g_source_db == "mmrds")
     {
-        //Creating the database object
-        var db = new PouchDB('mmrds');
+      db.replicate.to(remoteDB).on('complete', function () 
+      {
+          //Creating the database object
+          var db = new PouchDB(g_source_db);
 
-        //deleting database
-        db.destroy(function (err, response) {
-          if (err) 
-          {
-              console.log(err);
-          } 
-          else 
-          {
-            console.log("database destroyed");
-          }
-          
-          window.onhashchange = null;
-          
-          //window.location.href = location.protocol + '//' + location.host;
-          //document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-          document.getElementById('navbar').innerHTML = "";
-          document.getElementById('form_content_id').innerHTML ="";
+          //deleting database
+          db.destroy(function (err, response) {
+            if (err) 
+            {
+                console.log(err);
+            } 
+            else 
+            {
+              console.log("database destroyed");
+            }
+            
+            window.onhashchange = null;
+            
+            //window.location.href = location.protocol + '//' + location.host;
+            //document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+            document.getElementById('navbar').innerHTML = "";
+            document.getElementById('form_content_id').innerHTML ="";
+        });
+      }).on('error', function (err) {
+        console.log("db sync error", err);
       });
+  
+  }
+  else
+  {
+      //Creating the database object
+      var db = new PouchDB(g_source_db);
+
+      //deleting database
+      db.destroy(function (err, response) 
+      {
+        if (err) 
+        {
+            console.log(err);
+        } 
+        else 
+        {
+          console.log("database destroyed");
+        }
+        
+        window.onhashchange = null;
+        
+        //window.location.href = location.protocol + '//' + location.host;
+        //document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('navbar').innerHTML = "";
+        document.getElementById('form_content_id').innerHTML ="";
+    });
+    
+  }
 
 
-
-  }).on('error', function (err) {
-    console.log("db sync error", err);
-  });
 
 }
 
 
 function get_case_set()
 {
-    var db = new PouchDB('mmrds');
+    var db = new PouchDB(g_source_db);
     var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
-    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
+    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
 
     db.sync(remoteDB).on('complete', function () 
@@ -842,7 +881,7 @@ function delete_record(p_index)
     var data = g_ui.data_list[p_index];
     data._deleted = true;
 
-    var db = new PouchDB("mmrds");
+    var db = new PouchDB(g_source_db);
 
       db.put(data).then(function (doc)
       {
@@ -908,11 +947,11 @@ var save_queue = [];
 function save_change_task()
 {
 
-  if(profile.is_logged_in && profile.user_name && profile.password)
+  if(profile.is_logged_in && profile.user_name && profile.password && g_source_db == "mmrds")
   {
-    var db = new PouchDB('mmrds');
+    var db = new PouchDB(g_source_db);
     var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
-    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/mmrds');
+    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
     db.replicate.to(remoteDB).on('complete', function (err, response) {
       
@@ -928,7 +967,7 @@ function save_change_task()
 
 }
 
-	window.setInterval(save_change_task, 30000);	
+	
 
 function open_print_version(p_section)
 {

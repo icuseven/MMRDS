@@ -63,6 +63,16 @@ initialize_profile: function ()
 				profile.user_roles = $mmria.getCookie("roles");
 				profile.auth_session = $mmria.getCookie("AuthSession");
 
+				if(profile.user_roles.indexOf("committee_member") >-1)
+				{
+					g_source_db = "de_id";
+				}
+				else
+				{
+					g_source_db = "mmrds";
+				}
+
+
 				/*
 				var url =  location.protocol + '//' + location.host + "/committee-member";
 				if(
@@ -86,6 +96,7 @@ initialize_profile: function ()
 				profile.user_roles = null;
 				profile.auth_session = null;
 				profile.password = null;
+				g_source_db = null;
 				$mmria.removeCookie("AuthSession");
 			}
 
@@ -98,6 +109,7 @@ initialize_profile: function ()
 			profile.user_roles = null;
 			profile.auth_session = null;
 			profile.password = null;
+			g_source_db = null;
 			profile.render();
 
 			console.log("failed:", response);
@@ -241,16 +253,17 @@ login_response: function (response)
 		$mmria.addCookie("roles", json_response.roles);
 		$mmria.addCookie("AuthSession", profile.auth_session);
 
-		var url =  location.protocol + '//' + location.host + "/committee-member";
-		if(
-			profile.user_roles.length == 1 && 
-			profile.user_roles[0].indexOf("committee_member") > -1 && 
-			url.indexOf("/committee_member") < 1
-		)
+
+		if(profile.user_roles.indexOf("committee_member") >-1)
 		{
-			window.location.href = url;
+			g_source_db = "de_id";
 		}
-		else if(profile.on_login_call_back)
+		else
+		{
+			g_source_db = "mmrds";
+		}
+
+		if(profile.on_login_call_back)
 		{
 			profile.on_login_call_back();
 		}
@@ -283,12 +296,14 @@ logout : function()
 	profile.user_roles=[];
 	profile.auth_session='';
 
+	g_source_db = null;
+
 	$mmria.removeCookie("uid");
 	$mmria.removeCookie("pwd");
 	$mmria.removeCookie("roles");
 	$mmria.removeCookie("AuthSession");
 
-
+	g_source_db = null;
 
 	profile.render();
 
@@ -354,6 +369,7 @@ logout : function()
 				profile.user_name = null;
 				profile.user_roles = null;
 				profile.auth_session = null;
+				g_source_db = null;
 				$mmria.removeCookie("AuthSession");
 			}
 		}
@@ -363,6 +379,7 @@ logout : function()
 			profile.user_name = null;
 			profile.user_roles = null;
 			profile.auth_session = null;
+			g_source_db = null;
 			$mmria.removeCookie("AuthSession");
 		}
 
@@ -374,7 +391,8 @@ logout : function()
 		profile.user_name = null;
 		profile.user_roles = null;
 		profile.auth_session = null;
-
+		g_source_db = null;
+		
 		profile.render();
 
 		console.log("failed:", response);

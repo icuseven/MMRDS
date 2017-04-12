@@ -177,7 +177,7 @@ namespace mmria.server
 			//sched.Start();
 
 
-			
+			/*
 			var curl = new cURL ("GET", null, "http://db1.mmria.org/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 			string res = curl.execute ();
 			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
@@ -238,7 +238,7 @@ namespace mmria.server
 				}
 
 
-			}
+			}*/
 
 
 			
@@ -263,6 +263,11 @@ namespace mmria.server
 				while (string.IsNullOrWhiteSpace(read_line) || read_line.ToLower () != "quit") 
 				{
 					read_line = Console.ReadLine();
+				}
+				if (sched != null) 
+				{
+					sched.Clear ();
+					sched.Shutdown ();
 				}
 				System.Console.WriteLine ("Quit command recieved shutting down.");
 			}

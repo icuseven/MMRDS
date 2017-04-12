@@ -35,20 +35,23 @@ namespace mmria.server.model
 			{
 				foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
 				{
-					if (response_results.ContainsKey(seq.id))
+					if (seq.deleted == null) 
 					{
-						if
-						(
-							seq.changes.Count > 0 &&
-							response_results[seq.id] != seq.changes[0].rev
-						)
+						if (response_results.ContainsKey (seq.id)) 
 						{
-							response_results[seq.id] = seq.changes[0].rev;
+							if 
+							(
+								seq.changes.Count > 0 &&
+								response_results [seq.id] != seq.changes [0].rev
+							)
+							{
+								response_results [seq.id] = seq.changes [0].rev;
+							}
+						} 
+						else 
+						{
+							response_results.Add (seq.id, seq.changes [0].rev);
 						}
-					}
-					else
-					{
-						response_results.Add(seq.id, seq.changes[0].rev);
 					}
 				}
 			}
