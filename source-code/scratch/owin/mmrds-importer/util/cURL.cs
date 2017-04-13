@@ -10,21 +10,21 @@ namespace mmria
 	public class cURL
 	{
 		string method;
-		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> headers;
+		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers;
 		string url;
 		string pay_load;
 		string user_id;
 		string password;
 
-		public cURL(string p_method, string p_headers, string p_url, string p_pay_load, string p_username = null,
+		public cURL (string p_method, string p_headers, string p_url, string p_pay_load, string p_username = null,
 		string p_password = null)
 		{
-			this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>();
+			this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
 
 			this.user_id = p_username;
 			this.password = p_password;
 
-			switch (p_method.ToUpper())
+			switch (p_method.ToUpper ()) 
 			{
 				case "PUT":
 					this.method = "PUT";
@@ -43,14 +43,14 @@ namespace mmria
 
 			url = p_url;
 			pay_load = p_pay_load;
-			if (p_headers != null)
+			if (p_headers != null) 
 			{
-				string[] name_value_list = p_headers.Split('|');
+				string[] name_value_list = p_headers.Split ('|');
 
-				foreach (string name_value in name_value_list)
+				foreach (string name_value in name_value_list) 
 				{
-					string[] n_v = name_value.Split(' ');
-					this.headers.Add(new System.Collections.Generic.KeyValuePair<string, string>(n_v[0], n_v[1]));
+					string[] n_v = name_value.Split (' ');
+					this.headers.Add (new System.Collections.Generic.KeyValuePair<string,string> (n_v [0], n_v [1]));
 				}
 
 			}
@@ -59,11 +59,11 @@ namespace mmria
 
 		public cURL AddHeader(string p_name, string p_value)
 		{
-			this.headers.Add(new System.Collections.Generic.KeyValuePair<string, string>(p_name, p_value));
+			this.headers.Add(new System.Collections.Generic.KeyValuePair<string,string>(p_name, p_value));
 			return this;
 		}
 
-		public string execute()
+		public string execute ()
 		{
 			string result = null;
 
@@ -71,7 +71,7 @@ namespace mmria
 			httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
 			httpWebRequest.ContentType = "application/json";
 			httpWebRequest.PreAuthenticate = false;
-			//httpWebRequest.Accept = "*/*";
+			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
 
 			if (!string.IsNullOrWhiteSpace(this.user_id) && !string.IsNullOrWhiteSpace(this.password))
@@ -81,32 +81,32 @@ namespace mmria
 			}
 
 
-			foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers)
+			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.headers) 
 			{
-				httpWebRequest.Headers.Add(kvp.Key, kvp.Value);
+				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
 			}
 
-			if (this.pay_load != null)
+			if (this.pay_load != null) 
 			{
-				httpWebRequest.ContentLength = this.pay_load.Length;
+				//httpWebRequest.ContentLength = this.pay_load.Length;
 
-				using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+				using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) 
 				{
-					streamWriter.Write(this.pay_load);
-					streamWriter.Flush();
-					streamWriter.Close();
+					streamWriter.Write (this.pay_load);
+					streamWriter.Flush ();
+					streamWriter.Close ();
 				}
 			}
 
 			//try
 			//{
-			HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
-			result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
-			//Console.WriteLine("Response : " + respStr); // if you want see the output
+				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
+				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
+				//Console.WriteLine("Response : " + respStr); // if you want see the output
 			//}
 			//catch(Exception ex)
 			//{
-			//process exception here   
+				//process exception here   
 			//	result = ex.ToString();
 			//}
 

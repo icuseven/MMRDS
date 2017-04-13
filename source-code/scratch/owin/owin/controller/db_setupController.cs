@@ -15,6 +15,9 @@ curl -X PUT http://uid:pwd@target_db_url/_replicator
 curl -X PUT http://uid:pwd@target_db_url/_global_changes
 curl -X PUT http://uid:pwd@target_db_url/metadata
 curl -X PUT http://uid:pwd@target_db_url/mmrds
+curl -X PUT http://uid:pwd@target_db_url/de_id
+curl -X PUT http://uid:pwd@target_db_url/report
+curl -X PUT http://uid:pwd@target_db_url/config
 
 curl -vX POST http://uid:pwd@target_db_url/_replicate \
      -d '{"source":"http://uid:pwd@source_db_url/_users","target":"http://uid:pwd@target_db_url/_users"}' \

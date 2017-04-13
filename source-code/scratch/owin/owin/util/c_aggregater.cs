@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace mmria.server.util
 {
@@ -35,7 +36,8 @@ namespace mmria.server.util
 		{
 			"_id",
 			"home_record/date_of_death/year",
-			"death_certificate/certificate_identification/date_of_death",
+			"home_record/date_of_death/month",
+			"home_record/date_of_death/day",
 			"committee_review/date_of_review",
 			"committee_review/was_this_death_preventable",
 			"committee_review/pregnancy_relatedness",
@@ -76,7 +78,7 @@ namespace mmria.server.util
 
 			if
 			(
-				aggregate._id == "b5003bc5-1ab3-4ba2-8aea-9f3717c9682a" 
+				aggregate._id == "d0e08da8-d306-4a9a-a5ff-9f1d54702091" 
 			)
 			{
 				System.Console.Write("break");
@@ -101,10 +103,23 @@ namespace mmria.server.util
 
 			try
 			{
-				val = get_value(source_object, "death_certificate/certificate_identification/date_of_death");
+				val = get_value(source_object, "home_record/date_of_death/month");
 				if(val != null)
 				{
-					aggregate.dc_date_of_death = System.Convert.ToDateTime(val);
+					aggregate.hr_date_of_death_month = System.Convert.ToInt64(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "home_record/date_of_death/day");
+				if(val != null)
+				{
+					aggregate.hr_date_of_death_day = System.Convert.ToInt64(val);
 				}
 			}
 			catch(Exception ex)
@@ -188,7 +203,12 @@ namespace mmria.server.util
 				val = get_value(source_object, "death_certificate/race/race");
 				if(val != null)
 				{
-					aggregate.dc_race = System.Convert.ToString(val);
+					aggregate.dc_race = new List<string>();
+
+					foreach(object o in  val as List<object>)
+					{
+						aggregate.dc_race.Add(o.ToString());
+					}
 				}
 			}
 			catch(Exception ex)
@@ -198,10 +218,15 @@ namespace mmria.server.util
 
 			try
 			{
-				val = get_value(source_object, "birth_fetal_death_certificate_parent.race.race_of_mother");
+				val = get_value(source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
 				if(val != null)
 				{
-					aggregate.bc_race = System.Convert.ToString(val);
+					aggregate.bc_race = new List<string>();
+
+					foreach(object o in val as List<object>)
+					{
+						aggregate.bc_race.Add(o.ToString());
+					}
 				}
 			}
 			catch(Exception ex)
@@ -459,15 +484,20 @@ namespace mmria.server.util
 							System.Console.WriteLine("break");
 						}
 					}
-					else if (index[path[i]] is IList<object>)
+					else if(index is IDictionary<string, object>)
+					{
+						index = ((IDictionary<string, object>)index)[path[i]];
+					
+					}
+					else if (index[path[i]].GetType() == typeof(IList<object>))
 					{
 						index = index[path[i]] as IList<object>;
 					}
-					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
+					else if (index[path[i]].GetType() == typeof(IDictionary<string, object>) && !index.ContainsKey(path[i]))
 					{
 						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 					}
-					else if (index[path[i]] is IDictionary<string, object>)
+					else if (index[path[i]].GetType() == typeof(IDictionary<string, object>))
 					{
 						index = index[path[i]] as IDictionary<string, object>;
 					}
