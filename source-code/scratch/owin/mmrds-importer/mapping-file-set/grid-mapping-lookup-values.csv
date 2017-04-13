@@ -389,7 +389,7 @@ OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_
 OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_visits/physical_exam/body_system,Gastrointestinal,,Gastrointestinal,
 OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_visits/physical_exam/body_system,Genitourinary,,Genitourinary,
 OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_visits/physical_exam/body_system,Immunologic,,Immunologic,
-OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_visits/physical_exam/body_system,Hemotologic,,Hemotologic,
+OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_visits/physical_exam/body_system,Hemotologic,,Hematologic,
 OfficeVisits26MV_PE_grid," """"", MV_PESys1, System.String,other_medical_office_visits/physical_exam/body_system,Other,,Other,
 OfficeVisits26MV_PE_grid," """"", MV_PECom, System.String,other_medical_office_visits/physical_exam/comment,,,,
 OfficeVisits27MV_RF_grid, Referrals and consultations," """"",,,,,,

@@ -76,8 +76,8 @@ for suspected neonatal sepsis",Checkbox,Boolean,birth_certificate_infant_fetal_s
 for suspected neonatal sepsis",,Antibiotics received by the newborn for suspected neonatal sepsis,,
 ChildBirthCertificate9.PO_APGAR10,ChildBirthCertificate,ChildBirthCertificate9,PO_APGAR10,10 minute,Number,Number,birth_certificate_infant_fetal_section/biometrics_and_demographics/apgar_scores/minute_10,,,,,
 ChildBirthCertificate9.PO_APGAR5,ChildBirthCertificate,ChildBirthCertificate9,PO_APGAR5,5 minute,Number,Number,birth_certificate_infant_fetal_section/biometrics_and_demographics/apgar_scores/minute_5,,,,,
-ChildBirthCertificate9.PO_BDoB,ChildBirthCertificate,ChildBirthCertificate9,PO_BDoB,Date of delivery*,Date,Date,birth_certificate_infant_fetal_section/record_identification/date_of_delivery,,,,,
-ChildBirthCertificate9.PO_BDoB_flag,ChildBirthCertificate,ChildBirthCertificate9,PO_BDoB_flag,Estimate,Checkbox,Boolean,birth_certificate_infant_fetal_section/record_identification/date_of_delivery_is_estimated,,,,,
+ChildBirthCertificate9.PO_BDoB,ChildBirthCertificate,ChildBirthCertificate9,PO_BDoB,Date of delivery*,Date,Date,,,,,,
+ChildBirthCertificate9.PO_BDoB_flag,ChildBirthCertificate,ChildBirthCertificate9,PO_BDoB_flag,Estimate,Checkbox,Boolean,,,,,,
 ChildBirthCertificate9.PO_BFName,ChildBirthCertificate,ChildBirthCertificate9,PO_BFName,First name,Text,Text,birth_certificate_infant_fetal_section/record_identification/first_name,,,,,
 ChildBirthCertificate9.PO_BLName,ChildBirthCertificate,ChildBirthCertificate9,PO_BLName,Last name,Text,Text,birth_certificate_infant_fetal_section/record_identification/last_name,,,,,
 ChildBirthCertificate9.PO_BMedRecNo,ChildBirthCertificate,ChildBirthCertificate9,PO_BMedRecNo,Newborn medical record no.,Text,Text,birth_certificate_infant_fetal_section/record_identification/newborn_medical_record_number,,,,,
@@ -823,7 +823,7 @@ Hospitalization20.MR_DHAdm,Hospitalization,Hospitalization20,MR_DHAdm,Calculated
 Hospitalization20.MR_DHAdm_flag,Hospitalization,Hospitalization20,MR_DHAdm_flag,Estimate,Checkbox,Boolean,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/is_estimated,,,,,
 Hospitalization20.MR_ERDate,Hospitalization,Hospitalization20,MR_ERDate,Calculated date,Date,Date,,,,,,
 Hospitalization20.MR_ERDate_flag,Hospitalization,Hospitalization20,MR_ERDate_flag,Estimate,Checkbox,Boolean,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/is_estimated,,,,,
-Hospitalization20.MR_ERTime,Hospitalization,Hospitalization20,MR_ERTime,Time of arrival,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/time_of_arrival ,,,,,
+Hospitalization20.MR_ERTime,Hospitalization,Hospitalization20,MR_ERTime,Time of arrival,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/time_of_arrival,,,,,
 Hospitalization20.MR_FacName,Hospitalization,Hospitalization20,MR_FacName,Facility name,Text,Text,er_visit_and_hospital_medical_records/name_and_location_facility/facility_name,,,,,
 Hospitalization20.MR_FacNPI,Hospitalization,Hospitalization20,MR_FacNPI,Facility NPI No.,Text,Text,er_visit_and_hospital_medical_records/name_and_location_facility/facility_npi_no,,,,,
 Hospitalization20.MR_Fromwhere,Hospitalization,Hospitalization20,MR_Fromwhere,From where?,Text,Text,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/from_where,,,,,
@@ -923,8 +923,8 @@ Hospitalization20.MR_POBState,Hospitalization,Hospitalization20,MR_POBState,Stat
 Hospitalization20.MR_POBStreet,Hospitalization,Hospitalization20,MR_POBStreet,Street,Text,Text,er_visit_and_hospital_medical_records/name_and_location_facility/street,,,,,
 Hospitalization20.MR_POBZip,Hospitalization,Hospitalization20,MR_POBZip,ZIP Code,Text,Text,er_visit_and_hospital_medical_records/name_and_location_facility/zip_code,,,,,
 Hospitalization20.MR_RecNo1,Hospitalization,Hospitalization20,MR_RecNo1,Record ID,Text,Text,,,,,,Copied from home record in MMRDS; Not needed in MMRIA
-Hospitalization20.MR_TAdmissn,Hospitalization,Hospitalization20,MR_TAdmissn,Time of admission,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/time_of_admission,,,,,
-Hospitalization20.MR_TDischarge,Hospitalization,Hospitalization20,MR_TDischarge,Time of discharge,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/time_of_discharge,,,,,
+Hospitalization20.MR_TAdmissn,Hospitalization,Hospitalization20,MR_TAdmissn,Time of admission,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/time_of_admission,,,,,
+Hospitalization20.MR_TDischarge,Hospitalization,Hospitalization20,MR_TDischarge,Time of discharge,Time,Time,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/time_of_discharge,,,,,
 Hospitalization20.MR_ToWhere,Hospitalization,Hospitalization20,MR_ToWhere,To where? ,Text,Text,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/to_where,,,,,
 Hospitalization20.MR_TransMode,Hospitalization,Hospitalization20,MR_TransMode,Mode of transportation to facility,Comment Legal,Unknown,er_visit_and_hospital_medical_records/name_and_location_facility/mode_of_transportation_to_facility,,,(blank),,
 Hospitalization20.MR_TransMode,Hospitalization,Hospitalization20,MR_TransMode,Mode of transportation to facility,Comment Legal,Unknown,er_visit_and_hospital_medical_records/name_and_location_facility/mode_of_transportation_to_facility,1 - Private vehicle,1,Private vehicle,,
@@ -1000,7 +1000,7 @@ Hospitalization22.MR_PgOutcome1,Hospitalization,Hospitalization22,MR_PgOutcome1,
 Hospitalization22.MR_ROMArt,Hospitalization,Hospitalization22,MR_ROMArt,Artificial,Checkbox,Boolean,er_visit_and_hospital_medical_records/onset_of_labor/is_artificial,,,,,
 Hospitalization22.MR_ROMSpon,Hospitalization,Hospitalization22,MR_ROMSpon,Spontaneous,Checkbox,Boolean,er_visit_and_hospital_medical_records/onset_of_labor/is_spontaneous,,,,,
 Hospitalization22.MR_TOnsetLab,Hospitalization,Hospitalization22,MR_TOnsetLab,Time,Time,Time,er_visit_and_hospital_medical_records/onset_of_labor/time_of_onset_of_labor,,,,,
-Hospitalization22.MR_TROM,Hospitalization,Hospitalization22,MR_TROM,Time,Time,Time,er_visit_and_hospital_medical_records/onset_of_labor/time_of_onset_of_labor,,,,,
+Hospitalization22.MR_TROM,Hospitalization,Hospitalization22,MR_TROM,Time,Time,Time,er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/time_of_rupture,,,,,
 Hospitalization22.MR_Vitalsigns_grid,Hospitalization,Hospitalization22,MR_Vitalsigns_grid,Vital signs,Grid,Unknown,,,,,,
 Hospitalization22.MR_YDOoL,Hospitalization,Hospitalization22,MR_YDOoL,Year,Number,Number,er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/year,,,,,
 Hospitalization22.MR_YDRoM,Hospitalization,Hospitalization22,MR_YDRoM,Year,Number,Number,er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/year,,,,,
@@ -1047,9 +1047,9 @@ Interviews30.IN_IntervType,Interviews,Interviews30,IN_IntervType,Interview type*
 Interviews30.IN_IntervType,Interviews,Interviews30,IN_IntervType,Interview type*,Legal Values,Unknown,informant_interviews/interview_type,Medical examiner,,Medical Examiner,,
 Interviews30.IN_IntervType,Interviews,Interviews30,IN_IntervType,Interview type*,Legal Values,Unknown,informant_interviews/interview_type,Other,,Other,,
 Interviews30.IN_MDoI,Interviews,Interviews30,IN_MDoI,Month,Number,Number,informant_interviews/date_of_interview/month ,,,,informant_interviews/date_of_interview,need separate number fields for informant_interviews/date_of_interview 
-Interviews30.IN_Name,Interviews,Interviews30,IN_Name,Name,Text,Text,informant_interviews/informant_name,,,,,
+Interviews30.IN_Name,Interviews,Interviews30,IN_Name,Name,Text,Text,,,,,,not used in MMRIA
 Interviews30.IN_Narrative,Interviews,Interviews30,IN_Narrative,Interview Narrative,Multiline,Text,informant_interviews/interview_narrative,,,,,
-Interviews30.IN_OthIType,Interviews,Interviews30,IN_OthIType,Specify other:,Text,Text,informant_interviews/other_relationship,,,,,
+Interviews30.IN_OthIType,Interviews,Interviews30,IN_OthIType,Specify other:,Text,Text,informant_interviews/other_interview_type,,,,,
 Interviews30.IN_Race,Interviews,Interviews30,IN_Race,Race,Legal Values,Unknown,informant_interviews/race,,,(blank),,
 Interviews30.IN_Race,Interviews,Interviews30,IN_Race,Race,Legal Values,Unknown,informant_interviews/race,Black,,Black,,
 Interviews30.IN_Race,Interviews,Interviews30,IN_Race,Race,Legal Values,Unknown,informant_interviews/race,White,,White,,
@@ -2347,15 +2347,15 @@ OfficeVisits25.MV_Street,OfficeVisits,OfficeVisits25,MV_Street,Street,Text,Text,
 OfficeVisits25.MV_VDate,OfficeVisits,OfficeVisits25,MV_VDate,Calculated date,Date,Date,,,,,,
 OfficeVisits25.MV_VDate_flag,OfficeVisits,OfficeVisits25,MV_VDate_flag,Estimate,Checkbox,Boolean,,,,,,
 OfficeVisits25.MV_VisitReason,OfficeVisits,OfficeVisits25,MV_VisitReason,Reason for visit or chief complaint,Text,Text,other_medical_office_visits/visit/reason_for_visit_or_chief_complaint,,,,,
-OfficeVisits25.MV_VTime,OfficeVisits,OfficeVisits25,MV_VTime,Arrival time,Time,Time,other_medical_office_visits/visit/arrival_time,,,,,
+OfficeVisits25.MV_VTime,OfficeVisits,OfficeVisits25,MV_VTime,Arrival time,Time,Time,other_medical_office_visits/visit/date_of_medical_office_visit/arrival_time,,,,,
 OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,,,(blank),,Programmed as comment legal
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,1 - Initial,1,1 - Initial,,""""""
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,2 - Annual,2,2 - Annual,,""""""
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,3 - Follow up,3,3 - Follow Up,,""""""
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,4 - Referral,4,4 - Referral,,""""""
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,5 - Post-partum,5,5 - Post-Partum,,""""""
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,6 - Other,6,6 - Other,,""""""
-OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,9 - Not specified,9,9 - Not Specified,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,1 - Initial,1,Initial,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,2 - Annual,2,Annual,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,3 - Follow up,3,Follow Up,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,4 - Referral,4,Referral,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,5 - Post-partum,5,Post-Partum,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,6 - Other,6,Other,,""""""
+OfficeVisits25.MV_VType,OfficeVisits,OfficeVisits25,MV_VType,Visit type*,Comment Legal,Unknown,other_medical_office_visits/visit/visit_type,9 - Not specified,9,Not Specified,,""""""
 OfficeVisits25.MV_YVDate,OfficeVisits,OfficeVisits25,MV_YVDate,Year,Number,Number,other_medical_office_visits/visit/date_of_medical_office_visit/year,,,,,change to 3 separate number fields
 OfficeVisits26.MV_Lab_grid,OfficeVisits,OfficeVisits26,MV_Lab_grid,Laboratory tests,Grid,Unknown,,,,,,
 OfficeVisits26.MV_PE_grid,OfficeVisits,OfficeVisits26,MV_PE_grid,Physical exam,Grid,Unknown,,,,,,
