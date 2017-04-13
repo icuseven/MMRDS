@@ -29,33 +29,46 @@ namespace mmria.server.model
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
 			mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence);
 
-			Dictionary<string, string> response_results = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+			Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
 			
 			if (Program.Last_Change_Sequence != latest_change_set.last_seq)
 			{
 				foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
 				{
-					if (seq.deleted == null) 
+					if (response_results.ContainsKey (seq.id)) 
 					{
-						if (response_results.ContainsKey (seq.id)) 
+						if 
+						(
+							seq.changes.Count > 0 &&
+							response_results [seq.id].Key != seq.changes [0].rev
+						)
 						{
-							if 
-							(
-								seq.changes.Count > 0 &&
-								response_results [seq.id] != seq.changes [0].rev
-							)
+							if (seq.deleted == null)
 							{
-								response_results [seq.id] = seq.changes [0].rev;
+								response_results [seq.id] = new KeyValuePair<string, bool> (seq.changes [0].rev, false);
 							}
-						} 
-						else 
+							else
+							{
+								response_results [seq.id] = new KeyValuePair<string, bool> (seq.changes [0].rev, true);
+							}
+							
+						}
+					}
+					else 
+					{
+						if (seq.deleted == null)
 						{
-							response_results.Add (seq.id, seq.changes [0].rev);
+							response_results.Add (seq.id, new KeyValuePair<string, bool> (seq.changes [0].rev, false));
+						}
+						else
+						{
+							response_results.Add (seq.id, new KeyValuePair<string, bool> (seq.changes [0].rev, true));
 						}
 					}
 				}
 			}
 
+			
 			if (Program.Change_Sequence_Call_Count < int.MaxValue)
 			{
 				Program.Change_Sequence_Call_Count++;
@@ -70,31 +83,51 @@ namespace mmria.server.model
 
 			Program.Last_Change_Sequence = latest_change_set.last_seq;
 
-			foreach (KeyValuePair<string, string> kvp in response_results)
+			foreach (KeyValuePair<string, KeyValuePair<string, bool>> kvp in response_results)
 			{
 				System.Threading.Tasks.Task.Run
 				(
-					new Action(() =>
+					new Action(() => 
+					{
+						if (kvp.Value.Value)
 						{
-							string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
-							var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
-							string document_json = null;
 							try
 							{
-								document_json = document_curl.execute();
+								mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, null, "DELETE");
+								sync_document.execute ();
+								
+			
 							}
 							catch (Exception ex)
 							{
-								System.Console.WriteLine("Get case");
-								System.Console.WriteLine(ex);
+									System.Console.WriteLine ("Sync Delete case");
+									System.Console.WriteLine (ex);
 							}
-
-							if (!string.IsNullOrEmpty(document_json) && document_json.IndexOf("\"_id\":\"_design/") < 0)
+						}
+						else
+						{
+		
+							string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
+							var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+							string document_json = null;
+		
+							try
 							{
-								mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document(kvp.Key, document_json);
-								sync_document.execute();
+								document_json = document_curl.execute ();
+								if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
+								{
+									mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, document_json);
+									sync_document.execute ();
+								}
+			
 							}
-						})
+							catch (Exception ex)
+							{
+									System.Console.WriteLine ("Sync PUT case");
+									System.Console.WriteLine (ex);
+							}
+						}
+					})
 				);
 			}
 

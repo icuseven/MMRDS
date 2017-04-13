@@ -9,11 +9,24 @@ namespace mmria.server.util
 
 		private string document_json;
 		private string document_id;
+		private string method;
 
-		public c_sync_document (string p_document_id, string p_document_json)
+		public c_sync_document (string p_document_id, string p_document_json, string p_method = "PUT")
 		{
 			this.document_json = p_document_json;
 			this.document_id = p_document_id;
+
+			switch (p_method.ToUpperInvariant ())
+			{
+				case "DELETE":
+					this.method = "DELETE";
+					break;
+				case "PUT":
+				default:
+					this.method = "PUT";
+					break;
+			}
+			
 		}
 
 
@@ -69,20 +82,27 @@ namespace mmria.server.util
 			string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
 
 			string de_identified_revision = get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
-			string de_identfied_url = null;
+			System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
 
-			if(string.IsNullOrEmpty(de_identified_revision))
-			{
-				de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id;
-			}
-			else
+			if(!string.IsNullOrEmpty(de_identified_revision))
 			{
 				//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
-				de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id;
+				
 				de_identified_json = set_revision (de_identified_json, de_identified_revision);
 
 			}
-			var de_identfied_curl = new cURL("PUT", null, de_identfied_url, de_identified_json, Program.config_timer_user_name, Program.config_timer_password);
+
+			de_identfied_url.Append(Program.config_couchdb_url);
+			de_identfied_url.Append("/de_id/");
+			de_identfied_url.Append(this.document_id);
+
+			if(this.method == "DELETE")
+			{
+				de_identfied_url.Append("?rev=");
+				de_identfied_url.Append(de_identified_revision);	
+			}
+
+			var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_password);
 			try
 			{
 				string de_id_result = de_identfied_curl.execute();
@@ -105,19 +125,26 @@ namespace mmria.server.util
 
 				string aggregate_revision = get_revision (Program.config_couchdb_url + "/report/" + this.document_id);
 
-				string aggregate_url = null;
+				System.Text.StringBuilder aggregate_url = new System.Text.StringBuilder();
 
-				if(string.IsNullOrEmpty(de_identified_revision))
-				{
-					aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id;
-				}
-				else
+				if(!string.IsNullOrEmpty(aggregate_revision))
 				{
 					//aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id + "?new_edits=false";
-					aggregate_url = Program.config_couchdb_url + "/report/" + this.document_id;
 					aggregate_json = set_revision (aggregate_json, aggregate_revision);
 				}
-				var aggregate_curl = new cURL("PUT", null, aggregate_url, aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
+
+
+				aggregate_url.Append(Program.config_couchdb_url);
+				aggregate_url.Append("/report/");
+				aggregate_url.Append(this.document_id);
+	
+				if(this.method == "DELETE")
+				{
+					aggregate_url.Append("?rev=");
+					aggregate_url.Append(aggregate_revision);	
+				}
+
+				var aggregate_curl = new cURL(this.method, null, aggregate_url.ToString(), aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
 
 				string aggregate_result = aggregate_curl.execute();
 				System.Console.WriteLine("c_sync_document aggregate_id");

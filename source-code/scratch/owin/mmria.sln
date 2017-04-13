@@ -73,6 +73,39 @@ Global
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.ActiveCfg = Release|x86
 		{D1F6116E-6874-431C-BAEA-03BA83C53F7F}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.IndentSwitchBody = True
+		$3.IndentBreakStatements = False
+		$3.MethodBraceStyle = DoNotChange
+		$3.AnonymousMethodBraceStyle = DoNotChange
+		$3.ConstructorBraceStyle = DoNotChange
+		$3.DestructorBraceStyle = DoNotChange
+		$3.PropertyBraceStyle = DoNotChange
+		$3.PropertyGetBraceStyle = DoNotChange
+		$3.EventBraceStyle = DoNotChange
+		$3.EventAddBraceStyle = DoNotChange
+		$3.EventRemoveBraceStyle = DoNotChange
+		$3.StatementBraceStyle = DoNotChange
+		$3.ElseNewLinePlacement = NewLine
+		$3.CatchNewLinePlacement = NewLine
+		$3.FinallyNewLinePlacement = NewLine
+		$3.WhileNewLinePlacement = NewLine
+		$3.AfterDelegateDeclarationParameterComma = True
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$0.StandardHeader = $4
+		$4.Text = 
+		$4.IncludeInNewFiles = True
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
