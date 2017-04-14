@@ -176,7 +176,7 @@ namespace mmria.server
 
 			//sched.Start();
 
-/*
+
 
 			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 			string res = curl.execute ();
@@ -265,7 +265,7 @@ namespace mmria.server
 					}
 				}
 			}
-*/
+/**/
 
 
 			
