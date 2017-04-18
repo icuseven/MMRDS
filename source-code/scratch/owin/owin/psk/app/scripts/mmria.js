@@ -164,14 +164,14 @@ var $mmria = function()
                     if(g_data && g_data._id == doc.id)
                     {
                         g_data._rev = doc.rev;
-                        console.log('set_value save finished');
+                        console.log('$mmria.save_current_record save finished');
                     }
                     else for(var i = 0; i < g_ui.data_list.length; i++)
                     {
                         if(g_ui.data_list[i]._id == doc.id)
                         {
                             g_ui.data_list[i]._rev = doc.rev;
-                            console.log('set_value save finished');
+                            console.log('$mmria.save_current_record save finished');
                             break;
                         }
                     }

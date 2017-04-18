@@ -962,7 +962,6 @@ function save_change_task()
       console.log("replicate to server error:", err);
     });
 
-
   }
 
 }

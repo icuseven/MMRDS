@@ -1535,14 +1535,11 @@ function convert_dictionary_path_to_array_field(p_path)
 
 	*/
 	//g_data.er_visit_and_hospital_medical_records[current_index].vital_signs[].date_and_time
-
+	//var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 
 	var result = []
-	//var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 	var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".");
 	
-
-	//g_data.er_visit_and_hospital_medical_records.vital_signs.date_and_time
 	var multi_form_check = temp.split(".") ;
 	var check_path = eval(multi_form_check[0] + "." + multi_form_check[1]);
 	if(Array.isArray(check_path))
