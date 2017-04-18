@@ -140,7 +140,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
           case 'datetime':
             $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker({
-                format:"YYYY-MM-DD hh:mm:ss",
+                format:"YYYY-MM-DDThh:mm:ss",
 				        defaultDate: value });
           break;
 
@@ -776,7 +776,7 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'LT'});
+  $( ".time" ).datetimepicker({ format: 'YYYY-MM-DDThh:mm:ssZ'});
 //$( "[metadata_type='date']" ).datetimepicker();
 /*
 flatpickr(" .date", {

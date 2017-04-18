@@ -127,9 +127,9 @@ var $mmria = function()
             }
             else
             {
-                var minutes_10 = 10;
+                var minutes_12 = 12;
                 var current_date_time = new Date();
-                var new_date_time = new Date(current_date_time.getTime() + minutes_10 * 60000);
+                var new_date_time = new Date(current_date_time.getTime() + minutes_12 * 60000);
                 expires = "; expires=" + new_date_time.toGMTString();
 
             }
@@ -180,6 +180,12 @@ var $mmria = function()
                     console.log(err);
                 });
              }
+        },
+        get_current_multiform_index: function ()
+        {
+            var result = parseInt(window.location.href.substr(window.location.href.lastIndexOf("/") + 1,window.location.href.length - (window.location.href.lastIndexOf("/") + 1)));
+            
+            return result;
         }
     };
 

@@ -1173,7 +1173,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
 			p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input.datetime").datetimepicker({');
-			p_post_html_render.push('	format:"YYYY-MM-DD hh:mm:ss", defaultDate: "');
+			p_post_html_render.push('	format:"YYYY-MM-DDThh:mm:ss", defaultDate: "');
 			//p_post_html_render.push('	utc: true, defaultDate: "');
 			
 			p_post_html_render.push(p_data);
@@ -1307,7 +1307,8 @@ d3.select('#chart svg').append('text')
 
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
 			{
-				p_post_html_render.push("x: 'x',");
+				//p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M:%S',");
+				p_post_html_render.push("x: 'x', ");
 			}
 
 			p_post_html_render.push("      columns: [");
@@ -1436,14 +1437,23 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 			var val = array[i][field];
 			if(val)
 			{
-				var res = val.match(/\d\d\d\d-\d\d-\d+/);
+				var res = val.match(/^\d\d\d\d-\d\d-\d+$/);
 				if(res)
 				{
 					result.push("'" + val +"'");
 				}
-				else
+				else 
 				{
-					result.push(parseFloat(val));
+					res = val.match(/^\d\d\d\d-\d\d-\d\d[ T]?\d\d:\d\d:\d\d$/)
+					if(res)
+					{
+						var date_time = new Date(val);
+						result.push("'" + date_time.toISOString() +"'");
+					}
+					else
+					{
+						result.push(parseFloat(val));
+					}
 				}
 			}
 			else
@@ -1515,11 +1525,51 @@ function convert_dictionary_path_to_array_field(p_path)
 {
 
 	//g_data.prenatal.routine_monitoring.systolic_bp
+	//er_visit_and_hospital_medical_records/vital_signs/date_and_time
+	//er_visit_and_hospital_medical_records[current_index]/vital_signs[]/date_and_time
+	/* [
+			er_visit_and_hospital_medical_records[current_index]/vital_signs,
+			date_and_time
+	 ]
+
+	*/
+	//g_data.er_visit_and_hospital_medical_records[current_index].vital_signs[].date_and_time
+
+
 	var result = []
-	var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
-	var index = temp.lastIndexOf('.');
-	result.push(temp.substr(0, index));
-	result.push(temp.substr(index + 1, temp.length - (index + 1)));
+	//var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".");
+	
+
+	//g_data.er_visit_and_hospital_medical_records.vital_signs.date_and_time
+	var multi_form_check = temp.split(".") ;
+	var check_path = eval(multi_form_check[0] + "." + multi_form_check[1]);
+	if(Array.isArray(check_path))
+	{
+		var new_path = [];
+		for(var i = 0; i < multi_form_check.length; i++)
+		{
+			
+			if(i == 1)
+			{
+				new_path.push(multi_form_check[i] + "[" + $mmria.get_current_multiform_index() + "]");
+			}
+			else
+			{
+				new_path.push(multi_form_check[i]);
+			}
+		}
+		var path = new_path.join('.');
+		var index = path.lastIndexOf('.');
+		result.push(path.substr(0, index));
+		result.push(path.substr(index + 1, path.length - (index + 1)));
+	}
+	else
+	{
+		var index = temp.lastIndexOf('.');
+		result.push(temp.substr(0, index));
+		result.push(temp.substr(index + 1, temp.length - (index + 1)));
+	}
 
 	return result;
 }
