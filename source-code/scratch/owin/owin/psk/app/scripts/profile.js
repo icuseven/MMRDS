@@ -52,26 +52,40 @@ initialize_profile: function ()
 			valid_login = json_response.userCTX.name != null;
 			if(valid_login)
 			{
-				if(json_response.auth_session)
+				if(json_response.auth_session && $mmria.getCookie("uid"))
 				{
 					$mmria.addCookie("AuthSession", json_response.auth_session);
-				}
 
-				profile.is_logged_in = true;
-				profile.user_name = $mmria.getCookie("uid");
-				profile.password = $mmria.getCookie("pwd");
-				profile.user_roles = $mmria.getCookie("roles");
-				profile.auth_session = $mmria.getCookie("AuthSession");
+					profile.is_logged_in = true;
+					profile.user_name = $mmria.getCookie("uid");
+					profile.password = $mmria.getCookie("pwd");
+					profile.user_roles = $mmria.getCookie("roles");
+					profile.auth_session = $mmria.getCookie("AuthSession");
 
-				if(profile.user_roles.indexOf("committee_member") >-1)
-				{
-					g_source_db = "de_id";
+					if(profile.user_roles.indexOf("committee_member") >-1)
+					{
+						g_source_db = "de_id";
+					}
+					else
+					{
+						g_source_db = "mmrds";
+					}
+
+					if(profile.on_login_call_back)
+					{
+						profile.on_login_call_back();
+					}
 				}
 				else
 				{
-					g_source_db = "mmrds";
+						profile.is_logged_in = false;
+						profile.user_name = null;
+						profile.user_roles = null;
+						profile.auth_session = null;
+						profile.password = null;
+						g_source_db = null;
+						$mmria.removeCookie("AuthSession");
 				}
-
 
 				/*
 				var url =  location.protocol + '//' + location.host + "/committee-member";
@@ -84,10 +98,7 @@ initialize_profile: function ()
 					window.location.href = url;
 				}
 				else*/
-				if(profile.on_login_call_back)
-				{
-					profile.on_login_call_back();
-				}
+
 			}
 			else
 			{

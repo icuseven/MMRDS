@@ -1307,8 +1307,8 @@ d3.select('#chart svg').append('text')
 
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
 			{
-				//p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M:%S',");
-				p_post_html_render.push("x: 'x', ");
+				p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M:%S',");
+				//p_post_html_render.push("x: 'x', ");
 			}
 
 			p_post_html_render.push("      columns: [");
@@ -1447,8 +1447,9 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 					res = val.match(/^\d\d\d\d-\d\d-\d\d[ T]?\d\d:\d\d:\d\d$/)
 					if(res)
 					{
-						var date_time = new Date(val);
-						result.push("'" + date_time.toISOString() +"'");
+						//var date_time = new Date(val);
+						//result.push("'" + date_time.toISOString() + "'");
+						result.push("'" + make_c3_date(val) +"'");
 					}
 					else
 					{
@@ -1952,4 +1953,29 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 function convert_object_path_to_jquery_id(p_value)
 {
 	return p_value.replace(/\./g,"_").replace(/\[/g,"_").replace(/\]/g,"_")
+}
+
+
+function make_c3_date(p_value)
+{
+	//'%Y-%m-%d %H:%M:%S
+	
+	var date_time = new Date(p_value);
+
+	var result = [];
+
+	result.push(date_time.getFullYear());
+	result.push("-");
+	result.push(date_time.getMonth() + 1);
+	result.push("-");
+	result.push(date_time.getDate());
+
+	result.push(" ");
+	result.push(date_time.getHours());
+	result.push(":");
+	result.push(date_time.getMinutes());
+	result.push(":");
+	result.push(date_time.getSeconds());
+
+	return result.join("");
 }
