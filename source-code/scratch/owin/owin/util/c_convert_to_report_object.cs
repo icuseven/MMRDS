@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace mmria.server.util
 {
-	public class c_aggregator
+	public class c_convert_to_report_object
 	{
 		string source_json;
 
@@ -55,7 +55,7 @@ namespace mmria.server.util
 			"birth_fetal_death_certificate_parent/race/race_of_mother"
 		};
 
-		public c_aggregator (string p_source_json)
+		public c_convert_to_report_object (string p_source_json)
 		{
 
 			source_json = p_source_json;
@@ -67,18 +67,21 @@ namespace mmria.server.util
 		{
 			string result = null;
 
-			mmria.server.model.c_aggregate aggregate = null;
+			mmria.server.model.c_report_object report_object;
 
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(source_json);
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
-			aggregate = new mmria.server.model.c_aggregate();
+			report_object = new mmria.server.model.c_report_object();
 
-			aggregate._id = get_value(source_object, "_id");
+			report_object._id = get_value(source_object, "_id");
 
+			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
+
+/*
 			if
 			(
-				aggregate._id == "d0e08da8-d306-4a9a-a5ff-9f1d54702091" 
+				report_object._id == "d0e08da8-d306-4a9a-a5ff-9f1d54702091" 
 			)
 			{
 				System.Console.Write("break");
@@ -91,7 +94,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "home_record/date_of_death/year");
 				if(val != null)
 				{
-					aggregate.hr_date_of_death_year = System.Convert.ToInt64(val);
+					report_object.hr_date_of_death_year = System.Convert.ToInt64(val);
 				}
 			}
 			catch(Exception ex)
@@ -106,7 +109,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "home_record/date_of_death/month");
 				if(val != null)
 				{
-					aggregate.hr_date_of_death_month = System.Convert.ToInt64(val);
+					report_object.hr_date_of_death_month = System.Convert.ToInt64(val);
 				}
 			}
 			catch(Exception ex)
@@ -119,7 +122,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "home_record/date_of_death/day");
 				if(val != null)
 				{
-					aggregate.hr_date_of_death_day = System.Convert.ToInt64(val);
+					report_object.hr_date_of_death_day = System.Convert.ToInt64(val);
 				}
 			}
 			catch(Exception ex)
@@ -132,7 +135,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/date_of_review");
 				if(val != null)
 				{
-					aggregate.date_of_review = System.Convert.ToDateTime(val);
+					report_object.date_of_review = System.Convert.ToDateTime(val);
 				}
 			}
 			catch(Exception ex)
@@ -147,7 +150,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/pregnancy_relatedness");
 				if(val != null)
 				{
-					aggregate.pregnancy_relatedness = System.Convert.ToString(val);
+					report_object.pregnancy_relatedness = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -162,7 +165,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "death_certificate/demographics/age");
 				if(val != null)
 				{
-					aggregate.age = System.Convert.ToString(val);
+					report_object.age = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -175,7 +178,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/pmss_mm");
 				if(val != null)
 				{
-					aggregate.pmss =System.Convert.ToString(val) ;
+					report_object.pmss =System.Convert.ToString(val) ;
 				}
 			}
 			catch(Exception ex)
@@ -189,7 +192,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/pmss_mm_secondary");
 				if(val != null)
 				{
-					aggregate.pmss_mm_secondary = System.Convert.ToString(val);
+					report_object.pmss_mm_secondary = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -203,11 +206,11 @@ namespace mmria.server.util
 				val = get_value(source_object, "death_certificate/race/race");
 				if(val != null)
 				{
-					aggregate.dc_race = new List<string>();
+					report_object.dc_race = new List<string>();
 
 					foreach(object o in  val as List<object>)
 					{
-						aggregate.dc_race.Add(o.ToString());
+						report_object.dc_race.Add(o.ToString());
 					}
 				}
 			}
@@ -221,11 +224,11 @@ namespace mmria.server.util
 				val = get_value(source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
 				if(val != null)
 				{
-					aggregate.bc_race = new List<string>();
+					report_object.bc_race = new List<string>();
 
 					foreach(object o in val as List<object>)
 					{
-						aggregate.bc_race.Add(o.ToString());
+						report_object.bc_race.Add(o.ToString());
 					}
 				}
 			}
@@ -240,7 +243,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
 				if(val != null)
 				{
-					aggregate.bc_is_of_hispanic_origin = System.Convert.ToString(val);
+					report_object.bc_is_of_hispanic_origin = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -253,7 +256,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
 				if(val != null)
 				{
-					aggregate.dc_is_of_hispanic_origin = System.Convert.ToString(val);
+					report_object.dc_is_of_hispanic_origin = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -266,7 +269,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
 				if(val != null)
 				{
-					aggregate.did_obesity_contribute_to_the_death = System.Convert.ToString(val);
+					report_object.did_obesity_contribute_to_the_death = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -280,7 +283,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
 				if(val != null)
 				{
-					aggregate.did_mental_health_conditions_contribute_to_the_death = System.Convert.ToString(val);
+					report_object.did_mental_health_conditions_contribute_to_the_death = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -293,7 +296,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
 				if(val != null)
 				{
-					aggregate.did_substance_use_disorder_contribute_to_the_death = System.Convert.ToString(val);
+					report_object.did_substance_use_disorder_contribute_to_the_death = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -306,7 +309,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/was_this_death_preventable");
 				if(val != null)
 				{
-					aggregate.was_this_death_preventable = System.Convert.ToString(val);
+					report_object.was_this_death_preventable = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -319,7 +322,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/was_this_death_a_sucide");
 				if(val != null)
 				{
-					aggregate.was_this_death_a_sucide = System.Convert.ToString(val);
+					report_object.was_this_death_a_sucide = System.Convert.ToString(val);
 				}
 
 			}
@@ -333,7 +336,7 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
 				if(val != null)
 				{
-					aggregate.was_this_death_a_homicide = System.Convert.ToString(val);
+					report_object.was_this_death_a_homicide = System.Convert.ToString(val);
 				}
 			}
 			catch(Exception ex)
@@ -341,7 +344,7 @@ namespace mmria.server.util
 				System.Console.WriteLine (ex);
 			}
 
-
+*/
 
 			/*
 			foreach (string path in aggregator_set) 
@@ -351,7 +354,7 @@ namespace mmria.server.util
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-			result = Newtonsoft.Json.JsonConvert.SerializeObject(aggregate, settings);
+			result = Newtonsoft.Json.JsonConvert.SerializeObject(report_object, settings);
 
 			return result;
 		}
@@ -513,6 +516,47 @@ namespace mmria.server.util
 			}
 
 			return result;
+
+		}
+
+		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			try
+			{	
+				string val = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+				if(val != null)
+				{
+					switch(val)
+					{
+						case "Pregnancy-Related":
+							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_Related = 1;
+						break;
+						case "Pregnancy-Associated but NOT Related":
+							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = 1;
+						break;
+						case "Not Pregnancy Related or Associated (i.e. False Positive)":
+							p_report_object.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated = 1;
+						break;
+						case "Unable to Determine if Pregnancy Related or Associated":
+							p_report_object.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine = 1;
+						break;
+						default:
+							p_report_object.total_number_of_cases_by_pregnancy_relatedness.blank = 1;
+						break;
+					}
+
+				}
+				else
+				{
+					p_report_object.total_number_of_cases_by_pregnancy_relatedness.blank = 1;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 
 		}
 	}

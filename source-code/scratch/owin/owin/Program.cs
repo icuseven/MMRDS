@@ -177,7 +177,7 @@ namespace mmria.server
 			//sched.Start();
 
 
-/*
+
 			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 			string res = curl.execute ();
 			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
@@ -262,7 +262,7 @@ namespace mmria.server
 					}
 				}
 			}
-*/
+
 
 
 			

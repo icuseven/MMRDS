@@ -121,7 +121,7 @@ namespace mmria.server.util
 
 			try
 			{
-				string aggregate_json = new mmria.server.util.c_aggregator(document_json).execute();
+				string aggregate_json = new mmria.server.util.c_convert_to_report_object(document_json).execute();
 
 				string aggregate_revision = get_revision (Program.config_couchdb_url + "/report/" + this.document_id);
 
