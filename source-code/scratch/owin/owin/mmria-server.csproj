@@ -152,9 +152,10 @@
     <Compile Include="controller\syncController.cs" />
     <Compile Include="model\couchdb\c_seq.cs" />
     <Compile Include="util\c_de_identifier.cs" />
-    <Compile Include="util\c_aggregater.cs" />
-    <Compile Include="model\c_aggregate.cs" />
     <Compile Include="util\c_sync_document.cs" />
+    <Compile Include="util\c_document_sync_all.cs" />
+    <Compile Include="util\c_convert_to_report_object.cs" />
+    <Compile Include="model\c_report_object.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
