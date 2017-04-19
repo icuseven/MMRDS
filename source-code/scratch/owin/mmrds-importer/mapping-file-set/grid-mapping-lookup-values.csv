@@ -102,7 +102,7 @@ CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committe
 CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,97.2 - Liver disease/failure/transplant,97.2,97.2 Liver Disease/Failure/Transplant,
 CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,97.9 - Other gastrointestinal diseases/NOS,97.9,97.9 Other Gastrointestinal Diseases/NOS,
 CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,100 - Mental health conditions,100,100 Mental Health Conditions,
-CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,100.1 - Depression/suicide,100.1,100.1 Depression/Suicide,
+CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,100.1 - Depression/suicide,100.1,100.1 Depression,
 CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,100.9 - Other psychiatric conditions/NOS,100.9,100.9 Other Psychiatric Conditions/NOS,
 CommitteeReview28CR_CDCICDMM_grd/0," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm,999 - Unknown COD,999,999 Unknown COD,
 CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,,,(blank),in MMRIA this is not a grid but a multi-select list
@@ -180,7 +180,7 @@ CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committe
 CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,97.2 - Liver disease/failure/transplant,97.2,97.2 Liver Disease/Failure/Transplant,
 CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,97.9 - Other gastrointestinal diseases/NOS,97.9,97.9 Other Gastrointestinal Diseases/NOS,
 CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,100 - Mental health conditions,100,100 Mental Health Conditions,
-CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,100.1 - Depression/suicide,100.1,100.1 Depression/Suicide,
+CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,100.1 - Depression/suicide,100.1,100.1 Depression,
 CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,100.9 - Other psychiatric conditions/NOS,100.9,100.9 Other Psychiatric Conditions/NOS,
 CommitteeReview28CR_CDCICDMM_grd/1," """"", CR_CDCMMCode, System.String,committee_review/pmss_mm_secondary,999 - Unknown COD,999,999 Unknown COD,
 CommitteeReview28CR_CoD_grid, Committee Determination of Cause(s) of Death," """"",,,,,,

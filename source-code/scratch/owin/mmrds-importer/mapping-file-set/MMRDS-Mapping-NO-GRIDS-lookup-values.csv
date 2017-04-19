@@ -31,7 +31,7 @@ OBS,Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,mmria_path,v
 30,AutopsyReport11.AR_Where,AutopsyReport,AutopsyReport11,AR_Where,Was an autopsy performed?*,Legal Values,Unknown,autopsy_report/was_autopsy_performed,Referred / Not performed,,Referred/Not performed,,
 31,AutopsyReport11.AR_Where,AutopsyReport,AutopsyReport11,AR_Where,Was an autopsy performed?*,Legal Values,Unknown,autopsy_report/was_autopsy_performed,Not referred,,Not Referred,,
 32,AutopsyReport11.AR_YDate,AutopsyReport,AutopsyReport11,AR_YDate,Year,Number,Number,autopsy_report/reporter_characteristics/date_of_autopsy/year,,,,,
-33,AutopsyReport12.AR_COD_grid,AutopsyReport,AutopsyReport12,AR_COD_grid,Coroner / Medical Examiner Causes of Death,Grid,Unknown,autopsy_report/causes_of_death,,,,,
+33,AutopsyReport12.AR_COD_grid,AutopsyReport,AutopsyReport12,AR_COD_grid,Coroner / Medical Examiner Causes of Death,Grid,Unknown,,,,,,
 34,AutopsyReport12.AR_ICDver,AutopsyReport,AutopsyReport12,AR_ICDver,ICD code version,Number,Number,autopsy_report/icd_code_version,,,,,
 35,AutopsyReport12.AR_Notes,AutopsyReport,AutopsyReport12,AR_Notes,Reviewer's notes about the Autopsy Report,Multiline,Text,autopsy_report/reviewer_note,,,,,
 36,AutopsyReport12.AR_PosTox,AutopsyReport,AutopsyReport12,AR_PosTox,Was toxicology positive for drugs?*,Legal Values,Unknown,autopsy_report/was_drug_toxicology_positive,,,(blank),,
@@ -792,7 +792,7 @@ immediately following delivery",,Assisted ventilation required immediately follo
 777,DeathCertificate3.DC_TransInjury,DeathCertificate,DeathCertificate3,DC_TransInjury,Transportation related injury?,Legal Values,Unknown,death_certificate/injury_associated_information/transportation_related_injury ,Pedestrian,,Pedestrian,,
 778,DeathCertificate3.DC_TransInjury,DeathCertificate,DeathCertificate3,DC_TransInjury,Transportation related injury?,Legal Values,Unknown,death_certificate/injury_associated_information/transportation_related_injury ,Other,,Other,,"Coded as "" transport_related_other_specify"" as text; prompt is ""Other""; Label edited to ""Specify Other"""
 779,DeathCertificate3.DC_YDoI,DeathCertificate,DeathCertificate3,DC_YDoI,Year,Number,Number,death_certificate/injury_associated_information/date_of_injury/year,,,,,
-780,DeathCertificate4.DC_CoD_grid,DeathCertificate,DeathCertificate4,DC_CoD_grid,Causes of Death (enter UNDERLYING cause first),Grid,Unknown,death_certificate/causes_of_death,,,,,
+780,DeathCertificate4.DC_CoD_grid,DeathCertificate,DeathCertificate4,DC_CoD_grid,Causes of Death (enter UNDERLYING cause first),Grid,Unknown,,,,,,
 781,DeathCertificate4.DC_ICDver,DeathCertificate,DeathCertificate4,DC_ICDver,ICD version,Number,Number,,,,,,
 782,DeathCertificate4.DC_Notes,DeathCertificate,DeathCertificate4,DC_Notes,Reviewer's notes about the Death Certificate,Multiline,Text,death_certificate/reviewer_note,,,,,
 783,Hospitalization20.MR_AdmCond,Hospitalization,Hospitalization20,MR_AdmCond,Admission condition,Comment Legal,Unknown,er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/admission_condition,,,(blank),,
@@ -2248,7 +2248,7 @@ received by mother prior to delivery",,Steroids (glucocorticoids) for fetal lung
 2223,OfficeVisits25.MV_City,OfficeVisits,OfficeVisits25,MV_City,City,Text,Text,other_medical_office_visits/location_of_medical_care_facility/city,,,,,
 2224,OfficeVisits25.MV_Cnty,OfficeVisits,OfficeVisits25,MV_Cnty,County,Text,Text,other_medical_office_visits/location_of_medical_care_facility/county,,,,,
 2225,OfficeVisits25.MV_DVDate,OfficeVisits,OfficeVisits25,MV_DVDate,Day,Number,Number,other_medical_office_visits/visit/date_of_medical_office_visit/day,,,,,change to 3 separate number fields
-2226,OfficeVisits25.MV_FamHist_grid,OfficeVisits,OfficeVisits25,MV_FamHist_grid,Relevant Family History,Grid,Unknown,other_medical_office_visits/relevant_family_history,,,,,
+2226,OfficeVisits25.MV_FamHist_grid,OfficeVisits,OfficeVisits25,MV_FamHist_grid,Relevant Family History,Grid,Unknown,,,,,,
 2227,OfficeVisits25.MV_Insurance,OfficeVisits,OfficeVisits25,MV_Insurance,Payment source,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/payment_source,,,(blank),,Do we want to change these to just plain option values rather than having them formatted like comment legal values?
 2228,OfficeVisits25.MV_Insurance,OfficeVisits,OfficeVisits25,MV_Insurance,Payment source,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/payment_source,1 - Private,1,Private,,""""""
 2229,OfficeVisits25.MV_Insurance,OfficeVisits,OfficeVisits25,MV_Insurance,Payment source,Comment Legal,Unknown,other_medical_office_visits/medical_care_facility/payment_source,2 - Public,2,Public,,""""""
@@ -2850,7 +2850,7 @@ received by mother prior to delivery",,Steroids (glucocorticoids) for fetal lung
 2825,SocialServicesRecord17.SS_BeenInJail,SocialServicesRecord,SocialServicesRecord17,SS_BeenInJail,Previous or current incarceration(s)?,Legal Values,Unknown,social_and_environmental_profile/previous_or_current_incarcerations,"Previously, before pregnancy",,Before Pregnancy,,
 2826,SocialServicesRecord17.SS_BeenInJail,SocialServicesRecord,SocialServicesRecord17,SS_BeenInJail,Previous or current incarceration(s)?,Legal Values,Unknown,social_and_environmental_profile/previous_or_current_incarcerations,During pregnancy,,During Pregnancy,,
 2827,SocialServicesRecord17.SS_BeenInJail,SocialServicesRecord,SocialServicesRecord17,SS_BeenInJail,Previous or current incarceration(s)?,Legal Values,Unknown,social_and_environmental_profile/previous_or_current_incarcerations,After pregnancy,,After Pregnancy,,
-2828,SocialServicesRecord17.SS_HH_grid,SocialServicesRecord,SocialServicesRecord17,SS_HH_grid,Members of household,Grid,Unknown,social_and_environmental_profile/members_of_household,,,,,
+2828,SocialServicesRecord17.SS_HH_grid,SocialServicesRecord,SocialServicesRecord17,SS_HH_grid,Members of household,Grid,Unknown,,,,,,
 2829,SocialServicesRecord17.SS_Homeless,SocialServicesRecord,SocialServicesRecord17,SS_Homeless,Homelessness*,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/homelessness,,,(blank),,
 2830,SocialServicesRecord17.SS_Homeless,SocialServicesRecord,SocialServicesRecord17,SS_Homeless,Homelessness*,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/homelessness,1 - Never,1,Never,,
 2831,SocialServicesRecord17.SS_Homeless,SocialServicesRecord,SocialServicesRecord17,SS_Homeless,Homelessness*,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/homelessness,"2 - Yes, in last 12 months",2,"Yes, in last 12 months",,
@@ -2870,7 +2870,7 @@ received by mother prior to delivery",,Steroids (glucocorticoids) for fetal lung
 2845,SocialServicesRecord17.SS_ImmgrStat,SocialServicesRecord,SocialServicesRecord17,SS_ImmgrStat,Immigration status,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/immigration_status,4 - Other,,Other,,
 2846,SocialServicesRecord17.SS_ImmgrStat,SocialServicesRecord,SocialServicesRecord17,SS_ImmgrStat,Immigration status,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/immigration_status,5 - Unknown,,Unknown,,
 2847,SocialServicesRecord17.SS_ImmgrStat,SocialServicesRecord,SocialServicesRecord17,SS_ImmgrStat,Immigration status,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/immigration_status,9 - Not specified,,Unknown,,
-2848,SocialServicesRecord17.SS_Jail_grid,SocialServicesRecord,SocialServicesRecord17,SS_Jail_grid,Details of incarcerations,Grid,Unknown,social_and_environmental_profile/details_of_incarcerations,,,,,
+2848,SocialServicesRecord17.SS_Jail_grid,SocialServicesRecord,SocialServicesRecord17,SS_Jail_grid,Details of incarcerations,Grid,Unknown,,,,,,
 2849,SocialServicesRecord17.SS_LivArrange,SocialServicesRecord,SocialServicesRecord17,SS_LivArrange,Current living arrangements,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements,,,(blank),,
 2850,SocialServicesRecord17.SS_LivArrange,SocialServicesRecord,SocialServicesRecord17,SS_LivArrange,Current living arrangements,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements,1 - Own,1,Own,,
 2851,SocialServicesRecord17.SS_LivArrange,SocialServicesRecord,SocialServicesRecord17,SS_LivArrange,Current living arrangements,Comment Legal,Unknown,social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements,2 - Rent,2,Rent,,
@@ -2922,8 +2922,8 @@ received by mother prior to delivery",,Steroids (glucocorticoids) for fetal lung
 2897,SocialServicesRecord18.SS_OthrStress,SocialServicesRecord,SocialServicesRecord18,SS_OthrStress,Other,Checkbox,Boolean,social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress,Other,,Other,,
 2898,SocialServicesRecord18.SS_PgKnowCom,SocialServicesRecord,SocialServicesRecord18,SS_PgKnowCom,Comment(s),Text,Text,social_and_environmental_profile/health_care_system/comments,,,,,we chose not to maintain this field in MMRIA
 2899,SocialServicesRecord18.SS_PGPlanned,SocialServicesRecord,SocialServicesRecord18,SS_PGPlanned,Pregnancy UNwanted,Checkbox,Boolean,social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress,Pregnancy UNwanted,,Pregnancy Unwanted,,
-2900,SocialServicesRecord18.SS_Refer_grid,SocialServicesRecord,SocialServicesRecord18,SS_Refer_grid,Social and medical referrals,Grid,Unknown,social_and_environmental_profile/social_and_medical_referrals,,,,,
-2901,SocialServicesRecord18.SS_Sources_grid,SocialServicesRecord,SocialServicesRecord18,SS_Sources_grid,Sources of social services information for this record,Grid,Unknown,social_and_environmental_profile/sources_of_social_services_information_for_this_record,,,,,
+2900,SocialServicesRecord18.SS_Refer_grid,SocialServicesRecord,SocialServicesRecord18,SS_Refer_grid,Social and medical referrals,Grid,Unknown,,,,,,
+2901,SocialServicesRecord18.SS_Sources_grid,SocialServicesRecord,SocialServicesRecord18,SS_Sources_grid,Sources of social services information for this record,Grid,Unknown,,,,,,
 2902,SocialServicesRecord18.SS_SpOthrStress,SocialServicesRecord,SocialServicesRecord18,SS_SpOthrStress,Specify:,Text,Text,social_and_environmental_profile/social_or_emotional_stress/specify_other_evidence_stress,,,,,
 2903,SocialServicesRecord18.SS_StressEco,SocialServicesRecord,SocialServicesRecord18,SS_StressEco,Unemployment,Checkbox,Boolean,social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress,Unemployment,,Unemployment,,
 2904,SocialServicesRecord18.SS_StressExplain,SocialServicesRecord,SocialServicesRecord18,SS_StressExplain,Explain further,Multiline,Text,social_and_environmental_profile/social_or_emotional_stress/explain_further,,,,,
