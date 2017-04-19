@@ -12,14 +12,17 @@ namespace mmria.server
 
 		}
 
-		public System.Dynamic.ExpandoObject Get()
+		public IList<mmria.server.model.c_report_object> Get()
 		{
+
+			List<mmria.server.model.c_report_object> result =  new List<mmria.server.model.c_report_object>();
+
 			System.Console.WriteLine ("Recieved message.");
-			string result = null;
-			System.Dynamic.ExpandoObject json_result = null;
+
+			
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/mmrds/_design/aggregate_report/_view/all";
+				string request_string = this.get_couch_db_url() + "/report/_all_docs";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -45,9 +48,30 @@ namespace mmria.server
 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result = reader.ReadToEnd ();
+				string all_docs_result = reader.ReadToEnd ();
 
-				json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+				System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(all_docs_result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+				IDictionary<string,object> all_docs_dictionary = expando_result as IDictionary<string,object>;
+				IList<object> row_list = all_docs_dictionary ["rows"] as IList<object> ;
+				foreach (object row_item in row_list)
+				{
+	
+					mmria.server.model.c_report_object report_object =convert(row_item  as IDictionary<string,object>);
+					result.Add(report_object);
+	
+				}
+
+
+/*
+{
+  "total_rows": 3, "offset": 0, "rows": [
+    {"id": "doc1", "key": "doc1", "value": {"rev": "4324BB"}},
+    {"id": "doc2", "key": "doc2", "value": {"rev":"2441HF"}},
+    {"id": "doc3", "key": "doc3", "value": {"rev":"74EC24"}}
+  ]
+}*/
+
 
 			}
 			catch(Exception ex) 
@@ -57,8 +81,27 @@ namespace mmria.server
 
 
 			//return result;
-			return json_result;
+			return result;
 		} 
+
+
+		private mmria.server.model.c_report_object convert (IDictionary<string, object> p_item)
+		{
+			mmria.server.model.c_report_object result;
+
+			result._id = p_item["_id"].ToString();
+
+			IDictionary<string, object> pregnancy_related = p_item["total_number_of_cases_by_pregnancy_relatedness"] as IDictionary<string, object>;
+
+			result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related = int.Parse(pregnancy_related["pregnancy_related"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = int.Parse(pregnancy_related["pregnancy_associated_but_not_related"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated = int.Parse(pregnancy_related["not_pregnancy_related_or_associated"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine = int.Parse(pregnancy_related["unable_to_determine"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.blank = int.Parse(pregnancy_related["blank"].ToString());
+
+			return result;
+		}
+
 		/*
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 

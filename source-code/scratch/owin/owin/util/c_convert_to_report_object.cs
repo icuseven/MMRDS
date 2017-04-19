@@ -530,7 +530,7 @@ namespace mmria.server.util
 					switch(val)
 					{
 						case "Pregnancy-Related":
-							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_Related = 1;
+							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related = 1;
 						break;
 						case "Pregnancy-Associated but NOT Related":
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = 1;

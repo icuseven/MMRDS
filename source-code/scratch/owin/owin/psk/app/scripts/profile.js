@@ -331,7 +331,7 @@ logout : function()
 	}).done(function(response) {
 		// this will be run when the AJAX request succeeds
 
-		if(response)
+		if(response && $mmria.getCookie("AuthSession"))
 		{
 			console.log("response\n", response);
 			var valid_login = false;
