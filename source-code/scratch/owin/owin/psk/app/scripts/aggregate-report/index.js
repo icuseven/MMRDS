@@ -32,6 +32,7 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
+			load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"))
 	});
 
 }
@@ -157,6 +158,11 @@ function create_detail_row(p_summary, p_row)
 
 		if(i!= "id")
 		{
+			if(p_summary[i] == null)
+			{
+				p_summary[i] = {};
+			}
+			
 
 			if(p_summary[i][p_row[i]])
 			{
