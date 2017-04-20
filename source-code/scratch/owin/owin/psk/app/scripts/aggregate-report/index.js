@@ -48,7 +48,7 @@ function load_data(p_uid, p_pwd)
 			url: url
 	}).done(function(response) {
 			
-			g_data = response.rows;
+			g_data = response;
 
 			//document.getElementById('generate_report_button').disabled = false;
 			//process_rows();
@@ -69,10 +69,10 @@ function generate_report_click()
 	if(g_data)
 	{
 		var data = process_rows();
-		//var ui_render = render_results(data);
-		console.log(data);
 
-		document.getElementById('report_output_id').innerHTML = data.join("");
+		//console.log(data);
+
+		document.getElementById('report_output_id').innerHTML = render_total_number_of_cases_by_pregnancy_relatedness(data).join("");
 	}
 	else
 	{
@@ -83,50 +83,47 @@ function generate_report_click()
 
 function process_rows()
 {
-	var result = create_summary_row(g_data[1].value);
+	var result = {
+	"_id": "summary_row",
+	"total_number_of_cases_by_pregnancy_relatedness": {
+		"pregnancy_related": 0,
+		"pregnancy_associated_but_not_related": 0,
+		"not_pregnancy_related_or_associated": 0,
+		"unable_to_determine": 0,
+		"blank": 0
+	}
+}
 
 
 	for(var i = 0; i < g_data.length; i++)
 	{
-		var current_row = g_data[i].value;
-		create_detail_row(result, current_row);
+		var current_row = g_data[i];
+		
+		result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related += current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related;
+		result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related += current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related;
+		result.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated += current_row.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated
+		result.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine += current_row.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine;
+		result.total_number_of_cases_by_pregnancy_relatedness.blank += current_row.total_number_of_cases_by_pregnancy_relatedness.blank;
 	}
 	
 
-	return create_total_number_of_cases_by_pregnancy_relatedness(g_data);
+	
 
 	return result;
 }
 
 
-function render_results(p_data)
+function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
 {
 	var result = [];
-	for(var i in p_data)
-	{
-		if(!p_data.hasOwnProperty(i)) continue;
-		result.push("<p>");
-		result.push(i);
-		result.push("<ul>");
-		for(var j in p_data[i])
-		{
-			if(! p_data[i].hasOwnProperty(j)) continue;
-			result.push("<p>");
-			if(j)
-			{
-				result.push(j);
-			}
-			else
-			{
-				result.push("blank");
-			}
-			result.push(" : ");
-			result.push(p_data[i][j]);
-			result.push("</p>");
-		}
-		result.push("</ul></p>");
+	result.push("<p><b>total_number_of_cases_by_pregnancy_relatedness</b><br/><ul>");
+	result.push("<li>pregnancy_related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);
+	result.push("<li>pregnancy_associated_but_not_related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);
+	result.push("<li>not_pregnancy_related_or_associated: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated);
+	result.push("<li>unable_to_determine: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);
+	result.push("<li>blank: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.blank);
+	result.push("</ul></p>");
 
-	}
 
 	return result;
 }
