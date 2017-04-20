@@ -175,7 +175,7 @@ namespace mmria.server
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
 			//sched.Start();
-
+			/*
 			mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all
 				(
 					Program.config_couchdb_url,
@@ -185,7 +185,7 @@ namespace mmria.server
 
 			sync_all.execute();
 
-/*
+
 			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 			string res = curl.execute ();
 			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
