@@ -176,6 +176,14 @@ namespace mmria.server
 
 			//sched.Start();
 
+			mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all
+				(
+					Program.config_couchdb_url,
+					Program.config_timer_user_name,
+					Program.config_timer_password
+				);
+
+			sync_all.execute();
 
 /*
 			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);

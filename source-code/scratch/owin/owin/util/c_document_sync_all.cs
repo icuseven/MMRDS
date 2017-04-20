@@ -8,14 +8,12 @@ namespace mmria.server.util
 	{
 
 		private string couchdb_url;
-		private string document_url;
 		private string user_name;
 		private string password;
 
-		public c_document_sync_all (string p_couchdb_url, string p_document_url, string p_user_name, string p_password)
+		public c_document_sync_all (string p_couchdb_url, string p_user_name, string p_password)
 		{
 			this.couchdb_url = p_couchdb_url;
-			this.document_url = p_document_url;
 			this.user_name = p_user_name;
 			this.password = p_password;
 		}
@@ -25,7 +23,7 @@ namespace mmria.server.util
 		{
 
 
-			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs", null, this.user_name, this.password);
+			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs?include_docs=true", null, this.user_name, this.password);
 			string res = curl.execute ();
 /*
 {
@@ -40,13 +38,13 @@ namespace mmria.server.util
 
 			System.Dynamic.ExpandoObject all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (res);
 			IDictionary<string,object> all_docs_dictionary = all_docs as IDictionary<string,object>;
-			IList<object> row_list = all_docs_dictionary ["rows"] as IList<object> ;
-			foreach (object row_item in row_list)
-			{
+			List<object> row_list = all_docs_dictionary ["rows"] as List<object> ;
+			foreach (object row_item in row_list) {
 
-				IDictionary<string,object> case_dictionary = row_item as IDictionary<string,object>;
-				string document_id = case_dictionary["_id"].ToString();
-				string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (row_item);
+				IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>;
+				IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
+				string document_id = doc_dictionary["_id"].ToString();
+				string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
 
 
 				mmria.server.util.c_sync_document sync_document = new c_sync_document(document_id, document_json);

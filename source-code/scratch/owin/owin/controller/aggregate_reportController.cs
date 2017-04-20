@@ -22,7 +22,7 @@ namespace mmria.server
 			
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/report/_all_docs";
+				string request_string = this.get_couch_db_url() + "/report/_all_docs?include_docs=true";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -53,11 +53,11 @@ namespace mmria.server
 				System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(all_docs_result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 				IDictionary<string,object> all_docs_dictionary = expando_result as IDictionary<string,object>;
-				IList<object> row_list = all_docs_dictionary ["rows"] as IList<object> ;
+				List<object> row_list = all_docs_dictionary ["rows"] as List<object> ;
 				foreach (object row_item in row_list)
 				{
-	
-					mmria.server.model.c_report_object report_object =convert(row_item  as IDictionary<string,object>);
+					IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>; 
+					mmria.server.model.c_report_object report_object = convert(row_dictionary["doc"]  as IDictionary<string,object>);
 					result.Add(report_object);
 	
 				}
