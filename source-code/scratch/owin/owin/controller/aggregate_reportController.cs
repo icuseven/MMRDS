@@ -87,17 +87,49 @@ namespace mmria.server
 
 		private mmria.server.model.c_report_object convert (IDictionary<string, object> p_item)
 		{
-			mmria.server.model.c_report_object result;
+			mmria.server.model.c_report_object result = new mmria.server.model.c_report_object();
 
 			result._id = p_item["_id"].ToString();
+			
+			object val = p_item["year_of_death"];
 
-			IDictionary<string, object> pregnancy_related = p_item["total_number_of_cases_by_pregnancy_relatedness"] as IDictionary<string, object>;
+			if(val != null) p_item["year_of_death"].ToString();
 
-			result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related = int.Parse(pregnancy_related["pregnancy_related"].ToString());
-			result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = int.Parse(pregnancy_related["pregnancy_associated_but_not_related"].ToString());
-			result.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated = int.Parse(pregnancy_related["not_pregnancy_related_or_associated"].ToString());
-			result.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine = int.Parse(pregnancy_related["unable_to_determine"].ToString());
-			result.total_number_of_cases_by_pregnancy_relatedness.blank = int.Parse(pregnancy_related["blank"].ToString());
+			val = p_item["year_of_case_review"];
+			if(val != null)  int.TryParse(p_item["year_of_case_review"].ToString(), out result.year_of_case_review);
+
+			val = p_item["month_of_case_review"];
+			if(val != null) int.TryParse(p_item["month_of_case_review"].ToString(), out result.month_of_case_review);
+
+			IDictionary<string, object> current_dictionary = p_item["total_number_of_cases_by_pregnancy_relatedness"] as IDictionary<string, object>;
+
+			result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related = int.Parse(current_dictionary["pregnancy_related"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = int.Parse(current_dictionary["pregnancy_associated_but_not_related"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated = int.Parse(current_dictionary["not_pregnancy_related_or_associated"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine = int.Parse(current_dictionary["unable_to_determine"].ToString());
+			result.total_number_of_cases_by_pregnancy_relatedness.blank = int.Parse(current_dictionary["blank"].ToString());
+
+			current_dictionary = p_item["total_number_of_pregnancy_related_deaths_by_ethnicity"] as IDictionary<string, object>;
+			
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.blank = int.Parse(current_dictionary["blank"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.hispanic = int.Parse(current_dictionary["hispanic"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_black = int.Parse(current_dictionary["non_hispanic_black"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_white = int.Parse(current_dictionary["non_hispanic_white"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.american_indian_alaska_native = int.Parse(current_dictionary["american_indian_alaska_native"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.native_hawaiian = int.Parse(current_dictionary["native_hawaiian"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.guamanian_or_chamorro = int.Parse(current_dictionary["guamanian_or_chamorro"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.samoan = int.Parse(current_dictionary["samoan"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.other_pacific_islander = int.Parse(current_dictionary["other_pacific_islander"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.asian_indian = int.Parse(current_dictionary["asian_indian"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.filipino = int.Parse(current_dictionary["filipino"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.korean = int.Parse(current_dictionary["korean"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.other_asian = int.Parse(current_dictionary["other_asian"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.chinese = int.Parse(current_dictionary["chinese"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.japanese = int.Parse(current_dictionary["japanese"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese = int.Parse(current_dictionary["vietnamese"].ToString());
+			result.total_number_of_pregnancy_related_deaths_by_ethnicity.other = int.Parse(current_dictionary["other"].ToString());
+
+
 
 			return result;
 		}

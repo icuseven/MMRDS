@@ -98,20 +98,25 @@ function process_rows()
 	for(var i = 0; i < g_data.length; i++)
 	{
 		var current_row = g_data[i];
+		accumulate_render_total_number_of_cases_by_pregnancy_relatedness(result, current_row);
 		
-		result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related += current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related;
-		result.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related += current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related;
-		result.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated += current_row.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated
-		result.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine += current_row.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine;
-		result.total_number_of_cases_by_pregnancy_relatedness.blank += current_row.total_number_of_cases_by_pregnancy_relatedness.blank;
 	}
-	
+	 
 
 	
 
 	return result;
 }
 
+
+function accumulate_render_total_number_of_cases_by_pregnancy_relatedness(p_data, p_current_row)
+{
+	p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related += p_current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related;
+	p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related += p_current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related;
+	p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated += p_current_row.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated
+	p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine += p_current_row.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine;
+	p_data.total_number_of_cases_by_pregnancy_relatedness.blank += p_current_row.total_number_of_cases_by_pregnancy_relatedness.blank;
+}
 
 function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
 {

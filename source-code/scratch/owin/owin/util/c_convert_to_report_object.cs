@@ -8,6 +8,27 @@ namespace mmria.server.util
 	{
 		string source_json;
 
+
+		private enum ethnicity_enum
+		{
+			hispanic,
+			non_hispanic_black,
+			non_hispanic_white,
+			american_indian_alaska_native,
+			native_hawaiian,
+			guamanian_or_chamorro,
+			samoan,
+			other_pacific_islander,
+			asian_indian,
+			filipino,
+			korean,
+			other_asian,
+			chinese,
+			japanese,
+			vietnamese,
+			other
+		}
+
 		string temp = 
 
 		@"
@@ -75,6 +96,38 @@ namespace mmria.server.util
 			report_object = new mmria.server.model.c_report_object();
 
 			report_object._id = get_value(source_object, "_id");
+
+
+			object val = null;
+
+			try
+			{
+				val = get_value(source_object, "home_record/date_of_death/year");
+				if(val != null)
+				{
+					report_object.year_of_death = System.Convert.ToInt32(val);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+			try
+			{
+				val = get_value(source_object, "committee_review/date_of_review");
+				if(val != null)
+				{
+					report_object.year_of_case_review = System.Convert.ToDateTime(val).Month;
+					report_object.month_of_case_review = System.Convert.ToDateTime(val).Year;
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
 
@@ -519,6 +572,281 @@ namespace mmria.server.util
 
 		}
 
+
+
+		private bool is_non_hispanic (string p_ethnicity, System.Dynamic.ExpandoObject p_source_object)
+		{
+			bool result = false;
+
+			HashSet<string> bc_ethinicity = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> dc_ethinicity = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
+
+			bc_ethinicity.Add(p_ethnicity);
+			dc_ethinicity.Add(p_ethnicity);
+
+			object val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if (val != null)
+			{
+				if ("No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparer.InvariantCultureIgnoreCase))
+				{
+					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race_of_mother");
+					if (val != null)
+					{
+						HashSet<string> ethnicity_set = new HashSet<string> (val);
+						if (ethnicity_set.Union (bc_ethinicity).Count > 0)
+						{
+							result = true;
+						}
+					}
+				}
+				else 
+				{
+					val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+					
+					if(val != null && "No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparer.InvariantCultureIgnoreCase))
+					{
+						val = get_value (p_source_object, "death_certificate/race/race");
+						if (val != null)
+						{
+							HashSet<string> ethnicity_set = new HashSet<string> (val);
+							if (ethnicity_set.Union (bc_ethinicity).Count > 0)
+							{
+								result = true;
+							}
+						}
+					}
+				}
+			}
+
+			return result;
+
+		}
+
+
+		private HashSet<ethnicity_enum> get_ethnicity (System.Dynamic.ExpandoObject p_source_object)
+		{
+			HashSet<ethnicity_enum> result = new HashSet<ethnicity_enum> ();
+
+			string val = null;
+
+
+//Hispanic
+			
+			HashSet<string> bc_hispanic_origin = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> dc_hispanic_origin = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
+
+//birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin 
+			// Yes, Mexican, Mexican American, Chicano 
+			// Yes, Puerto Rican 
+			// Yes, Cuban 
+			// Yes, Other Spanish/Hispanic/Latino 
+			//Yes, Origin Unknown
+
+			bc_hispanic_origin.Add ("Yes, Mexican, Mexican American, Chicano");
+			bc_hispanic_origin.Add ("Yes, Puerto Rican");
+			bc_hispanic_origin.Add ("Yes, Cuban");
+			bc_hispanic_origin.Add ("Yes, Other Spanish/Hispanic/Latino");
+			bc_hispanic_origin.Add ("Yes, Origin Unknown");
+
+//IF NO BC present:
+//death_certificate/demographics/is_of_hispanic_origin
+			//Yes, Mexican, Mexican American, Chicano
+			//Yes, Puerto Rican 
+			//Yes, Cuban
+			//Yes, Other Spanish/Hispanic/Latino 
+			//Yes, Origin Unknown
+
+			dc_hispanic_origin.Add ("Yes, Mexican, Mexican American, Chicano");
+			dc_hispanic_origin.Add ("Yes, Puerto Rican");
+			dc_hispanic_origin.Add ("Yes, Cuban");
+			dc_hispanic_origin.Add ("Yes, Other Spanish/Hispanic/Latino ");
+			dc_hispanic_origin.Add ("Yes, Origin Unknown");
+
+
+			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
+			if (val != null)
+			{
+				if (bc_hispanic_origin.Contains (val))
+				{
+					result.Add (ethnicity_enum.hispanic);
+				}
+				else 
+				{
+					val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
+					if (dc_hispanic_origin.Contains (val))
+					{
+						result.Add (ethnicity_enum.hispanic);
+					}
+				}
+			}
+
+
+//Non-Hispanic Black
+//birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = 
+//No, not Spanish/ Hispanic/ Latino; AND 
+//birth_fetal_death_certificate_parent/race_of_mother = Black
+//IF NO BC PRESENT:
+//death_certificate/demographics/is_of_hispanic_origin = 
+//No, not Spanish/ Hispanic/ Latino; AND
+// death_certificate/Race/race = Black
+			if (is_non_hispanic("Black", p_source_object))
+			{
+				result.Add (ethnicity_enum.non_hispanic_black);
+			}
+
+
+
+/*
+
+Non-Hispanic White
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; 
+AND birth_fetal_death_certificate_parent/race_of_mother = White
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; 
+AND death_certificate/Race/race = White
+*/
+
+			if (is_non_hispanic("White", p_source_object))
+			{
+				result.Add (ethnicity_enum.non_hispanic_black);
+			}
+
+
+/*
+
+American Indian / Alaska Native
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
+ birth_fetal_death_certificate_parent/race_of_mother = American Indian / AK Native
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
+ death_certificate/Race/race = American Indian / AK Native
+
+
+
+Native Hawaiian
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Native Hawaiian
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Native Hawaiian
+
+
+Guamanian or Chamorro
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
+ birth_fetal_death_certificate_parent/race_of_mother = Guamanian or Chamorro
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
+ death_certificate/Race/race = Guamanian or Chamorro
+
+Samoan
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
+ birth_fetal_death_certificate_parent/race_of_mother = Samoan
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Samoan
+
+
+Other Pacific Islander
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Other Pacific Islander
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Other Pacific Islander
+
+Asian Indian
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Asian Indian
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
+ death_certificate/Race/race = Asian Indian
+
+Filipino
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Filipino
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Filipino
+
+Korean
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Korean
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Korean
+
+Other Asian
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Other Asian
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Other Asian
+
+Chinese
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Chinese
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Chinese
+
+Japanese
+
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Japanese
+
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Japanese
+
+Vietnamese
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Vietnamese
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Vietnamese
+
+Other
+
+
+birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+birth_fetal_death_certificate_parent/race_of_mother = Other
+IF NO BC PRESENT:
+death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
+death_certificate/Race/race = Other
+
+*/
+
+
+
+
+
+
+
+
+			
+		}
+
 		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
@@ -556,8 +884,6 @@ namespace mmria.server.util
 			{
 				System.Console.WriteLine (ex);
 			}
-
-
 		}
 	}
 }
