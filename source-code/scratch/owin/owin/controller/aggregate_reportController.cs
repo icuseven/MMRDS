@@ -91,15 +91,11 @@ namespace mmria.server
 
 			result._id = p_item["_id"].ToString();
 			
-			object val = p_item["year_of_death"];
+			int val = 0;
 
-			if(val != null) int.TryParse(p_item["year_of_death"].ToString(), out result.year_of_death);
-
-			val = p_item["year_of_case_review"];
-			if(val != null)  int.TryParse(p_item["year_of_case_review"].ToString(), out result.year_of_case_review);
-
-			val = p_item["month_of_case_review"];
-			if(val != null) int.TryParse(p_item["month_of_case_review"].ToString(), out result.month_of_case_review);
+			if(int.TryParse(p_item["year_of_death"].ToString(), out val)) { result.year_of_death = val; }
+			if(int.TryParse(p_item["year_of_case_review"].ToString(), out val)){ result.year_of_case_review = val; }
+			if(int.TryParse(p_item["month_of_case_review"].ToString(), out val)) { result.month_of_case_review = val; }
 
 			IDictionary<string, object> current_dictionary = p_item["total_number_of_cases_by_pregnancy_relatedness"] as IDictionary<string, object>;
 

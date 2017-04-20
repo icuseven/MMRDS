@@ -12,7 +12,7 @@ namespace mmria.server.model
 	}
 
 
-	public struct total_number_of_pregnancy_related_deaths_by_ethnicity_struc
+	public struct ethnicity_struc
 	{
 		public int blank;
 		public int hispanic;
@@ -33,6 +33,7 @@ namespace mmria.server.model
 		public int other;
 	}
 
+
 	public struct c_report_object
 	{
 		public string _id ;
@@ -40,6 +41,7 @@ namespace mmria.server.model
 		public int? month_of_case_review;
 		public int? year_of_case_review;
 		public total_number_of_cases_by_pregnancy_relatedness_struc total_number_of_cases_by_pregnancy_relatedness;
-		public total_number_of_pregnancy_related_deaths_by_ethnicity_struc total_number_of_pregnancy_related_deaths_by_ethnicity;
+		public ethnicity_struc total_number_of_pregnancy_related_deaths_by_ethnicity;
+		public ethnicity_struc total_number_of_pregnancy_associated_ethnicity;
 	}
 }

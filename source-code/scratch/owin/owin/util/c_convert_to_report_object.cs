@@ -119,8 +119,8 @@ namespace mmria.server.util
 				val = get_value(source_object, "committee_review/date_of_review");
 				if(val != null)
 				{
-					report_object.year_of_case_review = System.Convert.ToDateTime(val).Month;
-					report_object.month_of_case_review = System.Convert.ToDateTime(val).Year;
+					report_object.year_of_case_review = System.Convert.ToDateTime(val).Year;
+					report_object.month_of_case_review = System.Convert.ToDateTime(val).Month;
 				}
 			}
 			catch(Exception ex)
@@ -130,6 +130,11 @@ namespace mmria.server.util
 
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
+			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
+	
+
+
+
 
 /*
 			if
@@ -578,8 +583,8 @@ namespace mmria.server.util
 		{
 			bool result = false;
 
-			HashSet<string> bc_ethinicity = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
-			HashSet<string> dc_ethinicity = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> bc_ethinicity = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> dc_ethinicity = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
 
 			bc_ethinicity.Add(p_ethnicity);
 			dc_ethinicity.Add(p_ethnicity);
@@ -587,13 +592,15 @@ namespace mmria.server.util
 			object val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
 			if (val != null)
 			{
-				if ("No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparer.InvariantCultureIgnoreCase))
+				if ("No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase))
 				{
 					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race_of_mother");
 					if (val != null)
 					{
-						HashSet<string> ethnicity_set = new HashSet<string> (val);
-						if (ethnicity_set.Union (bc_ethinicity).Count > 0)
+						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+						foreach(string item in val as IList<object>) ethnicity_set.Add(item);
+							
+						if (ethnicity_set.Intersect (bc_ethinicity).Count() > 0)
 						{
 							result = true;
 						}
@@ -603,13 +610,14 @@ namespace mmria.server.util
 				{
 					val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
 					
-					if(val != null && "No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparer.InvariantCultureIgnoreCase))
+					if(val != null && "No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase))
 					{
 						val = get_value (p_source_object, "death_certificate/race/race");
 						if (val != null)
 						{
-							HashSet<string> ethnicity_set = new HashSet<string> (val);
-							if (ethnicity_set.Union (bc_ethinicity).Count > 0)
+							HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+							foreach(string item in val as IList<object>) ethnicity_set.Add(item);
+							if (ethnicity_set.Intersect (bc_ethinicity).Count() > 0)
 							{
 								result = true;
 							}
@@ -632,8 +640,8 @@ namespace mmria.server.util
 
 //Hispanic
 			
-			HashSet<string> bc_hispanic_origin = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
-			HashSet<string> dc_hispanic_origin = new HashSet<ethnicity_enum> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> bc_hispanic_origin = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+			HashSet<string> dc_hispanic_origin = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
 
 //birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin 
 			// Yes, Mexican, Mexican American, Chicano 
@@ -724,9 +732,12 @@ birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
  death_certificate/Race/race = American Indian / AK Native
-
-
-
+*/
+			if (is_non_hispanic("American Indian/Alaska Native", p_source_object))
+			{
+				result.Add (ethnicity_enum.american_indian_alaska_native);
+			}
+/*
 Native Hawaiian
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -735,8 +746,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Native Hawaiian
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Native Hawaiian
-
-
+*/
+			if (is_non_hispanic("Native Hawaiian", p_source_object))
+			{
+				result.Add (ethnicity_enum.native_hawaiian);
+			}
+/*
 Guamanian or Chamorro
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
@@ -745,7 +760,12 @@ birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
  death_certificate/Race/race = Guamanian or Chamorro
-
+*/
+			if (is_non_hispanic("Guamanian or Chamorro", p_source_object))
+			{
+				result.Add (ethnicity_enum.guamanian_or_chamorro);
+			}
+/*
 Samoan
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
@@ -754,7 +774,12 @@ birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Samoan
-
+*/
+			if (is_non_hispanic("Samoan", p_source_object))
+			{
+				result.Add (ethnicity_enum.samoan);
+			}
+/*
 
 Other Pacific Islander
 
@@ -763,7 +788,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Other Pacific Islander
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Other Pacific Islander
-
+*/
+			if (is_non_hispanic("Other Pacific Islander", p_source_object))
+			{
+				result.Add (ethnicity_enum.other_pacific_islander);
+			}
+/*
 Asian Indian
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -772,7 +802,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Asian Indian
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
  death_certificate/Race/race = Asian Indian
-
+*/
+			if (is_non_hispanic("Asian Indian", p_source_object))
+			{
+				result.Add (ethnicity_enum.asian_indian);
+			}
+/*
 Filipino
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -781,7 +816,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Filipino
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Filipino
-
+*/
+			if (is_non_hispanic("Filipino", p_source_object))
+			{
+				result.Add (ethnicity_enum.filipino);
+			}
+/*
 Korean
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -790,7 +830,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Korean
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Korean
-
+*/
+			if (is_non_hispanic("Korean", p_source_object))
+			{
+				result.Add (ethnicity_enum.korean);
+			}
+/*
 Other Asian
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -799,7 +844,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Other Asian
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Other Asian
-
+*/
+			if (is_non_hispanic("Other Asian", p_source_object))
+			{
+				result.Add (ethnicity_enum.other_asian);
+			}
+/*
 Chinese
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -807,7 +857,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Chinese
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Chinese
-
+*/
+			if (is_non_hispanic("Chinese", p_source_object))
+			{
+				result.Add (ethnicity_enum.chinese);
+			}
+/*
 Japanese
 
 
@@ -817,7 +872,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Japanese
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Japanese
-
+*/
+			if (is_non_hispanic("Japanese", p_source_object))
+			{
+				result.Add (ethnicity_enum.japanese);
+			}
+/*
 Vietnamese
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
@@ -825,7 +885,12 @@ birth_fetal_death_certificate_parent/race_of_mother = Vietnamese
 IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Vietnamese
-
+*/
+			if (is_non_hispanic("Vietnamese", p_source_object))
+			{
+				result.Add (ethnicity_enum.vietnamese);
+			}
+/*
 Other
 
 
@@ -836,16 +901,219 @@ death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic
 death_certificate/Race/race = Other
 
 */
+			if (is_non_hispanic("Other", p_source_object))
+			{
+				result.Add (ethnicity_enum.other);
+			}
 
 
 
 
 
-
-
+			return result;
 
 			
 		}
+
+		private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+			if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+			{
+				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity (p_source_object);
+
+				
+				if (ethnicity_set.Count() == 0)
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.blank = 1;
+					return;
+				}
+
+				if (ethnicity_set.Contains(ethnicity_enum.hispanic))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.hispanic  = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_black))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_black  = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_white))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_white = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.american_indian_alaska_native))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.american_indian_alaska_native = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.native_hawaiian))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.native_hawaiian = 1;
+				}
+
+			
+				if (ethnicity_set.Contains (ethnicity_enum.guamanian_or_chamorro))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.guamanian_or_chamorro = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.samoan))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.samoan = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.other_pacific_islander))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.other_pacific_islander = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.asian_indian))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.asian_indian = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.filipino))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.filipino = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.korean))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity .korean = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.other_asian))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.other_asian = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.chinese))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.chinese = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.japanese))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.japanese = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.vietnamese))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.other))
+				{
+					p_report_object.total_number_of_pregnancy_related_deaths_by_ethnicity.other = 1;
+				}
+
+				
+				System.Console.WriteLine ("break");
+			}
+		}
+
+
+		private void popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+			if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+			{
+				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity (p_source_object);
+
+				
+				if (ethnicity_set.Count() == 0)
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.blank = 1;
+					return;
+				}
+
+				if (ethnicity_set.Contains(ethnicity_enum.hispanic))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.hispanic  = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_black))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.non_hispanic_black  = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_white))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.non_hispanic_white = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.american_indian_alaska_native))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.american_indian_alaska_native = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.native_hawaiian))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.native_hawaiian = 1;
+				}
+
+			
+				if (ethnicity_set.Contains (ethnicity_enum.guamanian_or_chamorro))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.guamanian_or_chamorro = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.samoan))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.samoan = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.other_pacific_islander))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.other_pacific_islander = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.asian_indian))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.asian_indian = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.filipino))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.filipino = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.korean))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity .korean = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.other_asian))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.other_asian = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.chinese))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.chinese = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.japanese))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.japanese = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.vietnamese))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.vietnamese = 1;
+				}
+			
+				if (ethnicity_set.Contains (ethnicity_enum.other))
+				{
+					p_report_object.total_number_of_pregnancy_associated_ethnicity.other = 1;
+				}
+
+				
+				System.Console.WriteLine ("break");
+			}
+		}
+
 
 		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
