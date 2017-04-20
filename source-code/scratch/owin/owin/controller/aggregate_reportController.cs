@@ -93,7 +93,7 @@ namespace mmria.server
 			
 			object val = p_item["year_of_death"];
 
-			if(val != null) p_item["year_of_death"].ToString();
+			if(val != null) int.TryParse(p_item["year_of_death"].ToString(), out result.year_of_death);
 
 			val = p_item["year_of_case_review"];
 			if(val != null)  int.TryParse(p_item["year_of_case_review"].ToString(), out result.year_of_case_review);
