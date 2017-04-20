@@ -776,7 +776,7 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'YYYY-MM-DDThh:mm:ssZ'});
+  $( ".time" ).datetimepicker({ format: 'LT'});
 //$( "[metadata_type='date']" ).datetimepicker();
 /*
 flatpickr(" .date", {
