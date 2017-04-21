@@ -186,10 +186,20 @@ render: function ()
 		
 		result.push('<ul style="list-style-type:none;">');
 		result.push('<li><strong>user_name:</strong> ');
-		result.push('<input type="text" name="email" value="user1" class="form-control" required />');
+		result.push('<input type="text" name="email" value="')
+		if(profile.user_name)
+		{
+			result.push(profile.user_name);
+		}
+		result.push('" class="form-control" required />');
 		result.push('</li>');
 		result.push('<li><strong>password:</strong> ');
-		result.push('<input type="password" name="password" value="password" class="form-control" required />');
+		result.push('<input type="password" name="password" value="');
+		if(profile.password)
+		{
+			result.push(profile.password);
+		}
+		result.push('" class="form-control" required />');
 		result.push('</li>');
 		result.push('<li><input type="button"  class="btn btn-default" value="Log in" /></li>');
 		result.push('</ul>');
