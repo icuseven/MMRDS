@@ -86,19 +86,6 @@ initialize_profile: function ()
 						g_source_db = null;
 						$mmria.removeCookie("AuthSession");
 				}
-
-				/*
-				var url =  location.protocol + '//' + location.host + "/committee-member";
-				if(
-					profile.user_roles.length == 1 && 
-					profile.user_roles[0].indexOf("committee_member") > -1 && 
-					url.indexOf("/committee_member") < 1
-				)
-				{
-					window.location.href = url;
-				}
-				else*/
-
 			}
 			else
 			{
@@ -130,7 +117,7 @@ initialize_profile: function ()
 	}
 	else
 	{
-		profile.try_session_login();
+		profile.try_session_login(profile.on_login_call_back);
 		//document.getElementById('profile_content_id').innerHTML = "";
 		//profile.render();
 
