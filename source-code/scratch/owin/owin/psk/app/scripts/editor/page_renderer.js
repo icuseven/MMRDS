@@ -1440,7 +1440,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 				var res = val.match(/^\d\d\d\d-\d\d-\d+$/);
 				if(res)
 				{
-					result.push("'" + val +"'");
+					result.push("'" + make_c3_date(val) +"'");
 				}
 				else 
 				{
