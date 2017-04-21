@@ -9,6 +9,25 @@ namespace mmria.server.util
 		string source_json;
 
 
+		private enum deaths_by_age_enum
+		{
+			blank,
+			age_less_than_20,
+			age_20_to_24,
+			age_25_to_29,
+			age_30_to_34,
+			age_35_to_44,
+			age_45_and_above
+		}
+
+		private enum pregnant_at_time_of_death_enum
+		{
+			blank,
+			pregnant_at_the_time_of_death,
+			pregnant_within_42_days_of_death,
+			pregnant_within_43_to_365_days_of_death
+		}
+
 		private enum ethnicity_enum
 		{
 			hispanic,
@@ -132,283 +151,6 @@ namespace mmria.server.util
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
 	
-
-
-
-
-/*
-			if
-			(
-				report_object._id == "d0e08da8-d306-4a9a-a5ff-9f1d54702091" 
-			)
-			{
-				System.Console.Write("break");
-			}
-
-			object val = null;
-
-			try
-			{
-				val = get_value(source_object, "home_record/date_of_death/year");
-				if(val != null)
-				{
-					report_object.hr_date_of_death_year = System.Convert.ToInt64(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-
-			try
-			{
-				val = get_value(source_object, "home_record/date_of_death/month");
-				if(val != null)
-				{
-					report_object.hr_date_of_death_month = System.Convert.ToInt64(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "home_record/date_of_death/day");
-				if(val != null)
-				{
-					report_object.hr_date_of_death_day = System.Convert.ToInt64(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/date_of_review");
-				if(val != null)
-				{
-					report_object.date_of_review = System.Convert.ToDateTime(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-
-			try
-			{	
-				val = get_value(source_object, "committee_review/pregnancy_relatedness");
-				if(val != null)
-				{
-					report_object.pregnancy_relatedness = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-
-			try
-			{
-				val = get_value(source_object, "death_certificate/demographics/age");
-				if(val != null)
-				{
-					report_object.age = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/pmss_mm");
-				if(val != null)
-				{
-					report_object.pmss =System.Convert.ToString(val) ;
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-			try
-			{
-				val = get_value(source_object, "committee_review/pmss_mm_secondary");
-				if(val != null)
-				{
-					report_object.pmss_mm_secondary = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-			try
-			{
-				val = get_value(source_object, "death_certificate/race/race");
-				if(val != null)
-				{
-					report_object.dc_race = new List<string>();
-
-					foreach(object o in  val as List<object>)
-					{
-						report_object.dc_race.Add(o.ToString());
-					}
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
-				if(val != null)
-				{
-					report_object.bc_race = new List<string>();
-
-					foreach(object o in val as List<object>)
-					{
-						report_object.bc_race.Add(o.ToString());
-					}
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-			try
-			{
-				val = get_value(source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
-				if(val != null)
-				{
-					report_object.bc_is_of_hispanic_origin = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "death_certificate/demographics/is_of_hispanic_origin");
-				if(val != null)
-				{
-					report_object.dc_is_of_hispanic_origin = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/did_obesity_contribute_to_the_death");
-				if(val != null)
-				{
-					report_object.did_obesity_contribute_to_the_death = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-
-			try
-			{
-				val = get_value(source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
-				if(val != null)
-				{
-					report_object.did_mental_health_conditions_contribute_to_the_death = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
-				if(val != null)
-				{
-					report_object.did_substance_use_disorder_contribute_to_the_death = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/was_this_death_preventable");
-				if(val != null)
-				{
-					report_object.was_this_death_preventable = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/was_this_death_a_sucide");
-				if(val != null)
-				{
-					report_object.was_this_death_a_sucide = System.Convert.ToString(val);
-				}
-
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-			try
-			{
-				val = get_value(source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide");
-				if(val != null)
-				{
-					report_object.was_this_death_a_homicide = System.Convert.ToString(val);
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine (ex);
-			}
-
-*/
-
-			/*
-			foreach (string path in aggregator_set) 
-			{
-				get_value (source_object, path);
-			}*/
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -631,7 +373,90 @@ namespace mmria.server.util
 		}
 
 
-		private HashSet<ethnicity_enum> get_ethnicity (System.Dynamic.ExpandoObject p_source_object)
+			
+
+		private pregnant_at_time_of_death_enum get_pregnant_at_time_of_death_classifier (System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			pregnant_at_time_of_death_enum result = pregnant_at_time_of_death_enum.blank;
+			;
+			
+/*
+			pregnant_at_the_time_of_death,
+birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0; 
+OR death_certificate/pregnancy_status = pregnant at time of death
+
+			pregnant_within_42_days_of_death,
+birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 1-42;
+ OR death_certificate/pregnancy_status = Pregnant within 42 days of death
+
+			pregnant_within_43_to_365_days_of_death
+
+birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 43-365; 
+OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
+*/
+/*
+			object length = get_value (p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			int length_test = -1;
+
+			string status = get_value (p_source_object, "death_certificate/pregnancy_status");
+			
+			int value_test = 0;
+			if (val != null && int.TryParse (val.ToString (), out value_test))
+			{
+				if 
+				(
+					length_test == 0 || 
+					status.Equals ("pregnant at time of death", StringComparison.InvariantCultureIgnoreCase)
+				)
+				{
+					result = deaths_by_age_enum.age_less_than_20;
+				}
+				else if
+				(
+					(length_test >= 1 && length_test <= 42) ||
+					status.Equals ("pregnant within 42 days of death", StringComparison.InvariantCultureIgnoreCase)
+				)
+				{
+					result = deaths_by_age_enum.age_less_than_20;
+				}
+				else if
+				(
+					(length_test >= 43 && length_test <= 365) ||
+					status.Equals ("Pregnant 43 to 365 days of death", StringComparison.InvariantCultureIgnoreCase)
+				)
+				{
+					result = deaths_by_age_enum.age_less_than_20;
+				}
+			}*/
+
+			return result;
+		}
+
+		private deaths_by_age_enum get_age_classifier (System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			deaths_by_age_enum result = deaths_by_age_enum.blank;;
+			
+
+			object val = get_value (p_source_object, "death_certificate/demographics/age");
+			int value_test = 0;
+			if (val != null && int.TryParse (val.ToString (), out value_test))
+			{
+				if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+				else if(value_test < 20) result = deaths_by_age_enum.age_less_than_20;
+				else if(value_test >= 20 && value_test <= 24) result = deaths_by_age_enum.age_20_to_24;
+				else if(value_test >= 25 && value_test <= 29)  result = deaths_by_age_enum.age_25_to_29;
+				else if(value_test >= 30 && value_test <= 34)  result = deaths_by_age_enum.age_30_to_34;
+				else if(value_test >= 35 && value_test <= 44)  result = deaths_by_age_enum.age_35_to_44;
+				else if(value_test >= 45)  result = deaths_by_age_enum.age_45_and_above;
+			}
+
+			return result;
+		}
+
+
+		private HashSet<ethnicity_enum> get_ethnicity_classifier (System.Dynamic.ExpandoObject p_source_object)
 		{
 			HashSet<ethnicity_enum> result = new HashSet<ethnicity_enum> ();
 
@@ -723,7 +548,6 @@ AND death_certificate/Race/race = White
 
 
 /*
-
 American Indian / Alaska Native
 
 birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
@@ -905,11 +729,6 @@ death_certificate/Race/race = Other
 			{
 				result.Add (ethnicity_enum.other);
 			}
-
-
-
-
-
 			return result;
 
 			
@@ -919,7 +738,7 @@ death_certificate/Race/race = Other
 		{
 			if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
 			{
-				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity (p_source_object);
+				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
 				
 				if (ethnicity_set.Count() == 0)
@@ -1019,7 +838,7 @@ death_certificate/Race/race = Other
 		{
 			if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
 			{
-				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity (p_source_object);
+				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
 
 				
 				if (ethnicity_set.Count() == 0)
