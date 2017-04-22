@@ -7,12 +7,11 @@ namespace mmria.server.util
 	{
 		string case_item_json;
 		static HashSet<string> de_identified_set = new HashSet<string>(){
-"home_record/first_name",
-"home_record/last_name",
+			"home_record/first_name",
+			"home_record/last_name",
 			"home_record/middle_name",
 			"home_record/date_of_death/day",
 			"home_record/date_of_death/month",
-			"home_record/record_id",
 			"home_record/agency_case_id",
 			"death_certificate/certificate_identification/time_of_death",
 			"death_certificate/certificate_identification/local_file_number",

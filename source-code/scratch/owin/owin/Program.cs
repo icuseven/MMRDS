@@ -22,7 +22,7 @@ namespace mmria.server
 		public static string config_timer_password;
 		public static string config_cron_schedule;
 
-		public static Dictionary<string, string> Change_Sequence_List;
+		//public static Dictionary<string, string> Change_Sequence_List;
 		public static int Change_Sequence_Call_Count = 0;
 		public static IList<DateTime> DateOfLastChange_Sequence_Call;
 		public static string Last_Change_Sequence = null;
@@ -128,14 +128,15 @@ namespace mmria.server
 
 
 			// ****   Quartz Timer - Start
-			Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
+			//Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
-			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
+
 
 			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job ();
 
 			//Program.JobInfoList = icims_data_call_job.GetJobInfo();
+			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
 			Program.Change_Sequence_Call_Count++;
 			Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
@@ -175,7 +176,7 @@ namespace mmria.server
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
 			//sched.Start();
-		/*	
+
 			mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all
 				(
 					Program.config_couchdb_url,
@@ -190,6 +191,8 @@ namespace mmria.server
 			string res = curl.execute ();
 			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
 
+			Program.Last_Change_Sequence = latest_change_set.last_seq;
+			/*	
 			Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
 			
 			if (Program.Last_Change_Sequence != latest_change_set.last_seq)
