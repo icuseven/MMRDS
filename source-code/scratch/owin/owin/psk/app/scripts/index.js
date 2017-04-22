@@ -344,6 +344,10 @@ var $$ = {
 $(function ()
 {
   load_values();
+
+
+
+
 });
 
 function load_values()
@@ -353,6 +357,8 @@ function load_values()
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
       load_profile();
+
+ 
 
 	});
 

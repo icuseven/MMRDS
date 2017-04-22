@@ -172,8 +172,8 @@ render: function ()
 		result.push('<div class="form-group" id="profile_content_id">');
 		
 		result.push('<ul style="list-style-type:none;">');
-		result.push('<li><strong>user_name:</strong> ');
-		result.push('<input type="text" name="email" value="')
+		result.push('<li><strong>user name:</strong> ');
+		result.push('<input  id="profile_form_user_name" type="text" name="email" value="')
 		if(profile.user_name)
 		{
 			result.push(profile.user_name);
@@ -181,7 +181,7 @@ render: function ()
 		result.push('" class="form-control" required />');
 		result.push('</li>');
 		result.push('<li><strong>password:</strong> ');
-		result.push('<input type="password" name="password" value="');
+		result.push('<input id="profile_form_password" type="password" name="password" value="');
 		if(profile.password)
 		{
 			result.push(profile.password);
@@ -203,6 +203,29 @@ render: function ()
 	{
 		profile_content.innerHTML = result.join("");
 		$('#profile_content_id input[value="Log in"]').click(profile.login);
+
+		$("#profile_form_password").bind("keypress", {}, keypressInBox);
+
+			function keypressInBox(e) {
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if (code == 13) { //Enter keycode                        
+					e.preventDefault();
+
+					$("#profile_content_id input[value='Log in']").click();
+				}
+			};
+
+			$("#profile_form_user_name").bind("keypress", {}, keypressInBox);
+
+			function keypressInBox(e) {
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if (code == 13) { //Enter keycode                        
+					e.preventDefault();
+
+					$("#profile_content_id input[value='Log in']").click();
+				}
+			};
+
 	}
 	
 },
