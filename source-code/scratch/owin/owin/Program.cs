@@ -176,16 +176,21 @@ namespace mmria.server
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
 			//sched.Start();
+			System.Threading.Tasks.Task.Run
+			(
+					new Action (() => 
+					{
+						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all
+							(
+								Program.config_couchdb_url,
+								Program.config_timer_user_name,
+								Program.config_timer_password
+							);
 
-			mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all
-				(
-					Program.config_couchdb_url,
-					Program.config_timer_user_name,
-					Program.config_timer_password
-				);
-
-			sync_all.execute();
-
+						sync_all.execute ();
+					}
+				   	)
+			);
 
 			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 			string res = curl.execute ();
