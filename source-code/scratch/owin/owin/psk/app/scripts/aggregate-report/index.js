@@ -337,6 +337,44 @@ function render_total_number_of_pregnancy_associated_ethnicity(p_data)
     result.push("</li><li>other: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.other);
 	result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.blank);
 	result.push("</li></ul></p>");
+
+
+	result.push("<p><b>total_number_of_pregnancy_related_deaths_by_age</b><br/><ul>");
+  	result.push("</li><li>age_less_than_20: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20);
+    result.push("</li><li>age_20_to_24: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24);
+    result.push("</li><li>age_25_to_29: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29);
+    result.push("</li><li>age_30_to_34: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_30_to_34);
+    result.push("</li><li>age_35_to_44: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_35_to_44);
+    result.push("</li><li>age_45_and_above: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_45_and_above);
+    result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.blank);
+  	result.push("</li></ul></p>");
+
+  	result.push("<p><b>total_number_of_pregnancy_associated_deaths_by_age</b><br/><ul>");
+	result.push("</li><li>age_less_than_20: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20);
+    result.push("</li><li>age_20_to_24: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24);
+    result.push("</li><li>age_25_to_29: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29);
+    result.push("</li><li>age_30_to_34: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34);
+    result.push("</li><li>age_35_to_44: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44);
+    result.push("</li><li>age_45_and_above: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above);
+    result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.blank);
+	result.push("</li></ul></p>");
+
+	result.push("<p><b>total_number_pregnancy_related_at_time_of_death</b><br/><ul>");
+	result.push("</li><li>pregnant_at_the_time_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death);
+	result.push("</li><li>pregnant_within_42_days_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death);
+	result.push("</li><li>pregnant_within_43_to_365_days_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death);
+	result.push("</li><li>blank: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.blank);
+	result.push("</li></ul></p>");
+
+
+	result.push("<p><b>total_number_pregnancy_associated_at_time_of_death</b><br/><ul>");
+	result.push("</li><li>pregnant_at_the_time_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death);
+	result.push("</li><li>pregnant_within_42_days_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death);
+	result.push("</li><li>pregnant_within_43_to_365_days_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death);
+	result.push("</li><li>.blank: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.blank);
+	result.push("</li></ul></p>");
+
+
 	return result;
 }
 
