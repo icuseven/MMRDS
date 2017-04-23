@@ -150,7 +150,8 @@ namespace mmria.server.util
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
-	
+			this.popluate_pregnancy_deaths_by_age(ref report_object, source_object);
+            this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -379,7 +380,7 @@ namespace mmria.server.util
 		{
 
 			pregnant_at_time_of_death_enum result = pregnant_at_time_of_death_enum.blank;
-			;
+
 			
 /*
 			pregnant_at_the_time_of_death,
@@ -394,41 +395,47 @@ birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mot
 
 birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 43-365; 
 OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
+
+			blank,
+			pregnant_at_the_time_of_death,
+			pregnant_within_42_days_of_death,
+			pregnant_within_43_to_365_days_of_death
 */
-/*
+
 			object length = get_value (p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
 			int length_test = -1;
 
+			if (length != null) int.TryParse (length.ToString (), out length_test);
+
 			string status = get_value (p_source_object, "death_certificate/pregnancy_status");
-			
-			int value_test = 0;
-			if (val != null && int.TryParse (val.ToString (), out value_test))
+
+			if (status == null) status = "";
+
+			if 
+			(
+				(length_test == 0) || 
+				status.Equals ("pregnant at time of death", StringComparison.InvariantCultureIgnoreCase)
+			)
 			{
-				if 
-				(
-					length_test == 0 || 
-					status.Equals ("pregnant at time of death", StringComparison.InvariantCultureIgnoreCase)
-				)
-				{
-					result = deaths_by_age_enum.age_less_than_20;
-				}
-				else if
-				(
-					(length_test >= 1 && length_test <= 42) ||
-					status.Equals ("pregnant within 42 days of death", StringComparison.InvariantCultureIgnoreCase)
-				)
-				{
-					result = deaths_by_age_enum.age_less_than_20;
-				}
-				else if
-				(
-					(length_test >= 43 && length_test <= 365) ||
-					status.Equals ("Pregnant 43 to 365 days of death", StringComparison.InvariantCultureIgnoreCase)
-				)
-				{
-					result = deaths_by_age_enum.age_less_than_20;
-				}
-			}*/
+				result = pregnant_at_time_of_death_enum.pregnant_at_the_time_of_death;
+			}
+			else if
+			(
+				(length_test >= 1 && length_test <= 42) ||
+				status.Equals ("pregnant within 42 days of death", StringComparison.InvariantCultureIgnoreCase)
+			)
+			{
+				result = pregnant_at_time_of_death_enum.pregnant_within_42_days_of_death;
+			}
+			else if
+			(
+				(length_test >= 43 && length_test <= 365) ||
+				status.Equals ("Pregnant 43 to 365 days of death", StringComparison.InvariantCultureIgnoreCase)
+			)
+			{
+				result = pregnant_at_time_of_death_enum.pregnant_within_43_to_365_days_of_death;
+			}
+			
 
 			return result;
 		}
@@ -733,6 +740,149 @@ death_certificate/Race/race = Other
 
 			
 		}
+
+
+		private void popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+			pregnant_at_time_of_death_enum time_of_death_enum = get_pregnant_at_time_of_death_classifier (p_source_object);
+			switch (time_of_death_enum) 
+			{
+				case pregnant_at_time_of_death_enum.pregnant_at_the_time_of_death:
+				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death = 1;
+				} 
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = 1;
+				}
+	
+
+				break;
+			case pregnant_at_time_of_death_enum.pregnant_within_42_days_of_death:
+				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death = 1;
+				} 
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = 1;
+				}
+	
+				break;
+			case pregnant_at_time_of_death_enum.pregnant_within_43_to_365_days_of_death:
+				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
+				} 
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
+				}
+	
+				break;
+				case pregnant_at_time_of_death_enum.blank:
+				default:
+				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) 
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.blank = 1;
+				} 
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_of_pregnancy_associated_deaths_by_age.blank = 1;
+				}
+	
+				break;
+			}
+
+				/*			
+			age_less_than_20,
+			age_20_to_24,
+			age_25_to_29,
+			age_30_to_34,
+			age_35_to_44,
+			age_45_and_above
+				blank,
+*/
+
+		}
+
+
+private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+{
+	deaths_by_age_enum age_enum = get_age_classifier (p_source_object);
+	switch (age_enum) {
+	case deaths_by_age_enum.age_less_than_20:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20 = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20 = 1;
+		}
+
+
+		break;
+	case deaths_by_age_enum.age_20_to_24:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24 = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24 = 1;
+		}
+
+		break;
+	case deaths_by_age_enum.age_25_to_29:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29 = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29 = 1;
+		}
+
+		break;
+	case deaths_by_age_enum.age_30_to_34:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.age_30_to_34 = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34 = 1;
+		}
+
+		break;
+	case deaths_by_age_enum.age_35_to_44:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.age_35_to_44 = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44 = 1;
+		}
+
+		break;
+	case deaths_by_age_enum.age_45_and_above:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.age_45_and_above = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above = 1;
+
+		}
+		break;
+	case deaths_by_age_enum.blank:
+	default:
+		if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1) {
+			p_report_object.total_number_of_pregnancy_related_deaths_by_age.blank = 1;
+		} else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1) {
+			p_report_object.total_number_of_pregnancy_associated_deaths_by_age.blank = 1;
+		}
+
+		break;
+	}
+
+	/*			
+age_less_than_20,
+age_20_to_24,
+age_25_to_29,
+age_30_to_34,
+age_35_to_44,
+age_45_and_above
+	blank,
+*/
+	}
+
 
 		private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
