@@ -993,89 +993,89 @@ age_45_and_above
 				
 				if (ethnicity_set.Count() == 0)
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.blank = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.blank = 1;
 					return;
 				}
 
 				if (ethnicity_set.Contains(ethnicity_enum.hispanic))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.hispanic  = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.hispanic  = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_black))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.non_hispanic_black  = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black  = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_white))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.non_hispanic_white = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.american_indian_alaska_native))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.american_indian_alaska_native = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.native_hawaiian))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.native_hawaiian = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian = 1;
 				}
 
 			
 				if (ethnicity_set.Contains (ethnicity_enum.guamanian_or_chamorro))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.guamanian_or_chamorro = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.samoan))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.samoan = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.samoan = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.other_pacific_islander))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.other_pacific_islander = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.asian_indian))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.asian_indian = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.asian_indian = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.filipino))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.filipino = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.filipino = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.korean))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity .korean = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity .korean = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.other_asian))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.other_asian = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.other_asian = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.chinese))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.chinese = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.chinese = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.japanese))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.japanese = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.japanese = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.vietnamese))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.vietnamese = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.vietnamese = 1;
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.other))
 				{
-					p_report_object.total_number_of_pregnancy_associated_ethnicity.other = 1;
+					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.other = 1;
 				}
 
 				

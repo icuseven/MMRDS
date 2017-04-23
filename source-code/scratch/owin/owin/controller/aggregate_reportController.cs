@@ -144,6 +144,63 @@ namespace mmria.server
 				temp.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese = int.Parse (current_dictionary ["vietnamese"].ToString ());
 				temp.total_number_of_pregnancy_related_deaths_by_ethnicity.other = int.Parse (current_dictionary ["other"].ToString ());
 
+				current_dictionary = p_item ["total_number_of_pregnancy_associated_deaths_by_ethnicity"] as IDictionary<string, object>;
+							
+				temp.total_number_of_pregnancy_associated_by_ethnicity.blank = int.Parse (current_dictionary ["blank"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.hispanic = int.Parse (current_dictionary ["hispanic"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black = int.Parse (current_dictionary ["non_hispanic_black"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white = int.Parse (current_dictionary ["non_hispanic_white"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native = int.Parse (current_dictionary ["american_indian_alaska_native"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian = int.Parse (current_dictionary ["native_hawaiian"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro = int.Parse (current_dictionary ["guamanian_or_chamorro"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.samoan = int.Parse (current_dictionary ["samoan"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander = int.Parse (current_dictionary ["other_pacific_islander"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.asian_indian = int.Parse (current_dictionary ["asian_indian"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.filipino = int.Parse (current_dictionary ["filipino"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.korean = int.Parse (current_dictionary ["korean"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.other_asian = int.Parse (current_dictionary ["other_asian"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.chinese = int.Parse (current_dictionary ["chinese"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.japanese = int.Parse (current_dictionary ["japanese"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.vietnamese = int.Parse (current_dictionary ["vietnamese"].ToString ());
+				temp.total_number_of_pregnancy_associated_by_ethnicity.other = int.Parse (current_dictionary ["other"].ToString ());
+
+				current_dictionary = p_item ["total_number_of_pregnancy_related_deaths_by_age"] as IDictionary<string, object>;
+
+				temp.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20 = int.Parse (current_dictionary ["age_less_than_20"].ToString ());
+				temp.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24 = int.Parse (current_dictionary ["age_20_to_24"].ToString ());
+				temp.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29 = int.Parse (current_dictionary ["age_25_to_29"].ToString ());
+				temp.total_number_of_pregnancy_related_deaths_by_age.age_30_to_34 = int.Parse (current_dictionary ["age_30_to_34"].ToString ());
+				temp.total_number_of_pregnancy_related_deaths_by_age.age_35_to_44 = int.Parse (current_dictionary ["age_35_to_44"].ToString ());
+				temp.total_number_of_pregnancy_related_deaths_by_age.age_45_and_above = int.Parse (current_dictionary ["age_45_and_above"].ToString ());
+				temp.total_number_of_pregnancy_related_deaths_by_age.blank = int.Parse (current_dictionary ["blank"].ToString ());
+
+
+				current_dictionary = p_item ["total_number_of_pregnancy_associated_deaths_by_age"] as IDictionary<string, object>;
+
+				temp.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20 = int.Parse (current_dictionary ["age_less_than_20"].ToString ());
+				temp.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24 = int.Parse (current_dictionary ["age_20_to_24"].ToString ());
+				temp.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29 = int.Parse (current_dictionary ["age_25_to_29"].ToString ());
+				temp.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34 = int.Parse (current_dictionary ["age_30_to_34"].ToString ());
+				temp.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44 = int.Parse (current_dictionary ["age_35_to_44"].ToString ());
+				temp.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above = int.Parse (current_dictionary ["age_45_and_above"].ToString ());
+				temp.total_number_of_pregnancy_associated_deaths_by_age.blank = int.Parse (current_dictionary ["blank"].ToString ());
+
+
+
+				current_dictionary = p_item ["total_number_pregnancy_related_at_time_of_death"] as IDictionary<string, object>;
+
+				temp.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death = int.Parse (current_dictionary ["pregnant_at_the_time_of_death"].ToString ());
+				temp.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death = int.Parse (current_dictionary ["pregnant_within_42_days_of_death"].ToString ());
+				temp.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death = int.Parse (current_dictionary ["pregnant_within_43_to_365_days_of_death"].ToString ());
+				temp.total_number_pregnancy_related_at_time_of_death.blank = int.Parse (current_dictionary ["blank"].ToString ());
+
+
+				current_dictionary = p_item ["total_number_pregnancy_associated_at_time_of_death"] as IDictionary<string, object>;
+
+				temp.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = int.Parse (current_dictionary ["pregnant_at_the_time_of_death"].ToString ());
+				temp.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = int.Parse (current_dictionary ["pregnant_within_42_days_of_death"].ToString ());
+				temp.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = int.Parse (current_dictionary ["pregnant_within_43_to_365_days_of_death"].ToString ());
+				temp.total_number_pregnancy_associated_at_time_of_death.blank = int.Parse (current_dictionary ["blank"].ToString ());
 			}
 			catch (Exception ex)
 			{
