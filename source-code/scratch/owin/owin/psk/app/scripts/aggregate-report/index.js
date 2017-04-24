@@ -145,7 +145,7 @@ function process_rows(p_filter)
     "age_30_to_34": 0,
     "age_35_to_44": 0,
     "age_45_and_above": 0,
-    "blank": 1
+    "blank": 0
   },
   "total_number_of_pregnancy_associated_deaths_by_age": {
     "age_less_than_20": 0,
