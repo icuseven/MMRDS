@@ -175,7 +175,7 @@ namespace mmria.server
 
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
-			//sched.Start();
+
 			System.Threading.Tasks.Task.Run
 			(
 					new Action (() => 
@@ -188,6 +188,8 @@ namespace mmria.server
 							);
 
 						sync_all.execute ();
+
+						sched.Start();
 					}
 				   	)
 			);
