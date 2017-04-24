@@ -43,60 +43,97 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 		}
 
-		public System.Dynamic.ExpandoObject Get
+		public IDictionary<string, string> Get
 		(
-			string p_user_name, 
-			string p_password,
+			string p_target_db_user_name, 
+			string p_target_db_password,
+			string p_target_db,
+			string p_source_db_user_name, 
+			string p_source_db_password,
 			string p_source_db
 		)
 		{
-			System.Console.WriteLine ("Recieved message.");
-			string result = null;
-			System.Dynamic.ExpandoObject json_result = null;
+
+			Dictionary<string,string> result = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+			//var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_password);
+
 			try
 			{
 
-				//"2016-06-12T13:49:24.759Z"
-				string request_string = this.get_couch_db_url() + "/metadata/2016-06-12T13:49:24.759Z";
-
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
-				request.PreAuthenticate = false;
-
-
-				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
-				{
-					string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
-					for(int i = 0; i < cookie_set.Length; i++)
-					{
-						string[] auth_session_token = cookie_set[i].Split('=');
-						if(auth_session_token[0].Trim() == "AuthSession" && auth_session_token[1] != "null")
-						{
-							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
-							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
-							break;
-						}
-					}
-				}
+				var users_curl = new cURL ("PUT", null, p_target_db + "/_users", null, p_target_db_user_name, p_target_db_password);
+				result.Add("users_curl",users_curl.execute());
+				var replicator_curl = new cURL ("PUT", null, p_target_db + "/_replicator", null, p_target_db_user_name, p_target_db_password);
+				result.Add("replicator_curl",replicator_curl.execute());
+				var global_changes_curl = new cURL ("PUT", null, p_target_db + "/_global_changes", null, p_target_db_user_name, p_target_db_password);
+				result.Add("global_changes_curl",global_changes_curl.execute());
+				var metadata_curl = new cURL ("PUT", null, p_target_db + "/metadata", null, p_target_db_user_name, p_target_db_password);
+				result.Add("metadata_curl",metadata_curl.execute());
+				var mmrds_curl = new cURL ("PUT", null, p_target_db + "/mmrds", null, p_target_db_user_name, p_target_db_password);
+				result.Add("mmrds_curl",mmrds_curl.execute());
+				var de_id_curl = new cURL ("PUT", null, p_target_db + "/de_id", null, p_target_db_user_name, p_target_db_password);
+				result.Add("de_id_curl",de_id_curl.execute());
+				var report_curl = new cURL ("PUT", null, p_target_db + "/report", null, p_target_db_user_name, p_target_db_password);
+				result.Add("report_curl",report_curl.execute());
+				var config_curl = new cURL ("PUT", null, p_target_db + "/config", null, p_target_db_user_name, p_target_db_password);
+				result.Add("config_curl",config_curl.execute());
 
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result = reader.ReadToEnd ();
+//curl -vX POST http://uid:pwd@target_db_url/_replicate \
+//     -d '{"source":"http://uid:pwd@source_db_url/_users","target":"http://uid:pwd@target_db_url/_users"}' \
 
-				json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+			var replicate_users_curl = new cURL ("PUT", null, p_source_db + "/_replicate", string.Format
+			(
+				"{\"source\":\"http://{0}:{1}@{2}/_users\",\"target\":\"http://{3}:{4}@{5}/_users\"}",
+				p_target_db_user_name, 
+				p_target_db_password,
+				p_target_db,
+				p_source_db_user_name, 
+				p_source_db_password,
+				p_source_db
+			),
+		 	p_target_db_user_name, p_target_db_password);
+	 		result.Add("replicate_users_curl",replicate_users_curl.execute());
+//curl -vX POST http://uid:pwd@target_db_url/_replicate \
+//     -d '{"source":"http://muid:pwd@source_db_url/metadata","target":"http://uid:pwd@target_db_url/metadata"}' \
 
-			}
-			catch(Exception ex) 
-			{
-				Console.WriteLine (ex);
-			}
+			var replicate_metadata_users_curl = new cURL ("PUT", null, p_source_db + "/_replicate", string.Format
+			(
+				"{\"source\":\"http://{0}:{1}@{2}/metadata\",\"target\":\"http://{3}:{4}@{5}/metadata\"}",
+				p_target_db_user_name, 
+				p_target_db_password,
+				p_target_db,
+				p_source_db_user_name, 
+				p_source_db_password,
+				p_source_db
+			),
+			p_target_db_user_name, p_target_db_password);	 
+			result.Add("replicate_metadata_users_curl",replicate_metadata_users_curl.execute());
+//curl -vX POST http://uid:pwd@target_db_url/_replicate \
+//     -d '{"source":"http://uid:pwd@source_db_url","target":"http://uid:pwd@target_db_url/mmrds"}' \
+
+			var replicate_records_curl = new cURL ("PUT", null, p_source_db + "/_replicate", string.Format
+			(
+				"{\"source\":\"http://{0}:{1}@{2}\",\"target\":\"http://{3}:{4}@{5}/mmrds\"}",
+				p_target_db_user_name, 
+				p_target_db_password,
+				p_target_db,
+				p_source_db_user_name, 
+				p_source_db_password,
+				p_source_db
+			),
+ 			p_target_db_user_name, p_target_db_password);	 
+			result.Add("replicate_records_curl",replicate_records_curl.execute());
+
+		}
+		catch(Exception ex) 
+		{
+			Console.WriteLine (ex);
+		}
 
 
 			//return result;
-			return json_result;
-		} 
+		return result;
+	} 
 		/*
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
