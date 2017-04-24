@@ -184,21 +184,16 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 		default:
 				
 				//result.push(p_path)
+
+				result.push('<p>');
 				if(p_metadata.name == "case_opening_overview")
 				{
-					result.push('<pre>');
-					result.push(p_data);
-					result.push('</pre>');
-				}
-				else
-				{
-					result.push('<p>');
 					result.push(' <strong>')
 					result.push(p_metadata.prompt);
 					result.push('</strong>: ');
-					result.push(p_data);
-					result.push('</p>');
 				}
+				result.push(p_data);
+				result.push('</p>');
 				/*
 				if(p_metadata.children)
 				{

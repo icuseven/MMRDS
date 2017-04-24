@@ -187,7 +187,13 @@ namespace mmria.server.util
 			"other_medical_office_visits/medications/date_and_time",
 			"informant_interviews/informant_name",
 			"informant_interviews/date_of_interview/day",
-			"informant_interviews/date_of_interview/month"
+			"informant_interviews/date_of_interview/month",
+			"medical_transport/date_of_transport/month",
+			"medical_transport/date_of_transport/day",
+			"medical_transport/transport_vital_signs/date_and_time",
+			"medical_transport/destination_information/place_of_destination",
+			 "social_and_environmental_profile/social_and_medical_referrals/date",
+			"social_and_environmental_profile/sources_of_social_services_information_for_this_record/source_name"
 
 
 
