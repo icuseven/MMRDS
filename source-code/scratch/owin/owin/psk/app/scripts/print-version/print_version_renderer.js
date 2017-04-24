@@ -186,7 +186,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui)
 				//result.push(p_path)
 
 				result.push('<p>');
-				if(p_metadata.name == "case_opening_overview")
+				if(p_metadata.name != "case_opening_overview")
 				{
 					result.push(' <strong>')
 					result.push(p_metadata.prompt);

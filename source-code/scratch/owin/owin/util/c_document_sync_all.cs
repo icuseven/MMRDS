@@ -22,6 +22,36 @@ namespace mmria.server.util
 		public void execute ()
 		{
 
+			try
+			{
+
+				var delete_de_id_curl = new cURL ("DELETE", null, this.couchdb_url + "/de_id", null, this.user_name, this.password);
+				delete_de_id_curl.execute ();
+			}
+			catch (Exception ex)
+			{
+			
+			}
+			
+
+			try
+			{
+				var delete_report_curl = new cURL ("DELETE", null, this.couchdb_url + "/report", null, this.user_name, this.password);
+				delete_report_curl.execute ();
+			}
+			catch (Exception ex)
+			{
+			
+			}
+
+
+			var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id", null, this.user_name, this.password);
+			var create_report_curl = new cURL ("PUT", null, this.couchdb_url + "/report", null, this.user_name, this.password);
+
+
+			create_de_id_curl.execute ();
+			create_report_curl.execute ();
+
 
 			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs?include_docs=true", null, this.user_name, this.password);
 			string res = curl.execute ();
@@ -38,19 +68,21 @@ namespace mmria.server.util
 
 			System.Dynamic.ExpandoObject all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (res);
 			IDictionary<string,object> all_docs_dictionary = all_docs as IDictionary<string,object>;
-			List<object> row_list = all_docs_dictionary ["rows"] as List<object> ;
+			List<object> row_list = all_docs_dictionary ["rows"] as List<object>;
 			foreach (object row_item in row_list) {
 
 				IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>;
 				IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
-				string document_id = doc_dictionary["_id"].ToString();
-				string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
+				string document_id = doc_dictionary ["_id"].ToString ();
+				if (document_id.IndexOf ("_design/") < 0)
+				{
+					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
 
 
-				mmria.server.util.c_sync_document sync_document = new c_sync_document(document_id, document_json);
+					mmria.server.util.c_sync_document sync_document = new c_sync_document (document_id, document_json);
 
-				sync_document.execute();
-
+					sync_document.execute ();
+				}
 				
 			}
 

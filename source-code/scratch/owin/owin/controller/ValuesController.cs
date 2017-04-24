@@ -6,9 +6,15 @@ namespace mmria.server
 	public class ValuesController: ApiController 
 	{ 
 		// GET api/values 
-		public Dictionary<string,string> Get() 
+		public Dictionary<string,object> Get() 
 		{ 
-			return new Dictionary<string,string>{{ "couchdb_url", Program.config_couchdb_url }}; 
+			return new Dictionary<string,object>{
+				{ "couchdb_url", Program.config_couchdb_url },
+				{ "cron_schedule", Program.config_cron_schedule },
+				{ "Last_Change_Sequence", Program.Last_Change_Sequence },
+				{ "Change_Sequence_Call_Count", Program.Change_Sequence_Call_Count },
+				{ "DateOfLastChange_Sequence_Call", Program.DateOfLastChange_Sequence_Call }
+			}; 
 		} 
 
 		// GET api/values/5 

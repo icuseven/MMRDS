@@ -369,7 +369,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</textarea>");
 
 				result.push("<h3>Informant Interviews Reviewer's Notes</h3>");
-				for(var i = 0; i < g_data.other_medical_office_visits.length; i++)
+				for(var i = 0; i < g_data.informant_interviews.length; i++)
 				{
 					result.push("<p>Note: ");
 					result.push(i+1);

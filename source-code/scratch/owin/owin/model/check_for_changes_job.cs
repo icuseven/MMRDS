@@ -74,7 +74,7 @@ namespace mmria.server.model
 				Program.Change_Sequence_Call_Count++;
 			}
 
-			if (Program.DateOfLastChange_Sequence_Call.Count > 10)
+			if (Program.DateOfLastChange_Sequence_Call.Count > 9)
 			{
 				Program.DateOfLastChange_Sequence_Call.Clear();
 			}
