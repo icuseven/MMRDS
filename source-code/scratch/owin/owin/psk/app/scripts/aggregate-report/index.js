@@ -75,7 +75,7 @@ function generate_report_click()
 		var render_result = [];
 		Array.prototype.push.apply(render_result, render_total_number_of_cases_by_pregnancy_relatedness(data));
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_related_deaths_by_ethnicity(data));
-		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_associated_ethnicity(data));
+		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_associated_by_ethnicity(data));
 
 		document.getElementById('report_output_id').innerHTML = render_result.join("");
 	}
@@ -119,7 +119,7 @@ function process_rows(p_filter)
     "vietnamese": 0,
     "other": 0
   },
-  "total_number_of_pregnancy_associated_ethnicity": {
+  "total_number_of_pregnancy_associated_by_ethnicity": {
     "blank": 0,
     "hispanic": 0,
     "non_hispanic_black": 0,
@@ -183,7 +183,7 @@ function process_rows(p_filter)
 		{
 			accumulate_render_total_number_of_cases_by_pregnancy_relatedness(result, current_row);
 			accumulate_render_total_number_of_pregnancy_related_deaths_by_ethnicity(result, current_row);
-			accumulate_render_total_number_of_pregnancy_associated_ethnicity(result, current_row);
+			accumulate_render_total_number_of_pregnancy_associated_by_ethnicity(result, current_row);
 		}
 	}
 	 
@@ -193,25 +193,25 @@ function process_rows(p_filter)
 	return result;
 }
 
-function accumulate_render_total_number_of_pregnancy_associated_ethnicity(p_data, p_current_row)
+function accumulate_render_total_number_of_pregnancy_associated_by_ethnicity(p_data, p_current_row)
 {
-	p_data.total_number_of_pregnancy_associated_ethnicity.blank += p_current_row.total_number_of_pregnancy_associated_ethnicity.blank;
-    p_data.total_number_of_pregnancy_associated_ethnicity.hispanic += p_current_row.total_number_of_pregnancy_associated_ethnicity.hispanic;
-    p_data.total_number_of_pregnancy_associated_ethnicity.non_hispanic_black += p_current_row.total_number_of_pregnancy_associated_ethnicity.non_hispanic_black;
-    p_data.total_number_of_pregnancy_associated_ethnicity.non_hispanic_white += p_current_row.total_number_of_pregnancy_associated_ethnicity.non_hispanic_white;
-    p_data.total_number_of_pregnancy_associated_ethnicity.american_indian_alaska_native += p_current_row.total_number_of_pregnancy_associated_ethnicity.american_indian_alaska_native;
-    p_data.total_number_of_pregnancy_associated_ethnicity.native_hawaiian += p_current_row.total_number_of_pregnancy_associated_ethnicity.native_hawaiian;
-    p_data.total_number_of_pregnancy_associated_ethnicity.guamanian_or_chamorro += p_current_row.total_number_of_pregnancy_associated_ethnicity.guamanian_or_chamorro;
-    p_data.total_number_of_pregnancy_associated_ethnicity.samoan += p_current_row.total_number_of_pregnancy_associated_ethnicity.samoan;
-    p_data.total_number_of_pregnancy_associated_ethnicity.other_pacific_islander += p_current_row.total_number_of_pregnancy_associated_ethnicity.other_pacific_islander;
-    p_data.total_number_of_pregnancy_associated_ethnicity.asian_indian += p_current_row.total_number_of_pregnancy_associated_ethnicity.asian_indian;
-    p_data.total_number_of_pregnancy_associated_ethnicity.filipino += p_current_row.total_number_of_pregnancy_associated_ethnicity.filipino;
-    p_data.total_number_of_pregnancy_associated_ethnicity.korean += p_current_row.total_number_of_pregnancy_associated_ethnicity.korean;
-    p_data.total_number_of_pregnancy_associated_ethnicity.other_asian += p_current_row.total_number_of_pregnancy_associated_ethnicity.other_asian;
-    p_data.total_number_of_pregnancy_associated_ethnicity.chinese += p_current_row.total_number_of_pregnancy_associated_ethnicity.chinese;
-    p_data.total_number_of_pregnancy_associated_ethnicity.japanese += p_current_row.total_number_of_pregnancy_associated_ethnicity.japanese;
-    p_data.total_number_of_pregnancy_associated_ethnicity.vietnamese += p_current_row.total_number_of_pregnancy_associated_ethnicity.vietnamese;
-    p_data.total_number_of_pregnancy_associated_ethnicity.other += p_current_row.total_number_of_pregnancy_associated_ethnicity.other;
+	p_data.total_number_of_pregnancy_associated_by_ethnicity.blank += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.blank;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.hispanic += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.hispanic;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.samoan += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.samoan;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.asian_indian += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.asian_indian;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.filipino += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.filipino;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.korean += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.korean;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.other_asian += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.other_asian;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.chinese += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.chinese;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.japanese += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.japanese;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.vietnamese += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.vietnamese;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.other += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.other;
 
 
     p_data.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20 += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20;
@@ -315,27 +315,27 @@ function render_total_number_of_pregnancy_related_deaths_by_ethnicity(p_data)
 }
 
 
-function render_total_number_of_pregnancy_associated_ethnicity(p_data)
+function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
 {
 	var result = [];
-	result.push("<p><b>total_number_of_pregnancy_associated_ethnicity</b><br/><ul>");
-    result.push("<li>hispanic: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.hispanic);
-    result.push("</li><li>non_hispanic_black: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.non_hispanic_black);
-    result.push("</li><li>non_hispanic_white: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.non_hispanic_white);
-    result.push("</li><li>american_indian_alaska_native: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.american_indian_alaska_native);
-    result.push("</li><li>native_hawaiian: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.native_hawaiian);
-    result.push("</li><li>guamanian_or_chamorro: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.guamanian_or_chamorro);
-    result.push("</li><li>samoan: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.samoan);
-    result.push("</li><li>other_pacific_islander: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.other_pacific_islander);
-    result.push("</li><li>asian_indian: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.asian_indian);
-    result.push("</li><li>filipino: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.filipino);
-    result.push("</li><li>korean: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.korean);
-    result.push("</li><li>other_asian: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.other_asian);
-    result.push("</li><li>chinese: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.chinese);
-    result.push("</li><li>japanese: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.japanese);
-    result.push("</li><li>vietnamese: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.vietnamese);
-    result.push("</li><li>other: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.other);
-	result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_ethnicity.blank);
+	result.push("<p><b>total_number_of_pregnancy_associated_by_ethnicity</b><br/><ul>");
+    result.push("<li>hispanic: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.hispanic);
+    result.push("</li><li>non_hispanic_black: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black);
+    result.push("</li><li>non_hispanic_white: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white);
+    result.push("</li><li>american_indian_alaska_native: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native);
+    result.push("</li><li>native_hawaiian: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian);
+    result.push("</li><li>guamanian_or_chamorro: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro);
+    result.push("</li><li>samoan: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.samoan);
+    result.push("</li><li>other_pacific_islander: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander);
+    result.push("</li><li>asian_indian: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.asian_indian);
+    result.push("</li><li>filipino: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.filipino);
+    result.push("</li><li>korean: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.korean);
+    result.push("</li><li>other_asian: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.other_asian);
+    result.push("</li><li>chinese: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.chinese);
+    result.push("</li><li>japanese: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.japanese);
+    result.push("</li><li>vietnamese: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.vietnamese);
+    result.push("</li><li>other: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.other);
+	result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.blank);
 	result.push("</li></ul></p>");
 
 

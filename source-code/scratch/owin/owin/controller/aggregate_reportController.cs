@@ -144,7 +144,7 @@ namespace mmria.server
 				temp.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese = int.Parse (current_dictionary ["vietnamese"].ToString ());
 				temp.total_number_of_pregnancy_related_deaths_by_ethnicity.other = int.Parse (current_dictionary ["other"].ToString ());
 
-				current_dictionary = p_item ["total_number_of_pregnancy_associated_deaths_by_ethnicity"] as IDictionary<string, object>;
+				current_dictionary = p_item ["total_number_of_pregnancy_associated_by_ethnicity"] as IDictionary<string, object>;
 							
 				temp.total_number_of_pregnancy_associated_by_ethnicity.blank = int.Parse (current_dictionary ["blank"].ToString ());
 				temp.total_number_of_pregnancy_associated_by_ethnicity.hispanic = int.Parse (current_dictionary ["hispanic"].ToString ());
