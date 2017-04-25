@@ -7,7 +7,11 @@ namespace mmria.server
 {
 	public class db_setupController: ApiController 
 	{ 
-
+		struct replication_struc
+		{
+			public string source;
+			public string target;
+		}
 		/*
 
 curl -X PUT http://uid:pwd@target_db_url/_users
@@ -47,10 +51,10 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		(
 			string p_target_db_user_name, 
 			string p_target_db_password,
-			string p_target_db,
+			string p_target_server,
 			string p_source_db_user_name, 
 			string p_source_db_password,
-			string p_source_db
+			string p_source_server
 		)
 		{
 
@@ -60,80 +64,194 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 			try
 			{
 
-				var users_curl = new cURL ("PUT", null, p_target_db + "/_users", null, p_target_db_user_name, p_target_db_password);
-				result.Add("users_curl",users_curl.execute());
-				var replicator_curl = new cURL ("PUT", null, p_target_db + "/_replicator", null, p_target_db_user_name, p_target_db_password);
-				result.Add("replicator_curl",replicator_curl.execute());
-				var global_changes_curl = new cURL ("PUT", null, p_target_db + "/_global_changes", null, p_target_db_user_name, p_target_db_password);
-				result.Add("global_changes_curl",global_changes_curl.execute());
-				var metadata_curl = new cURL ("PUT", null, p_target_db + "/metadata", null, p_target_db_user_name, p_target_db_password);
-				result.Add("metadata_curl",metadata_curl.execute());
-				var mmrds_curl = new cURL ("PUT", null, p_target_db + "/mmrds", null, p_target_db_user_name, p_target_db_password);
-				result.Add("mmrds_curl",mmrds_curl.execute());
-				var de_id_curl = new cURL ("PUT", null, p_target_db + "/de_id", null, p_target_db_user_name, p_target_db_password);
-				result.Add("de_id_curl",de_id_curl.execute());
-				var report_curl = new cURL ("PUT", null, p_target_db + "/report", null, p_target_db_user_name, p_target_db_password);
-				result.Add("report_curl",report_curl.execute());
-				var config_curl = new cURL ("PUT", null, p_target_db + "/config", null, p_target_db_user_name, p_target_db_password);
-				result.Add("config_curl",config_curl.execute());
+				var get_all_dbs_curl = new cURL ("GET", null, p_target_server + "/_all_dbs", null, p_target_db_user_name, p_target_db_password);
 
+				var all_dbs_string = get_all_dbs_curl.execute();
+
+				HashSet<string> all_db_set = Newtonsoft.Json.JsonConvert.DeserializeObject<HashSet<string>>(all_dbs_string, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+
+				if(!all_db_set.Contains("_users"))
+				{
+					var users_curl = new cURL ("PUT", null, p_target_server + "/_users", null, p_target_db_user_name, p_target_db_password);
+					result.Add("users_curl",users_curl.execute());
+				}
+				else
+				{
+					result.Add("users_curl","users_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("_replicator"))
+				{
+					var replicator_curl = new cURL ("PUT", null, p_target_server + "/_replicator", null, p_target_db_user_name, p_target_db_password);
+					result.Add("replicator_curl",replicator_curl.execute());
+				}
+				else
+				{
+					result.Add("replicator_curl","replicator_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("_global_changes"))
+				{
+					var global_changes_curl = new cURL ("PUT", null, p_target_server + "/_global_changes", null, p_target_db_user_name, p_target_db_password);
+					result.Add("global_changes_curl",global_changes_curl.execute());
+
+				}
+				else
+				{
+					result.Add("global_changes_curl","global_changes_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("metadata"))
+				{
+					var metadata_curl = new cURL ("PUT", null, p_target_server + "/metadata", null, p_target_db_user_name, p_target_db_password);
+					result.Add("metadata_curl",metadata_curl.execute());
+				}
+				else
+				{
+					result.Add("metadata_curl","metadata_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("mmrds"))
+				{
+					var mmrds_curl = new cURL ("PUT", null, p_target_server + "/mmrds", null, p_target_db_user_name, p_target_db_password);
+					result.Add("mmrds_curl",mmrds_curl.execute());
+				}
+				else
+				{
+					result.Add("mmrds_curl","mmrds_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("de_id"))
+				{
+					var de_id_curl = new cURL ("PUT", null, p_target_server + "/de_id", null, p_target_db_user_name, p_target_db_password);
+					result.Add("de_id_curl",de_id_curl.execute());
+				}
+				else
+				{
+					result.Add("de_id_curl","de_id_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("report"))
+				{
+					var report_curl = new cURL ("PUT", null, p_target_server + "/report", null, p_target_db_user_name, p_target_db_password);
+					result.Add("report_curl",report_curl.execute());
+				}
+				else
+				{
+					result.Add("report_curl","report_curl already exists.");
+				}
+
+				if(!all_db_set.Contains("config"))
+				{
+					var config_curl = new cURL ("PUT", null, p_target_server + "/config", null, p_target_db_user_name, p_target_db_password);
+					result.Add("config_curl",config_curl.execute());
+				}
+				else
+				{
+					result.Add("config_curl","config_curl already exists.");
+				}
+
+
+				string source_server_uri = construct_basic_authentication_url(p_source_server,
+					p_source_db_user_name, 
+					p_source_db_password);
+				string target_server_uri = construct_basic_authentication_url(p_target_server,
+					p_target_db_user_name, 
+					p_target_db_password);
 
 //curl -vX POST http://uid:pwd@target_db_url/_replicate \
 //     -d '{"source":"http://uid:pwd@source_db_url/_users","target":"http://uid:pwd@target_db_url/_users"}' \
 
-			var replicate_users_curl = new cURL ("PUT", null, p_source_db + "/_replicate", string.Format
-			(
-				"{\"source\":\"http://{0}:{1}@{2}/_users\",\"target\":\"http://{3}:{4}@{5}/_users\"}",
-				p_target_db_user_name, 
-				p_target_db_password,
-				p_target_db,
-				p_source_db_user_name, 
-				p_source_db_password,
-				p_source_db
-			),
+				string users_replication_string =  get_replicate_json_string("_users", source_server_uri, target_server_uri);
+
+				var replicate_users_curl = new cURL ("POST", null, p_target_server + "/_replicate", users_replication_string,
 		 	p_target_db_user_name, p_target_db_password);
-	 		result.Add("replicate_users_curl",replicate_users_curl.execute());
+				result.Add("users_replication",replicate_users_curl.execute());
 //curl -vX POST http://uid:pwd@target_db_url/_replicate \
 //     -d '{"source":"http://muid:pwd@source_db_url/metadata","target":"http://uid:pwd@target_db_url/metadata"}' \
 
-			var replicate_metadata_users_curl = new cURL ("PUT", null, p_source_db + "/_replicate", string.Format
-			(
-				"{\"source\":\"http://{0}:{1}@{2}/metadata\",\"target\":\"http://{3}:{4}@{5}/metadata\"}",
-				p_target_db_user_name, 
-				p_target_db_password,
-				p_target_db,
-				p_source_db_user_name, 
-				p_source_db_password,
-				p_source_db
-			),
-			p_target_db_user_name, p_target_db_password);	 
-			result.Add("replicate_metadata_users_curl",replicate_metadata_users_curl.execute());
+
+				string metadata_replication_string =  get_replicate_json_string("metadata", source_server_uri, target_server_uri);
+
+
+				var replicate_metadata_curl = new cURL 
+					(
+						"POST", null, p_target_server + "/_replicate", metadata_replication_string,
+			p_target_db_user_name, p_target_db_password
+					);	 
+				result.Add("metadata_replication",replicate_metadata_curl.execute());
 //curl -vX POST http://uid:pwd@target_db_url/_replicate \
 //     -d '{"source":"http://uid:pwd@source_db_url","target":"http://uid:pwd@target_db_url/mmrds"}' \
 
-			var replicate_records_curl = new cURL ("PUT", null, p_source_db + "/_replicate", string.Format
-			(
-				"{\"source\":\"http://{0}:{1}@{2}\",\"target\":\"http://{3}:{4}@{5}/mmrds\"}",
-				p_target_db_user_name, 
-				p_target_db_password,
-				p_target_db,
-				p_source_db_user_name, 
-				p_source_db_password,
-				p_source_db
-			),
+				string mmrds_replication_string =  get_replicate_json_string("mmrds", source_server_uri, target_server_uri);
+
+				var replicate_mmrds_curl = new cURL ("POST", null, p_target_server + "/_replicate", mmrds_replication_string,
  			p_target_db_user_name, p_target_db_password);	 
-			result.Add("replicate_records_curl",replicate_records_curl.execute());
+				result.Add("mmrds_replication",replicate_mmrds_curl.execute());
+
+
+				string de_id_replication_string =  get_replicate_json_string("de_id_", source_server_uri, target_server_uri);
+
+				var replicate_de_id__curl = new cURL ("POST", null, p_target_server + "/_replicate", de_id_replication_string,
+					p_target_db_user_name, p_target_db_password);	 
+				result.Add("de_id__replication",replicate_de_id__curl.execute());
+
+				string report_replication_string =  get_replicate_json_string("report", source_server_uri, target_server_uri);
+
+				var replicate_report_curl = new cURL ("POST", null, p_target_server + "/_replicate", report_replication_string,
+					p_target_db_user_name, p_target_db_password);	 
+				result.Add("report_replication",replicate_report_curl.execute());
 
 		}
 		catch(Exception ex) 
 		{
 			Console.WriteLine (ex);
+				result.Add("Exception",ex.ToString());
 		}
 
 
 			//return result;
 		return result;
 	} 
+
+
+		private string construct_basic_authentication_url(string p_url, string p_user_name, string p_password)
+		{
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+
+
+			Uri uri = new Uri(p_url);
+
+			result.Append (uri.Scheme);
+			result.Append ("://");
+			result.Append (p_user_name);
+			result.Append (":");
+			result.Append (p_password);
+			result.Append ("@");
+			result.Append (uri.Host);
+			result.Append (":");
+			result.Append (uri.Port);
+
+
+
+			return result.ToString ();
+
+		}
+
+
+		private string get_replicate_json_string(string p_db_name, string p_source_server_uri, string p_target_server_uri)
+		{
+			string result = null;
+
+			replication_struc replication_object = new replication_struc();
+			replication_object.source = string.Format("{0}/{1}", p_source_server_uri, p_db_name);
+			replication_object.target = string.Format("{0}/{1}", p_target_server_uri, p_db_name);
+
+			result =  Newtonsoft.Json.JsonConvert.SerializeObject(replication_object);
+
+			return result;
+		}
 	} 
 }
 

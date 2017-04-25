@@ -175,30 +175,38 @@ namespace mmria.server
 
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
+			var get_all_dbs_curl = new cURL ("GET", null, Program.config_couchdb_url+ "/_all_dbs", null, Program.config_timer_user_name, Program.config_timer_password);
 
-			System.Threading.Tasks.Task.Run
-			(
+			var all_dbs_string = get_all_dbs_curl.execute();
+			if (
+				all_dbs_string.Contains ("mmrds") &&
+				all_dbs_string.Contains ("metadata") 
+			)
+
+			{
+				System.Threading.Tasks.Task.Run
+				(
 					new Action (() => 
 					{
-						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all
-							(
-								Program.config_couchdb_url,
-								Program.config_timer_user_name,
-								Program.config_timer_password
-							);
+						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
+							                                                 Program.config_couchdb_url,
+							                                                 Program.config_timer_user_name,
+							                                                 Program.config_timer_password
+						                                                 );
 
 						sync_all.execute ();
 
-						sched.Start();
+						sched.Start ();
 					}
-				   	)
-			);
+					)
+				);
 
-			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
-			string res = curl.execute ();
-			mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
+				var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
+				string res = curl.execute ();
+				mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
 
-			Program.Last_Change_Sequence = latest_change_set.last_seq;
+				Program.Last_Change_Sequence = latest_change_set.last_seq;
+			}
 			/*	
 			Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
 			
