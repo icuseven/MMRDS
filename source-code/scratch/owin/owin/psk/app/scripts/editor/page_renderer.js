@@ -128,10 +128,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</h3>");
 			}
 
-			result.push('<input path="" type="button" value="Add New ');
-			result.push(p_metadata.prompt);
-			result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
 
+			if(g_source_db=="mmrds")
+			{
+				result.push('<input path="" type="button" value="Add New ');
+				result.push(p_metadata.prompt);
+				result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
+			}
 			result.push('<div class="search_wrapper">');
 			for(var i = 0; i < p_data.length; i++)
 			{
@@ -155,11 +158,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(i + 1);
 		
 					result.push('</a>&nbsp;|&nbsp;');
-					result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
-					result.push("\">");
-					result.push('Delete Record ');
-					result.push(i + 1);
-					result.push('</a>');
+					if(g_source_db=="mmrds")
+					{
+						result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
+						result.push("\">");
+						result.push('Delete Record ');
+						result.push(i + 1);
+						result.push('</a>');
+					}
 					result.push('</div>');
 				}
 
@@ -363,7 +369,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</textarea>");
 
 				result.push("<h3>Informant Interviews Reviewer's Notes</h3>");
-				for(var i = 0; i < g_data.other_medical_office_visits.length; i++)
+				for(var i = 0; i < g_data.informant_interviews.length; i++)
 				{
 					result.push("<p>Note: ");
 					result.push(i+1);
@@ -396,7 +402,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		break;
     case 'app':
 		result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
-		result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+		if(g_source_db=="mmrds")
+		{
+			result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+		}
 		
 		//result.push("<fieldset><legend>filter line listing</legend>");
 		//result.push("<input type='text' id='search_text_box' value='' /> ");
@@ -1173,7 +1182,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
 			p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input.datetime").datetimepicker({');
-			p_post_html_render.push('	format:"YYYY-MM-DDThh:mm:ss", defaultDate: "');
+			p_post_html_render.push('	format:"YYYY-MM-DD hh:mm:ss", defaultDate: "');
 			//p_post_html_render.push('	utc: true, defaultDate: "');
 			
 			p_post_html_render.push(p_data);
@@ -1440,7 +1449,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 				var res = val.match(/^\d\d\d\d-\d\d-\d+$/);
 				if(res)
 				{
-					result.push("'" + val +"'");
+					result.push("'" + make_c3_date(val) +"'");
 				}
 				else 
 				{
@@ -1601,6 +1610,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
+
 	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
 	
@@ -1642,11 +1652,13 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 
 
-
-		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-		if(path_to_onclick_map[p_metadata_path])
+		if(g_source_db=="mmrds")
 		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+			if(path_to_onclick_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+			}
 		}
 	}
 	else
@@ -1657,36 +1669,39 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(p_data);
 		p_result.push("'");
 
-		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
-		if(path_to_onfocus_map[p_metadata_path])
+		if(g_source_db=="mmrds")
 		{
-			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
-		}
+			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+			if(path_to_onfocus_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+			}
 
-/*
-		if(
-			p_metadata.type == "number" ||
-			p_metadata.type == "datetime" ||
-			p_metadata.type == "date" ||
-			p_metadata.type == "time" 
-		)
-		{
-			page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
+	/*
+			if(
+				p_metadata.type == "number" ||
+				p_metadata.type == "datetime" ||
+				p_metadata.type == "date" ||
+				p_metadata.type == "time" 
+			)
+			{
+				page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
+			}
+			else */
+			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+			if(path_to_onchange_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+			}
+			
+			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+			if(path_to_onclick_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+			}
+			
+			page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
 		}
-		else */
-		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-		if(path_to_onchange_map[p_metadata_path])
-		{
-			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
-		}
-		
-		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-		if(path_to_onclick_map[p_metadata_path])
-		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
-		}
-		
-		page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
 	}
 /*
 	p_result.push("' onblur='g_set_data_object_from_path(\"");

@@ -48,7 +48,7 @@ function load_data(p_uid, p_pwd)
 			url: url
 	}).done(function(response) {
 			
-			g_data = response.rows;
+			g_data = response;
 
 			//document.getElementById('generate_report_button').disabled = false;
 			//process_rows();
@@ -61,18 +61,23 @@ function load_data(p_uid, p_pwd)
 
 function generate_report_click()
 {
-
-	var year_of_death = document.getElementById('year_of_death').value;
-	var month_of_case_review = document.getElementById('month_of_case_review').value;
-	var  year_of_case_review = document.getElementById('year_of_case_review').value;
+	var filter = {
+		year_of_death: document.getElementById('year_of_death').value,
+		month_of_case_review: document.getElementById('month_of_case_review').value,
+		year_of_case_review: document.getElementById('year_of_case_review').value
+	};
 
 	if(g_data)
 	{
-		var data = process_rows();
-		//var ui_render = render_results(data);
-		console.log(data);
+		var data = process_rows(filter);
 
-		document.getElementById('report_output_id').innerHTML = data.join("");
+		//console.log(data);
+		var render_result = [];
+		Array.prototype.push.apply(render_result, render_total_number_of_cases_by_pregnancy_relatedness(data));
+		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_related_deaths_by_ethnicity(data));
+		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_associated_by_ethnicity(data));
+
+		document.getElementById('report_output_id').innerHTML = render_result.join("");
 	}
 	else
 	{
@@ -81,55 +86,298 @@ function generate_report_click()
 }
 
 
-function process_rows()
+function process_rows(p_filter)
 {
-	var result = create_summary_row(g_data[1].value);
+	var result = {
+  "_id": "summary_row",
+  "year_of_death": 0,
+  "month_of_case_review": 0,
+  "year_of_case_review": 0,
+  "total_number_of_cases_by_pregnancy_relatedness": {
+    "pregnancy_related": 0,
+    "pregnancy_associated_but_not_related": 0,
+    "not_pregnancy_related_or_associated": 0,
+    "unable_to_determine": 0,
+    "blank": 0
+  },
+  "total_number_of_pregnancy_related_deaths_by_ethnicity": {
+    "blank": 0,
+    "hispanic": 0,
+    "non_hispanic_black": 0,
+    "non_hispanic_white": 0,
+    "american_indian_alaska_native": 0,
+    "native_hawaiian": 0,
+    "guamanian_or_chamorro": 0,
+    "samoan": 0,
+    "other_pacific_islander": 0,
+    "asian_indian": 0,
+    "filipino": 0,
+    "korean": 0,
+    "other_asian": 0,
+    "chinese": 0,
+    "japanese": 0,
+    "vietnamese": 0,
+    "other": 0
+  },
+  "total_number_of_pregnancy_associated_by_ethnicity": {
+    "blank": 0,
+    "hispanic": 0,
+    "non_hispanic_black": 0,
+    "non_hispanic_white": 0,
+    "american_indian_alaska_native": 0,
+    "native_hawaiian": 0,
+    "guamanian_or_chamorro": 0,
+    "samoan": 0,
+    "other_pacific_islander": 0,
+    "asian_indian": 0,
+    "filipino": 0,
+    "korean": 0,
+    "other_asian": 0,
+    "chinese": 0,
+    "japanese": 0,
+    "vietnamese": 0,
+    "other": 0
+  },
+  "total_number_of_pregnancy_related_deaths_by_age": {
+    "age_less_than_20": 0,
+    "age_20_to_24": 0,
+    "age_25_to_29": 0,
+    "age_30_to_34": 0,
+    "age_35_to_44": 0,
+    "age_45_and_above": 0,
+    "blank": 0
+  },
+  "total_number_of_pregnancy_associated_deaths_by_age": {
+    "age_less_than_20": 0,
+    "age_20_to_24": 0,
+    "age_25_to_29": 0,
+    "age_30_to_34": 0,
+    "age_35_to_44": 0,
+    "age_45_and_above": 0,
+    "blank": 0
+  },
+  "total_number_pregnancy_related_at_time_of_death": {
+    "pregnant_at_the_time_of_death": 0,
+    "pregnant_within_42_days_of_death": 0,
+    "pregnant_within_43_to_365_days_of_death": 0,
+    "blank": 0
+  },
+  "total_number_pregnancy_associated_at_time_of_death": {
+    "pregnant_at_the_time_of_death": 0,
+    "pregnant_within_42_days_of_death": 0,
+    "pregnant_within_43_to_365_days_of_death": 0,
+    "blank": 0
+  }
+};
 
-
+	
 	for(var i = 0; i < g_data.length; i++)
 	{
-		var current_row = g_data[i].value;
-		create_detail_row(result, current_row);
+		var current_row = g_data[i];
+		if
+		(
+			(p_filter.year_of_death == "All" || parseInt(p_filter.year_of_death) == current_row.year_of_death) &&
+			(p_filter.month_of_case_review == "All" || parseInt(p_filter.month_of_case_review) == current_row.month_of_case_review) &&
+			(p_filter.year_of_case_review == "All" || parseInt(p_filter.year_of_case_review) == current_row.year_of_case_review)
+		)
+		{
+			accumulate_render_total_number_of_cases_by_pregnancy_relatedness(result, current_row);
+			accumulate_render_total_number_of_pregnancy_related_deaths_by_ethnicity(result, current_row);
+			accumulate_render_total_number_of_pregnancy_associated_by_ethnicity(result, current_row);
+		}
 	}
+	 
+
 	
 
-	return create_total_number_of_cases_by_pregnancy_relatedness(g_data);
-
 	return result;
 }
 
+function accumulate_render_total_number_of_pregnancy_associated_by_ethnicity(p_data, p_current_row)
+{
+	p_data.total_number_of_pregnancy_associated_by_ethnicity.blank += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.blank;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.hispanic += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.hispanic;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.samoan += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.samoan;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.asian_indian += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.asian_indian;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.filipino += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.filipino;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.korean += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.korean;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.other_asian += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.other_asian;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.chinese += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.chinese;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.japanese += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.japanese;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.vietnamese += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.vietnamese;
+    p_data.total_number_of_pregnancy_associated_by_ethnicity.other += p_current_row.total_number_of_pregnancy_associated_by_ethnicity.other;
 
-function render_results(p_data)
+
+    p_data.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20 += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20;
+    p_data.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24 += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24;
+    p_data.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29 += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29;
+    p_data.total_number_of_pregnancy_related_deaths_by_age.age_30_to_34 += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_30_to_34;
+    p_data.total_number_of_pregnancy_related_deaths_by_age.age_35_to_44 += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_35_to_44;
+    p_data.total_number_of_pregnancy_related_deaths_by_age.age_45_and_above += p_current_row.total_number_of_pregnancy_related_deaths_by_age.age_45_and_above;
+    p_data.total_number_of_pregnancy_related_deaths_by_age.blank += p_current_row.total_number_of_pregnancy_related_deaths_by_age.blank;
+  
+	p_data.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20 += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20;
+    p_data.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24 += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24;
+    p_data.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29 += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29;
+    p_data.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34 += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34;
+    p_data.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44 += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44;
+    p_data.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above;
+    p_data.total_number_of_pregnancy_associated_deaths_by_age.blank += p_current_row.total_number_of_pregnancy_associated_deaths_by_age.blank;
+
+
+	p_data.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death += p_current_row.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death;
+	p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death += p_current_row.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death;
+	p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death += p_current_row.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death;
+	p_data.total_number_pregnancy_related_at_time_of_death.blank += p_current_row.total_number_pregnancy_related_at_time_of_death.blank;
+
+	p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death += p_current_row.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death;
+	p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death += p_current_row.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death;
+	p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death += p_current_row.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death;
+	p_data.total_number_pregnancy_associated_at_time_of_death.blank += p_current_row.total_number_pregnancy_associated_at_time_of_death.blank;
+
+}
+
+
+function accumulate_render_total_number_of_pregnancy_related_deaths_by_ethnicity(p_data, p_current_row)
+{
+	p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.blank += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.blank;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.hispanic += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.hispanic;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_black += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_black;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_white += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_white;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.american_indian_alaska_native += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.american_indian_alaska_native;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.native_hawaiian += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.native_hawaiian;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.guamanian_or_chamorro += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.guamanian_or_chamorro;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.samoan += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.samoan;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.other_pacific_islander += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.other_pacific_islander;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.asian_indian += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.asian_indian;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.filipino += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.filipino;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.korean += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.korean;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.other_asian += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.other_asian;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.chinese += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.chinese;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.japanese += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.japanese;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese;
+    p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.other += p_current_row.total_number_of_pregnancy_related_deaths_by_ethnicity.other;
+}
+
+function accumulate_render_total_number_of_cases_by_pregnancy_relatedness(p_data, p_current_row)
+{
+	p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related += p_current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related;
+	p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related += p_current_row.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related;
+	p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated += p_current_row.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated
+	p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine += p_current_row.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine;
+	p_data.total_number_of_cases_by_pregnancy_relatedness.blank += p_current_row.total_number_of_cases_by_pregnancy_relatedness.blank;
+}
+
+function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
 {
 	var result = [];
-	for(var i in p_data)
-	{
-		if(!p_data.hasOwnProperty(i)) continue;
-		result.push("<p>");
-		result.push(i);
-		result.push("<ul>");
-		for(var j in p_data[i])
-		{
-			if(! p_data[i].hasOwnProperty(j)) continue;
-			result.push("<p>");
-			if(j)
-			{
-				result.push(j);
-			}
-			else
-			{
-				result.push("blank");
-			}
-			result.push(" : ");
-			result.push(p_data[i][j]);
-			result.push("</p>");
-		}
-		result.push("</ul></p>");
+	result.push("<p><b>total_number_of_cases_by_pregnancy_relatedness</b><br/><ul>");
+	result.push("<li>pregnancy_related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);
+	result.push("</li><li>pregnancy_associated_but_not_related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);
+	result.push("</li><li>not_pregnancy_related_or_associated: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated);
+	result.push("</li><li>unable_to_determine: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);
+	result.push("</li><li>blank: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.blank);
+	result.push("</li></ul></p>");
 
-	}
 
 	return result;
 }
+
+function render_total_number_of_pregnancy_related_deaths_by_ethnicity(p_data)
+{
+	var result = [];
+	result.push("<p><b>total_number_of_pregnancy_related_deaths_by_ethnicity</b><br/><ul>");
+    result.push("<li>hispanic: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.hispanic);
+    result.push("</li><li>non_hispanic_black: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_black);
+    result.push("</li><li>non_hispanic_white: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_white);
+    result.push("</li><li>american_indian_alaska_native: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.american_indian_alaska_native);
+    result.push("</li><li>native_hawaiian: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.native_hawaiian);
+    result.push("</li><li>guamanian_or_chamorro: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.guamanian_or_chamorro);
+    result.push("</li><li>samoan: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.samoan);
+    result.push("</li><li>other_pacific_islander: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.other_pacific_islander);
+    result.push("</li><li>asian_indian: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.asian_indian);
+    result.push("</li><li>filipino: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.filipino);
+    result.push("</li><li>korean: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.korean);
+    result.push("</li><li>other_asian: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.other_asian);
+    result.push("</li><li>chinese: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.chinese);
+    result.push("</li><li>japanese: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.japanese);
+    result.push("</li><li>vietnamese: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.vietnamese);
+    result.push("</li><li>other: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.other);
+	result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.blank);
+	result.push("</li></ul></p>");
+	return result;
+}
+
+
+function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
+{
+	var result = [];
+	result.push("<p><b>total_number_of_pregnancy_associated_by_ethnicity</b><br/><ul>");
+    result.push("<li>hispanic: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.hispanic);
+    result.push("</li><li>non_hispanic_black: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black);
+    result.push("</li><li>non_hispanic_white: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white);
+    result.push("</li><li>american_indian_alaska_native: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.american_indian_alaska_native);
+    result.push("</li><li>native_hawaiian: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.native_hawaiian);
+    result.push("</li><li>guamanian_or_chamorro: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.guamanian_or_chamorro);
+    result.push("</li><li>samoan: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.samoan);
+    result.push("</li><li>other_pacific_islander: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.other_pacific_islander);
+    result.push("</li><li>asian_indian: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.asian_indian);
+    result.push("</li><li>filipino: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.filipino);
+    result.push("</li><li>korean: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.korean);
+    result.push("</li><li>other_asian: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.other_asian);
+    result.push("</li><li>chinese: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.chinese);
+    result.push("</li><li>japanese: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.japanese);
+    result.push("</li><li>vietnamese: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.vietnamese);
+    result.push("</li><li>other: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.other);
+	result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.blank);
+	result.push("</li></ul></p>");
+
+
+	result.push("<p><b>total_number_of_pregnancy_related_deaths_by_age</b><br/><ul>");
+  	result.push("</li><li>age_less_than_20: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20);
+    result.push("</li><li>age_20_to_24: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24);
+    result.push("</li><li>age_25_to_29: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29);
+    result.push("</li><li>age_30_to_34: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_30_to_34);
+    result.push("</li><li>age_35_to_44: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_35_to_44);
+    result.push("</li><li>age_45_and_above: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_45_and_above);
+    result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.blank);
+  	result.push("</li></ul></p>");
+
+  	result.push("<p><b>total_number_of_pregnancy_associated_deaths_by_age</b><br/><ul>");
+	result.push("</li><li>age_less_than_20: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20);
+    result.push("</li><li>age_20_to_24: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24);
+    result.push("</li><li>age_25_to_29: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29);
+    result.push("</li><li>age_30_to_34: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_30_to_34);
+    result.push("</li><li>age_35_to_44: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_35_to_44);
+    result.push("</li><li>age_45_and_above: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_45_and_above);
+    result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.blank);
+	result.push("</li></ul></p>");
+
+	result.push("<p><b>total_number_pregnancy_related_at_time_of_death</b><br/><ul>");
+	result.push("</li><li>pregnant_at_the_time_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death);
+	result.push("</li><li>pregnant_within_42_days_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death);
+	result.push("</li><li>pregnant_within_43_to_365_days_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death);
+	result.push("</li><li>blank: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.blank);
+	result.push("</li></ul></p>");
+
+
+	result.push("<p><b>total_number_pregnancy_associated_at_time_of_death</b><br/><ul>");
+	result.push("</li><li>pregnant_at_the_time_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death);
+	result.push("</li><li>pregnant_within_42_days_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death);
+	result.push("</li><li>pregnant_within_43_to_365_days_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death);
+	result.push("</li><li>.blank: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.blank);
+	result.push("</li></ul></p>");
+
+
+	return result;
+}
+
 
 function create_summary_row(p_row)
 {

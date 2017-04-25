@@ -140,7 +140,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
           case 'datetime':
             $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker({
-                format:"YYYY-MM-DDThh:mm:ss",
+                format:"YYYY-MM-DD hh:mm:ss",
 				        defaultDate: value });
           break;
 
@@ -344,6 +344,10 @@ var $$ = {
 $(function ()
 {
   load_values();
+
+
+
+
 });
 
 function load_values()
@@ -353,6 +357,8 @@ function load_values()
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
       load_profile();
+
+ 
 
 	});
 
@@ -776,7 +782,7 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'YYYY-MM-DDThh:mm:ssZ'});
+  $( ".time" ).datetimepicker({ format: 'LT'});
 //$( "[metadata_type='date']" ).datetimepicker();
 /*
 flatpickr(" .date", {
