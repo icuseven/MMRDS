@@ -110,46 +110,55 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="actions">Actions <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="actions">');
 
-            if(parseInt(p_ui.url_state.path_array[0]) >= 0)
-            {
-              //result.push('<li><a href="print-version" target="_print_version">Print Version</a></li>');
-              result.push('<li><a onclick="open_core_summary(\'all\')">Populate Core Elements</a></li>');
-            }
-
-            result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
-            result.push('<li><a tabindex="-1" onclick="open_aggregate_report_version()">View Aggregate Report</a></li>');
-
-
-
-            if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1 || profile.user_roles && profile.user_roles.indexOf("_admin") > -1)
+            if(profile.user_roles && profile.user_roles.indexOf("_admin") > -1)
             {
               result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
+            }
+            else
+            {
+              if(parseInt(p_ui.url_state.path_array[0]) >= 0)
+              {
+                //result.push('<li><a href="print-version" target="_print_version">Print Version</a></li>');
+                result.push('<li><a onclick="open_core_summary(\'all\')">Populate Core Elements</a></li>');
+              }
+
+              result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
+              result.push('<li><a tabindex="-1" onclick="open_aggregate_report_version()">View Aggregate Report</a></li>');
+
+
+
+              if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)
+              {
+                result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
+              }
             }
 
           result.push('</ul>');
         result.push('</li>');
         // Actions end
-
-        // print blank start
-        result.push('<li class="dropdown">');
-          result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Blank  <span class="caret"></span></a>');
-          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
-          result.push('<li><a tabindex="-1"  onclick="open_blank_version(\'all\')">All</a></li>');
-          for(var i = 0; i < p_metadata.children.length; i++)
-          {
-            var child = p_metadata.children[i];
-            if(child.type.toLowerCase() == 'form')
+        if(profile.user_roles && profile.user_roles.indexOf("_admin") < 0)
+        {
+          // print blank start
+          result.push('<li class="dropdown">');
+            result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Blank  <span class="caret"></span></a>');
+            result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
+            result.push('<li><a tabindex="-1"  onclick="open_blank_version(\'all\')">All</a></li>');
+            for(var i = 0; i < p_metadata.children.length; i++)
             {
-              result.push('<li><a tabindex="-1" onclick="open_blank_version(\'');
-              result.push(child.name)
-              result.push('\')">');
-              result.push(child.prompt)
-              result.push('</a></li>');
+              var child = p_metadata.children[i];
+              if(child.type.toLowerCase() == 'form')
+              {
+                result.push('<li><a tabindex="-1" onclick="open_blank_version(\'');
+                result.push(child.name)
+                result.push('\')">');
+                result.push(child.prompt)
+                result.push('</a></li>');
+              }
             }
-          }
-          
-          result.push('</ul>'); 
-        result.push('</li>')
+            
+            result.push('</ul>'); 
+          result.push('</li>')
+        }
         // print blank end
   
 

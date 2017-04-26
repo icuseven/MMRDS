@@ -401,74 +401,77 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		}
 		break;
     case 'app':
-		result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
-		if(g_source_db=="mmrds")
-		{
-			result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
-		}
+		if(profile.user_roles && profile.user_roles.indexOf("_admin") < 0)
+        {
+			result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
+			if(g_source_db=="mmrds")
+			{
+				result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+			}
 		
-		//result.push("<fieldset><legend>filter line listing</legend>");
-		//result.push("<input type='text' id='search_text_box' value='' /> ");
-		//result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
-		result.push("</fieldset>");
+		
+			//result.push("<fieldset><legend>filter line listing</legend>");
+			//result.push("<input type='text' id='search_text_box' value='' /> ");
+			//result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
+			//result.push("</fieldset>");
 
-		result.push('<div class="search_wrapper">');
-		for(var i = 0; i < p_ui.data_list.length; i++)
-		{
-			var item = p_ui.data_list[i];
-
-			if(i % 2)
+			result.push('<div class="search_wrapper">');
+			for(var i = 0; i < p_ui.data_list.length; i++)
 			{
-				result.push('		  <div class="result_wrapper_grey" path="');
-			}
-			else
-			{
-				result.push('		  <div class="result_wrapper" path="');
-			}
-			result.push(item._id);
-			result.push('"><p class="result">');
-			result.push(item.home_record.last_name);
-			result.push(', ');
-			result.push(item.home_record.first_name);
-			result.push(' - ');
-			result.push(item.home_record.record_id);
-			result.push('	(');
-			result.push(item.home_record.state_of_death);
-			result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
-			result.push('</div>');
-			
-		}
-		result.push('		</div>');
+				var item = p_ui.data_list[i];
 
-
-		result.push("</section>");
-
-		if(p_ui.url_state.path_array.length > 1)
-		{
-			for(var i = 0; i < p_metadata.children.length; i++)
-			{
-				var child = p_metadata.children[i];
-				if(child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name)
+				if(i % 2)
 				{
-					if(p_data[child.name])
-					{
-						// do nothing 
-					}
-					else
-					{
-						p_data[child.name] = create_default_object(child, {})[child.name];
-					}
+					result.push('		  <div class="result_wrapper_grey" path="');
+				}
+				else
+				{
+					result.push('		  <div class="result_wrapper" path="');
+				}
+				result.push(item._id);
+				result.push('"><p class="result">');
+				result.push(item.home_record.last_name);
+				result.push(', ');
+				result.push(item.home_record.first_name);
+				result.push(' - ');
+				result.push(item.home_record.record_id);
+				result.push('	(');
+				result.push(item.home_record.state_of_death);
+				result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
+				result.push('</div>');
+				
+			}
+			result.push('		</div>');
 
-					Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));				 		
-					
+
+			result.push("</section>");
+
+			if(p_ui.url_state.path_array.length > 1)
+			{
+				for(var i = 0; i < p_metadata.children.length; i++)
+				{
+					var child = p_metadata.children[i];
+					if(child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name)
+					{
+						if(p_data[child.name])
+						{
+							// do nothing 
+						}
+						else
+						{
+							p_data[child.name] = create_default_object(child, {})[child.name];
+						}
+
+						Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));				 		
+						
+					}
 				}
 			}
+
+			result.push('<footer class="footer_wrapper">');
+			result.push('<p>&nbsp;</p>');
+			result.push('</footer>');
 		}
-
-		result.push('<footer class="footer_wrapper">');
-		result.push('<p>&nbsp;</p>');
-		result.push('</footer>');
-
        break;
      case 'label':
 			result.push("<div class='label' id='");
