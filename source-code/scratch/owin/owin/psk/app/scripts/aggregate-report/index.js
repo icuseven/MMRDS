@@ -277,13 +277,17 @@ function accumulate_render_total_number_of_cases_by_pregnancy_relatedness(p_data
 function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
 {
 	var result = [];
-	result.push("<p><b>total_number_of_cases_by_pregnancy_relatedness</b><br/><ul>");
-	result.push("<li>pregnancy_related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);
-	result.push("</li><li>pregnancy_associated_but_not_related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);
-	result.push("</li><li>not_pregnancy_related_or_associated: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated);
-	result.push("</li><li>unable_to_determine: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);
+	result.push("<p><b>Total Number of Cases by Pregnancy Relatedness</b><br/><ul>");
+	result.push("<li>Pregnancy Related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);
+	result.push("</li><li>Pregnancy Associated But NOT Related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);
+	result.push("</li><li>Not Pregnancy Related or Associated (i.e. False Positive): ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated);
+	result.push("</li><li>Unable to Determine if Pregnancy Related or Associated: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);
 	result.push("</li><li>blank: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.blank);
 	result.push("</li></ul></p>");
+
+
+
+
 
 
 	return result;
@@ -292,7 +296,7 @@ function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
 function render_total_number_of_pregnancy_related_deaths_by_ethnicity(p_data)
 {
 	var result = [];
-	result.push("<p><b>total_number_of_pregnancy_related_deaths_by_ethnicity</b><br/><ul>");
+	result.push("<p><b>Number of Pregnancy Related Deaths by Race-Ethnicity</b><br/><ul>");
     result.push("<li>hispanic: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.hispanic);
     result.push("</li><li>non_hispanic_black: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_black);
     result.push("</li><li>non_hispanic_white: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_ethnicity.non_hispanic_white);
@@ -318,7 +322,7 @@ function render_total_number_of_pregnancy_related_deaths_by_ethnicity(p_data)
 function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
 {
 	var result = [];
-	result.push("<p><b>total_number_of_pregnancy_associated_by_ethnicity</b><br/><ul>");
+	result.push("<p><b>Number of Pregnancy Associated but NOT Related Deaths by Race-Ethnicity</b><br/><ul>");
     result.push("<li>hispanic: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.hispanic);
     result.push("</li><li>non_hispanic_black: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_black);
     result.push("</li><li>non_hispanic_white: ");result.push(p_data.total_number_of_pregnancy_associated_by_ethnicity.non_hispanic_white);
@@ -339,7 +343,7 @@ function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
 	result.push("</li></ul></p>");
 
 
-	result.push("<p><b>total_number_of_pregnancy_related_deaths_by_age</b><br/><ul>");
+	result.push("<p><b>Number of Pregnancy Related Deaths by Age at Death</b><br/><ul>");
   	result.push("</li><li>age_less_than_20: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_less_than_20);
     result.push("</li><li>age_20_to_24: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_20_to_24);
     result.push("</li><li>age_25_to_29: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.age_25_to_29);
@@ -349,7 +353,7 @@ function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
     result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_related_deaths_by_age.blank);
   	result.push("</li></ul></p>");
 
-  	result.push("<p><b>total_number_of_pregnancy_associated_deaths_by_age</b><br/><ul>");
+  	result.push("<p><b>Number of Pregnancy Associated but NOT Related Deaths by Age at Death</b><br/><ul>");
 	result.push("</li><li>age_less_than_20: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20);
     result.push("</li><li>age_20_to_24: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24);
     result.push("</li><li>age_25_to_29: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.age_25_to_29);
@@ -359,7 +363,7 @@ function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
     result.push("</li><li>blank: ");result.push(p_data.total_number_of_pregnancy_associated_deaths_by_age.blank);
 	result.push("</li></ul></p>");
 
-	result.push("<p><b>total_number_pregnancy_related_at_time_of_death</b><br/><ul>");
+	result.push("<p><b>Number of Pregnancy Related Deaths by Timing of Death in Relation to Pregnancy</b><br/><ul>");
 	result.push("</li><li>pregnant_at_the_time_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death);
 	result.push("</li><li>pregnant_within_42_days_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death);
 	result.push("</li><li>pregnant_within_43_to_365_days_of_death: ");result.push(p_data.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death);
@@ -367,7 +371,7 @@ function render_total_number_of_pregnancy_associated_by_ethnicity(p_data)
 	result.push("</li></ul></p>");
 
 
-	result.push("<p><b>total_number_pregnancy_associated_at_time_of_death</b><br/><ul>");
+	result.push("<p><b>Number of Pregnancy-Associated but NOT Related Deaths by Timing of Death in Relation to Pregnancy</b><br/><ul>");
 	result.push("</li><li>pregnant_at_the_time_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death);
 	result.push("</li><li>pregnant_within_42_days_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death);
 	result.push("</li><li>pregnant_within_43_to_365_days_of_death: ");result.push(p_data.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death);
