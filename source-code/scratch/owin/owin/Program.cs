@@ -175,12 +175,13 @@ namespace mmria.server
 
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
+			/*
 			var get_all_dbs_curl = new cURL ("GET", null, Program.config_couchdb_url+ "/_all_dbs", null, Program.config_timer_user_name, Program.config_timer_password);
 
-			var all_dbs_string = get_all_dbs_curl.execute();
+			var all_dbs_string = get_all_dbs_curl.execute();*/
 			if (
-				all_dbs_string.Contains ("mmrds") &&
-				all_dbs_string.Contains ("metadata") 
+				database_exists( Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password) &&
+				database_exists(Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) 
 			)
 
 			{
@@ -321,6 +322,31 @@ namespace mmria.server
 				}
 				System.Console.WriteLine ("Quit command recieved shutting down.");
 			}
+		}
+
+		private static bool database_exists(string p_target_server, string p_user_name, string p_password)
+		{
+			bool result = false;
+
+			var curl = new cURL ("HEAD", null, p_target_server, null, p_user_name, p_password);	 
+			try
+			{
+				curl.execute();
+				/*
+				HTTP/1.1 200 OK
+				Cache-Control: must-revalidate
+				Content-Type: application/json
+				Date: Mon, 12 Aug 2013 01:27:41 GMT
+				Server: CouchDB (Erlang/OTP)*/
+				result = true;
+			}
+			catch(Exception ex)
+			{
+				// do nothing for now
+			}
+
+
+			return result;
 		}
 	}
 

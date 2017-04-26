@@ -63,15 +63,13 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 			try
 			{
-
+				/*
 				var get_all_dbs_curl = new cURL ("GET", null, p_target_server + "/_all_dbs", null, p_target_db_user_name, p_target_db_password);
-
 				var all_dbs_string = get_all_dbs_curl.execute();
-
 				HashSet<string> all_db_set = Newtonsoft.Json.JsonConvert.DeserializeObject<HashSet<string>>(all_dbs_string, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+*/
 
-
-				if(!all_db_set.Contains("_users"))
+				if(!database_exists(p_target_server + "/_users", p_target_db_user_name, p_target_db_password))
 				{
 					var users_curl = new cURL ("PUT", null, p_target_server + "/_users", null, p_target_db_user_name, p_target_db_password);
 					result.Add("users_curl",users_curl.execute());
@@ -81,7 +79,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("users_curl","users_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("_replicator"))
+				if(!database_exists(p_target_server + "/_replicator", p_target_db_user_name, p_target_db_password))
 				{
 					var replicator_curl = new cURL ("PUT", null, p_target_server + "/_replicator", null, p_target_db_user_name, p_target_db_password);
 					result.Add("replicator_curl",replicator_curl.execute());
@@ -91,7 +89,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("replicator_curl","replicator_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("_global_changes"))
+				if(!database_exists(p_target_server + "/_global_changes", p_target_db_user_name, p_target_db_password))
 				{
 					var global_changes_curl = new cURL ("PUT", null, p_target_server + "/_global_changes", null, p_target_db_user_name, p_target_db_password);
 					result.Add("global_changes_curl",global_changes_curl.execute());
@@ -102,7 +100,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("global_changes_curl","global_changes_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("metadata"))
+				if(!database_exists(p_target_server + "/metadata", p_target_db_user_name, p_target_db_password))
 				{
 					var metadata_curl = new cURL ("PUT", null, p_target_server + "/metadata", null, p_target_db_user_name, p_target_db_password);
 					result.Add("metadata_curl",metadata_curl.execute());
@@ -112,7 +110,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("metadata_curl","metadata_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("mmrds"))
+				if(!database_exists(p_target_server + "/mmrds", p_target_db_user_name, p_target_db_password))
 				{
 					var mmrds_curl = new cURL ("PUT", null, p_target_server + "/mmrds", null, p_target_db_user_name, p_target_db_password);
 					result.Add("mmrds_curl",mmrds_curl.execute());
@@ -122,7 +120,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("mmrds_curl","mmrds_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("de_id"))
+				if(!database_exists(p_target_server + "/de_id", p_target_db_user_name, p_target_db_password))
 				{
 					var de_id_curl = new cURL ("PUT", null, p_target_server + "/de_id", null, p_target_db_user_name, p_target_db_password);
 					result.Add("de_id_curl",de_id_curl.execute());
@@ -132,7 +130,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("de_id_curl","de_id_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("report"))
+				if(!database_exists(p_target_server + "/report", p_target_db_user_name, p_target_db_password))
 				{
 					var report_curl = new cURL ("PUT", null, p_target_server + "/report", null, p_target_db_user_name, p_target_db_password);
 					result.Add("report_curl",report_curl.execute());
@@ -142,7 +140,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("report_curl","report_curl already exists.");
 				}
 
-				if(!all_db_set.Contains("config"))
+				if(!database_exists(p_target_server + "/config", p_target_db_user_name, p_target_db_password))
 				{
 					var config_curl = new cURL ("PUT", null, p_target_server + "/config", null, p_target_db_user_name, p_target_db_password);
 					result.Add("config_curl",config_curl.execute());
@@ -152,6 +150,17 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("config_curl","config_curl already exists.");
 				}
 
+
+
+				if(
+					!string.IsNullOrWhiteSpace(p_source_server) &&
+					!string.IsNullOrWhiteSpace(p_source_db_user_name) &&
+					!string.IsNullOrWhiteSpace(p_source_db_password)
+				)
+
+				{
+
+				//http://docs.couchdb.org/en/2.0.0/api/server/configuration.html
 
 				string source_server_uri = construct_basic_authentication_url(p_source_server,
 					p_source_db_user_name, 
@@ -203,6 +212,8 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					p_target_db_user_name, p_target_db_password);	 
 				result.Add("report_replication",replicate_report_curl.execute());
 
+				}
+
 		}
 		catch(Exception ex) 
 		{
@@ -252,6 +263,33 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 			return result;
 		}
+
+
+		private bool database_exists(string p_target_db_url, string p_user_name, string p_password)
+		{
+			bool result = false;
+
+			var curl = new cURL ("HEAD", null, p_target_db_url, null, p_user_name, p_password);	 
+			try
+			{
+				curl.execute();
+				/*
+				HTTP/1.1 200 OK
+				Cache-Control: must-revalidate
+				Content-Type: application/json
+				Date: Mon, 12 Aug 2013 01:27:41 GMT
+				Server: CouchDB (Erlang/OTP)*/
+				result = true;
+			}
+			catch(Exception ex)
+			{
+				// do nothing for now
+			}
+
+
+			return result;
+		}
+
 	} 
 }
 

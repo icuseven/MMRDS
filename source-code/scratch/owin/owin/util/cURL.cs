@@ -35,6 +35,9 @@ namespace mmria
 				case "DELETE":
 					this.method = "DELETE";
 					break;
+				case "HEAD":
+					this.method = "HEAD";
+				break;					
 				case "GET":
 				default:
 					this.method = "GET";
