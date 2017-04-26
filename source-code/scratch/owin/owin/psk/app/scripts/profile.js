@@ -87,11 +87,6 @@ initialize_profile: function ()
 						$mmria.removeCookie("AuthSession");
 				}
 			}
-			else if($mmria.getCookie("uid") && $mmria.getCookie("pwd"))
-			{
-
-
-			}
 			else
 			{
 				profile.is_logged_in = false;
@@ -410,7 +405,7 @@ logout : function()
 				profile.user_roles = null;
 				profile.auth_session = null;
 				g_source_db = null;
-				//$mmria.removeCookie("AuthSession");
+				$mmria.removeCookie("AuthSession");
 			}
 		}
 		else
@@ -420,7 +415,7 @@ logout : function()
 			profile.user_roles = null;
 			profile.auth_session = null;
 			g_source_db = null;
-			//$mmria.removeCookie("AuthSession");
+			$mmria.removeCookie("AuthSession");
 		}
 
 		profile.render();

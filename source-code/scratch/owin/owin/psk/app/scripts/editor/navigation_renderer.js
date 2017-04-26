@@ -121,7 +121,7 @@ function navigation_render(p_metadata, p_level, p_ui)
 
 
 
-            if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)
+            if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1 || profile.user_roles && profile.user_roles.indexOf("_admin") > -1)
             {
               result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
             }
