@@ -35,3 +35,13 @@ download source
 make release
 cd /rel
 sudo ./bin/couchdb
+
+
+http://localhost:5984/_config/cors/headers
+
+couch_httpd_auth allow_persistent_cookies true
+httpd enable_cors true
+cors	credentials true
+headers	accept, authorization, content-type, origin, referer, cache-control, x-requested-with
+methods	GET,PUT,POST,HEAD,DELETE
+origins	http://localhost:12345

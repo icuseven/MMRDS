@@ -79,6 +79,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("users_curl","users_curl already exists.");
 				}
 
+				/*
 				if(!database_exists(p_target_server + "/_replicator", p_target_db_user_name, p_target_db_password))
 				{
 					var replicator_curl = new cURL ("PUT", null, p_target_server + "/_replicator", null, p_target_db_user_name, p_target_db_password);
@@ -98,7 +99,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 				else
 				{
 					result.Add("global_changes_curl","global_changes_curl already exists.");
-				}
+				}*/
 
 				if(!database_exists(p_target_server + "/metadata", p_target_db_user_name, p_target_db_password))
 				{
@@ -148,6 +149,26 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 				else
 				{
 					result.Add("config_curl","config_curl already exists.");
+				}
+
+				try
+				{
+
+					new cURL ("PUT", null, p_target_server + "/_config/couch_httpd_auth/allow_persistent_cookies/true", null, p_target_db_user_name, p_target_db_password).execute();
+				
+					new cURL ("PUT", null, p_target_server + "/_config/httpd/enable_cors/true", null, p_target_db_user_name, p_target_db_password).execute();
+					
+					new cURL ("PUT", null, p_target_server + "/_config/cors/credentials/true", null, p_target_db_user_name, p_target_db_password).execute();
+				
+					new cURL ("PUT", null, p_target_server + "/_config/cors/headers/accept,authorization,content-type,origin,referer,cache-control, x-requested-with", null, p_target_db_user_name, p_target_db_password).execute();
+				
+					new cURL ("PUT", null, p_target_server + "/_config/cors/methods/GET,PUT,POST,HEAD,DELETE", null, p_target_db_user_name, p_target_db_password).execute();
+				
+					new cURL ("PUT", null, p_target_server + "/_config/cors/origins/*", null, p_target_db_user_name, p_target_db_password).execute();
+				}
+				catch(Exception ex)
+				{
+
 				}
 
 
