@@ -392,6 +392,9 @@ function load_profile()
       {
         replicate_db_and_log_out(p_user_name, p_password);
       }
+
+       document.getElementById('navbar').innerHTML = "";
+      document.getElementById('form_content_id').innerHTML ="";
     };
 
 
@@ -474,6 +477,7 @@ function get_case_set()
     var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
     var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
+    
 
     db.sync(remoteDB).on('complete', function () 
     {
@@ -533,6 +537,8 @@ function get_case_set()
 
 function get_metadata()
 {
+  document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
+
   	$.ajax({
 			url: location.protocol + '//' + location.host + '/api/metadata',
 	}).done(function(response) {
@@ -544,6 +550,7 @@ function get_metadata()
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
       //window.location.href = location.protocol + '//' + location.host;
+      
 
       get_case_set();
 
