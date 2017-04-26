@@ -22,7 +22,23 @@ $(function ()
 
 function create_print_version(p_metadata, p_data, p_section)
 {
-	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui).join("");
+	g_data = p_data;
+	var post_html_call_back = [];
+
+	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui, "g_metadata", "g_data", post_html_call_back).join("");
+
+    if(post_html_call_back.length > 0)
+    {
+		try
+		{
+			eval(post_html_call_back.join(""));
+		}
+		catch(ex)
+		{
+			console.log(ex);
+		}
+      
+    }
 
 	if(p_section && p_section.toLowerCase() != "all")
 	{
