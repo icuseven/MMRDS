@@ -50,7 +50,7 @@ $(function ()
 	/*profile.on_login_call_back = function (){
 				load_users();
     };*/
-	profile.initialize_profile();
+	//profile.initialize_profile();
 
 	load_users();
 
@@ -81,7 +81,11 @@ function load_users()
 	var metadata_url = location.protocol + '//' + location.host + '/api/user';
 
 	$.ajax({
-			url: metadata_url
+			url: metadata_url,
+			beforeSend: function (request)
+			{
+				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
+			}
 	}).done(function(response) {
 			
 			var temp = [];
@@ -123,7 +127,7 @@ function server_save(p_user)
 					type: "POST",
 					beforeSend: function (request)
 					{
-						request.setRequestHeader("AuthSession", current_auth_session);
+						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					}//,
 			}).done(function(response) 
 			{

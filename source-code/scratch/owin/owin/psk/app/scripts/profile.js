@@ -87,6 +87,11 @@ initialize_profile: function ()
 						$mmria.removeCookie("AuthSession");
 				}
 			}
+			else if($mmria.getCookie("uid") && $mmria.getCookie("pwd"))
+			{
+
+
+			}
 			else
 			{
 				profile.is_logged_in = false;
@@ -153,8 +158,9 @@ render: function ()
 		}
 		
 		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
-		result.push('</li>');
-		result.push('</ul>');
+		result.push('</li><li>');
+		result.push("v1.0")
+		result.push('</li></ul>');
 
 		result.push('</div>');
 		result.push('</form>');
@@ -189,7 +195,10 @@ render: function ()
 		result.push('" class="form-control" required />');
 		result.push('</li>');
 		result.push('<li><input type="button"  class="btn btn-default" value="Log in" /></li>');
-		result.push('</ul>');
+		result.push('<li>');
+		result.push("v1.0")
+		result.push('</li></ul>');
+
 
 		result.push('</div>');
 		result.push('</form>');
@@ -401,7 +410,7 @@ logout : function()
 				profile.user_roles = null;
 				profile.auth_session = null;
 				g_source_db = null;
-				$mmria.removeCookie("AuthSession");
+				//$mmria.removeCookie("AuthSession");
 			}
 		}
 		else
@@ -411,7 +420,7 @@ logout : function()
 			profile.user_roles = null;
 			profile.auth_session = null;
 			g_source_db = null;
-			$mmria.removeCookie("AuthSession");
+			//$mmria.removeCookie("AuthSession");
 		}
 
 		profile.render();
