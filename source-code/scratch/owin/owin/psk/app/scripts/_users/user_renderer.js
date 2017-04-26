@@ -16,7 +16,7 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 		}
 	}
 	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
-	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='text' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /></tr>")
+	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='password' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /></tr>")
 	result.push("</table></div><br/><br/>");
 
 
@@ -65,15 +65,15 @@ function user_entry_render(p_user, p_i)
 	*/	
 	result.push("new password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
 	result.push("<br/>verify password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
-	result.push("<br/><input type='button' value='change password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
 	result.push("</td>");
-	result.push("<td>")
+	result.push("<td>&nbsp;")
 	//result.push("<input type='button' value='disable user'/>");
-	result.push("<input type='button' value='remove user'/><br/><br/><input type='button' value='save user changes' onclick='save_user(\"");
-	result.push(p_user._id);
-	result.push("\")'/>");
+	result.push("<!--input type='button' value='remove user'/-->");
 	result.push("</td>")
-	result.push("</tr>");
+	result.push("</tr><tr><td colspan=4>&nbsp;</td></tr>");
+	result.push("<tr><td align=center colspan=4><input type='button' value='save user " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+	result.push("</td>");
+	result.push("</tr><tr><td colspan=4>&nbsp;</td></tr>");
 
 
 

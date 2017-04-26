@@ -141,9 +141,9 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
 
-				string metadata_url = this.get_couch_db_url() + "/_users/"  + user._id;
+				string user_db_url = this.get_couch_db_url() + "/_users/"  + user._id;
 
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(user_db_url));
 				request.Method = "PUT";
 				request.ContentType = "application/json";
 				request.ContentLength = object_string.Length;
@@ -160,7 +160,11 @@ namespace mmria.server
 							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token[1]);
 							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
 							break;
-						}
+						}/*						
+						else if(auth_session_token[0].Trim() == "Authorization")
+						{
+							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+						}*/
 					}
 				}
 

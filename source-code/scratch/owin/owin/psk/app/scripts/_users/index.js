@@ -1,4 +1,5 @@
 
+var g_couchdb_url = null;
 
 var g_ui = { 
 	user_summary_list:[],
@@ -52,7 +53,7 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	load_users();
+	load_values();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -74,6 +75,21 @@ $(function ()
 	};
 });
 
+
+
+function load_values()
+{
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/values',
+	}).done(function(response) {
+			g_couchdb_url = response.couchdb_url;
+      	load_users();
+
+ 
+
+	});
+
+}
 
 
 function load_users()
@@ -127,6 +143,7 @@ function server_save(p_user)
 					type: "POST",
 					beforeSend: function (request)
 					{
+						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					}//,
 			}).done(function(response) 
@@ -304,38 +321,40 @@ function save_user(p_user_id)
 		var user = user_list[user_index];
 		var current_auth_session = profile.get_auth_session_cookie();
 
-		if(current_auth_session)
-		{ 
-			$.ajax({
-				url: location.protocol + '//' + location.host + '/api/user',
-				contentType: 'application/json; charset=utf-8',
-				dataType: 'json',
-				data: JSON.stringify(user),
-				type: "POST",
-				beforeSend: function (request)
-				{
-					request.setRequestHeader("AuthSession", current_auth_session);
-				}
-			}).done(function(response) 
-			{
-				var response_obj = eval(response);
-				if(response_obj.ok)
-				{
-					for(var i = 0; i < g_ui.user_summary_list.length; i++)
+			if(current_auth_session)
+			{ 
+				$.ajax({
+					url: location.protocol + '//' + location.host + '/api/user',
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify(user),
+					type: "POST",
+					beforeSend: function (request)
 					{
-						if(g_ui.user_summary_list[i]._id == response_obj.id)
-						{
-							g_ui.user_summary_list[i]._rev = response_obj.rev; 
-							break;
-						}
+						request.setRequestHeader("AuthSession", current_auth_session);
 					}
-					document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
-					create_status_message("user info saved.");
-				}
-				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-				console.log("metadata sent", response);
-			});
-		}
+				}).done(function(response) 
+				{
+					var response_obj = eval(response);
+					if(response_obj.ok)
+					{
+						for(var i = 0; i < g_ui.user_summary_list.length; i++)
+						{
+							if(g_ui.user_summary_list[i]._id == response_obj.id)
+							{
+								g_ui.user_summary_list[i]._rev = response_obj.rev; 
+								break;
+							}
+						}
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+						console.log("password saved sent", response);
+
+
+					}
+					//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+					
+				});
+			}
 	}
 }
 

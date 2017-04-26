@@ -370,7 +370,12 @@ function load_profile()
     profile.on_login_call_back = function ()
     {
       get_metadata();
-      if(g_source_db == "mmrds")
+      if
+      (
+          g_source_db == "mmrds" && 
+          profile.user_roles && 
+          profile.user_roles.indexOf("_admin") < 0
+      )
       {
         window.setInterval(save_change_task, 30000);	
       }
@@ -378,7 +383,15 @@ function load_profile()
 
     profile.on_logout_call_back = function (p_user_name, p_password)
     {
-      replicate_db_and_log_out(p_user_name, p_password);
+      if
+      (
+          profile.user_roles && 
+          profile.user_roles.indexOf("_admin") < 0 &&
+          profile.user_roles.indexOf("committee_member") < 0
+      )
+      {
+        replicate_db_and_log_out(p_user_name, p_password);
+      }
     };
 
 
