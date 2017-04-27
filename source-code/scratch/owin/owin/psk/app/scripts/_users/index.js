@@ -248,6 +248,13 @@ function change_password_user_click(p_user_id)
 								break;
 							}
 						}
+
+						if(response_obj.auth_session)
+						{
+							//profile.auth_session = response_obj.auth_session;
+							$mmria.addCookie("AuthSession", response_obj.auth_session);
+						}
+
 						document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
@@ -356,6 +363,13 @@ function save_user(p_user_id)
 								break;
 							}
 						}
+
+						if(response_obj.auth_session)
+						{
+							//profile.auth_session = response_obj.auth_session;
+							$mmria.addCookie("AuthSession", response_obj.auth_session);
+						}
+
 						document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
