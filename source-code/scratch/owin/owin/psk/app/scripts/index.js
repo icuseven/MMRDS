@@ -477,7 +477,8 @@ function get_case_set()
     var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
     var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
-    
+    document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
+
 
     db.sync(remoteDB).on('complete', function () 
     {
@@ -501,6 +502,9 @@ function get_case_set()
 
         var post_html_call_back = [];
         document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+        document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
+
+
         document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
         if(post_html_call_back.length > 0)
         {
@@ -546,7 +550,6 @@ function get_metadata()
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
 
-      document.getElementById('form_content_id').innerHTML ="<br/><br/><br/><br/><h2>Fetching record from mmria database</h2>";
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
       //window.location.href = location.protocol + '//' + location.host;

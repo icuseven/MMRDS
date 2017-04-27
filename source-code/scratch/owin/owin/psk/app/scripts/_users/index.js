@@ -251,9 +251,11 @@ function change_password_user_click(p_user_id)
 				});
 			}
 		}
-
-		document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
-		console.log("greatness awaits.");
+		else
+		{
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+			//console.log("greatness awaits.");
+		}
 	}
 	else
 	{

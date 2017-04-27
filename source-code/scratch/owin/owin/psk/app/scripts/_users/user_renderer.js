@@ -68,12 +68,9 @@ function user_entry_render(p_user, p_i)
 	result.push("</td>");
 	result.push("<td>&nbsp;")
 	//result.push("<input type='button' value='disable user'/>");
-	result.push("<!--input type='button' value='remove user'/-->");
+	result.push("<input type='button' value='save user " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
 	result.push("</td>")
-	result.push("</tr><tr><td colspan=4>&nbsp;</td></tr>");
-	result.push("<tr><td align=center colspan=4><input type='button' value='save user " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
-	result.push("</td>");
-	result.push("</tr><tr><td colspan=4>&nbsp;</td></tr>");
+	result.push("</tr>");
 
 
 
