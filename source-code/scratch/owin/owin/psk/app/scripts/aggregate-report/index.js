@@ -72,8 +72,18 @@ function generate_report_click()
 		var data = process_rows(filter);
 
 		//console.log(data);
+    var post_html_callback = [];
 		var render_result = [];
-		Array.prototype.push.apply(render_result, render_total_number_of_cases_by_pregnancy_relatedness(data));
+    render_result.push("<h4>Year of Death: ");
+    render_result.push(filter.year_of_death);
+    render_result.push("</h4>");
+    render_result.push("<h4>Year and Month of Case Review: ");
+    render_result.push(filter.year_of_case_review);
+    render_result.push("&nbsp;");
+    render_result.push(filter.month_of_case_review);
+    render_result.push("</h4>");
+
+		Array.prototype.push.apply(render_result, render_total_number_of_cases_by_pregnancy_relatedness(data, post_html_callback));
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_related_deaths_by_ethnicity(data));
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_associated_by_ethnicity(data));
 
@@ -83,6 +93,19 @@ function generate_report_click()
 	{
 		document.getElementById('report_output_id').innerHTML = "";
 	}
+
+  if(post_html_callback.length > 0)
+  {
+    try
+    {
+      eval(post_html_callback.join(""));
+
+    }
+    catch(ex)
+    {
+      console.log(ex);
+    }
+  }
 }
 
 
@@ -274,9 +297,10 @@ function accumulate_render_total_number_of_cases_by_pregnancy_relatedness(p_data
 	p_data.total_number_of_cases_by_pregnancy_relatedness.blank += p_current_row.total_number_of_cases_by_pregnancy_relatedness.blank;
 }
 
-function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
+function render_total_number_of_cases_by_pregnancy_relatedness(p_data, p_post_html_callback)
 {
 	var result = [];
+  result.push("<div id='total_number_of_cases_by_pregnancy_relatedness'></div>");
 	result.push("<p><b>Total Number of Cases by Pregnancy Relatedness</b><br/><ul>");
 	result.push("<li>Pregnancy Related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);
 	result.push("</li><li>Pregnancy Associated But NOT Related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);
@@ -286,6 +310,24 @@ function render_total_number_of_cases_by_pregnancy_relatedness(p_data)
 	result.push("</li></ul></p>");
 
 
+
+
+p_post_html_callback.push("var chart = c3.generate({");
+p_post_html_callback.push(" bindto: '#total_number_of_cases_by_pregnancy_relatedness',");
+p_post_html_callback.push("    data: {");
+p_post_html_callback.push("        columns: [");
+p_post_html_callback.push("            ['Pregnancy Related',  ");p_post_html_callback.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);p_post_html_callback.push("],");
+p_post_html_callback.push("            ['Pregnancy Associated But NOT Related',  ");p_post_html_callback.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);p_post_html_callback.push("],");
+p_post_html_callback.push("            ['Not Pregnancy Related or Associated (i.e. False Positive)',  ");p_post_html_callback.push(p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated);p_post_html_callback.push("],");
+p_post_html_callback.push("            ['Unable to Determine if Pregnancy Related or Associated',  ");p_post_html_callback.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);p_post_html_callback.push("],");
+p_post_html_callback.push("            ['blank', ");p_post_html_callback.push(p_data.total_number_of_cases_by_pregnancy_relatedness.blank);p_post_html_callback.push("]");
+p_post_html_callback.push("        ],");
+p_post_html_callback.push("        type: 'pie'");
+p_post_html_callback.push("    },");
+
+p_post_html_callback.push("    pie: {");
+p_post_html_callback.push("    }");
+p_post_html_callback.push("});");
 
 
 
