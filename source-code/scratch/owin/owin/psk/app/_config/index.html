@@ -4,54 +4,40 @@
 <meta charset="utf-8">
 <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-<LINK href="../styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
 <script src="../scripts/jquery-3.1.1.min.js"></script>
-<script src="../scripts/pouchdb/pouchdb.min.js"></script>
-<script src="../scripts/bootstrap/bootstrap.min.js"></script>
-<!--script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" type="text/javascript"></script-->
-<script src="../scripts/data_access.js" type="text/javascript"></script>
+<script src="../scripts/editor/validation_builder.js" type="text/javascript"></script>
+<script src="../scripts/_config/index.js" type="text/javascript"></script>
 
-<!--script src="../react-test/meta_navigator.js" type="text/javascript"></script>
-<script src="../react-test/meta_navigator.js" type="text/javascript"></script>
-<script src="../scripts/editor/tree_node.js" type="text/javascript"></script-->
-
-<script src="../scripts/url_monitor.js" type="text/javascript"></script>
-<script src="../scripts/feed_back_utils.js" type="text/javascript"></script>
-<script src="../scripts/profile.js" type="text/javascript"></script>
-
-<script src="../scripts/_users/index.js" type="text/javascript"></script>
-<script src="../scripts/_users/navigation_renderer.js" type="text/javascript"></script>
-<script src="../scripts/_users/user_renderer.js" type="text/javascript"></script>
-<script src="../scripts/mmria.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="update_validator">
 <p>To ensure validator.js is updated use the below button.</p>
-<input type="button" value="update validator.js script" onclick=""/>
-
-<div id='update_validator_output'>
-  </div>
+<input type="button" value="update validator.js script" onclick="update_validator_click()"/>
+<br/><br/>
+<textarea id='update_validator_output' rows=7 cols=80>
+  </textarea>
 </div>
 <br/>
 <br/>
 <div id="config_db">
 <p>To perform db setup and initialization use the below form.</p>
 <form id='config_form'>
+target_server: <input id="p_target_server" type="text" value="http://localhost:5984" /><br/>
+target_db_user_name: <input id="p_target_db_user_name" type="text" value="" /><br/>
+target_db_password: <input id="p_target_db_password" type="password" value="" /><br/><br/>
+source_server: <input id="p_source_server" type="text" value="http://db1.mmria.org" /><br/>
+source_db_user_name: <input id="p_source_db_user_name" type="text" value="" /><br/>
+source_db_password: <input id="p_source_db_password" type="password" value="" /><br/>
 
-target_db_user_name: <input name="p_target_db_user_name" type="text" value="" /><br/>
-target_db_password: <input name="p_target_db_password" type="text" value="" /><br/>
-target_server: <input name="p_target_server" type="text" value="" /><br/>
-source_db_user_name: <input name="p_source_db_user_name" type="text" value="" /><br/>
-source_db_password: <input name="p_source_db_password" type="text" value="" /><br/>
-source_server: <input name="p_source_server" type="text" value="" /><br/>
-set_config: <select name="p_set_config">
+set_config: <select id="p_set_config">
   <option selected>false</option>
   <option>true</option>
 </select><br/>
-
-<input type="button" value="run db  setup" onclick=""/>
-
-
+<br/><br/>
+<input type="button" value="run db  setup" onclick="run_db_setup_click()"/>
+<br/><br/>
+<textarea id='config_form_output' rows=100 cols=120>
+  </textarea>
 </form>
 
 </div>

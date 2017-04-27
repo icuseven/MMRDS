@@ -188,7 +188,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 				//{"admins":{"names":[],"roles":["form_designer"]},"members":{"names":[],"roles":["abstractor","data_analyst","commitee_member","timer"]}}
 
-					new cURL ("PUT", null, p_target_server + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"commitee_member\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute();
+					new cURL ("PUT", null, p_target_server + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute();
 					result.Add("mmrds/_security","completed successfully");
 				}
 				catch(Exception ex)
@@ -255,7 +255,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
  			p_target_db_user_name, p_target_db_password);	 
 				result.Add("mmrds_replication",replicate_mmrds_curl.execute());
 
-
+					/*
 				string de_id_replication_string =  get_replicate_json_string("de_id_", source_server_uri, target_server_uri);
 
 				var replicate_de_id__curl = new cURL ("POST", null, p_target_server + "/_replicate", de_id_replication_string,
@@ -266,7 +266,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 				var replicate_report_curl = new cURL ("POST", null, p_target_server + "/_replicate", report_replication_string,
 					p_target_db_user_name, p_target_db_password);	 
-				result.Add("report_replication",replicate_report_curl.execute());
+				result.Add("report_replication",replicate_report_curl.execute());*/
 
 				}
 
