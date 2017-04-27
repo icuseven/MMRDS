@@ -193,7 +193,8 @@ namespace mmria.server.util
 			"medical_transport/transport_vital_signs/date_and_time",
 			"medical_transport/destination_information/place_of_destination",
 			 "social_and_environmental_profile/social_and_medical_referrals/date",
-			"social_and_environmental_profile/sources_of_social_services_information_for_this_record/source_name"
+			"social_and_environmental_profile/sources_of_social_services_information_for_this_record/source_name",
+			"mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening"
 
 
 
