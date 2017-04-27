@@ -54,7 +54,8 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 			string p_target_server,
 			string p_source_db_user_name, 
 			string p_source_db_password,
-			string p_source_server
+			string p_source_server,
+			bool p_set_config = false
 		)
 		{
 
@@ -151,27 +152,61 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("config_curl","config_curl already exists.");
 				}
 
+
+				if(p_set_config)
+				{
+					try
+					{
+
+						new cURL ("PUT", null, p_target_server + "/_config/couch_httpd_auth/allow_persistent_cookies/true", null, p_target_db_user_name, p_target_db_password).execute();
+					
+						new cURL ("PUT", null, p_target_server + "/_config/httpd/enable_cors/true", null, p_target_db_user_name, p_target_db_password).execute();
+						
+						new cURL ("PUT", null, p_target_server + "/_config/cors/credentials/true", null, p_target_db_user_name, p_target_db_password).execute();
+					
+						new cURL ("PUT", null, p_target_server + "/_config/cors/headers/accept,authorization,content-type,origin,referer,cache-control, x-requested-with", null, p_target_db_user_name, p_target_db_password).execute();
+					
+						new cURL ("PUT", null, p_target_server + "/_config/cors/methods/GET,PUT,POST,HEAD,DELETE", null, p_target_db_user_name, p_target_db_password).execute();
+					
+						new cURL ("PUT", null, p_target_server + "/_config/cors/origins/*", null, p_target_db_user_name, p_target_db_password).execute();
+					}
+					catch(Exception ex)
+					{
+						result.Add("config error", ex.ToString());
+					}
+					result.Add("config","config set to true: completed successfully.");
+				}
+				else
+				{
+					result.Add("config","config set to false.");
+				}
+
+
 				try
 				{
+				//http://db1.mmria.org/mmrds/_security
 
-					new cURL ("PUT", null, p_target_server + "/_config/couch_httpd_auth/allow_persistent_cookies/true", null, p_target_db_user_name, p_target_db_password).execute();
-				
-					new cURL ("PUT", null, p_target_server + "/_config/httpd/enable_cors/true", null, p_target_db_user_name, p_target_db_password).execute();
-					
-					new cURL ("PUT", null, p_target_server + "/_config/cors/credentials/true", null, p_target_db_user_name, p_target_db_password).execute();
-				
-					new cURL ("PUT", null, p_target_server + "/_config/cors/headers/accept,authorization,content-type,origin,referer,cache-control, x-requested-with", null, p_target_db_user_name, p_target_db_password).execute();
-				
-					new cURL ("PUT", null, p_target_server + "/_config/cors/methods/GET,PUT,POST,HEAD,DELETE", null, p_target_db_user_name, p_target_db_password).execute();
-				
-					new cURL ("PUT", null, p_target_server + "/_config/cors/origins/*", null, p_target_db_user_name, p_target_db_password).execute();
+				//{"admins":{"names":[],"roles":["form_designer"]},"members":{"names":[],"roles":["abstractor","data_analyst","commitee_member","timer"]}}
+
+					new cURL ("PUT", null, p_target_server + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"commitee_member\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute();
+					result.Add("mmrds/_security","completed successfully");
 				}
 				catch(Exception ex)
 				{
-
+					result.Add("mmrds/_security",ex.ToString());
 				}
 
-
+				try
+				{
+				//http://db1.mmria.org/metadata/_security
+				//{"admins":{"names":[],"roles":["form_designer"]},"members":{"names":[],"roles":[]}}
+					new cURL ("PUT", null, p_target_server + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", p_target_db_user_name, p_target_db_password).execute();
+					result.Add("metadata/_security","completed successfully");
+				}
+				catch(Exception ex)
+				{
+					result.Add("metadata/_security",ex.ToString());
+				}
 
 				if(
 					!string.IsNullOrWhiteSpace(p_source_server) &&
