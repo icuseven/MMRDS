@@ -26,9 +26,33 @@
 </head>
 <body>
 <div id="update_validator">
+<p>To ensure validator.js is updated use the below button.</p>
+<input type="button" value="update validator.js script" onclick=""/>
 
+<div id='update_validator_output'>
+  </div>
 </div>
+<br/>
+<br/>
 <div id="config_db">
+<p>To perform db setup and initialization use the below form.</p>
+<form id='config_form'>
+
+target_db_user_name: <input name="p_target_db_user_name" type="text" value="" /><br/>
+target_db_password: <input name="p_target_db_password" type="text" value="" /><br/>
+target_server: <input name="p_target_server" type="text" value="" /><br/>
+source_db_user_name: <input name="p_source_db_user_name" type="text" value="" /><br/>
+source_db_password: <input name="p_source_db_password" type="text" value="" /><br/>
+source_server: <input name="p_source_server" type="text" value="" /><br/>
+set_config: <select name="p_set_config">
+  <option selected>false</option>
+  <option>true</option>
+</select><br/>
+
+<input type="button" value="run db  setup" onclick=""/>
+
+
+</form>
 
 </div>
 </body>
