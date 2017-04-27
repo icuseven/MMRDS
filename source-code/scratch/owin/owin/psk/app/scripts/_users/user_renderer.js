@@ -16,7 +16,7 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 		}
 	}
 	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
-	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='password' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /></tr>")
+	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='password' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /><span id='new_user_status_area'></span></tr>")
 	result.push("</table></div><br/><br/>");
 
 
@@ -69,6 +69,10 @@ function user_entry_render(p_user, p_i)
 	result.push("<td>&nbsp;")
 	//result.push("<input type='button' value='disable user'/>");
 	result.push("<input type='button' value='save user " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+	
+	result.push("<span id='");
+	result.push(convert_to_jquery_id(p_user._id));
+	result.push("_status_area'><span id=");
 	result.push("</td>")
 	result.push("</tr>");
 

@@ -167,6 +167,7 @@ function add_new_user_click()
 {
 	var new_user_name = document.getElementById('new_user_name').value;
 	var new_user_password = document.getElementById('new_user_password').value;
+	var user_id = null;
 	if(
 		is_valid_user_name(new_user_name) && 
 		is_valid_password(new_user_password)
@@ -174,13 +175,15 @@ function add_new_user_click()
 	{
 
 		var new_user = $$.add_new_user(new_user_name, new_user_password);
+		user_id = new_user._id;
 		g_ui.user_summary_list.push(new_user);
 		document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
-		console.log("greatness awaits.");
+		create_status_message("new user has been added.", "new_user");
+		//console.log("greatness awaits.");
 	}
 	else
 	{
-		create_status_warning("invalid user name or password.");
+		create_status_warning("invalid user name or password.", "new_user");
 		console.log("got nothing.");
 	}
 }
@@ -191,23 +194,27 @@ function change_password_user_click(p_user_id)
 	
 	var new_user_password = document.querySelector('[role="confirm_1"][path="' + p_user_id + '"]').value;
 	var new_confirm_password = document.querySelector('[role="confirm_2"][path="' + p_user_id + '"]').value;
+
+	var user_index = -1;
+	var user_list = g_ui.user_summary_list;
+	var user = null;
+	for(var i = 0; i < user_list.length; i++)
+	{
+		if(user_list[i]._id == p_user_id)
+		{
+			user = user_list[i];
+			break;
+		}
+	}
+
+
 	if(
 		is_valid_password(new_user_password) && 
 		is_valid_password(new_confirm_password) &&
 		new_user_password == new_confirm_password
 	)
 	{
-		var user_index = -1;
-		var user_list = g_ui.user_summary_list;
-		var user = null;
-		for(var i = 0; i < user_list.length; i++)
-		{
-			if(user_list[i]._id == p_user_id)
-			{
-				user = user_list[i];
-				break;
-			}
-		}
+
 
 
 		if(user)
@@ -242,6 +249,7 @@ function change_password_user_click(p_user_id)
 							}
 						}
 						document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
 
@@ -259,7 +267,7 @@ function change_password_user_click(p_user_id)
 	}
 	else
 	{
-		create_status_warning("invalid password and confirm");
+		create_status_warning("invalid password and confirm", convert_to_jquery_id(user._id));
 		console.log("got nothing.");
 	}
 }
@@ -349,6 +357,7 @@ function save_user(p_user_id)
 							}
 						}
 						document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
 
@@ -383,7 +392,7 @@ function add_role(p_user_id)
 			user.roles.push(selected_role.value);
 			g_ui.user_summary_list[user_index] = user;
 			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
-			create_status_message("role added");
+			
 		}
 	}
 }
@@ -412,7 +421,6 @@ function remove_role(p_user_id, p_role)
 			user.roles.splice(role_index, 1);
 			g_ui.user_summary_list[user_index] = user;
 			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
-			create_status_message("role removed.");
 		}
 	}
 }
@@ -440,6 +448,7 @@ function change_password(p_user_id, p_role)
 			user.roles.splice(role_index, 1);
 			g_ui.user_summary_list[user_index] = user;
 			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
+			create_status_message("user information saved", convert_to_jquery_id(user._id));
 		}
 	}
 }
@@ -451,7 +460,7 @@ function convert_to_jquery_id(p_value)
 }
 
 
-function create_status_message(p_message)
+function create_status_message(p_message, p_div_id)
 {
 	var result = [];
 
@@ -461,12 +470,12 @@ function create_status_message(p_message)
 	result.push(p_message);
 	result.push('</div>');
 
-	document.getElementById("status_area").innerHTML = result.join("");
+	document.getElementById(p_div_id + "_status_area").innerHTML = result.join("");
 
 	window.setTimeout(clear_status, 30000);
 }
 
-function create_status_warning(p_message)
+function create_status_warning(p_message, p_div_id)
 {
 	var result = [];
 
@@ -476,7 +485,7 @@ function create_status_warning(p_message)
 	result.push(p_message);
 	result.push('</div>');
 
-	document.getElementById("status_area").innerHTML = result.join("");
+	document.getElementById(p_div_id + "_status_area").innerHTML = result.join("");
 
 	window.setTimeout(clear_status, 30000);
 }
