@@ -290,7 +290,7 @@ function is_valid_password(p_value)
 
 	if(
 		p_value &&
-		p_value.length > 8
+		p_value.length >= 8
 	)
 	{
 		//console.log("greatness awaits.");
