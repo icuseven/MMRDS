@@ -190,6 +190,8 @@ render: function ()
 		result.push('" class="form-control" required />');
 		result.push('</li>');
 		result.push('<li><input type="button"  class="btn btn-default" value="Log in" /></li>');
+		result.push('<li id="login_status_area">');
+		result.push('</li>');
 		result.push('<li>');
 		result.push("v1.0")
 		result.push('</li></ul>');
@@ -266,53 +268,63 @@ login_response: function (response)
 	//ready_this.CreateFromMetaData(document, ready_this, metadata, parent);
 	console.log("response\n", response);
 	var valid_login = false;
-
-	var json_response = response[0];
-
-	console.log(response);
-
-	//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-	valid_login = json_response.name != null;
-	if(valid_login)
+	if(response)
 	{
+		var json_response = response[0];
 
+		console.log(response);
 
-		profile.is_logged_in = true;
-
-		//profile.user_name = json_response.name;
-		profile.user_roles = json_response.roles;
-		profile.auth_session = json_response.auth_session;
-
-		$mmria.addCookie("uid", profile.user_name);
-		$mmria.addCookie("pwd", profile.password);
-		$mmria.addCookie("roles", json_response.roles);
-		$mmria.addCookie("AuthSession", profile.auth_session);
-
-
-		if(profile.user_roles.indexOf("committee_member") >-1)
+		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
+		valid_login = json_response.name != null;
+		if(valid_login)
 		{
-			g_source_db = "de_id";
+
+
+			profile.is_logged_in = true;
+
+			//profile.user_name = json_response.name;
+			profile.user_roles = json_response.roles;
+			profile.auth_session = json_response.auth_session;
+
+			$mmria.addCookie("uid", profile.user_name);
+			$mmria.addCookie("pwd", profile.password);
+			$mmria.addCookie("roles", json_response.roles);
+			$mmria.addCookie("AuthSession", profile.auth_session);
+
+
+			if(profile.user_roles.indexOf("committee_member") >-1)
+			{
+				g_source_db = "de_id";
+			}
+			else
+			{
+				g_source_db = "mmrds";
+			}
+
+			if(profile.on_login_call_back)
+			{
+				profile.on_login_call_back();
+			}
+
+			profile.render();
 		}
 		else
 		{
-			g_source_db = "mmrds";
-		}
+			profile.user_name = '';
+			profile.password = null;
+			$mmria.removeCookie("AuthSession");
 
-		if(profile.on_login_call_back)
-		{
-			profile.on_login_call_back();
+			profile.render();
+			profile.create_status_warning("Invalid user or password.")
 		}
-
+		
 	}
 	else
 	{
-		profile.user_name = '';
-		profile.password = null;
-		$mmria.removeCookie("AuthSession");
-		
+		profile.render();
+		profile.create_status_warning("Invalid user or password.")
 	}
-
-	profile.render();
+	
 
 },
 
@@ -433,5 +445,37 @@ logout : function()
 		console.log("failed:", response);
 	});
 
-  }
+  },
+	create_status_message: function (p_message)
+	{
+		var result = [];
+
+		result.push('<div class="alert alert-success alert-dismissible">');
+		result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+		result.push('<strong>Info!</strong> ');
+		result.push(p_message);
+		result.push('</div>');
+
+		document.getElementById("login_status_area").innerHTML = result.join("");
+
+		window.setTimeout(profile.clear_status, 30000);
+	},
+	create_status_warning : function (p_message)
+	{
+		var result = [];
+
+		result.push('<div class="alert alert-danger">');
+		result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+		result.push('<strong>Warning!</strong> ');
+		result.push(p_message);
+		result.push('</div>');
+
+		document.getElementById("login_status_area").innerHTML = result.join("");
+
+		window.setTimeout(profile.clear_status, 30000);
+	},
+	clear_status :function ()
+	{
+		document.getElementById("login_status_area").innerHTML = "<div>&nbsp;</div>";
+	}
 };

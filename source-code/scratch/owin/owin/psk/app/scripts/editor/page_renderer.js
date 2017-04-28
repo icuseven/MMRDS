@@ -401,7 +401,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		}
 		break;
     case 'app':
-		if(profile.user_roles && profile.user_roles.indexOf("_admin") < 0)
+		if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
         {
 			result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
 			if(g_source_db=="mmrds")

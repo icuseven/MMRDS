@@ -166,15 +166,15 @@ function server_save(p_user)
 function add_new_user_click()
 {
 	var new_user_name = document.getElementById('new_user_name').value;
-	var new_user_password = document.getElementById('new_user_password').value;
+	//var new_user_password = document.getElementById('new_user_password').value;
 	var user_id = null;
 	if(
-		is_valid_user_name(new_user_name) && 
-		is_valid_password(new_user_password)
+		is_valid_user_name(new_user_name) //&& 
+		//is_valid_password(new_user_password)
 	)
 	{
 
-		var new_user = $$.add_new_user(new_user_name, new_user_password);
+		var new_user = $$.add_new_user(new_user_name, "password");
 		user_id = new_user._id;
 		g_ui.user_summary_list.push(new_user);
 		document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
@@ -183,7 +183,7 @@ function add_new_user_click()
 	}
 	else
 	{
-		create_status_warning("invalid user name or password.", "new_user");
+		create_status_warning("invalid user name.", "new_user");
 		console.log("got nothing.");
 	}
 }

@@ -16,7 +16,7 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 		}
 	}
 	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
-	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='password' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /><span id='new_user_status_area'></span></tr>")
+	result.push("<tr><td colspan=4 align=right>enter new user name:<input type='text' id='new_user_name' value=''/> <input type='button' value='add new user' onclick='add_new_user_click()' /><span id='new_user_status_area'></span></tr>")
 	result.push("</table></div><br/><br/>");
 
 
@@ -84,7 +84,7 @@ function user_entry_render(p_user, p_i)
 function user_role_render(p_user)
 {
 	var result = [];
-	var role_set = [ '', 'abstractor','committee_member','form_designer', 'user_admin'];
+	var role_set = [ '', 'abstractor','committee_member','form_designer'];
 
 	result.push("<select size='1' path='" + p_user._id + "'>")
 	for(var i = 0; i < role_set.length; i++)

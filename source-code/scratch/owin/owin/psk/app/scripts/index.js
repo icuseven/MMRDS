@@ -554,9 +554,10 @@ function get_metadata()
 
       //window.location.href = location.protocol + '//' + location.host;
       
-
-      get_case_set();
-
+      if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
+      {
+        get_case_set();
+      }
      g_ui.url_state = url_monitor.get_url_state(window.location.href);
       if(window.onhashchange)
       {

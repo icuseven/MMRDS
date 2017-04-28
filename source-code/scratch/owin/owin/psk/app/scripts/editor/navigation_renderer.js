@@ -60,7 +60,13 @@ function navigation_render(p_metadata, p_level, p_ui)
         break;
      case 'app':
         result.push('<ul  class="nav navbar-nav">');
+
+
+
         result.push('<li><a href="#/summary">Summary</a></li>');
+
+
+
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {  
           // forms start
@@ -78,7 +84,13 @@ function navigation_render(p_metadata, p_level, p_ui)
         }
 
 
-
+        if(
+            profile.user_roles && 
+            profile.user_roles.length > 0 &&
+            profile.user_roles.indexOf("_admin") < 0 &&
+            profile.user_roles.indexOf("committee_member") < 0
+        
+        )
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {        
         // print version start
@@ -110,7 +122,11 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="actions">Actions <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="actions">');
 
-            if(profile.user_roles && profile.user_roles.indexOf("_admin") > -1)
+
+            if(profile.user_roles == null || profile.user_roles.length == 0)
+            {
+            }
+            else if(profile.user_roles.indexOf("_admin") > -1)
             {
               result.push('<li><a href="_users" target="_users">Manage Users</a></li>');
             }
@@ -136,7 +152,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('</ul>');
         result.push('</li>');
         // Actions end
-        if(profile.user_roles && profile.user_roles.indexOf("_admin") < 0)
+        if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
         {
           // print blank start
           result.push('<li class="dropdown">');
