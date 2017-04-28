@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Name='MMRIA 0.5' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
-    Language='1033' Codepage='1252' Version='0.5.0' Manufacturer='mmria.org'>
+  <Product Name='MMRIA 1.0.0' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
+    Language='1033' Codepage='1252' Version='1.0.0' Manufacturer='mmria.org'>
 
-    <Package Id='*' Keywords='Installer' Description="mmria.org's mmria 0.5 Installer"
+    <Package Id='*' Keywords='Installer' Description="mmria.org's mmria 1.0.0 Installer"
       Comments='MMRIA is released under the GNU 3.0 License.' Manufacturer='mmria.org'
       InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
 
     <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1" />
-    <Property Id='DiskPrompt' Value="MMRIA 0.5 Installation [1]" />
+    <Property Id='DiskPrompt' Value="MMRIA 1.0.0 Installation [1]" />
 	
 	<PropertyRef Id="NETFRAMEWORK45"/>
 	
@@ -31,7 +31,7 @@
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='ProgramFilesFolder' Name='PFiles'>
         <Directory Id='mmria' Name='mmria'>
-          <Directory Id='INSTALLDIR' Name='MMRIA 0.5'>
+          <Directory Id='INSTALLDIR' Name='MMRIA 1.0.0'>
 
             <Component Id='MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
               <File Id='FoobarEXE' Name='FoobarAppl10.exe' DiskId='1' Source='FoobarAppl10.exe' KeyPath='yes'>
@@ -55,7 +55,7 @@
       </Directory>
 
       <Directory Id="ProgramMenuFolder" Name="Programs">
-        <Directory Id="ProgramMenuDir" Name="MMRIA 0.5">
+        <Directory Id="ProgramMenuDir" Name="MMRIA 1.0.0">
           <Component Id="ProgramMenuDir" Guid="YOURGUID-7E98-44CE-B049-C477CC0A2B00">
             <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
             <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />

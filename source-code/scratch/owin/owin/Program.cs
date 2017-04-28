@@ -183,17 +183,23 @@ namespace mmria.server
 				database_exists( Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password) &&
 				database_exists(Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) 
 			)
-
 			{
+				var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
+				string res = curl.execute ();
+				mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
+
+				Program.Last_Change_Sequence = latest_change_set.last_seq;
+
+
 				System.Threading.Tasks.Task.Run
 				(
-					new Action (() => 
+					new Action (() =>
 					{
 						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
-							                                                 Program.config_couchdb_url,
-							                                                 Program.config_timer_user_name,
-							                                                 Program.config_timer_password
-						                                                 );
+																			 Program.config_couchdb_url,
+																			 Program.config_timer_user_name,
+																			 Program.config_timer_password
+																		 );
 
 						sync_all.execute ();
 
@@ -202,11 +208,6 @@ namespace mmria.server
 					)
 				);
 
-				var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
-				string res = curl.execute ();
-				mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
-
-				Program.Last_Change_Sequence = latest_change_set.last_seq;
 			}
 			/*	
 			Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);

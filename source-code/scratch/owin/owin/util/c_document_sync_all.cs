@@ -45,12 +45,29 @@ namespace mmria.server.util
 			}
 
 
-			var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id", null, this.user_name, this.password);
-			var create_report_curl = new cURL ("PUT", null, this.couchdb_url + "/report", null, this.user_name, this.password);
+
+			try
+			{
+				var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id", null, this.user_name, this.password);
+				create_de_id_curl.execute ();
+			}
+			catch (Exception ex)
+			{
+			
+			}
 
 
-			create_de_id_curl.execute ();
-			create_report_curl.execute ();
+
+			try
+			{
+				var create_report_curl = new cURL ("PUT", null, this.couchdb_url + "/report", null, this.user_name, this.password);
+				create_report_curl.execute ();	
+			}
+			catch (Exception ex)
+			{
+			
+			}
+
 
 
 			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs?include_docs=true", null, this.user_name, this.password);
