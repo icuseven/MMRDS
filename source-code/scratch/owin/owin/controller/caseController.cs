@@ -211,40 +211,6 @@ namespace mmria.server
 
 						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
-
-						// send to de-identify
-						System.Threading.Tasks.Task.Run
-						( 
-							new Action(()=> 
-							{
-								var x = new cURL(
-										"PUT",
-										headerBuilder.ToString(),
-										Program.config_couchdb_url + "/de_id/"  + id_val,
-										object_string
-
-								);
-								x.execute();
-							})
-						);
-
-
-						// send to aggregate
-						System.Threading.Tasks.Task.Run
-						( 
-							new Action(()=> 
-								{
-									var x = new cURL(
-										"PUT",
-										headerBuilder.ToString(),
-										Program.config_couchdb_url + "/aggr/"  + id_val,
-										object_string
-
-									);
-									x.execute();
-								})
-						);
-
 					}
 					catch(Exception ex)
 					{

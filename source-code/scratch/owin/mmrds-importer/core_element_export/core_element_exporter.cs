@@ -250,6 +250,8 @@ namespace mmria.console.export
 				foreach (string path in ordered_column_list)
 				{
 					if (
+						!path_to_node_map.ContainsKey(path) ||
+						!row.Table.Columns.Contains(convert_path_to_field_name(path)) ||
 						path_to_node_map[path].type.ToLower() == "app" ||
 						path_to_node_map[path].type.ToLower() == "form" ||
 						path_to_node_map[path].type.ToLower() == "group"
@@ -269,49 +271,55 @@ namespace mmria.console.export
 					}
 					*/
 
-					switch (path_to_node_map[path].type.ToLower())
+					try 
 					{
+						switch (path_to_node_map [path].type.ToLower ()) 
+						{
 
 						case "number":
-							if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
+							if (val != null && (!string.IsNullOrWhiteSpace (val.ToString ()))) 
 							{
-								row[convert_path_to_field_name(path)] = val;
+								row [convert_path_to_field_name (path)] = val;
 							}
 							break;
 						case "list":
 
 							if
-								(path_to_node_map[path].is_multiselect != null &&
-							   path_to_node_map[path].is_multiselect == true 
+							(
+								path_to_node_map [path].is_multiselect != null &&
+							  	path_to_node_map [path].is_multiselect == true
 
-							  )
+							) 
 							{
-								
+
 								IList<object> temp = val as IList<object>;
-								if (temp != null && temp.Count > 0)
+								if (temp != null && temp.Count > 0) 
 								{
-									
-									row[convert_path_to_field_name(path)] = string.Join("|",temp);
+
+									row [convert_path_to_field_name (path)] = string.Join ("|", temp);
 								}
 							}
 							else
 							{
-								if (val != null)
+								if (val != null) 
 								{
-									row[convert_path_to_field_name(path)] = val;
+									row [convert_path_to_field_name (path)] = val;
 								}
 							}
 
 							break;
 						default:
-							if (val != null)
+							if (val != null) 
 							{
-								row[convert_path_to_field_name(path)] = val;
+								row [convert_path_to_field_name (path)] = val;
 							}
 							break;
+						}
+					} 
+					catch (Exception ex) 
+					{
 
 					}
-
 				}
 				path_to_csv_writer[core_file_name].Table.Rows.Add(row);
 

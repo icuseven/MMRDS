@@ -257,6 +257,7 @@ namespace mmria.console.import
 
 			foreach (System.Data.DataRow row in id_record_set.Rows)
 			{
+				/*
 				if 
 				(
 					row[0].ToString() != "d0e08da8-d306-4a9a-a5ff-9f1d54702091" &&
@@ -267,6 +268,7 @@ namespace mmria.console.import
 				{
 					continue;
 				}
+				*/
 
 				id_list.Add(row[0].ToString());
 			}
@@ -462,6 +464,7 @@ namespace mmria.console.import
 				*/
 				try
 				{
+					// check if doc exists
 					string document_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"] + "/mmrds/" + global_record_id;
 					var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
 					string document_json = null;
@@ -469,24 +472,27 @@ namespace mmria.console.import
 					document_json = document_curl.execute();
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_json);
 					IDictionary<string, object> updater = case_data as IDictionary<string, object>;
-					updater["_rev"] = ((IDictionary<string, object>)result)["_rev"];
-					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
-					System.Console.WriteLine("json\n{0}", json_string);
-
-					var update_curl = new cURL("PUT", null, document_url, json_string, this.user_name, this.password);
-					try
+					IDictionary<string, object> result_dictionary = result as IDictionary<string, object>;
+					if (result_dictionary.ContainsKey ("_rev")) 
 					{
-						string de_id_result = update_curl.execute();
-						System.Console.WriteLine("update id");
-						System.Console.WriteLine(de_id_result);
-
-					}
-					catch (Exception ex)
-					{
-						System.Console.WriteLine("sync de_id");
-						System.Console.WriteLine(ex);
+						updater ["_rev"] = result_dictionary ["_rev"];
+						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data);
+						System.Console.WriteLine ("json\n{0}", json_string);
 					}
 
+					var update_curl = new cURL ("PUT", null, document_url, json_string, this.user_name, this.password);
+					try 
+					{
+						string de_id_result = update_curl.execute ();
+						System.Console.WriteLine ("update id");
+						System.Console.WriteLine (de_id_result);
+
+					}
+					catch (Exception ex) 
+					{
+						System.Console.WriteLine ("sync de_id");
+						System.Console.WriteLine (ex);
+					}
 
 				}
 				catch (Exception ex)

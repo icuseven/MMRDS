@@ -323,7 +323,33 @@ namespace mmria.console
 			return result;
 		}
 
+	private string get_revision (string p_document_url)
+	{
 
+		string result = null;
+
+			var document_curl = new cURL ("GET", null, p_document_url, null, this.user_name, this.password);
+		string document_json = null;
+
+		try 
+		{
+
+			document_json = document_curl.execute ();
+			var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
+			IDictionary<string, object> updater = request_result as IDictionary<string, object>;
+			result = updater ["_rev"].ToString ();
+		} 
+		catch (Exception ex) 
+		{
+			if (!(ex.Message.IndexOf ("(404) Object Not Found") > -1)) 
+			{
+				//System.Console.WriteLine ("c_sync_document.get_revision");
+				//System.Console.WriteLine (ex);
+			}
+		}
+
+			return result;
+	}
 
 	}
 }
