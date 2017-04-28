@@ -69,6 +69,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 				var all_dbs_string = get_all_dbs_curl.execute();
 				HashSet<string> all_db_set = Newtonsoft.Json.JsonConvert.DeserializeObject<HashSet<string>>(all_dbs_string, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 */
+/*
 
 				if(!database_exists(p_target_server + "/_users", p_target_db_user_name, p_target_db_password))
 				{
@@ -80,7 +81,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					result.Add("users_curl","users_curl already exists.");
 				}
 
-				/*
+				
 				if(!database_exists(p_target_server + "/_replicator", p_target_db_user_name, p_target_db_password))
 				{
 					var replicator_curl = new cURL ("PUT", null, p_target_server + "/_replicator", null, p_target_db_user_name, p_target_db_password);
@@ -228,11 +229,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 //curl -vX POST http://uid:pwd@target_db_url/_replicate \
 //     -d '{"source":"http://uid:pwd@source_db_url/_users","target":"http://uid:pwd@target_db_url/_users"}' \
 
+/*
 				string users_replication_string =  get_replicate_json_string("_users", source_server_uri, target_server_uri);
 
 				var replicate_users_curl = new cURL ("POST", null, p_target_server + "/_replicate", users_replication_string,
 		 	p_target_db_user_name, p_target_db_password);
-				result.Add("users_replication",replicate_users_curl.execute());
+				result.Add("users_replication",replicate_users_curl.execute());*/
 //curl -vX POST http://uid:pwd@target_db_url/_replicate \
 //     -d '{"source":"http://muid:pwd@source_db_url/metadata","target":"http://uid:pwd@target_db_url/metadata"}' \
 
