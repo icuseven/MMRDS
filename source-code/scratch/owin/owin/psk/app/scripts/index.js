@@ -372,8 +372,8 @@ function load_profile()
       get_metadata();
       if
       (
-          g_source_db == "mmrds" && 
-          profile.user_roles && 
+          g_source_db == "mmrds" &&
+          profile.user_roles && profile.user_roles.length > 0 &&
           profile.user_roles.indexOf("_admin") < 0
       )
       {
@@ -385,7 +385,7 @@ function load_profile()
     {
       if
       (
-          profile.user_roles && 
+          profile.user_roles && profile.user_roles.length > 0 && 
           profile.user_roles.indexOf("_admin") < 0 &&
           profile.user_roles.indexOf("committee_member") < 0
       )
