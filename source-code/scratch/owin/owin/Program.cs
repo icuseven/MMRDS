@@ -22,6 +22,9 @@ namespace mmria.server
 		public static string config_timer_password;
 		public static string config_cron_schedule;
 
+
+		private static IScheduler sched;
+
 		//public static Dictionary<string, string> Change_Sequence_List;
 		public static int Change_Sequence_Call_Count = 0;
 		public static IList<DateTime> DateOfLastChange_Sequence_Call;
@@ -131,17 +134,15 @@ namespace mmria.server
 			//Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
-
-
 			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job ();
 
 			//Program.JobInfoList = icims_data_call_job.GetJobInfo();
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
-			Program.Change_Sequence_Call_Count++;
-			Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
+									Program.Change_Sequence_Call_Count++;
+									Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
-			StdSchedulerFactory sf = new StdSchedulerFactory ();
-			IScheduler sched = sf.GetScheduler ();
+									StdSchedulerFactory sf = new StdSchedulerFactory ();
+			Program.sched = sf.GetScheduler ();
 			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
 			//Quartz.Impl.Calendar.CronCalendar cronCal = new Quartz.Impl.Calendar.CronCalendar("0 * * * *");
@@ -168,17 +169,15 @@ namespace mmria.server
 			DateTimeOffset? ft = sched.ScheduleJob (data_job, trigger);
 			//log.DebugFormat(data_job.Key + " will run at: " + ft);
 			/*log.DebugFormat(data_job.Key +
-                     " will run at: " + ft +
-                     " and repeat: " + trigger..RepeatCount +
-                     " times, every " + trigger.RepeatInterval.TotalSeconds + " seconds");*/
+					 " will run at: " + ft +
+					 " and repeat: " + trigger..RepeatCount +
+					 " times, every " + trigger.RepeatInterval.TotalSeconds + " seconds");*/
 
 
 			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
 
-			/*
-			var get_all_dbs_curl = new cURL ("GET", null, Program.config_couchdb_url+ "/_all_dbs", null, Program.config_timer_user_name, Program.config_timer_password);
 
-			var all_dbs_string = get_all_dbs_curl.execute();*/
+
 			if (
 				database_exists( Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password) &&
 				database_exists(Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) 
@@ -203,97 +202,13 @@ namespace mmria.server
 
 						sync_all.execute ();
 
-						sched.Start ();
+						Program.sched.Start ();
 					}
 					)
 				);
 
 			}
-			/*	
-			Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
-			
-			if (Program.Last_Change_Sequence != latest_change_set.last_seq)
-			{
-				foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
-				{
-					if (response_results.ContainsKey (seq.id)) 
-					{
-						if 
-						(
-							seq.changes.Count > 0 &&
-							response_results [seq.id].Key != seq.changes [0].rev
-						)
-						{
-							if (seq.deleted == null)
-							{
-								response_results [seq.id] = new KeyValuePair<string, bool> (seq.changes [0].rev, false);
-							}
-							else
-							{
-								response_results [seq.id] = new KeyValuePair<string, bool> (seq.changes [0].rev, true);
-							}
-							
-						}
-					}
-					else 
-					{
-						if (seq.deleted == null)
-						{
-							response_results.Add (seq.id, new KeyValuePair<string, bool> (seq.changes [0].rev, false));
-						}
-						else
-						{
-							response_results.Add (seq.id, new KeyValuePair<string, bool> (seq.changes [0].rev, true));
-						}
-					}
-				}
-			}
 
-			foreach (KeyValuePair<string, KeyValuePair<string, bool>> kvp in response_results)
-			{
-				if (kvp.Value.Value)
-				{
-					try
-					{
-						mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, null, "DELETE");
-						sync_document.execute ();
-						
-	
-					}
-					catch (Exception ex)
-					{
-							System.Console.WriteLine ("Sync Delete case");
-							System.Console.WriteLine (ex);
-					}
-				}
-				else
-				{
-
-					string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
-					var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_password);
-					string document_json = null;
-
-					try
-					{
-						document_json = document_curl.execute ();
-						if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
-						{
-							mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, document_json);
-							sync_document.execute ();
-						}
-	
-					}
-					catch (Exception ex)
-					{
-							System.Console.WriteLine ("Sync PUT case");
-							System.Console.WriteLine (ex);
-					}
-				}
-			}
-
-
-*/
-			
 			// ****   Quartz Timer - End
 
 
@@ -348,6 +263,16 @@ namespace mmria.server
 
 
 			return result;
+		}
+
+
+		public static void StartSchedule ()
+		{
+			if (Program.sched != null && !Program.sched.IsStarted) 
+			{
+				Program.sched.Start();
+			}
+
 		}
 	}
 

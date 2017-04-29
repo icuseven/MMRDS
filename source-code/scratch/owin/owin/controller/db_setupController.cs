@@ -272,6 +272,8 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 				}
 
+				Program.StartSchedule ();
+
 		}
 		catch(Exception ex) 
 		{
