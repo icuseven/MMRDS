@@ -1,0 +1,318 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+
+</head>
+<body>
+<div id='root' style="background:#FFFFFF">
+	<img src="mmria-primary.svg" height="300" width="400"/>
+
+<h2 style="font:Work Sans Light"><strong>Summary of steps:</strong></h2>
+<ul>
+<li>Preliminary information</li>
+<li>Docker Install
+<ul>
+<li>Run MMRIA-DB Container</li>
+<li>Run MMRIA Application Container</li>
+<li>Configure DB</li>
+<li>Run Application _config</li>
+
+</ul>
+</li>
+<li>Windows Install
+<ul>
+<li>Install CouchDB 2.0</li>
+<li>Configure CouchDB</li>
+<li>Install MMRIA 1.0.0</li>
+<li>Configure MMRIA 1.0.0</li>
+
+</ul>
+</li>
+</ul>		
+
+<h3>Preliminary information</h3>
+<p>3 key pieces of information need to be decided upon to complete this process:</p>
+<ul>
+<li>What database url will you use?</li>
+<li>What database admin user_name and passord will you use?</li>
+<li>What application url will you use?</li>
+</ul>
+
+<p>By default this setup guide assumes:</p>
+<ul>
+<li>database url is <strong>http://localhost:5984</strong></li>
+<li>The Database administration url can be accessed by appending <strong>"/_utils"</strong> to the database url ie. <strong>http://localhost:5984/_utils</strong></li>
+
+<li>You must decide the  database <strong>admin_user_name</strong> and <strong>admin_user_passord</strong></li>
+<li>application url is <strong>http://localhost:12345</strong></li>
+</ul>
+
+<p>During the setup process you will need to refer to this information frequently.  This infomation will be needed to update CouchDB configuration parameters and 2 MMRIA configuration files.</p>
+
+<p>The CouchDB 2.0 installation requries 3 sets of configuration.</p>
+<ol>
+<li>1st set of configurations is done as soon as CouchDB 2.0 is installed and before the MMRIA 1.0.0 is setup.</li>
+<li>2nd set of configurations is done after the MMRIA 1.0.0 is installed by running a "_config" utility from the MMRIA user interface.</li>
+<li>3rd step of configuration and verification will need to be done to verify and ensure that all settings appropriately applied.</li>
+<li>On a Docker configuration changes take place immediately</li>
+<li>On a Windows installation CouchDB will need to be restarted to ensure that any configuration changes have been applied</li>
+</ol>
+
+
+
+<p>For a <strong>Docker install</strong> run the following command while supplying the appropriate, Container Name + PORT + admin_user_name and passwor that you would like to use:</p>
+<br/>
+<h3 style="font:Work Sans Light"><strong>Docker install of MMRIA Database 1.0.0</strong></h3>
+<pre>
+docker run -d --name [continer name]  -p [port]:5984     -e COUCHDB_USERNAME=[admin_user_name]     -e COUCHDB_PASSWORD=[admin_user_password]  thetagrid/mmria-db:v1.0
+
+for example a container named mmria-database running on port 5983 with a user name of admin_name and password of my_password:
+
+docker run -d --name mmria-database  -p 5983:5984     -e COUCHDB_USERNAME=admin_name     -e COUCHDB_PASSWORD=my_password  thetagrid/mmria-db:v1.0
+</pre>
+
+
+<h3 style="font:Work Sans Light"><strong>Configure Couchdb 2.0</strong></h3>
+
+<p>Navigate to the database url: for example the default location is <strong>http://localhost:5984/_utils</strong></p>
+
+<p>Setup + Configure Single Node -> choose "setup" then "Configure Single Node"</p>
+<pre>
+Specify Credentials
+Admin Username & Password that you want to use
+
+IP Bind address to listen on = 0.0.0.0
+
+Port Port that the Node uses = 5984
+
+Press "Configure Node"
+
+The application will respond with:
+
+"Apache CouchDB is configured for production usage!
+
+Do you want to replicate data?"
+
+
+</pre>
+
+<p>From the menu choose Configuration + CORS + Enable CORS + "All Domains".</p>
+
+
+
+
+<hr/>
+
+<h3 style="font:Work Sans Light"><strong>Docker install of MMRIA 1.0.0 application Server</strong></h3>
+<p>Run the following command changing the container_name + port + database_url, admin_user_name and admin_password</p>
+<pre>
+docker run --name [container_name] -d  --publish [Port]:9000 \
+-e geocode_api_key="none" \
+-e geocode_api_url="none" \
+-e couchdb_url="[database_url]" \
+-e web_site_url="http://*:9000" \
+-e file_root_folder="/workspace/owin/psk/app" \
+-e timer_user_name="[admin_user_name]" \
+-e timer_password="[admin_user_password]" \
+-e cron_schedule="0 */1 * * * ?" \
+thetagrid/mmria:v1.0
+</pre>
+
+<p>Lastly open browser and navigate to <strong>http://localhost:12345/_config</strong> you will be present with an interface "To perform db setup and initialization use the below form." fill in the appropriate information and press the "Run db setup" button.</p>
+<pre>
+target_server: <your database url> ie.. http://localhost:5984
+target_db_user_name: <your admin user name>
+target_db_password: <your admin password>
+
+
+source_server: http://104.131.79.112:5983
+source_db_user_name: db_init
+source_db_password: mmria
+set_config: true
+
+</pre>
+<p>After pressing the "Run db setup" button wait about 10-15 second for a response from the db server.</p>
+
+<p>Open the couchdb url <strong>http://localhost:5984/_utils</strong> navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
+Especially check that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that doesn't match below.</p>
+
+<pre>
+	couch_httpd_auth
+		allow_persistent_cookies = true
+	httpd
+		enable_cors = true
+	cors
+		credentials = true
+		headers = accept,authorization,content-type,origin,referer,cache-control, x-requested-with
+		methods = GET,PUT,POST,HEAD,DELETE
+		origins = *
+</pre>
+
+<!--p><strong>You Couchdb needs to be restarted</strong> in order for the new setting to take effect. This can be done from the "services"</p>
+
+<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "restart"</p-->
+
+<p>Now log into MMRIA  - http://localhost:12345 - using the admin_user_name and admin_user_password account to begin setup of application users and roles.  Please consult the user manual guide for more information on user setup.</p>
+
+
+<hr/>
+
+
+	
+<h3 style="font:Work Sans Light"><strong>Windows or Non Docker Install Couchdb 2.0</strong></h3>
+
+<p>For a <strong>GNU/Linux install</strong> you should be able to use the appropriate package manager for your distribution. Contact mmria support for more detailed assistance.</p>
+<hr/>
+<p>For a <strong>Windows install</strong> navigate to <strong>https://couchdb.apache.org</strong> and select "download" choose windows and download the <strong>apache-couchdb-2.0.0.1.msi</strong></p>
+
+<p>Run the <strong>apache-couchdb-2.0.0.1.msi</strong> and accept the default settings it should install to the c:\CouchDB directory</p>
+
+<p>After the install finishes open a browser and navigate to <strong>http://localhost:5984</strong> you should see the following message to confirm that everything install ok:</p>
+<pre>
+{"couchdb":"Welcome","version":"2.0.0","vendor":{"name":"The Apache Software Foundation"}}
+</pre>
+<hr/>
+
+<h3 style="font:Work Sans Light"><strong>Configure Couchdb 2.0</strong></h3>
+
+<p>Navigate to the database url: for example the default location is <strong>http://localhost:5984/_utils</strong></p>
+
+<p>Setup + Configure Single Node -> choose "setup" then "Configure Single Node"</p>
+<pre>
+Specify Credentials
+Admin Username & Password that you want to use
+
+IP Bind address to listen on = 0.0.0.0
+
+Port Port that the Node uses = 5984
+
+Press "Configure Node"
+
+The application will respond with:
+
+"Apache CouchDB is configured for production usage!
+
+Do you want to replicate data?"
+
+
+</pre>
+
+<p>From the menu choose Configuration + CORS + Enable CORS + "All Domains".</p>
+
+
+
+<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 1.0.0</strong></h3>
+
+<h4 style="font:Work Sans Light"><strong>Download MMRIA Server v1.0.0</strong></h4>
+
+<ul>
+<li><a href="NDP452-KB2901954-Web.exe">Download and run .NET 4.5 install</a></li>
+
+<li><a href="MMRIA-1.0.0-Install.msi">Download and run MMRIA-1.0.0-Install.msi</a></li>
+</ul>
+
+<p>After running MMRIA-1.0.0-Install.msi a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 1.0.0</strong></p>
+
+
+
+<h3 style="font:Work Sans Light"><strong>Configure MMRIA 1.0.0</strong></h3>
+<p>Using the <strong>"Run as Administrator"</strong> open notepad or any text editor and, verify that the 2 configuration file have the setting appropriate to your setup, these file can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 1.0.0</strong> directory.  Be sure to <strong>"Run as Administrator"</strong>.</p>
+<pre>
+mmria-server.exe.config
+    &lt;add key="owin:AppStartup" value="mmria.server.Startup" />
+    &lt;add key="geocode_api_key" value="" />
+    &lt;add key="geocode_api_url" value="" />
+    &lt;add key="is_environment_based" value="false" />
+    &lt;add key="web_site_url" value="http://localhost:12345" /> &lt;-- verify url is appropriate for your setup
+    &lt;add key="file_root_folder" value="app" />
+    &lt;add key="couchdb_url" value="http://localhost:5984" /> &lt;-- verify url is appropriate for your setup
+    &lt;add key="timer_user_name" value="&lt;couchdb admin user name>" /> &lt;-- change to appropriate value
+    &lt;add key="timer_password" value="&lt;couchdb admin password>" /> &lt;-- change to appropriate value
+    &lt;add key="cron_schedule" value="0 */1 * * * ?" />
+
+
+
+mmria.exe.config
+	&lt;add key="couchdb_url" value="http://localhost:5984" /> &lt;-- verify url is appropriate for your setup
+	&lt;add key="web_site_url" value="http://localhost:12345" /> &lt;-- verify url is appropriate for your setup
+	&lt;add key="import_directory" value="c:/temp/mmria-import" />
+	&lt;add key="export_directory" value="c:/temp/mmria-export" />
+	&lt;add key="is_offline_mode" value="false" />
+</pre>
+
+<p>2 directories will <strong>need to be created</strong> for the following paths:</p>
+<ul>
+<li>c:\temp\mmria-export</li>
+<li>c:\temp\mmria-import</li>
+</ul>
+
+
+
+
+<p>Using the <strong>Admin Mode</strong>, open MMRIA 1.0.0 from start menu or shortcut, console should display:</p>
+
+<pre>
+using AppSettings
+geocode_api_key:
+geocode_api_url:
+couchdb_url: http://localhost:5984
+web_site_url: http://localhost:12345
+file_root_folder: app
+Listening at http://localhost:12345
+no configuration section <common/logging> found - suppressing logging output
+</pre>
+
+
+http://localhost:12345/_config
+
+<p>Open browser and navigate to <strong>http://localhost:12345/_config</strong> you will be present with an interface "To perform db setup and initialization use the below form." fill in the appropriate information and press the "Run db setup" button.</p>
+<pre>
+target_server: <your database url> ie.. http://localhost:5984
+target_db_user_name: <your admin user name>
+target_db_password: <your admin password>
+
+
+source_server: http://104.131.79.112:5983
+source_db_user_name: db_init
+source_db_password: mmria
+set_config: true
+
+</pre>
+
+<p>After pressing the "Run db setup" button wait about 10-15 second for a response from the db server.</p>
+
+<p>Open the couchdb url <strong>http://localhost:5984/_utils</strong> navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
+Especially check that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that doesn't match below.</p>
+
+<pre>
+	couch_httpd_auth
+		allow_persistent_cookies = true
+	httpd
+		enable_cors = true
+	cors
+		credentials = true
+		headers = accept,authorization,content-type,origin,referer,cache-control, x-requested-with
+		methods = GET,PUT,POST,HEAD,DELETE
+		origins = *
+</pre>
+
+<p><strong>Couchdb needs to be restarted</strong> in order for the new setting to take effect. This can be done from the "services"</p>
+
+<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "restart"</p>
+
+<p>If installed on windows the mmria-server.exe should be added to the startup script so that is will not need to be manually started each time it is to be used.</p>
+
+<p>MMRIA should now be configured and running.  The main application can be accessed by using Chrome to navigate to http://localhost:12345/ or the appropriate url.</p>
+<p>Now log into MMRIA  - http://localhost:12345 - using the admin_user_name and admin_user_password account to begin setup of application users and roles.  Please consult the user manual guide for more information on user setup.</p>
+	
+	<br/>
+	<br/>
+	<br/>
+
+
+</div>
+</body>
+</html>
