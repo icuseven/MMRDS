@@ -10,10 +10,10 @@
 <div id='root' style="background:#FFFFFF">
 	<img src="mmria-primary.svg" height="300" width="400"/>
 
-<h2 style="font:Work Sans Light"><strong>Summary of steps:</strong></h2>
+<h2 style="font:Work Sans Light"><strong>Summary of Steps to Install:</strong></h2>
 <ul>
-<li>Preliminary information</li>
-<li>Docker Install
+<li>Preliminary Information</li>
+<li>Docker Install <i>(recommended)</i>
 <ul>
 <li>Run MMRIA-DB Container</li>
 <li>Run MMRIA Application Container</li>
@@ -22,10 +22,10 @@
 
 </ul>
 </li>
-<li>Windows Install
+<li>Windows Install <i>(alternate option)</i>
 <ul>
 <li>Install CouchDB 2.0</li>
-<li>Configure CouchDB</li>
+<li>Configure CouchDB 2.0</li>
 <li>Install MMRIA 1.0.0</li>
 <li>Configure MMRIA 1.0.0</li>
 
@@ -34,25 +34,25 @@
 </ul>		
 
 <h3>Preliminary information</h3>
-<p>3 key pieces of information need to be decided upon to complete this process:</p>
+<p>Three key pieces of information need to be determined to complete this process:</p>
 <ul>
-<li>What database url will you use?</li>
-<li>What database admin user_name and passord will you use?</li>
-<li>What application url will you use?</li>
+<li>What database url will be used?</li>
+<li>What database admin user_name and password will be used?</li>
+<li>What application url will be used?</li>
 </ul>
 
 <p>By default this setup guide assumes:</p>
 <ul>
-<li>database url is <strong>http://localhost:5984</strong></li>
-<li>The Database administration url can be accessed by appending <strong>"/_utils"</strong> to the database url ie. <strong>http://localhost:5984/_utils</strong></li>
+<li>The database url is <strong>http://localhost:5984</strong></li>
+<li>The database administration url can be accessed by appending <strong>"/_utils"</strong> to the database url, i.e. <strong>http://localhost:5984/_utils</strong></li>
 
-<li>You must decide the  database <strong>admin_user_name</strong> and <strong>admin_user_passord</strong></li>
-<li>application url is <strong>http://localhost:12345</strong></li>
+<li>You must decide the  database <strong>admin_user_name</strong> and <strong>admin_user_password</strong></li>
+<li>The application url is <strong>http://localhost:12345</strong></li>
 </ul>
 
 <p>During the setup process you will need to refer to this information frequently.  This infomation will be needed to update CouchDB configuration parameters and 2 MMRIA configuration files.</p>
 
-<p>The CouchDB 2.0 installation requries 3 sets of configuration.</p>
+<p>The CouchDB 2.0 installation requries 3 sets of configurations.</p>
 <ol>
 <li>1st set of configurations is done as soon as CouchDB 2.0 is installed and before the MMRIA 1.0.0 is setup.</li>
 <li>2nd set of configurations is done after the MMRIA 1.0.0 is installed by running a "_config" utility from the MMRIA user interface.</li>
@@ -63,11 +63,11 @@
 
 
 
-<p>For a <strong>Docker install</strong> run the following command while supplying the appropriate, Container Name + PORT + admin_user_name and passwor that you would like to use:</p>
+<p>For a <strong>Docker Install</strong> run the following command while supplying the appropriate Container Name + PORT + admin_user_name and passwor that you would like to use:</p>
 <br/>
-<h3 style="font:Work Sans Light"><strong>Docker install of MMRIA Database 1.0.0</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA Database 1.0.0</strong></h3>
 <pre>
-docker run -d --name [continer name]  -p [port]:5984     -e COUCHDB_USERNAME=[admin_user_name]     -e COUCHDB_PASSWORD=[admin_user_password]  thetagrid/mmria-db:v1.0
+docker run -d --name [container name]  -p [port]:5984     -e COUCHDB_USERNAME=[admin_user_name]     -e COUCHDB_PASSWORD=[admin_user_password]  thetagrid/mmria-db:v1.0
 
 for example a container named mmria-database running on port 5983 with a user name of admin_name and password of my_password:
 
@@ -75,26 +75,22 @@ docker run -d --name mmria-database  -p 5983:5984     -e COUCHDB_USERNAME=admin_
 </pre>
 
 
-<h3 style="font:Work Sans Light"><strong>Configure Couchdb 2.0</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Configure CouchDB 2.0</strong></h3>
 
-<p>Navigate to the database url: for example the default location is <strong>http://localhost:5984/_utils</strong></p>
+<p>Navigate to the database url; the default location is <strong>http://localhost:5984/_utils</strong></p>
 
-<p>Setup + Configure Single Node -> choose "setup" then "Configure Single Node"</p>
+<p>Setup + Configure Single Node: choose "Setup" then "Configure Single Node"</p>
 <pre>
 Specify Credentials
-Admin Username & Password that you want to use
+Select your Admin Username and Password
 
 IP Bind address to listen on = 0.0.0.0
 
-Port Port that the Node uses = 5984
+Port that the Node uses = 5984
 
 Press "Configure Node"
 
-The application will respond with:
-
-"Apache CouchDB is configured for production usage!
-
-Do you want to replicate data?"
+The application will respond with: <i>"Apache CouchDB is configured for production usage!  Do you want to replicate data?" </i>
 
 
 </pre>
@@ -106,8 +102,8 @@ Do you want to replicate data?"
 
 <hr/>
 
-<h3 style="font:Work Sans Light"><strong>Docker install of MMRIA 1.0.0 application Server</strong></h3>
-<p>Run the following command changing the container_name + port + database_url, admin_user_name and admin_password</p>
+<h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 1.0.0 Application Server</strong></h3>
+<p>Run the following command, changing the container_name + port + database_url, admin_user_name and admin_password</p>
 <pre>
 docker run --name [container_name] -d  --publish [Port]:9000 \
 -e geocode_api_key="none" \
@@ -121,9 +117,9 @@ docker run --name [container_name] -d  --publish [Port]:9000 \
 thetagrid/mmria:v1.0
 </pre>
 
-<p>Lastly open browser and navigate to <strong>http://localhost:12345/_config</strong> you will be present with an interface "To perform db setup and initialization use the below form." fill in the appropriate information and press the "Run db setup" button.</p>
+<p>Lastly, open your browser and navigate to <strong>http://localhost:12345/_config.</strong> You will be presented with an interface: "To perform database setup and initialization use the below form." Fill in the appropriate information and press the "Run db setup" button.</p>
 <pre>
-target_server: <your database url> ie.. http://localhost:5984
+target_server: <your database url> i.e. http://localhost:5984
 target_db_user_name: <your admin user name>
 target_db_password: <your admin password>
 
@@ -134,10 +130,10 @@ source_db_password: mmria
 set_config: true
 
 </pre>
-<p>After pressing the "Run db setup" button wait about 10-15 second for a response from the db server.</p>
+<p>After pressing the "Run db setup" button, wait approximately 10-15 seconds for a response from the database server.</p>
 
-<p>Open the couchdb url <strong>http://localhost:5984/_utils</strong> navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
-Especially check that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that doesn't match below.</p>
+<p>Open the CouchDB url <strong>http://localhost:5984/_utils</strong> navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
+Be sure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that does not match the following:</p>
 
 <pre>
 	couch_httpd_auth
@@ -151,51 +147,47 @@ Especially check that <strong>allow_persistent_cookies = true</strong> in the co
 		origins = *
 </pre>
 
-<!--p><strong>You Couchdb needs to be restarted</strong> in order for the new setting to take effect. This can be done from the "services"</p>
+<!--p><strong>CouchDB must be restarted</strong> in order for the new settings to take effect. Restart CouchDB through Services on the Windows Control Panel.</p>
 
-<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "restart"</p-->
+<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "Restart"</p-->
 
-<p>Now log into MMRIA  - http://localhost:12345 - using the admin_user_name and admin_user_password account to begin setup of application users and roles.  Please consult the user manual guide for more information on user setup.</p>
+<p>Once you have restarted CouchDB, you can log in to MMRIA using the admin account and configure users and roles at http://localhost:12345.  Please consult the MMRIA User Guide for instructions on configuring users and roles.</p>
 
 
 <hr/>
 
 
 	
-<h3 style="font:Work Sans Light"><strong>Windows or Non Docker Install Couchdb 2.0</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Windows or Non-Docker Install CouchDB 2.0</strong></h3>
 
 <p>For a <strong>GNU/Linux install</strong> you should be able to use the appropriate package manager for your distribution. Contact mmria support for more detailed assistance.</p>
 <hr/>
-<p>For a <strong>Windows install</strong> navigate to <strong>https://couchdb.apache.org</strong> and select "download" choose windows and download the <strong>apache-couchdb-2.0.0.1.msi</strong></p>
+<p>For a <strong>Windows Install</strong>, navigate to <strong>https://couchdb.apache.org</strong> and select "download." Choose Windows and download the <strong>Apache-CouchDB-2.0.0.1.msi</strong></p>
 
-<p>Run the <strong>apache-couchdb-2.0.0.1.msi</strong> and accept the default settings it should install to the c:\CouchDB directory</p>
+<p>Run the <strong>Apache-CouchDB-2.0.0.1.msi</strong> and accept the default settings it should install to the c:\CouchDB directory</p>
 
-<p>After the install finishes open a browser and navigate to <strong>http://localhost:5984</strong> you should see the following message to confirm that everything install ok:</p>
+<p>After the install finishes open a browser and navigate to <strong>http://localhost:5984</strong>.  You should see the following message to confirm correct installation:</p>
 <pre>
 {"couchdb":"Welcome","version":"2.0.0","vendor":{"name":"The Apache Software Foundation"}}
 </pre>
 <hr/>
 
-<h3 style="font:Work Sans Light"><strong>Configure Couchdb 2.0</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Configure CouchDB 2.0</strong></h3>
 
-<p>Navigate to the database url: for example the default location is <strong>http://localhost:5984/_utils</strong></p>
+<p>Navigate to the database url; the default location is <strong>http://localhost:5984/_utils</strong></p>
 
-<p>Setup + Configure Single Node -> choose "setup" then "Configure Single Node"</p>
+<p>Setup + Configure Single Node:  Choose "Setup" then "Configure Single Node"</p>
 <pre>
 Specify Credentials
-Admin Username & Password that you want to use
+Select your Admin Username and Password
 
 IP Bind address to listen on = 0.0.0.0
 
-Port Port that the Node uses = 5984
+Port that the Node uses = 5984
 
-Press "Configure Node"
+Press "Configure Node".
 
-The application will respond with:
-
-"Apache CouchDB is configured for production usage!
-
-Do you want to replicate data?"
+The application will respond with: <i>"Apache CouchDB is configured for production usage!  Do you want to replicate data?" </i>
 
 
 </pre>
@@ -214,12 +206,12 @@ Do you want to replicate data?"
 <li><a href="MMRIA-1.0.0-Install.msi">Download and run MMRIA-1.0.0-Install.msi</a></li>
 </ul>
 
-<p>After running MMRIA-1.0.0-Install.msi a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 1.0.0</strong></p>
+<p>After running MMRIA-1.0.0-Install.msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 1.0.0</strong></p>
 
 
 
 <h3 style="font:Work Sans Light"><strong>Configure MMRIA 1.0.0</strong></h3>
-<p>Using the <strong>"Run as Administrator"</strong> open notepad or any text editor and, verify that the 2 configuration file have the setting appropriate to your setup, these file can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 1.0.0</strong> directory.  Be sure to <strong>"Run as Administrator"</strong>.</p>
+<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 1.0.0</strong> directory.  Be sure to <strong>"Run as Administrator"</strong>.</p>
 <pre>
 mmria-server.exe.config
     &lt;add key="owin:AppStartup" value="mmria.server.Startup" />
@@ -243,7 +235,7 @@ mmria.exe.config
 	&lt;add key="is_offline_mode" value="false" />
 </pre>
 
-<p>2 directories will <strong>need to be created</strong> for the following paths:</p>
+<p><strong>Create two directories</strong> for the following paths:</p>
 <ul>
 <li>c:\temp\mmria-export</li>
 <li>c:\temp\mmria-import</li>
@@ -252,7 +244,7 @@ mmria.exe.config
 
 
 
-<p>Using the <strong>Admin Mode</strong>, open MMRIA 1.0.0 from start menu or shortcut, console should display:</p>
+<p>Using <strong>Administrator Mode</strong>, open MMRIA 1.0.0 from the Windows start menu or from the desktop shortcut.  The console should display:</p>
 
 <pre>
 using AppSettings
@@ -266,9 +258,9 @@ no configuration section <common/logging> found - suppressing logging output
 </pre>
 
 
-http://localhost:12345/_config
+<strong>http://localhost:12345/_config </strong>
 
-<p>Open browser and navigate to <strong>http://localhost:12345/_config</strong> you will be present with an interface "To perform db setup and initialization use the below form." fill in the appropriate information and press the "Run db setup" button.</p>
+<p>Lastly, open a browser and navigate to <strong>http://localhost:12345/_config</strong>.  You will be present with an interface: "To perform db setup and initialization use the below form." Fill in the appropriate information and press the "Run db setup" button.</p>
 <pre>
 target_server: <your database url> ie.. http://localhost:5984
 target_db_user_name: <your admin user name>
@@ -282,10 +274,10 @@ set_config: true
 
 </pre>
 
-<p>After pressing the "Run db setup" button wait about 10-15 second for a response from the db server.</p>
+<p>After pressing the "Run db setup" button, wait approximately 10-15 seconds for a response from the database server.</p>
 
-<p>Open the couchdb url <strong>http://localhost:5984/_utils</strong> navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
-Especially check that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that doesn't match below.</p>
+<p>Open the CouchDB url <strong>http://localhost:5984/_utils</strong>, navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
+Ensure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that does not match the following.</p>
 
 <pre>
 	couch_httpd_auth
@@ -299,14 +291,14 @@ Especially check that <strong>allow_persistent_cookies = true</strong> in the co
 		origins = *
 </pre>
 
-<p><strong>Couchdb needs to be restarted</strong> in order for the new setting to take effect. This can be done from the "services"</p>
+<p><strong>CouchDB must be restarted</strong> in order for the new settings to take effect. Restart CouchDB through Services on the Windows Control Panel:</p>
 
-<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "restart"</p>
+<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "Restart"</p>
 
-<p>If installed on windows the mmria-server.exe should be added to the startup script so that is will not need to be manually started each time it is to be used.</p>
+<p>If installed on Windows, the mmria-server.exe should be added to the startup script so that it will not need to be manually started each time it is to be used.</p>
 
-<p>MMRIA should now be configured and running.  The main application can be accessed by using Chrome to navigate to http://localhost:12345/ or the appropriate url.</p>
-<p>Now log into MMRIA  - http://localhost:12345 - using the admin_user_name and admin_user_password account to begin setup of application users and roles.  Please consult the user manual guide for more information on user setup.</p>
+<p>MMRIA should now be configured and running.  The main application can be accessed by using Chrome to navigate to http://localhost:12345/, or the appropriate url.</p>
+<p>Once you have restarted CouchDB, you can log in to MMRIA using the admin account and configure users and roles at http://localhost:12345.  Please consult the MMRIA User Guide for instructions on configuring users and roles.</p>
 	
 	<br/>
 	<br/>
