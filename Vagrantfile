@@ -12,8 +12,8 @@ Vagrant.configure(Configuration_Version) do |config|
   
 		devbox.vm.box = "ubuntu/trusty64"
 	  
-		devbox.vm.network "forwarded_port", guest: 12345, host: 8085
-		devbox.vm.network "private_network", ip: "192.168.33.10"
+		#devbox.vm.network "forwarded_port", guest: 12345, host: 8085
+		#devbox.vm.network "private_network", ip: "192.168.33.10"
 	  
 		#devbox.vm.synced_folder '.', '/vagrant', type: 'nfs'
 	  
