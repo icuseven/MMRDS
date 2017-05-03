@@ -1,39 +1,59 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Satisfy|Bree+Serif|Candal|PT+Sans">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
 </head>
 <body>
+
 <div id='root' style="background:#FFFFFF">
 	<img src="mmria-primary.svg" height="300" width="400"/>
 
-<h2 style="font:Work Sans Light"><strong>Summary of Steps to Install:</strong></h2>
-<ul>
-<li>Preliminary Information</li>
-<li>Docker Install <i>(recommended)</i>
-<ul>
+	
+
+	
+<h2 style="font:Work Sans Light"><strong>Table of contents:</strong></h2>
+<ul class="list-group">
+<li><a href="#preliminary-information-anchor">Preliminary Information</a></li>
+<li><a href="#docker-install">Docker Install <i>(recommended)</i></a>
+<ol>
 <li>Run MMRIA-DB Container</li>
 <li>Run MMRIA Application Container</li>
 <li>Configure DB</li>
 <li>Run Application _config</li>
 
-</ul>
+</ol>
 </li>
-<li>Windows Install <i>(alternate option)</i>
-<ul>
+<li><a href="#windows-install">Windows Install <i>(alternate option)</i></a>
+<ol>
 <li>Install CouchDB 2.0</li>
 <li>Configure CouchDB 2.0</li>
 <li>Install MMRIA 1.0.0</li>
 <li>Configure MMRIA 1.0.0</li>
 
-</ul>
+</ol>
 </li>
 </ul>		
 
-<h3>Preliminary information</h3>
+
+
+<h3><a id="preliminary-information-anchor">Preliminary information</a></h3>
+
+<p>The MMRIA application can be deployed in numerous ways which is explained in detail in the user guide which can be found by clicking <a href="MMRIA v1.0 User Guide May 2017.pdf" target="_user_guide">here</a>.</p>
+
+
+<p><strong>We recommend installing MMRIA on a docker platform</strong> -  due to the expected initial monthly updates this is the easiest deployment to maintain. (see below diagram)</p>
+<img src="recommended-deployment.png"/>
+
+
 <p>Three key pieces of information need to be determined to complete this process:</p>
 <ul>
 <li>What database url will be used?</li>
@@ -63,6 +83,8 @@
 
 
 
+
+<a id="docker-install">Docker Install</a>
 <p>For a <strong>Docker Install</strong> run the following command while supplying the appropriate Container Name + PORT + admin_user_name and passwor that you would like to use:</p>
 <br/>
 <h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA Database 1.0.0</strong></h3>
@@ -160,7 +182,7 @@ Be sure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd
 
 
 	
-<h3 style="font:Work Sans Light"><strong>Windows or Non-Docker Install CouchDB 2.0</strong></h3>
+<h3 style="font:Work Sans Light"><a id="windows-install"><strong>Windows or Non-Docker Install CouchDB 2.0</strong></a></h3>
 
 <p>For a <strong>GNU/Linux install</strong> you should be able to use the appropriate package manager for your distribution. Contact mmria support for more detailed assistance.</p>
 <hr/>
