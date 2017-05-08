@@ -1,9 +1,8 @@
+// FUNCTION TO RECODE RACE TO OMB STANDARD
 function $calculate_omb_recode(p_value_list)
 {
 	// p_value_list is an array
-	
 	var result = null;
-	
 	var asian_list = [ 
 						"Asian Indian",
 						"Chinese",
@@ -11,27 +10,23 @@ function $calculate_omb_recode(p_value_list)
 						"Japanese",
 						"Korean",
 						"Vietnamese",						
-							"Other Asian" ];
+						"Other Asian" ];
 	var islander_list = [ 
 							"Native Hawaiian",
 							"Guamanian or Chamorro",
 							"Samoan",
 							"Other Pacific Islander" ];
-	
-
-	
 	if(p_value_list.length == 0)
 	{
-			// do nothing
+		// do nothing
 	}
 	if(p_value_list.length == 1)
 	{
-
-		if($Global.get_intersection(p_value_list, asian_list).length > 0)
+		if($global.get_intersection(p_value_list, asian_list).length > 0)
 		{
 			result = "Asian";
 		}
-		else if($Global.get_intersection(p_value_list, islander_list).length > )
+		else if($global.get_intersection(p_value_list, islander_list).length > 0)
 		{
 			result = "Pacific Islander";
 		}
@@ -40,7 +35,7 @@ function $calculate_omb_recode(p_value_list)
 			result = p_value_list[0];
 		}
 	}
-	else // more than 1 items has been selected.
+	else // more than 1 item has been selected.
 	{
 		if(p_value_list.contains("Race Not Specified"))
 		{
@@ -48,7 +43,7 @@ function $calculate_omb_recode(p_value_list)
 		}
 		else
 		{
-			/*
+			/* Description of recode process
 			
 			total unique = non list items + is_asian + is_islander
 			
@@ -64,15 +59,15 @@ function $calculate_omb_recode(p_value_list)
 			3 - 2 - 0 = 1      	   1          0              2
 			*/
 			
-			var asian_intersection_count = $Global.get_intersection(p_value_list, asian_list).length;
+			var asian_intersection_count = $global.get_intersection(p_value_list, asian_list).length;
 			var is_asian = 0;
-			var islander__intersection_count = $Global.get_intersection(p_value_list, islander_list).length;
+			var islander__intersection_count = $global.get_intersection(p_value_list, islander_list).length;
 			var is_islander = 0;
+			
 			if(asian_intersection_count > 0) is_asian = 1;
 			if(islander__intersection_count > 0) is_islander = 1;
 
 			var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander__intersection_count;
-			
 			var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
 			
 			switch(total_unique_items)
@@ -97,15 +92,12 @@ function $calculate_omb_recode(p_value_list)
 				default:
 					result = "Multi-Racial";
 					break;
-				
 			}
 		}
 	}
-	
-	
 	return result;
 }
-
+// CALCULATE INTERSECTION FOR OMB RACE RECODE
 function $get_intersection(a, b)
 {
   var ai=0, bi=0;
@@ -122,10 +114,8 @@ function $get_intersection(a, b)
        bi++;
      }
   }
-
   return result;
 }
-
 //CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
 function $calc_days(p_start_date, p_end_date) {
     var days = null;
@@ -1293,4 +1283,52 @@ function duration_of_labor(p_control)
 			p_control.value = this.duration_of_labor_prior_to_arrival;
 		}	
 	}
+}
+// OMB RACE RECODE FOR CASE ON DC FORM
+/*
+path=death_certificate/race/cmd_recode
+event=onclick
+*/
+function omb_race_recode_dc(p_control)
+{
+	var race_recode = null;
+	var race = this.race;
+	
+	race_recode = $global.calculate_omb_recode(race);
+
+	this.race = race_recode;
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+}
+// OMB RACE RECODE FOR MOM ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/race/cmd_recode
+event=onclick
+*/
+function omb_race_recode_dc(p_control)
+{
+	var race_recode = null;
+	var race = this.race;
+	
+	race_recode = $global.calculate_omb_recode(race);
+
+	this.race = race_recode;
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+}
+// OMB RACE RECODE FOR DAD ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/demographic_of_father/race/cmd_recode
+event=onclick
+*/
+function omb_race_recode_dc(p_control)
+{
+	var race_recode = null;
+	var race = this.race;
+	
+	race_recode = $global.calculate_omb_recode(race);
+
+	this.race = race_recode;
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
 }
