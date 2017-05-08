@@ -1,3 +1,131 @@
+function $calculate_omb_recode(p_value_list)
+{
+	// p_value_list is an array
+	
+	var result = null;
+	
+	var asian_list = [ 
+						"Asian Indian",
+						"Chinese",
+						"Filipino",
+						"Japanese",
+						"Korean",
+						"Vietnamese",						
+							"Other Asian" ];
+	var islander_list = [ 
+							"Native Hawaiian",
+							"Guamanian or Chamorro",
+							"Samoan",
+							"Other Pacific Islander" ];
+	
+
+	
+	if(p_value_list.length == 0)
+	{
+			// do nothing
+	}
+	if(p_value_list.length == 1)
+	{
+
+		if($Global.get_intersection(p_value_list, asian_list).length > 0)
+		{
+			result = "Asian";
+		}
+		else if($Global.get_intersection(p_value_list, islander_list).length > )
+		{
+			result = "Pacific Islander";
+		}
+		else
+		{
+			result = p_value_list[0];
+		}
+	}
+	else // more than 1 items has been selected.
+	{
+		if(p_value_list.contains("Race Not Specified"))
+		{
+			result = "Race Not Specified";
+		}
+		else
+		{
+			/*
+			
+			total unique = non list items + is_asian + is_islander
+			
+			non list items   is_asian   is_islander = total unique
+			2 - 1 - 1 = 0      	   1          1              2
+			2 - 1 - 0 = 1      	   1          0              2
+			2 - 0 - 1 = 1      	   0          1              2
+			2 - 0 - 0 = 2      	   0          0              2
+			2 - 0 - 2 = 0      	   0          1              1
+			2 - 2 - 0 = 0      	   1          0              1
+			3 - 0 - 0 = 3      	   0          0              3
+			3 - 1 - 1 = 1     	   1          1              3
+			3 - 2 - 0 = 1      	   1          0              2
+			*/
+			
+			var asian_intersection_count = $Global.get_intersection(p_value_list, asian_list).length;
+			var is_asian = 0;
+			var islander__intersection_count = $Global.get_intersection(p_value_list, islander_list).length;
+			var is_islander = 0;
+			if(asian_intersection_count > 0) is_asian = 1;
+			if(islander__intersection_count > 0) is_islander = 1;
+
+			var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander__intersection_count;
+			
+			var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
+			
+			switch(total_unique_items)
+			{
+				case 1:
+					if(is_asian == 1)
+					{
+						result = "Asian";	
+					}
+					else if(is_islander == 1)
+					{
+						result = "Pacific Islander";
+					}
+					else
+					{
+						console.log("This should never happen bug");
+					}
+					break;
+				case 2:
+					result = "Bi-Racial";	
+					break;
+				default:
+					result = "Multi-Racial";
+					break;
+				
+			}
+		}
+	}
+	
+	
+	return result;
+}
+
+function $get_intersection(a, b)
+{
+  var ai=0, bi=0;
+  var result = [];
+
+  while( ai < a.length && bi < b.length )
+  {
+     if      (a[ai] < b[bi] ){ ai++; }
+     else if (a[ai] > b[bi] ){ bi++; }
+     else /* they're equal */
+     {
+       result.push(a[ai]);
+       ai++;
+       bi++;
+     }
+  }
+
+  return result;
+}
+
 //CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
 function $calc_days(p_start_date, p_end_date) {
     var days = null;
