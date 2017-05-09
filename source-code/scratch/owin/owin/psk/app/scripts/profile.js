@@ -193,7 +193,7 @@ render: function ()
 		result.push('<li id="login_status_area">');
 		result.push('</li>');
 		result.push('<li>');
-		result.push("v1.0.0")
+		result.push("v1.0.1")
 		result.push('</li></ul>');
 
 
