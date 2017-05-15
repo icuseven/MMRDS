@@ -78,6 +78,7 @@
     <None Include="mapping-file-set\grid-mapping-lookup-values.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="util\CSV_Reader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
