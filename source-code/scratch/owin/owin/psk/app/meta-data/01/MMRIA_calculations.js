@@ -3,6 +3,7 @@ function $calculate_omb_recode(p_value_list)
 {
 	// p_value_list is an array
 	var result = null;
+
 	var asian_list = [ 
 						"Asian Indian",
 						"Chinese",
@@ -20,7 +21,7 @@ function $calculate_omb_recode(p_value_list)
 	{
 		// do nothing
 	}
-	if(p_value_list.length == 1)
+	else if(p_value_list.length == 1)
 	{
 		if($global.get_intersection(p_value_list, asian_list).length > 0)
 		{
@@ -37,7 +38,7 @@ function $calculate_omb_recode(p_value_list)
 	}
 	else // more than 1 item has been selected.
 	{
-		if(p_value_list.contains("Race Not Specified"))
+		if(p_value_list.includes("Race Not Specified"))
 		{
 			result = "Race Not Specified";
 		}
@@ -61,13 +62,13 @@ function $calculate_omb_recode(p_value_list)
 			
 			var asian_intersection_count = $global.get_intersection(p_value_list, asian_list).length;
 			var is_asian = 0;
-			var islander__intersection_count = $global.get_intersection(p_value_list, islander_list).length;
+			var islander_intersection_count = $global.get_intersection(p_value_list, islander_list).length;
 			var is_islander = 0;
 			
 			if(asian_intersection_count > 0) is_asian = 1;
-			if(islander__intersection_count > 0) is_islander = 1;
+			if(islander_intersection_count > 0) is_islander = 1;
 
-			var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander__intersection_count;
+			var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander_intersection_count;
 			var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
 			
 			switch(total_unique_items)
@@ -1296,7 +1297,7 @@ function omb_race_recode_dc(p_control)
 	
 	race_recode = $global.calculate_omb_recode(race);
 
-	this.race = race_recode;
+	this.omb_race_recode = race_recode;
 	$mmria.save_current_record();
 	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
 }
@@ -1305,30 +1306,30 @@ function omb_race_recode_dc(p_control)
 path=birth_fetal_death_certificate_parent/race/cmd_recode
 event=onclick
 */
-function omb_race_recode_dc(p_control)
+function omb_mrace_recode_bc(p_control)
 {
 	var race_recode = null;
 	var race = this.race;
 	
 	race_recode = $global.calculate_omb_recode(race);
 
-	this.race = race_recode;
+	this.omb_race_recode = race_recode;
 	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
 }
 // OMB RACE RECODE FOR DAD ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/demographic_of_father/race/cmd_recode
 event=onclick
 */
-function omb_race_recode_dc(p_control)
+function omb_frace_recode_bc(p_control)
 {
 	var race_recode = null;
 	var race = this.race;
 	
 	race_recode = $global.calculate_omb_recode(race);
 
-	this.race = race_recode;
+	this.omb_race_recode = race_recode;
 	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
 }
