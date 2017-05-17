@@ -2,8 +2,66 @@
 using System.IO;
 using System.Collections.Generic;
 
-namespace CommaDelimited
+namespace mmria.console.util
 {
+
+	public class csv_Data
+	{
+		
+		public System.Data.DataTable get_datatable (string p_file_path)
+		{
+
+			Dictionary<string, int> column_name_to_column_index_map = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+			// open a cCommaSeparatedReader
+			CSV_Reader csv_reader = new CSV_Reader(p_file_path);
+
+			// csv_reader 
+			// csv_row
+			csv_Row csv_row = new csv_Row();
+			csv_reader.ReadRow (csv_row);
+
+			System.Data.DataTable result = new System.Data.DataTable ();
+			// begin create columns
+			// for each field in first csv_row of the csv_reader
+			for ( int i = 0; i < csv_row.Count; i++)
+			{
+				string column_name = csv_row [i];
+				column_name_to_column_index_map.Add (column_name, i);
+				// add columns to the data_table coloumn based on the csv columns
+
+				System.Data.DataColumn data_column = new System.Data.DataColumn (column_name, typeof(string));
+				result.Columns.Add (data_column);
+
+			}
+			// end create columns
+
+			while (csv_reader.ReadRow (csv_row)) 
+			{
+
+				System.Data.DataRow datatable_row = result.NewRow ();
+
+
+				foreach ( KeyValuePair<string, int> kvp in column_name_to_column_index_map)
+				{
+					string column_name = kvp.Key; 
+					int column_index = kvp.Value;
+					if (csv_row [column_index] != null) 
+					{
+						datatable_row [column_name] = csv_row [column_index];
+					}
+
+
+
+				}
+
+
+				result.Rows.Add (datatable_row);
+			}
+			return result;
+		}
+
+
+	}
 
 	public class csv_Row : List<string>
 	{
@@ -96,62 +154,13 @@ namespace CommaDelimited
 					pos++;
 			}
 			// Delete any unused items
-			while (row.Count > rows)
-				row.RemoveAt(rows);
+			//while (row.Count > rows)
+			//	row.RemoveAt(rows);
 
 			// Return true if any columns read
 			return (row.Count > 0);
 		}
-		public static System.Data.DataTable get_datatable (string p_file_path)
-		{
-
-
-
-			Dictionary<string, int> column_name_to_column_index_map = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
-			// open a cCommaSeparatedReader
-			CSV_Reader csv_reader = new CSV_Reader(p_file_path);
-
-			// csv_reader 
-			// csv_row
-			csv_Row csv_row = new csv_Row();
-			csv_reader.ReadRow (csv_row);
-
-			System.Data.DataTable result = new System.Data.DataTable ();
-			// begin create columns
-			// for each field in first csv_row of the csv_reader
-			for ( int i = 0; i < csv_row.Count; i++)
-			{
-				string column_name = csv_row [i];
-				column_name_to_column_index_map.Add (column_name, i);
-				// add columns to the data_table coloumn based on the csv columns
-
-				System.Data.DataColumn data_column = new System.Data.DataColumn (column_name, typeof(string));
-				result.Columns.Add (data_column);
-
-			}
-			// end create columns
-
-			while (csv_reader.ReadRow (csv_row)) 
-			{
-
-				System.Data.DataRow datatable_row = result.NewRow ();
-
-
-				foreach ( KeyValuePair<string, int> kvp in column_name_to_column_index_map)
-				{
-					string column_name = kvp.Key; 
-					int column_index = kvp.Value;
-					datatable_row [column_name] = csv_row [column_index];
-
-
-
-				}
-
-
-				result.Rows.Add (datatable_row);
-			}
-			return result;
-		}
+		
 	}
 
 }
