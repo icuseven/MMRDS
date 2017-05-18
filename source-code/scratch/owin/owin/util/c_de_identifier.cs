@@ -192,10 +192,17 @@ namespace mmria.server.util
 			"medical_transport/date_of_transport/day",
 			"medical_transport/transport_vital_signs/date_and_time",
 			"medical_transport/destination_information/place_of_destination",
+		"medical_transport/timing_of_transport/call_received",
+		"medical_transport/timing_of_transport/depart_for_patient_origin",
+		 "medical_transport/timing_of_transport/arrive_at_patient_origin",
+		 "medical_transport/timing_of_transport/patient_contact",
+		 "medical_transport/timing_of_transport/depart_for_referring_facility",
+		 "medical_transport/timing_of_transport/arrive_at_referring_facility",	
 			 "social_and_environmental_profile/social_and_medical_referrals/date",
 			"social_and_environmental_profile/sources_of_social_services_information_for_this_record/source_name",
 			"mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening"
-
+					
+		
 
 
 
