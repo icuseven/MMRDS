@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using mmria.console.data;
@@ -123,11 +122,8 @@ namespace mmria.console.import
 			var grid_mapping_file_name = @"grid-mapping-merge.csv";
 
 
-
 			var lookup_mapping_file_name = @"MMRDS-Mapping-NO-GRIDS-lookup-values.csv";
-
-
-			var lookup_mapping_table = get_look_up_mappings(directory_path + "/" + lookup_mapping_file_name);
+			var lookup_mapping_table = get_look_up_mappings(mapping_data, lookup_mapping_file_name);
 
 		
 			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value1 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
@@ -290,9 +286,9 @@ namespace mmria.console.import
 					System.Data.DataRow[] grid_record_data = null;
 					System.Data.DataTable view_data_table = get_view_data_table(mmrds_data, view_name);
 
-					var mapping_view_table = get_view_mapping(view_name, directory_path + "/" + main_mapping_file_name);
+					var mapping_view_table = get_view_mapping(mapping_data, view_name, main_mapping_file_name);
 
-					var grid_table_name_list = get_grid_table_name_list(view_name, directory_path + "/" + grid_mapping_file_name);
+					var grid_table_name_list = get_grid_table_name_list(mapping_data, view_name, grid_mapping_file_name);
 
 					if (view_name == "MaternalMortality")
 					{
@@ -346,7 +342,7 @@ namespace mmria.console.import
 							foreach (string grid_name in grid_table_name_list)
 							{
 								System.Data.DataTable grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));
-								var grid_mapping = get_grid_mapping(grid_name, directory_path + "/" + grid_mapping_file_name);
+								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
 
 								if (grid_data.Rows.Count > 0)
 								{
@@ -407,7 +403,7 @@ namespace mmria.console.import
 									grid_data = mmrds_data.GetDataTable(string.Format("Select * From [{0}] Where FKey='{1}'", grid_name, row[column_index]));	
 								}
 
-								var grid_mapping = get_grid_mapping(grid_name, directory_path + "/" + grid_mapping_file_name);
+								var grid_mapping = get_grid_mapping(mapping_data, grid_name, grid_mapping_file_name);
 
 								if (grid_data.Rows.Count > 0)
 								{
@@ -575,54 +571,47 @@ namespace mmria.console.import
 			return result;
 		}
 
-		public System.Data.DataTable get_view_mapping(string p_view_name, string p_mapping_table_name)
+		public System.Data.DataTable get_view_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
-			mmria.console.util.csv_Data csv_data = new mmria.console.util.csv_Data ();
-			System.Data.DataTable result = csv_data.get_datatable (p_mapping_table_name);
-			//string mapping_sql = string.Format("SELECT * FROM [{0}] Where BaseTable = '{1}' ", p_mapping_table_name, p_view_name);
-			result.Select (string.Format (" BaseTable = '{0}' ", p_view_name));
+			System.Data.DataTable result = null;
+			string mapping_sql = string.Format("SELECT * FROM [{0}] Where BaseTable = '{1}' ", p_mapping_table_name, p_view_name);
+			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;
 		}
 
-		public System.Data.DataTable get_look_up_mappings (string p_mapping_table_name)
+		public System.Data.DataTable get_look_up_mappings(cData p_mapping, string p_mapping_table_name)
 		{
-			mmria.console.util.csv_Data csv_data = new mmria.console.util.csv_Data ();
-			System.Data.DataTable result = csv_data.get_datatable (p_mapping_table_name);
-			//string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
-			result.Columns ["path"].ColumnName = "source_path";
-			result.Select(" [mmria_path] is not null ");
+			System.Data.DataTable result = null;
+			string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
+			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;
 		}
 
-		public System.Data.DataTable get_grid_mapping(string p_view_name, string p_mapping_table_name)
+		public System.Data.DataTable get_grid_mapping(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
-			mmria.console.util.csv_Data csv_data = new mmria.console.util.csv_Data ();
-			System.Data.DataTable result = csv_data.get_datatable (p_mapping_table_name);
-			//string mapping_sql = string.Format("SELECT * FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
-			result.Select (string.Format (" [Table] Like '{0}%' ", p_view_name));
-			//result = p_mapping.GetDataTable(mapping_sql);
+			System.Data.DataTable result = null;
+			string mapping_sql = string.Format("SELECT * FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
+			result = p_mapping.GetDataTable(mapping_sql);
 
 			return result;
 		}
 
 
-		public List<string> get_grid_table_name_list(string p_view_name, string p_mapping_table_name)
+		public List<string> get_grid_table_name_list(cData p_mapping, string p_view_name, string p_mapping_table_name)
 		{
-			HashSet<string> result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-			mmria.console.util.csv_Data csv_data = new mmria.console.util.csv_Data ();
-			System.Data.DataTable data_table = csv_data.get_datatable (p_mapping_table_name);;
-			//string mapping_sql = string.Format("SELECT Distinct [Table] FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
-			//dt = p_mapping.GetDataTable(mapping_sql);
-			data_table.Select (string.Format (" [Table] Like '{0}%' ", p_view_name));
+			List<string> result = new List<string>();
+			System.Data.DataTable dt = null;
+			string mapping_sql = string.Format("SELECT Distinct [Table] FROM [{0}] Where [Table] Like '{1}%' ", p_mapping_table_name, p_view_name);
+			dt = p_mapping.GetDataTable(mapping_sql);
 
-			foreach (System.Data.DataRow row in data_table.Rows)
+			foreach (System.Data.DataRow row in dt.Rows)
 			{
 				result.Add(row[0].ToString());
 			}
 
-			return result.ToList();
+			return result;
 		}
 
 		public void process_view
@@ -630,7 +619,7 @@ namespace mmria.console.import
 			mmria.common.metadata.app metadata,
 			Case_Maker case_maker,
 			IDictionary<string, object> case_data,
-			System.Data.DataRow mmrds_row,
+			System.Data.DataRow grid_row,
 			System.Data.DataTable mapping_view_table,
 			int? index = null
 		)
@@ -641,41 +630,36 @@ namespace mmria.console.import
 
 			//grid_table = view_data_table.Select(string.Format("FKEY='{0}'", global_record_id));
 
-			foreach (System.Data.DataRow mapping_table_row in mapping_view_table.Rows)
+			foreach (System.Data.DataRow row in mapping_view_table.Rows)
 			{
-				if 
-				(
-					mapping_table_row["MMRIA Path"] != DBNull.Value && 
-					!string.IsNullOrWhiteSpace(mapping_table_row["MMRIA Path"].ToString()) &&
-					mapping_table_row[5].ToString().ToLower() != "grid"
-				)
+				if (row["MMRIA Path"] != DBNull.Value && !string.IsNullOrWhiteSpace(row["MMRIA Path"].ToString()) && row[5].ToString().ToLower() != "grid")
 				{
 					//List<string> path = row["MMRIA Path"].ToString();
-					string path = mapping_table_row["MMRIA Path"].ToString().Trim();
+					string path = row["MMRIA Path"].ToString().Trim();
 
-					string[] path_array = mapping_table_row["MMRIA Path"].ToString().Trim().Split('/');
+					string[] path_array = row["MMRIA Path"].ToString().Trim().Split('/');
 
 					if (index != null && index.HasValue)
 					{
 						path = case_maker.AppendFormIndexToPath(index.Value, path);
 					}
 
-					/*
+
 					if (path == "home_record/case_progress_report/death_certificate")
 					{
 						System.Console.Write("break\n");
-					}*/
+					}
 
-					if (mapping_table_row["DataType"].ToString().ToLower() == "boolean")
+					if (row["DataType"].ToString().ToLower() == "boolean")
 					{
-						case_maker.set_value(metadata, case_data, path, mmrds_row[mapping_table_row["f.Name"].ToString().Trim()], mapping_table_row[0].ToString().Trim(), mapping_table_row["prompttext"].ToString().Trim(), mapping_table_row[0].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim(), row["prompttext"].ToString().Trim(), row[0].ToString().Trim());
 					}
 					else
 					{
-						case_maker.set_value(metadata, case_data, path, mmrds_row[mapping_table_row["f.Name"].ToString().Trim()], mapping_table_row[0].ToString().Trim(), null, mapping_table_row[0].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["f#Name"].ToString().Trim()], row[0].ToString().Trim(), null, row[0].ToString().Trim());
 					}
 					Console.WriteLine(string.Format("{0}", path));
-					Console.WriteLine(string.Format("{0}, {1}, \"\"", mapping_table_row[0].ToString().Replace(".", ""), mapping_table_row["prompttext"].ToString().Trim().Replace(",", "")));
+					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompttext"].ToString().Trim().Replace(",", "")));
 
 				}
 			}
