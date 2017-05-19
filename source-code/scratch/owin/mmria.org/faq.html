@@ -36,7 +36,7 @@
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            There is a central admin account which is able to add users, change roles and change passwords.  Users currently cannot manage their own password.  This most likely will be changed in the future.
+                            Each state/jurisdiction creates a User Admin account or accounts.  The User Admin(s) can add users, assign and change user roles and assign and edit passwords.  Users currently cannot manage their own passwords.  This functionality is forthcoming.
 						</div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div id="collapseFirst" class="panel-collapse collapse">
                         <div class="panel-body">
-						Currently the password scheme can be enforced by the central admin when they specify an individuals password.
+						Passwords must be at least 8 characters. There are no other inherent password restrictions, but the User Admin can specify password requirements. Usernames must be at least 5 characters; using email addresses as usernames is recommended.
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div id="collapseEleven" class="panel-collapse collapse">
                         <div class="panel-body">
-                            A user currently is not able to change their own password.  This most likely will be changing in the future where this feature can be enabled to allow the end user to change their password.  Also there would be the ablility to specifiy password requirements.
+                            Currently, users cannot change their own passwords.  Functionality to allow end users to change their passwords is forthcoming.
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     </div>
                     <div id="collapseTen" class="panel-collapse collapse">
                         <div class="panel-body">
-                            A user currently is not able to reset or change their own password.  This most likely will be changing in the future where this feature can be enabled to allow the end user to change their password.  Also there would be the ablility to specifiy password requirements.
+                            Users are currently not able to reset or change their own passwords.  This functionality is forthcoming.
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col3" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Yes user ID's remain unique over time in the application.
+                            Yes, user ID's remain unique over time in the application.
                         </div>
                     </div>
                 </div>
@@ -134,24 +134,24 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col5">Account lockout process.</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col5">Describe the account lockout process.</a>
                         </h4>
                     </div>
                     <div id="col5" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Currently there is not an account lockout policy.
+                            Currently there is not an account lockout process.  This functionality is forthcoming.
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col6">Inactive account policy.</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col6">Describe the inactive account policy.</a>
                         </h4>
                     </div>
                     <div id="col6" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Currently there is not an inactive account.
+                            Currently there is not an inactive account policy.
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col30" class="panel-collapse collapse">
                         <div class="panel-body">
-                            MMRIA leverages CouchDB 2.0 for role-based security.  The 5 user roles are Abstractor, Data Analyst, Committee Member, Form Designer, and Admin.  The Admin role allows for User Management.  Currently we have not configured any set password requirements but our plans are to make password requirements configurable by the Admin at the state/jurisdiction level.  Passwords are stored as a salted SHA1 hash.
+                            MMRIA leverages CouchDB 2.0 for role-based security.  The four user roles are Abstractor, Committee Reviewer, Form Designer, and User Admin.  The User Admin role allows for user management.  Passwords must be 8 characters minimum, and further password requirements are configurable by the User Admin at the state/jurisdiction level.  Passwords are stored as a salted SHA1 hash.
                         </div>
                     </div>
                 </div>
@@ -176,7 +176,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="collapseTwo" class="panel-collapse collapse">
                         <div class="panel-body">
-                            CouchDB does encrypt and salt password, but it does not encrypt the database(s).
+                            CouchDB does encrypt and salt passwords, but it does not encrypt the database.
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse">
                         <div class="panel-body">
-                            It is advised that a reverse proxy be setup to provided SSL certificate encryption.
+                            It is advised that a reverse proxy be set up to provide SSL certificate encryption.
                         </div>
                     </div>
                 </div>
@@ -200,7 +200,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="collapseFive" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Information relayed to user is displayed on web page and local browser data is destroyed when the user logsout.
+                            Information relayed to the user is displayed on a web page, and local browser data is destroyed when the user logs out.
                             <br />
                         </div>
                     </div>
@@ -213,7 +213,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col35" class="panel-collapse collapse">
                         <div class="panel-body">
-                            It is advised that a reverse proxy be setup to provided SSL certificate encryption.
+                            It is advised that a reverse proxy be set up to provide SSL certificate encryption.
                         </div>
                     </div>
                 </div>
@@ -221,16 +221,16 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What input validation controls are in use in the application? (e.g. Use stored procedures, DO NOT execute dynamically generated/ad-hoc SQL statements, Data modification requests must include the user's session ID along with a challenge token; the token should be unique per request.)</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What input validation controls are in use in the application?</a>
                         </h4>
                     </div>
                     <div id="collapseFour" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Data modification is done using a session id which is tied to the user's role and allow modifications based on role's rights.  The session token is updated every 10 minutes.
+                            Data modification is done using a session ID, which is tied to the user's role and allows modifications based on the role's rights.  The session token is updated every 10 minutes.
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
+                <!--div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">What output validation controls are in use in the application?</a>
@@ -241,7 +241,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                             
                         </div>
                     </div>
-                </div>
+                </div-->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -250,7 +250,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col10" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Yes cookies are used in the application.
+                            Yes, cookies are used in the application.
                         </div>
                     </div>
                 </div>
@@ -262,7 +262,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col11" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Yes cookies ares used to store the session id which is updated at least every 10 minutes.
+                            Yes, cookies are used to store the session ID which is updated at least every 10 minutes.
                         </div>
                     </div>
                 </div>
@@ -274,19 +274,19 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col12" class="panel-collapse collapse">
                         <div class="panel-body">
-                            The 'LOGOFF' button is found on the toolbar under the user menu.
+                            Yes, the 'LOGOFF' button is found on the toolbar under the user menu.
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col14">Auditing and logging capabilities of the application.</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col14">Describe the auditing and logging capabilities of the application.</a>
                         </h4>
                     </div>
                     <div id="col14" class="panel-collapse collapse">
                         <div class="panel-body">
-                            
+                            Auditing fields exist to note who created a record, who last modified a record, and the date and time of record creation and last modification.  The application sends logging messages to the standard output; the standard output can be redirected to a text file.
                         </div>
                     </div>
                 </div>
@@ -298,43 +298,43 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col15" class="panel-collapse collapse">
                         <div class="panel-body">
-                            
+                            Yes, custom error messages are displayed to the user via html.
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col16">Does the application interact with the underlying operating system (OS)?</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col16">Does the application interact with the underlying operating system?</a>
                         </h4>
                     </div>
                     <div id="col16" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            Yes, the application uses the .net framework to process system calls to the operating system.
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col17">Does your application allow file upload/download?</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col17">Does the application allow file upload/download?</a>
                         </h4>
                     </div>
                     <div id="col17" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            The application allows file download for export of data in csv format.
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col18">Is your application developed in a language that has built-in memory management?</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col18">Is the application developed in a language that has built-in memory management?</a>
                         </h4>
                     </div>
                     <div id="col18" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            Yes, it is developed on the .net framework, which provides built-in memory management.
                         </div>
                     </div>
                 </div>
@@ -346,7 +346,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col19" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            No, there are no passwords hard-coded in the application.
                         </div>
                     </div>
                 </div>
@@ -358,7 +358,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col20" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            Yes.
                         </div>
                     </div>
                 </div>
@@ -370,19 +370,19 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col21" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            Yes, the application uses standard http protocol including GET, HEAD, POST, DELETE and PUT requests.
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col22">Does the application prevent the caching of data?</a>
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col22">Does the application prevent the cacheing of data?</a>
                         </h4>
                     </div>
                     <div id="col22" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            No, the application does not prevent cacheing of data.
                         </div>
                     </div>
                 </div>
@@ -394,7 +394,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col23" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            No, the application does not use hidden fields.
                         </div>
                     </div>
                 </div>
@@ -406,7 +406,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col24" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            Yes, a data dictionary is available and can be accessed at <a href="http://demo.mmria.org/data-dictionary/">http://demo.mmria.org/data-dictionary/</a>
                         </div>
                     </div>
                 </div>
@@ -418,7 +418,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col25" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            The data dictionary describes both the data elements and the relationships between elements.  A conceptual model is forthcoming.
                         </div>
                     </div>
                 </div>
@@ -430,7 +430,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col32" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            Yes, the 40GB server should last the lifetime of MMRIA and no growth should be anticipated.
                         </div>
                     </div>
                 </div>
@@ -442,7 +442,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col33" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            The initial size of the database is less than 1GB.  Each new record created is approximately 5-10MB, and most states will create fewer than 80 records annually.
                         </div>
                     </div>
                 </div>
@@ -454,7 +454,7 @@ More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro
                     </div>
                     <div id="col34" class="panel-collapse collapse">
                         <div class="panel-body">
-                            Each item in <strong>PrepBootstrap</strong> is maintained to its latest version. This ensures its smooth operation.
+                            The application uses two ports which can be reconfigured: one for the web application and one for the database.
                         </div>
                     </div>
                 </div>
