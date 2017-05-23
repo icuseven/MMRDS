@@ -99,8 +99,14 @@ function $calculate_omb_recode(p_value_list)
 	return result;
 }
 // CALCULATE INTERSECTION FOR OMB RACE RECODE
-function $get_intersection(a, b)
+function $get_intersection(p_list_1, p_list_2)
 {
+	
+	
+  var a = p_list_1.slice(0);
+  var b = p_list_2.slice(0);
+  a.sort();
+  b.sort();
   var ai=0, bi=0;
   var result = [];
 
