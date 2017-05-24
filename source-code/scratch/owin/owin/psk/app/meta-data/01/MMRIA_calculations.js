@@ -1315,7 +1315,7 @@ event=onclick
 function omb_mrace_recode_bc(p_control)
 {
 	var race_recode = null;
-	var race = this.race;
+	var race = this.race_of_mother;
 	
 	race_recode = $global.calculate_omb_recode(race);
 
@@ -1331,7 +1331,7 @@ event=onclick
 function omb_frace_recode_bc(p_control)
 {
 	var race_recode = null;
-	var race = this.race;
+	var race = this.race_of_father;
 	
 	race_recode = $global.calculate_omb_recode(race);
 
