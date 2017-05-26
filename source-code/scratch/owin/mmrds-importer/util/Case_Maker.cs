@@ -53,8 +53,9 @@ namespace mmria
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				if (path.Length > 3 && path[3].Trim() == "time_of_injury")
+				//if (path.Length > 3 && path[3].Trim() == "time_of_injury")
 				//if(p_path == "er_visit_and_hospital_medical_records/internal_transfers/date_and_time"
+				if(p_path.IndexOf("manner_of_death") > -1 && p_object["_id"].ToString() == "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
 				{
 
 					//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
@@ -124,7 +125,7 @@ namespace mmria
 						}
 						else
 						{
-							dictionary_path = string.Join("/", dictionary_path_list.ToArray());
+							dictionary_path = string.Join("/", dictionary_path_list.ToArray()).Trim();
 						}
 
 						if (
