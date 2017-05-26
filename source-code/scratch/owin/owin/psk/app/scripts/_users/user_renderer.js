@@ -5,7 +5,7 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 	var result = [];
 
 	result.push("<div style='clear:both;margin-left:10px;'>");
-	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=4>user list</th></tr>");
+	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=4>User List</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
@@ -41,7 +41,7 @@ function user_entry_render(p_user, p_i)
 	result.push(p_user.name);
 	result.push("</td><td>");
 	result.push("<table>");
-	result.push("<tr><th>role name</th><th>&nbsp;</th><tr>");
+	result.push("<tr><th>Role name</th><th>&nbsp;</th><tr>");
 	for(var j = 0; j < p_user.roles.length; j++)
 	{
 		result.push("<tr><td>");
@@ -63,12 +63,12 @@ function user_entry_render(p_user, p_i)
 	result.push("<input type='button' value='change user name'/>");
 	result.push("<br/><br/>");
 	*/	
-	result.push("new password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
-	result.push("<br/>verify password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
+	result.push("New password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
+	result.push("<br/>Verify password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
 	result.push("</td>");
 	result.push("<td>&nbsp;")
 	//result.push("<input type='button' value='disable user'/>");
-	result.push("<input type='button' value='save user " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+	result.push("<input type='button' value='Save user " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
 	
 	result.push("<span id='");
 	result.push(convert_to_jquery_id(p_user._id));
