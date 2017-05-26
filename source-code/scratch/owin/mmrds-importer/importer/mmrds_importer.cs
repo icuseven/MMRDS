@@ -257,7 +257,7 @@ namespace mmria.console.import
 
 			foreach (System.Data.DataRow row in id_record_set.Rows)
 			{
-				/*
+				
 				if 
 				(
 					row[0].ToString() != "d0e08da8-d306-4a9a-a5ff-9f1d54702091" &&
@@ -268,7 +268,7 @@ namespace mmria.console.import
 				{
 					continue;
 				}
-				*/
+				/**/
 
 				id_list.Add(row[0].ToString());
 			}
@@ -476,7 +476,9 @@ namespace mmria.console.import
 					if (result_dictionary.ContainsKey ("_rev")) 
 					{
 						updater ["_rev"] = result_dictionary ["_rev"];
-						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data);
+
+
+						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.Converters.IsoDateTimeConverter ());
 						System.Console.WriteLine ("json\n{0}", json_string);
 					}
 
