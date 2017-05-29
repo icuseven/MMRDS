@@ -141,6 +141,14 @@ namespace mmria.console.import
 				string value2 = null;
 				string mmria_value = null;
 
+				if (
+					row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
+					row["source_path"].ToString().Trim() == "MaternalMortality1.MM_SoR"
+				) 
+				{
+					System.Console.Write ("break");
+
+				}
 
 				if (row["value1"] != DBNull.Value)
 				{
@@ -584,9 +592,12 @@ namespace mmria.console.import
 
 		public System.Data.DataTable get_look_up_mappings(cData p_mapping, string p_mapping_table_name)
 		{
-			System.Data.DataTable result = null;
+			mmria.console.util.csv_Data csv_data = new util.csv_Data();
+			System.Data.DataTable result = csv_data.get_datatable(@"mapping-file-set/MMRDS-Mapping-NO-GRIDS-lookup-values.csv");
 			string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
-			result = p_mapping.GetDataTable(mapping_sql);
+			result.Columns ["path"].ColumnName = "source_path";
+			//result = p_mapping.GetDataTable(mapping_sql);
+			result.Select("[mmria_path] is not null ");
 
 			return result;
 		}
