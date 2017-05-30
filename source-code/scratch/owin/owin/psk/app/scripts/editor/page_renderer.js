@@ -1670,6 +1670,25 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		p_result.push(p_data);
+		if
+		(
+			p_data &&
+			p_data != "" &&
+			(
+				p_metadata.type=="datetime" ||
+				p_metadata.type=="time"
+			)
+		)
+		{
+			var test_string = new String(p_data);
+			var lastChar = test_string.charAt(test_string.length - 1);
+			if(lastChar != "Z")
+			{
+				p_result.push("Z");
+			}
+		}
+			
+
 		p_result.push("'");
 
 		if(g_source_db=="mmrds")
