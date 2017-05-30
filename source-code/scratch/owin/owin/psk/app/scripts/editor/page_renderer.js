@@ -1675,14 +1675,14 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			p_data &&
 			p_data != "" &&
 			(
-				p_metadata.type=="datetime" ||
-				p_metadata.type=="time"
+				p_metadata.type.toLowerCase()=="datetime" ||
+				p_metadata.type.toLowerCase()=="time"
 			)
 		)
 		{
 			var test_string = new String(p_data);
 			var lastChar = test_string.charAt(test_string.length - 1);
-			if(lastChar != "Z")
+			if(lastChar.toUpperCase() != "Z")
 			{
 				p_result.push("Z");
 			}
