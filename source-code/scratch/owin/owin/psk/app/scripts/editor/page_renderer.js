@@ -1680,6 +1680,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			)
 		)
 		{
+			/*
 			var test_string = new String(p_data);
 			var lastChar = test_string.charAt(test_string.length - 1);
 			if(lastChar.toUpperCase() != "Z" && lastChar.toUpperCase() != "M")
@@ -1687,9 +1688,9 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 				p_result.push(p_data + "Z");
 			}
 			else
-			{
+			{*/
 				p_result.push(p_data);
-			}
+			//}
 		}
 		else
 		{
