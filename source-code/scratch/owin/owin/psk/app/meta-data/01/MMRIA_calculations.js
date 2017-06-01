@@ -460,7 +460,7 @@ function pregnancy_interval(p_control) {
 }
 // CALCULATE DISTANCE FROM PLACE OF LAST RESIDENCE TO PLACE OF DEATH 
 /*
-path=death_certificate/address_of_death/cmd_estimated_death_distance_from_residence
+path=death_certificate/address_of_death/cmd_calculate_distance
 event=onclick
 */
 function death_distance(p_control) {
@@ -478,7 +478,7 @@ function death_distance(p_control) {
 }
 // CALCULATE DISTANCE FROM PLACE OF RESIDENCE TO HOSPITAL OF DELIVERY OF INFANT
 /*
-path=birth_fetal_death_certificate_parent/location_of_residence/cmd_estimated_distance_from_residence
+path=birth_fetal_death_certificate_parent/location_of_residence/cmd_calc_distance
 event=onclick
 */
 function birth_distance(p_control) {
