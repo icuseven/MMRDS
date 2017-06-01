@@ -3,7 +3,6 @@ function $calculate_omb_recode(p_value_list)
 {
 	// p_value_list is an array
 	var result = null;
-
 	var asian_list = [ 
 						"Asian Indian",
 						"Chinese",
@@ -99,10 +98,8 @@ function $calculate_omb_recode(p_value_list)
 	return result;
 }
 // CALCULATE INTERSECTION FOR OMB RACE RECODE
-function $get_intersection(p_list_1, p_list_2)
+function $get_intersection(a, b)
 {
-	
-	
   var a = p_list_1.slice(0);
   var b = p_list_2.slice(0);
   a.sort();
@@ -463,8 +460,8 @@ function pregnancy_interval(p_control) {
 }
 // CALCULATE DISTANCE FROM PLACE OF LAST RESIDENCE TO PLACE OF DEATH 
 /*
-path=death_certificate/address_of_death/estimated_death_distance_from_residence
-event=onfocus
+path=death_certificate/address_of_death/cmd_estimated_death_distance_from_residence
+event=onclick
 */
 function death_distance(p_control) {
     var dist = null;
@@ -475,13 +472,14 @@ function death_distance(p_control) {
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
         this.estimated_death_distance_from_residence = dist;
-        p_control.value = this.estimated_death_distance_from_residence;
+		$mmria.save_current_record();
+        $mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
     }
 }
 // CALCULATE DISTANCE FROM PLACE OF RESIDENCE TO HOSPITAL OF DELIVERY OF INFANT
 /*
-path=birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence
-event=onfocus
+path=birth_fetal_death_certificate_parent/location_of_residence/cmd_estimated_distance_from_residence
+event=onclick
 */
 function birth_distance(p_control) {
     var dist = null;
@@ -492,13 +490,14 @@ function birth_distance(p_control) {
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
         this.estimated_distance_from_residence = dist;
-        p_control.value = this.estimated_distance_from_residence;
+		$mmria.save_current_record();
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
     }
 }
 //CALCULATE DAYS BETWEEN BIRTH OF CHILD AND DEATH OF MOM
 /*
-path=birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother
-event=onfocus
+path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
+event=onclick
 */
 function birth_2_death(p_control) {
     var days = null;
@@ -513,7 +512,8 @@ function birth_2_death(p_control) {
         var end_date = new Date(end_year, end_month - 1, end_day);
         var days = $global.calc_days(start_date, end_date);
         this.length_between_child_birth_and_death_of_mother = days;
-        p_control.value = this.length_between_child_birth_and_death_of_mother;
+		$mmria.save_current_record();
+        $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
     }
 }
 //CALCULATE GESTATIONAL AGE AT BIRTH ON BC (LMP)
@@ -1237,8 +1237,8 @@ function pc_rm_ga(p_control)
 }
 //CALCULATE TIME BETWEEN ONSET OF LABOR AND ARRIVAL AT HOSPITAL
 /*
-path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival
-event=onfocus
+path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival
+event=onclick
 */
 function duration_of_labor(p_control) 
 {
@@ -1287,7 +1287,7 @@ function duration_of_labor(p_control)
 		{	
 			this.duration_of_labor_prior_to_arrival = hours;
 			$mmria.save_current_record();
-			p_control.value = this.duration_of_labor_prior_to_arrival;
+			$mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
 		}	
 	}
 }
@@ -1371,4 +1371,165 @@ function omb_frace_clear_bc(p_control)
 	this.omb_race_recode = "";
 	$mmria.save_current_record();
 	$mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
+}
+// CLEAR DISTANCE BETWEEN LAST RESIDENCE AND HOSPITAL OF DEATH ON DC FORM
+/*
+path=death_certificate/address_of_death/cmd_calculate_distance_clear
+event=onclick
+*/
+function distance_clear_dc(p_control)
+{
+	this.estimated_death_distance_from_residence = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
+}
+// CLEAR DISTANCE BETWEEN LAST RESIDENCE AND HOSPITAL OF DELIVERY ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/location_of_residence/cmd_calc_distance_clear
+event=onclick
+*/
+function distance_clear_bc(p_control)
+{
+	this.estimated_distance_from_residence = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
+}
+// CLEAR DAYS BETWEEN BIRTH OF INFANT AND DEAT OF MOTHER ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother_clear
+event=onclick
+*/
+function days_clear_bc(p_control)
+{
+	this.length_between_child_birth_and_death_of_mother = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
+}
+// CLEAR HOURS BETWEEN ONSET OF LABOR AND ARRIVAL ON HOSPITAL FORM
+/*
+path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival_clear
+event=onclick
+*/
+function hours_clear_mr(p_control)
+{
+	this.duration_of_labor_prior_to_arrival = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
+}
+// CLEAR COORDINATES FOR RESIDENCE ON DC FORM
+/*
+path=death_certificate/place_of_last_residence/get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_res_dc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/place_of_last_residence/latitude', this.latitude);
+	$mmria.set_control_value('death_certificate/place_of_last_residence/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR INJURY LOCATION ON DC FORM
+/*
+path=death_certificate/address_of_injury/cmd_get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_inj_dc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/address_of_injury/latitude', this.latitude);
+	$mmria.set_control_value('death_certificate/address_of_injury/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR DEATH LOCATION ON DC FORM
+/*
+path=death_certificate/address_of_death/cmd_get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_death_loc_dc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('death_certificate/address_of_death/latitude', this.latitude);
+	$mmria.set_control_value('death_certificate/address_of_death/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR DELIVERY LOCATION ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/facility_of_delivery_location/cmd_get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_delivery_loc_bc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude', this.latitude);
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR RESIDENCE ON BC FORM
+/*
+path=birth_fetal_death_certificate_parent/location_of_residence/cmd_get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_residence_bc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/latitude', this.latitude);
+	$mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR PNC LOCATION ON PC FORM
+/*
+path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_pnc_loc_pc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/latitude', this.latitude);
+	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR PNC LOCATION ON PC FORM
+/*
+path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_pnc_loc_pc(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/latitude', this.latitude);
+	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR HOSPITAL LOCATION ON MR FORM
+/*
+path=er_visit_and_hospital_medical_records/name_and_location_facility/get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_hos_loc_mr(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('er_visit_and_hospital_medical_records/name_and_location_facility/latitude', this.latitude);
+	$mmria.set_control_value('er_visit_and_hospital_medical_records/name_and_location_facility/longitude', this.longitude);
+}
+// CLEAR COORDINATES FOR HOSPITAL LOCATION ON MR FORM
+/*
+path=other_medical_office_visits/location_of_medical_care_facility/get_coordinates_clear
+event=onclick
+*/
+function coordinates_clear_office_loc_mv(p_control)
+{
+	this.latitude = "";
+	this.longitude = "";
+	$mmria.save_current_record();
+	$mmria.set_control_value('other_medical_office_visits/location_of_medical_care_facility/latitude', this.latitude);
+	$mmria.set_control_value('other_medical_office_visits/location_of_medical_care_facility/longitude', this.longitude);
 }
