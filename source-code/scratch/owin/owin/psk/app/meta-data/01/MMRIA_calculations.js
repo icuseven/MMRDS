@@ -3,6 +3,7 @@ function $calculate_omb_recode(p_value_list)
 {
 	// p_value_list is an array
 	var result = null;
+
 	var asian_list = [ 
 						"Asian Indian",
 						"Chinese",
@@ -98,8 +99,10 @@ function $calculate_omb_recode(p_value_list)
 	return result;
 }
 // CALCULATE INTERSECTION FOR OMB RACE RECODE
-function $get_intersection(a, b)
+function $get_intersection(p_list_1, p_list_2)
 {
+	
+	
   var a = p_list_1.slice(0);
   var b = p_list_2.slice(0);
   a.sort();
