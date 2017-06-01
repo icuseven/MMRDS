@@ -1670,32 +1670,36 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		
-		if
+		/*if
 		(
-			p_data &&
-			p_data != "" &&
 			(
 				p_metadata.type.toLowerCase()=="datetime" ||
 				p_metadata.type.toLowerCase()=="time"
-			)
+			) &&
+			p_data &&
+			p_data != ""
+			
 		)
 		{
-			/*
-			var test_string = new String(p_data);
-			var lastChar = test_string.charAt(test_string.length - 1);
-			if(lastChar.toUpperCase() != "Z" && lastChar.toUpperCase() != "M")
+			var test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+$/);
+			if
+			(
+				p_metadata.type.toLowerCase()=="time" &&
+				test
+			)
 			{
+				var temp_date = new Date(p_data);
 				p_result.push(p_data + "Z");
 			}
 			else
-			{*/
+			{
 				p_result.push(p_data);
-			//}
+			}
 		}
 		else
-		{
+		{*/
 			p_result.push(p_data);
-		}
+		//}
 			
 
 		p_result.push("'");
