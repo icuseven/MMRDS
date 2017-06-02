@@ -285,7 +285,11 @@ namespace mmria.console.import
 			{
 				dynamic case_data = case_maker.create_default_object(metadata, new Dictionary<string, object>());
 
-				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+				json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+					Formatting = Newtonsoft.Json.Formatting.Indented,
+					DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+					DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+				});
 				System.Console.WriteLine("json\n{0}", json_string);
 
 				foreach (string view_name in view_name_list)
@@ -486,7 +490,11 @@ namespace mmria.console.import
 						updater ["_rev"] = result_dictionary ["_rev"];
 
 
-						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.Converters.IsoDateTimeConverter ());
+						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+							Formatting = Newtonsoft.Json.Formatting.Indented,
+							DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+							DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+						});
 						System.Console.WriteLine ("json\n{0}", json_string);
 					}
 
@@ -510,7 +518,11 @@ namespace mmria.console.import
 					System.Console.WriteLine("Get case");
 					System.Console.WriteLine(ex);
 
-					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data);
+					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+						Formatting = Newtonsoft.Json.Formatting.Indented,
+						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+						DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+					});
 
 					string document_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"] + "/mmrds/" + global_record_id;
 					var update_curl = new cURL("PUT", null, document_url, json_string, this.user_name, this.password);
@@ -541,7 +553,6 @@ namespace mmria.console.import
 			case_maker.flush_bad_mapping();
 
 			Console.WriteLine("Hello World!");
-			json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data_list);
 
 			System.IO.File.WriteAllText(import_directory + "/output.json", json_string);
 

@@ -55,7 +55,7 @@ namespace mmria
 
 				//if (path.Length > 3 && path[3].Trim() == "time_of_injury")
 				//if(p_path == "er_visit_and_hospital_medical_records/internal_transfers/date_and_time"
-				if(p_path.IndexOf("state_of_death") > -1 && p_object["_id"].ToString() == "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
+				if(p_path.IndexOf("time_of_injury") > -1 && p_object["_id"].ToString() == "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
 				{
 
 					//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
@@ -129,7 +129,7 @@ namespace mmria
 						}
 
 						if (
-								node.type.ToLower() == "list" && 
+								node.type.Equals("list", StringComparison.OrdinalIgnoreCase) && 
 								node.is_multiselect != null && 
 								node.is_multiselect == true 
 						)
@@ -252,7 +252,7 @@ namespace mmria
 								{
 									index [path [i]] = p_value.ToString ().Trim ();
 								}
-								else if(node.type == "datetime") 
+								else if(node.type.Equals("datetime", StringComparison.OrdinalIgnoreCase)) 
 								{
 									if (p_value == DBNull.Value) 
 									{
@@ -263,7 +263,7 @@ namespace mmria
 										index [path [i]] = ((DateTime)p_value).ToUniversalTime ();
 									}
 								} 
-								else if(node.type == "date") 
+								else if(node.type.Equals ("date", StringComparison.OrdinalIgnoreCase)) 
 								{
 									if (p_value == DBNull.Value) 
 									{
@@ -278,10 +278,10 @@ namespace mmria
 										temp = temp.AddSeconds (-temp.Second);
 										temp = temp.AddMilliseconds (-temp.Millisecond);
 
-										index [path [i]] = temp.ToUniversalTime ();
+										index [path [i]] = temp.ToUniversalTime();
 									}
 								} 
-								else if(node.type == "time")
+								else if(node.type.Equals ("time", StringComparison.OrdinalIgnoreCase))
 								{
 									if (p_value == DBNull.Value) 
 									{
@@ -622,11 +622,11 @@ namespace mmria
 				case "datetime":
 					if (!string.IsNullOrWhiteSpace(p_metadata.default_value) && p_metadata.default_value != "")
 					{
-						p_parent[p_metadata.name] = DateTime.Parse(p_metadata.default_value).ToUniversalTime ();
+						p_parent[p_metadata.name] = DateTimeOffset.Parse(p_metadata.default_value).ToUniversalTime ();
 					}
 					else
 					{
-						p_parent[p_metadata.name] = new DateTime().ToUniversalTime ();
+						p_parent[p_metadata.name] = new DateTime? ();
 					}
 					break;
 				case "time":
