@@ -1,497 +1,608 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>MMRIA FAQ | PrepBootstrap</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
-    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="page-header">
-			<img src="mmria-primary.svg" height="300" width="400"/>
-            <h1><small>Frequently Asked Questions</small></h1>
-        </div>
-        <!-- Bootstrap FAQ - START -->
-        <div class="container">
-            <br />
-            <br />
-            <br />
-            <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                This section contains a wealth of information related to <strong>MMRIA</strong>. For any additional questions contact <a href="mailto:mmriasupport@cdc.gov?Subject=MMRIA%20FAQ">mmriasupport@cdc.gov</a>
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MMRIA</title>
+    <meta name="description" content="Free Bootstrap Theme by BootstrapMade.com">
+    <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
     
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,300|Raleway:300,400,900,700italic,700,300,600">
+    <link rel="stylesheet" type="text/css" href="css/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- =======================================================
+        Theme Name: Baker
+        Theme URL: https://bootstrapmade.com/baker-free-onepage-bootstrap-theme/
+        Author: BootstrapMade.com
+        Author URL: https://bootstrapmade.com
+    ======================================================= -->
+  </head>
+  <body>
+
+    <div class="loader"></div>
+    <div id="myDiv">
+    <!--HEADER-->
+    <div class="header">
+      <div class="bg-color">
+        <header id="main-header">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+             
             </div>
-            <br />
-            <div class="panel-group" id="accordion">
-                <div class="faqHeader">User Accounts and Passwords</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Who will administrate the application user accounts?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            Each state/jurisdiction creates a User Admin account or accounts.  The User Admin(s) can add users, assign and change user roles and assign and edit passwords.  Users currently cannot manage their own passwords.  This functionality is forthcoming.
-						</div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFirst">We have state standards for password requirements on applications. Will we have control over setting these standards?  If not, what are the application user password standards?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseFirst" class="panel-collapse collapse">
-                        <div class="panel-body">
-						Passwords must be at least 8 characters. There are no other inherent password restrictions, but the User Admin can specify password requirements. Usernames must be at least 5 characters; using email addresses as usernames is recommended.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">Will the user be able to change their own password?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseEleven" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Currently, users cannot change their own passwords.  Functionality to allow end users to change their passwords is forthcoming.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">Does functionality exist to allow the users to reset forgotten passwords?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseTen" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Users are currently not able to reset or change their own passwords.  This functionality is forthcoming.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col1">What password hashing algorithm and salting process are in use?</a>
-                        </h4>
-                    </div>
-                    <div id="col1" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            The application uses PBKDF2 hashing algorithm. Specifically it:
-<ol>							
-<li>Creates a new 128-bit UUID. This is our salt.</li>
-<li>Creates a sha1 hash of the concatenation of the bytes of the plain-text password and the salt (sha1(password + salt)).</li>
-<li>Prefixes the result with -hashed- and appends ,salt.</li>
-</ol>
-More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro/security.html">http://docs.couchdb.org/en/2.0.0/intro/security.html</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col2">What message(s) are displayed for failed login attempts?</a>
-                        </h4>
-                    </div>
-                    <div id="col2" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            A failed login attempt displays the message "Invalid user name or password".
-							
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col3">Do user ID's remain unique over time in the application?</a>
-                        </h4>
-                    </div>
-                    <div id="col3" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, user ID's remain unique over time in the application.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col4">Is auto-complete disabled on the user login forms?</a>
-                        </h4>
-                    </div>
-                    <div id="col4" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Currently auto-complete is NOT disabled on the user login form.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col5">Describe the account lockout process.</a>
-                        </h4>
-                    </div>
-                    <div id="col5" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Currently there is not an account lockout process.  This functionality is forthcoming.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col6">Describe the inactive account policy.</a>
-                        </h4>
-                    </div>
-                    <div id="col6" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Currently there is not an inactive account policy.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col30">What kind of password management is associated with the app?</a>
-                        </h4>
-                    </div>
-                    <div id="col30" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            MMRIA leverages CouchDB 2.0 for role-based security.  The four user roles are Abstractor, Committee Reviewer, Form Designer, and User Admin.  The User Admin role allows for user management.  Passwords must be 8 characters minimum, and further password requirements are configurable by the User Admin at the state/jurisdiction level.  Passwords are stored as a salted SHA1 hash.
-                        </div>
-                    </div>
-                </div>
-                <div class="faqHeader">Encryption</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Does CouchDB provide encryption for the database?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            CouchDB does encrypt and salt passwords, but it does not encrypt the database.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">What is the encryption used for data in transit?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            It is advised that a reverse proxy be set up to provide SSL certificate encryption.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">How is application information relayed to the user secured?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseFive" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Information relayed to the user is displayed on a web page, and local browser data is destroyed when the user logs out.
-                            <br />
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col35">How is data encryption handled?</a>
-                        </h4>
-                    </div>
-                    <div id="col35" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            It is advised that a reverse proxy be set up to provide SSL certificate encryption.
-                        </div>
-                    </div>
-                </div>
-                <div class="faqHeader">Application Design</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What input validation controls are in use in the application?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseFour" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Data modification is done using a session ID, which is tied to the user's role and allows modifications based on the role's rights.  The session token is updated every 10 minutes.
-                        </div>
-                    </div>
-                </div>
-                <!--div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">What output validation controls are in use in the application?</a>
-                        </h4>
-                    </div>
-                    <div id="collapseSeven" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            
-                        </div>
-                    </div>
-                </div-->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col10">Are cookies used in the application?</a>
-                        </h4>
-                    </div>
-                    <div id="col10" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, cookies are used in the application.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col11">Are cookies used for session management?</a>
-                        </h4>
-                    </div>
-                    <div id="col11" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, cookies are used to store the session ID which is updated at least every 10 minutes.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col12">Is the 'LOGOFF' button clearly visible?</a>
-                        </h4>
-                    </div>
-                    <div id="col12" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, the 'LOGOFF' button is found on the toolbar under the user menu.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col14">Describe the auditing and logging capabilities of the application.</a>
-                        </h4>
-                    </div>
-                    <div id="col14" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Auditing fields exist to note who created a record, who last modified a record, and the date and time of record creation and last modification.  The application sends logging messages to the standard output; the standard output can be redirected to a text file.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col15">Does your application use custom error messages?</a>
-                        </h4>
-                    </div>
-                    <div id="col15" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, custom error messages are displayed to the user via html.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col16">Does the application interact with the underlying operating system?</a>
-                        </h4>
-                    </div>
-                    <div id="col16" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, the application uses the .net framework to process system calls to the operating system.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col17">Does the application allow file upload/download?</a>
-                        </h4>
-                    </div>
-                    <div id="col17" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            The application allows file download for export of data in csv format.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col18">Is the application developed in a language that has built-in memory management?</a>
-                        </h4>
-                    </div>
-                    <div id="col18" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, it is developed on the .net framework, which provides built-in memory management.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col19">Are any passwords hard-coded in the application?</a>
-                        </h4>
-                    </div>
-                    <div id="col19" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            No, there are no passwords hard-coded in the application.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col20">Has all unused code and/or test scripts been removed from the deployment package?</a>
-                        </h4>
-                    </div>
-                    <div id="col20" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col21">Are GET requests used?</a>
-                        </h4>
-                    </div>
-                    <div id="col21" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, the application uses standard http protocol including GET, HEAD, POST, DELETE and PUT requests.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col22">Does the application prevent the cacheing of data?</a>
-                        </h4>
-                    </div>
-                    <div id="col22" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            No, the application does not prevent cacheing of data.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col23">Does the application use hidden fields?</a>
-                        </h4>
-                    </div>
-                    <div id="col23" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            No, the application does not use hidden fields.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col24">Is a data dictionary available?</a>
-                        </h4>
-                    </div>
-                    <div id="col24" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, a data dictionary is available and can be accessed at <a href="http://demo.mmria.org/data-dictionary/">http://demo.mmria.org/data-dictionary/</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col25">Is a data model available?</a>
-                        </h4>
-                    </div>
-                    <div id="col25" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            The data dictionary describes both the data elements and the relationships between elements.  A conceptual model is forthcoming.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col32">Is it assumed that the 40GB server recommendation will last the lifetime of MMRIA or should IT anticipate growth beyond that?</a>
-                        </h4>
-                    </div>
-                    <div id="col32" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Yes, the 40GB server should last the lifetime of MMRIA and no growth should be anticipated.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col33">What is the size of the database files?</a>
-                        </h4>
-                    </div>
-                    <div id="col33" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            The initial size of the database is less than 1GB.  Each new record created is approximately 5-10MB, and most states will create fewer than 80 records annually.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col34">What ports are used?</a>
-                        </h4>
-                    </div>
-                    <div id="col34" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            The application uses two ports which can be reconfigured: one for the web application and one for the database.
-                        </div>
-                    </div>
-                </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav navbar-right">
+                     
+                  <li class=""><a href="http://mmria.org/faq.html">MMRIA FAQ</a></li>
+                  <li class=""><a href="#contact">USE MMRIA</a></li>
+              </ul>
             </div>
+          </div>
+        </nav>
+        </header>
+        <div class="wrapper">
+        <div class="container">
+          <div class="row">
+              <div class="banner-info text-center wow fadeIn delay-05s">
+                  <h1 class="bnr-title">MMRIA (FAQ)<span></span></h1>
+                  <h2 class="bnr-sub-title">Frequently Asked Questions</h2>
+                
+                  <p>The below section contains a wealth of information related to MMRIA.</p>
+                  <div class="brn-btn">
+                   
+                  </div>
+                  <div class="overlay-detail">
+                      <a href="#feature"><i class="fa fa-angle-down"></i></a>
+                  </div>
+              </div>
+          </div>
         </div>
-        <style>
-            .faqHeader {
-                font-size: 27px;
-                margin: 20px;
-            }
-
-            .panel-heading [data-toggle="collapse"]:after {
-                font-family: 'Glyphicons Halflings';
-                content: "\e072"; /* "play" icon */
-                float: right;
-                color: #F58723;
-                font-size: 18px;
-                line-height: 22px;
-                /* rotate "play" icon from > (right arrow) to down arrow */
-                -webkit-transform: rotate(-90deg);
-                -moz-transform: rotate(-90deg);
-                -ms-transform: rotate(-90deg);
-                -o-transform: rotate(-90deg);
-                transform: rotate(-90deg);
-            }
-
-            .panel-heading [data-toggle="collapse"].collapsed:after {
-                /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
-                -webkit-transform: rotate(90deg);
-                -moz-transform: rotate(90deg);
-                -ms-transform: rotate(90deg);
-                -o-transform: rotate(90deg);
-                transform: rotate(90deg);
-                color: #454444;
-            }
-        </style>
-        <!-- Bootstrap FAQ - END -->
+        </div>
+      </div>
     </div>
-</body>
+    <!--/ HEADER-->
+    <!---->
+        <!--/ HEADER-->
+        <!---->
+        
+
+<div class="container">
+                      <!-- Bootstrap FAQ - START -->
+            <div class="container">
+                <br />
+                <br />
+                <br />
+          
+                <br />
+                <div class="panel-group" id="accordion">
+                    <div class="faqHeader">User Accounts and Passwords</div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Who will administrate the application user accounts?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                Each state/jurisdiction creates a User Admin account or accounts.  The User Admin(s) can add users, assign and change user roles and assign and edit passwords.  Users currently cannot manage their own passwords.  This functionality is forthcoming.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFirst">We have state standards for password requirements on applications. Will we have control over setting these standards?  If not, what are the application user password standards?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFirst" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Passwords must be at least 8 characters. There are no other inherent password restrictions, but the User Admin can specify password requirements. Usernames must be at least 5 characters; using email addresses as usernames is recommended.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">Will the user be able to change their own password?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseEleven" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Currently, users cannot change their own passwords.  Functionality to allow end users to change their passwords is forthcoming.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">Does functionality exist to allow the users to reset forgotten passwords?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseTen" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Users are currently not able to reset or change their own passwords.  This functionality is forthcoming.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col1">What password hashing algorithm and salting process are in use?</a>
+                            </h4>
+                        </div>
+                        <div id="col1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                The application uses PBKDF2 hashing algorithm. Specifically it:
+                                <ol>
+                                    <li>Creates a new 128-bit UUID. This is our salt.</li>
+                                    <li>Creates a sha1 hash of the concatenation of the bytes of the plain-text password and the salt (sha1(password + salt)).</li>
+                                    <li>Prefixes the result with -hashed- and appends ,salt.</li>
+                                </ol>
+                                More information can be found at <a href="http://docs.couchdb.org/en/2.0.0/intro/security.html">http://docs.couchdb.org/en/2.0.0/intro/security.html</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col2">What message(s) are displayed for failed login attempts?</a>
+                            </h4>
+                        </div>
+                        <div id="col2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                A failed login attempt displays the message "Invalid user name or password".
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col3">Do user ID's remain unique over time in the application?</a>
+                            </h4>
+                        </div>
+                        <div id="col3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, user ID's remain unique over time in the application.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col4">Is auto-complete disabled on the user login forms?</a>
+                            </h4>
+                        </div>
+                        <div id="col4" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Currently auto-complete is NOT disabled on the user login form.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col5">Describe the account lockout process.</a>
+                            </h4>
+                        </div>
+                        <div id="col5" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Currently there is not an account lockout process.  This functionality is forthcoming.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col6">Describe the inactive account policy.</a>
+                            </h4>
+                        </div>
+                        <div id="col6" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Currently there is not an inactive account policy.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col30">What kind of password management is associated with the app?</a>
+                            </h4>
+                        </div>
+                        <div id="col30" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                MMRIA leverages CouchDB 2.0 for role-based security.  The four user roles are Abstractor, Committee Reviewer, Form Designer, and User Admin.  The User Admin role allows for user management.  Passwords must be 8 characters minimum, and further password requirements are configurable by the User Admin at the state/jurisdiction level.  Passwords are stored as a salted SHA1 hash.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faqHeader">Encryption</div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Does CouchDB provide encryption for the database?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                CouchDB does encrypt and salt passwords, but it does not encrypt the database.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">What is the encryption used for data in transit?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                It is advised that a reverse proxy be set up to provide SSL certificate encryption.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">How is application information relayed to the user secured?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Information relayed to the user is displayed on a web page, and local browser data is destroyed when the user logs out.
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col35">How is data encryption handled?</a>
+                            </h4>
+                        </div>
+                        <div id="col35" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                It is advised that a reverse proxy be set up to provide SSL certificate encryption.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faqHeader">Application Design</div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What input validation controls are in use in the application?</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Data modification is done using a session ID, which is tied to the user's role and allows modifications based on the role's rights.  The session token is updated every 10 minutes.
+                            </div>
+                        </div>
+                    </div>
+                    <!--div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">What output validation controls are in use in the application?</a>
+                </h4>
+            </div>
+            <div id="collapseSeven" class="panel-collapse collapse">
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col10">Are cookies used in the application?</a>
+                            </h4>
+                        </div>
+                        <div id="col10" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, cookies are used in the application.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col11">Are cookies used for session management?</a>
+                            </h4>
+                        </div>
+                        <div id="col11" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, cookies are used to store the session ID which is updated at least every 10 minutes.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col12">Is the 'LOGOFF' button clearly visible?</a>
+                            </h4>
+                        </div>
+                        <div id="col12" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, the 'LOGOFF' button is found on the toolbar under the user menu.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col14">Describe the auditing and logging capabilities of the application.</a>
+                            </h4>
+                        </div>
+                        <div id="col14" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Auditing fields exist to note who created a record, who last modified a record, and the date and time of record creation and last modification.  The application sends logging messages to the standard output; the standard output can be redirected to a text file.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col15">Does your application use custom error messages?</a>
+                            </h4>
+                        </div>
+                        <div id="col15" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, custom error messages are displayed to the user via html.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col16">Does the application interact with the underlying operating system?</a>
+                            </h4>
+                        </div>
+                        <div id="col16" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, the application uses the .net framework to process system calls to the operating system.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col17">Does the application allow file upload/download?</a>
+                            </h4>
+                        </div>
+                        <div id="col17" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                The application allows file download for export of data in csv format.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col18">Is the application developed in a language that has built-in memory management?</a>
+                            </h4>
+                        </div>
+                        <div id="col18" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, it is developed on the .net framework, which provides built-in memory management.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col19">Are any passwords hard-coded in the application?</a>
+                            </h4>
+                        </div>
+                        <div id="col19" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                No, there are no passwords hard-coded in the application.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col20">Has all unused code and/or test scripts been removed from the deployment package?</a>
+                            </h4>
+                        </div>
+                        <div id="col20" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col21">Are GET requests used?</a>
+                            </h4>
+                        </div>
+                        <div id="col21" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, the application uses standard http protocol including GET, HEAD, POST, DELETE and PUT requests.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col22">Does the application prevent the cacheing of data?</a>
+                            </h4>
+                        </div>
+                        <div id="col22" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                No, the application does not prevent cacheing of data.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col23">Does the application use hidden fields?</a>
+                            </h4>
+                        </div>
+                        <div id="col23" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                No, the application does not use hidden fields.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col24">Is a data dictionary available?</a>
+                            </h4>
+                        </div>
+                        <div id="col24" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, a data dictionary is available and can be accessed at <a href="http://demo.mmria.org/data-dictionary/">http://demo.mmria.org/data-dictionary/</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col25">Is a data model available?</a>
+                            </h4>
+                        </div>
+                        <div id="col25" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                The data dictionary describes both the data elements and the relationships between elements.  A conceptual model is forthcoming.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col32">Is it assumed that the 40GB server recommendation will last the lifetime of MMRIA or should IT anticipate growth beyond that?</a>
+                            </h4>
+                        </div>
+                        <div id="col32" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Yes, the 40GB server should last the lifetime of MMRIA and no growth should be anticipated.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col33">What is the size of the database files?</a>
+                            </h4>
+                        </div>
+                        <div id="col33" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                The initial size of the database is less than 1GB.  Each new record created is approximately 5-10MB, and most states will create fewer than 80 records annually.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#col34">What ports are used?</a>
+                            </h4>
+                        </div>
+                        <div id="col34" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                The application uses two ports which can be reconfigured: one for the web application and one for the database.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .faqHeader {
+                    font-size: 27px;
+                    margin: 20px;
+                }
+
+                .panel-heading [data-toggle="collapse"]:after {
+                    font-family: 'Glyphicons Halflings';
+                    content: "\e072"; /* "play" icon */
+                    float: right;
+                    color:  mediumpurple;
+                    font-size: 18px;
+                    line-height: 22px;
+                    /* rotate "play" icon from > (right arrow) to down arrow */
+                    -webkit-transform: rotate(-90deg);
+                    -moz-transform: rotate(-90deg);
+                    -ms-transform: rotate(-90deg);
+                    -o-transform: rotate(-90deg);
+                    transform: rotate(-90deg);
+                }
+
+                .panel-heading [data-toggle="collapse"].collapsed:after {
+                    /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+                    -webkit-transform: rotate(90deg);
+                    -moz-transform: rotate(90deg);
+                    -ms-transform: rotate(90deg);
+                    -o-transform: rotate(90deg);
+                    transform: rotate(90deg);
+                    color: #454444;
+                }
+            </style>
+            <!-- Bootstrap FAQ - END -->
+        </div>
+
+
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <section id="contact" class="section-padding wow fadeInUp delay-05s">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center white">
+                        <h2 class="service-title pad-bt15">HOW CAN WE HELP YOU?</h2>
+                        <p class="sub-title pad-bt15">For any additional questions contact us by email, click the button below.</p>
+                        <hr class="bottom-line white-bg">
+                        <div class="contact-form">
+                            
+                           <form action="mailto:mmriasupport@cdc.gov?Subject=MMRIA%20FAQ" method="post" role="form" class="contactForm">
+               
+               
+         
+                      <div class="col-md-12">
+                       
+                          <button type="submit" class="btn btn-primary btn-submit">SEND NOW</button>
+                       
+                      </div>
+                  </form>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+    <!---->
+    <!---->
+   
+    <!---->
+  </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/wow.js"></script>
+    <script src="js/jquery.bxslider.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="contactform/contactform.js"></script>
+    
+  </body>
 </html>
