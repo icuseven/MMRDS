@@ -142,8 +142,9 @@ namespace mmria.console.import
 				string mmria_value = null;
 
 				if (
-					row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
-					row["source_path"].ToString().Trim() == "MaternalMortality1.MM_SoR"
+					//row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
+					row["source_path"].ToString().Trim() == "MaternalMortality1.MM_MBC" ||
+					row["mmria_path"].ToString ().IndexOf("birth_certificate_parent_section") > -1
 				) 
 				{
 					System.Console.Write ("break");
