@@ -156,6 +156,7 @@
     <Compile Include="util\c_document_sync_all.cs" />
     <Compile Include="util\c_convert_to_report_object.cs" />
     <Compile Include="model\c_report_object.cs" />
+    <Compile Include="util\NoCheckCertificatePolicy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
