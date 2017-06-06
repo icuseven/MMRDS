@@ -10,22 +10,23 @@ namespace mmria.console.util
 		
 		public System.Data.DataTable get_datatable (string p_file_path)
 		{
+			//https://github.com/Spintronic/CsvReader
 
 			Dictionary<string, int> column_name_to_column_index_map = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
 			// open a cCommaSeparatedReader
-			CSV_Reader csv_reader = new CSV_Reader(p_file_path);
+			//LumenWorks.Framework.IO.Csv.CachedCsvReader csv = new LumenWorks.Framework.IO.Csv.CachedCsvReader (new System.IO.StreamReader (@"mapping-file-set/MMRDS-Mapping-NO-GRIDS-lookup-values.csv"), true);
+
+			LumenWorks.Framework.IO.Csv.CachedCsvReader  csv_reader = new LumenWorks.Framework.IO.Csv.CachedCsvReader (new System.IO.StreamReader(p_file_path), true);
 
 			// csv_reader 
-			// csv_row
-			csv_Row csv_row = new csv_Row();
-			csv_reader.ReadRow (csv_row);
 
 			System.Data.DataTable result = new System.Data.DataTable ();
 			// begin create columns
 			// for each field in first csv_row of the csv_reader
-			for ( int i = 0; i < csv_row.Count; i++)
+			string [] header_array = csv_reader.GetFieldHeaders ();
+			for (var i = 0; i < header_array.Length; i++)
 			{
-				string column_name = csv_row [i];
+				string column_name = header_array [i];
 				column_name_to_column_index_map.Add (column_name, i);
 				// add columns to the data_table coloumn based on the csv columns
 
@@ -35,7 +36,7 @@ namespace mmria.console.util
 			}
 			// end create columns
 
-			while (csv_reader.ReadRow (csv_row)) 
+			while (csv_reader.ReadNextRecord ()) 
 			{
 
 				System.Data.DataRow datatable_row = result.NewRow ();
@@ -45,17 +46,16 @@ namespace mmria.console.util
 				{
 					string column_name = kvp.Key; 
 					int column_index = kvp.Value;
-					if (csv_row [column_index] != null) 
+					if (csv_reader [column_index] != null) 
 					{
-						datatable_row [column_name] = csv_row [column_index];
+						datatable_row [column_name] = csv_reader [column_index];
 					}
-
-
-
 				}
 
 
 				result.Rows.Add (datatable_row);
+
+
 			}
 			return result;
 		}
@@ -94,6 +94,11 @@ namespace mmria.console.util
 			row.LineText = ReadLine();
 			if (String.IsNullOrEmpty(row.LineText))
 				return false;
+
+			if (row.LineText.IndexOf ("home_record/case_progress_report/birth_certificate_parent_section") > -1) 
+			{
+				System.Console.Write ("Break");
+			}
 
 			int pos = 0;
 			int rows = 0;
