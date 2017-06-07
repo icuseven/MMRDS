@@ -123,6 +123,8 @@ namespace mmria.server
 
 			}
 
+			System.Net.ServicePointManager.CertificatePolicy = new mmria.server.util.NoCheckCertificatePolicy ();
+
 			// ****   Web Server - Start
 			Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);            
 			Console.WriteLine ("Listening at " + Program.config_web_site_url);

@@ -1185,7 +1185,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
 			p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input.datetime").datetimepicker({');
-			p_post_html_render.push('	format:"YYYY-MM-DDThh:mm:ssZ", defaultDate: "');
+			p_post_html_render.push('	format:"YYYY-MM-DD hh:mm:ss", defaultDate: "');
 			//p_post_html_render.push('	utc: true, defaultDate: "');
 			
 			p_post_html_render.push(p_data);

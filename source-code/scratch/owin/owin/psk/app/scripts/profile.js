@@ -154,7 +154,7 @@ render: function ()
 		
 		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
 		result.push('</li><li>');
-		result.push("v1.0.12")
+		result.push("v1.1")
 		result.push('</li></ul>');
 
 		result.push('</div>');
@@ -193,7 +193,7 @@ render: function ()
 		result.push('<li id="login_status_area">');
 		result.push('</li>');
 		result.push('<li>');
-		result.push("v1.0.12")
+		result.push("v1.1")
 		result.push('</li></ul>');
 
 
