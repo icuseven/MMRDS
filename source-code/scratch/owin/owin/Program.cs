@@ -136,9 +136,7 @@ namespace mmria.server
 			//Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
-			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job ();
 
-			//Program.JobInfoList = icims_data_call_job.GetJobInfo();
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
 									Program.Change_Sequence_Call_Count++;
 									Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
@@ -147,10 +145,6 @@ namespace mmria.server
 			Program.sched = sf.GetScheduler ();
 			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
-			//Quartz.Impl.Calendar.CronCalendar cronCal = new Quartz.Impl.Calendar.CronCalendar("0 * * * *");
-			//sched.AddCalendar("HourlyCal", cronCal, true, true);
-
-			// job1 will only fire once at date/time "ts"
 			IJobDetail data_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
 				.WithIdentity ("data_job", "group1")
 				.Build ();
@@ -164,20 +158,8 @@ namespace mmria.server
 														  .WithCronSchedule (cron_schedule)
 														  .Build ();
 
-			//trigger.RepeatCount = 1;
-			//trigger.RepeatInterval = TimeSpan.FromMinutes(1);
 
-			// schedule it to run!
 			DateTimeOffset? ft = sched.ScheduleJob (data_job, trigger);
-			//log.DebugFormat(data_job.Key + " will run at: " + ft);
-			/*log.DebugFormat(data_job.Key +
-					 " will run at: " + ft +
-					 " and repeat: " + trigger..RepeatCount +
-					 " times, every " + trigger.RepeatInterval.TotalSeconds + " seconds");*/
-
-
-			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
-
 
 
 			if (
