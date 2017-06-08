@@ -144,7 +144,7 @@ namespace mmria.console.import
 				if (
 					//row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
 					row["source_path"].ToString().Trim() == "MaternalMortality1.MM_MBC" ||
-					row["mmria_path"].ToString ().IndexOf("birth_certificate_parent_section") > -1
+					row["mmria_path"].ToString ().IndexOf("prior_3_months") > -1
 				) 
 				{
 					System.Console.Write ("break");
