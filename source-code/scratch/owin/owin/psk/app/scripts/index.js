@@ -42,7 +42,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         }
         else
         {
-          eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
+          eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
         }
         g_data.date_last_updated = new Date();
         g_data.last_updated_by = profile.user_name;
@@ -111,7 +111,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       }
       else
       {
-        eval(p_object_path + ' = "' + value.replace(/"/g, '\"').replace(/\n/g,"\\n") + '"');
+        eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
@@ -124,7 +124,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       {
         case 'time':
 
-          $("#" + convert_object_path_to_jquery_id(p_object_path) + " .time" ).datetimepicker({ format: 'LT'});
+          $("#" + convert_object_path_to_jquery_id(p_object_path) + " .time" ).timepicker({ timeFormat: 'hh:mm:ss' });
           break;
           case 'date':
           flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " .date", {
@@ -806,7 +806,7 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'LT'});
+  $( ".time" ).timepicker({ timeFormat: 'hh:mm:ss' });
 //$( "[metadata_type='date']" ).datetimepicker();
 /*
 flatpickr(" .date", {

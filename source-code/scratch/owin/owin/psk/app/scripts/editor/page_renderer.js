@@ -132,7 +132,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(g_source_db=="mmrds")
 			{
 				result.push('<input path="" type="button" value="Add New ');
-				result.push(p_metadata.prompt);
+				result.push(p_metadata.prompt.replace(/"/g, "\\\""));
 				result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
 			}
 			result.push('<div class="search_wrapper">');
@@ -1371,7 +1371,7 @@ d3.select('#chart svg').append('text')
 			p_post_html_render.push("     .attr('y', 16)");
 			p_post_html_render.push("     .attr('text-anchor', 'middle')");
 			p_post_html_render.push("     .style('font-size', '1.4em')");
-			p_post_html_render.push("     .text('" + p_metadata.prompt + "');");
+			p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
 
 			break;			
      default:
@@ -1636,7 +1636,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push("' type='button' name='");
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
-		p_result.push(p_metadata.prompt);
+		p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
 		p_result.push("' ");
 
 		if(p_metadata.type == "")
@@ -1644,11 +1644,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			p_result.push("placeholder='");
 			if(p_metadata.prompt.length > 25)
 			{
-				p_result.push(p_metadata.prompt.substring(0, 25));
+				p_result.push(p_metadata.prompt.substring(0, 25).replace(/'/g, "\\'"));
 			}
 			else
 			{
-				p_result.push(p_metadata.prompt);
+				p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
 			}
 			
 			p_result.push("' ");
@@ -1669,7 +1669,20 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_result.push("' type='text' name='");
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
-		
+		if(p_data || p_data == 0)
+		{ 
+			if (typeof p_data === 'string' || p_data instanceof String)
+			{
+				p_result.push(p_data.replace(/'/g, "\\'"));
+			}
+			else
+			{
+				p_result.push(p_data);
+			}
+			
+		}
+		p_result.push("' ");
+
 		/*if
 		(
 			(
@@ -1698,11 +1711,10 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 		else
 		{*/
-			p_result.push(p_data);
 		//}
 			
 
-		p_result.push("'");
+	
 
 		if(g_source_db=="mmrds")
 		{
