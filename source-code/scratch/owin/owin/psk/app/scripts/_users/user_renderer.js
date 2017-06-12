@@ -30,7 +30,7 @@ function user_entry_render(p_user, p_i)
 	var result = [];
 
 	if(p_i % 2)
-	{l
+	{
 		result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' style='background:#DDDDDD;' valign=top><td>");
 	}
 	else
