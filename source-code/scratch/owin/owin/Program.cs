@@ -136,9 +136,7 @@ namespace mmria.server
 			//Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");
-			mmria.server.model.check_for_changes_job icims_data_call_job = new mmria.server.model.check_for_changes_job ();
 
-			//Program.JobInfoList = icims_data_call_job.GetJobInfo();
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
 									Program.Change_Sequence_Call_Count++;
 									Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
@@ -147,10 +145,6 @@ namespace mmria.server
 			Program.sched = sf.GetScheduler ();
 			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
-			//Quartz.Impl.Calendar.CronCalendar cronCal = new Quartz.Impl.Calendar.CronCalendar("0 * * * *");
-			//sched.AddCalendar("HourlyCal", cronCal, true, true);
-
-			// job1 will only fire once at date/time "ts"
 			IJobDetail data_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
 				.WithIdentity ("data_job", "group1")
 				.Build ();
@@ -164,20 +158,8 @@ namespace mmria.server
 														  .WithCronSchedule (cron_schedule)
 														  .Build ();
 
-			//trigger.RepeatCount = 1;
-			//trigger.RepeatInterval = TimeSpan.FromMinutes(1);
 
-			// schedule it to run!
 			DateTimeOffset? ft = sched.ScheduleJob (data_job, trigger);
-			//log.DebugFormat(data_job.Key + " will run at: " + ft);
-			/*log.DebugFormat(data_job.Key +
-					 " will run at: " + ft +
-					 " and repeat: " + trigger..RepeatCount +
-					 " times, every " + trigger.RepeatInterval.TotalSeconds + " seconds");*/
-
-
-			//group1.data_job will run at: 1/11/2016 4:27:15 PM -05:00 and repeat: 0 times, every 0 seconds"
-
 
 
 			if (
@@ -203,6 +185,77 @@ namespace mmria.server
 																		 );
 
 						sync_all.execute ();
+
+
+/*
+{"total_rows":11,"offset":0,"rows":[
+{"id":"02279162-6be3-49e4-930f-42eed7cd4706","key":"02279162-6be3-49e4-930f-42eed7cd4706","value":{"rev":"1-1e8c9c42f75d1582c7d2261230268f0a"}},
+{"id":"140836d7-abed-07ff-5b84-72a9ca30b9c4","key":"140836d7-abed-07ff-5b84-72a9ca30b9c4","value":{"rev":"1-7d713a250c1dd52843724df2e909841f"}},
+{"id":"2243372a-9801-155c-4098-9540daabe76c","key":"2243372a-9801-155c-4098-9540daabe76c","value":{"rev":"1-d7b3cb2bbddfa7dab44161b745ba3f2c"}},
+{"id":"244da20f-41cc-4300-ad94-618004a51917","key":"244da20f-41cc-4300-ad94-618004a51917","value":{"rev":"1-3930c68b758258af365bda35aee22731"}},
+{"id":"999907aa-8b73-3cfa-f13b-657beb325428","key":"999907aa-8b73-3cfa-f13b-657beb325428","value":{"rev":"1-1e3bac81a24f00755613f0f7d2604fcb"}},
+{"id":"acbf75d5-9c7a-57bc-9bef-59624bac7847","key":"acbf75d5-9c7a-57bc-9bef-59624bac7847","value":{"rev":"1-6f758041b4fb6954ec5ff4a52cc57eda"}},
+{"id":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","key":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","value":{"rev":"1-ab8dc8c5852d0e053683d64ee7c5e9ba"}},
+{"id":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","key":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","value":{"rev":"1-bbddad634887348768fa8badc4db5ded"}},
+{"id":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","key":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","value":{"rev":"1-a9ce1f6a0be2416e2ff06ef9adb1bd0e"}},
+{"id":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","key":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","value":{"rev":"1-297a418df441f52109714fdc3b21bd07"}},
+{"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
+]}
+*/
+/*
+
+			HashSet<string> mmrds_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
+			HashSet<string> de_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
+			HashSet<string> report_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
+			HashSet<string> deleted_id_set = null;
+
+			string json = null;
+			mmria.server.model.couchdb.c_all_docs all_docs = null;
+			cURL curl = null;
+
+			// get all non deleted cases in mmrds
+			curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
+			json = curl.execute ();
+			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
+			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
+			{
+				mmrds_id_set.Add(all_doc_row.id);
+			}
+			
+			
+			// get all non deleted cases in de_id
+			curl = new cURL ("GET", null, Program.config_couchdb_url + "/de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
+			json = curl.execute ();
+			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
+			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
+			{
+				de_id_set.Add(all_doc_row.id);
+			}
+
+			deleted_id_set = de_id_set.Except(mmrds_id_set);
+			foreach(string id in deleted_id_set)
+			{
+				curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/de_id/" + id + "?rev=", null, Program.config_timer_user_name, Program.config_timer_password);
+				json = curl.execute ();
+			}
+
+			// get all non deleted cases in report
+			curl = new cURL ("GET", null, Program.config_couchdb_url + "/report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
+			json = curl.execute ();
+			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
+			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
+			{
+				report_id_set.Add(all_doc_row.id);
+			}
+			deleted_id_set = report_id_set.Except(mmrds_id_set);
+			foreach(string id in deleted_id_set)
+			{
+				curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/report/" + id + "?rev=", null, Program.config_timer_user_name, Program.config_timer_password);
+				json = curl.execute ();
+			}
+
+*/
+
 
 						Program.sched.Start ();
 					}
