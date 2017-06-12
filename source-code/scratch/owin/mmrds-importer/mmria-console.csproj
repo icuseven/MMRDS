@@ -59,9 +59,6 @@
     <Reference Include="LumenWorks.Framework.Tests.Unit">
       <HintPath>..\dll_set\LumenWorks.Framework.Tests.Unit.dll</HintPath>
     </Reference>
-    <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>..\dll_set\LumenWorks.Framework.IO.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

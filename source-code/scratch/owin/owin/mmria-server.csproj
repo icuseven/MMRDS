@@ -157,7 +157,7 @@
     <Compile Include="util\c_convert_to_report_object.cs" />
     <Compile Include="model\c_report_object.cs" />
     <Compile Include="util\NoCheckCertificatePolicy.cs" />
-    <Compile Include="model\check_for_changes_job %28copy%29.cs" />
+    <Compile Include="model\couchdb\c_all_docs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
