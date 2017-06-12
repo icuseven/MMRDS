@@ -293,7 +293,8 @@ namespace mmria
 										DateTime temp = new DateTime(1900,01,01);
 										DateTime temp2 = (DateTime)p_value;
 										temp = temp.Add (temp2.TimeOfDay);
-										index [path [i]] = temp.ToUniversalTime ();
+										//index [path [i]] = temp.ToUniversalTime ();
+										index [path [i]] = temp.ToShortTimeString();
 									}
 								} 
 								else if (p_value == DBNull.Value) 
