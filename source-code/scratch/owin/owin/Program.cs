@@ -167,8 +167,8 @@ namespace mmria.server
 				database_exists(Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) 
 			)
 			{
-				var curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
-				string res = curl.execute ();
+				var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
+				string res = sync_curl.execute ();
 				mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
 
 				Program.Last_Change_Sequence = latest_change_set.last_seq;
@@ -202,59 +202,10 @@ namespace mmria.server
 {"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
 ]}
 */
-/*
 
-			HashSet<string> mmrds_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
-			HashSet<string> de_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
-			HashSet<string> report_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
-			HashSet<string> deleted_id_set = null;
 
-			string json = null;
-			mmria.server.model.couchdb.c_all_docs all_docs = null;
-			cURL curl = null;
 
-			// get all non deleted cases in mmrds
-			curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-			json = curl.execute ();
-			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
-			{
-				mmrds_id_set.Add(all_doc_row.id);
-			}
-			
-			
-			// get all non deleted cases in de_id
-			curl = new cURL ("GET", null, Program.config_couchdb_url + "/de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-			json = curl.execute ();
-			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
-			{
-				de_id_set.Add(all_doc_row.id);
-			}
 
-			deleted_id_set = de_id_set.Except(mmrds_id_set);
-			foreach(string id in deleted_id_set)
-			{
-				curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/de_id/" + id + "?rev=", null, Program.config_timer_user_name, Program.config_timer_password);
-				json = curl.execute ();
-			}
-
-			// get all non deleted cases in report
-			curl = new cURL ("GET", null, Program.config_couchdb_url + "/report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-			json = curl.execute ();
-			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
-			{
-				report_id_set.Add(all_doc_row.id);
-			}
-			deleted_id_set = report_id_set.Except(mmrds_id_set);
-			foreach(string id in deleted_id_set)
-			{
-				curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/report/" + id + "?rev=", null, Program.config_timer_user_name, Program.config_timer_password);
-				json = curl.execute ();
-			}
-
-*/
 
 
 						Program.sched.Start ();
@@ -265,6 +216,8 @@ namespace mmria.server
 			}
 
 			// ****   Quartz Timer - End
+
+
 
 
 

@@ -27,7 +27,7 @@ namespace mmria.server.model
 
 			JobKey jobKey = context.JobDetail.Key;
 			//log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-			mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo (Program.Last_Change_Sequence);
+			mmria.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence);
 
 			Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
 			
@@ -81,6 +81,8 @@ namespace mmria.server.model
 
 			Program.Last_Change_Sequence = latest_change_set.last_seq;
 
+			List<System.Threading.Tasks.Task> TaskList = new List<System.Threading.Tasks.Task>();
+
 			foreach (KeyValuePair<string, KeyValuePair<string, bool>> kvp in response_results)
 			{
 				System.Threading.Tasks.Task.Run
@@ -128,97 +130,76 @@ namespace mmria.server.model
 					})
 				);
 			}
+			System.Threading.Tasks.Task.WhenAll(TaskList);
 
-			/*
-{"total_rows":11,"offset":0,"rows":[
-{"id":"02279162-6be3-49e4-930f-42eed7cd4706","key":"02279162-6be3-49e4-930f-42eed7cd4706","value":{"rev":"1-1e8c9c42f75d1582c7d2261230268f0a"}},
-{"id":"140836d7-abed-07ff-5b84-72a9ca30b9c4","key":"140836d7-abed-07ff-5b84-72a9ca30b9c4","value":{"rev":"1-7d713a250c1dd52843724df2e909841f"}},
-{"id":"2243372a-9801-155c-4098-9540daabe76c","key":"2243372a-9801-155c-4098-9540daabe76c","value":{"rev":"1-d7b3cb2bbddfa7dab44161b745ba3f2c"}},
-{"id":"244da20f-41cc-4300-ad94-618004a51917","key":"244da20f-41cc-4300-ad94-618004a51917","value":{"rev":"1-3930c68b758258af365bda35aee22731"}},
-{"id":"999907aa-8b73-3cfa-f13b-657beb325428","key":"999907aa-8b73-3cfa-f13b-657beb325428","value":{"rev":"1-1e3bac81a24f00755613f0f7d2604fcb"}},
-{"id":"acbf75d5-9c7a-57bc-9bef-59624bac7847","key":"acbf75d5-9c7a-57bc-9bef-59624bac7847","value":{"rev":"1-6f758041b4fb6954ec5ff4a52cc57eda"}},
-{"id":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","key":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","value":{"rev":"1-ab8dc8c5852d0e053683d64ee7c5e9ba"}},
-{"id":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","key":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","value":{"rev":"1-bbddad634887348768fa8badc4db5ded"}},
-{"id":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","key":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","value":{"rev":"1-a9ce1f6a0be2416e2ff06ef9adb1bd0e"}},
-{"id":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","key":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","value":{"rev":"1-297a418df441f52109714fdc3b21bd07"}},
-{"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
-]}
-
-
-
-			HashSet<string> mmrds_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
-			HashSet<string> de_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
-			HashSet<string> report_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
-			HashSet<string> deleted_id_set = null;
-
-			string json = null;
-			mmria.server.model.couchdb.c_all_docs all_docs = null;
-			cURL curl = null;
-
-			// get all non deleted cases in mmrds
-			curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-			json = curl.execute ();
-			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
+			try
 			{
-				mmrds_id_set.Add(all_doc_row.id);
-			}
-			
-			
-			// get all non deleted cases in de_id
-			curl = new cURL ("GET", null, Program.config_couchdb_url + "/de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-			json = curl.execute ();
-			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
-			{
-				de_id_set.Add(all_doc_row.id);
-			}
-
-			deleted_id_set = de_id_set.Except(mmrds_id_set);
-			foreach(string id in deleted_id_set)
-			{
-				curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/de_id/" + id + "?rev=", null, Program.config_timer_user_name, Program.config_timer_password);
+	
+				HashSet<string> mmrds_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
+				HashSet<string> de_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
+				HashSet<string> report_id_set = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
+				HashSet<string> deleted_id_set = null;
+	
+				string json = null;
+				mmria.server.model.couchdb.c_all_docs all_docs = null;
+				cURL curl = null;
+	
+				// get all non deleted cases in mmrds
+				curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
 				json = curl.execute ();
-			}
-
-			// get all non deleted cases in report
-			curl = new cURL ("GET", null, Program.config_couchdb_url + "/report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-			json = curl.execute ();
-			all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-			foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs)
-			{
-				report_id_set.Add(all_doc_row.id);
-			}
-			deleted_id_set = report_id_set.Except(mmrds_id_set);
-			foreach(string id in deleted_id_set)
-			{
-				curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/report/" + id + "?rev=", null, Program.config_timer_user_name, Program.config_timer_password);
+				all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
+				foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
+				{
+					mmrds_id_set.Add(all_doc_row.id);
+				}
+				
+				
+				// get all non deleted cases in de_id
+				curl = new cURL ("GET", null, Program.config_couchdb_url + "/de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
 				json = curl.execute ();
+				all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
+				foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
+				{
+					de_id_set.Add(all_doc_row.id);
+				}
+	
+				deleted_id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+				deleted_id_set.Union(de_id_set.Except(mmrds_id_set));
+				foreach(string id in deleted_id_set)
+				{
+					string rev = all_docs.rows.Where( r=> r.id == id).FirstOrDefault().rev.rev;
+					curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/de_id/" + id + "?rev=" + rev, null, Program.config_timer_user_name, Program.config_timer_password);
+					json = curl.execute ();
+				}
+	
+				// get all non deleted cases in report
+				curl = new cURL ("GET", null, Program.config_couchdb_url + "/report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
+				json = curl.execute ();
+				all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
+				foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
+				{
+					report_id_set.Add(all_doc_row.id);
+				}
+				deleted_id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+				deleted_id_set.Union(report_id_set.Except(mmrds_id_set));
+				foreach(string id in deleted_id_set)
+				{
+					string rev = all_docs.rows.Where( r=> r.id == id).FirstOrDefault().rev.rev;
+					curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/report/" + id + "?rev=" + rev, null, Program.config_timer_user_name, Program.config_timer_password);
+					json = curl.execute ();
+				}
 			}
-*/
+			catch(Exception ex)
+			{
+				System.Console.WriteLine("Delete sync error:\n{0}", ex);
+			}
 
-            //Program.JobInfoList = GetJobInfo();
-
-			/*
-            if (Program.NumberOfJobInfoList_Call_Count < int.MaxValue)
-            {
-                Program.NumberOfJobInfoList_Call_Count++;
-            }
-
-            if (Program.DateOfLastJobInfoList_Call.Count >10)
-            {
-                Program.DateOfLastJobInfoList_Call.Clear();
-            }
-
-            Program.DateOfLastJobInfoList_Call.Add(DateTime.Now);
-			*/
-
-            //log.DebugFormat("iCIMS_Data_Call_Job says: finishing {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-        }
+		}
 
 
 
-		public mmria.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence)
+
+		public mmria.server.model.couchdb.c_change_result get_changes(string p_last_sequence)
         {
 
 			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
