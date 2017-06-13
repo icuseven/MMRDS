@@ -550,7 +550,7 @@ AND death_certificate/Race/race = White
 
 			if (is_non_hispanic("White", p_source_object))
 			{
-				result.Add (ethnicity_enum.non_hispanic_black);
+				result.Add (ethnicity_enum.non_hispanic_white);
 			}
 
 
