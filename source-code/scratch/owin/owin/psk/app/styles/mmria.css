@@ -35,11 +35,35 @@ p.result {
 	margin: 5px;
 }
 h2 {
-	color: #545c68;
+	color: rebeccapurple;
 	font-weight: 400;
 	font-size: 36px;
 	text-align: center;
 }
+
+h7 {
+   color: black;
+   font-weight: 400;
+   	display: block;
+	overflow: auto;
+	padding-left: 75px;
+padding-right: 75px;
+padding: 50px;
+
+}
+
+
+h8 {
+   color: black;
+   font-weight: 400;
+   	display: block;
+	overflow: auto;
+	padding-left: 75px;
+padding-right: 75px;
+padding: 30px;
+
+}
+
 ul.nav {
 	list-style-type: none;
 }

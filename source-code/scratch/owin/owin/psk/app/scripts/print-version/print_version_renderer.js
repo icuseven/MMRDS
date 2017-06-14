@@ -307,15 +307,37 @@ d3.select('#chart svg').append('text')
 				
 				//result.push(p_path)
 
-				result.push('<p>');
+	
+			
+				
 				if(p_metadata.name != "case_opening_overview")
 				{
 					result.push(' <strong>')
 					result.push(p_metadata.prompt);
 					result.push('</strong>: ');
 				}
+	
+			
+       
+			
+      	result.push('<div>');
+				result.push('<h7>');
+				
 				result.push(p_data);
-				result.push('</p>');
+		
+		result.push('</h7>');
+
+	
+		
+		result.push('</div>');
+
+	
+	
+
+
+			
+	   
+					
 				/*
 				if(p_metadata.children)
 				{
