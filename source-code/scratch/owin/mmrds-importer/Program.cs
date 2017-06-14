@@ -30,10 +30,10 @@ namespace mmria.console
 		//export-core user_name:user1 password:password url:http://test.mmria.org
 		//import user_name:user1 password:password database_file_path:c:\temp\Maternal_Mortality.mdb url:http://test.mmria.org
 		//import user_name:user1 password:password database_file_path:c:\temp\Maternal_Mortality.mdb url:http://localhost:12345
+		//import user_name:user1 password:password database_file_path:c:\temp\Import_TestCases_13Jun2017\Import_TestCases_13Jun2017.mdb url:http://test.mmria.org
 
 		public static void Main(string[] args)
 		{
-
 			if (args.Length > 0)
 			{
 				switch (args[0])

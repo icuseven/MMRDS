@@ -55,7 +55,8 @@ namespace mmria
 
 				//if (path.Length > 3 && path[3].Trim() == "time_of_injury")
 				//if(p_path == "er_visit_and_hospital_medical_records/internal_transfers/date_and_time"
-				if(p_path.IndexOf("prior_3_months") > -1 && p_object["_id"].ToString() == "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
+				//if(p_path.IndexOf("committee_review/pmss_mm") > -1 && p_object["_id"].ToString() == "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
+				if (p_path.IndexOf ("committee_review/pmss_mm") > -1)
 				{
 
 					//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
