@@ -320,15 +320,10 @@ d3.select('#chart svg').append('text')
 			
        
 			
-      	result.push('<div>');
-				result.push('<h7>');
-				
+      	result.push('<div class="box">');
+								
 				result.push(p_data);
-		
-		result.push('</h7>');
-
-	
-		
+				
 		result.push('</div>');
 
 	

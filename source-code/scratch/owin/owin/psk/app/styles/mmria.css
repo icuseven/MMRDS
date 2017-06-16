@@ -44,11 +44,10 @@ h2 {
 h7 {
    color: black;
    font-weight: 400;
-   	display: block;
-	overflow: auto;
+   	display: table-cell;
 	padding-left: 75px;
-padding-right: 75px;
-padding: 50px;
+padding-right: 875px;
+
 
 }
 
@@ -63,6 +62,18 @@ padding-right: 75px;
 padding: 30px;
 
 }
+
+.box {
+  margin: 0 auto;
+  width: 1500px; 
+  height: 400px;
+  padding: 70px;
+  line-height: 300%;
+  box-sizing: border-box;
+}
+
+
+
 
 ul.nav {
 	list-style-type: none;
