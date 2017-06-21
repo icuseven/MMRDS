@@ -305,35 +305,26 @@ d3.select('#chart svg').append('text')
 			break;										
 		default:
 				
-				//result.push(p_path)
-
-	
-			
-				
+				result.push('<p>');
 				if(p_metadata.name != "case_opening_overview")
 				{
 					result.push(' <strong>')
 					result.push(p_metadata.prompt);
 					result.push('</strong>: ');
 				}
-	
-			
-       
-			
-      	result.push('<div class="box">');
+			if  (p_metadata.name == "case_opening_overview") {
+	            result.push('<div class="box">');
 								
 				result.push(p_data);
 				
-		result.push('</div>');
-
-	
-	
-
-
-			
-	   
-					
+		        result.push('</div>');
+				}
+				else
+				result.push(p_data);
+				result.push('</p>');
 				/*
+
+				
 				if(p_metadata.children)
 				{
 					for(var i = 0; i < p_metadata.children.length; i++)
