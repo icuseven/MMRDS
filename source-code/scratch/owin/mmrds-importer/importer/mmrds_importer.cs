@@ -126,8 +126,8 @@ namespace mmria.console.import
 			var lookup_mapping_table = get_look_up_mappings(mapping_data, lookup_mapping_file_name);
 
 		
-			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value1 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
-			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value2 = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value1 = new Dictionary<string, Dictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
+			System.Collections.Generic.Dictionary<string, Dictionary<string, string>> lookup_value2 = new Dictionary<string, Dictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
 
 
 			var case_maker = new Case_Maker(import_directory, lookup_value1, lookup_value2);
@@ -144,7 +144,9 @@ namespace mmria.console.import
 				if (
 					//row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
 					//row["source_path"].ToString().Trim() == "MaternalMortality1.MM_MBC" ||
-					row["mmria_path"].ToString ().IndexOf("pmss_mm") > -1
+					row["mmria_path"].ToString ().IndexOf("pmss_mm") > -1 &&
+						row ["value1"] != DBNull.Value &&
+						row ["value1"].ToString ().IndexOf ("10.1") > -1
 				) 
 				{
 					System.Console.Write ("break");
@@ -153,12 +155,12 @@ namespace mmria.console.import
 
 				if (row["value1"] != DBNull.Value)
 				{
-					value1 = row["value1"].ToString().Trim();
+					value1 = System.Text.RegularExpressions.Regex.Replace (row ["value1"].ToString ().Trim (), @"[^\u0000-\u007F]+", string.Empty);
 				}
 
 				if (row["value2"] != DBNull.Value)
 				{
-					value2 = row["value2"].ToString().Trim();
+					value2 = row["value2"].ToString().Trim().Replace (char.ConvertFromUtf32 (8211), "-");
 				}
 
 				if (row["mmria_value"] != DBNull.Value)
@@ -186,12 +188,12 @@ namespace mmria.console.import
 
 				if (!lookup_value1.ContainsKey(mmria_path))
 				{
-					lookup_value1[mmria_path] = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+					lookup_value1[mmria_path] = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 				}
 
 				if (!lookup_value2.ContainsKey(mmria_path))
 				{
-					lookup_value2[mmria_path] = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+					lookup_value2[mmria_path] = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 				}
 
 				if (mmria_value != null && value1 != null && !lookup_value1[mmria_path].ContainsKey(value1))
