@@ -160,7 +160,7 @@ namespace mmria.console.import
 
 				if (row["value2"] != DBNull.Value)
 				{
-					value2 = row["value2"].ToString().Trim().Replace (char.ConvertFromUtf32 (8211), "-");
+					value2 = System.Text.RegularExpressions.Regex.Replace (row["value2"].ToString().Trim(), @"[^\u0000-\u007F]+", string.Empty);
 				}
 
 				if (row["mmria_value"] != DBNull.Value)

@@ -120,8 +120,13 @@ namespace mmria
 							dictionary_path = string.Join("/", dictionary_path_list.ToArray()).Trim();
 						}
 
+						string key_check = null;
+						if (p_value != null) 
+						{
+							key_check = System.Text.RegularExpressions.Regex.Replace (p_value.ToString ().Trim (), @"[^\u0000-\u007F]+", string.Empty);
+						}
 
-
+						/*
 						if (
 								p_path.IndexOf ("committee_review/pmss_mm") > -1 &&
 								p_value != null &&
@@ -173,7 +178,7 @@ namespace mmria
 
 
 							System.Console.WriteLine ("break");
-						}
+						}*/
 
 
 
@@ -282,18 +287,18 @@ namespace mmria
 							}
 							else if (
 								this.lookup_value1.ContainsKey(dictionary_path) &&
-								this.lookup_value1[dictionary_path].ContainsKey(p_value.ToString().Trim())
+								this.lookup_value1[dictionary_path].ContainsKey(key_check)
 							)
 							{
-								index[path[i]] = this.lookup_value1[dictionary_path][p_value.ToString().Trim()];
+								index[path[i]] = this.lookup_value1[dictionary_path][key_check];
 							}
 							else if (
 								this.lookup_value2.ContainsKey(dictionary_path) &&
-								this.lookup_value2[dictionary_path].ContainsKey(p_value.ToString().Trim())
+								this.lookup_value2[dictionary_path].ContainsKey(key_check)
 
 							)
 							{
-								index[path[i]] = this.lookup_value2[dictionary_path][p_value.ToString().Trim()];
+								index[path[i]] = this.lookup_value2[dictionary_path][key_check];
 							}
 							else
 							{
