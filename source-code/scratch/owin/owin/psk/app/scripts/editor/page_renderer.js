@@ -77,7 +77,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		{
 			var child = p_metadata.children[i];
 
-			if(p_data[child.name])
+			if(p_data[child.name] || p_data[child.name] == 0)
 			{
 				// do nothing 
 			}
