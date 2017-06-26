@@ -146,7 +146,7 @@ namespace mmria.console.import
 					//row["source_path"].ToString().Trim() == "MaternalMortality1.MM_MBC" ||
 					row["mmria_path"].ToString ().IndexOf("pmss_mm") > -1 &&
 						row ["value1"] != DBNull.Value &&
-						row ["value1"].ToString ().IndexOf ("10.1") > -1
+						row ["value1"].ToString ().IndexOf ("20.1") > -1
 				) 
 				{
 					System.Console.Write ("break");

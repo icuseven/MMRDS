@@ -130,14 +130,15 @@ namespace mmria
 						if (
 								p_path.IndexOf ("committee_review/pmss_mm") > -1 &&
 								p_value != null &&
-								p_value.ToString ().IndexOf ("10.1") > -1
+								p_value.ToString ().IndexOf ("20.1") > -1
 
-						   ) {
+						   )
+						{
 
 							//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
 							//birth_certificate_infant_fetal_section/congenital_anomalies
 
-							string key_check = System.Text.RegularExpressions.Regex.Replace (p_value.ToString ().Trim (), @"[^\u0000-\u007F]+", string.Empty);
+							key_check = System.Text.RegularExpressions.Regex.Replace (p_value.ToString ().Trim (), @"[^\u0000-\u007F]+", string.Empty);
 
 							if (this.lookup_value1.ContainsKey (dictionary_path)) 
 							{
