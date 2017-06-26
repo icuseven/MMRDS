@@ -268,7 +268,7 @@ namespace mmria.console.import
 
 			foreach (System.Data.DataRow row in id_record_set.Rows)
 			{
-				/*
+				
 				if 
 				(
 					row[0].ToString() != "d0e08da8-d306-4a9a-a5ff-9f1d54702091" &&
@@ -279,7 +279,7 @@ namespace mmria.console.import
 				{
 					continue;
 				}
-				*/
+				/**/
 
 				id_list.Add(row[0].ToString());
 			}
