@@ -63,6 +63,16 @@ padding: 30px;
 
 }
 
+h9 {
+	 	display: block;
+	overflow: auto;
+	padding-left: 15px;
+padding-right: 15px;
+
+
+
+}
+
 .box {
   margin: 0 auto;
   width: 1500px; 
@@ -72,7 +82,15 @@ padding: 30px;
   box-sizing: border-box;
 }
 
-
+fieldset {
+   
+  
+    -webkit-padding-before: 0.35em;
+    -webkit-padding-start: 0.75em;
+    -webkit-padding-end: 0.75em;
+    -webkit-padding-after: 0.625em;
+    min-width: -webkit-min-content;
+}
 
 
 ul.nav {
