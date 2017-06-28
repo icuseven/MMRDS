@@ -139,16 +139,13 @@ fi
 	# sudo tar xfz WebStorm-*.tar.gz
 	# sudo mkdir /home/vagrant/webstorm
 	# sudo mv WebStorm-145.971.23/* /home/vagrant/webstorm
-
-	
-	
 #	
-#sed -e 's/<%=version>/^C017.06.15/g' index.html
+# sed -e 's/<%=version>/^C017.06.15/g' index.html
 #mdb-export /vagrant/source-code/scratch/owin/mmrds-importer/mapping-file-set/Maternal_Mortality.mdb AutopsyReport > autopsyreport.csv
 #sudo apt-get install -y mdbtools	
 # https://downloads.sourceforge.net/project/mdbtools/mdbtools/0.6pre1/mdbtools-0.6pre1.tar.gz?r=&ts=1493994048&use_mirror=superb-sea2
 # /home/vagrant/Downloads/mdbtools-0.6pre1/
-# sudo apt-get install -y bison flex unixODBC libglib2.0-dev
+#   sudo apt-get install -y bison flex unixODBC libglib2.0-dev
 # sudo apt-get install libglib2.0-dev
 
 	

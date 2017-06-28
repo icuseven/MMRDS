@@ -56,15 +56,6 @@ namespace mmria
 				//if (path.Length > 3 && path[3].Trim() == "time_of_injury")
 				//if(p_path == "er_visit_and_hospital_medical_records/internal_transfers/date_and_time"
 				//if(p_path.IndexOf("committee_review/pmss_mm") > -1 && p_object["_id"].ToString() == "d0e08da8-d306-4a9a-a5ff-9f1d54702091")
-				if (p_path.IndexOf ("committee_review/pmss_mm") > -1)
-				{
-
-					//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
-					//birth_certificate_infant_fetal_section/congenital_anomalies
-
-					System.Console.WriteLine("break");
-				}
-
 
 				for (int i = 0; i < path.Length; i++)
 				{
@@ -129,6 +120,69 @@ namespace mmria
 							dictionary_path = string.Join("/", dictionary_path_list.ToArray()).Trim();
 						}
 
+						string key_check = null;
+						if (p_value != null) 
+						{
+							key_check = System.Text.RegularExpressions.Regex.Replace (p_value.ToString ().Trim (), @"[^\u0000-\u007F]+", string.Empty);
+						}
+
+						/*
+						if (
+								p_path.IndexOf ("committee_review/pmss_mm") > -1 &&
+								p_value != null &&
+								p_value.ToString ().IndexOf ("20.1") > -1
+
+						   )
+						{
+
+							//birth_certificate_infant_fetal_section/method_of_delivery/fetal_delivery
+							//birth_certificate_infant_fetal_section/congenital_anomalies
+
+							key_check = System.Text.RegularExpressions.Regex.Replace (p_value.ToString ().Trim (), @"[^\u0000-\u007F]+", string.Empty);
+
+							if (this.lookup_value1.ContainsKey (dictionary_path)) 
+							{
+								
+								if (this.lookup_value1 [dictionary_path].ContainsKey (key_check)) 
+								{
+									System.Console.WriteLine ("break");
+								}
+								else 
+								{
+									System.Console.WriteLine ("break");
+								}
+
+							}
+							else 
+							{
+								System.Console.WriteLine ("break");
+							}
+
+
+							if (this.lookup_value2.ContainsKey (dictionary_path)) 
+							{
+
+								if (this.lookup_value2 [dictionary_path].ContainsKey (key_check)) 
+								{
+									System.Console.WriteLine ("break");
+								} 
+								else 
+								{
+									System.Console.WriteLine ("break");
+								}
+
+							}
+							else 
+							{
+								System.Console.WriteLine ("break");
+							}
+
+
+							System.Console.WriteLine ("break");
+						}*/
+
+
+
 						if (
 								node.type.Equals("list", StringComparison.OrdinalIgnoreCase) && 
 								node.is_multiselect != null && 
@@ -168,19 +222,19 @@ namespace mmria
 							{
 								if (
 									this.lookup_value1.ContainsKey(dictionary_path) &&
-									this.lookup_value1[dictionary_path].ContainsKey(p_value.ToString().Trim())
+									this.lookup_value1[dictionary_path].ContainsKey(p_value.ToString().Trim().Replace (char.ConvertFromUtf32 (8211), "-"))
 								)
 								{
-									index[path[i]] = this.lookup_value1[dictionary_path][p_value.ToString().Trim()];
+									index[path[i]] = this.lookup_value1[dictionary_path][p_value.ToString().Trim().Replace (char.ConvertFromUtf32 (8211), "-")];
 									result = true;
 								}
 								else if (
 									this.lookup_value2.ContainsKey(dictionary_path) &&
-									this.lookup_value2[dictionary_path].ContainsKey(p_value.ToString().Trim())
+									this.lookup_value2[dictionary_path].ContainsKey(p_value.ToString().Trim().Replace (char.ConvertFromUtf32 (8211), "-"))
 
 								)
 								{
-									index[path[i]] = this.lookup_value2[dictionary_path][p_value.ToString().Trim()];
+									index[path[i]] = this.lookup_value2[dictionary_path][p_value.ToString().Trim().Replace (char.ConvertFromUtf32 (8211), "-")];
 									result = true;
 								}
 								else
@@ -234,18 +288,18 @@ namespace mmria
 							}
 							else if (
 								this.lookup_value1.ContainsKey(dictionary_path) &&
-								this.lookup_value1[dictionary_path].ContainsKey(p_value.ToString().Trim())
+								this.lookup_value1[dictionary_path].ContainsKey(key_check)
 							)
 							{
-								index[path[i]] = this.lookup_value1[dictionary_path][p_value.ToString().Trim()];
+								index[path[i]] = this.lookup_value1[dictionary_path][key_check];
 							}
 							else if (
 								this.lookup_value2.ContainsKey(dictionary_path) &&
-								this.lookup_value2[dictionary_path].ContainsKey(p_value.ToString().Trim())
+								this.lookup_value2[dictionary_path].ContainsKey(key_check)
 
 							)
 							{
-								index[path[i]] = this.lookup_value2[dictionary_path][p_value.ToString().Trim()];
+								index[path[i]] = this.lookup_value2[dictionary_path][key_check];
 							}
 							else
 							{

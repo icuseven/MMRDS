@@ -35,7 +35,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				var child = p_metadata.children[j];
 				result.push("<td>");
-				if(p_data[i][child.name])
+				if(p_data[i][child.name] || p_data[child.name] == 0)
 				{
 					// do nothing 
 				}
@@ -77,7 +77,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		{
 			var child = p_metadata.children[i];
 
-			if(p_data[child.name])
+			if(p_data[child.name] || p_data[child.name] == 0)
 			{
 				// do nothing 
 			}
@@ -387,7 +387,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			for(var i = 0; i < p_metadata.children.length; i++)
 			{
 				var child = p_metadata.children[i];
-				if(p_data[child.name])
+				if(p_data[child.name] || p_data[child.name] == 0)
 				{
 					// do nothing 
 				}
@@ -453,7 +453,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					var child = p_metadata.children[i];
 					if(child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name)
 					{
-						if(p_data[child.name])
+						if(p_data[child.name] || p_data[child.name] == 0)
 						{
 							// do nothing 
 						}
@@ -1673,7 +1673,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		{ 
 			if (typeof p_data === 'string' || p_data instanceof String)
 			{
-				p_result.push(p_data.replace(/'/g, "\\'"));
+				p_result.push(p_data.replace(/'/g, "&apos;"));
 			}
 			else
 			{
