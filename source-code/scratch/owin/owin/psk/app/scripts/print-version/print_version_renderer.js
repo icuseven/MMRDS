@@ -21,6 +21,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				result.push('</fieldset>');
 				break;	
 		case 'grid':
+		
 				result.push('<table border="1">');
 				//result.push(p_path)
 				result.push('<tr><th colspan=')
@@ -93,7 +94,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				var form_item = p_data[form_index];
 
 				
-				result.push(p_metadata.name)
+				//result.push(p_metadata.name)
 				result.push('<h2>')
 				result.push(p_metadata.prompt);
 				result.push(' Record: ');
@@ -136,11 +137,14 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				
 				break;	
 		case "list":
+		
 				result.push('<p>');
 				//result.push(p_path)
+				result.push('<h9>');
 				result.push(' <strong>')
 				result.push(p_metadata.prompt);
 				result.push('</strong>: ');
+				
 				//result.push(p_data[p_metadata.name]);
 				if(Array.isArray(p_data))
 				{
@@ -158,7 +162,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				{
 					result.push(p_data);
 				}
-				
+				result.push('</h9>');
 				result.push('</p>');
 				break;				
 		case 'app':
@@ -305,35 +309,43 @@ d3.select('#chart svg').append('text')
 			break;										
 		default:
 				
-				//result.push(p_path)
-
-	
 			
-				
 				if(p_metadata.name != "case_opening_overview")
 				{
+					result.push('<h9>')
+					result.push('<p>');
 					result.push(' <strong>')
 					result.push(p_metadata.prompt);
-					result.push('</strong>: ');
+						result.push('</strong>: ');
+					result.push(p_data);
+					result.push('</p>');
+					result.push('</h9>')
 				}
-	
-			
-       
-			
-      	result.push('<div class="box">');
-								
+			if  (p_metadata.name == "case_opening_overview") {
+				
+	            result.push('<div class="box">');
+							result.push("<h3  style='color: rebeccapurple'>");
+				result.push(g_data.home_record.last_name);
+				result.push(", ");
+				result.push(g_data.home_record.first_name);
+				if(g_data.home_record.record_id)
+				{
+					result.push("  - ");
+					result.push(g_data.home_record.record_id);
+				}
+				result.push("</h3>");	
 				result.push(p_data);
 				
-		result.push('</div>');
-
-	
-	
-
-
+		        result.push('</div>');
+				}
 			
-	   
-					
+			
+			
+			
+			
 				/*
+
+				
 				if(p_metadata.children)
 				{
 					for(var i = 0; i < p_metadata.children.length; i++)
