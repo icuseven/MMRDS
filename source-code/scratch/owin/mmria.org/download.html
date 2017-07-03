@@ -376,8 +376,8 @@ Restore the mmrds db:
 example usage
 
 backup
-	./couchdb-backup.sh -b -H configdb.mmria.org -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
-	./couchdb-backup.sh -b -H configdb.mmria.org -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
+	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
+	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
 
 restore
 	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
