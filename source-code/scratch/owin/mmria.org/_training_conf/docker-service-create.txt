@@ -1,0 +1,30 @@
+
+docker run -d  --name t1 --publish 9001:9000 -e couchdb_url=http://tdb1.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb1 --replicas 1 --publish 8001:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t2 --publish 9002:9000 -e couchdb_url=http://tdb2.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb2 --replicas 1 --publish 8002:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t3 --publish 9003:9000 -e couchdb_url=http://tdb3.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb3 --replicas 1 --publish 8003:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t4 --publish 9004:9000 -e couchdb_url=http://tdb4.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb4 --replicas 1 --publish 8004:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t5 --publish 9005:9000 -e couchdb_url=http://tdb5.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb5 --replicas 1 --publish 8005:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t6 --publish 9006:9000 -e couchdb_url=http://tdb6.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb6 --replicas 1 --publish 8006:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t7 --publish 9007:9000 -e couchdb_url=http://tdb7.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb7 --replicas 1 --publish 8007:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t8 --publish 9008:9000 -e couchdb_url=http://tdb8.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb8 --replicas 1 --publish 8008:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t9 --publish 9009:9000 -e couchdb_url=http://tdb9.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb9 --replicas 1 --publish 8009:5984 -e COUCHDB_USERNAME=mmria -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
+
+docker run -d  --name t10 --publish 9000:9000 -e couchdb_url=http://tdb10.mmria.org   thetagrid/mmria:v1.2
+docker run -d --name tdb10 --replicas 1 --publish 8000:5984 -e COUCHDB_USERNAME=mmrds -e COUCHDB_PASSWORD=mmria thetagrid/mmria-db
