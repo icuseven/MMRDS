@@ -1,0 +1,7 @@
+FROM nginx
+
+MAINTAINER "J. Haines III" <jhaines@thetagrid.com>
+ENV build_time 2016-09-18-18-09
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
