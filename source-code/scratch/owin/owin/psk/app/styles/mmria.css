@@ -74,6 +74,7 @@ padding-right: 15px;
 }
 
 .box {
+	word-wrap: break-word;
   margin: 0 auto;
   width: 1500px; 
   height: 400px;
