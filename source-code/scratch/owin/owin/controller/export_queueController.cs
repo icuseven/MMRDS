@@ -108,7 +108,7 @@ namespace mmria.server
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
-			System.Dynamic.ExpandoObject  queue_request = null;
+			export_queue_item  queue_request = null;
 			string auth_session_token = null;
 
 			string object_string = null;
@@ -124,7 +124,7 @@ namespace mmria.server
 				// Read the content.
 				string temp = reader0.ReadToEnd ();
 
-				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp);
+				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(temp);
 
 				//mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
 				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
@@ -147,23 +147,13 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_request, settings);
 
-				var byName = (IDictionary<string,object>)queue_request;
-				var temp_id = byName["_id"]; 
-				string id_val = null;
 
-				if(temp_id is DateTime)
-				{
-					id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
-				}
-				else
-				{
-					id_val = temp_id.ToString();
-				}
+				string id_val = queue_request._id;
 
 
-				string metadata_url = Program.config_couchdb_url + "/export_queue/"  + id_val;
+				string queue_request_url = Program.config_couchdb_url + "/queue_request/"  + id_val;
 
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(queue_request_url));
 				request.Method = "PUT";
 				request.ContentType = "application/json";
 				request.ContentLength = object_string.Length;
