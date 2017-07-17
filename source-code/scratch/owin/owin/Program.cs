@@ -138,10 +138,10 @@ namespace mmria.server
 			//log.Debug("Application_Start");
 
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
-									Program.Change_Sequence_Call_Count++;
-									Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
+			Program.Change_Sequence_Call_Count++;
+			Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
-									StdSchedulerFactory sf = new StdSchedulerFactory ();
+			StdSchedulerFactory sf = new StdSchedulerFactory ();
 			Program.sched = sf.GetScheduler ();
 			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
@@ -163,10 +163,17 @@ namespace mmria.server
 
 
 			if (
-				database_exists( Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password) &&
-				database_exists(Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) 
-			)
+				database_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password) &&
+				database_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password))
 			{
+
+				if (!database_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password))
+				{
+					System.Console.WriteLine("Creating export_queue db.");
+					var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+					System.Console.WriteLine(export_queue_curl.execute ());
+				}
+
 				var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
 				string res = sync_curl.execute ();
 				mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
