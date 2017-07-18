@@ -158,6 +158,8 @@
     <Compile Include="model\c_report_object.cs" />
     <Compile Include="util\NoCheckCertificatePolicy.cs" />
     <Compile Include="model\couchdb\c_all_docs.cs" />
+    <Compile Include="controller\export_queueController.cs" />
+    <Compile Include="model\export_queue_item.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
