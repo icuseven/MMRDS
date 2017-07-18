@@ -52,9 +52,12 @@ initialize_profile: function ()
 			valid_login = json_response.userCTX.name != null;
 			if(valid_login)
 			{
-				if(json_response.auth_session && $mmria.getCookie("uid"))
+				if(json_response.auth_session || $mmria.getCookie("AuthSession"))
 				{
-					$mmria.addCookie("AuthSession", json_response.auth_session);
+					if(json_response.auth_session)
+					{
+						$mmria.addCookie("AuthSession", json_response.auth_session);
+					}
 
 					profile.is_logged_in = true;
 					profile.user_name = $mmria.getCookie("uid");
