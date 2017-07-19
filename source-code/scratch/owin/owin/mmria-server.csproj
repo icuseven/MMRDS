@@ -160,6 +160,9 @@
     <Compile Include="model\couchdb\c_all_docs.cs" />
     <Compile Include="controller\export_queueController.cs" />
     <Compile Include="model\export_queue_item.cs" />
+    <Compile Include="util\exporter\mmrds_exporter.cs" />
+    <Compile Include="util\core_element_export\core_element_exporter.cs" />
+    <Compile Include="util\WriteCSV.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -217,5 +220,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="util\exporter\" />
+    <Folder Include="util\core_element_export\" />
   </ItemGroup>
 </Project>
