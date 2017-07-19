@@ -15,6 +15,7 @@ namespace mmria.server
 		//public IEnumerable<master_record> Get() 
 		public IEnumerable<export_queue_item> Get() 
 		{ 
+			List<export_queue_item> result = new List<export_queue_item>();
 			try
 			{
 				string request_string = Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true";
@@ -43,7 +44,30 @@ namespace mmria.server
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
 
-				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<export_queue_item>>(responseFromServer);
+				IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer) as IDictionary<string,object>; 
+				IList<object> enumerable_rows = response_result["rows"] as IList<object>;
+
+
+
+				foreach(IDictionary<string,object> enumerable_item in enumerable_rows)
+				{
+
+					IDictionary<string,object> doc_item = enumerable_item["doc"] as IDictionary<string,object>;
+			
+
+					export_queue_item item = new export_queue_item();
+
+					item.date_created = doc_item["date_created"] as DateTime?;
+					item.created_by = doc_item["created_by"] != null ? doc_item["created_by"].ToString() : null;
+					item.date_last_updated = doc_item["date_last_updated"] as DateTime?;
+					item.last_updated_by = doc_item["last_updated_by"] != null? doc_item["last_updated_by"].ToString() : null;
+					item.file_name = doc_item["file_name"] != null? doc_item["file_name"].ToString() : null;
+					item.export_type = doc_item["export_type"] != null? doc_item["export_type"].ToString() : null;
+					item.status = doc_item["status"] != null? doc_item["status"].ToString() : null;
+
+					result.Add(item);
+				
+				}
 
 				return result;
 
