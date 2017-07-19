@@ -133,6 +133,13 @@ namespace mmria.server
 
 
 			// ****   Quartz Timer - Start
+
+
+			//mmria.server.model.check_for_changes_job cfcj = new mmria.server.model.check_for_changes_job();
+			//cfcj.Process_Export_Queue_Item();
+
+			
+
 			//Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("Application_Start");

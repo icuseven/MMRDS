@@ -260,99 +260,78 @@ namespace mmria.server.model
         }
 
 
-        private string Get_Change_Set()
+        public void Process_Export_Queue_Item ()
         {
-            string result = null;
+			List<export_queue_item> result = new List<export_queue_item> ();
+			
+			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
 
-			/*
-            var url = System.Configuration.ConfigurationManager.AppSettings["icims_base_url"];
-            var parms = System.Web.HttpUtility.UrlEncode(System.Configuration.ConfigurationManager.AppSettings["icims_job_summary_params"]);
+			string responseFromServer = curl.execute ();
 
-            var whole_url = url + parms;
-            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(whole_url);
+			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
+			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
 
-            request.Credentials = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["icims_user_id"], System.Configuration.ConfigurationManager.AppSettings["icims_password"]);
-            request.PreAuthenticate = false;
+			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
+			{
+				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
+		
+				if (
+					doc_item ["status"] != null &&
+					doc_item ["status"].ToString ().Equals ("new", StringComparison.OrdinalIgnoreCase))
+				{
+					export_queue_item item = new export_queue_item ();
+	
+					item.date_created = doc_item ["date_created"] as DateTime?;
+					item.created_by = doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
+					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
+					item.last_updated_by = doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
+					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
+					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
+	
+					result.Add (item);
+				}
+			}
 
-            try
-            {
-                using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        System.Text.Encoding enc = System.Text.Encoding.GetEncoding(1252);
-                        System.IO.StreamReader loResponseStream = new
-                          System.IO.StreamReader(response.GetResponseStream(), enc);
+		
+			if (result.Count > 0)
+			{
+				if (result.Count > 1)
+				{
+					var comparer = Comparer<export_queue_item>.Create
+					(
+						               (x, y) => x.date_created.Value.CompareTo (y.date_created.Value) 
+					               );
+	
+					result.Sort (comparer);
+				}
 
-                        string Response = loResponseStream.ReadToEnd();
+				export_queue_item item_to_process = result [0];
 
-                        loResponseStream.Close();
-                        response.Close();
-                        System.Console.Write(Response);
-                        result = Response;
-                    }
-                    else
-                    {
-                        return result;
-                    }
-                }
-            }
-            catch (System.Net.WebException ex)
-            {
-                return result;
-            }
-            catch
-            {
-                return result;
-            }
-            */
 
-            return result;
-        }
+				List<string> args = new List<string>();
+				
+				args.Add("user_name:" + this.user_name);
+				args.Add("password:" + this.password);
+				args.Add("url:" + this.couch_db_url);
 
-        private string Get_Job(string Job_Id)
-        {
+				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
+				{
+					//export-core user_name:user1 password:password url:http://localhost:12345
+					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
+					core_element_exporter.Execute(args.ToArray());
+				
+				}
+				else if(item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
+				{
+						
+					//export user_name:user1 password:password url:http://localhost:12345
+					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
+					mmrds_exporter.Execute(args.ToArray());
+				}
 
-            string result = null;
+			}
 
-            var url = string.Format(System.Configuration.ConfigurationManager.AppSettings["icims_job_detail_url"], Job_Id);
-            
-            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
-            request.Credentials = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["icims_user_id"], System.Configuration.ConfigurationManager.AppSettings["icims_password"]);
-            request.PreAuthenticate = false;
-
-            try
-            {
-                using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        System.Text.Encoding enc = System.Text.Encoding.GetEncoding(1252);
-                        System.IO.StreamReader loResponseStream = new
-                          System.IO.StreamReader(response.GetResponseStream(), enc);
-
-                        string Response = loResponseStream.ReadToEnd();
-
-                        loResponseStream.Close();
-                        response.Close();
-                        System.Console.Write(Response);
-                        result = Response;
-                        return result;
-                    }
-                    else
-                    {
-                        return result;
-                    }
-                }
-            }
-            catch (System.Net.WebException ex)
-            {
-                return result;
-            }
-            catch
-            {
-                return result;
-            }
         }
     }
 
