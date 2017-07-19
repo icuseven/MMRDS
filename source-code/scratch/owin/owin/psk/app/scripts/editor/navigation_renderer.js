@@ -140,6 +140,7 @@ function navigation_render(p_metadata, p_level, p_ui)
 
               result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
               result.push('<li><a tabindex="-1" onclick="open_aggregate_report_version()">View Aggregate Report</a></li>');
+              result.push('<li><a tabindex="-1" onclick="open_export_queue()">Export Data</a></li>');
 
 
 
