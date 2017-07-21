@@ -23,6 +23,7 @@ namespace mmria
 
 			this.user_id = p_username;
 			this.password = p_password;
+			this.AllowRedirect = true;
 
 			switch (p_method.ToUpper ()) 
 			{
@@ -60,6 +61,8 @@ namespace mmria
 		}
 
 
+		public bool AllowRedirect { get; set; }
+
 		public cURL AddHeader(string p_name, string p_value)
 		{
 			this.headers.Add(new System.Collections.Generic.KeyValuePair<string,string>(p_name, p_value));
@@ -76,6 +79,7 @@ namespace mmria
 			httpWebRequest.PreAuthenticate = false;
 			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
+			httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
 
 			if (!string.IsNullOrWhiteSpace(this.user_id) && !string.IsNullOrWhiteSpace(this.password))
 			{
