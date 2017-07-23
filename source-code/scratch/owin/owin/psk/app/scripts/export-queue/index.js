@@ -38,7 +38,7 @@ function load_data(p_uid, p_pwd)
 			
 			g_data = response;
 
-			document.getElementById('form_content_id').innerHTML = export_queue_render(g_data).join("");
+			render();
 
 			//document.getElementById('generate_report_button').disabled = false;
 			//process_rows();
@@ -49,6 +49,11 @@ function load_data(p_uid, p_pwd)
 	});
 }
 
+
+function render()
+{
+	document.getElementById('form_content_id').innerHTML = export_queue_render(g_data).join("");
+}
 
 function create_queue_item(p_export_type)
 {
@@ -84,5 +89,22 @@ function load_metadata()
 	});
 }
 
+function add_new_core_export_item()
+{
+	g_data.push(create_queue_item('Core CSV'));
+	render();
+}
 
+function add_new_all_export_item()
+{
+	g_data.push(create_queue_item('All CSV'));
+	render();
+
+}
+
+function add_new_json_export_item()
+{
+	g_data.push(create_queue_item('ALL JSON'));
+	render()
+}
 
