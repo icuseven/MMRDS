@@ -132,7 +132,7 @@ namespace mmria.server
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
-			export_queue_item  queue_request = null;
+			export_queue_item  queue_item = null;
 			string auth_session_token = null;
 
 			string object_string = null;
@@ -146,16 +146,9 @@ namespace mmria.server
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
 				// Read the content.
-				string temp = reader0.ReadToEnd ();
+				object_string = reader0.ReadToEnd ();
+				queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
 
-				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(temp);
-
-				//mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
-				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
-
-
-
-				//string metadata = DecodeUrlString(temp);
 			}
 			catch(Exception ex)
 			{
@@ -165,25 +158,9 @@ namespace mmria.server
 			//if(queue_request.case_list.Length == 1)
 			try
 			{
-				//dynamic case_item = queue_request.case_list[0];
+				string export_queue_request_url = Program.config_couchdb_url + "/export_queue/"  +  queue_item._id;
 
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_request, settings);
-
-
-				string id_val = queue_request._id;
-
-
-				string queue_request_url = Program.config_couchdb_url + "/queue_request/"  + id_val;
-
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(queue_request_url));
-				request.Method = "PUT";
-				request.ContentType = "application/json";
-				request.ContentLength = object_string.Length;
-				request.PreAuthenticate = false;
-
-				System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
+				var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, null, null);
 
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
@@ -195,43 +172,19 @@ namespace mmria.server
 						{
 							
 							auth_session_token = auth_session_token_item[1];
-							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token);
-							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token);
+							export_queue_curl.AddHeader("Cookie", "AuthSession=" + auth_session_token);
+							export_queue_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_token);
 
-							headerBuilder.Append("content-type application/json|");
-							headerBuilder.Append("Cookie  AuthSession=");
-							headerBuilder.Append(auth_session_token);
-							headerBuilder.Append("|X-CouchDB-WWW-Authenticate ");
-							headerBuilder.Append(auth_session_token);
 
 							break;
 						}
 					}
 				}
 
-				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-				{
-					try
-					{
-						streamWriter.Write(object_string);
-						streamWriter.Flush();
-						streamWriter.Close();
 
-
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-						System.IO.Stream dataStream = response.GetResponseStream ();
-						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-						string responseFromServer = reader.ReadToEnd ();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-					}
-					catch(Exception ex)
-					{
-						Console.Write("auth_session_token: {0}", auth_session_token);
-						Console.WriteLine (ex);
-					}
-				}
+				string responseFromServer = export_queue_curl.execute();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+			
 
 				if (!result.ok) 
 				{

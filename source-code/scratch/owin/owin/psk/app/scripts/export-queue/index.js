@@ -20,7 +20,7 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
-			load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"))
+			load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 	});
 
 }
@@ -57,14 +57,14 @@ function render()
 
 function create_queue_item(p_export_type)
 {
-	var new_date = new Date();
+	var new_date = new Date().toISOString();
 	var result = {
 			_id: "id-" + new_date,
 			date_created: new_date,
 			created_by: $mmria.getCookie("uid"),
 			date_last_updated: new_date,
 			last_updated_by: $mmria.getCookie("uid"),
-			file_name: new_date.toISOString() + ".zip",
+			file_name: new_date + ".zip",
 			export_type: p_export_type,
 			status: "Need Confirmation"	
 	}
@@ -102,9 +102,101 @@ function add_new_all_export_item()
 
 }
 
+
+function find_export_item(p_id)
+{
+	var result = null;
+	for(var i = 0; i < g_data.length; i++)
+	{
+		if(g_data[i]._id == p_id)
+		{
+			result = g_data[i];
+			break;	
+		}
+	}
+
+	return result;
+}
+
 function add_new_json_export_item()
 {
 	g_data.push(create_queue_item('ALL JSON'));
-	render()
+	render();
 }
 
+function confirm_export_item(p_id)
+{
+	// submit queue item
+	var item = find_export_item(p_id);
+	if(item)
+	{
+		item.status = "New";
+
+		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
+
+		$.ajax({
+				url: export_queue_url,
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(item),
+				type: "POST",
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
+				}//,
+		}).done(function(response) {
+				g_metadata = response;
+				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+		});
+	}
+	
+}
+
+function cancel_export_item(p_id)
+{
+	for(var i = 0; i < g_data.length; i++)
+	{
+		if(g_data[i]._id == p_id)
+		{
+			g_data.splice(i, 1);
+			break;	
+		}
+	}
+	render();
+}
+
+function download_export_item(p_id)
+{
+	var item = find_export_item(p_id);
+	if(item)
+	{
+		
+	}
+	render();
+}
+
+function delete_export_item(p_id)
+{
+	var item = find_export_item(p_id);
+	if(item)
+	{
+		item.status = "Deleted";
+		item._deleted = true;
+		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
+
+		$.ajax({
+				url: export_queue_url,
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(item),
+				type: "POST",
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
+				}//,
+		}).done(function(response) {
+				g_metadata = response;
+				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+		});
+	}
+}
