@@ -14,6 +14,8 @@ namespace mmria.server.util
 		private string database_path = null;
 		private string database_url = null;
 		private string mmria_url = null;
+		private string item_file_name = null;
+		private string item_directory_name = null;
 		private bool is_offline_mode;
 
 		public core_element_exporter()
@@ -62,6 +64,10 @@ namespace mmria.server.util
 					else if (arg.ToLower().StartsWith("url"))
 					{
 						this.mmria_url = val;
+					}
+					else if (arg.ToLower().StartsWith("item_file_name"))
+					{
+						this.item_file_name = val;
 					}
 				}
 			}
@@ -328,227 +334,6 @@ namespace mmria.server.util
 				}
 				path_to_csv_writer[core_file_name].Table.Rows.Add(row);
 
-				/*
-				// flat grid - start
-				foreach(KeyValuePair<string, mmria.common.metadata.node> ptn in path_to_node_map.Where(x => x.Value.type.ToLower() == "grid"))
-				{
-					string path = ptn.Key;
-					if (flat_grid_set.Contains(path_to_grid_map[path]))
-					{
-						string grid_name = path_to_grid_map[path];
-
-						HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-						foreach (KeyValuePair<string,mmria.common.metadata.node> ptgm in path_to_node_map.Where( x=> x.Key.StartsWith(path) && x.Key != path))
-						{
-							grid_field_set.Add(ptgm.Key);
-						}
-
-						create_header_row
-						(
-							path_to_int_map,
-							grid_field_set,
-							path_to_node_map,
-							path_to_csv_writer[grid_name].Table,
-							true,
-							true,
-							false
-						);
-
-						dynamic raw_data = get_value(case_doc as IDictionary<string, object>, path);
-						List<object> object_data = raw_data as List<object>;
-
-						if(object_data != null)
-						for (int i = 0; i < object_data.Count; i++)
-						{
-							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
-
-							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
-							grid_row["_id"] = mmria_case_id;
-							grid_row["_record_index"] = i;
-							foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
-							{
-								foreach (string node in grid_field_set)
-								{
-									try
-									{
-										dynamic val = grid_item_row[path_to_node_map[node].name];
-										if (val != null)
-										{
-											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
-											{
-												grid_row[path_to_int_map[node].ToString("X")] = val;
-											}
-											else
-											{
-												grid_row[path_to_int_map[node].ToString("X")] = val;
-											}
-										}
-									}
-									catch (Exception ex)
-									{
-
-									}
-								}
-							}
-							path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
-						}
-					}
-				}
-				// flat grid - end
-				*/
-
-				/*
-				// multiform - start
-				foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
-				{
-					HashSet<string> form_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-					foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(kvp.Key) && x.Key != kvp.Key))
-					{
-						form_field_set.Add(ptgm.Key);
-					}
-
-
-					foreach (KeyValuePair<string, string> ptgm in path_to_grid_map)
-					{
-						form_field_set.RemoveWhere( x=> x.StartsWith(ptgm.Key, StringComparison.InvariantCultureIgnoreCase));
-
-					}
-
-
-
-					create_header_row
-					(
-						path_to_int_map,
-						form_field_set,
-						path_to_node_map,
-						path_to_csv_writer[kvp.Value].Table,
-						true,
-						true,
-						false
-					);
-
-					dynamic form_raw_data = get_value(case_doc as IDictionary<string, object>, kvp.Key);
-					List<object> form_object_data = form_raw_data as List<object>;
-
-					if (form_object_data != null)
-					for (int i = 0; i < form_object_data.Count; i++)
-					{
-						//IDictionary<string, object> form_item_row = form_object_data[i] as IDictionary<string, object>;
-
-						System.Data.DataRow form_row = path_to_csv_writer[kvp.Value].Table.NewRow();
-						form_row["_id"] = mmria_case_id;
-						form_row["_record_index"] = i;
-
-						foreach (string path in form_field_set)
-						{
-							if (
-								path_to_node_map[path].type.ToLower() == "app" ||
-								path_to_node_map[path].type.ToLower() == "form" ||
-								path_to_node_map[path].type.ToLower() == "group"||
-								path_to_node_map[path].type.ToLower() == "grid"
-
-							  )
-							{
-								continue;
-							}
-
-							System.Console.WriteLine("path {0}", path);
-
-							string[] temp_path = path.Split('/');
-							List<string> form_path_list = new List<string>();
-							for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
-							{
-								form_path_list.Add(temp_path[temp_path_index]);
-								if (temp_path_index == 0)
-								{
-									form_path_list.Add(i.ToString());
-								}
-
-							}
-
-							if (path == "er_visit_and_hospital_medical_records/vital_signs/temperature")
-							{
-								System.Console.Write("pause");
-							}
-
-							dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/",form_path_list));
-
-							switch (path_to_node_map[path].type.ToLower())
-							{
-
-								case "number":
-									if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
-									{
-										form_row[convert_path_to_field_name(path)] = val;
-									}
-									break;
-								case "list":
-
-									if
-										(path_to_node_map[path].is_multiselect != null &&
-									   path_to_node_map[path].is_multiselect == true
-
-									  )
-									{
-
-										IList<object> temp = val as IList<object>;
-										if (temp != null && temp.Count > 0)
-										{
-
-											form_row[convert_path_to_field_name(path)] = string.Join("|", temp);
-										}
-									}
-									else
-									{
-										if (val != null)
-										{
-											form_row[convert_path_to_field_name(path)] = val;
-										}
-									}
-
-									break;
-								default:
-									if (val != null)
-									{
-										form_row[convert_path_to_field_name(path)] = val;
-									}
-									break;
-
-							}
-
-						}
-
-							HashSet<string> multifom_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-							foreach (KeyValuePair<string, string> gtmfm in grid_to_multi_form_map)
-							{
-								if (gtmfm.Value == kvp.Key)
-								{
-									multifom_grid_set.Add(gtmfm.Key);
-								}
-							}
-
-							process_multiform_grid
-							(
-								case_doc,
-								mmria_case_id,
-								i,
-								path_to_int_map,
-								path_to_node_map,
-								path_to_grid_map,
-								path_to_csv_writer,
-								multifom_grid_set
-						);
-
-
-						path_to_csv_writer[kvp.Value].Table.Rows.Add(form_row);
-					}
-				}
-
-				// multiform - end
-				*/
 
 			}
 

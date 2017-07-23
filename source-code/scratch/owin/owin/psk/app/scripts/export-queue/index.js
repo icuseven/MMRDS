@@ -64,7 +64,7 @@ function create_queue_item(p_export_type)
 			created_by: $mmria.getCookie("uid"),
 			date_last_updated: new_date,
 			last_updated_by: $mmria.getCookie("uid"),
-			file_name: new_date + ".zip",
+			file_name: new_date.replace(/:/g, "-") + ".zip",
 			export_type: p_export_type,
 			status: "Need Confirmation"	
 	}

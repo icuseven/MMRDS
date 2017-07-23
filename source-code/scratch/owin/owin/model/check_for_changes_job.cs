@@ -264,9 +264,9 @@ namespace mmria.server.model
         {
 			List<export_queue_item> result = new List<export_queue_item> ();
 			
-			var curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
+			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
 
-			string responseFromServer = curl.execute ();
+			string responseFromServer = get_curl.execute ();
 
 			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
 			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
@@ -316,20 +316,35 @@ namespace mmria.server.model
 				args.Add("url:" + this.couch_db_url);
 				args.Add ("user_name:" + Program.config_timer_user_name);
 				args.Add ("password:" + Program.config_timer_password);
+				args.Add ("item_file_name:" + item_to_process.file_name);
 
-				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
+				if (item_to_process.export_type.Equals ("core1 csv", StringComparison.OrdinalIgnoreCase))
 				{
 					//export-core user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
 					core_element_exporter.Execute(args.ToArray());
+
+					item_to_process.status = "Creating Export...";
+
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process); 
+					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+					responseFromServer = get_curl.execute ();
 				
 				}
-				else if(item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
+				else if(item_to_process.export_type.Equals ("all csv", StringComparison.OrdinalIgnoreCase))
 				{
 						
 					//export user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
 					mmrds_exporter.Execute(args.ToArray());
+
+					item_to_process.status = "Creating Export...";
+
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process); 
+					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+					responseFromServer = get_curl.execute ();
 				}
 
 			}

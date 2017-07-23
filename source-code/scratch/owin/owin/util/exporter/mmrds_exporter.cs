@@ -14,6 +14,8 @@ namespace mmria.server.util
 		private string database_path = null;
 		private string database_url = null;
 		private string mmria_url = null;
+		private string item_file_name = null;
+		private string item_directory_name = null;
 		private bool is_offline_mode;
 
 		public mmrds_exporter()
@@ -29,8 +31,6 @@ namespace mmria.server.util
 			{
 				System.IO.Directory.CreateDirectory(export_directory);
 			}
-
-
 
 			if (args.Length > 1)
 			{
@@ -63,6 +63,10 @@ namespace mmria.server.util
 					else if (arg.ToLower().StartsWith("url"))
 					{
 						this.mmria_url = val;
+					}
+					else if (arg.ToLower().StartsWith("item_file_name"))
+					{
+						this.item_file_name = val;
 					}
 				}
 			}
