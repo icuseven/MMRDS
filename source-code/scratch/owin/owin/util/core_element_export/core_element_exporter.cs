@@ -18,7 +18,7 @@ namespace mmria.server.util
 
 		public core_element_exporter()
 		{
-			this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+			//this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
 
 		}
 		public void Execute(string[] args)
@@ -124,7 +124,7 @@ namespace mmria.server.util
 			cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.password);
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
-			string metadata_url = this.mmria_url + "/api/metadata";
+			string metadata_url = this.database_url + "/metadata/2016-06-12T13:49:24.759Z";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.password);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 			

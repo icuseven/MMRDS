@@ -314,6 +314,8 @@ namespace mmria.server.model
 				args.Add("user_name:" + this.user_name);
 				args.Add("password:" + this.password);
 				args.Add("url:" + this.couch_db_url);
+				args.Add ("user_name:" + Program.config_timer_user_name);
+				args.Add ("password:" + Program.config_timer_password);
 
 				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
 				{
