@@ -12,7 +12,7 @@ $(function ()
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
 	load_values();
-	update_queue_interval_id = window.setInterval(update_queue_task, 60000);
+	update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
 function load_values()
