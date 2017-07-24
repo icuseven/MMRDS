@@ -26,6 +26,16 @@ namespace mmria.server.model
 			//log.Debug("IJob.Execute");
 
 			JobKey jobKey = context.JobDetail.Key;
+
+
+			System.Threading.Tasks.Task.Run
+			(
+					new Action (() => 
+					{
+						Process_Export_Queue_Item();
+					})
+			);
+
 			//log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
 			mmria.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence);
 

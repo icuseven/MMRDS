@@ -12,6 +12,7 @@ $(function ()
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
 	load_values();
+	update_queue_interval_id = window.setInterval(update_queue_task, 60000);
 });
 
 function load_values()
@@ -170,7 +171,8 @@ function download_export_item(p_id)
 	var item = find_export_item(p_id);
 	if(item)
 	{
-		
+		var download_url = location.protocol + '//' + location.host + '/api/zip?id=' + p_id;
+		window.open(download_url, "_zip");
 	}
 	render();
 }
@@ -199,4 +201,27 @@ function delete_export_item(p_id)
 				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 		});
 	}
+}
+
+
+
+var update_queue_interval_id = null;
+
+function update_queue_task()
+{
+
+	/*
+	var temp = [];
+	for(var i = 0; i < g_data.length; i++)
+	{
+		if(g_data[i].status == "Need Confirmation")
+		{
+			temp.push(g_data[i]);
+		}
+	}*/
+
+	load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+
+	
+
 }

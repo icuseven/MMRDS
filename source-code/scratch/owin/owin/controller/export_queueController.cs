@@ -57,6 +57,9 @@ namespace mmria.server
 
 					export_queue_item item = new export_queue_item();
 
+					item._id = doc_item ["_id"].ToString ();
+					item._rev = doc_item ["_rev"].ToString ();
+					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
 					item.date_created = doc_item["date_created"] as DateTime?;
 					item.created_by = doc_item["created_by"] != null ? doc_item["created_by"].ToString() : null;
 					item.date_last_updated = doc_item["date_last_updated"] as DateTime?;

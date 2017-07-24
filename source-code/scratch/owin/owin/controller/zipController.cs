@@ -16,7 +16,7 @@ namespace mmria.server
 		}
 
 
-		public HttpResponseMessage Get (string p_export_queue_id)
+		public HttpResponseMessage Get (string id)
 		{
 			HttpResponseMessage result = new HttpResponseMessage (System.Net.HttpStatusCode.NoContent);
 
@@ -44,13 +44,13 @@ namespace mmria.server
 			if (json_result.userCTX.roles.Contains ("abstractor", StringComparer.OrdinalIgnoreCase))
 			{
 
-				var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + this.item_id, null, this.user_name, this.password);
+				var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + id, null, Program.config_timer_user_name, Program.config_timer_password);
 				string responseFromServer = get_item_curl.execute ();
 				export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer);
 
 
 
-				var path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], p_file_name);
+				var path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], export_queue_item.file_name);
 				result = new HttpResponseMessage (System.Net.HttpStatusCode.OK);
 				var stream = new FileStream (path, FileMode.Open, FileAccess.Read);
 				result.Content = new StreamContent (stream);
@@ -61,7 +61,7 @@ namespace mmria.server
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (export_queue_item, settings); 
-				var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, this.user_name, this.password);
+				var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_password);
 				responseFromServer = set_item_curl.execute ();
 			}
 

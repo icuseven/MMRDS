@@ -41,6 +41,10 @@ function export_queue_render(p_queue_data)
 		}
 		else if(item.status == "Download")
 		{
+			result.push("<td><input type='button' value='Download' onclick='download_export_item(\"" + item._id + "\")' /></td>");
+		}
+		else if(item.status == "Downloaded")
+		{
 			result.push("<td><input type='button' value='Download' onclick='download_export_item(\"" + item._id + "\")' /> | <input type='button' value='Delete' onclick='delete_export_item(\"" + item._id + "\")' /></td>");
 		}
 		else 
