@@ -694,6 +694,15 @@ namespace mmria.server.util
 
 			mapping_document.WriteToStream();
 
+			mmria.server.util.cFolderCompressor folder_compressor = new mmria.server.util.cFolderCompressor();
+
+			folder_compressor.Compress
+			(
+				System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_file_name), 
+				null,// string password 
+				System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_directory_name)
+			);
+
 			Console.WriteLine("Export Finished.");
 		}
 

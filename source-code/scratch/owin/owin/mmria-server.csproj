@@ -163,7 +163,7 @@
     <Compile Include="util\exporter\mmrds_exporter.cs" />
     <Compile Include="util\core_element_export\core_element_exporter.cs" />
     <Compile Include="util\WriteCSV.cs" />
-    <Compile Include="util\File.cs" />
+    <Compile Include="util\cFolderCompressor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
