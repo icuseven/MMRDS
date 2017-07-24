@@ -10,9 +10,9 @@ namespace mmria.server.util
 		string file_name;
 		string folder_name;
 		DataTable table;
-		public WriteCSV(string p_file_name)
+		public WriteCSV(string p_file_name, string p_folder_name)
 		{
-			this.folder_name = System.Configuration.ConfigurationManager.AppSettings["export_directory"];
+			this.folder_name = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], p_folder_name);
 			this.file_name = p_file_name;
 			/*
 			var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;AttachDbFilename=E:\\temp\\MyDatabaseData2.MDF;Integrated " +

@@ -281,6 +281,9 @@ namespace mmria.server.model
 				{
 					export_queue_item item = new export_queue_item ();
 	
+					item._id = doc_item ["_id"].ToString ();
+					item._rev = doc_item ["_rev"].ToString ();
+					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
 					item.date_created = doc_item ["date_created"] as DateTime?;
 					item.created_by = doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
@@ -313,12 +316,12 @@ namespace mmria.server.model
 				
 				args.Add("user_name:" + this.user_name);
 				args.Add("password:" + this.password);
-				args.Add("url:" + this.couch_db_url);
+				args.Add("database_url:" + this.couch_db_url);
 				args.Add ("user_name:" + Program.config_timer_user_name);
 				args.Add ("password:" + Program.config_timer_password);
 				args.Add ("item_file_name:" + item_to_process.file_name);
 
-				if (item_to_process.export_type.Equals ("core1 csv", StringComparison.OrdinalIgnoreCase))
+				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
 				{
 					//export-core user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();

@@ -13,25 +13,17 @@ namespace mmria.server.util
 		private string password = null;
 		private string database_path = null;
 		private string database_url = null;
-		private string mmria_url = null;
 		private string item_file_name = null;
 		private string item_directory_name = null;
 		private bool is_offline_mode;
 
 		public mmrds_exporter()
 		{
-			this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+			//this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
 
 		}
 		public void Execute(string[] args)
 		{
-			string export_directory = System.Configuration.ConfigurationManager.AppSettings["export_directory"];
-
-			if (!System.IO.Directory.Exists(export_directory))
-			{
-				System.IO.Directory.CreateDirectory(export_directory);
-			}
-
 			if (args.Length > 1)
 			{
 				for (var i = 1; i < args.Length; i++)
@@ -60,13 +52,10 @@ namespace mmria.server.util
 					{
 						this.database_path = val;
 					}
-					else if (arg.ToLower().StartsWith("url"))
-					{
-						this.mmria_url = val;
-					}
 					else if (arg.ToLower().StartsWith("item_file_name"))
 					{
 						this.item_file_name = val;
+						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.IndexOf ("."));
 					}
 				}
 			}
@@ -86,22 +75,7 @@ namespace mmria.server.util
 					return;
 				}
 			}
-
-			if (string.IsNullOrWhiteSpace(this.mmria_url))
-			{
-				this.mmria_url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
-
-				if (string.IsNullOrWhiteSpace(this.mmria_url))
-				{
-					System.Console.WriteLine("missing url");
-					System.Console.WriteLine(" form url:[website_url]");
-					System.Console.WriteLine(" example url:http://localhost:12345");
-					System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
-
-					return;
-				}
-
-			}
+				
 
 			if (string.IsNullOrWhiteSpace(this.user_name))
 			{
@@ -120,6 +94,15 @@ namespace mmria.server.util
 				System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
 				return;
 			}
+
+			string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_directory_name);
+
+			if (!System.IO.Directory.Exists(export_directory))
+			{
+				System.IO.Directory.CreateDirectory(export_directory);
+			}
+
+
 
 			string URL = this.database_url + "/mmrds/_all_docs";
 			string urlParameters = "?include_docs=true";
@@ -198,7 +181,7 @@ namespace mmria.server.util
 			int stream_file_count = 0;
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
 			{
-				path_to_csv_writer.Add(file_name, new WriteCSV(file_name));
+				path_to_csv_writer.Add(file_name, new WriteCSV(file_name, this.item_directory_name));
 				Console.WriteLine(file_name);
 				stream_file_count++;
 			}
@@ -660,7 +643,7 @@ namespace mmria.server.util
 				}
 			}
 
-			WriteCSV mapping_document = new WriteCSV("field_mapping.csv");
+			WriteCSV mapping_document = new WriteCSV("field_mapping.csv", this.item_directory_name);
 			System.Data.DataColumn column = null;
 
 			column = new System.Data.DataColumn("file_name", typeof(string));
