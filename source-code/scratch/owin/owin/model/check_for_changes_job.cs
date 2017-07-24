@@ -320,6 +320,8 @@ namespace mmria.server.model
 				args.Add ("user_name:" + Program.config_timer_user_name);
 				args.Add ("password:" + Program.config_timer_password);
 				args.Add ("item_file_name:" + item_to_process.file_name);
+				args.Add ("item_id:" + item_to_process._id);
+
 
 				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
 				{
@@ -329,7 +331,10 @@ namespace mmria.server.model
 
 					item_to_process.status = "Creating Export...";
 
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process); 
+
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
 					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
 					responseFromServer = get_curl.execute ();
@@ -344,7 +349,9 @@ namespace mmria.server.model
 
 					item_to_process.status = "Creating Export...";
 
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process); 
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
 					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
 					responseFromServer = get_curl.execute ();

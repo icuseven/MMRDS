@@ -15,6 +15,8 @@ namespace mmria.server.util
 		private string database_url = null;
 		private string item_file_name = null;
 		private string item_directory_name = null;
+		private string item_id = null;
+
 		private bool is_offline_mode;
 
 		public mmrds_exporter()
@@ -56,6 +58,10 @@ namespace mmria.server.util
 					{
 						this.item_file_name = val;
 						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.IndexOf ("."));
+					}
+					else if (arg.ToLower().StartsWith("item_id"))
+					{
+						this.item_id = val;
 					}
 				}
 			}
@@ -703,6 +709,21 @@ namespace mmria.server.util
 				System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_directory_name)
 			);
 
+
+			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + this.item_id, null, this.user_name, this.password);
+			string responseFromServer = get_item_curl.execute ();
+			export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer); 
+
+			export_queue_item.status = "Download";
+
+
+			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+			string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings); 
+			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, this.user_name, this.password);
+			responseFromServer = set_item_curl.execute ();
+
+
 			Console.WriteLine("Export Finished.");
 		}
 
@@ -1155,17 +1176,6 @@ namespace mmria.server.util
 			}
 		}
 
-		public string get_csv_connection_string(string p_file_name)
-		{
-			// @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv"
-			string result = string.Format(
-				@"Provider=Microsoft.Jet.OleDb.4.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
-				p_file_name
-			);
-
-			return result;
-		}
-
 		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
 		{
 			dynamic result = null;
@@ -1240,35 +1250,6 @@ namespace mmria.server.util
 
 
 
-		public mmria.common.metadata.app get_metadata()
-		{
-			mmria.common.metadata.app result = null;
-
-			string URL = "http://test.mmria.org/api/metadata";
-			//string urlParameters = "?api_key=123";
-			string urlParameters = "";
-
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
-
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
-
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
-			{
-				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
-			}
-			else
-			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
-
-			return result;
-		}
 
 
 	}

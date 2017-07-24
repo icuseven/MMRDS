@@ -148,8 +148,8 @@ namespace mmria.server
 			// ****   Quartz Timer - Start
 
 
-			mmria.server.model.check_for_changes_job cfcj = new mmria.server.model.check_for_changes_job();
-			cfcj.Process_Export_Queue_Item();
+			//mmria.server.model.check_for_changes_job cfcj = new mmria.server.model.check_for_changes_job();
+			//cfcj.Process_Export_Queue_Item();
 
 			
 

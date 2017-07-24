@@ -15,6 +15,7 @@ namespace mmria.server.util
 		private string database_url = null;
 		private string item_file_name = null;
 		private string item_directory_name = null;
+		private string item_id = null;
 		private bool is_offline_mode;
 
 		public core_element_exporter()
@@ -59,6 +60,10 @@ namespace mmria.server.util
 					{
 						this.item_file_name = val;
 						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.IndexOf ("."));
+					}
+					else if (arg.ToLower().StartsWith("item_id"))
+					{
+						this.item_id = val;
 					}
 				}
 			}
@@ -398,6 +403,22 @@ namespace mmria.server.util
 				null,// string password 
 				System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_directory_name)
 			);
+
+
+			
+			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + this.item_id, null, this.user_name, this.password);
+			string responseFromServer = get_item_curl.execute ();
+			export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer);
+
+			export_queue_item.status = "Download";
+
+			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+			string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings); 
+			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, this.user_name, this.password);
+			responseFromServer = set_item_curl.execute ();
+
+
 			Console.WriteLine("Export Finished.");
 		}
 
