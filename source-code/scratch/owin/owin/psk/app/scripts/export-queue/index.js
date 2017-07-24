@@ -37,7 +37,15 @@ function load_data(p_uid, p_pwd)
 			url: url
 	}).done(function(response) {
 			
-			g_data = response;
+			g_data = [];
+			for(var i = 0; i < response.length; i++)
+			{
+				if(response[i].status != "Deleted")
+				{
+					g_data.push(response[i]);
+				}
+			}
+			
 
 			render();
 
@@ -183,7 +191,7 @@ function delete_export_item(p_id)
 	if(item)
 	{
 		item.status = "Deleted";
-		item._deleted = true;
+		//item._deleted = true;
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
 		$.ajax({
