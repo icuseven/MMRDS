@@ -61,6 +61,8 @@ function load_data(p_uid, p_pwd)
 
 function render()
 {
+
+	g_data.sort(function(a, b){return b.date_created-a.date_created});
 	document.getElementById('form_content_id').innerHTML = export_queue_render(g_data).join("");
 }
 
@@ -218,7 +220,7 @@ var update_queue_interval_id = null;
 function update_queue_task()
 {
 
-	/*
+	
 	var temp = [];
 	for(var i = 0; i < g_data.length; i++)
 	{
@@ -226,9 +228,41 @@ function update_queue_task()
 		{
 			temp.push(g_data[i]);
 		}
-	}*/
+	}
 
-	load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+	var url =  location.protocol + '//' + location.host + '/api/export_queue?' + $mmria.getCookie("uid");
+
+	$.ajax({
+			url: url
+	}).done(function(response) {
+			
+			g_data = [];
+			for(var i = 0; i < response.length; i++)
+			{
+				if(response[i].status != "Deleted")
+				{
+					g_data.push(response[i]);
+				}
+			}
+			
+			for(var i = 0; i < temp.length; i++)
+			{
+				g_data.push(temp[i]);
+			}
+
+
+			render();
+
+			//document.getElementById('generate_report_button').disabled = false;
+			//process_rows();
+			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
+
+			//document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
+
+	});
+
+
+
 
 	
 
