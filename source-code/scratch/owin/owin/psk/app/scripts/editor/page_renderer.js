@@ -116,7 +116,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(g_data)
 			{
-				result.push("<h3  style='color: purple'>");
+				result.push("<h3  style='color: #341c54'>");
 				result.push(g_data.home_record.last_name);
 				result.push(", ");
 				result.push(g_data.home_record.first_name);
@@ -201,7 +201,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				if(g_data)
 				{
-					result.push("<h3  style='color: purple'>");
+					result.push("<h3  style='color: #341c54'>");
 					result.push(g_data.home_record.last_name);
 					result.push(", ");
 					result.push(g_data.home_record.first_name);
@@ -263,7 +263,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</h2>");
 			if(g_data)
 			{
-				result.push("<h3  style='color: purple'>");
+				result.push("<h3  style='color: #341c54'>");
 				result.push(g_data.home_record.last_name);
 				result.push(", ");
 				result.push(g_data.home_record.first_name);
