@@ -23,6 +23,9 @@ namespace mmria.server
 		public static string config_cron_schedule;
 		public static string config_export_directory;
 
+		public static bool is_processing_export_queue;
+		public static bool is_processing_syncronization;
+
 
 		private static IScheduler sched;
 
@@ -129,6 +132,9 @@ namespace mmria.server
 			}
 
 			System.Net.ServicePointManager.CertificatePolicy = new mmria.server.util.NoCheckCertificatePolicy ();
+
+			Program.is_processing_export_queue = false;
+			Program.is_processing_syncronization = false;
 
 			/*
 			if (!System.IO.Directory.Exists (Program.config_export_directory))

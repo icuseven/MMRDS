@@ -117,10 +117,11 @@ namespace mmria.server.util
 			report_object._id = get_value (source_object, "_id");
 
 
+			/*
 			if (report_object._id == "02279162-6be3-49e4-930f-42eed7cd4706")
 			{
 				System.Console.Write("break");
-			}
+			}*/
 
 			object val = null;
 
@@ -134,7 +135,7 @@ namespace mmria.server.util
 			}
 			catch(Exception ex)
 			{
-				System.Console.WriteLine (ex);
+				//System.Console.WriteLine (ex);
 			}
 
 
@@ -149,7 +150,7 @@ namespace mmria.server.util
 			}
 			catch(Exception ex)
 			{
-				System.Console.WriteLine (ex);
+				//System.Console.WriteLine (ex);
 			}
 
 
@@ -252,7 +253,7 @@ namespace mmria.server.util
 
 							if(dictionary_object.ContainsKey(path[i]))
 							{
-									val = dictionary_object[path[i]]; 
+								val = dictionary_object[path[i]]; 
 							}
 
 							if(val != null)
@@ -290,7 +291,7 @@ namespace mmria.server.util
 						}
 						else
 						{
-							System.Console.WriteLine("break");
+							//System.Console.WriteLine("break");
 						}
 					}
 					else if(index is IDictionary<string, object>)
@@ -304,7 +305,7 @@ namespace mmria.server.util
 					}
 					else if (index[path[i]].GetType() == typeof(IDictionary<string, object>) && !index.ContainsKey(path[i]))
 					{
-						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
+						//System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 					}
 					else if (index[path[i]].GetType() == typeof(IDictionary<string, object>))
 					{
@@ -312,13 +313,13 @@ namespace mmria.server.util
 					}
 					else
 					{
-						System.Console.WriteLine("This should not happen. {0}", p_path);
+						//System.Console.WriteLine("This should not happen. {0}", p_path);
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+				System.Console.WriteLine("c_convert_to_report_object.get_value bad mapping {0}\n {1}", p_path, ex);
 			}
 
 			return result;

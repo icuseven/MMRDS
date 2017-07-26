@@ -67,8 +67,8 @@ namespace mmria.server.util
 			{
 				if (!(ex.Message.IndexOf ("(404) Object Not Found") > -1)) 
 				{
-					System.Console.WriteLine ("c_sync_document.get_revision");
-					System.Console.WriteLine (ex);
+					//System.Console.WriteLine ("c_sync_document.get_revision");
+					//System.Console.WriteLine (ex);
 				}
 			}
 
@@ -112,8 +112,8 @@ namespace mmria.server.util
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("c_sync_document de_id");
-				System.Console.WriteLine(ex);
+				//System.Console.WriteLine("c_sync_document de_id");
+				//System.Console.WriteLine(ex);
 			}
 
 
@@ -153,8 +153,8 @@ namespace mmria.server.util
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("sync aggregate_id");
-				System.Console.WriteLine(ex);
+				//System.Console.WriteLine("sync aggregate_id");
+				//System.Console.WriteLine(ex);
 			}
 
 

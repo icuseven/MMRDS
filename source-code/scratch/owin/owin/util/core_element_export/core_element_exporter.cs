@@ -306,6 +306,14 @@ namespace mmria.server.util
 							}
 
 							break;
+						//case "date":
+						case "datetime":
+						case "time":
+							if (val != null) 
+							{
+								row [convert_path_to_field_name (path)] = val;
+							}
+							break;
 						default:
 							if (val != null) 
 							{

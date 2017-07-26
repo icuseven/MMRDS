@@ -249,7 +249,7 @@ namespace mmria.server.util
 
 			if (p_path == "er_visit_and_hospital_medical_records/maternal_record_identification/first_name")
 			{
-				System.Console.Write("break");
+				//System.Console.Write("break");
 			}
 
 			try
@@ -276,11 +276,11 @@ namespace mmria.server.util
 								// set the de-identified value
 								if (val is IDictionary<string, object>)
 								{
-									System.Console.WriteLine ("This should not happen. {0}", p_path);
+									//System.Console.WriteLine ("This should not happen. {0}", p_path);
 								}
 								else if (val is IList<object>)
 								{
-									System.Console.WriteLine ("This should not happen. {0}", p_path);
+									//System.Console.WriteLine ("This should not happen. {0}", p_path);
 								}
 								else if (val is string)
 								{
@@ -310,7 +310,7 @@ namespace mmria.server.util
 					}	
 					else
 					{
-						System.Console.WriteLine ("This should not happen. {0}", p_path);
+						//System.Console.WriteLine ("This should not happen. {0}", p_path);
 					}
 					
 				}
@@ -357,13 +357,13 @@ namespace mmria.server.util
 					}
 					else
 					{
-						System.Console.WriteLine ("This should not happen. {0}", p_path);
+						//System.Console.WriteLine ("This should not happen. {0}", p_path);
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine ("set_de_identified_value. {0}", ex);
+				//System.Console.WriteLine ("set_de_identified_value. {0}", ex);
 			}
 				
 		}
