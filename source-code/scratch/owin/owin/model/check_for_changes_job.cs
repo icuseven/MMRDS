@@ -310,7 +310,7 @@ namespace mmria.server.model
 		
 				if (
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().Equals ("new", StringComparison.OrdinalIgnoreCase))
+					doc_item ["status"].ToString ().Equals ("In Queue...", StringComparison.OrdinalIgnoreCase))
 				{
 					export_queue_item item = new export_queue_item ();
 	

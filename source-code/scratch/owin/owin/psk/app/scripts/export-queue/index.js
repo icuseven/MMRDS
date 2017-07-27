@@ -70,7 +70,7 @@ function create_queue_item(p_export_type)
 {
 	var new_date = new Date().toISOString();
 	var result = {
-			_id: "id-" + new_date,
+			_id: new_date.replace(/:/g, "-") + ".zip",
 			date_created: new_date,
 			created_by: $mmria.getCookie("uid"),
 			date_last_updated: new_date,
@@ -141,7 +141,7 @@ function confirm_export_item(p_id)
 	var item = find_export_item(p_id);
 	if(item)
 	{
-		item.status = "New";
+		item.status = "In Queue...";
 
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
@@ -181,7 +181,7 @@ function download_export_item(p_id)
 	var item = find_export_item(p_id);
 	if(item)
 	{
-		var download_url = location.protocol + '//' + location.host + '/api/zip?id=' + p_id;
+		var download_url = location.protocol + '//' + location.host + '/api/zip/' + p_id;
 		window.open(download_url, "_zip");
 	}
 	render();

@@ -342,6 +342,8 @@ namespace mmria.server
 			#if DEBUG
 			app.UseErrorPage();
 			#endif
+
+			//app.Use(typeof(mmria.util.MiddlewareUrlRewriter));
 			//app.UseWelcomePage("/");
 			// Configure Web API for self-host. 
 			HttpConfiguration config = new HttpConfiguration(); 
@@ -439,6 +441,8 @@ namespace mmria.server
 				}
 			};
 			app.UseFileServer (options);
+
+
 
 		}
 			
