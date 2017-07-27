@@ -30,15 +30,21 @@ namespace mmria.server.model
 
 			if (!Program.is_processing_export_queue)
 			{
-
-				Program.is_processing_export_queue = true;
-
 				System.Threading.Tasks.Task.Run
 				(
 					new Action (() => 
 					{
+						Program.is_processing_export_queue = true;
+
 						System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
-						Process_Export_Queue_Item ();
+						try
+						{
+							Process_Export_Queue_Item ();
+						}
+						catch(Exception ex)
+						{
+							// to nothing for now
+						}
 						System.Console.WriteLine ("{0} Ending Export Queue Item Processing", System.DateTime.Now);
 						Program.is_processing_export_queue = false;
 					})
