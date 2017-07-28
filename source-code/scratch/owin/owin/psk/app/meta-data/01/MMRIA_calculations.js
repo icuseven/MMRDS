@@ -1,50 +1,38 @@
 // FUNCTION TO RECODE RACE TO OMB STANDARD
-function $calculate_omb_recode(p_value_list)
-{
-	// p_value_list is an array
-	var result = null;
-
-	var asian_list = [ 
-						"Asian Indian",
-						"Chinese",
-						"Filipino",
-						"Japanese",
-						"Korean",
-						"Vietnamese",						
-						"Other Asian" ];
-	var islander_list = [ 
-							"Native Hawaiian",
-							"Guamanian or Chamorro",
-							"Samoan",
-							"Other Pacific Islander" ];
-	if(p_value_list.length == 0)
-	{
-		// do nothing
-	}
-	else if(p_value_list.length == 1)
-	{
-		if($global.get_intersection(p_value_list, asian_list).length > 0)
-		{
-			result = "Asian";
-		}
-		else if($global.get_intersection(p_value_list, islander_list).length > 0)
-		{
-			result = "Pacific Islander";
-		}
-		else
-		{
-			result = p_value_list[0];
-		}
-	}
-	else // more than 1 item has been selected.
-	{
-		if(p_value_list.includes("Race Not Specified"))
-		{
-			result = "Race Not Specified";
-		}
-		else
-		{
-			/* Description of recode process
+function $calculate_omb_recode(p_value_list) {
+    // p_value_list is an array
+    var result = null;
+    var asian_list = [
+            'Asian Indian',
+            'Chinese',
+            'Filipino',
+            'Japanese',
+            'Korean',
+            'Vietnamese',
+            'Other Asian'
+        ];
+    var islander_list = [
+            'Native Hawaiian',
+            'Guamanian or Chamorro',
+            'Samoan',
+            'Other Pacific Islander'
+        ];
+    if (p_value_list.length == 0) {
+    } else if (p_value_list.length == 1) {
+        if ($global.get_intersection(p_value_list, asian_list).length > 0) {
+            result = 'Asian';
+        } else if ($global.get_intersection(p_value_list, islander_list).length > 0) {
+            result = 'Pacific Islander';
+        } else {
+            result = p_value_list[0];
+        }
+    } else
+        // more than 1 item has been selected.
+        {
+            if (p_value_list.includes('Race Not Specified')) {
+                result = 'Race Not Specified';
+            } else {
+                /* Description of recode process
 			
 			total unique = non list items + is_asian + is_islander
 			
@@ -59,69 +47,60 @@ function $calculate_omb_recode(p_value_list)
 			3 - 1 - 1 = 1     	   1          1              3
 			3 - 2 - 0 = 1      	   1          0              2
 			*/
-			
-			var asian_intersection_count = $global.get_intersection(p_value_list, asian_list).length;
-			var is_asian = 0;
-			var islander_intersection_count = $global.get_intersection(p_value_list, islander_list).length;
-			var is_islander = 0;
-			
-			if(asian_intersection_count > 0) is_asian = 1;
-			if(islander_intersection_count > 0) is_islander = 1;
-
-			var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander_intersection_count;
-			var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
-			
-			switch(total_unique_items)
-			{
-				case 1:
-					if(is_asian == 1)
-					{
-						result = "Asian";	
-					}
-					else if(is_islander == 1)
-					{
-						result = "Pacific Islander";
-					}
-					else
-					{
-						console.log("This should never happen bug");
-					}
-					break;
-				case 2:
-					result = "Bi-Racial";	
-					break;
-				default:
-					result = "Multi-Racial";
-					break;
-			}
-		}
-	}
-	return result;
+                var asian_intersection_count = $global.get_intersection(p_value_list, asian_list).length;
+                var is_asian = 0;
+                var islander_intersection_count = $global.get_intersection(p_value_list, islander_list).length;
+                var is_islander = 0;
+                if (asian_intersection_count > 0)
+                    is_asian = 1;
+                if (islander_intersection_count > 0)
+                    is_islander = 1;
+                var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander_intersection_count;
+                var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
+                switch (total_unique_items) {
+                case 1:
+                    if (is_asian == 1) {
+                        result = 'Asian';
+                    } else if (is_islander == 1) {
+                        result = 'Pacific Islander';
+                    } else {
+                        console.log('This should never happen bug');
+                    }
+                    break;
+                case 2:
+                    result = 'Bi-Racial';
+                    break;
+                default:
+                    result = 'Multi-Racial';
+                    break;
+                }
+            }
+        }
+    return result;
 }
 // CALCULATE INTERSECTION FOR OMB RACE RECODE
-function $get_intersection(p_list_1, p_list_2)
-{
-	
-	
-  var a = p_list_1.slice(0);
-  var b = p_list_2.slice(0);
-  a.sort();
-  b.sort();
-  var ai=0, bi=0;
-  var result = [];
-
-  while( ai < a.length && bi < b.length )
-  {
-     if      (a[ai] < b[bi] ){ ai++; }
-     else if (a[ai] > b[bi] ){ bi++; }
-     else /* they're equal */
-     {
-       result.push(a[ai]);
-       ai++;
-       bi++;
-     }
-  }
-  return result;
+function $get_intersection(p_list_1, p_list_2) {
+    var a = p_list_1.slice(0);
+    var b = p_list_2.slice(0);
+    a.sort();
+    b.sort();
+    var ai = 0, bi = 0;
+    var result = [];
+    while (ai < a.length && bi < b.length) {
+        if (a[ai] < b[bi]) {
+            ai++;
+        } else if (a[ai] > b[bi]) {
+            bi++;
+        } else
+            /* they're equal */
+            /* they're equal */
+            {
+                result.push(a[ai]);
+                ai++;
+                bi++;
+            }
+    }
+    return result;
 }
 //CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
 function $calc_days(p_start_date, p_end_date) {
@@ -475,7 +454,7 @@ function death_distance(p_control) {
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
         this.estimated_death_distance_from_residence = dist;
-		$mmria.save_current_record();
+        $mmria.save_current_record();
         $mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
     }
 }
@@ -493,7 +472,7 @@ function birth_distance(p_control) {
     if (res_lat >= -90 && res_lat <= 90 && res_lon >= -180 && res_lon <= 180 && hos_lat >= -90 && hos_lat <= 90 && hos_lon >= -180 && hos_lon <= 180) {
         dist = $global.calc_distance(res_lat, res_lon, hos_lat, hos_lon);
         this.estimated_distance_from_residence = dist;
-		$mmria.save_current_record();
+        $mmria.save_current_record();
         $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
     }
 }
@@ -515,7 +494,7 @@ function birth_2_death(p_control) {
         var end_date = new Date(end_year, end_month - 1, end_day);
         var days = $global.calc_days(start_date, end_date);
         this.length_between_child_birth_and_death_of_mother = days;
-		$mmria.save_current_record();
+        $mmria.save_current_record();
         $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
     }
 }
@@ -718,23 +697,17 @@ function ehd_days_postpartum(p_control) {
 path=medical_transport/date_of_transport/days_postpartum
 event=onfocus
 */
-function mt_days_postpartum(p_control) 
-{
+function mt_days_postpartum(p_control) {
     var days = null;
-	
     var end_year = parseInt(this.year);
     var end_month = parseInt(this.month);
-    var end_day = parseInt(this.day);	
-	
+    var end_day = parseInt(this.day);
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-	
     var start_date = new Date(start_year, start_month - 1, start_day);
-	var end_date = new Date(end_year, end_month - 1, end_day);
-	
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) 
-	{
+    var end_date = new Date(end_year, end_month - 1, end_day);
+    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true && start_date <= end_date) {
         days = $global.calc_days(start_date, end_date);
         this.days_postpartum = days;
         p_control.value = this.days_postpartum;
@@ -786,11 +759,16 @@ function er_hosp_arrival_ga(p_control) {
     //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
     //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
+    //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
+    //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
     var edd_date = new Date(edd_year, edd_month - 1, edd_day);
     var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
     var event_date = new Date(event_year, event_month - 1, event_day);
     //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
+    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_edd(event_date, edd_date);
@@ -803,6 +781,7 @@ function er_hosp_arrival_ga(p_control) {
             }
         }
     else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_lmp(lmp_date, event_date);
@@ -837,11 +816,16 @@ function er_hosp_admission_ga(p_control) {
     //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
     //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
+    //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
+    //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
     var edd_date = new Date(edd_year, edd_month - 1, edd_day);
     var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
     var event_date = new Date(event_year, event_month - 1, event_day);
     //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
+    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_edd(event_date, edd_date);
@@ -854,6 +838,7 @@ function er_hosp_admission_ga(p_control) {
             }
         }
     else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_lmp(lmp_date, event_date);
@@ -888,11 +873,16 @@ function er_hosp_discharge_ga(p_control) {
     //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
     //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
+    //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
+    //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
     var edd_date = new Date(edd_year, edd_month - 1, edd_day);
     var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
     var event_date = new Date(event_year, event_month - 1, event_day);
     //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
+    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_edd(event_date, edd_date);
@@ -905,6 +895,7 @@ function er_hosp_discharge_ga(p_control) {
             }
         }
     else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_lmp(lmp_date, event_date);
@@ -939,11 +930,16 @@ function omov_ga(p_control) {
     //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
     //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
+    //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
+    //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
     var edd_date = new Date(edd_year, edd_month - 1, edd_day);
     var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
     var event_date = new Date(event_year, event_month - 1, event_day);
     //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
+    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_edd(event_date, edd_date);
@@ -956,6 +952,7 @@ function omov_ga(p_control) {
             }
         }
     else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_lmp(lmp_date, event_date);
@@ -990,11 +987,16 @@ function med_transport_ga(p_control) {
     //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
     //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
+    //var dob_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
+    //var dob_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month); 
+    //var dob_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);)
     var edd_date = new Date(edd_year, edd_month - 1, edd_day);
     var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
     var event_date = new Date(event_year, event_month - 1, event_day);
     //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
+    //var dob_date = new Date(dob_year, dob_month - 1, dob_year);
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_edd(event_date, edd_date);
@@ -1007,6 +1009,7 @@ function med_transport_ga(p_control) {
             }
         }
     else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true)
+        //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         //&& ($global.isValidDate(dob_year, dob_month, dob_day) == false || dob_date < event_date))
         {
             ga = $global.calc_ga_lmp(lmp_date, event_date);
@@ -1186,353 +1189,293 @@ function geocode_omov_location(p_control) {
 path=prenatal/routine_monitoring/gestational_age_weeks
 event=onfocus
 */
-function pc_rm_ga(p_control) 
-{
+function pc_rm_ga(p_control) {
     var ga = [];
     var weeks = null;
     var days = null;
-	
     var current_pcrm_index = $global.get_current_multiform_index();
-	
     var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
-	
     var lmp_year = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.year);
     var lmp_month = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.month);
     var lmp_day = parseInt(g_data.prenatal.current_pregnancy.date_of_last_normal_menses.day);
-	
     var edd_date = new Date(edd_year, edd_month - 1, edd_day);
     var lmp_date = new Date(lmp_year, lmp_month - 1, lmp_day);
-    if(this.date_and_time instanceof Date)
-	{
-		var event_date = this.date_and_time;
-	}
-	else
-	{
-		var event_date = new Date(this.this.date_and_time);
-	}
-    if ($global.isValidDate(edd_year, edd_month, edd_day) == true && this.date_and_time != "" || this.date_and_time != null)
-    {
-		ga = $global.calc_ga_edd(event_date, edd_date);
-		if (ga.length > 1) 
-		{
-			this.gestational_age_weeks = ga[0];
-			this.gestational_age_days = ga[1];
-			$mmria.save_current_record();
-			
-			$mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0]);
-			$mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1]);
-		}
-	}
-    else if ($global.isValidDate(lmp_year, lmp_month, lmp_day) == true && this.date_and_time != "" || this.date_and_time != null)
-	{
-		ga = $global.calc_ga_lmp(lmp_date, event_date);
-		if (ga.length > 1) 
-		{
-			this.gestational_age_weeks = ga[0];
-			this.gestational_age_days = ga[1];
-			$mmria.save_current_record();
-			$mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0]);
-			$mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1]);
-		}
-	}
+    if (this.date_and_time instanceof Date) {
+        var event_date = this.date_and_time;
+    } else {
+        var event_date = new Date(this.this.date_and_time);
+    }
+    if ($global.isValidDate(edd_year, edd_month, edd_day) == true && this.date_and_time != '' || this.date_and_time != null) {
+        ga = $global.calc_ga_edd(event_date, edd_date);
+        if (ga.length > 1) {
+            this.gestational_age_weeks = ga[0];
+            this.gestational_age_days = ga[1];
+            $mmria.save_current_record();
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0]);
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1]);
+        }
+    } else if ($global.isValidDate(lmp_year, lmp_month, lmp_day) == true && this.date_and_time != '' || this.date_and_time != null) {
+        ga = $global.calc_ga_lmp(lmp_date, event_date);
+        if (ga.length > 1) {
+            this.gestational_age_weeks = ga[0];
+            this.gestational_age_days = ga[1];
+            $mmria.save_current_record();
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_weeks', ga[0]);
+            $mmria.set_control_value('prenatal/routine_monitoring/gestational_age_days', ga[1]);
+        }
+    }
 }
 //CALCULATE TIME BETWEEN ONSET OF LABOR AND ARRIVAL AT HOSPITAL
 /*
 path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival
 event=onclick
 */
-function duration_of_labor(p_control) 
-{
+function duration_of_labor(p_control) {
     var hours = null;
-	
     var current_dol_index = $global.get_current_multiform_index();
-	
     var onset_year = parseInt(this.year);
     var onset_month = parseInt(this.month);
     var onset_day = parseInt(this.day);
-	if(this.time_of_onset_of_labor instanceof Date)
-	{
-		var onset_time = this.time_of_onset_of_labor;
-	}
-	else
-	{
-		var onset_time = new Date('January 1, 1900 ' + this.time_of_onset_of_labor);
-	}
-		
+    if (this.time_of_onset_of_labor instanceof Date) {
+        var onset_time = this.time_of_onset_of_labor;
+    } else {
+        var onset_time = new Date('January 1, 1900 ' + this.time_of_onset_of_labor);
+    }
     var arrival_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.year);
     var arrival_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.month);
     var arrival_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.day);
-	if(this.time_of_onset_of_labor instanceof Date)
-	{
-		var arrival_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
-	}
-	else
-	{
-		var arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
-	}
-   	
-    if	(
-		$global.isValidDate(onset_year, onset_month, onset_day) == true && 
-		$global.isValidDate(arrival_year, arrival_month, arrival_day) == true && 
-		(this.time_of_onset_of_labor != '' || 
-		this.time_of_onset_of_labor != null) && 
-		(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' || 
-		g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null)
-		) 
-	{
-		var onset_date = new Date(onset_year, onset_month - 1, onset_day, onset_time.getHours(), onset_time.getMinutes());
-		var arrival_date = new Date(arrival_year, arrival_month - 1, arrival_day, arrival_time.getHours(), arrival_time.getMinutes());
-		var hours = Math.round((arrival_date - onset_date) / 3600000 * 100) / 100;
-			
-		if (hours.length > 1) 
-		{	
-			this.duration_of_labor_prior_to_arrival = hours;
-			$mmria.save_current_record();
-			$mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
-		}	
-	}
+    if (this.time_of_onset_of_labor instanceof Date) {
+        var arrival_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
+    } else {
+        var arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
+    }
+    if ($global.isValidDate(onset_year, onset_month, onset_day) == true && $global.isValidDate(arrival_year, arrival_month, arrival_day) == true && (this.time_of_onset_of_labor != '' || this.time_of_onset_of_labor != null) && (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null)) {
+        var onset_date = new Date(onset_year, onset_month - 1, onset_day, onset_time.getHours(), onset_time.getMinutes());
+        var arrival_date = new Date(arrival_year, arrival_month - 1, arrival_day, arrival_time.getHours(), arrival_time.getMinutes());
+        var hours = Math.round((arrival_date - onset_date) / 3600000 * 100) / 100;
+        if (hours.length > 1) {
+            this.duration_of_labor_prior_to_arrival = hours;
+            $mmria.save_current_record();
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
+        }
+    }
 }
 // OMB RACE RECODE FOR CASE ON DC FORM
 /*
 path=death_certificate/race/cmd_recode
 event=onclick
 */
-function omb_race_recode_dc(p_control)
-{
-	var race_recode = null;
-	var race = this.race;
-	
-	race_recode = $global.calculate_omb_recode(race);
-
-	this.omb_race_recode = race_recode;
-	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+function omb_race_recode_dc(p_control) {
+    var race_recode = null;
+    var race = this.race;
+    race_recode = $global.calculate_omb_recode(race);
+    this.omb_race_recode = race_recode;
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
 }
 // OMB RACE RECODE FOR MOM ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/race/cmd_recode
 event=onclick
 */
-function omb_mrace_recode_bc(p_control)
-{
-	var race_recode = null;
-	var race = this.race_of_mother;
-	
-	race_recode = $global.calculate_omb_recode(race);
-
-	this.omb_race_recode = race_recode;
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
+function omb_mrace_recode_bc(p_control) {
+    var race_recode = null;
+    var race = this.race_of_mother;
+    race_recode = $global.calculate_omb_recode(race);
+    this.omb_race_recode = race_recode;
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
 }
 // OMB RACE RECODE FOR DAD ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/demographic_of_father/race/cmd_recode
 event=onclick
 */
-function omb_frace_recode_bc(p_control)
-{
-	var race_recode = null;
-	var race = this.race_of_father;
-	
-	race_recode = $global.calculate_omb_recode(race);
-
-	this.omb_race_recode = race_recode;
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
+function omb_frace_recode_bc(p_control) {
+    var race_recode = null;
+    var race = this.race_of_father;
+    race_recode = $global.calculate_omb_recode(race);
+    this.omb_race_recode = race_recode;
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
 }
 // CLEAR OMB RACE RECODE FOR CASE ON DC FORM
 /*
 path=death_certificate/race/cmd_recode_clear
 event=onclick
 */
-function omb_race_clear_dc(p_control)
-{
-	this.omb_race_recode = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
+function omb_race_clear_dc(p_control) {
+    this.omb_race_recode = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/race/omb_race_recode', this.omb_race_recode);
 }
 // CLEAR OMB RACE RECODE FOR MOM ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/race/cmd_recode_clear
 event=onclick
 */
-function omb_mrace_clear_bc(p_control)
-{
-	this.omb_race_recode = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
+function omb_mrace_clear_bc(p_control) {
+    this.omb_race_recode = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/race/omb_race_recode', this.omb_race_recode);
 }
 // CLEAR OMB RACE RECODE FOR DAD ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/demographic_of_father/race/cmd_recode_clear
 event=onclick
 */
-function omb_frace_clear_bc(p_control)
-{
-	this.omb_race_recode = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
+function omb_frace_clear_bc(p_control) {
+    this.omb_race_recode = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode', this.omb_race_recode);
 }
 // CLEAR DISTANCE BETWEEN LAST RESIDENCE AND HOSPITAL OF DEATH ON DC FORM
 /*
 path=death_certificate/address_of_death/cmd_calculate_distance_clear
 event=onclick
 */
-function distance_clear_dc(p_control)
-{
-	this.estimated_death_distance_from_residence = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
+function distance_clear_dc(p_control) {
+    this.estimated_death_distance_from_residence = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/address_of_death/estimated_death_distance_from_residence', this.estimated_death_distance_from_residence);
 }
 // CLEAR DISTANCE BETWEEN LAST RESIDENCE AND HOSPITAL OF DELIVERY ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/location_of_residence/cmd_calc_distance_clear
 event=onclick
 */
-function distance_clear_bc(p_control)
-{
-	this.estimated_distance_from_residence = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
+function distance_clear_bc(p_control) {
+    this.estimated_distance_from_residence = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
 }
 // CLEAR DAYS BETWEEN BIRTH OF INFANT AND DEAT OF MOTHER ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother_clear
 event=onclick
 */
-function days_clear_bc(p_control)
-{
-	this.length_between_child_birth_and_death_of_mother = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
+function days_clear_bc(p_control) {
+    this.length_between_child_birth_and_death_of_mother = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
 }
 // CLEAR HOURS BETWEEN ONSET OF LABOR AND ARRIVAL ON HOSPITAL FORM
 /*
 path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival_clear
 event=onclick
 */
-function hours_clear_mr(p_control)
-{
-	this.duration_of_labor_prior_to_arrival = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
+function hours_clear_mr(p_control) {
+    this.duration_of_labor_prior_to_arrival = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
 }
 // CLEAR COORDINATES FOR RESIDENCE ON DC FORM
 /*
 path=death_certificate/place_of_last_residence/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_res_dc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/place_of_last_residence/latitude', this.latitude);
-	$mmria.set_control_value('death_certificate/place_of_last_residence/longitude', this.longitude);
+function coordinates_clear_res_dc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', this.latitude);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR INJURY LOCATION ON DC FORM
 /*
 path=death_certificate/address_of_injury/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_inj_dc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/address_of_injury/latitude', this.latitude);
-	$mmria.set_control_value('death_certificate/address_of_injury/longitude', this.longitude);
+function coordinates_clear_inj_dc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/address_of_injury/latitude', this.latitude);
+    $mmria.set_control_value('death_certificate/address_of_injury/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR DEATH LOCATION ON DC FORM
 /*
 path=death_certificate/address_of_death/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_death_loc_dc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('death_certificate/address_of_death/latitude', this.latitude);
-	$mmria.set_control_value('death_certificate/address_of_death/longitude', this.longitude);
+function coordinates_clear_death_loc_dc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/address_of_death/latitude', this.latitude);
+    $mmria.set_control_value('death_certificate/address_of_death/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR DELIVERY LOCATION ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/facility_of_delivery_location/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_delivery_loc_bc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude', this.latitude);
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude', this.longitude);
+function coordinates_clear_delivery_loc_bc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude', this.latitude);
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR RESIDENCE ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/location_of_residence/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_residence_bc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/latitude', this.latitude);
-	$mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/longitude', this.longitude);
+function coordinates_clear_residence_bc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/latitude', this.latitude);
+    $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR PNC LOCATION ON PC FORM
 /*
 path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_pnc_loc_pc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/latitude', this.latitude);
-	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/longitude', this.longitude);
+function coordinates_clear_pnc_loc_pc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/latitude', this.latitude);
+    $mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR PNC LOCATION ON PC FORM
 /*
 path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_pnc_loc_pc(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/latitude', this.latitude);
-	$mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/longitude', this.longitude);
+function coordinates_clear_pnc_loc_pc(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/latitude', this.latitude);
+    $mmria.set_control_value('prenatal/location_of_primary_prenatal_care_facility/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR HOSPITAL LOCATION ON MR FORM
 /*
 path=er_visit_and_hospital_medical_records/name_and_location_facility/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_hos_loc_mr(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('er_visit_and_hospital_medical_records/name_and_location_facility/latitude', this.latitude);
-	$mmria.set_control_value('er_visit_and_hospital_medical_records/name_and_location_facility/longitude', this.longitude);
+function coordinates_clear_hos_loc_mr(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('er_visit_and_hospital_medical_records/name_and_location_facility/latitude', this.latitude);
+    $mmria.set_control_value('er_visit_and_hospital_medical_records/name_and_location_facility/longitude', this.longitude);
 }
 // CLEAR COORDINATES FOR HOSPITAL LOCATION ON MR FORM
 /*
 path=other_medical_office_visits/location_of_medical_care_facility/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_office_loc_mv(p_control)
-{
-	this.latitude = "";
-	this.longitude = "";
-	$mmria.save_current_record();
-	$mmria.set_control_value('other_medical_office_visits/location_of_medical_care_facility/latitude', this.latitude);
-	$mmria.set_control_value('other_medical_office_visits/location_of_medical_care_facility/longitude', this.longitude);
+function coordinates_clear_office_loc_mv(p_control) {
+    this.latitude = '';
+    this.longitude = '';
+    $mmria.save_current_record();
+    $mmria.set_control_value('other_medical_office_visits/location_of_medical_care_facility/latitude', this.latitude);
+    $mmria.set_control_value('other_medical_office_visits/location_of_medical_care_facility/longitude', this.longitude);
 }
