@@ -1351,7 +1351,7 @@ function distance_clear_bc(p_control) {
     $mmria.save_current_record();
     $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
 }
-// CLEAR DAYS BETWEEN BIRTH OF INFANT AND DEAT OF MOTHER ON BC FORM
+// CLEAR DAYS BETWEEN BIRTH OF INFANT AND DEATH OF MOTHER ON BC FORM
 /*
 path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother_clear
 event=onclick
