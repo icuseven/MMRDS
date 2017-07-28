@@ -40,7 +40,11 @@ function load_data(p_uid, p_pwd)
 			g_data = [];
 			for(var i = 0; i < response.length; i++)
 			{
-				if(response[i].status != "Deleted")
+				if
+				(
+					(response[i].status != "Deleted") &&
+					(response[i].status != "expunged")
+				)
 				{
 					g_data.push(response[i]);
 				}
@@ -239,7 +243,11 @@ function update_queue_task()
 			g_data = [];
 			for(var i = 0; i < response.length; i++)
 			{
-				if(response[i].status != "Deleted")
+				if
+				(
+					(response[i].status != "Deleted") &&
+					response[i].status != "expunged"
+				)
 				{
 					g_data.push(response[i]);
 				}

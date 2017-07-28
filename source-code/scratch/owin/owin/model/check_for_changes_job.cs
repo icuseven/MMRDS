@@ -40,6 +40,7 @@ namespace mmria.server.model
 						try
 						{
 							Process_Export_Queue_Item ();
+							Process_Export_Queue_Delete();
 						}
 						catch(Exception ex)
 						{
@@ -393,6 +394,91 @@ namespace mmria.server.model
 			}
 
         }
+
+
+		public void Process_Export_Queue_Delete()
+		{
+			List<export_queue_item> result = new List<export_queue_item> ();
+
+			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
+
+			string responseFromServer = get_curl.execute ();
+
+			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
+			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
+
+			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
+			{
+				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
+
+				if (
+					doc_item ["status"] != null &&
+					doc_item ["status"].ToString ().Equals ("Deleted", StringComparison.OrdinalIgnoreCase))
+				{
+					export_queue_item item = new export_queue_item ();
+
+					item._id = doc_item ["_id"].ToString ();
+					item._rev = doc_item ["_rev"].ToString ();
+					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
+					item.date_created = doc_item ["date_created"] as DateTime?;
+					item.created_by = doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
+					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
+					item.last_updated_by = doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
+					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
+					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
+
+					result.Add (item);
+				}
+			}
+
+
+			if (result.Count > 0)
+			{
+				if (result.Count > 1)
+				{
+					var comparer = Comparer<export_queue_item>.Create
+						(
+							(x, y) => x.date_created.Value.CompareTo (y.date_created.Value) 
+						);
+
+					result.Sort (comparer);
+				}
+
+				export_queue_item item_to_process = result [0];
+
+				try
+				{
+					string item_directory_name = item_to_process.file_name.Substring (0, item_to_process.file_name.LastIndexOf ("."));
+
+					string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_directory_name);
+					if (System.IO.Directory.Exists(export_directory))
+					{
+						System.IO.Directory.Delete(export_directory, true);
+					}
+
+					string file_path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_to_process.file_name);
+					if (System.IO.File.Exists(file_path))
+					{
+						System.IO.File.Delete(file_path);
+					}
+
+					item_to_process.status = "expunged";
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
+					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+					responseFromServer = get_curl.execute ();
+				}
+				catch(Exception ex)
+				{
+					// do nothing for now
+				}
+
+			}
+
+		}
     }
 
 }

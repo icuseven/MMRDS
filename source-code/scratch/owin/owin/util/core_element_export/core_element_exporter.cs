@@ -59,7 +59,7 @@ namespace mmria.server.util
 					else if (arg.ToLower().StartsWith("item_file_name"))
 					{
 						this.item_file_name = val;
-						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.IndexOf ("."));
+						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.LastIndexOf ("."));
 					}
 					else if (arg.ToLower().StartsWith("item_id"))
 					{
