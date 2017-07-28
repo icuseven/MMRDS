@@ -146,6 +146,8 @@ function confirm_export_item(p_id)
 	if(item)
 	{
 		item.status = "In Queue...";
+		item.date_last_updated = new Date().toISOString();
+		item.last_updated_by = $mmria.getCookie("uid");
 
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
@@ -197,6 +199,8 @@ function delete_export_item(p_id)
 	if(item)
 	{
 		item.status = "Deleted";
+		item.date_last_updated = new Date().toISOString();
+		item.last_updated_by = $mmria.getCookie("uid");
 		//item._deleted = true;
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
