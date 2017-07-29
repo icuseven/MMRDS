@@ -162,7 +162,7 @@ function confirm_export_item(p_id)
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				}//,
 		}).done(function(response) {
-				g_metadata = response;
+				//g_metadata = response;
 				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 		});
 	}
@@ -189,8 +189,8 @@ function download_export_item(p_id)
 	{
 		var download_url = location.protocol + '//' + location.host + '/api/zip/' + p_id;
 		window.open(download_url, "_zip");
+		load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 	}
-	render();
 }
 
 function delete_export_item(p_id)
@@ -215,7 +215,7 @@ function delete_export_item(p_id)
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				}//,
 		}).done(function(response) {
-				g_metadata = response;
+				//g_metadata = response;
 				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 		});
 	}

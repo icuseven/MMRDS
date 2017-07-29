@@ -157,6 +157,7 @@ namespace mmria.server
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
 				// Read the content.
 				object_string = reader0.ReadToEnd ();
+
 				queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
 
 			}
@@ -168,6 +169,10 @@ namespace mmria.server
 			//if(queue_request.case_list.Length == 1)
 			try
 			{
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				object_string = Newtonsoft.Json.JsonConvert.SerializeObject (queue_item, settings); 
+
 				string export_queue_request_url = Program.config_couchdb_url + "/export_queue/"  +  queue_item._id;
 
 				var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, null, null);
@@ -193,6 +198,7 @@ namespace mmria.server
 
 
 				string responseFromServer = export_queue_curl.execute();
+
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 			
 
