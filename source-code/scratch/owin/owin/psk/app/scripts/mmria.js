@@ -116,7 +116,7 @@ var $mmria = function()
                 s4() + '-' + s4() + s4() + s4();
         },
 
-        addCookie: function (name,value,days)
+        addCookie: function (cookie_name,value,days)
         {
             var expires = "";
             if (days) 
@@ -133,7 +133,7 @@ var $mmria = function()
                 expires = "; expires=" + new_date_time.toGMTString();
 
             }
-            document.cookie = name + "=" + value + expires + "; path=/";
+            document.cookie = cookie_name + "=" + value + expires + "; path=/";
         },
         getCookie: function (name)
         {

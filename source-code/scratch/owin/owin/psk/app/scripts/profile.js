@@ -1,14 +1,15 @@
 var profile = {
 
-	is_logged_in: false,
+		is_logged_in: false,
 		user_name: null,
 		user_roles: null,
 		auth_session: null,
 		password: null,
+		date_of_last_activity: new Date(),
 
 get_auth_session_cookie: function ()
 {
-	var result = $mmria.getCookie("AuthSession");
+	var result = profile.auth_session || $mmria.getCookie("AuthSession");
 	/*
 	var cookie_string = new String(document.cookie);
 	if(cookie_string.length > 0)
@@ -291,8 +292,9 @@ login_response: function (response)
 
 			$mmria.addCookie("uid", profile.user_name);
 			$mmria.addCookie("pwd", profile.password);
-			$mmria.addCookie("roles", json_response.roles);
 			$mmria.addCookie("AuthSession", profile.auth_session);
+			$mmria.addCookie("roles", json_response.roles);
+			
 
 
 			if(profile.user_roles.indexOf("abstractor") >-1)
@@ -480,5 +482,39 @@ logout : function()
 	clear_status :function ()
 	{
 		document.getElementById("login_status_area").innerHTML = "<div>&nbsp;</div>";
+	},
+	update_session_timer : function ()
+	{
+		var url =  location.protocol + '//' + location.host + "/api/session";
+
+		var current_auth_session = profile.auth_session || $mmria.getCookie("AuthSession");
+
+		if(current_auth_session)
+		{
+			$.ajax({
+					url: url,
+					beforeSend: function (request)
+					{
+						request.setRequestHeader("AuthSession", current_auth_session);
+					},
+					method: 'GET'
+			}).done(function(response) {
+					var json_response = response[0];
+
+			//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
+			if
+			(
+				json_response.userCTX.name &&
+				json_response.userCTX.name == $mmria.getCookie("uid") && 
+				json_response.auth_session 
+
+			)
+			{	
+				$mmria.addCookie("AuthSession", json_response.auth_session);
+				profile.auth_session = json_response.auth_session;
+			}
+			});
+		}
 	}
+
 };

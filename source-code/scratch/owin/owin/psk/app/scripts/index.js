@@ -377,7 +377,8 @@ function load_profile()
           profile.user_roles.indexOf("_admin") < 0
       )
       {
-        window.setInterval(save_change_task, 30000);	
+        window.setInterval(save_change_task,      30000);	
+        window.setInterval(profile.update_session_timer, 120000);
       }
     };
 
@@ -1076,3 +1077,5 @@ function add_new_form_click(p_metadata_path, p_object_path)
     eval(post_html_call_back.join(""));
   }
 }
+
+
