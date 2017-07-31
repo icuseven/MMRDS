@@ -78,6 +78,7 @@ padding-right: 15px;
   margin: 0 auto;
   width: 1101px; 
   height: 400px;
+  white-space: pre-wrap;
   padding: 70px;
   line-height: 300%;
   box-sizing: border-box;
