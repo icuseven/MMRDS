@@ -246,11 +246,11 @@ namespace mmria.server.util
 		public void set_de_identified_value (dynamic p_object, string p_path)
 		{
 
-
+/*
 			if (p_path == "er_visit_and_hospital_medical_records/maternal_record_identification/first_name")
 			{
 				//System.Console.Write("break");
-			}
+			}*/
 
 			try
 			{
