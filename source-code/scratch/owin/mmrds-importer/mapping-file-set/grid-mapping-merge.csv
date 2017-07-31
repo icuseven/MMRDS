@@ -169,7 +169,7 @@ PrenatalCareRecord16PC_HospER_grid," """"", PC_HospERCom, System.String,prenatal
 PrenatalCareRecord16PC_HospER_grid," """"", PC_HospERDate, System.DateTime,prenatal/pre_delivery_hospitalizations_details/date,
 PrenatalCareRecord16PC_HospER_grid," """"", PC_HospERFac, System.String,prenatal/pre_delivery_hospitalizations_details/facility,
 PrenatalCareRecord13PC_MedHist_grid, Were there pre-existing medical conditions?," """"",,,
-PrenatalCareRecord13PC_MedHist_grid," """"", PC_MHCond, System.String,prenatal/pre_existing_conditons_grid/condition,
+PrenatalCareRecord13PC_MedHist_grid," """"", PC_MHCond, System.String,prenatal/pre_existing_conditons_grid/other,
 PrenatalCareRecord13PC_MedHist_grid," """"", PC_MHDur, System.String,prenatal/pre_existing_conditons_grid/duration,
 PrenatalCareRecord13PC_MedHist_grid," """"", PC_MHComm, System.String,prenatal/pre_existing_conditons_grid/comments,
 PrenatalCareRecord16PC_Meds_grid, List of medications / drugs during pregnancy," """"",,,
