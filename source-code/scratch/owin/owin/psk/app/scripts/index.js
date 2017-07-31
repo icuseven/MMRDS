@@ -16,9 +16,9 @@ var g_couchdb_url = null;
 var g_localDB = null;
 var g_remoteDB = null;
 var g_metadata_summary = [];
-
-
 var default_object = null;
+
+
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
@@ -140,7 +140,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
           case 'datetime':
             $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker({
-                 format:"d.m.Y H:i",  
+                 format:"Y-MM-D H:mm:ss",  
 				        defaultDate: value });
           break;
 
@@ -343,6 +343,8 @@ var $$ = {
 
 $(function ()
 {
+  $.datetimepicker.setLocale('en');
+
   load_values();
 
 
