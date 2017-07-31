@@ -230,7 +230,7 @@ $(function ()
 	});
 
 
-
+	window.setInterval(profile.update_session_timer, 120000);
 
 });
 
