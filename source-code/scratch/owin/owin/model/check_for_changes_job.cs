@@ -36,7 +36,7 @@ namespace mmria.server.model
 					{
 						Program.is_processing_export_queue = true;
 
-						System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
+						//System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
 						try
 						{
 							Process_Export_Queue_Item ();
@@ -46,7 +46,7 @@ namespace mmria.server.model
 						{
 							// to nothing for now
 						}
-						System.Console.WriteLine ("{0} Ending Export Queue Item Processing", System.DateTime.Now);
+						//System.Console.WriteLine ("{0} Ending Export Queue Item Processing", System.DateTime.Now);
 						Program.is_processing_export_queue = false;
 					})
 				);
@@ -55,7 +55,7 @@ namespace mmria.server.model
 			
 			if (!Program.is_processing_syncronization)
 			{
-				System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
+				//System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
 				Program.is_processing_syncronization = true;
 				//log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
 				mmria.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence);
@@ -224,7 +224,7 @@ namespace mmria.server.model
 						System.Console.WriteLine ("Delete sync error:\n{0}", ex);
 				}
 				Program.is_processing_syncronization = false;
-				System.Console.WriteLine ("{0}- Ending Change Synchronization.", System.DateTime.Now);
+				//System.Console.WriteLine ("{0}- Ending Change Synchronization.", System.DateTime.Now);
 			}
 			
 	
