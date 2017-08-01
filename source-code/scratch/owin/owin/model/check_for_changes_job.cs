@@ -367,6 +367,7 @@ namespace mmria.server.model
 					core_element_exporter.Execute(args.ToArray());
 
 					item_to_process.status = "Creating Export...";
+					item_to_process.last_updated_by = "mmria-server";
 
 
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -385,6 +386,7 @@ namespace mmria.server.model
 					mmrds_exporter.Execute(args.ToArray());
 
 					item_to_process.status = "Creating Export...";
+					item_to_process.last_updated_by = "mmria-server";
 
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -467,6 +469,7 @@ namespace mmria.server.model
 					}
 
 					item_to_process.status = "expunged";
+					item_to_process.last_updated_by = "mmria-server";
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
