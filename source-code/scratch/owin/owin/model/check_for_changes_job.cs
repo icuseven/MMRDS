@@ -28,7 +28,7 @@ namespace mmria.server.model
 			JobKey jobKey = context.JobDetail.Key;
 
 
-			if (!Program.is_processing_export_queue)
+			//if (!Program.is_processing_export_queue)
 			{
 				System.Threading.Tasks.Task.Run
 				(
@@ -53,7 +53,7 @@ namespace mmria.server.model
 			}
 
 			
-			if (!Program.is_processing_syncronization)
+			//if (!Program.is_processing_syncronization)
 			{
 				//System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
 				Program.is_processing_syncronization = true;
