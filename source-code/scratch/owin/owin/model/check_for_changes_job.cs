@@ -456,16 +456,31 @@ namespace mmria.server.model
 				{
 					string item_directory_name = item_to_process.file_name.Substring (0, item_to_process.file_name.LastIndexOf ("."));
 
-					string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_directory_name);
-					if (System.IO.Directory.Exists(export_directory))
+					try
 					{
-						System.IO.Directory.Delete(export_directory, true);
+						string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_directory_name);
+						if (System.IO.Directory.Exists(export_directory))
+						{
+							System.IO.Directory.Delete(export_directory, true);
+						}
+					}
+					catch(Exception Ex)
+					{
+						// do nothing for now
 					}
 
-					string file_path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_to_process.file_name);
-					if (System.IO.File.Exists(file_path))
+					try
 					{
-						System.IO.File.Delete(file_path);
+						string file_path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_to_process.file_name);
+						if (System.IO.File.Exists(file_path))
+						{
+							System.IO.File.Delete(file_path);
+						}
+
+					}
+					catch(Exception Ex)
+					{
+						// do nothing for now
 					}
 
 					item_to_process.status = "expunged";
