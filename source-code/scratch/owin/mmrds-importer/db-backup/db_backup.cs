@@ -17,104 +17,84 @@ namespace mmria.console.db
 		private string mmria_url = null;
 		private bool is_offline_mode;
 
-		public Backup()
+		public Backup ()
 		{
-			this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+			this.is_offline_mode = bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_offline_mode"]);
 
 		}
-		public void Execute(string[] args)
+		public void Execute (string [] args)
 		{
-			string export_directory = System.Configuration.ConfigurationManager.AppSettings["export_directory"];
+			string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
 
-			if (!System.IO.Directory.Exists(export_directory))
-			{
-				System.IO.Directory.CreateDirectory(export_directory);
+			if (!System.IO.Directory.Exists (export_directory)) {
+				System.IO.Directory.CreateDirectory (export_directory);
 			}
 
 
 
-			if (args.Length > 1)
-			{
-				for (var i = 1; i < args.Length; i++)
-				{
-					string arg = args[i];
-					int index = arg.IndexOf(':');
-					string val = arg.Substring(index + 1, arg.Length - (index + 1)).Trim(new char[] { '\"' });
+			if (args.Length > 1) {
+				for (var i = 1; i < args.Length; i++) {
+					string arg = args [i];
+					int index = arg.IndexOf (':');
+					string val = arg.Substring (index + 1, arg.Length - (index + 1)).Trim (new char [] { '\"' });
 
-					if (arg.ToLower().StartsWith("auth_token"))
-					{
+					if (arg.ToLower ().StartsWith ("auth_token")) {
 						this.auth_token = val;
-					}
-					else if (arg.ToLower().StartsWith("user_name"))
-					{
+					} else if (arg.ToLower ().StartsWith ("user_name")) {
 						this.user_name = val;
-					}
-					else if (arg.ToLower().StartsWith("password"))
-					{
+					} else if (arg.ToLower ().StartsWith ("password")) {
 						this.password = val;
-					}
-					else if (arg.ToLower().StartsWith("database_url"))
-					{
+					} else if (arg.ToLower ().StartsWith ("database_url")) {
 						this.database_url = val;
-					}
-					else if (arg.ToLower().StartsWith("backup_file_path"))
-					{
+					} else if (arg.ToLower ().StartsWith ("backup_file_path")) {
 						this.backup_file_path = val;
-					}
-					else if (arg.ToLower().StartsWith("url"))
-					{
+					} else if (arg.ToLower ().StartsWith ("url")) {
 						this.mmria_url = val;
 					}
 				}
 			}
 
 
-			if (string.IsNullOrWhiteSpace(this.database_url))
-			{
-				this.database_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"];
+			if (string.IsNullOrWhiteSpace (this.database_url)) {
+				this.database_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
 
-				if (string.IsNullOrWhiteSpace(this.database_url))
-				{
-					System.Console.WriteLine("missing database_url");
-					System.Console.WriteLine(" form backup_file_path:[file path]");
-					System.Console.WriteLine(" example database:http://localhost:5984/metadata");
-					System.Console.WriteLine(" mmria.exe backup user_name:user1 password:secret url:http://localhost:12345 database_url:http://localhost:5984/database_name");
+				if (string.IsNullOrWhiteSpace (this.database_url)) {
+					System.Console.WriteLine ("missing database_url");
+					System.Console.WriteLine (" form backup_file_path:[file path]");
+					System.Console.WriteLine (" example database:http://localhost:5984/metadata");
+					System.Console.WriteLine (" mmria.exe backup user_name:user1 password:secret url:http://localhost:12345 database_url:http://localhost:5984/database_name");
 
 					return;
 				}
 			}
 
-			if (string.IsNullOrWhiteSpace(this.mmria_url))
-			{
-				this.mmria_url = System.Configuration.ConfigurationManager.AppSettings["web_site_url"];
+			if (string.IsNullOrWhiteSpace (this.mmria_url)) {
+				this.mmria_url = System.Configuration.ConfigurationManager.AppSettings ["web_site_url"];
 
-				if (string.IsNullOrWhiteSpace(this.mmria_url))
-				{
-					System.Console.WriteLine("missing url");
-					System.Console.WriteLine(" form url:[website_url]");
-					System.Console.WriteLine(" example url:http://localhost:12345");
-					System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
+				if (string.IsNullOrWhiteSpace (this.mmria_url)) {
+					System.Console.WriteLine ("missing url");
+					System.Console.WriteLine (" form url:[website_url]");
+					System.Console.WriteLine (" example url:http://localhost:12345");
+					System.Console.WriteLine (" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
 
 					return;
 				}
 
 			}
 
-			if (string.IsNullOrWhiteSpace(this.user_name))
-			{
-				System.Console.WriteLine("missing user_name");
-				System.Console.WriteLine(" form user_name:[user_name]");
-				System.Console.WriteLine(" example user_name:user1");
-				System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
+			if (string.IsNullOrWhiteSpace (this.user_name)) {
+				System.Console.WriteLine ("missing user_name");
+				System.Console.WriteLine (" form user_name:[user_name]");
+				System.Console.WriteLine (" example user_name:user1");
+				System.Console.WriteLine (" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(this.password))
-			{
-				System.Console.WriteLine("missing password");
-				System.Console.WriteLine(" form password:[password]");
-				System.Console.WriteLine(" example password:secret");
-				System.Console.WriteLine(" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
+			if (string.IsNullOrWhiteSpace (this.password)) {
+				System.Console.WriteLine ("missing password");
+				System.Console.WriteLine (" form password:[password]");
+				System.Console.WriteLine (" example password:secret");
+				System.Console.WriteLine (" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
 				return;
 			}
 
@@ -126,20 +106,25 @@ namespace mmria.console.db
 			dynamic all_cases = mmria_server.get_all_cases(this.database_url);
 			*/
 
-			mmria.console.model.couchdb.cBulkDocument bulk_document = GetDocumentList ();
-
-
-
-			foreach (IDictionary<string, object> document in bulk_document.docs) 
+			try 
 			{
-				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject (document);
-				System.Console.WriteLine ("json\n{0}", json_string);
+				mmria.console.model.couchdb.cBulkDocument bulk_document = GetDocumentList ();
+
+				string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject (bulk_document);
+				if (!System.IO.File.Exists (this.backup_file_path)) 
+				{
+					System.IO.File.WriteAllText (this.backup_file_path, bulk_document_string);
+				}
+
+				Console.WriteLine ("Backup Finished.");
+			}
+			catch (Exception ex) 
+			{
+				Console.WriteLine (ex);
 			}
 
-
-
-			Console.WriteLine("Backup Finished.");
 		}
+
 
 
 		private mmria.console.model.couchdb.cBulkDocument GetDocumentList ()

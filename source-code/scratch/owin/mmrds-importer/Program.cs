@@ -33,7 +33,7 @@ namespace mmria.console
 		//import user_name:user1 password:password database_file_path:c:\temp\Import_TestCases_13Jun2017\Import_TestCases_13Jun2017.mdb url:http://test.mmria.org
 		//import user_name:user1 password:password database_file_path:c:\temp\Mock_Review_Demo_Cases_May2017.mdb url:http://test.mmria.org
 
-		//backup user_name:user1 password:password database_url:http://demo.mmria.org/metadata backup_file_path:c:\temp\bk-meta.bk
+		//backup user_name:user1 password:password database_url:http://demodb.mmria.org/metadata backup_file_path:c:\temp\bk-meta.bk
 
 		public static void Main(string[] args)
 		{
