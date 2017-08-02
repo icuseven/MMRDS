@@ -38,7 +38,10 @@ namespace mmria.server
 				}
 			}
 
-			mmria.common.model.couchdb.session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session_response> (session_curl.execute ());
+
+			string session_curl_resonse = session_curl.execute ();
+
+			mmria.common.model.couchdb.session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session_response> (session_curl_resonse);
 
 			
 			if (json_result.userCTX.roles.Contains ("abstractor", StringComparer.OrdinalIgnoreCase))
