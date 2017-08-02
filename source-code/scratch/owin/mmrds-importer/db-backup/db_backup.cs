@@ -110,7 +110,9 @@ namespace mmria.console.db
 			{
 				mmria.console.model.couchdb.cBulkDocument bulk_document = GetDocumentList ();
 
-				string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject (bulk_document);
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject (bulk_document, settings);
 				if (!System.IO.File.Exists (this.backup_file_path)) 
 				{
 					System.IO.File.WriteAllText (this.backup_file_path, bulk_document_string);
@@ -141,6 +143,7 @@ namespace mmria.console.db
 			{
 
 				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row) ["doc"] as IDictionary<string, object>;
+				case_doc.Remove("_rev");
 				result.docs.Add (case_doc);
 			}
 

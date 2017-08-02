@@ -109,8 +109,10 @@ namespace mmria.console.db
 			if (System.IO.File.Exists (this.backup_file_path)) 
 			{
 				string bulk_document_string = System.IO.File.ReadAllText (this.backup_file_path);
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				mmria.console.model.couchdb.cBulkDocument bulk_document =
-					Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.console.model.couchdb.cBulkDocument> (bulk_document_string);
+					Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.console.model.couchdb.cBulkDocument> (bulk_document_string, settings);
 
 				string post_result = Post_Document_List (bulk_document);
 
@@ -131,7 +133,7 @@ namespace mmria.console.db
 
 			string result = null;
 			string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_bulk_document);
-			string URL = string.Format ("{0}/_all_docs", this.database_url);
+			string URL = string.Format ("{0}/_bulk_docs", this.database_url);
 			cURL document_curl = new cURL ("POST", null, URL, bulk_document_string, this.user_name, this.password);
 			try
 			{
