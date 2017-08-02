@@ -147,7 +147,7 @@ namespace mmria.console.db
 
 			mmria.console.model.couchdb.cBulkDocument result = new model.couchdb.cBulkDocument ();
 
-			string URL = string.Format("{0}/{1}/_all_docs?include_docs=true", this.database_url, p_database_name);
+			string URL = string.Format("{0}/_all_docs?include_docs=true", this.database_url);
 			cURL document_curl = new cURL ("GET", null, URL, null, this.user_name, this.password);
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_curl.execute ());
 			dynamic all_cases_rows = all_cases.rows;
