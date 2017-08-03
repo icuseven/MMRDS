@@ -311,7 +311,7 @@ namespace mmria.server.model
 		
 				if (
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().Equals ("In Queue...", StringComparison.OrdinalIgnoreCase))
+					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
 				{
 					export_queue_item item = new export_queue_item ();
 	
@@ -360,7 +360,7 @@ namespace mmria.server.model
 				args.Add ("item_id:" + item_to_process._id);
 
 
-				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
+				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))
 				{
 					//export-core user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
@@ -378,7 +378,7 @@ namespace mmria.server.model
 					responseFromServer = get_curl.execute ();
 				
 				}
-				else if(item_to_process.export_type.Equals ("all csv", StringComparison.OrdinalIgnoreCase))
+				else if(item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase))
 				{
 						
 					//export user_name:user1 password:password url:http://localhost:12345
@@ -418,7 +418,7 @@ namespace mmria.server.model
 
 				if (
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().Equals ("Deleted", StringComparison.OrdinalIgnoreCase))
+					doc_item ["status"].ToString ().StartsWith ("Deleted", StringComparison.OrdinalIgnoreCase))
 				{
 					export_queue_item item = new export_queue_item ();
 
@@ -455,10 +455,10 @@ namespace mmria.server.model
 				try
 				{
 					string item_directory_name = item_to_process.file_name.Substring (0, item_to_process.file_name.LastIndexOf ("."));
+					string export_directory = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_directory_name);
 
 					try
 					{
-						string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_directory_name);
 						if (System.IO.Directory.Exists(export_directory))
 						{
 							System.IO.Directory.Delete(export_directory, true);
@@ -467,11 +467,13 @@ namespace mmria.server.model
 					catch(Exception Ex)
 					{
 						// do nothing for now
+						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete Directory {0}", export_directory);
 					}
 
+					string file_path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_to_process.file_name);
 					try
 					{
-						string file_path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_to_process.file_name);
+						
 						if (System.IO.File.Exists(file_path))
 						{
 							System.IO.File.Delete(file_path);
@@ -481,6 +483,7 @@ namespace mmria.server.model
 					catch(Exception Ex)
 					{
 						// do nothing for now
+						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
 					}
 
 					item_to_process.status = "expunged";
