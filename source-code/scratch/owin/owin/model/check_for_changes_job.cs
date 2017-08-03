@@ -296,6 +296,8 @@ namespace mmria.server.model
 
         public void Process_Export_Queue_Item ()
         {
+			System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
+
 			List<export_queue_item> result = new List<export_queue_item> ();
 			
 			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
@@ -403,6 +405,8 @@ namespace mmria.server.model
 
 		public void Process_Export_Queue_Delete()
 		{
+			System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: started", System.DateTime.Now);
+
 			List<export_queue_item> result = new List<export_queue_item> ();
 
 			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
