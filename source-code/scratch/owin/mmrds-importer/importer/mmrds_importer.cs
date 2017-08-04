@@ -144,9 +144,9 @@ namespace mmria.console.import
 				if (
 					//row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
 					//row["source_path"].ToString().Trim() == "MaternalMortality1.MM_MBC" ||
-					row["mmria_path"].ToString ().IndexOf("pmss_mm") > -1 &&
-						row ["value1"] != DBNull.Value &&
-						row ["value1"].ToString ().IndexOf ("20.1") > -1
+					//row["mmria_path"].ToString ().IndexOf("other significant") > -1 &&
+					//	row ["value1"] != DBNull.Value &&
+						row ["value1"].ToString ().IndexOf ("ther significant") > -1
 				) 
 				{
 					System.Console.Write ("break");
@@ -268,7 +268,7 @@ namespace mmria.console.import
 
 			foreach (System.Data.DataRow row in id_record_set.Rows)
 			{
-				
+				/**/
 				if 
 				(
 					row[0].ToString() != "d0e08da8-d306-4a9a-a5ff-9f1d54702091" &&
@@ -279,7 +279,7 @@ namespace mmria.console.import
 				{
 					continue;
 				}
-				/**/
+
 
 				id_list.Add(row[0].ToString());
 			}
@@ -608,9 +608,35 @@ namespace mmria.console.import
 		{
 			mmria.console.util.csv_Data csv_data = new util.csv_Data();
 			System.Data.DataTable result = csv_data.get_datatable(@"mapping-file-set/MMRDS-Mapping-NO-GRIDS-lookup-values.csv");
-			string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
+			//string mapping_sql = string.Format("SELECT [mmria_path], [value1], [value2], [mmria_value], [path] as [source_path] FROM [{0}] Where [mmria_path] is not null ", p_mapping_table_name);
 			result.Columns ["path"].ColumnName = "source_path";
 			//result = p_mapping.GetDataTable(mapping_sql);
+
+
+
+			System.Data.DataTable grid_mapping_data_table = csv_data.get_datatable (@"mapping-file-set/grid-mapping-lookup-values.csv");
+
+			foreach (System.Data.DataRow row in grid_mapping_data_table.Rows) 
+			{
+				System.Data.DataRow new_row = result.NewRow ();
+
+				new_row["source_path"] = row["table"] + "." + row["field"];
+				new_row["prompttext"] = row["prompt"];
+				new_row["DataType"] = row["data_type"];
+				new_row["DataTablePath"] = row["table"];
+				new_row["f.name"] = row["field"];
+
+
+				new_row["mmria_path"] = row["mmria_path"];
+				new_row["value1"] = row["value1"];
+				new_row["value2"] = row["value2"];
+
+				new_row["mmria_value"] = row["mmria_value"];
+
+				result.Rows.Add (new_row);
+			}
+
+
 			result.Select("[mmria_path] is not null ");
 
 			return result;
@@ -711,7 +737,7 @@ namespace mmria.console.import
 				{
 					string path = row["mmria_path"].ToString().Trim();
 
-					if (path == "committee_review/pmss_mm")
+					if (row["table"].ToString().Contains("AutopsyReport12AR_COD_grid"))
 					{
 						System.Console.Write("break");
 					}
@@ -732,11 +758,11 @@ namespace mmria.console.import
 					if (check_index > -1)
 					{
 						string table_name = row[0].ToString().Trim().Substring(0, check_index);
-						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], table_name + "." + row[2].ToString().Trim(), null, row[0].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], table_name + "." + row[2].ToString().Trim(), null, row[0].ToString().Trim() + "." + row[2].ToString().Trim());
 					}
 					else
 					{
-						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim(), null, row[0].ToString().Trim());
+						case_maker.set_value(metadata, case_data, path, grid_row[row["field"].ToString().Trim()], row[0].ToString().Trim() + "." + row[2].ToString().Trim(), null, row[0].ToString().Trim() + "." + row[2].ToString().Trim());
 					}
 					Console.WriteLine(string.Format("{0}", path));
 					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".", ""), row["prompt"].ToString().Replace(",", "")));
