@@ -35,7 +35,7 @@ function export_queue_render(p_queue_data)
 		result.push(item.export_type); result.push("</td><td>");
 		result.push(item.status); result.push("</td>");
 
-		if(item.status == "Need Confirmation")
+		if(item.status == "Confirmation Required")
 		{
 			result.push("<td><input type='button' value='Confirm' onclick='confirm_export_item(\"" + item._id + "\")' /> | <input type='button' value='Cancel' onclick='cancel_export_item(\"" + item._id + "\")' /></td>");
 		}

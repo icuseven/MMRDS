@@ -81,7 +81,7 @@ function create_queue_item(p_export_type)
 			last_updated_by: $mmria.getCookie("uid"),
 			file_name: new_date.replace(/:/g, "-") + ".zip",
 			export_type: p_export_type,
-			status: "Need Confirmation"	
+			status: "Confirmation Required"	
 	}
 	
 	return result;
@@ -232,7 +232,7 @@ function update_queue_task()
 	var temp = [];
 	for(var i = 0; i < g_data.length; i++)
 	{
-		if(g_data[i].status == "Need Confirmation")
+		if(g_data[i].status == "Confirmation Required")
 		{
 			temp.push(g_data[i]);
 		}

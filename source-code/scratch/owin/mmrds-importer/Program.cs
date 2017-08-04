@@ -32,6 +32,9 @@ namespace mmria.console
 		//import user_name:user1 password:password database_file_path:c:\temp\Maternal_Mortality.mdb url:http://localhost:12345
 		//import user_name:user1 password:password database_file_path:c:\temp\Import_TestCases_13Jun2017\Import_TestCases_13Jun2017.mdb url:http://test.mmria.org
 		//import user_name:user1 password:password database_file_path:c:\temp\Mock_Review_Demo_Cases_May2017.mdb url:http://test.mmria.org
+
+		//backup user_name:user1 password:password database_url:http://demodb.mmria.org/metadata backup_file_path:c:\temp\bk-meta.bk
+
 		public static void Main(string[] args)
 		{
 			if (args.Length > 0)
@@ -39,8 +42,8 @@ namespace mmria.console
 				switch (args[0])
 				{
 					case "import":
-						var importer = new mmria.console.import.mmrds_importer();
-						importer.Execute(args);
+						var import_run = new mmria.console.import.mmrds_importer();
+						import_run.Execute(args);
 						break;
 
 					case "export":
@@ -51,7 +54,14 @@ namespace mmria.console
 						var core_exporter = new mmria.console.export.core_element_exporter();
 						core_exporter.Execute(args);
 						break;
-
+					case "backup":
+						var db_backup = new mmria.console.db.Backup();
+						db_backup.Execute (args);
+					break;
+					case "restore":
+						var db_retore = new mmria.console.db.Restore ();
+						db_retore.Execute (args);
+					break;
 
 					default:
 						return;
@@ -61,77 +71,12 @@ namespace mmria.console
 			{
 				System.Console.WriteLine("use:");
 				System.Console.WriteLine("\timport");
-				System.Console.WriteLine("\tupdate");
-				System.Console.WriteLine("\tsetup");
-				System.Console.WriteLine("\tconfigure");
+				System.Console.WriteLine("\texport");
+				System.Console.WriteLine("\texport-coere");
+				System.Console.WriteLine("\tbackup");
+				System.Console.WriteLine ("\trestore");
 				return;
 			}
-		}
-
-		public static void Main2 (string[] args)
-		{
-
-			var data = new cData ("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=mapping-file-set/Maternal_Mortality.mdb;User ID=;Password=;");
-
-
-			var rs = data.GetDataTable ("Select * from AutopsyReport");
-
-			foreach (System.Data.DataRow row in rs.Rows) 
-			{
-				//if (row[5].ToString().ToLower() == "grid")
-				//{
-					Console.WriteLine(row[2].ToString());
-				//}
-			}
-
-			var filename = @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv";
-			var connString = string.Format(
-				@"Provider=Microsoft.Jet.OleDb.4.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
-				System.IO.Path.GetDirectoryName(filename)
-			);
-
-			var data2 = new cData(connString);
-			var rs2 = data2.GetDataTable("SELECT * FROM [" + System.IO.Path.GetFileName(filename) + "]");
-
-			//Path,BaseTable,DataTablePath,f.Name,prompttext,ft.Name,DataType,MMRIA Path,MMRIA Group Name,Comments,
-
-
-			foreach (System.Data.DataRow row in rs2.Rows)
-			{
-				if (row[5].ToString().ToLower() == "grid")
-				{
-
-					var grid_table = data.GetDataTable(string.Format("Select * from [{0}] Where 1=0", row[0].ToString().Replace(".", "")));
-					Console.WriteLine(string.Format("{0}, {1}, \"\"", row[0].ToString().Replace(".",""), row["prompttext"].ToString().Replace(",","")));
-					foreach (System.Data.DataColumn c in grid_table.Columns)
-					{
-
-						if(c.ColumnName != "UniqueKey" &&
-							c.ColumnName != "UniqueRowId" &&
-							c.ColumnName != "GlobalRecordId" &&
-							c.ColumnName != "RECSTATUS" &&
-							c.ColumnName != "FKEY"
-						  )
-						{
-							Console.WriteLine(string.Format("\"\", \"\", {0}, {1}, \"\"", c.ColumnName, c.DataType));
-						}
-					}
-				}
-			}
-			/*
-			using (var conn = new System.Data.OleDb.OleDbConnection(connString))
-			{
-				conn.Open();
-				var query = "SELECT * FROM [" + System.IO.Path.GetFileName(filename) + "]";
-				using (var adapter = new System.Data.OleDb.OleDbDataAdapter(query, conn))
-				{
-					var ds = new DataSet("CSV File");
-					adapter.Fill(ds);
-				}
-			}*/
-
-
-			Console.WriteLine ("Hello World!");
 		}
 	}
 }

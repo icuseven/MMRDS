@@ -34,20 +34,31 @@ namespace mmria.server.model
 				(
 					new Action (() => 
 					{
-						Program.is_processing_export_queue = true;
-
 						//System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
 						try
 						{
 							Process_Export_Queue_Item ();
-							Process_Export_Queue_Delete();
 						}
 						catch(Exception ex)
 						{
 							// to nothing for now
+							System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: error\n{1}", System.DateTime.Now, ex);
+
 						}
+
+						try
+						{
+							Process_Export_Queue_Delete ();
+						}
+						catch(Exception ex)
+						{
+							// to nothing for now
+							System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: error\n{1}", System.DateTime.Now, ex);
+
+						}
+
 						//System.Console.WriteLine ("{0} Ending Export Queue Item Processing", System.DateTime.Now);
-						Program.is_processing_export_queue = false;
+
 					})
 				);
 			}
@@ -56,7 +67,6 @@ namespace mmria.server.model
 			//if (!Program.is_processing_syncronization)
 			{
 				//System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
-				Program.is_processing_syncronization = true;
 				//log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
 				mmria.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence);
 
@@ -223,7 +233,7 @@ namespace mmria.server.model
 				{
 						System.Console.WriteLine ("Delete sync error:\n{0}", ex);
 				}
-				Program.is_processing_syncronization = false;
+
 				//System.Console.WriteLine ("{0}- Ending Change Synchronization.", System.DateTime.Now);
 			}
 			
@@ -296,6 +306,8 @@ namespace mmria.server.model
 
         public void Process_Export_Queue_Item ()
         {
+			System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
+
 			List<export_queue_item> result = new List<export_queue_item> ();
 			
 			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
@@ -311,7 +323,7 @@ namespace mmria.server.model
 		
 				if (
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().Equals ("In Queue...", StringComparison.OrdinalIgnoreCase))
+					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
 				{
 					export_queue_item item = new export_queue_item ();
 	
@@ -319,9 +331,9 @@ namespace mmria.server.model
 					item._rev = doc_item ["_rev"].ToString ();
 					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
 					item.date_created = doc_item ["date_created"] as DateTime?;
-					item.created_by = doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
+					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
-					item.last_updated_by = doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
@@ -360,7 +372,7 @@ namespace mmria.server.model
 				args.Add ("item_id:" + item_to_process._id);
 
 
-				if (item_to_process.export_type.Equals ("core csv", StringComparison.OrdinalIgnoreCase))
+				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))
 				{
 					//export-core user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
@@ -378,7 +390,7 @@ namespace mmria.server.model
 					responseFromServer = get_curl.execute ();
 				
 				}
-				else if(item_to_process.export_type.Equals ("all csv", StringComparison.OrdinalIgnoreCase))
+				else if(item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase))
 				{
 						
 					//export user_name:user1 password:password url:http://localhost:12345
@@ -403,6 +415,8 @@ namespace mmria.server.model
 
 		public void Process_Export_Queue_Delete()
 		{
+			System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: started", System.DateTime.Now);
+
 			List<export_queue_item> result = new List<export_queue_item> ();
 
 			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
@@ -418,17 +432,17 @@ namespace mmria.server.model
 
 				if (
 					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().Equals ("Deleted", StringComparison.OrdinalIgnoreCase))
+					doc_item ["status"].ToString ().StartsWith ("Deleted", StringComparison.OrdinalIgnoreCase))
 				{
 					export_queue_item item = new export_queue_item ();
 
 					item._id = doc_item ["_id"].ToString ();
 					item._rev = doc_item ["_rev"].ToString ();
-					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
+					item._deleted = doc_item.ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
 					item.date_created = doc_item ["date_created"] as DateTime?;
-					item.created_by = doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
+					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
 					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
-					item.last_updated_by = doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
@@ -455,10 +469,10 @@ namespace mmria.server.model
 				try
 				{
 					string item_directory_name = item_to_process.file_name.Substring (0, item_to_process.file_name.LastIndexOf ("."));
+					string export_directory = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_directory_name);
 
 					try
 					{
-						string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_directory_name);
 						if (System.IO.Directory.Exists(export_directory))
 						{
 							System.IO.Directory.Delete(export_directory, true);
@@ -467,11 +481,13 @@ namespace mmria.server.model
 					catch(Exception Ex)
 					{
 						// do nothing for now
+						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete Directory {0}", export_directory);
 					}
 
+					string file_path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_to_process.file_name);
 					try
 					{
-						string file_path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], item_to_process.file_name);
+						
 						if (System.IO.File.Exists(file_path))
 						{
 							System.IO.File.Delete(file_path);
@@ -481,6 +497,7 @@ namespace mmria.server.model
 					catch(Exception Ex)
 					{
 						// do nothing for now
+						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
 					}
 
 					item_to_process.status = "expunged";

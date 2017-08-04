@@ -85,6 +85,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="util\CSV_Reader.cs" />
+    <Compile Include="db-restore\db_restore.cs" />
+    <Compile Include="db-backup\db_backup.cs" />
+    <Compile Include="model\cBulkDocument.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -105,6 +108,8 @@
     <Folder Include="importer\" />
     <Folder Include="exporter\" />
     <Folder Include="core_element_export\" />
+    <Folder Include="db-restore\" />
+    <Folder Include="db-backup\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj">
