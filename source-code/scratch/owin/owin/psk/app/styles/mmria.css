@@ -77,7 +77,7 @@ padding-right: 15px;
 	word-wrap: break-word;
   margin: 0 auto;
   width: 1101px; 
-  height: 1200px;
+  height: inherit;
   white-space: pre-wrap;
   padding: 70px;
   line-height: 300%;
