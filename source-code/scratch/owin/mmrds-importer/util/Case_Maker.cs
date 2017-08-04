@@ -128,9 +128,9 @@ namespace mmria
 
 						/*
 						if (
-								p_path.IndexOf ("committee_review/pmss_mm") > -1 &&
-								p_value != null &&
-								p_value.ToString ().IndexOf ("20.1") > -1
+								p_path.IndexOf ("autopsy_report/causes_of_death/type") > -1 //&&
+								//p_value != null &&
+								//p_value.ToString ().IndexOf ("20.1") > -1
 
 						   )
 						{

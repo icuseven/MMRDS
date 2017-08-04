@@ -141,6 +141,7 @@ namespace mmria.console.import
 				string value2 = null;
 				string mmria_value = null;
 
+				/*
 				if (
 					//row["mmria_path"].ToString().Trim() == "home_record/state_of_death_record" ||
 					//row["source_path"].ToString().Trim() == "MaternalMortality1.MM_MBC" ||
@@ -151,7 +152,7 @@ namespace mmria.console.import
 				{
 					System.Console.Write ("break");
 
-				}
+				}*/
 
 				if (row["value1"] != DBNull.Value)
 				{
@@ -737,10 +738,11 @@ namespace mmria.console.import
 				{
 					string path = row["mmria_path"].ToString().Trim();
 
+					/*
 					if (row["table"].ToString().Contains("AutopsyReport12AR_COD_grid"))
 					{
 						System.Console.Write("break");
-					}
+					}*/
 
 					string[] path_array = row["mmria_path"].ToString().Trim().Split('/');
 
