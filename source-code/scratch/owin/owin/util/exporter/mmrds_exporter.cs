@@ -188,10 +188,10 @@ namespace mmria.server.util
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
 			{
 				path_to_csv_writer.Add(file_name, new WriteCSV(file_name, this.item_directory_name));
-				Console.WriteLine(file_name);
+				//Console.WriteLine(file_name);
 				stream_file_count++;
 			}
-			Console.WriteLine("stream_file_count: {0}", stream_file_count);
+			//Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
 			create_header_row
 			(
@@ -248,7 +248,7 @@ namespace mmria.server.util
 						continue;
 					}
 
-					System.Console.WriteLine("path {0}", path);
+					//System.Console.WriteLine("path {0}", path);
 
 					if (
 						path_to_node_map[path].type.ToLower() == "list" &&
@@ -256,7 +256,7 @@ namespace mmria.server.util
 								   path_to_node_map[path].is_multiselect == true
 					  )
 					{
-						System.Console.WriteLine("break");
+						//System.Console.WriteLine("break");
 					}
 
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
@@ -349,7 +349,7 @@ namespace mmria.server.util
 					}
 					catch (Exception ex)
 					{
-						System.Console.Write("bad export value: {0} - {1}", val, path);
+						//System.Console.Write("bad export value: {0} - {1}", val, path);
 					}
 
 				}
@@ -495,7 +495,7 @@ namespace mmria.server.util
 								continue;
 							}
 
-							System.Console.WriteLine("path {0}", path);
+							//System.Console.WriteLine("path {0}", path);
 
 							string[] temp_path = path.Split('/');
 							List<string> form_path_list = new List<string>();
@@ -511,14 +511,14 @@ namespace mmria.server.util
 
 							if (path.Trim() == "death_certificate/place_of_last_residence/latitude")
 							{
-								System.Console.Write("pause");
+								//System.Console.Write("pause");
 							}
 
 							dynamic val = get_value(case_doc as IDictionary<string, object>, string.Join("/",form_path_list));
 
 							if (path.Trim() == "death_certificate/place_of_last_residence/latitude" && val != null)
 							{
-								System.Console.Write("pause");
+								//System.Console.Write("pause");
 							}
 
 							/*
@@ -724,7 +724,7 @@ namespace mmria.server.util
 			responseFromServer = set_item_curl.execute ();
 
 
-			Console.WriteLine("Export Finished.");
+			Console.WriteLine("{0} Export Finished", System.DateTime.Now);
 		}
 
 
@@ -1234,13 +1234,13 @@ namespace mmria.server.util
 					}
 					else
 					{
-						System.Console.WriteLine("This should not happen. {0}", p_path);
+						//System.Console.WriteLine("This should not happen. {0}", p_path);
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}
 
 			return result;

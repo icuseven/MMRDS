@@ -197,7 +197,7 @@ namespace mmria.server.util
 				Console.WriteLine(file_name);
 				stream_file_count++;
 			}*/
-			Console.WriteLine("stream_file_count: {0}", stream_file_count);
+			//Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
 			create_header_row
 			(
@@ -259,7 +259,7 @@ namespace mmria.server.util
 						continue;
 					}
 
-					System.Console.WriteLine("path {0}", path);
+					//System.Console.WriteLine("path {0}", path);
 
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
 					/*
@@ -427,7 +427,7 @@ namespace mmria.server.util
 			responseFromServer = set_item_curl.execute ();
 
 
-			Console.WriteLine("Export Finished.");
+			Console.WriteLine("{0} Export Finished.", System.DateTime.Now);
 		}
 
 
@@ -949,13 +949,13 @@ namespace mmria.server.util
 					}
 					else
 					{
-						System.Console.WriteLine("This should not happen. {0}", p_path);
+						//System.Console.WriteLine("This should not happen. {0}", p_path);
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+				//System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
 			}
 
 			return result;
