@@ -22,9 +22,34 @@ namespace install.setup
 
 			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" output.wixobj
 
-			wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
-			input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
-			output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
+			if (args.Length > 1) 
+			{
+				for (var i = 1; i < args.Length; i++) 
+				{
+					string arg = args [i];
+					int index = arg.IndexOf (':');
+					string val = arg.Substring (index + 1, arg.Length - (index + 1)).Trim (new char [] { '\"' });
+
+					if (arg.ToLower ().StartsWith ("wix_directory_path")) 
+					{
+						wix_directory_path = val;
+					}
+					else if (arg.ToLower ().StartsWith ("input_directory_path")) 
+					{
+						input_directory_path = val;
+					}
+					else if (arg.ToLower ().StartsWith ("output_directory_path")) 
+					{
+						output_directory_path = val;
+					}
+
+				}
+			}
+
+
+			if(string.IsNullOrWhiteSpace(wix_directory_path)) wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
+			if(string.IsNullOrWhiteSpace (input_directory_path)) input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
+			if(string.IsNullOrWhiteSpace (output_directory_path)) output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
 
 			System.IO.Directory.Delete(output_directory_path, true);
 			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
