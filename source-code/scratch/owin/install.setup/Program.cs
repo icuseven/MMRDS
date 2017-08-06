@@ -22,7 +22,7 @@ namespace install.setup
 
 			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" output.wixobj
 
-			if (args.Length > 1) 
+			if (args.Length > 0) 
 			{
 				for (var i = 1; i < args.Length; i++) 
 				{
