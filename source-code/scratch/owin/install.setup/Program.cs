@@ -185,7 +185,7 @@ namespace install.setup
 
 			string text = File.ReadAllText(wix_file_name);
 			text = System.Text.RegularExpressions.Regex.Replace(text, "xmlns=\"\"", "");
-			File.WriteAllText(output_directory_path + "\\" + wix_file_name, text);
+			File.WriteAllText(Path.Combine(output_directory_path, wix_file_name), text);
 
 			System.Text.StringBuilder name_hash_file_builder = new StringBuilder();
 			foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in name_hash_list)
@@ -307,7 +307,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"ComponentRef",
-					new XAttribute("Id", p_name)
+					new XAttribute("Id", p_name.StartsWith("/")? p_name.Substring(1, p_name.Length - 1):p_name)
 				);
 			return result;
 
