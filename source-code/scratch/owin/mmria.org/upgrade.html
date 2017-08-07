@@ -93,22 +93,25 @@ thetagrid/mmria:v17.08.07
 
 <p>Navigate to the database url; the default location is <strong>http://localhost:5984/_utils</strong></p>
 
-<p>Setup + Configure Single Node: choose "Setup" then "Configure Single Node"</p>
+<p>Setup + Replication and use the following settings:</p>
 <pre>
-Specify Credentials
-Select your Admin Username and Password
 
-IP Bind address to listen on = 0.0.0.0
+Remote
+http://db_init:mmria@configdb.mmria.org/metadata
 
-Port that the Node uses = 5984
+local 
+metadata
 
-Press "Configure Node"
-
-The application will respond with: <i>"Apache CouchDB is configured for production usage!  Do you want to replicate data?" </i>
-
+press "replicate"
 </pre>
 
 
+<p>Lastly, open a browser and navigate to <strong>http://localhost:12345/_config</strong>.  You will be present with an interface: "To ensure validator.js is updated use the below button." Press the button "update validator.js script"</p>
+<p>After a few seconds you should get the reponse:</p>
+<pre>
+perform_validation_save: complete
+</pre>
+	
 
 <hr/>
 
@@ -179,10 +182,28 @@ Listening at http://localhost:12345
 no configuration section <common/logging> found - suppressing logging output
 </pre>
 
+<h3 style="font:Work Sans Light"><strong>Upgrade metadata DB</strong></h3>
 
-<strong>http://localhost:12345/_config </strong>
+<p>Navigate to the database url; the default location is <strong>http://localhost:5984/_utils</strong></p>
 
-<p>Lastly, open a browser and navigate to <strong>http://localhost:12345/_config</strong>.  You will be present with an interface: "To perform db setup and initialization use the below form." Fill in the appropriate information and press the "Run db setup" button.</p>
+<p>Setup + Replication and use the following settings:</p>
+<pre>
+
+Remote
+http://db_init:mmria@configdb.mmria.org/metadata
+
+local 
+metadata
+
+press "replicate"
+</pre>
+
+
+<p>Lastly, open a browser and navigate to <strong>http://localhost:12345/_config</strong>.  You will be present with an interface: "To ensure validator.js is updated use the below button." Press the button "update validator.js script"</p>
+<p>After a few seconds you should get the reponse:</p>
+<pre>
+perform_validation_save: complete
+</pre>
 	
 	<br/>
 	<br/>
