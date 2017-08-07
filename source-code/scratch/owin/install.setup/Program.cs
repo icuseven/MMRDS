@@ -18,9 +18,9 @@ namespace install.setup
 
 		public static void Main(string[] args)
 		{
-			//"C:\Program Files\WiX Toolset v3.10\bin\candle" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" output.xml
+			//"C:\Program Files\WiX Toolset v3.10\bin\candle" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" .\output\output.xml
 
-			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" output.wixobj
+			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" .\output\output.wixobj
 
 			if (args.Length > 0) 
 			{
@@ -291,7 +291,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"Directory",
-					new XAttribute("Id", get_component_name(p_directory_info.FullName.ToUpper().Replace(output_directory_path.ToUpper(), ""))),
+					new XAttribute("Id", get_component_name(p_directory_info.FullName.ToUpper().Replace(output_directory_path.ToUpper(), "")).Replace("/","_").Replace(".","_")),
 					new XAttribute("Name", file_name)
 				);
 			/*
@@ -307,7 +307,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"ComponentRef",
-					new XAttribute("Id", p_name.StartsWith("/")? p_name.Substring(1, p_name.Length - 1):p_name)
+					new XAttribute("Id", p_name.Replace("/","_").Replace(".","_"))
 				);
 			return result;
 
@@ -332,7 +332,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"Component",
-					new XAttribute("Id", file_name),
+					new XAttribute("Id", file_name.Replace("/","_").Replace(".","_")),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info)
 				);
@@ -356,8 +356,8 @@ namespace install.setup
 					new XAttribute("Id", "MainExecutable"),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info),
-					get_shortcut("startmenummria1.2.0", "ProgramMenuDir", "MMRIA 1.2.0", "mmria_server.exe"),
-					get_shortcut("desktopmmria1.2.0", "DesktopFolder", "MMRIA 1.2.0", "mmria_server.exe")
+					get_shortcut("startmenummria17.08.07_v_2d52ee1_", "ProgramMenuDir", "MMRIA 17.08.07 v(2d52ee1)", "mmria_server.exe"),
+					get_shortcut("desktopmmria17.08.07_v_2d52ee1_", "DesktopFolder", "MMRIA 17.08.07 v(2d52ee1)", "mmria_server.exe")
 				);
 			/*
 		            <Component Id = 'MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
