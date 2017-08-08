@@ -1068,7 +1068,7 @@ namespace mmria.server.util
 					"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day",
 					"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month",
 					"birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year",
- 					"birth_fetal_death_certificate_parent/prenatal_care/obstetric_estimate_of_gestation",
+ 					"birth_fetal_death_certificate_parent/prenatal_care/obsteric_estimate_of_gestation",
 					"death_certificate/death_information/death_occured_in_hospital",
 					"death_certificate/death_information/death_outside_of_hospital",
 					"death_certificate/death_information/manner_of_death",

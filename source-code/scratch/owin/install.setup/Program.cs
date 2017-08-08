@@ -20,7 +20,7 @@ namespace install.setup
 		{
 			//"C:\Program Files\WiX Toolset v3.10\bin\candle" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" .\output\output.xml
 
-			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" .\output\output.wixobj
+			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" output.wixobj
 
 			if (args.Length > 0) 
 			{
