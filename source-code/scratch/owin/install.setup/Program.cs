@@ -356,8 +356,8 @@ namespace install.setup
 					new XAttribute("Id", "MainExecutable"),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info),
-					get_shortcut("startmenummria17.08.07_v_2d52ee1_", "ProgramMenuDir", "MMRIA 17.08.07 v(2d52ee1)", "mmria_server.exe"),
-					get_shortcut("desktopmmria17.08.07_v_2d52ee1_", "DesktopFolder", "MMRIA 17.08.07 v(2d52ee1)", "mmria_server.exe")
+					get_shortcut("startmenummria17.08.08_v_2d52ee1_", "ProgramMenuDir", "MMRIA 17.08.08 v(2d52ee1)", "mmria_server.exe"),
+					get_shortcut("desktopmmria17.08.08_v_2d52ee1_", "DesktopFolder", "MMRIA 17.08.08 v(2d52ee1)", "mmria_server.exe")
 				);
 			/*
 		            <Component Id = 'MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
