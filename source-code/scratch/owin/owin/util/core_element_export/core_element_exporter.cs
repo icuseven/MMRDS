@@ -970,6 +970,9 @@ namespace mmria.server.util
 					"date_last_updated",
 					"last_updated_by",
 					"home_record/record_id",
+					"home_record/date_of_death/month",
+					"home_record/date_of_death/day",
+					"home_record/date_of_death/year",
 					"birth_fetal_death_certificate_parent/demographic_of_mother/age",
 					"death_certificate/demographics/age",
 					"birth_fetal_death_certificate_parent/race/race_of_mother",
@@ -1090,7 +1093,8 @@ namespace mmria.server.util
 					"committee_review/was_this_death_a_sucide",
 					"committee_review/homicide_relatedness/was_this_death_a_homicide",
 					"committee_review/means_of_fatal_injury",
-					"committee_review/homicide_relatedness/if_homicide_relationship_of_perpetrator"
+					"committee_review/homicide_relatedness/if_homicide_relationship_of_perpetrator",
+				    "case_narrative/case_opening_overview"
 
 			};
 		}
