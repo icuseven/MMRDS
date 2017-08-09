@@ -17,7 +17,8 @@ curl -vX POST http://mmria:mmria@tdb10.mmria.org/_replicate \
      -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb0.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
-
+./couchdb-backup.sh -r -H tdb10.mmria.org -d mmrds -u mmria -p mmria -f mmria-metadata-db.json
+./couchdb-backup.sh -r -H tdb10.mmria.org -d mmrds -u mmria -p mmria -f training-mmrds-db.json
 
 
 
@@ -159,11 +160,6 @@ curl -vX POST http://mmria:mmria@tdb7.mmria.org/_replicate \
 	 
 
 
-
-
-curl -X PUT http://mmria:mmria@tdb8.mmria.org/_users
-curl -X PUT http://mmria:mmria@tdb8.mmria.org/_replicator
-curl -X PUT http://mmria:mmria@tdb8.mmria.org/_global_changes
 curl -X PUT http://mmria:mmria@tdb8.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb8.mmria.org/mmrds
 
@@ -183,10 +179,6 @@ curl -vX POST http://mmria:mmria@tdb8.mmria.org/_replicate \
 
 
 
-
-curl -X PUT http://mmria:mmria@tdb9.mmria.org/_users
-curl -X PUT http://mmria:mmria@tdb9.mmria.org/_replicator
-curl -X PUT http://mmria:mmria@tdb9.mmria.org/_global_changes
 curl -X PUT http://mmria:mmria@tdb9.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb9.mmria.org/mmrds
 
