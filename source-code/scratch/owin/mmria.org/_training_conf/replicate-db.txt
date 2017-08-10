@@ -5,16 +5,16 @@ curl -X PUT http://mmria:mmria@tdb10.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb10.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb10.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb10.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb10.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb10.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb0.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb0.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb10.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb0.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb0.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 ./couchdb-backup.sh -r -H tdb10.mmria.org -d mmrds -u mmria -p mmria -f mmria-metadata-db.json
@@ -26,16 +26,16 @@ curl -X PUT http://mmria:mmria@tdb1.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb1.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb1.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb1.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb1.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb1.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb1.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb1.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb1.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb1.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb1.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -47,16 +47,16 @@ curl -X PUT http://mmria:mmria@tdb2.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb2.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb2.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb2.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb2.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb2.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb2.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb2.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb2.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb2.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb2.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -67,16 +67,16 @@ curl -X PUT http://mmria:mmria@tdb3.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb3.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb3.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb3.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb3.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb3.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb3.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb3.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb3.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb3.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb3.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -87,16 +87,16 @@ curl -X PUT http://mmria:mmria@tdb4.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb4.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb4.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb4.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb4.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb4.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb4.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb4.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb4.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb4.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb4.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -107,16 +107,16 @@ curl -X PUT http://mmria:mmria@tdb5.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb5.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb5.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb5.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb5.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb5.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb5.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb5.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb5.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb5.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb5.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -127,16 +127,16 @@ curl -X PUT http://mmria:mmria@tdb6.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb6.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb6.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb6.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb6.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb6.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb6.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb6.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb6.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb6.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb6.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -146,16 +146,16 @@ curl -X PUT http://mmria:mmria@tdb7.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb7.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb7.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb7.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb7.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb7.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb7.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb7.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb7.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb7.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb7.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -164,16 +164,16 @@ curl -X PUT http://mmria:mmria@tdb8.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb8.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb8.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb8.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb8.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb8.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb8.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb8.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb8.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb8.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb8.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
@@ -183,16 +183,16 @@ curl -X PUT http://mmria:mmria@tdb9.mmria.org/metadata
 curl -X PUT http://mmria:mmria@tdb9.mmria.org/mmrds
 
 curl -vX POST http://mmria:mmria@tdb9.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/_users","target":"http://mmria:mmria@tdb9.mmria.org/_users"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/_users","target":"http://mmria:mmria@tdb9.mmria.org/_users"}' \
      -H "Content-Type:application/json"
  
 	 
 curl -vX POST http://mmria:mmria@tdb9.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/metadata","target":"http://mmria:mmria@tdb9.mmria.org/metadata"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/metadata","target":"http://mmria:mmria@tdb9.mmria.org/metadata"}' \
      -H "Content-Type:application/json"
 	 
 curl -vX POST http://mmria:mmria@tdb9.mmria.org/_replicate \
-     -d '{"source":"http://mmria:mmria@192.34.56.107:5984/mmrds","target":"http://mmria:mmria@tdb9.mmria.org/mmrds"}' \
+     -d '{"source":"http://mmria:mmria@trainingdb.mmria.org:5984/mmrds","target":"http://mmria:mmria@tdb9.mmria.org/mmrds"}' \
      -H "Content-Type:application/json"
 	 
 
