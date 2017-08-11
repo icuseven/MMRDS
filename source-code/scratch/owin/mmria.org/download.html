@@ -20,7 +20,7 @@
 	
 
 <br/>
-<p>Click <a href="upgrade.html">here</a> for information about upgrading from MMRIA 1.0.0 or MMRIA 1.2.0 to <a href="upgrade.html">MMRIA 17.08.08</a></p>
+<p>Click <a href="upgrade.html">here</a> for information about upgrading from MMRIA 1.0.0 or MMRIA 1.2.0 to <a href="upgrade.html">MMRIA 17.08.11</a></p>
 	
 <h2 style="font:Work Sans Light"><strong>Table of contents:</strong></h2>
 <ul class="list-group">
@@ -38,8 +38,8 @@
 <ol>
 <li>Install CouchDB 2.0</li>
 <li>Configure CouchDB 2.0</li>
-<li>Install MMRIA 17.08.08</li>
-<li>Configure MMRIA 17.08.08</li>
+<li>Install MMRIA 17.08.11</li>
+<li>Configure MMRIA 17.08.11</li>
 </ol>
 </li>
 
@@ -80,7 +80,7 @@
 <p>The CouchDB 2.0 installation requries 3 sets of configurations.</p>
 <ol>
 <li>1st set of configurations is done as soon as CouchDB 2.0 is installed and before the MMRIA 1.2.0 is setup.</li>
-<li>2nd set of configurations is done after the MMRIA 17.08.08 is installed by running a "_config" utility from the MMRIA user interface.</li>
+<li>2nd set of configurations is done after the MMRIA 17.08.11 is installed by running a "_config" utility from the MMRIA user interface.</li>
 <li>3rd step of configuration and verification will need to be done to verify and ensure that all settings appropriately applied.</li>
 <li>On a Docker configuration changes take place immediately</li>
 <li>On a Windows installation CouchDB will need to be restarted to ensure that any configuration changes have been applied</li>
@@ -227,9 +227,9 @@ The application will respond with: <i>"Apache CouchDB is configured for producti
 
 
 
-<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.08.08</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.08.11</strong></h3>
 
-<h4 style="font:Work Sans Light"><strong>Download MMRIA Server 17.08.08</strong></h4>
+<h4 style="font:Work Sans Light"><strong>Download MMRIA Server 17.08.11</strong></h4>
 
 <ul>
 <li><a href="NDP452-KB2901954-Web.exe">Download and run .NET 4.5 install</a></li>
@@ -237,12 +237,12 @@ The application will respond with: <i>"Apache CouchDB is configured for producti
 <li><a href="MMRIA-17_08_07-v2d52ee1-Install.msi">Download and run MMRIA-17_08_07-v2d52ee1-Install.msi</a></li>
 </ul>
 
-<p>After running MMRIA-17_08_07-v2d52ee1-Install.msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 17.08.08</strong></p>
+<p>After running MMRIA-17_08_07-v2d52ee1-Install.msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 17.08.11</strong></p>
 
 
 
-<h3 style="font:Work Sans Light"><strong>Configure MMRIA 17.08.08</strong></h3>
-<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 17.08.08</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
+<h3 style="font:Work Sans Light"><strong>Configure MMRIA 17.08.11</strong></h3>
+<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 17.08.11</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
 <pre>
 mmria-server.exe.config
     &lt;add key="owin:AppStartup" value="mmria.server.Startup" />
@@ -276,7 +276,7 @@ mmria.exe.config
 
 
 
-<p>Using <strong>Administrator Mode</strong>, open MMRIA 17.08.08 v(2d52ee1) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
+<p>Using <strong>Administrator Mode</strong>, open MMRIA 17.08.11 v(2d52ee1) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
 
 <pre>
 using AppSettings
