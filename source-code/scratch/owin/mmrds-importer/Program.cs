@@ -37,6 +37,9 @@ namespace mmria.console
 
 		public static void Main(string[] args)
 		{
+			System.Net.ServicePointManager.CertificatePolicy = new mmria.console.util.NoCheckCertificatePolicy ();
+
+
 			if (args.Length > 0)
 			{
 				switch (args[0])
