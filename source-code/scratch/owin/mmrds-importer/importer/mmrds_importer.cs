@@ -778,7 +778,7 @@ namespace mmria.console.import
 		{
 			// @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv"
 			string result = string.Format(
-				@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};User ID=;Password=;",
+				@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};User ID=;Password=;",
 				p_file_name
 			);
 
@@ -788,7 +788,7 @@ namespace mmria.console.import
 		{
 			// @"mapping-file-set/MMRDS-Mapping-NO-GRIDS-test.csv"
 			string result = string.Format(
-				@"Provider=Microsoft.Jet.OleDb.4.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
+				@"Provider=Microsoft.ACE.OLEDB.12.0; Data Source={0};Extended Properties=""Text;HDR=YES;FMT=Delimited""",
 				p_file_name
 			);
 
