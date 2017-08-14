@@ -120,12 +120,37 @@ fi
 #https://github.com/foretagsplatsen/Divan
 #https://github.com/rnewson/couchdb-lucene/tree/v0.4
 
-if [[ -f "/usr/bin/couchdb" ]]; then
-	echo "couchdb already installed,skipping..."
+
+if [[ -f "/usr/bin/docker" ]]; then
+	echo "docker already installed,skipping..."
 else
-	echo "installing couchdb..."
-	#https://pouchdb.com/guides/setup-couchdb.html
-	sudo apt-get install couchdb -y
+	echo "installing docker..."
+	
+	sudo apt-get update
+
+	sudo apt-get install -y \
+    linux-image-extra-$(uname -r) \
+    linux-image-extra-virtual
+	
+	sudo apt-get update
+	
+	sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+	
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	
+	sudo add-apt-repository -y \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+   
+   sudo apt-get update
+   
+   sudo apt-get install -y docker-ce
+   
 fi
 
 # echo "checking if webstorm is installed..."
