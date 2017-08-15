@@ -410,7 +410,7 @@ function replicate_db_and_log_out(p_user_name, p_password)
 {
     var db = new PouchDB(g_source_db);
     var prefix = 'http://' + p_user_name + ":" + p_password + '@';
-    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
+    var remoteDB = new PouchDB(prefix.replace('@', '%40') + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
     if(g_source_db == "mmrds")
     {
@@ -478,7 +478,7 @@ function get_case_set()
 {
     var db = new PouchDB(g_source_db);
     var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
-    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
+    var remoteDB = new PouchDB(prefix.replace('@', '%40') + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
     document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
@@ -984,7 +984,7 @@ function save_change_task()
   {
     var db = new PouchDB(g_source_db);
     var prefix = 'http://' + profile.user_name + ":" + profile.password + '@';
-    var remoteDB = new PouchDB(prefix + g_couchdb_url.replace('http://','') + '/' + g_source_db);
+    var remoteDB = new PouchDB(prefix.replace('@', '%40') + g_couchdb_url.replace('http://','') + '/' + g_source_db);
 
     db.replicate.to(remoteDB).on('complete', function (err, response) {
       
