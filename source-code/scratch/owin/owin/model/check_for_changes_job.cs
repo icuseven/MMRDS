@@ -306,7 +306,7 @@ namespace mmria.server.model
 
         public void Process_Export_Queue_Item ()
         {
-			System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
+			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
 
 			List<export_queue_item> result = new List<export_queue_item> ();
 			
@@ -415,7 +415,7 @@ namespace mmria.server.model
 
 		public void Process_Export_Queue_Delete()
 		{
-			System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: started", System.DateTime.Now);
+			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: started", System.DateTime.Now);
 
 			List<export_queue_item> result = new List<export_queue_item> ();
 
