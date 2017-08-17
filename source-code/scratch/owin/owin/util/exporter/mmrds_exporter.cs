@@ -16,6 +16,7 @@ namespace mmria.server.util
 		private string item_file_name = null;
 		private string item_directory_name = null;
 		private string item_id = null;
+		private bool is_cdc_de_identified = false;
 
 		private bool is_offline_mode;
 
@@ -62,6 +63,10 @@ namespace mmria.server.util
 					else if (arg.ToLower().StartsWith("item_id"))
 					{
 						this.item_id = val;
+					}
+					else if (arg.ToLower().StartsWith("de_identified"))
+					{
+						bool.TryParse(this.is_cdc_de_identified, val);
 					}
 				}
 			}
