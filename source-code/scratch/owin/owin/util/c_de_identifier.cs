@@ -5,6 +5,12 @@ namespace mmria.server.util
 {
 	public class c_de_identifier
 	{
+		public enum de_identifier_type_enum
+		{
+			normal,
+			cdc
+		}
+		de_identifier_type_enum de_identifier_type;
 		string case_item_json;
 		static HashSet<string> de_identified_set = new HashSet<string>(){
 			"home_record/first_name",
@@ -208,10 +214,15 @@ namespace mmria.server.util
 
 		};
 
-		public c_de_identifier (string p_case_item_json)
-		{
+		static HashSet<string> cdc_de_identified_set = new HashSet<string>(){
 
-			case_item_json = p_case_item_json;
+
+		};
+
+		public c_de_identifier (string p_case_item_json, de_identifier_type_enum p_de_identifier_type = de_identifier_type_enum.normal)
+		{
+			this.de_identifier_type = p_de_identifier_type;
+			this.case_item_json = p_case_item_json;
 		}
 
 
@@ -226,13 +237,20 @@ namespace mmria.server.util
 			IDictionary<string, object> expando_object = case_item_object as IDictionary<string, object>;
 			expando_object.Remove("_rev");
 
-
-
-
-
-			foreach (string path in de_identified_set) 
+			if (this.de_identifier_type == de_identifier_type_enum.cdc)
 			{
-				set_de_identified_value (case_item_object, path);
+				foreach (string path in this.cdc_de_identified_set) 
+				{
+					set_de_identified_value (case_item_object, path);
+				}
+			}
+			else
+			{
+				foreach (string path in de_identified_set) 
+				{
+						set_de_identified_value (case_item_object, path);
+				}
+
 			}
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
