@@ -118,6 +118,14 @@ function add_new_all_export_item()
 }
 
 
+function add_new_cdc_export_item()
+{
+	g_data.push(create_queue_item('CDC CSV'));
+	render();
+
+}
+
+
 function find_export_item(p_id)
 {
 	var result = null;

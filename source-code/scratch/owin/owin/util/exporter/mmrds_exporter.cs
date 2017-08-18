@@ -64,7 +64,7 @@ namespace mmria.server.util
 					{
 						this.item_id = val;
 					}
-					else if (arg.ToLower().StartsWith("de_identified"))
+					else if (arg.ToLower().StartsWith("is_cdc_de_identified"))
 					{
 						bool.TryParse(val, out this.is_cdc_de_identified);
 					}

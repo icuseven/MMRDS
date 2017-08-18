@@ -374,38 +374,65 @@ namespace mmria.server.model
 
 				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))
 				{
+
+					item_to_process.status = "Creating Export...";
+					item_to_process.last_updated_by = "mmria-server";
+					item_to_process.date_last_updated = DateTime.Now;
+
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+					responseFromServer = set_curl.execute ();
+
 					//export-core user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
 					core_element_exporter.Execute(args.ToArray());
 
-					item_to_process.status = "Creating Export...";
-					item_to_process.last_updated_by = "mmria-server";
 
-
-					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
-					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
-
-					responseFromServer = get_curl.execute ();
 				
 				}
 				else if(item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase))
 				{
-						
+					item_to_process.status = "Creating Export...";
+					item_to_process.last_updated_by = "mmria-server";
+					item_to_process.date_last_updated = DateTime.Now;
+
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+					responseFromServer = set_curl.execute ();
+
+
 					//export user_name:user1 password:password url:http://localhost:12345
 					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
 					mmrds_exporter.Execute(args.ToArray());
 
+				}
+				else if (item_to_process.export_type.StartsWith ("cdc csv", StringComparison.OrdinalIgnoreCase)) 
+				{
+
+
 					item_to_process.status = "Creating Export...";
 					item_to_process.last_updated_by = "mmria-server";
+					item_to_process.date_last_updated = DateTime.Now;
 
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
+					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
 					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
-					responseFromServer = get_curl.execute ();
+					responseFromServer = set_curl.execute ();
+					args.Add ("is_cdc_de_identified:true");
+
+					//export user_name:user1 password:password url:http://localhost:12345
+					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter ();
+					mmrds_exporter.Execute (args.ToArray ());
+
+
 				}
 
 			}
