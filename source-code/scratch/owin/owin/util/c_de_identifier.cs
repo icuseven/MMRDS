@@ -239,7 +239,7 @@ namespace mmria.server.util
 
 			if (this.de_identifier_type == de_identifier_type_enum.cdc)
 			{
-				foreach (string path in this.cdc_de_identified_set) 
+				foreach (string path in cdc_de_identified_set) 
 				{
 					set_de_identified_value (case_item_object, path);
 				}

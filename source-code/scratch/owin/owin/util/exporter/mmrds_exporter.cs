@@ -66,7 +66,7 @@ namespace mmria.server.util
 					}
 					else if (arg.ToLower().StartsWith("de_identified"))
 					{
-						bool.TryParse(this.is_cdc_de_identified, val);
+						bool.TryParse(val, out this.is_cdc_de_identified);
 					}
 				}
 			}
@@ -220,6 +220,23 @@ namespace mmria.server.util
 			}
 
 
+			if (this.is_cdc_de_identified)
+			{
+				List<System.Dynamic.ExpandoObject> de_identified_cases = new List<System.Dynamic.ExpandoObject> ();
+				foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
+				{
+					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_row);
+
+					string de_identified_json = new mmria.server.util.c_de_identifier (document_json).execute ();
+
+					System.Dynamic.ExpandoObject case_item_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
+
+					de_identified_cases.Add (case_item_object);
+				}
+
+				all_cases_rows = de_identified_cases;
+			}
+
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{
 				IDictionary<string, object> case_doc;
@@ -238,6 +255,11 @@ namespace mmria.server.util
 				{
 					continue;
 				}
+
+
+
+
+
 				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
 				string mmria_case_id = case_doc["_id"].ToString();
 				row["_id"] = mmria_case_id;
