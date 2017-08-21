@@ -428,9 +428,15 @@ namespace mmria.server.model
 					responseFromServer = set_curl.execute ();
 					args.Add ("is_cdc_de_identified:true");
 
-					//export user_name:user1 password:password url:http://localhost:12345
-					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter ();
-					mmrds_exporter.Execute (args.ToArray ());
+					try
+					{
+						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter ();
+						mmrds_exporter.Execute (args.ToArray ());
+					}
+					catch(Exception ex)
+					{
+						System.Console.WriteLine (ex);
+					}
 
 
 				}

@@ -209,45 +209,36 @@ namespace mmria.server.util
 				false
 			);
 
-			dynamic all_cases_rows;
-			if (this.is_offline_mode)
+			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
+		
+			if (this.is_cdc_de_identified)
 			{
-				all_cases_rows = all_cases;
+
+				foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+				{
+					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (((IDictionary<string, object>)case_row)["doc"]);
+
+					string de_identified_json = new mmria.server.util.c_de_identifier (document_json, c_de_identifier.de_identifier_type_enum.cdc).execute ();
+
+					System.Dynamic.ExpandoObject case_item_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (de_identified_json);
+
+					all_cases_rows.Add (case_item_object);
+				}
+
+
 			}
 			else
 			{
-				all_cases_rows = all_cases.rows;
-			}
-
-
-			if (this.is_cdc_de_identified)
-			{
-				List<System.Dynamic.ExpandoObject> de_identified_cases = new List<System.Dynamic.ExpandoObject> ();
-				foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
+				foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
 				{
-					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_row);
-
-					string de_identified_json = new mmria.server.util.c_de_identifier (document_json).execute ();
-
-					System.Dynamic.ExpandoObject case_item_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
-
-					de_identified_cases.Add (case_item_object);
+					all_cases_rows.Add (((IDictionary<string, object>)case_row) ["doc"] as System.Dynamic.ExpandoObject);
 				}
 
-				all_cases_rows = de_identified_cases;
 			}
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{
-				IDictionary<string, object> case_doc;
-				if (this.is_offline_mode)
-				{
-					case_doc = case_row as IDictionary<string, object>;
-				}
-				else
-				{
-					case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
-				}
+				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 
 				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
@@ -376,7 +367,7 @@ namespace mmria.server.util
 					}
 					catch (Exception ex)
 					{
-						//System.Console.Write("bad export value: {0} - {1}", val, path);
+						System.Console.Write("bad export value: {0} - {1}", val, path);
 					}
 
 				}
