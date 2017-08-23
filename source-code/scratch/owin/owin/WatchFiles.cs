@@ -9,6 +9,7 @@ namespace mmria.server
 {
 
 	// possible to do: https://stackoverflow.com/questions/14159021/wrap-a-file-watcher-in-reactive-extensions#14163799
+	// https://stackoverflow.com/questions/13670142/how-to-implement-filewatcher-using-reactive-extensions
 	static class WatchFiles
 	{
 		//static string source_folder = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
