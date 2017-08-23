@@ -65,7 +65,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		result.push("</table>");
 		break;
     case 'group':
-		result.push("<h3 id='");
+		result.push("<h3 style='grid-column:1/-1;' id='");
 		result.push(p_metadata.name);
 		result.push("_id' class='group'>");
 		result.push(p_metadata.prompt);
@@ -99,7 +99,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		{
 			result.push("<section id='");
 			result.push(p_metadata.name);
-			result.push("_id' class='form'><h2 ");
+			result.push("_id' class='form'><h2 style='grid-column:1/-1;'");
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -116,7 +116,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(g_data)
 			{
-				result.push("<h3  style='color: #341c54'>");
+				result.push("<h3  style='color: #341c54;grid-column:1/-1;'>");
 				result.push(g_data.home_record.last_name);
 				result.push(", ");
 				result.push(g_data.home_record.first_name);
@@ -131,7 +131,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(g_source_db=="mmrds")
 			{
-				result.push('<input path="" type="button" value="Add New ');
+				result.push('<input path="" style="grid-column:1/-1;" type="button" value="Add New ');
 				result.push(p_metadata.prompt.replace(/"/g, "\\\""));
 				result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
 			}
@@ -411,7 +411,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
 			if(g_source_db=="mmrds")
 			{
-				result.push("<input type='button' class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+				result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 			}
 		
 		
