@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace mmria.server
 {
+
+	// possible to do: https://stackoverflow.com/questions/14159021/wrap-a-file-watcher-in-reactive-extensions#14163799
 	static class WatchFiles
 	{
 		//static string source_folder = System.Configuration.ConfigurationManager.AppSettings["file_root_folder"];
