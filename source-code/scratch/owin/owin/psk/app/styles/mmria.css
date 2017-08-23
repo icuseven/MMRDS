@@ -328,3 +328,8 @@ https://webdesign.tutsplus.com/articles/quick-tip-tooltips-courtesy-of-html5-dat
 .group { clear:both; }
 .form { clear:both; }
 */
+
+section .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}

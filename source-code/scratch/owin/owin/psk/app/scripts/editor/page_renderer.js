@@ -9,7 +9,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
     case 'grid':
 		var is_grid_context = true;
 
-		result.push("<table id='");
+		result.push("<table style='grid-column:1/-1'  id='");
 		result.push(p_metadata_path);
 		result.push("' class='grid'><tr><th colspan=");
 		result.push(p_metadata.children.length + 1)
@@ -180,7 +180,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				result.push("<section id='");
 				result.push(p_metadata.name);
-				result.push("' class='form'><h2 ");
+				result.push("' class='form'><h2 style='grid-column:1/-1;' ");
 				if(p_metadata.description && p_metadata.description.length > 0)
 				{
 					result.push("rel='tooltip'  data-original-title='");
@@ -193,7 +193,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 
 				result.push(p_metadata.prompt);
-				result.push("</h2><h4>");
+				result.push("</h2><h4 style='grid-column:1/-1;'>");
 				result.push(" record: ");
 				result.push(data_index + 1);
 				result.push("</h4>");
@@ -201,7 +201,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				if(g_data)
 				{
-					result.push("<h3  style='color: #341c54'>");
+					result.push("<h3  style='color: #341c54;grid-column:1/-1;'>");
 					result.push(g_data.home_record.last_name);
 					result.push(", ");
 					result.push(g_data.home_record.first_name);
@@ -247,7 +247,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push("<section id='");
 			result.push(p_metadata.name);
-			result.push("_id' class='form'><h2 ");
+			result.push("_id' ");
+
+			//result.push(" display='grid' grid-template-columns='1fr 1fr 1fr' ");
+
+			result.push(" class='form'><h2 style='grid-column:1/-1;' ");
+
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
 				result.push("rel='tooltip'  data-original-title='");
@@ -263,7 +268,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</h2>");
 			if(g_data)
 			{
-				result.push("<h3  style='color: #341c54'>");
+				result.push("<h3  style='color: #341c54;grid-column:1/-1;'>");
 				result.push(g_data.home_record.last_name);
 				result.push(", ");
 				result.push(g_data.home_record.first_name);
