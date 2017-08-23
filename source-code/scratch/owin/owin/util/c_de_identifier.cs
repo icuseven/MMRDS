@@ -401,7 +401,18 @@ namespace mmria.server.util
 								}
 								else if (val is string)
 								{
-									dictionary_object [path_list [0]] = "de-identified";
+									//dictionary_object [path_list [0]] = "de-identified";
+									if(
+										path_list [0] == "first_name" ||
+										path_list [0] == "last_name"
+									)
+									{
+										dictionary_object [path_list [0]] = "de-identified";
+									}
+									else
+									{
+										dictionary_object [path_list [0]] = null;
+									}
 								}
 								else if (val is System.DateTime)
 								{
@@ -480,7 +491,7 @@ namespace mmria.server.util
 			}
 			catch (Exception ex)
 			{
-				//System.Console.WriteLine ("set_de_identified_value. {0}", ex);
+				System.Console.WriteLine ("set_de_identified_value. {0}", ex);
 			}
 				
 		}

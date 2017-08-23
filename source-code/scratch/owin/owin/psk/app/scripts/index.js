@@ -176,6 +176,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
               //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").attr("size", "15");
           break;
       }
+
+
       if(post_html_call_back.length > 0)
       {
         eval(post_html_call_back.join(""));
@@ -524,7 +526,8 @@ function get_case_set()
           }
           else
           {
-              section.style.display = "none";
+              section.style.display = "grid";
+              section.style["grid-template-columns"] = "1fr 1fr 1fr";
           }
         }
 
@@ -631,7 +634,8 @@ function window_on_hash_change(e)
                 var section = section_list[i];
                 if(section.id == g_ui.url_state.path_array[1])
                 {
-                    section.style.display = "block";
+                  section.style.display = "grid";
+                  section.style["grid-template-columns"] = "1fr 1fr 1fr";
                 }
                 else
                 {
@@ -646,7 +650,8 @@ function window_on_hash_change(e)
                 var section = section_list[i];
                 if(section.id == g_ui.url_state.path_array[1] + "_id")
                 {
-                    section.style.display = "block";
+                  section.style.display = "grid";
+                  section.style["grid-template-columns"] = "1fr 1fr 1fr";
                 }
                 else
                 {
@@ -683,7 +688,8 @@ function window_on_hash_change(e)
                 }
                 else
                 {
-                    section.style.display = "none";
+                    section.style.display = "grid";
+                    section.style["grid-template-columns"] = "1fr 1fr 1fr";
                 }
             }
           }
@@ -722,7 +728,8 @@ function window_on_hash_change(e)
           var section = section_list[i];
           if(section.id == g_ui.url_state.path_array[1])
           {
-              section.style.display = "block";
+            section.style.display = "grid";
+            section.style["grid-template-columns"] = "1fr 1fr 1fr";
           }
           else
           {
@@ -737,7 +744,8 @@ function window_on_hash_change(e)
           var section = section_list[i];
           if(section.id == g_ui.url_state.path_array[1] + "_id")
           {
-              section.style.display = "block";
+            section.style.display = "grid";
+            section.style["grid-template-columns"] = "1fr 1fr 1fr";
           }
           else
           {
@@ -946,7 +954,8 @@ function delete_record(p_index)
           }
           else
           {
-              section.style.display = "none";
+              section.style.display = "grid";
+              section.style["grid-template-columns"] = "1fr 1fr 1fr";
           }
         }
       });
