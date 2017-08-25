@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Satisfy|Bree+Serif|Candal|PT+Sans">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<body>
+<h1>Windows Backup and Restore</h1>
+<p>Please note that <b>a restore can NOT be done while the mmria-server.exe is running.</b></p>
+
+<p>Unlike a restore a <b>backup</b> can be done while the mmria-server.exe is running.</p>
+
+
+<p>To perform backup or restore you'll need pieces of information:</p>
+<ul>
+<li>1.user <- database administrator userid</li>
+
+
+<li>2.password <- database administrator password</li>
+
+
+<li>3.database_url <- couchdb url</li>
+
+
+<li>4.backup_file_path <- location where you wish to save data</li>
+</ul>
+
+<p>Please note that <b>3 databases are involved in backing up and restoring</b>:</p>
+<ul>
+<li>metadata</li>
+<li>mmrds</li>
+<li>export_queue</li>
+</ul>
+
+
+
+
+<h2>To perform a backup:</h2>
+
+<pre>
+mmria.exe backup user_name:user1 password:password database_url:http://localhost:5984/metadata backup_file_path:c:\temp\bk-meta.bk
+
+mmria.exe backup user_name:user1 password:password database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
+
+mmria.exe backup user_name:user1 password:password database_url:http://localhost:5984/export_queue backup_file_path:c:\temp\bk-meta.bk
+</pre>
+
+<h2>To perform a restore:</h2>
+
+<p>Performing a Restore  requires the following steps:</p>
+<ul>
+<li>1 stop the mmria-server.exe</li>
+
+<li>2 delete the database that is to be restored</li>
+
+<li>3 manually create database in CouchDB UI</li>
+
+<li>4 use mmria.exe to restore database</li>
+
+<li>5 apply appropriate role permission in CouchDB UI</li>
+</ul>
+
+<pre>
+mmria.exe restore user_name:user1 password:password database_url:localhost:5984/metadata backup_file_path:c:\temp\bk-meta.bk
+
+mmria.exe restore user_name:user1 password:password database_url:localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
+
+mmria.exe restore user_name:user1 password:password database_url:localhost:5984/export_queue backup_file_path:c:\temp\bk-meta.bk
+</pre>
+
+
+<h2>Permissions</h2>
+
+<p>After doing a restore please ensure the following perissions are defiend on the appropriate database.</p>
+
+<pre>
+metadata
+  admin = form_designer
+
+mmrds 
+   admin = form_designer
+  members = abstractor + data_analyst + timer
+
+export_queue
+	members = abstractor
+
+</pre>
+
+<h2>Windows Offline Install Files
+<ul>
+ <li><a href="windows-offline-install-metadata.bk">windows-offline-install-metadata.bk</a></li>
+ <li><a href="windows-offline-install-mmrds.bk">windows-offline-install-mmrds.bk</a></li>
+ </ul>
+</body>
+</html>
