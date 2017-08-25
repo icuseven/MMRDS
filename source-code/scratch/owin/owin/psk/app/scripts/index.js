@@ -526,8 +526,10 @@ function get_case_set()
           }
           else
           {
+            
               section.style.display = "grid";
               section.style["grid-template-columns"] = "1fr 1fr 1fr";
+            
           }
         }
 
@@ -954,8 +956,7 @@ function delete_record(p_index)
           }
           else
           {
-              section.style.display = "grid";
-              section.style["grid-template-columns"] = "1fr 1fr 1fr";
+              section.style.display = "none";
           }
         }
       });
