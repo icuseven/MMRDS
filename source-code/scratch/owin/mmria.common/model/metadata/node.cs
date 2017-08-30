@@ -53,6 +53,12 @@ namespace mmria.common.metadata
 		public string min_value { get; set; } 
 
 
+		public string grid_template { get; set; } 
+		public string grid_gap { get; set; } 
+		public string grid_auto_flow { get; set; } 
+		public string grid_row { get; set; } 
+		public string grid_column { get; set; } 
+
 
 
 		public node()
