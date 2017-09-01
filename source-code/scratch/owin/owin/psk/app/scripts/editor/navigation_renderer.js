@@ -85,11 +85,14 @@ function navigation_render(p_metadata, p_level, p_ui)
 
 
         if(
-            profile.user_roles && 
+            (profile.user_roles && 
             profile.user_roles.length > 0 &&
             profile.user_roles.indexOf("_admin") < 0 &&
-            profile.user_roles.indexOf("committee_member") < 0
-        
+            profile.user_roles.indexOf("committee_member") < 0) ||
+
+            (
+              window.location.href.indexOf('preview.html') > 0
+            )
         )
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {        
@@ -123,7 +126,16 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="actions">');
 
 
-            if(profile.user_roles == null || profile.user_roles.length == 0)
+            if(window.location.href.indexOf('preview.html') < 0)
+            {
+
+            }
+            else if(
+                
+                  profile.user_roles == null ||
+                  profile.user_roles.length == 0
+                 
+            )
             {
             }
             else if(profile.user_roles.indexOf("_admin") > -1)
@@ -153,7 +165,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('</ul>');
         result.push('</li>');
         // Actions end
-        if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
+        if(window.location.href.indexOf('preview.html') > 0 || profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
         {
           // print blank start
           result.push('<li class="dropdown">');

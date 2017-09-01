@@ -181,7 +181,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 
-			if(g_source_db=="mmrds")
+			if(window.location.href.indexOf('preview.html') < 0  && g_source_db=="mmrds")
 			{
 				result.push('<input path="" style="grid-column:1/-1;" type="button" value="Add New ');
 				result.push(p_metadata.prompt.replace(/"/g, "\\\""));
@@ -210,7 +210,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(i + 1);
 		
 					result.push('</a>&nbsp;|&nbsp;');
-					if(g_source_db=="mmrds")
+					if(window.location.href.indexOf('preview.html') < 0  && g_source_db=="mmrds")
 					{
 						result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
 						result.push("\">");
@@ -458,10 +458,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		}
 		break;
     case 'app':
-		if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
+		if(window.location.href.indexOf('preview.html') > 0  || profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
         {
 			result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
-			if(g_source_db=="mmrds")
+			if(window.location.href.indexOf('preview.html') < 0 && g_source_db=="mmrds")
 			{
 				result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 			}
@@ -1719,7 +1719,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 
 
-		if(g_source_db=="mmrds")
+		if(window.location.href.indexOf('preview.html') < 0  && g_source_db=="mmrds")
 		{
 			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
 			if(path_to_onclick_map[p_metadata_path])
@@ -1780,7 +1780,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	
 
-		if(g_source_db=="mmrds")
+		if(window.location.href.indexOf('preview.html') < 0 && g_source_db=="mmrds")
 		{
 			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 			if(path_to_onfocus_map[p_metadata_path])

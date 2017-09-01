@@ -99,15 +99,23 @@ window.onhashchange = function(e)
 
     g_ui.url_state = url_monitor.get_url_state(new_url);
 
-	if($$.is_id(g_ui.url_state.path_array[0]))
+	if(g_ui.url_state.path_array.length > 1)
 	{
+
+		var post_html_call_back = [];
+		document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+		document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", "", false, post_html_call_back).join("");
+		apply_tool_tips();
+
+
 		var section_list = document.getElementsByTagName("section");
 		for(var i = 0; i < section_list.length; i++)
 		{
 			var section = section_list[i];
 			if(section.id == g_ui.url_state.path_array[1] + "_id")
 			{
-					section.style.display = "block";
+				section.style.display = "grid";
+				section.style["grid-template-columns"] = "1fr 1fr 1fr";
 			}
 			else
 			{
@@ -116,7 +124,7 @@ window.onhashchange = function(e)
 		}
 	}
 	else
-	{
+	{ 
 		var section_list = document.getElementsByTagName("section");
 		for(var i = 0; i < section_list.length; i++)
 		{
@@ -170,11 +178,14 @@ function metadata_changed(p_metadata)
 			g_data = create_default_object(g_metadata, {});
 		    g_ui.data_list.push(g_data);
         g_ui.selected_record_id = g_data._id;
-		    g_ui.selected_record_index = g_ui.data_list.length -1;
+				g_ui.selected_record_index = g_ui.data_list.length -1;
+				g_data.home_record.first_name = "first";
+				g_data.home_record.last_name = "last";
 	}
 
+	var post_html_call_back = [];
 	document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-	document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
+	document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
 	apply_tool_tips();
 }
 

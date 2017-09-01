@@ -193,6 +193,11 @@ function open_preview_window()
 
 
 	}
+	else
+	{
+		preview_window.metadata_changed(g_metadata);
+		last_preview_update = new Date();
+	}
 
 
 }
