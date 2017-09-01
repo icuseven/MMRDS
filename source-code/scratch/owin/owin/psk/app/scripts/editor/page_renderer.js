@@ -64,14 +64,65 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 		result.push("</table>");
 		break;
-    case 'group':
-		result.push("<h3 style='grid-column:1/-1;' id='");
-		result.push(p_metadata.name);
-		result.push("_id' class='group'>");
-		result.push(p_metadata.prompt);
-		result.push("</h3>");
+	case 'group':
+	
 
-		var group_stack = [];
+		result.push("<div id='");
+		result.push(p_metadata.name);
+		result.push("_id' class='group' style='");
+
+
+		if(p_metadata.grid_template && p_metadata.grid_template!= "")
+		{
+			result.push("display:grid;grid-template:");
+			result.push(p_metadata.grid_template);
+			result.push(";");
+
+
+			if(p_metadata.grid_gap && p_metadata.grid_gap!= "")
+			{
+				result.push("grid-gap:");
+				result.push(p_metadata.grid_gap);
+				result.push(";");
+			}
+		
+		
+			if(p_metadata.grid_auto_flow && p_metadata.grid_auto_flow!= "")
+			{
+				result.push("grid-auto-flow:");
+				result.push(p_metadata.grid_auto_flow);
+				result.push(";");
+			}
+
+		}
+
+
+
+
+		if(p_metadata.grid_row && p_metadata.grid_row!= "")
+		{
+			result.push("grid-row:");
+			result.push(p_metadata.grid_row);
+			result.push(";");
+		}
+
+
+		if(p_metadata.grid_column && p_metadata.grid_column!= "")
+		{
+			result.push("grid-column:");
+			result.push(p_metadata.grid_column);
+			result.push(";");
+		}
+
+
+
+
+		result.push("' >");
+		result.push("<h4 style='grid-column:1/-1;'>");
+		result.push(p_metadata.prompt);
+		result.push("</h4>");
+
+
 
 		for(var i = 0; i < p_metadata.children.length; i++)
 		{
@@ -89,6 +140,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 
 		}
+		result.push("</div>'");
 		break;
     case 'form':
 		if(

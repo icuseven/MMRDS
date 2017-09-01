@@ -846,7 +846,7 @@ function render_attribute_add_control(p_path, node_type)
 	}
 
 
-	if(node_type.toLowerCase()== "group" || node_type.toLowerCase()== "form")
+	if(node_type.toLowerCase()== "group")
 	{
 		result.push('<option>grid_template</option>');
 		result.push('<option>grid_gap</option>');
