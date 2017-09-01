@@ -855,6 +855,15 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>grid_column</option>');
 		
 	}
+	else if(is_collection_node)
+	{
+		// do nothing
+	}
+	else
+	{
+		result.push('<option>grid_row</option>');
+		result.push('<option>grid_column</option>');
+	}
 
 	if(node_type.toLowerCase()== "app")
 	{
