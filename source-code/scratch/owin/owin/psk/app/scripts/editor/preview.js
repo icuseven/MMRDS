@@ -135,7 +135,8 @@ window.onhashchange = function(e)
 			}
 			else
 			{
-					section.style.display = "none";
+				section.style.display = "grid";
+				section.style["grid-template-columns"] = "1fr 1fr 1fr";
 			}
 		}
 	}
