@@ -845,6 +845,17 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>is_core_summary</option>');
 	}
 
+
+	if(node_type.toLowerCase()== "group" || node_type.toLowerCase()== "form")
+	{
+		result.push('<option>grid_template</option>');
+		result.push('<option>grid_gap</option>');
+		result.push('<option>grid_auto_flow</option>');
+		result.push('<option>grid_row</option>');
+		result.push('<option>grid_column</option>');
+		
+	}
+
 	if(node_type.toLowerCase()== "app")
 	{
 		result.push('<option>global</option>');
@@ -1432,6 +1443,11 @@ function editor_add_to_attributes(e, p_ui)
 			case "control_style":
 			case "path_reference":
 			case "x_start":
+			case "grid_template":
+			case "grid_gap":
+			case "grid_auto_flow":
+			case "grid_row":
+			case "grid_column":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 				eval(item)[attribute] = new String();
