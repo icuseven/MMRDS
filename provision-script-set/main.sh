@@ -40,11 +40,27 @@ else
 fi
 
 echo "checking if monodevelop is installed..."
-if [[ -f "/usr/bin/monodevelop" ]]; then
+if [[ -f "/usr/local/bin/monodevelop" ]]; then
 	echo "monodevelop already installed,skipping..."
 else
 	echo "installing monodevelop..."
-	sudo apt-get install monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
+
+	#sudo apt-get install monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
+	#sudo apt-get remove monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
+
+	sudo apt-get update
+	sudo apt-get y install git autoconf libtool automake build-essential mono-devel gettext cmake
+	sudo apt install -y autoconf automake cmake fsharp git gnome-sharp2 gtk-sharp2 libssh2-1-dev mono-complete referenceassemblies-pcl zlib1g-dev
+
+	sudo mkdir /home/vagrant/workspace
+	cd /home/vagrant/workspace
+	
+	git clone https://github.com/mono/mono.git
+	cd monodevelop
+	./configure --profile=stable --enable-release
+	make
+	sudo make install
+	
 fi
 
 
