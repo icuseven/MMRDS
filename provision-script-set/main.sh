@@ -1,6 +1,7 @@
 
 sudo apt-get update -y
 
+# sudo apt-get install -y linux-headers-`uname -r`
 # checking for virtual box guest addidions
 # modinfo vboxguest
 
