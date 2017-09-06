@@ -1,0 +1,63 @@
+<!-- 
+https://developingsoftware.com/wix-toolset-install-windows-service/
+
+https://stackoverflow.com/questions/1942039/how-to-install-and-start-a-windows-service-using-wix
+
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The name of the product -->
+<?define Name = "Test Service" ?>
+<!-- The manufacturer, for setup package publisher and folder info -->
+<?define Manufacturer = "Talk Sharp" ?>
+<!-- The version number of this setup package-->
+<?define Version = "1.0.1" ?>
+<!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
+<?define UpgradeCode = "{1240E0CD-B3D2-44A7-B064-11B3C0709D69}" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Product Id="*" Name="$(var.Name)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Version="$(var.Version)" Language="1033">
+<!-- Create a folder inside Talk Sharp called Test Service -->
+<Package InstallerVersion="300" Compressed="yes"/>
+<!-- Create a folder inside Talk Sharp called Test Service -->
+<Media Id="1" Cabinet="TestService.cab" EmbedCab="yes" />
+<!-- Allow upgrades and prevent downgrades -->
+<MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+<!-- Define the directory structure -->
+<Directory Id="TARGETDIR" Name="SourceDir">
+<Directory Id="ProgramFilesFolder">
+<!-- Create a folder inside program files called Talk Sharp -->
+<Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
+<!-- Create a folder inside Talk Sharp called Test Service -->
+<Directory Id="INSTALLFOLDER" Name="$(var.Name)" />
+</Directory>
+</Directory>
+</Directory>
+<!-- The files inside this DirectoryRef are linked to the Test Service directory via INSTALLFOLDER -->
+<DirectoryRef Id="INSTALLFOLDER">
+<!-- Create a single component which is the TestService.exe file -->
+<Component Id="$(var.TestService.TargetFileName)">
+<!-- Copies the TestService.exe file using the project reference preprocessor variables -->
+<File Id="$(var.TestService.TargetFileName)" Source="$(var.TestService.TargetPath)" KeyPath="yes" />
+
+
+<!-- Remove all files from the INSTALLFOLDER on uninstall -->
+<RemoveFile Id="ALLFILES" Name="*.*" On="both" />
+<!-- Tell WiX to install the Service -->
+<ServiceInstall Id="ServiceInstaller" 
+Type="ownProcess" 
+Name="TestService" 
+DisplayName="$(var.Name)" 
+Description="A Test Service that logs dummy text on an interval to a text file." 
+Start="auto" 
+ErrorControl="normal" />
+<!-- Tell WiX to start the Service -->
+<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="TestService" Wait="yes" />
+</Component>
+</DirectoryRef>
+<!-- Tell WiX to install the files -->
+<Feature Id="MainApplication" Title="Main Application" Level="1">
+<ComponentRef Id="$(var.TestService.TargetFileName)" />
+</Feature>
+</Product>
+</Wix>
