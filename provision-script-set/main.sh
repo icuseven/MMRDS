@@ -61,10 +61,10 @@ else
 	
 	cd /home/vagrant/workspace
 	
-	git clone https://github.com/mono/monodevelop.git
+	sudo git clone https://github.com/mono/monodevelop.git
 	cd monodevelop
-	./configure --profile=stable --enable-release
-	make
+	sudo ./configure --profile=stable --enable-release
+	sudo make
 	sudo make install
 	
 fi
