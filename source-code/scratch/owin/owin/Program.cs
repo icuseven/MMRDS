@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Owin;
 using System.Net.Http;
 using Swashbuckle.Application;
@@ -10,6 +12,7 @@ using Quartz.Impl;
 
 namespace mmria.server
 {
+
 	class Program
 	{
 
@@ -45,7 +48,7 @@ namespace mmria.server
 		//http://localhost:12345/swagger/docs/v1
 		//http://localhost:12345/sandbox/index
 
-		static void Main (string[] args)
+		public static void Main (string[] args)
 		{
 			for (int i = 0; i < args.Length; i++)
 			{
@@ -147,6 +150,9 @@ namespace mmria.server
 			// ****   Web Server - Start
 			Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);            
 			Console.WriteLine ("Listening at " + Program.config_web_site_url);
+
+
+            //mmria.server.util.MyWebSocket.execute (new string [] { });
 
 			// ****   Web Server - End
 
@@ -344,6 +350,7 @@ namespace mmria.server
 			app.UseErrorPage();
 			#endif
 
+
 			//app.Use(typeof(mmria.util.MiddlewareUrlRewriter));
 			//app.UseWelcomePage("/");
 			// Configure Web API for self-host. 
@@ -413,10 +420,13 @@ namespace mmria.server
 								.Url("http://tempuri.org/license"));
 					})
 				.EnableSwaggerUi("sandbox/{*assetPath}");*/
-
+            
+           
 
 			app.UseWebApi(config); 
-			//
+
+
+
 
 			//app.UseSwagger();
 
@@ -443,9 +453,6 @@ namespace mmria.server
 			};
 			app.UseFileServer (options);
 
-
-
-		}
-			
+		}	
 	}
 }
