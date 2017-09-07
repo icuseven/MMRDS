@@ -19,7 +19,7 @@ namespace mmria.server
 
         public bool Stop (HostControl hostControl)
         {
-
+			Program.ShutDown ();
 
             return true;
         }

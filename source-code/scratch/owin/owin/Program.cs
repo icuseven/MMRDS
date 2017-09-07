@@ -288,6 +288,16 @@ namespace mmria.server
 			}
 		}
 
+
+		public static void ShutDown ()
+		{
+			if (sched != null) 
+			{
+				sched.Clear ();
+				sched.Shutdown ();
+			}
+		}
+
 		private static bool database_exists(string p_target_server, string p_user_name, string p_password)
 		{
 			bool result = false;
