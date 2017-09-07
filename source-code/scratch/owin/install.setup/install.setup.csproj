@@ -46,6 +46,7 @@
     <None Include="mmria-server.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="product.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mmria.wxs" />
