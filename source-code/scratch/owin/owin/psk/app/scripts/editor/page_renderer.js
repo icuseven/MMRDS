@@ -140,7 +140,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 
 		}
-		result.push("</div>'");
+		result.push("</div>");
 		break;
     case 'form':
 		if(
