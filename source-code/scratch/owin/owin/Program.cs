@@ -149,7 +149,7 @@ namespace mmria.server
 
 			// ****   Web Server - Start
 			Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);            
-			Console.WriteLine ("Listening at " + Program.config_web_site_url);
+			Console.WriteLine ("Web Server Listening at " + Program.config_web_site_url);
 
 
             //mmria.server.util.MyWebSocket.execute (new string [] { });
@@ -289,15 +289,14 @@ namespace mmria.server
 		}
 
 
-		public static void ShutDown ()
-		{
-			if (sched != null) 
-			{
-				sched.Clear ();
-				sched.Shutdown ();
-			}
-		}
-
+        public static void Shutdown ()
+        {
+            if (sched != null) {
+                sched.Clear ();
+                sched.Shutdown ();
+            }
+            System.Console.WriteLine ("Quit command recieved shutting down.");
+        }
 		private static bool database_exists(string p_target_server, string p_user_name, string p_password)
 		{
 			bool result = false;
