@@ -931,11 +931,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(p_object_path);
 					result.push("\",\"");
 					result.push(p_metadata_path);
-					result.push("\",this.value)' /> </div> ");
+					result.push("\",this.value)' /> ");
 				//}
 
 
 				}
+
+				result.push("</div>");
 			}
 			else
 			{
@@ -1161,9 +1163,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("\",this.value)'  /></div>");
 			*/
 			result.push("</span> ");
-			result.push("<div style='position:relative'>");
+			//result.push("<div style='position:relative'>");
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
-			result.push("</div>");
+			//result.push("</div>");
 			result.push("</div>");
 
 			p_post_html_render.push('flatpickr("#' + convert_object_path_to_jquery_id(p_object_path) + ' .date", {');
