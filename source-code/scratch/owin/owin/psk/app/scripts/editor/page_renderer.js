@@ -701,17 +701,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("' ");
 			result.push(">");
-			/*
-			result.push(" <input type='checkbox' name='");
-			result.push(p_metadata.name);
-			if(p_data == true)
-			{
-				result.push("' checked='true'");
-			}
-			else
-			{
-				result.push("'  value='");
-			}*/
+
 			page_render_create_checkbox(result, p_metadata, p_data, p_metadata_path, p_object_path);
 
 			result.push("<span ");
@@ -734,7 +724,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(p_metadata.prompt);
 			}
-			result.push("</span></div>");
+			result.push("</span>");
 
 			
 			
