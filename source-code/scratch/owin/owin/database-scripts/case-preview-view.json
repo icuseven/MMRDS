@@ -1,0 +1,9 @@
+{
+  "_id": "_design/sortable"
+  "language": "javascript",
+  "views": {
+    "all": {
+      "map": "function(doc) { \n  emit([doc.home_record.last_name.toLowerCase(), doc.home_record.first_name.toLowerCase(), doc.home_record.date_of_death.year], null); \n }"
+    }
+  }
+}
