@@ -34,6 +34,7 @@ function print(p_metadata)
     result.push("name: " + p_metadata.name + "<br/>prompt: " + p_metadata.prompt + "<br/>type: " + p_metadata.type);
     
 
+    // before visiting all the child nodes
     if(p_metadata.children)
     {
         // do something with the child nodes
@@ -45,6 +46,7 @@ function print(p_metadata)
         }
     }
 
+    // after visiting all the child nodes
 
    return result;
 }
