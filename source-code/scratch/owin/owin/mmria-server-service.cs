@@ -13,7 +13,7 @@ namespace mmria.server
         public bool Start (HostControl hostControl)
         {
 
-            Program.Main (new string [] { });
+            Program.NonServiceMain (new string [] { });
             return true;
         }
 

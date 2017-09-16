@@ -9,13 +9,14 @@ using Swashbuckle.Application;
 using System.Web.Http;
 using Quartz;
 using Quartz.Impl;
+using Topshelf;
 
 namespace mmria.server
 {
 
 	class Program
 	{
-
+		static bool config_is_service = true;
 		public static string config_geocode_api_key;
 		public static string config_geocode_api_url;
 		public static string config_couchdb_url;
@@ -37,6 +38,24 @@ namespace mmria.server
 		public static IList<DateTime> DateOfLastChange_Sequence_Call;
 		public static string Last_Change_Sequence = null;
 
+
+
+		static int ServiceMain (string [] args)
+		{
+				return (int)HostFactory.Run (x => {
+					x.SetServiceName ("MMRIAApplicationService");
+					x.SetDisplayName ("MMRIA Application Service");
+					x.SetDescription ("Provides data management functionality between a CouchDB instance and a Smart Web Client.");
+
+					x.UseAssemblyInfoForServiceInfo ();
+					x.RunAsLocalSystem ();
+					x.StartManually();
+					//x.UseNLog();
+					x.Service<mmria_server_service> ();
+					x.EnableServiceRecovery (r => r.RestartService (1));
+				});
+		}
+
 		// http://www.asp.net/aspnet/samples/owin-katana
 
 		//http://localhost:12345
@@ -48,28 +67,43 @@ namespace mmria.server
 		//http://localhost:12345/swagger/docs/v1
 		//http://localhost:12345/sandbox/index
 
-		public static void Main (string[] args)
+		public static void Main (string [] args)
 		{
-			for (int i = 0; i < args.Length; i++)
+			for (int i = 0; i < args.Length; i++) 
 			{
 				switch (args [i].ToLower ()) 
 				{
 					case "set_is_environment_based_true":
 						System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "true";
-					break;
+						break;
 					case "set_is_environment_based_false":
 						System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "false";
-					break;
-
+						break;
+					case "config_is_not_service":
+						config_is_service = false;
+						break;
 					default:
 						Console.WriteLine ("unsued command line argument: Arg[{0}] = [{1}]", i, args [i]);
-					break;
+						break;
 				}
-
 			}
 
+			if(
+				!bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) &&
+			  	config_is_service
+			)
+            {
+                ServiceMain (args);
+            }
+            else
+            {
 
+				NonServiceMain (args);
+            }
+		}
 
+		public static void NonServiceMain (string [] args)
+		{
 			#if (FILE_WATCHED)
 			Console.WriteLine ("starting file watch.");
 			WatchFiles.StartWatch();

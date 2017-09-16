@@ -1,14 +1,22 @@
 <?xml version='1.0' encoding='windows-1252'?>
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Name='MMRIA 1.0.0' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
-    Language='1033' Codepage='1252' Version='1.0.0' Manufacturer='mmria.org'>
+<?define ServiceName = "MMRIA-Server" ?>
+<!-- The name of the product -->
+<?define Name = "MMRIA - Application Server" ?>
+<!-- The manufacturer, for setup package publisher and folder info -->
+<?define Manufacturer = "mmria.org" ?>
+<!-- The version number of this setup package-->
+<?define Version = "0.5.5" ?>
 
-    <Package Id='*' Keywords='Installer' Description="mmria.org's mmria 1.0.0 Installer"
-      Comments='MMRIA is released under the GNU 3.0 License.' Manufacturer='mmria.org'
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <Product Name='$(var.Name)' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
+    Language='1033' Codepage='1252' Version='$(var.Version)' Manufacturer='$(var.Manufacturer)'>
+
+    <Package Id='*' Keywords='Installer' Description="mmria.org's mmria $(var.Version) Installer"
+      Comments='MMRIA is released under the GNU 3.0 License.' Manufacturer='$(var.Manufacturer)'
       InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
 
     <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1" />
-    <Property Id='DiskPrompt' Value="MMRIA 1.0.0 Installation [1]" />
+    <Property Id='DiskPrompt' Value="$(var.Name) $(var.Version) Installation [1]" />
 	
 	<PropertyRef Id="NETFRAMEWORK45"/>
 	
@@ -38,6 +46,17 @@
                 <Shortcut Id="startmenuFoobar10" Directory="ProgramMenuDir" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
                 <Shortcut Id="desktopFoobar10" Directory="DesktopFolder" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
               </File>
+              <!-- Tell WiX to install the Service -->
+				<ServiceInstall Id="ServiceInstaller" 
+				Type="ownProcess" 
+				Name="TestService" 
+				DisplayName="$(var.Name)" 
+				Description="MMRIA - Application Web Server" 
+				Start="auto" 
+				ErrorControl="normal" />
+				<!-- Tell WiX to start the Service -->
+				<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.Name)" Wait="yes" />
+
             </Component>
 
             <Component Id='HelperLibrary' Guid='YOURGUID-6BE3-460D-A14F-75658D16550B'>

@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="Windows-1252"?>
+
+<!-- The name of the product -->
+<?define Name = "MMRIA" ?>
+<!-- The manufacturer, for setup package publisher and folder info -->
+<?define Manufacturer = "mmria.org" ?>
+<!-- The version number of this setup package-->
+<?define Version = "0.5.5" ?>
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 <!-- http://stackoverflow.com/questions/22903346/wix-toolset-how-to-create-multiple-folders#22921122 -->
 
-  <Product Name="MMRIA 0.5" Id="b5d563c2-1219-4383-969a-a0872f2a643b" UpgradeCode="65bffb97-4250-4fe2-b78b-219300468242" Language="1033" Codepage="1252" Version="1.0.0" Manufacturer="mmria.org">
+  <Product Name="$(var.Name)" Id="b5d563c2-1219-4383-969a-a0872f2a643b" UpgradeCode="65bffb97-4250-4fe2-b78b-219300468242" Language="1033" Codepage="1252" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)">
 
-    <Package Id="*" Keywords="Installer" Description="mmria.org's mmria 0.5 Installer" Comments="MMRIA is released under the GNU 3.0 License." Manufacturer="mmria.org" InstallerVersion="100" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
+    <Package Id="*" Keywords="Installer" Description="mmria.org's mmria 0.5 Installer" Comments="MMRIA is released under the GNU 3.0 License." Manufacturer="$(var.Manufacturer)" InstallerVersion="100" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
 
     <Media Id="1" Cabinet="Sample.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1" />
-    <Property Id="DiskPrompt" Value="MMRIA 0.5 Installation [1]" />
+    <Property Id="DiskPrompt" Value="MMRIA $(var.Version) Installation [1]" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="mmria" Name="mmria">
-          <Directory Id="INSTALLDIR" Name="Foobar 1.0">
+          <Directory Id="INSTALLDIR" Name="$(var.Name) $(var.Version)">
 
             <Component Id="MainExecutable" Guid="b365b047-3c75-4474-b82c-28aedbb366e6">
               <File Id="FoobarEXE" Name="FoobarAppl10.exe" DiskId="1" Source="FoobarAppl10.exe" KeyPath="yes">

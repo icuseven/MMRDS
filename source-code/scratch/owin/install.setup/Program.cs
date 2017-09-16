@@ -357,7 +357,10 @@ namespace install.setup
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info),
 					get_shortcut("startmenummria17.08.16_v_7cf3f64_", "ProgramMenuDir", "MMRIA 17.08.16 v(7cf3f64)", "mmria_server.exe"),
-					get_shortcut("desktopmmria17.08.16_v_7cf3f64_", "DesktopFolder", "MMRIA 17.08.16 v(7cf3f64)", "mmria_server.exe")
+					get_shortcut("desktopmmria17.08.16_v_7cf3f64_", "DesktopFolder", "MMRIA 17.08.16 v(7cf3f64)", "mmria_server.exe"),
+                    get_service_install(),
+                    get_service_control ()
+
 				);
 			/*
 		            <Component Id = 'MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
@@ -368,6 +371,35 @@ namespace install.setup
             </Component>
 */
 
+			return result;
+		}
+
+		static private XElement get_service_install ()
+		{
+			XElement result = new XElement
+						("ServiceInstall",
+						 new XAttribute ("Id", "ServiceInstaller"),
+						 new XAttribute ("Type", "ownProcess"),
+						 new XAttribute ("Name", "$(var.ServiceName)"),
+						 new XAttribute ("DisplayName", "$(var.Name)"),
+						 new XAttribute ("Description", "MMRIA - Application Web Server"),
+						 new XAttribute ("Start", "demand"),
+						 new XAttribute ("ErrorControl", "normal"));
+					return result;
+		}
+
+static private XElement get_service_control ()
+{
+	XElement result = new XElement
+				("ServiceControl",
+				 new XAttribute ("Id", "StartService"),
+				 new XAttribute ("Start", "install"),
+				 new XAttribute ("Stop", "both"),
+				 new XAttribute ("Remove", "uninstall"),
+				 new XAttribute ("Name", "$(var.ServiceName)"),
+				 new XAttribute ("Wait", "yes"));
+
+			//< ServiceControl Id = "StartService" Start = "install" Stop = "both" Remove = "uninstall" Name = "$(var.Name)" Wait = "yes" />
 			return result;
 		}
 

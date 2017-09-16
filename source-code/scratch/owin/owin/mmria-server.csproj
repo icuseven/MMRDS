@@ -201,6 +201,7 @@
     <Compile Include="util\cReWriteZip.cs" />
     <Compile Include="util\websocket.cs" />
     <Compile Include="mmria-server-service.cs" />
+    <Compile Include="model\couchdb\c_config.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
