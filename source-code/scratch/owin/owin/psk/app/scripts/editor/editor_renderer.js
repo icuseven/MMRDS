@@ -528,6 +528,7 @@ function attribute_renderer(p_metadata, p_path)
 				break;
 			case "validation_description":
 			case "description":
+			case "grid_template_areas":
 			case "pre_fill":
 					result.push('<li>')
 					result.push(prop);
@@ -851,6 +852,8 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>grid_template</option>');
 		result.push('<option>grid_gap</option>');
 		result.push('<option>grid_auto_flow</option>');
+		result.push('<option>grid_template_areas</option>');
+		result.push('<option>grid_area</option>');
 		result.push('<option>grid_row</option>');
 		result.push('<option>grid_column</option>');
 		
@@ -861,6 +864,7 @@ function render_attribute_add_control(p_path, node_type)
 	}
 	else
 	{
+		result.push('<option>grid_area</option>');
 		result.push('<option>grid_row</option>');
 		result.push('<option>grid_column</option>');
 	}
@@ -1453,8 +1457,10 @@ function editor_add_to_attributes(e, p_ui)
 			case "path_reference":
 			case "x_start":
 			case "grid_template":
+			case "grid_template_areas":
 			case "grid_gap":
 			case "grid_auto_flow":
+			case "grid_area":
 			case "grid_row":
 			case "grid_column":
 				var path = e.attributes['path'].value;

@@ -94,6 +94,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(";");
 			}
 
+
+			if(p_metadata.grid_template_areas && p_metadata.grid_template_areas!= "")
+			{
+				result.push("grid-template-areas:");
+				result.push(p_metadata.grid_auto_flow);
+				result.push(";");
+			}
+
 		}
 
 
@@ -114,7 +122,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(";");
 		}
 
-
+		if(p_metadata.grid_area && p_metadata.grid_area!= "")
+		{
+			result.push("grid-area:");
+			result.push(p_metadata.grid_area);
+			result.push(";");
+		}
 
 
 		result.push("' >"); // close opening div
