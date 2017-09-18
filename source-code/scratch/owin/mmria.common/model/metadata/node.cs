@@ -54,7 +54,7 @@ namespace mmria.common.metadata
 
 
 		public string grid_template { get; set; } 
-        public string grid_areas { get; set; } 
+        public string grid_template_areas { get; set; } 
 		public string grid_gap { get; set; } 
 		public string grid_auto_flow { get; set; } 
 		public string grid_row { get; set; } 
