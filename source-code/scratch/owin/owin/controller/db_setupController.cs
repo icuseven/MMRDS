@@ -7,11 +7,7 @@ namespace mmria.server
 {
 	public class db_setupController: ApiController 
 	{ 
-		struct replication_struc
-		{
-			public string source;
-			public string target;
-		}
+
 		/*
 
 curl -X PUT http://uid:pwd@target_db_url/_users
@@ -315,7 +311,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		{
 			string result = null;
 
-			replication_struc replication_object = new replication_struc();
+            mmria.common.model.couchdb.replication_struct replication_object = new mmria.common.model.couchdb.replication_struct();
 			replication_object.source = string.Format("{0}/{1}", p_source_server_uri, p_db_name);
 			replication_object.target = string.Format("{0}/{1}", p_target_server_uri, p_db_name);
 

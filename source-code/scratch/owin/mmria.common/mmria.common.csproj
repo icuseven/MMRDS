@@ -60,6 +60,7 @@
     <Compile Include="model\texas_am\InputAddress.cs" />
     <Compile Include="model\texas_am\OutputGeocode_Value.cs" />
     <Compile Include="model\census\Census_Variables.cs" />
+    <Compile Include="model\couchdb\replication_struct.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />
