@@ -551,6 +551,30 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("' ");
 
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 
 			if(p_metadata.description && p_metadata.description.length > 0)
 			{
@@ -593,6 +617,33 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
+
+
 			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -643,6 +694,30 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata_path);
 				result.push("' ");
 
+				result.push(" style='");
+				if(p_metadata.grid_row && p_metadata.grid_row!= "")
+				{
+					result.push("grid-row:");
+					result.push(p_metadata.grid_row);
+					result.push(";");
+				}
+		
+		
+				if(p_metadata.grid_column && p_metadata.grid_column!= "")
+				{
+					result.push("grid-column:");
+					result.push(p_metadata.grid_column);
+					result.push(";");
+				}
+		
+				if(p_metadata.grid_area && p_metadata.grid_area!= "")
+				{
+					result.push("grid-area:");
+					result.push(p_metadata.grid_area);
+					result.push(";");
+				}
+				result.push("' ");
+	
 				result.push(">");
 				result.push("<span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
@@ -679,6 +754,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -713,6 +813,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 			result.push(">");
 
 			page_render_create_checkbox(result, p_metadata, p_data, p_metadata_path, p_object_path);
@@ -754,6 +879,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(" mpath='");
 				result.push(p_metadata_path);
 				result.push("' ");
+
+				result.push(" style='");
+				if(p_metadata.grid_row && p_metadata.grid_row!= "")
+				{
+					result.push("grid-row:");
+					result.push(p_metadata.grid_row);
+					result.push(";");
+				}
+		
+		
+				if(p_metadata.grid_column && p_metadata.grid_column!= "")
+				{
+					result.push("grid-column:");
+					result.push(p_metadata.grid_column);
+					result.push(";");
+				}
+		
+				if(p_metadata.grid_area && p_metadata.grid_area!= "")
+				{
+					result.push("grid-area:");
+					result.push(p_metadata.grid_area);
+					result.push(";");
+				}
+				result.push("' ");
+	
 				result.push(">");
 				result.push("<span ");
 
@@ -961,6 +1111,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(" mpath='");
 				result.push(p_metadata_path);
 				result.push("' ");
+
+				result.push(" style='");
+				if(p_metadata.grid_row && p_metadata.grid_row!= "")
+				{
+					result.push("grid-row:");
+					result.push(p_metadata.grid_row);
+					result.push(";");
+				}
+		
+		
+				if(p_metadata.grid_column && p_metadata.grid_column!= "")
+				{
+					result.push("grid-column:");
+					result.push(p_metadata.grid_column);
+					result.push(";");
+				}
+		
+				if(p_metadata.grid_area && p_metadata.grid_area!= "")
+				{
+					result.push("grid-area:");
+					result.push(p_metadata.grid_area);
+					result.push(";");
+				}
+				result.push("' ");
+	
 				result.push(">");
 				result.push("<span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
@@ -1139,6 +1314,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -1207,6 +1407,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -1278,6 +1503,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
@@ -1325,6 +1575,31 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(" mpath='");
 			result.push(p_metadata_path);
 			result.push("' ");
+
+			result.push(" style='");
+			if(p_metadata.grid_row && p_metadata.grid_row!= "")
+			{
+				result.push("grid-row:");
+				result.push(p_metadata.grid_row);
+				result.push(";");
+			}
+	
+	
+			if(p_metadata.grid_column && p_metadata.grid_column!= "")
+			{
+				result.push("grid-column:");
+				result.push(p_metadata.grid_column);
+				result.push(";");
+			}
+	
+			if(p_metadata.grid_area && p_metadata.grid_area!= "")
+			{
+				result.push("grid-area:");
+				result.push(p_metadata.grid_area);
+				result.push(";");
+			}
+			result.push("' ");
+
 			result.push(">");
 			result.push("<span ");
 			if(p_metadata.description && p_metadata.description.length > 0)
