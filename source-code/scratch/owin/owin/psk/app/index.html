@@ -1,119 +1,457 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
-<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-
-<LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
-<link href="./styles/jquery/jquery.datetimepicker.css" type="text/css" rel="stylesheet" />
-<link href="./styles/bootstrap/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
-<link href="./styles/bootstrap/jquery.bootstrap-touchspin.min.css" type="text/css" rel="stylesheet"/>
-<link href="./styles/flatpickr/flatpickr.min.css" type="text/css" rel="stylesheet" />
-<link href="./styles/d3/c3.min.css" type="text/css" rel="stylesheet" />
-<!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
-
-
-<script src="./scripts/jquery-3.1.1.min.js"></script>
-<script src="./scripts/jquery-ui.min.js"></script>
-<script src="./scripts/jquery/moment.js"></script>
-<script src="./scripts/jquery/jquery.timepicker.js"></script>
-<script src="./scripts/jquery/jquery.numeric.min.js" type="text/javascript" ></script>
-<script src="./scripts/jquery/jquery.datetimepicker.js" type="text/javascript"></script>
-
-<script src="./scripts/bootstrap/bootstrap.min.js"></script>
-<script src="./scripts/bootstrap/bootstrap-datetimepicker.min.js"></script>
-<script src="./scripts/bootstrap/jquery.bootstrap-touchspin.min.js"></script>
-
-<script src="./scripts/flatpickr/flatpickr.js"></script>
-
-
-
-<script src="./scripts/pouchdb/pouchdb.min.js"></script>
-<script src="./scripts/pouchdb/pouchdb.authentication.min.js"></script>
-<script src="./scripts/esprima.js"></script>
-<script src="./scripts/escodegen.browser.js"></script>
-<script src="./scripts/mmria.js" type="text/javascript"></script>
-
-<script src="./scripts/d3/d3.min.js" type="text/javascript"></script>
-<script src="./scripts/d3/c3.min.js" type="text/javascript"></script>
-
-<!-- script src="scripts/ajax.js" type="text/javascript"></script>
-<script src="react-test/meta_navigator.js" type="text/javascript"></script>
-<script src="react-test/meta_navigator.js" type="text/javascript"></script>
-<script src="scripts/editor/tree_node.js" type="text/javascript"></script>
-<script src="scripts/editor/editor.js" type="text/javascript"></script-->
-<script src="./scripts/metadata_summary.js" type="text/javascript"></script>
-<script src="./scripts/editor/navigation_renderer.js" type="text/javascript"></script>
-<script src="./scripts/editor/page_renderer.js" type="text/javascript"></script>
-<script src="./scripts/create_default_object.js" type="text/javascript"></script>
-
-<script src="./scripts/profile.js" type="text/javascript"></script>
-<script src="./scripts/url_monitor.js" type="text/javascript"></script>
-<script src="./scripts/feed_back_utils.js" type="text/javascript"></script>
-<!--script src="./scripts/feed_back.js" type="text/javascript"></script-->
-<script src="./scripts/index.js" type="text/javascript"> </script>
-<script src="./scripts/validator.js" type="text/javascript"> </script>
-</head>
-<body>
-<div classes="nav_wrapper" class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header"> 
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <img  class="navbar-brand" src="images/mmria-secondary.svg" height=75 width=100 style="padding: 1px 1px;" />
-          <!--a class="navbar-brand" href="#">MMRIA</a-->
-    </div>
-
-    <div  class="collapse navbar-collapse">
-          <div id="navbar">
-          <ul class="nav navbar-nav">
-            <!--li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li-->
-
-          </ul>
-          </div>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" id="profile_content_id">
-              <!--a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
-              <ul class="dropdown-menu" role="menu">
-                <li>
-                    <form id="profile_form"  role="form">
-                      <div class="form-group" ></div>
-                    </form>
-                </li>
-              </ul-->
-            </li>
-          </ul>
-    </div><!--/.nav-collapse -->
-  </div>
-  <div></div>
-</div>
-<div id='root'  class="container">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+  <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
   
-	
-	<!--h1>App Element: MMRIA</h1-->
-  <div class="page-header" id="banner">
-    <div class="row">
-      <div class="col-lg-8 col-md-7 col-sm-6">
-            <!--h1>MMRIA</h1>
-            <p class="lead">Maternal mortality review information app.</p-->
+  <LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
+  <link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
+  <link href="./styles/jquery/jquery.datetimepicker.css" type="text/css" rel="stylesheet" />
+  <link href="./styles/bootstrap/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
+  <link href="./styles/bootstrap/jquery.bootstrap-touchspin.min.css" type="text/css" rel="stylesheet"/>
+  <link href="./styles/flatpickr/flatpickr.min.css" type="text/css" rel="stylesheet" />
+  <link href="./styles/d3/c3.min.css" type="text/css" rel="stylesheet" />
+  
+  
+  
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  
+  <!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.easing.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script> -->
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  <script src="js/wow.js"></script>
+  <script src="js/jquery.bxslider.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="contactform/contactform.js"></script>
+  
+  <script src="./scripts/jquery-3.1.1.min.js"></script>
+  <script src="./scripts/jquery-ui.min.js"></script>
+  <script src="./scripts/jquery/moment.js"></script>
+  <script src="./scripts/jquery/jquery.timepicker.js"></script>
+  <script src="./scripts/jquery/jquery.numeric.min.js" type="text/javascript" ></script>
+  <script src="./scripts/jquery/jquery.datetimepicker.js" type="text/javascript"></script>
+  
+  <script src="./scripts/bootstrap/bootstrap.min.js"></script>
+  <script src="./scripts/bootstrap/bootstrap-datetimepicker.min.js"></script>
+  <script src="./scripts/bootstrap/jquery.bootstrap-touchspin.min.js"></script>
+  
+  <script src="./scripts/flatpickr/flatpickr.js"></script>
+  
+  
+  
+  <script src="./scripts/pouchdb/pouchdb.min.js"></script>
+  <script src="./scripts/pouchdb/pouchdb.authentication.min.js"></script>
+  <script src="./scripts/esprima.js"></script>
+  <script src="./scripts/escodegen.browser.js"></script>
+  <script src="./scripts/mmria.js" type="text/javascript"></script>
+  
+  <script src="./scripts/d3/d3.min.js" type="text/javascript"></script>
+  <script src="./scripts/d3/c3.min.js" type="text/javascript"></script>
+  
+  <!-- script src="scripts/ajax.js" type="text/javascript"></script>
+  <script src="react-test/meta_navigator.js" type="text/javascript"></script>
+  <script src="react-test/meta_navigator.js" type="text/javascript"></script>
+  <script src="scripts/editor/tree_node.js" type="text/javascript"></script>
+  <script src="scripts/editor/editor.js" type="text/javascript"></script-->
+  <script src="./scripts/metadata_summary.js" type="text/javascript"></script>
+  <script src="./scripts/editor/navigation_renderer.js" type="text/javascript"></script>
+  <script src="./scripts/editor/page_renderer.js" type="text/javascript"></script>
+  <script src="./scripts/editor/cool.js" type="text/javascript"></script>
+  <script src="./scripts/create_default_object.js" type="text/javascript"></script>
+  
+  <script src="./scripts/profile.js" type="text/javascript"></script>
+  <script src="./scripts/url_monitor.js" type="text/javascript"></script>
+  <script src="./scripts/feed_back_utils.js" type="text/javascript"></script>
+  <!--script src="./scripts/feed_back.js" type="text/javascript"></script-->
+  <script src="./scripts/index.js" type="text/javascript"> </script>
+  <script src="./scripts/validator.js" type="text/javascript"> </script>
+  </head>
+  <body>
+  <div classes="navbar-brand"  class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header"> 
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- <img  class="navbar-brand" src="images/mmria-secondary.svg" height=75 width=100 style="padding: 1px 1px;" /> -->
+            <!--a class="navbar-brand" href="#">MMRIA</a-->
       </div>
-      
+  
+      <div  class="collapse navbar-collapse">
+            <div id="navbar">
+            <ul class="nav navbar-nav">
+              <!--li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li-->
+  
+            </ul>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown" id="profile_content_id">
+                <!--a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
+                <ul class="dropdown-menu" role="menu">
+                  <li>
+                      <form id="profile_form"  role="form">
+                        <div class="form-group" ></div>
+                      </form>
+                  </li>
+                </ul-->
+              </li>
+            </ul>
+      </div><!--/.nav-collapse -->
     </div>
+    <div></div>
   </div>
-  <div id='form_content_id'  class="container"></div>
-	<div style="padding-bottom: 70px;text-align:right;clear:both;" class="navbar">
-    <%=version%>
+  <!-- <div id='form_content_bryan'  class="container"></div>
+ <script> 
+ document.getElementById('form_content_bryan').innerHTML = cool();
+ </script> -->
+
+
+
+<div id="landing_page"  style="display: block;">
+   
+    <section id="feature" class="section-padding wow fadeIn delay-05s">
+        <div class="loader"></div>
+            <div id="myDiv">
+            <!--HEADER-->
+            <div class="header">
+              <div class="bg-color">
+                <header id="main-header">
+               
+                </header>
+
+
+
+
+
+                
+                <div class="wrapper">
+                <div class="container">
+                  <div class="row">
+                      <div class="banner-info text-center wow fadeIn delay-05s">
+                          
+                          <!-- <h1 class="bnr-title">NOW AVAILABLE FOR WINDOWS OR GNU/LINUX<span></span></h1> -->
+                          <br></br>
+                          <br></br>
+                          <br></br>
+                          <h8 class="bnr-sub-title">WELCOME To The Maternal Mortality Review Information Application.</h8>
+                          <h8 class="bnr-para">MMRIA (or "Maria") a data system designed to empower the maternal mortality</h8>
+                          <p> review community to create action through a common data language.</p>
+                          <section id="feature" class="section-padding wow fadeIn delay-05s">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <div class="wrap-item text-center">
+                                            <div class="item-img">
+                                                <img src="img/ic_abstraction.png" height="72" width="72">
+                                            </div>
+                                            <!-- <h9 class="pad-bt15">Case abstraction</h9> -->
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <div class="wrap-item text-center">
+                                            <div class="item-img">
+                                                <img src="img/ic_narrative.png" height="72" width="72">
+                                            </div>
+                                            <!-- <h9 class="pad-bt15">Case narrative</h9> -->
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <div class="wrap-item text-center">
+                                            <div class="item-img">
+                                                <img src="img/ic_analyses.png" height="72" width="72" />
+                                            </div>
+                                            <!-- <h9 class="pad-bt15">Routine analyses</h9> -->
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                
+                                        <div class="wrap-item text-center">
+                                            <div class="item-img">
+                                                <img src="img/files_nar.png" height="72" width="72" />
+                                            </div>
+                                            <!-- <h9 class="pad-bt15">Documentation</h9> -->
+                                            
+                                        </div>
+                
+                                    </div>
+                                </div>
+                                
+                        </section>
+                          <div class="brn-btn">
+                           
+                          </div>
+                          <div class="overlay-detail">
+                              <a href="#feature"><i class="fa fa-angle-down"></i></a>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <!--/ HEADER-->
+            <!---->
+                <!--/ HEADER-->
+                <!---->
+                
+                    <div class="container">
+                       
+                    </div>
+                </section>
+                <!---->
+                <!---->
+             
+                <section id="footer" class="navbar navbar-default navbar-fixed-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-center white">
+                                <h7 class="service-title pad-bt15" >NEED TECHNICLE HELP WITH MMRIA?</h7>
+                                <!-- <p class="sub-title pad-bt15">Please start by completing a brief survey</p>
+                                <hr class="bottom-line white-bg"> -->
+                                <div class="contact-form">
+                                    
+                                    <form action="https://www.surveymonkey.com/r/V5XYBNF">
+                                        <div class="col-md-12">
+        
+                                            <button type="submit" class="btn btn-primary btn-submit">CONTACT US</button>
+        
+                                        </div>
+        
+        
+                                    </form>
+        
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+        
+                            </div>
+                        </div>
+                    </div>
+             
+        
+                  </section>
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+            <!---->
+            <!---->
+           
+            <!---->
+         
+          </div>
+      </section>
+
+    </div>
+
+
+    <div id="logout_page"  style="display: none;">
+            
+             <section id="feature" class="section-padding wow fadeIn delay-05s">
+                 <div class="loader"></div>
+                     <div id="myDiv1">
+                     <!--HEADER-->
+                     <div class="header">
+                       <div class="bg-color1">
+                         <header id="main-header">
+                        
+                         </header>
+         
+         
+         
+         
+         
+                         
+                         <div class="wrapper">
+                         <div class="container">
+                           <div class="row">
+                               <div class="banner-info1 text-center wow fadeIn delay-05s">
+                                   
+                                   <!-- <h1 class="bnr-title">NOW AVAILABLE FOR WINDOWS OR GNU/LINUX<span></span></h1> -->
+                                   <br></br>
+                                   <br></br>
+                                   <br></br>
+                                   <h8 class="bnr-sub-title">SEE YOU LATER!</h8>
+                                   
+                                   <p> </p>
+                                   <section id="feature" class="section-padding wow fadeIn delay-05s">
+                                     <div class="container">
+                                         <div class="row">
+                                             <div class="col-md-3 col-sm-6 col-xs-12">
+                                                 <div class="wrap-item text-center">
+                                                     <div class="item-img">
+                                                         <img src="img/ic_abstraction.png" height="72" width="72">
+                                                     </div>
+                                                     <!-- <h9 class="pad-bt15">Case abstraction</h9> -->
+                                                     
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-3 col-sm-6 col-xs-12">
+                                                 <div class="wrap-item text-center">
+                                                     <div class="item-img">
+                                                         <img src="img/ic_narrative.png" height="72" width="72">
+                                                     </div>
+                                                     <!-- <h9 class="pad-bt15">Case narrative</h9> -->
+                                                     
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-3 col-sm-6 col-xs-12">
+                                                 <div class="wrap-item text-center">
+                                                     <div class="item-img">
+                                                         <img src="img/ic_analyses.png" height="72" width="72" />
+                                                     </div>
+                                                     <!-- <h9 class="pad-bt15">Routine analyses</h9> -->
+                                                     
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-3 col-sm-6 col-xs-12">
+                         
+                                                 <div class="wrap-item text-center">
+                                                     <div class="item-img">
+                                                         <img src="img/files_nar.png" height="72" width="72" />
+                                                     </div>
+                                                     <!-- <h9 class="pad-bt15">Documentation</h9> -->
+                                                     
+                                                 </div>
+                         
+                                             </div>
+                                         </div>
+                                         
+                                 </section>
+                                   <div class="brn-btn">
+                                    
+                                   </div>
+                                   <div class="overlay-detail">
+                                       <a href="#feature"><i class="fa fa-angle-down"></i></a>
+                                   </div>
+                               </div>
+                           </div>
+                         </div>
+                         </div>
+                       </div>
+                     </div>
+                     <!--/ HEADER-->
+                     <!---->
+                         <!--/ HEADER-->
+                         <!---->
+                         
+                             <div class="container">
+                                
+                             </div>
+                         </section>
+                         <!---->
+                         <!---->
+                      
+                         <section id="footer" class="navbar navbar-default navbar-fixed-bottom">
+                             <div class="container">
+                                 <div class="row">
+                                     <div class="col-md-12 text-center white">
+                                         <h7 class="service-title pad-bt15" >NEED TECHNICLE HELP WITH MMRIA?</h7>
+                                         <!-- <p class="sub-title pad-bt15">Please start by completing a brief survey</p>
+                                         <hr class="bottom-line white-bg"> -->
+                                         <div class="contact-form">
+                                             
+                                             <form action="https://www.surveymonkey.com/r/V5XYBNF">
+                                                 <div class="col-md-12">
+                 
+                                                     <button type="submit" class="btn btn-primary btn-submit">CONTACT US</button>
+                 
+                                                 </div>
+                 
+                 
+                                             </form>
+                 
+                                         </div>
+                                     </div>
+                                     <div class="col-md-6 col-sm-6 col-xs-12">
+                 
+                                     </div>
+                                 </div>
+                             </div>
+                      
+                 
+                           </section>
+                         <!---->
+                         <!---->
+                         <!---->
+                         <!---->
+                         <!---->
+                         <!---->
+                     <!---->
+                     <!---->
+                    
+                     <!---->
+                  
+                   </div>
+               </section>
+         
+             </div>
+
+
+
+
+  <div id='root'  class="container">
+    
+      
+      <!--h1>App Element: MMRIA</h1-->
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+              <!--h1>MMRIA</h1>
+              <p class="lead">Maternal mortality review information app.</p-->
+        </div>
+        
+      </div>
+    </div>
+    <div id='form_content_id'  class="container"></div>
+    <div id='form_content_bryan'  class="container"></div>
   </div>
-</div>
-</body>
-</html>
+  </body>
+  <section id="footer" class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center white">
+                <h7 class="service-title pad-bt15" >NEED TECHNICLE HELP WITH MMRIA?</h7>
+                <!-- <p class="sub-title pad-bt15">Please start by completing a brief survey</p>
+                <hr class="bottom-line white-bg"> -->
+                <div class="contact-form">
+                    
+                    <form action="https://www.surveymonkey.com/r/V5XYBNF">
+                        <div class="col-md-12">
+
+                            <button type="submit" class="btn btn-primary btn-submit">CONTACT US</button>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+            </div>
+        </div>
+    </div>
+
+
+  </section>
+  </html>
+  

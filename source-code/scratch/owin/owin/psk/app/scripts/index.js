@@ -510,7 +510,7 @@ function get_case_set()
         document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
 
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
+       document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
         if(post_html_call_back.length > 0)
         {
           eval(post_html_call_back.join(""));
@@ -797,6 +797,8 @@ function window_on_hash_change(e)
   {
     // do nothing for now
   }
+
+  $("#landing_page").hide();
 };
 
 

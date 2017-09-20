@@ -81,7 +81,7 @@ initialize_profile: function ()
 				{
 					profile.on_login_call_back();
 				}
-				
+
 
 			}
 			else
@@ -96,6 +96,8 @@ initialize_profile: function ()
 			}
 
 			profile.render();
+			
+			
 
 		}).fail(function(response) {
 
@@ -115,6 +117,7 @@ initialize_profile: function ()
 	else
 	{
 		profile.try_session_login(profile.on_login_call_back);
+	
 		//document.getElementById('profile_content_id').innerHTML = "";
 		//profile.render();
 
@@ -125,10 +128,52 @@ render: function ()
 {
 	var result = [];
 
+	result.push('<head>');
+	result.push('<meta charset="utf-8">');
 	
+  
+	  result.push('<meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">');
+  
+	  result.push('<link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
+  
+	 
+	  result.push('<link href="dist/css/flat-ui.css" rel="stylesheet">');
+	  result.push('<link href="docs/assets/css/demo.css" rel="stylesheet">');
+  
+	  result.push(' <link rel="shortcut icon" href="img/favicon.ico">');
+  
+  
+	  result.push('<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />');
+  
+  
+	  result.push('<script src="dist/js/vendor/html5shiv.js"></script>');
+		result.push('<script src="dist/js/vendor/respond.min.js"></script>');
+	
+	  result.push('</head>');
 
 	if(profile.is_logged_in)
 	{
+		$("#landing_page").hide();
+		$("#logout_page").hide();
+
+	// 	result.push('<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> ');
+	// 	result.push('<ul class="dropdown-menu" role="menu">');
+	// 	result.push('<li>');
+	// 	result.push('<form id="profile_form"  role="form">');
+	// 	result.push('<div class="form-group" id="profile_content_id">');
+	// 	result.push('<div class="input-group">');
+	// 	// result.push('<ul style="list-style-type:none;">');
+
+
+	// 			result.push('<span class="input-group-addon">');
+	// result.push('<img  class="navbar-brand" src="images/mmria-secondary.svg" height=55 width=100 style="padding: 1px 1px;" />');
+	// result.push('</span>');
+
+
+
+
+
+
 		result.push('<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> ');
 		result.push(profile.user_name);
 		result.push('</a>');
@@ -136,63 +181,119 @@ render: function ()
 		result.push('<li>');
 		result.push('<form id="profile_form"  role="form">');
 		result.push('<div class="form-group" id="profile_content_id">');
+	result.push('<span class="input-group-addon">');
+	result.push('<img  class="navbar-brand" src="images/mmria-secondary.svg" height=55 width=100 style="padding: 1px 1px;" />');
+	result.push('</span>');
 
-		result.push('<ul style="list-style-type:none;">');
+
+	result.push('<span class="input-group-addon">');
+		result.push('<li><strong>WELCOME!</strong> ');
 		result.push('<li><strong>USER:</strong> ');
 		result.push(profile.user_name);
 		result.push('</li>');
-		result.push('<li><table><tr><th>ROLES</th></tr>');
+	
+		
+
+
+
+		// result.push('<span class="input-group-addon">');
+		// result.push('<li><strong>USER:</strong> ');
+
+		result.push('<li><strong>ROLE:</strong> ');
+	
+		// result.push('</li>');
+		// result.push('</span>');
+		
+		// result.push('<span>');
+		// result.push('<li><table><tr><th>ROLES</th></tr>');	
 		for(var i = 0; i < profile.user_roles.length; i++)
 		{
-			result.push('<tr><td>');
+			// result.push('<tr><td>');
 			result.push(profile.user_roles[i]);
-			result.push('</td></tr>');
+			result.push('</li>');
+			// result.push('</td></tr>');
 		}
+		result.push('</span>');
 		
-		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
-		result.push('</li><li>');
+		// result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
+		// result.push('</li><li>');
+		// result.push("<%=version%>")
+		// result.push('</li></ul>');
+
+		// result.push('</div>');
+		// result.push('</form>');
+		// result.push('</li>');
+		// result.push('</ul>');
+
+
+		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-primary.active:hover btn-lg btn-block" onclick="profile.logout()"/>');
+
+		
+		
+		result.push('</li>');
+		// result.push('<li>');
+		result.push('<body1>');
 		result.push("<%=version%>")
-		result.push('</li></ul>');
+		
+		// result.push('</li></ul>');
+		result.push('</body1></ul>');
 
 		result.push('</div>');
 		result.push('</form>');
 		result.push('</li>');
 		result.push('</ul>');
 
+
+
+		
+
 	}
 	else
 	{
+
+	
+
+
+
 
 		result.push('<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>');
 		result.push('<ul class="dropdown-menu" role="menu">');
 		result.push('<li>');
 		result.push('<form id="profile_form"  role="form">');
 		result.push('<div class="form-group" id="profile_content_id">');
+		result.push('<div class="input-group">');
+		// result.push('<ul style="list-style-type:none;">');
+
+
+				result.push('<span class="input-group-addon">');
+	result.push('<img  class="navbar-brand" src="images/mmria-secondary.svg" height=55 width=100 style="padding: 1px 1px;" />');
+	result.push('</span>');
+
+		result.push('<input  id="profile_form_user_name"  placeholder="Username" type="text" name="email" value="');
 		
-		result.push('<ul style="list-style-type:none;">');
-		result.push('<li><strong>user name:</strong> ');
-		result.push('<input  id="profile_form_user_name" type="text" name="email" value="')
+		// result.push('</div>');
 		if(profile.user_name)
 		{
 			result.push(profile.user_name);
 		}
 		result.push('" class="form-control" required />');
-		result.push('</li>');
-		result.push('<li><strong>password:</strong> ');
-		result.push('<input id="profile_form_password" type="password" name="password" value="');
+	
+		result.push('<input id="profile_form_password"  placeholder="Password" type="password" name="password" value="');
 		if(profile.password)
 		{
 			result.push(profile.password);
 		}
 		result.push('" class="form-control" required />');
 		result.push('</li>');
-		result.push('<li><input type="button"  class="btn btn-default" value="Log in" /></li>');
+		result.push('<input type="button"  class="btn btn-primary.active:hover btn-lg btn-block" value="Log in" />');
 		result.push('<li id="login_status_area">');
 		result.push('</li>');
-		result.push('<li>');
+		// result.push('<li>');
+		result.push('<body1>');
 		result.push("<%=version%>")
-		result.push('</li></ul>');
-
+		
+		// result.push('</li></ul>');
+		result.push('</body1></ul>');
 
 		result.push('</div>');
 		result.push('</form>');
@@ -305,6 +406,7 @@ login_response: function (response)
 			}
 
 			profile.render();
+	
 		}
 		else
 		{
@@ -328,7 +430,7 @@ login_response: function (response)
 
 logout : function()
 	{
-
+		$("#logout_page").show();
 	if(profile.on_logout_call_back)
 	{
 		profile.on_logout_call_back(profile.user_name, profile.password);
@@ -407,6 +509,7 @@ logout : function()
 				{
 					p_success_call_back(profile.auth_session);
 				}
+
 			}
 			else
 			{
@@ -429,6 +532,7 @@ logout : function()
 		}
 
 		profile.render();
+		
 
 	}).fail(function(response) {
 
