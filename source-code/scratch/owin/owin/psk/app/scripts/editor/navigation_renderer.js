@@ -126,7 +126,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="actions">');
 
 
-            if(window.location.href.indexOf('preview.html') < 0)
+            if(window.location.href.indexOf('preview.html') > -1)
             {
 
             }

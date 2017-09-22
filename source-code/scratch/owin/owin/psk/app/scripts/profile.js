@@ -127,7 +127,7 @@ initialize_profile: function ()
 render: function ()
 {
 	var result = [];
-
+/*
 	result.push('<head>');
 	result.push('<meta charset="utf-8">');
 	
@@ -150,6 +150,8 @@ render: function ()
 		result.push('<script src="dist/js/vendor/respond.min.js"></script>');
 	
 	  result.push('</head>');
+*/
+
 
 	if(profile.is_logged_in)
 	{
