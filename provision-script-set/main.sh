@@ -144,6 +144,10 @@ else
 	
 	#You can opt out of telemetry by setting a DOTNET_CLI_TELEMETRY_OPTOUT environment variable to 1 using your favorite shell.
 	#You can read more about .NET Core tools telemetry @ https://aka.ms/dotnet-cli-telemetry
+	# .profile <-- append DOTNET_CLI_TELEMETRY_OPTOUT=1; export DOTNET_CLI_TELEMETRY_OPTOUT 
+	#export DOTNET_CLI_TELEMETRY_OPTOUT=1
+	#set DOTNET_CLI_TELEMETRY_OPTOUT=1
+	#setx DOTNET_CLI_TELEMETRY_OPTOUT 1
 fi
 
 #https://github.com/foretagsplatsen/Divan
