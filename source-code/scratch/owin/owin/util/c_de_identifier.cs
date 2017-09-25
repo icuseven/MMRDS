@@ -330,6 +330,13 @@ namespace mmria.server.util
 				foreach (string path in cdc_de_identified_set) 
 				{
 					set_de_identified_value (case_item_object, path);
+
+                    /*
+                    if (path == "death_certificate/demographics/city_of_birth") 
+                    {
+                        System.Console.Write ("break");
+                    }*/
+
 				}
 			}
 			else
@@ -352,11 +359,11 @@ namespace mmria.server.util
 		public void set_de_identified_value (dynamic p_object, string p_path)
 		{
 
-/*
-			if (p_path == "er_visit_and_hospital_medical_records/maternal_record_identification/first_name")
+
+            if (p_path == "death_certificate/demographics/city_of_birth")
 			{
-				//System.Console.Write("break");
-			}*/
+				System.Console.Write("break");
+			}
 
 			try
 			{

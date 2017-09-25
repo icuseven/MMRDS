@@ -61,6 +61,7 @@
     <Compile Include="model\texas_am\OutputGeocode_Value.cs" />
     <Compile Include="model\census\Census_Variables.cs" />
     <Compile Include="model\couchdb\replication_struct.cs" />
+    <Compile Include="model\couchdb\case_view_response.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />

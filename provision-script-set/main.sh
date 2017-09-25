@@ -130,14 +130,25 @@ else
 	sudo apt-get install atom -y
 fi
 
-# echo "checking if Gufw is installed..."
-# if [[ -f "/usr/bin/gufw" ]]; then
-	# echo "Gufw already installed,skipping..."
-# else
-	# echo "installing Gufw..."
-	# sudo apt-get install gufw -y
-# fi
-
+echo "checking dotnet core is installed..."
+if [[ -f "/usr/bin/dotnet" ]]; then
+	echo "dotnet core already installed,skipping..."
+else
+	echo "installing dotnet core ..."
+	
+	curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+	sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+	sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+	sudo apt-get update
+	sudo apt-get install dotnet-sdk-2.0.0 -y
+	
+	#You can opt out of telemetry by setting a DOTNET_CLI_TELEMETRY_OPTOUT environment variable to 1 using your favorite shell.
+	#You can read more about .NET Core tools telemetry @ https://aka.ms/dotnet-cli-telemetry
+	# .profile <-- append DOTNET_CLI_TELEMETRY_OPTOUT=1; export DOTNET_CLI_TELEMETRY_OPTOUT 
+	#export DOTNET_CLI_TELEMETRY_OPTOUT=1
+	#set DOTNET_CLI_TELEMETRY_OPTOUT=1
+	#setx DOTNET_CLI_TELEMETRY_OPTOUT 1
+fi
 
 #https://github.com/foretagsplatsen/Divan
 #https://github.com/rnewson/couchdb-lucene/tree/v0.4
