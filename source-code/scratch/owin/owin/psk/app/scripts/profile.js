@@ -127,36 +127,9 @@ initialize_profile: function ()
 render: function ()
 {
 	var result = [];
-/*
-	result.push('<head>');
-	result.push('<meta charset="utf-8">');
-	
-  
-	  result.push('<meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">');
-  
-	  result.push('<link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
-  
-	 
-	  result.push('<link href="dist/css/flat-ui.css" rel="stylesheet">');
-	  result.push('<link href="docs/assets/css/demo.css" rel="stylesheet">');
-  
-	  result.push(' <link rel="shortcut icon" href="img/favicon.ico">');
-  
-  
-	  result.push('<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />');
-  
-  
-	  result.push('<script src="dist/js/vendor/html5shiv.js"></script>');
-		result.push('<script src="dist/js/vendor/respond.min.js"></script>');
-	
-	  result.push('</head>');
-*/
-
 
 	if(profile.is_logged_in)
 	{
-		$("#landing_page").hide();
-		$("#logout_page").hide();
 
 	// 	result.push('<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> ');
 	// 	result.push('<ul class="dropdown-menu" role="menu">');
@@ -201,7 +174,7 @@ render: function ()
 		// result.push('<span class="input-group-addon">');
 		// result.push('<li><strong>USER:</strong> ');
 
-		result.push('<li><strong>ROLE:</strong> ');
+		result.push('<li><strong>ROLES:</strong><ul>');
 	
 		// result.push('</li>');
 		// result.push('</span>');
@@ -211,11 +184,12 @@ render: function ()
 		for(var i = 0; i < profile.user_roles.length; i++)
 		{
 			// result.push('<tr><td>');
+			result.push("<li>");
 			result.push(profile.user_roles[i]);
 			result.push('</li>');
 			// result.push('</td></tr>');
 		}
-		result.push('</span>');
+		result.push('</ul></li></span>');
 		
 		// result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-default" onclick="profile.logout()"/>');
 		// result.push('</li><li>');

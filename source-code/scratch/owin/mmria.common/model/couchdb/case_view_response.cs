@@ -28,9 +28,41 @@ home_record/record_id
 home_record/agency_case_id
 committee_review/date_of_review
 
+http://localhost:5984/mmrds/_design/sortable/_view/all
+
+find one
+    by_date?key="2009/01/30 18:04:11"
+
+find many
+    by_date?startkey="2010/01/01 00:00:00"&endkey="2010/02/00 00:00:00"
 
 
+reverse sort
+    descending=true
+    also endkey=1&descending=true: 
 */
+
+    public class case_view_sortable_item
+    {
+        public case_view_sortable_item () { }
+
+        public string first_name{ get; set; }
+        public string middle_name{ get; set; }
+        public string last_name{ get; set; }
+        public int? date_of_death_year{ get; set; }
+        public int? date_of_death_month{ get; set; }
+
+        public DateTime? date_created { get; set; }
+        public string created_by{ get; set; }
+        public DateTime? date_last_updated{ get; set; }
+        public string last_updated_by{ get; set; }
+
+        public string record_id{ get; set; }
+        public string agency_case_id{ get; set; }
+        public DateTime? date_of_committee_review{ get; set; }
+
+    }
+
 
     public class case_view_item
 	{
@@ -38,7 +70,7 @@ committee_review/date_of_review
 
 		public string id { get; set; } //": "16e458537602f5ef2a710089dffd9453",
 		public string key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
-		public struct value {  public string rev;}
+        public case_view_sortable_item value {  get; set; }
 	
 	}
 

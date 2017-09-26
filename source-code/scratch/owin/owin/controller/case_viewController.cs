@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Web.Http;
 using System.Dynamic;
 using mmria.common.model;
@@ -8,16 +9,106 @@ using mmria.common.model;
 namespace mmria.server
 {
 	public class case_viewController: ApiController 
-	{ 
+	{
 
 
-		// GET api/values 
-		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get() 
-		{ 
+        // GET api/values 
+        //public IEnumerable<master_record> Get() 
+        public IEnumerable<mmria.common.model.couchdb.case_view_item> Get
+        (
+            int skip = 0,
+            int take = 25,
+            string sort = "by_date_created",
+            string search_key = null,
+            bool descending = false
+        ) 
+		{
+            /*
+             * 
+             * http://localhost:5984/mmrds/_design/sortable/_view/all
+             * 
+by_date_created
+by_date_last_updated
+by_last_name
+by_first_name
+by_middle_name
+by_year_of_death
+by_month_of_death
+by_committe_review_date
+by_created_by
+by_last_updated_by
+
+
+
+*/
+
+            string sort_view = sort.ToLower ();
+            switch (sort_view)
+            {
+                case "by_date_created":
+                case "by_date_last_updated":
+                case "by_last_name":
+                case "by_first_name":
+                case "by_middle_name":
+                case "by_year_of_death":
+                case "by_month_of_death":
+                case "by_committe_review_date":
+                case "by_created_by":
+                case "by_last_updated_by":
+                    break;
+
+                default:
+                    sort_view = "by_date_created";
+                break;
+            }
+
+
+
 			try
 			{
-				string request_string = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
+                System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
+                request_builder.Append (Program.config_couchdb_url);
+                request_builder.Append ($"/mmrds/_design/sortable/_view/{sort_view}?");
+
+
+                if (string.IsNullOrWhiteSpace (search_key))
+                {
+                    if (skip > -1) 
+                    {
+                        request_builder.Append ($"skip={skip}");
+                    } 
+                    else 
+                    {
+
+                        request_builder.Append ("skip=0");
+                    }
+
+
+                    if (take > -1) 
+                    {
+                        request_builder.Append ($"&limit={take}");
+                    }
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                } 
+                else 
+                {
+                    request_builder.Append ("skip=0");
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                }
+
+
+
+
+
+                string request_string = request_builder.ToString();
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -38,14 +129,84 @@ namespace mmria.server
 					}
 				}
 
+
+
 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
 
-				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
-				return result;
+                if (string.IsNullOrWhiteSpace (search_key)) 
+                {
+                    return case_view_response.rows;
+                } 
+                else 
+                {
+                    string key_compare = search_key.ToLower ();
+
+                    List<mmria.common.model.couchdb.case_view_item> result = new List<mmria.common.model.couchdb.case_view_item> ();
+
+                    foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                    {
+                        bool add_item = false;
+                        if (cvi.value.first_name != null && cvi.value.first_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
+                        if (cvi.value.middle_name != null && cvi.value.middle_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.last_name != null && cvi.value.last_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.record_id != null && cvi.value.record_id.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.agency_case_id != null && cvi.value.agency_case_id.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.created_by != null && cvi.value.created_by.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.last_updated_by != null && cvi.value.last_updated_by.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+
+                        if(cvi.value.date_of_death_month != null && cvi.value.date_of_death_month.HasValue && cvi.value.date_of_death_month.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        {
+                            add_item = true;
+                        }
+                        if(cvi.value.date_of_death_year != null && cvi.value.date_of_death_year.HasValue  && cvi.value.date_of_death_year.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        {
+                            add_item = true;
+                        }
+
+                        if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && cvi.value.date_of_committee_review.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1) 
+                        {
+                            add_item = true;
+                        }
+
+                        if(add_item) result.Add (cvi);
+                        
+                      }
+                                                        
+                    return result.Skip (skip).Take (take).ToList ();
+                }
+
 
 				/*
 		< HTTP/1.1 200 OK
@@ -65,174 +226,6 @@ namespace mmria.server
 			} 
 
 			return null;
-		} 
-
-		private void PutDocument(string postUrl, string document)
-		{
-			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
-
-			System.Net.WebRequest request = System.Net.WebRequest.Create("request_string");
-			request.UseDefaultCredentials = true;
-			request.Credentials = new System.Net.NetworkCredential("_username", "_password");
-			request.Method = "PUT";
-			request.ContentType = "text/json";
-			request.ContentLength = data.Length;
-
-			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-			{
-				try
-				{
-					streamWriter.Write(document);
-					streamWriter.Flush();
-					streamWriter.Close();
-
-					System.Net.HttpWebResponse httpResponse = (System.Net.HttpWebResponse)request.GetResponse();
-					using (System.IO.StreamReader streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
-					{
-						string result = streamReader.ReadToEnd();
-						streamReader.Close();
-					}
-				}
-				catch (System.Exception e)
-				{
-					//_logger.Error("Exception thrown when contacting service.", e);
-					//_logger.ErrorFormat("Error posting document to {0}", postUrl);
-				}
-			}
-		}
-
-
-		// POST api/values 
-		[Route]
-		public mmria.common.model.couchdb.document_put_response Post() 
-		{ 
-			//bool valid_login = false;
-			//mmria.common.data.api.Set_Queue_Request queue_request = null;
-			System.Dynamic.ExpandoObject  queue_request = null;
-			string auth_session_token = null;
-
-			string object_string = null;
-			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
-
-			try
-			{
-
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
-				// Open the stream using a StreamReader for easy access.
-				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-				// Read the content.
-				string temp = reader0.ReadToEnd ();
-
-				queue_request = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp);
-
-				//mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
-				//System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
-
-
-
-				//string metadata = DecodeUrlString(temp);
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine (ex);
-			}
-
-			//if(queue_request.case_list.Length == 1)
-			try
-			{
-				//dynamic case_item = queue_request.case_list[0];
-
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_request, settings);
-
-				var byName = (IDictionary<string,object>)queue_request;
-				var temp_id = byName["_id"]; 
-				string id_val = null;
-
-				if(temp_id is DateTime)
-				{
-					id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
-				}
-				else
-				{
-					id_val = temp_id.ToString();
-				}
-
-
-				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
-
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
-				request.Method = "PUT";
-				request.ContentType = "application/json";
-				request.ContentLength = object_string.Length;
-				request.PreAuthenticate = false;
-
-				System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
-
-				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
-				{
-					string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
-					for(int i = 0; i < cookie_set.Length; i++)
-					{
-						string[] auth_session_token_item = cookie_set[i].Split('=');
-						if(auth_session_token_item[0].Trim() == "AuthSession")
-						{
-							
-							auth_session_token = auth_session_token_item[1];
-							request.Headers.Add("Cookie", "AuthSession=" + auth_session_token);
-							request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_token);
-
-							headerBuilder.Append("content-type application/json|");
-							headerBuilder.Append("Cookie  AuthSession=");
-							headerBuilder.Append(auth_session_token);
-							headerBuilder.Append("|X-CouchDB-WWW-Authenticate ");
-							headerBuilder.Append(auth_session_token);
-
-							break;
-						}
-					}
-				}
-
-				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-				{
-					try
-					{
-						streamWriter.Write(object_string);
-						streamWriter.Flush();
-						streamWriter.Close();
-
-
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-						System.IO.Stream dataStream = response.GetResponseStream ();
-						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-						string responseFromServer = reader.ReadToEnd ();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-					}
-					catch(Exception ex)
-					{
-						Console.Write("auth_session_token: {0}", auth_session_token);
-						Console.WriteLine (ex);
-					}
-				}
-
-				if (!result.ok) 
-				{
-
-				}
-
-			}
-			catch(Exception ex) 
-			{
-				Console.Write("auth_session_token: {0}", auth_session_token);
-				Console.WriteLine (ex);
-			}
-
-			return result;
-
 		} 
 
 	} 
