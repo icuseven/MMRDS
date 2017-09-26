@@ -59,6 +59,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_ui.broken_rules[p_object_path] = false;
     } 
 
+    save_case(g_data);
+/*
 	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
       {
@@ -79,7 +81,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           }
       }).catch(function (err) {
   console.log(err);
-});
+});*/
 		
 
       }
@@ -183,7 +185,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(post_html_call_back.join(""));
       }
       
-	  
+      save_case(g_data);
+      /*
 	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
       {
@@ -205,7 +208,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
           
       }).catch(function (err) {
   console.log(err);
-});
+});*/
 	  
     }
 
@@ -324,7 +327,31 @@ var g_ui = {
     window.location = url;
 
     return result;
-	}
+  },
+  case_view_list : [],
+   case_view_request : {
+    page :1,
+    skip : 0,
+    take : 25,
+    sort : "by_date_created",
+    search_key : null,
+    descending : false,
+    get_query_string : function(){
+      var result = [];
+      result.push("?skip=" + (this.page - 1) * this.take);
+      result.push("take=" + this.take);
+      result.push("sort=" + this.sort);
+  
+      if(this.search_key)
+      {
+        result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
+      }
+  
+      result.push("descending=" + this.descending);
+  
+      return result.join("&");
+    }
+  }
 };
 var $$ = {
 
@@ -375,7 +402,7 @@ function load_profile()
     {
       $("#landing_page").hide();
       $("#logout_page").hide();
-      
+
       get_metadata();
       if
       (
@@ -384,7 +411,7 @@ function load_profile()
           profile.user_roles.indexOf("_admin") < 0
       )
       {
-        window.setInterval(save_change_task,      30000);	
+        //window.setInterval(save_change_task,      30000);	
         window.setInterval(profile.update_session_timer, 120000);
       }
     };
@@ -481,69 +508,49 @@ function replicate_db_and_log_out(p_user_name, p_password)
 
 function get_case_set()
 {
-    var db = new PouchDB(g_source_db);
-    var prefix = 'http://' + profile.user_name + ":" + profile.password;
-    var remoteDB = new PouchDB(prefix.replace('@', '%40') + '@' + g_couchdb_url.replace('http://','').replace('https://','') + '/' + g_source_db);
 
+  var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
+  $.ajax({
+    url: case_view_url,
+}).done(function(case_view_response) {
+    
+
+    //console.log(case_view_response);
+    g_ui.case_view_list = [];
+    for(var i = 0; i < case_view_response.length; i++)
+    {
+        g_ui.case_view_list.push(case_view_response[i]);
+    }
+
+    var post_html_call_back = [];
+    document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
     document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
 
-    db.sync(remoteDB).on('complete', function () 
+    document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
+    if(post_html_call_back.length > 0)
     {
-        db.allDocs(
+      eval(post_html_call_back.join(""));
+    }
+
+    var section_list = document.getElementsByTagName("section");
+    for(var i = 0; i < section_list.length; i++)
+    {
+      var section = section_list[i];
+      if(section.id == "app_summary")
       {
-        include_docs: true,
-        attachments: true
-      }).then(function (result) 
+          section.style.display = "block";
+      }
+      else
       {
+        
+          section.style.display = "grid";
+          section.style["grid-template-columns"] = "1fr 1fr 1fr";
+        
+      }
+    }
+    
 
-        //console.log(result);
-        g_ui.data_list = [];
-        for(var i = 0; i < result.rows.length; i++)
-        {
-          if(result.rows[i].doc._id.indexOf("_design") < 0)
-          {
-            g_ui.data_list.push(result.rows[i].doc);
-          }
-          
-        }
-
-        var post_html_call_back = [];
-        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
-
-
-       document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
-        if(post_html_call_back.length > 0)
-        {
-          eval(post_html_call_back.join(""));
-        }
-
-        var section_list = document.getElementsByTagName("section");
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == "app_summary")
-          {
-              section.style.display = "block";
-          }
-          else
-          {
-            
-              section.style.display = "grid";
-              section.style["grid-template-columns"] = "1fr 1fr 1fr";
-            
-          }
-        }
-
-
-
-      });
-
-
-
-}).on('error', function (err) {
-  console.log("db sync error", err);
 });
 
 
@@ -594,7 +601,7 @@ function window_on_hash_change(e)
 
   if(g_data)
   {
-
+    
         if(e.isTrusted)
         {
 
@@ -608,62 +615,13 @@ function window_on_hash_change(e)
             {
                 save_queue.push(g_data._id);
             }*/
+            save_case(g_data);
 
-            g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
+            get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id);
+            //g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
-            var post_html_call_back = [];
-            document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", "", false, post_html_call_back).join("");
-            apply_tool_tips();
-            if(post_html_call_back.length > 0)
-            {
-              try
-              {
-                eval(post_html_call_back.join(""));
-              }
-              catch(ex)
-              {
-                console.log(ex);
-              }
-              
-            }
-
-
-            var section_list = document.getElementsByTagName("section");
-
-
-            if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
-            {
-              for(var i = 0; i < section_list.length; i++)
-              {
-                var section = section_list[i];
-                if(section.id == g_ui.url_state.path_array[1])
-                {
-                  section.style.display = "grid";
-                  section.style["grid-template-columns"] = "1fr 1fr 1fr";
-                }
-                else
-                {
-                    section.style.display = "none";
-                }
-              }
-            }
-            else
-            {
-              for(var i = 0; i < section_list.length; i++)
-              {
-                var section = section_list[i];
-                if(section.id == g_ui.url_state.path_array[1] + "_id")
-                {
-                  section.style.display = "grid";
-                  section.style["grid-template-columns"] = "1fr 1fr 1fr";
-                }
-                else
-                {
-                    section.style.display = "none";
-                }
-              }
-            }
+           // g_render();
+            
 
           }
           else
@@ -673,30 +631,10 @@ function window_on_hash_change(e)
             {
               save_queue.push(g_data._id);
             }*/
+            save_case(g_data);
             g_data = null;
-            var post_html_call_back = []
-            document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
-            apply_tool_tips();
-            if(post_html_call_back.length > 0)
-            {
-              eval(post_html_call_back.join(""));
-            }
-
-            var section_list = document.getElementsByTagName("section");
-              for(var i = 0; i < section_list.length; i++)
-              {
-                var section = section_list[i];
-                if(section.id == "app_summary")
-                {
-                    section.style.display = "block";
-                }
-                else
-                {
-                    section.style.display = "grid";
-                    section.style["grid-template-columns"] = "1fr 1fr 1fr";
-                }
-            }
+            g_render();
+            
           }
       }
       
@@ -714,50 +652,16 @@ function window_on_hash_change(e)
 
     if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
     {
-      g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
-
-      var post_html_call_back = [];
-      document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", "", false, post_html_call_back).join("");
-      apply_tool_tips();
-      if(post_html_call_back.length > 0)
+      if(g_ui.case_view_list.length > 0)
       {
-        eval(post_html_call_back.join(""));
-      }
-
-  		var section_list = document.getElementsByTagName("section");
-      if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
-      {
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == g_ui.url_state.path_array[1])
-          {
-            section.style.display = "grid";
-            section.style["grid-template-columns"] = "1fr 1fr 1fr";
-          }
-          else
-          {
-              section.style.display = "none";
-          }
-        }
+        get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id); 
+              //g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
       }
       else
       {
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == g_ui.url_state.path_array[1] + "_id")
-          {
-            section.style.display = "grid";
-            section.style["grid-template-columns"] = "1fr 1fr 1fr";
-          }
-          else
-          {
-              section.style.display = "none";
-          }
-        }
+        g_render();
       }
+           //      
 		}
     else
     {
@@ -766,32 +670,10 @@ function window_on_hash_change(e)
       {
         save_queue.push(g_data._id);
       }*/
-              
-      g_data = null;
+      //save_case(g_data);
+      //g_data = null;
 
-      var post_html_call_back = [];
-      document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-                                                            //page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context,post_html_call_back)
-      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
-      apply_tool_tips();
-      if(post_html_call_back.length > 0)
-      {
-        eval(post_html_call_back.join(""));
-      }
-
-      var section_list = document.getElementsByTagName("section");
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == "app_summary")
-          {
-              section.style.display = "block";
-          }
-          else
-          {
-              section.style.display = "none";
-          }
-      }
+      g_render();
 
     }
 
@@ -801,8 +683,132 @@ function window_on_hash_change(e)
     // do nothing for now
   }
 
-  $("#landing_page").hide();
+
 };
+
+
+function get_specific_case(p_id)
+{
+
+  $.ajax({
+    url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id,
+}).done(function(case_response) {
+
+    g_data = case_response;
+    g_render();
+});
+
+}
+
+function save_case(p_data)
+{
+
+  $.ajax({
+    url: location.protocol + '//' + location.host + '/api/case',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    data: JSON.stringify(p_data),
+    type: "POST",
+    beforeSend: function (request)
+    {
+      request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+    );
+    }
+}).done(function(case_response) {
+
+    console.log("save_case: success");
+    if(g_data && g_data._id == case_response.id)
+    {
+      g_data._rev = case_response.rev;
+      //console.log('set_value save finished');
+    }
+
+}).fail(function(xhr, err) { console.log("save_case: fails", err); });
+
+}
+
+function g_render()
+{
+
+  var post_html_call_back = [];
+
+  document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+  document.getElementById('form_content_id').innerHTML = page_render(g_metadata, g_data, g_ui, "g_metadata", "g_data", "", false, post_html_call_back).join("");
+
+  apply_tool_tips();
+
+  if(post_html_call_back.length > 0)
+  {
+    try
+    {
+      eval(post_html_call_back.join(""));
+    }
+    catch(ex)
+    {
+      console.log(ex);
+    }
+  }
+
+  var section_list = document.getElementsByTagName("section");
+
+  if(g_ui.url_state.path_array[0] == "summary")
+  {
+    for(var i = 0; i < section_list.length; i++)
+    {
+      var section = section_list[i];
+
+      if(section.id == "app_summary")
+      {
+        section.style.display = "block";
+        //section.style.display = "grid";
+        //section.style["grid-template-columns"] = "1fr 1fr 1fr";
+      }
+      else
+      {
+          section.style.display = "none";
+      }
+    }
+  }
+  else
+  {
+    if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
+    {
+      for(var i = 0; i < section_list.length; i++)
+      {
+        var section = section_list[i];
+        if(section.id == g_ui.url_state.path_array[1])
+        {
+          section.style.display = "block";
+          //section.style.display = "grid";
+          //section.style["grid-template-columns"] = "1fr 1fr 1fr";
+        }
+        else
+        {
+            section.style.display = "none";
+        }
+      }
+    }
+    else
+    {
+      for(var i = 0; i < section_list.length; i++)
+      {
+        var section = section_list[i];
+  
+        if(section.id == g_ui.url_state.path_array[1] + "_id")
+        {
+          section.style.display = "block";
+          //section.style.display = "grid";
+          //section.style["grid-template-columns"] = "1fr 1fr 1fr";
+        }
+        else
+        {
+            section.style.display = "none";
+        }
+      }
+    }
+  }
+}
+
 
 
 function show_print_version()

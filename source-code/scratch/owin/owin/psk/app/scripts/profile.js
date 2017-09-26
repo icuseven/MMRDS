@@ -554,7 +554,8 @@ logout : function()
 	},
 	clear_status :function ()
 	{
-		document.getElementById("login_status_area").innerHTML = "<div>&nbsp;</div>";
+		var login_status_area = document.getElementById("login_status_area");
+		if(login_status_area) login_status_area.innerHTML = "<div>&nbsp;</div>";
 	},
 	update_session_timer : function ()
 	{

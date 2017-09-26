@@ -486,9 +486,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//result.push("</fieldset>");
 
 			result.push('<div class="search_wrapper">');
-			for(var i = 0; i < p_ui.data_list.length; i++)
+			for(var i = 0; i < p_ui.case_view_list.length; i++)
 			{
-				var item = p_ui.data_list[i];
+				var item = p_ui.case_view_list[i];
 
 				if(i % 2)
 				{
@@ -498,15 +498,15 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					result.push('		  <div class="result_wrapper" path="');
 				}
-				result.push(item._id);
+				result.push(item.id);
 				result.push('"><p class="result">');
-				result.push(item.home_record.last_name);
+				result.push(item.value.last_name);
 				result.push(', ');
-				result.push(item.home_record.first_name);
+				result.push(item.value.first_name);
 				result.push(' - ');
-				result.push(item.home_record.record_id);
+				result.push(item.value.record_id);
 				result.push('	(');
-				result.push(item.home_record.state_of_death);
+				result.push(item.value.state_of_death);
 				result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
 				result.push('</div>');
 				

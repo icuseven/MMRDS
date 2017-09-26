@@ -13,11 +13,17 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get() 
+		public System.Dynamic.ExpandoObject Get(string case_id = null) 
 		{ 
 			try
 			{
-				string request_string = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
+                string request_string = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
+
+                if (!string.IsNullOrWhiteSpace (case_id)) 
+                {
+                    request_string = Program.config_couchdb_url + "/mmrds/" + case_id;
+                } 
+
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -43,9 +49,11 @@ namespace mmria.server
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
 
-				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-				return result;
+                return result;
+
+
 
 				/*
 		< HTTP/1.1 200 OK
