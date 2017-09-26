@@ -330,6 +330,7 @@ var g_ui = {
   },
   case_view_list : [],
    case_view_request : {
+    total_rows: 0,
     page :1,
     skip : 0,
     take : 25,
@@ -402,7 +403,7 @@ function load_profile()
     {
       $("#landing_page").hide();
       $("#logout_page").hide();
-
+      $("#footer").hide();
       get_metadata();
       if
       (
@@ -418,6 +419,8 @@ function load_profile()
 
     profile.on_logout_call_back = function (p_user_name, p_password)
     {
+      $("#landing_page").show();
+      $("#footer").show();
       if
       (
           profile.user_roles && profile.user_roles.length > 0 && 
@@ -425,7 +428,7 @@ function load_profile()
           profile.user_roles.indexOf("committee_member") < 0
       )
       {
-        replicate_db_and_log_out(p_user_name, p_password);
+        //replicate_db_and_log_out(p_user_name, p_password);
       }
 
        document.getElementById('navbar').innerHTML = "";
@@ -517,9 +520,11 @@ function get_case_set()
 
     //console.log(case_view_response);
     g_ui.case_view_list = [];
-    for(var i = 0; i < case_view_response.length; i++)
+    g_ui.case_view_request.total_rows = case_view_response.total_rows;
+
+    for(var i = 0; i < case_view_response.rows.length; i++)
     {
-        g_ui.case_view_list.push(case_view_response[i]);
+        g_ui.case_view_list.push(case_view_response.rows[i]);
     }
 
     var post_html_call_back = [];

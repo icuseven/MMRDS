@@ -76,10 +76,26 @@ reverse sort
 
     public class case_view_response
 	{
-        public case_view_response (){}
+        public case_view_response () 
+        {
+            this.rows = new System.Collections.Generic.List<case_view_item> ();
+        }
+
+        public case_view_response 
+        (
+            int p_offset,
+            System.Collections.Generic.List<case_view_item> p_rows,
+            int p_total_rows 
+        ) 
+        {
+            this.offset = p_offset;
+            this.rows = p_rows;
+            this.total_rows = p_total_rows;
+        }
+
 
 		public int offset { get; set; } //": 0,
-        public case_view_item[] rows { get; set; }
+        public System.Collections.Generic.List<case_view_item> rows { get; set; }
 		public int total_rows { get; set; } 
 	}
 }

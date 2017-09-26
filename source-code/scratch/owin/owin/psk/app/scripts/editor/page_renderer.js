@@ -619,18 +619,88 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			
 			if(g_ui.case_view_request.search_key!= null)
 			{
-				result.push(g_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
+				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
 			}
 			result.push("' /> ");
 			result.push("<input type='button' alt='search' id='search_command_button' value='find' />");
+			result.push("<br/>");
+			result.push("Records per page: <select id='search_records_per_page'>");
+			if(p_ui.case_view_request.take==25)
+			{
+				result.push("<option selected>25</option>");
+			}
+			else
+			{
+				result.push("<option>25</option>");
+				
+			}
+			if(p_ui.case_view_request.take==50)
+			{
+				result.push("<option selected>50</option>");
+			}
+			else
+			{
+				result.push("<option>50</option>");
+				
+			}
+			if(p_ui.case_view_request.take==100)
+			{
+				result.push("<option selected>100</option>");
+			}
+			else
+			{
+				result.push("<option>100</option>");
+				
+			}
+			if(p_ui.case_view_request.take==250)
+			{
+				result.push("<option selected>250</option>");
+			}
+			else
+			{
+				result.push("<option>250</option>");
+				
+			}
+			if(p_ui.case_view_request.take==500)
+			{
+				result.push("<option selected>500</option>");
+			}
+			else
+			{
+				result.push("<option>400</option>");
+				
+			}
+			result.push("</select>");
+
+			result.push("Total Number of Records: ");
+			result.push(p_ui.case_view_request.total_rows);
+			result.push("<br/>");
+			result.push(" <input type='button' alt='search' value='previous' />");
+
+			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
+			{
+				result.push(" <input type='button' alt='search' value='");
+				result.push(current_page);
+				result.push("' />");
+			}
+
+			result.push(" <input type='button' alt='search' value='");
+			result.push(current_page);
+			result.push("' />");
+
+			result.push(" <input type='button' alt='search' value='next' />");
 
 			result.push("</fieldset><hr/>");
 
 
 
 			result.push("<table>");
-			result.push("<tr><th colspan=2>");
+			result.push("<tr><th colspan=2 align=center>");
 			result.push("Case Listing");
+			result.push("Page: ");
+			result.push(p_ui.case_view_request.page);
+			result.push(" of ")
+			result.push(current_page);
 			result.push("</th></tr>");
 			result.push("<tr>");
 			result.push("<td> case </td>");
@@ -731,6 +801,75 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 			}
 			result.push('		</table>');
+
+			result.push('<hr/>')
+			result.push("Records per page: <select id='search_records_per_page'>");
+			if(p_ui.case_view_request.take==25)
+			{
+				result.push("<option selected>25</option>");
+			}
+			else
+			{
+				result.push("<option>25</option>");
+				
+			}
+			if(p_ui.case_view_request.take==50)
+			{
+				result.push("<option selected>50</option>");
+			}
+			else
+			{
+				result.push("<option>50</option>");
+				
+			}
+			if(p_ui.case_view_request.take==100)
+			{
+				result.push("<option selected>100</option>");
+			}
+			else
+			{
+				result.push("<option>100</option>");
+				
+			}
+			if(p_ui.case_view_request.take==250)
+			{
+				result.push("<option selected>250</option>");
+			}
+			else
+			{
+				result.push("<option>250</option>");
+				
+			}
+			if(p_ui.case_view_request.take==500)
+			{
+				result.push("<option selected>500</option>");
+			}
+			else
+			{
+				result.push("<option>500</option>");
+				
+			}
+			result.push("</select>");
+
+			result.push("Total Number of Records: ");
+			result.push(p_ui.case_view_request.total_rows);
+			result.push("<br/>");
+			result.push(" <input type='button' alt='search' value='previous' />");
+
+			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
+			{
+				result.push(" <input type='button' alt='search' value='");
+				result.push(current_page);
+				result.push("' />");
+			}
+
+			result.push(" <input type='button' alt='search' value='");
+			result.push(current_page);
+			result.push("' />");
+
+			result.push(" <input type='button' alt='search' value='next' />");
+
+
 
 
 			result.push("</section>");

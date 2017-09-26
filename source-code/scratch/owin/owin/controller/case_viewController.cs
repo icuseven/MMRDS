@@ -14,7 +14,7 @@ namespace mmria.server
 
         // GET api/values 
         //public IEnumerable<master_record> Get() 
-        public IEnumerable<mmria.common.model.couchdb.case_view_item> Get
+        public mmria.common.model.couchdb.case_view_response Get
         (
             int skip = 0,
             int take = 25,
@@ -141,13 +141,15 @@ by_state_of_death
 
                 if (string.IsNullOrWhiteSpace (search_key)) 
                 {
-                    return case_view_response.rows;
+                    return case_view_response;
                 } 
                 else 
                 {
                     string key_compare = search_key.ToLower ();
 
-                    List<mmria.common.model.couchdb.case_view_item> result = new List<mmria.common.model.couchdb.case_view_item> ();
+                    mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+                    result.offset = case_view_response.offset;
+                    result.total_rows = case_view_response.total_rows;
 
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
@@ -201,11 +203,13 @@ by_state_of_death
                             add_item = true;
                         }
 
-                        if(add_item) result.Add (cvi);
+                        if(add_item) result.rows.Add (cvi);
                         
                       }
                                                         
-                    return result.Skip (skip).Take (take).ToList ();
+                    result.rows =  result.rows.Skip (skip).Take (take).ToList ();
+
+                    return result;
                 }
 
 
