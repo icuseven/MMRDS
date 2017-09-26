@@ -480,26 +480,244 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 		
 		
-			//result.push("<fieldset><legend>filter line listing</legend>");
-			//result.push("<input type='text' id='search_text_box' value='' /> ");
-			//result.push("<img src='/images/search.png' alt='search' height=8px width=8px valign=bottom class='btn-green' id='search_command_button'>");
-			//result.push("</fieldset>");
+			result.push("<fieldset><legend>Search Case Listings</legend>");
 
-			result.push('<div class="search_wrapper">');
+
+			result.push(" sort by:<select id='search_sort_by'>");
+
+
+			
+			if(p_ui.case_view_request.sort=="by_date_created")
+			{
+				result.push("<option selected>date_created</option>");
+			}
+			else
+			{
+				result.push("<option>date_created</option>");
+			}
+			
+			
+			if(p_ui.case_view_request.sort=="by_last_name")
+			{
+				result.push("<option selected>last_name</option>");
+			}
+			else
+			{
+				result.push("<option>last_name</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_first_name")
+			{
+				result.push("<option selected>first_name</option>");
+			}
+			else
+			{
+				result.push("<option>first_name</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_middle_name")
+			{
+				result.push("<option selected>middle_name</option>");
+			}
+			else
+			{
+				result.push("<option>middle_name</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_state_of_death")
+			{
+				result.push("<option selected>state_of_death</option>");
+			}
+			else
+			{
+				result.push("<option>state_of_death</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_record_id")
+			{
+				result.push("<option selected>record_id</option>");
+			}
+			else
+			{
+				result.push("<option>record_id</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_year_of_death")
+			{
+				result.push("<option selected>year_of_death</option>");
+			}
+			else
+			{
+				result.push("<option>year_of_death</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_month_of_death")
+			{
+				result.push("<option selected>month_of_death</option>");
+			}
+			else
+			{
+				result.push("<option>month_of_death</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_committe_review_date")
+			{
+				result.push("<option selected>committe_review_date</option>");
+			}
+			else
+			{
+				result.push("<option>committe_review_date</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_agency_case_id")
+			{
+				result.push("<option selected>agency_case_id</option>");
+			}
+			else
+			{
+				result.push("<option>agency_case_id</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_created_by")
+			{
+				result.push("<option selected>created_by</option>");
+			}
+			else
+			{
+				result.push("<option>created_by</option>");
+			}
+			
+			
+			if(p_ui.case_view_request.sort=="by_last_updated_by")
+			{
+				result.push("<option selected>last_updated_by</option>");
+			}
+			else
+			{
+				result.push("<option>last_updated_by</option>");
+			}
+			
+			if(p_ui.case_view_request.sort=="by_date_last_updated")
+			{
+				result.push("<option selected>date_last_updated</option>");
+			}
+			else
+			{
+				result.push("<option>date_last_updated</option>");
+				
+			}
+			result.push("</select>");
+
+			result.push(" sort decending: <input id='sort_decending' type='checkbox' ");
+			if(p_ui.case_view_request.descending)
+			{
+				result.push(" checked='true' ");
+			}
+			result.push(" />");
+
+			result.push("<input type='text' id='search_text_box' value='");
+			
+			if(g_ui.case_view_request.search_key!= null)
+			{
+				result.push(g_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
+			}
+			result.push("' /> ");
+			result.push("<input type='button' alt='search' id='search_command_button' value='find' />");
+
+			result.push("</fieldset><hr/>");
+
+
+
+			result.push("<table>");
+			result.push("<tr><th colspan=2>");
+			result.push("Case Listing");
+			result.push("</th></tr>");
+			result.push("<tr>");
+			result.push("<td> case </td>");
+			//result.push("<td>state of death</td>");
+			//result.push("<td>year / month of death</td>");
+			//result.push("<td>committe review date</td>");
+			result.push("<td>last updated</td>");
+			result.push("</tr>");
+
+			
+
+/*
+			by_date_created
+			by_date_last_updated
+			by_last_name
+			by_first_name
+			by_middle_name
+			by_year_of_death
+			by_month_of_death
+			by_committe_review_date
+			by_created_by
+			by_last_updated_by
+			by_state_of_death
+
+*/
+			
 			for(var i = 0; i < p_ui.case_view_list.length; i++)
 			{
 				var item = p_ui.case_view_list[i];
 
 				if(i % 2)
 				{
-					result.push('		  <div class="result_wrapper_grey" path="');
+					result.push('		  <tr class="result_wrapper_grey" path="');
 				}
 				else
 				{
-					result.push('		  <div class="result_wrapper" path="');
+					result.push('		  <tr class="result_wrapper" path="');
 				}
 				result.push(item.id);
-				result.push('"><p class="result">');
+				result.push('">');
+				
+				
+				
+				result.push("<td>");
+				result.push("<a href='#/")
+				result.push(i);
+				result.push("/home_record' role='button' class='btn-purple'>");
+				result.push(item.value.last_name);result.push(", ");
+				result.push(item.value.first_name);result.push(" ");
+				result.push(item.value.middle_name);
+				if(item.value.record_id)
+				{
+					result.push(" - (");
+					result.push(item.value.record_id);
+					result.push(" )");
+				}
+				if(item.value.agency_case_id)
+				{
+					result.push("  agency_case_id: ");
+					result.push(item.value.agency_case_id)
+				}
+				result.push("</a>");
+				result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+				result.push("</td>");
+
+				//result.push("<td>");result.push(item.value.state_of_death);result.push("</td>");
+				
+				/*
+				result.push("<td>");
+				result.push(item.value.year_of_death);
+				result.push(" / ");
+				result.push(item.value.month_of_death);
+				result.push("</td>");
+				*/
+				//result.push("<td>");result.push(item.value.committe_review_date);result.push("</td>");
+				
+				result.push("<td>");
+				result.push(item.value.last_updated_by);
+				result.push(" @ ");
+				result.push(item.value.date_last_updated);
+				result.push("</td>");
+				
+				
+
+				
+				/*
+				<p class="result">');
 				result.push(item.value.last_name);
 				result.push(', ');
 				result.push(item.value.first_name);
@@ -508,10 +726,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push('	(');
 				result.push(item.value.state_of_death);
 				result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
-				result.push('</div>');
+				*/
+				result.push('</tr>');
 				
 			}
-			result.push('		</div>');
+			result.push('		</table>');
 
 
 			result.push("</section>");

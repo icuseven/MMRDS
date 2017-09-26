@@ -333,9 +333,9 @@ var g_ui = {
     page :1,
     skip : 0,
     take : 25,
-    sort : "by_date_created",
+    sort : "by_date_last_updated",
     search_key : null,
-    descending : false,
+    descending : true,
     get_query_string : function(){
       var result = [];
       result.push("?skip=" + (this.page - 1) * this.take);
