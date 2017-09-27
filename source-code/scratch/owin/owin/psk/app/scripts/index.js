@@ -59,7 +59,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_ui.broken_rules[p_object_path] = false;
     } 
 
-    save_case(g_data);
+    
 /*
 	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
@@ -185,7 +185,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(post_html_call_back.join(""));
       }
       
-      save_case(g_data);
+      
       /*
 	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
@@ -412,7 +412,6 @@ function load_profile()
           profile.user_roles.indexOf("_admin") < 0
       )
       {
-        //window.setInterval(save_change_task,      30000);	
         window.setInterval(profile.update_session_timer, 120000);
       }
     };
@@ -660,9 +659,35 @@ function save_case(p_data)
       //console.log('set_value save finished');
     }
 
-}).fail(function(xhr, err) { console.log("save_case: fails", err); });
+}).fail(function(xhr, err) { console.log("save_case: failed", err); });
 
 }
+
+
+function delete_case(p_id, p_rev)
+{
+
+  $.ajax({
+    url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id + '&rev=' + p_rev,
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    //data: JSON.stringify(p_data),
+    type: "DELETE",
+    beforeSend: function (request)
+    {
+      request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+    );
+    }
+}).done(function(case_response) {
+
+    console.log("delete_case: success");
+    get_case_set();
+
+}).fail(function(xhr, err) { console.log("delete_case: failed", err); });
+
+}
+
+
 
 function g_render()
 {
@@ -869,62 +894,29 @@ function delete_record(p_index)
 {
   if(p_index == g_selected_delete_index)
   {
-    var data = g_ui.data_list[p_index];
-    data._deleted = true;
+    var data = g_ui.case_view_list[p_index];
+    g_selected_delete_index = null;
+ 
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
+  }).done(function(case_response) {
+  
+      delete_case(case_response._id, case_response._rev);
 
-    var db = new PouchDB(g_source_db);
-
-      db.put(data).then(function (doc)
-      {
-					for(var i = 0; i < g_ui.data_list.length; i++)
-          {
-            if(g_ui.data_list[i]._id == data._id)
-            {
-                g_ui.data_list.splice(i,1);
-                break;
-            }
-          }
-
-        var post_html_call_back = [];
-        document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
-        if(post_html_call_back.length > 0)
-        {
-          eval(post_html_call_back.join(""));
-        }
-
-
-        var section_list = document.getElementsByTagName("section");
-        for(var i = 0; i < section_list.length; i++)
-        {
-          var section = section_list[i];
-          if(section.id == "app_summary")
-          {
-              section.style.display = "block";
-          }
-          else
-          {
-              section.style.display = "none";
-          }
-        }
-      });
-
-
-      g_selected_delete_index = null;
-
+  });
 
   }
   else
   {
       if(g_selected_delete_index != null && g_selected_delete_index > -1)
       {
-          var old_id = g_ui.data_list[g_selected_delete_index]._id;
-          $("div[path='" + old_id + "']").css("background", "");
+          var old_id = g_ui.case_view_list[g_selected_delete_index].id;
+          $("tr[path='" + old_id + "']").css("background", "");
       }
 
       g_selected_delete_index = p_index;
-      var id = g_ui.data_list[p_index]._id;
-      $("div[path='" + id + "']").css("background", "#BBBBBB");
+      var id = g_ui.case_view_list[p_index].id;
+      $("tr[path='" + id + "']").css("background", "#BBBBBB");
       
   }
 }
@@ -934,28 +926,6 @@ function delete_record(p_index)
 
 var save_interval_id = null;
 var save_queue = [];
-
-function save_change_task()
-{
-
-  if(profile.is_logged_in && profile.user_name && profile.password && g_source_db == "mmrds")
-  {
-    var db = new PouchDB(g_source_db);
-    var prefix = 'http://' + profile.user_name + ":" + profile.password;
-    var remoteDB = new PouchDB(prefix.replace('@', '%40') + '@' + g_couchdb_url.replace('http://','').replace('https://','') + '/' + g_source_db);
-
-    db.replicate.to(remoteDB).on('complete', function (err, response) {
-      
-            console.log("replicate to server: complete");
-  
-        
-    }).on('error', function (err) {
-      console.log("replicate to server error:", err);
-    });
-
-  }
-
-}
 
 	
 

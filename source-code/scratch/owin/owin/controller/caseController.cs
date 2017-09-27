@@ -177,8 +177,25 @@ namespace mmria.server
 				request.ContentLength = object_string.Length;
 				request.PreAuthenticate = false;
 
-				System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
+				//System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
 
+
+                if (this.Request.Headers.Contains ("Cookie") && this.Request.Headers.GetValues ("Cookie").Count () > 0) 
+                {
+                    string [] cookie_set = this.Request.Headers.GetValues ("Cookie").First ().Split (';');
+                    for (int i = 0; i < cookie_set.Length; i++) 
+                    {
+                        string [] auth_session_token_array = cookie_set [i].Split ('=');
+                        if (auth_session_token_array [0].Trim () == "AuthSession") 
+                        {
+                            request.Headers.Add ("Cookie", "AuthSession=" + auth_session_token_array [1]);
+                            request.Headers.Add ("X-CouchDB-WWW-Authenticate", auth_session_token_array [1]);
+                            break;
+                        }
+                    }
+                }
+
+                /*
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
 				{
 					string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
@@ -201,7 +218,7 @@ namespace mmria.server
 							break;
 						}
 					}
-				}
+				}*/
 
 				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
 				{
@@ -242,6 +259,91 @@ namespace mmria.server
 			return result;
 
 		} 
+
+
+
+        /*
+DELETE /recipes/FishStew?rev=1-9c65296036141e575d32ba9c034dd3ee HTTP/1.1
+Accept: application/json
+Host: localhost:5984
+or
+
+DELETE /recipes/FishStew HTTP/1.1
+Accept: application/json
+If-Match: 1-9c65296036141e575d32ba9c034dd3ee
+Host: localhost:5984
+
+
+HTTP/1.1 200 OK
+Cache-Control: must-revalidate
+Content-Length: 71
+Content-Type: application/json
+Date: Wed, 14 Aug 2013 12:23:13 GMT
+ETag: "2-056f5f44046ecafc08a2bc2b9c229e20"
+Server: CouchDB (Erlang/OTP)
+
+{
+    "id": "FishStew",
+    "ok": true,
+    "rev": "2-056f5f44046ecafc08a2bc2b9c229e20"
+}
+
+
+        */
+        public System.Dynamic.ExpandoObject Delete(string case_id = null, string rev = null) 
+        { 
+            try
+            {
+                string request_string = null;
+
+                if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
+                {
+                    request_string = Program.config_couchdb_url + "/mmrds/" + case_id + "?rev=" + rev;
+                }
+                else 
+                {
+                    return null;
+                }
+
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null);
+
+                if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
+                {
+                    string[] cookie_set = this.Request.Headers.GetValues("Cookie").First().Split(';');
+                    for(int i = 0; i < cookie_set.Length; i++)
+                    {
+                        string[] auth_session_token = cookie_set[i].Split('=');
+                        if(auth_session_token[0].Trim() == "AuthSession")
+                        {
+                            delete_report_curl.AddHeader("Cookie", "AuthSession=" + auth_session_token[1]);
+                            delete_report_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+                            break;
+                        }
+                    }
+                }
+
+                string responseFromServer = delete_report_curl.execute ();;
+
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+                return result;
+
+
+
+
+
+
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine (ex);
+
+            } 
+
+            return null;
+        } 
+
 
 	} 
 }

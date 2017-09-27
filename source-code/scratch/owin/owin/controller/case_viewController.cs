@@ -25,7 +25,7 @@ namespace mmria.server
 		{
             /*
              * 
-             * http://localhost:5984/mmrds/_design/sortable/_view/all
+             * http://localhost:5984/mmrds/_design/sortable/_view/conflicts
              * 
 by_date_created
 by_date_last_updated

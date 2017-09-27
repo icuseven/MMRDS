@@ -60,13 +60,15 @@ initialize_profile: function ()
 				if(json_response.auth_session)
 				{
 					$mmria.addCookie("AuthSession", json_response.auth_session);
+					$mmria.addCookie("uid", json_response.userCTX.name);
+					$mmria.addCookie("roles", json_response.userCTX.roles);
 				}
 
 				profile.is_logged_in = true;
-				profile.user_name = $mmria.getCookie("uid");
+				profile.user_name = json_response.userCTX.name || $mmria.getCookie("uid");
 				profile.password = $mmria.getCookie("pwd");
-				profile.user_roles = $mmria.getCookie("roles");
-				profile.auth_session = $mmria.getCookie("AuthSession");
+				profile.user_roles = json_response.userCTX.roles || $mmria.getCookie("roles");
+				profile.auth_session = json_response.auth_session || $mmria.getCookie("AuthSession");
 
 				if(profile.user_roles.indexOf("abstractor") >-1)
 				{
