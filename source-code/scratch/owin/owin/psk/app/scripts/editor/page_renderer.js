@@ -492,7 +492,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("' />  ");
 			result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 			
-			result.push(" sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = this.value;'>");
+			result.push(" sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
 			
