@@ -480,9 +480,18 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 		
 		
-			result.push("<fieldset><legend>Search Case Listings</legend>");
+			result.push("<fieldset><legend>Search and Sort Case Listings</legend>");
 
 
+			result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
+			
+			if(g_ui.case_view_request.search_key!= null)
+			{
+				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
+			}
+			result.push("' />  ");
+			result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
+			
 			result.push(" sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = this.value;'>");
 
 
@@ -608,23 +617,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push("</select>");
 
-			result.push(" sort decending: <input id='sort_decending' type='checkbox' ");
+			result.push(" sort decending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
 			if(p_ui.case_view_request.descending)
 			{
 				result.push(" checked='true' ");
 			}
 			result.push(" />");
 
-			result.push("<input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
-			
-			if(g_ui.case_view_request.search_key!= null)
-			{
-				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
-			}
-			result.push("' /> ");
-			result.push("<input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='find' /> ");
-			result.push("<input type='button' alt='search' id='search_command_button' onclick='search_text_box.value = \"\";get_case_set();' value='clear' />");
-			result.push("<br/>");
+
+
+			result.push("");
 			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
 			{
@@ -673,17 +675,19 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push("</select>");
 
-			result.push("Total Number of Records: ");
-			result.push(p_ui.case_view_request.total_rows);
-			result.push("<br/>");
+
+			result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
+			result.push("</p><br/><hr/>");
 
 			/*
 			if(p_ui.case_view_request.page != 1)
 			{
 				result.push(" <input type='button' alt='search' value='previous' />");
 			}*/
+			result.push("Total Number of Records: ");
+			result.push(p_ui.case_view_request.total_rows);
 
-			result.push("Select Page: ");
+			result.push("<br/> Select Page: ");
 			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
 			{
 				result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
@@ -695,7 +699,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			//result.push(" <input type='button' alt='search' value='next' />");
 
-			result.push("</fieldset><hr/>");
+			result.push("</fieldset><br/>");
 
 
 
@@ -708,11 +712,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(current_page - 1);
 			result.push("</th></tr>");
 			result.push("<tr>");
-			result.push("<td> case </td>");
+			result.push("<td> Case Infomation</td>");
 			//result.push("<td>state of death</td>");
 			//result.push("<td>year / month of death</td>");
 			//result.push("<td>committe review date</td>");
-			result.push("<td>last updated</td>");
+			result.push("<td>Last Updated </td>");
 			result.push("</tr>");
 
 			
