@@ -483,7 +483,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<fieldset><legend>Search Case Listings</legend>");
 
 
-			result.push(" sort by:<select id='search_sort_by'>");
+			result.push(" sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = this.value;'>");
 
 
 			
@@ -615,16 +615,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push(" />");
 
-			result.push("<input type='text' id='search_text_box' value='");
+			result.push("<input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
 			
 			if(g_ui.case_view_request.search_key!= null)
 			{
 				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
 			}
 			result.push("' /> ");
-			result.push("<input type='button' alt='search' id='search_command_button' value='find' />");
+			result.push("<input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='find' /> ");
+			result.push("<input type='button' alt='search' id='search_command_button' onclick='search_text_box.value = \"\";get_case_set();' value='clear' />");
 			result.push("<br/>");
-			result.push("Records per page: <select id='search_records_per_page'>");
+			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
 			{
 				result.push("<option selected>25</option>");
@@ -675,20 +676,24 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("Total Number of Records: ");
 			result.push(p_ui.case_view_request.total_rows);
 			result.push("<br/>");
-			result.push(" <input type='button' alt='search' value='previous' />");
 
+			/*
+			if(p_ui.case_view_request.page != 1)
+			{
+				result.push(" <input type='button' alt='search' value='previous' />");
+			}*/
+
+			result.push("Select Page: ");
 			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
 			{
-				result.push(" <input type='button' alt='search' value='");
+				result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
+				result.push(current_page);
+				result.push(";get_case_set();' value='");
 				result.push(current_page);
 				result.push("' />");
 			}
 
-			result.push(" <input type='button' alt='search' value='");
-			result.push(current_page);
-			result.push("' />");
-
-			result.push(" <input type='button' alt='search' value='next' />");
+			//result.push(" <input type='button' alt='search' value='next' />");
 
 			result.push("</fieldset><hr/>");
 
@@ -700,7 +705,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("Page: ");
 			result.push(p_ui.case_view_request.page);
 			result.push(" of ")
-			result.push(current_page);
+			result.push(current_page - 1);
 			result.push("</th></tr>");
 			result.push("<tr>");
 			result.push("<td> case </td>");
@@ -803,7 +808,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push('		</table>');
 
 			result.push('<hr/>')
-			result.push("Records per page: <select id='search_records_per_page'>");
+			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
 			{
 				result.push("<option selected>25</option>");
@@ -854,20 +859,25 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("Total Number of Records: ");
 			result.push(p_ui.case_view_request.total_rows);
 			result.push("<br/>");
-			result.push(" <input type='button' alt='search' value='previous' />");
 
+			/*
+			if(p_ui.case_view_request.page != 1)
+			{
+				result.push(" <input type='button' alt='search' value='previous' />");
+			}*/
+
+			result.push("Select Page: ");
 			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
 			{
-				result.push(" <input type='button' alt='search' value='");
+				result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
+				result.push(current_page);
+				result.push(";get_case_set();' value='");
 				result.push(current_page);
 				result.push("' />");
 			}
 
-			result.push(" <input type='button' alt='search' value='");
-			result.push(current_page);
-			result.push("' />");
 
-			result.push(" <input type='button' alt='search' value='next' />");
+			//result.push(" <input type='button' alt='search' value='next' />");
 
 
 

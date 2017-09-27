@@ -145,7 +145,7 @@ by_state_of_death
                 } 
                 else 
                 {
-                    string key_compare = search_key.ToLower ();
+                    string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
 
                     mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
                     result.offset = case_view_response.offset;
@@ -206,7 +206,8 @@ by_state_of_death
                         if(add_item) result.rows.Add (cvi);
                         
                       }
-                                                        
+
+                    result.total_rows = result.rows.Count;
                     result.rows =  result.rows.Skip (skip).Take (take).ToList ();
 
                     return result;

@@ -441,74 +441,6 @@ function load_profile()
 
 
 
-function replicate_db_and_log_out(p_user_name, p_password)
-{
-    var db = new PouchDB(g_source_db);
-    var prefix = 'http://' + p_user_name + ":" + p_password;
-    var remoteDB = new PouchDB(prefix.replace('@', '%40') + '@' + g_couchdb_url.replace('http://','').replace('https://','') + '/' + g_source_db);
-
-    if(g_source_db == "mmrds")
-    {
-      db.replicate.to(remoteDB).on('complete', function () 
-      {
-          //Creating the database object
-          var db = new PouchDB(g_source_db);
-
-          //deleting database
-          db.destroy(function (err, response) {
-            if (err) 
-            {
-                console.log(err);
-            } 
-            else 
-            {
-              console.log("database destroyed");
-            }
-            
-            window.onhashchange = null;
-            
-            //window.location.href = location.protocol + '//' + location.host;
-            //document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-            document.getElementById('navbar').innerHTML = "";
-            document.getElementById('form_content_id').innerHTML ="";
-        });
-      }).on('error', function (err) {
-        console.log("db sync error", err);
-      });
-  
-  }
-  else
-  {
-      //Creating the database object
-      var db = new PouchDB(g_source_db);
-
-      //deleting database
-      db.destroy(function (err, response) 
-      {
-        if (err) 
-        {
-            console.log(err);
-        } 
-        else 
-        {
-          console.log("database destroyed");
-        }
-        
-        window.onhashchange = null;
-        
-        //window.location.href = location.protocol + '//' + location.host;
-        //document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-        document.getElementById('navbar').innerHTML = "";
-        document.getElementById('form_content_id').innerHTML ="";
-    });
-    
-  }
-
-
-
-}
-
-
 function get_case_set()
 {
 
@@ -549,8 +481,8 @@ function get_case_set()
       else
       {
         
-          section.style.display = "grid";
-          section.style["grid-template-columns"] = "1fr 1fr 1fr";
+          section.style.display = "block";
+          //section.style["grid-template-columns"] = "1fr 1fr 1fr";
         
       }
     }
