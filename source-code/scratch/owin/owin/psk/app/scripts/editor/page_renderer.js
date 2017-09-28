@@ -772,7 +772,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(item.value.agency_case_id)
 				}
 				result.push("</a>");
-				result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+				{
+					result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+				}
+				
 				result.push("</td>");
 
 				//result.push("<td>");result.push(item.value.state_of_death);result.push("</td>");
