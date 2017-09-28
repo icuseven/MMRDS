@@ -233,6 +233,18 @@
     <None Include="psk\app\styles\shared-styles.html" />
     <None Include="app.config" />
     <None Include="job_scheduling_data_2_0.xsd" />
+    <None Include="database-scripts\metadata.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="database-scripts\case_design_sortable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="database-scripts\case_store_design_auth.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="database-scripts\metadata_design_auth.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="psk\app\images\DRAFT.png" />
@@ -266,8 +278,5 @@
   <ItemGroup>
     <Folder Include="util\exporter\" />
     <Folder Include="util\core_element_export\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="database-scripts\case-preview-view.json" />
   </ItemGroup>
 </Project>
