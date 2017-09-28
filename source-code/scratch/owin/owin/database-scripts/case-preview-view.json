@@ -1,6 +1,5 @@
 {
   "_id": "_design/sortable",
-  "_rev": "12-bf392255d9f941d96fa5ef4ed6dfc3d0",
   "language": "javascript",
   "views": {
     "by_date_created": {

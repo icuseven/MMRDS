@@ -203,6 +203,8 @@
     <Compile Include="mmria-server-service.cs" />
     <Compile Include="model\couchdb\c_config.cs" />
     <Compile Include="controller\case_viewController.cs" />
+    <Compile Include="controller\de_idController.cs" />
+    <Compile Include="controller\de_id_viewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -264,5 +266,8 @@
   <ItemGroup>
     <Folder Include="util\exporter\" />
     <Folder Include="util\core_element_export\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="database-scripts\case-preview-view.json" />
   </ItemGroup>
 </Project>
