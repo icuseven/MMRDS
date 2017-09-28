@@ -58,6 +58,20 @@ namespace mmria.server.util
 
 
 
+            try 
+            {
+                string result = System.IO.File.OpenText ("database-scripts/case_design_sortable.json").ReadToEnd ();
+                var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id/_design/sortable", result, this.user_name, this.password);
+                create_de_id_curl.execute ();
+ 
+            } 
+            catch (Exception ex) 
+            {
+
+            }
+
+
+
 			try
 			{
 				var create_report_curl = new cURL ("PUT", null, this.couchdb_url + "/report", null, this.user_name, this.password);

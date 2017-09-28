@@ -22,7 +22,11 @@ var default_object = null;
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
-    if(g_source_db=="de_id")
+    if(
+        !(
+          profile.user_roles && 
+          profile.user_roles.indexOf("abstractor") > -1)
+        )
     {
       return;
     }
@@ -59,7 +63,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_ui.broken_rules[p_object_path] = false;
     } 
 
-    
+    save_case(g_data);
 /*
 	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
@@ -185,7 +189,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(post_html_call_back.join(""));
       }
       
-      
+      save_case(g_data);
       /*
 	  var db = new PouchDB(g_source_db);
       db.put(g_data).then(function (doc)
@@ -305,26 +309,54 @@ var g_ui = {
     result.home_record.first_name = "new-first-name";
 		var new_data = [];
 
-		for(var i in g_ui.data_list)
+		for(var i in g_ui.case_view_list)
 		{
-			new_data.push(g_ui.data_list[i]);
+			new_data.push(g_ui.case_view_list[i]);
 		}
 
 		var new_record_id = new Date().toISOString();
 		new_data.push
 		(
-      result
+      {
+        id:result._id,
+        key:result._id,
+        value: {
+        first_name: result.home_record.first_name,
+        middle_name: result.home_record.middle_name,
+        last_name: result.home_record.last_name,
+        date_of_death_year: result.home_record.date_of_death.year,
+        date_of_death_month: result.home_record.date_of_death.month,
+
+        date_created: result.date_created,
+        created_by: result.created_by,
+        date_last_updated: result.date_last_updated,
+        last_updated_by: result.last_updated_by,
+
+        record_id: result.record_id,
+        agency_case_id: result.agency_case_id,
+        date_of_committee_review: result.committee_review.date_of_review
+        }
+      }
 		);
 
-		g_ui.data_list = new_data;
+		g_ui.case_view_list = new_data;
 
     g_data = result;
 
 		g_ui.selected_record_id = result._id;
-		g_ui.selected_record_index = g_ui.data_list.length -1;
+    g_ui.selected_record_index = g_ui.case_view_list.length -1;
+    
 
+
+    
+    save_case(g_data, function(){
+          
     var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
     window.location = url;
+    });
+
+    //var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+   // window.location = url;
 
     return result;
   },
@@ -443,7 +475,12 @@ function load_profile()
 function get_case_set()
 {
 
-  var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
+  var case_view_url = location.protocol + '//' + location.host + '/api/de_id_view' + g_ui.case_view_request.get_query_string();
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+   case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
+  }
+
   $.ajax({
     url: case_view_url,
 }).done(function(case_view_response) {
@@ -551,9 +588,18 @@ function window_on_hash_change(e)
             {
                 save_queue.push(g_data._id);
             }*/
+
+            var case_id = g_data._id;
             save_case(g_data);
 
-            get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id);
+            //if(g_ui.case_view_list && g_ui.case_view_list.length > 0)
+            //{
+              get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id);
+           // }
+           // else  // must be 1st case of database
+           // {
+           //   get_specific_case(case_id);
+           // }
             //g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
 
            // g_render();
@@ -625,9 +671,14 @@ function window_on_hash_change(e)
 
 function get_specific_case(p_id)
 {
+  var case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + p_id;
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+  }
 
   $.ajax({
-    url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id,
+    url: case_url,
 }).done(function(case_response) {
 
     g_data = case_response;
@@ -636,30 +687,43 @@ function get_specific_case(p_id)
 
 }
 
-function save_case(p_data)
+function save_case(p_data, p_call_back)
 {
 
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/case',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(p_data),
-    type: "POST",
-    beforeSend: function (request)
-    {
-      request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-    );
-    }
-}).done(function(case_response) {
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+      $.ajax({
+        url: location.protocol + '//' + location.host + '/api/case',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(p_data),
+        type: "POST",
+        beforeSend: function (request)
+        {
+          request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+        );
+        }
+    }).done(function(case_response) {
 
-    console.log("save_case: success");
-    if(g_data && g_data._id == case_response.id)
-    {
-      g_data._rev = case_response.rev;
-      //console.log('set_value save finished');
-    }
+        console.log("save_case: success");
 
-}).fail(function(xhr, err) { console.log("save_case: failed", err); });
+        if(g_data && g_data._id == case_response.id)
+        {
+          g_data._rev = case_response.rev;
+          //console.log('set_value save finished');
+        }
+        
+
+        if(p_call_back)
+        {
+          p_call_back();
+        }
+
+
+    }).fail(function(xhr, err) { console.log("save_case: failed", err); });
+
+  }
+  
 
 }
 

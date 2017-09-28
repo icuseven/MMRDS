@@ -203,6 +203,8 @@
     <Compile Include="mmria-server-service.cs" />
     <Compile Include="model\couchdb\c_config.cs" />
     <Compile Include="controller\case_viewController.cs" />
+    <Compile Include="controller\de_idController.cs" />
+    <Compile Include="controller\de_id_viewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -231,6 +233,18 @@
     <None Include="psk\app\styles\shared-styles.html" />
     <None Include="app.config" />
     <None Include="job_scheduling_data_2_0.xsd" />
+    <None Include="database-scripts\metadata.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="database-scripts\case_design_sortable.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="database-scripts\case_store_design_auth.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="database-scripts\metadata_design_auth.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="psk\app\images\DRAFT.png" />

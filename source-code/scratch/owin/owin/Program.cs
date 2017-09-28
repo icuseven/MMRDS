@@ -256,63 +256,63 @@ namespace mmria.server
                 }
             }*/
 
-            if (url_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
+            if (url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
             {
 
-                if (!url_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)) 
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)) 
                 {
                     var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
-                    System.Console.WriteLine ("metadata_curl", metadata_curl.execute ());
+                    System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
+
                     new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-                    System.Console.WriteLine ("metadata/_security", "completed successfully");
+                    System.Console.WriteLine ("metadata/_security completed successfully");
 
                     try 
                     {
-                        string config_url = "http://configdb.mmria.org";
+                        string metadata_design_auth = System.IO.File.OpenText("database-scripts/metadata_design_auth.json").ReadToEnd();
+                        var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+                        metadata_design_auth_curl.execute ();
 
-                        mmria.common.model.couchdb.replication_struct replication_object = new mmria.common.model.couchdb.replication_struct ();
-                        replication_object.target = string.Format ("{0}/metadata", construct_basic_authentication_url (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password));
-                        replication_object.source = string.Format ("{0}/metadata", construct_basic_authentication_url (config_url, "db_init", "mmria"));
+                        string metadata_json = System.IO.File.OpenText ("database-scripts/metadata.json").ReadToEnd ();;
+                        var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
+                        metadata_json_curl.execute ();
 
-
-                        string replication_object_string = Newtonsoft.Json.JsonConvert.SerializeObject (replication_object);
-                        new cURL ("POST", null, Program.config_couchdb_url + "/_replicate", replication_object_string, Program.config_timer_user_name, Program.config_timer_password).execute ();
                     }
                     catch(Exception ex)
                     {
-                        System.Console.WriteLine ("unable to replicate metadata from configdb.mmria.org:\n", ex);
+                        System.Console.WriteLine ("unable to configure metadata:\n", ex);
                     }
+
 
                 } 
 
 
-                if (!url_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password))
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password))
                 {
                     var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, Program.config_timer_user_name, Program.config_timer_password);
-                    System.Console.WriteLine ("mmrds_curl", mmrds_curl.execute ());
+                    System.Console.WriteLine ("mmrds_curl\n{0}", mmrds_curl.execute ());
+
                     new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-                    System.Console.WriteLine ("mmrds/_security", "completed successfully");
+                    System.Console.WriteLine ("mmrds/_security completed successfully");
 
                     try 
                     {
-                        string config_url = "http://configdb.mmria.org";
+                        string case_design_sortable = System.IO.File.OpenText ("database-scripts/case_design_sortable.json").ReadToEnd ();
+                        var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                        case_design_sortable_curl.execute ();
 
-                        mmria.common.model.couchdb.replication_struct replication_object = new mmria.common.model.couchdb.replication_struct ();
-                        replication_object.target = string.Format ("{0}/mmrds", construct_basic_authentication_url (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password));
-                        replication_object.source = string.Format ("{0}/mmrds", construct_basic_authentication_url (config_url, "db_init", "mmria"));
+                        string case_store_design_auth = System.IO.File.OpenText ("database-scripts/case_store_design_auth.json").ReadToEnd ();
+                        var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+                        case_store_design_auth_curl.execute ();
 
-
-                        string replication_object_string = Newtonsoft.Json.JsonConvert.SerializeObject (replication_object);
-                        new cURL ("POST", null, Program.config_couchdb_url + "/_replicate", replication_object_string, Program.config_timer_user_name, Program.config_timer_password).execute ();
                     }
                     catch (Exception ex) 
                     {
-                        System.Console.WriteLine ("unable to replicate mmrds database from configdb.mmria.org:\n", ex);
+                        System.Console.WriteLine ("unable to configure mmrds database:\n", ex);
                     }
-
                 }
 
-                if (!url_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)) 
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)) 
                 {
                     System.Console.WriteLine ("Creating export_queue db.");
                     var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
@@ -324,8 +324,8 @@ namespace mmria.server
 
                 if
                 (
-                    url_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) &&
-                    url_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)
+                    url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) &&
+                    url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)
                 ) 
                 {
                     var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
@@ -418,7 +418,7 @@ namespace mmria.server
             System.Console.WriteLine ("Quit command recieved shutting down.");
         }
 
-		private static bool url_exists(string p_target_server, string p_user_name, string p_password, string p_method="HEAD")
+		private static bool url_endpoint_exists(string p_target_server, string p_user_name, string p_password, string p_method="HEAD")
 		{
 			bool result = false;
 
