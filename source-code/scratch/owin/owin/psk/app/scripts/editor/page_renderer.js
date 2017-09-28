@@ -578,13 +578,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("<option>committe_review_date</option>");
 			}
 			
-			if(p_ui.case_view_request.sort=="by_agency_case_id")
+
+			if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
 			{
-				result.push("<option selected>agency_case_id</option>");
-			}
-			else
-			{
-				result.push("<option>agency_case_id</option>");
+				if(p_ui.case_view_request.sort=="by_agency_case_id")
+				{
+					result.push("<option selected>agency_case_id</option>");
+				}
+				else
+				{
+					result.push("<option>agency_case_id</option>");
+				}
 			}
 			
 			if(p_ui.case_view_request.sort=="by_created_by")
@@ -766,11 +770,16 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push(item.value.record_id);
 					result.push(" )");
 				}
-				if(item.value.agency_case_id)
+
+				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
 				{
-					result.push("  agency_case_id: ");
-					result.push(item.value.agency_case_id)
+					if(item.value.agency_case_id)
+					{
+						result.push("  agency_case_id: ");
+						result.push(item.value.agency_case_id)
+					}
 				}
+				
 				result.push("</a>");
 				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
 				{
