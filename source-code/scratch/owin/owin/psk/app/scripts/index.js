@@ -63,29 +63,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_ui.broken_rules[p_object_path] = false;
     } 
 
-    save_case(g_data);
-/*
-	  var db = new PouchDB(g_source_db);
-      db.put(g_data).then(function (doc)
-      {
-          if(g_data && g_data._id == doc.id)
-          {
-            g_data._rev = doc.rev;
-            console.log('set_value save finished');
-          }
-          else for(var i = 0; i < g_ui.data_list.length; i++)
-          {
-            if(g_ui.data_list[i]._id == doc.id)
-            {
-                g_ui.data_list[i]._rev = doc.rev;
-                console.log('set_value save finished');
-                //console.log(doc);
-                break;
-            }
-          }
-      }).catch(function (err) {
-  console.log(err);
-});*/
+      save_case(g_data);
+
 		
 
       }
@@ -190,29 +169,6 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       }
       
       save_case(g_data);
-      /*
-	  var db = new PouchDB(g_source_db);
-      db.put(g_data).then(function (doc)
-      {
-          if(g_data && g_data._id == doc.id)
-          {
-            g_data._rev = doc.rev;
-            console.log('set_value save finished');
-          }
-          else for(var i = 0; i < g_ui.data_list.length; i++)
-          {
-            if(g_ui.data_list[i]._id == doc.id)
-            {
-                g_ui.data_list[i]._rev = doc.rev;
-                console.log('set_value save finished');
-                //console.log(doc);
-                break;
-            }
-          }
-          
-      }).catch(function (err) {
-  console.log(err);
-});*/
 	  
     }
 
@@ -355,8 +311,7 @@ var g_ui = {
     window.location = url;
     });
 
-    //var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
-   // window.location = url;
+
 
     return result;
   },
