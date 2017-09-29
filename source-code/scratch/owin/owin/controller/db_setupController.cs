@@ -46,227 +46,91 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		public IDictionary<string, string> Get
 		(
 			string p_target_db_user_name, 
-			string p_target_db_password,
-			string p_target_server,
-			string p_source_db_user_name, 
-			string p_source_db_password,
-			string p_source_server,
-			bool p_set_config = false
+			string p_target_db_password
+
 		)
 		{
 
 			Dictionary<string,string> result = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-			//var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_password);
+            //var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_password);
+            if(!url_endpoint_exists (Program.config_couchdb_url, p_target_db_user_name, p_target_db_password))
+            {
+                result.Add ("End point url NOT available:", Program.config_couchdb_url);
+                return result;
+            }
 
 			try
 			{
-				/*
-				var get_all_dbs_curl = new cURL ("GET", null, p_target_server + "/_all_dbs", null, p_target_db_user_name, p_target_db_password);
-				var all_dbs_string = get_all_dbs_curl.execute();
-				HashSet<string> all_db_set = Newtonsoft.Json.JsonConvert.DeserializeObject<HashSet<string>>(all_dbs_string, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
-*/
-/*
+                string current_directory = AppDomain.CurrentDomain.BaseDirectory;
 
-				if(!database_exists(p_target_server + "/_users", p_target_db_user_name, p_target_db_password))
-				{
-					var users_curl = new cURL ("PUT", null, p_target_server + "/_users", null, p_target_db_user_name, p_target_db_password);
-					result.Add("users_curl",users_curl.execute());
-				}
-				else
-				{
-					result.Add("users_curl","users_curl already exists.");
-				}
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_password)) 
+                {
+                    var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, p_target_db_user_name, p_target_db_password);
+                    System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
 
-				
-				if(!database_exists(p_target_server + "/_replicator", p_target_db_user_name, p_target_db_password))
-				{
-					var replicator_curl = new cURL ("PUT", null, p_target_server + "/_replicator", null, p_target_db_user_name, p_target_db_password);
-					result.Add("replicator_curl",replicator_curl.execute());
-				}
-				else
-				{
-					result.Add("replicator_curl","replicator_curl already exists.");
-				}
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", p_target_db_user_name, p_target_db_password).execute ();
+                    System.Console.WriteLine ("metadata/_security completed successfully");
 
-				if(!database_exists(p_target_server + "/_global_changes", p_target_db_user_name, p_target_db_password))
-				{
-					var global_changes_curl = new cURL ("PUT", null, p_target_server + "/_global_changes", null, p_target_db_user_name, p_target_db_password);
-					result.Add("global_changes_curl",global_changes_curl.execute());
+                }
 
-				}
-				else
-				{
-					result.Add("global_changes_curl","global_changes_curl already exists.");
-				}*/
+                try 
+                {
+                    string metadata_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/metadata_design_auth.json").ReadToEnd ();
 
-				if(!database_exists(p_target_server + "/metadata", p_target_db_user_name, p_target_db_password))
-				{
-					var metadata_curl = new cURL ("PUT", null, p_target_server + "/metadata", null, p_target_db_user_name, p_target_db_password);
-					result.Add("metadata_curl",metadata_curl.execute());
-				}
-				else
-				{
-					result.Add("metadata_curl","metadata_curl already exists.");
-				}
+                    sync_document (metadata_design_auth, Program.config_couchdb_url + "/metadata/_design/auth", p_target_db_user_name, p_target_db_password);
 
-				if(!database_exists(p_target_server + "/mmrds", p_target_db_user_name, p_target_db_password))
-				{
-					var mmrds_curl = new cURL ("PUT", null, p_target_server + "/mmrds", null, p_target_db_user_name, p_target_db_password);
-					result.Add("mmrds_curl",mmrds_curl.execute());
-				}
-				else
-				{
-					result.Add("mmrds_curl","mmrds_curl already exists.");
-				}
+                    //var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, p_target_db_user_name, p_target_db_password);
+                    //metadata_design_auth_curl.execute ();
 
-				if(!database_exists(p_target_server + "/de_id", p_target_db_user_name, p_target_db_password))
-				{
-					var de_id_curl = new cURL ("PUT", null, p_target_server + "/de_id", null, p_target_db_user_name, p_target_db_password);
-					result.Add("de_id_curl",de_id_curl.execute());
-				}
-				else
-				{
-					result.Add("de_id_curl","de_id_curl already exists.");
-				}
+                    string metadata_json = System.IO.File.OpenText (current_directory + "database-scripts/metadata.json").ReadToEnd (); 
+                    sync_document (metadata_json, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", p_target_db_user_name, p_target_db_password);
 
-				if(!database_exists(p_target_server + "/report", p_target_db_user_name, p_target_db_password))
-				{
-					var report_curl = new cURL ("PUT", null, p_target_server + "/report", null, p_target_db_user_name, p_target_db_password);
-					result.Add("report_curl",report_curl.execute());
-				}
-				else
-				{
-					result.Add("report_curl","report_curl already exists.");
-				}
+                    //var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, p_target_db_user_name, p_target_db_password);
+                    //metadata_json_curl.execute ();
 
-				if(!database_exists(p_target_server + "/config", p_target_db_user_name, p_target_db_password))
-				{
-					var config_curl = new cURL ("PUT", null, p_target_server + "/config", null, p_target_db_user_name, p_target_db_password);
-					result.Add("config_curl",config_curl.execute());
-				}
-				else
-				{
-					result.Add("config_curl","config_curl already exists.");
-				}
+                }
+                catch (Exception ex) 
+                {
+                    System.Console.WriteLine ("unable to configure metadata:\n{0}", ex);
+                }
+                
 
 
-				if(p_set_config)
-				{
-					try
-					{
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_password)) 
+                {
+                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, p_target_db_user_name, p_target_db_password);
+                    System.Console.WriteLine ("mmrds_curl\n{0}", mmrds_curl.execute ());
 
-						new cURL ("PUT", null, p_target_server + "/_config/couch_httpd_auth/allow_persistent_cookies/true", null, p_target_db_user_name, p_target_db_password).execute();
-					
-						new cURL ("PUT", null, p_target_server + "/_config/httpd/enable_cors/true", null, p_target_db_user_name, p_target_db_password).execute();
-						
-						new cURL ("PUT", null, p_target_server + "/_config/cors/credentials/true", null, p_target_db_user_name, p_target_db_password).execute();
-					
-						new cURL ("PUT", null, p_target_server + "/_config/cors/headers/accept,authorization,content-type,origin,referer,cache-control, x-requested-with", null, p_target_db_user_name, p_target_db_password).execute();
-					
-						new cURL ("PUT", null, p_target_server + "/_config/cors/methods/GET,PUT,POST,HEAD,DELETE", null, p_target_db_user_name, p_target_db_password).execute();
-					
-						new cURL ("PUT", null, p_target_server + "/_config/cors/origins/*", null, p_target_db_user_name, p_target_db_password).execute();
-					}
-					catch(Exception ex)
-					{
-						result.Add("config error", ex.ToString());
-					}
-					result.Add("config","config set to true: completed successfully.");
-				}
-				else
-				{
-					result.Add("config","config set to false.");
-				}
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute ();
+                    System.Console.WriteLine ("mmrds/_security completed successfully");
+                }
+
+                try 
+                {
+                    string case_design_sortable = System.IO.File.OpenText (current_directory + "database-scripts/case_design_sortable.json").ReadToEnd ();
+                    //var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, p_target_db_user_name, p_target_db_password);
+                    //case_design_sortable_curl.execute ();
+                    sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_password);
 
 
-				try
-				{
-				//http://db1.mmria.org/mmrds/_security
+                    string case_store_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/case_store_design_auth.json").ReadToEnd ();
+                    //var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, p_target_db_user_name, p_target_db_password);
+                    //case_store_design_auth_curl.execute ();
+                    sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_password);
+                }
+                catch (Exception ex) 
+                {
+                    System.Console.WriteLine ("unable to configure mmrds database:\n", ex);
+                }
+                
 
-				//{"admins":{"names":[],"roles":["form_designer"]},"members":{"names":[],"roles":["abstractor","data_analyst","commitee_member","timer"]}}
-
-					new cURL ("PUT", null, p_target_server + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute();
-					result.Add("mmrds/_security","completed successfully");
-				}
-				catch(Exception ex)
-				{
-					result.Add("mmrds/_security",ex.ToString());
-				}
-
-				try
-				{
-				//http://db1.mmria.org/metadata/_security
-				//{"admins":{"names":[],"roles":["form_designer"]},"members":{"names":[],"roles":[]}}
-					new cURL ("PUT", null, p_target_server + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", p_target_db_user_name, p_target_db_password).execute();
-					result.Add("metadata/_security","completed successfully");
-				}
-				catch(Exception ex)
-				{
-					result.Add("metadata/_security",ex.ToString());
-				}
-
-				if(
-					!string.IsNullOrWhiteSpace(p_source_server) &&
-					!string.IsNullOrWhiteSpace(p_source_db_user_name) &&
-					!string.IsNullOrWhiteSpace(p_source_db_password)
-				)
-
-				{
-
-				//http://docs.couchdb.org/en/2.0.0/api/server/configuration.html
-
-				string source_server_uri = construct_basic_authentication_url(p_source_server,
-					p_source_db_user_name, 
-					p_source_db_password);
-				string target_server_uri = construct_basic_authentication_url(p_target_server,
-					p_target_db_user_name, 
-					p_target_db_password);
-
-//curl -vX POST http://uid:pwd@target_db_url/_replicate \
-//     -d '{"source":"http://uid:pwd@source_db_url/_users","target":"http://uid:pwd@target_db_url/_users"}' \
-
-/*
-				string users_replication_string =  get_replicate_json_string("_users", source_server_uri, target_server_uri);
-
-				var replicate_users_curl = new cURL ("POST", null, p_target_server + "/_replicate", users_replication_string,
-		 	p_target_db_user_name, p_target_db_password);
-				result.Add("users_replication",replicate_users_curl.execute());*/
-//curl -vX POST http://uid:pwd@target_db_url/_replicate \
-//     -d '{"source":"http://muid:pwd@source_db_url/metadata","target":"http://uid:pwd@target_db_url/metadata"}' \
-
-
-				string metadata_replication_string =  get_replicate_json_string("metadata", source_server_uri, target_server_uri);
-
-
-				var replicate_metadata_curl = new cURL 
-					(
-						"POST", null, p_target_server + "/_replicate", metadata_replication_string,
-			p_target_db_user_name, p_target_db_password
-					);	 
-				result.Add("metadata_replication",replicate_metadata_curl.execute());
-//curl -vX POST http://uid:pwd@target_db_url/_replicate \
-//     -d '{"source":"http://uid:pwd@source_db_url","target":"http://uid:pwd@target_db_url/mmrds"}' \
-
-				string mmrds_replication_string =  get_replicate_json_string("mmrds", source_server_uri, target_server_uri);
-
-				var replicate_mmrds_curl = new cURL ("POST", null, p_target_server + "/_replicate", mmrds_replication_string,
- 			p_target_db_user_name, p_target_db_password);	 
-				result.Add("mmrds_replication",replicate_mmrds_curl.execute());
-
-					/*
-				string de_id_replication_string =  get_replicate_json_string("de_id_", source_server_uri, target_server_uri);
-
-				var replicate_de_id__curl = new cURL ("POST", null, p_target_server + "/_replicate", de_id_replication_string,
-					p_target_db_user_name, p_target_db_password);	 
-				result.Add("de_id__replication",replicate_de_id__curl.execute());
-
-				string report_replication_string =  get_replicate_json_string("report", source_server_uri, target_server_uri);
-
-				var replicate_report_curl = new cURL ("POST", null, p_target_server + "/_replicate", report_replication_string,
-					p_target_db_user_name, p_target_db_password);	 
-				result.Add("report_replication",replicate_report_curl.execute());*/
-
-				}
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/export_queue", p_target_db_user_name, p_target_db_password)) 
+                {
+                    System.Console.WriteLine ("Creating export_queue db.");
+                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, p_target_db_user_name, p_target_db_password);
+                    System.Console.WriteLine (export_queue_curl.execute ());
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_password).execute ();
+                }
 
 				Program.StartSchedule ();
 
@@ -315,13 +179,95 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 			replication_object.source = string.Format("{0}/{1}", p_source_server_uri, p_db_name);
 			replication_object.target = string.Format("{0}/{1}", p_target_server_uri, p_db_name);
 
-			result =  Newtonsoft.Json.JsonConvert.SerializeObject(replication_object);
+            result =  Newtonsoft.Json.JsonConvert.SerializeObject(replication_object);
 
 			return result;
 		}
 
 
-		private bool database_exists(string p_target_db_url, string p_user_name, string p_password)
+
+
+        private string set_revision (string p_document, string p_revision_id)
+        {
+
+            string result = null;
+
+
+            var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (p_document);
+            IDictionary<string, object> expando_object = request_result as IDictionary<string, object>;
+            expando_object ["_rev"] = p_revision_id;
+
+            result = Newtonsoft.Json.JsonConvert.SerializeObject (expando_object);
+
+            return result;
+        }
+
+
+        private string get_revision (string p_document_url)
+        {
+
+            string result = null;
+
+            var document_curl = new cURL ("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+            string document_json = null;
+
+            try 
+            {
+
+                document_json = document_curl.execute ();
+                var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
+                IDictionary<string, object> updater = request_result as IDictionary<string, object>;
+                result = updater ["_rev"].ToString ();
+            }
+            catch (Exception ex) 
+            {
+                if (!(ex.Message.IndexOf ("(404) Object Not Found") > -1)) 
+                {
+                    //System.Console.WriteLine ("c_sync_document.get_revision");
+                    //System.Console.WriteLine (ex);
+                }
+            }
+
+            return result;
+        }
+
+
+        private bool sync_document(string p_document_json, string p_target_db_url, string p_user_name, string p_password)
+        {
+
+            bool result = false;
+
+            string revision_id = get_revision (p_target_db_url);
+            string storage_document_json = null;
+            if (!string.IsNullOrEmpty (revision_id)) 
+            {
+                storage_document_json = set_revision (p_document_json, revision_id);
+
+            } 
+            else
+            {
+                storage_document_json = p_document_json;
+            }
+
+            var curl = new cURL ("PUT", null, p_target_db_url, storage_document_json, p_user_name, p_password);
+            try 
+            {
+                string curl_result = curl.execute ();
+                System.Console.WriteLine ("db_setupController.sync_document");
+                System.Console.WriteLine (curl_result);
+                result = true;
+            }
+            catch (Exception ex) 
+            {
+                //System.Console.WriteLine("c_sync_document de_id");
+                //System.Console.WriteLine(ex);
+            }
+
+            return result;
+        }
+
+
+		private bool url_endpoint_exists(string p_target_db_url, string p_user_name, string p_password)
 		{
 			bool result = false;
 
