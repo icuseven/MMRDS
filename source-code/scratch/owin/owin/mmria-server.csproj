@@ -205,6 +205,7 @@
     <Compile Include="controller\case_viewController.cs" />
     <Compile Include="controller\de_idController.cs" />
     <Compile Include="controller\de_id_viewController.cs" />
+    <Compile Include="model\rebuild_export_queue_job.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
