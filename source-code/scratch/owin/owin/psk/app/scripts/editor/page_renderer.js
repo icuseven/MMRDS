@@ -506,7 +506,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 			
-			result.push(" sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+			result.push("<br/> sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
 			
@@ -644,7 +644,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 
-			result.push("");
+			result.push("<br/>");
 			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
 			{
@@ -734,7 +734,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//result.push("<td>state of death</td>");
 			//result.push("<td>year / month of death</td>");
 			//result.push("<td>committe review date</td>");
-			result.push("<td>Last Updated </td>");
+			result.push("<td align=center>Last Updated </td>");
 			result.push("</tr>");
 
 			
@@ -815,7 +815,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				result.push("<td>");
 				result.push(item.value.last_updated_by);
-				result.push(" @ ");
+				result.push(" ");
 				result.push(item.value.date_last_updated);
 				result.push("</td>");
 				
