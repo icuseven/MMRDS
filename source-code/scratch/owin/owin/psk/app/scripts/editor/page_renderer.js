@@ -506,7 +506,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 			
-			result.push("<br/> sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+			result.push("<br/> Sort By:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
 			
@@ -635,7 +635,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push("</select>");
 
-			result.push(" sort decending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+			result.push(" Sort Descending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
 			if(p_ui.case_view_request.descending)
 			{
 				result.push(" checked='true' ");
