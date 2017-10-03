@@ -5,7 +5,8 @@
 <!-- The manufacturer, for setup package publisher and folder info -->
 <?define Manufacturer = "mmria.org" ?>
 <!-- The version number of this setup package-->
-<?define Version = "0.5.5" ?>
+<?define Version = "17.10.02" ?>
+<?define GitVersion = "ab1df9a" ?>
 
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Name='$(var.Name)' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
@@ -18,10 +19,10 @@
     <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1" />
     <Property Id='DiskPrompt' Value="$(var.Name) $(var.Version) Installation [1]" />
 	
-	<PropertyRef Id="NETFRAMEWORK45"/>
+	<PropertyRef Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED"/>
 	
-	<Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
-		<![CDATA[Installed OR NETFRAMEWORK45]]>
+	<Condition Message="This application requires .NET Framework 4.6.2. Please install the .NET Framework then run this installer again.">
+		<![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]>
 	</Condition>
 	
 	<!--Chain>
@@ -39,23 +40,23 @@
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='ProgramFilesFolder' Name='PFiles'>
         <Directory Id='mmria' Name='mmria'>
-          <Directory Id='INSTALLDIR' Name='MMRIA 1.0.0'>
+          <Directory Id='INSTALLDIR' Name='MMRIA $(var.Version)'>
 
             <Component Id='MainExecutable' Guid='YOURGUID-83F1-4F22-985B-FDB3C8ABD471'>
               <File Id='FoobarEXE' Name='FoobarAppl10.exe' DiskId='1' Source='FoobarAppl10.exe' KeyPath='yes'>
                 <Shortcut Id="startmenuFoobar10" Directory="ProgramMenuDir" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
                 <Shortcut Id="desktopFoobar10" Directory="DesktopFolder" Name="Foobar 1.0" WorkingDirectory='INSTALLDIR' Icon="Foobar10.exe" IconIndex="0" Advertise="yes" />
               </File>
-              <!-- Tell WiX to install the Service -->
+              <!-- Tell WiX to install the Service >
 				<ServiceInstall Id="ServiceInstaller" 
 				Type="ownProcess" 
 				Name="TestService" 
 				DisplayName="$(var.Name)" 
 				Description="MMRIA - Application Web Server" 
-				Start="auto" 
-				ErrorControl="normal" />
-				<!-- Tell WiX to start the Service -->
-				<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.Name)" Wait="yes" />
+				Start="disabled" 
+				ErrorControl="normal" /-->
+				<!-- Tell WiX to start the Service >
+				<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.Name)" Wait="yes" /-->
 
             </Component>
 
@@ -74,7 +75,7 @@
       </Directory>
 
       <Directory Id="ProgramMenuFolder" Name="Programs">
-        <Directory Id="ProgramMenuDir" Name="MMRIA 1.0.0">
+        <Directory Id="ProgramMenuDir" Name="MMRIA $(var.Version)">
           <Component Id="ProgramMenuDir" Guid="YOURGUID-7E98-44CE-B049-C477CC0A2B00">
             <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
             <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
