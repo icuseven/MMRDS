@@ -1,0 +1,17 @@
+
+
+
+copy .\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll .\owin\bin\Debug\Common.Logging.Core.dll
+copy .\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll .\owin\bin\Debug\Common.Logging.dll
+copy .\packages\Microsoft.Owin.Diagnostics.3.0.1\lib\net45\Microsoft.Owin.Diagnostics.dll .\owin\bin\Debug\Microsoft.Owin.Diagnostics.dll
+copy .\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll .\owin\bin\Debug\Microsoft.Owin.dll
+copy .\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll .\owin\bin\Debug\Microsoft.Owin.FileSystems.dll
+copy .\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll .\owin\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+copy .\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll .\owin\bin\Debug\Microsoft.Owin.Hosting.dll
+copy .\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll .\owin\bin\Debug\Microsoft.Owin.StaticFiles.dll
+copy .\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll .\owin\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+copy .\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.pdb .\owin\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+copy .\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll .\owin\bin\Debug\Newtonsoft.Json.dll
+copy .\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll .\owin\bin\Debug\Topshelf.dll
+copy .\packages\Topshelf.4.0.3\lib\net452\Topshelf.XML .\owin\bin\Debug\Topshelf.XML
+

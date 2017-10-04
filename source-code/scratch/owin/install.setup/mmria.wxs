@@ -93,7 +93,7 @@
       <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 
-    <Icon Id="mmria_server.exe" SourceFile="C:\Users\jhaines\Downloads\samplefirst\output\mmria-server.exe" />
+    <Icon Id="mmria_server.exe" SourceFile=".\output\mmria-server.exe" />
 
   </Product>
 </Wix>

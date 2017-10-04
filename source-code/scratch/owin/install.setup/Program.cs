@@ -18,9 +18,9 @@ namespace install.setup
 
 		public static void Main(string[] args)
 		{
-			//"C:\Program Files\WiX Toolset v3.10\bin\candle" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" .\output\output.xml
+			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\candle" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" .\output\output.xml
 
-			//"C:\Program Files\WiX Toolset v3.10\bin\light" -ext "C:\Program Files\WiX Toolset v3.10\bin\WixNetFxExtension.dll" output.wixobj
+			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" output.wixobj
 
 			if (args.Length > 0) 
 			{
@@ -222,6 +222,9 @@ namespace install.setup
 
 			*/
 
+			System.IO.File.Copy ("./mmria.exe.config", System.IO.Path.Combine (output_directory_path, "mmria.exe.config"), true);
+			System.IO.File.Copy ("./mmria-server.exe.config", System.IO.Path.Combine (output_directory_path, "mmria-server.exe.config"), true);
+
 		}
 
 		static private string get_id(string p_key)
@@ -361,9 +364,10 @@ namespace install.setup
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info),
 					get_shortcut("startmenummria$(var.Version)_v_$(var.GitVersion)_", "ProgramMenuDir", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe"),
-					get_shortcut("desktopmmria$(var.Version)_v_$(var.GitVersion)_", "DesktopFolder", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe")//,
-                    //get_service_install(),
-                    //get_service_control ()
+					get_shortcut("desktopmmria$(var.Version)_v_$(var.GitVersion)_", "DesktopFolder", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe")
+					/*,
+                    get_service_install(),
+                    get_service_control ()*/
 
 				);
 			/*

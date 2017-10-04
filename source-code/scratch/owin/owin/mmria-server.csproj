@@ -149,6 +149,8 @@
     <Reference Include="Quartz">
       <HintPath>..\packages\Quartz.2.6.0\lib\net40\Quartz.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Configuration.Install" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -199,7 +201,6 @@
     <Compile Include="util\WriteCSV.cs" />
     <Compile Include="util\cFolderCompressor.cs" />
     <Compile Include="controller\zipController.cs" />
-    <Compile Include="mmria-server-service.cs" />
     <Compile Include="model\couchdb\c_config.cs" />
     <Compile Include="controller\case_viewController.cs" />
     <Compile Include="controller\de_idController.cs" />
