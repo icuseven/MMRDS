@@ -51,7 +51,11 @@ namespace install.setup
 			if(string.IsNullOrWhiteSpace (input_directory_path)) input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
 			if(string.IsNullOrWhiteSpace (output_directory_path)) output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
 
-			System.IO.Directory.Delete(output_directory_path, true);
+			if (System.IO.Directory.Exists (output_directory_path)) 
+			{
+				System.IO.Directory.Delete(output_directory_path, true);	
+			}
+
 			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
 
 			//Console.WriteLine("Hello World!");
@@ -307,7 +311,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"ComponentRef",
-					new XAttribute("Id", p_name.Replace("/","_").Replace(".","_"))
+					new XAttribute ("Id", p_name.Replace("/","_").Replace(".","_").Replace(" ", "_"))
 				);
 			return result;
 
@@ -332,7 +336,7 @@ namespace install.setup
 			XElement result = new XElement
 				(
 					"Component",
-					new XAttribute("Id", file_name.Replace("/","_").Replace(".","_")),
+					new XAttribute ("Id", file_name.Replace("/","_").Replace(".","_").Replace(" ", "_")),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info)
 				);
@@ -356,10 +360,10 @@ namespace install.setup
 					new XAttribute("Id", "MainExecutable"),
 					new XAttribute("Guid", get_id(p_file_info.FullName)),
 					new_file_node(p_file_info),
-					get_shortcut("startmenummria17.08.16_v_7cf3f64_", "ProgramMenuDir", "MMRIA 17.08.16 v(7cf3f64)", "mmria_server.exe"),
-					get_shortcut("desktopmmria17.08.16_v_7cf3f64_", "DesktopFolder", "MMRIA 17.08.16 v(7cf3f64)", "mmria_server.exe"),
-                    get_service_install(),
-                    get_service_control ()
+					get_shortcut("startmenummria$(var.Version)_v_$(var.GitVersion)_", "ProgramMenuDir", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe"),
+					get_shortcut("desktopmmria$(var.Version)_v_$(var.GitVersion)_", "DesktopFolder", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe")//,
+                    //get_service_install(),
+                    //get_service_control ()
 
 				);
 			/*
@@ -382,7 +386,7 @@ namespace install.setup
 						 new XAttribute ("Type", "ownProcess"),
 						 new XAttribute ("Name", "$(var.ServiceName)"),
 						 new XAttribute ("DisplayName", "$(var.Name)"),
-						 new XAttribute ("Description", "MMRIA - Application Web Server"),
+						 new XAttribute ("Description", "MMRIA  $(var.Version)v$(var.GitVersion)- Application Web Server"),
 						 new XAttribute ("Start", "demand"),
 						 new XAttribute ("ErrorControl", "normal"));
 					return result;
@@ -444,7 +448,7 @@ static private XElement get_service_control ()
 			XElement result = new XElement
 				(
 				"File",
-				new XAttribute("Id", file_name),
+				new XAttribute("Id", file_name.Replace(" ", "_")),
 				new XAttribute("Name", p_file_info.Name),
 				new XAttribute("DiskId", "1"),
 					new XAttribute("Source", p_file_info.FullName),

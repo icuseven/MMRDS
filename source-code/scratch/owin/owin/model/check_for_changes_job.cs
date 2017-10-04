@@ -9,9 +9,9 @@ namespace mmria.server.model
 {
 	public class check_for_changes_job : IJob
     {
-		string couch_db_url = null;
-		string user_name = null;
-		string password = null;
+		private string couch_db_url = null;
+        private string user_name = null;
+        private string password = null;
 
 		public check_for_changes_job()
 		{
@@ -362,12 +362,10 @@ namespace mmria.server.model
 
 
 				List<string> args = new List<string>();
-				
+                args.Add("exporter:exporter");
 				args.Add("user_name:" + this.user_name);
 				args.Add("password:" + this.password);
 				args.Add("database_url:" + this.couch_db_url);
-				args.Add ("user_name:" + Program.config_timer_user_name);
-				args.Add ("password:" + Program.config_timer_password);
 				args.Add ("item_file_name:" + item_to_process.file_name);
 				args.Add ("item_id:" + item_to_process._id);
 
@@ -386,10 +384,16 @@ namespace mmria.server.model
 
 					responseFromServer = set_curl.execute ();
 
-					//export-core user_name:user1 password:password url:http://localhost:12345
-					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
-					core_element_exporter.Execute(args.ToArray());
-
+                    try
+                    {
+					
+    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
+    					core_element_exporter.Execute(args.ToArray());
+                    }
+                    catch(Exception ex)
+                    {
+                        System.Console.WriteLine (ex);
+                    }
 
 				
 				}
@@ -407,9 +411,15 @@ namespace mmria.server.model
 					responseFromServer = set_curl.execute ();
 
 
-					//export user_name:user1 password:password url:http://localhost:12345
-					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
-					mmrds_exporter.Execute(args.ToArray());
+                    try
+                    {
+    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
+    					mmrds_exporter.Execute(args.ToArray());
+                    }
+                    catch(Exception ex)
+                    {
+                        System.Console.WriteLine (ex);
+                    }
 
 				}
 				else if (item_to_process.export_type.StartsWith ("cdc csv", StringComparison.OrdinalIgnoreCase)) 
@@ -530,7 +540,7 @@ namespace mmria.server.model
 					catch(Exception Ex)
 					{
 						// do nothing for now
-						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
+                        System.Console.WriteLine ("Program.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
 					}
 
 					item_to_process.status = "expunged";

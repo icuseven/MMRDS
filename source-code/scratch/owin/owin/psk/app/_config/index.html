@@ -22,21 +22,13 @@
 <br/>
 <br/>
 <div id="config_db">
-<p>To perform db setup and initialization use the below form.</p>
+<p>To Database upgrade use the below form.</p>
 <form id='config_form'>
-target_server: <input id="p_target_server" type="text" value="http://localhost:5984" /><br/>
+<!--target_server: <input id="p_target_server" type="text" value="http://localhost:5984" /><br/-->
 target_db_user_name: <input id="p_target_db_user_name" type="text" value="" /><br/>
 target_db_password: <input id="p_target_db_password" type="password" value="" /><br/><br/>
-source_server: <input id="p_source_server" type="text" value="" />example: http://db1.mmria.org<br/>
-source_db_user_name: <input id="p_source_db_user_name" type="text" value="" /><br/>
-source_db_password: <input id="p_source_db_password" type="password" value="" /><br/>
-
-set_config: <select id="p_set_config">
-  <option>false</option>
-  <option selected>true</option>
-</select><br/>
 <br/><br/>
-<input type="button" value="run db  setup" onclick="run_db_setup_click()"/>
+<input type="button" value="run db  upgrade" onclick="run_db_setup_click()"/>
 <br/><br/>
 <textarea id='config_form_output' rows=100 cols=120>
   </textarea>

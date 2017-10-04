@@ -13,6 +13,7 @@ function export_queue_render(p_queue_data)
 
 	result.push("<table><hr/>");
 	result.push("<tr><th colspan='8' bgcolor='#CCCCCC'>Export Request History</th></tr>");
+	result.push("<tr><th colspan='8' bgcolor='#DDDDAA'>(*Please note that the export queue is deleted at midnight each day.)</th></tr>");
 	result.push("<tr bgcolor='#DDDDDD'><th>date_created</th><th>created_by</th><th>date_last_updated</th><th>last_updated_by</th><th>file_name</th><th>export_type</th><th>status</th><th>&nbsp;</th></tr>");
 
 	for(var i = 0; i < p_queue_data.length; i++)

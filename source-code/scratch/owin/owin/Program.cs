@@ -14,166 +14,165 @@ using Topshelf;
 namespace mmria.server
 {
 
-	class Program
-	{
-		static bool config_is_service = true;
-		public static string config_geocode_api_key;
-		public static string config_geocode_api_url;
-		public static string config_couchdb_url;
-		public static string config_web_site_url;
-		public static string config_file_root_folder;
-		public static string config_timer_user_name;
-		public static string config_timer_password;
-		public static string config_cron_schedule;
-		public static string config_export_directory;
+    class Program
+    {
+        static bool config_is_service = true;
+        public static string config_geocode_api_key;
+        public static string config_geocode_api_url;
+        public static string config_couchdb_url;
+        public static string config_web_site_url;
+        public static string config_file_root_folder;
+        public static string config_timer_user_name;
+        public static string config_timer_password;
+        public static string config_cron_schedule;
+        public static string config_export_directory;
 
-		public static bool is_processing_export_queue;
-		public static bool is_processing_syncronization;
-
-
-		private static IScheduler sched;
-
-		//public static Dictionary<string, string> Change_Sequence_List;
-		public static int Change_Sequence_Call_Count = 0;
-		public static IList<DateTime> DateOfLastChange_Sequence_Call;
-		public static string Last_Change_Sequence = null;
+        public static bool is_processing_export_queue;
+        public static bool is_processing_syncronization;
 
 
+        private static IScheduler sched;
 
-		static int ServiceMain (string [] args)
-		{
-				return (int)HostFactory.Run (x => {
-					x.SetServiceName ("MMRIAApplicationService");
-					x.SetDisplayName ("MMRIA Application Service");
-					x.SetDescription ("Provides data management functionality between a CouchDB instance and a Smart Web Client.");
+        //public static Dictionary<string, string> Change_Sequence_List;
+        public static int Change_Sequence_Call_Count = 0;
+        public static IList<DateTime> DateOfLastChange_Sequence_Call;
+        public static string Last_Change_Sequence = null;
 
-					x.UseAssemblyInfoForServiceInfo ();
-					x.RunAsLocalSystem ();
-					x.StartManually();
-					//x.UseNLog();
-					x.Service<mmria_server_service> ();
-					x.EnableServiceRecovery (r => r.RestartService (1));
-				});
-		}
 
-		// http://www.asp.net/aspnet/samples/owin-katana
 
-		//http://localhost:12345
-		//http://localhost:12345/api/values
-		//http://localhost:12345/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
-		//http://localhost:12345/api/session?userid=mmrds&password=mmrds
-		//http://localhost:12345/api/session?userid=user1&password=password
-		//http://localhost:12345/api/session
-		//http://localhost:12345/swagger/docs/v1
-		//http://localhost:12345/sandbox/index
+        static int ServiceMain (string [] args)
+        {
+            return (int)HostFactory.Run (x => 
+            {
+                x.SetServiceName ("MMRIAApplicationService");
+                x.SetDisplayName ("MMRIA Application Service");
+                x.SetDescription ("Provides data management functionality between a CouchDB instance and a Smart Web Client.");
 
-		public static void Main (string [] args)
-		{
-			for (int i = 0; i < args.Length; i++) 
-			{
-				switch (args [i].ToLower ()) 
-				{
-					case "set_is_environment_based_true":
-						System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "true";
-						break;
-					case "set_is_environment_based_false":
-						System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "false";
-						break;
-					case "config_is_not_service":
-						config_is_service = false;
-						break;
-					default:
-						Console.WriteLine ("unsued command line argument: Arg[{0}] = [{1}]", i, args [i]);
-						break;
-				}
-			}
+                x.UseAssemblyInfoForServiceInfo ();
+                x.RunAsLocalSystem ();
+                x.StartManually ();
+                //x.UseNLog();
+                x.Service<mmria_server_service> ();
+                x.EnableServiceRecovery (r => r.RestartService (1));
+            });
+        }
 
-			if(
-				!bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) &&
-			  	config_is_service
-			)
+        // http://www.asp.net/aspnet/samples/owin-katana
+
+        //http://localhost:12345
+        //http://localhost:12345/api/values
+        //http://localhost:12345/api/geocode?street_address=123 main street&city=los angeles&state=ca&zip=90007
+        //http://localhost:12345/api/session?userid=mmrds&password=mmrds
+        //http://localhost:12345/api/session?userid=user1&password=password
+        //http://localhost:12345/api/session
+        //http://localhost:12345/swagger/docs/v1
+        //http://localhost:12345/sandbox/index
+
+        public static void Main (string [] args)
+        {
+            for (int i = 0; i < args.Length; i++) 
+            {
+                switch (args [i].ToLower ()) 
+                {
+                    case "set_is_environment_based_true":
+                        System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "true";
+                        break;
+                    case "set_is_environment_based_false":
+                        System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"] = "false";
+                        break;
+                    case "config_is_not_service":
+                        config_is_service = false;
+                        break;
+                    default:
+                        Console.WriteLine ("unsued command line argument: Arg[{0}] = [{1}]", i, args [i]);
+                        break;
+                }
+            }
+
+            if (
+                !bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) &&
+                  config_is_service
+            ) 
             {
                 ServiceMain (args);
-            }
-            else
+            } 
+            else 
             {
-
-				NonServiceMain (args);
+                NonServiceMain (args);
             }
-		}
+        }
 
-		public static void NonServiceMain (string [] args)
-		{
-			#if (FILE_WATCHED)
+        public static void NonServiceMain (string [] args)
+        {
+#if (FILE_WATCHED)
 			Console.WriteLine ("starting file watch.");
 			WatchFiles.StartWatch();
-			#endif
+#endif
 
-			//data_access da = new data_access ();
-			//da.login ("mmrds","mmrds");
-			#if (DEBUG)
+            //data_access da = new data_access ();
+            //da.login ("mmrds","mmrds");
+#if (DEBUG)
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
-			{
-				/*
+            if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
+            {
+                /*
 				System.Environment.SetEnvironmentVariable("geocode_api_key","7c39ae93786d4aa3adb806cb66de51b8");
 				System.Environment.SetEnvironmentVariable("couchdb_url", "http://localhost:5984");
 				System.Environment.SetEnvironmentVariable("web_site_url", "http://localhost:12345");
 				System.Environment.SetEnvironmentVariable("file_root_folder", "/vagrant/source-code/scratch/owin/owin/psk/app");
 				*/
-			}
-			#endif
+            }
+#endif
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
-			{
-				System.Console.WriteLine ("using Environment");
-				System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
-				System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
-				System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
-				System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
-				System.Console.WriteLine ("export_directory: {0}", System.Environment.GetEnvironmentVariable ("export_directory"));
+            if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
+            {
+                System.Console.WriteLine ("using Environment");
+                System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
+                System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
+                System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
+                System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
+                System.Console.WriteLine ("export_directory: {0}", System.Environment.GetEnvironmentVariable ("export_directory"));
 
-				Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
-				Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
-				Program.config_couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
-				Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-				Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-				Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
-				Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
-				Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
-				Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory"): "/workspace/export";
-
-
-			}
-			else
-			{
-				System.Console.WriteLine ("using AppSettings");
-				System.Console.WriteLine ("geocode_api_key: {0}", System.Configuration.ConfigurationManager.AppSettings ["geocode_api_key"]);
-				System.Console.WriteLine ("geocode_api_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["geocode_api_url"]);
-				System.Console.WriteLine ("couchdb_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"]);
-				System.Console.WriteLine ("web_site_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["web_site_url"]);
-				System.Console.WriteLine ("export_directory: {0}", System.Configuration.ConfigurationManager.AppSettings ["export_directory"]);
+                Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
+                Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
+                Program.config_couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+                Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
+                Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
+                Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
+                Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
+                Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
 
 
-				Program.config_geocode_api_key = System.Configuration.ConfigurationManager.AppSettings ["geocode_api_key"];
-				Program.config_geocode_api_url = System.Configuration.ConfigurationManager.AppSettings ["geocode_api_url"];
-				Program.config_couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-				Program.config_web_site_url = System.Configuration.ConfigurationManager.AppSettings ["web_site_url"];
-				Program.config_file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
-				Program.config_timer_user_name = System.Configuration.ConfigurationManager.AppSettings ["timer_user_name"];
-				Program.config_timer_password = System.Configuration.ConfigurationManager.AppSettings ["timer_password"];
-				Program.config_cron_schedule = System.Configuration.ConfigurationManager.AppSettings ["cron_schedule"];
-				Program.config_export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
+            }
+            else 
+            {
+                System.Console.WriteLine ("using AppSettings");
+                System.Console.WriteLine ("geocode_api_key: {0}", System.Configuration.ConfigurationManager.AppSettings ["geocode_api_key"]);
+                System.Console.WriteLine ("geocode_api_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["geocode_api_url"]);
+                System.Console.WriteLine ("couchdb_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"]);
+                System.Console.WriteLine ("web_site_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["web_site_url"]);
+                System.Console.WriteLine ("export_directory: {0}", System.Configuration.ConfigurationManager.AppSettings ["export_directory"]);
 
 
-			}
+                Program.config_geocode_api_key = System.Configuration.ConfigurationManager.AppSettings ["geocode_api_key"];
+                Program.config_geocode_api_url = System.Configuration.ConfigurationManager.AppSettings ["geocode_api_url"];
+                Program.config_couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
+                Program.config_web_site_url = System.Configuration.ConfigurationManager.AppSettings ["web_site_url"];
+                Program.config_file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
+                Program.config_timer_user_name = System.Configuration.ConfigurationManager.AppSettings ["timer_user_name"];
+                Program.config_timer_password = System.Configuration.ConfigurationManager.AppSettings ["timer_password"];
+                Program.config_cron_schedule = System.Configuration.ConfigurationManager.AppSettings ["cron_schedule"];
+                Program.config_export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
 
-			System.Net.ServicePointManager.CertificatePolicy = new mmria.server.util.NoCheckCertificatePolicy ();
+            }
 
-			Program.is_processing_export_queue = false;
-			Program.is_processing_syncronization = false;
+            System.Net.ServicePointManager.CertificatePolicy = new mmria.server.util.NoCheckCertificatePolicy ();
 
-			/*
+            Program.is_processing_export_queue = false;
+            Program.is_processing_syncronization = false;
+
+            /*
 			if (!System.IO.Directory.Exists (Program.config_export_directory))
 			{
 
@@ -181,83 +180,75 @@ namespace mmria.server
 			}*/
 
 
-			// ****   Web Server - Start
-			Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);            
-			Console.WriteLine ("Web Server Listening at " + Program.config_web_site_url);
+            // ****   Web Server - Start
+            Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);
+            Console.WriteLine ("Web Server Listening at " + Program.config_web_site_url);
 
 
             //mmria.server.util.MyWebSocket.execute (new string [] { });
 
-			// ****   Web Server - End
+            // ****   Web Server - End
 
 
-			// ****   Quartz Timer - Start
+            // ****   Quartz Timer - Start
 
 
-			//mmria.server.model.check_for_changes_job cfcj = new mmria.server.model.check_for_changes_job();
-			//cfcj.Process_Export_Queue_Item();
-
-			
-
-			//Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
-			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
-			//log.Debug("Application_Start");
-
-			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
-			Program.Change_Sequence_Call_Count++;
-			Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
-
-			StdSchedulerFactory sf = new StdSchedulerFactory ();
-			Program.sched = sf.GetScheduler ();
-			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
-
-			IJobDetail data_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
-				.WithIdentity ("data_job", "group1")
-				.Build ();
-
-			string cron_schedule = Program.config_cron_schedule;
+            //mmria.server.model.check_for_changes_job cfcj = new mmria.server.model.check_for_changes_job();
+            //cfcj.Process_Export_Queue_Item();
 
 
-			ITrigger trigger = (ITrigger)TriggerBuilder.Create ()
-														  .WithIdentity ("trigger1", "group1")
-														  .StartAt (startTime)
-														  .WithCronSchedule (cron_schedule)
-														  .Build ();
+
+            //Program.Change_Sequence_List = new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase);
+            //Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
+            //log.Debug("Application_Start");
+
+            Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
+            Program.Change_Sequence_Call_Count++;
+            Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
+
+            StdSchedulerFactory sf = new StdSchedulerFactory ();
+            Program.sched = sf.GetScheduler ();
+            DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
+
+            IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
+                .WithIdentity ("check_for_changes_job", "group1")
+                .Build ();
+
+            string cron_schedule = Program.config_cron_schedule;
 
 
-			DateTimeOffset? ft = sched.ScheduleJob (data_job, trigger);
+            ITrigger check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
+                                                       .WithIdentity ("check_for_changes_job_trigger", "group1")
+                                                          .StartAt (startTime)
+                                                          .WithCronSchedule (cron_schedule)
+                                                          .Build ();
 
 
-            /*if (!url_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
-            {
-                
-                //curl -X PUT $HOST/_config/admins/anna -d '"secret"'
-                new cURL ("PUT", null, Program.config_couchdb_url + "/_config/", null).execute ();
-                //new cURL ("PUT", null, Program.config_couchdb_url + "/_config/admins", null).execute ();
-                new cURL ("PUT", null, Program.config_couchdb_url + "/_config/admins/" + Program.config_timer_user_name, Program.config_timer_password).execute ();
+            DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, check_for_changes_job_trigger);
 
-                if (!url_exists (Program.config_couchdb_url + "/_config", Program.config_timer_user_name, Program.config_timer_password)) {
-                    try {
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/_config/couch_httpd_auth/allow_persistent_cookies/true", null, Program.config_timer_user_name, "\"" + Program.config_timer_password + "\"").execute ();
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/_config/httpd/enable_cors/true", null, Program.config_timer_user_name, Program.config_timer_password).execute ();
+            IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
+                                                     .WithIdentity ("rebuild_queue_job", "group2")
+                                                         .Build ();
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/_config/cors/credentials/true", null, Program.config_timer_user_name, Program.config_timer_password).execute ();
+            string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/_config/cors/headers/accept,authorization,content-type,origin,referer,cache-control, x-requested-with", null, Program.config_timer_user_name, Program.config_timer_password).execute ();
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/_config/cors/methods/GET,PUT,POST,HEAD,DELETE", null, Program.config_timer_user_name, Program.config_timer_password).execute ();
+            ITrigger rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
+                                                       .WithIdentity ("rebuild_queue_job_trigger", "group2")
+                                                       .StartAt (startTime)
+                                                       .WithCronSchedule (rebuild_queue_job_cron_schedule)
+                                                       .Build ();
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/_config/cors/origins/*", null, Program.config_timer_user_name, Program.config_timer_password).execute ();
-                    } catch (Exception ex) {
-                        System.Console.WriteLine ("config error", ex.ToString ());
-                    }
-                }
-            }*/
+
+            DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, rebuild_queue_job_trigger);
+
+
 
             if (url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
             {
+                string current_directory = AppDomain.CurrentDomain.BaseDirectory;
 
                 if (!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)) 
                 {
@@ -269,25 +260,25 @@ namespace mmria.server
 
                     try 
                     {
-                        string metadata_design_auth = System.IO.File.OpenText("database-scripts/metadata_design_auth.json").ReadToEnd();
+                        string metadata_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/metadata_design_auth.json").ReadToEnd ();
                         var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
                         metadata_design_auth_curl.execute ();
 
-                        string metadata_json = System.IO.File.OpenText ("database-scripts/metadata.json").ReadToEnd ();;
+                        string metadata_json = System.IO.File.OpenText (current_directory + "database-scripts/metadata.json").ReadToEnd (); ;
                         var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
                         metadata_json_curl.execute ();
 
-                    }
-                    catch(Exception ex)
+                    } 
+                    catch (Exception ex) 
                     {
                         System.Console.WriteLine ("unable to configure metadata:\n", ex);
                     }
 
 
-                } 
+                }
 
 
-                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password))
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)) 
                 {
                     var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, Program.config_timer_user_name, Program.config_timer_password);
                     System.Console.WriteLine ("mmrds_curl\n{0}", mmrds_curl.execute ());
@@ -297,27 +288,51 @@ namespace mmria.server
 
                     try 
                     {
-                        string case_design_sortable = System.IO.File.OpenText ("database-scripts/case_design_sortable.json").ReadToEnd ();
+                        string case_design_sortable = System.IO.File.OpenText (current_directory + "database-scripts/case_design_sortable.json").ReadToEnd ();
                         var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
                         case_design_sortable_curl.execute ();
 
-                        string case_store_design_auth = System.IO.File.OpenText ("database-scripts/case_store_design_auth.json").ReadToEnd ();
+                        string case_store_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/case_store_design_auth.json").ReadToEnd ();
                         var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
                         case_store_design_auth_curl.execute ();
 
-                    }
+                    } 
                     catch (Exception ex) 
                     {
                         System.Console.WriteLine ("unable to configure mmrds database:\n", ex);
                     }
                 }
 
-                if (!url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)) 
+                if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)) 
                 {
-                    System.Console.WriteLine ("Creating export_queue db.");
-                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
-                    System.Console.WriteLine (export_queue_curl.execute ());
-                    new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                    var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+                    System.Console.WriteLine (delete_queue_curl.execute ());
+                }
+
+
+                System.Console.WriteLine ("Creating export_queue db.");
+                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+                System.Console.WriteLine (export_queue_curl.execute ());
+                new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+
+
+
+                try 
+                {
+                    string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
+
+                    if (System.IO.Directory.Exists (export_directory))
+                    {
+                        RecursiveDirectoryDelete(new System.IO.DirectoryInfo(export_directory));
+                    }
+
+                    System.IO.Directory.CreateDirectory(export_directory);
+
+
+                }
+                catch (Exception ex) 
+                {
+                    // do nothing for now
                 }
 
 
@@ -337,7 +352,8 @@ namespace mmria.server
 
                     System.Threading.Tasks.Task.Run
                     (
-                        new Action (() => {
+                        new Action (() => 
+                        {
                             mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
                                                                                  Program.config_couchdb_url,
                                                                                  Program.config_timer_user_name,
@@ -347,21 +363,21 @@ namespace mmria.server
                             sync_all.execute ();
 
 
-                        /*
-                        {"total_rows":11,"offset":0,"rows":[
-                        {"id":"02279162-6be3-49e4-930f-42eed7cd4706","key":"02279162-6be3-49e4-930f-42eed7cd4706","value":{"rev":"1-1e8c9c42f75d1582c7d2261230268f0a"}},
-                        {"id":"140836d7-abed-07ff-5b84-72a9ca30b9c4","key":"140836d7-abed-07ff-5b84-72a9ca30b9c4","value":{"rev":"1-7d713a250c1dd52843724df2e909841f"}},
-                        {"id":"2243372a-9801-155c-4098-9540daabe76c","key":"2243372a-9801-155c-4098-9540daabe76c","value":{"rev":"1-d7b3cb2bbddfa7dab44161b745ba3f2c"}},
-                        {"id":"244da20f-41cc-4300-ad94-618004a51917","key":"244da20f-41cc-4300-ad94-618004a51917","value":{"rev":"1-3930c68b758258af365bda35aee22731"}},
-                        {"id":"999907aa-8b73-3cfa-f13b-657beb325428","key":"999907aa-8b73-3cfa-f13b-657beb325428","value":{"rev":"1-1e3bac81a24f00755613f0f7d2604fcb"}},
-                        {"id":"acbf75d5-9c7a-57bc-9bef-59624bac7847","key":"acbf75d5-9c7a-57bc-9bef-59624bac7847","value":{"rev":"1-6f758041b4fb6954ec5ff4a52cc57eda"}},
-                        {"id":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","key":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","value":{"rev":"1-ab8dc8c5852d0e053683d64ee7c5e9ba"}},
-                        {"id":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","key":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","value":{"rev":"1-bbddad634887348768fa8badc4db5ded"}},
-                        {"id":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","key":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","value":{"rev":"1-a9ce1f6a0be2416e2ff06ef9adb1bd0e"}},
-                        {"id":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","key":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","value":{"rev":"1-297a418df441f52109714fdc3b21bd07"}},
-                        {"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
-                        ]}
-                        */
+                            /*
+                            {"total_rows":11,"offset":0,"rows":[
+                            {"id":"02279162-6be3-49e4-930f-42eed7cd4706","key":"02279162-6be3-49e4-930f-42eed7cd4706","value":{"rev":"1-1e8c9c42f75d1582c7d2261230268f0a"}},
+                            {"id":"140836d7-abed-07ff-5b84-72a9ca30b9c4","key":"140836d7-abed-07ff-5b84-72a9ca30b9c4","value":{"rev":"1-7d713a250c1dd52843724df2e909841f"}},
+                            {"id":"2243372a-9801-155c-4098-9540daabe76c","key":"2243372a-9801-155c-4098-9540daabe76c","value":{"rev":"1-d7b3cb2bbddfa7dab44161b745ba3f2c"}},
+                            {"id":"244da20f-41cc-4300-ad94-618004a51917","key":"244da20f-41cc-4300-ad94-618004a51917","value":{"rev":"1-3930c68b758258af365bda35aee22731"}},
+                            {"id":"999907aa-8b73-3cfa-f13b-657beb325428","key":"999907aa-8b73-3cfa-f13b-657beb325428","value":{"rev":"1-1e3bac81a24f00755613f0f7d2604fcb"}},
+                            {"id":"acbf75d5-9c7a-57bc-9bef-59624bac7847","key":"acbf75d5-9c7a-57bc-9bef-59624bac7847","value":{"rev":"1-6f758041b4fb6954ec5ff4a52cc57eda"}},
+                            {"id":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","key":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","value":{"rev":"1-ab8dc8c5852d0e053683d64ee7c5e9ba"}},
+                            {"id":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","key":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","value":{"rev":"1-bbddad634887348768fa8badc4db5ded"}},
+                            {"id":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","key":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","value":{"rev":"1-a9ce1f6a0be2416e2ff06ef9adb1bd0e"}},
+                            {"id":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","key":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","value":{"rev":"1-297a418df441f52109714fdc3b21bd07"}},
+                            {"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
+                            ]}
+                            */
 
 
 
@@ -375,110 +391,100 @@ namespace mmria.server
                 }
             }
 
-			// ****   Quartz Timer - End
+            // ****   Quartz Timer - End
 
 
 
 
 
 
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
-			{
-				bool stay_on_till_power_fail = true;
+            if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
+            {
+                bool stay_on_till_power_fail = true;
 
-				while(stay_on_till_power_fail)
-				{
+                while (stay_on_till_power_fail) 
+                {
 
-				}
-			}
-			else
-			{
-				//http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
-				string read_line = Console.ReadLine();
-				while (string.IsNullOrWhiteSpace(read_line) || read_line.ToLower () != "quit") 
-				{
-					read_line = Console.ReadLine();
-				}
-				if (sched != null) 
-				{
-					sched.Clear ();
-					sched.Shutdown ();
-				}
-				System.Console.WriteLine ("Quit command recieved shutting down.");
-			}
-		}
+                }
+            } 
+            else 
+            {
+                //http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
+                string read_line = Console.ReadLine ();
+                while (string.IsNullOrWhiteSpace (read_line) || read_line.ToLower () != "quit") 
+                {
+                    read_line = Console.ReadLine ();
+                }
+                if (sched != null) 
+                {
+                    sched.Clear ();
+                    sched.Shutdown ();
+                }
+                System.Console.WriteLine ("Quit command recieved shutting down.");
+            }
+        }
 
 
         public static void Shutdown ()
         {
-            if (sched != null) {
+            if (sched != null) 
+            {
                 sched.Clear ();
                 sched.Shutdown ();
             }
             System.Console.WriteLine ("Quit command recieved shutting down.");
         }
 
-		private static bool url_endpoint_exists(string p_target_server, string p_user_name, string p_password, string p_method="HEAD")
-		{
-			bool result = false;
+        private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
+        {
+            bool result = false;
 
-            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);	 
-			try
-			{
-				curl.execute();
-				/*
+            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);
+            try 
+            {
+                curl.execute ();
+                /*
 				HTTP/1.1 200 OK
 				Cache-Control: must-revalidate
 				Content-Type: application/json
 				Date: Mon, 12 Aug 2013 01:27:41 GMT
 				Server: CouchDB (Erlang/OTP)*/
-				result = true;
-			}
-			catch(Exception ex)
-			{
-				// do nothing for now
-			}
-
-
-			return result;
-		}
-
-
-
-        private static string construct_basic_authentication_url (string p_url, string p_user_name, string p_password)
-        {
-            System.Text.StringBuilder result = new System.Text.StringBuilder ();
-
-
-            Uri uri = new Uri (p_url);
-
-            result.Append (uri.Scheme);
-            result.Append ("://");
-            result.Append (p_user_name);
-            result.Append (":");
-            result.Append (p_password);
-            result.Append ("@");
-            result.Append (uri.Host);
-            if (uri.Port != 80) 
+                result = true;
+            } 
+            catch (Exception ex) 
             {
-                result.Append (":");
-                result.Append (uri.Port);
+                // do nothing for now
             }
 
 
-            return result.ToString ();
+            return result;
+        }
+
+
+
+
+        public static void StartSchedule ()
+        {
+            if (Program.sched != null && !Program.sched.IsStarted) 
+            {
+                Program.sched.Start ();
+            }
 
         }
 
-		public static void StartSchedule ()
-		{
-			if (Program.sched != null && !Program.sched.IsStarted) 
-			{
-				Program.sched.Start();
-			}
 
-		}
-	}
+        private static void RecursiveDirectoryDelete(System.IO.DirectoryInfo baseDir)
+        {
+            if (!baseDir.Exists)
+                return;
+
+            foreach (var dir in baseDir.EnumerateDirectories())
+            {
+                RecursiveDirectoryDelete(dir);
+            }
+            baseDir.Delete(true);
+        }
+}
 
 
 

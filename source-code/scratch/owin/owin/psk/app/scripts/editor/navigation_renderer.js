@@ -152,8 +152,11 @@ function navigation_render(p_metadata, p_level, p_ui)
 
               result.push('<li><a href="data-dictionary" target="_data_dictionary">Show Data Dictionary</a></li>');
               result.push('<li><a tabindex="-1" onclick="open_aggregate_report_version()">View Aggregate Report</a></li>');
-              result.push('<li><a tabindex="-1" onclick="open_export_queue()">Export Data</a></li>');
 
+              if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+              {
+                result.push('<li><a tabindex="-1" onclick="open_export_queue()">Export Data</a></li>');
+              }
 
 
               if(profile.user_roles && profile.user_roles.indexOf("user_admin") > -1)

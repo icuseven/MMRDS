@@ -117,24 +117,16 @@ function run_db_setup_click()
 
 	var p_target_db_user_name = document.getElementById("p_target_db_user_name").value;
 	var p_target_db_password = document.getElementById("p_target_db_password").value;
-	var p_target_server = document.getElementById("p_target_server").value;
-
 
 if
 (
 p_target_db_user_name && 
-p_target_db_password &&
-p_target_server
-
+p_target_db_password 
 )
 {
 	query_string.push("?p_target_db_user_name=" + p_target_db_user_name);
 	query_string.push("p_target_db_password=" + p_target_db_password);
-	query_string.push("p_target_server=" + p_target_server);
-	query_string.push("p_source_db_user_name=" + document.getElementById("p_source_db_user_name").value);
-	query_string.push("p_source_db_password=" + document.getElementById("p_source_db_password").value);
-	query_string.push("p_source_server=" + document.getElementById("p_source_server").value);
-	query_string.push("p_set_confi" + document.getElementById("p_set_config").value);
+
 	var setup_url = base + query_string.join("&");
 }
 else

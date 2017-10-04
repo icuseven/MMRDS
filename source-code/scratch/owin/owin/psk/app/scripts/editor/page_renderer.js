@@ -484,15 +484,29 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 			result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
-			
 			if(g_ui.case_view_request.search_key!= null)
 			{
 				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
 			}
 			result.push("' />  ");
+
+			p_post_html_render.push("$('#search_text_box').bind(\"enterKey\",function(e){");
+			//p_post_html_render.push("	g_ui.case_view_request.search_key = \"\";");
+			p_post_html_render.push("	get_case_set();");
+			p_post_html_render.push(" });");
+
+			p_post_html_render.push("$('#search_text_box').keyup(function(e){");
+				p_post_html_render.push("	if(e.keyCode == 13)");
+				p_post_html_render.push("	{");
+					p_post_html_render.push("	$(this).trigger(\"enterKey\");");
+					p_post_html_render.push("	}");
+					p_post_html_render.push("})");
+
+
+
 			result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 			
-			result.push(" sort by:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+			result.push("<br/> Sort By:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
 			
@@ -621,7 +635,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 			result.push("</select>");
 
-			result.push(" sort decending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+			result.push(" Sort Descending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
 			if(p_ui.case_view_request.descending)
 			{
 				result.push(" checked='true' ");
@@ -630,7 +644,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 
-			result.push("");
+			result.push("<br/>");
 			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
 			{
@@ -720,7 +734,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//result.push("<td>state of death</td>");
 			//result.push("<td>year / month of death</td>");
 			//result.push("<td>committe review date</td>");
-			result.push("<td>Last Updated </td>");
+			result.push("<td align=center>Last Updated </td>");
 			result.push("</tr>");
 
 			
@@ -775,7 +789,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				{
 					if(item.value.agency_case_id)
 					{
-						result.push("  agency_case_id: ");
+						result.push("  ac_id: ");
 						result.push(item.value.agency_case_id)
 					}
 				}
@@ -801,7 +815,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 				result.push("<td>");
 				result.push(item.value.last_updated_by);
-				result.push(" @ ");
+				result.push(" ");
 				result.push(item.value.date_last_updated);
 				result.push("</td>");
 				

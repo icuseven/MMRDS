@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace mmria.server
 {
 	public class CustomContentTypeProvider : Microsoft.Owin.StaticFiles.ContentTypes.FileExtensionContentTypeProvider
