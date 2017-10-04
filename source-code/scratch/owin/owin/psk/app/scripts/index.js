@@ -34,49 +34,53 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
   var current_value = eval(p_object_path);
   //if(current_value != value)
   //{
-    if(g_validator_map[p_metadata_path])
+  if(g_validator_map[p_metadata_path])
+  {
+    if(g_validator_map[p_metadata_path](value))
     {
-      if(g_validator_map[p_metadata_path](value))
+      var metadata = eval(p_metadata_path);
+
+      if(metadata.type.toLowerCase() == "boolean")
       {
-        var metadata = eval(p_metadata_path);
-
-        if(metadata.type.toLowerCase() == "boolean")
-        {
-          eval(p_object_path + ' = ' + value);
-        }
-        else
-        {
-          eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
-        }
-        g_data.date_last_updated = new Date();
-        g_data.last_updated_by = profile.user_name;
-		
-    var post_html_call_back = [];
-		document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
-    if(post_html_call_back.length > 0)
-    {
-      eval(post_html_call_back.join(""));
-    }
-
-    if(g_ui.broken_rules[p_object_path])
-    {
-      g_ui.broken_rules[p_object_path] = false;
-    } 
-
-      save_case(g_data);
-
-		
-
+        eval(p_object_path + ' = ' + value);
       }
       else
       {
-        g_ui.broken_rules[p_object_path] = true;
-        //console.log("didn't pass validation");
-
+        eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
+      g_data.date_last_updated = new Date();
+      g_data.last_updated_by = profile.user_name;
+		
+
+
+      if(g_ui.broken_rules[p_object_path])
+      {
+        g_ui.broken_rules[p_object_path] = false;
+      } 
+
+      save_case(g_data, function (){
+
+        var post_html_call_back = [];
+        document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
+        if(post_html_call_back.length > 0)
+        {
+          eval(post_html_call_back.join(""));
+        }
+
+        apply_validation();
+      });
+
+		
+
     }
     else
     {
+        g_ui.broken_rules[p_object_path] = true;
+        //console.log("didn't pass validation");
+    }
+  }
+  else
+  {
       var metadata = eval(p_metadata_path);
       if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
       {
@@ -100,6 +104,8 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       }
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
+
+      save_case(g_data, function (){
 
       var post_html_call_back = [];
       var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -167,13 +173,11 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       {
         eval(post_html_call_back.join(""));
       }
-      
-      save_case(g_data);
-	  
-    }
 
-    apply_validation();
-  //}
+      apply_validation();
+
+    });
+  }
 }
 
 function g_add_grid_item(p_object_path, p_metadata_path)
@@ -182,13 +186,21 @@ function g_add_grid_item(p_object_path, p_metadata_path)
   var new_line_item = create_default_object(metadata, {});
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
-  var post_html_call_back = [];
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
-  apply_tool_tips();
-  if(post_html_call_back.length > 0)
+
+
+  save_case(g_data, function ()
   {
-    eval(post_html_call_back.join(""));
+
+    var post_html_call_back = [];
+    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
+    apply_tool_tips();
+    if(post_html_call_back.length > 0)
+    {
+      eval(post_html_call_back.join(""));
+    }
+
   }
+  );
 }
 
 function g_delete_grid_item(p_object_path, p_metadata_path)
@@ -198,12 +210,16 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
   eval(object_string).splice(index, 1);
 
-  var post_html_call_back = [];
-  document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
-  if(post_html_call_back.length > 0)
+  
+  save_case(g_data, function ()
   {
-    eval(post_html_call_back.join(""));
-  }
+    var post_html_call_back = [];
+    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
+    if(post_html_call_back.length > 0)
+    {
+      eval(post_html_call_back.join(""));
+    }
+  });
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path)
@@ -558,19 +574,10 @@ function window_on_hash_change(e)
             }*/
 
             var case_id = g_data._id;
-            save_case(g_data);
-
-            //if(g_ui.case_view_list && g_ui.case_view_list.length > 0)
-            //{
+            save_case(g_data, function()
+            {
               get_specific_case(g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id);
-           // }
-           // else  // must be 1st case of database
-           // {
-           //   get_specific_case(case_id);
-           // }
-            //g_data = g_ui.data_list[parseInt(g_ui.url_state.path_array[0])];
-
-           // g_render();
+            });
             
 
           }
@@ -581,9 +588,10 @@ function window_on_hash_change(e)
             {
               save_queue.push(g_data._id);
             }*/
-            save_case(g_data);
-            g_data = null;
-            g_render();
+            save_case(g_data, function(){
+              g_data = null;
+              get_case_set();
+            });
             
           }
       }
