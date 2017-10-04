@@ -3980,7 +3980,7 @@ tbody.collapse.in {
         clear: both;
         font-weight: normal;
         line-height: 1.846;
-        color: #666666;
+        color: #FFFFFF;
         white-space: nowrap
     }
 
@@ -7344,6 +7344,25 @@ button.close {
 .navbar-brand {
     font-size: 24px
 }
+
+
+.input[type=password1] {
+    width: 100%;
+    display: block;
+  
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+   
+ }
+ 
+
 
 .navbar-inverse .navbar-form input[type=text], .navbar-inverse .navbar-form input[type=password] {
     color: #fff;
