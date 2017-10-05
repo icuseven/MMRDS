@@ -176,7 +176,7 @@ namespace mmria.server
 					document_json = check_document_curl.execute ();
 					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
 					IDictionary<string, object> updater = queue_request as IDictionary<string, object>;
-					IDictionary<string, object> result_dictionary = result as IDictionary<string, object>;
+					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
 					if (result_dictionary.ContainsKey ("_rev")) 
 					{
 						updater ["_rev"] = result_dictionary ["_rev"];
@@ -302,6 +302,7 @@ Server: CouchDB (Erlang/OTP)
                 }
 
                 var delete_report_curl = new cURL ("DELETE", null, request_string, null);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, null, null);
 
                 if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
                 {
@@ -313,10 +314,36 @@ Server: CouchDB (Erlang/OTP)
                         {
                             delete_report_curl.AddHeader("Cookie", "AuthSession=" + auth_session_token[1]);
                             delete_report_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_token[1]);
+							check_document_curl.AddHeader ("Cookie", "AuthSession=" + auth_session_token [1]);
+							check_document_curl.AddHeader ("X-CouchDB-WWW-Authenticate", auth_session_token [1]);
                             break;
                         }
                     }
                 }
+
+
+								// check if doc exists
+
+				try 
+				{
+					string document_json = null;
+					document_json = check_document_curl.execute ();
+					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
+					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
+					if (result_dictionary.ContainsKey ("_rev")) 
+					{
+						request_string = Program.config_couchdb_url + "/mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
+						//System.Console.WriteLine ("json\n{0}", object_string);
+					}
+
+				} 
+				catch (Exception ex) 
+				{
+					// do nothing for now document doesn't exsist.
+				}
+
+
+
 
                 string responseFromServer = delete_report_curl.execute ();;
 
