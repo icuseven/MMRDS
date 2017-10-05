@@ -142,7 +142,7 @@ namespace mmria.server
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 				request.Method = "PUT";
 				request.ContentType = "application/json";
-				request.ContentLength = object_string.Length;
+
 				request.PreAuthenticate = false;
 
 				//System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
@@ -190,6 +190,7 @@ namespace mmria.server
 					// do nothing for now document doesn't exsist.
 				}
 
+				request.ContentLength = object_string.Length;
 
                 /*
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
