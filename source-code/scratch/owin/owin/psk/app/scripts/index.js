@@ -456,7 +456,7 @@ function load_profile()
 
 
 
-function get_case_set()
+function get_case_set(p_call_back)
 {
 
   var case_view_url = location.protocol + '//' + location.host + '/api/de_id_view' + g_ui.case_view_request.get_query_string();
@@ -479,33 +479,41 @@ function get_case_set()
         g_ui.case_view_list.push(case_view_response.rows[i]);
     }
 
-    var post_html_call_back = [];
-    document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-    document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
-
-
-    document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
-    if(post_html_call_back.length > 0)
+    if(p_call_back)
     {
-      eval(post_html_call_back.join(""));
+      p_call_back();
     }
-
-    var section_list = document.getElementsByTagName("section");
-    for(var i = 0; i < section_list.length; i++)
+    else
     {
-      var section = section_list[i];
-      if(section.id == "app_summary")
+      var post_html_call_back = [];
+      document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
+      document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
+  
+  
+      document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", "", false, post_html_call_back).join("");
+      if(post_html_call_back.length > 0)
       {
-          section.style.display = "block";
+        eval(post_html_call_back.join(""));
       }
-      else
+  
+      var section_list = document.getElementsByTagName("section");
+      for(var i = 0; i < section_list.length; i++)
       {
-        
-          section.style.display = "block";
-          //section.style["grid-template-columns"] = "1fr 1fr 1fr";
-        
+        var section = section_list[i];
+        if(section.id == "app_summary")
+        {
+            section.style.display = "block";
+        }
+        else
+        {
+          
+            section.style.display = "block";
+            //section.style["grid-template-columns"] = "1fr 1fr 1fr";
+          
+        }
       }
     }
+    
     
 
 });
@@ -590,7 +598,7 @@ function window_on_hash_change(e)
             }*/
             save_case(g_data, function(){
               g_data = null;
-              get_case_set();
+              get_case_set(function(){ g_render();} );
             });
             
           }
@@ -698,6 +706,13 @@ function save_case(p_data, p_call_back)
 
     }).fail(function(xhr, err) { console.log("save_case: failed", err); });
 
+  }
+  else
+  {
+    if(p_call_back)
+    {
+      p_call_back();
+    }
   }
   
 

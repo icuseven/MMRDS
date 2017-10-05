@@ -14,7 +14,8 @@ using Topshelf;
 
 namespace mmria.server
 {
-
+	//sc create MMRIAService binpath = "C:\Program Files (x86)\mmria\MMRIA 17.10.02\mmria-server.exe" start= "demand" DisplayName= "MMRIA Service"
+	//sc delete MMRIAService
     class Program : ServiceBase
     {
 		static bool config_is_service = true;
@@ -145,7 +146,8 @@ namespace mmria.server
 
 
             // ****   Web Server - Start
-            Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);
+
+				Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);
             Console.WriteLine ("Web Server Listening at " + Program.config_web_site_url);
 
 			this.Startup ();
