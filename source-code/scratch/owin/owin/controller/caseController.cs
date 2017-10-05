@@ -75,39 +75,7 @@ namespace mmria.server
 			return null;
 		} 
 
-		private void PutDocument(string postUrl, string document)
-		{
-			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
 
-			System.Net.WebRequest request = System.Net.WebRequest.Create("request_string");
-			request.UseDefaultCredentials = true;
-			request.Credentials = new System.Net.NetworkCredential("_username", "_password");
-			request.Method = "PUT";
-			request.ContentType = "text/json";
-			request.ContentLength = data.Length;
-
-			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-			{
-				try
-				{
-					streamWriter.Write(document);
-					streamWriter.Flush();
-					streamWriter.Close();
-
-					System.Net.HttpWebResponse httpResponse = (System.Net.HttpWebResponse)request.GetResponse();
-					using (System.IO.StreamReader streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
-					{
-						string result = streamReader.ReadToEnd();
-						streamReader.Close();
-					}
-				}
-				catch (System.Exception e)
-				{
-					//_logger.Error("Exception thrown when contacting service.", e);
-					//_logger.ErrorFormat("Error posting document to {0}", postUrl);
-				}
-			}
-		}
 
 
 		// POST api/values 
@@ -179,6 +147,7 @@ namespace mmria.server
 
 				//System.Text.StringBuilder headerBuilder = new System.Text.StringBuilder();
 
+				var check_document_curl = new cURL ("GET", null, metadata_url, null, null, null);
 
                 if (this.Request.Headers.Contains ("Cookie") && this.Request.Headers.GetValues ("Cookie").Count () > 0) 
                 {
@@ -190,10 +159,37 @@ namespace mmria.server
                         {
                             request.Headers.Add ("Cookie", "AuthSession=" + auth_session_token_array [1]);
                             request.Headers.Add ("X-CouchDB-WWW-Authenticate", auth_session_token_array [1]);
+							check_document_curl.AddHeader ("Cookie", "AuthSession=" + auth_session_token_array [1]);
+							check_document_curl.AddHeader ("X-CouchDB-WWW-Authenticate", auth_session_token_array [1]);
                             break;
                         }
                     }
                 }
+
+
+
+				// check if doc exists
+
+				try 
+				{
+					string document_json = null;
+					document_json = check_document_curl.execute ();
+					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
+					IDictionary<string, object> updater = queue_request as IDictionary<string, object>;
+					IDictionary<string, object> result_dictionary = result as IDictionary<string, object>;
+					if (result_dictionary.ContainsKey ("_rev")) 
+					{
+						updater ["_rev"] = result_dictionary ["_rev"];
+						object_string = Newtonsoft.Json.JsonConvert.SerializeObject (queue_request, settings);
+						//System.Console.WriteLine ("json\n{0}", object_string);
+					}
+
+				} 
+				catch (Exception ex) 
+				{
+					// do nothing for now document doesn't exsist.
+				}
+
 
                 /*
 				if(this.Request.Headers.Contains("Cookie") && this.Request.Headers.GetValues("Cookie").Count() > 0)
