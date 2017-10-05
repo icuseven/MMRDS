@@ -2200,7 +2200,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 				}
 				else 
 				{
-					res = val.match(/^\d\d\d\d-\d\d-\d\d[ T]?\d\d?:\d\d?:\d\dZ?$/)
+					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d\d:\d\d:\d\d[Z]?$/)
 					if(res)
 					{
 						//var date_time = new Date(val);
