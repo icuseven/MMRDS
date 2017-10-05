@@ -500,7 +500,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				p_post_html_render.push("	{");
 					p_post_html_render.push("	$(this).trigger(\"enterKey\");");
 					p_post_html_render.push("	}");
-					p_post_html_render.push("})");
+					p_post_html_render.push("});");
 
 
 
