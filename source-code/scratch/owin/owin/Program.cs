@@ -55,7 +55,7 @@ namespace mmria.server
         public static void Main (string [] args)
         {
 
-			if (Environment.UserInteractive || bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) 
+			if (Environment.UserInteractive || bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 			{
 				config_is_service = false;
 
