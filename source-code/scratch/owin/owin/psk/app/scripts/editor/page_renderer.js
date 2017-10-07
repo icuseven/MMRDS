@@ -9,7 +9,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
     case 'grid':
 		var is_grid_context = true;
 
-		result.push("<table style='grid-column:1/-1'  id='");
+		//result.push("<table style='grid-column:1/-1'  id='");
+		result.push("<table id='");
 		result.push(p_metadata_path);
 		result.push("' class='grid'><tr><th colspan=");
 		result.push(p_metadata.children.length + 1)
