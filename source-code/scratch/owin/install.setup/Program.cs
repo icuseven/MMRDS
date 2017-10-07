@@ -26,6 +26,13 @@ namespace install.setup
 
 			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" output.wixobj
 
+
+
+			string major_version = "17.10.07";
+			string minor_version = "e3016ad";
+			string current_version = $"{major_version} v({minor_version})";
+
+
 			if (args.Length > 0) 
 			{
 				for (var i = 1; i < args.Length; i++) 
@@ -87,6 +94,20 @@ namespace install.setup
 			}
 
 
+			if (System.IO.File.Exists (build_directory_path + @"\output.wixobj")) 
+			{
+				System.IO.File.Delete(build_directory_path + @"\output.wixobj");	
+			}
+
+			if (System.IO.File.Exists (build_directory_path + @"\output.wixpdb")) 
+			{
+				System.IO.File.Delete(build_directory_path + @"\output.wixpdb");	
+			}
+
+			if (System.IO.File.Exists (build_directory_path + @"\output.msi")) 
+			{
+				System.IO.File.Delete(build_directory_path + @"\output.msi");	
+			}
 
 			CopyFolder.CopyDirectory(mmria_server_binary_directory_path, input_directory_path);
 			CopyFolder.CopyDirectory(mmria_server_html_directory_path, input_directory_path + "/app");
@@ -97,7 +118,68 @@ namespace install.setup
 			File.Copy(mmria_console_binary_directory_path + "/mmria.pdb", input_directory_path + "/mmria.pdb");
 			File.Copy("./mmria.exe.config", input_directory_path + "/mmria.exe.config", true);
 			File.Copy("./mmria-server.exe.config", input_directory_path + "/mmria-server.exe.config", true);
+
+
+			// version number -- Start
+			System.Text.RegularExpressions.Regex version_tag = new System.Text.RegularExpressions.Regex ("<\\%=version\\%>");
+
+			string profile_text = System.IO.File.ReadAllText (input_directory_path + "/app/scripts/profile.js");
+			System.IO.File.WriteAllText(input_directory_path + "/app/scripts/profile.js", version_tag.Replace(profile_text, current_version));
+
+			string index_text = System.IO.File.ReadAllText (input_directory_path + "/app/index.html");
+			System.IO.File.WriteAllText(input_directory_path + "/app/index.html", version_tag.Replace(index_text, current_version));
+			// version number -- End
+
+			// remove unneeded files -- start
+			if (System.IO.Directory.Exists (input_directory_path + "/app/metadata")) 
+			{
+				System.IO.Directory.Delete(input_directory_path + "/app/metadata", true);	
+			}
+
+			if (File.Exists (input_directory_path + "/app/grid-test-1.html"))
+			{
+				File.Delete (input_directory_path + "/app/grid-test-1.html");
+			}
+
+			if (File.Exists (input_directory_path + "/app/grid-test-2.html"))
+			{
+				File.Delete (input_directory_path + "/app/grid-test-2.html");
+			}
+
+			if (File.Exists (input_directory_path + "/app/grid-test-3.html"))
+			{
+				File.Delete (input_directory_path + "/app/grid-test-3.html");
+			}
+
+			if (File.Exists (input_directory_path + "/app/socket-test.html"))
+			{
+				File.Delete (input_directory_path + "/app/socket-test.html");
+			}
+			                
+			if (File.Exists (input_directory_path + "/app/socket-test2.html"))
+			{
+				File.Delete (input_directory_path + "/app/socket-test2.html");
+			}
+			// remove uneeded files -- end
+
+
+			// version number.... 
+
 			/*
+
+
+
+cp "${source_code_directory}/owin/psk/app/scripts/profile.js" "$wix_root_directory/profile.js.bk" && \
+cp "${source_code_directory}/owin/psk/app/index.html" "$wix_root_directory/index.html.bk" && \
+sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' "${wix_root_directory}/profile.js.bk"  > "${wix_root_directory}/profile.js" && \
+sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' "${wix_root_directory}/index.html.bk"  > "${wix_root_directory}/index.html" && \
+rm -f "$wix_input_directory/app/scripts/profile.js" && cp "$wix_root_directory/profile.js" "$wix_input_directory/app/scripts/profile.js" && \
+rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.html" "$wix_input_directory/app/index.html"
+
+
+
+
+
 			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
 			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
 			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
@@ -115,6 +197,7 @@ namespace install.setup
 
 			//Console.WriteLine("Hello World!");
 			string name_hash_file_name = "id.csv";
+			string wix_output_msi_file_name = $"MMRIA-Install-{current_version}.msi";
 			string wix_file_name = "output.xml";
 
 
@@ -242,8 +325,15 @@ namespace install.setup
 
 			wix_doc.Save(wix_file_name);
 
+			System.Text.RegularExpressions.Regex major_version_tag = new System.Text.RegularExpressions.Regex ("<\\%=major_version\\%>");
+			System.Text.RegularExpressions.Regex minor_version_tag = new System.Text.RegularExpressions.Regex ("<\\%=minor_version\\%>");
+
 			string text = File.ReadAllText(wix_file_name);
+
 			text = System.Text.RegularExpressions.Regex.Replace(text, "xmlns=\"\"", "");
+			text = major_version_tag.Replace (text, major_version);
+			text = minor_version_tag.Replace(text, minor_version);
+
 			File.WriteAllText(Path.Combine(output_directory_path, wix_file_name), text);
 
 			System.Text.StringBuilder name_hash_file_builder = new StringBuilder();
@@ -253,6 +343,12 @@ namespace install.setup
 				name_hash_file_builder.Append(",");
 				name_hash_file_builder.AppendLine(kvp.Value);
 			}
+
+
+
+
+
+
 			System.IO.File.WriteAllText(name_hash_file_name, name_hash_file_builder.ToString());
 
 			//var FieldsTypeIDs = from _FieldTypeID in wix_doc.Descendants("Field") select _FieldTypeID;
@@ -280,7 +376,52 @@ namespace install.setup
 			//System.IO.File.Copy ("./mmria.exe.config", System.IO.Path.Combine (output_directory_path, "mmria.exe.config"), true);
 			//System.IO.File.Copy ("./mmria-server.exe.config", System.IO.Path.Combine (output_directory_path, "mmria-server.exe.config"), true);
 
+
+			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\candle" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" .\output\output.xml
+
+			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" output.wixobj
+
+			execute_shell (build_directory_path, wix_directory_path + @"\bin\candle", @" -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll"" .\output\output.xml");
+            execute_shell (build_directory_path, wix_directory_path + @"\bin\light", @" -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll"" .\output.wixobj");
+
+			System.IO.File.Copy (build_directory_path + "/output.msi", build_directory_path + "/" + wix_output_msi_file_name, true);
+			System.IO.File.Delete (build_directory_path + "/output.msi");
 		}
+
+
+		static string execute_shell (string p_working_directory, string p_file_path, string p_arguments)
+		{
+			System.Text.StringBuilder process_output_builder = new System.Text.StringBuilder();
+			string result = null;
+
+
+			Action<object, System.Diagnostics.DataReceivedEventArgs> actionWrite = (sender, e) => {
+				process_output_builder.AppendLine (e.Data);
+			};
+
+			System.Diagnostics.Process proc = new System.Diagnostics.Process ();
+
+			proc.StartInfo.WorkingDirectory = p_working_directory;
+			proc.StartInfo.UseShellExecute = false;
+			proc.StartInfo.RedirectStandardOutput = true;
+			proc.StartInfo.RedirectStandardError = true;
+			proc.StartInfo.FileName=p_file_path;
+			proc.StartInfo.Arguments=p_arguments;
+
+			proc.ErrorDataReceived += (sender, e) => actionWrite(sender, e);
+			proc.OutputDataReceived += (sender, e) => actionWrite(sender, e);
+			proc.EnableRaisingEvents = true;
+			proc.Start();
+			proc.BeginOutputReadLine();
+			proc.BeginErrorReadLine();
+			proc.WaitForExit();
+
+
+
+			return result;
+
+		}
+
 
 		static private string get_id(string p_key)
 		{
@@ -420,9 +561,9 @@ namespace install.setup
 					new_file_node(p_file_info),
 					get_shortcut("startmenummria$(var.Version)_v_$(var.GitVersion)_", "ProgramMenuDir", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe"),
 					get_shortcut("desktopmmria$(var.Version)_v_$(var.GitVersion)_", "DesktopFolder", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe")
-					/*,
+					,
                     get_service_install(),
-                    get_service_control ()*/
+                    get_service_control ()
 
 				);
 			/*
@@ -445,7 +586,7 @@ namespace install.setup
 						 new XAttribute ("Type", "ownProcess"),
 						 new XAttribute ("Name", "$(var.ServiceName)"),
 						 new XAttribute ("DisplayName", "$(var.Name)"),
-						 new XAttribute ("Description", "MMRIA  $(var.Version)v$(var.GitVersion)- Application Web Server"),
+						 new XAttribute ("Description", "Manages user requests from Web client and maintains CouchDB Server Data."),
 						 new XAttribute ("Start", "demand"),
 						 new XAttribute ("ErrorControl", "normal"));
 					return result;

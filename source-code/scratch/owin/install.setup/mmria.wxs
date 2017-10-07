@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define ServiceName = "MMRIA-Server" ?>
 <!-- The name of the product -->
-<?define Name = "MMRIA - Application Server" ?>
+<?define Name = "MMRIA <%=major_version%> - Application Server" ?>
 <!-- The manufacturer, for setup package publisher and folder info -->
 <?define Manufacturer = "mmria.org" ?>
 <!-- The version number of this setup package-->
-<?define Version = "17.10.02" ?>
-<?define GitVersion = "ab1df9a" ?>
+<?define Version = "<%=major_version%>" ?>
+<?define GitVersion = "<%=minor_version%>" ?>
 
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Name='$(var.Name)' Id='YOURGUID-86C7-4D14-AEC0-86416A69ABDE' UpgradeCode='YOURGUID-7349-453F-94F6-BCB5110BA4FD'
@@ -52,7 +52,7 @@
 				Type="ownProcess" 
 				Name="TestService" 
 				DisplayName="$(var.Name)" 
-				Description="MMRIA - Application Web Server" 
+				Description="MMRIA $(var.Name) - Application Web Server" 
 				Start="disabled" 
 				ErrorControl="normal" /-->
 				<!-- Tell WiX to start the Service >
