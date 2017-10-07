@@ -10,7 +10,6 @@ using Swashbuckle.Application;
 using System.Web.Http;
 using Quartz;
 using Quartz.Impl;
-using Topshelf;
 
 namespace mmria.server
 {

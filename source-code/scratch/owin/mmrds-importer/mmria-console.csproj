@@ -38,9 +38,6 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Net.Http" />
@@ -63,8 +60,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="util\LuceneSearch.cs" />
-    <Compile Include="util\LuceneSearchIndexer.cs" />
     <Compile Include="util\cData.cs" />
     <Compile Include="util\Lib.cs" />
     <Compile Include="updater\updater_client.cs" />

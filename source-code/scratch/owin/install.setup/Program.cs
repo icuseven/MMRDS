@@ -13,8 +13,12 @@ namespace install.setup
 	{
 		static System.Collections.Generic.Dictionary<string, string> name_hash_list;
 		static string wix_directory_path;
+		static string build_directory_path;
 		static string input_directory_path;
 		static string output_directory_path;
+		static string mmria_server_binary_directory_path;
+		static string mmria_console_binary_directory_path;
+		static string mmria_server_html_directory_path;
 
 		public static void Main(string[] args)
 		{
@@ -34,6 +38,10 @@ namespace install.setup
 					{
 						wix_directory_path = val;
 					}
+					else if (arg.ToLower ().StartsWith ("build_directory_path")) 
+					{
+						build_directory_path = val;
+					}
 					else if (arg.ToLower ().StartsWith ("input_directory_path")) 
 					{
 						input_directory_path = val;
@@ -42,19 +50,66 @@ namespace install.setup
 					{
 						output_directory_path = val;
 					}
+					else if (arg.ToLower ().StartsWith ("mmria_server_binary_directory_path")) 
+					{
+						mmria_server_binary_directory_path = val;
+					}
+					else if (arg.ToLower ().StartsWith ("mmria_console_binary_directory_path")) 
+					{
+						mmria_console_binary_directory_path = val;
+					}
+					else if (arg.ToLower ().StartsWith ("mmria_server_html_directory_path")) 
+					{
+						mmria_server_html_directory_path = val;
+					}
+
 
 				}
 			}
 
 
 			if(string.IsNullOrWhiteSpace(wix_directory_path)) wix_directory_path = System.Configuration.ConfigurationManager.AppSettings["wix_directory_path"];
+			if(string.IsNullOrWhiteSpace (build_directory_path)) build_directory_path = System.Configuration.ConfigurationManager.AppSettings ["build_directory_path"];
 			if(string.IsNullOrWhiteSpace (input_directory_path)) input_directory_path = System.Configuration.ConfigurationManager.AppSettings["input_directory_path"];
 			if(string.IsNullOrWhiteSpace (output_directory_path)) output_directory_path = System.Configuration.ConfigurationManager.AppSettings["output_directory_path"];
+			if(string.IsNullOrWhiteSpace (mmria_server_binary_directory_path)) mmria_server_binary_directory_path = System.Configuration.ConfigurationManager.AppSettings ["mmria_server_binary_directory_path"];
+			if(string.IsNullOrWhiteSpace (mmria_console_binary_directory_path)) mmria_console_binary_directory_path = System.Configuration.ConfigurationManager.AppSettings ["mmria_console_binary_directory_path"];
+			if(string.IsNullOrWhiteSpace (mmria_server_html_directory_path)) mmria_server_html_directory_path = System.Configuration.ConfigurationManager.AppSettings ["mmria_server_html_directory_path"];
+
+			if (System.IO.Directory.Exists (input_directory_path)) 
+			{
+				System.IO.Directory.Delete(input_directory_path, true);	
+			}
 
 			if (System.IO.Directory.Exists (output_directory_path)) 
 			{
 				System.IO.Directory.Delete(output_directory_path, true);	
 			}
+
+
+
+			CopyFolder.CopyDirectory(mmria_server_binary_directory_path, input_directory_path);
+			CopyFolder.CopyDirectory(mmria_server_html_directory_path, input_directory_path + "/app");
+
+			CopyFolder.CopyDirectory(mmria_console_binary_directory_path + "/mapping-file-set", input_directory_path + "/mapping-file-set");
+
+			File.Copy(mmria_console_binary_directory_path + "/mmria.exe", input_directory_path + "/mmria.exe");
+			File.Copy(mmria_console_binary_directory_path + "/mmria.pdb", input_directory_path + "/mmria.pdb");
+			File.Copy("./mmria.exe.config", input_directory_path + "/mmria.exe.config", true);
+			File.Copy("./mmria-server.exe.config", input_directory_path + "/mmria-server.exe.config", true);
+			/*
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+
+
+
+
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+			File.Copy(mmria_console_binary_directory_path + "/", input_directory_path + "/");
+			*/
 
 			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
 
@@ -222,8 +277,8 @@ namespace install.setup
 
 			*/
 
-			System.IO.File.Copy ("./mmria.exe.config", System.IO.Path.Combine (output_directory_path, "mmria.exe.config"), true);
-			System.IO.File.Copy ("./mmria-server.exe.config", System.IO.Path.Combine (output_directory_path, "mmria-server.exe.config"), true);
+			//System.IO.File.Copy ("./mmria.exe.config", System.IO.Path.Combine (output_directory_path, "mmria.exe.config"), true);
+			//System.IO.File.Copy ("./mmria-server.exe.config", System.IO.Path.Combine (output_directory_path, "mmria-server.exe.config"), true);
 
 		}
 

@@ -142,10 +142,6 @@
     <Reference Include="vtortola.WebSockets.Rfc6455">
       <HintPath>..\packages\vtortola.WebSocketListener.2.2.4.0\lib\net45\vtortola.WebSockets.Rfc6455.dll</HintPath>
     </Reference>
-    <Reference Include="Topshelf">
-      <HintPath>..\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Quartz">
       <HintPath>..\packages\Quartz.2.6.0\lib\net40\Quartz.dll</HintPath>
     </Reference>
