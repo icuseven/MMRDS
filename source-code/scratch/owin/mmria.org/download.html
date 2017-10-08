@@ -338,26 +338,6 @@ Ensure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_
 	<br/>
 	<br/>
 
-<p><a id="offline_config">Offline Config of v1.0 DB</a></p>
-<ul>
-	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
-	<li>Download the metadata db file <a href="mmria-metadata-db.json">mmria-metadata-db.json</a></li>
-	<li>Downlod the mmrds db file <a href="mmria-mmrds-db.json">mmria-mmrds-db.json</a></li>
-</ul>
-
-<pre>
-Restore the metadata db:
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
-
-Restore the mmrds db:
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
-</pre>
-	
-	<br/>
-	<br/>
-	<br/>
-
-
 <p><a id="database_backup">How to backup the MMRIA DB</a></p>
 
 <ul>
