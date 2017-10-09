@@ -116,6 +116,8 @@ namespace install.setup
 
 			File.Copy(mmria_console_binary_directory_path + "/mmria.exe", input_directory_path + "/mmria.exe");
 			File.Copy(mmria_console_binary_directory_path + "/mmria.pdb", input_directory_path + "/mmria.pdb");
+			File.Copy(mmria_console_binary_directory_path + "/LumenWorks.Framework.IO.dll", input_directory_path + "/LumenWorks.Framework.IO.dll");
+
 			File.Copy("./mmria.exe.config", input_directory_path + "/mmria.exe.config", true);
 			File.Copy("./mmria-server.exe.config", input_directory_path + "/mmria-server.exe.config", true);
 
