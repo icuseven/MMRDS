@@ -589,7 +589,7 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 						 new XAttribute ("Name", "$(var.ServiceName)"),
 						 new XAttribute ("DisplayName", "$(var.Name)"),
 						 new XAttribute ("Description", "Manages user requests from Web client and maintains CouchDB Server Data."),
-						 new XAttribute ("Start", "demand"),
+						 new XAttribute ("Start", "auto"),
 						 new XAttribute ("ErrorControl", "normal"));
 					return result;
 		}
