@@ -54,15 +54,24 @@ namespace mmria.server
         public static void Main (string [] args)
         {
 
-			if (Environment.UserInteractive || bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				config_is_service = false;
+            if (Environment.UserInteractive || bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
+            {
+                config_is_service = false;
+            }
 
-				new Program ().OnStart (args);
+
+            #if (DEBUG)
+                config_is_service = false;
+            #endif
+
+            if (config_is_service) 
+			{
+				
+                Run (new Program ());
 			} 
 			else 
 			{
-				Run (new Program ());
+                new Program ().OnStart (args);
 			}
         }
 
