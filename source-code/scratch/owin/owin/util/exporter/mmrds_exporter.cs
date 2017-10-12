@@ -676,6 +676,9 @@ namespace mmria.server.util
 			column = new System.Data.DataColumn("mmria_path", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
+			column = new System.Data.DataColumn("mmria_prompt", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
 			column = new System.Data.DataColumn("column_name", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
@@ -691,7 +694,9 @@ namespace mmria.server.util
 
 					if (int_to_path_map.ContainsKey(table_column.ColumnName))
 					{
-						mapping_row["mmria_path"] = int_to_path_map[table_column.ColumnName];
+						string path = int_to_path_map [table_column.ColumnName];
+						mapping_row ["mmria_path"] = path;
+						mapping_row ["mmria_prompt"] = path_to_node_map [path].prompt;
 					}
 					else
 					{
