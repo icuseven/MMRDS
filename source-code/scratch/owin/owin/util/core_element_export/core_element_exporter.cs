@@ -618,7 +618,7 @@ namespace mmria.server.util
 				}
 			}
 
-			return result.ToString();
+            return result.ToString().Take (32).ToString ();
 		}
 
 
