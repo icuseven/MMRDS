@@ -27,6 +27,7 @@ namespace mmria.server.model
 
 			JobKey jobKey = context.JobDetail.Key;
 
+            Program.PauseSchedule (); 
 
             if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", this.user_name, this.password)) 
             {
@@ -60,7 +61,7 @@ namespace mmria.server.model
                 // do nothing for now
             }
 
-
+            Program.ResumeSchedule (); 
 	
 		}
 

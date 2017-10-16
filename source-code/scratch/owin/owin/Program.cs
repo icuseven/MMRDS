@@ -33,6 +33,8 @@ namespace mmria.server
 
 
         private static IScheduler sched;
+        private static ITrigger check_for_changes_job_trigger;
+        private static ITrigger rebuild_queue_job_trigger;
 
         //public static Dictionary<string, string> Change_Sequence_List;
         public static int Change_Sequence_Call_Count = 0;
@@ -213,14 +215,14 @@ namespace mmria.server
 			string cron_schedule = Program.config_cron_schedule;
 
 
-			ITrigger check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
+            Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
 													   .WithIdentity ("check_for_changes_job_trigger", "group1")
 														  .StartAt (startTime)
 														  .WithCronSchedule (cron_schedule)
 														  .Build ();
 
 
-			DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, check_for_changes_job_trigger);
+            DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
 
 
 
@@ -231,14 +233,14 @@ namespace mmria.server
 			string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
 
 
-			ITrigger rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
+            Program.rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
 													   .WithIdentity ("rebuild_queue_job_trigger", "group2")
 													   .StartAt (startTime)
 													   .WithCronSchedule (rebuild_queue_job_cron_schedule)
 													   .Build ();
 
 
-			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, rebuild_queue_job_trigger);
+            DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
 
 			if (url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
             {
@@ -431,6 +433,24 @@ namespace mmria.server
                 Program.sched.Start ();
             }
 
+        }
+
+
+        public static void PauseSchedule ()
+        {
+            if (Program.sched != null && !Program.sched.IsStarted) 
+            {
+                Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
+            }
+        }
+
+
+        public static void ResumeSchedule ()
+        {
+            if (Program.sched != null) 
+            {
+                Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
+            }
         }
 
 

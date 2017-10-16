@@ -723,7 +723,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 			result.push("<table>");
-			result.push("<tr><th colspan=2 align=center>");
+			result.push("<tr><th colspan=3 align=center>");
 			result.push("Case Listing");
 			result.push("Page: ");
 			result.push(p_ui.case_view_request.page);
@@ -736,6 +736,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//result.push("<td>year / month of death</td>");
 			//result.push("<td>committe review date</td>");
 			result.push("<td align=center>Last Updated </td>");
+			result.push("<td align=center>Actions</td>");
 			result.push("</tr>");
 
 			
@@ -761,11 +762,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				if(i % 2)
 				{
-					result.push('		  <tr class="result_wrapper_grey" path="');
+					result.push('		  <tr style="background:#FFFFFF" path="');
 				}
 				else
 				{
-					result.push('		  <tr class="result_wrapper" path="');
+					result.push('		  <tr style="background:#EEEEEE" path="');
 				}
 				result.push(item.id);
 				result.push('">');
@@ -796,11 +797,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				
 				result.push("</a>");
-				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-				{
-					result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
-				}
-				
 				result.push("</td>");
 
 				//result.push("<td>");result.push(item.value.state_of_death);result.push("</td>");
@@ -819,8 +815,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(" ");
 				result.push(item.value.date_last_updated);
 				result.push("</td>");
-				
-				
+
+				result.push("<td>");
+				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+				{
+					result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+				}
+				else
+				{
+					result.push("&nbsp;");
+				}				
+				result.push("</td>");
 
 				
 				/*

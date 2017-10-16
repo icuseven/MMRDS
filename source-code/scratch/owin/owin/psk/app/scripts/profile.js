@@ -66,7 +66,6 @@ initialize_profile: function ()
 
 				profile.is_logged_in = true;
 				profile.user_name = json_response.userCTX.name || $mmria.getCookie("uid");
-				profile.password = $mmria.getCookie("pwd");
 				profile.user_roles = json_response.userCTX.roles || $mmria.getCookie("roles");
 				profile.auth_session = json_response.auth_session || $mmria.getCookie("AuthSession");
 
@@ -363,7 +362,6 @@ login_response: function (response)
 			profile.auth_session = json_response.auth_session;
 
 			$mmria.addCookie("uid", profile.user_name);
-			$mmria.addCookie("pwd", profile.password);
 			$mmria.addCookie("AuthSession", profile.auth_session);
 			$mmria.addCookie("roles", json_response.roles);
 			
@@ -424,7 +422,6 @@ logout : function()
 	g_source_db = null;
 
 	$mmria.removeCookie("uid");
-	$mmria.removeCookie("pwd");
 	$mmria.removeCookie("roles");
 	$mmria.removeCookie("AuthSession");
 

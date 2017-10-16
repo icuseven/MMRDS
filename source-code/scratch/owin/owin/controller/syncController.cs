@@ -62,6 +62,8 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					new Action (() =>
 					{
 
+                        Program.PauseSchedule ();
+
 						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
 																			 Program.config_couchdb_url,
 																			 Program.config_timer_user_name,
@@ -69,6 +71,8 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 																		 );
 
 						sync_all.execute ();
+
+                        Program.ResumeSchedule ();
 					})
 				);
 			}
