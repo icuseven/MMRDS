@@ -817,14 +817,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("</td>");
 
 				result.push("<td>");
+				result.push("&nbsp;");
 				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
 				{
 					result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
 				}
-				else
-				{
-					result.push("&nbsp;");
-				}				
 				result.push("</td>");
 
 				
