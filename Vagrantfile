@@ -43,7 +43,7 @@ Vagrant.configure(Configuration_Version) do |config|
 		# end
 
 		# devbox.vbguest.iso_path = vbox_guest_additions_file
-		devbox.vbguest.auto_update = true
+		devbox.vbguest.auto_update = false
 
 		devbox.vm.provision "shell", path:  "provision-script-set/main.sh"
 		
