@@ -1044,7 +1044,7 @@ namespace mmria.server.util
 				}
 			}
 
-            return result.ToString().Take (32).ToString ();
+            return result.ToString();
 		}
 
 
@@ -1173,7 +1173,14 @@ namespace mmria.server.util
 			}
 			result.Append(temp[temp.Length - 1]);
 			result.Append(".csv");
-			return result.ToString();
+
+            string value = result.ToString();
+            if(value.Length > 32)
+            {
+                value = value.Substring(value.Length - 32, 32);
+            }
+
+            return value;
 		}
 
 
