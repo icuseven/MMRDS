@@ -307,11 +307,11 @@ namespace mmria.server
 
 					Program.Last_Change_Sequence = latest_change_set.last_seq;
 
-
+                    /*
                     System.Threading.Tasks.Task.Run
                     (
                         new Action (() =>
-                        {
+                        {*/
                             mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
 																				 Program.config_couchdb_url,
 																				 Program.config_timer_user_name,
@@ -343,9 +343,9 @@ namespace mmria.server
 
 
                             Program.StartSchedule();
-                        }
+                       /* }
                         )
-                    );
+                    );*/
                 }
             }
 
