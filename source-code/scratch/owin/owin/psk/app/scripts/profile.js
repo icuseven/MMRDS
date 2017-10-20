@@ -203,8 +203,8 @@ render: function ()
 		// result.push('</ul>');
 
 
-		result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-primary.active:hover btn-lg btn-block" onclick="profile.logout()"/>');
-
+		// result.push('</table> </li><li> <input type="button" value="Log Out" class="btn btn-primary.active:hover btn-lg btn-block" onclick="profile.logout()"/>');
+		result.push('</table> </li><li> <input  value="Log Out" class="btn btn-block  btn-log btn-primary:active:hover1" onclick="profile.logout()"/>');
 		
 		
 		result.push('</li>');
@@ -262,7 +262,8 @@ render: function ()
 		}
 		result.push('" class="form-control" required />');
 		result.push('</li>');
-		result.push('<input type="button"  class="btn btn-primary.active:hover btn-lg btn-block" value="Log in" />');
+		// result.push('<input type="button"  class="btn btn-primary.active:hover btn-lg btn-block" value="Log in" />');
+		result.push('<input  class="btn btn-block  btn-log btn-primary:active:hover1" value="Log in" />');
 		result.push('<li id="login_status_area">');
 		result.push('</li>');
 		// result.push('<li>');
