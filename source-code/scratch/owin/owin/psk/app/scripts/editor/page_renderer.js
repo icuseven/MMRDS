@@ -477,14 +477,17 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
 			if(window.location.href.indexOf('preview.html') < 0 && g_source_db=="mmrds")
 			{
-				result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+				// result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+
+				result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 			}
 		
 		
 			result.push("<fieldset><legend>Search and Sort Case Listings</legend>");
 
 
-			result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
+			// result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
+			result.push("Search Text: <input type='text1' class='form-control1' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
 			if(g_ui.case_view_request.search_key!= null)
 			{
 				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
@@ -505,8 +508,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 
-			result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
-			
+			// result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
+			result.push("<input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
+
+
 			result.push("<br/> Sort By:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
@@ -695,7 +700,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("</select>");
 
 
-			result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
+			// result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
+
+			result.push("<br/><br/><p style='text-align:right;'><input type='button' class='btn btn-primary'  alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
 			result.push("</p><br/><hr/>");
 
 			/*
@@ -709,7 +716,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("<br/> Select Page: ");
 			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
 			{
-				result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
+				// result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
+				result.push(" <input type='button2' class='btn btn-primary' alt='search' onclick='g_ui.case_view_request.page=");
 				result.push(current_page);
 				result.push(";get_case_set();' value='");
 				result.push(current_page);
@@ -820,7 +828,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("&nbsp;");
 				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
 				{
-					result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+					// result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+
+					 result.push(" <input type='button3'  class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/> ");
 				}
 				result.push("</td>");
 
@@ -903,7 +913,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("Select Page: ");
 			for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
 			{
-				result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
+				// result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
+				result.push(" <input type='button2' class='btn btn-primary' alt='search' onclick='g_ui.case_view_request.page=");
 				result.push(current_page);
 				result.push(";get_case_set();' value='");
 				result.push(current_page);

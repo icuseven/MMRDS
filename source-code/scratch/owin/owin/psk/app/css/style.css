@@ -12,7 +12,7 @@ body {
     font-size: 16px;
     font-weight: 300;
     letter-spacing: 0.5px;
-    /*overflow-x: hidden;*/
+    overflow-x: hidden;
 }
 
 body1 {
@@ -61,8 +61,38 @@ table {
     border-spacing: 0;
 }
 
+
+@font-face {
+
+
+font-family: "BWfont";
+src: url('../css/fonts/BwGlennSlab-BlackItalic.eot');
+src: 
+url('../css/fonts/BwGlennSlab-BlackItalic.woff') format('woff'),
+url('../css/fonts/BwGlennSlab-BlackItalic.otf') format('opentype');
+
+
+
+}
+
+
+@font-face {
+    
+    
+    font-family: "BWfont1";
+
+    
+
+    src: url('../css/fonts/BwSurco-Black.eot');
+    src: 
+    url('../css/fonts/BwSurco-Black.woff') format('woff'),
+    url('../css/fonts/BwSurco-Black.otf') format('opentype');
+ 
+    }
+
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Raleway', sans-serif;
+    font-family:'BWfont';
     font-weight: 600;
 }
 
