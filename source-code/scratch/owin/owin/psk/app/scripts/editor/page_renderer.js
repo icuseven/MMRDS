@@ -487,7 +487,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 			// result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
-			result.push("Search Text: <input type='text1' class='form-control1' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
+			result.push("Search Text: <input type='text1' class='form-control1' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
 			if(g_ui.case_view_request.search_key!= null)
 			{
 				result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
