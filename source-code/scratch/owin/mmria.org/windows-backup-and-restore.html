@@ -50,7 +50,6 @@ mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:h
 
 mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
 
-mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/export_queue backup_file_path:c:\temp\bk-meta.bk
 </pre>
 
 <h2>To perform a restore:</h2>
@@ -75,7 +74,6 @@ mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:
 
 mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
 
-mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/export_queue backup_file_path:c:\temp\bk-meta.bk
 </pre>
 
 
@@ -90,9 +88,6 @@ metadata
 mmrds 
    admin = form_designer
   members = abstractor + data_analyst + timer
-
-export_queue
-	members = abstractor
 
 </pre>
 

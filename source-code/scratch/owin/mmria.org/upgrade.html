@@ -17,6 +17,12 @@
 <div id='root' style="background:#FFFFFF">
 	<img src="mmria-primary.svg" height="300" width="400"/>
 
+
+	<p>Before upgrading please backup your database:</p>
+	<ul>
+		<li><a href="#database_backup">Docker Backup</a></li>
+		<li><a href="windows-backup-and-restore.html">Windows Backup</a></li>
+	</ul>
 	
 <p>Upgrading to MMRIA 17.10.07</p>
 	
@@ -197,28 +203,11 @@ perform_validation_save: complete
 	<br/>
 	<br/>
 
-<p><a id="offline_config">Offline Config of v1.0 DB</a></p>
-<ul>
-	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
-	<li>Download the metadata db file <a href="mmria-metadata-db.json">mmria-metadata-db.json</a></li>
-	<li>Downlod the mmrds db file <a href="mmria-mmrds-db.json">mmria-mmrds-db.json</a></li>
-</ul>
-
-<pre>
-Restore the metadata db:
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
-
-Restore the mmrds db:
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
-</pre>
-	
-	<br/>
-	<br/>
-	<br/>
-
 
 <p><a id="database_backup">How to backup the MMRIA DB</a></p>
 
+<p>Click <a href="windows-backup-and-restore.html">here</a> for <a href="windows-backup-and-restore.html">Windows Backup</a></p>
+<p>GNU/Linux Backup for Docker Version</p>
 <ul>
 	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
 	<li>
@@ -235,6 +224,26 @@ example usage
 backup
 	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
 	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
+
+</pre>
+
+<h2>To perform a restore:</h2>
+
+<p>Performing a Restore  requires the following steps:</p>
+<ul>
+<li>1 stop the mmria-server.exe</li>
+
+<li>2 delete the database that is to be restored</li>
+
+<li>3 manually create database in CouchDB UI</li>
+
+<li>4 use mmria.exe to restore database</li>
+
+<li>5 apply appropriate role permission in CouchDB UI</li>
+</ul>
+
+<pre>
+example:
 
 restore
 	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
