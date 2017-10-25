@@ -4,6 +4,7 @@
 //http://www.w3schools.com/css/css3_flexbox.asp
 
 var g_metadata = null;
+var g_is_connected = true;
 var g_data = null;
 var g_source_db = null;
 var g_metadata_path = [];
@@ -428,6 +429,7 @@ function load_profile()
           profile.user_roles.indexOf("_admin") < 0
       )
       {
+        //window.setInterval(save_change_task,      30000);
         window.setInterval(profile.update_session_timer, 120000);
       }
     };
@@ -676,6 +678,11 @@ function save_case(p_data, p_call_back)
 
   if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
   {
+
+    /*
+      localStorage.setItem(p_data._id, p_data);
+
+      */
       $.ajax({
         url: location.protocol + '//' + location.host + '/api/case',
         contentType: 'application/json; charset=utf-8',
@@ -705,6 +712,12 @@ function save_case(p_data, p_call_back)
 
 
     }).fail(function(xhr, err) { console.log("save_case: failed", err); });
+    
+
+    if(p_call_back)
+    {
+      p_call_back();
+    }
 
   }
   else
@@ -1066,10 +1079,46 @@ function add_new_form_click(p_metadata_path, p_object_path)
     }
 });
 
-
-
-
-
 }
 
+function save_change_task()
+{
+
+  if(g_is_connected && profile.is_logged_in && profile.user_name && profile.password && g_source_db == "mmrds")
+  {
+    for (var i = 0; i < localStorage.length; i++) 
+    {
+      
+      var case_item = localStorage.getItem(localStorage.key(i));
+      $.ajax({
+          url: location.protocol + '//' + location.host + '/api/case',
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'json',
+          data: JSON.stringify(case_item),
+          type: "POST",
+          beforeSend: function (request)
+          {
+            request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+          );
+          }
+      }).done(function(case_response) {
+
+          console.log("save_case: success");
+
+          if(g_data && g_data._id == case_response.id)
+          {
+            g_data._rev = case_response.rev;
+            //console.log('set_value save finished');
+          }
+          else
+          {
+            localStorage.removeItem(case_response.id);
+          }
+
+      }).fail(function(xhr, err) { console.log("save_change_task.save_case: failed", err); });
+    }    
+
+  }
+
+}
 
