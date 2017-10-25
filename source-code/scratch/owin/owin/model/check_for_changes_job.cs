@@ -35,36 +35,41 @@ namespace mmria.server.model
 					new Action (() => 
 					{
 						//System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
-						try
-						{
-							Process_Export_Queue_Item ();
-						}
-						catch(Exception ex)
-						{
-							// to nothing for now
-							System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: error\n{1}", System.DateTime.Now, ex);
 
-						}
+                        if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)) 
+                        {
+    						try
+    						{
+    							Process_Export_Queue_Item ();
+    						}
+    						catch(Exception ex)
+    						{
+    							// to nothing for now
+    							System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: error\n{1}", System.DateTime.Now, ex);
 
-						try
-						{
-							Process_Export_Queue_Delete ();
-						}
-						catch(Exception ex)
-						{
-							// to nothing for now
-							System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: error\n{1}", System.DateTime.Now, ex);
+    						}
 
-						}
+    						try
+    						{
+    							Process_Export_Queue_Delete ();
+    						}
+    						catch(Exception ex)
+    						{
+    							// to nothing for now
+    							System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: error\n{1}", System.DateTime.Now, ex);
+
+    						}
 
 						//System.Console.WriteLine ("{0} Ending Export Queue Item Processing", System.DateTime.Now);
+
+                        }
 
 					})
 				);
 			}
 
 			
-			//if (!Program.is_processing_syncronization)
+			try
 			{
 				//System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
 				//log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
@@ -164,7 +169,7 @@ namespace mmria.server.model
 								catch (Exception ex)
 								{
 									//System.Console.WriteLine ("Sync PUT case");
-									//System.Console.WriteLine (ex);
+                                    //System.Console.WriteLine ("CheckForChangesJob.Delete sync error:\n{ex}");
 								}
 							}
 					})
@@ -231,12 +236,16 @@ namespace mmria.server.model
 				}
 				catch (Exception ex)
 				{
-						System.Console.WriteLine ("Delete sync error:\n{0}", ex);
+                    System.Console.WriteLine ("CheckForChangesJob.Delete sync error:\n{ex}");
 				}
 
 				//System.Console.WriteLine ("{0}- Ending Change Synchronization.", System.DateTime.Now);
 			}
-			
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine ($"CheckForChangesJob Error:\n{ex}");
+            }
+
 	
 		}
 
@@ -304,9 +313,34 @@ namespace mmria.server.model
         }
 
 
+        private bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
+        {
+            bool result = false;
+
+            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);
+            try 
+            {
+                curl.execute ();
+                /*
+                HTTP/1.1 200 OK
+                Cache-Control: must-revalidate
+                Content-Type: application/json
+                Date: Mon, 12 Aug 2013 01:27:41 GMT
+                Server: CouchDB (Erlang/OTP)*/
+                result = true;
+            } 
+            catch (Exception ex) 
+            {
+                // do nothing for now
+            }
+
+
+            return result;
+        }
+
         public void Process_Export_Queue_Item ()
         {
-			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
+            //System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
 
 			List<export_queue_item> result = new List<export_queue_item> ();
 			
