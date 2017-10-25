@@ -853,11 +853,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push('		</table>');
 
 			result.push('<hr/>')
-			result.push("Page: ");
-			result.push(p_ui.case_view_request.page);
-			result.push(" of ")
-			result.push(Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take));
-			result.push("<br/>");
+
 			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
 			{
@@ -905,6 +901,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 			}
 			result.push("</select>");
+
+			result.push("<br/>");
+			result.push("Page: ");
+			result.push(p_ui.case_view_request.page);
+			result.push(" of ")
+			result.push(Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take));
+			result.push("<br/>");
 
 			result.push("Total Number of Records: ");
 			result.push(p_ui.case_view_request.total_rows);
