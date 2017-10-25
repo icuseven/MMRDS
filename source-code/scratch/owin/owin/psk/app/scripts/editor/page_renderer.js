@@ -710,6 +710,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			{
 				result.push(" <input type='button' alt='search' value='previous' />");
 			}*/
+			result.push("Page: ");
+			result.push(p_ui.case_view_request.page);
+			result.push(" of ")
+			result.push(Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take));
+			result.push("<br/> ");
 			result.push("Total Number of Records: ");
 			result.push(p_ui.case_view_request.total_rows);
 
@@ -731,12 +736,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 
 			result.push("<table>");
-			result.push("<tr><th colspan=3 align=center>");
+			result.push("<tr><th colspan=3 style='text-align:center;'>");
 			result.push("Case Listing");
-			result.push("Page: ");
-			result.push(p_ui.case_view_request.page);
-			result.push(" of ")
-			result.push(current_page - 1);
 			result.push("</th></tr>");
 			result.push("<tr>");
 			result.push("<td> Case Infomation</td>");
@@ -855,7 +856,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("Page: ");
 			result.push(p_ui.case_view_request.page);
 			result.push(" of ")
-			result.push(current_page - 1);
+			result.push(Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take));
 			result.push("<br/>");
 			result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
 			if(p_ui.case_view_request.take==25)
