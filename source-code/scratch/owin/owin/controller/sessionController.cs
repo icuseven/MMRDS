@@ -99,12 +99,43 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		//public System.Net.Http.HttpResponseMessage Get
-		public IEnumerable<login_response> Get
+        [Route]
+        [HttpPost]
+		public IEnumerable<login_response> Post
 		(
-			string userid,
-			string password
+
+
 		) 
 		{ 
+
+            Post_Request_Struct Post_Request = new Post_Request_Struct();
+
+            try
+            {
+
+                System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+                // Open the stream using a StreamReader for easy access.
+                //dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+                // Read the content.
+                string temp = reader0.ReadToEnd ();
+
+                Post_Request = Newtonsoft.Json.JsonConvert.DeserializeObject<Post_Request_Struct>(temp);
+
+                //mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
+                //System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+
+
+                //string metadata = DecodeUrlString(temp);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine (ex);
+            }
+
+
+
 
 			/*
 	HOST="http://127.0.0.1:5984"
@@ -112,7 +143,7 @@ namespace mmria.server
 */
 			try
 			{
-				string post_data = string.Format ("name={0}&password={1}", userid, password);
+                string post_data = string.Format ("name={0}&password={1}", Post_Request.userid, Post_Request.password);
 				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
 
@@ -220,5 +251,11 @@ namespace mmria.server
 		}
 
 	}
+
+    struct Post_Request_Struct
+    {
+        public string userid;
+        public string password;
+    }
 }
 

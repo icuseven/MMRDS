@@ -331,7 +331,10 @@ login: function ()
 		var post_data = { "userid" : email_text , "password": password_text};
 		$.ajax({
 			"url": url,
-			data: post_data
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			type:"POST",
+			data: JSON.stringify(post_data),
 		}).done(profile.login_response).fail(function(response) {
 				console.log("fail bubba");console.log(response);
 		});
