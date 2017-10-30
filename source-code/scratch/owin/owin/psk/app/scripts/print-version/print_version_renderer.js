@@ -323,15 +323,15 @@ d3.select('#chart svg').append('text')
 				}
 			if  (p_metadata.name == "case_opening_overview") {
 				
-	            result.push('<div class="box">');
-							result.push("<h3  style='color: rebeccapurple'>");
+	            result.push('<div class="container">');
+							result.push("<h2>");
 			
 				if(g_data.home_record.record_id)
 				{
 					
 					result.push(g_data.home_record.record_id);
 				}
-				result.push("</h3>");	
+				result.push("</h2>");	
 				result.push(p_data);
 				
 		        result.push('</div>');

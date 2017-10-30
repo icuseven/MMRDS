@@ -175,6 +175,7 @@ button, select {
 button, html input[type="button"], input[type="reset"], input[type="submit"] {
    
 
+    margin: 3px;
     font-family:'BWfont1';
     cursor: pointer;
     color: #ffffff;
@@ -8156,7 +8157,7 @@ textarea {
     textarea[disabled], textarea.form-control[disabled], input.form-control[disabled], input[type=text][disabled], input[type=password][disabled], input[type=email][disabled], input[type=number][disabled], [type=text].form-control[disabled], [type=password].form-control[disabled], [type=email].form-control[disabled], [type=tel].form-control[disabled], [contenteditable].form-control[disabled], textarea[readonly], textarea.form-control[readonly], input.form-control[readonly], input[type=text][readonly], input[type=password][readonly], input[type=email][readonly], input[type=number][readonly], [type=text].form-control[readonly], [type=password].form-control[readonly], [type=email].form-control[readonly], [type=tel].form-control[readonly], [contenteditable].form-control[readonly] {
         -webkit-box-shadow: none;
         box-shadow: none;
-        border-bottom: 1px dotted #ddd
+        /* border-bottom: 1px dotted #ddd */
     }
 
     textarea.input-sm, textarea.form-control.input-sm, input.form-control.input-sm, input[type=text].input-sm, input[type=password].input-sm, input[type=email].input-sm, input[type=number].input-sm, [type=text].form-control.input-sm, [type=password].form-control.input-sm, [type=email].form-control.input-sm, [type=tel].form-control.input-sm, [contenteditable].form-control.input-sm {
@@ -8176,7 +8177,7 @@ textarea {
 input[type=text] {
          /* padding: 8px 114px; */
     display: block;
-    width: 20%;
+    width: auto;
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -8207,6 +8208,23 @@ border-radius: 4px;
 outline-color: red;
 
 }
+
+input[type=text3] {
+    /* padding: 8px 114px; */
+display: block;
+width: auto;
+height: 34px;
+padding: 6px 12px;
+font-size: 14px;
+line-height: 1.42857143;
+color: #555;
+background-color: #fff;
+background-image: none;
+border: 2px solid #a088e4;
+border-radius: 4px;
+
+}
+
 
 
 
@@ -8290,14 +8308,16 @@ select option1{
     /* background-color: #bcb1da; */
 }
 
-select option {
-margin: 1px;
-background: rgba(0, 0, 0, 0.3);
-color: #fff;
-text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-background-color: #351147;
-}
 
+
+select option {
+    margin: 1px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    background-color: #351147;
+    }
+  
 
     select::-ms-expand, select.form-control::-ms-expand {
         display: none

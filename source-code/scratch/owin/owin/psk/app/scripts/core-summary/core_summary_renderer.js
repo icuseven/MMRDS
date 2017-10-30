@@ -58,11 +58,11 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 			{
 				var form_item = p_data[form_index];
 
-				result.push('<h3 style="color: purple">')
+				result.push('<h2>')
 				result.push(p_metadata.prompt);
 				result.push(' Record: ');
 				result.push(form_index + 1);
-				result.push('</h3> ');
+				result.push('</h> ');
 				//result.push(p_data[p_metadata.name]);
 				
 				if(p_metadata.children)
@@ -80,9 +80,9 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 		{
 				result.push('<section id="');
 				result.push(p_metadata.name)
-				result.push('"> <h3 style="color: purple">')
+				result.push('"> <h2>')
 				result.push(p_metadata.prompt);
-				result.push('</h3> ');
+				result.push('</h2> ');
 				//result.push(p_data[p_metadata.name]);
 				
 				if(p_metadata.children)

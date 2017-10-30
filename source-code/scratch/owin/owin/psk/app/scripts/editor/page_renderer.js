@@ -47,7 +47,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				Array.prototype.push.apply(result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, p_dictionary_path + "/" + child.name, is_grid_context, p_post_html_render));
 				result.push("</td>");
 			}
-			result.push('<td> <input type="button" value="delete" id="delete_');
+			result.push('<td> <input type="button" class="btn btn-primary" value="delete" id="delete_');
 			result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
 			result.push('" onclick="g_delete_grid_item(\'');
 			result.push(p_object_path + "[" + i + "]");
@@ -57,7 +57,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		}
     	result.push("<tr><td colspan=");
 		result.push(p_metadata.children.length + 1);
-		result.push(" align=right> <input type='button' value='Add Item' onclick='g_add_grid_item(\"");
+		result.push(" align=right> <input type='button'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
 		result.push(p_object_path);
 		result.push("\", \"");
 		result.push(p_metadata_path);
@@ -197,7 +197,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(window.location.href.indexOf('preview.html') < 0  && g_source_db=="mmrds")
 			{
-				result.push('<input path="" style="grid-column:1/-1;" type="button" value="Add New ');
+				result.push('<input path="" style="grid-column:1/-1;" type="button" class="btn btn-primary" value="Add New ');
 				result.push(p_metadata.prompt.replace(/"/g, "\\\""));
 				result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
 			}
@@ -1024,7 +1024,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push("' />");*/
 			break;
 		case 'string':
-			result.push("<div class='string' id='");
+			result.push("<div class='form-control1'  id='");
 			result.push(convert_object_path_to_jquery_id(p_object_path));
 			result.push("'");
 			result.push(" mpath='");
@@ -1431,7 +1431,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				//if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				//{
-					result.push("<br/> <input placeholder='Specify Other' class='list' type='text' name='");
+					result.push("<br/> <input placeholder='1Specify Other' class='list' type='text3' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
@@ -1499,7 +1499,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				//if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				//{
-					result.push("<br/> <input placeholder='Specify Other' class='list' type='text' name='");
+					result.push("<br/> <input placeholder='2Specify Other' class='form-control1' type='text3' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
@@ -2391,7 +2391,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	
 	if(p_metadata.type=="button")
 	{
-		p_result.push("' type='button' name='");
+		p_result.push("' type='button' class='btn btn-primary' name='");
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
@@ -2424,7 +2424,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 	else
 	{
-		p_result.push("' type='text' name='");
+		p_result.push("' type='text3' name='");
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		if(p_data || p_data == 0)

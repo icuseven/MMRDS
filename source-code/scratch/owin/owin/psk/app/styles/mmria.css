@@ -34,12 +34,43 @@ p.result {
 	text-align: right;
 	margin: 5px;
 }
+
+
+
+@font-face {
+	
+	
+	font-family: "BWfont";
+	src: url('../css/fonts/BwGlennSlab-BlackItalic.eot');
+	src: 
+	url('../css/fonts/BwGlennSlab-BlackItalic.woff') format('woff'),
+	url('../css/fonts/BwGlennSlab-BlackItalic.otf') format('opentype');
+	
+	
+	
+	}
+	
+	
+	
+	
+
+
+
+
 h2 {
-	color: rebeccapurple;
-	font-weight: 400;
-	font-size: 36px;
+
+	font-size: 28px;
 	text-align: center;
+	font-family:'BWfont';
+	font-weight: 600;
+	color: #e24944;
 }
+
+
+
+
+
+
 
 h7 {
    color: black;
