@@ -448,6 +448,10 @@ function load_profile()
 
        document.getElementById('navbar').innerHTML = "";
       document.getElementById('form_content_id').innerHTML ="";
+
+
+      var url = location.protocol + '//' + location.host + '/';
+      window.location.href = url;
     };
 
 
