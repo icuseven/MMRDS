@@ -8175,9 +8175,15 @@ textarea {
 
 
 input[type=text] {
+<<<<<<< HEAD
          /* padding: 8px 114px; */
     display: block;
     width: auto;
+=======
+         /* padding: 8px 114px; 
+    display: block;*/
+    width: 20%;
+>>>>>>> 1229840b9d195f4ec9ecac85c33057be628e4da4
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -8193,8 +8199,8 @@ input[type=text] {
 
 
 input[type=text1] {
-    /* padding: 8px 114px; */
-display: block;
+    /* padding: 8px 114px; 
+display: block;*/
 width: 45%;
 height: 34px;
 padding: 6px 12px;
