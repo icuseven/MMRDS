@@ -696,7 +696,13 @@ function save_case(p_data, p_call_back)
           g_data._rev = case_response.rev;
           //console.log('set_value save finished');
         }
+
         
+        if(case_response.auth_session)
+        {
+          profile.auth_session = case_response.auth_session;
+          $mmria.addCookie("AuthSession", case_response.auth_session);
+        }
 
         if(p_call_back)
         {
