@@ -27,21 +27,15 @@ namespace mmria.server.model
 
 			JobKey jobKey = context.JobDetail.Key;
 
-            Program.PauseSchedule (); 
 
-            if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", this.user_name, this.password)) 
+            try 
             {
-                var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.password);
-                System.Console.WriteLine (delete_queue_curl.execute ());
+                Program.PauseSchedule (); 
             }
-
-
-            System.Console.WriteLine ("Creating export_queue db.");
-            var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.password);
-            System.Console.WriteLine (export_queue_curl.execute ());
-            new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.password).execute ();
-
-
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine ($"rebuild_queue_job. error pausing schedule\n{ex}");
+            }
 
             try 
             {
@@ -58,11 +52,40 @@ namespace mmria.server.model
             }
             catch (Exception ex) 
             {
-                // do nothing for now
+                System.Console.WriteLine ($"rebuild_queue_job. error deleting directory queue\n{ex}");
             }
 
-            Program.ResumeSchedule (); 
-	
+
+            if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", this.user_name, this.password)) 
+            {
+                var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.password);
+                System.Console.WriteLine (delete_queue_curl.execute ());
+            }
+
+
+            try 
+            {
+                System.Console.WriteLine ("Creating export_queue db.");
+                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.password);
+                System.Console.WriteLine (export_queue_curl.execute ());
+                new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.password).execute ();
+
+            }
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine ($"rebuild_queue_job. error creating queue\n{ex}");
+            }
+
+
+
+            try 
+            {
+                Program.ResumeSchedule (); 
+            }
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine ($"rebuild_queue_job. error resuming schedule\n{ex}");
+            }
 		}
 
         private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")

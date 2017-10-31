@@ -384,57 +384,60 @@ namespace mmria.server
 
 
 
-
+        private static object syncLock = new object();
         public static void StartSchedule ()
         {
-            if (Program.sched == null) 
+            lock (syncLock)
             {
+                if (Program.sched == null) 
+                {
 
 
-                Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
-                Program.Change_Sequence_Call_Count++;
-                Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
+                    Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
+                    Program.Change_Sequence_Call_Count++;
+                    Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
-                StdSchedulerFactory sf = new StdSchedulerFactory ();
-                Program.sched = sf.GetScheduler ();
-                DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
+                    StdSchedulerFactory sf = new StdSchedulerFactory ();
+                    Program.sched = sf.GetScheduler ();
+                    DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
-                IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
-                                                         .WithIdentity ("check_for_changes_job", "group1")
+                    IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
+                                                             .WithIdentity ("check_for_changes_job", "group1")
+                                                             .Build ();
+
+                    string cron_schedule = Program.config_cron_schedule;
+
+
+                    Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
+                        .WithIdentity ("check_for_changes_job_trigger", "group1")
+                        .StartAt (startTime)
+                        .WithCronSchedule (cron_schedule)
+                        .Build ();
+
+
+                    DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
+
+
+
+                    IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
+                                                         .WithIdentity ("rebuild_queue_job", "group2")
                                                          .Build ();
 
-                string cron_schedule = Program.config_cron_schedule;
+                    string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
 
 
-                Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                    .WithIdentity ("check_for_changes_job_trigger", "group1")
-                    .StartAt (startTime)
-                    .WithCronSchedule (cron_schedule)
-                    .Build ();
+                    Program.rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
+                        .WithIdentity ("rebuild_queue_job_trigger", "group2")
+                        .StartAt (startTime)
+                        .WithCronSchedule (rebuild_queue_job_cron_schedule)
+                        .Build ();
 
 
-                DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
+                    DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
 
 
-
-                IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
-                                                     .WithIdentity ("rebuild_queue_job", "group2")
-                                                     .Build ();
-
-                string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
-
-
-                Program.rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                    .WithIdentity ("rebuild_queue_job_trigger", "group2")
-                    .StartAt (startTime)
-                    .WithCronSchedule (rebuild_queue_job_cron_schedule)
-                    .Build ();
-
-
-                DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
-
-
-                Program.sched.Start ();
+                    Program.sched.Start ();
+                }
             }
 
         }
@@ -442,19 +445,24 @@ namespace mmria.server
 
         public static void PauseSchedule ()
         {
-            if (Program.sched != null && !Program.sched.IsStarted) 
+            lock (syncLock)
             {
-                Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
+                if (Program.sched != null && !Program.sched.IsStarted) 
+                {
+                    Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
+                }
             }
         }
 
 
         public static void ResumeSchedule ()
         {
-            
-            if (Program.sched != null) 
+            lock (syncLock)
             {
-                Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
+                if (Program.sched != null) 
+                {
+                    Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
+                }
             }
         }
 
