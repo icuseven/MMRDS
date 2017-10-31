@@ -234,6 +234,21 @@ namespace mmria.server
 
 						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
+                        if(response.Headers["Set-Cookie"] != null)
+                        {
+                            string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
+                            string[] auth_array = set_cookie[0].Split('=');
+                            if(auth_array.Length > 1)
+                            {
+                                string new_auth_session_token = auth_array[1];
+                                result.auth_session = new_auth_session_token;
+                            }
+                            else
+                            {
+                                result.auth_session = "";
+                            }
+                        }
+
 					}
 					catch(Exception ex)
 					{
