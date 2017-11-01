@@ -244,7 +244,11 @@ namespace mmria.server
             DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
 
 
-			if (url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
+			if (
+                
+                url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") &&
+                Verify_Password(Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
+            ) 
             {
                 string current_directory = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -425,6 +429,31 @@ namespace mmria.server
             return result;
         }
 
+
+        private bool Verify_Password (string p_target_server, string p_user_name, string p_password)
+        {
+            bool result = false;
+
+            var curl = new cURL ("GET", null, p_target_server + "/mmrds/_design/auth", null, p_user_name, p_password);
+            try
+            {
+                curl.execute ();
+                /*
+                HTTP/1.1 200 OK
+                Cache-Control: must-revalidate
+                Content-Type: application/json
+                Date: Mon, 12 Aug 2013 01:27:41 GMT
+                Server: CouchDB (Erlang/OTP)*/
+                result = true;
+            } 
+            catch (Exception ex) 
+            {
+                // do nothing for now
+            }
+
+
+            return result;
+        }
 
 
         private static object syncLock = new object();

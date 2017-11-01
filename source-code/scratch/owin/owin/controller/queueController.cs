@@ -14,7 +14,7 @@ namespace mmria.server
 		/// Post the specified set_queue_request.
 		/// </summary>
 		/// <param name="set_queue_request">Set queue request.</param>
-		public mmria.common.data.api.Set_Queue_Response Post(mmria.common.data.api.Set_Queue_Request set_queue_request)
+        public async System.Threading.Tasks.Task<mmria.common.data.api.Set_Queue_Response> Post(mmria.common.data.api.Set_Queue_Request set_queue_request)
 		{ 
 			mmria.common.data.api.Set_Queue_Response result = new mmria.common.data.api.Set_Queue_Response();
 
@@ -63,7 +63,7 @@ namespace mmria.server
 					streamWriter.Close();
 
 
-					System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+					System.Net.WebResponse response = await request.GetResponseAsync();
 					System.IO.Stream dataStream = response.GetResponseStream ();
 					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 					string responseFromServer = reader.ReadToEnd ();

@@ -13,7 +13,7 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get(string case_id = null) 
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get(string case_id = null) 
 		{ 
 			try
 			{
@@ -44,7 +44,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -80,7 +80,7 @@ namespace mmria.server
 
 		// POST api/values 
 		[Route]
-		public mmria.common.model.couchdb.document_put_response Post() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
@@ -93,7 +93,7 @@ namespace mmria.server
 			try
 			{
 
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
 				// Open the stream using a StreamReader for easy access.
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
@@ -227,7 +227,7 @@ namespace mmria.server
 						streamWriter.Close();
 
 
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+						System.Net.WebResponse response = await request.GetResponseAsync();
 						System.IO.Stream dataStream = response.GetResponseStream ();
 						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 						string responseFromServer = reader.ReadToEnd ();
@@ -303,7 +303,7 @@ Server: CouchDB (Erlang/OTP)
 
 
         */
-        public System.Dynamic.ExpandoObject Delete(string case_id = null, string rev = null) 
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Delete(string case_id = null, string rev = null) 
         { 
             try
             {
@@ -344,7 +344,7 @@ Server: CouchDB (Erlang/OTP)
 				try 
 				{
 					string document_json = null;
-					document_json = check_document_curl.execute ();
+					document_json = await check_document_curl.executeAsync ();
 					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
 					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
 					if (result_dictionary.ContainsKey ("_rev")) 
@@ -362,7 +362,7 @@ Server: CouchDB (Erlang/OTP)
 
 
 
-                string responseFromServer = delete_report_curl.execute ();;
+                string responseFromServer = await delete_report_curl.executeAsync ();;
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 

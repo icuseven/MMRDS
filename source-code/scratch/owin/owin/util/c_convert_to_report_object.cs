@@ -1028,7 +1028,7 @@ age_45_and_above
 					return;
 				}
 				
-				System.Console.WriteLine ("break");
+				//System.Console.WriteLine ("break");
 			}
 		}
 
@@ -1150,7 +1150,7 @@ age_45_and_above
 					p_report_object.total_number_of_pregnancy_associated_by_ethnicity.blank = 1;
 				}
 				
-				System.Console.WriteLine ("break");
+				//System.Console.WriteLine ("break");
 			}
 		}
 

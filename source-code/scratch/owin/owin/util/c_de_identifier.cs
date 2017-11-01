@@ -359,11 +359,11 @@ namespace mmria.server.util
 		public void set_de_identified_value (dynamic p_object, string p_path)
 		{
 
-
+            /*
             if (p_path == "death_certificate/demographics/city_of_birth")
 			{
 				System.Console.Write("break");
-			}
+			}*/
 
 			try
 			{
