@@ -596,9 +596,9 @@ namespace mmria.server
 			}
 
 			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
-			var options = new Microsoft.Owin.StaticFiles.FileServerOptions()
-			{
-				EnableDirectoryBrowsing = true,
+			var options = new Microsoft.Owin.StaticFiles.FileServerOptions() 
+            {
+                EnableDirectoryBrowsing = false,
 				EnableDefaultFiles = true,
 				DefaultFilesOptions = { DefaultFileNames = {"index.html"}},
 				FileSystem = fileSystem,
