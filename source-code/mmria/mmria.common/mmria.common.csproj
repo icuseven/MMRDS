@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="census\" />
+    <Folder Include="couchdb\" />
+    <Folder Include="metadata\" />
+    <Folder Include="texas_am\" />
+    <Folder Include="couchdb\password\" />
+  </ItemGroup>
+</Project>
