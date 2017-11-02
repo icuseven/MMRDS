@@ -13,7 +13,7 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get(string case_id = null) 
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get(string case_id = null) 
 		{ 
 			try
 			{
@@ -44,7 +44,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();

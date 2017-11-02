@@ -13,7 +13,7 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable<export_queue_item> Get() 
+        public async System.Threading.Tasks.Task<IEnumerable<export_queue_item>> Get() 
 		{ 
 			List<export_queue_item> result = new List<export_queue_item>();
 			try
@@ -39,7 +39,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -101,44 +101,11 @@ namespace mmria.server
 			return null;
 		} 
 
-		private void PutDocument(string postUrl, string document)
-		{
-			byte[] data = new System.Text.ASCIIEncoding().GetBytes(document);
-
-			System.Net.WebRequest request = System.Net.WebRequest.Create("request_string");
-			request.UseDefaultCredentials = true;
-			request.Credentials = new System.Net.NetworkCredential("_username", "_password");
-			request.Method = "PUT";
-			request.ContentType = "text/json";
-			request.ContentLength = data.Length;
-
-			using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-			{
-				try
-				{
-					streamWriter.Write(document);
-					streamWriter.Flush();
-					streamWriter.Close();
-
-					System.Net.HttpWebResponse httpResponse = (System.Net.HttpWebResponse)request.GetResponse();
-					using (System.IO.StreamReader streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
-					{
-						string result = streamReader.ReadToEnd();
-						streamReader.Close();
-					}
-				}
-				catch (System.Exception e)
-				{
-					//_logger.Error("Exception thrown when contacting service.", e);
-					//_logger.ErrorFormat("Error posting document to {0}", postUrl);
-				}
-			}
-		}
 
 
 		// POST api/values 
 		[Route]
-		public mmria.common.model.couchdb.document_put_response Post() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
@@ -151,7 +118,7 @@ namespace mmria.server
 			try
 			{
 
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
 				// Open the stream using a StreamReader for easy access.
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
@@ -197,7 +164,7 @@ namespace mmria.server
 				}
 
 
-				string responseFromServer = export_queue_curl.execute();
+				string responseFromServer = await export_queue_curl.executeAsync();
 
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 			

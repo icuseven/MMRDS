@@ -14,7 +14,7 @@ namespace mmria.server
 
         // GET api/values 
         //public IEnumerable<master_record> Get() 
-        public mmria.common.model.couchdb.case_view_response Get
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.case_view_response> Get
         (
             int skip = 0,
             int take = 25,
@@ -132,7 +132,7 @@ by_state_of_death
 
 
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();

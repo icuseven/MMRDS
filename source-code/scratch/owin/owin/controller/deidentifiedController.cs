@@ -11,7 +11,7 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get() 
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get() 
 		{ 
 			try
 			{
@@ -36,7 +36,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -102,7 +102,7 @@ namespace mmria.server
 
 		// POST api/values 
 		[Route]
-		public mmria.common.model.couchdb.document_put_response Post() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
 		{ 
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
@@ -115,7 +115,7 @@ namespace mmria.server
 			try
 			{
 
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
 				// Open the stream using a StreamReader for easy access.
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
@@ -192,7 +192,7 @@ namespace mmria.server
 						streamWriter.Close();
 
 
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+						System.Net.WebResponse response = await request.GetResponseAsync();
 						System.IO.Stream dataStream = response.GetResponseStream ();
 						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 						string responseFromServer = reader.ReadToEnd ();

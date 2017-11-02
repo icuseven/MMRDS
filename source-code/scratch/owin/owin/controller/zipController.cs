@@ -16,7 +16,7 @@ namespace mmria.server
 		}
 
 
-		public HttpResponseMessage Get (string id)
+        public async System.Threading.Tasks.Task<HttpResponseMessage> Get (string id)
 		{
 			HttpResponseMessage result = new HttpResponseMessage (System.Net.HttpStatusCode.NoContent);
 
@@ -39,7 +39,7 @@ namespace mmria.server
 			}
 
 
-			string session_curl_resonse = session_curl.execute ();
+			string session_curl_resonse = await session_curl.executeAsync ();
 
 			mmria.common.model.couchdb.session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session_response> (session_curl_resonse);
 
@@ -48,7 +48,7 @@ namespace mmria.server
 			{
 
 				var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + id, null, Program.config_timer_user_name, Program.config_timer_password);
-				string responseFromServer = get_item_curl.execute ();
+				string responseFromServer = await get_item_curl.executeAsync ();
 				export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer);
 
 
@@ -65,7 +65,7 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (export_queue_item, settings); 
 				var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_password);
-				responseFromServer = set_item_curl.execute ();
+				responseFromServer = await set_item_curl.executeAsync ();
 			}
 
 		    return result;

@@ -10,7 +10,7 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<mmria.common.model.couchdb.user_alldocs_response> Get() 
-		public System.Dynamic.ExpandoObject Get() 
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get() 
 		{ 
 			try
 			{
@@ -35,7 +35,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -65,7 +65,7 @@ namespace mmria.server
 		} 
 
 		// GET api/values/5 
-		public mmria.common.model.couchdb.user Get(string id) 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> Get(string id) 
 		{ 
 			mmria.common.model.couchdb.user result = null;
 			try
@@ -91,7 +91,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -107,7 +107,7 @@ namespace mmria.server
 		} 
 
 		[HttpPost]
-		public mmria.common.model.couchdb.document_put_response Post() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
 		{ 
 			//bool valid_login = false;
 			mmria.common.model.couchdb.user user = null;
@@ -117,7 +117,7 @@ namespace mmria.server
 			try
 			{
 
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
 				// Open the stream using a StreamReader for easy access.
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
@@ -177,7 +177,7 @@ namespace mmria.server
 						streamWriter.Close();
 
 
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+						System.Net.WebResponse response = await request.GetResponseAsync();
 						System.IO.Stream dataStream = response.GetResponseStream ();
 						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 						string responseFromServer = reader.ReadToEnd ();
@@ -205,28 +205,10 @@ namespace mmria.server
 			return result;
 		} 
 
-		// PUT api/values/5 
-		public void Put(string id, [FromBody]mmria.common.model.couchdb.user value) 
-		{ 
-		} 
-
-		// DELETE api/values/5 
-		public void Delete(string id) 
-		{ 
-		} 
 
 		private string get_couch_db_url()
 		{
-			string result = null;
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
+            string result = Program.config_couchdb_url;
 
 			return result;
 		}
