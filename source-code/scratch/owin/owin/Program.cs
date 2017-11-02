@@ -422,7 +422,7 @@ namespace mmria.server
             } 
             catch (Exception ex) 
             {
-                // do nothing for now
+                System.Console.WriteLine ($"failed end_point exists check: {p_target_server}\n{ex}");
             }
 
 
@@ -448,7 +448,7 @@ namespace mmria.server
             } 
             catch (Exception ex) 
             {
-                // do nothing for now
+                System.Console.WriteLine ($"failed Verify_Password check: {p_target_server}/mmrds/_design/auth\n{ex}");
             }
 
 
