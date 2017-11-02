@@ -194,7 +194,7 @@ background-color: #48ceb9;
 
 button, html input[type="button2"]{
 
-    height: 2%;
+    /*height: 2%;*/
 
     padding: 4px 13px 4px 12px;
     width: 55px;
@@ -220,7 +220,7 @@ button, html input[type="button3"]{
 
 
 
-    Height: 2%;
+    /*Height: 2%;*/
     Padding: 4px 2px 1px 2px;
     
    
