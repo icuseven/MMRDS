@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 
 
-namespace web1.Controllers
+namespace mmria.server
 {
     [Route("api/[controller]")]
     public class couchController : Controller

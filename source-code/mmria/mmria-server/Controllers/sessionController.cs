@@ -6,7 +6,7 @@ using mmria.common.model.couchdb;
 
 //https://wiki.apache.org/couchdb/Session_API
 
-namespace mmria.Controllers
+namespace mmria.server
 {
     [Route("api/[controller]")]
     public class sessionController: ControllerBase

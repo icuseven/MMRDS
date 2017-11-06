@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace mmria
+namespace mmria.server
 {
 	public class cURL
 	{
@@ -69,7 +69,7 @@ namespace mmria
 			return this;
 		}
 
-		public async Task<string> execute ()
+		public string execute ()
 		{
 			string result = null;
 
@@ -107,7 +107,7 @@ namespace mmria
 
 			//try
 			//{
-            HttpWebResponse resp = await httpWebRequest.GetResponseAsync() as HttpWebResponse;
+				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
 				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 				//Console.WriteLine("Response : " + respStr); // if you want see the output
 			//}
@@ -119,6 +119,54 @@ namespace mmria
 
 			return result;
 		}
+
+
+        public async System.Threading.Tasks.Task<string> executeAsync()
+        {
+            string result = null;
+
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create (this.url);
+            httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.PreAuthenticate = false;
+            httpWebRequest.Accept = "*/*";
+            httpWebRequest.Method = this.method;
+            httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
+
+            if (!string.IsNullOrWhiteSpace (this.user_id) && !string.IsNullOrWhiteSpace (this.password)) {
+                string encoded = System.Convert.ToBase64String (System.Text.Encoding.GetEncoding ("ISO-8859-1").GetBytes (this.user_id + ":" + this.password));
+                httpWebRequest.Headers.Add ("Authorization", "Basic " + encoded);
+            }
+
+
+            foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) {
+                httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
+            }
+
+            if (this.pay_load != null) {
+                //httpWebRequest.ContentLength = this.pay_load.Length;
+
+                using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) {
+                    streamWriter.Write (this.pay_load);
+                    streamWriter.Flush ();
+                    streamWriter.Close ();
+                }
+            }
+
+            //try
+            //{
+            WebResponse resp = await httpWebRequest.GetResponseAsync ();
+            result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
+            //Console.WriteLine("Response : " + respStr); // if you want see the output
+            //}
+            //catch(Exception ex)
+            //{
+            //process exception here   
+            //  result = ex.ToString();
+            //}
+
+            return result;
+        }
 
 
 		public cURL add_authentication_header(string p_username,

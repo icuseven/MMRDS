@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace mmria.Controllers
+namespace mmria.server
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller

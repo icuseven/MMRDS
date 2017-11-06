@@ -122,7 +122,7 @@ namespace mmria.server
 
                 try
                 {
-                    string responseFromServer = await document_curl.execute();
+                    string responseFromServer = await document_curl.executeAsync();
                     result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
                 }
                 catch(Exception ex)
@@ -212,7 +212,7 @@ Server: CouchDB (Erlang/OTP)
 				try 
 				{
 					string document_json = null;
-					document_json = await check_document_curl.execute ();
+					document_json = await check_document_curl.executeAsync ();
 					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
 					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
 					if (result_dictionary.ContainsKey ("_rev")) 
@@ -231,7 +231,7 @@ Server: CouchDB (Erlang/OTP)
 
 
 
-                string responseFromServer = await delete_report_curl.execute ();;
+                string responseFromServer = await delete_report_curl.executeAsync ();;
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
