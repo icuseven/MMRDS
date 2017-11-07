@@ -1081,7 +1081,11 @@ function add_new_form_click(p_metadata_path, p_object_path)
 
 function save_form_click()
 {
-  save_case(g_data, create_save_message)
+  if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    save_case(g_data, create_save_message);
+  }
+  
 }
 
 function create_save_message()
