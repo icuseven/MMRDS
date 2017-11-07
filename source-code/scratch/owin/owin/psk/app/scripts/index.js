@@ -1073,12 +1073,32 @@ function add_new_form_click(p_metadata_path, p_object_path)
     {
       eval(post_html_call_back.join(""));
     }
-});
-
-
-
-
+  });
 
 }
 
 
+
+function save_form_click()
+{
+  save_case(g_data, create_save_message)
+}
+
+function create_save_message()
+{
+	var result = [];
+
+	result.push('<div class="alert alert-success alert-dismissible">');
+	result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	result.push('<strong>Info!</strong> This case information has been saved');
+	result.push('</div>');
+
+	document.getElementById("nav_status_area").innerHTML = result.join("");
+
+	window.setTimeout(clear_nav_status_area, 5000);
+}
+
+function clear_nav_status_area()
+{
+	document.getElementById("nav_status_area").innerHTML = "<div>&nbsp;</div>";
+}

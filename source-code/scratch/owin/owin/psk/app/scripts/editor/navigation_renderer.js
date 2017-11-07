@@ -194,7 +194,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         // print blank end
   
 
-
+        result.push('<li id="nav_status_area">&nbsp;</li>');
 
         result.push('</ul>');
         break;
