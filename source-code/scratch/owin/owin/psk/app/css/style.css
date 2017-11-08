@@ -176,7 +176,7 @@ HEADER
 ************************************
 ***********************************/
 .header {
-    background: url('../img/Purple-Pattern-Light.png') no-repeat fixed;
+    background: url('../img/mmrai_landing_logo1.png') no-repeat fixed;
     background-size: contain;
     background-position: 50% 20%;
     /* min-height: 650px; */
@@ -185,7 +185,7 @@ HEADER
 }
 
 .bg-color {
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     min-height: 999px;
     min-width: 269px;
 }
