@@ -13,7 +13,7 @@ using Quartz.Impl;
 
 namespace mmria.server
 {
-	//sc create MMRIAService binpath = "C:\Program Files (x86)\mmria\MMRIA 17.10.02\mmria-server.exe" start= "demand" DisplayName= "MMRIA Service"
+	//sc create MMRIAService binpath = "C:\Program Files (x86)\mmria\MMRIA 17.11.02\mmria-server.exe" start= "demand" DisplayName= "MMRIA Service"
 	//sc delete MMRIAService
     class Program : ServiceBase
     {
@@ -56,16 +56,22 @@ namespace mmria.server
         public static void Main (string [] args)
         {
 
-            if (Environment.UserInteractive || bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
+            if
+			(
+					Environment.UserInteractive || 
+					bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
+					System.Diagnostics.Debugger.IsAttached || 
+                	args.Contains("--console")
+			) 
             {
                 config_is_service = false;
             }
 
-
+/*
             #if (DEBUG)
                 config_is_service = false;
             #endif
-
+*/
             if (config_is_service) 
 			{
 				
@@ -142,10 +148,54 @@ namespace mmria.server
 
             // ****   Web Server - Start
 
-				Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);
+			Microsoft.Owin.Hosting.WebApp.Start (Program.config_web_site_url);
             Console.WriteLine ("Web Server Listening at " + Program.config_web_site_url);
 
+			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
+            Program.Change_Sequence_Call_Count++;
+            Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
+
+            StdSchedulerFactory sf = new StdSchedulerFactory ();
+			Program.sched = sf.GetScheduler ();
+			            DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
+
+			IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
+																 .WithIdentity ("check_for_changes_job", "group1")
+																 .Build ();
+
+			string cron_schedule = Program.config_cron_schedule;
+
+
+			Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
+			                .WithIdentity ("check_for_changes_job_trigger", "group1")
+			                .StartAt (startTime)
+			                .WithCronSchedule (cron_schedule)
+			                .Build ();
+
+
+			DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
+
+
+
+			IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
+															 .WithIdentity ("rebuild_queue_job", "group2")
+															 .Build ();
+
+			string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
+
+
+			Program.rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
+			                .WithIdentity ("rebuild_queue_job_trigger", "group2")
+			                .StartAt (startTime)
+			                .WithCronSchedule (rebuild_queue_job_cron_schedule)
+			                .Build ();
+
+
+			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
+
+
 			this.Startup ();
+
 
 			if (!config_is_service) 
 			{
@@ -174,6 +224,8 @@ namespace mmria.server
 	                System.Console.WriteLine ("Quit command recieved shutting down.");
 	            }
 			}
+			
+
 
 
 
@@ -188,166 +240,154 @@ namespace mmria.server
 
         public void Shutdown ()
         {
-            if (sched != null) 
-            {
-                sched.Clear ();
-                sched.Shutdown ();
-            }
-            System.Console.WriteLine ("Quit command recieved shutting down.");
+			lock (syncLock) 
+			{
+
+				if (sched != null) 
+				{
+					sched.Clear ();
+					sched.Shutdown ();
+				}
+				System.Console.WriteLine ("Quit command recieved shutting down.");
+			}
         }
 
 
 		public void Startup ()
 		{
-
-
-			if (url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")) 
-            {
-                string current_directory = AppDomain.CurrentDomain.BaseDirectory;
-
-                if (!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)) 
-                {
-                    var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
-					System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
-
-                    new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-					System.Console.WriteLine ("metadata/_security completed successfully");
-
-                    try 
-                    {
-                        string metadata_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/metadata_design_auth.json").ReadToEnd ();
-						var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
-						metadata_design_auth_curl.execute ();
-
-                        string metadata_json = System.IO.File.OpenText (current_directory + "database-scripts/metadata.json").ReadToEnd (); ;
-                        var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
-						metadata_json_curl.execute ();
-
-                    } 
-                    catch (Exception ex) 
-                    {
-                        System.Console.WriteLine ("unable to configure metadata:\n", ex);
-                    }
-
-
-                }
-
-
-                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)) 
-                {
-                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, Program.config_timer_user_name, Program.config_timer_password);
-					System.Console.WriteLine ("mmrds_curl\n{0}", mmrds_curl.execute ());
-
-                    new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-					System.Console.WriteLine ("mmrds/_security completed successfully");
-
-                    try 
-                    {
-                        string case_design_sortable = System.IO.File.OpenText (current_directory + "database-scripts/case_design_sortable.json").ReadToEnd ();
-						var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
-						case_design_sortable_curl.execute ();
-
-                        string case_store_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/case_store_design_auth.json").ReadToEnd ();
-						var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
-						case_store_design_auth_curl.execute ();
-
-                    } 
-                    catch (Exception ex) 
-                    {
-                        System.Console.WriteLine ("unable to configure mmrds database:\n", ex);
-                    }
-                }
-
-                if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)) 
-                {
-                    var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
-					System.Console.WriteLine (delete_queue_curl.execute ());
-                }
-
-
-                System.Console.WriteLine ("Creating export_queue db.");
-                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
-				System.Console.WriteLine (export_queue_curl.execute ());
-                new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-
-
-
-                try 
-                {
-                    string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
-
-                    if (System.IO.Directory.Exists (export_directory))
-                    {
-
-						RecursiveDirectoryDelete (new System.IO.DirectoryInfo(export_directory));
-                    }
-
-                    System.IO.Directory.CreateDirectory(export_directory);
-
-
-                }
-                catch (Exception ex) 
-                {
-                    // do nothing for now
-                }
-
-
-
-                if
-                (
-
-					url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) &&
-
-					url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)
-                ) 
-                {
-                    var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
-					string res = sync_curl.execute ();
-					mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
-
-					Program.Last_Change_Sequence = latest_change_set.last_seq;
-
-                    /*
-                    System.Threading.Tasks.Task.Run
-                    (
-                        new Action (() =>
-                        {*/
-                            mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
-																				 Program.config_couchdb_url,
-																				 Program.config_timer_user_name,
-																				 Program.config_timer_password
-																			 );
-
-							sync_all.execute ();
-
-
-                            /*
-                            {"total_rows":11,"offset":0,"rows":[
-                            {"id":"02279162-6be3-49e4-930f-42eed7cd4706","key":"02279162-6be3-49e4-930f-42eed7cd4706","value":{"rev":"1-1e8c9c42f75d1582c7d2261230268f0a"}},
-                            {"id":"140836d7-abed-07ff-5b84-72a9ca30b9c4","key":"140836d7-abed-07ff-5b84-72a9ca30b9c4","value":{"rev":"1-7d713a250c1dd52843724df2e909841f"}},
-                            {"id":"2243372a-9801-155c-4098-9540daabe76c","key":"2243372a-9801-155c-4098-9540daabe76c","value":{"rev":"1-d7b3cb2bbddfa7dab44161b745ba3f2c"}},
-                            {"id":"244da20f-41cc-4300-ad94-618004a51917","key":"244da20f-41cc-4300-ad94-618004a51917","value":{"rev":"1-3930c68b758258af365bda35aee22731"}},
-                            {"id":"999907aa-8b73-3cfa-f13b-657beb325428","key":"999907aa-8b73-3cfa-f13b-657beb325428","value":{"rev":"1-1e3bac81a24f00755613f0f7d2604fcb"}},
-                            {"id":"acbf75d5-9c7a-57bc-9bef-59624bac7847","key":"acbf75d5-9c7a-57bc-9bef-59624bac7847","value":{"rev":"1-6f758041b4fb6954ec5ff4a52cc57eda"}},
-                            {"id":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","key":"b5003bc5-1ab3-4ba2-8aea-9f3717c9682a","value":{"rev":"1-ab8dc8c5852d0e053683d64ee7c5e9ba"}},
-                            {"id":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","key":"d0e08da8-d306-4a9a-a5ff-9f1d54702091","value":{"rev":"1-bbddad634887348768fa8badc4db5ded"}},
-                            {"id":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","key":"e28af3a7-b512-d1b4-d257-19f2fabeb14d","value":{"rev":"1-a9ce1f6a0be2416e2ff06ef9adb1bd0e"}},
-                            {"id":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","key":"e98ce2be-4446-439a-bb63-d9b4e690e3c3","value":{"rev":"1-297a418df441f52109714fdc3b21bd07"}},
-                            {"id":"f6660468-ec54-a569-9903-a6682c5881d6","key":"f6660468-ec54-a569-9903-a6682c5881d6","value":{"rev":"1-113fa14b491002aa951616627cb35562"}}
-                            ]}
-                            */
-
-
-
-
-
-
-                            Program.StartSchedule();
-                       /* }
-                        )
-                    );*/
-                }
-            }
+			System.Threading.Tasks.Task.Run
+			(
+				new Action (() => 
+				{
+					if (
+						url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") &&
+						Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
+					) 
+					{
+						string current_directory = AppDomain.CurrentDomain.BaseDirectory;
+	
+						if
+						(
+							!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
+						) 
+						{
+							var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
+							System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
+	
+							new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+							System.Console.WriteLine ("metadata/_security completed successfully");
+	
+							try 
+							{
+								string metadata_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/metadata_design_auth.json").ReadToEnd ();
+								var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+								metadata_design_auth_curl.execute ();
+	
+								string metadata_json = System.IO.File.OpenText (current_directory + "database-scripts/metadata.json").ReadToEnd (); ;
+								var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
+								metadata_json_curl.execute ();
+	
+							}
+							catch (Exception ex) 
+							{
+								System.Console.WriteLine ("unable to configure metadata:\n", ex);
+							}
+	
+	
+							}
+	
+	
+							if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)) 
+							{
+								var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, Program.config_timer_user_name, Program.config_timer_password);
+								System.Console.WriteLine ("mmrds_curl\n{0}", mmrds_curl.execute ());
+	
+								new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+								System.Console.WriteLine ("mmrds/_security completed successfully");
+	
+								try 
+								{
+									string case_design_sortable = System.IO.File.OpenText (current_directory + "database-scripts/case_design_sortable.json").ReadToEnd ();
+									var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
+									case_design_sortable_curl.execute ();
+	
+									string case_store_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/case_store_design_auth.json").ReadToEnd ();
+									var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+									case_store_design_auth_curl.execute ();
+	
+								}
+								catch (Exception ex) 
+								{
+									System.Console.WriteLine ("unable to configure mmrds database:\n", ex);
+								}
+							}
+	
+							if 
+							(
+								url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)
+							) 
+							{
+								var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+								System.Console.WriteLine (delete_queue_curl.execute ());
+							}
+	
+	
+							System.Console.WriteLine ("Creating export_queue db.");
+							var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+							System.Console.WriteLine (export_queue_curl.execute ());
+							new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+	
+							try 
+							{
+								string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
+	
+								if (System.IO.Directory.Exists (export_directory)) 
+								{
+									RecursiveDirectoryDelete (new System.IO.DirectoryInfo (export_directory));
+								}
+	
+								System.IO.Directory.CreateDirectory (export_directory);
+	
+	
+							} 
+							catch (Exception ex) 
+							{
+								// do nothing for now
+							}
+	
+	
+	
+							if
+							(
+								url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password) &&
+								url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)
+							) 
+							{
+								var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_password);
+								string res = sync_curl.execute ();
+								mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
+	
+								Program.Last_Change_Sequence = latest_change_set.last_seq;
+	
+								/*
+								System.Threading.Tasks.Task.Run
+								(
+									new Action (() =>
+									{*/
+										mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
+																							 Program.config_couchdb_url,
+																							 Program.config_timer_user_name,
+																							 Program.config_timer_password
+																						 );
+			
+										sync_all.execute ();
+										Program.StartSchedule ();
+								 	/*})
+							 	);*/
+							}
+						}
+					}
+			));
 
             // ****   Quartz Timer - End
 
@@ -375,7 +415,7 @@ namespace mmria.server
             } 
             catch (Exception ex) 
             {
-                // do nothing for now
+                System.Console.WriteLine ($"failed end_point exists check: {p_target_server}\n{ex}");
             }
 
 
@@ -383,58 +423,44 @@ namespace mmria.server
         }
 
 
+        private bool Verify_Password (string p_target_server, string p_user_name, string p_password)
+        {
+            bool result = false;
+
+            var curl = new cURL ("GET", null, p_target_server + "/mmrds/_design/auth", null, p_user_name, p_password);
+            try
+            {
+                curl.execute ();
+                /*
+                HTTP/1.1 200 OK
+                Cache-Control: must-revalidate
+                Content-Type: application/json
+                Date: Mon, 12 Aug 2013 01:27:41 GMT
+                Server: CouchDB (Erlang/OTP)*/
+                result = true;
+            } 
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine ($"failed Verify_Password check: {p_target_server}/mmrds/_design/auth\n{ex}");
+            }
 
 
+            return result;
+        }
+
+
+        private static object syncLock = new object();
         public static void StartSchedule ()
         {
-            if (Program.sched == null) 
+            lock (syncLock)
             {
-
-
-                Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
-                Program.Change_Sequence_Call_Count++;
-                Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
-
-                StdSchedulerFactory sf = new StdSchedulerFactory ();
-                Program.sched = sf.GetScheduler ();
-                DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
-
-                IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
-                                                         .WithIdentity ("check_for_changes_job", "group1")
-                                                         .Build ();
-
-                string cron_schedule = Program.config_cron_schedule;
-
-
-                Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                    .WithIdentity ("check_for_changes_job_trigger", "group1")
-                    .StartAt (startTime)
-                    .WithCronSchedule (cron_schedule)
-                    .Build ();
-
-
-                DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
+                if (Program.sched != null && !Program.sched.IsStarted) 
+                {
 
 
 
-                IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
-                                                     .WithIdentity ("rebuild_queue_job", "group2")
-                                                     .Build ();
-
-                string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
-
-
-                Program.rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                    .WithIdentity ("rebuild_queue_job_trigger", "group2")
-                    .StartAt (startTime)
-                    .WithCronSchedule (rebuild_queue_job_cron_schedule)
-                    .Build ();
-
-
-                DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
-
-
-                Program.sched.Start ();
+                    Program.sched.Start ();
+                }
             }
 
         }
@@ -442,19 +468,24 @@ namespace mmria.server
 
         public static void PauseSchedule ()
         {
-            if (Program.sched != null && !Program.sched.IsStarted) 
+            lock (syncLock)
             {
-                Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
+                if (Program.sched != null) 
+                {
+                    Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
+                }
             }
         }
 
 
         public static void ResumeSchedule ()
         {
-            
-            if (Program.sched != null) 
+            lock (syncLock)
             {
-                Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
+                if (Program.sched != null) 
+                {
+                    Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
+                }
             }
         }
 
@@ -587,9 +618,9 @@ namespace mmria.server
 			}
 
 			var fileSystem = new Microsoft.Owin.FileSystems.PhysicalFileSystem(root);
-			var options = new Microsoft.Owin.StaticFiles.FileServerOptions()
-			{
-				EnableDirectoryBrowsing = true,
+			var options = new Microsoft.Owin.StaticFiles.FileServerOptions() 
+            {
+                EnableDirectoryBrowsing = false,
 				EnableDefaultFiles = true,
 				DefaultFilesOptions = { DefaultFileNames = {"index.html"}},
 				FileSystem = fileSystem,

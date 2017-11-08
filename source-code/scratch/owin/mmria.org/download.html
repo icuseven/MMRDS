@@ -20,9 +20,9 @@
 	
 
 <br/>
-<p>Click <a href="upgrade.html">here</a> for information about upgrading to <a href="upgrade.html">MMRIA 17.10.07</a></p>
+<p>Click <a href="upgrade.html">here</a> for information about upgrading to <a href="upgrade.html">MMRIA 17.11.07</a></p>
 
-<p><a href="windows-backup-and-restore.html">Windows Backup and Restore in MMRIA 17.10.07</a></p>
+<p><a href="windows-backup-and-restore.html">Windows Backup and Restore in MMRIA 17.11.07</a></p>
 	
 <h2 style="font:Work Sans Light"><strong>Table of contents:</strong></h2>
 <ul class="list-group">
@@ -40,8 +40,8 @@
 <ol>
 <li>Install CouchDB 2.0</li>
 <li>Configure CouchDB 2.0</li>
-<li>Install MMRIA 17.10.07</li>
-<li>Configure MMRIA 17.10.07</li>
+<li>Install MMRIA 17.11.07</li>
+<li>Configure MMRIA 17.11.07</li>
 </ol>
 </li>
 
@@ -82,7 +82,7 @@
 <p>The CouchDB 2.0 installation requries 3 sets of configurations.</p>
 <ol>
 <li>1st set of configurations is done as soon as CouchDB 2.0 is installed and before the MMRIA 1.2.0 is setup.</li>
-<li>2nd set of configurations is done after the MMRIA 17.10.07 is installed by running a "_config" utility from the MMRIA user interface.</li>
+<li>2nd set of configurations is done after the MMRIA 17.11.07 is installed by running a "_config" utility from the MMRIA user interface.</li>
 <li>3rd step of configuration and verification will need to be done to verify and ensure that all settings appropriately applied.</li>
 <li>On a Docker configuration changes take place immediately</li>
 <li>On a Windows installation CouchDB will need to be restarted to ensure that any configuration changes have been applied</li>
@@ -133,7 +133,7 @@ The application will respond with: <i>"Apache CouchDB is configured for producti
 
 <hr/>
 
-<h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 17.10.07 Application Server</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 17.11.07 Application Server</strong></h3>
 <p>Run the following command, changing the container_name + port + database_url, admin_user_name and admin_password</p>
 <pre>
 docker run --name [container_name] -d  --publish [Port]:9000 \
@@ -145,7 +145,7 @@ docker run --name [container_name] -d  --publish [Port]:9000 \
 -e timer_user_name="[admin_user_name]" \
 -e timer_password="[admin_user_password]" \
 -e cron_schedule="0 */1 * * * ?" \
-thetagrid/mmria:v17.10.07
+thetagrid/mmria:v17.11.07
 </pre>
 
 <p>Lastly, open your browser and navigate to <strong>http://localhost:12345/_config.</strong> You will be presented with an interface: "To perform database setup and initialization use the below form." Fill in the appropriate information and press the "Run db setup" button.</p>
@@ -193,7 +193,13 @@ Be sure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd
 
 <p>For a <strong>GNU/Linux install</strong> you should be able to use the appropriate package manager for your distribution. Contact mmria support for more detailed assistance.</p>
 <hr/>
-<p>For a <strong>Windows Install</strong>, navigate to <strong><a href="https://couchdb.apache.org" target="_couchdb_download">https://couchdb.apache.org</a></strong> and select "download." Choose Windows and download the <strong>apache-couchdb-2.0.0.1.msi</strong></p>
+<p>Download and Run the following 3 install files:</p>
+<ul>
+<li><a href="NDP462-KB3151800-x86-x64-AllOS-ENU.exe">(Optional - you may already have it installed) Download .NET 4.6.2 install</a></li>
+<li><a href="https://dl.bintray.com/apache/couchdb/win/2.1.0/apache-couchdb-2.1.0.msi">Download Apached CouchDB https://dl.bintray.com/apache/couchdb/win/2.1.0/apache-couchdb-2.1.0.msi</a></li>
+<li><a href="MMRIA-Install-17.11.07 v(0e60a26).msi">Download and run MMRIA-Install-17.11.07 v(0e60a26).msi</a></li>
+</ul>
+
 
 <p>Run the <strong>apache-couchdb-2.0.0.1.msi</strong> and accept the default settings it should install to the c:\CouchDB directory</p>
 
@@ -229,22 +235,15 @@ The application will respond with: <i>"Apache CouchDB is configured for producti
 
 
 
-<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.10.07</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.11.07</strong></h3>
 
-<h4 style="font:Work Sans Light"><strong>Download MMRIA Server 17.10.07</strong></h4>
 
-<ul>
-<li><a href="NDP462-KB3151800-x86-x64-AllOS-ENU.exe">Download and run .NET 4.6.2 install<!--/a--></li>
-
-<li><a href="MMRIA-Install-17.10.07 v(e3016ad).msi">Download and run MMRIA-Install-17.10.07 v(e3016ad).msi</a></li>
-</ul>
-
-<p>After running MMRIA-Install-17.10.07 v(e3016ad).msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 17.10.07</strong></p>
+<p>After running MMRIA-Install-17.11.07 v(0e60a26).msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 17.11.07</strong></p>
 
 
 
-<h3 style="font:Work Sans Light"><strong>Configure MMRIA 17.10.07</strong></h3>
-<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 17.10.07</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
+<h3 style="font:Work Sans Light"><strong>Configure MMRIA 17.11.07</strong></h3>
+<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 17.11.07</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
 <pre>
 mmria-server.exe.config
     &lt;add key="owin:AppStartup" value="mmria.server.Startup" />
@@ -278,7 +277,7 @@ mmria.exe.config
 
 
 
-<p>Using <strong>Administrator Mode</strong>, open MMRIA 17.10.07 v(9c5e9ea) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
+<p>Using <strong>Administrator Mode</strong>, open MMRIA 17.11.07 v(9c5e9ea) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
 
 <pre>
 using AppSettings

@@ -58,7 +58,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         g_ui.broken_rules[p_object_path] = false;
       } 
 
-      save_case(g_data, function (){
+     // save_case(g_data, function (){
 
         var post_html_call_back = [];
         document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -68,7 +68,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         }
 
         apply_validation();
-      });
+      //});
 
 		
 
@@ -105,7 +105,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 
-      save_case(g_data, function (){
+      //save_case(g_data, function (){
 
       var post_html_call_back = [];
       var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -176,7 +176,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
       apply_validation();
 
-    });
+    //});
   }
 }
 
@@ -188,8 +188,8 @@ function g_add_grid_item(p_object_path, p_metadata_path)
 
 
 
-  save_case(g_data, function ()
-  {
+  //save_case(g_data, function ()
+  //{
 
     var post_html_call_back = [];
     document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -199,8 +199,7 @@ function g_add_grid_item(p_object_path, p_metadata_path)
       eval(post_html_call_back.join(""));
     }
 
-  }
-  );
+  //});
 }
 
 function g_delete_grid_item(p_object_path, p_metadata_path)
@@ -211,15 +210,15 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
   
-  save_case(g_data, function ()
-  {
+  //save_case(g_data, function ()
+  //{
     var post_html_call_back = [];
     document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));
     }
-  });
+  //});
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path)
@@ -230,7 +229,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
 
-  save_case(g_data, function(){
+  //save_case(g_data, function(){
     
     var post_html_call_back = [];
     document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
@@ -239,7 +238,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
       eval(post_html_call_back.join(""));
     }
   
-});
+//});
 
 
 
@@ -448,6 +447,10 @@ function load_profile()
 
        document.getElementById('navbar').innerHTML = "";
       document.getElementById('form_content_id').innerHTML ="";
+
+
+      var url = location.protocol + '//' + location.host + '/';
+      window.location.href = url;
     };
 
 
@@ -696,7 +699,13 @@ function save_case(p_data, p_call_back)
           g_data._rev = case_response.rev;
           //console.log('set_value save finished');
         }
+
         
+        if(case_response.auth_session)
+        {
+          profile.auth_session = case_response.auth_session;
+          $mmria.addCookie("AuthSession", case_response.auth_session);
+        }
 
         if(p_call_back)
         {
@@ -1064,12 +1073,36 @@ function add_new_form_click(p_metadata_path, p_object_path)
     {
       eval(post_html_call_back.join(""));
     }
-});
-
-
-
-
+  });
 
 }
 
 
+
+function save_form_click()
+{
+  if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    save_case(g_data, create_save_message);
+  }
+  
+}
+
+function create_save_message()
+{
+	var result = [];
+
+	result.push('<div class="alert alert-success alert-dismissible">');
+	result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	result.push('<strong>Info!</strong>Case information has been saved');
+	result.push('</div>');
+
+	document.getElementById("nav_status_area").innerHTML = result.join("");
+
+	window.setTimeout(clear_nav_status_area, 5000);
+}
+
+function clear_nav_status_area()
+{
+	document.getElementById("nav_status_area").innerHTML = "<div>&nbsp;</div>";
+}

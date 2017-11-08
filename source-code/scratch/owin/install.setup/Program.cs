@@ -28,8 +28,8 @@ namespace install.setup
 
 
 
-			string major_version = "17.10.07";
-			string minor_version = "e3016ad";
+			string major_version = "17.11.07";
+			string minor_version = "0e60a26";
 			string current_version = $"{major_version} v({minor_version})";
 
 
@@ -565,7 +565,7 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 					get_shortcut("desktopmmria$(var.Version)_v_$(var.GitVersion)_", "DesktopFolder", "MMRIA $(var.Version) v($(var.GitVersion))", "mmria_server.exe")
 					,
                     get_service_install(),
-                    get_service_control ()
+                    get_service_control ()/**/
 
 				);
 			/*
@@ -588,8 +588,10 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 						 new XAttribute ("Type", "ownProcess"),
 						 new XAttribute ("Name", "$(var.ServiceName)"),
 						 new XAttribute ("DisplayName", "$(var.Name)"),
+						 //new XAttribute ("Account", ".\\MMRIA_user"),
 						 new XAttribute ("Description", "Manages user requests from Web client and maintains CouchDB Server Data."),
 						 new XAttribute ("Start", "auto"),
+						 new XAttribute ("Vital", "no"),
 						 new XAttribute ("ErrorControl", "normal"));
 					return result;
 		}
@@ -603,7 +605,7 @@ static private XElement get_service_control ()
 				 new XAttribute ("Stop", "both"),
 				 new XAttribute ("Remove", "uninstall"),
 				 new XAttribute ("Name", "$(var.ServiceName)"),
-				 new XAttribute ("Wait", "yes"));
+				 new XAttribute ("Wait", "no"));
 
 			//< ServiceControl Id = "StartService" Start = "install" Stop = "both" Remove = "uninstall" Name = "$(var.Name)" Wait = "yes" />
 			return result;

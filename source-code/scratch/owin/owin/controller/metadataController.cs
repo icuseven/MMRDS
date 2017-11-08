@@ -11,7 +11,7 @@ namespace mmria.server
 		{
 		}
 
-		public System.Dynamic.ExpandoObject Get()
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get()
 		{
 			System.Console.WriteLine ("Recieved message.");
 			string result = null;
@@ -43,7 +43,7 @@ namespace mmria.server
 				}
 
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				result = reader.ReadToEnd ();
@@ -100,7 +100,7 @@ namespace mmria.server
 		// POST api/values 
 		//[Route("api/metadata")]
 		[HttpPost]
-		public mmria.common.model.couchdb.document_put_response Post() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
 		{ 
 			//bool valid_login = false;
 			mmria.common.metadata.app metadata = null;
@@ -110,7 +110,7 @@ namespace mmria.server
 			try
 			{
 
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+				System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
 				// Open the stream using a StreamReader for easy access.
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
@@ -166,7 +166,7 @@ namespace mmria.server
 							streamWriter.Close();
 
 
-							System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+							System.Net.WebResponse response = await request.GetResponseAsync();
 							System.IO.Stream dataStream = response.GetResponseStream ();
 							System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 							string responseFromServer = reader.ReadToEnd ();
@@ -216,16 +216,7 @@ namespace mmria.server
 
 		private string get_couch_db_url()
 		{
-			string result = null;
-
-			if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-			{
-				result = System.Environment.GetEnvironmentVariable ("couchdb_url");
-			} 
-			else
-			{
-				result = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-			}
+            string result = Program.config_couchdb_url;
 
 			return result;
 		}

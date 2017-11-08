@@ -24,7 +24,7 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public IEnumerable<session_response> Get() 
+		public async System.Threading.Tasks.Task<IEnumerable<session_response>> Get() 
 		{ 
 			try
 			{
@@ -49,7 +49,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -99,7 +99,7 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		//public System.Net.Http.HttpResponseMessage Get
-		public IEnumerable<login_response> Get
+		public async System.Threading.Tasks.Task<IEnumerable<login_response>> Get
 		(
 			string userid,
 			string password
@@ -132,7 +132,7 @@ namespace mmria.server
 					stream.Write(post_byte_array, 0, post_byte_array.Length);
 				}/**/
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 
 				System.IO.Stream dataStream = response.GetResponseStream ();
 
@@ -177,7 +177,7 @@ namespace mmria.server
 
 		//https://wiki.apache.org/couchdb/Session_API
 		// DELETE api/_sevalues/5 
-		public logout_response Delete() 
+        public async System.Threading.Tasks.Task<logout_response> Delete() 
 		{ 
 			try
 			{
@@ -202,7 +202,7 @@ namespace mmria.server
 				}
 
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();

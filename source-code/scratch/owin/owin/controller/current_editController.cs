@@ -32,7 +32,7 @@ namespace mmria.server
 		} 
 
 		// POST api/values 
-		public void Post() 
+        public async System.Threading.Tasks.Task Post() 
 		{ 
 			bool valid_login = false;
 			mmria.common.metadata.app metadata = null;
@@ -40,7 +40,7 @@ namespace mmria.server
 			try
 			{
 
-				System.IO.Stream dataStream0 = this.Request.Content.ReadAsStreamAsync().Result;
+                System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
 				// Open the stream using a StreamReader for easy access.
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
@@ -79,7 +79,7 @@ namespace mmria.server
 					}
 				}
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
