@@ -28,8 +28,8 @@ namespace install.setup
 
 
 
-			string major_version = "17.11.02";
-			string minor_version = "0a393a2";
+			string major_version = "17.11.07";
+			string minor_version = "0e60a26";
 			string current_version = $"{major_version} v({minor_version})";
 
 
