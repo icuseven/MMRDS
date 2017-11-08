@@ -2007,13 +2007,13 @@ pre {
 @media (min-width:992px) {
     .container {
         /* width: 970px */
-        width: 1370px
+        width: auto;
     }
 }
 
 @media (min-width:1200px) {
     .container {
-        width: 1450px
+        width:auto;
         
     }
 }
@@ -4093,7 +4093,8 @@ tbody.collapse.in {
     list-style: none;
     font-size: 13px;
     text-align: left;
-    background-color: #351147;
+    background-color: #afaaaa;
+    /* background-color: #351147; */
     border: 1px solid #cccccc;
     border: 1px solid rgba(0,0,0,0.15);
     border-radius: 3px;
