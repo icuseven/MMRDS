@@ -194,7 +194,7 @@ background-color: #48ceb9;
 
 button, html input[type="button2"]{
 
-    /*height: 2%;*/
+    height: 2%;
 
     padding: 4px 13px 4px 12px;
     width: 55px;
@@ -220,7 +220,7 @@ button, html input[type="button3"]{
 
 
 
-    /*Height: 2%;*/
+    Height: 2%;
     Padding: 4px 2px 1px 2px;
     
    
@@ -2013,7 +2013,7 @@ pre {
 
 @media (min-width:1200px) {
     .container {
-        width: 1170px
+        width: 1450px
         
     }
 }
@@ -3192,7 +3192,7 @@ input[type="search"] {
     display: inherit;
     width: 100%;
     height: 100px;
-    padding: 19px 19px 40px 32px;
+    padding: 19px 29px 56px 32px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
@@ -4482,7 +4482,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
     .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) {
-        border-radius: 0
+        border-radius: 4;
     }
 
 .input-group-addon, .input-group-btn {
