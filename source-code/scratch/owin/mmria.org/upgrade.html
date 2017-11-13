@@ -18,7 +18,7 @@
 	<img src="mmria-primary.svg" height="300" width="400"/>
 
 	
-<p>Upgrading to MMRIA 17.11.08</p>
+<p>Upgrading to MMRIA 17.11.09</p>
 	
 <h2 style="font:Work Sans Light"><strong>Table of contents:</strong></h2>
 <ul class="list-group">
@@ -66,7 +66,7 @@
 
 <a id="docker-install">Docker Upgrade</a>
 
-<h3 style="font:Work Sans Light"><strong>Docker upgrade of MMRIA 17.11.08 Application Server</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Docker upgrade of MMRIA 17.11.09 Application Server</strong></h3>
 <p>Stop and remove current docker container with the commands:</p>
 <pre>
 sudo docker stop [container_name]
@@ -83,7 +83,7 @@ docker run --name [container_name] -d  --publish [Port]:9000 \
 -e timer_user_name="[admin_user_name]" \
 -e timer_password="[admin_user_password]" \
 -e cron_schedule="0 */1 * * * ?" \
-thetagrid/mmria:v17.11.08
+thetagrid/mmria:v17.11.09
 </pre>
 
 <br/>
@@ -111,22 +111,22 @@ target_db_password: &lt;couchdb admin password>
 <h3 style="font:Work Sans Light"><a id="windows-install"><strong>Windows or Non-Docker Install CouchDB 2.0</strong></a></h3>
 
 
-<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.11.08</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.11.09</strong></h3>
 
-<h4 style="font:Work Sans Light"><strong>Download MMRIA Server 17.11.08</strong></h4>
+<h4 style="font:Work Sans Light"><strong>Download MMRIA Server 17.11.09</strong></h4>
 
 <ul>
 <li><a href="NDP452-KB2901954-Web.exe">Download and run .NET 4.5 install</a></li>
 
-<li><a href="MMRIA-Install-17.11.08 v(f332877).msi">Download and run MMRIA-Install-17.11.08 v(f332877).msi</a></li>
+<li><a href="MMRIA-Install-17.11.09 v(ff10a11).msi">Download and run MMRIA-Install-17.11.09 v(ff10a11).msi</a></li>
 </ul>
 
-<p>After running MMRIA-Install-17.11.08 v(e3016ad).msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 17.11.08</strong></p>
+<p>After running MMRIA-Install-17.11.09 v(e3016ad).msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 17.11.09</strong></p>
 
 
 
-<h3 style="font:Work Sans Light"><strong>Configure MMRIA 17.11.08</strong></h3>
-<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 17.11.08</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
+<h3 style="font:Work Sans Light"><strong>Configure MMRIA 17.11.09</strong></h3>
+<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 17.11.09</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
 <pre>
 mmria-server.exe.config
     &lt;add key="owin:AppStartup" value="mmria.server.Startup" />
@@ -160,7 +160,7 @@ mmria.exe.config
 
 
 
-<p>Using <strong>Administrator Mode</strong>, open MMRIA 17.11.08 v(9c5e9ea) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
+<p>Using <strong>Administrator Mode</strong>, open MMRIA 17.11.09 v(9c5e9ea) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
 
 <pre>
 using AppSettings
