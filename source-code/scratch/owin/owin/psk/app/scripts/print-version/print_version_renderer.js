@@ -330,6 +330,7 @@ d3.select('#chart svg').append('text')
 				{
 					
 					result.push(g_data.home_record.record_id);
+					result.push('<br>');
 				}
 					
 				result.push(p_data);
