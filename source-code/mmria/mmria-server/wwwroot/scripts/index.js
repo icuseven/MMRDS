@@ -6,6 +6,11 @@
 var g_metadata = null;
 var g_data = null;
 var g_source_db = null;
+var g_metadata_db = null;
+var g_mmrds_db = null;
+//var g_user_db = null;
+var g_report_db = null;
+var g_de_id_db = null;
 var g_metadata_path = [];
 var g_validator_map = [];
 var g_event_map = [];
@@ -17,7 +22,22 @@ var g_localDB = null;
 var g_remoteDB = null;
 var g_metadata_summary = [];
 var default_object = null;
+var g_is_online = true;
+var g_is_synced = false;
 
+
+function get_pouchdb_header(){
+  
+  return {
+    ajax: {
+      cache: false,
+      //timeout: 10000,
+      headers: {
+        'X-CouchDB-WWW-Authenticate': profile.get_auth_session_cookie()
+      }
+  }
+  }
+};
 
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
@@ -402,7 +422,16 @@ function load_values()
 	$.ajax({
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
+      g_couchdb_url = response.couchdb_url;
+      
+      g_couchdb_url = location.protocol + '//' + location.host + '/api/couch'
+
+      var g_metadata_db = new PouchDB(g_couchdb_url + '/metadata');
+      var g_mmrds_db = new PouchDB(g_couchdb_url + '/mmrds');
+      //var g_user_db = new PouchDB('_user');
+      var g_report_db = new PouchDB(g_couchdb_url + '/report');
+      var g_de_id_db = new PouchDB(g_couchdb_url + '/de_id');
+
       load_profile();
 
  
@@ -529,22 +558,20 @@ function get_metadata()
 {
   document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
-  	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-	}).done(function(response) {
-			g_metadata = response;
+  if(!g_is_online && g_is_synced)
+  {
+    g_metadata_db.get('2016-06-12T13:49:24.759Z').then(function(doc) {
+
+      g_metadata = response;
+
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
-
-      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-
-      //window.location.href = location.protocol + '//' + location.host;
       
       if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
       {
         get_case_set();
       }
-     g_ui.url_state = url_monitor.get_url_state(window.location.href);
+    g_ui.url_state = url_monitor.get_url_state(window.location.href);
       if(window.onhashchange)
       {
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });
@@ -554,7 +581,46 @@ function get_metadata()
         window.onhashchange = window_on_hash_change;
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });
       }
-	});
+
+
+    }).then(function(response) {
+      // handle response
+    }).catch(function (err) {
+    console.log(err);
+    });
+   
+  }
+  else
+  {
+  	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+    }).done(function(response) {
+        g_metadata = response;
+        
+        metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
+        default_object =  create_default_object(g_metadata, {});
+
+        
+        //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+
+        //window.location.href = location.protocol + '//' + location.host;
+        
+        if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
+        {
+          get_case_set();
+        }
+      g_ui.url_state = url_monitor.get_url_state(window.location.href);
+        if(window.onhashchange)
+        {
+          window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+        }
+        else
+        {
+          window.onhashchange = window_on_hash_change;
+          window.onhashchange ({ isTrusted: true, newURL : window.location.href });
+        }
+    });
+  }
 }
 
 function window_on_hash_change(e)
