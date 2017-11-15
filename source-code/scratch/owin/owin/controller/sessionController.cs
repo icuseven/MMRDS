@@ -99,12 +99,36 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		//public System.Net.Http.HttpResponseMessage Get
-		public async System.Threading.Tasks.Task<IEnumerable<login_response>> Get
-		(
-			string userid,
-			string password
-		) 
-		{ 
+        [Route]
+		public async System.Threading.Tasks.Task<IEnumerable<login_response>> Post() 
+		{
+            Post_Request_Struct post_request_struct;
+
+            post_request_struct.userid = null;
+            post_request_struct.password = null;
+
+            try 
+            {
+
+                System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync ();
+                // Open the stream using a StreamReader for easy access.
+                //dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+                // Read the content.
+                string temp = reader0.ReadToEnd ();
+                //System.Console.Write ($"temp {temp}");
+                post_request_struct = Newtonsoft.Json.JsonConvert.DeserializeObject<Post_Request_Struct> (temp);
+
+                //mmria.server.util.LuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
+                //System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+
+
+                //string metadata = DecodeUrlString(temp);
+            } catch (Exception ex) {
+                Console.WriteLine (ex);
+            }
+
 
 			/*
 	HOST="http://127.0.0.1:5984"
@@ -112,7 +136,7 @@ namespace mmria.server
 */
 			try
 			{
-				string post_data = string.Format ("name={0}&password={1}", userid, password);
+                string post_data = string.Format ("name={0}&password={1}", post_request_struct.userid, post_request_struct.password);
 				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
 
@@ -220,5 +244,11 @@ namespace mmria.server
 		}
 
 	}
+
+    public struct Post_Request_Struct
+    {
+        public string userid;
+        public string password;
+    }
 }
 

@@ -2007,13 +2007,13 @@ pre {
 @media (min-width:992px) {
     .container {
         /* width: 970px */
-        width: 1370px
+        width: auto;
     }
 }
 
 @media (min-width:1200px) {
     .container {
-        width: 1170px
+        width:auto;
         
     }
 }
@@ -3192,7 +3192,7 @@ input[type="search"] {
     display: inherit;
     width: 100%;
     height: 100px;
-    padding: 19px 19px 40px 32px;
+    padding: 19px 29px 56px 32px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
@@ -4094,6 +4094,7 @@ tbody.collapse.in {
     font-size: 13px;
     text-align: left;
     background-color: #351147;
+    /* background-color: #351147; */
     border: 1px solid #cccccc;
     border: 1px solid rgba(0,0,0,0.15);
     border-radius: 3px;
@@ -4482,7 +4483,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
     .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) {
-        border-radius: 0
+        border-radius: 4;
     }
 
 .input-group-addon, .input-group-btn {
@@ -8315,9 +8316,10 @@ select option {
     background: rgba(0, 0, 0, 0.3);
     color: #fff;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-    background-color: #351147;
+    background-color: #7F7E80;
     }
   
+
 
     select::-ms-expand, select.form-control::-ms-expand {
         display: none
@@ -8340,7 +8342,7 @@ select option {
     select[multiple], select.form-control[multiple] {
         /* background: none */
         width: auto;
-        background-color: #351147;
+        background-color: #7f7e80;
     }
 
 .radio label, .radio-inline label, .checkbox label, .checkbox-inline label {
