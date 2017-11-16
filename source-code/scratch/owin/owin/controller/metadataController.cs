@@ -11,8 +11,7 @@ namespace mmria.server
 		{
 		}
 
-        //public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get()
-		public System.Dynamic.ExpandoObject Get()
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get()
 		{
 			System.Console.WriteLine ("Recieved message.");
 			string result = null;
@@ -44,8 +43,8 @@ namespace mmria.server
 				}
 
 
-				//System.Net.WebResponse response = await request.GetResponseAsync();
-				System.Net.WebResponse response = request.GetResponse() as System.Net.WebResponse;
+				System.Net.WebResponse response = await request.GetResponseAsync();
+				//System.Net.WebResponse response = request.GetResponse() as System.Net.WebResponse;
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				result = reader.ReadToEnd ();
