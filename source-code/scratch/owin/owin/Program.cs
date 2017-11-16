@@ -259,6 +259,12 @@ namespace mmria.server
 			(
 				new Action (() => 
 				{
+					int milliseconds_in_second = 1000;
+					int number_of_seconds = 30;
+					int total_milliseconds = number_of_seconds * milliseconds_in_second;
+
+					System.Threading.Thread.Sleep(total_milliseconds);
+
 					if (
 						url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") &&
 						Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
