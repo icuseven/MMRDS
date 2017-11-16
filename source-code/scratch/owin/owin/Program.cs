@@ -338,11 +338,7 @@ namespace mmria.server
 							}
 	
 	
-							System.Console.WriteLine ("Creating export_queue db.");
-							var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
-							System.Console.WriteLine (export_queue_curl.execute ());
-							new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-	
+
 							try 
 							{
 								string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
@@ -361,6 +357,10 @@ namespace mmria.server
 								// do nothing for now
 							}
 	
+							System.Console.WriteLine ("Creating export_queue db.");
+							var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+							System.Console.WriteLine (export_queue_curl.execute ());
+							new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
 	
 	
 							if
