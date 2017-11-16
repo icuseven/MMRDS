@@ -260,7 +260,7 @@ namespace mmria.server
 				new Action (() => 
 				{
 					int milliseconds_in_second = 1000;
-					int number_of_seconds = 30;
+					int number_of_seconds = 10;
 					int total_milliseconds = number_of_seconds * milliseconds_in_second;
 
 					System.Threading.Thread.Sleep(total_milliseconds);
