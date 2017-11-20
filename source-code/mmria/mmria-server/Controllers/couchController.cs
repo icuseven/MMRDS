@@ -12,51 +12,55 @@ namespace mmria.server
     public class couchController : Controller
     {
         // GET api/values
-        [HttpGet("{db?}/{id?}")]
+        [HttpGet("{db}")]
+        [HttpGet("{db?}/{id?}/{rev?}")]
         //public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Get()
-        public async System.Threading.Tasks.Task<ContentResult> Get()
+        public async System.Threading.Tasks.Task<IActionResult> Get(string id = null, string rev = null)
         
         {
             return await Proxy(this.Request);
         }
 
         // GET api/values/5
-        /*
-        [HttpGet("{id}")]
-        public string Get(int id)
+        
+        [HttpHead("{db?}/{id?}/{rev?}/{p3?}")]
+        public async System.Threading.Tasks.Task<IActionResult> Head(string id, string rev = null)
         {
-            return "value";
+            return await Proxy(this.Request);
         }
-        */
+        
         
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("{db?}/{id?}/{p2?}/{p3?}")]
+        public async System.Threading.Tasks.Task<IActionResult> Post()
         {
+            return await Proxy(this.Request);
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{db?}/{id}/{doc}")]
+        public async System.Threading.Tasks.Task<IActionResult> Put(string id, string doc)
         {
+            return await Proxy(this.Request);
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{db?}/{id}/{rev}")]
+        public async System.Threading.Tasks.Task<IActionResult> Delete(string id, string rev)
         {
+            return await Proxy(this.Request);
         }
 
         //https://stackoverflow.com/questions/13260951/how-to-proxy-a-rest-api-with-net-4
         //public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Proxy(Microsoft.AspNetCore.Http.HttpRequest Request)
-        public async System.Threading.Tasks.Task<ContentResult> Proxy(Microsoft.AspNetCore.Http.HttpRequest Request)
+        public async System.Threading.Tasks.Task<IActionResult> Proxy(Microsoft.AspNetCore.Http.HttpRequest Request)
         
         {
             System.Net.Http.HttpResponseMessage result = null;
 
             // Grab the path from /api/*
             var path = Request.Path.ToString().Replace("/api/couch", "");
-            var target = new UriBuilder("http", "db1.mmria.org", 80);
+            var target = new UriBuilder("http", "localhost", 5984);
             var method = Request.Method;
 
             var client = new System.Net.Http.HttpClient();
@@ -66,8 +70,9 @@ namespace mmria.server
             string content;
             System.IO.StreamReader reader;
             string jsonInput;
-            
-            System.Console.Write($"Path: {path}");
+            System.Net.Http.HttpRequestMessage request_message;
+
+            System.Console.WriteLine($"\nmethod:{method} Path: {Request.Path.ToString()} new_path:{path}");
             //System.Net.Http.HttpResponseMessage response;
             switch (method)
             {
@@ -92,14 +97,34 @@ namespace mmria.server
                     result = await client.DeleteAsync(path);
                     break;
                 case "GET":
-                default:
                     // need to capture client data
+                    //result = await client.GetAsync(path);
+                    request_message = new System.Net.Http.HttpRequestMessage
+                    (
+                        System.Net.Http.HttpMethod.Get, 
+                        path
+                    );
+                    result = await client.SendAsync(request_message);
+                    break;
+                case "HEAD":
+                    request_message = new System.Net.Http.HttpRequestMessage
+                    (
+                        System.Net.Http.HttpMethod.Head, 
+                        path
+                    );
+                    result = await client.SendAsync(request_message);
+                    break;
+                default:
+                    System.Console.WriteLine($"\nmethod:{method} Path: {Request.Path.ToString()} new_path:{path} - missing manual.");
                     result = await client.GetAsync(path);
                     break;
             }
 
             content = await result.Content.ReadAsStringAsync();
+
+            
             return Content(content, "application/json");
+            //return Json(content);
         }
     }
 
