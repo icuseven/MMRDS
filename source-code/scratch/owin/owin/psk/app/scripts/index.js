@@ -58,7 +58,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         g_ui.broken_rules[p_object_path] = false;
       } 
 
-     // save_case(g_data, function (){
+      set_local_case(g_data, function (){
 
         var post_html_call_back = [];
         document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -68,7 +68,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         }
 
         apply_validation();
-      //});
+      });
 
 		
 
@@ -105,7 +105,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 
-      //save_case(g_data, function (){
+      set_local_case(g_data, function (){
 
       var post_html_call_back = [];
       var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -176,7 +176,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
       apply_validation();
 
-    //});
+    });
   }
 }
 
@@ -188,9 +188,8 @@ function g_add_grid_item(p_object_path, p_metadata_path)
 
 
 
-  //save_case(g_data, function ()
-  //{
-
+  set_local_case(g_data, function ()
+  {
     var post_html_call_back = [];
     document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
     apply_tool_tips();
@@ -199,7 +198,7 @@ function g_add_grid_item(p_object_path, p_metadata_path)
       eval(post_html_call_back.join(""));
     }
 
-  //});
+  });
 }
 
 function g_delete_grid_item(p_object_path, p_metadata_path)
@@ -210,15 +209,15 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
   
-  //save_case(g_data, function ()
-  //{
+  set_local_case(g_data, function ()
+  {
     var post_html_call_back = [];
     document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));
     }
-  //});
+  });
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path)
@@ -229,7 +228,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
 
-  //save_case(g_data, function(){
+  set_local_case(g_data, function (){
     
     var post_html_call_back = [];
     document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
@@ -238,15 +237,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
       eval(post_html_call_back.join(""));
     }
   
-//});
-
-
-
-
-
-  
-
-
+  });
 }
 
 
@@ -330,15 +321,13 @@ var g_ui = {
 		g_ui.selected_record_id = result._id;
     g_ui.selected_record_index = g_ui.case_view_list.length -1;
     
-
-
-    
-    save_case(g_data, function(){
-          
-    var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
-    window.location = url;
+    set_local_case(g_data, function (){
+      save_case(g_data, function(){
+            
+      var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+      window.location = url;
+      });
     });
-
 
 
     return result;
@@ -658,19 +647,63 @@ function window_on_hash_change(e)
 
 function get_specific_case(p_id)
 {
+
+
   var case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + p_id;
   if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
   {
+    
+
     case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+    $.ajax({
+      url: case_url,
+    }).done(function(case_response) {
+    
+        var local_data = get_local_case(p_id);
+
+        if(local_data)
+        {
+            if(local_data._rev == case_response._rev)
+            {
+                g_data = local_data;
+            }
+            else
+            {
+              console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
+
+              local_data._rev = case_response._rev;
+              set_local_case(local_data);
+              g_data = local_data;
+            }
+
+            g_render();
+        }
+        else
+        {
+          g_data = case_response;
+        }
+        g_render();
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log( "get_specific_case:",  textStatus, errorThrown);
+      g_data = get_local_case(p_id);
+    });
+  }
+  else
+  {
+    $.ajax({
+      url: case_url,
+    }).done(function(case_response) {
+    
+    
+      
+    
+        g_data = case_response;
+        g_render();
+    });
   }
 
-  $.ajax({
-    url: case_url,
-}).done(function(case_response) {
 
-    g_data = case_response;
-    g_render();
-});
 
 }
 
@@ -697,6 +730,7 @@ function save_case(p_data, p_call_back)
         if(g_data && g_data._id == case_response.id)
         {
           g_data._rev = case_response.rev;
+          set_local_case(g_data);
           //console.log('set_value save finished');
         }
 
@@ -1105,4 +1139,37 @@ function create_save_message()
 function clear_nav_status_area()
 {
 	document.getElementById("nav_status_area").innerHTML = "<div>&nbsp;</div>";
+}
+
+function set_local_case(p_data, p_call_back)
+{
+
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
+
+    if(p_call_back)
+    {
+      p_call_back();
+    }
+  }
+  else
+  {
+    if(p_call_back)
+    {
+      p_call_back();
+    }
+  }
+}
+
+
+function get_local_case(p_id)
+{
+  var result = null;
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    result = JSON.parse(localStorage.getItem('case_' + p_id));
+  }
+
+  return result;
 }
