@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/mmria/bin/Debug/netcoreapp2.0/mmria-server.dll",
+            "program": "${workspaceFolder}/mmria-server/bin/Debug/netcoreapp2.0/mmria-server.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/mmria",
+            "cwd": "${workspaceFolder}/mmria-server",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -33,7 +33,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceRoot}/Views"
+                "/Views": "${workspaceFolder}/Views"
             }
         },
         {

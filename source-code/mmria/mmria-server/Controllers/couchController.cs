@@ -9,22 +9,33 @@ using Microsoft.AspNetCore.Mvc;
 namespace mmria.server
 {
     [Route("api/[controller]")]
-    public class couchController : Controller
+    public class couchController : ControllerBase
     {
+        
         // GET api/values
-        [HttpGet("{db}")]
+        [HttpGet("{db?}")]
         [HttpGet("{db?}/{id?}/{rev?}")]
         //public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Get()
-        public async System.Threading.Tasks.Task<IActionResult> Get(string id = null, string rev = null)
-        
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Get(string id = null, string rev = null) 
         {
-            return await Proxy(this.Request);
-        }
+            System.Net.Http.HttpResponseMessage result = null;
+            try
+            {
+                result = await Proxy(this.Request);
+            }
+            catch(System.Exception ex)
+            {
+                System.Console.WriteLine($"get exception: {ex}");
+            }
+            
+
+            return result;
+        } 
 
         // GET api/values/5
-        
+
         [HttpHead("{db?}/{id?}/{rev?}/{p3?}")]
-        public async System.Threading.Tasks.Task<IActionResult> Head(string id, string rev = null)
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Head(string id, string rev = null)
         {
             return await Proxy(this.Request);
         }
@@ -32,34 +43,43 @@ namespace mmria.server
         
         // POST api/values
         [HttpPost("{db?}/{id?}/{p2?}/{p3?}")]
-        public async System.Threading.Tasks.Task<IActionResult> Post()
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Post()
         {
             return await Proxy(this.Request);
         }
 
         // PUT api/values/5
         [HttpPut("{db?}/{id}/{doc}")]
-        public async System.Threading.Tasks.Task<IActionResult> Put(string id, string doc)
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Put(string id, string doc)
         {
             return await Proxy(this.Request);
         }
 
         // DELETE api/values/5
         [HttpDelete("{db?}/{id}/{rev}")]
-        public async System.Threading.Tasks.Task<IActionResult> Delete(string id, string rev)
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Delete(string id, string rev)
         {
             return await Proxy(this.Request);
         }
 
         //https://stackoverflow.com/questions/13260951/how-to-proxy-a-rest-api-with-net-4
         //public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Proxy(Microsoft.AspNetCore.Http.HttpRequest Request)
-        public async System.Threading.Tasks.Task<IActionResult> Proxy(Microsoft.AspNetCore.Http.HttpRequest Request)
+
+/*
+        [HttpHead("{db?}/{id?}/{rev?}")]
+        [HttpGet("{db?}/{id?}/{rev?}")]
+        [HttpPost("{db?}/{id?}/{rev?}")]
+        [HttpPut("{db?}/{id?}/{rev?}")]
+        [HttpDelete("{db?}/{id?}/{rev?}")]
+         */
+        
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> Proxy(Microsoft.AspNetCore.Http.HttpRequest Request)
         
         {
             System.Net.Http.HttpResponseMessage result = null;
 
             // Grab the path from /api/*
-            var path = Request.Path.ToString().Replace("/api/couch", "");
+            var path = Request.Path.ToString().Replace("/couch", "");
             var target = new UriBuilder("http", "localhost", 5984);
             var method = Request.Method;
 
@@ -119,12 +139,24 @@ namespace mmria.server
                     result = await client.GetAsync(path);
                     break;
             }
-
+/* 
             content = await result.Content.ReadAsStringAsync();
 
+            foreach (var header in result.Headers)
+            {
+                //content.Headers.Add(header.Key, header.Value);
+                Request.HttpContext.Response.Headers.Add(header.Key, header.Value.ToString());
+            }
+            Request.HttpContext.Response.Headers.ContentLength = result.ContentLength;
+            */
+
+            //content.Headers.ContentLength = oldContent.Length;
+            //response.Content = content;
+
+
             
-            return Content(content, "application/json");
-            //return Json(content);
+            //return Content(content, "application/json");
+            return result;
         }
     }
 

@@ -74,7 +74,10 @@ namespace mmria.server
             Console.WriteLine($"Logging = {Configuration["Logging:IncludeScopes"]}");
             Console.WriteLine($"Console = {Configuration["Console:LogLevel:Default"]}");
 
-            services.AddMvc();
+            services.AddMvc(setupAction: options =>
+            {
+                options.RespectBrowserAcceptHeader = false; // false by default
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +88,21 @@ namespace mmria.server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvc(/* routes =>
+            {
+               routes.MapRoute(
+                    name: "api",
+                    template: "api/[controller]",
+                    defaults: new { controller = "Home", action = "PageOne" }); */
+  /*
+                routes.MapRoute(
+                    name: "couch",
+                    template: "couch/{controller=couch},{action=Proxy}");
+
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"); 
+            }*/);
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }

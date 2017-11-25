@@ -14,6 +14,7 @@
 <script>
 var g_db_name = 'offline_01';
 var g_db = new PouchDB(g_db_name);
+var g_remote_db_url = "http://mmrds:mmrds@localhost:5000/api/couch/";
 
 
 $( function() 
@@ -22,7 +23,18 @@ $( function()
   //var sync = PouchDB.sync(g_db_name, 'http://mmrds:mmrds@localhost:5984/' + g_db_name);
 
   //var sync = PouchDB.sync(g_db_name, 'http://mmrds:mmrds@localhost:5000/api/couch/' + g_db_name);
-  var sync = PouchDB.sync(g_db_name, 'http://mmrds:mmrds@localhost:5000/api/couch/metadata');
+  //var sync = PouchDB.sync(g_db_name, 'http://mmrds:mmrds@localhost:5000/api/couch/metadata');
+  
+  
+  var remoteDB = new PouchDB(g_remote_db_url + 'metadata')
+
+  g_db.replicate.to(remoteDB).on('complete', function () {
+    console.log("// yay, we're done!");
+}).on('error', function (err) {
+  console.log("// boo, something went wrong!");
+});
+
+
 
   //get_metadata();
 
