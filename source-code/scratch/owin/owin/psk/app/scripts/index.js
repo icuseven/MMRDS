@@ -670,8 +670,16 @@ function get_specific_case(p_id)
             else
             {
               console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
-
-              local_data._rev = case_response._rev;
+              var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
+              if(date_difference.days > 3)
+              {
+                local_data = case_response;
+              }
+              else
+              {
+                local_data._rev = case_response._rev;
+              }
+              
               set_local_case(local_data);
               g_data = local_data;
             }
