@@ -1513,7 +1513,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				//if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				//{
-					result.push("<br/> <input placeholder='2Specify Other' class='form-control1' type='text3' name='");
+					result.push("<br/> <input placeholder='Specify Other' class='form-control1' type='text3' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
