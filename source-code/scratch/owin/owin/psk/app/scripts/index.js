@@ -789,6 +789,15 @@ function delete_case(p_id, p_rev)
 }).done(function(case_response) {
 
     console.log("delete_case: success");
+
+    try
+    {
+      localStorage.removeItem('case_' + p_id);
+    }
+    catch(ex)
+    {
+      // do nothing for now
+    }
     get_case_set();
 
 }).fail(function(xhr, err) { console.log("delete_case: failed", err); });
