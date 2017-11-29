@@ -17,6 +17,7 @@ var g_localDB = null;
 var g_remoteDB = null;
 var g_metadata_summary = [];
 var default_object = null;
+var g_change_stack = [];
 
 
 
@@ -51,7 +52,12 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 		
-
+      g_change_stack.push({
+        object_path : p_object_path,
+        metadata_path: p_metadata_path,
+        old_value : current_value,
+        new_value : value
+      });
 
       if(g_ui.broken_rules[p_object_path])
       {
@@ -82,6 +88,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
   else
   {
       var metadata = eval(p_metadata_path);
+
+      var current_value = eval(p_object_path);
+
       if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
       {
         var item = eval(p_object_path);
@@ -102,6 +111,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
+
+      g_change_stack.push({
+        object_path : p_object_path,
+        metadata_path: p_metadata_path,
+        old_value : current_value,
+        new_value : value
+      });
+
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 
@@ -317,6 +334,7 @@ var g_ui = {
 		g_ui.case_view_list = new_data;
 
     g_data = result;
+    g_change_stack = [];
 
 		g_ui.selected_record_id = result._id;
     g_ui.selected_record_index = g_ui.case_view_list.length -1;
@@ -377,6 +395,16 @@ var $$ = {
 
 $(function ()
 {
+
+
+	$(document).keydown(function(evt){
+		if (evt.keyCode==90 && (evt.ctrlKey)){
+			evt.preventDefault();
+			undo_click();
+		}
+
+	});
+
   $.datetimepicker.setLocale('en');
 
   load_values();
@@ -736,6 +764,8 @@ function save_case(p_data, p_call_back)
     }).done(function(case_response) {
 
         console.log("save_case: success");
+
+        g_change_stack = [];
 
         if(g_data && g_data._id == case_response.id)
         {
@@ -1191,4 +1221,39 @@ function get_local_case(p_id)
   }
 
   return result;
+}
+
+function undo_click()
+{
+  var current_change = g_change_stack.pop();
+  if(current_change)
+  {
+
+    var metadata = eval(current_change.metadata_path);
+
+
+    if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
+    {
+      var item = eval(current_change.object_path);
+      if(item.indexOf(current_change.old_value) > -1)
+      {
+        item.splice(item.indexOf(current_change.old_value), 1);
+      }
+      else
+      {
+        item.push(current_change.old_value);
+      }
+    }
+    else if(metadata.type.toLowerCase() == "boolean")
+    {
+      eval(current_change.object_path + ' = ' + current_change.old_value);
+    }
+    else
+    {
+      eval(current_change.object_path + ' = "' + current_change.old_value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
+    }
+
+  }
+
+  g_render();
 }
