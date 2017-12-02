@@ -27,6 +27,9 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.cpus = 2
 			vb.customize [
                         "modifyvm", :id,
+			"--paravirtprovider", "kvm", # for linux guest
+			--hwvirtex", "on",
+			"--accelerate3d", "on",
                         "--monitorcount", "2",
                         "--vram", "256"
                       ]
@@ -43,7 +46,7 @@ Vagrant.configure(Configuration_Version) do |config|
 		# end
 
 		# devbox.vbguest.iso_path = vbox_guest_additions_file
-		devbox.vbguest.auto_update = false
+		devbox.vbguest.auto_update = true
 
 		devbox.vm.provision "shell", path:  "provision-script-set/main.sh"
 		
