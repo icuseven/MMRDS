@@ -27,8 +27,8 @@ Vagrant.configure(Configuration_Version) do |config|
 			vb.cpus = 2
 			vb.customize [
                         "modifyvm", :id,
-			"--paravirtprovider", "kvm", # for linux guest
-			--hwvirtex", "on",
+			#"--paravirtprovider", "kvm", # for linux guest
+			"--hwvirtex", "on",
 			"--accelerate3d", "on",
                         "--monitorcount", "2",
                         "--vram", "256"
