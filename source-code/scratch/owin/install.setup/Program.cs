@@ -27,8 +27,8 @@ namespace install.setup
 			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" output.wixobj
 
 
-			string major_version = "17.12.02";
-			string minor_version = "232ac4e";
+ 			string major_version = "17.12.04";
+			string minor_version = "bb8d64b";
 			string current_version = $"{major_version} v({minor_version})";
 
 
