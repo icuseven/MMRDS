@@ -17,6 +17,9 @@ namespace mmria.server
 	//sc delete MMRIAService
     class Program : ServiceBase
     {
+
+
+
 		static bool config_is_service = true;
         public static string config_geocode_api_key;
         public static string config_geocode_api_url;
