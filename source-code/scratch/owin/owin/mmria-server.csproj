@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>mmria</RootNamespace>
     <AssemblyName>mmria-server</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <StartupObject>mmria.server.Program</StartupObject>
     <ApplicationIcon>psk\app\favicon.ico</ApplicationIcon>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
