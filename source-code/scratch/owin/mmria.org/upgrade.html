@@ -25,18 +25,18 @@
 <li><a href="#preliminary-information-anchor">Preliminary Information</a></li>
 <li><a href="#docker-install">Docker Upgrade</a>
 <ol>
+<li>(optional) backup the mmrds database</li>
 <li>upgrade MMRIA Server</li>
 <li>upgrade metadata DB</li>
 </ol>
 </li>
 <li><a href="#windows-install">Windows Install <i>(alternate option)</i></a>
 <ol>
+<li>(optional) backup the mmrds database</li>
 <li>upgrade MMRIA Server</li>
 <li>upgrade metadata DB</li>
 </ol>
 </li>
-
-<li><a href="#offline_config">Offline Config of the MMRIA Database</a></li>
 
 <li><a href="#database_backup">Backing up the MMRIA Database</a></li>
 </ul>		
@@ -45,7 +45,13 @@
 
 <h3><a id="preliminary-information-anchor">Preliminary information</a></h3>
 
-<p>The upgrade process consists of 2 steps: <ul><li>installing the new version of the MMRIA Server</li><li>and then updating the metadata DB</li></ul></p>
+<p>The upgrade process consists of 3 steps: 
+	<ul>
+	<li>(optional) backup the mmrds database - this upgrade does not delete or alter and data in the mmrds database.</li>
+	<li>installing the new version of the MMRIA Server</li>
+	<li>and then updating the metadata DB</li>
+	</ul>
+</p>
 
 <p>Three key pieces of information need to be determined to complete this process:</p>
 <ul>
@@ -63,8 +69,37 @@
 <li>The application url is <strong>http://localhost:12345</strong></li>
 </ul>
 
-
 <a id="docker-install">Docker Upgrade</a>
+
+<h3 style="font:Work Sans Light"><strong>(optional) How to backup the MMRIA DB on Docker GNU/Linux</strong></h3>
+
+<ul>
+	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
+	<li>
+		You'll need to back up 2 databases:
+		<ul>
+		<li>metadata (not underscore metadata "_metadata")</li>
+		<li>mmrds</li>
+	</ul>
+	</li>
+</ul>
+<pre>
+example usage
+
+backup
+	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
+	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
+
+restore
+	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
+	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
+</pre>
+
+	
+	<br/>
+	<br/>
+	<br/>
+
 
 <h3 style="font:Work Sans Light"><strong>Docker upgrade of MMRIA 17.12.06 Application Server</strong></h3>
 <p>Stop and remove current docker container with the commands:</p>
@@ -110,13 +145,22 @@ target_db_password: &lt;couchdb admin password>
 	
 <h3 style="font:Work Sans Light"><a id="windows-install"><strong>Windows or Non-Docker Install CouchDB 2.0</strong></a></h3>
 
+<h2>(optional) To perform a backup run the mmria.exe for example:</h2>
+
+<pre>
+
+mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
+
+
+</pre>
+
 
 <h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 17.12.06</strong></h3>
 
 <h4 style="font:Work Sans Light"><strong>Download MMRIA Server 17.12.06</strong></h4>
 
 <ul>
-<li><a href="NDP452-KB2901954-Web.exe">Download and run .NET 4.6.2 install</a></li>
+<li><a href="NDP471-KB4033342-x86-x64-AllOS-ENU.exe">(Optional - you may already have it installed) Download .NET 4.7.1 install</a></li>
 
 <li><a href="MMRIA-Install-17.12.06 v(cb03eeb).msi">Download and run MMRIA-Install-17.12.06 v(cb03eeb).msi</a></li>
 </ul>
@@ -184,7 +228,10 @@ target_db_password: &lt;couchdb admin password>
 
 </pre>
 
-<p>After pressing the "Run upgrade db setup" button, wait approximately 10-15 seconds for a response from the database server.</p>
+<p>After pressing the "Run upgrade db setup" button, wait approximately 10-15 seconds for a response from the database server. The correct response will be:</p>
+<pre>
+ {}
+</pre>
 
 
 <p>On same url <strong>http://localhost:12345/_config</strong> at the top of the screen.  You will be presented with an interface: "To ensure validator.js is updated use the below button." Press the button "update validator.js script"</p>
@@ -197,54 +244,9 @@ perform_validation_save: complete
 	<br/>
 	<br/>
 
-<p><a id="offline_config">Offline Config of v1.0 DB</a></p>
-<ul>
-	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
-	<li>Download the metadata db file <a href="mmria-metadata-db.json">mmria-metadata-db.json</a></li>
-	<li>Downlod the mmrds db file <a href="mmria-mmrds-db.json">mmria-mmrds-db.json</a></li>
-</ul>
-
-<pre>
-Restore the metadata db:
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
-
-Restore the mmrds db:
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
-</pre>
-	
-	<br/>
-	<br/>
 	<br/>
 
 
-<p><a id="database_backup">How to backup the MMRIA DB</a></p>
-
-<ul>
-	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
-	<li>
-		You'll need to back up 2 databases:
-		<ul>
-		<li>metadata (not underscore metadata "_metadata")</li>
-		<li>mmrds</li>
-	</ul>
-	</li>
-</ul>
-<pre>
-example usage
-
-backup
-	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
-	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
-
-restore
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
-</pre>
-
-	
-	<br/>
-	<br/>
-	<br/>
 
 </div>
 </body>
