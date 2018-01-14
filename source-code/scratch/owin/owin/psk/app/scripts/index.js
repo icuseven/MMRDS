@@ -407,7 +407,7 @@ $(function ()
 
   // https://pure-essence.net/2010/02/14/jquery-session-timeout-countdown/
   // create the warning window and set autoOpen to false
-  var sessionTimeoutWarningDialog = $("#sessionTimeoutWarning");
+  var sessionTimeoutWarningDialog = $("#sessionTimeoutWarningDiv");
   $(sessionTimeoutWarningDialog).html(initialSessionTimeoutMessage);
   $(sessionTimeoutWarningDialog).dialog({
       title: 'Session Expiration Warning',
@@ -425,15 +425,20 @@ $(function ()
           running = false;
 
           // ajax call to keep the server-side session alive
+          /*
           $.ajax({
             url: keepAliveURL,
             async: false
-          });
+          });*/
       },
       buttons: {
           OK: function() {
               // close dialog
+
+              clearInterval(timer);
+              running = false;
               $(this).dialog('close');
+              set_session_warning_interval();
           }
       },
       resizable: false,
@@ -453,10 +458,14 @@ $(function ()
   //$.idleTimer(idleTime);
 
   // bind to idleTimer's idle.idleTimer event
-  $(document).bind("idle.idleTimer", function()
+  $(document).bind("sessionWarning", function()
   {
+
+    $(sessionTimeoutWarningDialog).show();
       // if the user is idle and a countdown isn't already running
-      if($.data(document,'idleTimer') === 'idle' && !running){
+      //if($.data(document,'idleTimer') === 'idle' && !running)
+      if(!running)
+      {
           var counter = redirectAfter;
           running = true;
 
@@ -473,7 +482,8 @@ $(function ()
               if(counter === 0) {
                   $(sessionTimeoutWarningDialog).html(expiredMessage);
                   $(sessionTimeoutWarningDialog).dialog('disable');
-                  window.location = redirectTo;
+                  //window.location = redirectTo;
+                  profile.logout();
               } else {
                   $('#'+sessionTimeoutCountdownId).html(counter);
               };
@@ -483,7 +493,7 @@ $(function ()
 
 
 
-
+  //set_session_warning_interval();
 
   $.datetimepicker.setLocale('en');
 
@@ -855,6 +865,7 @@ function save_case(p_data, p_call_back)
         {
           profile.auth_session = case_response.auth_session;
           $mmria.addCookie("AuthSession", case_response.auth_session);
+          set_session_warning_interval();
         }
 
         if(p_call_back)
@@ -1334,11 +1345,33 @@ function undo_click()
   g_render();
 }
 
-
-var idleTime = 2000; // number of miliseconds until the user is considered idle
+var milliseconds_in_second = 1000;
+var session_warning_interval_id = null;
+var session_warning_interval = 10 * 60 * milliseconds_in_second; // number of miliseconds until the user is considered idle
 var initialSessionTimeoutMessage = 'Your session will expire in <span id="sessionTimeoutCountdown"></span> seconds.<br /><br />Click on <b>OK</b> to continue your session.';
 var sessionTimeoutCountdownId = 'sessionTimeoutCountdown';
-var redirectAfter = 10; // number of seconds to wait before redirecting the user
-var redirectTo = 'http://regretless.com/2010/02/14/jquery-session-timeout-countdown/'; // URL to relocate the user to once they have timed out
+var redirectAfter = 120; // number of seconds to wait before redirecting the user
+//var redirectTo = 'http://regretless.com/2010/02/14/jquery-session-timeout-countdown/'; // URL to relocate the user to once they have timed out
+var redirectTo = location.protocol + '//' + location.host;
 var keepAliveURL = 'keepAlive.php'; // URL to call to keep the session alive
 var expiredMessage = 'Your session has expired.  You are being logged out for security reasons.'; // message to show user when the countdown reaches 0
+var running = false; // var to check if the countdown is running
+var timer; // reference to the setInterval timer so it can be stopped
+
+function set_session_warning_interval()
+{
+  if(session_warning_interval_id != null)
+  {
+    clearInterval(session_warning_interval_id);
+  }
+  session_warning_interval_id = setInterval(
+      function()
+      { 
+          $("#sessionTimeoutWarningDiv").trigger("sessionWarning"); 
+      },
+      session_warning_interval
+    );
+}
+
+
+

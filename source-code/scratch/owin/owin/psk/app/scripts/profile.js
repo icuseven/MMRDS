@@ -367,7 +367,7 @@ login_response: function (response)
 			$mmria.addCookie("AuthSession", profile.auth_session);
 			$mmria.addCookie("roles", json_response.roles);
 			
-
+			set_session_warning_interval();
 
 			if(profile.user_roles.indexOf("abstractor") >-1)
 			{
