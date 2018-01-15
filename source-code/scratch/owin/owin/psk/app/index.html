@@ -69,9 +69,27 @@
   <!--script src="./scripts/feed_back.js" type="text/javascript"></script-->
   <script src="./scripts/index.js" type="text/javascript"> </script>
   <script src="./scripts/validator.js" type="text/javascript"> </script>
+  <style>
+      body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons > div.ui-dialog-titlebar.ui-corner-all.ui-widget-header.ui-helper-clearfix {
+        background-color:rgb(173, 199, 26);
+      }
+
+
+      body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div {
+        background-color:rgb(173, 199, 26);
+      }
+  </style>
   </head>
   <body>
-  <div id="sessionTimeoutWarningDiv" style="display: block;background-color:rgb(173, 199, 26);"></div>
+  <div id="sessionTimeoutWarningDiv" style="display: display;z-index:999;background-color:rgb(173, 199, 26);">
+      <h1>Session Expiration Warning</h1>
+      <h2 id="sessionTimeoutPendingId">Your session will expire in <span id="sessionTimeoutCountdownId" style="color:green"></span> seconds.</h2>
+      <br /><br />
+      <h3>Click on <input id="sessionTimeoutOkButton" type="button" value="OK" /> to continue your session.</h3>
+
+   <h2 id="sessionTimeoutExpiredId">Your session has expired.  You are being logged out for security reasons.</h2>
+
+  </div>
   <div classes="navbar-brand"  class="navbar navbar-default navbar-fixed-top">
     <div class="container">
     

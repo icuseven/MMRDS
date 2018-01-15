@@ -72,6 +72,15 @@ function print(p_metadata)
   </script>
 </head>
 <body onload="get_metadata()">
+    <div id="sessionTimeoutWarningDiv" style="position:absolute;display: block;background-color:rgb(173, 199, 26);">
+           <h1>Session Expiration Warning</h1>
+           <h2 id="sessionTimeoutPendingId">Your session will expire in <span id="sessionTimeoutCountdownId"></span> seconds.</h2>
+           <br /><br />
+           <h3>Click on <input id="sessionTimeoutOkButton" type="button" value="OK" /> to continue your session.</h3>
+
+        <h2 id="sessionTimeoutExpiredId">Your session has expired.  You are being logged out for security reasons.</h2>
+    </div>
+
 	<div id="output"></div>
 </body>
 </html>
