@@ -1369,7 +1369,7 @@ var milliseconds_in_second = 1000;
 var session_warning_interval_id = null;
 
 
-var session_warning_interval = 10 * 60 * milliseconds_in_second; // number of miliseconds until the user is considered idle
+var session_warning_interval = 8 * 60 * milliseconds_in_second; // number of miliseconds until the user is considered idle
 var redirectAfter = 120; // number of seconds to wait before redirecting the user
 
 
