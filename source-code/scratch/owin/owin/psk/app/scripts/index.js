@@ -448,7 +448,7 @@ $(function ()
       resizable: false,
       open: function() {
           // scrollbar fix for IE
-          //$("#sessionTimeoutWarningDiv").css('display','block');
+          $("#sessionTimeoutWarningDiv").css('display','block');
           $('body').css('overflow','hidden');
           $('#sessionTimeoutExpiredId').hide();
           $('#sessionTimeoutPendingId').css('display','block');
