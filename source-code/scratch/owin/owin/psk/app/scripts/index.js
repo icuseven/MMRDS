@@ -541,6 +541,7 @@ function load_profile()
       $("#landing_page").hide();
       $("#logout_page").hide();
       $("#footer").hide();
+      $("#root").removeClass("header");
       get_metadata();
       if
       (
@@ -555,7 +556,8 @@ function load_profile()
 
     profile.on_logout_call_back = function (p_user_name, p_password)
     {
-      $("#landing_page").show();
+      //$("#landing_page").show();
+      $("#root").addClass("header");
       $("#footer").show();
       if
       (
