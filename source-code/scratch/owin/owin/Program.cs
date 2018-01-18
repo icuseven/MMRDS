@@ -258,28 +258,82 @@ namespace mmria.server
 
 		public void Startup ()
 		{
-			System.Threading.Tasks.Task.Run
+            /*System.Threading.Tasks.Task.Run
 			(
 				new Action (() => 
 				{
+                    
 					int milliseconds_in_second = 1000;
 					int number_of_seconds = 60;
 					int total_milliseconds = number_of_seconds * milliseconds_in_second;
 
-					System.Threading.Thread.Sleep(total_milliseconds);
+					System.Threading.Thread.Sleep(total_milliseconds);*/
+                    
+
+                    if 
+                    (
+                        url_endpoint_exists (Program.config_couchdb_url, null, null, "GET") &&
+                        !url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")
+                    )
+                    {
+
+                        try
+                        {
+                                new cURL ("PUT", null, Program.config_couchdb_url + $"/_node/nonode@nohost/_config/admins/{Program.config_timer_user_name}", $"\"{Program.config_timer_password}\"", null, null).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/couch_httpd_auth/allow_persistent_cookies", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/chttpd/bind_address", $"\"0.0.0.0\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/chttpd/port", $"\"5984\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/httpd/enable_cors", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/origins", $"\"*\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/credentials", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/headers", $"\"accept, authorization, content-type, origin, referer, cache-control, x-requested-with\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/methods", $"\"GET, PUT, POST, HEAD, DELETE\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_users", null, Program.config_timer_user_name, Program.config_timer_password).execute();
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_replicator", null, Program.config_timer_user_name, Program.config_timer_password).execute();
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_global_changes", null, Program.config_timer_user_name, Program.config_timer_password).execute();
+                        }
+                        catch(Exception ex)
+                        {
+                            System.Console.WriteLine($"Failed configuration \n{ex}");
+                        }
+                    }
+
+
+
+
+
+
 
 					if (
-						url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") &&
-						Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
+
+						url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") //&&
+						//Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
 					) 
 					{
 						string current_directory = AppDomain.CurrentDomain.BaseDirectory;
-	
 						if
 						(
 							!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
 						) 
 						{
+
+
+
+
+
+
 							var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
 							System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
 	
@@ -394,8 +448,8 @@ namespace mmria.server
 							 	);
 							}
 						}
-					}
-			));
+					/*}
+			));*/
 
             // ****   Quartz Timer - End
 
