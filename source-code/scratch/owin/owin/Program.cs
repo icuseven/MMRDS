@@ -21,6 +21,7 @@ namespace mmria.server
 
 
 		static bool config_is_service = true;
+        public static string config_app_version;
         public static string config_geocode_api_key;
         public static string config_geocode_api_url;
         public static string config_couchdb_url;
@@ -258,7 +259,7 @@ namespace mmria.server
 
 		public void Startup ()
 		{
-            /*System.Threading.Tasks.Task.Run
+            System.Threading.Tasks.Task.Run
 			(
 				new Action (() => 
 				{
@@ -267,7 +268,7 @@ namespace mmria.server
 					int number_of_seconds = 60;
 					int total_milliseconds = number_of_seconds * milliseconds_in_second;
 
-					System.Threading.Thread.Sleep(total_milliseconds);*/
+                    System.Threading.Thread.Sleep(total_milliseconds);/**/
                     
 
                     if 
@@ -280,6 +281,8 @@ namespace mmria.server
                         try
                         {
                                 new cURL ("PUT", null, Program.config_couchdb_url + $"/_node/nonode@nohost/_config/admins/{Program.config_timer_user_name}", $"\"{Program.config_timer_password}\"", null, null).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/mmria_section/app_version", $"\"bass!\"", Program.config_timer_user_name, Program.config_timer_password).execute();
 
 
                                 new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/couch_httpd_auth/allow_persistent_cookies", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
@@ -448,8 +451,8 @@ namespace mmria.server
 							 	);
 							}
 						}
-					/*}
-			));*/
+					}
+			));
 
             // ****   Quartz Timer - End
 
