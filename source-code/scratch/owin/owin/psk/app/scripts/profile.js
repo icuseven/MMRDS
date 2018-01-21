@@ -588,7 +588,7 @@ logout : function()
 				$mmria.addCookie("AuthSession", json_response.auth_session);
 				profile.auth_session = json_response.auth_session;
 				set_session_warning_interval();
-				Console.log("profile.update_session_timer");
+				console.log("profile.update_session_timer");
 			}
 			});
 		}
