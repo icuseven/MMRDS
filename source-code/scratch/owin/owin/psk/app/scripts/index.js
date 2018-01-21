@@ -415,7 +415,7 @@ $(function ()
     clearInterval(timer);
     running = false;
     $("#sessionTimeoutWarningDiv").dialog('close');
-    set_session_warning_interval();
+    profile.profile.update_session_timer();
   });
 
   //$(sessionTimeoutWarningDialog).html(initialSessionTimeoutMessage);
@@ -442,7 +442,8 @@ $(function ()
               clearInterval(timer);
               running = false;
               $(this).dialog('close');
-              set_session_warning_interval();
+              profile.profile.update_session_timer();
+              
           }
       },
       resizable: false,
@@ -533,6 +534,7 @@ function load_values()
 
 }
 
+var update_session_timer_interval_id = null;
 
 function load_profile()
 {
@@ -543,6 +545,7 @@ function load_profile()
       $("#footer").hide();
       $("#root").removeClass("header");
       get_metadata();
+      /*
       if
       (
           g_source_db == "mmrds" &&
@@ -550,12 +553,19 @@ function load_profile()
           profile.user_roles.indexOf("_admin") < 0
       )
       {
-        window.setInterval(profile.update_session_timer, 120000);
-      }
+
+        update_session_timer_interval_id = window.setInterval(profile.update_session_timer, 120000);
+      }*/
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)
     {
+      if(update_session_timer_interval_id != null)
+      {
+        window.clearInterval(update_session_timer_interval_id);
+        update_session_timer_interval_id = null;
+      }
+
       //$("#landing_page").show();
       $("#root").addClass("header");
       $("#footer").show();
@@ -1395,6 +1405,7 @@ function set_session_warning_interval()
   {
     clearInterval(session_warning_interval_id);
   }
+
   session_warning_interval_id = setInterval(
       function()
       { 
