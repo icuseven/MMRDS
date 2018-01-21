@@ -415,7 +415,7 @@ $(function ()
     clearInterval(timer);
     running = false;
     $("#sessionTimeoutWarningDiv").dialog('close');
-    profile.profile.update_session_timer();
+    profile.update_session_timer();
   });
 
   //$(sessionTimeoutWarningDialog).html(initialSessionTimeoutMessage);
@@ -442,7 +442,7 @@ $(function ()
               clearInterval(timer);
               running = false;
               $(this).dialog('close');
-              profile.profile.update_session_timer();
+              profile.update_session_timer();
               
           }
       },
