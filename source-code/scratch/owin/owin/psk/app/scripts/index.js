@@ -544,7 +544,7 @@ $(function ()
 
 
 
-  set_session_warning_interval();
+  //set_session_warning_interval();
 
   $.datetimepicker.setLocale('en');
 
