@@ -492,7 +492,7 @@ $(function ()
           clearInterval(timer);
           running = false;
           $(this).dialog('close');
-          set_session_warning_interval();
+          profile.update_session_timer();
       }
   });
   // end of dialog
