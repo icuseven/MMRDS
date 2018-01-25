@@ -150,41 +150,8 @@ docker run --name [container_name] -d  --publish [Port]:9000 \
 thetagrid/mmria:v18.01.23
 </pre>
 
-<p>Lastly, open your browser and navigate to <strong>http://localhost:12345/_config.</strong> You will be presented with an interface: "To perform database setup and initialization use the below form." Fill in the appropriate information and press the "Run db setup" button.</p>
-<pre>
-target_server: &lt;couchdb database url> i.e. http://localhost:5984
-target_db_user_name: &lt;couchdb admin user name>
-target_db_password: &lt;couchdb admin password>
 
-
-source_server: http://configdb.mmria.org
-source_db_user_name: db_init
-source_db_password: mmria
-set_config: true
-
-</pre>
-<p>After pressing the "Run db setup" button, wait approximately 10-15 seconds for a response from the database server.</p>
-
-<p>Open the CouchDB url <strong>http://localhost:5984/_utils</strong> navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
-Be sure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that does not match the following:</p>
-
-<pre>
-	couch_httpd_auth
-		allow_persistent_cookies = true
-	httpd
-		enable_cors = true
-	cors
-		credentials = true
-		headers = accept,authorization,content-type,origin,referer,cache-control, x-requested-with
-		methods = GET,PUT,POST,HEAD,DELETE
-		origins = *
-</pre>
-
-<!--p><strong>CouchDB must be restarted</strong> in order for the new settings to take effect. Restart CouchDB through Services on the Windows Control Panel.</p>
-
-<p>Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "Restart"</p-->
-
-<p>Once you have restarted CouchDB, you can log in to MMRIA using the admin account and configure users and roles at http://localhost:12345.  Please consult the MMRIA <a href="MMRIA_User_Guide_Oct2017.pdf" target="_user_guide">User Guide</a> for instructions on configuring users and roles.</p>
+<p>You can now log in to MMRIA using the admin account and configure users and roles at http://localhost:12345.  Please consult the MMRIA <a href="MMRIA_User_Guide_Oct2017.pdf" target="_user_guide">User Guide</a> for instructions on configuring users and roles.</p>
 
 
 <hr/>
@@ -210,32 +177,6 @@ Be sure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd
 {"couchdb":"Welcome","version":"2.0.0","vendor":{"name":"The Apache Software Foundation"}}
 </pre>
 <hr/>
-
-<h3 style="font:Work Sans Light"><strong>Configure CouchDB 2.0</strong></h3>
-
-<p>Navigate to the database url; the default location is <strong>http://localhost:5984/_utils</strong></p>
-
-<p>Setup + Configure Single Node:  Choose "Setup" then "Configure Single Node"</p>
-<pre>
-Specify Credentials
-Select your Admin Username and Password
-
-IP Bind address to listen on = 0.0.0.0
-
-Port that the Node uses = 5984
-
-Press "Configure Node".
-
-The application will respond with: <i>"Apache CouchDB is configured for production usage!  Do you want to replicate data?" </i>
-
-
-</pre>
-
-<p>From the menu choose Verify + click "Verify Installation".</p>
-
-<p>From the menu choose Configuration + CORS + Enable CORS + "All Domains".</p>
-
-
 
 <h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 18.01.23</strong></h3>
 
@@ -279,55 +220,14 @@ mmria.exe.config
 
 
 
-<p>Using <strong>Administrator Mode</strong>, open MMRIA 18.01.23 v(9c5e9ea) from the Windows start menu or from the desktop shortcut.  The console should display:</p>
-
-<pre>
-using AppSettings
-geocode_api_key:
-geocode_api_url:
-couchdb_url: http://localhost:5984
-web_site_url: http://localhost:12345
-file_root_folder: app
-Listening at http://localhost:12345
-no configuration section <common/logging> found - suppressing logging output
-</pre>
 
 
-<strong>http://localhost:12345/_config </strong>
 
-<p>Open a browser and navigate to <strong>http://localhost:12345/_config</strong>.  You will be present with an interface: "To perform db setup and initialization use the below form." Fill in the appropriate information and press the "Run db setup" button.</p>
-<pre>
-
-target_db_user_name: &lt;couchdb admin user name>
-target_db_password: &lt;couchdb admin password>
-
-</pre>
-
-<p>After pressing the "Run upgrade db setup" button, wait approximately 10-15 seconds for a response from the database server.</p>
-
-<p>Open the CouchDB url <strong>http://localhost:5984/_utils</strong>, navigate to "Configuration" and verify that the following configuration parameters are set.<br/>
-Ensure that <strong>allow_persistent_cookies = true</strong> in the couch_httpd_auth section. Manually change any setting that does not match the following.</p>
-
-<pre>
-	couch_httpd_auth
-		allow_persistent_cookies = true
-	httpd
-		enable_cors = true
-	cors
-		credentials = true
-		headers = accept,authorization,content-type,origin,referer,cache-control, x-requested-with
-		methods = GET,PUT,POST,HEAD,DELETE
-		origins = *
-</pre>
-
-<p><strong>CouchDB must be restarted</strong> in order for the new settings to take effect. Restart CouchDB through Services on the Windows Control Panel:</p>
-
+<h3 style="font:Work Sans Light"><strong>Restart Apache CouchDB and MMRIA 18.01.23 services</strong></h3>
 <p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "Restart"</p>
+<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "MMRIA 18.01.23" + right click "Restart"</p>
 
-<p>If installed on Windows, the mmria-server.exe should be added to the startup script so that it will not need to be manually started each time it is to be used.</p>
-
-<p><strong>Restart CouchDB</strong></p>
-<p>After CouchDB has been restarted,  you will need to <strong>log into MMRIA using the couchdb user_admin_name and user_admin_password</strong> that was used to perform the setup.</p>
+<p>After MMRIA 18.01.23 has been restarted wait about 2 minutes while the application initializes, then you will need to <strong>log into MMRIA using the couchdb user_admin_name and user_admin_password</strong> that was used to perform the setup.</p>
 <p><strong>Create at least one user</strong> who has the <strong>"abstractor"</strong> role.  This is explained on <strong>page 52</strong> of the <a href="MMRIA_User_Guide_Oct2017.pdf" target="_user_guide">MMRIA User Guide</a>.</p>
 <p> You may need to create one or more other users depending on the number and type of users in your jurisdiction.  The two main types of users are "abstractor" and "committee_member".</p>
 <p>Upon saving your changes, the user(s) that you created will be able to log in to the MMRIA application and use its features.</p>

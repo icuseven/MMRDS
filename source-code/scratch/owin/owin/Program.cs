@@ -21,7 +21,7 @@ namespace mmria.server
 
 
 		static bool config_is_service = true;
-        public static string config_app_version = "17.12.06";
+        public static string config_app_version = "18.01.23";
         public static string config_geocode_api_key;
         public static string config_geocode_api_url;
         public static string config_couchdb_url;
@@ -274,6 +274,8 @@ namespace mmria.server
                     if 
                     (
                         url_endpoint_exists (Program.config_couchdb_url, null, null, "GET") &&
+							!Program.config_timer_user_name.Equals("couchdb_admin_user_name", StringComparison.OrdinalIgnoreCase) &&
+							!Program.config_timer_password.Equals ("couchdb_admin_password", StringComparison.OrdinalIgnoreCase) &&
                         !url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")
                     )
                     {
