@@ -270,7 +270,7 @@ namespace mmria.server
 
                     System.Threading.Thread.Sleep(total_milliseconds);/**/
                     
-
+                    System.Console.WriteLine("Starup/Install Check - start");
                     if 
                     (
                         url_endpoint_exists (Program.config_couchdb_url, null, null, "GET") &&
@@ -314,7 +314,7 @@ namespace mmria.server
                             System.Console.WriteLine($"Failed configuration \n{ex}");
                         }
                     }
-
+                    System.Console.WriteLine("Starup/Install Check - end");
 
 
 
@@ -328,6 +328,9 @@ namespace mmria.server
 					) 
 					{
 						string current_directory = AppDomain.CurrentDomain.BaseDirectory;
+
+                        System.Console.WriteLine("DB Repair Check - start");
+
 						if
 						(
 							!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
@@ -452,6 +455,8 @@ namespace mmria.server
                                     })
 							 	);
 							}
+
+                            System.Console.WriteLine("DB Repair Check - end");
 						}
 					}
 			));
@@ -524,7 +529,7 @@ namespace mmria.server
                 if (Program.sched != null && !Program.sched.IsStarted) 
                 {
 
-
+                    System.Console.WriteLine("MMRIA Scheduler - start");
 
                     Program.sched.Start ();
                 }
@@ -539,6 +544,7 @@ namespace mmria.server
             {
                 if (Program.sched != null) 
                 {
+                    System.Console.WriteLine("MMRIA Scheduler check_for_changes_job - pause");
                     Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
                 }
             }
@@ -551,6 +557,7 @@ namespace mmria.server
             {
                 if (Program.sched != null) 
                 {
+                    System.Console.WriteLine("MMRIA Scheduler check_for_changes_job - resume");
                     Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
                 }
             }
