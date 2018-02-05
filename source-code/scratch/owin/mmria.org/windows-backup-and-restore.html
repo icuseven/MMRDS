@@ -31,11 +31,9 @@
 <li>4.backup_file_path <- location where you wish to save data</li>
 </ul>
 
-<p>Please note that <b>3 databases are involved in backing up and restoring</b>:</p>
+<p>Please note that <b>1 database is involved in backing up and restoring</b>:</p>
 <ul>
-<li>metadata</li>
 <li>mmrds</li>
-<li>export_queue</li>
 </ul>
 
 
@@ -45,12 +43,7 @@
 
 <pre>
 example:
-
-mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/metadata backup_file_path:c:\temp\bk-meta.bk
-
-mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
-
-mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/export_queue backup_file_path:c:\temp\bk-meta.bk
+mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-mmrds.bk
 </pre>
 
 <h2>To perform a restore:</h2>
@@ -71,11 +64,9 @@ mmria.exe backup user_name:[admin_user] password:[admin_password] database_url:h
 <pre>
 example:
 
-mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/metadata backup_file_path:c:\temp\bk-meta.bk
 
-mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-meta.bk
+mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:\temp\bk-mmrds.bk
 
-mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/export_queue backup_file_path:c:\temp\bk-meta.bk
 </pre>
 
 
@@ -84,15 +75,12 @@ mmria.exe restore user_name:[admin_user] password:[admin_password] database_url:
 <p>After doing a restore please ensure the following perissions are defined on the appropriate database.</p>
 
 <pre>
-metadata
-  admin = form_designer
+
 
 mmrds 
    admin = form_designer
   members = abstractor + data_analyst + timer
 
-export_queue
-	members = abstractor
 
 </pre>
 

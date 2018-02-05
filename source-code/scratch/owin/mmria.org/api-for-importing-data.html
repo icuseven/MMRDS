@@ -14,7 +14,6 @@
 </head>
 <body>
 <h1>How to use the MMRIA Case API to import case data.</h1>
-
 <ul>
 <li>Summary of import process.</li>
 
@@ -28,58 +27,6 @@
 <h2>Summary of import process.</h2>
 <p>The MMRIA system includes a REST API that allows importing of data from other formats sucha as vital records.</p>
 <p>The MMRIA system uses the JSON format for storing data.</p>
-<h3>Abbreviated example of a MMRIA Case Record</h3>
-<pre>
-{
-	"_id":"2f775d44-05f2-b755-ff03-3777f5567960",
-	"date_created":"",
-	"created_by":"",
-	"date_last_updated":"",
-	"last_updated_by":"",
-	"home_record":{
-					"first_name":"",
-					"middle_name":"",
-					"last_name":"",
-					"date_of_death":{
-										"month":"",
-										"day":"",
-										"year":"",
-										"is_estimated":false
-									},
-					"state_of_death_record":"",
-					"record_id":"",
-					"agency_case_id":"",
-					"how_was_this_death_identified":"",
-					"specify_other_multiple_sources":"",
-					"primary_abstractor":"",
-					"case_progress_report":{
-											"death_certificate":"Not Started",
-											"autopsy_report":"",
-											... more fields
-											}
-				}
-	"death_certificate":{
-							"certificate_identification":{
-															"time_of_death":"",
-															"local_file_number":"",
-															"state_file_number":""
-														},
-							"place_of_last_residence":{
-														"street":"",
-														"city":"",
-														"state":"",
-														"country_of_last_residence":"",
-														"zip_code":"",
-														"county":"",
-														"latitude":"",
-														"longitude":""
-														},
-														... more fields
-								
-						}
-	... more fields
-}
-</pre>
 
 <p>For proper importing the import program must create a file with that matches the MMRIA JSON format.</p>
 <p>The data-dictionary helps explain how to map a source field to the appropriate MMRIA field using the MMRIA path.</p>
@@ -89,6 +36,62 @@
 {
 	"date_created": ""
 }
+</pre>
+
+<p>The path "home_record/first_name" maps to the following field:</p>
+<pre>
+{
+	"home_record":{
+					"first_name":""
+				
+		}
+}
+</pre>
+
+
+<h3>Abbreviated example of a MMRIA Case Record</h3>
+<pre>
+{
+  "_id": "1a80fdb8-a193-4d6d-805a-07c0cbdcb0ca",  <-- _id should be a UUID string enclosed in double quotes
+  "_rev": "18-33dfdaebdcfb4e38f3bac8d446517e10",
+  "date_created": "2017-06-13T12:17:45Z", <-- dates should JSON ISO string format enclosed in double quotes
+  "created_by": "CDC\\mdb4",
+  "date_last_updated": "2017-06-13T12:17:48Z",
+  "last_updated_by": "CDC\\mdb4",
+  "home_record": {
+    "first_name": "Test",
+    "middle_name": "32",
+    "last_name": "pmss",
+    "date_of_death": {
+      "month": 6, <-- numbers are written as is whether integer or real number
+      "day": 13,
+      "year": 2017,
+      "is_estimated": false <-- booleans are written as true or false 
+    },
+	"medications_and_drugs_during_pregnancy": [ <-- lists are enclosed in square brackets and items are separated by comma
+		  {
+			"date": null,
+			"gestational_age_weeks": null,
+			"gestational_age_days": null,
+			"medication": "",
+			"dose_frequency_duration": "",
+			"reason": "",
+			"is_adverse_reaction": ""
+		  },
+				{
+			"date": null,
+			"gestational_age_weeks": null,
+			"gestational_age_days": null,
+			"medication": "",
+			"dose_frequency_duration": "",
+			"reason": "",
+			"is_adverse_reaction": ""
+		  }
+	  ],
+	  
+	  ...
+	  
+
 </pre>
 
 <p>The data dictionary can be found by navigation to your installation's web location at http(s)://[domain]/data-dictionary</p>
