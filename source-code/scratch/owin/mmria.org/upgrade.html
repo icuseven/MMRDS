@@ -76,9 +76,8 @@
 <ul>
 	<li>Download the couchdb backup/restore bash script <a href="couchdb-backup.sh">couchdb-backup.sh</a></li>
 	<li>
-		You'll need to back up 2 databases:
+		You'll need to back up 1 database:
 		<ul>
-		<li>metadata (not underscore metadata "_metadata")</li>
 		<li>mmrds</li>
 	</ul>
 	</li>
@@ -87,11 +86,9 @@
 example usage
 
 backup
-	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
 	./couchdb-backup.sh -b -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
 
 restore
-	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d metadata -u [user_name] -p [user_password] -f mmria-metadata-db.json
 	./couchdb-backup.sh -r -H [ip_or_url] -P [port] -d mmrds -u [user_name] -p [user_password] -f mmria-mmrds-db.json
 </pre>
 
