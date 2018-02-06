@@ -75,14 +75,14 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
                 try 
                 {
-                    string metadata_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/metadata_design_auth.json").ReadToEnd ();
+					string metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
 
                     sync_document (metadata_design_auth, Program.config_couchdb_url + "/metadata/_design/auth", p_target_db_user_name, p_target_db_password);
 
                     //var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, p_target_db_user_name, p_target_db_password);
                     //metadata_design_auth_curl.execute ();
 
-                    string metadata_json = System.IO.File.OpenText (current_directory + "database-scripts/metadata.json").ReadToEnd (); 
+					string metadata_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")).ReadToEnd (); 
                     sync_document (metadata_json, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", p_target_db_user_name, p_target_db_password);
 
                     //var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, p_target_db_user_name, p_target_db_password);
@@ -107,13 +107,13 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
                 try 
                 {
-                    string case_design_sortable = System.IO.File.OpenText (current_directory + "database-scripts/case_design_sortable.json").ReadToEnd ();
+					string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")).ReadToEnd ();
                     //var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, p_target_db_user_name, p_target_db_password);
                     //case_design_sortable_curl.execute ();
                     sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_password);
 
 
-                    string case_store_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/case_store_design_auth.json").ReadToEnd ();
+					string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")).ReadToEnd ();
                     //var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, p_target_db_user_name, p_target_db_password);
                     //case_store_design_auth_curl.execute ();
                     sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_password);
