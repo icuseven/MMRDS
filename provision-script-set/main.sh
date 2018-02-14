@@ -89,7 +89,14 @@ if [[ -f "/usr/bin/java" ]]; then
 	echo "jdk already installed,skipping..."
 else
 	echo "installing jdk..."
-	sudo apt-get install openjdk-7-jdk -y
+	#sudo apt-get install openjdk-7-jdk -y
+	
+	sudo add-apt-repository ppa:openjdk-r/ppa
+	sudo apt-get update
+	sudo apt-get install openjdk-8-jdk -y
+	#sudo update-alternatives --config java
+	#sudo update-alternatives --config javac
+	
 fi
 
 #echo "checking if nodejs is installed..."
