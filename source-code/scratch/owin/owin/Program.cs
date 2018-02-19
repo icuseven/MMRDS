@@ -544,7 +544,7 @@ namespace mmria.server
             {
                 if (Program.sched != null) 
                 {
-                    System.Console.WriteLine("MMRIA Scheduler check_for_changes_job - pause");
+                    System.Console.WriteLine($"{System.DateTime.Now} MMRIA Scheduler check_for_changes_job - pause");
                     Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
                 }
             }
@@ -557,8 +557,8 @@ namespace mmria.server
             {
                 if (Program.sched != null) 
                 {
-                    System.Console.WriteLine("MMRIA Scheduler check_for_changes_job - resume");
                     Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
+                    System.Console.WriteLine($"{System.DateTime.Now} MMRIA Scheduler check_for_changes_job - resume");
                 }
             }
         }

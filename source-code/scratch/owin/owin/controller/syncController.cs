@@ -62,17 +62,37 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 					new Action (() =>
 					{
 
-                        Program.PauseSchedule ();
+                        try 
+                        {
+                            Program.PauseSchedule (); 
+                        }
+                        catch (Exception ex) 
+                        {
+                            System.Console.WriteLine ($"syncController. error pausing schedule\n{ex}");
+                        }
 
 						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
 																			 Program.config_couchdb_url,
 																			 Program.config_timer_user_name,
 																			 Program.config_timer_password
 																		 );
+                        try 
+                        {
+                            sync_all.execute (); 
+                        }
+                        catch (Exception ex) 
+                        {
+                            System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
+                        }
 
-						sync_all.execute ();
-
-                        Program.ResumeSchedule ();
+                        try 
+                        {
+                            Program.ResumeSchedule (); 
+                        }
+                        catch (Exception ex) 
+                        {
+                            System.Console.WriteLine ($"syncController. error resuming schedule\n{ex}");
+                        }
 					})
 				);
 			}

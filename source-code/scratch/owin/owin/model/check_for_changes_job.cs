@@ -249,57 +249,66 @@ namespace mmria.server.model
 			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
 			string url = null;
 
-			if (string.IsNullOrWhiteSpace(p_last_sequence))
-			{
-				url = Program.config_couchdb_url + "/mmrds/_changes";
-			}
-			else
-			{
-				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
-			}
-			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
-			string res = curl.execute();
-			
-			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
-			//System.Console.WriteLine("get_job_info.last_seq");
-			//System.Console.WriteLine(result.last_seq);
-
-
-			/*
-			 curl -X GET $HOST/db/_changes 
-			 curl -X GET $HOST/db/_changes?since=1
-
-				http://db1.mmria.org/mmrds/_changes?since=3235-g1AAAAIseJyV0UEKwjAQBdDRKorgGSqeIEntNK7sTTSxhVJqIuheb1L3HkJPIN5Ab1LTpCtFaDcTGIZH-L8AgHHmJTBVWukkjZXO9OFYmHVfgPSrqsozTwJ4_s7sRilyzgj5vv8jyJmZcuUQ8bACCZdbTMO2QlwL60bYWwEjwmUg2gqbWjg1wtMKQiAiW7QU1MBMOJvHIKWLYzhxcRAZIOWdoIuDbvV3rlaRgiaUR52Uu1NetVJahTOT6hY7KW-nNB335q6hCDllPw3lHw3Uqkc
-
-			{
-				"seq":12, // update_seq created when document changed
-				"id":"foo", // document id
-				"changes":  /// one or more changes
-					[
-						{"rev":"1-23202479633c2b380f79507a776743d5"}
-					]
-			}
-
-            string get_job_search_result_json = Get_Job_Set();
-
-            DGJobAPI.Models.GetJobSearchResult get_job_search_result = Newtonsoft.Json.JsonConvert.DeserializeObject<DGJobAPI.Models.GetJobSearchResult>(get_job_search_result_json);
-
-            // remove duplicates
-            IEnumerable<DGJobAPI.Models.JsonSummary> de_deplicated_list = get_job_search_result.searchResults
-                      .GroupBy(summary => summary.id)
-                      .Select(group => group.First());
-
-
-            foreach (DGJobAPI.Models.JsonSummary json_summary in de_deplicated_list)
+            try
             {
 
-                string get_job_detail_result_json = Get_Job(json_summary.id.ToString());
-                DGJobAPI.Models.GetJobDetailResult get_job_detail_result = Newtonsoft.Json.JsonConvert.DeserializeObject<DGJobAPI.Models.GetJobDetailResult>(get_job_detail_result_json);
-                result.Add(new DGJobAPI.Models.JobInfo(json_summary.id.ToString(), get_job_detail_result));
-            }
+    			if (string.IsNullOrWhiteSpace(p_last_sequence))
+    			{
+    				url = Program.config_couchdb_url + "/mmrds/_changes";
+    			}
+    			else
+    			{
+    				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
+    			}
+    			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
+    			string res = curl.execute();
+    			
+    			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+    			//System.Console.WriteLine("get_job_info.last_seq");
+    			//System.Console.WriteLine(result.last_seq);
 
-            return result.OrderByDescending(j => j.date_last_updated).Take(100).ToList();
-			*/ 
+
+    			/*
+    			 curl -X GET $HOST/db/_changes 
+    			 curl -X GET $HOST/db/_changes?since=1
+
+    				http://db1.mmria.org/mmrds/_changes?since=3235-g1AAAAIseJyV0UEKwjAQBdDRKorgGSqeIEntNK7sTTSxhVJqIuheb1L3HkJPIN5Ab1LTpCtFaDcTGIZH-L8AgHHmJTBVWukkjZXO9OFYmHVfgPSrqsozTwJ4_s7sRilyzgj5vv8jyJmZcuUQ8bACCZdbTMO2QlwL60bYWwEjwmUg2gqbWjg1wtMKQiAiW7QU1MBMOJvHIKWLYzhxcRAZIOWdoIuDbvV3rlaRgiaUR52Uu1NetVJahTOT6hY7KW-nNB335q6hCDllPw3lHw3Uqkc
+
+    			{
+    				"seq":12, // update_seq created when document changed
+    				"id":"foo", // document id
+    				"changes":  /// one or more changes
+    					[
+    						{"rev":"1-23202479633c2b380f79507a776743d5"}
+    					]
+    			}
+
+                string get_job_search_result_json = Get_Job_Set();
+
+                DGJobAPI.Models.GetJobSearchResult get_job_search_result = Newtonsoft.Json.JsonConvert.DeserializeObject<DGJobAPI.Models.GetJobSearchResult>(get_job_search_result_json);
+
+                // remove duplicates
+                IEnumerable<DGJobAPI.Models.JsonSummary> de_deplicated_list = get_job_search_result.searchResults
+                          .GroupBy(summary => summary.id)
+                          .Select(group => group.First());
+
+
+                foreach (DGJobAPI.Models.JsonSummary json_summary in de_deplicated_list)
+                {
+
+                    string get_job_detail_result_json = Get_Job(json_summary.id.ToString());
+                    DGJobAPI.Models.GetJobDetailResult get_job_detail_result = Newtonsoft.Json.JsonConvert.DeserializeObject<DGJobAPI.Models.GetJobDetailResult>(get_job_detail_result_json);
+                    result.Add(new DGJobAPI.Models.JobInfo(json_summary.id.ToString(), get_job_detail_result));
+                }
+
+                return result.OrderByDescending(j => j.date_last_updated).Take(100).ToList();
+    			*/ 
+
+            }
+            catch(Exception method_exception)
+            {
+                System.Console.Write($"{System.DateTime.Now} check_for_changes_job.get_changes error\n{method_exception}");
+            }
 			return result;
         }
 
@@ -307,151 +316,157 @@ namespace mmria.server.model
         public void Process_Export_Queue_Item ()
         {
 			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
+            try
+            {
+    			List<export_queue_item> result = new List<export_queue_item> ();
+    			
+    			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
 
-			List<export_queue_item> result = new List<export_queue_item> ();
-			
-			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
+    			string responseFromServer = get_curl.execute ();
 
-			string responseFromServer = get_curl.execute ();
+    			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
+    			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
 
-			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
-			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
+    			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
+    			{
+    				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
+    		
+    				if (
+    					doc_item ["status"] != null &&
+    					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
+    				{
+    					export_queue_item item = new export_queue_item ();
+    	
+    					item._id = doc_item ["_id"].ToString ();
+    					item._rev = doc_item ["_rev"].ToString ();
+    					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
+    					item.date_created = doc_item ["date_created"] as DateTime?;
+    					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
+    					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
+    					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+    					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
+    					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
+    					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
+    	
+    					result.Add (item);
+    				}
+    			}
 
-			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
-			{
-				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
-		
-				if (
-					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
-				{
-					export_queue_item item = new export_queue_item ();
-	
-					item._id = doc_item ["_id"].ToString ();
-					item._rev = doc_item ["_rev"].ToString ();
-					item._deleted = doc_item .ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
-					item.date_created = doc_item ["date_created"] as DateTime?;
-					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
-					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
-					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item ["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
-					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
-					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
-					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
-	
-					result.Add (item);
-				}
-			}
+    		
+    			if (result.Count > 0)
+    			{
+    				if (result.Count > 1)
+    				{
+    					var comparer = Comparer<export_queue_item>.Create
+    					(
+    						               (x, y) => x.date_created.Value.CompareTo (y.date_created.Value) 
+    					               );
+    	
+    					result.Sort (comparer);
+    				}
 
-		
-			if (result.Count > 0)
-			{
-				if (result.Count > 1)
-				{
-					var comparer = Comparer<export_queue_item>.Create
-					(
-						               (x, y) => x.date_created.Value.CompareTo (y.date_created.Value) 
-					               );
-	
-					result.Sort (comparer);
-				}
+    				export_queue_item item_to_process = result [0];
 
-				export_queue_item item_to_process = result [0];
-
-				item_to_process.date_last_updated = new DateTime?();
-				//item_to_process.last_updated_by = $mmria.getCookie("uid");
-
-
-				List<string> args = new List<string>();
-                args.Add("exporter:exporter");
-				args.Add("user_name:" + this.user_name);
-				args.Add("password:" + this.password);
-				args.Add("database_url:" + this.couch_db_url);
-				args.Add ("item_file_name:" + item_to_process.file_name);
-				args.Add ("item_id:" + item_to_process._id);
+    				item_to_process.date_last_updated = new DateTime?();
+    				//item_to_process.last_updated_by = $mmria.getCookie("uid");
 
 
-				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))
-				{
-
-					item_to_process.status = "Creating Export...";
-					item_to_process.last_updated_by = "mmria-server";
-					item_to_process.date_last_updated = DateTime.Now;
-
-					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
-
-					responseFromServer = set_curl.execute ();
-
-                    try
-                    {
-					
-    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
-    					core_element_exporter.Execute(args.ToArray());
-                    }
-                    catch(Exception ex)
-                    {
-                        System.Console.WriteLine (ex);
-                    }
-
-				
-				}
-				else if(item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase))
-				{
-					item_to_process.status = "Creating Export...";
-					item_to_process.last_updated_by = "mmria-server";
-					item_to_process.date_last_updated = DateTime.Now;
-
-					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
-
-					responseFromServer = set_curl.execute ();
+    				List<string> args = new List<string>();
+                    args.Add("exporter:exporter");
+    				args.Add("user_name:" + this.user_name);
+    				args.Add("password:" + this.password);
+    				args.Add("database_url:" + this.couch_db_url);
+    				args.Add ("item_file_name:" + item_to_process.file_name);
+    				args.Add ("item_id:" + item_to_process._id);
 
 
-                    try
-                    {
-    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
-    					mmrds_exporter.Execute(args.ToArray());
-                    }
-                    catch(Exception ex)
-                    {
-                        System.Console.WriteLine (ex);
-                    }
+    				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))
+    				{
 
-				}
-				else if (item_to_process.export_type.StartsWith ("cdc csv", StringComparison.OrdinalIgnoreCase)) 
-				{
+    					item_to_process.status = "Creating Export...";
+    					item_to_process.last_updated_by = "mmria-server";
+    					item_to_process.date_last_updated = DateTime.Now;
+
+    					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+    					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+    					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+    					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+    					responseFromServer = set_curl.execute ();
+
+                        try
+                        {
+    					
+        					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
+        					core_element_exporter.Execute(args.ToArray());
+                        }
+                        catch(Exception ex)
+                        {
+                            System.Console.WriteLine (ex);
+                        }
+
+    				
+    				}
+    				else if(item_to_process.export_type.StartsWith ("all csv", StringComparison.OrdinalIgnoreCase))
+    				{
+    					item_to_process.status = "Creating Export...";
+    					item_to_process.last_updated_by = "mmria-server";
+    					item_to_process.date_last_updated = DateTime.Now;
+
+    					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+    					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+    					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+    					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+    					responseFromServer = set_curl.execute ();
 
 
-					item_to_process.status = "Creating Export...";
-					item_to_process.last_updated_by = "mmria-server";
-					item_to_process.date_last_updated = DateTime.Now;
+                        try
+                        {
+        					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
+        					mmrds_exporter.Execute(args.ToArray());
+                        }
+                        catch(Exception ex)
+                        {
+                            System.Console.WriteLine (ex);
+                        }
 
-					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
-
-					responseFromServer = set_curl.execute ();
-					args.Add ("is_cdc_de_identified:true");
-
-					try
-					{
-						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter ();
-						mmrds_exporter.Execute (args.ToArray ());
-					}
-					catch(Exception ex)
-					{
-						System.Console.WriteLine (ex);
-					}
+    				}
+    				else if (item_to_process.export_type.StartsWith ("cdc csv", StringComparison.OrdinalIgnoreCase)) 
+    				{
 
 
-				}
+    					item_to_process.status = "Creating Export...";
+    					item_to_process.last_updated_by = "mmria-server";
+    					item_to_process.date_last_updated = DateTime.Now;
 
-			}
+    					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+    					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+    					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+    					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+
+    					responseFromServer = set_curl.execute ();
+    					args.Add ("is_cdc_de_identified:true");
+
+    					try
+    					{
+    						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter ();
+    						mmrds_exporter.Execute (args.ToArray ());
+    					}
+    					catch(Exception ex)
+    					{
+    						System.Console.WriteLine (ex);
+    					}
+
+
+    				}
+
+    			}
+            }
+            catch(Exception method_exception)
+            {
+                System.Console.Write($"{System.DateTime.Now} Process_Export_Queue_Item error\n{method_exception}");
+            }
 
         }
 
@@ -460,104 +475,112 @@ namespace mmria.server.model
 		{
 			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: started", System.DateTime.Now);
 
-			List<export_queue_item> result = new List<export_queue_item> ();
+            try
+            {
+    			List<export_queue_item> result = new List<export_queue_item> ();
 
-			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
+    			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
 
-			string responseFromServer = get_curl.execute ();
+    			string responseFromServer = get_curl.execute ();
 
-			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
-			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
+    			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
+    			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
 
-			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
-			{
-				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
+    			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
+    			{
+    				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
 
-				if (
-					doc_item ["status"] != null &&
-					doc_item ["status"].ToString ().StartsWith ("Deleted", StringComparison.OrdinalIgnoreCase))
-				{
-					export_queue_item item = new export_queue_item ();
+    				if (
+    					doc_item ["status"] != null &&
+    					doc_item ["status"].ToString ().StartsWith ("Deleted", StringComparison.OrdinalIgnoreCase))
+    				{
+    					export_queue_item item = new export_queue_item ();
 
-					item._id = doc_item ["_id"].ToString ();
-					item._rev = doc_item ["_rev"].ToString ();
-					item._deleted = doc_item.ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
-					item.date_created = doc_item ["date_created"] as DateTime?;
-					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
-					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
-					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
-					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
-					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
-					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
+    					item._id = doc_item ["_id"].ToString ();
+    					item._rev = doc_item ["_rev"].ToString ();
+    					item._deleted = doc_item.ContainsKey("_deleted") ? doc_item["_deleted"] as bool?: null;
+    					item.date_created = doc_item ["date_created"] as DateTime?;
+    					item.created_by = doc_item.ContainsKey("created_by") && doc_item ["created_by"] != null ? doc_item ["created_by"].ToString () : null;
+    					item.date_last_updated = doc_item ["date_last_updated"] as DateTime?;
+    					item.last_updated_by = doc_item.ContainsKey("last_updated_by") && doc_item["last_updated_by"] != null ? doc_item ["last_updated_by"].ToString () : null;
+    					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
+    					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
+    					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
 
-					result.Add (item);
-				}
-			}
+    					result.Add (item);
+    				}
+    			}
 
 
-			if (result.Count > 0)
-			{
-				if (result.Count > 1)
-				{
-					var comparer = Comparer<export_queue_item>.Create
-						(
-							(x, y) => x.date_created.Value.CompareTo (y.date_created.Value) 
-						);
+    			if (result.Count > 0)
+    			{
+    				if (result.Count > 1)
+    				{
+    					var comparer = Comparer<export_queue_item>.Create
+    						(
+    							(x, y) => x.date_created.Value.CompareTo (y.date_created.Value) 
+    						);
 
-					result.Sort (comparer);
-				}
+    					result.Sort (comparer);
+    				}
 
-				export_queue_item item_to_process = result [0];
+    				export_queue_item item_to_process = result [0];
 
-				try
-				{
-					string item_directory_name = item_to_process.file_name.Substring (0, item_to_process.file_name.LastIndexOf ("."));
-					string export_directory = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_directory_name);
+    				try
+    				{
+    					string item_directory_name = item_to_process.file_name.Substring (0, item_to_process.file_name.LastIndexOf ("."));
+    					string export_directory = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_directory_name);
 
-					try
-					{
-						if (System.IO.Directory.Exists(export_directory))
-						{
-							System.IO.Directory.Delete(export_directory, true);
-						}
-					}
-					catch(Exception Ex)
-					{
-						// do nothing for now
-						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete Directory {0}", export_directory);
-					}
+    					try
+    					{
+    						if (System.IO.Directory.Exists(export_directory))
+    						{
+    							System.IO.Directory.Delete(export_directory, true);
+    						}
+    					}
+    					catch(Exception Ex)
+    					{
+    						// do nothing for now
+    						System.Console.WriteLine ("check_for_changes_job.Process_Export_Queue_Delete: Unable to Delete Directory {0}", export_directory);
+    					}
 
-					string file_path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_to_process.file_name);
-					try
-					{
-						
-						if (System.IO.File.Exists(file_path))
-						{
-							System.IO.File.Delete(file_path);
-						}
+    					string file_path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], item_to_process.file_name);
+    					try
+    					{
+    						
+    						if (System.IO.File.Exists(file_path))
+    						{
+    							System.IO.File.Delete(file_path);
+    						}
 
-					}
-					catch(Exception Ex)
-					{
-						// do nothing for now
-                        System.Console.WriteLine ("Program.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
-					}
+    					}
+    					catch(Exception Ex)
+    					{
+    						// do nothing for now
+                            System.Console.WriteLine ("Program.Process_Export_Queue_Delete: Unable to Delete File {0}", file_path);
+    					}
 
-					item_to_process.status = "expunged";
-					item_to_process.last_updated_by = "mmria-server";
-					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
-					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
+    					item_to_process.status = "expunged";
+    					item_to_process.last_updated_by = "mmria-server";
+    					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+    					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+    					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
+    					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
-					responseFromServer = get_curl.execute ();
-				}
-				catch(Exception ex)
-				{
-					// do nothing for now
-				}
+    					responseFromServer = get_curl.execute ();
+    				}
+    				catch(Exception ex)
+    				{
+    					// do nothing for now
+    				}
 
-			}
+    			}
+            }
+            catch(Exception method_exception)
+            {
+                System.Console.Write($"{System.DateTime.Now} Process_Export_Queue_Delete error\n{method_exception}");
+            }
+
 
 		}
     }
