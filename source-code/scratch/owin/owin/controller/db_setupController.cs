@@ -138,7 +138,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		catch(Exception ex) 
 		{
 			Console.WriteLine (ex);
-				result.Add("Exception",ex.ToString());
+                result.Add("db_setupController.Get Exception",ex.ToString());
 		}
 
 

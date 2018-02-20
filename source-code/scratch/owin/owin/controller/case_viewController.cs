@@ -42,7 +42,7 @@ by_state_of_death
 
 */
 
-            string sort_view = sort.ToLower ();
+            string sort_view = sort != null ? sort.ToLower () : "by_date_created";
             switch (sort_view)
             {
                 case "by_date_created":

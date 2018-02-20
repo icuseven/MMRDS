@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace mmria.server
@@ -8,13 +9,24 @@ namespace mmria.server
 		// GET api/values 
 		public Dictionary<string,object> Get() 
 		{ 
-			return new Dictionary<string,object>{
-				{ "couchdb_url", Program.config_couchdb_url },
-				{ "cron_schedule", Program.config_cron_schedule },
-				{ "Last_Change_Sequence", Program.Last_Change_Sequence },
-				{ "Change_Sequence_Call_Count", Program.Change_Sequence_Call_Count },
-				{ "DateOfLastChange_Sequence_Call", Program.DateOfLastChange_Sequence_Call }
-			}; 
+            try
+            {
+    			var result = new Dictionary<string,object>{
+    				{ "couchdb_url", Program.config_couchdb_url },
+    				{ "cron_schedule", Program.config_cron_schedule },
+    				{ "Last_Change_Sequence", Program.Last_Change_Sequence },
+    				{ "Change_Sequence_Call_Count", Program.Change_Sequence_Call_Count },
+    				{ "DateOfLastChange_Sequence_Call", Program.DateOfLastChange_Sequence_Call }
+    			}; 
+
+                return result;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine ($"ValuesController error {ex}");
+            }
+
+            return new Dictionary<string,object>{{ "has values" , false }};
 		} 
 
 		// GET api/values/5 

@@ -68,7 +68,7 @@ namespace mmria.server
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine (ex);
+                Console.WriteLine ($" caseController Get Error {ex}");
 
 			} 
 
@@ -111,7 +111,7 @@ namespace mmria.server
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine (ex);
+                Console.WriteLine ($" caseController Post 1 Error {ex}");
 			}
 
 			//if(queue_request.case_list.Length == 1)
@@ -266,7 +266,7 @@ namespace mmria.server
 			catch(Exception ex) 
 			{
 				Console.Write("auth_session_token: {0}", auth_session_token);
-				Console.WriteLine (ex);
+                Console.WriteLine ($" caseController Post 2 Error {ex}");
 			}
 
 			return result;
@@ -357,6 +357,7 @@ Server: CouchDB (Erlang/OTP)
 				catch (Exception ex) 
 				{
 					// do nothing for now document doesn't exsist.
+                    System.Console.Write($" caseController Delete 1 Error {ex}");
 				}
 
 
@@ -377,7 +378,7 @@ Server: CouchDB (Erlang/OTP)
             }
             catch(Exception ex)
             {
-                Console.WriteLine (ex);
+                System.Console.Write($" caseController Delete 2 Error {ex}");
 
             } 
 
