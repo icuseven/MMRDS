@@ -3,8 +3,10 @@ using Microsoft.Extensions.PlatformAbstractions;
 using PeterKottas.DotNetCore.WindowsService.Interfaces;
 using System.Timers;
 
-namespace mmriaserver
+namespace mmria.server
 {
+    //https://github.com/PeterKottas/DotNetCore.WindowsService/tree/master/Source
+
     public class MMRIA_Window_Service : IMicroService
     {
         private IMicroServiceController controller;
@@ -22,7 +24,6 @@ namespace mmriaserver
         public void Start()
         {
             Console.WriteLine("I started");
-        
         }
 
         public void Stop()

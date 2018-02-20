@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.PlatformAbstractions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
+using System.Diagnostics;
+using PeterKottas.DotNetCore.WindowsService;
 
 namespace mmria.server
 {
@@ -47,12 +50,12 @@ namespace mmria.server
  */
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            
 
             /*
             https://github.com/PeterKottas/DotNetCore.WindowsService
             https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
-
+            */
             if 
             (
                 Environment.UserInteractive || 
@@ -75,13 +78,45 @@ namespace mmria.server
 
             if (config_is_service)
             {
-                host.RunAsService();
+                //host.RunAsService();
+
+                ServiceRunner<MMRIA_Window_Service>.Run(config =>
+                {
+                    var name = config.GetDefaultName();
+                    config.Service(serviceConfig =>
+                    {
+                        serviceConfig.ServiceFactory((extraArguments, controller) =>
+                        {
+                            return new MMRIA_Window_Service(controller);
+                        });
+
+                        serviceConfig.OnStart((service, extraParams) =>
+                        {
+                            Console.WriteLine("Service {0} started", name);
+                            service.Start();
+                        });
+
+                        serviceConfig.OnStop(service =>
+                        {
+                            Console.WriteLine("Service {0} stopped", name);
+                            service.Stop();
+                        });
+
+                        serviceConfig.OnError(e =>
+                        {
+                            //File.AppendAllText(fileName, $"Exception: {e.ToString()}\n");
+                            Console.WriteLine("Service {0} errored with exception : {1}", name, e.Message);
+                        });
+                    });
+                });
+
             }
             else
             {
                 host.Run();
+                //BuildWebHost(args).Run();
             }
-             */
+             /**/
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

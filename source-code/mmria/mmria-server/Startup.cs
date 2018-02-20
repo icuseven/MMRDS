@@ -13,9 +13,40 @@ namespace mmria.server
 {
     public class Startup
     {
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            /*
+            var valueA = Configuration["Section1:SettingA"];
+            "mmria_settings": {
+                "geocode_api_key":"",
+            "geocode_api_url":"",
+            "is_environment_based":"false",
+            "web_site_url":"http://localhost:12345",
+            "export_directory":"c:/temp/mmria-export",
+            "couchdb_url":"http://localhost:5984",
+            "file_root_folder":"C:\work-space\MMRDS\source-code\scratch\owin\owin\psk\app",
+            "timer_user_name":"mmrds",
+            "timer_password":"mmrds",
+            "cron_schedule":"0 * /1 * * * ?"
+            */
+
+            //static bool config_is_service = true;
+            //System.Console.WriteLine(value: $"Program.config_timer_user_name {Program.config_timer_user_name}");
+
+            Program.config_geocode_api_key = Configuration["mmria_settings:geocode_api_key"];
+            Program.config_geocode_api_url = Configuration["mmria_settings:geocode_api_url"];
+            Program.config_couchdb_url = Configuration["mmria_settings:couchdb_url"];
+            Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
+            Program.config_file_root_folder = Configuration["mmria_settings:file_root_folder"];
+            Program.config_timer_user_name = Configuration["mmria_settings:timer_user_name"];
+            Program.config_timer_password = Configuration["mmria_settings:timer_password"];
+            Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
+            Program.config_export_directory = Configuration["mmria_settings:export_directory"];
+
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -70,7 +101,7 @@ namespace mmria.server
 
             }*/
 
-
+            Console.WriteLine($"Program.config_timer_user_name = {Program.config_timer_user_name}");
             Console.WriteLine($"Logging = {Configuration["Logging:IncludeScopes"]}");
             Console.WriteLine($"Console = {Configuration["Console:LogLevel:Default"]}");
 
