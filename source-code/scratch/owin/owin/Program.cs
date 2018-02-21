@@ -59,33 +59,41 @@ namespace mmria.server
 
         public static void Main (string [] args)
         {
-
-            if
-			(
-					Environment.UserInteractive || 
-					bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
-					System.Diagnostics.Debugger.IsAttached || 
-                	args.Contains("--console")
-			) 
+            try
             {
-                config_is_service = false;
-            }
 
-/*
-            #if (DEBUG)
-                config_is_service = false;
-            #endif
-*/
-            if (config_is_service) 
-			{
-                System.Console.Write("Trace Program.Main  config_is_service");
-                Run (new Program ());
-			} 
-			else 
-			{
-                System.Console.Write("Trace Program.Main  !config_is_service");
-                new Program ().OnStart (args);
-			}
+                if
+    			(
+    					Environment.UserInteractive || 
+    					bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
+    					System.Diagnostics.Debugger.IsAttached || 
+                    	args.Contains("--console")
+    			) 
+                {
+                    config_is_service = false;
+                }
+
+    /*
+                #if (DEBUG)
+                    config_is_service = false;
+                #endif
+    */
+                if (config_is_service) 
+    			{
+                    System.Console.Write("Trace Program.Main  config_is_service");
+                    Run (new Program ());
+    			} 
+    			else 
+    			{
+                    System.Console.Write("Trace Program.Main  !config_is_service");
+                    new Program ().OnStart (args);
+    			}
+
+            }
+            catch(Exception ex)
+            {
+                System.Console.Write($"Program.Main error {ex}");
+            }
         }
 
 		protected override void OnStart(string[] args)
