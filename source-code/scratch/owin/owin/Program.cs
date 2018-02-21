@@ -197,8 +197,14 @@ namespace mmria.server
 
 			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
 
-
-			this.Startup ();
+            try
+            {
+			    this.Startup ();
+            }
+            catch(Exception ex)
+            {
+                System.Console.Write($"Program.OnStart error {ex}");
+            }
 
 
 			if (!config_is_service) 
@@ -261,7 +267,7 @@ namespace mmria.server
 		{
             System.Threading.Tasks.Task.Run
 			(
-				new Action (() => 
+				new Action (async () => 
 				{
                     
 					int milliseconds_in_second = 1000;
