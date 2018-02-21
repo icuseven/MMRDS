@@ -78,11 +78,12 @@ namespace mmria.server
 */
             if (config_is_service) 
 			{
-				
+                System.Console.Write("Trace Program.Main  config_is_service");
                 Run (new Program ());
 			} 
 			else 
 			{
+                System.Console.Write("Trace Program.Main  !config_is_service");
                 new Program ().OnStart (args);
 			}
         }
@@ -200,6 +201,7 @@ namespace mmria.server
             try
             {
 			    this.Startup ();
+                System.Console.Write("Trace Post  this.Startup ()");
             }
             catch(Exception ex)
             {
@@ -209,8 +211,10 @@ namespace mmria.server
 
 			if (!config_is_service) 
 			{
+                System.Console.Write("Trace !config_is_service");
 				if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
 	            {
+                    System.Console.Write("Trace is_environment_based");
 	                bool stay_on_till_power_fail = true;
 
 	                while (stay_on_till_power_fail) 
@@ -220,6 +224,7 @@ namespace mmria.server
 	            } 
 	            else 
 	            {
+                    System.Console.Write("Trace !is_environment_based");
 	                //http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
 	                string read_line = Console.ReadLine ();
 	                while (string.IsNullOrWhiteSpace (read_line) || read_line.ToLower () != "quit") 
