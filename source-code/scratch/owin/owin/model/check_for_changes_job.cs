@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Quartz;
 using Quartz.Impl;
@@ -32,12 +33,12 @@ namespace mmria.server.model
 			{
 				System.Threading.Tasks.Task.Run
 				(
-					new Action (() => 
+					new Action (async () => 
 					{
 						//System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
 						try
 						{
-							Process_Export_Queue_Item ();
+							await Process_Export_Queue_Item ();
 						}
 						catch(Exception ex)
 						{
@@ -64,11 +65,13 @@ namespace mmria.server.model
 			}
 
 			
-			//if (!Program.is_processing_syncronization)
+            System.Threading.Tasks.Task.Run
+            (
+                    new Action (async () => 
 			{
 				//System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
 				//log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-				mmria.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence);
+				mmria.server.model.couchdb.c_change_result latest_change_set = await get_changes (Program.Last_Change_Sequence);
 
 				Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
 			
@@ -128,14 +131,14 @@ namespace mmria.server.model
 				{
 					System.Threading.Tasks.Task.Run
 					(
-						new Action (() => 
+                        new Action (async() => 
 						{
 							if (kvp.Value.Value)
 							{
 								try
 								{
 									mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, null, "DELETE");
-									sync_document.execute ();
+									await sync_document.execute ();
 								
 			
 								}
@@ -157,7 +160,7 @@ namespace mmria.server.model
 									if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
 									{
 										mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, document_json);
-										sync_document.execute ();
+										await sync_document.execute ();
 									}
 			
 								}
@@ -171,7 +174,9 @@ namespace mmria.server.model
 					);
 				}
 				//System.Threading.Tasks.Task.WhenAll (TaskList);
-
+                System.Threading.Tasks.Task.Run
+                    (
+                        new Action (async () => {
 				try
 				{
 	
@@ -186,7 +191,7 @@ namespace mmria.server.model
 	
 					// get all non deleted cases in mmrds
 					curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-					json = curl.execute ();
+                    json = await curl.executeAsync();
 					all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
 					foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
 					{
@@ -196,7 +201,7 @@ namespace mmria.server.model
 				
 					// get all non deleted cases in de_id
 					curl = new cURL ("GET", null, Program.config_couchdb_url + "/de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-					json = curl.execute ();
+                    json = await curl.executeAsync ();
 					all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
 					foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
 					{
@@ -209,12 +214,12 @@ namespace mmria.server.model
 					{
 						string rev = all_docs.rows.Where (r => r.id == id).FirstOrDefault ().rev.rev;
 						curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/de_id/" + id + "?rev=" + rev, null, Program.config_timer_user_name, Program.config_timer_password);
-						json = curl.execute ();
+                        json = await curl.executeAsync ();
 					}
 	
 					// get all non deleted cases in report
 					curl = new cURL ("GET", null, Program.config_couchdb_url + "/report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_password);
-					json = curl.execute ();
+                    json = await curl.executeAsync ();
 					all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
 					foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
 					{
@@ -226,16 +231,18 @@ namespace mmria.server.model
 					{
 						string rev = all_docs.rows.Where (r => r.id == id).FirstOrDefault ().rev.rev;
 						curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/report/" + id + "?rev=" + rev, null, Program.config_timer_user_name, Program.config_timer_password);
-						json = curl.execute ();
+                        json = await curl.executeAsync ();
 					}
 				}
 				catch (Exception ex)
 				{
 						System.Console.WriteLine ("Delete sync error:\n{0}", ex);
 				}
-
+                    })
+                    );
 				//System.Console.WriteLine ("{0}- Ending Change Synchronization.", System.DateTime.Now);
-			}
+          })
+         );
 			
 	
 		}
@@ -243,7 +250,7 @@ namespace mmria.server.model
 
 
 
-		public mmria.server.model.couchdb.c_change_result get_changes(string p_last_sequence)
+        public async Task<mmria.server.model.couchdb.c_change_result>  get_changes(string p_last_sequence)
         {
 
 			mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
@@ -261,7 +268,7 @@ namespace mmria.server.model
     				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
     			}
     			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
-    			string res = curl.execute();
+    			string res = await curl.executeAsync();
     			
     			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
     			//System.Console.WriteLine("get_job_info.last_seq");
@@ -313,7 +320,7 @@ namespace mmria.server.model
         }
 
 
-        public void Process_Export_Queue_Item ()
+        public async Task Process_Export_Queue_Item ()
         {
 			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Item: started", System.DateTime.Now);
             try
@@ -322,7 +329,7 @@ namespace mmria.server.model
     			
     			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
 
-    			string responseFromServer = get_curl.execute ();
+    			string responseFromServer = await get_curl.executeAsync();
 
     			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
     			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
@@ -392,7 +399,7 @@ namespace mmria.server.model
     					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
     					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
-    					responseFromServer = set_curl.execute ();
+    					responseFromServer = await set_curl.executeAsync();
 
                         try
                         {
@@ -418,7 +425,7 @@ namespace mmria.server.model
     					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
     					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
-    					responseFromServer = set_curl.execute ();
+    					responseFromServer = await set_curl.executeAsync ();
 
 
                         try
@@ -445,7 +452,7 @@ namespace mmria.server.model
     					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
     					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
-    					responseFromServer = set_curl.execute ();
+    					responseFromServer = await set_curl.executeAsync();
     					args.Add ("is_cdc_de_identified:true");
 
     					try
@@ -471,7 +478,7 @@ namespace mmria.server.model
         }
 
 
-		public void Process_Export_Queue_Delete()
+		public async Task Process_Export_Queue_Delete()
 		{
 			//System.Console.WriteLine ("{0} check_for_changes_job.Process_Export_Queue_Delete: started", System.DateTime.Now);
 
@@ -481,7 +488,7 @@ namespace mmria.server.model
 
     			var get_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true", null, this.user_name, this.password);
 
-    			string responseFromServer = get_curl.execute ();
+    			string responseFromServer = await get_curl.executeAsync();
 
     			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
     			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
@@ -567,7 +574,7 @@ namespace mmria.server.model
     					string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
     					var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + item_to_process._id, object_string, this.user_name, this.password);
 
-    					responseFromServer = get_curl.execute ();
+    					responseFromServer = await get_curl.executeAsync ();
     				}
     				catch(Exception ex)
     				{

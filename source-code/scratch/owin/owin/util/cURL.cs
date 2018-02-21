@@ -93,6 +93,8 @@ namespace mmria
 				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
 			}
 
+
+            try {
 			if (this.pay_load != null) 
 			{
 				//httpWebRequest.ContentLength = this.pay_load.Length;
@@ -105,17 +107,19 @@ namespace mmria
 				}
 			}
 
-			//try
-			//{
+            } 
+            catch (Exception ex) {
+                //process exception here   
+                Console.WriteLine ($"cURL.execute error: {ex}"); // if you want see the output
+                //result = ex.ToString ();
+
+                throw ex;
+            }
+
 				HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse();
 				result = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 				//Console.WriteLine("Response : " + respStr); // if you want see the output
-			//}
-			//catch(Exception ex)
-			//{
-				//process exception here   
-			//	result = ex.ToString();
-			//}
+
 
 			return result;
 		}
@@ -143,6 +147,9 @@ namespace mmria
                 httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
             }
 
+
+            try {
+
             if (this.pay_load != null) {
                 //httpWebRequest.ContentLength = this.pay_load.Length;
 
@@ -152,18 +159,16 @@ namespace mmria
                     streamWriter.Close ();
                 }
             }
+            } catch (Exception ex) {
+                //process exception here   
+                Console.WriteLine ($"cURL.async_execute error: {ex}");
+                throw ex;
+            }
 
-            //try
-            //{
-            WebResponse resp = await httpWebRequest.GetResponseAsync ();
-            result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
-            //Console.WriteLine("Response : " + respStr); // if you want see the output
-            //}
-            //catch(Exception ex)
-            //{
-            //process exception here   
-            //  result = ex.ToString();
-            //}
+                WebResponse resp = await httpWebRequest.GetResponseAsync ();
+                result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
+                //Console.WriteLine("Response : " + respStr); // if you want see the output
+            
 
             return result;
         }
