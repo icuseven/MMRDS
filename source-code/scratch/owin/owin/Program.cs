@@ -282,13 +282,16 @@ namespace mmria.server
 			(
 				new Action (async () => 
 				{
-                    
-					int milliseconds_in_second = 1000;
-					int number_of_seconds = 60;
-					int total_milliseconds = number_of_seconds * milliseconds_in_second;
+                    if(!url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET"))
+                    {
+                        System.Console.WriteLine("Starup pausing for 1 minute to give database a chance to start");
+    					int milliseconds_in_second = 1000;
+    					int number_of_seconds = 60;
+    					int total_milliseconds = number_of_seconds * milliseconds_in_second;
 
-                    System.Threading.Thread.Sleep(total_milliseconds);/**/
-                    
+                        System.Threading.Thread.Sleep(total_milliseconds);/**/
+                    }
+
                     System.Console.WriteLine("Starup/Install Check - start");
                     if 
                     (
