@@ -99,6 +99,20 @@ else
 	
 fi
 
+#
+# Selenium Jar Link
+# https://goo.gl/SP94ZB
+# Running Selenium Server
+# java -jar selenium*.jar
+# INFO - Selenium Server is up and running on port 4444
+#
+# Chrome Driver
+# http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
+# extract chromedriver
+# sudo mv chromedriver /usr/local/bin
+
+
+
 #echo "checking if nodejs is installed..."
 #if [[ -f "/usr/bin/nodejs" ]]; then
 #	echo "nodejs already installed,skipping..."
