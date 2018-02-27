@@ -42,8 +42,9 @@ namespace SeleniumTest
         }
 
 
-        public static void bubba(string[] args)
+        public static void example_webscraping(string[] args)
         {
+            //http://scraping.pro/example-of-scraping-with-selenium-webdriver-in-csharp/
             // Initialize the Chrome Driver
             using (var driver = new ChromeDriver())
             {
