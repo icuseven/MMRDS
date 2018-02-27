@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.PlatformAbstractions;
+using PeterKottas.DotNetCore.WindowsService.Interfaces;
+using System.Timers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -15,8 +17,28 @@ using PeterKottas.DotNetCore.WindowsService;
 
 namespace mmria.server
 {
-    public class Program
+    public class Program : IMicroService//, IConfiguration
     {
+        private IMicroServiceController controller;
+/*
+IConfiguration.GetSection(string)
+IConfiguration.GetChildren()
+IConfiguration.GetReloadToken()
+IConfiguration.this[string]
+ */
+
+
+
+        public Program()
+        {
+            controller = null;
+        }
+
+        public Program(IMicroServiceController controller)
+        {
+            this.controller = controller;
+        }
+
 
         static bool config_is_service = true;
         public static string config_geocode_api_key;
@@ -133,7 +155,7 @@ namespace mmria.server
         } */
 
         //protected override void OnStarting(string[] args)
-        protected void OnStarting(string[] args)
+        public void OnStarting(string[] args)
         {
             //base.OnStarting(args);
 
@@ -244,7 +266,7 @@ namespace mmria.server
 
 			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
 
-			this.Startup ();
+			this.Start();
 
 
 			if (!config_is_service) 
@@ -304,7 +326,12 @@ namespace mmria.server
 			}
         }
 
-        public void Startup ()
+        public void Stop()
+        {
+            Console.WriteLine("I stopped");
+        }
+
+        public void Start()
 		{
 			System.Threading.Tasks.Task.Run
 			(

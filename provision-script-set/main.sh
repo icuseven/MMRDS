@@ -91,7 +91,7 @@ else
 	echo "installing jdk..."
 	#sudo apt-get install openjdk-7-jdk -y
 	
-	sudo add-apt-repository ppa:openjdk-r/ppa
+	sudo add-apt-repository -y ppa:openjdk-r/ppa
 	sudo apt-get update
 	sudo apt-get install openjdk-8-jdk -y
 	#sudo update-alternatives --config java
@@ -101,7 +101,7 @@ fi
 
 #
 # Selenium Jar Link
-# https://goo.gl/SP94ZB
+# wget https://goo.gl/SP94ZB
 # Running Selenium Server
 # java -jar selenium*.jar
 # INFO - Selenium Server is up and running on port 4444
