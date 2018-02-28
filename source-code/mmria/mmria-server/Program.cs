@@ -17,6 +17,12 @@ using PeterKottas.DotNetCore.WindowsService;
 
 namespace mmria.server
 {
+	
+	
+	
+	
+	//sc create MMRIAService binpath= "C:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" start= "demand" DisplayName= "MMRIA Service"
+	//sc delete MMRIAService
     public class Program : IMicroService//, IConfiguration
     {
         private IMicroServiceController controller;
@@ -40,6 +46,13 @@ IConfiguration.this[string]
         }
 
 
+		
+		static void MyHandler(object sender, UnhandledExceptionEventArgs args) 
+		{
+		   Exception e = (Exception) args.ExceptionObject;
+		   Console.WriteLine("MyHandler caught : " + e.Message);
+		}
+		
         static bool config_is_service = true;
         public static string config_geocode_api_key;
         public static string config_geocode_api_url;
@@ -72,7 +85,8 @@ IConfiguration.this[string]
  */
         public static void Main(string[] args)
         {
-            
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
 
             /*
             https://github.com/PeterKottas/DotNetCore.WindowsService
@@ -136,9 +150,9 @@ IConfiguration.this[string]
             else
             {
                 host.Run();
-                //BuildWebHost(args).Run();
+
             }
-             /**/
+
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
@@ -147,82 +161,8 @@ IConfiguration.this[string]
                 .UseStartup<Startup>()
                 .Build();
 
-        /*
-        public static void RunAsMyService(this IWebHost host)
-        {
-            var webHostService = new Program(host);
-            ServiceBase.Run(webHostService);
-        } */
-
-        //protected override void OnStarting(string[] args)
         public void OnStarting(string[] args)
         {
-            //base.OnStarting(args);
-
-            
-#if (FILE_WATCHED)
-			Console.WriteLine ("starting file watch.");
-			WatchFiles.StartWatch();
-#endif
-
-            if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-            {
-                System.Console.WriteLine ("using Environment");
-                System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
-                System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
-                System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
-                System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
-                System.Console.WriteLine ("export_directory: {0}", System.Environment.GetEnvironmentVariable ("export_directory"));
-
-                Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
-                Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
-                Program.config_couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
-                Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-                Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
-                Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
-                Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
-                Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
-
-
-            }
-            else 
-            {
-                System.Console.WriteLine ("using AppSettings");
-                System.Console.WriteLine ("geocode_api_key: {0}", System.Configuration.ConfigurationManager.AppSettings ["geocode_api_key"]);
-                System.Console.WriteLine ("geocode_api_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["geocode_api_url"]);
-                System.Console.WriteLine ("couchdb_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"]);
-                System.Console.WriteLine ("web_site_url: {0}", System.Configuration.ConfigurationManager.AppSettings ["web_site_url"]);
-                System.Console.WriteLine ("export_directory: {0}", System.Configuration.ConfigurationManager.AppSettings ["export_directory"]);
-
-
-                Program.config_geocode_api_key = System.Configuration.ConfigurationManager.AppSettings ["geocode_api_key"];
-                Program.config_geocode_api_url = System.Configuration.ConfigurationManager.AppSettings ["geocode_api_url"];
-                Program.config_couchdb_url = System.Configuration.ConfigurationManager.AppSettings ["couchdb_url"];
-                Program.config_web_site_url = System.Configuration.ConfigurationManager.AppSettings ["web_site_url"];
-                Program.config_file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
-                Program.config_timer_user_name = System.Configuration.ConfigurationManager.AppSettings ["timer_user_name"];
-                Program.config_timer_password = System.Configuration.ConfigurationManager.AppSettings ["timer_password"];
-                Program.config_cron_schedule = System.Configuration.ConfigurationManager.AppSettings ["cron_schedule"];
-                Program.config_export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
-
-            }
-
-            //System.Net.ServicePointManager.CertificatePolicy = new mmria.server.util.NoCheckCertificatePolicy ();
-
-            Program.is_processing_export_queue = false;
-            Program.is_processing_syncronization = false;
-
-            /*
-			if (!System.IO.Directory.Exists (Program.config_export_directory))
-			{
-
-				System.IO.Directory.CreateDirectory (Program.config_export_directory);
-			}*/
-
-
-            // ****   Web Server - Start
-            BuildWebHost(args).Run();
 
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
             Program.Change_Sequence_Call_Count++;
@@ -300,18 +240,7 @@ IConfiguration.this[string]
 
 
         }
-/*
-        protected override void OnStarted()
-        {
-            base.OnStarted();
-        }
- 
-        protected override void OnStopping()
-        {
-            base.OnStopping();
-            this.Shutdown ();  
-        }
-*/
+
         public void Shutdown ()
         {
 			lock (syncLock) 
@@ -328,27 +257,107 @@ IConfiguration.this[string]
 
         public void Stop()
         {
-            Console.WriteLine("I stopped");
+            //Console.WriteLine("I stopped");
+             Shutdown ();
         }
 
         public void Start()
 		{
 			System.Threading.Tasks.Task.Run
 			(
-				new Action (() => 
+				new Action (async () => 
 				{
+
+					bool is_able_to_connect = false;
+					try 
+					{
+						if (!url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET"))
+						{
+							is_able_to_connect = true;
+						}
+					} 
+					catch (Exception ex) {
+
+					}
+
+                    if(!is_able_to_connect)
+							
+                    {
+                        System.Console.WriteLine("Starup pausing for 1 minute to give database a chance to start");
+    					int milliseconds_in_second = 1000;
+    					int number_of_seconds = 60;
+    					int total_milliseconds = number_of_seconds * milliseconds_in_second;
+
+                        System.Threading.Thread.Sleep(total_milliseconds);/**/
+                    }
+
+                    System.Console.WriteLine("Starup/Install Check - start");
+                    if 
+                    (
+                        url_endpoint_exists (Program.config_couchdb_url, null, null, "GET") &&
+							!Program.config_timer_user_name.Equals("couchdb_admin_user_name", StringComparison.OrdinalIgnoreCase) &&
+							!Program.config_timer_password.Equals ("couchdb_admin_password", StringComparison.OrdinalIgnoreCase) &&
+                        !url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET")
+                    )
+                    {
+
+                        try
+                        {
+                                new cURL ("PUT", null, Program.config_couchdb_url + $"/_node/nonode@nohost/_config/admins/{Program.config_timer_user_name}", $"\"{Program.config_timer_password}\"", null, null).execute();
+
+                            //new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/mmria_section/app_version", $"\"{Program.config_app_version}\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/couch_httpd_auth/allow_persistent_cookies", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/chttpd/bind_address", $"\"0.0.0.0\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/chttpd/port", $"\"5984\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/httpd/enable_cors", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/origins", $"\"*\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/credentials", $"\"true\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/headers", $"\"accept, authorization, content-type, origin, referer, cache-control, x-requested-with\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_node/nonode@nohost/_config/cors/methods", $"\"GET, PUT, POST, HEAD, DELETE\"", Program.config_timer_user_name, Program.config_timer_password).execute();
+
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_users", null, Program.config_timer_user_name, Program.config_timer_password).execute();
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_replicator", null, Program.config_timer_user_name, Program.config_timer_password).execute();
+                                new cURL ("PUT", null, Program.config_couchdb_url + "/_global_changes", null, Program.config_timer_user_name, Program.config_timer_password).execute();
+                        }
+                        catch(Exception ex)
+                        {
+                            System.Console.WriteLine($"Failed configuration \n{ex}");
+                        }
+                    }
+                    System.Console.WriteLine("Starup/Install Check - end");
+
+
+
+
+
+
 					if (
-						url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") &&
-						Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
+
+						url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET") //&&
+						//Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
 					) 
 					{
 						string current_directory = AppDomain.CurrentDomain.BaseDirectory;
-	
+
+                        System.Console.WriteLine("DB Repair Check - start");
+
 						if
 						(
 							!url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
 						) 
 						{
+
 							var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
 							System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
 	
@@ -357,11 +366,11 @@ IConfiguration.this[string]
 	
 							try 
 							{
-								string metadata_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/metadata_design_auth.json").ReadToEnd ();
+								string metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
 								var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
 								metadata_design_auth_curl.execute ();
 	
-								string metadata_json = System.IO.File.OpenText (current_directory + "database-scripts/metadata.json").ReadToEnd (); ;
+								string metadata_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")).ReadToEnd (); ;
 								var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
 								metadata_json_curl.execute ();
 	
@@ -385,11 +394,11 @@ IConfiguration.this[string]
 	
 								try 
 								{
-									string case_design_sortable = System.IO.File.OpenText (current_directory + "database-scripts/case_design_sortable.json").ReadToEnd ();
+								string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")).ReadToEnd ();
 									var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
 									case_design_sortable_curl.execute ();
 	
-									string case_store_design_auth = System.IO.File.OpenText (current_directory + "database-scripts/case_store_design_auth.json").ReadToEnd ();
+								string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")).ReadToEnd ();
 									var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
 									case_store_design_auth_curl.execute ();
 	
@@ -410,11 +419,7 @@ IConfiguration.this[string]
 							}
 	
 	
-							System.Console.WriteLine ("Creating export_queue db.");
-							var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
-							System.Console.WriteLine (export_queue_curl.execute ());
-							new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-	
+
 							try 
 							{
 								string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
@@ -433,6 +438,10 @@ IConfiguration.this[string]
 								// do nothing for now
 							}
 	
+							System.Console.WriteLine ("Creating export_queue db.");
+							var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, Program.config_timer_user_name, Program.config_timer_password);
+							System.Console.WriteLine (export_queue_curl.execute ());
+							new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
 	
 	
 							if
@@ -447,30 +456,28 @@ IConfiguration.this[string]
 	
 								Program.Last_Change_Sequence = latest_change_set.last_seq;
 	
-								/*
-								System.Threading.Tasks.Task.Run
+								
+								await System.Threading.Tasks.Task.Run
 								(
-									new Action (() =>
-									{*/
-										mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
-																							 Program.config_couchdb_url,
-																							 Program.config_timer_user_name,
-																							 Program.config_timer_password
-																						 );
-			
-										sync_all.execute ();
-										Program.StartSchedule ();
-								 	/*})
-							 	);*/
+									new Action (async () => {
+                                        mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
+                                                                                             Program.config_couchdb_url,
+                                                                                             Program.config_timer_user_name,
+                                                                                             Program.config_timer_password
+                                                                                         );
+
+                                        sync_all.execute ();
+                                        Program.StartSchedule ();
+                                    })
+							 	);
 							}
+
+                            System.Console.WriteLine("DB Repair Check - end");
 						}
 					}
 			));
 
             // ****   Quartz Timer - End
-
-
-
 
 		}
 
