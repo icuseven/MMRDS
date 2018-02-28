@@ -38,22 +38,45 @@ namespace mmria.server
 					new Action (() =>
 					{
 
-                        Program.PauseSchedule ();
+                        try 
+                        {
+                            Program.PauseSchedule (); 
+                        }
+                        catch (Exception ex) 
+                        {
+                            System.Console.WriteLine ($"syncController. error pausing schedule\n{ex}");
+                        }
 
-						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
+                        try 
+                        {
+                            
+						    mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
 																			 Program.config_couchdb_url,
 																			 Program.config_timer_user_name,
 																			 Program.config_timer_password
 																		 );
 
-						sync_all.execute ();
+                            sync_all.execute (); 
+                        }
+                        catch (Exception ex) 
+                        {
+                            System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
+                        }
 
-                        Program.ResumeSchedule ();
+                        try 
+                        {
+                            Program.ResumeSchedule (); 
+                        }
+                        catch (Exception ex) 
+                        {
+                            System.Console.WriteLine ($"syncController. error resuming schedule\n{ex}");
+                        }
 					})
 				);
 			}
 
 			return result;
+
 		} 
 	
 	} 

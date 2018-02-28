@@ -77,6 +77,7 @@ IConfiguration.this[string]
         public static IList<DateTime> DateOfLastChange_Sequence_Call;
         public static string Last_Change_Sequence = null;
 
+        private static IConfiguration config;
 
 /*
         public Program(IWebHost host) : base(host)
@@ -87,6 +88,13 @@ IConfiguration.this[string]
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
+
+            config = new ConfigurationBuilder()
+
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true)
+                //.AddCommandLine(args)
+                .Build();
 
             /*
             https://github.com/PeterKottas/DotNetCore.WindowsService
@@ -102,15 +110,15 @@ IConfiguration.this[string]
             {
                 config_is_service = false;
             }
-
+/*
             var pathToContentRoot = Directory.GetCurrentDirectory();
             if (config_is_service)
             {
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
                 pathToContentRoot = Path.GetDirectoryName(pathToExe);
             }
+ */
 
-            var host = BuildWebHost(args);
 
             if (config_is_service)
             {
@@ -149,15 +157,17 @@ IConfiguration.this[string]
             }
             else
             {
+                var host = BuildWebHost(args, config);
                 host.Run();
 
             }
 
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, IConfiguration p_config) =>
             WebHost.CreateDefaultBuilder(args)
-                //.UseWebRoot(Directory.GetDirectoryRoot("/vagrant/source-code/scratch/owin/owin/psk/app"))
+                .UseWebRoot(Directory.GetDirectoryRoot(p_config["mmria_settings:file_root_folder"]))
+                .UseUrls(p_config["mmria_settings:web_site_url"])
                 .UseStartup<Startup>()
                 .Build();
 
