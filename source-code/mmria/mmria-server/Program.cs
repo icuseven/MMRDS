@@ -17,8 +17,20 @@ using PeterKottas.DotNetCore.WindowsService;
 
 namespace mmria.server
 {
-	
-	
+	/*
+    action:start
+    action:stop
+    action:uninstall
+    action:install
+            username:YOUR_USERNAME, password:YOUR_PASSWORD
+            built-in-account:(NetworkService|LocalService|LocalSystem) 
+
+    name:YOUR_NAME
+	description:YOUR_DESCRIPTION
+    display-name:YOUR_DISPLAY_NAME
+    start-immediately:(true|false)
+
+     */
 	//dotnet.exe "D:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" action:install
     //dotnet.exe "D:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" action:uninstall
 
@@ -131,6 +143,10 @@ IConfiguration.this[string]
                 
                 ServiceRunner<Program>.Run(config =>
                 {
+
+                    config.SetName("MyTestService");
+
+
                     var name = config.GetDefaultName();
                     config.Service(serviceConfig =>
                     {
