@@ -19,10 +19,16 @@ namespace mmria.server
 {
 	
 	
-	
-	
-	//sc create MMRIAService binpath= "C:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" start= "demand" DisplayName= "MMRIA Service"
-	//sc delete MMRIAService
+	//dotnet.exe "D:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" action:install
+    //dotnet.exe "D:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" action:uninstall
+
+/*
+bug\netcoreapp2.0\mmria-server.dll" action:install
+Service "mmria.server.Program" ("No description") was already installed. Reinstalling...
+Service "mmria.server.Program" ("No description") is already stopped or stop is pending.
+Successfully unregistered service "mmria.server.Program" ("No description")
+Successfully registered and started service "mmria.server.Program" ("No description")
+*/
     public class Program : IMicroService//, IConfiguration
     {
         private IMicroServiceController controller;
@@ -77,33 +83,29 @@ IConfiguration.this[string]
         public static IList<DateTime> DateOfLastChange_Sequence_Call;
         public static string Last_Change_Sequence = null;
 
-        private static IConfiguration config;
-
-/*
-        public Program(IWebHost host) : base(host)
-        {
-        }
- */
         public static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
 
-            config = new ConfigurationBuilder()
-
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true)
-                //.AddCommandLine(args)
-                .Build();
-
-            /*
+            var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
+            
+/* 
+            
             https://github.com/PeterKottas/DotNetCore.WindowsService
             https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
             */
+            File.AppendAllText(fileName, $"\nmain enterd {DateTime.Now}\n");
+            File.AppendAllText(fileName, $"Environment.UserInteractive {Environment.UserInteractive}\n");
+            //File.AppendAllText(fileName, $"bool.Parse (System.Configuration.ConfigurationManager.AppSettings [\"is_environment_based\"])");
+            //File.AppendAllText(fileName, System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]);
+            File.AppendAllText(fileName, $"\nDebugger.IsAttached {Debugger.IsAttached}\n");
+            File.AppendAllText(fileName, $"args.Contains(\"--console\") ");
+            File.AppendAllText(fileName, args.Contains("--console").ToString());
             if 
             (
-                Environment.UserInteractive || 
-                bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
+                //Environment.UserInteractive || 
+                //bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
                 Debugger.IsAttached || 
                 args.Contains("--console")
             ) 
@@ -119,25 +121,30 @@ IConfiguration.this[string]
             }
  */
 
+            File.AppendAllText(fileName, $"\nconfig_is_service {config_is_service} started\n");
+
+            
 
             if (config_is_service)
             {
                 //host.RunAsService();
-
-                ServiceRunner<MMRIA_Window_Service>.Run(config =>
+                
+                ServiceRunner<Program>.Run(config =>
                 {
                     var name = config.GetDefaultName();
                     config.Service(serviceConfig =>
                     {
                         serviceConfig.ServiceFactory((extraArguments, controller) =>
                         {
-                            return new MMRIA_Window_Service(controller);
+                            return new Program(controller);
                         });
 
                         serviceConfig.OnStart((service, extraParams) =>
                         {
                             Console.WriteLine("Service {0} started", name);
-                            service.Start();
+                            var host = BuildWebHost(new string[0]);//, config);
+                            host.Run();
+                            service.OnStarting(new string[0]);
                         });
 
                         serviceConfig.OnStop(service =>
@@ -157,17 +164,15 @@ IConfiguration.this[string]
             }
             else
             {
-                var host = BuildWebHost(args, config);
+                var host = BuildWebHost(args);//, config);
                 host.Run();
 
             }
 
         }
 
-        public static IWebHost BuildWebHost(string[] args, IConfiguration p_config) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseWebRoot(Directory.GetDirectoryRoot(p_config["mmria_settings:file_root_folder"]))
-                .UseUrls(p_config["mmria_settings:web_site_url"])
+        public static IWebHost BuildWebHost(string[] args)=>
+            WebHost.CreateDefaultBuilder(args)    
                 .UseStartup<Startup>()
                 .Build();
 
