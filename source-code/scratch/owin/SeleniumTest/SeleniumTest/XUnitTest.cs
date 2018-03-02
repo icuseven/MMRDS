@@ -6,7 +6,7 @@ using Xunit;
 //https://xunit.github.io/docs/getting-started-dotnet-core.html
 namespace SeleniumTest
 {
-    public class NUnitTest
+    public class XUnitTest
     {
         [Fact]
         public void PassingTest()

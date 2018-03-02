@@ -21,7 +21,7 @@ namespace mmria.server
 
 
 		static bool config_is_service = true;
-        public static string config_app_version = "18.01.23";
+        public static string config_app_version = "18.01.22";
         public static string config_geocode_api_key;
         public static string config_geocode_api_url;
         public static string config_couchdb_url;
@@ -282,7 +282,21 @@ namespace mmria.server
 			(
 				new Action (async () => 
 				{
-                    if(!url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET"))
+
+					bool is_able_to_connect = false;
+					try 
+					{
+						if (!url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET"))
+						{
+							is_able_to_connect = true;
+						}
+					} 
+					catch (Exception ex) {
+
+					}
+
+                    if(!is_able_to_connect)
+							
                     {
                         System.Console.WriteLine("Starup pausing for 1 minute to give database a chance to start");
     					int milliseconds_in_second = 1000;
