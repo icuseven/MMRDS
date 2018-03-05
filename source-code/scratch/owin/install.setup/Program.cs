@@ -386,6 +386,17 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 
 			System.IO.File.Copy (build_directory_path + "/output.msi", build_directory_path + "/" + wix_output_msi_file_name, true);
 			System.IO.File.Delete (build_directory_path + "/output.msi");
+
+
+			install.setup.util.cFolderCompressor folder_compressor = new install.setup.util.cFolderCompressor ();
+
+			folder_compressor.Compress
+			(
+                System.IO.Path.Combine (System.IO.Path.Combine(build_directory_path, wix_output_msi_file_name.Replace(".msi",""))),
+				null,// string password 
+				System.IO.Path.Combine (System.IO.Path.Combine (build_directory_path, "output"))
+			);
+
 		}
 
 
