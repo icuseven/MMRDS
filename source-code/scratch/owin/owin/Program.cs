@@ -13,6 +13,22 @@ using Quartz.Impl;
 
 namespace mmria.server
 {
+	//research: https://github.com/18F/identity-openidconnect-aspnet
+	//research: https://github.com/glacasa/TwoStepsAuthenticator
+	//research: https://developers.login.gov/oidc/
+	//research: https://raw.githubusercontent.com/18F/identity-openidconnect-aspnet/master/ASPNET%20OIDC/Controllers/AccountController.cs
+
+	//research: https://duckduckgo.com/?q=+.net+core+2.0+authentication&t=ironbrowser&ia=web
+	//research: https://digitalmccullough.com/posts/aspnetcore-auth-system-demystified.html
+	//research: https://jonhilton.net/2017/10/11/secure-your-asp.net-core-2.0-api-part-1---issuing-a-jwt/
+	//research: https://jonhilton.net/security/apis/secure-your-asp.net-core-2.0-api-part-2---jwt-bearer-authentication/
+
+
+	//research: https://duckduckgo.com/?q=Identity+Server+4&t=ironbrowser&ia=software
+	//research: https://github.com/IdentityServer/IdentityServer4
+	//research: https://tahirnaushad.com/2017/09/12/identity-server-4-with-asp-net-core-2-0/
+
+
 	//sc create MMRIAService binpath = "C:\Program Files (x86)\mmria\MMRIA 17.11.02\mmria-server.exe" start= "demand" DisplayName= "MMRIA Service"
 	//sc delete MMRIAService
     class Program : ServiceBase

@@ -20,6 +20,8 @@ namespace install.setup
 		static string mmria_console_binary_directory_path;
 		static string mmria_server_html_directory_path;
 
+		// research: https://www.youtube.com/watch?v=6Yf-eDsRrnM
+
 		public static void Main(string[] args)
 		{
 			// pre UI
