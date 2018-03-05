@@ -93,6 +93,48 @@
       <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 
+
+
+	  <UI>
+      <Property Id="DefaultUIFont">DlgFont8</Property>
+
+      <Dialog Id="InstallDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
+	  <Control Id="CouchDBUrlEdit" Type="Edit" X="45" Y="85" Width="220"
+             Height="18" Property="CouchDBUrlProperty" Text="{80}">
+			 <Text>{\DlgTitleFont}SetupCouchDBUrl</Text>
+		</Control>
+		<Control Id="CouchDBUserNameEdit" Type="Edit" X="45" Y="100" Width="220"
+             Height="18" Property="CouchDBUserNameProperty" Text="{80}">
+			 <Text>{\DlgTitleFont}SetupCouchDBUserName</Text>
+		</Control>
+		<Control Id="CouchDBPasswordEdit" Type="Edit" X="45" Y="115" Width="220"
+             Height="18" Property="CouchDBPasswordProperty" Text="{80}">
+			 <Text>{\DlgTitleFont}SetupCouchDBPassword</Text>
+		</Control>
+		<Control Id="ExportDirectoryEdit" Type="Edit" X="45" Y="130" Width="220"
+             Height="18" Property="ExportDirectoryProperty" Text="{80}">
+			 <Text>{\DlgTitleFont}SetupCouchDBPassword</Text>
+		</Control>
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\DlgTitleFont}Ready to Install</Text>
+        </Control>
+        <Control Id="Install" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Text="Install">
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+      </Dialog>
+
+      <TextStyle Id="DlgFont8" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="DlgTitleFont" FaceName="Tahoma" Size="8" Bold="yes" />
+
+      <InstallUISequence>
+        <Show Dialog="InstallDlg" After="CostFinalize" />
+      </InstallUISequence>
+    </UI>
+	<Property Id="CouchDBUrlProperty" Value="http://localhost:5984" />
+	<Property Id="CouchDBUserNameProperty" Value="couch_db_admin_name" />
+	<Property Id="CouchDBPasswordProperty" Value="couch_db_admin_password" />
+	<Property Id="ExportDirectoryProperty" Value="c:\temp\mmria-export" />
+
     <Icon Id="mmria_server.exe" SourceFile=".\output\mmria-server.exe" />
 
   </Product>

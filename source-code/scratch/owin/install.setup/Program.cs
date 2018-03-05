@@ -22,9 +22,18 @@ namespace install.setup
 
 		public static void Main(string[] args)
 		{
+			// pre UI
 			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\candle" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" .\output\output.xml
-
 			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" output.wixobj
+
+
+			// Post UI
+			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\candle" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixUIExtension.dll" .\output\output.xml
+			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixUIExtension.dll" -cultures:en-us output.wixobj
+
+
+
+
 
  			string major_version = "18.02.22";
 			string minor_version = "3db277d";
@@ -381,8 +390,8 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 
 			//"C:\Program Files (x86)\WiX Toolset v3.11\bin\light" -ext "C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll" output.wixobj
 
-			execute_shell (build_directory_path, wix_directory_path + @"\bin\candle", @" -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll"" .\output\output.xml");
-            execute_shell (build_directory_path, wix_directory_path + @"\bin\light", @" -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll"" .\output.wixobj");
+			execute_shell (build_directory_path, wix_directory_path + @"\bin\candle", @" -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll""  -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixUIExtension.dll"" .\output\output.xml");
+            execute_shell (build_directory_path, wix_directory_path + @"\bin\light", @"  -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixNetFxExtension.dll""  -ext ""C:\Program Files (x86)\WiX Toolset v3.11\bin\WixUIExtension.dll"" -cultures:en-us .\output.wixobj");
 
 			System.IO.File.Copy (build_directory_path + "/output.msi", build_directory_path + "/" + wix_output_msi_file_name, true);
 			System.IO.File.Delete (build_directory_path + "/output.msi");
@@ -392,7 +401,7 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 
 			folder_compressor.Compress
 			(
-                System.IO.Path.Combine (System.IO.Path.Combine(build_directory_path, wix_output_msi_file_name.Replace(".msi",""))),
+                System.IO.Path.Combine (System.IO.Path.Combine(build_directory_path, wix_output_msi_file_name.Replace(".msi",".zip"))),
 				null,// string password 
 				System.IO.Path.Combine (System.IO.Path.Combine (build_directory_path, "output"))
 			);
