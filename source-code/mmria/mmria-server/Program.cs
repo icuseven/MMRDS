@@ -40,6 +40,44 @@ Service "mmria.server.Program" ("No description") was already installed. Reinsta
 Service "mmria.server.Program" ("No description") is already stopped or stop is pending.
 Successfully unregistered service "mmria.server.Program" ("No description")
 Successfully registered and started service "mmria.server.Program" ("No description")
+
+
+
+
+rm -rf /workspace/test/app/*
+cp -rf /workspace/MMRDS/source-code/mmria /workspace/test/app
+docker run --rm -it -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -v /workspace/test/app:/app microsoft/dotnet:latest bash -c "dotnet publish /app/mmria/mmria-server/mmria-server.csproj -r ubuntu.16.10-x64"
+
+File: dockerfile                                                                                                                                                                                           
+# Build runtime image
+FROM microsoft/aspnetcore:2.1.0-preview1
+#WORKDIR /mmria-server
+COPY ./app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64/publish .
+ENTRYPOINT ["dotnet", "mmria-server.dll"]
+
+
+
+docker build -t mmria_test .
+
+/workspace/test/app/mmria/mmria-server/bin/Debug/netcoreapp2.0/publish
+
+
+docker run --name mmria-check -d  --publish 8500:80 \
+-e geocode_api_key="none" \
+-e geocode_api_url="none" \
+-e couchdb_url="http://db1.mmria.org" \
+-e web_site_url="http://*:9000" \
+-e file_root_folder="/workspace/owin/psk/app" \
+-e timer_user_name="mmrds" \
+-e timer_password="mmrds" \
+-e cron_schedule="0 */1 * * * ?" \
+mmria_test 
+
+
+mmria-server -> /app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64/mmria-server.dll
+  mmria-server -> /app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64/publish/
+
+
 */
     public class Program : IMicroService//, IConfiguration
     {
