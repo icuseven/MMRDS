@@ -200,9 +200,7 @@ IConfiguration.this[string]
                         serviceConfig.OnStart((service, extraParams) =>
                         {
                             Console.WriteLine("Service {0} started", name);
-                            var host = BuildWebHost(new string[0]);//, config);
-                            host.Run();
-                            service.OnStarting(new string[0]);
+                            service.Run(new string[0]);
                         });
 
                         serviceConfig.OnStop(service =>
@@ -222,9 +220,7 @@ IConfiguration.this[string]
             }
             else
             {
-                var host = BuildWebHost(args);//, config);
-                host.Run();
-
+               new Program().Run(args);
             }
 
         }
@@ -245,13 +241,43 @@ IConfiguration.this[string]
                 .UseUrls(web_site_url)
                 .Build();
         }
-        public void OnStarting(string[] args)
+        public void Run(string[] args)
         {
+			this.Start();
+            var host = BuildWebHost(args);//, config);
+            host.Run();
+
+        }
+
+        public void Shutdown ()
+        {
+			lock (syncLock) 
+			{
+
+				if (sched != null) 
+				{
+					sched.Clear ();
+					sched.Shutdown ();
+				}
+				System.Console.WriteLine ("Quit command recieved shutting down.");
+			}
+        }
+
+        public void Stop()
+        {
+            //Console.WriteLine("I stopped");
+             Shutdown ();
+        }
+
+        public void Start()
+		{
+
 
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
             Program.Change_Sequence_Call_Count++;
             Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
+            /*
             StdSchedulerFactory sf = new StdSchedulerFactory ();
 			Program.sched = sf.GetScheduler ();
 			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
@@ -289,64 +315,8 @@ IConfiguration.this[string]
 
 
 			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
+            */
 
-			this.Start();
-
-
-			if (!config_is_service) 
-			{
-				if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]))
-	            {
-	                bool stay_on_till_power_fail = true;
-
-	                while (stay_on_till_power_fail) 
-	                {
-
-	                }
-	            } 
-	            else 
-	            {
-	                //http://odetocode.com/blogs/scott/archive/2014/02/10/building-a-simple-file-server-with-owin-and-katana.aspx
-	                string read_line = Console.ReadLine ();
-	                while (string.IsNullOrWhiteSpace (read_line) || read_line.ToLower () != "quit") 
-	                {
-	                    read_line = Console.ReadLine ();
-	                }
-	                if (sched != null) 
-	                {
-	                    sched.Clear ();
-	                    sched.Shutdown ();
-	                }
-	                System.Console.WriteLine ("Quit command recieved shutting down.");
-	            }
-			}
-			
-
-
-        }
-
-        public void Shutdown ()
-        {
-			lock (syncLock) 
-			{
-
-				if (sched != null) 
-				{
-					sched.Clear ();
-					sched.Shutdown ();
-				}
-				System.Console.WriteLine ("Quit command recieved shutting down.");
-			}
-        }
-
-        public void Stop()
-        {
-            //Console.WriteLine("I stopped");
-             Shutdown ();
-        }
-
-        public void Start()
-		{
 			System.Threading.Tasks.Task.Run
 			(
 				new Action (async () => 

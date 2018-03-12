@@ -8,37 +8,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Akka.Actor;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace mmria.server
 {
     public class Startup
     {
-
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            /*
-            var valueA = Configuration["Section1:SettingA"];
-            "mmria_settings": {
-                "geocode_api_key":"",
-            "geocode_api_url":"",
-            "is_environment_based":"false",
-            "web_site_url":"http://localhost:12345",
-            "export_directory":"c:/temp/mmria-export",
-            "couchdb_url":"http://localhost:5984",
-            "file_root_folder":"C:\work-space\MMRDS\source-code\scratch\owin\owin\psk\app",
-            "timer_user_name":"mmrds",
-            "timer_password":"mmrds",
-            "cron_schedule":"0 * /1 * * * ?"
-            */
-
-            //static bool config_is_service = true;
-            //System.Console.WriteLine(value: $"Program.config_timer_user_name {Program.config_timer_user_name}");
-
-
-
-            
         }
 
         public IConfiguration Configuration { get; }
@@ -84,9 +63,21 @@ namespace mmria.server
             Console.WriteLine($"Logging = {Configuration["Logging:IncludeScopes"]}");
             Console.WriteLine($"Console = {Configuration["Console:LogLevel:Default"]}");
 
+
+            var actorSystem = ActorSystem.Create("mmria-actor-system");
+            services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
+
             services.AddMvc(setupAction: options =>
             {
                 options.RespectBrowserAcceptHeader = false; // false by default
+            });
+
+            
+            //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
         }
 
@@ -98,23 +89,23 @@ namespace mmria.server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc(/* routes =>
-            {
-               routes.MapRoute(
-                    name: "api",
-                    template: "api/[controller]",
-                    defaults: new { controller = "Home", action = "PageOne" }); */
-  /*
-                routes.MapRoute(
-                    name: "couch",
-                    template: "couch/{controller=couch},{action=Proxy}");
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"); 
-            }*/);
+            app.UseMvc();
+
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+                        //http://localhost:5000/swagger/v1/swagger.json
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
         }
     }
 }
