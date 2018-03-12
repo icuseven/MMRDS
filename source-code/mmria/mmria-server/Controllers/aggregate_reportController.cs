@@ -8,6 +8,8 @@ using mmria.common;
 
 namespace mmria.server
 {
+
+	[Route("api/[controller]")]
 	public class aggregate_reportController: ControllerBase 
 	{ 
 		public aggregate_reportController()
@@ -15,6 +17,7 @@ namespace mmria.server
 
 		}
 
+		[HttpGet]
         public async System.Threading.Tasks.Task<IList<mmria.server.model.c_report_object>> Get()
 		{
 

@@ -70,7 +70,7 @@ docker run --name mmria-check -d  --publish 8500:80 \
 -e file_root_folder="/workspace/owin/psk/app" \
 -e timer_user_name="mmrds" \
 -e timer_password="mmrds" \
--e cron_schedule="0 */1 * * * ?" \
+-e cron_schedule="0 * /1 * * * ?" \
 mmria_test 
 
 
@@ -103,10 +103,10 @@ IConfiguration.this[string]
 
 
 		
-		static void MyHandler(object sender, UnhandledExceptionEventArgs args) 
+		static void AppDomain_UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args) 
 		{
 		   Exception e = (Exception) args.ExceptionObject;
-		   Console.WriteLine("MyHandler caught : " + e.Message);
+		   Console.WriteLine("AppDomain_UnhandledExceptionHandler caught : " + e.Message);
 		}
 		
         static bool config_is_service = true;
@@ -136,12 +136,16 @@ IConfiguration.this[string]
         public static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
-			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
+			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
             var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
-            
+
+
 /* 
-            
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+
             https://github.com/PeterKottas/DotNetCore.WindowsService
             https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
             */
@@ -225,11 +229,22 @@ IConfiguration.this[string]
 
         }
 
-        public static IWebHost BuildWebHost(string[] args)=>
-            WebHost.CreateDefaultBuilder(args)    
-                .UseStartup<Startup>()
-                .Build();
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+            
 
+            string web_site_url = configuration["mmria_settings:web_site_url"];
+
+
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseUrls(web_site_url)
+                .Build();
+        }
         public void OnStarting(string[] args)
         {
 
