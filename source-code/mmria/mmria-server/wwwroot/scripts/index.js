@@ -1,16 +1,11 @@
 'use strict';
 
-
+//@ts-check
 //http://www.w3schools.com/css/css3_flexbox.asp
 
 var g_metadata = null;
 var g_data = null;
 var g_source_db = null;
-var g_metadata_db = null;
-var g_mmrds_db = null;
-//var g_user_db = null;
-var g_report_db = null;
-var g_de_id_db = null;
 var g_metadata_path = [];
 var g_validator_map = [];
 var g_event_map = [];
@@ -22,22 +17,8 @@ var g_localDB = null;
 var g_remoteDB = null;
 var g_metadata_summary = [];
 var default_object = null;
-var g_is_online = true;
-var g_is_synced = false;
+var g_change_stack = [];
 
-
-function get_pouchdb_header(){
-  
-  return {
-    ajax: {
-      cache: false,
-      //timeout: 10000,
-      headers: {
-        'X-CouchDB-WWW-Authenticate': profile.get_auth_session_cookie()
-      }
-  }
-  }
-};
 
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
@@ -71,14 +52,19 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 		
-
+      g_change_stack.push({
+        object_path : p_object_path,
+        metadata_path: p_metadata_path,
+        old_value : current_value,
+        new_value : value
+      });
 
       if(g_ui.broken_rules[p_object_path])
       {
         g_ui.broken_rules[p_object_path] = false;
       } 
 
-     // save_case(g_data, function (){
+      set_local_case(g_data, function (){
 
         var post_html_call_back = [];
         document.getElementById(convert_object_path_to_jquery_id(p_object_path)).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -88,7 +74,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         }
 
         apply_validation();
-      //});
+      });
 
 		
 
@@ -102,6 +88,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
   else
   {
       var metadata = eval(p_metadata_path);
+
+      var current_value = eval(p_object_path);
+
       if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
       {
         var item = eval(p_object_path);
@@ -122,10 +111,18 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       {
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
+
+      g_change_stack.push({
+        object_path : p_object_path,
+        metadata_path: p_metadata_path,
+        old_value : current_value,
+        new_value : value
+      });
+
       g_data.date_last_updated = new Date();
       g_data.last_updated_by = profile.user_name;
 
-      //save_case(g_data, function (){
+      set_local_case(g_data, function (){
 
       var post_html_call_back = [];
       var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -196,7 +193,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 
       apply_validation();
 
-    //});
+    });
   }
 }
 
@@ -208,9 +205,8 @@ function g_add_grid_item(p_object_path, p_metadata_path)
 
 
 
-  //save_case(g_data, function ()
-  //{
-
+  set_local_case(g_data, function ()
+  {
     var post_html_call_back = [];
     document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
     apply_tool_tips();
@@ -219,7 +215,7 @@ function g_add_grid_item(p_object_path, p_metadata_path)
       eval(post_html_call_back.join(""));
     }
 
-  //});
+  });
 }
 
 function g_delete_grid_item(p_object_path, p_metadata_path)
@@ -230,15 +226,15 @@ function g_delete_grid_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
   
-  //save_case(g_data, function ()
-  //{
+  set_local_case(g_data, function ()
+  {
     var post_html_call_back = [];
     document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));
     }
-  //});
+  });
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path)
@@ -249,7 +245,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
   eval(object_string).splice(index, 1);
 
 
-  //save_case(g_data, function(){
+  set_local_case(g_data, function (){
     
     var post_html_call_back = [];
     document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
@@ -258,15 +254,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
       eval(post_html_call_back.join(""));
     }
   
-//});
-
-
-
-
-
-  
-
-
+  });
 }
 
 
@@ -346,19 +334,18 @@ var g_ui = {
 		g_ui.case_view_list = new_data;
 
     g_data = result;
+    g_change_stack = [];
 
 		g_ui.selected_record_id = result._id;
     g_ui.selected_record_index = g_ui.case_view_list.length -1;
     
-
-
-    
-    save_case(g_data, function(){
-          
-    var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
-    window.location = url;
+    set_local_case(g_data, function (){
+      save_case(g_data, function(){
+            
+      var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+      window.location = url;
+      });
     });
-
 
 
     return result;
@@ -408,13 +395,160 @@ var $$ = {
 
 $(function ()
 {
+
+
+	$(document).keydown(function(evt){
+		if (evt.keyCode==90 && (evt.ctrlKey)){
+			evt.preventDefault();
+			undo_click();
+		}
+
+	});
+
+
+/*
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+    
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+    
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+    
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        } 
+
+*/
+
+
+  // https://pure-essence.net/2010/02/14/jquery-session-timeout-countdown/
+  // create the warning window and set autoOpen to false
+  var sessionTimeoutWarningDialog = $("#sessionTimeoutWarningDiv");
+
+  $("#sessionTimeoutOkButton").click(function() {
+    // close dialog
+
+    clearInterval(timer);
+    running = false;
+    $("#sessionTimeoutWarningDiv").dialog('close');
+    profile.update_session_timer();
+  });
+
+  //$(sessionTimeoutWarningDialog).html(initialSessionTimeoutMessage);
+  $(sessionTimeoutWarningDialog).dialog({
+      title: 'Session Expiration Warning',
+      autoOpen: false,    // set this to false so we can manually open it
+      closeOnEscape: false,
+      draggable: false,
+      width: 600,
+      minHeight: 50,
+      backgroundColor: 0xADC71A, // rgb(173, 199, 26),
+      modal: true,
+      beforeclose: function() { // bind to beforeclose so if the user clicks on the "X" or escape to close the dialog, it will work too
+          // stop the timer
+          clearInterval(timer);
+
+          // stop countdown
+          running = false;
+      },
+      buttons: {
+          OK: function() {
+              // close dialog
+
+              clearInterval(timer);
+              running = false;
+              $(this).dialog('close');
+              profile.update_session_timer();
+              
+          }
+      },
+      resizable: false,
+      open: function() {
+          // scrollbar fix for IE
+          $("#sessionTimeoutWarningDiv").css('display','block');
+          $('body').css('overflow','hidden');
+          $('#sessionTimeoutExpiredId').hide();
+          $('#sessionTimeoutPendingId').css('display','block');
+          
+      },
+      close: function() {
+          // reset overflow
+          $('body').css('overflow','auto');
+          clearInterval(timer);
+          running = false;
+          $(this).dialog('close');
+          profile.update_session_timer();
+      }
+  });
+  // end of dialog
+
+
+  // start the idle timer
+  //$.idleTimer(idleTime);
+
+  // bind to idleTimer's idle.idleTimer event
+  $(document).bind("sessionWarning", function()
+  {
+
+
+    $(sessionTimeoutWarningDialog).show();
+      // if the user is idle and a countdown isn't already running
+      //if($.data(document,'idleTimer') === 'idle' && !running)
+      if(!running)
+      {
+          var counter = redirectAfter;
+          running = true;
+
+
+          // intialisze timer
+          $('#'+sessionTimeoutCountdownId).html(redirectAfter);
+          // open dialog
+          $(sessionTimeoutWarningDialog).dialog('open');
+
+          // create a timer that runs every second
+          timer = setInterval(function(){
+              counter -= 1;
+
+              // if the counter is 0, redirect the user
+              if(counter === 0) {
+                  //$(sessionTimeoutWarningDialog).html(expiredMessage);
+                  $('#sessionTimeoutExpiredId').show();
+                  $('#sessionTimeoutPendingId').css('display','none');
+                  $(sessionTimeoutWarningDialog).dialog('disable');
+                  //window.location = redirectTo;
+                  running = false;
+                  clearInterval(timer);
+                  clearInterval(session_warning_interval_id);
+                  profile.logout();
+              } else {
+                  $('#'+sessionTimeoutCountdownId).html(counter);
+              };
+          }, 1000);
+      };
+  });
+
+
+
+  //set_session_warning_interval();
+
   $.datetimepicker.setLocale('en');
 
   load_values();
-
-
-
-
 });
 
 function load_values()
@@ -422,16 +556,7 @@ function load_values()
 	$.ajax({
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
-      g_couchdb_url = response.couchdb_url;
-      
-      g_couchdb_url = location.protocol + '//' + location.host + '/api/couch'
-
-      var g_metadata_db = new PouchDB(g_couchdb_url + '/metadata');
-      var g_mmrds_db = new PouchDB(g_couchdb_url + '/mmrds');
-      //var g_user_db = new PouchDB('_user');
-      var g_report_db = new PouchDB(g_couchdb_url + '/report');
-      var g_de_id_db = new PouchDB(g_couchdb_url + '/de_id');
-
+			g_couchdb_url = response.couchdb_url;
       load_profile();
 
  
@@ -440,6 +565,7 @@ function load_values()
 
 }
 
+var update_session_timer_interval_id = null;
 
 function load_profile()
 {
@@ -448,7 +574,9 @@ function load_profile()
       $("#landing_page").hide();
       $("#logout_page").hide();
       $("#footer").hide();
+      $("#root").removeClass("header");
       get_metadata();
+      /*
       if
       (
           g_source_db == "mmrds" &&
@@ -456,13 +584,21 @@ function load_profile()
           profile.user_roles.indexOf("_admin") < 0
       )
       {
-        window.setInterval(profile.update_session_timer, 120000);
-      }
+
+        update_session_timer_interval_id = window.setInterval(profile.update_session_timer, 120000);
+      }*/
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)
     {
-      $("#landing_page").show();
+      if(update_session_timer_interval_id != null)
+      {
+        window.clearInterval(update_session_timer_interval_id);
+        update_session_timer_interval_id = null;
+      }
+
+      //$("#landing_page").show();
+      $("#root").addClass("header");
       $("#footer").show();
       if
       (
@@ -558,20 +694,22 @@ function get_metadata()
 {
   document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
-  if(!g_is_online && g_is_synced)
-  {
-    g_metadata_db.get('2016-06-12T13:49:24.759Z').then(function(doc) {
-
-      g_metadata = response;
-
+  	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+	}).done(function(response) {
+			g_metadata = response;
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
+
+      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
+
+      //window.location.href = location.protocol + '//' + location.host;
       
       if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
       {
         get_case_set();
       }
-    g_ui.url_state = url_monitor.get_url_state(window.location.href);
+     g_ui.url_state = url_monitor.get_url_state(window.location.href);
       if(window.onhashchange)
       {
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });
@@ -581,46 +719,7 @@ function get_metadata()
         window.onhashchange = window_on_hash_change;
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });
       }
-
-
-    }).then(function(response) {
-      // handle response
-    }).catch(function (err) {
-    console.log(err);
-    });
-   
-  }
-  else
-  {
-  	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-    }).done(function(response) {
-        g_metadata = response;
-        
-        metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
-        default_object =  create_default_object(g_metadata, {});
-
-        
-        //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-
-        //window.location.href = location.protocol + '//' + location.host;
-        
-        if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("_admin") < 0)
-        {
-          get_case_set();
-        }
-      g_ui.url_state = url_monitor.get_url_state(window.location.href);
-        if(window.onhashchange)
-        {
-          window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-        }
-        else
-        {
-          window.onhashchange = window_on_hash_change;
-          window.onhashchange ({ isTrusted: true, newURL : window.location.href });
-        }
-    });
-  }
+	});
 }
 
 function window_on_hash_change(e)
@@ -724,19 +823,73 @@ function window_on_hash_change(e)
 
 function get_specific_case(p_id)
 {
+
+
   var case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + p_id;
   if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
   {
+    
+
     case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+    $.ajax({
+      url: case_url,
+    }).done(function(case_response) {
+    
+        var local_data = get_local_case(p_id);
+
+        if(local_data)
+        {
+            if(local_data._rev == case_response._rev)
+            {
+                g_data = local_data;
+            }
+            else
+            {
+              /*
+              console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
+              var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
+              if(date_difference.days > 3)
+              {*/
+
+                local_data = case_response;
+              /*}
+              else
+              {
+                local_data._rev = case_response._rev;
+              }*/
+              
+              set_local_case(local_data);
+              g_data = local_data;
+            }
+
+            g_render();
+        }
+        else
+        {
+          g_data = case_response;
+        }
+        g_render();
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log( "get_specific_case:",  textStatus, errorThrown);
+      g_data = get_local_case(p_id);
+    });
+  }
+  else
+  {
+    $.ajax({
+      url: case_url,
+    }).done(function(case_response) {
+    
+    
+      
+    
+        g_data = case_response;
+        g_render();
+    });
   }
 
-  $.ajax({
-    url: case_url,
-}).done(function(case_response) {
 
-    g_data = case_response;
-    g_render();
-});
 
 }
 
@@ -760,9 +913,12 @@ function save_case(p_data, p_call_back)
 
         console.log("save_case: success");
 
+        g_change_stack = [];
+
         if(g_data && g_data._id == case_response.id)
         {
           g_data._rev = case_response.rev;
+          set_local_case(g_data);
           //console.log('set_value save finished');
         }
 
@@ -771,6 +927,7 @@ function save_case(p_data, p_call_back)
         {
           profile.auth_session = case_response.auth_session;
           $mmria.addCookie("AuthSession", case_response.auth_session);
+          set_session_warning_interval();
         }
 
         if(p_call_back)
@@ -811,6 +968,15 @@ function delete_case(p_id, p_rev)
 }).done(function(case_response) {
 
     console.log("delete_case: success");
+
+    try
+    {
+      localStorage.removeItem('case_' + p_id);
+    }
+    catch(ex)
+    {
+      // do nothing for now
+    }
     get_case_set();
 
 }).fail(function(xhr, err) { console.log("delete_case: failed", err); });
@@ -1172,3 +1338,72 @@ function clear_nav_status_area()
 {
 	document.getElementById("nav_status_area").innerHTML = "<div>&nbsp;</div>";
 }
+
+function set_local_case(p_data, p_call_back)
+{
+
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
+
+    if(p_call_back)
+    {
+      p_call_back();
+    }
+  }
+  else
+  {
+    if(p_call_back)
+    {
+      p_call_back();
+    }
+  }
+}
+
+
+function get_local_case(p_id)
+{
+  var result = null;
+  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+  {
+    result = JSON.parse(localStorage.getItem('case_' + p_id));
+  }
+
+  return result;
+}
+
+function undo_click()
+{
+  var current_change = g_change_stack.pop();
+  if(current_change)
+  {
+
+    var metadata = eval(current_change.metadata_path);
+
+
+    if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
+    {
+      var item = eval(current_change.object_path);
+      if(item.indexOf(current_change.old_value) > -1)
+      {
+        item.splice(item.indexOf(current_change.old_value), 1);
+      }
+      else
+      {
+        item.push(current_change.old_value);
+      }
+    }
+    else if(metadata.type.toLowerCase() == "boolean")
+    {
+      eval(current_change.object_path + ' = ' + current_change.old_value);
+    }
+    else
+    {
+      eval(current_change.object_path + ' = "' + current_change.old_value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
+    }
+
+  }
+
+  g_render();
+}
+

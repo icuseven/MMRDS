@@ -85,11 +85,12 @@ function navigation_render(p_metadata, p_level, p_ui)
 
 
         if(
-            (profile.user_roles && 
-            profile.user_roles.length > 0 &&
-            profile.user_roles.indexOf("_admin") < 0 &&
-            profile.user_roles.indexOf("committee_member") < 0) ||
-
+            (
+              profile.user_roles && 
+              profile.user_roles.length > 0 &&
+              profile.user_roles.indexOf("_admin") < 0
+            ) 
+            ||
             (
               window.location.href.indexOf('preview.html') > 0
             )

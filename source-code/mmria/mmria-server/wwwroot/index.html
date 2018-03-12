@@ -21,8 +21,7 @@
   <!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery.easing.min.js"></script>
-  <!-- <script src="js/bootstrap.min.js"></script> -->
-  
+    
   <script src="js/wow.js"></script>
   <script src="js/jquery.bxslider.min.js"></script>
   <script src="js/custom.js"></script>
@@ -31,6 +30,7 @@
   <script src="./scripts/jquery-3.1.1.min.js"></script>
   <script src="./scripts/jquery-ui.min.js"></script>
   <script src="./scripts/jquery/moment.js"></script>
+  <script src="./scripts/jquery/idle-timer.js"></script>
   <script src="./scripts/jquery/jquery.timepicker.js"></script>
   <script src="./scripts/jquery/jquery.numeric.min.js" type="text/javascript" ></script>
   <script src="./scripts/jquery/jquery.datetimepicker.js" type="text/javascript"></script>
@@ -41,7 +41,7 @@
   
   <script src="./scripts/flatpickr/flatpickr.js"></script>
   
-  
+  <script src="./scripts/datediff.js"></script>
   
   <script src="./scripts/pouchdb/pouchdb.min.js"></script>
   <script src="./scripts/pouchdb/pouchdb.authentication.min.js"></script>
@@ -69,10 +69,62 @@
   <!--script src="./scripts/feed_back.js" type="text/javascript"></script-->
   <script src="./scripts/index.js" type="text/javascript"> </script>
   <script src="./scripts/validator.js" type="text/javascript"> </script>
+  <style>
+ /* The Modal (background) */
+ .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+} 
+  </style>
   </head>
   <body>
+    <div id="myModal" class="modal">
+      <div id="sessionTimeoutWarningDiv"  class="modal-content">
+          <h1>Session Expiration Warning</h1>
+          <h2 id="sessionTimeoutPendingId">Your session will expire in <span id="sessionTimeoutCountdownId" style="color:#48ceb9"></span> seconds.</h2>
+          <br /><br />
+          <h3>Click <input id="sessionTimeoutOkButton" type="button" value=" OK " /> to continue your session.</h3>
+
+      <h2 id="sessionTimeoutExpiredId">Your session has expired.  You are being logged out for security reasons.</h2>
+
+      </div>
+    </div>
   <div classes="navbar-brand"  class="navbar navbar-default navbar-fixed-top">
+
     <div class="container">
+    
       <div class="navbar-header"> 
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span class="sr-only">Toggle navigation</span>
@@ -99,107 +151,7 @@
     </div>
     <div></div>
   </div>
-  
-
-
-<div id="landing_page"  style="display: block;">
-   
-    <section id="feature" class="section-padding wow fadeIn delay-05s">
-        <div class="loader"></div>
-            <div id="myDiv">
-
-            <div class="header">
-              <div class="bg-color">
-                <header id="main-header">
-               
-                </header>
-                <div class="wrapper">
-                <div class="container">
-                  <div class="row">
-                      <div class="banner-info text-center wow fadeIn delay-05s">
-                          
-                          
-                          <br></br>
-                          <br></br>
-                          <br></br>
-                        
-                        
-                          <!-- <h8 class="bnr-para"><img src="images/mmria-secondary-reversed.svg" height=135 width=200 style="padding: 1px 1px;" /> </h8> -->
-
-                         
-                          <section id="feature" class="section-padding wow fadeIn delay-05s">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-3 col-sm-6 col-xs-12">
-                                        <div class="wrap-item text-center">
-                                            <div class="item-img">
-                                               
-                                            </div>
-
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 col-xs-12">
-                                        <div class="wrap-item text-center">
-                                            <div class="item-img">
-       
-                                            </div>
-                                      
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 col-xs-12">
-                                        <div class="wrap-item text-center">
-                                            <div class="item-img">
-                                                
-                                            </div>
-                                         
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6 col-xs-12">
-                
-                                        <div class="wrap-item text-center">
-                                            <div class="item-img">
-                                               
-                                            </div>
-
-                                            
-                                        </div>
-                
-                                    </div>
-                                </div>
-                                
-                        </section>
-                          <div class="brn-btn">
-                           
-                          </div>
-                          <div class="overlay-detail">
-                              <a href="#feature"><i class="fa fa-angle-down"></i></a>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
-
-                
-                    <div class="container">
-                       
-                    </div>
-                </section>
-
-         
-          </div>
-      </section>
-
-    </div>
-
-
-
-
-  <div id='root'  class="container">
+  <div id='root'  class="container header">
     
       
       <!--h1>App Element: MMRIA</h1-->
@@ -211,15 +163,42 @@
         
       </div>
     </div>
-    <div id='form_content_id'  class="container"></div>
+    <div id='form_content_id'  class="container">
+      
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+            <!--img src="img/mmrai_landing_logo1.png" style="padding: 1px 1px; height: 200px; width: 400px; border: 1px solid black;" /-->
+    </div>
     <div id="footer" class="navbar navbar-default navbar-fixed-bottom">
             <div class="col-md-6 col-sm-6 col-xs-12" style="color:white;align:right;">
                     <%=version%>
                 </div>
     
     
-            </div>
+    </div>
   </div>
+  
   </body>
 
   </html>

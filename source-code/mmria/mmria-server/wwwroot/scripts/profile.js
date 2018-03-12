@@ -331,10 +331,8 @@ login: function ()
 		var post_data = { "userid" : email_text , "password": password_text};
 		$.ajax({
 			"url": url,
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
 			data: JSON.stringify(post_data),
-			type:"post"
+			type: "post"
 		}).done(profile.login_response).fail(function(response) {
 				console.log("fail bubba");console.log(response);
 		});
@@ -369,7 +367,7 @@ login_response: function (response)
 			$mmria.addCookie("AuthSession", profile.auth_session);
 			$mmria.addCookie("roles", json_response.roles);
 			
-
+			set_session_warning_interval();
 
 			if(profile.user_roles.indexOf("abstractor") >-1)
 			{
@@ -589,9 +587,53 @@ logout : function()
 			{	
 				$mmria.addCookie("AuthSession", json_response.auth_session);
 				profile.auth_session = json_response.auth_session;
+				set_session_warning_interval();
+				//console.log("profile.update_session_timer");
 			}
 			});
 		}
 	}
 
 };
+
+
+
+var milliseconds_in_second = 1000;
+var session_warning_interval_id = null;
+
+
+var session_warning_interval = 8 * 60 * milliseconds_in_second; // number of miliseconds until the user is considered idle
+var redirectAfter = 120; // number of seconds to wait before redirecting the user
+
+
+/*
+var session_warning_interval = 10 * milliseconds_in_second; // number of miliseconds until the user is considered idle
+var redirectAfter = 15; // number of seconds to wait before redirecting the user
+*/
+var initialSessionTimeoutMessage = 'Your session will expire in <span id="sessionTimeoutCountdownId"></span> seconds.<br /><br />Click on <b>OK</b> to continue your session.';
+var sessionTimeoutCountdownId = 'sessionTimeoutCountdownId';
+
+//var redirectTo = 'http://regretless.com/2010/02/14/jquery-session-timeout-countdown/'; // URL to relocate the user to once they have timed out
+var redirectTo = location.protocol + '//' + location.host;
+var keepAliveURL = 'keepAlive.php'; // URL to call to keep the session alive
+var expiredMessage = 'Your session has expired.  You are being logged out for security reasons.'; // message to show user when the countdown reaches 0
+var running = false; // var to check if the countdown is running
+var timer; // reference to the setInterval timer so it can be stopped
+
+function set_session_warning_interval()
+{
+  if(session_warning_interval_id != null)
+  {
+    clearInterval(session_warning_interval_id);
+  }
+
+  session_warning_interval_id = setInterval(
+      function()
+      { 
+          $("#sessionTimeoutWarningDiv").trigger("sessionWarning"); 
+      },
+      session_warning_interval
+    );
+}
+
+

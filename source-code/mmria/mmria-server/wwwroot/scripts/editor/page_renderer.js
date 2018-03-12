@@ -259,7 +259,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 
 				result.push(p_metadata.prompt);
-				result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+				
+
+				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+				{
+					result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
+					result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+				}
+
 				result.push("</h2><h4 style='grid-column:1/-1;'>");
 				result.push(" record: ");
 				result.push(data_index + 1);
@@ -304,7 +311,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					
 					//result.push("</div>");
 				}
-				result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+
+				if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+				{
+					result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
+					result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+				}
 				result.push("</section>");
 
 			}
@@ -333,8 +345,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 			result.push(p_metadata.prompt);
-
-			result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+			if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+			{
+				result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
+				result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+			}
 			result.push("</h2>");
 			if(g_data)
 			{
@@ -472,7 +487,12 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				}
 				Array.prototype.push.apply(result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 			}
-			result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+			
+			if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+			{
+				result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
+				result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+			}
 			result.push("</section>");
 		}
 		break;
@@ -1513,7 +1533,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 				//if(p_metadata.list_display_size && p_metadata.list_display_size!="")
 				//{
-					result.push("<br/> <input placeholder='2Specify Other' class='form-control1' type='text3' name='");
+					result.push("<br/> <input placeholder='Specify Other' class='form-control1' type='text3' name='");
 					result.push(p_metadata.name);
 					result.push("' value='");
 					result.push(p_data);
