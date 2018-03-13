@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Net.Mail;
 using System.Net;
-using System.Configuration;
+
 
 namespace mmria.server.util.email
 {
+
+	/*
 	public class Email_Handler
 	{ 
 
@@ -95,6 +97,7 @@ namespace mmria.server.util.email
 		}
 
 	}
+*/
 
 
 }

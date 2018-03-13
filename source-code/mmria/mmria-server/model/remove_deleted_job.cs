@@ -4,23 +4,26 @@ using System.Linq;
 using System.Web;
 using Quartz;
 using Quartz.Impl;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.model
 {
-	public class remove_deleted_job : IJob
+	public class remove_deleted_job //: IJob
     {
 		string couch_db_url = null;
 		string user_name = null;
 		string password = null;
+		private IConfiguration Configuration = null;
 
-		public remove_deleted_job()
+		public remove_deleted_job(IConfiguration configuration)
 		{
 				this.couch_db_url = Program.config_couchdb_url;
 				this.user_name = Program.config_timer_user_name;
 				this.password = Program.config_timer_password;
+				Configuration = configuration;
 		}
 
-        void IJob.Execute(IJobExecutionContext context)
+        void IJob_Execute(IJobExecutionContext context)
         {
             //Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
             //log.Debug("IJob.Execute");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.util
 {
@@ -18,9 +19,12 @@ namespace mmria.server.util
 		private string item_id = null;
 		private bool is_offline_mode;
 
-		public core_element_exporter()
+		private IConfiguration Configuration;
+
+		public core_element_exporter(IConfiguration configuration)
 		{
-			//this.is_offline_mode = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
+			this.Configuration = configuration;
+			//this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
 
 		}
 		public void Execute(string[] args)
@@ -72,7 +76,7 @@ namespace mmria.server.util
 
 			if (string.IsNullOrWhiteSpace(this.database_url))
 			{
-				this.database_url = System.Configuration.ConfigurationManager.AppSettings["couchdb_url"];
+				this.database_url = Configuration["mmria_settings:couchdb_url"];
 
 				if (string.IsNullOrWhiteSpace(this.database_url))
 				{
@@ -104,7 +108,7 @@ namespace mmria.server.util
 				return;
 			}
 
-			string export_directory = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_directory_name);
+			string export_directory = System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], this.item_directory_name);
 
 			if (!System.IO.Directory.Exists(export_directory))
 			{
@@ -413,9 +417,9 @@ namespace mmria.server.util
 
 			folder_compressor.Compress
 			(
-				System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_file_name), 
+				System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], this.item_file_name), 
 				null,// string password 
-				System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["export_directory"], this.item_directory_name)
+				System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], this.item_directory_name)
 			);
 
 

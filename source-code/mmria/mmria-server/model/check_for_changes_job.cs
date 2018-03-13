@@ -4,23 +4,26 @@ using System.Linq;
 using System.Web;
 using Quartz;
 using Quartz.Impl;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.model
 {
-	public class check_for_changes_job : IJob
+	public class check_for_changes_job //: IJob
     {
 		private string couch_db_url = null;
         private string user_name = null;
         private string password = null;
+		private IConfiguration Configuration = null;
 
-		public check_for_changes_job()
+		public check_for_changes_job(IConfiguration configuration)
 		{
 				this.couch_db_url = Program.config_couchdb_url;
 				this.user_name = Program.config_timer_user_name;
 				this.password = Program.config_timer_password;
+				Configuration = configuration;
 		}
 
-        void IJob.Execute (IJobExecutionContext context)
+        void IJob_Execute (IJobExecutionContext context)
         {
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("IJob.Execute");
@@ -387,7 +390,7 @@ namespace mmria.server.model
                     try
                     {
 					
-    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter();
+    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter(Configuration);
     					core_element_exporter.Execute(args.ToArray());
                     }
                     catch(Exception ex)
@@ -413,7 +416,7 @@ namespace mmria.server.model
 
                     try
                     {
-    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter();
+    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter(Configuration);
     					mmrds_exporter.Execute(args.ToArray());
                     }
                     catch(Exception ex)
@@ -440,7 +443,7 @@ namespace mmria.server.model
 
 					try
 					{
-						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter ();
+						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter (Configuration);
 						mmrds_exporter.Execute (args.ToArray ());
 					}
 					catch(Exception ex)

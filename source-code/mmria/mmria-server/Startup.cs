@@ -9,7 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Akka.Actor;
+using Akka.Quartz.Actor;
 using Swashbuckle.AspNetCore.Swagger;
+using Quartz;
+using Quartz.Impl;
 
 namespace mmria.server
 {
@@ -66,6 +69,40 @@ namespace mmria.server
 
             var actorSystem = ActorSystem.Create("mmria-actor-system");
             services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
+
+            ISchedulerFactory schedFact = new StdSchedulerFactory();
+            Quartz.IScheduler sched = schedFact.GetScheduler().Result;
+
+            // compute a time that is on the next round minute
+            DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
+
+            // define the job and tie it to our HelloJob class
+            IJobDetail job = JobBuilder.Create< mmria.server.model.Pulse_job>()
+                .WithIdentity("job1", "group1")
+                .Build();
+
+            // Trigger the job to run on the next round minute
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("trigger1", "group1")
+                .StartAt(runTime)
+                .WithCronSchedule (Program.config_cron_schedule)
+                .Build();
+
+            sched.ScheduleJob(job, trigger);
+
+            sched.Start();
+
+            //services.AddSingleton<Quartz.IScheduler>(sched);
+ 
+            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
+            quartzSupervisor.Tell(new mmria.server.model.actor.ScheduleInfoMessage
+            (
+                Program.config_cron_schedule, 
+                Program.config_couchdb_url,
+                Program.config_timer_user_name,
+                Program.config_timer_password,
+                Program.config_export_directory
+            ));
 
             services.AddMvc(setupAction: options =>
             {
