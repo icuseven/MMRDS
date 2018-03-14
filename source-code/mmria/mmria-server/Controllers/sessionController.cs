@@ -44,6 +44,7 @@ namespace mmria.server
 
 				if(response.Headers["Set-Cookie"] != null)
 				{
+					this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
 					string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
 					string[] auth_array = set_cookie[0].Split('=');
 					if(auth_array.Length > 1)
@@ -138,6 +139,7 @@ namespace mmria.server
 					json_result
 				}; 
 
+				this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
 
 				string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
 				string[] auth_array = set_cookie[0].Split('=');

@@ -1,0 +1,43 @@
+{
+  "_id": "_design/sortable",
+  "language": "javascript",
+  "views": {
+    "by_date_created": {
+      "map": "function(doc) { \n  emit(doc.date_created, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_date_last_updated": {
+      "map": "function(doc) { \n   emit(doc.date_last_updated, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_last_name": {
+      "map": "function(doc) { \n   emit(doc.home_record.last_name.toLowerCase(), { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_first_name": {
+      "map": "function(doc) { \n   emit(doc.home_record.first_name.toLowerCase(), { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_middle_name": {
+      "map": "function(doc) { \n   emit(doc.home_record.middle_name.toLowerCase(), { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_year_of_death": {
+      "map": "function(doc) { \n   emit(doc.home_record.date_of_death.year, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_month_of_death": {
+      "map": "function(doc) { \n   emit(doc.home_record.date_of_death.month, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_committe_review_date": {
+      "map": "function(doc) { \n   emit(doc.committee_review.date_of_review, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_created_by": {
+      "map": "function(doc) { \n  emit(doc.created_by, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_last_updated_by": {
+      "map": "function(doc) { \n   emit(doc.last_updated_by, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"by_state_of_death": {
+      "map": "function(doc) { \n   emit(doc.home_record.state_of_death, { date_created:doc.date_created, created_by:doc.created_by, date_last_updated:doc.date_last_updated, last_updated_by:doc.last_updated_by, first_name:doc.home_record.first_name, middle_name:doc.home_record.middle_name, last_name:doc.home_record.last_name, date_of_death_year:doc.home_record.date_of_death.year, date_of_death_month:doc.home_record.date_of_death.month, record_id:doc.home_record.record_id, agency_case_id:doc.home_record.agency_case_id, date_of_committee_review:doc.committee_review.date_of_review, state_of_death:doc.home_record.state_of_death }); \n }"
+    },
+	"conflicts":  {
+      "map": "function(doc) { \n   if(doc._conflicts) { emit(doc._conflicts, null); } \n }"
+    }
+  }
+}
+

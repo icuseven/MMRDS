@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Web;
 using Quartz;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.model
 {
-	public class check_for_changes_job //: IJob
+	public class check_for_changes_job : IJob
     {
 		private string couch_db_url = null;
         private string user_name = null;
@@ -23,7 +25,7 @@ namespace mmria.server.model
 				Configuration = configuration;
 		}
 
-        void IJob_Execute (IJobExecutionContext context)
+        public virtual Task Execute(IJobExecutionContext context)
         {
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("IJob.Execute");
@@ -240,7 +242,7 @@ namespace mmria.server.model
 				//System.Console.WriteLine ("{0}- Ending Change Synchronization.", System.DateTime.Now);
 			}
 			
-	
+			return Task.CompletedTask;
 		}
 
 

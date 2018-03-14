@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Web;
 using Quartz;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.model
 {
-	public class rebuild_queue_job //: IJob
+	public class rebuild_queue_job : IJob
     {
 		string couch_db_url = null;
 		string user_name = null;
@@ -23,7 +25,7 @@ namespace mmria.server.model
                 Configuration = configuration;
 		}
 
-        void IJob_Execute (IJobExecutionContext context)
+        public virtual Task Execute(IJobExecutionContext context)
         {
 			//Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 			//log.Debug("IJob.Execute");
@@ -89,6 +91,8 @@ namespace mmria.server.model
             {
                 System.Console.WriteLine ($"rebuild_queue_job. error resuming schedule\n{ex}");
             }
+
+            return Task.CompletedTask;
 		}
 
         private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")

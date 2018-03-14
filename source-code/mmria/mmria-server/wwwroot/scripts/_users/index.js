@@ -221,20 +221,20 @@ function change_password_user_click(p_user_id)
 		{
 			user.password = new_user_password;
 
-			var current_auth_session = profile.get_auth_session_cookie();
+			//var current_auth_session = profile.get_auth_session_cookie();
 
-			if(current_auth_session)
-			{ 
+			//if(current_auth_session)
+			//{ 
 				$.ajax({
 					url: location.protocol + '//' + location.host + '/api/user',
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(user),
-					type: "POST",
+					type: "POST"/*,
 					beforeSend: function (request)
 					{
 						request.setRequestHeader("AuthSession", current_auth_session);
-					}
+					}*/
 				}).done(function(response) 
 				{
 					var response_obj = eval(response);
@@ -264,7 +264,7 @@ function change_password_user_click(p_user_id)
 					//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 					
 				});
-			}
+			//}
 		}
 		else
 		{

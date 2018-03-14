@@ -124,14 +124,16 @@ IConfiguration.this[string]
         public static bool is_processing_syncronization;
 
         
-        private static IScheduler sched;
-        private static ITrigger check_for_changes_job_trigger;
-        private static ITrigger rebuild_queue_job_trigger;
+        public static IScheduler sched;
+        public static ITrigger check_for_changes_job_trigger;
+        public static ITrigger rebuild_queue_job_trigger;
     
         public static Dictionary<string, string> Change_Sequence_List;
         public static int Change_Sequence_Call_Count = 0;
         public static IList<DateTime> DateOfLastChange_Sequence_Call;
         public static string Last_Change_Sequence = null;
+
+        private static IConfiguration configuration = null;
 
         public static void Main(string[] args)
         {
@@ -139,6 +141,12 @@ IConfiguration.this[string]
 			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
             var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
+
+            configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+            
 
 
 /* 
@@ -227,11 +235,6 @@ IConfiguration.this[string]
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .Build();
-            
 
             string web_site_url = configuration["mmria_settings:web_site_url"];
 
@@ -273,30 +276,65 @@ IConfiguration.this[string]
 		{
 
 
+            if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
+            {
+                System.Console.WriteLine ("using Environment");
+                System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
+                System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
+                System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
+                System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
+                System.Console.WriteLine ("export_directory: {0}", System.Environment.GetEnvironmentVariable ("export_directory"));
+
+                Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
+                Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
+                Program.config_couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
+                Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
+                Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
+                Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
+                Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
+                Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+
+
+            }
+            else 
+            {
+                Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
+                Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+                Program.config_couchdb_url = configuration["mmria_settings:couchdb_url"];
+                Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
+                Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
+                Program.config_timer_user_name = configuration["mmria_settings:timer_user_name"];
+                Program.config_timer_password = configuration["mmria_settings:timer_password"];
+                Program.config_cron_schedule = configuration["mmria_settings:cron_schedule"];
+                Program.config_export_directory = configuration["mmria_settings:export_directory"];
+            }
+
+
+
+
 			Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
             Program.Change_Sequence_Call_Count++;
             Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
-            /*
+            
             StdSchedulerFactory sf = new StdSchedulerFactory ();
-			Program.sched = sf.GetScheduler ();
+			Program.sched = sf.GetScheduler ().Result;
 			DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
 			IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
 																 .WithIdentity ("check_for_changes_job", "group1")
 																 .Build ();
 
-			string cron_schedule = Program.config_cron_schedule;
-
 
 			Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
 			                .WithIdentity ("check_for_changes_job_trigger", "group1")
 			                .StartAt (startTime)
-			                .WithCronSchedule (cron_schedule)
+			                .WithCronSchedule (Program.config_cron_schedule)
 			                .Build ();
 
 
-			DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
+			DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger).Result;
 
 
 
@@ -314,8 +352,8 @@ IConfiguration.this[string]
 			                .Build ();
 
 
-			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
-            */
+			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger).Result;
+            
 
 			System.Threading.Tasks.Task.Run
 			(
@@ -402,7 +440,9 @@ IConfiguration.this[string]
 						//Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
 					) 
 					{
-						string current_directory = AppDomain.CurrentDomain.BaseDirectory;
+						//string current_directory = AppDomain.CurrentDomain.BaseDirectory;
+                        //string current_directory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), Program.config_file_root_folder);
+                        string current_directory = Directory.GetCurrentDirectory();
 
                         System.Console.WriteLine("DB Repair Check - start");
 

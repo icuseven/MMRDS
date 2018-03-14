@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Web;
 using Quartz;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.model
 {
-	public class remove_deleted_job //: IJob
+	public class remove_deleted_job : IJob
     {
 		string couch_db_url = null;
 		string user_name = null;
@@ -23,7 +25,7 @@ namespace mmria.server.model
 				Configuration = configuration;
 		}
 
-        void IJob_Execute(IJobExecutionContext context)
+        public virtual Task Execute(IJobExecutionContext context)
         {
             //Common.Logging.ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
             //log.Debug("IJob.Execute");
@@ -153,6 +155,7 @@ namespace mmria.server.model
 			*/
 
             //log.DebugFormat("iCIMS_Data_Call_Job says: finishing {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
+			return Task.CompletedTask;
         }
 
 
