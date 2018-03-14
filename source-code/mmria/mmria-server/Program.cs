@@ -334,7 +334,7 @@ IConfiguration.this[string]
 			                .Build ();
 
 
-			DateTimeOffset? check_for_changes_job_ft = sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger).Result;
+			DateTimeOffset? check_for_changes_job_ft = Program.sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger).Result;
 
 
 
@@ -352,7 +352,7 @@ IConfiguration.this[string]
 			                .Build ();
 
 
-			DateTimeOffset? rebuild_queue_job_ft = sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger).Result;
+			DateTimeOffset? rebuild_queue_job_ft = Program.sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger).Result;
             
 
 			System.Threading.Tasks.Task.Run
@@ -363,7 +363,7 @@ IConfiguration.this[string]
 					bool is_able_to_connect = false;
 					try 
 					{
-						if (!url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET"))
+						if (url_endpoint_exists (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password, "GET"))
 						{
 							is_able_to_connect = true;
 						}
@@ -567,6 +567,8 @@ IConfiguration.this[string]
 							}
 
                             System.Console.WriteLine("DB Repair Check - end");
+                            Program.StartSchedule ();
+                            System.Console.WriteLine("Schedule Started");
 						}
 					}
 			));
@@ -638,6 +640,10 @@ IConfiguration.this[string]
 
 
 
+                    Program.sched.Start ();
+                }
+                else
+                {
                     Program.sched.Start ();
                 }
             }

@@ -28,6 +28,8 @@ namespace mmria.server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            /*
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {
                 System.Console.WriteLine ("using Environment");
@@ -61,7 +63,8 @@ namespace mmria.server
                 Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
                 Program.config_export_directory = Configuration["mmria_settings:export_directory"];
             }
-
+            */
+            
             Console.WriteLine($"Program.config_timer_user_name = {Program.config_timer_user_name}");
             Console.WriteLine($"Logging = {Configuration["Logging:IncludeScopes"]}");
             Console.WriteLine($"Console = {Configuration["Console:LogLevel:Default"]}");
