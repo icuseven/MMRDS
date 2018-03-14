@@ -140,24 +140,6 @@ namespace mmria.server
 
             sched.ScheduleJob(job, trigger);
 
-
-            IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
-                                                            .WithIdentity ("rebuild_queue_job", "group2")
-                                                            .Build ();
-
-            //string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
-
-            string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
-
-            ITrigger rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                            .WithIdentity ("rebuild_queue_job_trigger", "group2")
-                            .StartAt (runTime)
-                            .WithCronSchedule (Program.config_cron_schedule)
-                            .Build ();
-
-
-           sched.ScheduleJob (rebuild_queue_job, rebuild_queue_job_trigger);
-
             sched.Start();
 
 

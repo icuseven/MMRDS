@@ -57,16 +57,23 @@ namespace mmria.server.util
 			// but the zip will be in Zip64 format which not all utilities can understand.
 			//   zipStream.UseZip64 = UseZip64.Off;
 			newEntry.Size = fi.Length;
+			try
+			{
+				zipStream.PutNextEntry(newEntry);
 
-			zipStream.PutNextEntry(newEntry);
-
-			// Zip the file in buffered chunks
-			// the "using" will close the stream even if an exception occurs
-			byte[ ] buffer = new byte[4096];
-			using (FileStream streamReader = File.OpenRead(filename)) {
-				StreamUtils.Copy(streamReader, zipStream, buffer);
+				// Zip the file in buffered chunks
+				// the "using" will close the stream even if an exception occurs
+				byte[ ] buffer = new byte[4096];
+				using (FileStream streamReader = File.OpenRead(filename)) 
+				{
+					StreamUtils.Copy(streamReader, zipStream, buffer);
+				}
+				zipStream.CloseEntry();
 			}
-			zipStream.CloseEntry();
+			catch(Exception ex)
+			{
+				System.Console.WriteLine(ex);
+			}
 		}
 		string[ ] folders = Directory.GetDirectories(path);
 		foreach (string folder in folders) {

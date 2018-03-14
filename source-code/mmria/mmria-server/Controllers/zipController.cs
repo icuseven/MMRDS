@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.IO;
@@ -14,14 +14,20 @@ namespace mmria.server
 	[Route("api/[controller]")]
 	public class zipController: ControllerBase
 	{
-		public zipController ()
-		{
-		}
+		public IConfiguration Configuration { get; }
+		public zipController (IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		[HttpGet]
-        public async System.Threading.Tasks.Task<HttpResponseMessage> Get (string id)
+        
+
+		[HttpGet("{id}")]
+        public async System.Threading.Tasks.Task<FileStreamResult> Get (string id)
 		{
 			HttpResponseMessage result = new HttpResponseMessage (System.Net.HttpStatusCode.NoContent);
+			FileStream stream = null;
+			string file_name = null;
 
 			string request_string = Program.config_couchdb_url + "/_session";
 			cURL session_curl = new cURL ("GET", null, request_string, null);
@@ -37,7 +43,7 @@ namespace mmria.server
 			string session_curl_resonse = await session_curl.executeAsync ();
 
 			mmria.common.model.couchdb.session_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session_response> (session_curl_resonse);
-
+			
 			
 			if (json_result.userCTX.roles.Contains ("abstractor", StringComparer.OrdinalIgnoreCase))
 			{
@@ -46,11 +52,11 @@ namespace mmria.server
 				string responseFromServer = await get_item_curl.executeAsync ();
 				export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer);
 
+				file_name = export_queue_item.file_name;
 
-
-				var path = System.IO.Path.Combine (System.Configuration.ConfigurationManager.AppSettings ["export_directory"], export_queue_item.file_name);
+				var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], export_queue_item.file_name);
 				result = new HttpResponseMessage (System.Net.HttpStatusCode.OK);
-				var stream = new FileStream (path, FileMode.Open, FileAccess.Read);
+				stream = new FileStream (path, FileMode.Open, FileAccess.Read);
 				result.Content = new StreamContent (stream);
 				result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue ("application/octet-stream");
 
@@ -63,7 +69,8 @@ namespace mmria.server
 				responseFromServer = await set_item_curl.executeAsync ();
 			}
 
-		    return result;
+			
+		    return File(stream, "application/octet-stream", file_name);
 		}
 
 	}
