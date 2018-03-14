@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Akka.Actor;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
@@ -16,6 +17,7 @@ namespace mmria.server.model
     {
         //private static readonly ILog log = LogProvider.GetLogger(typeof (HelloJob));
 
+        //private static readonly ActorSystem actorSystem = LogProvider.GetLogger(typeof (ActorSystem));;
         /// <summary>
         /// Called by the <see cref="IScheduler" /> when a
         /// <see cref="ITrigger" /> fires that is associated with
@@ -25,6 +27,10 @@ namespace mmria.server.model
         {
             // Say Hello to the World and display the date/time
             System.Console.WriteLine($"Pulse_job! - {DateTime.Now:r}");
+
+            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>());
+            quartzSupervisor.Tell("pulse");
+
             return Task.CompletedTask;
         }
     }

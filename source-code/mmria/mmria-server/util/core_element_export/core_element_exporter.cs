@@ -19,9 +19,9 @@ namespace mmria.server.util
 		private string item_id = null;
 		private bool is_offline_mode;
 
-		private IConfiguration Configuration;
+		private mmria.server.model.actor.ScheduleInfoMessage Configuration;
 
-		public core_element_exporter(IConfiguration configuration)
+		public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
 		{
 			this.Configuration = configuration;
 			//this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
@@ -76,7 +76,7 @@ namespace mmria.server.util
 
 			if (string.IsNullOrWhiteSpace(this.database_url))
 			{
-				this.database_url = Configuration["mmria_settings:couchdb_url"];
+				this.database_url = Configuration.couch_db_url;
 
 				if (string.IsNullOrWhiteSpace(this.database_url))
 				{
@@ -108,7 +108,7 @@ namespace mmria.server.util
 				return;
 			}
 
-			string export_directory = System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], this.item_directory_name);
+			string export_directory = System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name);
 
 			if (!System.IO.Directory.Exists(export_directory))
 			{
@@ -191,7 +191,7 @@ namespace mmria.server.util
 				}
 			}*/
 
-			path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name,  this.item_directory_name));
+			path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name,  this.item_directory_name, Configuration.export_directory));
 
 			int stream_file_count = 0;
 			/*
@@ -355,7 +355,7 @@ namespace mmria.server.util
 
 			}
 
-			WriteCSV mapping_document = new WriteCSV("core_field_mapping.csv",  this.item_directory_name);
+			WriteCSV mapping_document = new WriteCSV("core_field_mapping.csv",  this.item_directory_name, Configuration.export_directory);
 			System.Data.DataColumn column = null;
 
 			column = new System.Data.DataColumn("file_name", typeof(string));
@@ -417,9 +417,9 @@ namespace mmria.server.util
 
 			folder_compressor.Compress
 			(
-				System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], this.item_file_name), 
+				System.IO.Path.Combine(Configuration.export_directory, this.item_file_name), 
 				null,// string password 
-				System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], this.item_directory_name)
+				System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name)
 			);
 
 

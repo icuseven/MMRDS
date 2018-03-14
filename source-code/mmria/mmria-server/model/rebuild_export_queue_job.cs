@@ -16,6 +16,7 @@ namespace mmria.server.model
 		string user_name = null;
 		string password = null;
         private IConfiguration Configuration = null;
+        
 
         public rebuild_queue_job(IConfiguration configuration)
 		{
@@ -44,7 +45,7 @@ namespace mmria.server.model
 
             try 
             {
-                string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
+                string export_directory = Configuration["mmria_settings:export_directory"];
 
                 if (System.IO.Directory.Exists (export_directory))
                 {

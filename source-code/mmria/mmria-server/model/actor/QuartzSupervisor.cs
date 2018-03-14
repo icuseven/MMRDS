@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using Akka.Quartz.Actor;
-using Akka.Quartz.Actor.Commands;
-using Akka.Quartz.Actor.Events;
-using Akka.Quartz.Actor.Exceptions;
-using Quartz;
-using Quartz.Impl;
-using IScheduler = Quartz.IScheduler;
+using mmria.server.model.actor.quartz;
 
 namespace mmria.server.model.actor
 {
@@ -40,14 +34,19 @@ namespace mmria.server.model.actor
 
     public class QuartzSupervisor : UntypedActor
     {
-        //private IActorRef quartzActor = Context.ActorOf(Props.Create<QuartzActor>(), "QuartzActor");
-        private IActorRef quartzWriter = Context.ActorOf(Props.Create<QuartzWriter>(), "QuartzWriter");
+        //private IActorRef checkForChanges = Context.ActorOf(Props.Create<CheckForChanges>(), "CheckForChanges");
 
-        private string cron_schedule = null;
-		private string couch_db_url = null;
-        private string user_name = null;
-        private string password = null;
-        private string export_directory = null;
+        private ScheduleInfoMessage scheduleInfo = null;
+
+/*
+        public QuartzSupervisor(ScheduleInfoMessage p_scheduleInfo)
+        {
+            this.scheduleInfo = p_scheduleInfo;
+        }
+
+
+        public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
+*/
 
         protected override void OnReceive(object message)
         {
@@ -56,12 +55,7 @@ namespace mmria.server.model.actor
             {
                 case ScheduleInfoMessage scheduleInfo:
 
-
-                    cron_schedule = scheduleInfo.cron_schedule;
-                    couch_db_url = scheduleInfo.couch_db_url;
-                    user_name = scheduleInfo.user_name;
-                    password = scheduleInfo.password;
-                    export_directory = scheduleInfo.export_directory;
+                    this.scheduleInfo = scheduleInfo;
                         /*
                     quartzActor.Tell
                     (
@@ -69,19 +63,48 @@ namespace mmria.server.model.actor
                     ); */
                     break;
 
+                case "pulse":
+
+                    mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
+						(
+							Program.config_cron_schedule,
+							Program.config_couchdb_url,
+							Program.config_timer_user_name,
+							Program.config_timer_password,
+							Program.config_export_directory
+						);
+
+                    Context.ActorOf(Props.Create<Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
+                    //Context.ActorOf(Props.Create<Rebuild_Export_Queue>(), "Rebuild_Export_Queue").Tell(new_scheduleInfo);
+
+
+                    var midnight_timespan = new TimeSpan(0, 0, 0);
+                    var difference = DateTime.Now - midnight_timespan;
+                    if(difference.Hour == 0 && difference.Minute == 0)
+                    {
+                        Context.ActorOf(Props.Create<Rebuild_Export_Queue>(), "Rebuild_Export_Queue").Tell(new_scheduleInfo);
+                    }
+                  
+
+                    //checkForChanges.Tell("pulse");
+                    
+
+                break;
             }
             
         }
     }
 
-    public class QuartzWriter : UntypedActor
+    public class CheckForChanges : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("QuartzWriter started");
-        protected override void PostStop() => Console.WriteLine("QuartzWriter stopped");
+        protected override void PreStart() => Console.WriteLine("CheckForChanges started");
+        protected override void PostStop() => Console.WriteLine("CheckForChanges stopped");
 
         protected override void OnReceive(object message)
         {
-                Console.WriteLine($"QuartzWriter Baby {System.DateTime.Now}");
+                Console.WriteLine($"CheckForChanges Baby {System.DateTime.Now}");
 
             /*
             switch (message)
@@ -112,26 +135,13 @@ namespace mmria.server.model.actor
 
         }
 
-        public static string GetHash(string file_path)
-        {
-            string result;
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
-
-            using (System.IO.FileStream fs = new System.IO.FileStream(file_path, System.IO.FileMode.Open,
-                              System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
-            {
-                foreach (Byte b in md5Hasher.ComputeHash(fs))
-                    sb.Append(b.ToString("X2").ToLowerInvariant());
-            }
-
-            result = sb.ToString();
-
-            return result;
-        }
-        
-
     }
+
+
+    
+
+
+
 }
 
 

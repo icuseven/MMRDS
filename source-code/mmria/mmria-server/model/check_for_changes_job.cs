@@ -391,8 +391,16 @@ namespace mmria.server.model
 
                     try
                     {
+						mmria.server.model.actor.ScheduleInfoMessage scheduleInfo = new actor.ScheduleInfoMessage
+						(
+							Configuration["mmria_settings:cron_schedule"],
+							Configuration["mmria_settings:couchdb_url"],
+							Configuration["mmria_settings:timer_user_name"],
+							Configuration["mmria_settings:timer_password"],
+							Configuration["mmria_settings:export_directory"]
+						);
 					
-    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter(Configuration);
+    					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter(scheduleInfo);
     					core_element_exporter.Execute(args.ToArray());
                     }
                     catch(Exception ex)
@@ -416,9 +424,17 @@ namespace mmria.server.model
 					responseFromServer = set_curl.execute ();
 
 
+					mmria.server.model.actor.ScheduleInfoMessage scheduleInfo = new actor.ScheduleInfoMessage
+					(
+						Configuration["mmria_settings:cron_schedule"],
+						Configuration["mmria_settings:couchdb_url"],
+						Configuration["mmria_settings:timer_user_name"],
+						Configuration["mmria_settings:timer_password"],
+						Configuration["mmria_settings:export_directory"]
+					);
                     try
                     {
-    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter(Configuration);
+    					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter(scheduleInfo);
     					mmrds_exporter.Execute(args.ToArray());
                     }
                     catch(Exception ex)
@@ -445,7 +461,15 @@ namespace mmria.server.model
 
 					try
 					{
-						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter (Configuration);
+						mmria.server.model.actor.ScheduleInfoMessage scheduleInfo = new actor.ScheduleInfoMessage
+						(
+							Configuration["mmria_settings:cron_schedule"],
+							Configuration["mmria_settings:couchdb_url"],
+							Configuration["mmria_settings:timer_user_name"],
+							Configuration["mmria_settings:timer_password"],
+							Configuration["mmria_settings:export_directory"]
+						);
+						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter (scheduleInfo);
 						mmrds_exporter.Execute (args.ToArray ());
 					}
 					catch(Exception ex)
