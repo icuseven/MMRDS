@@ -27,6 +27,7 @@ namespace mmria.server.model.actor.quartz
                     {
                         return;
                     }
+                    /*
                     try 
                     {
                         Program.PauseSchedule (); 
@@ -35,6 +36,7 @@ namespace mmria.server.model.actor.quartz
                     {
                         System.Console.WriteLine ($"rebuild_queue_job. error pausing schedule\n{ex}");
                     }
+                    */
 
                     try 
                     {
@@ -75,7 +77,7 @@ namespace mmria.server.model.actor.quartz
                         System.Console.WriteLine ($"rebuild_queue_job. error creating queue\n{ex}");
                     }
 
-
+/*
 
                     try 
                     {
@@ -85,6 +87,7 @@ namespace mmria.server.model.actor.quartz
                     {
                         System.Console.WriteLine ($"rebuild_queue_job. error resuming schedule\n{ex}");
                     }
+ */
                     break;
             }
 

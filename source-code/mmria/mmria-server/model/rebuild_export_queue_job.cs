@@ -32,7 +32,7 @@ namespace mmria.server.model
 			//log.Debug("IJob.Execute");
 
 			JobKey jobKey = context.JobDetail.Key;
-
+/*
 
             try 
             {
@@ -42,7 +42,7 @@ namespace mmria.server.model
             {
                 System.Console.WriteLine ($"rebuild_queue_job. error pausing schedule\n{ex}");
             }
-
+ */
             try 
             {
                 string export_directory = Configuration["mmria_settings:export_directory"];
@@ -83,7 +83,7 @@ namespace mmria.server.model
             }
 
 
-
+/*
             try 
             {
                 Program.ResumeSchedule (); 
@@ -92,7 +92,7 @@ namespace mmria.server.model
             {
                 System.Console.WriteLine ($"rebuild_queue_job. error resuming schedule\n{ex}");
             }
-
+ */
             return Task.CompletedTask;
 		}
 

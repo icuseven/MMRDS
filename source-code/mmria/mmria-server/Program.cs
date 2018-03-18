@@ -252,7 +252,7 @@ IConfiguration.this[string]
             host.Run();
 
         }
-
+/*
         public void Shutdown ()
         {
 			lock (syncLock) 
@@ -266,11 +266,11 @@ IConfiguration.this[string]
 				System.Console.WriteLine ("Quit command recieved shutting down.");
 			}
         }
-
+ */
         public void Stop()
         {
             //Console.WriteLine("I stopped");
-             Shutdown ();
+             //Shutdown ();
         }
 
         public void Start()
@@ -522,7 +522,7 @@ IConfiguration.this[string]
                                                                                          );
 
                                         sync_all.execute ();
-                                        Program.StartSchedule ();
+                                        //Program.StartSchedule ();
                                     })
 							 	);
 							}
@@ -589,6 +589,8 @@ IConfiguration.this[string]
         }
 
 
+/*
+
         private static object syncLock = new object();
         public static void StartSchedule ()
         {
@@ -596,7 +598,7 @@ IConfiguration.this[string]
             {
                 if (Program.sched != null && !Program.sched.IsStarted) 
                 {
-/*
+
                     Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
                     Program.Change_Sequence_Call_Count++;
                     Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
@@ -641,7 +643,7 @@ IConfiguration.this[string]
 
 
 
-                    Program.sched.Start (); */
+                    Program.sched.Start (); 
                 }
             }
 
@@ -670,7 +672,7 @@ IConfiguration.this[string]
                 }
             }
         }
-
+*/
 
         private void RecursiveDirectoryDelete(System.IO.DirectoryInfo baseDir)
         {
