@@ -54,7 +54,44 @@ namespace mmria.server
 
 			//return result;
 			return json_result;
-		} 
+		}
+
+		[HttpGet("GetCheckCode")]
+		public string GetCheckCode()
+		{
+			System.Console.WriteLine ("Recieved message.");
+			string result = null;
+
+			try
+			{
+				//"2016-06-12T13:49:24.759Z"
+                string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+				request.PreAuthenticate = false;
+
+                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
+                {
+                    string auth_session_value = this.Request.Cookies["AuthSession"];
+                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
+                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
+                }
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				result = reader.ReadToEnd ();
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+			return result;
+		}
+
 		/*
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 

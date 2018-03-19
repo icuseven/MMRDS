@@ -1,0 +1,13 @@
+GET http://localhost:5984/metadata/2016-06-12T13:49:24.759Z HTTP/1.1
+
+###
+
+GET http://localhost:5984/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js HTTP/1.1
+
+###
+
+GET http://localhost:5984/_utils HTTP/1.0
+
+###
+
+GET http://localhost:12345/api/metadata/GetCheckCode HTTP/1.1
