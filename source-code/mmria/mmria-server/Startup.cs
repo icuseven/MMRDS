@@ -63,14 +63,7 @@ namespace mmria.server
             //services.AddSingleton<Quartz.IScheduler>(sched);
  
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
-            quartzSupervisor.Tell(new mmria.server.model.actor.ScheduleInfoMessage
-            (
-                Program.config_cron_schedule, 
-                Program.config_couchdb_url,
-                Program.config_timer_user_name,
-                Program.config_timer_password,
-                Program.config_export_directory
-            ));
+            quartzSupervisor.Tell("init");
 
             services.AddMvc(setupAction: options =>
             {

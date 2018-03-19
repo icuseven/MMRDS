@@ -53,14 +53,9 @@ namespace mmria.server.model.actor
 
             switch (message)
             {
-                case ScheduleInfoMessage scheduleInfo:
+                case "init":
 
-                    this.scheduleInfo = scheduleInfo;
-                        /*
-                    quartzActor.Tell
-                    (
-                        new CreateJob(quartzWriter, "Hello", TriggerBuilder.Create().WithCronSchedule(cron_schedule).Build())
-                    ); */
+                    Console.WriteLine("Quartz Supervisor initialized");
                     break;
 
                 case "pulse":

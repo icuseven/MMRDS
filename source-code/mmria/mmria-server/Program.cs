@@ -136,8 +136,12 @@ IConfiguration.this[string]
 
         private static IConfiguration configuration = null;
 
-        public static void Main(string[] args)
+        private static string[] args;
+
+        public static void Main(string[] p_args)
         {
+            args = p_args;
+
             AppDomain currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
@@ -149,7 +153,7 @@ IConfiguration.this[string]
             .Build();
             
 
-
+            
 /* 
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true, true)
@@ -175,14 +179,6 @@ IConfiguration.this[string]
             {
                 config_is_service = false;
             }
-/*
-            var pathToContentRoot = Directory.GetCurrentDirectory();
-            if (config_is_service)
-            {
-                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
-                pathToContentRoot = Path.GetDirectoryName(pathToExe);
-            }
- */
 
             File.AppendAllText(fileName, $"\nconfig_is_service {config_is_service} started\n");
 
@@ -190,8 +186,6 @@ IConfiguration.this[string]
 
             if (config_is_service)
             {
-                //host.RunAsService();
-                
                 ServiceRunner<Program>.Run(config =>
                 {
 
@@ -248,29 +242,11 @@ IConfiguration.this[string]
         public void Run(string[] args)
         {
 			this.Start();
-            var host = BuildWebHost(args);//, config);
-            host.Run();
-
         }
-/*
-        public void Shutdown ()
-        {
-			lock (syncLock) 
-			{
 
-				if (sched != null) 
-				{
-					sched.Clear ();
-					sched.Shutdown ();
-				}
-				System.Console.WriteLine ("Quit command recieved shutting down.");
-			}
-        }
- */
         public void Stop()
         {
             //Console.WriteLine("I stopped");
-             //Shutdown ();
         }
 
         public void Start()
@@ -389,10 +365,6 @@ IConfiguration.this[string]
                         }
                     }
                     System.Console.WriteLine("Starup/Install Check - end");
-
-
-
-
 
 
 					if (
@@ -534,6 +506,9 @@ IConfiguration.this[string]
 
             // ****   Quartz Timer - End
 
+            var host = BuildWebHost(args);//, config);
+            host.Run();
+
 		}
 
 
@@ -562,7 +537,6 @@ IConfiguration.this[string]
             return result;
         }
 
-
         private bool Verify_Password (string p_target_server, string p_user_name, string p_password)
         {
             bool result = false;
@@ -587,92 +561,6 @@ IConfiguration.this[string]
 
             return result;
         }
-
-
-/*
-
-        private static object syncLock = new object();
-        public static void StartSchedule ()
-        {
-            lock (syncLock)
-            {
-                if (Program.sched != null && !Program.sched.IsStarted) 
-                {
-
-                    Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
-                    Program.Change_Sequence_Call_Count++;
-                    Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
-
-                    
-                    StdSchedulerFactory sf = new StdSchedulerFactory ();
-                    Program.sched = sf.GetScheduler ().Result;
-                    DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
-
-                    IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
-                                                                        .WithIdentity ("check_for_changes_job", "group1")
-                                                                        .Build ();
-
-
-                    Program.check_for_changes_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                                    .WithIdentity ("check_for_changes_job_trigger", "group1")
-                                    .StartAt (startTime)
-                                    .WithCronSchedule (Program.config_cron_schedule)
-                                    .Build ();
-
-
-                    DateTimeOffset? check_for_changes_job_ft = Program.sched.ScheduleJob (check_for_changes_job, Program.check_for_changes_job_trigger);
-
-
-
-                    IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
-                                                                    .WithIdentity ("rebuild_queue_job", "group2")
-                                                                    .Build ();
-
-                    string rebuild_queue_job_cron_schedule = "0 0 0 * * ?";// at midnight every 24 hours
-
-
-                    Program.rebuild_queue_job_trigger = (ITrigger)TriggerBuilder.Create ()
-                                    .WithIdentity ("rebuild_queue_job_trigger", "group2")
-                                    .StartAt (startTime)
-                                    .WithCronSchedule (rebuild_queue_job_cron_schedule)
-                                    .Build ();
-
-
-                    DateTimeOffset? rebuild_queue_job_ft = Program.sched.ScheduleJob (rebuild_queue_job, Program.rebuild_queue_job_trigger);
-                    
-
-
-
-                    Program.sched.Start (); 
-                }
-            }
-
-        }
-
-
-        public static void PauseSchedule ()
-        {
-            lock (syncLock)
-            {
-                if (Program.sched != null) 
-                {
-                    Program.sched.PauseJob(Program.check_for_changes_job_trigger.JobKey);
-                }
-            }
-        }
-
-
-        public static void ResumeSchedule ()
-        {
-            lock (syncLock)
-            {
-                if (Program.sched != null) 
-                {
-                    Program.sched.ResumeJob (Program.check_for_changes_job_trigger.JobKey);
-                }
-            }
-        }
-*/
 
         private void RecursiveDirectoryDelete(System.IO.DirectoryInfo baseDir)
         {

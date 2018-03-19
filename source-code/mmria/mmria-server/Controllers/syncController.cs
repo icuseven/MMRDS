@@ -40,15 +40,6 @@ namespace mmria.server
 
                         try 
                         {
-                            Program.PauseSchedule (); 
-                        }
-                        catch (Exception ex) 
-                        {
-                            System.Console.WriteLine ($"syncController. error pausing schedule\n{ex}");
-                        }
-
-                        try 
-                        {
                             
 						    mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
 																			 Program.config_couchdb_url,
@@ -61,15 +52,6 @@ namespace mmria.server
                         catch (Exception ex) 
                         {
                             System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
-                        }
-
-                        try 
-                        {
-                            Program.ResumeSchedule (); 
-                        }
-                        catch (Exception ex) 
-                        {
-                            System.Console.WriteLine ($"syncController. error resuming schedule\n{ex}");
                         }
 					})
 				);

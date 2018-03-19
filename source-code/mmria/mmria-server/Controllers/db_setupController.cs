@@ -136,7 +136,6 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_password).execute ();
                 }
 
-				Program.StartSchedule ();
 
 		}
 		catch(Exception ex) 
