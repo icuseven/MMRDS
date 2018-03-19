@@ -12,7 +12,6 @@ namespace mmria.server
     public class caseController: ControllerBase 
 	{ 
 
-
 		// GET api/values 
 		[HttpGet]
 		public System.Dynamic.ExpandoObject Get(string case_id = null) 
@@ -47,41 +46,23 @@ namespace mmria.server
 
                 return result;
 
-
-
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-
-
-
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine (ex);
-
 			} 
 
 			return null;
 		} 
 
 
-
-
 		// POST api/values 
         [HttpPost]
 		public async Task<mmria.common.model.couchdb.document_put_response> Post
-                               (
-                                   [FromBody] System.Dynamic.ExpandoObject queue_request
-                                  ) 
+		(
+            [FromBody] System.Dynamic.ExpandoObject queue_request
+        ) 
 		{ 
-			//bool valid_login = false;
-			//mmria.common.data.api.Set_Queue_Request queue_request = null;
-			//System.Dynamic.ExpandoObject  queue_request = null;
 			string auth_session_token = null;
 
 			string object_string = null;
@@ -147,36 +128,6 @@ namespace mmria.server
 
 		} 
 
-
-
-        /*
-DELETE /recipes/FishStew?rev=1-9c65296036141e575d32ba9c034dd3ee HTTP/1.1
-Accept: application/json
-Host: localhost:5984
-or
-
-DELETE /recipes/FishStew HTTP/1.1
-Accept: application/json
-If-Match: 1-9c65296036141e575d32ba9c034dd3ee
-Host: localhost:5984
-
-
-HTTP/1.1 200 OK
-Cache-Control: must-revalidate
-Content-Length: 71
-Content-Type: application/json
-Date: Wed, 14 Aug 2013 12:23:13 GMT
-ETag: "2-056f5f44046ecafc08a2bc2b9c229e20"
-Server: CouchDB (Erlang/OTP)
-
-{
-    "id": "FishStew",
-    "ok": true,
-    "rev": "2-056f5f44046ecafc08a2bc2b9c229e20"
-}
-
-
-        */
 		[HttpDelete]
         public async Task<System.Dynamic.ExpandoObject> Delete(string case_id = null, string rev = null) 
         { 
@@ -207,7 +158,7 @@ Server: CouchDB (Erlang/OTP)
                 }
 
 
-								// check if doc exists
+					// check if doc exists
 
 				try 
 				{
@@ -228,26 +179,15 @@ Server: CouchDB (Erlang/OTP)
                     System.Console.WriteLine ($"err caseController.Delete\n{ex}");
 				}
 
-
-
-
                 string responseFromServer = await delete_report_curl.executeAsync ();;
-
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
                 return result;
-
-
-
-
-
-
 
             }
             catch(Exception ex)
             {
                 Console.WriteLine (ex);
-
             } 
 
             return null;
