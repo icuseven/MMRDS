@@ -4,12 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Dynamic;
 using mmria.common.model;
+using Microsoft.Extensions.Configuration;
+using Akka.Actor;
 
 namespace mmria.server
 {
 	[Route("api/[controller]")]
 	public class export_queueController: ControllerBase
 	{ 
+
+		private ActorSystem _actorSystem;
+
+		public export_queueController(ActorSystem actorSystem)
+		{
+		    _actorSystem = actorSystem;
+    	}
+
 
  		[HttpGet]
 		// GET api/values 
@@ -140,7 +150,27 @@ namespace mmria.server
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 			
 
-				if (!result.ok) 
+				if
+				(
+					result.ok && 
+					(
+						queue_item.status.StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase) ||
+						queue_item.status.StartsWith ("Deleted", StringComparison.OrdinalIgnoreCase)
+					)
+				)
+				{
+					mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
+					(
+						Program.config_cron_schedule,
+						Program.config_couchdb_url,
+						Program.config_timer_user_name,
+						Program.config_timer_password,
+						Program.config_export_directory
+					);
+
+					_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
+				}
+				else // if (!result.ok) 
 				{
 
 				}
