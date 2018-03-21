@@ -18,12 +18,13 @@ namespace mmria.server
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,7 +36,7 @@ namespace mmria.server
 
 
             Program.actorSystem = ActorSystem.Create("mmria-actor-system");
-            //services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
+            services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
             Quartz.IScheduler sched = schedFact.GetScheduler().Result;

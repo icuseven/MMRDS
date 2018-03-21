@@ -86,8 +86,8 @@ namespace mmria.server.model.actor
                     else
                     {
                         Context.ActorOf(Props.Create<Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
-                        Context.ActorOf(Props.Create<Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
-                        Context.ActorOf(Props.Create<Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
+                        //Context.ActorOf(Props.Create<Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
+                        //Context.ActorOf(Props.Create<Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
 
                     }
 

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Dynamic;
 using mmria.common;
+using Microsoft.Extensions.Configuration;
+using Akka.Actor;
 
 namespace mmria.server
 {
@@ -12,6 +14,12 @@ namespace mmria.server
     public class caseController: ControllerBase 
 	{ 
 
+		private ActorSystem _actorSystem;
+
+		public caseController(ActorSystem actorSystem)
+		{
+		    _actorSystem = actorSystem;
+    	}
 		// GET api/values 
 		[HttpGet]
 		public System.Dynamic.ExpandoObject Get(string case_id = null) 
@@ -112,6 +120,23 @@ namespace mmria.server
                     Console.WriteLine(ex);
                 }
 
+
+				mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
+				(
+					Program.config_cron_schedule,
+					Program.config_couchdb_url,
+					Program.config_timer_user_name,
+					Program.config_timer_password,
+					Program.config_export_directory
+				);
+
+		/*
+				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
+				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
+ */
+ 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>()).Tell(new_scheduleInfo);
+				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>()).Tell(new_scheduleInfo);
+
                 if (!result.ok)
                 {
 
@@ -181,6 +206,26 @@ namespace mmria.server
 
                 string responseFromServer = await delete_report_curl.executeAsync ();;
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+
+				mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
+				(
+					Program.config_cron_schedule,
+					Program.config_couchdb_url,
+					Program.config_timer_user_name,
+					Program.config_timer_password,
+					Program.config_export_directory
+				);
+
+		
+
+		/*
+				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
+				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
+ */
+ 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>()).Tell(new_scheduleInfo);
+				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>()).Tell(new_scheduleInfo);
+
 
                 return result;
 
