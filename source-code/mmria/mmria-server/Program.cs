@@ -44,34 +44,42 @@ Successfully registered and started service "mmria.server.Program" ("No descript
 
 
 
-rm -rf /workspace/test/app/*
-cp -rf /workspace/MMRDS/source-code/mmria /workspace/test/app
-docker run --rm -it -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -v /workspace/test/app:/app microsoft/dotnet:latest bash -c "dotnet publish /app/mmria/mmria-server/mmria-server.csproj -r ubuntu.16.10-x64"
+rm -rf /workspace/test-core/app/* && \
+cp -rf /workspace/MMRDS/source-code/mmria /workspace/test-core/app
+docker run --rm -it -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -v /workspace/test-core/app:/app microsoft/dotnet:latest bash -c "dotnet publish /app/mmria/mmria-server/mmria-server.csproj -r ubuntu.16.10-x64"
 
 File: dockerfile                                                                                                                                                                                           
+
 # Build runtime image
 FROM microsoft/aspnetcore:2.1.0-preview1
 #WORKDIR /mmria-server
+
 COPY ./app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64/publish .
-ENTRYPOINT ["dotnet", "mmria-server.dll"]
+
+# Expose port 80 for the application.
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "mmria-server.dll", "--console"]
 
 
 
-docker build -t mmria_test .
-
-/workspace/test/app/mmria/mmria-server/bin/Debug/netcoreapp2.0/publish
 
 
-docker run --name mmria-check -d  --publish 8500:80 \
+docker build -t core_test .
+
+/workspace/test-core/app/mmria/mmria-server/bin/Debug/netcoreapp2.0/publish
+
+docker stop mmria-test && docker rm mmria-test && \
+docker run --name mmria-test -d  --publish 8080:80 \
 -e geocode_api_key="none" \
 -e geocode_api_url="none" \
 -e couchdb_url="http://db1.mmria.org" \
--e web_site_url="http://*:9000" \
--e file_root_folder="/workspace/owin/psk/app" \
+-e web_site_url="http://*:80" \
+-e file_root_folder="./" \
 -e timer_user_name="mmrds" \
 -e timer_password="mmrds" \
 -e cron_schedule="0 * /1 * * * ?" \
-mmria_test 
+core_test 
 
 
 mmria-server -> /app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64/mmria-server.dll
@@ -168,13 +176,13 @@ IConfiguration.this[string]
             //File.AppendAllText(fileName, System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]);
             File.AppendAllText(fileName, $"\nDebugger.IsAttached {Debugger.IsAttached}\n");
             File.AppendAllText(fileName, $"args.Contains(\"--console\") ");
-            File.AppendAllText(fileName, args.Contains("--console").ToString());
+            File.AppendAllText(fileName, args.Contains("--use_environment").ToString());
             if 
             (
                 //Environment.UserInteractive || 
                 //bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"]) ||
                 Debugger.IsAttached || 
-                args.Contains("--console")
+                args.Contains("--use_environment")
             ) 
             {
                 config_is_service = false;
@@ -223,7 +231,15 @@ IConfiguration.this[string]
             }
             else
             {
-               new Program().Run(args);
+                if(args.Contains("--use_environment"))
+                {
+                    new Program().Run(new string[0]);
+                }
+                else
+                {
+                    new Program().Run(args);
+                }
+               
             }
 
         }
