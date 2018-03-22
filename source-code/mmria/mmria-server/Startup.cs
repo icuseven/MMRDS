@@ -85,9 +85,7 @@ namespace mmria.server
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseMvc();
-
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
