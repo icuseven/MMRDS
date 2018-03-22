@@ -235,20 +235,22 @@ IConfiguration.this[string]
             {
                 if(args.Contains("--use_environment"))
                 {
+                    System.Console.WriteLine("Program.Run using environment");
                     args  = new string[0];
                     new Program().Run(args);
                     bool stay_on_till_power_fail = true;
                     while(stay_on_till_power_fail)
                     {
-                        
+
                     }
                 }
                 else
                 {
+                    System.Console.WriteLine("Program.Run without environment");
                     new Program().Run(args);
                 }
 
-                
+                System.Console.WriteLine("Program is NOT a Service Main Ending");
                
             }
 
