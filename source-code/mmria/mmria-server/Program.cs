@@ -62,9 +62,6 @@ EXPOSE 80
 
 ENTRYPOINT ["dotnet", "mmria-server.dll", "--use_environment"]
 
-
-
-
 docker run --rm -it -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -v /workspace/test-core/app:/app microsoft/dotnet:latest bash -c "dotnet publish /app/mmria/mmria-server/mmria-server.csproj -r ubuntu.16.10-x64"
 
 docker build -t core_test .
