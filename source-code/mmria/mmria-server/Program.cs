@@ -75,12 +75,12 @@ docker stop mmria-test && docker rm mmria-test && \
 docker run --name mmria-test -d  --publish 8080:80 \
 -e geocode_api_key="none" \
 -e geocode_api_url="none" \
--e couchdb_url="http://db1.mmria.org" \
+-e couchdb_url="http://localhost:5984" \
 -e web_site_url="http://*:80" \
 -e file_root_folder="./" \
--e timer_user_name="mmrds" \
--e timer_password="mmrds" \
--e cron_schedule="0 * /1 * * * *" \
+-e timer_user_name="test" \
+-e timer_password="test" \
+-e cron_schedule="0 * /1 * * * ?" \
 core_test 
 
 
@@ -238,11 +238,12 @@ IConfiguration.this[string]
                     System.Console.WriteLine("Program.Run using environment");
                     args  = new string[0];
                     new Program().Run(args);
+                    /*
                     bool stay_on_till_power_fail = true;
                     while(stay_on_till_power_fail)
                     {
 
-                    }
+                    } */
                 }
                 else
                 {
