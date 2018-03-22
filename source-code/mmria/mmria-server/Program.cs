@@ -45,7 +45,7 @@ Successfully registered and started service "mmria.server.Program" ("No descript
 
 
 rm -rf /workspace/test-core/app/* && \
-cp -rf /workspace/MMRDS/source-code/mmria /workspace/test-core/app
+cp -rf /workspace/MMRDS/source-code/mmria /workspace/test-core/app && \
 docker run --rm -it -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -v /workspace/test-core/app:/app microsoft/dotnet:latest bash -c "dotnet publish /app/mmria/mmria-server/mmria-server.csproj -r ubuntu.16.10-x64"
 
 File: dockerfile                                                                                                                                                                                           
@@ -55,15 +55,17 @@ FROM microsoft/aspnetcore:2.1.0-preview1
 #WORKDIR /mmria-server
 
 COPY ./app/mmria/mmria-server/bin/Debug/netcoreapp2.0/ubuntu.16.10-x64/publish .
+COPY -f ./appsettings.json .
 
 # Expose port 80 for the application.
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "mmria-server.dll", "--console"]
+ENTRYPOINT ["dotnet", "mmria-server.dll", "--use_environment"]
 
 
 
 
+docker run --rm -it -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -v /workspace/test-core/app:/app microsoft/dotnet:latest bash -c "dotnet publish /app/mmria/mmria-server/mmria-server.csproj -r ubuntu.16.10-x64"
 
 docker build -t core_test .
 
@@ -197,7 +199,7 @@ IConfiguration.this[string]
                 ServiceRunner<Program>.Run(config =>
                 {
 
-                    config.SetName("MyTestService");
+                    config.SetName("MMRIAService");
 
 
                     var name = config.GetDefaultName();
@@ -233,24 +235,22 @@ IConfiguration.this[string]
             {
                 if(args.Contains("--use_environment"))
                 {
-                    new Program().Run(new string[0]);
+                    args  = new string[0];
                 }
-                else
-                {
-                    new Program().Run(args);
-                }
+
+                new Program().Run(args);
                
             }
 
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        public static IWebHost BuildWebHost(string[] p_args)
         {
 
             string web_site_url = configuration["mmria_settings:web_site_url"];
 
 
-            return WebHost.CreateDefaultBuilder(args)
+            return WebHost.CreateDefaultBuilder(p_args)
                 .UseStartup<Startup>()
                 .UseUrls(web_site_url)
                 .Build();
