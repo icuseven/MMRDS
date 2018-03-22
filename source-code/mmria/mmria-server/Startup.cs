@@ -57,9 +57,6 @@ namespace mmria.server
             sched.ScheduleJob(job, trigger);
 
             sched.Start();
-
-
-            //services.AddSingleton<Quartz.IScheduler>(sched);
  
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
             quartzSupervisor.Tell("init");
