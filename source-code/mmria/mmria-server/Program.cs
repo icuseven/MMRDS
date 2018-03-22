@@ -232,12 +232,6 @@ IConfiguration.this[string]
                     System.Console.WriteLine("Program.Run using environment");
                     args  = new string[0];
                     new Program().Run(args);
-                    /*
-                    bool stay_on_till_power_fail = true;
-                    while(stay_on_till_power_fail)
-                    {
-
-                    } */
                 }
                 else
                 {
