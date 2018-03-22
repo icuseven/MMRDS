@@ -24,8 +24,6 @@ namespace mmria.server
             Configuration = configuration;
         }
 
-        
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -71,7 +69,6 @@ namespace mmria.server
                 options.RespectBrowserAcceptHeader = false; // false by default
             });
 
-            
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
