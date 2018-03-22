@@ -165,7 +165,7 @@ IConfiguration.this[string]
 /* 
             https://github.com/PeterKottas/DotNetCore.WindowsService
             https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
-            */
+            
             File.AppendAllText(fileName, $"\nmain enterd {DateTime.Now}\n");
             File.AppendAllText(fileName, $"Environment.UserInteractive {Environment.UserInteractive}\n");
             //File.AppendAllText(fileName, $"bool.Parse (System.Configuration.ConfigurationManager.AppSettings [\"is_environment_based\"])");
@@ -173,6 +173,7 @@ IConfiguration.this[string]
             File.AppendAllText(fileName, $"\nDebugger.IsAttached {Debugger.IsAttached}\n");
             File.AppendAllText(fileName, $"args.Contains(\"--console\") ");
             File.AppendAllText(fileName, args.Contains("--use_environment").ToString());
+*/
             if 
             (
                 //Environment.UserInteractive || 
