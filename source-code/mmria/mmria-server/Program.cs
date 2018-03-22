@@ -80,7 +80,7 @@ docker run --name mmria-test -d  --publish 8080:80 \
 -e file_root_folder="./" \
 -e timer_user_name="mmrds" \
 -e timer_password="mmrds" \
--e cron_schedule="0 * /1 * * * ?" \
+-e cron_schedule="0 * /1 * * * *" \
 core_test 
 
 
@@ -236,9 +236,19 @@ IConfiguration.this[string]
                 if(args.Contains("--use_environment"))
                 {
                     args  = new string[0];
+                    new Program().Run(args);
+                    bool stay_on_till_power_fail = true;
+                    while(stay_on_till_power_fail)
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    new Program().Run(args);
                 }
 
-                new Program().Run(args);
+                
                
             }
 
