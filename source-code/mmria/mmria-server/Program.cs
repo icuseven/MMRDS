@@ -162,13 +162,7 @@ IConfiguration.this[string]
             .AddJsonFile("appsettings.json", true, true)
             .Build();
             
-
-            
 /* 
-            IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-
             https://github.com/PeterKottas/DotNetCore.WindowsService
             https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
             */
