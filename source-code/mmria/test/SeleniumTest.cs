@@ -17,13 +17,13 @@ namespace test
         {
             Assert.Equal(4, Add(2, 2));
         }
-
+/*
         [Fact]
         public void FailingTest()
         {
             Assert.Equal(5, Add(2, 2));
         }
-
+ */
         int Add(int x, int y)
         {
             return x + y;
@@ -32,15 +32,20 @@ namespace test
         [Fact]
         public void LoginTest()
         {
-                        // Initialize the Chrome Driver
+            int milliseconds_in_second = 1000;
+
+            // Initialize the Chrome Driver
             using (var driver = new ChromeDriver())
             {
                 // Go to the home page
                 driver.Navigate().GoToUrl("http://test.mmria.org");
 
+                System.Threading.Thread.Sleep(1 * milliseconds_in_second);
+
                 // Get the page elements
 
-                var login_toggle = driver.FindElementByXPath("//li[@id='profile_content_id']/a[@class='dropdown-toggle']");
+                //var login_toggle = driver.FindElementByXPath("//li[@id='profile_content_id']/a[@class='dropdown-toggle']");
+                var login_toggle = driver.FindElementByXPath("//li[@id='profile_content_id']/a");
                 login_toggle.Click();
                 var userNameField = driver.FindElementById("profile_form_user_name");
                 var userPasswordField = driver.FindElementById("profile_form_password");
@@ -60,6 +65,16 @@ namespace test
                 // Take a screenshot and save it into screen.png
                 driver.GetScreenshot().SaveAsFile(@"screen.png", ScreenshotImageFormat.Png);
 
+                System.Threading.Thread.Sleep(5 * milliseconds_in_second);
+
+
+                var AddNewCaseButton = driver.FindElementByXPath("//*[@id='app_summary']/input[1]");
+                AddNewCaseButton.Click();
+
+                System.Threading.Thread.Sleep(5 * milliseconds_in_second);
+                // Take a screenshot and save it into screen.png
+                driver.GetScreenshot().SaveAsFile(@"add_new_case.png", ScreenshotImageFormat.Png);
+/* */
                  Assert.Equal(1, 1);
             }
         }
