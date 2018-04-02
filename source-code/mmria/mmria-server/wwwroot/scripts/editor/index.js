@@ -413,10 +413,15 @@ function perform_validation_save(p_metadata)
 
 		$.ajax({
 			url: location.protocol + '//' + location.host + '/api/validator',
-			//contentType: 'application/text; charset=utf-8',
-			dataType: 'json',
+			//contentType: 'application/json; charset=utf-8',
+			contentType: 'multipart/form-data; charset=utf-8',
+			dataType: 'text',
 			data: output_json.join(""),
-			type: "POST"
+			type: "POST",
+			beforeSend: function (request)
+			{
+			  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+			}
 	}).done(function(response) 
 	{
 		console.log("perform_validation_save: complete");

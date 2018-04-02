@@ -97,18 +97,29 @@ namespace mmria.server
 
 		// POST api/values 
 		[HttpPost]
-		public bool Post(string json) 
+		public async System.Threading.Tasks.Task<bool> Post() 
 		{ 
+			//multipart/form-data
 			//bool valid_login = false;
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
 			string object_string = null;
 			bool result = false;
 
-			if(!string.IsNullOrWhiteSpace(json))
+			//if(!string.IsNullOrWhiteSpace(json))
 			try
 			{
 
+				System.IO.Stream dataStream0 = this.Request.Body;
+				// Open the stream using a StreamReader for easy access.
+				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+				// Read the content.
+				string temp = await reader0.ReadToEndAsync ();
+
 				string file_root_folder = null;
+
+				file_root_folder = Program.config_file_root_folder;
+				/*
 				if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
 				{
 					file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
@@ -116,9 +127,10 @@ namespace mmria.server
 				else
 				{
 					file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
-				}
+				} 
+				*/
 
-				System.IO.File.WriteAllText(file_root_folder + "/scripts/validator.js", json);
+				System.IO.File.WriteAllText(file_root_folder + "/scripts/validator.js", temp);
 
 				result = true;
 
