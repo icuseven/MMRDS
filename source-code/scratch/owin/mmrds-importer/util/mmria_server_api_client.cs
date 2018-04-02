@@ -50,23 +50,17 @@ namespace mmria.console
 			//string urlParameters = "?api_key=123";
 			string urlParameters = "";
 
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
+			var curl = new cURL ("GET", null, URL, null, null);
 
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
-
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
+			try
 			{
-				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
+				string json_result = curl.execute ();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app> (json_result);
+
 			}
-			else
+			catch(Exception ex)
 			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+				Console.WriteLine("{0}", ex);
 			}
 
 			return result;
@@ -83,21 +77,20 @@ namespace mmria.console
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(URL);
 
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
 
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
+			var curl = new cURL ("GET", null, URL, null, null);
+
+			try 
 			{
-				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.model.couchdb.session_response>().Result;
+				string json_result = curl.execute ();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session_response> (json_result);
+
 			}
-			else
+			catch (Exception ex) 
 			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+				Console.WriteLine ("{0}", ex);
 			}
+
 
 			return result;
 		}
@@ -117,23 +110,16 @@ namespace mmria.console
 			string urlParameters = string.Format("?userid={0}&password={1}", p_user_id, p_password);
 			//string urlParameters = "";
 
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
+			var curl = new cURL ("GET", null, URL, null, null);
 
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
+			try 
+			{
+				string json_result = curl.execute ();
+				json_response = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<mmria.common.model.couchdb.login_response>> (json_result);
 
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
+			} catch (Exception ex) 
 			{
-				// Parse the response body. Blocking!
-				json_response = response.Content.ReadAsAsync<IEnumerable<mmria.common.model.couchdb.login_response>>().Result;
-			}
-			else
-			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+				Console.WriteLine ("{0}", ex);
 			}
 
 			//System.Console.WriteLine(response);
@@ -163,32 +149,26 @@ namespace mmria.console
 			string URL = this.mmria_url + "/api/case";
 			dynamic json_response = null;
 
+			var curl = new cURL ("GET", null, URL, null, null);
 
-			System.Net.CookieContainer cookieContainer = new System.Net.CookieContainer();
-			cookieContainer.Add(new System.Uri(this.mmria_url), new System.Net.Cookie("AuthSession", this.auth_token));
+			var byteArray = System.Text.Encoding.ASCII.GetBytes (string.Format ("{0}:{1}", this.user_name, this.password));
+			curl.AddHeader ("Basic", Convert.ToBase64String (byteArray));
 
-			var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
+			//curl.AddHeader ("AuthSession", this.auth_token);
 
-			HttpClient client = new HttpClient(handler);
-			client.BaseAddress = new Uri(URL);
-
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-			//client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Cookie", "AuthSession=" + this.auth_token);
-			var content = new StringContent(case_json, System.Text.Encoding.UTF8, "application/json");
-
-			// List data response.
-			HttpResponseMessage response = client.PostAsync(URL, content).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
+			try 
 			{
-				// Parse the response body. Blocking!
-				json_response = response.Content.ReadAsAsync<mmria.common.model.couchdb.document_put_response>().Result;
+				string json_result = curl.execute ();
+				json_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response> (json_result);
+
 			}
-			else
+			catch (Exception ex) 
 			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+				Console.WriteLine ("{0}", ex);
 			}
+
+
+
 
 			if (json_response.ok == true)
 			{
@@ -225,7 +205,7 @@ namespace mmria.console
 			if (response.IsSuccessStatusCode)
 			{
 				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.model.couchdb.document_put_response>().Result;
+				//result = response.Content.ReadAsAsync<mmria.common.model.couchdb.document_put_response>().Result;
 			}
 			else
 			{
@@ -267,6 +247,26 @@ namespace mmria.console
 			string URL = this.database_url + "/mmrds/_all_docs";
 			string urlParameters = "?include_docs=true";
 
+
+
+			var curl = new cURL ("GET", null, URL, null, null);
+
+			var byteArray = System.Text.Encoding.ASCII.GetBytes (string.Format ("{0}:{1}", this.user_name, this.password));
+			curl.AddHeader ("Basic", Convert.ToBase64String (byteArray));
+			//curl.AddHeader ("AuthSession", this.auth_token);
+
+			try
+			{
+				string json_result = curl.execute ();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (json_result);
+
+			}
+			catch (Exception ex) 
+			{
+				Console.WriteLine ("{0}", ex);
+			}
+			/*
+
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(URL);
 
@@ -287,7 +287,7 @@ namespace mmria.console
 			else
 			{
 				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
+			}*/
 
 			return result;
 		}

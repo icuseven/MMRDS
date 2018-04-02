@@ -1260,7 +1260,7 @@ namespace mmria.console.export
 			if (response.IsSuccessStatusCode)
 			{
 				// Parse the response body. Blocking!
-				result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
+				//result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
 			}
 			else
 			{

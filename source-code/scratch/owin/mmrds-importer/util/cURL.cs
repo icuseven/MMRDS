@@ -23,6 +23,7 @@ namespace mmria
 
 			this.user_id = p_username;
 			this.password = p_password;
+			this.AllowRedirect = true;
 
 			switch (p_method.ToUpper ()) {
 			case "PUT":
@@ -57,6 +58,8 @@ namespace mmria
 		}
 
 
+		public bool AllowRedirect { get; set; }
+
 		public cURL AddHeader (string p_name, string p_value)
 		{
 			this.headers.Add (new System.Collections.Generic.KeyValuePair<string, string> (p_name, p_value));
@@ -73,6 +76,7 @@ namespace mmria
 			httpWebRequest.PreAuthenticate = false;
 			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
+			httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
 
 			if (!string.IsNullOrWhiteSpace (this.user_id) && !string.IsNullOrWhiteSpace (this.password)) {
 				string encoded = System.Convert.ToBase64String (System.Text.Encoding.GetEncoding ("ISO-8859-1").GetBytes (this.user_id + ":" + this.password));
@@ -84,27 +88,79 @@ namespace mmria
 				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
 			}
 
-			if (this.pay_load != null) {
-				//httpWebRequest.ContentLength = this.pay_load.Length;
 
-				using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) {
-					streamWriter.Write (this.pay_load);
-					streamWriter.Flush ();
-					streamWriter.Close ();
+			try {
+				if (this.pay_load != null) {
+					//httpWebRequest.ContentLength = this.pay_load.Length;
+
+					using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) {
+						streamWriter.Write (this.pay_load);
+						streamWriter.Flush ();
+						streamWriter.Close ();
+					}
 				}
+
+			} catch (Exception ex) {
+				//process exception here   
+				Console.WriteLine ($"cURL.execute error: {ex}"); // if you want see the output
+																 //result = ex.ToString ();
+
+				throw ex;
 			}
 
-			//try
-			//{
 			HttpWebResponse resp = (HttpWebResponse)httpWebRequest.GetResponse ();
 			result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
 			//Console.WriteLine("Response : " + respStr); // if you want see the output
-			//}
-			//catch(Exception ex)
-			//{
-			//process exception here   
-			//	result = ex.ToString();
-			//}
+
+
+			return result;
+		}
+
+
+		public async System.Threading.Tasks.Task<string> executeAsync ()
+		{
+			string result = null;
+
+			var httpWebRequest = (HttpWebRequest)WebRequest.Create (this.url);
+			httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
+			httpWebRequest.ContentType = "application/json";
+			httpWebRequest.PreAuthenticate = false;
+			httpWebRequest.Accept = "*/*";
+			httpWebRequest.Method = this.method;
+			httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
+
+			if (!string.IsNullOrWhiteSpace (this.user_id) && !string.IsNullOrWhiteSpace (this.password)) {
+				string encoded = System.Convert.ToBase64String (System.Text.Encoding.GetEncoding ("ISO-8859-1").GetBytes (this.user_id + ":" + this.password));
+				httpWebRequest.Headers.Add ("Authorization", "Basic " + encoded);
+			}
+
+
+			foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) {
+				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
+			}
+
+
+			try {
+
+				if (this.pay_load != null) {
+					//httpWebRequest.ContentLength = this.pay_load.Length;
+
+					using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) {
+						streamWriter.Write (this.pay_load);
+						streamWriter.Flush ();
+						streamWriter.Close ();
+					}
+				}
+			} catch (Exception ex) {
+				//process exception here   
+				Console.WriteLine ($"cURL.async_execute error: {ex}");
+				throw ex;
+			}
+
+			WebResponse resp = await httpWebRequest.GetResponseAsync ();
+			result = new StreamReader (resp.GetResponseStream ()).ReadToEnd ();
+			//Console.WriteLine("Response : " + respStr); // if you want see the output
+
 
 			return result;
 		}
@@ -118,6 +174,7 @@ namespace mmria
 			this.password = p_password;
 
 			return this;
-		}	}
+		}
+	}
 }
 
