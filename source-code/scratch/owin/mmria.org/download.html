@@ -105,34 +105,6 @@ for example a container named mmria-database running on port 5984 with a user na
 docker run -d --name mmria-database  -p 5984:5984     -e COUCHDB_USERNAME=admin_name     -e COUCHDB_PASSWORD=my_password  thetagrid/mmria-db:v1.0
 </pre>
 
-
-<h3 style="font:Work Sans Light"><strong>Configure CouchDB 2.0</strong></h3>
-
-<p>Navigate to the database url; the default location is <strong>http://localhost:5984/_utils</strong></p>
-
-<p>Setup + Configure Single Node: choose "Setup" then "Configure Single Node"</p>
-<pre>
-Specify Credentials
-Select your Admin Username and Password
-
-IP Bind address to listen on = 0.0.0.0
-
-Port that the Node uses = 5984
-
-Press "Configure Node"
-
-The application will respond with: <i>"Apache CouchDB is configured for production usage!  Do you want to replicate data?" </i>
-
-
-</pre>
-
-<p>From the menu choose Verify + click "Verify Installation".</p>
-
-<p>From the menu choose Configuration + CORS + Enable CORS + "All Domains".</p>
-
-
-
-
 <hr/>
 
 <h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 18.02.22 Application Server</strong></h3>
