@@ -68,28 +68,18 @@ namespace mmria.console.db
 					}
 				}
 			}
-
+/*
 			if (!System.IO.Directory.Exists (export_directory)) 
 			{
 				System.IO.Directory.CreateDirectory (export_directory);
 			}
-
+ */
 			if (string.IsNullOrWhiteSpace (this.database_url)) 
 			{
 				System.Console.WriteLine ("missing database_url");
 				System.Console.WriteLine (" form backup_file_path:[file path]");
 				System.Console.WriteLine (" example database:http://localhost:5984/metadata");
 				System.Console.WriteLine (" mmria.exe backup user_name:user1 password:secret url:http://localhost:12345 database_url:http://localhost:5984/database_name");
-
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace (this.mmria_url)) 
-			{
-				System.Console.WriteLine ("missing url");
-				System.Console.WriteLine (" form url:[website_url]");
-				System.Console.WriteLine (" example url:http://localhost:12345");
-				System.Console.WriteLine (" mmria.exe export user_name:user1 password:secret url:http://localhost:12345");
 
 				return;
 			}

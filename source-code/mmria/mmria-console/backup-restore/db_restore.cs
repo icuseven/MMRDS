@@ -68,12 +68,12 @@ namespace mmria.console.db
 					}
 				}
 			}
-
+/*
 			if (!System.IO.Directory.Exists(import_directory))
 			{
 				System.IO.Directory.CreateDirectory(import_directory);
 			}
-
+ */
 
 
 			if (string.IsNullOrWhiteSpace(this.backup_file_path))

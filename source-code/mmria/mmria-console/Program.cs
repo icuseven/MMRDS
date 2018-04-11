@@ -4,13 +4,9 @@ namespace mmria_console
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-            
-
-
-if (args.Length > 0)
+            if (args.Length > 0)
 			{
 				switch (args[0].ToLower())
 				{
@@ -18,9 +14,7 @@ if (args.Length > 0)
                     case "h":
                     case "-h":
                     case "-help":
-                        System.Console.WriteLine("use:");
-                        System.Console.WriteLine("\tbackup");
-                        System.Console.WriteLine ("\trestore");
+                        print_help();
 						break;
 					case "backup":
 						var db_backup = new mmria.console.db.Backup();
@@ -37,11 +31,22 @@ if (args.Length > 0)
 			}
 			else
 			{
-				System.Console.WriteLine("use:");
-				System.Console.WriteLine("\tbackup");
-				System.Console.WriteLine ("\trestore");
+                print_help();
 				return;
 			}
         }
+
+        
+        public static void print_help()
+        {
+                System.Console.WriteLine("mmria-console.exe program usage:\n");
+                System.Console.WriteLine ($"\tbackup user_name:[admin_user] password:[admin_password] database_url:[http://localhost:5984/mmrds backup_file_path:[file_path]");
+                System.Console.WriteLine ($"\t\texample: mmria-console.exe backup user_name:test password:test database_url:http://localhost:5984/mmrds backup_file_path:c:/temp/bk-mmrds.bk");
+                System.Console.WriteLine("\n");
+                System.Console.WriteLine ($"\trestore user_name:[admin_user] password:[admin_password] database_url:http://localhost:5984/mmrds backup_file_path:c:/temp/bk-mmrds.bk");
+                System.Console.WriteLine ($"\t\texample:  mmria-console.exe restore user_name:test password:test database_url:http://localhost:5984/mmrds backup_file_path:c:/temp/bk-mmrds.bk");
+            
+        }
     }
+
 }
