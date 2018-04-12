@@ -17,7 +17,7 @@ var $mmria = function()
             request.push(p_zip);
             request.push("&apikey=");
             request.push("7c39ae93786d4aa3adb806cb66de51b8");
-            request.push("&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01");
+            request.push("&format=json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01");
 
             var geocode_url = request.join("");
 
