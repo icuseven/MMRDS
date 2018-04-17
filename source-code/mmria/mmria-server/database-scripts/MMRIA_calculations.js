@@ -1079,7 +1079,7 @@ function geocode_dc_last_res(p_control) {
 			// calculate state_county_fips
 			if(geo_data.CensusStateFips && geo_data.CensusCountyFips)
 			{
-				state_county_fips = geo_data.CensusStateFips && geo_data.CensusCountyFips
+				state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips
 			}
 
 			g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
