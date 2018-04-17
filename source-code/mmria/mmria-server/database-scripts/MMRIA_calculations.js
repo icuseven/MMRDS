@@ -1084,7 +1084,7 @@ function geocode_dc_last_res(p_control) {
 
 			g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
 						
-			$mmria.save_current_record();
+			
 			$mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
 			$mmria.set_control_value('death_certificate/place_of_last_residence/longitude', g_data.death_certificate.place_of_last_residence.longitude);
 			$mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', g_data.death_certificate.place_of_last_residence.feature_matching_result_type);
@@ -1100,7 +1100,8 @@ function geocode_dc_last_res(p_control) {
 			$mmria.set_control_value('death_certificate/place_of_last_residence/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);	
 			$mmria.set_control_value('death_certificate/place_of_last_residence/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
 			$mmria.set_control_value('death_certificate/place_of_last_residence/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
-		}
+            $mmria.save_current_record();
+        }
     });
 }
 //GEOCODE PLACE OF INJURY ON DC FORM
