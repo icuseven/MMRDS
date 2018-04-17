@@ -42,12 +42,19 @@ var $mmria = function()
                 )
                 {
                     geo_data = { 
+                            FeatureMatchingResultType: data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType,
                             latitude: data.OutputGeocodes[0].OutputGeocode.Latitude,
                             longitude: data.OutputGeocodes[0].OutputGeocode.Longitude,
 							NAACCRGISCoordinateQualityCode: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityCode,
-							NAACCRGISCoordinateQualityType: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityType,
-							CensusCbsaFips : data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaFips,
-							CensusCbsaMicro : data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaMicro
+                            NAACCRGISCoordinateQualityType: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityType,
+                            NAACCRCensusTractCertaintyCode: data.OutputGeocodes[0].CensusValues[0].CensusValue1.NAACCRCensusTractCertaintyCode,
+                            NAACCRCensusTractCertaintyType: data.OutputGeocodes[0].CensusValues[0].CensusValue1.NAACCRCensusTractCertaintyType,
+							CensusCbsaFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaFips,
+                            CensusCbsaMicro: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCbsaMicro,
+                            CensusStateFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusStateFips,
+                            CensusCountyFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusCountyFips,
+                            CensusTract: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusTract,
+                            CensusMetDivFips: data.OutputGeocodes[0].CensusValues[0].CensusValue1.CensusMetDivFips
 							
                         };
                 }
