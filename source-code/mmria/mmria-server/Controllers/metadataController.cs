@@ -180,10 +180,9 @@ namespace mmria.server
 		[HttpPost("PutCheckCode")]
 		public mmria.common.model.couchdb.document_put_response PutCheckCode
         (
-            [FromBody] string check_code_json
+            [FromForm] string check_code_json
         ) 
 		{ 
-			string object_string = null;
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
 				try
@@ -193,7 +192,7 @@ namespace mmria.server
 					System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 					request.Method = "PUT";
 					request.ContentType = "application/json";
-					request.ContentLength = object_string.Length;
+					request.ContentLength = check_code_json.Length;
 					request.PreAuthenticate = false;
 
                     if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
@@ -208,7 +207,7 @@ namespace mmria.server
 					{
 						try
 						{
-							streamWriter.Write(object_string);
+							streamWriter.Write(check_code_json);
 							streamWriter.Flush();
 							streamWriter.Close();
 

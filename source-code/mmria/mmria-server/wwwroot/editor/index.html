@@ -47,7 +47,11 @@
 		
 		
             <li><input type="button" onclick="metadata_save()" value="save metadata" /></li>
-
+            <li>
+                <form id="check_code_form" action="/api/metadata/PutCheckCode" method="post" enctype="multipart/form-data" target="upload_target"  >
+                <input id="check_code_json" type="file" accept="text/js, text/json"><input type="button"  onclick="$('#check_code_form').submit()" value="save checkcode" />
+              </form>
+            </li>
           </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">

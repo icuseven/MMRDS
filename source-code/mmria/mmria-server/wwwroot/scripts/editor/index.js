@@ -234,6 +234,7 @@ $(function ()
 
 	});
 
+	create_check_code_submit();
 
 	window.setInterval(profile.update_session_timer, 120000);
 
@@ -428,4 +429,40 @@ function perform_validation_save(p_metadata)
 	}).fail(function(x) {
     console.log(x);
   });
+}
+
+function create_check_code_submit()
+{
+
+	$("#check_code_form").submit
+	(	function(e)
+		{
+			var file_element = document.querySelector("#check_code_json");
+			if(file_element)
+			{
+				if(file_element.value && file_element.value.endsWith("MMRIA_calculations.js"))
+				{
+					//alert(file_element.value);
+
+					var file = document.getElementById('check_code_json').files[0]; //Files[0] = 1st file
+					var reader = new FileReader();
+					reader.readAsText(file, 'UTF-8');
+					reader.onload = send_data;
+
+					function send_data(event) 
+					{
+						var result = event.target.result;
+						var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
+						$.post('/api/metadata/PutCheckCode', { check_code_json: result },
+						function(data, textStatus, jqXHR)
+						{
+							console.log("check_code_submit:", data);
+						});
+					}
+				}
+			}
+			e.preventDefault(); //Prevent Default action. 
+			//e.unbind();
+		}
+	); 
 }
