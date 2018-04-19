@@ -1945,7 +1945,7 @@ function x2f_ocl(p_control) {
             g_data.death_certificate.place_of_last_residence.census_cbsa_fips = geo_data.CensusCbsaFips;
             g_data.death_certificate.place_of_last_residence.census_cbsa_micro = geo_data.CensusCbsaMicro;
             g_data.death_certificate.place_of_last_residence.census_met_div_fips = geo_data.CensusMetDivFips;
-            if (geo_data.CensusCountyFips && parseInt(geo_data.CensusCbsaFips) > 0) {
+            if (geo_data.CensusCountyFips + parseInt(geo_data.CensusCbsaFips) > 0) {
                 if (geo_data.CensusMetDivFips) {
                     urban_status = 'Metropolitan Division';
                 } else if (parseInt(geo_data.CensusCbsaMicro) == 0) {
@@ -1958,9 +1958,10 @@ function x2f_ocl(p_control) {
             }
             g_data.death_certificate.place_of_last_residence.urban_status = urban_status;
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) {
-                state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
+                state_county_fips = geo_data.CensusStateFips && geo_data.CensusCountyFips;
             }
             g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
+            $mmria.save_current_record();
             $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
             $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', g_data.death_certificate.place_of_last_residence.longitude);
             $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', g_data.death_certificate.place_of_last_residence.feature_matching_result_type);
@@ -1976,7 +1977,6 @@ function x2f_ocl(p_control) {
             $mmria.set_control_value('death_certificate/place_of_last_residence/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
             $mmria.set_control_value('death_certificate/place_of_last_residence/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
             $mmria.set_control_value('death_certificate/place_of_last_residence/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
-            $mmria.save_current_record();
         }
     });
 }
@@ -2215,11 +2215,33 @@ function x2bd_ocl(p_control) {
     $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
 }
 function x30_ocl(p_control) {
+    this.feature_matching_result_type = '';
     this.latitude = '';
     this.longitude = '';
+    this.naaccr_gis_coordinate_quality_code = '';
+    this.naaccr_gis_coordinate_quality_type = '';
+    this.naaccr_census_tract_certainty_code = '';
+    this.naaccr_census_tract_certainty_type = '';
+    this.census_state_fips = '';
+    this.census_county_fips = '';
+    this.census_tract_fips = '';
+    this.census_cbsa_fips = '';
+    this.census_cbsa_micro = '';
+    this.census_met_div_fips = '';
     $mmria.save_current_record();
+    $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', this.feature_matching_result_type);
     $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', this.latitude);
     $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', this.longitude);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code ', this.naaccr_gis_coordinate_quality_code);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type', this.naaccr_gis_coordinate_quality_type);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code', this.naaccr_census_tract_certainty_code);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type', this.naaccr_census_tract_certainty_type);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/census_state_fips', this.census_state_fips);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/census_county_fips', this.census_county_fips);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/census_tract_fips', this.census_tract_fips);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/census_cbsa_fips', this.census_cbsa_fips);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/census_cbsa_micro', this.census_cbsa_micro);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/census_met_div_fips', this.census_met_div_fips);
 }
 function x6e_ocl(p_control) {
     this.latitude = '';

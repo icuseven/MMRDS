@@ -1,4 +1,5 @@
 var g_metadata = null;
+var g_attachment_stub = null;
 var g_data = null;
 var g_copy_clip_board = null;
 var g_delete_value_clip_board = null;
@@ -327,17 +328,17 @@ function perform_save(current_auth_session)
 			}//,
 	}).done(function(response) 
 	{
-				var response_obj = JSON.parse(response);
-				if(response_obj.ok)
+				//var response_obj = JSON.parse(response);
+				if(response.ok)
 				{
-					g_metadata._rev = response_obj.rev; 
+					g_metadata._rev = response.rev; 
 					
 					document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
 
-					if(response_obj.auth_session)
+					if(response.auth_session)
 					{
-						profile.auth_session = response_obj.auth_session;
-						$mmria.addCookie("AuthSession", response_obj.auth_session);
+						profile.auth_session = response.auth_session;
+						$mmria.addCookie("AuthSession", response.auth_session);
 					}
 					perform_validation_save(g_metadata);
 
@@ -346,17 +347,15 @@ function perform_save(current_auth_session)
 				}
 				else
 				{
-					console.log("failed to save", response_obj);
+					console.log("failed to save", response);
 				}
 				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 			console.log("metadata sent", response);
 	});
 }
 
-function perform_validation_save(p_metadata)
+async function perform_validation_save(p_metadata, p_check_code_text)
 {
-
-
 	metadata_list = [];
 	object_list = [];
 
@@ -393,7 +392,23 @@ function perform_validation_save(p_metadata)
 
 	generate_validation(output_json, p_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 	
-	generate_global(output_json, p_metadata);
+
+	try 
+	{
+		let response = await fetch(location.protocol + '//' + location.host + '/api/metadata/GetCheckCode');
+
+		//var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
+		//g_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
+		//var global_code = escodegen.generate(temp_ast, { comment: true });
+		g_ast = esprima.parse(await response.text(), { comment: true, loc: true });
+	} 
+	catch (e) 
+	{
+		console.log(e.message);
+	}
+
+
+	generate_global(output_json, p_metadata, g_ast);
 
 	for(var key in dictionary_path_to_path_map)
 	{
@@ -455,7 +470,7 @@ function create_check_code_submit()
 						var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
 						$.ajax
 						({
-							url: '/api/metadata/PutCheckCode',
+							url: location.protocol + '//' + location.host + '/api/metadata/PutCheckCode',
 							data: result,
 							contentType: 'multipart/form-data; charset=utf-8',
 							dataType: 'text',

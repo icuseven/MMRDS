@@ -14,6 +14,8 @@ namespace mmria.common.metadata
 		public string last_updated_by { get; set; } 
 		public node[] lookup { get; set; } 
 
+		public System.Dynamic.ExpandoObject _attachments { get; set; } 
+
 		public System.Dynamic.ExpandoObject validation { get; set; } 
 		public System.Dynamic.ExpandoObject global { get; set; } 
 

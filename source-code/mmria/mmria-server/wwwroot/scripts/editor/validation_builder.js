@@ -23,14 +23,13 @@ var g_validator_ast = null;
 //generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 var output_json = [] 
 
-function generate_global(p_output_json, p_metadata)
+function generate_global(p_output_json, p_metadata, g_ast)
 {
 
 		generate_dictionary_path_to_int_map(0, p_metadata, "", dictionary_path_to_int_map, "", dictionary_path_to_path_map);
 
 		global_ast.properties = [];
 
-		g_ast = p_metadata.global;
 		//var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
 		//g_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
 		//var global_code = escodegen.generate(temp_ast, { comment: true });
