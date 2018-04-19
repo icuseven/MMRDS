@@ -327,7 +327,7 @@ function perform_save(current_auth_session)
 			}//,
 	}).done(function(response) 
 	{
-				var response_obj = eval(response);
+				var response_obj = JSON.parse(response);
 				if(response_obj.ok)
 				{
 					g_metadata._rev = response_obj.rev; 
@@ -453,11 +453,43 @@ function create_check_code_submit()
 					{
 						var result = event.target.result;
 						var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
-						$.post('/api/metadata/PutCheckCode', { check_code_json: result },
-						function(data, textStatus, jqXHR)
+						$.ajax
+						({
+							url: '/api/metadata/PutCheckCode',
+							data: result,
+							contentType: 'multipart/form-data; charset=utf-8',
+							dataType: 'text',
+							type: "POST",
+							beforeSend: function (request)
+							{
+							  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+							  request.setRequestHeader("If-Match", g_metadata._rev);
+							}
+
+						}).done(function(response) 
 						{
-							console.log("check_code_submit:", data);
-						});
+							//console.log("PutCheckCode: complete");
+							var response_obj = JSON.parse(response);
+							if(response_obj.ok)
+							{
+								g_metadata._rev = response_obj.rev; 
+								
+								document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
+			
+								if(response_obj.auth_session)
+								{
+									profile.auth_session = response_obj.auth_session;
+									$mmria.addCookie("AuthSession", response_obj.auth_session);
+								}
+							}
+							else
+							{
+								console.log("PutCheckCode failed to save", response_obj);
+							}
+
+						}).fail(function(x) {
+						console.log(x);
+					  });
 					}
 				}
 			}

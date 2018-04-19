@@ -152,7 +152,7 @@ IConfiguration.this[string]
             AppDomain currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
-            var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
+            //var fileName = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "log.txt");
 
             configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -182,7 +182,7 @@ IConfiguration.this[string]
                 config_is_service = false;
             }
 
-            File.AppendAllText(fileName, $"\nconfig_is_service {config_is_service} started\n");
+            //File.AppendAllText(fileName, $"\nconfig_is_service {config_is_service} started\n");
 
             
 
