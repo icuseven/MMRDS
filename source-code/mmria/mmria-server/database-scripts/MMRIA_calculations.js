@@ -1050,21 +1050,29 @@ function geocode_dc_last_res(p_control) {
             g_data.death_certificate.place_of_last_residence.census_cbsa_micro = geo_data.CensusCbsaMicro;
             g_data.death_certificate.place_of_last_residence.census_met_div_fips = geo_data.CensusMetDivFips;
             // calculate urban_status
-            if (geo_data.CensusCountyFips + parseInt(geo_data.CensusCbsaFips) > 0) {
-                if (geo_data.CensusMetDivFips) {
+            if (geo_data.CensusCountyFips + parseInt(geo_data.CensusCbsaFips) > 0)
+            {
+                if (geo_data.CensusMetDivFips) 
+                {
                     urban_status = 'Metropolitan Division';
-                } else if (parseInt(geo_data.CensusCbsaMicro) == 0) {
+                } 
+                else if (parseInt(geo_data.CensusCbsaMicro) == 0) 
+                {
                     urban_status = 'Metropolitan';
-                } else if (parseInt(geo_data.CensusCbsaMicro) == 1) {
+                }
+                else if (parseInt(geo_data.CensusCbsaMicro) == 1) 
+                {
                     urban_status = 'Micropolitan';
                 }
-            } else if (geo_data.CensusCountyFips) {
+            }
+            else if (geo_data.CensusCountyFips) 
+            {
                 urban_status = 'Rural';
             }
             g_data.death_certificate.place_of_last_residence.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) {
-                state_county_fips = geo_data.CensusStateFips && geo_data.CensusCountyFips;
+                state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
             }
             g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
             $mmria.save_current_record();

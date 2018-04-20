@@ -1958,7 +1958,7 @@ function x2f_ocl(p_control) {
             }
             g_data.death_certificate.place_of_last_residence.urban_status = urban_status;
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) {
-                state_county_fips = geo_data.CensusStateFips && geo_data.CensusCountyFips;
+                state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
             }
             g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
             $mmria.save_current_record();
