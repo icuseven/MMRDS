@@ -154,12 +154,14 @@ namespace mmria.server
 					request.Method = "GET";
 					request.PreAuthenticate = false;
 
+				/*
                 if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
                 {
                     string auth_session_value = this.Request.Cookies["AuthSession"];
                     request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
                     request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
                 }
+				*/
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 				System.IO.Stream dataStream = response.GetResponseStream ();

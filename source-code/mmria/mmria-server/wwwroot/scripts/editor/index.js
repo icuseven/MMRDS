@@ -466,45 +466,64 @@ function create_check_code_submit()
 
 					function send_data(event) 
 					{
-						var result = event.target.result;
-						var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
-						$.ajax
-						({
-							url: location.protocol + '//' + location.host + '/api/metadata/PutCheckCode',
-							data: result,
-							contentType: 'multipart/form-data; charset=utf-8',
-							dataType: 'text',
-							type: "POST",
-							beforeSend: function (request)
-							{
-							  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
-							  request.setRequestHeader("If-Match", g_metadata._rev);
-							}
+						var check_code_text = event.target.result;
 
-						}).done(function(response) 
+						try 
 						{
-							//console.log("PutCheckCode: complete");
-							var response_obj = JSON.parse(response);
-							if(response_obj.ok)
+							syntax = esprima.parse(check_code_text, { tolerant: true, loc: true });
+							errors = syntax.errors;
+							if (errors.length > 0) 
 							{
-								g_metadata._rev = response_obj.rev; 
-								
-								document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
-			
-								if(response_obj.auth_session)
-								{
-									profile.auth_session = response_obj.auth_session;
-									$mmria.addCookie("AuthSession", response_obj.auth_session);
-								}
+								alert("Syntax Error in Script Fix error before uploading");
 							}
 							else
 							{
-								console.log("PutCheckCode failed to save", response_obj);
-							}
+								var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
+								$.ajax
+								({
+									url: location.protocol + '//' + location.host + '/api/metadata/PutCheckCode',
+									data: check_code_text,
+									contentType: 'multipart/form-data; charset=utf-8',
+									dataType: 'text',
+									type: "POST",
+									beforeSend: function (request)
+									{
+									request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+									request.setRequestHeader("If-Match", g_metadata._rev);
+									}
 
-						}).fail(function(x) {
-						console.log(x);
-					  });
+								}).done(function(response) 
+								{
+									console.log("PutCheckCode: complete");
+									var response_obj = JSON.parse(response);
+									if(response_obj.ok)
+									{
+										g_metadata._rev = response_obj.rev; 
+										
+										document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
+					
+										if(response_obj.auth_session)
+										{
+											profile.auth_session = response_obj.auth_session;
+											$mmria.addCookie("AuthSession", response_obj.auth_session);
+										}
+									}
+									else
+									{
+										console.log("PutCheckCode failed to save", response_obj);
+									}
+
+								}).fail(function(x) {
+								console.log("create_check_code_submit.send_data",x);
+								});
+							}
+						}
+						catch (e) 
+						{
+							alert("Syntax Error in Script Fix error before uploading\n" + e.toString());
+							console.log("create_check_code_submit.send_data", e.toString());
+							
+						}
 					}
 				}
 			}
