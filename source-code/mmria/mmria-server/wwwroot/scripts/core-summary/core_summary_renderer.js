@@ -62,7 +62,7 @@ function core_summary_render(p_metadata, p_data,  p_path, p_ui, p_is_core_summar
 				result.push(p_metadata.prompt);
 				result.push(' Record: ');
 				result.push(form_index + 1);
-				result.push('</h> ');
+				result.push('</h2> ');
 				//result.push(p_data[p_metadata.name]);
 				
 				if(p_metadata.children)
