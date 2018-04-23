@@ -437,6 +437,7 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 			beforeSend: function (request)
 			{
 			  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+			  request.setRequestHeader("If-Match", g_metadata._rev);
 			}
 	}).done(function(response) 
 	{
@@ -488,8 +489,8 @@ function create_check_code_submit()
 									type: "POST",
 									beforeSend: function (request)
 									{
-									request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
-									request.setRequestHeader("If-Match", g_metadata._rev);
+										request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+										request.setRequestHeader("If-Match", g_metadata._rev);
 									}
 
 								}).done(function(response) 

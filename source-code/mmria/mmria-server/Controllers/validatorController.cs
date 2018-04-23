@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 
@@ -13,50 +13,31 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		[HttpGet]
-		public System.Dynamic.ExpandoObject Get()
+		public async Task<string> Get()
 		{
+			string result = null;
+
 			try
 			{
-				string request_string = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+				//"2016-06-12T13:49:24.759Z"
+                string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+				request.Method = "GET";
 				request.PreAuthenticate = false;
 
-
-				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-				{
-					string auth_session_value = this.Request.Cookies["AuthSession"];
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-				}
-
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
+				System.IO.Stream dataStream = response.GetResponseStream();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string responseFromServer = reader.ReadToEnd ();
-
-				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-
-				return result;
-
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-
-
+				result = await reader.ReadToEndAsync ();
 
 			}
-			catch(Exception ex)
+			catch(Exception ex) 
 			{
 				Console.WriteLine (ex);
+			}
 
-			} 
-
-			return null;
+			return result;
 		} 
 
 		private void PutDocument(string postUrl, string document)
@@ -97,13 +78,10 @@ namespace mmria.server
 
 		// POST api/values 
 		[HttpPost]
-		public async System.Threading.Tasks.Task<bool> Post() 
+		[HttpPut]
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
 		{ 
-			//multipart/form-data
-			//bool valid_login = false;
-			//mmria.common.data.api.Set_Queue_Request queue_request = null;
-			string object_string = null;
-			bool result = false;
+			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
 			//if(!string.IsNullOrWhiteSpace(json))
 			try
@@ -114,25 +92,69 @@ namespace mmria.server
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
 				// Read the content.
-				string temp = await reader0.ReadToEndAsync ();
+				string validator_js_text = await reader0.ReadToEndAsync ();
 
 				string file_root_folder = null;
 
 				file_root_folder = Program.config_file_root_folder;
-				/*
-				if (bool.Parse (System.Configuration.ConfigurationManager.AppSettings ["is_environment_based"])) 
-				{
-					file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-				} 
-				else
-				{
-					file_root_folder = System.Configuration.ConfigurationManager.AppSettings ["file_root_folder"];
-				} 
-				*/
 
-				System.IO.File.WriteAllText(file_root_folder + "/scripts/validator.js", temp);
+				//System.IO.File.WriteAllText(file_root_folder + "/scripts/validator.js", validator_js_text);
 
-				result = true;
+				string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js";
+
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
+				request.Method = "PUT";
+				request.ContentType = "text/*";
+				request.ContentLength = validator_js_text.Length;
+				request.PreAuthenticate = false;
+
+				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
+				{
+					string auth_session_value = this.Request.Cookies["AuthSession"];
+					request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
+					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
+				}
+
+				if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
+				{
+					string If_Match = this.Request.Headers["If-Match"];
+					request.Headers.Add("If-Match",  If_Match);
+				}
+
+				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
+				{
+					try
+					{
+						streamWriter.Write(validator_js_text);
+						streamWriter.Flush();
+						streamWriter.Close();
+
+						System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
+						System.IO.Stream dataStream = response.GetResponseStream ();
+						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+						string responseFromServer = await reader.ReadToEndAsync ();
+
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+						if(response.Headers["Set-Cookie"] != null)
+						{
+							this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
+						}
+
+					//System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(Program.config_file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
+						
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine (ex);
+					}
+				}
+
+				if (!result.ok) 
+				{
+
+				}
 
 			}
 			catch(Exception ex)
