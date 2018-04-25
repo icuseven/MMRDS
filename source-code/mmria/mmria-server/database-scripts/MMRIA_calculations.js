@@ -1038,7 +1038,7 @@ function geocode_dc_last_res(p_control) {
         if (geo_data && geo_data.FeatureMatchingResultType) {
             g_data.death_certificate.place_of_last_residence.latitude = geo_data.latitude;
             g_data.death_certificate.place_of_last_residence.longitude = geo_data.longitude;
-            g_data.death_certificate.place_of_last_residence.feature_matching_result_type = geo_data.FeatureMatchingResultType;
+            g_data.death_certificate.place_of_last_residence.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
             g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
             g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
             g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
@@ -1078,7 +1078,7 @@ function geocode_dc_last_res(p_control) {
             $mmria.save_current_record();
             $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
             $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', g_data.death_certificate.place_of_last_residence.longitude);
-            $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', g_data.death_certificate.place_of_last_residence.feature_matching_result_type);
+            $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
             $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
             $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type);
             $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code', g_data.death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code);
@@ -1429,7 +1429,7 @@ path=death_certificate/place_of_last_residence/get_coordinates_clear
 event=onclick
 */
 function coordinates_clear_res_dc(p_control) {
-    g_data.death_certificate.place_of_last_residence.feature_matching_result_type = '';
+    g_data.death_certificate.place_of_last_residence.feature_matching_geography_type = '';
     g_data.death_certificate.place_of_last_residence.latitude = '';
     g_data.death_certificate.place_of_last_residence.longitude = '';
     g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code = '';
@@ -1445,7 +1445,7 @@ function coordinates_clear_res_dc(p_control) {
 	g_data.death_certificate.place_of_last_residence.urban_status = '';
     g_data.death_certificate.place_of_last_residence.state_county_fips = '';
     $mmria.save_current_record();
-    $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', g_data.death_certificate.place_of_last_residence.feature_matching_result_type);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_geography_type', g_data.death_certificate.place_of_last_residence.feature_matching_geography_type);
     $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
     $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', g_data.death_certificate.place_of_last_residence.longitude);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code', g_data.death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code);
