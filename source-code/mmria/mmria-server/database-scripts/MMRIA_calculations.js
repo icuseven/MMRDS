@@ -1442,11 +1442,13 @@ function coordinates_clear_res_dc(p_control) {
     this.census_cbsa_fips = '';
     this.census_cbsa_micro = '';
     this.census_met_div_fips = '';
+	this.urban_status = '';
+    this.state_county_fips = '';
     $mmria.save_current_record();
     $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', this.feature_matching_result_type);
     $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', this.latitude);
     $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', this.longitude);
-    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code ', this.naaccr_gis_coordinate_quality_code );
+    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code ', this.naaccr_gis_coordinate_quality_code);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type', this.naaccr_gis_coordinate_quality_type);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code', this.naaccr_census_tract_certainty_code);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type', this.naaccr_census_tract_certainty_type);
@@ -1456,6 +1458,8 @@ function coordinates_clear_res_dc(p_control) {
     $mmria.set_control_value('death_certificate/place_of_last_residence/census_cbsa_fips', this.census_cbsa_fips);
     $mmria.set_control_value('death_certificate/place_of_last_residence/census_cbsa_micro', this.census_cbsa_micro);
     $mmria.set_control_value('death_certificate/place_of_last_residence/census_met_div_fips', this.census_met_div_fips);
+	$mmria.set_control_value('death_certificate/place_of_last_residence/urban_status', this.urban_status);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/state_county_fips', this.state_county_fips);
 }
 // CLEAR COORDINATES FOR INJURY LOCATION ON DC FORM
 /*
