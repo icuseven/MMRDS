@@ -1448,7 +1448,7 @@ function coordinates_clear_res_dc(p_control) {
     $mmria.set_control_value('death_certificate/place_of_last_residence/feature_matching_result_type', this.feature_matching_result_type);
     $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', this.latitude);
     $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', this.longitude);
-    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code ', this.naaccr_gis_coordinate_quality_code);
+    $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code', this.naaccr_gis_coordinate_quality_code);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type', this.naaccr_gis_coordinate_quality_type);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code', this.naaccr_census_tract_certainty_code);
     $mmria.set_control_value('death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type', this.naaccr_census_tract_certainty_type);
