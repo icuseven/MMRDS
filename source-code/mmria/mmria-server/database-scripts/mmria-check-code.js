@@ -1388,7 +1388,8 @@ function coordinates_clear_res_dc(p_control) {
 path=death_certificate/address_of_injury/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_inj_dc(p_control) {
+function coordinates_clear_inj_dc(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();
@@ -1400,7 +1401,8 @@ function coordinates_clear_inj_dc(p_control) {
 path=death_certificate/address_of_death/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_death_loc_dc(p_control) {
+function coordinates_clear_death_loc_dc(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();
@@ -1412,7 +1414,8 @@ function coordinates_clear_death_loc_dc(p_control) {
 path=birth_fetal_death_certificate_parent/facility_of_delivery_location/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_delivery_loc_bc(p_control) {
+function coordinates_clear_delivery_loc_bc(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();
@@ -1424,7 +1427,8 @@ function coordinates_clear_delivery_loc_bc(p_control) {
 path=birth_fetal_death_certificate_parent/location_of_residence/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_residence_bc(p_control) {
+function coordinates_clear_residence_bc(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();
@@ -1436,7 +1440,8 @@ function coordinates_clear_residence_bc(p_control) {
 path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_pnc_loc_pc(p_control) {
+function coordinates_clear_pnc_loc_pc(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();
@@ -1448,7 +1453,8 @@ function coordinates_clear_pnc_loc_pc(p_control) {
 path=prenatal/location_of_primary_prenatal_care_facility/cmd_get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_pnc_loc_pc(p_control) {
+function coordinates_clear_pnc_loc_pc(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();
@@ -1472,7 +1478,8 @@ function coordinates_clear_hos_loc_mr(p_control) {
 path=other_medical_office_visits/location_of_medical_care_facility/get_coordinates_clear
 event=onclick
 */
-function coordinates_clear_office_loc_mv(p_control) {
+function coordinates_clear_office_loc_mv(p_control) 
+{
     this.latitude = '';
     this.longitude = '';
     $mmria.save_current_record();

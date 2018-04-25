@@ -2,6 +2,8 @@
 
 namespace mmria_console
 {
+
+    //dotnet publish -c Release -r win10-x64
     class Program
     {
         static void Main(string[] args)

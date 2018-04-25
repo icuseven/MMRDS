@@ -34,6 +34,7 @@ namespace mmria.server
 	//dotnet.exe "D:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" action:install
     //dotnet.exe "D:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Debug\netcoreapp2.0\mmria-server.dll" action:uninstall
 
+    //dotnet publish -c Release -r win10-x64
 /*
 bug\netcoreapp2.0\mmria-server.dll" action:install
 Service "mmria.server.Program" ("No description") was already installed. Reinstalling...
@@ -414,13 +415,27 @@ IConfiguration.this[string]
 	
 								string metadata_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")).ReadToEnd (); ;
 								var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
-								var metadata_result_string = metadata_json_curl.execute ();
+								
+                                var metadata_result_string = metadata_json_curl.execute ();
                                 var metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
 
                                 string metadata_attachment = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/MMRIA_calculations.js")).ReadToEnd (); ;
 								var metadata_attachement_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
                                 metadata_attachement_curl.AddHeader("If-Match",  metadata_result.rev);
-								metadata_attachement_curl.execute ();
+
+								metadata_result_string = metadata_attachement_curl.execute ();
+                                metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
+
+                                metadata_attachment = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/mmria-check-code.js")).ReadToEnd (); ;
+								var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
+                                mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
+								mmria_check_code_curl.execute ();
+/*
+                                var replication_json = Newtonsoft.Json.JsonConvert.SerializeObject( new mmria.common.model.couchdb.replication_request(){ source = "metadata", target="de_id" });
+                                var replication_request_curl = new cURL("POST", null, Program.config_couchdb_url + "/_replicate", replication_json, Program.config_timer_user_name, Program.config_timer_password);
+                                replication_request_curl.execute ();
+ */
+
 							}
 							catch (Exception ex) 
 							{
@@ -428,7 +443,7 @@ IConfiguration.this[string]
 							}
 	
 	
-							}
+						}
 	
 	
 							if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)) 
