@@ -43,7 +43,8 @@ var $mmria = function()
                 {
                     geo_data = { 
                             FeatureMatchingResultType: data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType,
-                            latitude: data.OutputGeocodes[0].OutputGeocode.Latitude,
+							FeatureMatchingGeographyType: data.OutputGeocodes[0].OutputGeocode.FeatureMatchingGeographyType,
+							latitude: data.OutputGeocodes[0].OutputGeocode.Latitude,
                             longitude: data.OutputGeocodes[0].OutputGeocode.Longitude,
 							NAACCRGISCoordinateQualityCode: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityCode,
                             NAACCRGISCoordinateQualityType: data.OutputGeocodes[0].OutputGeocode.NAACCRGISCoordinateQualityType,
