@@ -163,6 +163,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		case 'time':
 		case 'address':
 		case 'textarea':
+		case 'hidden':
 			result.push('<li path="');
 			result.push(p_path);
 			result.push('">');
@@ -282,6 +283,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 
 var valid_types = [
 "string",
+"hidden",
 "number",
 "datetime",
 "date",
@@ -787,7 +789,8 @@ function render_attribute_add_control(p_path, node_type)
 			is_list = true;
 			break;
 		case "string":
-		case "number":editor_add_to_attributes
+		case "hidden":
+		case "number":
 		case "date":
 		case "datetime":
 		case "time":

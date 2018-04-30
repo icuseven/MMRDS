@@ -50,8 +50,11 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 		case 'time':
 			time_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
 			break;
-			case 'chart':
+		case 'chart':
 			chart_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
+			break;			
+		case 'chart':
+			hidden_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
 			break;			
 		default:
 			console.log("page_render not processed", p_metadata);
@@ -195,7 +198,15 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 	else
 	{
-		p_result.push("' type='text3' name='");
+		if(p_metadata.type.toLowerCase() == "hidden")
+		{
+			p_result.push("' type='hidden' name='");
+		}
+		else
+		{
+			p_result.push("' type='text' name='");
+		}
+		
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		if(p_data || p_data == 0)
