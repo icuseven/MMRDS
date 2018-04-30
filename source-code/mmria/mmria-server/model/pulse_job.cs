@@ -26,7 +26,7 @@ namespace mmria.server.model
         public virtual Task Execute(IJobExecutionContext context)
         {
             // Say Hello to the World and display the date/time
-            System.Console.WriteLine($"Pulse_job! - {DateTime.Now:r}");
+            System.Console.WriteLine($"Quartz_Pulse - {DateTime.Now:r}");
 
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>());
             quartzSupervisor.Tell("pulse");

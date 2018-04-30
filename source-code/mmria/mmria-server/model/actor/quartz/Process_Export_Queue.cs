@@ -16,7 +16,7 @@ namespace mmria.server.model.actor.quartz
             {
                 case ScheduleInfoMessage scheduleInfoMessage:
             
-                Console.WriteLine($"Process_Export_Queue Baby {System.DateTime.Now}");
+                Console.WriteLine($"Process_Export_Queue {System.DateTime.Now}");
 
                 //System.Console.WriteLine ("{0} Beginning Export Queue Item Processing", System.DateTime.Now);
                 try

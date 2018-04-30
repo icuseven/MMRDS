@@ -107,7 +107,7 @@ namespace mmria.server.model.actor
 
         protected override void OnReceive(object message)
         {
-                Console.WriteLine($"CheckForChanges Baby {System.DateTime.Now}");
+                Console.WriteLine($"CheckForChanges {System.DateTime.Now}");
 
             /*
             switch (message)
