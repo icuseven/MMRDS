@@ -5,6 +5,24 @@ using Microsoft.Extensions.Configuration;
 
 namespace install_setup
 {
+/*
+
+C:\work-space\MMRDS\source-code\mmria\mmria-server
+dotnet publish -c Release -r win10-x64
+
+C:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Release\netcoreapp2.0\win10-x64\publish\
+
+Compress-Archive -Path C:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Release\netcoreapp2.0\win10-x64\publish\ C:\temp\mmria-server.zip
+
+C:\work-space\MMRDS\source-code\mmria\mmria-console
+dotnet publish -c Release -r win10-x64
+
+C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\win10-x64\publish\
+
+
+
+ */
+
     class Program
     {
         static string build_directory_path;
