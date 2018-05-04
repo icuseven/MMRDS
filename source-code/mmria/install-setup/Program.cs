@@ -88,6 +88,30 @@ C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\wi
 			if(string.IsNullOrWhiteSpace (mmria_console_binary_directory_path)) mmria_console_binary_directory_path = configuration["mmria_settings:mmria_console_binary_directory_path"];
 			if(string.IsNullOrWhiteSpace (mmria_server_html_directory_path)) mmria_server_html_directory_path = configuration["mmria_settings:mmria_server_html_directory_path"];
 
+
+			
+			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
+
+			string mmria_server_project_file = Path.Combine(root_dir,"mmria-server","mmria-server.csproj");
+			string output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.0 -c Release -r win10-x64 -v d");
+
+
+			var NoErrors = new System.Text.RegularExpressions.Regex("0 Error\\(s\\)");
+
+			if(NoErrors.IsMatch(output))
+			{
+				Console.Write("go");
+			}
+			else
+			{
+				Console.Write("no go");
+				Console.Write(output);
+			}
+
+
+
+			return;
+
 			if (System.IO.Directory.Exists (input_directory_path)) 
 			{
 				System.IO.Directory.Delete(input_directory_path, true);	
@@ -203,5 +227,33 @@ rm -f "$wix_input_directory/app/index.html" && cp "$wix_root_directory/index.htm
 			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
 
         }
+
+
+		static string RunShell(string p_file_path, string p_arguments = null)
+		{
+			System.Text.StringBuilder result = new System.Text.StringBuilder();
+			
+			System.Diagnostics.Process proc = new System.Diagnostics.Process 
+			{
+				StartInfo = new System.Diagnostics.ProcessStartInfo 
+				{
+					FileName = p_file_path,
+					Arguments = p_arguments,
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					CreateNoWindow = true
+				}
+			};
+
+
+			proc.Start();
+			while (!proc.StandardOutput.EndOfStream) 
+			{
+				result.AppendLine(proc.StandardOutput.ReadLine());
+				// do something with line
+			}
+
+			return result.ToString();
+		}
     }
 }

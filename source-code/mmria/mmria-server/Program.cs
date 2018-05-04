@@ -160,7 +160,7 @@ IConfiguration.this[string]
             .AddJsonFile("appsettings.json", true, true)
             .Build();
             
-/* 
+/*
             https://github.com/PeterKottas/DotNetCore.WindowsService
             https://dotnetthoughts.net/how-to-host-your-aspnet-core-in-a-windows-service/
             
@@ -171,7 +171,7 @@ IConfiguration.this[string]
             File.AppendAllText(fileName, $"\nDebugger.IsAttached {Debugger.IsAttached}\n");
             File.AppendAllText(fileName, $"args.Contains(\"--console\") ");
             File.AppendAllText(fileName, args.Contains("--use_environment").ToString());
-*/
+ */
             if 
             (
                 //Environment.UserInteractive || 

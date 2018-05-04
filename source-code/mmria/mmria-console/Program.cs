@@ -4,6 +4,18 @@ namespace mmria_console
 {
 
     //dotnet publish -c Release -r win10-x64
+
+
+
+    /*
+    Get Previous version
+    curl http://localhost:5984/db/$id?rev=$prev_rev
+
+    curl http://localhost:5984/db/_changes
+    curl http://localhost:5984/db/$id?revs_info=true
+    curl http://localhost:5984/db/$id?rev=$prev_rev
+    curl -X PUT http://localhost:5984/db/$id?rev=$rev -H \'Content-Type: application/json\' -d \'$data\'
+     */
     class Program
     {
         static void Main(string[] args)
