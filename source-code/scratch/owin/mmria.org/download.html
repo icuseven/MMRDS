@@ -75,7 +75,7 @@
 <li>The database url is <strong>http://localhost:5984</strong></li>
 <li>The database administration url can be accessed by appending <strong>"/_utils"</strong> to the database url, i.e. <strong>http://localhost:5984/_utils</strong></li>
 
-<li>You must decide the  database <strong>admin_user_name</strong> and <strong>admin_user_password</strong></li>
+<li>You must decide the  database <strong>couchdb_admin_user_name</strong> and <strong>couchdb_admin_user_password</strong></li>
 <li>The application url is <strong>http://localhost:12345</strong></li>
 </ul>
 
@@ -94,11 +94,11 @@
 
 
 <a id="docker-install">Docker Install</a>
-<p>For a <strong>Docker Install</strong> run the following command while supplying the appropriate Container Name + PORT + admin_user_name and passwor that you would like to use:</p>
+<p>For a <strong>Docker Install</strong> run the following command while supplying the appropriate Container Name + PORT + couchdb_admin_user_name and passwor that you would like to use:</p>
 <br/>
 <h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA Database 1.0.0</strong></h3>
 <pre>
-docker run -d --name [container name]  -p [port]:5984     -e COUCHDB_USERNAME=[admin_user_name]     -e COUCHDB_PASSWORD=[admin_user_password]  thetagrid/mmria-db:v1.0
+docker run -d --name [container name]  -p [port]:5984     -e COUCHDB_USERNAME=[couchdb_admin_user_name]     -e COUCHDB_PASSWORD=[couchdb_admin_user_password]  thetagrid/mmria-db:v1.0
 
 for example a container named mmria-database running on port 5984 with a user name of admin_name and password of my_password:
 
@@ -108,7 +108,7 @@ docker run -d --name mmria-database  -p 5984:5984     -e COUCHDB_USERNAME=admin_
 <hr/>
 
 <h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 18.02.22 Application Server</strong></h3>
-<p>Run the following command, changing the container_name + port + database_url, admin_user_name and admin_password</p>
+<p>Run the following command, changing the container_name + port + database_url, couchdb_admin_user_name and admin_password</p>
 <pre>
 docker run --name [container_name] -d  --publish [Port]:9000 \
 --restart always \
@@ -117,8 +117,8 @@ docker run --name [container_name] -d  --publish [Port]:9000 \
 -e couchdb_url="[database_url]" \
 -e web_site_url="http://*:9000" \
 -e file_root_folder="/workspace/owin/psk/app" \
--e timer_user_name="[admin_user_name]" \
--e timer_password="[admin_user_password]" \
+-e timer_user_name="[couchdb_admin_user_name]" \
+-e timer_password="[couchdb_admin_user_password]" \
 -e cron_schedule="0 */1 * * * ?" \
 thetagrid/mmria:v18.02.22
 </pre>
@@ -169,7 +169,7 @@ mmria-server.exe.config
     &lt;add key="web_site_url" value="http://localhost:12345" /> &lt;-- verify url is appropriate for your setup
     &lt;add key="file_root_folder" value="app" />
     &lt;add key="couchdb_url" value="http://localhost:5984" /> &lt;-- verify url is appropriate for your setup
-    &lt;add key="timer_user_name" value="couchdb_admin_user_name" /> &lt;-- change to appropriate value
+    &lt;add key="timer_user_name" value="couchdb_couchdb_admin_user_name" /> &lt;-- change to appropriate value
     &lt;add key="timer_password" value="couchdb_admin_password" /> &lt;-- change to appropriate value
 	&lt;add key="export_directory" value="c:/temp/mmria-export" />
     &lt;add key="cron_schedule" value="0 */1 * * * ?" />
