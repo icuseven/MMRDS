@@ -5,30 +5,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace install_setup
 {
-/*
-
-C:\work-space\MMRDS\source-code\mmria\mmria-server
-dotnet publish -c Release -r win10-x64
-
-C:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Release\netcoreapp2.0\win10-x64\publish\
-
-Compress-Archive -Path C:\work-space\MMRDS\source-code\mmria\mmria-server\bin\Release\netcoreapp2.0\win10-x64\publish\ C:\temp\mmria-server.zip
-
-C:\work-space\MMRDS\source-code\mmria\mmria-console
-dotnet publish -c Release -r win10-x64
-
-C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\win10-x64\publish\
-
-
-
- */
-
     class Program
     {
 
 		static string major_version = "18.02.22";
 		static string minor_version = "3db277d";
-		static string current_version = $"{major_version} v({minor_version})";
+		static string current_version;
 
         static string build_directory_path;
 		static string input_directory_path;
@@ -57,7 +39,15 @@ C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\wi
 					int index = arg.IndexOf (':');
 					string val = arg.Substring (index + 1, arg.Length - (index + 1)).Trim (new char [] { '\"' });
 
-					if (arg.ToLower ().StartsWith ("build_directory_path")) 
+					if (arg.ToLower ().StartsWith ("major_version")) 
+					{
+						major_version = val;
+					}
+					else if (arg.ToLower ().StartsWith ("minor_version")) 
+					{
+						minor_version = val;
+					}
+					else if (arg.ToLower ().StartsWith ("build_directory_path")) 
 					{
 						build_directory_path = val;
 					}
@@ -91,9 +81,12 @@ C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\wi
 			if(string.IsNullOrWhiteSpace (mmria_console_binary_directory_path)) mmria_console_binary_directory_path = configuration["mmria_settings:mmria_console_binary_directory_path"];
 			if(string.IsNullOrWhiteSpace (mmria_server_html_directory_path)) mmria_server_html_directory_path = configuration["mmria_settings:mmria_server_html_directory_path"];
 
+
+			current_version = $"{major_version} v({minor_version})";
+
 			string[] publish_version_set = new string[]
 			{
-				//"win10-x64", 
+				"win10-x64", 
 				"ubuntu.16.10-x64"
 			};
 			
@@ -185,7 +178,7 @@ C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\wi
 			// remove uneeded files -- end
 
 
-			string mmria_server_zip_file_name = Path.Combine(root_dir,"mmria-server","bin", $"MMRIA-server-{p_publish_version}-{current_version}.zip");
+			string mmria_server_zip_file_name = Path.Combine(root_dir,"install-setup","bin", $"MMRIA-server-{p_publish_version}-{current_version}.zip");
 			cFolderCompressor folder_compressor = new cFolderCompressor ();
 
 			if(File.Exists(mmria_server_zip_file_name))
@@ -206,7 +199,7 @@ C:\work-space\MMRDS\source-code\mmria\mmria-console\bin\Release\netcoreapp2.0\wi
 		{
 			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
 
-			string mmria_console_zip_file_name = Path.Combine(root_dir,"mmria-console","bin", $"MMRIA-console-{p_publish_version}-{current_version}.zip");
+			string mmria_console_zip_file_name = Path.Combine(root_dir,"install-setup","bin", $"MMRIA-console-{p_publish_version}-{current_version}.zip");
 			string mmria_console_publish_folder = Path.Combine(root_dir,"mmria-console","bin","Release","netcoreapp2.0",p_publish_version,"publish");
 			cFolderCompressor folder_compressor = new cFolderCompressor ();
 
