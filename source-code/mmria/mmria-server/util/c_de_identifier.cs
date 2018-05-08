@@ -219,12 +219,15 @@ namespace mmria.server.util
 		 "medical_transport/timing_of_transport/arrive_at_referring_facility",	
 			 "social_and_environmental_profile/social_and_medical_referrals/date",
 			"social_and_environmental_profile/sources_of_social_services_information_for_this_record/source_name",
-			"mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening"
-					
-		
-
-
-
+			"mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening",
+			"death_certificate/place_of_last_residence/apartment",
+			"death_certificate/address_of_injury/apartment",
+			"death_certificate/address_of_death/apartment",
+			"birth_fetal_death_certificate_parent/facility_of_delivery_location/apartment",
+			"birth_fetal_death_certificate_parent/location_of_residence/apartment",
+			"prenatal/location_of_primary_prenatal_care_facility/apartment",
+			"er_visit_and_hospital_medical_records/name_and_location_facility/apartment",
+			"other_medical_office_visits/location_of_medical_care_facility/apartment"
 		};
 
 		static HashSet<string> cdc_de_identified_set = new HashSet<string>(){
