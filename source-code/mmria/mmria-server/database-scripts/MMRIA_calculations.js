@@ -276,7 +276,8 @@ function mothers_age_delivery(p_control) {
 path=birth_fetal_death_certificate_parent/demographic_of_father/age
 event=onfocus
 */
-function fathers_age_delivery(p_control) {
+function fathers_age_delivery(p_control) 
+{
     var years = null;
     var start_year = parseInt(this.date_of_birth.year);
     var start_month = parseInt(this.date_of_birth.month);
@@ -284,7 +285,12 @@ function fathers_age_delivery(p_control) {
     var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+    if
+    (
+            $global.isValidDate(start_year, start_month, start_day) == true && 
+            $global.isValidDate(end_year, end_month, end_day) == true
+    )
+    {
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var years = $global.calc_years(start_date, end_date);
@@ -1032,10 +1038,12 @@ function geocode_dc_last_res(p_control) {
     var city = this.city;
     var state = this.state;
     var zip = this.zip_code;
-    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) {
+    $mmria.get_geocode_info(street, city, state, zip, function (geo_data) 
+    {
         var urban_status = null;
         var state_county_fips = null;
-        if (geo_data && geo_data.FeatureMatchingResultType) {
+        if (geo_data && geo_data.FeatureMatchingResultType) 
+        {
             g_data.death_certificate.place_of_last_residence.latitude = geo_data.latitude;
             g_data.death_certificate.place_of_last_residence.longitude = geo_data.longitude;
             g_data.death_certificate.place_of_last_residence.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
@@ -1050,7 +1058,12 @@ function geocode_dc_last_res(p_control) {
             g_data.death_certificate.place_of_last_residence.census_cbsa_micro = geo_data.CensusCbsaMicro;
             g_data.death_certificate.place_of_last_residence.census_met_div_fips = geo_data.CensusMetDivFips;
             // calculate urban_status
-            if (parseInt(geo_data.NAACCRCensusTractCertaintyCode) > 0 && (parseInt(geo_data.NAACCRCensusTractCertaintyCode) < 7 && parseInt(geo_data.CensusCbsaFips) > 0)
+            if 
+            (
+                parseInt(geo_data.NAACCRCensusTractCertaintyCode) > 0 && 
+                parseInt(geo_data.NAACCRCensusTractCertaintyCode) < 7 && 
+                parseInt(geo_data.CensusCbsaFips) > 0
+            )
             {
                 if (geo_data.CensusMetDivFips) 
                 {
@@ -1065,14 +1078,19 @@ function geocode_dc_last_res(p_control) {
                     urban_status = 'Micropolitan';
                 }
             }
-            else if (parseInt(geo_data.NAACCRCensusTractCertaintyCode) > 0 && (parseInt(geo_data.NAACCRCensusTractCertaintyCode) < 7 && geo_data.CensusCbsaFips = '') 
+            else if(   
+                        parseInt(geo_data.NAACCRCensusTractCertaintyCode) > 0 &&
+                        parseInt(geo_data.NAACCRCensusTractCertaintyCode) < 7 &&
+                        geo_data.CensusCbsaFips == ''    
+                    ) 
             {
                 urban_status = 'Rural';
             }
-	    else  
+	        else  
             {
                 urban_status = 'Undetermined';
             }
+
             g_data.death_certificate.place_of_last_residence.urban_status = urban_status;
             // calculate state_county_fips
             if (geo_data.CensusStateFips && geo_data.CensusCountyFips) {
