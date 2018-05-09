@@ -263,7 +263,13 @@ function mothers_age_delivery(p_control) {
     var end_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var end_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
+
+    if 
+    (
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true
+    ) 
+    {
         var start_date = new Date(start_year, start_month - 1, start_day);
         var end_date = new Date(end_year, end_month - 1, end_day);
         var years = $global.calc_years(start_date, end_date);
@@ -287,8 +293,8 @@ function fathers_age_delivery(p_control)
     var end_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
     if
     (
-            $global.isValidDate(start_year, start_month, start_day) == true && 
-            $global.isValidDate(end_year, end_month, end_day) == true
+        $global.isValidDate(start_year, start_month, start_day) == true && 
+        $global.isValidDate(end_year, end_month, end_day) == true
     )
     {
         var start_date = new Date(start_year, start_month - 1, start_day);
