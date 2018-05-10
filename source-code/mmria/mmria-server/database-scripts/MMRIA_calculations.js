@@ -1039,7 +1039,8 @@ function med_transport_ga(p_control) {
 path=death_certificate/place_of_last_residence/get_coordinates
 event=onclick
 */
-function geocode_dc_last_res(p_control) {
+function geocode_dc_last_res(p_control) 
+{
     var street = this.street;
     var city = this.city;
     var state = this.state;
@@ -1084,14 +1085,15 @@ function geocode_dc_last_res(p_control) {
                     urban_status = 'Micropolitan';
                 }
             }
-            else if(   
-                        parseInt(geo_data.NAACCRCensusTractCertaintyCode) > 0 &&
-                        parseInt(geo_data.NAACCRCensusTractCertaintyCode) < 7 &&
-                        geo_data.CensusCbsaFips == ''    
-                    ) 
-            {
-                urban_status = 'Rural';
-            }
+            else if
+			(			
+				parseInt(geo_data.NAACCRCensusTractCertaintyCode) > 0 &&
+				parseInt(geo_data.NAACCRCensusTractCertaintyCode) < 7 &&
+				geo_data.CensusCbsaFips == ''    
+            ) 
+			{
+				urban_status = 'Rural';
+			}
 	        else  
             {
                 urban_status = 'Undetermined';
@@ -1099,10 +1101,16 @@ function geocode_dc_last_res(p_control) {
 
             g_data.death_certificate.place_of_last_residence.urban_status = urban_status;
             // calculate state_county_fips
-            if (geo_data.CensusStateFips && geo_data.CensusCountyFips) {
+            if (geo_data.CensusStateFips && geo_data.CensusCountyFips) 
+			{
                 state_county_fips = geo_data.CensusStateFips + geo_data.CensusCountyFips;
             }
             g_data.death_certificate.place_of_last_residence.state_county_fips = state_county_fips;
+			// set geography type to unmatchable if the geography type is missing
+			if(geo_data && geo_data.FeatureMatchingGeographyType == '')
+			{
+				g_data.death_certificate.place_of_last_residence.feature_matching_geography_type = 'Unmatchable';
+			}
             $mmria.save_current_record();
             $mmria.set_control_value('death_certificate/place_of_last_residence/latitude', g_data.death_certificate.place_of_last_residence.latitude);
             $mmria.set_control_value('death_certificate/place_of_last_residence/longitude', g_data.death_certificate.place_of_last_residence.longitude);
@@ -1119,7 +1127,7 @@ function geocode_dc_last_res(p_control) {
             $mmria.set_control_value('death_certificate/place_of_last_residence/census_met_div_fips', g_data.death_certificate.place_of_last_residence.census_met_div_fips);
             $mmria.set_control_value('death_certificate/place_of_last_residence/urban_status', g_data.death_certificate.place_of_last_residence.urban_status);
             $mmria.set_control_value('death_certificate/place_of_last_residence/state_county_fips', g_data.death_certificate.place_of_last_residence.state_county_fips);
-        }
+		}
     });
 }
 //GEOCODE PLACE OF INJURY ON DC FORM
