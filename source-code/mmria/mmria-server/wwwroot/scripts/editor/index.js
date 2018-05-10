@@ -511,10 +511,12 @@ function create_check_code_submit()
 									}
 									else
 									{
+										alert("PutCheckCode failed to save" + response_obj);
 										console.log("PutCheckCode failed to save", response_obj);
 									}
 
 								}).fail(function(x) {
+									alert("create_check_code_submit.send_data" + x);
 								console.log("create_check_code_submit.send_data",x);
 								});
 							}
