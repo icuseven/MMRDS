@@ -484,7 +484,7 @@ IConfiguration.this[string]
 
 							try 
 							{
-								string export_directory = System.Configuration.ConfigurationManager.AppSettings ["export_directory"];
+								string export_directory = Program.config_export_directory;
 	
 								if (System.IO.Directory.Exists (export_directory)) 
 								{

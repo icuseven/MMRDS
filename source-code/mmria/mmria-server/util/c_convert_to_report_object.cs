@@ -128,7 +128,7 @@ namespace mmria.server.util
 			try
 			{
 				val = get_value(source_object, "home_record/date_of_death/year");
-				if(val != null)
+				if(val != null && val.ToString() != "")
 				{
 					report_object.year_of_death = System.Convert.ToInt32(val);
 				}
@@ -142,7 +142,7 @@ namespace mmria.server.util
 			try
 			{
 				val = get_value(source_object, "committee_review/date_of_review");
-				if(val != null)
+				if(val != null && val.ToString() != "")
 				{
 					report_object.year_of_case_review = System.Convert.ToDateTime(val).Year;
 					report_object.month_of_case_review = System.Convert.ToDateTime(val).Month;
@@ -906,7 +906,8 @@ age_35_to_44,
 age_45_and_above
 	blank,
 */
-	}
+
+	}
 
 
 		private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
