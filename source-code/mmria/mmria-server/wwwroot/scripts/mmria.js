@@ -38,7 +38,8 @@ var $mmria = function()
                 (
                     data &&
                     data.OutputGeocodes &&
-                    data.OutputGeocodes.length > 0
+                    data.OutputGeocodes.length > 0 &&
+                    data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType != "Unmatchable"
                 )
                 {
                     geo_data = { 
