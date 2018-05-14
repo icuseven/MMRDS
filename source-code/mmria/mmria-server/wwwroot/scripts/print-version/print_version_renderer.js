@@ -306,7 +306,24 @@ d3.select('#chart svg').append('text')
 			p_post_html_render.push("     .style('font-size', '1.4em')");
 			p_post_html_render.push("     .text('" + p_metadata.prompt + "');");
 
-			break;										
+			break;	
+		case 'boolean':
+			result.push('<h9>')
+			result.push('<p>');
+			result.push(' <strong>')
+			result.push(p_metadata.prompt);
+			result.push('</strong>: ');
+			if(p_data)
+			{
+				result.push(p_data);
+			}
+			else
+			{
+				result.push("&nbsp;");
+			}
+			result.push('</p>');
+			result.push('</h9>')
+			break;
 		default:
 				
 			
