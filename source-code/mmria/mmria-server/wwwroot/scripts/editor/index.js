@@ -235,7 +235,7 @@ $(function ()
 
 	});
 
-	create_check_code_submit();
+	
 
 	window.setInterval(profile.update_session_timer, 120000);
 
@@ -508,6 +508,8 @@ function create_check_code_submit()
 											profile.auth_session = response_obj.auth_session;
 											$mmria.addCookie("AuthSession", response_obj.auth_session);
 										}
+
+										perform_validation_save(g_metadata);
 									}
 									else
 									{
