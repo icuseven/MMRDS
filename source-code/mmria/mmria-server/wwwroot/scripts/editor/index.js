@@ -235,7 +235,7 @@ $(function ()
 
 	});
 
-	
+	create_check_code_submit();
 
 	window.setInterval(profile.update_session_timer, 120000);
 
@@ -395,7 +395,7 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 
 	try 
 	{
-		let response = await fetch(location.protocol + '//' + location.host + '/api/metadata/GetCheckCode');
+		let response = await fetch(location.protocol + '//' + location.host + '/api/checkcode');
 
 		//var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
 		//g_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
@@ -453,6 +453,8 @@ function create_check_code_submit()
 	$("#check_code_form").submit
 	(	function(e)
 		{
+			e.preventDefault();
+
 			var file_element = document.querySelector("#check_code_json");
 			if(file_element)
 			{
@@ -482,7 +484,7 @@ function create_check_code_submit()
 								var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
 								$.ajax
 								({
-									url: location.protocol + '//' + location.host + '/api/metadata/PutCheckCode',
+									url: location.protocol + '//' + location.host + '/api/checkcode',
 									data: check_code_text,
 									contentType: 'multipart/form-data; charset=utf-8',
 									dataType: 'text',
@@ -508,7 +510,7 @@ function create_check_code_submit()
 											profile.auth_session = response_obj.auth_session;
 											$mmria.addCookie("AuthSession", response_obj.auth_session);
 										}
-
+										
 										perform_validation_save(g_metadata);
 									}
 									else
@@ -532,7 +534,7 @@ function create_check_code_submit()
 					}
 				}
 			}
-			e.preventDefault(); //Prevent Default action. 
+			//e.preventDefault(); //Prevent Default action. 
 			//e.unbind();
 		}
 	); 
