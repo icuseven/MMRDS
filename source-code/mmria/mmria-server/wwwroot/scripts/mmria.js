@@ -6,13 +6,22 @@ var $mmria = function()
         {
             
             var request = [];
+			var state = p_state
+			
+			if(state)
+			{
+				var check_state = state.split("-");
+				state = check_state[0];
+			}
+
+	
             
             request.push("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress=")
             request.push(p_street);
             request.push("&city=");
             request.push(p_city);
             request.push("&state=");
-            request.push(p_state);
+            request.push(state);
             request.push("&zip=")
             request.push(p_zip);
             request.push("&apikey=");
