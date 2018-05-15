@@ -94,12 +94,6 @@ namespace mmria.server
 				// Read the content.
 				string validator_js_text = await reader0.ReadToEndAsync ();
 
-				string file_root_folder = null;
-
-				file_root_folder = Program.config_file_root_folder;
-
-				//System.IO.File.WriteAllText(file_root_folder + "/scripts/validator.js", validator_js_text);
-
 				string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));

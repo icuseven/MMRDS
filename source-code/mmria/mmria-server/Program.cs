@@ -122,7 +122,7 @@ IConfiguration.this[string]
         public static string config_geocode_api_url;
         public static string config_couchdb_url = "http://localhost:5984";
         public static string config_web_site_url;
-        public static string config_file_root_folder;
+        //public static string config_file_root_folder;
         public static string config_timer_user_name;
         public static string config_timer_password;
         public static string config_cron_schedule;
@@ -272,21 +272,24 @@ IConfiguration.this[string]
             Program.Change_Sequence_Call_Count++;
             Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
 
+            Program.config_geocode_api_key = "";
+            Program.config_geocode_api_url = "";
+            //Program.config_file_root_folder = "wwwroot";
 
             if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
             {
                 System.Console.WriteLine ("using Environment");
-                System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
-                System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
+                //System.Console.WriteLine ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
+                //System.Console.WriteLine ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
                 System.Console.WriteLine ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
                 System.Console.WriteLine ("web_site_url: {0}", System.Environment.GetEnvironmentVariable ("web_site_url"));
                 System.Console.WriteLine ("export_directory: {0}", System.Environment.GetEnvironmentVariable ("export_directory"));
 
-                Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
-                Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
+                //Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
+                //Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
                 Program.config_couchdb_url = System.Environment.GetEnvironmentVariable ("couchdb_url");
                 Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
+                //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
                 Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
                 Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
                 Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
@@ -296,11 +299,11 @@ IConfiguration.this[string]
             }
             else 
             {
-                Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
-                Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+                //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
+                //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
                 Program.config_couchdb_url = configuration["mmria_settings:couchdb_url"];
                 Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-                Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
+                //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
                 Program.config_timer_user_name = configuration["mmria_settings:timer_user_name"];
                 Program.config_timer_password = configuration["mmria_settings:timer_password"];
                 Program.config_cron_schedule = configuration["mmria_settings:cron_schedule"];
