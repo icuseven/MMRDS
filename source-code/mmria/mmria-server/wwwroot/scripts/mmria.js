@@ -46,12 +46,13 @@ var $mmria = function()
                 if
                 (
                     data &&
+                    data.FeatureMatchingResultType &&
+					["Unmatchable","ExceptionOccurred", "0"].indexOf(data.FeatureMatchingResultType) > -1 &&                 
                     data.OutputGeocodes &&
                     data.OutputGeocodes.length > 0 &&
-					(
-						data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType != "Unmatchable" &&
-						data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType != "ExceptionOccurred"
-					)
+                    data.OutputGeocodes[0].OutputGeocode &&
+                    data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType &&
+                    ["Unmatchable","ExceptionOccurred"].indexOf(data.OutputGeocodes[0].OutputGeocode.FeatureMatchingResultType) > -1
 				)
                 {
                     geo_data = { 
