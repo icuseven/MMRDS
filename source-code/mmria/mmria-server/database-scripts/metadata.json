@@ -1984,7 +1984,7 @@
               "path_reference": "lookup/year"
             },
             {
-              "prompt": "Estimate",
+              "prompt": "Is this date an estimate?",
               "name": "is_estimated",
               "type": "boolean"
             }
@@ -2579,7 +2579,7 @@
               "type": "button"
             },
             {
-              "prompt": "Geography match type",
+              "prompt": "Matching geography type",
               "name": "feature_matching_geography_type",
               "type": "string",
               "is_read_only": true,
@@ -2588,28 +2588,28 @@
             {
               "prompt": "Latitude",
               "name": "latitude",
-              "type": "number",
+              "type": "hidden",
               "is_read_only": true,
               "decimal_precision": "4"
             },
             {
               "prompt": "Longitude",
               "name": "longitude",
-              "type": "number",
+              "type": "hidden",
               "is_read_only": true,
               "decimal_precision": "4"
             },
             {
-              "prompt": "Coordinate qualtity code",
+              "prompt": "Coordinate quality code",
               "name": "naaccr_gis_coordinate_quality_code",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "The NAACCR GIS Coordinate Quality Codes provide an indication of the level of accuracy of a geocode."
             },
             {
               "prompt": "Coordinate quality name",
               "name": "naaccr_gis_coordinate_quality_type",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "The NAACCR GIS Coordinate Quality Codes provide an indication of the level of accuracy of a geocode."
             },
@@ -2630,27 +2630,27 @@
             {
               "prompt": "State-county FIPS code",
               "name": "state_county_fips",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "Concatenated state and county FIPS codes. Provides unique location identifier for the county within the United States."
             },
             {
               "prompt": "State FIPS code",
               "name": "census_state_fips",
-              "type": "string",
+              "type": "hidden",
               "description": "FIPS code for state only."
             },
             {
               "prompt": "County FIPS code",
               "name": "census_county_fips",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "FIPS code for county only. Note, county FIPS codes are repeated for each state."
             },
             {
               "prompt": "Tract FIPS code",
               "name": "census_tract_fips",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "Tract FIPS code only."
             },
@@ -2664,21 +2664,21 @@
             {
               "prompt": "Metropolitan Division",
               "name": "census_met_div_fips",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "A 5-digit number in this field indicates that the location is part of a cluster of counties surrounding 1 of 10 major cities in the US with population greater than 2.5 million in the core city."
             },
             {
               "prompt": "CBSA FIPS code",
               "name": "census_cbsa_fips",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "A 5-digit number in this field indicates that the location is in a metropolitan or micropolitan county. The 5-digit code is the FIPS code that identifies the specific metropolitan/micropolitan area."
             },
             {
               "prompt": "CBSA micropolitan indicator",
               "name": "census_cbsa_micro",
-              "type": "string",
+              "type": "hidden",
               "is_read_only": true,
               "description": "Options are 1 and 0. A 1 in this field indicates the county is a micropolitan county."
             }
@@ -2718,7 +2718,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -3070,7 +3070,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -3742,7 +3742,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -3966,7 +3966,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -4276,7 +4276,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -4708,7 +4708,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -4770,7 +4770,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -4854,7 +4854,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -4887,7 +4887,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -4920,7 +4920,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -6235,7 +6235,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -7633,7 +7633,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -7804,7 +7804,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 }
@@ -7837,7 +7837,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Abstractor Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -7880,7 +7880,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -7925,7 +7925,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -7970,7 +7970,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -8885,7 +8885,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -8941,7 +8941,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -9157,7 +9157,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -9759,7 +9759,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -9812,7 +9812,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -10387,7 +10387,7 @@
                   "path_reference": "lookup/year"
                 },
                 {
-                  "prompt": "Estimate",
+                  "prompt": "Is this date an estimate?",
                   "name": "is_estimated",
                   "type": "boolean"
                 },
@@ -11162,7 +11162,7 @@
               "path_reference": "lookup/year"
             },
             {
-              "prompt": "Estimate",
+              "prompt": "Is this date an estimate?",
               "name": "is_estimated",
               "type": "boolean"
             },
