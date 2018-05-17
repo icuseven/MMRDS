@@ -8,8 +8,8 @@ namespace install_setup
     class Program
     {
 
-		static string major_version = "18.02.22";
-		static string minor_version = "3db277d";
+		static string major_version = "18.05.15";
+		static string minor_version = "0cbe3f8";
 		static string current_version;
 
         static string build_directory_path;
@@ -86,16 +86,26 @@ namespace install_setup
 
 			string[] publish_version_set = new string[]
 			{
-				"win10-x64", 
-				"ubuntu.16.10-x64"
+				//"win10-x64", 
+				//"ubuntu.16.10-x64",
+				"win7-x86"
 			};
 			
 			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
+			var NoErrors = new System.Text.RegularExpressions.Regex("0 Error\\(s\\)");
+			string output = null;
+			string mmria_server_project_file = Path.Combine(root_dir,"mmria-server","mmria-server.csproj");
+			string mmria_console_project_file = Path.Combine(root_dir,"mmria-console","mmria-console.csproj");
+
+
+			InitZipDirectory();
+
+			output = RunShell("dotnet", $"build {mmria_server_project_file} /p:Configuration=Release /t:Clean ");
+			if(NoErrors.IsMatch(output))
 			foreach(string publish_version in publish_version_set)
 			{
-				string mmria_server_project_file = Path.Combine(root_dir,"mmria-server","mmria-server.csproj");
-				string output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
-				var NoErrors = new System.Text.RegularExpressions.Regex("0 Error\\(s\\)");
+				output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
+				
 				if(NoErrors.IsMatch(output))
 				{
 					Console.WriteLine($"go server {publish_version}");
@@ -108,13 +118,14 @@ namespace install_setup
 					Console.WriteLine($"no go {publish_version}");
 					Console.WriteLine(output);
 				}
+			}
 
 
-				string mmria_console_project_file = Path.Combine(root_dir,"mmria-console","mmria-console.csproj");
+			output = RunShell("dotnet", $"build {mmria_console_project_file} /p:Configuration=Release /t:Clean ");
+			if(NoErrors.IsMatch(output))
+			foreach(string publish_version in publish_version_set)
+			{
 				output = RunShell("dotnet", $"publish {mmria_console_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
-
-				//Console.WriteLine($"{output}");
-
 				if(NoErrors.IsMatch(output))
 				{
 					Console.WriteLine($"go console {publish_version}");
@@ -127,9 +138,22 @@ namespace install_setup
 				}
 			}
 
-			CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
+			//CopyFolder.CopyDirectory(input_directory_path, output_directory_path);
         }
 
+
+		static void InitZipDirectory()
+		{
+			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
+			string zip_directory = Path.Combine(root_dir,"install-setup","bin");
+			foreach(string file_name in Directory.GetFiles(zip_directory))
+			{
+				if(file_name.EndsWith(".zip"))
+				{
+					File.Delete(file_name);
+				}
+			}
+		}
 
 		static void ProcessServerPublish(string p_publish_version)
 		{
