@@ -1,35 +1,35 @@
 ﻿using System;
 using Microsoft.Extensions.PlatformAbstractions;
-using PeterKottas.DotNetCore.WindowsService.Interfaces;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
+
 using System.Timers;
 
 namespace mmria.server
 {
-    //https://github.com/PeterKottas/DotNetCore.WindowsService/tree/master/Source
 
-    public class MMRIA_Window_Service : IMicroService
+    public class MMRIA_Window_Service  : System.ServiceProcess.ServiceBase
     {
-        private IMicroServiceController controller;
 
-        public MMRIA_Window_Service()
+
+        protected override void OnStart(string[] args)
         {
-            controller = null;
+            base.OnStart(args);
         }
 
-        public MMRIA_Window_Service(IMicroServiceController controller)
-        {
-            this.controller = controller;
-        }
 
-        public void Start()
+        protected override void OnStop()
         {
-            Console.WriteLine("I started");
+            base.OnStop();
         }
-
-        public void Stop()
-        {
-            Console.WriteLine("I stopped");
-        }
-
     }
+/*
+    public static class MMRIA_Window_ServiceExtensions
+    {
+        public static void RunAsCustomService(this IWebHost host)
+        {
+            var webHostService = new MMRIA_Window_Service(host);
+            ServiceBase.Run(webHostService);
+        }
+    } */
 }

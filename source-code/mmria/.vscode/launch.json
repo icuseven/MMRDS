@@ -11,6 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/mmria-server/bin/Debug/netcoreapp2.0/mmria-server.dll",
+            //"program": "${workspaceFolder}/bin/Debug/net471/win7-x64/mmria-service.exe",
             "args": [],
             "cwd": "${workspaceFolder}/mmria-server",
             "stopAtEntry": false,

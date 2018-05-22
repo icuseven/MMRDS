@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,4 +11,5 @@
     <Folder Include="texas_am\" />
     <Folder Include="couchdb\password\" />
   </ItemGroup>
+
 </Project>

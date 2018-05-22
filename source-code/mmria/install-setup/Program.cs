@@ -86,9 +86,9 @@ namespace install_setup
 
 			string[] publish_version_set = new string[]
 			{
-				//"win10-x64", 
+				"win10-x64"//, 
 				//"ubuntu.16.10-x64",
-				"win7-x86"
+				//"win7-x86"
 			};
 			
 			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
@@ -96,9 +96,35 @@ namespace install_setup
 			string output = null;
 			string mmria_server_project_file = Path.Combine(root_dir,"mmria-server","mmria-server.csproj");
 			string mmria_console_project_file = Path.Combine(root_dir,"mmria-console","mmria-console.csproj");
+			string mmria_service_project_file = Path.Combine(root_dir,"mmria-server","mmria-service.csproj");
 
 
 			InitZipDirectory();
+
+
+			output = RunShell("dotnet", $"build {mmria_service_project_file} /p:Configuration=Release /t:Clean ");
+			if(NoErrors.IsMatch(output))
+			{
+				output = RunShell("dotnet", $"publish {mmria_service_project_file} --framework net471 -c Release -r win7-x64 -v d");
+				
+				if(NoErrors.IsMatch(output))
+				{
+					Console.WriteLine($"go server win7-x64");
+					ProcessServerPublish("win7-x64");
+
+					//ubuntu.16.10-x64
+				}
+				else
+				{
+					Console.WriteLine($"no go server win7-x64");
+					Console.WriteLine(output);
+				}
+			}
+
+			if(publish_version_set.Length == 1)
+			{
+				return;
+			}
 
 			output = RunShell("dotnet", $"build {mmria_server_project_file} /p:Configuration=Release /t:Clean ");
 			if(NoErrors.IsMatch(output))
@@ -161,6 +187,11 @@ namespace install_setup
 							// version number -- Start
 			System.Text.RegularExpressions.Regex version_tag = new System.Text.RegularExpressions.Regex ("<\\%=version\\%>");
 			string mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","netcoreapp2.0", p_publish_version,"publish");
+			if(p_publish_version=="win7-x64")
+			{
+				mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","net471", p_publish_version,"publish");
+			}
+			
 			string profile_text = System.IO.File.ReadAllText (mmria_server_publish_directory + "/wwwroot/scripts/profile.js");
 			System.IO.File.WriteAllText(mmria_server_publish_directory + "/wwwroot/scripts/profile.js", version_tag.Replace(profile_text, current_version));
 
@@ -199,7 +230,20 @@ namespace install_setup
 			{
 				File.Delete (mmria_server_publish_directory + "/wwwroot/socket-test2.html");
 			}
+
+			if (File.Exists (mmria_server_publish_directory + "/appsettings.Development.json"))
+			{
+				File.Delete (mmria_server_publish_directory + "/appsettings.Development.json");
+			}
+
+			if (File.Exists (mmria_server_publish_directory + "/appsettings.json"))
+			{
+				File.Delete (mmria_server_publish_directory + "/appsettings.json");
+			}
+
 			// remove uneeded files -- end
+
+			File.Copy(Path.Combine(root_dir,"install-setup","mmria-server.appsettings.json"), mmria_server_publish_directory + "/appsettings.json");
 
 
 			string mmria_server_zip_file_name = Path.Combine(root_dir,"install-setup","bin", $"MMRIA-server-{p_publish_version}-{current_version}.zip");
