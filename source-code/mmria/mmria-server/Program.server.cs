@@ -103,19 +103,25 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
 
-                Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-            
+
                 if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
                 {
                     Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                    Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
                 }
                 else 
                 {
                     Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
+                    Program.config_export_directory = Configuration["mmria_settings:export_directory"];
                 }
+
+
+                Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File(Path.Combine(Program.config_export_directory,"log.txt"), rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+            
+
 
                 var host = WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
