@@ -108,11 +108,18 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
                 .WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
                 .CreateLogger();
             
-                string web_site_url = configuration["mmria_settings:web_site_url"];
+                if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
+                {
+                    Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
+                }
+                else 
+                {
+                    Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
+                }
 
                 var host = WebHost.CreateDefaultBuilder(args)
                     .UseStartup<Startup>()
-                    .UseUrls(web_site_url)
+                    .UseUrls(Program.config_web_site_url)
                     .Build();
 
 
