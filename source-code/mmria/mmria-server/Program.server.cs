@@ -111,8 +111,8 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
                 }
                 else 
                 {
-                    Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
-                    Program.config_export_directory = Configuration["mmria_settings:export_directory"];
+                    Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
+                    Program.config_export_directory = configuration["mmria_settings:export_directory"];
                 }
 
 
