@@ -118,7 +118,7 @@ core_test
 
                 Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                //.WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
                 bool isService = true;

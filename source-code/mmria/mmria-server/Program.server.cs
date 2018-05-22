@@ -118,7 +118,7 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
 
                 Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Program.config_export_directory,"log.txt"), rollingInterval: RollingInterval.Day)
+                //.WriteTo.File(Path.Combine(Program.config_export_directory,"log.txt"), rollingInterval: RollingInterval.Day)
                 .CreateLogger();
             
 
