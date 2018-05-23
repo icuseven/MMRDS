@@ -8,8 +8,8 @@ namespace install_setup
     class Program
     {
 
-		static string major_version = "18.05.15";
-		static string minor_version = "0cbe3f8";
+		static string major_version = "18.05.22";
+		static string minor_version = "f2a943a";
 		static string current_version;
 
         static string build_directory_path;
@@ -101,6 +101,11 @@ namespace install_setup
 
 			InitZipDirectory();
 
+			string mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","net471", "win7-x64","publish");
+			if(Directory.Exists(mmria_server_publish_directory))
+			{
+				RecursiveDirectoryDelete(new DirectoryInfo(mmria_server_publish_directory));
+			}
 
 			output = RunShell("dotnet", $"build {mmria_service_project_file} /p:Configuration=Release /t:Clean ");
 			if(NoErrors.IsMatch(output))
@@ -110,6 +115,7 @@ namespace install_setup
 				if(NoErrors.IsMatch(output))
 				{
 					Console.WriteLine($"go server win7-x64");
+
 					ProcessServerPublish("win7-x64");
 
 					//ubuntu.16.10-x64
@@ -197,6 +203,10 @@ namespace install_setup
 
 			string index_text = System.IO.File.ReadAllText (mmria_server_publish_directory + "/wwwroot/index.html");
 			System.IO.File.WriteAllText(mmria_server_publish_directory + "/wwwroot/index.html", version_tag.Replace(index_text, current_version));
+			
+			string instruction_text = System.IO.File.ReadAllText(Path.Combine(root_dir,"install-setup","Install-Instructions.txt"));
+			System.IO.File.WriteAllText(mmria_server_publish_directory + "/Install-Instructions.txt", version_tag.Replace(instruction_text, current_version));
+
 			// version number -- End
 
 
@@ -305,10 +315,21 @@ namespace install_setup
 			while (!proc.StandardOutput.EndOfStream) 
 			{
 				result.AppendLine(proc.StandardOutput.ReadLine());
-				// do something with line
 			}
 
 			return result.ToString();
 		}
+
+		static void RecursiveDirectoryDelete(System.IO.DirectoryInfo baseDir)
+        {
+            if (!baseDir.Exists)
+                return;
+
+            foreach (var dir in baseDir.EnumerateDirectories())
+            {
+                RecursiveDirectoryDelete(dir);
+            }
+            baseDir.Delete(true);
+        }
     }
 }

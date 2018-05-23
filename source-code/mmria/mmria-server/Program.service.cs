@@ -116,10 +116,21 @@ core_test
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
 
-                Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                .WriteTo.Console()
-                //.WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+
+                if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
+                {
+                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                    .WriteTo.Console()
+                    .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+                }
+                else
+                {
+                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                    .WriteTo.Console()
+                    //.WriteTo.File(Path.Combine(configuration["mmria_settings:export_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                    .CreateLogger();    
+                }
 
                 bool isService = true;
                 if (Debugger.IsAttached || args.Contains("--console"))

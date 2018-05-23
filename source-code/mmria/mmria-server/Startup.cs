@@ -267,7 +267,7 @@ namespace mmria.server
                                 metadata_attachment = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/mmria-check-code.js")).ReadToEnd (); ;
 								var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
                                 mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
-								mmria_check_code_curl.execute ();
+								Log.Information($"{mmria_check_code_curl.execute ()}");
 /*
                                 var replication_json = Newtonsoft.Json.JsonConvert.SerializeObject( new mmria.common.model.couchdb.replication_request(){ source = "metadata", target="de_id" });
                                 var replication_request_curl = new cURL("POST", null, Program.config_couchdb_url + "/_replicate", replication_json, Program.config_timer_user_name, Program.config_timer_password);

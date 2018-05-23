@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Dynamic;
+using Serilog;
+using Serilog.Configuration;
 
 namespace mmria.server
 {
@@ -70,7 +72,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 if (url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_password)) 
                 {
                     var metadata_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/metadata", null, p_target_db_user_name, p_target_db_password);
-                    System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
+                    Log.Information($"metadata_curl\n{metadata_curl.execute ()}");
                 }
 
                 try 
@@ -80,7 +82,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
 
                     new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", p_target_db_user_name, p_target_db_password).execute ();
-                    System.Console.WriteLine ("metadata/_security completed successfully");
+                    Log.Information($"metadata/_security completed successfully");
 
                     string metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
                     var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
@@ -100,7 +102,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     metadata_attachment = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/mmria-check-code.js")).ReadToEnd (); ;
                     var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
                     mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
-                    mmria_check_code_curl.execute ();
+                    Log.Information($"mmria_check_code_curl.execute () {mmria_check_code_curl.execute ()}");
 
 /*
                     var replication_json = Newtonsoft.Json.JsonConvert.SerializeObject( new mmria.common.model.couchdb.replication_request(){ source = "metadata", target="de_id" });
@@ -117,7 +119,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 }
                 catch (Exception ex) 
                 {
-                    System.Console.WriteLine ("unable to configure metadata:\n{0}", ex);
+                    Log.Information($"unable to configure metadata:\n{ex}");
                 }
                 
 
@@ -125,10 +127,10 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_password)) 
                 {
                     var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, p_target_db_user_name, p_target_db_password);
-                    System.Console.WriteLine ("mmrds_curl\n{0}", mmrds_curl.execute ());
+                    Log.Information($"mmrds_curl\n{ mmrds_curl.execute ()}");
 
                     new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute ();
-                    System.Console.WriteLine ("mmrds/_security completed successfully");
+                    Log.Information($"mmrds/_security completed successfully");
                 }
 
                 try 
@@ -146,7 +148,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 }
                 catch (Exception ex) 
                 {
-                    System.Console.WriteLine ("unable to configure mmrds database:\n", ex);
+                    Log.Information($"unable to configure mmrds database:\n{ex}");
                 }
                 
 
@@ -162,8 +164,8 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		}
 		catch(Exception ex) 
 		{
-			Console.WriteLine (ex);
-                result.Add("db_setupController.Get Exception",ex.ToString());
+			Log.Information($"{ex}");
+            result.Add("db_setupController.Get Exception",ex.ToString());
 		}
 
 
