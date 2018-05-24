@@ -209,6 +209,22 @@ namespace install_setup
 
 			// version number -- End
 
+			// move database scripts -- start
+			string mmria_server_database_scripts_directory = Path.Combine(root_dir,"mmria-server","database-scripts");
+
+			System.IO.File.Copy(Path.Combine(mmria_server_database_scripts_directory, "metadata_design_auth.json"), Path.Combine(mmria_server_publish_directory, "database-scripts", "metadata_design_auth.json"), true);
+			System.IO.File.Copy (Path.Combine (mmria_server_database_scripts_directory, "metadata.json"), Path.Combine(mmria_server_publish_directory, "database-scripts", "metadata.json"), true);
+			System.IO.File.Copy (Path.Combine (mmria_server_database_scripts_directory, "MMRIA_calculations.js"), Path.Combine(mmria_server_publish_directory, "database-scripts", "MMRIA_calculations.js"), true);
+			System.IO.File.Copy (Path.Combine (mmria_server_database_scripts_directory, "mmria-check-code.js"), Path.Combine(mmria_server_publish_directory, "database-scripts", "mmria-check-code.js"), true);
+
+			System.IO.File.Copy (Path.Combine (mmria_server_database_scripts_directory, "case_design_sortable.json"), Path.Combine(mmria_server_publish_directory, "database-scripts", "case_design_sortable.json"), true);
+			System.IO.File.Copy (Path.Combine (mmria_server_database_scripts_directory, "case_store_design_auth.json"), Path.Combine(mmria_server_publish_directory, "database-scripts", "case_store_design_auth.json"), true);
+
+			//System.IO.File.Copy (Path.Combine (mmria_server_database_scripts_directory, "case_store_design_auth.json"), Path.Combine(mmria_server_publish_directory, "database-scripts", "case_store_design_auth.json"), true);
+
+
+
+			// move database scripts -- end
 
 			// remove unneeded files -- start
 			if (System.IO.Directory.Exists (mmria_server_publish_directory + "/wwwroot/metadata")) 
