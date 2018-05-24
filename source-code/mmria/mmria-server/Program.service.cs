@@ -119,10 +119,19 @@ core_test
 
                 if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
                 {
-                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                    .WriteTo.Console()
-                    .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
-                    .CreateLogger();
+                    try
+                    {
+                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                        .WriteTo.Console()
+                        .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
+                    }
+                    catch(System.Exception ex)
+                    {
+                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                        .WriteTo.Console()
+                        .CreateLogger();    
+                    }
                 }
                 else
                 {

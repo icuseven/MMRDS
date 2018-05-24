@@ -116,10 +116,29 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
                 }
 
 
-                Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                .WriteTo.Console()
-                //.WriteTo.File(Path.Combine(Program.config_export_directory,"log.txt"), rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+                if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
+                {
+                    try
+                    {
+                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                        .WriteTo.Console()
+                        .WriteTo.File(Path.Combine(configuration["mmria_settings:log_directory"],"log.txt"), rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
+                    }
+                    catch(System.Exception ex)
+                    {
+                        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                        .WriteTo.Console()
+                        .CreateLogger();    
+                    }
+
+                }
+                else
+                {
+                    Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                    .WriteTo.Console()
+                    .CreateLogger();    
+                }
             
 
 
