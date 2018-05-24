@@ -8,8 +8,8 @@ namespace install_setup
     class Program
     {
 
-		static string major_version = "18.05.22";
-		static string minor_version = "f2a943a";
+		static string major_version = "18.05.24";
+		static string minor_version = "5089046";
 		static string current_version;
 
         static string build_directory_path;
@@ -127,31 +127,30 @@ namespace install_setup
 				}
 			}
 
-			if(publish_version_set.Length == 1)
+			if(publish_version_set.Length == 0)
 			{
-				return;
-			}
 
-			output = RunShell("dotnet", $"build {mmria_server_project_file} /p:Configuration=Release /t:Clean ");
-			if(NoErrors.IsMatch(output))
-			foreach(string publish_version in publish_version_set)
-			{
-				output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
-				
+				output = RunShell("dotnet", $"build {mmria_server_project_file} /p:Configuration=Release /t:Clean ");
 				if(NoErrors.IsMatch(output))
+				foreach(string publish_version in publish_version_set)
 				{
-					Console.WriteLine($"go server {publish_version}");
-					ProcessServerPublish(publish_version);
+					output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
+					
+					if(NoErrors.IsMatch(output))
+					{
+						Console.WriteLine($"go server {publish_version}");
+						ProcessServerPublish(publish_version);
 
-					//ubuntu.16.10-x64
+						//ubuntu.16.10-x64
+					}
+					else
+					{
+						Console.WriteLine($"no go {publish_version}");
+						Console.WriteLine(output);
+					}
 				}
-				else
-				{
-					Console.WriteLine($"no go {publish_version}");
-					Console.WriteLine(output);
-				}
+
 			}
-
 
 			output = RunShell("dotnet", $"build {mmria_console_project_file} /p:Configuration=Release /t:Clean ");
 			if(NoErrors.IsMatch(output))
