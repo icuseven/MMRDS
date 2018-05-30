@@ -14751,25 +14751,6 @@
               ]
             }
           ]
-        },
-        {
-          "prompt": "Test",
-          "name": "test",
-          "type": "list",
-          "values": [
-            {
-              "description": "V1",
-              "value": "Value 1"
-            },
-            {
-              "description": "V2",
-              "value": "Value 2"
-            },
-            {
-              "description": "V3",
-              "value": "Value 3"
-            }
-          ]
         }
       ]
     }
