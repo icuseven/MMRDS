@@ -8,8 +8,8 @@ namespace install_setup
     class Program
     {
 
-		static string major_version = "18.05.24";
-		static string minor_version = "5089046";
+		static string major_version = "18.05.30";
+		static string minor_version = "26fda10";
 		static string current_version;
 
         static string build_directory_path;

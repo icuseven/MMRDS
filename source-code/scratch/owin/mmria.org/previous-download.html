@@ -20,9 +20,9 @@
 	
 
 <br/>
-<p>Click <a href="upgrade.html">here</a> for information about upgrading to <a href="upgrade.html">MMRIA 18.05.30</a></p>
+<p>Click <a href="upgrade.html">here</a> for information about upgrading to <a href="upgrade.html">MMRIA 18.02.22</a></p>
 
-<p><a href="windows-backup-and-restore.html">Windows Backup and Restore in MMRIA 18.05.30</a></p>
+<p><a href="windows-backup-and-restore.html">Windows Backup and Restore in MMRIA 18.02.22</a></p>
 	
 <h2 style="font:Work Sans Light"><strong>Table of contents:</strong></h2>
 <ul class="list-group">
@@ -40,8 +40,8 @@
 <ol>
 <li>Install CouchDB 2.0</li>
 <li>Configure CouchDB 2.0</li>
-<li>Install MMRIA 18.05.30</li>
-<li>Configure MMRIA 18.05.30</li>
+<li>Install MMRIA 18.02.22</li>
+<li>Configure MMRIA 18.02.22</li>
 </ol>
 </li>
 
@@ -84,7 +84,7 @@
 <p>The CouchDB 2.0 installation requries 3 sets of configurations.</p>
 <ol>
 <li>1st set of configurations is done as soon as CouchDB 2.0 is installed and before the MMRIA 1.2.0 is setup.</li>
-<li>2nd set of configurations is done after the MMRIA 18.05.30 is installed by running a "_config" utility from the MMRIA user interface.</li>
+<li>2nd set of configurations is done after the MMRIA 18.02.22 is installed by running a "_config" utility from the MMRIA user interface.</li>
 <li>3rd step of configuration and verification will need to be done to verify and ensure that all settings appropriately applied.</li>
 <li>On a Docker configuration changes take place immediately</li>
 <li>On a Windows installation CouchDB will need to be restarted to ensure that any configuration changes have been applied</li>
@@ -107,7 +107,7 @@ docker run -d --name mmria-database  -p 5984:5984     -e COUCHDB_USERNAME=admin_
 
 <hr/>
 
-<h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 18.05.30 Application Server</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 18.02.22 Application Server</strong></h3>
 <p>Run the following command, changing the container_name + port + database_url, couchdb_admin_user_name and admin_password</p>
 <pre>
 docker run --name [container_name] -d  --publish [Port]:9000 \
@@ -120,7 +120,7 @@ docker run --name [container_name] -d  --publish [Port]:9000 \
 -e timer_user_name="[couchdb_admin_user_name]" \
 -e timer_password="[couchdb_admin_user_password]" \
 -e cron_schedule="0 */1 * * * ?" \
-thetagrid/mmria:v18.05.30
+thetagrid/mmria:v18.02.22
 </pre>
 
 
@@ -139,8 +139,7 @@ thetagrid/mmria:v18.05.30
 <ul>
 <li><a href="NDP471-KB4033342-x86-x64-AllOS-ENU.exe">(Optional - you may already have it installed) Download .NET 4.7.1 install</a></li>
 <li><a href="https://dl.bintray.com/apache/couchdb/win/2.1.0/apache-couchdb-2.1.0.msi">Download Apached CouchDB https://dl.bintray.com/apache/couchdb/win/2.1.0/apache-couchdb-2.1.0.msi</a></li>
-<li><a href="MMRIA-server-win7-x64-18.05.30 v(26fda10).zip">Download MMRIA-server-win7-x64-18.05.30 v(26fda10).zip
-<li><a href="MMRIA-console-win10-x64-18.05.30 v(26fda10).zip">Download MMRIA-console-win10-x64-18.05.30 v(26fda10).zip</a></li>
+<li><a href="MMRIA-Install-18.02.22 v(3db277d).msi">Download and run MMRIA-Install-18.02.22 v(3db277d).msi</a></li>
 </ul>
 
 
@@ -152,49 +151,38 @@ thetagrid/mmria:v18.05.30
 </pre>
 <hr/>
 
-<h3 style="font:Work Sans Light"><strong>Windows Install: 5 Steps to install MMRIA Service 18.05.30</strong></h3>
-<ol>
-<li>Unpack MMRIA-server-win7-x64-18.05.30 v(26fda10).zip Archive to location where you want to run the MMRIA Service</li>
-<li>Find the "appsettings.json" file in the root folder and update it with the appropriate settings.  
-    <pre>Please verify that the following fields have the appropriate values:
-        web_site_url -> example: "web_site_url":"http://localhost:12345",
-        export_directory -> example: "export_directory":"c:/temp/mmria-export",
-		log_directory -> example: "log_directory":"c:/temp/mmria-log",
-        couchdb_url -> example: "couchdb_url":"http://localhost:5984",
-        timer_user_name -> couchdb administrator username example: "timer_user_name":"<couchdb_admin_user_name>",
-        timer_password -> couchdb administrator password  example: "timer_password":"<couchdb_admin_user_password>",
-	<pre>
-</li>
+<h3 style="font:Work Sans Light"><strong>Windows Install MMRIA 18.02.22</strong></h3>
 
-<li>Create the MMRIA Service using the windows console.
-    <pre>Open a Windows Console as an administrator and replace <path_to_mmria-service.exe> in the following command with the location of the mmria-server.exe file.
 
-        sc create MMRIAService binpath= "<path_to_mmria-service.exe>\mmria-service.exe" DisplayName= "MMRIA Service 18.05.30 v(26fda10)" start= auto
+<p>After running MMRIA-Install-18.02.22 v(3db277d).msi, a folder will be created at the following location: <strong>C:\Program Files (x86)\mmria\MMRIA 18.02.22</strong></p>
 
-    Copy that changed command into the Windows Console and press enter.
 
-    for example:
-        sc create MMRIAService binpath= "C:\workspace\mmria-server\mmria-service.exe" DisplayName= "MMRIA Service 18.05.30 v(26fda10)" start= auto
 
-    After running the command the MMRIA Service should be running.
-	</pre>
-</li>
-<li>Start the service by running: "sc start MMRIAService" in Windows Console.</li>
+<h3 style="font:Work Sans Light"><strong>Configure MMRIA 18.02.22</strong></h3>
+<p>Using <strong>"Run as Administrator,"</strong> open Notepad or any text editor and verify that the 2 configuration files have the setting appropriate to your setup.  These files can be found in the <strong>C:\Program Files (x86)\mmria\MMRIA 18.02.22</strong> directory.  <!--Be sure to <strong>"Run as Administrator"</strong-->.</p>
+<pre>
+mmria-server.exe.config
+    &lt;add key="owin:AppStartup" value="mmria.server.Startup" />
+    &lt;add key="geocode_api_key" value="" />
+    &lt;add key="geocode_api_url" value="" />
+    &lt;add key="is_environment_based" value="false" />
+    &lt;add key="web_site_url" value="http://localhost:12345" /> &lt;-- verify url is appropriate for your setup
+    &lt;add key="file_root_folder" value="app" />
+    &lt;add key="couchdb_url" value="http://localhost:5984" /> &lt;-- verify url is appropriate for your setup
+    &lt;add key="timer_user_name" value="couchdb_couchdb_admin_user_name" /> &lt;-- change to appropriate value
+    &lt;add key="timer_password" value="couchdb_admin_password" /> &lt;-- change to appropriate value
+	&lt;add key="export_directory" value="c:/temp/mmria-export" />
+    &lt;add key="cron_schedule" value="0 */1 * * * ?" />
 
-<li>Navigate to the web_site_url/_config to upgrade database.</li>
-</ol>
 
-<p><b>How to stop the service:</b> sc stop MMRIAService</p>
 
-<p><b>How to start the service:</b> sc start MMRIAService</p>
-
-<p><b>How to uninstall/delete the servcie:</b> sc delete MMRIAService</p>
-
-<h3 style="font:Work Sans Light"><strong>Windows Install: Install MMRIA Console 18.05.30</strong></h3>
-<ol>
-<li>Unpack MMRIA-console-win10-x64-18.05.30 v(26fda10).zip Archive to location where you want to run the MMRIA Service</li>
-
-</ol>
+mmria.exe.config
+	&lt;add key="couchdb_url" value="http://localhost:5984" /> &lt;-- verify url is appropriate for your setup
+	&lt;add key="web_site_url" value="http://localhost:12345" /> &lt;-- verify url is appropriate for your setup
+	&lt;add key="import_directory" value="c:/temp/mmria-import" />
+	&lt;add key="export_directory" value="c:/temp/mmria-export" />
+	&lt;add key="is_offline_mode" value="false" />
+</pre>
 
 <p><strong>Create two following directories</strong> for the following paths:</p>
 <ul>
@@ -208,11 +196,11 @@ thetagrid/mmria:v18.05.30
 
 
 
-<h3 style="font:Work Sans Light"><strong>Restart Apache CouchDB and MMRIA 18.05.30 services</strong></h3>
+<h3 style="font:Work Sans Light"><strong>Restart Apache CouchDB and MMRIA 18.02.22 services</strong></h3>
 <p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "Apache CouchDB" + right click "Restart"</p>
-<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "MMRIA 18.05.30" + right click "Restart"</p>
+<p>On Windows 7 Control Panel + System and Security + Administrative Tools + Services + "MMRIA 18.02.22" + right click "Restart"</p>
 
-<p>After MMRIA 18.05.30 has been restarted wait about 2 minutes while the application initializes, then you will need to <strong>log into MMRIA using the couchdb user_admin_name and user_admin_password</strong> that was used to perform the setup.</p>
+<p>After MMRIA 18.02.22 has been restarted wait about 2 minutes while the application initializes, then you will need to <strong>log into MMRIA using the couchdb user_admin_name and user_admin_password</strong> that was used to perform the setup.</p>
 <p><strong>Create at least one user</strong> who has the <strong>"abstractor"</strong> role.  This is explained on <strong>page 52</strong> of the <a href="MMRIA_User_Guide.pdf" target="_user_guide">MMRIA User Guide</a>.</p>
 <p> You may need to create one or more other users depending on the number and type of users in your jurisdiction.  The two main types of users are "abstractor" and "committee_member".</p>
 <p>Upon saving your changes, the user(s) that you created will be able to log in to the MMRIA application and use its features.</p>
