@@ -61,6 +61,13 @@ namespace mmria.common.metadata
 		public string grid_column { get; set; } 
         public string grid_area { get; set; }
 
+		public string top { get; set; }
+		public string left { get; set; }
+		public string width { get; set; }
+		public string height { get; set; }
+		public string padding { get; set; }
+		public string text_align { get; set; }
+
 
 
 		public node()
