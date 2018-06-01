@@ -112,13 +112,11 @@ docker run -d --name mmria-database  -p 5984:5984     -e COUCHDB_USERNAME=admin_
 <pre>
 docker run --name [container_name] -d  --publish [Port]:9000 \
 --restart always \
--e geocode_api_key="none" \
--e geocode_api_url="none" \
 -e couchdb_url="[database_url]" \
--e web_site_url="http://*:9000" \
--e file_root_folder="/workspace/owin/psk/app" \
+-e export_directory="./workspace" \
+-e web_site_url="http://*:80" \
 -e timer_user_name="[couchdb_admin_user_name]" \
--e timer_password="[couchdb_admin_user_password]" \
+-e timer_password="[couchdb_admin_user_password" \
 -e cron_schedule="0 */1 * * * ?" \
 thetagrid/mmria:v18.05.30
 </pre>
