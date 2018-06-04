@@ -7,7 +7,7 @@ namespace mmria.common.model.couchdb
 
 		public string _id { get; } = "jurisdiction_tree";
 		public string _rev { get; set; }
-		public string name { get; set; }
+		public string name { get; } = "root";
 		public DateTime date_created { get; set; } 
 		public string created_by { get; set; } 
 		public DateTime date_last_updated { get; set; } 

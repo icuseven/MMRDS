@@ -67,7 +67,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 			try
 			{
+                
                 string current_directory = AppContext.BaseDirectory;
+                if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+                {
+                    current_directory = System.IO.Directory.GetCurrentDirectory();
+                }
 
                 if (url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_password)) 
                 {
