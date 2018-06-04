@@ -4,7 +4,6 @@ namespace mmria.common.model.couchdb
 {
 	public class user_role_jurisdiction
 	{
-
 		public string _id { get; set; }
 		public string _rev { get; set; }
 		public string parent_id { get; set; }
@@ -21,9 +20,8 @@ namespace mmria.common.model.couchdb
 		public string created_by { get; set; } 
 		public DateTime date_last_updated { get; set; } 
 		public string last_updated_by { get; set; } 
-		
-		
-		
+
+		public string data_type { get; }  = "user_role_jursidiction";
 
 		public user_role_jurisdiction()
 		{
