@@ -82,45 +82,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
                 try 
                 {
-
-                    var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, p_target_db_user_name, p_target_db_password);
-                    System.Console.WriteLine ("metadata_curl\n{0}", metadata_curl.execute ());
-
-                    new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", p_target_db_user_name, p_target_db_password).execute ();
-                    Log.Information($"metadata/_security completed successfully");
-
-                    string metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
-                    var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
-                    metadata_design_auth_curl.execute ();
-
-                    string metadata_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")).ReadToEnd (); ;
-                    var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_password);
-                    var metadata_result_string = metadata_json_curl.execute ();
-                    var metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
-
-                    string metadata_attachment = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/MMRIA_calculations.js")).ReadToEnd (); ;
-                    var metadata_attachement_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
-                    metadata_attachement_curl.AddHeader("If-Match",  metadata_result.rev);
-                    metadata_result_string = metadata_attachement_curl.execute ();
-                    metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
-
-                    metadata_attachment = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/mmria-check-code.js")).ReadToEnd (); ;
-                    var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
-                    mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
-                    Log.Information($"mmria_check_code_curl.execute () {mmria_check_code_curl.execute ()}");
-
-/*
-                    var replication_json = Newtonsoft.Json.JsonConvert.SerializeObject( new mmria.common.model.couchdb.replication_request(){ source = "metadata", target="de_id" });
-                    var replication_request_curl = new cURL("POST", null, Program.config_couchdb_url + "/_replicate", replication_json, Program.config_timer_user_name, Program.config_timer_password);
-                    replication_request_curl.execute ();
- */
-
-					//metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
-                    //sync_document (metadata_design_auth, Program.config_couchdb_url + "/metadata/_design/auth", p_target_db_user_name, p_target_db_password);
-
-					//metadata_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")).ReadToEnd (); 
-                    //sync_document (metadata_json, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", p_target_db_user_name, p_target_db_password);
-
+                    mmria.server.util.c_db_setup.UpdateMetadata();
                 }
                 catch (Exception ex) 
                 {
@@ -164,60 +126,40 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     System.Console.WriteLine (export_queue_curl.execute ());
                     new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_password).execute ();
                 }
+            }
+            catch(Exception ex) 
+            {
+                Log.Information($"{ex}");
+                result.Add("db_setupController.Get Exception",ex.ToString());
+            }
+            return result;
+        } 
 
 
-		}
-		catch(Exception ex) 
-		{
-			Log.Information($"{ex}");
-            result.Add("db_setupController.Get Exception",ex.ToString());
-		}
+        private bool url_endpoint_exists(string p_target_db_url, string p_user_name, string p_password)
+        {
+            bool result = false;
+
+            var curl = new cURL ("HEAD", null, p_target_db_url, null, p_user_name, p_password);	 
+            try
+            {
+                curl.execute();
+                /*
+                HTTP/1.1 200 OK
+                Cache-Control: must-revalidate
+                Content-Type: application/json
+                Date: Mon, 12 Aug 2013 01:27:41 GMT
+                Server: CouchDB (Erlang/OTP)*/
+                result = true;
+            }
+            catch(Exception ex)
+            {
+                // do nothing for now
+            }
 
 
-			//return result;
-		return result;
-	} 
-
-
-		private string construct_basic_authentication_url(string p_url, string p_user_name, string p_password)
-		{
-			System.Text.StringBuilder result = new System.Text.StringBuilder();
-
-
-			Uri uri = new Uri(p_url);
-
-			result.Append (uri.Scheme);
-			result.Append ("://");
-			result.Append (p_user_name);
-			result.Append (":");
-			result.Append (p_password);
-			result.Append ("@");
-			result.Append (uri.Host);
-			result.Append (":");
-			result.Append (uri.Port);
-
-
-
-			return result.ToString ();
-
-		}
-
-
-		private string get_replicate_json_string(string p_db_name, string p_source_server_uri, string p_target_server_uri)
-		{
-			string result = null;
-
-            mmria.common.model.couchdb.replication_struct replication_object = new mmria.common.model.couchdb.replication_struct();
-			replication_object.source = string.Format("{0}/{1}", p_source_server_uri, p_db_name);
-			replication_object.target = string.Format("{0}/{1}", p_target_server_uri, p_db_name);
-
-            result =  Newtonsoft.Json.JsonConvert.SerializeObject(replication_object);
-
-			return result;
-		}
-
-
-
+            return result;
+        }
 
         private string set_revision (string p_document, string p_revision_id)
         {
@@ -263,7 +205,6 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
             return result;
         }
 
-
         private bool sync_document(string p_document_json, string p_target_db_url, string p_user_name, string p_password)
         {
 
@@ -297,32 +238,6 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
             return result;
         }
-
-
-		private bool url_endpoint_exists(string p_target_db_url, string p_user_name, string p_password)
-		{
-			bool result = false;
-
-			var curl = new cURL ("HEAD", null, p_target_db_url, null, p_user_name, p_password);	 
-			try
-			{
-				curl.execute();
-				/*
-				HTTP/1.1 200 OK
-				Cache-Control: must-revalidate
-				Content-Type: application/json
-				Date: Mon, 12 Aug 2013 01:27:41 GMT
-				Server: CouchDB (Erlang/OTP)*/
-				result = true;
-			}
-			catch(Exception ex)
-			{
-				// do nothing for now
-			}
-
-
-			return result;
-		}
 
 	} 
 }
