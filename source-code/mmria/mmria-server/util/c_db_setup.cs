@@ -9,6 +9,12 @@ namespace mmria.server.util
     {
         public static async void Setup()
         {
+            string current_directory = AppContext.BaseDirectory;
+            if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+            {
+                current_directory = System.IO.Directory.GetCurrentDirectory();
+            }
+
             bool is_able_to_connect = false;
             try 
             {
@@ -91,6 +97,34 @@ namespace mmria.server.util
 
                 c_db_setup.UpdateMetadata();
 
+                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)) 
+                {
+                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information ("mmrds_curl\n{0}", mmrds_curl.execute ());
+
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                    Log.Information ("mmrds/_security completed successfully");
+
+                    try 
+                    {
+                        string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")).ReadToEnd ();
+                        var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                        case_design_sortable_curl.execute ();
+
+                        string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")).ReadToEnd ();
+                        var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+                        case_store_design_auth_curl.execute ();
+
+                    }
+                    catch (Exception ex) 
+                    {
+                        Log.Information ("unable to configure mmrds database:\n", ex);
+                    }
+                }
+
+
+
+
                 if 
                 (
                     url_endpoint_exists (Program.config_couchdb_url + "/export_queue", Program.config_timer_user_name, Program.config_timer_password)
@@ -157,22 +191,47 @@ namespace mmria.server.util
         }
 
 
-        public static IDictionary<string, string> UpdateMetadata()
+        public static IDictionary<string, string> UpdateJurisdiction()
         {
             IDictionary<string, string>  result = new Dictionary<string,string>();
 
-            string current_directory = AppContext.BaseDirectory;
-            if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+            if (!url_endpoint_exists (Program.config_couchdb_url + "/jurisdiction", Program.config_timer_user_name, Program.config_timer_password)) 
             {
-                current_directory = System.IO.Directory.GetCurrentDirectory();
+                var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction", null, Program.config_timer_user_name, Program.config_timer_password);
+                Log.Information ("jurisdiction_curl\n{0}", jurisdiction_curl.execute ());
+
+                new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                Log.Information ("jurisdiction/_security completed successfully");
+
+                try 
+                {
+                    string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")).ReadToEnd ();
+                    var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                    case_design_sortable_curl.execute ();
+
+                    string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEnd ();
+                    var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+                    case_store_design_auth_curl.execute ();
+
+                }
+                catch (Exception ex) 
+                {
+                    Log.Information ("unable to configure jurisdiction database:\n", ex);
+                }
             }
+
+        }
+
+
+        public static IDictionary<string, string> UpdateMetadata(string current_directory)
+        {
+            IDictionary<string, string>  result = new Dictionary<string,string>();
 
             if
             (
                 !url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
             ) 
             {
-
                 var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
                 Log.Information ("metadata_curl\n{0}", metadata_curl.execute ());
 
