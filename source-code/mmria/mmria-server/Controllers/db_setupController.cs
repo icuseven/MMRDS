@@ -82,7 +82,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
                 try 
                 {
-                    mmria.server.util.c_db_setup.UpdateMetadata();
+                    mmria.server.util.c_db_setup.UpdateMetadata(current_directory);
                 }
                 catch (Exception ex) 
                 {

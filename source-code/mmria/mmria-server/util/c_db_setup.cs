@@ -91,11 +91,10 @@ namespace mmria.server.util
                 //Verify_Password (Program.config_couchdb_url, Program.config_timer_user_name, Program.config_timer_password)
             ) 
             {
-                string current_directory =  AppContext.BaseDirectory;
-
                 Log.Information("DB Repair Check - start");
 
-                c_db_setup.UpdateMetadata();
+                c_db_setup.UpdateMetadata(current_directory);
+                c_db_setup.UpdateJurisdiction(current_directory);
 
                 if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", Program.config_timer_user_name, Program.config_timer_password)) 
                 {
@@ -191,7 +190,7 @@ namespace mmria.server.util
         }
 
 
-        public static IDictionary<string, string> UpdateJurisdiction()
+        public static IDictionary<string, string> UpdateJurisdiction(string current_directory)
         {
             IDictionary<string, string>  result = new Dictionary<string,string>();
 
@@ -216,9 +215,12 @@ namespace mmria.server.util
                 }
                 catch (Exception ex) 
                 {
+                    result.Add("jurisdiction",ex.ToString());
                     Log.Information ("unable to configure jurisdiction database:\n", ex);
                 }
             }
+
+            return result;
 
         }
 

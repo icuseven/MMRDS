@@ -36,7 +36,7 @@ namespace mmria.server.model.actor
     {
         //private IActorRef checkForChanges = Context.ActorOf(Props.Create<CheckForChanges>(), "CheckForChanges");
 
-        private ScheduleInfoMessage scheduleInfo = null;
+        //private ScheduleInfoMessage scheduleInfo = null;
 
 /*
         public QuartzSupervisor(ScheduleInfoMessage p_scheduleInfo)
