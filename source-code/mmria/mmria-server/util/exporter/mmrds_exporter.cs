@@ -214,6 +214,16 @@ namespace mmria.server.util
 				false
 			);
 
+
+			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.password);
+			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
+			HashSet<string> de_identified_set = new HashSet<string>();
+			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
+			{
+				de_identified_set.Add(path);
+			}
+			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
+
 			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
 		
 			if (this.is_cdc_de_identified)
@@ -223,7 +233,8 @@ namespace mmria.server.util
 				{
 					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (((IDictionary<string, object>)case_row)["doc"]);
 
-					string de_identified_json = new mmria.server.util.c_de_identifier (document_json, c_de_identifier.de_identifier_type_enum.cdc).execute ();
+					//string de_identified_json = new mmria.server.util.c_de_identifier (document_json, c_de_identifier.de_identifier_type_enum.cdc).execute ();
+					string de_identified_json = new mmria.server.util.c_de_identifier (document_json).execute ();
 
 					System.Dynamic.ExpandoObject case_item_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (de_identified_json);
 

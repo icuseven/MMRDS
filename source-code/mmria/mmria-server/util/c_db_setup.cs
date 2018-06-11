@@ -263,6 +263,11 @@ namespace mmria.server.util
                     var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
                     mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
                     Log.Information($"{mmria_check_code_curl.execute ()}");
+
+                    string de_identified_list_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEnd (); ;
+                    var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information($"{de_identified_list_json_curl.execute ()}");
+
                 }
                 catch (Exception ex) 
                 {

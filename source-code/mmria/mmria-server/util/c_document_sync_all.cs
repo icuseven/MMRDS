@@ -84,6 +84,15 @@ namespace mmria.server.util
 
 
 
+			cURL de_identified_list_curl = new cURL("GET", null, this.couchdb_url + "/metadata/de-identified-list", null, this.user_name, this.password);
+			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
+			HashSet<string> de_identified_set = new HashSet<string>();
+			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
+			{
+				de_identified_set.Add(path);
+			}
+			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
+
 			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs?include_docs=true", null, this.user_name, this.password);
 			string res = curl.execute ();
 /*

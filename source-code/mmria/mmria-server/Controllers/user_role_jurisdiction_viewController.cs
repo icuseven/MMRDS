@@ -11,8 +11,6 @@ namespace mmria.server
     [Route("api/[controller]")]
 	public class user_role_jurisdiction_viewController: ControllerBase
 	{
-
-
         // GET api/values 
         [HttpGet]
         public mmria.common.model.couchdb.case_view_response Get
@@ -28,35 +26,48 @@ namespace mmria.server
              * 
              * http://localhost:5984/de_id/_design/sortable/_view/conflicts
              * 
-by_date_created
-by_date_last_updated
-by_last_name
-by_first_name
-by_middle_name
-by_year_of_death
-by_month_of_death
-by_committe_review_date
-by_created_by
-by_last_updated_by
-by_state_of_death
 
+by_date_created
+by_created_by
+by_date_last_updated
+by_last_updated_by
+by_role_name
+by_user_id
+by_parent_id
+by_jurisdiction_id
+by_is_active
+by_effective_start_date
+by_effective_end_date
+
+
+date_created
+created_by
+date_last_updated
+last_updated_by
+role_name
+user_id
+parent_id
+jurisdiction_id
+is_active
+effective_start_date
+effective_end_date
 
 */
 
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {
-                case "by_date_created":
-                case "by_date_last_updated":
-                case "by_last_name":
-                case "by_first_name":
-                case "by_middle_name":
-                case "by_year_of_death":
-                case "by_month_of_death":
-                case "by_committe_review_date":
-                case "by_created_by":
-                case "by_last_updated_by":
-                case "by_state_of_death":
+                    case "by_date_created":
+                    case "by_created_by":
+                    case "by_date_last_updated":
+                    case "by_last_updated_by":
+                    case "by_role_name":
+                    case "by_user_id":
+                    case "by_parent_id":
+                    case "by_jurisdiction_id":
+                    case "by_is_active":
+                    case "by_effective_start_date":
+                    case "by_effective_end_date":
                     break;
 
                 default:
@@ -70,7 +81,7 @@ by_state_of_death
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
-                request_builder.Append ($"/de_id/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
                 if (string.IsNullOrWhiteSpace (search_key))
@@ -106,10 +117,6 @@ by_state_of_death
                     }
                 }
 
-
-
-
-
                 string request_string = request_builder.ToString();
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -122,8 +129,6 @@ by_state_of_death
                     request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
                     request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
                 }
-
-
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 				System.IO.Stream dataStream = response.GetResponseStream ();
@@ -144,8 +149,23 @@ by_state_of_death
                     result.offset = case_view_response.offset;
                     result.total_rows = case_view_response.total_rows;
 
+                    //foreach(mmria.common.model.couchdb.user_role_jurisdiction cvi in case_view_response.rows)
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
+/*
+date_created
+created_by
+date_last_updated
+last_updated_by
+role_name
+user_id
+parent_id
+jurisdiction_id
+is_active
+effective_start_date
+effective_end_date
+ 
+
                         bool add_item = false;
                         if (cvi.value.first_name != null && cvi.value.first_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
                         {
@@ -197,7 +217,7 @@ by_state_of_death
                         }
 
                         if(add_item) result.rows.Add (cvi);
-                        
+*/                        
                       }
 
                     result.total_rows = result.rows.Count;

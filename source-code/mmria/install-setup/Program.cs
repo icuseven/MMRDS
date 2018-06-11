@@ -84,10 +84,12 @@ namespace install_setup
 
 			current_version = $"{major_version} v({minor_version})";
 
+			bool win7Only = false;
+
 			string[] publish_version_set = new string[]
 			{
-				"win10-x64"//, 
-				//"ubuntu.16.10-x64",
+				//"win10-x64"//, 
+				"ubuntu.16.10-x64",
 				//"win7-x86"
 			};
 			
@@ -101,33 +103,35 @@ namespace install_setup
 
 			InitZipDirectory();
 
-			string mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","net471", "win7-x64","publish");
-			if(Directory.Exists(mmria_server_publish_directory))
+			if(win7Only)
 			{
-				RecursiveDirectoryDelete(new DirectoryInfo(mmria_server_publish_directory));
-			}
+				string mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","net471", "win7-x64","publish");
+				if(Directory.Exists(mmria_server_publish_directory))
+				{
+					RecursiveDirectoryDelete(new DirectoryInfo(mmria_server_publish_directory));
+				}
 
-			output = RunShell("dotnet", $"build {mmria_service_project_file} /p:Configuration=Release /t:Clean ");
-			if(NoErrors.IsMatch(output))
-			{
-				output = RunShell("dotnet", $"publish {mmria_service_project_file} --framework net471 -c Release -r win7-x64 -v d");
-				
+				output = RunShell("dotnet", $"build {mmria_service_project_file} /p:Configuration=Release /t:Clean ");
 				if(NoErrors.IsMatch(output))
 				{
-					Console.WriteLine($"go server win7-x64");
+					output = RunShell("dotnet", $"publish {mmria_service_project_file} --framework net471 -c Release -r win7-x64 -v d");
+					
+					if(NoErrors.IsMatch(output))
+					{
+						Console.WriteLine($"go server win7-x64");
 
-					ProcessServerPublish("win7-x64");
+						ProcessServerPublish("win7-x64");
 
-					//ubuntu.16.10-x64
-				}
-				else
-				{
-					Console.WriteLine($"no go server win7-x64");
-					Console.WriteLine(output);
+						//ubuntu.16.10-x64
+					}
+					else
+					{
+						Console.WriteLine($"no go server win7-x64");
+						Console.WriteLine(output);
+					}
 				}
 			}
-
-			if(publish_version_set.Length == 0)
+			else
 			{
 
 				output = RunShell("dotnet", $"build {mmria_server_project_file} /p:Configuration=Release /t:Clean ");
