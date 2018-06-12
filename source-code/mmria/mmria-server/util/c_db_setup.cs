@@ -311,8 +311,35 @@ namespace mmria.server.util
 
         static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
         {
-            bool result = false;
+            //bool result = false;
 
+
+            try
+            {
+                //Creating the HttpWebRequest
+                System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
+                //Setting the Request method HEAD, you can also use GET too.
+                request.Method = "HEAD";
+
+                if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                {
+                    string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
+                    request.Headers.Add("Authorization", "Basic " + encoded);
+                }
+
+                //Getting the Web Response.
+                System.Net.HttpWebResponse response = request.GetResponse() as System.Net.HttpWebResponse;
+                //Returns TRUE if the Status code == 200
+                response.Close();
+                return (response.StatusCode ==System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex) 
+            {
+                //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
+                Log.Information ($"failed end_point exists check: {p_target_server}");
+                return false;
+            }            
+/*
             var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);
             try 
             {
@@ -322,7 +349,7 @@ namespace mmria.server.util
 				Cache-Control: must-revalidate
 				Content-Type: application/json
 				Date: Mon, 12 Aug 2013 01:27:41 GMT
-				Server: CouchDB (Erlang/OTP)*/
+				Server: CouchDB (Erlang/OTP)* /
                 result = true;
             } 
             catch (Exception ex) 
@@ -330,9 +357,9 @@ namespace mmria.server.util
                //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
                Log.Information ($"failed end_point exists check: {p_target_server}");
             }
+ */
 
-
-            return result;
+            //return result;
         }
 
         static void RecursiveDirectoryDelete(System.IO.DirectoryInfo baseDir)
