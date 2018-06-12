@@ -196,21 +196,24 @@ namespace mmria.server.util
 
             if (!url_endpoint_exists (Program.config_couchdb_url + "/jurisdiction", Program.config_timer_user_name, Program.config_timer_password)) 
             {
-                var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction", null, Program.config_timer_user_name, Program.config_timer_password);
-                Log.Information ("jurisdiction_curl\n{0}", jurisdiction_curl.execute ());
-
-                new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-                Log.Information ("jurisdiction/_security completed successfully");
 
                 try 
                 {
-                    string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")).ReadToEnd ();
-                    var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
-                    case_design_sortable_curl.execute ();
+                    var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction", null, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information ("jurisdiction_curl\n{0}", jurisdiction_curl.execute ());
 
-                    string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEnd ();
-                    var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
-                    case_store_design_auth_curl.execute ();
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                    Log.Information ("jurisdiction/_security completed successfully");
+
+                    string jurisdiction_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")).ReadToEnd ();
+                    var jurisdiction_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", jurisdiction_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                    jurisdiction_design_sortable_curl.execute ();
+                    Log.Information ("jurisdiction_design_sortable_curl completed successfully");
+
+                    string jurisdiction_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEnd ();
+                    var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+                    jurisdiction_store_design_auth_curl.execute ();
+                    Log.Information ("jurisdiction_store_design_auth completed successfully");
 
                 }
                 catch (Exception ex) 
