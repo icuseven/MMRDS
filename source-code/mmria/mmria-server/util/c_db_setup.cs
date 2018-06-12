@@ -237,14 +237,17 @@ namespace mmria.server.util
                 !url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
             ) 
             {
-                var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
-                Log.Information ("metadata_curl\n{0}", metadata_curl.execute ());
-
-                new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-                Log.Information ("metadata/_security completed successfully");
-
+                Log.Information ("metadata check start");
                 try 
                 {
+
+                    var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information ("metadata_curl\n{0}", metadata_curl.execute ());
+
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                    Log.Information ("metadata/_security completed successfully");
+
+
                     string metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
                     var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
                     metadata_design_auth_curl.execute ();
@@ -277,7 +280,7 @@ namespace mmria.server.util
                     Log.Information ("unable to configure metadata:\n", ex);
                     result.Add("metadata",ex.ToString());
                 }
-
+                Log.Information ("metadata check End");
 
             }
 
