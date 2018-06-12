@@ -282,7 +282,7 @@ namespace mmria.server.util
 
             if
             (
-                !url_endpoint_exists (Program.config_couchdb_url + "/metadata/de-identified-list.json", Program.config_timer_user_name, Program.config_timer_password)
+                !url_endpoint_exists (Program.config_couchdb_url + "/metadata/de-identified-list", Program.config_timer_user_name, Program.config_timer_password)
             ) 
             {
                 try 
