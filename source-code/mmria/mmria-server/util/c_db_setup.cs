@@ -280,6 +280,7 @@ namespace mmria.server.util
                     Log.Information ("unable to configure metadata:\n", ex);
                     result.Add("metadata",ex.ToString());
                 }
+                
                 Log.Information ("metadata check End");
 
             }
