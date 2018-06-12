@@ -278,6 +278,30 @@ namespace mmria.server.util
 
             }
 
+
+
+            if
+            (
+                !url_endpoint_exists (Program.config_couchdb_url + "/metadata/de-identified-list.json", Program.config_timer_user_name, Program.config_timer_password)
+            ) 
+            {
+                try 
+                {
+                    string de_identified_list_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEnd (); ;
+                    var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information($"{de_identified_list_json_curl.execute ()}");
+
+                }
+                catch (Exception ex) 
+                {
+                    Log.Information ("unable to configure metadata:\n", ex);
+                    result.Add("metadata",ex.ToString());
+                }
+
+
+            }
+
+
             return result;
         }
 
