@@ -327,7 +327,8 @@ namespace mmria.server.util
             } 
             catch (Exception ex) 
             {
-                Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
+               //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
+               Log.Information ($"failed end_point exists check: {p_target_server}\n");
             }
 
 
