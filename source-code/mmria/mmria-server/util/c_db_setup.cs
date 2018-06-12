@@ -117,7 +117,7 @@ namespace mmria.server.util
                     }
                     catch (Exception ex) 
                     {
-                        Log.Information ("unable to configure mmrds database:\n", ex);
+                        Log.Information ($"unable to configure mmrds database:\n{ex}");
                     }
                 }
 
@@ -219,7 +219,7 @@ namespace mmria.server.util
                 catch (Exception ex) 
                 {
                     result.Add("jurisdiction",ex.ToString());
-                    Log.Information ("unable to configure jurisdiction database:\n", ex);
+                    Log.Information ($"unable to configure jurisdiction database:\n{ex}");
                 }
             }
 
@@ -270,17 +270,13 @@ namespace mmria.server.util
                     mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
                     Log.Information($"{mmria_check_code_curl.execute ()}");
 
-                    string de_identified_list_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEnd (); ;
-                    var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_password);
-                    Log.Information($"{de_identified_list_json_curl.execute ()}");
-
                 }
                 catch (Exception ex) 
                 {
-                    Log.Information ("unable to configure metadata:\n", ex);
+                    Log.Information ($"unable to configure metadata:\n{ex}");
                     result.Add("metadata",ex.ToString());
                 }
-                
+
                 Log.Information ("metadata check End");
 
             }
@@ -296,12 +292,12 @@ namespace mmria.server.util
                 {
                     string de_identified_list_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEnd (); ;
                     var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_password);
-                    Log.Information($"{de_identified_list_json_curl.execute ()}");
+                    Log.Information($"PUT /metadata/de-identified-list\n{de_identified_list_json_curl.execute ()}");
 
                 }
                 catch (Exception ex) 
                 {
-                    Log.Information ("unable to configure metadata:\n", ex);
+                    Log.Information ($"unable to configure metadata/de-identified-list:\n{ex}");
                     result.Add("metadata",ex.ToString());
                 }
 
@@ -332,7 +328,7 @@ namespace mmria.server.util
             catch (Exception ex) 
             {
                //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
-               Log.Information ($"failed end_point exists check: {p_target_server}\n");
+               Log.Information ($"failed end_point exists check: {p_target_server}");
             }
 
 
