@@ -133,20 +133,24 @@ namespace mmria.server
             httpWebRequest.Method = this.method;
             httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
 
-            if (!string.IsNullOrWhiteSpace (this.user_id) && !string.IsNullOrWhiteSpace (this.password)) {
+            if (!string.IsNullOrWhiteSpace (this.user_id) && !string.IsNullOrWhiteSpace (this.password))
+			{
                 string encoded = System.Convert.ToBase64String (System.Text.Encoding.GetEncoding ("ISO-8859-1").GetBytes (this.user_id + ":" + this.password));
                 httpWebRequest.Headers.Add ("Authorization", "Basic " + encoded);
             }
 
 
-            foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) {
+            foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) 
+			{
                 httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
             }
 
-            if (this.pay_load != null) {
+            if (this.pay_load != null) 
+			{
                 //httpWebRequest.ContentLength = this.pay_load.Length;
 
-                using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) {
+                using (var streamWriter = new StreamWriter (httpWebRequest.GetRequestStream ())) 
+				{
                     streamWriter.Write (this.pay_load);
                     streamWriter.Flush ();
                     streamWriter.Close ();

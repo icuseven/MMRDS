@@ -21,7 +21,6 @@ namespace mmria.server.util
 
 		public void execute ()
 		{
-
 			try
 			{
 
@@ -56,11 +55,16 @@ namespace mmria.server.util
 			
 			}
 
-
-
             try 
             {
-                string result = System.IO.File.OpenText (System.IO.Path.Combine( AppContext.BaseDirectory,  "database-scripts/case_design_sortable.json")).ReadToEnd ();
+				
+				string current_directory = AppContext.BaseDirectory;
+				if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+				{
+					current_directory = System.IO.Directory.GetCurrentDirectory();
+				}
+
+                string result = System.IO.File.OpenText (System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")).ReadToEnd ();
                 var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id/_design/sortable", result, this.user_name, this.password);
                 create_de_id_curl.execute ();
  
