@@ -311,7 +311,7 @@ namespace mmria.server.util
 
         static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
         {
-            //bool result = false;
+            System.Net.HttpStatusCode response_result;
 
 
             try
@@ -319,7 +319,7 @@ namespace mmria.server.util
                 //Creating the HttpWebRequest
                 System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
                 //Setting the Request method HEAD, you can also use GET too.
-                request.Method = "HEAD";
+                request.Method = p_method;
 
                 if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
                 {
@@ -330,8 +330,9 @@ namespace mmria.server.util
                 //Getting the Web Response.
                 System.Net.HttpWebResponse response = request.GetResponse() as System.Net.HttpWebResponse;
                 //Returns TRUE if the Status code == 200
+                response_result = response.StatusCode;
                 response.Close();
-                return (response.StatusCode ==System.Net.HttpStatusCode.OK);
+                return (response_result == System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex) 
             {
