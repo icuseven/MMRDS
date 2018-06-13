@@ -117,7 +117,7 @@ namespace mmria.server.util
                     }
                     catch (Exception ex) 
                     {
-                        Log.Information ("unable to configure mmrds database:\n", ex);
+                        Log.Information ($"unable to configure mmrds database:\n{ex}");
                     }
                 }
 
@@ -196,27 +196,30 @@ namespace mmria.server.util
 
             if (!url_endpoint_exists (Program.config_couchdb_url + "/jurisdiction", Program.config_timer_user_name, Program.config_timer_password)) 
             {
-                var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction", null, Program.config_timer_user_name, Program.config_timer_password);
-                Log.Information ("jurisdiction_curl\n{0}", jurisdiction_curl.execute ());
-
-                new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-                Log.Information ("jurisdiction/_security completed successfully");
 
                 try 
                 {
-                    string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")).ReadToEnd ();
-                    var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
-                    case_design_sortable_curl.execute ();
+                    var jurisdiction_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction", null, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information ("jurisdiction_curl\n{0}", jurisdiction_curl.execute ());
 
-                    string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEnd ();
-                    var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
-                    case_store_design_auth_curl.execute ();
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                    Log.Information ("jurisdiction/_security completed successfully");
+
+                    string jurisdiction_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")).ReadToEnd ();
+                    var jurisdiction_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", jurisdiction_design_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                    jurisdiction_design_sortable_curl.execute ();
+                    Log.Information ("jurisdiction_design_sortable_curl completed successfully");
+
+                    string jurisdiction_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEnd ();
+                    var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
+                    jurisdiction_store_design_auth_curl.execute ();
+                    Log.Information ("jurisdiction_store_design_auth completed successfully");
 
                 }
                 catch (Exception ex) 
                 {
                     result.Add("jurisdiction",ex.ToString());
-                    Log.Information ("unable to configure jurisdiction database:\n", ex);
+                    Log.Information ($"unable to configure jurisdiction database:\n{ex}");
                 }
             }
 
@@ -234,14 +237,17 @@ namespace mmria.server.util
                 !url_endpoint_exists (Program.config_couchdb_url + "/metadata", Program.config_timer_user_name, Program.config_timer_password)
             ) 
             {
-                var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
-                Log.Information ("metadata_curl\n{0}", metadata_curl.execute ());
-
-                new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
-                Log.Information ("metadata/_security completed successfully");
-
+                Log.Information ("metadata check start");
                 try 
                 {
+
+                    var metadata_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata", null, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information ("metadata_curl\n{0}", metadata_curl.execute ());
+
+                    new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_password).execute ();
+                    Log.Information ("metadata/_security completed successfully");
+
+
                     string metadata_design_auth = System.IO.File.OpenText (System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")).ReadToEnd ();
                     var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_password);
                     metadata_design_auth_curl.execute ();
@@ -264,19 +270,40 @@ namespace mmria.server.util
                     mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
                     Log.Information($"{mmria_check_code_curl.execute ()}");
 
+                }
+                catch (Exception ex) 
+                {
+                    Log.Information ($"unable to configure metadata:\n{ex}");
+                    result.Add("metadata",ex.ToString());
+                }
+
+                Log.Information ("metadata check End");
+
+            }
+
+
+
+            if
+            (
+                !url_endpoint_exists (Program.config_couchdb_url + "/metadata/de-identified-list", Program.config_timer_user_name, Program.config_timer_password)
+            ) 
+            {
+                try 
+                {
                     string de_identified_list_json = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEnd (); ;
                     var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_password);
-                    Log.Information($"{de_identified_list_json_curl.execute ()}");
+                    Log.Information($"PUT /metadata/de-identified-list\n{de_identified_list_json_curl.execute ()}");
 
                 }
                 catch (Exception ex) 
                 {
-                    Log.Information ("unable to configure metadata:\n", ex);
+                    Log.Information ($"unable to configure metadata/de-identified-list:\n{ex}");
                     result.Add("metadata",ex.ToString());
                 }
 
 
             }
+
 
             return result;
         }
@@ -284,8 +311,36 @@ namespace mmria.server.util
 
         static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
         {
-            bool result = false;
+            System.Net.HttpStatusCode response_result;
 
+
+            try
+            {
+                //Creating the HttpWebRequest
+                System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
+                //Setting the Request method HEAD, you can also use GET too.
+                request.Method = p_method;
+
+                if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                {
+                    string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
+                    request.Headers.Add("Authorization", "Basic " + encoded);
+                }
+
+                //Getting the Web Response.
+                System.Net.HttpWebResponse response = request.GetResponse() as System.Net.HttpWebResponse;
+                //Returns TRUE if the Status code == 200
+                response_result = response.StatusCode;
+                response.Close();
+                return (response_result == System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex) 
+            {
+                //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
+                Log.Information ($"failed end_point exists check: {p_target_server}");
+                return false;
+            }            
+/*
             var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);
             try 
             {
@@ -295,16 +350,17 @@ namespace mmria.server.util
 				Cache-Control: must-revalidate
 				Content-Type: application/json
 				Date: Mon, 12 Aug 2013 01:27:41 GMT
-				Server: CouchDB (Erlang/OTP)*/
+				Server: CouchDB (Erlang/OTP)* /
                 result = true;
             } 
             catch (Exception ex) 
             {
-                Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
+               //Log.Information ($"failed end_point exists check: {p_target_server}\n{ex}");
+               Log.Information ($"failed end_point exists check: {p_target_server}");
             }
+ */
 
-
-            return result;
+            //return result;
         }
 
         static void RecursiveDirectoryDelete(System.IO.DirectoryInfo baseDir)
