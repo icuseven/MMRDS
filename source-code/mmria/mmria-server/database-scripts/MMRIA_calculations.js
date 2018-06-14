@@ -1945,16 +1945,16 @@ function geocode_omov_location(p_control)
             g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.latitude = geo_data.latitude;
             g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.longitude = geo_data.longitude;
             g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.feature_matching_geography_type = geo_data.FeatureMatchingGeographyType;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.naaccr_census_tract_certainty_type = geo_data.NAACCRCensusTractCertaintyType;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.census_state_fips = geo_data.CensusStateFips;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.census_county_fips = geo_data.CensusCountyFips;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.census_tract_fips = geo_data.CensusTract;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.census_cbsa_fips = geo_data.CensusCbsaFips;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.census_cbsa_micro = geo_data.CensusCbsaMicro;
-            g_data.other_medical_office_visits.[current_omov_index]location_of_medical_care_facility.census_met_div_fips = geo_data.CensusMetDivFips;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.naaccr_gis_coordinate_quality_code = geo_data.NAACCRGISCoordinateQualityCode;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.naaccr_gis_coordinate_quality_type = geo_data.NAACCRGISCoordinateQualityType;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.naaccr_census_tract_certainty_code = geo_data.NAACCRCensusTractCertaintyCode;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.naaccr_census_tract_certainty_type = geo_data.NAACCRCensusTractCertaintyType;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.census_state_fips = geo_data.CensusStateFips;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.census_county_fips = geo_data.CensusCountyFips;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.census_tract_fips = geo_data.CensusTract;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.census_cbsa_fips = geo_data.CensusCbsaFips;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.census_cbsa_micro = geo_data.CensusCbsaMicro;
+            g_data.other_medical_office_visits[current_omov_index].location_of_medical_care_facility.census_met_div_fips = geo_data.CensusMetDivFips;
             // calculate urban_status
             if 
             (
