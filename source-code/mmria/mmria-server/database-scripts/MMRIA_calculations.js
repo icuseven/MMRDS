@@ -1243,7 +1243,7 @@ function geocode_dc_injury_place(p_control)
             $mmria.set_control_value('death_certificate/address_of_injury/naaccr_census_tract_certainty_code', g_data.death_certificate.address_of_injury.naaccr_census_tract_certainty_code);
             $mmria.set_control_value('death_certificate/address_of_injury/naaccr_census_tract_certainty_type', g_data.death_certificate.address_of_injury.naaccr_census_tract_certainty_type);
             $mmria.set_control_value('death_certificate/address_of_injury/census_state_fips', g_data.death_certificate.address_of_injury.census_state_fips);
-            $mmria.set_control_value('death_certificate/address_of_injury/census_county_fips', g_data.death_certificate.address_of_injurye.census_county_fips);
+            $mmria.set_control_value('death_certificate/address_of_injury/census_county_fips', g_data.death_certificate.address_of_injury.census_county_fips);
             $mmria.set_control_value('death_certificate/address_of_injury/census_tract_fips', g_data.death_certificate.address_of_injury.census_tract_fips);
             $mmria.set_control_value('death_certificate/address_of_injury/census_cbsa_fips', g_data.death_certificate.address_of_injury.census_cbsa_fips);
             $mmria.set_control_value('death_certificate/address_of_injury/census_cbsa_micro', g_data.death_certificate.address_of_injury.census_cbsa_micro);
