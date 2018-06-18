@@ -98,7 +98,7 @@ namespace mmria.server
 				}
 				*/
 
-				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction";
+				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction/jurisdiction_tree";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(jurisdiction_tree_url));
 				request.Method = "PUT";

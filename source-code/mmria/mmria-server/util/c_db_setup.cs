@@ -213,7 +213,16 @@ namespace mmria.server.util
                     string jurisdiction_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEnd ();
                     var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_password);
                     jurisdiction_store_design_auth_curl.execute ();
+                    
+                    Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                    settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    string jurisdiction_tree_json = Newtonsoft.Json.JsonConvert.SerializeObject(new mmria.common.model.couchdb.jurisdiction_tree(), settings);
+
+                    var jurisdiction_tree_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/jurisdiction_tree", jurisdiction_tree_json, Program.config_timer_user_name, Program.config_timer_password);
+                    jurisdiction_tree_curl.execute ();
+
                     Log.Information ("jurisdiction_store_design_auth completed successfully");
+
 
                 }
                 catch (Exception ex) 
