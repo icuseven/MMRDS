@@ -110,7 +110,7 @@ docker run -d --name mmria-database  -p 5984:5984     -e COUCHDB_USERNAME=admin_
 <h3 style="font:Work Sans Light"><strong>Docker Install of MMRIA 18.05.30 Application Server</strong></h3>
 <p>Run the following command, changing the container_name + port + database_url, couchdb_admin_user_name and admin_password</p>
 <pre>
-docker run --name [container_name] -d  --publish [Port]:9000 \
+docker run --name [container_name] -d  --publish [Port]:80 \
 --restart always \
 -e couchdb_url="[database_url]" \
 -e export_directory="./workspace" \

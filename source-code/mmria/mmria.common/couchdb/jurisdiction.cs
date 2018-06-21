@@ -4,7 +4,6 @@ namespace mmria.common.model.couchdb
 {
 	public class jurisdiction
 	{
-
 		public string id { get; set; }
 		public string name { get; set; }
 		public DateTime date_created { get; set; } 
@@ -13,7 +12,6 @@ namespace mmria.common.model.couchdb
 		public string last_updated_by { get; set; } 
 		public bool is_active { get; set; } 
 		public bool is_enabled { get; set; } 
-
 
 		public jurisdiction[] children { get; set; } 
 
