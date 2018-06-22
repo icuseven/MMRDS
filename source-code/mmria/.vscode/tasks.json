@@ -20,6 +20,16 @@
                 "${workspaceFolder}/mmria-server/mmria-service.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-console",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/mmria-console/mmria-console.csproj"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }
