@@ -87,6 +87,7 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		//public System.Net.Http.HttpResponseMessage Get
+		[HttpPut]
         [HttpPost]
 		public IEnumerable<login_response> Post
 		(
