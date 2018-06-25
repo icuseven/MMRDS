@@ -11,6 +11,7 @@ namespace mmria.console
 	{
 		string method;
 		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers;
+		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> cookies;
 		string url;
 		string pay_load;
 		string user_id;
@@ -69,6 +70,12 @@ namespace mmria.console
 			return this;
 		}
 
+		public cURL AddCookie(string p_name, string p_value)
+		{
+			this.cookies.Add(new System.Collections.Generic.KeyValuePair<string,string>(p_name, p_value));
+			return this;
+		}
+
 		public string execute ()
 		{
 			string result = null;
@@ -92,6 +99,18 @@ namespace mmria.console
 			{
 				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
 			}
+
+			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.cookies) 
+			{
+				if (httpWebRequest.CookieContainer == null)
+				{
+					httpWebRequest.CookieContainer = new CookieContainer();
+				}
+
+				httpWebRequest.CookieContainer.Add(new Cookie(kvp.Key,kvp.Value));
+			}
+		
+
 
 			if (this.pay_load != null) 
 			{

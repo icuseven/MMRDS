@@ -24,7 +24,10 @@ namespace mmria.console
 						var db_retore = new mmria.console.db.Restore ();
 						db_retore.Execute (args);
 					break;
-
+					case "import":
+						var db_import = new mmria.console.import_mmria_format();
+						db_import.Execute (args);
+					break;
 					default:
 						return;
 				}

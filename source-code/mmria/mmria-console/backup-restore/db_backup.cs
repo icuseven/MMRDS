@@ -14,7 +14,6 @@ namespace mmria.console.db
 		private string backup_file_path = null;
 		private string database_url = null;
 		private string mmria_url = null;
-		private bool is_offline_mode;
 
 		public Backup ()
 		{

@@ -13,7 +13,6 @@ namespace mmria.console
 		private string password = null;
 		private string source_file_path = null;
 		private string mmria_url = null;
-		private bool is_offline_mode = false;
 
 		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
 
@@ -143,6 +142,7 @@ namespace mmria.console
 					// check if doc exists
 					string document_url = this.mmria_url + "/api/case/" + global_record_id;
 					var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
+					document_curl.AddCookie("AuthSession", auth_session);
 					string document_json = null;
 
 					document_json = document_curl.execute();
