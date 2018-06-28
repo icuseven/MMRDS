@@ -103,10 +103,20 @@ namespace mmria.console
 
 
 			string login_url = this.mmria_url + "/api/session/";
-			var login_curl = new cURL("PUT", null, login_url, Newtonsoft.Json.JsonConvert.SerializeObject((user_name:this.user_name, password: this.password)));
-			string login_result_string = await login_curl.executeAsync();
-			var login_result_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(login_result_string);
-			IDictionary<string, object> login_result_dictionary = login_result_data as IDictionary<string, object>;
+			var login_data = new { userid = this.user_name, password = this.password };
+			var login_curl = new cURL("POST", null, login_url, Newtonsoft.Json.JsonConvert.SerializeObject(login_data));
+			string login_result_string = null;
+			try
+			{
+				login_result_string = login_curl.execute();
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine(ex);
+			}
+			
+			var login_result_data = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<System.Dynamic.ExpandoObject>>(login_result_string);
+			IDictionary<string, object> login_result_dictionary = login_result_data[0] as IDictionary<string, object>;
 
 			string auth_session = null;
 
@@ -124,11 +134,13 @@ namespace mmria.console
 
 			foreach (var file_name in System.IO.Directory.GetFiles(this.source_file_path))
 			{
-				string json_string = null;
+				
 
 				string global_record_id = null;
 
-				var case_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(System.IO.File.ReadAllText(file_name));
+				string case_json_string = System.IO.File.ReadAllText(file_name);
+
+				var case_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(case_json_string);
 				IDictionary<string, object> case_data_dictionary = case_data as IDictionary<string, object>;
 
 				if (case_data_dictionary.ContainsKey ("_id")) 
@@ -140,38 +152,58 @@ namespace mmria.console
 				try
 				{
 					// check if doc exists
-					string document_url = this.mmria_url + "/api/case/" + global_record_id;
-					var document_curl = new cURL("GET", null, document_url, null, this.user_name, this.password);
+					string document_url = this.mmria_url + "/api/case?case_id=" + global_record_id;
+					var document_curl = new cURL("GET", null, document_url, null, null, null);
 					document_curl.AddCookie("AuthSession", auth_session);
 					string document_json = null;
 
 					document_json = document_curl.execute();
 					var result_expando = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_json);
 					var result = result_expando as IDictionary<string, object>;
-					if (result.ContainsKey ("_rev")) 
+					if (result != null && result.ContainsKey ("_rev")) 
 					{
 						case_data_dictionary ["_rev"] = result ["_rev"];
 
 
-						json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+						case_json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
 							Formatting = Newtonsoft.Json.Formatting.Indented,
 							DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
 							DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
 						});
-						System.Console.WriteLine ("json\n{0}", json_string);
+						//System.Console.WriteLine ("json\n{0}", case_json_string);
 					}
 
-					var update_curl = new cURL ("PUT", null, document_url, json_string, this.user_name, this.password);
+					var update_curl = new cURL ("POST", null, this.mmria_url + "/api/case", case_json_string, null, null);
+					update_curl.AddCookie("AuthSession", auth_session);
 					try 
 					{
-						string de_id_result = update_curl.execute ();
-						System.Console.WriteLine ("update id");
-						System.Console.WriteLine (de_id_result);
+						string update_result_string = update_curl.execute ();
+
+						/*
+						var update_result_expando = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(update_result_string);
+						var update_result = result_expando as IDictionary<string, object>;
+						if (update_result != null && update_result.ContainsKey ("_rev")) 
+						{
+							
+							case_data_dictionary ["_rev"] = result ["_rev"];
+
+
+							case_json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+								Formatting = Newtonsoft.Json.Formatting.Indented,
+								DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+								DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+							});
+							System.Console.WriteLine ("json\n{0}", case_json_string);
+							
+						}
+						*/
+						System.Console.WriteLine ($"Succesfully imported id {global_record_id}");
+						//System.Console.WriteLine (update_result_string);
 
 					}
 					catch (Exception ex) 
 					{
-						System.Console.WriteLine ("sync de_id");
+						System.Console.WriteLine ($"Id {global_record_id}");
 						System.Console.WriteLine (ex);
 					}
 
@@ -180,38 +212,9 @@ namespace mmria.console
 				{
 					System.Console.WriteLine("Get case");
 					System.Console.WriteLine(ex);
-
-					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
-						Formatting = Newtonsoft.Json.Formatting.Indented,
-						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
-						DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
-					});
-
-					string document_url = this.mmria_url + "/api/case/" + global_record_id;
-					var update_curl = new cURL("PUT", null, document_url, json_string, this.user_name, this.password);
-					try
-					{
-						string de_id_result = update_curl.execute();
-						System.Console.WriteLine("update id");
-						System.Console.WriteLine(de_id_result);
-
-					}
-					catch (Exception ex2)
-					{
-						System.Console.WriteLine("sync de_id");
-						System.Console.WriteLine(ex2);
-					}
-					System.Console.WriteLine("json\n{0}", json_string);
+					System.Console.WriteLine("json\n{0}", case_json_string);
 
 				}
-
-
-
-				//return;
-				//System.IO.File.WriteAllText(import_directory + "/" + global_record_id + ".json", json_string);
-
-				//break;
-
 			}
 
 
@@ -220,38 +223,5 @@ namespace mmria.console
 
 
 		}
-
-
-		public mmria.common.metadata.app get_metadata()
-		{
-			mmria.common.metadata.app result = null;
-
-			string URL = "http://test.mmria.org/api/metadata";
-			//string urlParameters = "?api_key=123";
-			string urlParameters = "";
-
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri(URL);
-
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(
-			new MediaTypeWithQualityHeaderValue("application/json"));
-
-			// List data response.
-			HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call!
-			if (response.IsSuccessStatusCode)
-			{
-				// Parse the response body. Blocking!
-				//result = response.Content.ReadAsAsync<mmria.common.metadata.app>().Result;
-			}
-			else
-			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
-
-			return result;
-		}
-
-
 	}
 }

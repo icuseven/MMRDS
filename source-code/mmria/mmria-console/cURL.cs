@@ -21,6 +21,7 @@ namespace mmria.console
 		string p_password = null)
 		{
 			this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
+			this.cookies = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
 
 			this.user_id = p_username;
 			this.password = p_password;
@@ -107,7 +108,7 @@ namespace mmria.console
 					httpWebRequest.CookieContainer = new CookieContainer();
 				}
 
-				httpWebRequest.CookieContainer.Add(new Cookie(kvp.Key,kvp.Value));
+				httpWebRequest.CookieContainer.Add(new Cookie(kvp.Key,kvp.Value) { Domain = httpWebRequest.Host.Split(":")[0] });
 			}
 		
 
@@ -161,6 +162,17 @@ namespace mmria.console
             foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) {
                 httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
             }
+
+
+			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.cookies) 
+			{
+				if (httpWebRequest.CookieContainer == null)
+				{
+					httpWebRequest.CookieContainer = new CookieContainer();
+				}
+
+				httpWebRequest.CookieContainer.Add(new Cookie(kvp.Key,kvp.Value) { Domain = httpWebRequest.Host.Split(":")[0] });
+			}
 
             if (this.pay_load != null) {
                 //httpWebRequest.ContentLength = this.pay_load.Length;
