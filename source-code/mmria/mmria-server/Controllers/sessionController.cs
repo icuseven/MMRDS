@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using mmria.common.model.couchdb;
 
+
 //https://wiki.apache.org/couchdb/Session_API
 
 namespace mmria.server
 {
+
     [Route("api/[controller]")]
     public class sessionController: ControllerBase
 	{

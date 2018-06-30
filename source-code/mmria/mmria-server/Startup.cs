@@ -15,6 +15,10 @@ using Quartz;
 using Quartz.Impl;
 using Serilog;
 using Serilog.Configuration;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace mmria.server
 {
@@ -29,7 +33,6 @@ namespace mmria.server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-  
             Program.DateOfLastChange_Sequence_Call = new List<DateTime> ();
             Program.Change_Sequence_Call_Count++;
             Program.DateOfLastChange_Sequence_Call.Add (DateTime.Now);
@@ -106,9 +109,31 @@ namespace mmria.server
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
             quartzSupervisor.Tell("init");
 
-            services.AddMvc(setupAction: options =>
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                options => 
+                {
+                        options.LoginPath = new PathString("/Account/Login/");
+                        options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                });
+
+            services.AddAuthorization(options =>
             {
-                options.RespectBrowserAcceptHeader = false; // false by default
+                options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
+                //options.AddPolicy("EmployeeId", policy => policy.RequireClaim("EmployeeId"));
+                options.AddPolicy("EmployeeId", policy => policy.RequireClaim("EmployeeId", "123", "456"));
+                //options.AddPolicy("Over21Only", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+                //options.AddPolicy("BuildingEntry", policy => policy.Requirements.Add(new OfficeEntryRequirement()));
+                
+            });            
+
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
             });
 
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
@@ -124,6 +149,8 @@ namespace mmria.server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

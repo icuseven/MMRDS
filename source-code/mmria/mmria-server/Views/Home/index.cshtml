@@ -1,0 +1,24 @@
+<html>
+    <body>
+
+@using System.Security.Claims;
+
+@if (!User.Identities.Any(u => u.IsAuthenticated))
+{
+    <h1>Hello Index World</h1>
+}
+else
+{
+    <h1>Hello Index @User.Identities.First(
+      u => u.IsAuthenticated && 
+      u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value</h1>
+
+      <h2>@User.Identities.First(
+      u => u.IsAuthenticated && 
+      u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Role).Value</h2>
+}
+    </body> 
+
+
+
+</html>
