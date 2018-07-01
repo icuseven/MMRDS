@@ -98,7 +98,7 @@ namespace mmria.server
             // Trigger the job to run on the next round minute
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("trigger1", "group1")
-                .StartAt(runTime)
+                .StartAt(runTime.AddMinutes(3))
                 .WithCronSchedule (Program.config_cron_schedule)
                 .Build();
 
@@ -156,7 +156,14 @@ namespace mmria.server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            //app.UseMvc();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

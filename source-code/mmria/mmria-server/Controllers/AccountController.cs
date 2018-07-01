@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
+//https://github.com/blowdart/AspNetAuthorizationWorkshop
+//https://gitlab.com/free-time-programmer/tutorials/demystify-aspnetcore-auth/tree/master
+
 namespace AuthorizationLab.Controllers
 {
     [AllowAnonymous] 
