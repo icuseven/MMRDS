@@ -13,10 +13,10 @@
             "program": "${workspaceFolder}/bin/Debug/netcoreapp2.0/mmria-console.dll",
             "args": [
                 "import",
-                "user_name:mmrds",
-                "password:mmrds",
+                "user_name:tonia.calder@dph.ga.gov",
+                "password:Summer2018!",
                 "source_file_path:C:/temp/mmria-import/",
-                "url:http://localhost:12345"
+                "url:https://mmria.dphga.us"
             ],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
