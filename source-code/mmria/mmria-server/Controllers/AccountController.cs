@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -9,13 +10,21 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 //https://github.com/blowdart/AspNetAuthorizationWorkshop
+//https://digitalmccullough.com/posts/aspnetcore-auth-system-demystified.html
 //https://gitlab.com/free-time-programmer/tutorials/demystify-aspnetcore-auth/tree/master
+//https://docs.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-2.1
 
 namespace AuthorizationLab.Controllers
 {
     [AllowAnonymous] 
     public class AccountController : Controller
     {
+        public List<ApplicationUser> Users => new List<ApplicationUser>() 
+        {
+            new ApplicationUser { UserName = "user1", Password = "password" },
+            new ApplicationUser{ UserName = "user2", Password = "password" }
+        };
+
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             const string Issuer = "https://contoso.com";
@@ -42,6 +51,45 @@ namespace AuthorizationLab.Controllers
                 });
 
             return RedirectToLocal(returnUrl);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(ApplicationUser user, string returnUrl = null) 
+        {
+            const string badUserNameOrPasswordMessage = "Username or password is incorrect.";
+            if (user == null) 
+            {
+                return BadRequest(badUserNameOrPasswordMessage);
+            }
+            var lookupUser = Users.FirstOrDefault(u => u.UserName == user.UserName);
+
+            if (lookupUser?.Password != user.Password) 
+            {
+                return BadRequest(badUserNameOrPasswordMessage);
+            }
+
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Name, lookupUser.UserName));
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+            if(returnUrl == null) 
+            {
+                returnUrl = TempData["returnUrl"]?.ToString();
+            }
+
+            if(returnUrl != null) 
+            {
+                return Redirect(returnUrl);
+            }
+            
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        public async Task<IActionResult> Logout() 
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
