@@ -21,7 +21,7 @@ namespace AuthorizationLab.Controllers
             const string Issuer = "https://contoso.com";
 
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Name, "barry", ClaimValueTypes.String, Issuer));
+            claims.Add(new Claim(ClaimTypes.Name, "user1", ClaimValueTypes.String, Issuer));
             claims.Add(new Claim(ClaimTypes.Role, "Administrator", ClaimValueTypes.String, Issuer));
             //claims.Add(new Claim("EmployeeId", string.Empty, ClaimValueTypes.String, Issuer));
             claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
