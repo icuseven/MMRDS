@@ -60,6 +60,7 @@ namespace mmria.server
 
 		// POST api/values 
 		//[Route("api/metadata")]
+		[Authorize(Policy = "form_designer")]
 		[HttpPost]
 		public mmria.common.model.couchdb.document_put_response Post
         (
