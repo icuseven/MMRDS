@@ -294,8 +294,11 @@ function metadata_save()
 {
 
 	console.log("metadata_change");
-	var current_auth_session = $mmria.getCookie("AuthSession");
 
+	var current_auth_session = $mmria.getCookie("AuthSession");
+	perform_save(current_auth_session);
+
+/*
 	if(current_auth_session == null && profile.auth_session != null)
 	{ 
 		current_auth_session = profile.auth_session;
@@ -310,7 +313,7 @@ function metadata_save()
 	{
 		profile.try_session_login(perform_save);
 	}
-
+*/
 }
 
 
@@ -325,6 +328,8 @@ function perform_save(current_auth_session)
 			beforeSend: function (request)
 			{
 				request.setRequestHeader("AuthSession", current_auth_session);
+				request.setRequestHeader("uid", $mmria.getCookie("uid"));
+				request.setRequestHeader("roles", $mmria.getCookie("roles"));
 			}//,
 	}).done(function(response) 
 	{
