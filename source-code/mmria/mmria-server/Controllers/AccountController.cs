@@ -31,7 +31,7 @@ namespace AuthorizationLab.Controllers
 
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, "user1", ClaimValueTypes.String, Issuer));
-            claims.Add(new Claim(ClaimTypes.Role, "Administrator", ClaimValueTypes.String, Issuer));
+            claims.Add(new Claim(ClaimTypes.Role, "abstractor", ClaimValueTypes.String, Issuer));
             //claims.Add(new Claim("EmployeeId", string.Empty, ClaimValueTypes.String, Issuer));
             claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
             claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
@@ -45,7 +45,7 @@ namespace AuthorizationLab.Controllers
                 userPrincipal,
                 new AuthenticationProperties
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
                     IsPersistent = false,
                     AllowRefresh = false
                 });

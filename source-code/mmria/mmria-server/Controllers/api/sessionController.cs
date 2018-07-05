@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using mmria.common.model.couchdb;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 //https://wiki.apache.org/couchdb/Session_API
 
@@ -89,9 +93,10 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		//public System.Net.Http.HttpResponseMessage Get
+		[AllowAnonymous] 
 		[HttpPut]
         [HttpPost]
-		public IEnumerable<login_response> Post
+		public async System.Threading.Tasks.Task<IEnumerable<login_response>> Post
 		(
             [FromBody] Post_Request_Struct Post_Request
 
@@ -142,6 +147,11 @@ namespace mmria.server
 					json_result
 				}; 
 
+
+
+
+
+
 				this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
 
 				string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
@@ -155,6 +165,60 @@ namespace mmria.server
 				{
 					result[0].auth_session = "";
 				}
+
+				//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
+				if (json_result.ok && !string.IsNullOrWhiteSpace(json_result.name)) 
+				{
+					const string Issuer = "https://contoso.com";
+
+					var claims = new List<Claim>();
+					claims.Add(new Claim(ClaimTypes.Name, json_result.name, ClaimValueTypes.String, Issuer));
+					foreach(string role in json_result.roles)
+					{
+						claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+					}
+					
+					//claims.Add(new Claim("EmployeeId", string.Empty, ClaimValueTypes.String, Issuer));
+					//claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
+					//claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
+
+					var userIdentity = new ClaimsIdentity("SuperSecureLogin");
+					userIdentity.AddClaims(claims);
+					var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+					await HttpContext.SignInAsync(
+						CookieAuthenticationDefaults.AuthenticationScheme,
+						userPrincipal,
+						new AuthenticationProperties
+						{
+							ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+							IsPersistent = false,
+							AllowRefresh = false
+						});
+				}
+
+				/*
+				{
+					"ok":true,
+					"userCtx":
+					{
+						"name":"mmrds",
+						"roles":["_admin"]
+					},
+					"info":
+					{
+						"authentication_db":"_users",
+						"authentication_handlers":
+						[
+							"oauth",
+							"cookie",
+							"default"
+						],
+						"authenticated":"cookie"
+					}
+				}
+				*/
+
 
 				//this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
 
