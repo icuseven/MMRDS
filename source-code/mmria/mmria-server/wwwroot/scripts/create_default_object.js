@@ -123,6 +123,7 @@ function create_default_object(p_metadata, p_parent)
     case 'label':
     case 'button':
     case 'chart':
+    case 'hidden':
           break;
      default:
           console.log("create_default_object not processed", p_metadata);

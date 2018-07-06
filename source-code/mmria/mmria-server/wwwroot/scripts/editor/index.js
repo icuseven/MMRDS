@@ -441,8 +441,10 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 			type: "POST",
 			beforeSend: function (request)
 			{
-			  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
-			  request.setRequestHeader("If-Match", g_metadata._rev);
+			  	request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+			  	request.setRequestHeader("If-Match", g_metadata._rev);
+				request.setRequestHeader("uid", $mmria.getCookie("uid"));
+				request.setRequestHeader("roles", $mmria.getCookie("roles"));
 			}
 	}).done(function(response) 
 	{
@@ -498,6 +500,8 @@ function create_check_code_submit()
 									{
 										request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 										request.setRequestHeader("If-Match", g_metadata._rev);
+										request.setRequestHeader("uid", $mmria.getCookie("uid"));
+										request.setRequestHeader("roles", $mmria.getCookie("roles"));
 									}
 
 								}).done(function(response) 

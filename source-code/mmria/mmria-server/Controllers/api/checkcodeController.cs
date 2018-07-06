@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
@@ -12,6 +13,7 @@ namespace mmria.server
 		{
 		}
 
+		[AllowAnonymous] 
 		[HttpGet]
 		public async System.Threading.Tasks.Task<string> Get()
 		{

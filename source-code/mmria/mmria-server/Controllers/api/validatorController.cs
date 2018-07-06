@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
@@ -12,6 +13,7 @@ namespace mmria.server
 	{ 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
+		[AllowAnonymous] 
 		[HttpGet]
 		public async Task<string> Get()
 		{
