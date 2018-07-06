@@ -4,16 +4,20 @@
 
 @if (!User.Identities.Any(u => u.IsAuthenticated))
 {
-    <h1>Hello Index World</h1>
+    <h1>Index</h1>
 }
 else
 {
-    <h1>Hello Index @User.Identities.First(
+    <h1>Index @User.Identities.First(
       u => u.IsAuthenticated && 
       u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value</h1>
 
-      <h2>@User.Identities.First(
-      u => u.IsAuthenticated && 
-      u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Role).Value</h2>
+    <ul>
+    @foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    {
+        <li>@role.Value</li>
+    }
+    </ul>
+    
 }
 
