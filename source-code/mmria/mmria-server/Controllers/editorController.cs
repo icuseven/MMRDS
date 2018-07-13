@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AuthorizationLab.Controllers
+namespace mmria.server.Controllers
 {
     //[Authorize(Policy = "EmployeeId")]
     //[Authorize(Policy = "Over21Only")]

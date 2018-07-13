@@ -117,9 +117,6 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
 
         private static IConfiguration configuration = null;
 
-        private static string[] args;
-
-
 
 		
 		static void AppDomain_UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args) 

@@ -100,31 +100,23 @@ namespace mmria.console
 			this.user_name = p_user_id;
 			this.password = p_password;
 
-			IEnumerable < mmria.common.model.couchdb.login_response> result = null;
+
+			string login_url = this.mmria_url + "/api/session/";
+			var login_data = new { userid = this.user_name, password = this.password };
+			var login_curl = new cURL("POST", null, login_url, Newtonsoft.Json.JsonConvert.SerializeObject(login_data));
+			string login_result_string = null;
 			dynamic json_response = null;
-			 
-			string URL = this.mmria_url + "/api/session";
-			//string userid,
-			//string password
-
-			string urlParameters = string.Format("?userid={0}&password={1}", p_user_id, p_password);
-			//string urlParameters = "";
-
-			var curl = new cURL ("GET", null, URL, null, null);
-
-			try 
+			try
 			{
-				string json_result = curl.execute ();
-				json_response = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<mmria.common.model.couchdb.login_response>> (json_result);
+				login_result_string = login_curl.execute();
+				json_response = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<mmria.common.model.couchdb.login_response>>(login_result_string);
 
-			} catch (Exception ex) 
+			}
+			catch (Exception ex)
 			{
-				Console.WriteLine ("{0}", ex);
+				System.Console.WriteLine(ex);
 			}
 
-			//System.Console.WriteLine(response);
-
-			//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 
 			if (json_response[0].ok == true)
 			{
@@ -134,12 +126,10 @@ namespace mmria.console
 					this.auth_token = json_response[0].auth_session;
 				}
 			}
-			else
-			{
 
-			}
 
-			return json_response;
+			return null;
+
 		}
 
 		public mmria.common.model.couchdb.document_put_response set_case(string case_json)

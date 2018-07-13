@@ -14,10 +14,10 @@ using System.Security.Claims;
 //https://gitlab.com/free-time-programmer/tutorials/demystify-aspnetcore-auth/tree/master
 //https://docs.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-2.1
 
-namespace AuthorizationLab.Controllers
+namespace mmria.server.Controllers
 {
     [AllowAnonymous] 
-    public class AccountController : Controller
+    public partial class AccountController : Controller
     {
         public List<ApplicationUser> Users => new List<ApplicationUser>() 
         {
