@@ -165,9 +165,7 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown" id="profile_content_id">
-              @{
-                await Html.PartialAsync("_LoginPartial");
-              }
+              @await Html.PartialAsync("_LoginPartial")
               </li>
             </ul>
       </div>

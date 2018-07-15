@@ -221,6 +221,8 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Logout() 
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            Response.Cookies.Delete("uid");
+            Response.Cookies.Delete("roles");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

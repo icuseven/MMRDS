@@ -8,11 +8,9 @@
   var RoleName = User.Identities.First(u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Role).Value;
 
 
-		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> 
-		@UserName
-		</a>
+		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> @UserName</a>
 		<ul class="dropdown-menu" role="menu">
-      <form id="profile_form"  role="form">
+      <form id="profile_form" asp-antiforgery="true" asp-controller="Account" asp-action="Logout" method="GET">
       <div class="form-group" id="profile_content_id">
       <li>
         
@@ -28,7 +26,9 @@
 		
     </li>
     <li>
-      <input  value="Log Out" class="btn btn-block  btn-log btn-primary:active:hover1" onclick="profile.logout()"/>
+      <!--input name="submit" value="Log Out" type="submit" class="btn btn-block  btn-log btn-primary:active:hover1" /-->
+      <input name="submit" value="Log Out" type="submit" />
+      <!--  onclick="profile.logout()" -->
 		</li>
 		<div><%=version%></div>
     </div>
@@ -42,8 +42,8 @@ else
 {
   <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
   <ul class="dropdown-menu" role="menu">
-@model ApplicationUser
-@{    
+  @model ApplicationUser
+  @{    
     <form id="profile_form" asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
         <li>Nunca
       
@@ -63,28 +63,9 @@ else
       </div>
 		</li>    
     </form>
-} 
-  <!--form id="profile_form"  role="form">
-    <li>Nunca
-      
-      <div class="form-group" id="profile_content_id">
-        <div class="input-group">
-		    <span class="input-group-addon">
-      	<img  class="navbar-brand" src="images/mmria-secondary.svg" height=55 width=100 style="padding: 1px 1px;" />
-	      </span>
-		    <input  id="user_name"  placeholder="Username" type="text" name="email" value="" class="form-control" required />
-    		<input id="profile_form_password"  placeholder="Password" type="password" name="password" value="" class="form-control" required />
+  } 
 
-	      <input  class="btn btn-block  btn-log btn-primary:active:hover1" value="Log in" />
-        <div><%=version%></div>
-      </div>
-		</li>
-
-		<li id="login_status_area"></li>
-		
-		
-		</form-->
-		</ul>
+	</ul>
 }
 
 
