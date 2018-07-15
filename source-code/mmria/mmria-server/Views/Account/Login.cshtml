@@ -3,7 +3,7 @@
 <div>Login From</div>
 @model ApplicationUser
 @{
-    <form asp-antiforgery="true" asp-controller="Account" asp-action="Login">
+    <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
         User name: <input name="username" type="text" />
         Password: <input name="password" type="password" />
         <input name="submit" value="Login" type="submit" />

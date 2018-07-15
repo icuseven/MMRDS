@@ -116,6 +116,7 @@ namespace mmria.server
                 {
                         options.LoginPath = new PathString("/Account/Login/");
                         options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                        options.Cookie.SameSite = SameSiteMode.None;
                 });
 
             services.AddAuthorization(options =>
