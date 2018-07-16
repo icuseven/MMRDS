@@ -182,7 +182,9 @@ namespace mmria.server
 					//claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
 					//claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
 
-					var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+					//var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+					var userIdentity = new ClaimsIdentity("SuperSecureLogin");
+                    userIdentity.AddClaims(claims);
 					var userPrincipal = new ClaimsPrincipal(userIdentity);
 
 					await HttpContext.SignInAsync(

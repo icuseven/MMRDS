@@ -1,22 +1,75 @@
-@{   Layout = "_Layout"; }
-
 @using System.Security.Claims;
+@{ 
 
-@if (!User.Identities.Any(u => u.IsAuthenticated))
+
+    Layout = "_GridLayout"; 
+    var isAbstractor = false;
+    var isAuthenticated = false;
+    var isCommitteeMember = false;
+    var isFormDesigner = false;
+    var userName = "";
+    
+    
+    if(User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+    
+
+        foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+        {
+            switch(role.Value)
+            {
+                case "abstractor":
+                    isAbstractor = true;
+                    isAuthenticated = true;
+                    break;
+                case "form_designer":
+                    isFormDesigner = true;
+                    isAuthenticated = true;
+                    break;
+                case "committee_member":
+                    isCommitteeMember = true;
+                    isAuthenticated = true;
+                    break;
+        
+            }
+        }
+    }
+
+}
+
+
+
+@if (!isAuthenticated)
 {
     <h1>Index</h1>
 }
 else
 {
-    <h1>Index @User.Identities.First(
-      u => u.IsAuthenticated && 
-      u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value</h1>
+    <h1>Select your action:</h1>
 
     <ul>
-    @foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    <li><a href="/data-dictionary">show data dictionary</a></li>
+    <li><a href="/aggregate-report">view aggregate report</a></li>
+    @if(isAbstractor)
     {
-        <li>@role.Value</li>
+        <li><a href="/export-queue">export data</a></li>
     }
+
+    @if(isAbstractor || isCommitteeMember)
+    {
+        <li><a href="/Case">view case data</a></li>
+    }
+
+    @if(isFormDesigner)
+    {
+        <li><a href="/editor">Open form editor</a></li>
+    }
+
+
+    <li><a href="/print-version">print blank version</a></li>
     </ul>
     
 }

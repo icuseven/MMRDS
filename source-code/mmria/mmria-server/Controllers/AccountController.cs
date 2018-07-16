@@ -152,7 +152,9 @@ namespace mmria.server.Controllers
 					//claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
 					//claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
 
-					var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+					//var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var userIdentity = new ClaimsIdentity("SuperSecureLogin");
+                    userIdentity.AddClaims(claims);
 					var userPrincipal = new ClaimsPrincipal(userIdentity);
 
 					await HttpContext.SignInAsync(
@@ -162,7 +164,7 @@ namespace mmria.server.Controllers
 						{
 							ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
 							IsPersistent = false,
-							AllowRefresh = false
+							AllowRefresh = false,
 						});
 				}
 
@@ -218,11 +220,22 @@ namespace mmria.server.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout() 
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            Response.Cookies.Delete("uid");
-            Response.Cookies.Delete("roles");
+            await HttpContext.SignOutAsync
+            (
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(-5),
+                    IsPersistent = false,
+                    AllowRefresh = false,
+                }
+            );
+            //Response.Cookies.Delete("uid");
+            //Response.Cookies.Delete("roles");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

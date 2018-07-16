@@ -324,7 +324,7 @@ login_response: function (response)
 				profile.on_login_call_back();
 			}
 
-			profile.render();
+			//profile.render();
 	
 		}
 		else
@@ -333,14 +333,14 @@ login_response: function (response)
 			profile.password = null;
 			$mmria.removeCookie("AuthSession");
 
-			profile.render();
+			//profile.render();
 			profile.create_status_warning("Invalid user or password.")
 		}
 		
 	}
 	else
 	{
-		profile.render();
+		//profile.render();
 		profile.create_status_warning("Invalid user or password.")
 	}
 	
@@ -370,7 +370,7 @@ logout : function()
 
 	g_source_db = null;
 
-	profile.render();
+	//profile.render();
 
 	},
   try_session_login : function(p_success_call_back)
@@ -449,7 +449,7 @@ logout : function()
 			$mmria.removeCookie("AuthSession");
 		}
 
-		profile.render();
+		//profile.render();
 		
 
 	}).fail(function(response) {
@@ -460,7 +460,7 @@ logout : function()
 		profile.auth_session = null;
 		g_source_db = null;
 		
-		profile.render();
+		//profile.render();
 
 		console.log("failed:", response);
 	});

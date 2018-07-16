@@ -121,9 +121,14 @@ namespace mmria.server
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
+                //options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
                 options.AddPolicy("abstractor", policy => policy.RequireRole("abstractor"));
                 options.AddPolicy("form_designer", policy => policy.RequireRole("form_designer"));
+                options.AddPolicy("committee_member", policy => policy.RequireRole("committee_member"));
+                options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
+                options.AddPolicy("installation_admin", policy => policy.RequireRole("installation_admin"));
+                options.AddPolicy("guest", policy => policy.RequireRole("guest"));
+
                 //options.AddPolicy("form_designer", policy => policy.RequireClaim("EmployeeId"));
                 //options.AddPolicy("EmployeeId", policy => policy.RequireClaim("EmployeeId", "123", "456"));
                 //options.AddPolicy("Over21Only", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
