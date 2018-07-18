@@ -62,7 +62,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<ul  class="nav navbar-nav">');
 
 
-
+        result.push('<li><a href="/Home">Home</a></li>');
         result.push('<li><a href="#/summary">Summary</a></li>');
 
 
@@ -121,6 +121,7 @@ function navigation_render(p_metadata, p_level, p_ui)
 
 
         // actions start
+        /*
 
         result.push('<li class="dropdown">');
         result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="actions">Actions <span class="caret"></span></a>');
@@ -193,7 +194,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('</li>')
         }
         // print blank end
-  
+        */
 
         result.push('<li id="nav_status_area">&nbsp;</li>');
 
