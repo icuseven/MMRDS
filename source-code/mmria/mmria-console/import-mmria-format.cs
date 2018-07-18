@@ -177,7 +177,7 @@ namespace mmria.console
 					update_curl.AddCookie("AuthSession", auth_session);
 					try 
 					{
-						string update_result_string = update_curl.execute ();
+						string update_result_string = await update_curl.executeAsync ();
 
 						/*
 						var update_result_expando = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(update_result_string);

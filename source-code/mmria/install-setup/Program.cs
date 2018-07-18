@@ -138,7 +138,7 @@ namespace install_setup
 				if(NoErrors.IsMatch(output))
 				foreach(string publish_version in publish_version_set)
 				{
-					output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
+					output = RunShell("dotnet", $"publish {mmria_server_project_file} --framework netcoreapp2.1 -c Release -r {publish_version} -v d");
 					
 					if(NoErrors.IsMatch(output))
 					{
@@ -160,7 +160,7 @@ namespace install_setup
 			if(NoErrors.IsMatch(output))
 			foreach(string publish_version in publish_version_set)
 			{
-				output = RunShell("dotnet", $"publish {mmria_console_project_file} --framework netcoreapp2.0 -c Release -r {publish_version} -v d");
+				output = RunShell("dotnet", $"publish {mmria_console_project_file} --framework netcoreapp2.1 -c Release -r {publish_version} -v d");
 				if(NoErrors.IsMatch(output))
 				{
 					Console.WriteLine($"go console {publish_version}");
@@ -195,7 +195,7 @@ namespace install_setup
 			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
 							// version number -- Start
 			System.Text.RegularExpressions.Regex version_tag = new System.Text.RegularExpressions.Regex ("<\\%=version\\%>");
-			string mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","netcoreapp2.0", p_publish_version,"publish");
+			string mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","netcoreapp2.1", p_publish_version,"publish");
 			if(p_publish_version=="win7-x64")
 			{
 				mmria_server_publish_directory = Path.Combine(root_dir,"mmria-server","bin","Release","net471", p_publish_version,"publish");
@@ -297,7 +297,7 @@ namespace install_setup
 			string root_dir = Directory.GetCurrentDirectory().Replace("install-setup","");
 
 			string mmria_console_zip_file_name = Path.Combine(root_dir,"install-setup","bin", $"MMRIA-console-{p_publish_version}-{current_version}.zip");
-			string mmria_console_publish_folder = Path.Combine(root_dir,"mmria-console","bin","Release","netcoreapp2.0",p_publish_version,"publish");
+			string mmria_console_publish_folder = Path.Combine(root_dir,"mmria-console","bin","Release","netcoreapp2.1",p_publish_version,"publish");
 			cFolderCompressor folder_compressor = new cFolderCompressor ();
 
 			if(File.Exists(mmria_console_zip_file_name))
