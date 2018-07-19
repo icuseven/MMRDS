@@ -59,11 +59,11 @@ namespace mmria.console
 			if (string.IsNullOrWhiteSpace(this.source_file_path))
 			{
 				System.Console.WriteLine("missing source_file_path");
-				System.Console.WriteLine(" form database:[file path]");
-				System.Console.WriteLine(" example 1 database_file_path:c:\\temp\\maternal_mortality.mdb");
-				System.Console.WriteLine(" example 2 database_file_path:\"c:\\temp folder\\maternal_mortality.mdb\"");
-				System.Console.WriteLine(" example 3 database_file_path:mapping-file-set\\maternal_mortality.mdb\"");
-				System.Console.WriteLine(" mmria.exe import user_name:user1 password:secret url:http://localhost:12345 database_file_path:\"c:\\temp folder\\maternal_mortality.mdb\"");
+				System.Console.WriteLine(" form source_file_path:[file path]");
+				System.Console.WriteLine(" example 1 source_file_path:c:/temp/");
+				System.Console.WriteLine(" example 2 source_file_path:\"c:/temp folder/\"");
+				System.Console.WriteLine(" example 3 source_file_path:mapping-file-set\\\"");
+				System.Console.WriteLine(" mmria.exe import user_name:user1 password:secret url:http://localhost:12345 source_file_path:\"c:\\temp folder\\\"");
 
 				return;
 			}
@@ -157,7 +157,7 @@ namespace mmria.console
 					document_curl.AddCookie("AuthSession", auth_session);
 					string document_json = null;
 
-					document_json = document_curl.execute();
+					document_json =  document_curl.execute();
 					var result_expando = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_json);
 					var result = result_expando as IDictionary<string, object>;
 					if (result != null && result.ContainsKey ("_rev")) 
@@ -177,7 +177,7 @@ namespace mmria.console
 					update_curl.AddCookie("AuthSession", auth_session);
 					try 
 					{
-						string update_result_string = await update_curl.executeAsync ();
+						string update_result_string = update_curl.execute ();
 
 						/*
 						var update_result_expando = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(update_result_string);
