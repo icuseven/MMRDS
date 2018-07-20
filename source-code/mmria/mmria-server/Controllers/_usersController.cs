@@ -3,15 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Policy = "abstractor,committee_member")]
+    //[Authorize(Policy = "EmployeeId")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     
-    public class CaseController : Controller
+    [Authorize(Policy = "installation_admin,jurisdiction_admin")]
+    public class _usersController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
+
     }
 }
