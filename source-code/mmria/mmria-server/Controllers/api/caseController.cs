@@ -29,7 +29,7 @@ namespace mmria.server
     	}
 		// GET api/values 
 		[HttpGet]
-		public System.Dynamic.ExpandoObject Get(string case_id = null) 
+		public async Task<System.Dynamic.ExpandoObject> Get(string case_id = null) 
 		{ 
 			try
 			{
@@ -52,7 +52,7 @@ namespace mmria.server
                     request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
                 }
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
@@ -243,8 +243,34 @@ namespace mmria.server
             } 
 
             return null;
-        } 
+        }
+/*
+		public async Task<IActionResult> OnGetAsync(string documentId)
+		{
+			Document = _documentRepository.Find(documentId);
 
+			if (Document == null)
+			{
+				return new NotFoundResult();
+			}
+
+			var authorizationResult = await _authorizationService
+					.AuthorizeAsync(User, Document, "EditPolicy");
+
+			if (authorizationResult.Succeeded)
+			{
+				return Page();
+			}
+			else if (User.Identity.IsAuthenticated)
+			{
+				return new ForbidResult();
+			}
+			else
+			{
+				return new ChallengeResult();
+			}
+		} 
+ */
 
 	} 
 }

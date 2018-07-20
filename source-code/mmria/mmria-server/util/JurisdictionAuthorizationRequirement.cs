@@ -11,12 +11,13 @@ namespace mmria.server.util
     }
 
 
-    public class HasJurisdictionAuthorizationHandler : AuthorizationHandler<JurisdictionAuthorizationRequirement>
+    public class HasJurisdictionAuthorizationHandler : AuthorizationHandler<JurisdictionAuthorizationRequirement, System.Dynamic.ExpandoObject>
     {
         protected override Task HandleRequirementAsync
         (
           AuthorizationHandlerContext context, 
-          JurisdictionAuthorizationRequirement requirement
+          JurisdictionAuthorizationRequirement requirement,
+          System.Dynamic.ExpandoObject caseExpandoObject
         )
         {
             if (!context.User.HasClaim(c => c.Type == "JurisdictionList" && 
