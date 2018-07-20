@@ -7,6 +7,7 @@ using System.Dynamic;
 using mmria.common;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
@@ -14,11 +15,17 @@ namespace mmria.server
     public class caseController: ControllerBase 
 	{ 
 
+
 		private ActorSystem _actorSystem;
 
-		public caseController(ActorSystem actorSystem)
+
+ 		private readonly IAuthorizationService _authorizationService;
+        //private readonly IDocumentRepository _documentRepository;
+
+		public caseController(ActorSystem actorSystem, IAuthorizationService authorizationService)
 		{
 		    _actorSystem = actorSystem;
+			_authorizationService = authorizationService;
     	}
 		// GET api/values 
 		[HttpGet]

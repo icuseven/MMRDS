@@ -7,7 +7,7 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     
-    [Authorize(Policy = "installation_admin,jurisdiction_admin")]
+    [Authorize(Roles = "installation_admin,jurisdiction_admin")]
     public class _usersController : Controller
     {
         public IActionResult Index()
