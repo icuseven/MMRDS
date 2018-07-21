@@ -342,7 +342,7 @@ var g_ui = {
     set_local_case(g_data, function (){
       save_case(g_data, function(){
             
-      var url = location.protocol + '//' + location.host + '#/' + g_ui.selected_record_index + '/home_record';
+      var url = location.protocol + '//' + location.host + '/Case#/' + g_ui.selected_record_index + '/home_record';
       window.location = url;
       });
     });

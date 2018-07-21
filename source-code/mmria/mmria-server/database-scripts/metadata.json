@@ -1913,7 +1913,7 @@
 	"children": [
 	  {
 		"prompt": "jurisdiction",
-		"name": "jurisdiction",
+		"name": "jurisdiction_id",
 		"type": "hidden"
 	  },
 	  {

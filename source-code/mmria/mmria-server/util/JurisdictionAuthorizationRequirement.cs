@@ -43,6 +43,12 @@ namespace mmria.server.util
 			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_view_response>(jurisdicion_result_string);
 			//IDictionary<string, object> jurisdicion_result_dictionary = jurisdicion_result_data[0] as IDictionary<string, object>;
             //var juridiction_curl = new cURL();
+            foreach(mmria.common.model.couchdb.jurisdiction_view_item jvi in jurisdiction_view_response.rows)
+            {
+                
+                
+            }
+                            
 
 
 
