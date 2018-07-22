@@ -120,11 +120,21 @@ function create_default_object(p_metadata, p_parent)
            //p_parent[p_metadata.name] = new Date("2016-01-01T00:00:00.000Z");
            p_parent[p_metadata.name] = "";
            break;
+    case 'hidden':
+            if(p_metadata.name=="jurisdiction_id")
+            {
+              p_parent[p_metadata.name] = "/";
+            }
+            else
+            {
+              p_parent[p_metadata.name] = "";
+            }
+            
+           break;           
     case 'label':
     case 'button':
     case 'chart':
-    case 'hidden':
-          break;
+            break;
      default:
           console.log("create_default_object not processed", p_metadata);
        break;
