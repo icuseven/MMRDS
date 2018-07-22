@@ -157,6 +157,22 @@ namespace mmria.server.Controllers
                     userIdentity.AddClaims(claims);
 					var userPrincipal = new ClaimsPrincipal(userIdentity);
 
+
+                    var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(userPrincipal);
+                    var jurisdiction_list = string.Join(",",jurisdiction_hashset.ToList());
+
+                    Response.Cookies.Append("jurisdiction_list", jurisdiction_list);
+                    claims.Add
+                    (
+                        new Claim
+                        (   "jurisdiction_list",
+                            jurisdiction_list,
+                            json_result.name,
+                            ClaimValueTypes.String,
+                            Issuer
+                        )
+                    );
+
 					await HttpContext.SignInAsync(
 						CookieAuthenticationDefaults.AuthenticationScheme,
 						userPrincipal,

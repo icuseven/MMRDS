@@ -43,6 +43,9 @@ by_state_of_death
 
 */
 
+
+            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(User);
+
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {
@@ -134,7 +137,27 @@ by_state_of_death
 
                 if (string.IsNullOrWhiteSpace (search_key)) 
                 {
-                    return case_view_response;
+                    mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+                    result.offset = case_view_response.offset;
+                    result.total_rows = case_view_response.total_rows;
+
+                    foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                    {
+                        bool is_jurisdiction_ok = false;
+                        foreach(string jurisdiction_item in jurisdiction_hashset)
+                        {
+                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+                            if(regex.IsMatch(cvi.value.jurisdiction_id))
+                            {
+                                is_jurisdiction_ok = true;
+                                break;
+                            }
+                        }
+
+                        if(is_jurisdiction_ok) result.rows.Add (cvi);
+                    }
+
+                    return result;
                 } 
                 else 
                 {
@@ -196,9 +219,22 @@ by_state_of_death
                             add_item = true;
                         }
 
-                        if(add_item) result.rows.Add (cvi);
+
+                        bool is_jurisdiction_ok = false;
+                        foreach(string jurisdiction_item in jurisdiction_hashset)
+                        {
+                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+                            if(regex.IsMatch(cvi.value.jurisdiction_id))
+                            {
+                                is_jurisdiction_ok = true;
+                                break;
+                            }
+                        }
+
+                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
                         
                       }
+
 
                     result.total_rows = result.rows.Count;
                     result.rows =  result.rows.Skip (skip).Take (take).ToList ();

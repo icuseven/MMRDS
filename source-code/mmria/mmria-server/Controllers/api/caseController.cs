@@ -29,7 +29,7 @@ namespace mmria.server
     	}
 		// GET api/values 
 		[HttpGet]
-		public async Task<System.Dynamic.ExpandoObject> Get(string case_id = null) 
+		public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
 		{ 
 			try
 			{
@@ -38,28 +38,36 @@ namespace mmria.server
                 if (!string.IsNullOrWhiteSpace (case_id)) 
                 {
                     request_string = Program.config_couchdb_url + "/mmrds/" + case_id;
+
+					System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+					request.PreAuthenticate = false;
+
+
+					if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
+					{
+						string auth_session_value = this.Request.Cookies["AuthSession"];
+						request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
+						request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
+					}
+
+					System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
+					System.IO.Stream dataStream = response.GetResponseStream ();
+					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+					string responseFromServer = reader.ReadToEnd ();
+
+					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+					if(mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, result))
+					{
+						return result;
+					}
+					else
+					{
+						return null;
+					}
+
                 } 
-
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
-				request.PreAuthenticate = false;
-
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
-				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string responseFromServer = reader.ReadToEnd ();
-
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
-
-                return result;
 
 			}
 			catch(Exception ex)
@@ -103,6 +111,44 @@ namespace mmria.server
 				{
 					id_val = temp_id.ToString();
 				}
+
+
+				if(!byName.ContainsKey("jurisdiction_id"))
+				{
+					byName["jurisdiction_id"] = "/";
+				}
+
+				if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, byName["jurisdiction_id"].ToString()))
+				{
+					Console.Write($"unauthorized PUT {byName["jurisdiction_id"]}: {byName["_id"]}");
+					return result;
+				}
+
+
+				// begin - check if doc exists
+				try 
+				{
+					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, null, null);
+					string document_json = null;
+					document_json = await check_document_curl.executeAsync ();
+					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
+					IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
+
+					if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, check_document_expando_object))
+					{
+						Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+						return result;
+					}
+
+				} 
+				catch (Exception ex) 
+				{
+					// do nothing for now document doesn't exsist.
+                    System.Console.WriteLine ($"err caseController.Delete\n{ex}");
+				}
+				// end - check if doc exists
+
+
 
 
 				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
@@ -244,6 +290,7 @@ namespace mmria.server
 
             return null;
         }
+
 /*
 		public async Task<IActionResult> OnGetAsync(string documentId)
 		{

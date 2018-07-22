@@ -61,6 +61,8 @@ reverse sort
         public string agency_case_id{ get; set; }
         public DateTime? date_of_committee_review{ get; set; }
 
+        public string jurisdiction_id {get; set;}
+
     }
 
 
