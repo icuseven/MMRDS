@@ -3,21 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 using mmria.common.model;
 
 namespace mmria.server
 {
+	[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
 	[Route("api/[controller]")]
 	public class userController: ControllerBase 
 	{ 
 		// GET api/values 
 		//public IEnumerable<mmria.common.model.couchdb.user_alldocs_response> Get() 
 		[HttpGet]
-        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user_alldocs_response> Get() 
 		{ 
 			try
 			{
+ 				var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(User);
+
+				var jurisdiction_username_hashset = mmria.server.util.case_authorization.get_user_jurisdiction_set();
+
+
+
 				string request_string = this.get_couch_db_url() + "/_users/_all_docs?include_docs=true&skip=1";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
@@ -35,6 +47,48 @@ namespace mmria.server
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
+/*
+
+
+{
+	"total_rows":4,
+	"offset":1,
+	"rows":
+	[
+		{
+			"id":"org.couchdb.user:install",
+			"key":"org.couchdb.user:install",
+			"value":
+			{
+				"rev":"1-ecd8ce6efa88cc72576ac17e2e7eb990"},
+				"doc":
+				{
+					"_id":"org.couchdb.user:install",
+					"_rev":"1-ecd8ce6efa88cc72576ac17e2e7eb990",
+					"password_scheme":"pbkdf2",
+					"iterations":10,
+					"name":"install",
+					"roles":
+					[
+						"installation_admin"
+					],
+					"type":"user",
+					"derived_key":"ab55b8c441eefb32c8fd40d228e3a91193ed9135",
+					"salt":"969c09275126e3cc60481536dc6d985f"
+				}
+			}
+		},
+
+		{"id":"org.couchdb.user:juris","key":"org.couchdb.user:juris","value":{"rev":"1-604c52cf2637a4e59c3ad07f60774a95"},"doc":{"_id":"org.couchdb.user:juris","_rev":"1-604c52cf2637a4e59c3ad07f60774a95","password_scheme":"pbkdf2","iterations":10,"name":"juris","roles":["jurisdiction_admin"],"type":"user","derived_key":"ab55b8c441eefb32c8fd40d228e3a91193ed9135","salt":"969c09275126e3cc60481536dc6d985f"}},
+		{"id":"org.couchdb.user:user1","key":"org.couchdb.user:user1","value":{"rev":"1-94774b3d9ba9ce4d297f3db3727e9cbb"},"doc":{"_id":"org.couchdb.user:user1","_rev":"1-94774b3d9ba9ce4d297f3db3727e9cbb","password_scheme":"pbkdf2","iterations":10,"name":"user1","roles":["abstractor","form_designer"],"type":"user","derived_key":"ab55b8c441eefb32c8fd40d228e3a91193ed9135","salt":"969c09275126e3cc60481536dc6d985f"}}
+	]
+}
+
+
+*/
+
+
+
 				/*mmria.common.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_alldocs_response>(responseFromServer);
 				mmria.common.model.couchdb.user_alldocs_response[] result =  new mmria.common.model.couchdb.user_alldocs_response[] 
 				{ 
@@ -44,10 +98,50 @@ namespace mmria.server
 				return result;
 				*/
 
-				System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+				mmria.common.model.couchdb.user_alldocs_response user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_alldocs_response>(responseFromServer);
 			
-				return json_result;
 
+				mmria.common.model.couchdb.user_alldocs_response result = new mmria.common.model.couchdb.user_alldocs_response();
+				result.offset = user_alldocs_response.offset;
+				result.total_rows = user_alldocs_response.total_rows;
+
+				
+
+				List<mmria.common.model.couchdb.user_alldoc_item> temp_list = new List<mmria.common.model.couchdb.user_alldoc_item>();
+				foreach(mmria.common.model.couchdb.user_alldoc_item uai in user_alldocs_response.rows)
+				{
+					bool is_jurisdiction_ok = false;
+					foreach(string jurisdiction_item in jurisdiction_hashset)
+					{
+						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+
+						foreach(string jurisdiction_username in jurisdiction_username_hashset)
+						{
+							var jurisdiction_username_array = jurisdiction_username.Split(",");
+							if
+							(
+								regex.IsMatch(jurisdiction_username_array[0]) && 
+								uai.value.doc.name == jurisdiction_username_array[1]
+							)
+							{
+								is_jurisdiction_ok = true;
+								break;
+							}
+						}
+
+						if(is_jurisdiction_ok)
+						{
+							break;
+						}
+					}
+
+					if(is_jurisdiction_ok) temp_list.Add (uai);
+				}
+
+
+				result.rows = temp_list.ToArray();
+
+				return result;
 
 			}
 			catch(Exception ex)

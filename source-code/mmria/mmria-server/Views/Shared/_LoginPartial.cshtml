@@ -1,8 +1,6 @@
 @using System.Security.Claims;
 @if(User.Identities.Any(u => u.IsAuthenticated)) 
 {
-    
- 
   var UserName = User.Identities.First( u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
 		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> @UserName</a>
@@ -29,10 +27,7 @@
 		<div><%=version%></div>
     </div>
 		</form>
-		
 		</ul>
-
-
 } 
 else 
 {
@@ -60,7 +55,6 @@ else
 		</li>    
     </form>
   } 
-
 	</ul>
 }
 

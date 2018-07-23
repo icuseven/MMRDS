@@ -1,48 +1,56 @@
 @using System.Security.Claims;
 @{ 
-
-
     Layout = "_GridLayout"; 
-    var isAbstractor = false;
-    var isAuthenticated = false;
-    var isCommitteeMember = false;
-    var isFormDesigner = false;
+    var is_guest = true;
+    var is_abtractor = false;
+    var is_authenticated = false;
+    var is_committee_member = false;
+    var is_form_designer = false;
     var userName = "";
-    
+    var is_installation_admin = false;
+    var is_jurisdiction_admin = false;
     
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-    
 
         foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
         {
             switch(role.Value)
             {
                 case "abstractor":
-                    isAbstractor = true;
-                    isAuthenticated = true;
+                    is_abtractor = true;
+                    is_authenticated = true;
+                    is_guest = false;
                     break;
                 case "form_designer":
-                    isFormDesigner = true;
-                    isAuthenticated = true;
+                    is_form_designer = true;
+                    is_authenticated = true;
+                    is_guest = false;
                     break;
                 case "committee_member":
-                    isCommitteeMember = true;
-                    isAuthenticated = true;
+                    is_committee_member = true;
+                    is_authenticated = true;
+                    is_guest = false;
                     break;
-        
+                case "jurisdiction_admin":
+                    is_jurisdiction_admin = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                case "installation_admin":
+                    is_installation_admin = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
             }
         }
     }
-
 }
 
-
-
-@if (!isAuthenticated)
+@if (!is_authenticated)
 {
     <h1>Index</h1>
 }
@@ -53,25 +61,29 @@ else
     <ul>
     <li><a href="/metadata-listing">show metadata listing</a></li>
     <li><a href="/aggregate-report">view aggregate report</a></li>
-    
-    @if(isAbstractor)
+
+    @if(is_abtractor)
     {
         <li><a href="/export-queue">export data</a></li>
     }
 
-    @if(isAbstractor || isCommitteeMember)
+    @if(is_abtractor || is_committee_member)
     {
         <li><a href="/Case">view case data</a></li>
     }
 
-    @if(isFormDesigner)
+    @if(is_form_designer)
     {
         <li><a href="/editor">Open form editor</a></li>
     }
 
+    @if(is_jurisdiction_admin || is_installation_admin)
+    {
+        <li><a href="/jurisdictions">manage jurisidictions</a></li>
+        <li><a href="/_users">manage users</a></li>
+    }
 
     <li><a href="/print-version">print blank version</a></li>
     </ul>
-    
 }
 
