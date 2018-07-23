@@ -23,6 +23,7 @@ namespace mmria.server.util
             var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
            
             var byName = (IDictionary<string,object>)p_case_expando_object;
+
             if(byName.ContainsKey("jurisdiction_id"))
             {
 
@@ -36,6 +37,11 @@ namespace mmria.server.util
                     }
                 }
 
+            }
+            else
+            {
+                byName.Add("jurisdiction_id", "/");
+                result = true;
             }
 
             return result;

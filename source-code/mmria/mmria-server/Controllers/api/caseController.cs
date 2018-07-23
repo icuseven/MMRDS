@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
+	[Authorize(Roles  = "abstractor")]
 	[Route("api/[controller]")]
     public class caseController: ControllerBase 
 	{ 
@@ -39,11 +40,11 @@ namespace mmria.server
                 {
                     request_string = Program.config_couchdb_url + "/mmrds/" + case_id;
 
+					var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+					string responseFromServer = await case_curl.executeAsync();
+/*
 					System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
 					request.PreAuthenticate = false;
-
-
 					if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
 					{
 						string auth_session_value = this.Request.Cookies["AuthSession"];
@@ -55,7 +56,7 @@ namespace mmria.server
 					System.IO.Stream dataStream = response.GetResponseStream ();
 					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 					string responseFromServer = reader.ReadToEnd ();
-
+ */
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
 					if(mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, result))
@@ -115,7 +116,7 @@ namespace mmria.server
 
 				if(!byName.ContainsKey("jurisdiction_id"))
 				{
-					byName["jurisdiction_id"] = "/";
+					byName.Add("jurisdiction_id", "/");
 				}
 
 				if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, byName["jurisdiction_id"].ToString()))
@@ -128,7 +129,7 @@ namespace mmria.server
 				// begin - check if doc exists
 				try 
 				{
-					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, null, null);
+					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, Program.config_timer_user_name, Program.config_timer_password);
 					string document_json = null;
 					document_json = await check_document_curl.executeAsync ();
 					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
