@@ -79,7 +79,7 @@ namespace mmria.server.util
             var user_name = p_claims_principal.Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value; 
 
 			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id?{user_name}";
-			var jurisdicion_curl = new cURL("POST", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_password);
+			var jurisdicion_curl = new cURL("GET", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_password);
 			string jurisdicion_result_string = null;
 			try
 			{
@@ -94,7 +94,11 @@ namespace mmria.server.util
 			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_view_response>(jurisdicion_result_string);
             foreach(mmria.common.model.couchdb.jurisdiction_view_item jvi in jurisdiction_view_response.rows)
             {
-                result.Add(jvi.key);
+                if(jvi.key!=null)
+                {
+                    result.Add(jvi.value.jurisdiction_id);
+                }
+                
             }
 
             return result;
@@ -105,7 +109,7 @@ namespace mmria.server.util
             HashSet<string> result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
 			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id";
-			var jurisdicion_curl = new cURL("POST", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_password);
+			var jurisdicion_curl = new cURL("GET", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_password);
 			string jurisdicion_result_string = null;
 			try
 			{
@@ -120,7 +124,11 @@ namespace mmria.server.util
 			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_view_response>(jurisdicion_result_string);
             foreach(mmria.common.model.couchdb.jurisdiction_view_item jvi in jurisdiction_view_response.rows)
             {
-                result.Add($"{jvi.key},{jvi.value.user_id}");
+                if(jvi.key!=null)
+                {
+                    result.Add($"{jvi.value.jurisdiction_id},{jvi.value.user_id}");
+                }
+                
             }
 
             return result;

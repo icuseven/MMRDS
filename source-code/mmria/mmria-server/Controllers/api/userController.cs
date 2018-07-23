@@ -32,6 +32,9 @@ namespace mmria.server
 
 				string request_string = this.get_couch_db_url() + "/_users/_all_docs?include_docs=true&skip=1";
 
+				var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_password);
+				string responseFromServer = await user_curl.executeAsync();
+/*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				request.PreAuthenticate = false;
 				//request.Method = "GET";
@@ -46,7 +49,9 @@ namespace mmria.server
 				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				 
 				string responseFromServer = reader.ReadToEnd ();
+				*/
 /*
 
 
@@ -121,7 +126,7 @@ namespace mmria.server
 							if
 							(
 								regex.IsMatch(jurisdiction_username_array[0]) && 
-								uai.value.doc.name == jurisdiction_username_array[1]
+								uai.doc.name == jurisdiction_username_array[1]
 							)
 							{
 								is_jurisdiction_ok = true;

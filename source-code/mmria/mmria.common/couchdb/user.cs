@@ -9,7 +9,7 @@ namespace mmria.common.model.couchdb
 		public string _rev { get; set; } // ": "3-a8db5e34c488c3516220de7e033ba794",
 		public string password_scheme { get; set; } // ": "pbkdf2",
 		public string password { get; set; }
-		public string iterations { get; set; } // ": 10,
+		public int? iterations { get; set; } // ": 10,
 		public string name { get; set; } // ": "user1",
 		public string[] roles { get; set; } /* ": [
 			"abstractor",

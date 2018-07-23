@@ -1,16 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
+
 
 namespace mmria.common.model.couchdb
 {
-
-
-	public class value_tuple 
+	public class user_alldoc_item_value
 	{  
-		public value_tuple(){}
+		public user_alldoc_item_value(){}
 		
 		public string rev { get; set; }
-
-		public mmria.common.model.couchdb.user doc { get; set; }
 
 	}
 	public class user_alldoc_item
@@ -19,7 +18,9 @@ namespace mmria.common.model.couchdb
 
 		public string id { get; set; } //": "16e458537602f5ef2a710089dffd9453",
 		public string key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
-		public value_tuple value {get;set;}
+		public user_alldoc_item_value value {get;set;}
+		public mmria.common.model.couchdb.user doc {get;set;}
+		
 	
 	}
 
