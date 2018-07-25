@@ -29,6 +29,9 @@ namespace mmria.server
 			{
                 string jurisdiction_tree_url = Program.config_couchdb_url + $"/jurisdiction/jurisdiction_tree";
 
+				var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				string response_from_server = await jurisdiction_curl.executeAsync ();
+/*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(jurisdiction_tree_url));
 				request.Method = "GET";
 				request.PreAuthenticate = false;
@@ -42,10 +45,8 @@ namespace mmria.server
 				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				//result = await reader.ReadToEndAsync ();
-
-
-				string response_from_server = await reader.ReadToEndAsync ();
+				string response_from_server = await reader.ReadToEndAsync (); 
+*/
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
 
 			}
