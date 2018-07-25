@@ -20,7 +20,7 @@ namespace mmria.server
 		// GET api/values 
 		//public IEnumerable<mmria.common.model.couchdb.user_alldocs_response> Get() 
 		[HttpGet]
-        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user_alldocs_response> Get() 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>> Get() 
 		{ 
 			try
 			{
@@ -103,17 +103,17 @@ namespace mmria.server
 				return result;
 				*/
 
-				mmria.common.model.couchdb.user_alldocs_response user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_alldocs_response>(responseFromServer);
+				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
 			
 
-				mmria.common.model.couchdb.user_alldocs_response result = new mmria.common.model.couchdb.user_alldocs_response();
+				mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user> result = new mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>();
 				result.offset = user_alldocs_response.offset;
 				result.total_rows = user_alldocs_response.total_rows;
 
 				
 
-				List<mmria.common.model.couchdb.user_alldoc_item> temp_list = new List<mmria.common.model.couchdb.user_alldoc_item>();
-				foreach(mmria.common.model.couchdb.user_alldoc_item uai in user_alldocs_response.rows)
+				List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>> temp_list = new List<mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user>>();
+				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
 				{
 					bool is_jurisdiction_ok = false;
 					foreach(string jurisdiction_item in jurisdiction_hashset)
@@ -126,7 +126,7 @@ namespace mmria.server
 							if
 							(
 								regex.IsMatch(jurisdiction_username_array[0]) && 
-								uai.doc.name == jurisdiction_username_array[1]
+								uai.value.name == jurisdiction_username_array[1]
 							)
 							{
 								is_jurisdiction_ok = true;
@@ -144,7 +144,7 @@ namespace mmria.server
 				}
 
 
-				result.rows = temp_list.ToArray();
+				result.rows = temp_list;
 
 				return result;
 

@@ -2,6 +2,8 @@ using System;
 
 namespace mmria.common.model.couchdb
 {
+
+	/*
 	public class alldoc_item
 	{
 		public alldoc_item(){}
@@ -20,5 +22,6 @@ namespace mmria.common.model.couchdb
 		public alldoc_item[] rows { get; set; }
 		public int total_rows { get; set; } 
 	}
+	 */
 }
 

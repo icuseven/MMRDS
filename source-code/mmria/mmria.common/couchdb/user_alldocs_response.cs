@@ -5,6 +5,7 @@ using System.Dynamic;
 
 namespace mmria.common.model.couchdb
 {
+	/*
 	public class user_alldoc_item_value
 	{  
 		public user_alldoc_item_value(){}
@@ -32,5 +33,6 @@ namespace mmria.common.model.couchdb
 		public user_alldoc_item[] rows { get; set; }
 		public int total_rows { get; set; } 
 	}
+	 */
 }
 

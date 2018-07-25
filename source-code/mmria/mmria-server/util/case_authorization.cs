@@ -97,8 +97,8 @@ namespace mmria.server.util
                 return result;
 			}
 			
-			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_view_response>(jurisdicion_result_string);
-            foreach(mmria.common.model.couchdb.jurisdiction_view_item jvi in jurisdiction_view_response.rows)
+			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.jurisdiction_view_sortable_item>>(jurisdicion_result_string);
+            foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.jurisdiction_view_sortable_item> jvi in jurisdiction_view_response.rows)
             {
                 if(jvi.key!=null)
                 {
@@ -127,8 +127,8 @@ namespace mmria.server.util
                 return result;
 			}
 			
-			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_view_response>(jurisdicion_result_string);
-            foreach(mmria.common.model.couchdb.jurisdiction_view_item jvi in jurisdiction_view_response.rows)
+			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.jurisdiction_view_sortable_item>>(jurisdicion_result_string);
+            foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.jurisdiction_view_sortable_item> jvi in jurisdiction_view_response.rows)
             {
                 if(jvi.key!=null)
                 {

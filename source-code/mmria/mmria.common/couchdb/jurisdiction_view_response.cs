@@ -80,6 +80,7 @@ effective_end_date:doc.effective_end_date
 
     }
 
+/*
 
     public class jurisdiction_view_item
 	{
@@ -115,5 +116,7 @@ effective_end_date:doc.effective_end_date
         public System.Collections.Generic.List<jurisdiction_view_item> rows { get; set; }
 		public int total_rows { get; set; } 
 	}
+
+ */
 }
 

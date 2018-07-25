@@ -13,7 +13,7 @@ namespace mmria.server.model.actor.quartz
         protected override void OnReceive(object message)
         {
                
-            Console.WriteLine($"Process_DB_Synchronization_Set Baby {System.DateTime.Now}");
+            Console.WriteLine($"Process_DB_Synchronization_Set {System.DateTime.Now}");
 
             switch (message)
             {

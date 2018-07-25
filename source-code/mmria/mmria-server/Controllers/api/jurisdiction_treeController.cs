@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Serilog;
 using Serilog.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace mmria.server
 {
@@ -15,10 +20,10 @@ namespace mmria.server
 		}
 
 		[HttpGet]
-		public async System.Threading.Tasks.Task<string> Get()
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.jurisdiction_tree> Get()
 		{
 			Log.Information  ("Recieved message.");
-			string result = null;
+			mmria.common.model.couchdb.jurisdiction_tree result = null;
 
 			try
 			{
@@ -27,20 +32,21 @@ namespace mmria.server
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(jurisdiction_tree_url));
 				request.Method = "GET";
 				request.PreAuthenticate = false;
-
-				
                 if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
                 {
                     string auth_session_value = this.Request.Cookies["AuthSession"];
                     request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
                     request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
                 }
-				
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result = await reader.ReadToEndAsync ();
+				//result = await reader.ReadToEndAsync ();
+
+
+				string response_from_server = await reader.ReadToEndAsync ();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
 
 			}
 			catch(Exception ex) 
@@ -53,7 +59,7 @@ namespace mmria.server
 
 
 		// POST api/values 
-		//[Route("api/metadata")]
+		[Authorize(Roles  = "jurisdiction_admin,installation_admin")]
 		[HttpPost]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
         (
