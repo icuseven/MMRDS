@@ -82,6 +82,12 @@ namespace mmria.server.util
                 return result;
             }
 
+            if (p_claims_principal.HasClaim(c => c.Type == ClaimTypes.Role && 
+                                            c.Value == "installation_admin"))
+            {
+                result.Add("/");
+            }
+
             var user_name = p_claims_principal.Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value; 
 
 			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id?{user_name}";
@@ -102,7 +108,7 @@ namespace mmria.server.util
             {
                 if(jvi.key!=null)
                 {
-                    result.Add(jvi.value.jurisdiction_id);
+                    result.Add(jvi.doc.jurisdiction_id);
                 }
                 
             }
@@ -132,7 +138,7 @@ namespace mmria.server.util
             {
                 if(jvi.key!=null)
                 {
-                    result.Add($"{jvi.value.jurisdiction_id},{jvi.value.user_id}");
+                    result.Add($"{jvi.doc.jurisdiction_id},{jvi.doc.user_id}");
                 }
                 
             }

@@ -142,7 +142,15 @@ namespace mmria.server.Controllers
 					claims.Add(new Claim(ClaimTypes.Name, json_result.name, ClaimValueTypes.String, Issuer));
 					foreach(string role in json_result.roles)
 					{
-						claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+                        if(role == "_admin")
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, "installation_admin", ClaimValueTypes.String, Issuer));
+                        }
+                        else
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+                        }
+						
 					}
 
                     Response.Cookies.Append("uid", json_result.name);

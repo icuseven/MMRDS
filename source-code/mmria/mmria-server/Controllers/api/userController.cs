@@ -118,6 +118,12 @@ namespace mmria.server
 					bool is_jurisdiction_ok = false;
 					foreach(string jurisdiction_item in jurisdiction_hashset)
 					{
+
+						if(jurisdiction_item == "/")
+						{
+							is_jurisdiction_ok = true;
+							break;
+						}
 						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
 
 						foreach(string jurisdiction_username in jurisdiction_username_hashset)
@@ -126,7 +132,7 @@ namespace mmria.server
 							if
 							(
 								regex.IsMatch(jurisdiction_username_array[0]) && 
-								uai.value.name == jurisdiction_username_array[1]
+								uai.doc.name == jurisdiction_username_array[1]
 							)
 							{
 								is_jurisdiction_ok = true;
