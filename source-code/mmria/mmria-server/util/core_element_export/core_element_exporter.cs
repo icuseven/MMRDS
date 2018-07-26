@@ -355,10 +355,13 @@ namespace mmria.server.util
 
 			}
 
-			WriteCSV mapping_document = new WriteCSV("core_field_mapping.csv",  this.item_directory_name, Configuration.export_directory);
+			WriteCSV mapping_document = new WriteCSV("data-dictionary.csv",  this.item_directory_name, Configuration.export_directory);
 			System.Data.DataColumn column = null;
 
 			column = new System.Data.DataColumn("file_name", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("column_name", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
 			column = new System.Data.DataColumn("mmria_path", typeof(string));
@@ -367,8 +370,7 @@ namespace mmria.server.util
 			column = new System.Data.DataColumn("mmria_prompt", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
-			column = new System.Data.DataColumn("column_name", typeof(string));
-			mapping_document.Table.Columns.Add(column);
+
 
 
 			foreach (KeyValuePair<string, WriteCSV> kvp in path_to_csv_writer)
