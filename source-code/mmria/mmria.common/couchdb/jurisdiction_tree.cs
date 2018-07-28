@@ -20,7 +20,7 @@ namespace mmria.common.model.couchdb
 
 		public jurisdiction_tree()
 		{
-
+			this.children = new jurisdiction[]{}; 
 		}
 
 	}
