@@ -137,7 +137,7 @@ function load_users()
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
 			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("")
-			+ "<p>tree</p><ul>" + jurisdiction_render("jurisdiction_tree", g_jurisdiction_tree).join("") + "</ul>";
+			+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
 			;
 
 	});
@@ -532,7 +532,7 @@ function clear_status()
 }
 
 
-function add_child_click(p_parent_id, p_name, p_user_id)
+function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 {
 	var new_child  = jurisdiction_add(p_parent_id, p_name, p_user_id);
 	if(p_name != "" && get_jurisdiction(new_child.id, g_jurisdiction_tree) == null)
@@ -541,25 +541,33 @@ function add_child_click(p_parent_id, p_name, p_user_id)
 		if(node_to_add_to)
 		{
 			node_to_add_to.children.push(new_child);
-			var x = jurisdiction_render(p_parent_id, node_to_add_to);
+			var x = jurisdiction_render(node_to_add_to);
 
 			var y=document.getElementById(p_parent_id.replace("/","_"));
 
 			y.outerHTML = x.join("");
+			
+		}
 
-			//document.replaceChild(x,y);
-/*
-			if(p_parent_id== "jurisdiction_tree")
-			{
-				$("#" +  + p_parent_id.replace("/","_")).replaceWith(x);
-			}
-			else
-			{
-				//var y=document.getElementById('add_child_of_' + p_parent_id.replace("/","_"));
-				//document.replaceChild(x,y);
-				$( "#" + p_parent_id.replace("/","_")).replaceWith(x);
-			}
-*/			
+	}
+	
+}
+
+function jurisdiction_remove_child_click(p_parent_id, p_node_id, p_user_id)
+{
+
+	if(p_node_id != "jurisdiction_tree")
+	{
+		remove_jurisdiction(p_node_id, g_jurisdiction_tree)
+		var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
+		if(node_to_add_to)
+		{
+			var x = jurisdiction_render(node_to_add_to);
+
+			var y=document.getElementById(p_parent_id.replace("/","_"));
+
+			y.outerHTML = x.join("");
+			
 		}
 
 	}
@@ -595,6 +603,35 @@ function get_jurisdiction(p_search_id, p_node)
 
 	return result;
 }
+
+
+function remove_jurisdiction(p_search_id, p_node)
+{
+	if(p_node._id && p_node._id == p_search_id)
+	{
+		return;
+	}
+
+	if(p_node.children != null)
+	{
+		for(var i = 0; i < p_node.children.length; i++)
+		{
+			var child = p_node.children[i];
+			if(p_node.children[i].id == p_search_id)
+			{
+				p_node.children.splice(i, 1);
+				return;
+			}
+			else
+			{
+				remove_jurisdiction(p_search_id, child)
+			}
+		}
+	}
+
+	return;
+}
+
 
 function jurisdiction_add(p_parent_id, p_name, p_user_id)
 {

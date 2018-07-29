@@ -33,7 +33,7 @@ function jurisdiction_tree_render(p_tree_root)
 
 */
 
-function jurisdiction_render(p_parent_id, p_data)
+function jurisdiction_render(p_data)
 {
 	var result = [];
 
@@ -42,7 +42,7 @@ function jurisdiction_render(p_parent_id, p_data)
 		result.push("<li id='" + p_data._id.replace("/","_") + "'>");
 		result.push(p_data.name);
 		result.push("&nbsp;");
-		result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='+' onclick='add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
+		result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
 	
 		
 	}
@@ -51,7 +51,7 @@ function jurisdiction_render(p_parent_id, p_data)
 		result.push("<li id='" + p_data.id.replace("/","_") + "'>");
 		result.push(p_data.name);
 		result.push("&nbsp;");
-		result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='+' onclick='add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
+		result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />&nbsp;<input type='button' value='delete' onclick='jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"" + $mmria.getCookie("uid") + "\")' />");
 		
 	}
 
@@ -61,14 +61,7 @@ function jurisdiction_render(p_parent_id, p_data)
 		{
 			result.push("<ul>");
 			var child = p_data.children[i];
-			if( p_data._id)
-			{
-				Array.prototype.push.apply(result, jurisdiction_render(p_data._id, child));
-			}
-			else
-			{
-				Array.prototype.push.apply(result, jurisdiction_render(p_data.id, child));
-			}
+			Array.prototype.push.apply(result, jurisdiction_render(child));
 			result.push("</ul>");
 			
 		}
