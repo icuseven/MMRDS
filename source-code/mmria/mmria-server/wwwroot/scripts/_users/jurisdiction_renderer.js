@@ -1,3 +1,4 @@
+/*
 function jurisdiction_tree_render(p_tree_root)
 {
 	var result = [];
@@ -30,7 +31,7 @@ function jurisdiction_tree_render(p_tree_root)
 
 }
 
-
+*/
 
 function jurisdiction_render(p_parent_id, p_data)
 {
@@ -39,25 +40,25 @@ function jurisdiction_render(p_parent_id, p_data)
 	if( p_data._id)
 	{
 		result.push("<li id='" + p_data._id.replace("/","_") + "'>");
+		result.push(p_data.name);
+		result.push("&nbsp;");
+		result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='+' onclick='add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
+	
+		
 	}
 	else
 	{
 		result.push("<li id='" + p_data.id.replace("/","_") + "'>");
+		result.push(p_data.name);
+		result.push("&nbsp;");
+		result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='+' onclick='add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
+		
 	}
-	
 
-
-	result.push("name:&nbsp;");
-	result.push(p_data.name);
-	result.push("&nbsp;");
-	result.push("<input id='add_child_of_" + p_parent_id.replace("/","_") + "' />&nbsp;<input type='button' value='+' onclick='add_child_click(\"" + p_parent_id + "\", document.getElementById(\"add_child_of_" + p_parent_id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
-	result.push("</li>");
-	
 	if(p_data.children != null)
 	{
 		for(var i = 0; i < p_data.children.length; i++)
 		{
-			result.push("<li>");
 			result.push("<ul>");
 			var child = p_data.children[i];
 			if( p_data._id)
@@ -69,9 +70,10 @@ function jurisdiction_render(p_parent_id, p_data)
 				Array.prototype.push.apply(result, jurisdiction_render(p_data.id, child));
 			}
 			result.push("</ul>");
-			result.push("</li>");
+			
 		}
 	}
+	result.push("</li>");
 	
 
 
