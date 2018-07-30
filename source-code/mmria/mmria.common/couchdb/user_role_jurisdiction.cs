@@ -21,12 +21,14 @@ namespace mmria.common.model.couchdb
 		public DateTime? date_last_updated { get; set; } 
 		public string last_updated_by { get; set; } 
 
-		public string data_type { get; }  = "user_role_jursidiction";
+		public string data_type { get; set; }
 
 		public user_role_jurisdiction()
 		{
 
 		}
+
+		public const string user_role_jursidiction_const = "user_role_jursidiction";
 
 	}
 }

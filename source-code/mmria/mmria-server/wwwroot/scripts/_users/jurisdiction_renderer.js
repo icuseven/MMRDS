@@ -1,38 +1,3 @@
-/*
-function jurisdiction_tree_render(p_tree_root)
-{
-	var result = [];
-
-	result.push("<li id='" + p_tree_root._id.replace("/","_") + "'>");
-
-
-	result.push("name:&nbsp;");
-	result.push(p_tree_root.name);
-	result.push("&nbsp;");
-	result.push("<input id='add_child_of_jurisdiction_root' />&nbsp;<input type='button' value='+' onclick='add_child_click(\"jurisdiction_tree\", document.getElementById(\"add_child_of_jurisdiction_root\").value, \"" + $mmria.getCookie("uid") + "\")' />");
-	result.push("</li>")
-	
-	if(p_tree_root.children != null)
-	{
-		for(var i = 0; i < p_tree_root.children.length; i++)
-		{
-			result.push("</li>")
-			result.push("<ul>");
-			var child = p_tree_root.children[i];
-			Array.prototype.push.apply(result, jurisdiction_render(p_tree_root.name, child));
-			result.push("</ul>");
-			result.push("</li>");
-		}
-	}
-	
-
-
-	return result;
-
-}
-
-*/
-
 function jurisdiction_render(p_data)
 {
 	var result = [];

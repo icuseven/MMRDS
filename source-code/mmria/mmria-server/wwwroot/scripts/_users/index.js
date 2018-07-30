@@ -115,7 +115,7 @@ function load_jurisdictions()
 
 function load_user_jurisdictions()
 {
-	var metadata_url = location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view';
+	var metadata_url = location.protocol + '//' + location.host + '/api/user_role_jurisdiction';
 
 	$.ajax
 	({
@@ -126,16 +126,17 @@ function load_user_jurisdictions()
 			}
 	}).done(function(response) 
 	{
+	
 		if(response)
 		{
-			g_user_role_jurisdiction = [];
-			for(var i in response.rows)
-			{
-				g_user_role_jurisdiction.push(response.rows[i].value);
-			}
-			
+			g_user_role_jurisdiction = response;
+
 			load_users();
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
+		}
+		else
+		{
+			g_user_role_jurisdiction = null;
 		}
 
 

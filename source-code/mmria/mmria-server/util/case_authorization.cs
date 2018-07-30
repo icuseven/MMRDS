@@ -14,6 +14,31 @@ namespace mmria.server.util
         public static bool is_authorized_to_handle_jurisdiction_id
         (
           System.Security.Claims.ClaimsPrincipal p_claims_principal, 
+          mmria.common.model.couchdb.user_role_jurisdiction p_user_role_jurisdiction
+        )
+        {
+
+            bool result = false;
+
+            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+                
+            foreach(string jurisdiction_id in  jurisdiction_hashset)
+            {
+                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_id);
+                if(p_user_role_jurisdiction.jurisdiction_id != null && regex.IsMatch(p_user_role_jurisdiction.jurisdiction_id))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+
+            return result;
+        }
+
+        public static bool is_authorized_to_handle_jurisdiction_id
+        (
+          System.Security.Claims.ClaimsPrincipal p_claims_principal, 
           System.Dynamic.ExpandoObject p_case_expando_object
         )
         {

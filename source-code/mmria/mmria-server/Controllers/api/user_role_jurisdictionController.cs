@@ -15,32 +15,66 @@ namespace mmria.server
 		}
 
 		[HttpGet]
-		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user_role_jurisdiction> Get(string p_urj_id)
+		public async System.Threading.Tasks.Task<IList<mmria.common.model.couchdb.user_role_jurisdiction>> Get(string p_urj_id)
 		{
 			Log.Information  ("Recieved message.");
-			mmria.common.model.couchdb.user_role_jurisdiction result = null;
+			var result = new List<mmria.common.model.couchdb.user_role_jurisdiction>();
 
 			try
 			{
-                string jurisdiction_tree_url = Program.config_couchdb_url + $"/jurisdiction/" + p_urj_id;
+				string jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/" + p_urj_id;
+				if(string.IsNullOrWhiteSpace(p_urj_id))
+				{
+					jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/_all_docs?include_docs=true";
 
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(jurisdiction_tree_url));
-				request.Method = "GET";
-				request.PreAuthenticate = false;
+					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_password);
+					string responseFromServer = await case_curl.executeAsync();
 
-				
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-				
+					//var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction[]> (responseFromServer);
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result =  Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction>(await reader.ReadToEndAsync ());
+					//var user_role_list_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+					var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user_role_jurisdiction>> (responseFromServer);
+
+
+
+					foreach(var row in user_role_list.rows)
+					{
+						var user_role_jurisdiction = row.doc;
+
+						if
+						(
+							user_role_jurisdiction.data_type != null &&
+							user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
+							mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, user_role_jurisdiction))
+						{
+							result.Add(user_role_jurisdiction);
+						}						
+					}
+					 
+				}
+				else
+				{
+					jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/" + p_urj_id;	
+					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_password);
+					string responseFromServer = await case_curl.executeAsync();
+
+					var user_role_jurisdiction = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (responseFromServer);
+
+
+					if
+					(
+						user_role_jurisdiction.data_type != null &&
+						user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
+						mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, user_role_jurisdiction)
+					)
+					{
+						result.Add(user_role_jurisdiction);
+					}
+					
+
+				}
+                
 
 			}
 			catch(Exception ex) 
