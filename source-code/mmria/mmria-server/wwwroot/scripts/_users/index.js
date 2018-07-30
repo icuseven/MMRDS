@@ -1,6 +1,7 @@
 
 var g_couchdb_url = null;
 var g_jurisdiction_tree = null;
+var g_user_role_jurisdiction = null;
 
 var g_ui = { 
 	user_summary_list:[],
@@ -105,11 +106,44 @@ function load_jurisdictions()
 
 			g_jurisdiction_tree = response;
 
-			load_users();
+			load_user_jurisdictions();
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
 
 	});
 }
+
+
+function load_user_jurisdictions()
+{
+	var metadata_url = location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view';
+
+	$.ajax
+	({
+			url: metadata_url,
+			beforeSend: function (request)
+			{
+				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
+			}
+	}).done(function(response) 
+	{
+		if(response)
+		{
+			g_user_role_jurisdiction = [];
+			for(var i in response.rows)
+			{
+				g_user_role_jurisdiction.push(response.rows[i].value);
+			}
+			
+			load_users();
+			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
+		}
+
+
+	});
+}
+
+
+
 
 
 function load_users()
@@ -541,6 +575,8 @@ function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 		if(node_to_add_to)
 		{
 			node_to_add_to.children.push(new_child);
+			g_jurisdiction_tree.date_last_updated = new Date();
+			g_jurisdiction_tree.last_updated_by = p_user_id;
 			var x = jurisdiction_render(node_to_add_to);
 
 			var y=document.getElementById(p_parent_id.replace("/","_"));
@@ -559,6 +595,8 @@ function jurisdiction_remove_child_click(p_parent_id, p_node_id, p_user_id)
 	if(p_node_id != "jurisdiction_tree")
 	{
 		remove_jurisdiction(p_node_id, g_jurisdiction_tree)
+		g_jurisdiction_tree.date_last_updated = new Date();
+		g_jurisdiction_tree.last_updated_by = p_user_id;
 		var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
 		if(node_to_add_to)
 		{

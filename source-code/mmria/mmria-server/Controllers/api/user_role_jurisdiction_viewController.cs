@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
@@ -13,7 +14,7 @@ namespace mmria.server
 	{
         // GET api/values 
         [HttpGet]
-        public mmria.common.model.couchdb.case_view_response Get
+        public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> Get
         (
             int skip = 0,
             int take = 25,
@@ -54,6 +55,7 @@ effective_end_date
 
 */
 
+            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(User);
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {
@@ -117,40 +119,53 @@ effective_end_date
                     }
                 }
 
-                string request_string = request_builder.ToString();
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
-				request.PreAuthenticate = false;
 
 
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
+				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_password);
+				string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string responseFromServer = reader.ReadToEnd ();
-
-                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+                var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
 
                 if (string.IsNullOrWhiteSpace (search_key)) 
                 {
+
+                    var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>();
+                    result.offset = case_view_response.offset;
+                    result.total_rows = case_view_response.total_rows;
+
+                    foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
+                    {
+                        bool is_jurisdiction_ok = false;
+                        foreach(string jurisdiction_item in jurisdiction_hashset)
+                        {
+                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+                            if(cvi.value.jurisdiction_id == null)
+                            {
+                                cvi.value.jurisdiction_id = "/";
+                            }
+
+                            if(regex.IsMatch(cvi.value.jurisdiction_id))
+                            {
+                                is_jurisdiction_ok = true;
+                                break;
+                            }
+                        }
+
+                        if(is_jurisdiction_ok) result.rows.Add (cvi);
+                    }
+
                     return case_view_response;
                 } 
                 else 
                 {
                     string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
 
-                    mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+                    var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>();
                     result.offset = case_view_response.offset;
                     result.total_rows = case_view_response.total_rows;
 
                     //foreach(mmria.common.model.couchdb.user_role_jurisdiction cvi in case_view_response.rows)
-                    foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                    foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
                     {
 /*
 date_created
@@ -164,61 +179,116 @@ jurisdiction_id
 is_active
 effective_start_date
 effective_end_date
- 
+ */ 
 
                         bool add_item = false;
-                        if (cvi.value.first_name != null && cvi.value.first_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        if (cvi.value.jurisdiction_id != null && cvi.value.jurisdiction_id.Equals(key_compare, StringComparison.OrdinalIgnoreCase))
                         {
                             add_item = true;
                         }
 
-                        if (cvi.value.middle_name != null && cvi.value.middle_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+                        if (cvi.value.is_active != null && cvi.value.is_active.HasValue)
+                        {
+                            if(bool.TryParse(key_compare, out bool is_active))
+                            {
+                                if(cvi.value.is_active.Value == is_active)
+                                {
+                                    add_item = true;
+                                }
+                            }
+                        }
+
+                        if(cvi.value.role_name != null && cvi.value.role_name.Equals(key_compare, StringComparison.OrdinalIgnoreCase))
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.last_name != null && cvi.value.last_name.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        if(cvi.value.user_id != null && cvi.value.user_id.Equals (key_compare, StringComparison.OrdinalIgnoreCase))
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.record_id != null && cvi.value.record_id.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+
+                        if(cvi.value.effective_start_date != null && cvi.value.effective_start_date.HasValue)
+                        {
+                            if(DateTime.TryParse(key_compare, out DateTime is_date))
+                            {
+                                if(cvi.value.effective_start_date.Value == is_date)
+                                {
+                                    add_item = true;
+                                }
+                            }
+                        }
+
+                        if(cvi.value.effective_end_date != null && cvi.value.effective_end_date.HasValue)
+                        {
+                            if(DateTime.TryParse(key_compare, out DateTime is_date))
+                            {
+                                if(cvi.value.effective_end_date.Value == is_date)
+                                {
+                                    add_item = true;
+                                }
+                            }
+                        }
+
+
+
+                        if(cvi.value.date_created != null && cvi.value.date_created.HasValue)
+                        {
+                            if(DateTime.TryParse(key_compare, out DateTime is_date))
+                            {
+                                if(cvi.value.date_created.Value == is_date)
+                                {
+                                    add_item = true;
+                                }
+                            }
+                        }
+
+
+
+                        if(cvi.value.date_last_updated != null && cvi.value.date_last_updated.HasValue)
+                        {
+                            if(DateTime.TryParse(key_compare, out DateTime is_date))
+                            {
+                                if(cvi.value.date_last_updated.Value == is_date)
+                                {
+                                    add_item = true;
+                                }
+                            }
+                        }
+
+                        if(cvi.value.created_by != null && cvi.value.created_by.Equals (key_compare, StringComparison.OrdinalIgnoreCase))
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.agency_case_id != null && cvi.value.agency_case_id.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
+                        if(cvi.value.last_updated_by != null && cvi.value.last_updated_by.Equals (key_compare, StringComparison.OrdinalIgnoreCase))
                         {
                             add_item = true;
                         }
 
-                        if(cvi.value.created_by != null && cvi.value.created_by.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
+
+                        bool is_jurisdiction_ok = false;
+                        foreach(string jurisdiction_item in jurisdiction_hashset)
                         {
-                            add_item = true;
+                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+
+                            if(cvi.value.jurisdiction_id == null)
+                            {
+                                cvi.value.jurisdiction_id = "/";
+                            }
+
+
+                            if(regex.IsMatch(cvi.value.jurisdiction_id))
+                            {
+                                is_jurisdiction_ok = true;
+                                break;
+                            }
                         }
 
-                        if(cvi.value.last_updated_by != null && cvi.value.last_updated_by.IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
-                        {
-                            add_item = true;
-                        }
-
-                        if(cvi.value.date_of_death_month != null && cvi.value.date_of_death_month.HasValue && cvi.value.date_of_death_month.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1)
-                        {
-                            add_item = true;
-                        }
-                        if(cvi.value.date_of_death_year != null && cvi.value.date_of_death_year.HasValue  && cvi.value.date_of_death_year.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1 )
-                        {
-                            add_item = true;
-                        }
-
-                        if (cvi.value.date_of_committee_review != null && cvi.value.date_of_committee_review.HasValue && cvi.value.date_of_committee_review.Value.ToString ().IndexOf (key_compare, StringComparison.OrdinalIgnoreCase) > -1) 
-                        {
-                            add_item = true;
-                        }
-
-                        if(add_item) result.rows.Add (cvi);
-*/                        
-                      }
+                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
+                       
+                    }
 
                     result.total_rows = result.rows.Count;
                     result.rows =  result.rows.Skip (skip).Take (take).ToList ();

@@ -11,14 +11,14 @@ namespace mmria.common.model.couchdb
 		public string user_id { get; set; }
 		public string jurisdiction_id { get; set; }
 
-		public DateTime effective_start_date { get; set; } 
-		public DateTime effective_end_date { get; set; } 
+		public DateTime? effective_start_date { get; set; } 
+		public DateTime? effective_end_date { get; set; } 
 
-		public bool is_active { get; set; } 
+		public bool? is_active { get; set; } 
 
-		public DateTime date_created { get; set; } 
+		public DateTime? date_created { get; set; } 
 		public string created_by { get; set; } 
-		public DateTime date_last_updated { get; set; } 
+		public DateTime? date_last_updated { get; set; } 
 		public string last_updated_by { get; set; } 
 
 		public string data_type { get; }  = "user_role_jursidiction";

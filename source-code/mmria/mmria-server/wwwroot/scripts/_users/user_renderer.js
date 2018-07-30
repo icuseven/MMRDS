@@ -5,7 +5,7 @@ function user_render(p_ui, p_data, p_metadata_path, p_object_path, p_is_grid_con
 	var result = [];
 
 	result.push("<div style='clear:both;margin-left:10px;'>");
-	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=4>User List</th></tr>");
+	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=5>User List</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
@@ -40,6 +40,17 @@ function user_entry_render(p_user, p_i)
 
 	result.push(p_user.name);
 	result.push("</td><td>");
+
+	result.push("<td>");
+	result.push("<strong>");
+	result.push(p_user.name);
+	result.push("</strong><br/>");
+	result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
+	result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
+	result.push("<br/><input type='button' value='Update password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+	result.push("</td>");
+
+	result.push("<td>");	
 	result.push("<table>");
 	result.push("<tr><th>Role Name</th><th>&nbsp;</th><tr>");
 	for(var j = 0; j < p_user.roles.length; j++)
@@ -52,20 +63,38 @@ function user_entry_render(p_user, p_i)
 	Array.prototype.push.apply(result, user_role_render(p_user));
 	result.push("</td></tr>")
 	result.push("</table></td>");
-	result.push("<td>");
-	result.push("<strong>");
-	result.push(p_user.name);
-	result.push("</strong><br/>");
+
+
+
+
+
+
 	/*
-	result.push("<input type='text' value='");
-	result.push(p_user.name);
-	result.push("'/>");
-	result.push("<input type='button' value='change user name'/>");
-	result.push("<br/><br/>");
+
+user_role_jurisdiction
+{
+	_id { get; set; }
+	_rev { get; set; }
+	parent_id { get; set; }
+	role_name { get; set; }
+	user_id { get; set; }
+	jurisdiction_id { get; set; }
+
+	effective_start_date { get; set; } 
+	effective_end_date { get; set; } 
+
+	is_active { get; set; } 
+	date_created { get; set; } 
+	created_by { get; set; } 
+	date_last_updated { get; set; } 
+	last_updated_by { get; set; } 
+
+	data_type : "user_role_jursidiction";
+	
+}
+
 	*/	
-	result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
-	result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
-	result.push("</td>");
+
 	result.push("<td>&nbsp;")
 	//result.push("<input type='button' value='disable user'/>");
 	result.push("<input type='button' value='Save User " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
@@ -107,6 +136,10 @@ function user_role_render(p_user)
 		}
 	}
 	result.push("</select>");
+
+
+
+
 	result.push("<input type='button' value='Add Role' onclick='add_role(\"" + p_user._id + "\")' />");
 	return result;
 }
