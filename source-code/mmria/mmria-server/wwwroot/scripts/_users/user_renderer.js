@@ -115,26 +115,27 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push("<tr><td>")
 	result.push("user_role.jurisdiction_id");
 	result.push("</td><td>")
-	result.push(temp_user_role.jurisdiction_id);
+	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, temp_user_role.jurisdiction_id, 0));
+	//result.push(temp_user_role.jurisdiction_id);
 	result.push("</td></tr>")
 	result.push("<tr><td>")
 	result.push("user_role.effective_start_date");
-	result.push("</td><td>")
+	result.push("</td><td><input type='text' value='")
 	result.push(temp_user_role.effective_start_date);
-	result.push("</td></tr>")
+	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
 	result.push("user_role.effective_end_date");
-	result.push("</td><td>")
+	result.push("</td><td><input type='text' value='")
 	result.push(temp_user_role.effective_end_date);
-	result.push("</td></tr>")
+	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
 	result.push("user_role.is_active");
-	result.push("</td><td>")
+	result.push("</td><td><input type='text' value='")
 	result.push(temp_user_role.is_active);
-	result.push("</td></tr>")
+	result.push("' /> </td></tr>")
 	
 	// Role edit - end
-
+/*
 	for(var j = 0; j < p_user.roles.length; j++)
 	{
 		result.push("<tr><td>");
@@ -142,14 +143,14 @@ function user_entry_render(p_user, p_i, p_created_by)
 		result.push("</td><td>&nbsp;</td></tr>");
 	}
 	result.push("<tr><td colspan=2 align=right>");
-	
-	result.push("</td></tr>")
+	*/
+	//result.push("<tr><td colspan=2 align=right>");
 
 
 
 	result.push("<tr><td>");
-	result.push("<input type='button' value='Remove Role' onclick='remove_role(\"" + p_user._id + "\",\"" + p_user.roles[j] + "\")'/>");
-	result.push("<input type='button' value='Add Role' onclick='add_role(\"" + p_user._id + "\")' />");
+	result.push("<input type='button' value='Remove Role' onclick='remove_role(\"" + temp_user_role._id + "\")'/>");
+	result.push("<input type='button' value='Add Role' onclick='add_role(\"" + temp_user_role._id + "\")' />");
 	result.push("</td></tr>");
 	result.push("</table></td>");
 
@@ -254,3 +255,56 @@ function user_role_render(p_user)
 }
 
 */
+
+function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
+{
+	var result = [];
+	if( p_data._id)
+	{
+
+		result.push("<select size=1>")
+		result.push("<option></option>")
+		result.push("<option")
+
+		if(p_data.name == p_selected_id)
+		{
+			result.push(" selected=true")
+		}
+		result.push(">")
+		result.push(p_data.name);
+		result.push("</option>")
+		p_level = 0;
+	}
+	else
+	{
+		result.push("<option")
+		if(p_data.name == p_selected_id)
+		{
+			result.push(" selected=true")
+		}
+		result.push(">")
+
+		for(var i = 0; i < p_level; i++)
+		{
+			result.push("-");
+		}
+		result.push(p_data.name);
+		result.push("</option>")
+	
+	}
+
+	if(p_data.children != null)
+	{
+		for(var i = 0; i < p_data.children.length; i++)
+		{
+			var child = p_data.children[i];
+			Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1));
+			
+		}
+	}
+	result.push("</select>");
+	
+
+	return result;
+
+}
