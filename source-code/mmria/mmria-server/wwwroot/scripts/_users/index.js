@@ -171,7 +171,7 @@ function load_users()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("")
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", $mmria.getCookie("uid")).join("")
 			+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
 			;
 
@@ -699,4 +699,35 @@ function jurisdiction_update()
 function jurisdiction_delete()
 {
 	
+}
+
+
+function user_role_jurisdiction_add
+(
+	p_role_name,
+	p_user_id,
+	p_jurisdiction_id,
+	p_effective_start_date,
+	p_effective_end_date,
+	p_is_active,
+	p_created_by
+)
+{
+	var result = {
+		_id: $mmria.get_new_guid(),
+		role_name : p_role_name,
+		user_id: p_user_id,
+		jurisdiction_id: p_jurisdiction_id,
+
+		effective_start_date: p_effective_start_date,
+		effective_end_date: p_effective_end_date,
+		is_active: p_is_active,
+		date_created: new Date(),
+		created_by: p_created_by,
+		date_last_updated: new Date(),
+		last_updated_by: p_created_by,
+		data_type:"user_role_jursidiction"
+	}
+
+	return result;
 }
