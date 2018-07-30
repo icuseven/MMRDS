@@ -89,7 +89,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 	p_user.name,
 	"",
 	new Date(),
-	new Date(),
+	new Date(new Date().getTime() + 90*24*60*60*1000),
 	true,
 	p_created_by
 );
@@ -113,23 +113,23 @@ function user_entry_render(p_user, p_i, p_created_by)
 	//result.push(user_role.role_name);
 	result.push("</td></tr>")
 	result.push("<tr><td>")
-	result.push("user_role.jurisdiction_id");
+	result.push("jurisdiction_id");
 	result.push("</td><td>")
 	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, temp_user_role.jurisdiction_id, 0));
 	//result.push(temp_user_role.jurisdiction_id);
 	result.push("</td></tr>")
 	result.push("<tr><td>")
-	result.push("user_role.effective_start_date");
-	result.push("</td><td><input type='text' value='")
-	result.push(temp_user_role.effective_start_date);
+	result.push("effective_start_date");
+	result.push("</td><td><input type='text' size=25 value='")
+	result.push(temp_user_role.effective_start_date.toISOString());
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
-	result.push("user_role.effective_end_date");
-	result.push("</td><td><input type='text' value='")
-	result.push(temp_user_role.effective_end_date);
+	result.push("effective_end_date");
+	result.push("</td><td><input type='text' size=25 value='")
+	result.push(temp_user_role.effective_end_date.toISOString());
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
-	result.push("user_role.is_active");
+	result.push("is_active");
 	result.push("</td><td><input type='text' value='")
 	result.push(temp_user_role.is_active);
 	result.push("' /> </td></tr>")
