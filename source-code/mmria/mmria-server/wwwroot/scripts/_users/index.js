@@ -127,6 +127,7 @@ function load_user_jurisdictions()
 	}).done(function(response) 
 	{
 	
+		g_user_role_jurisdiction = [];
 		if(response)
 		{
 			g_user_role_jurisdiction = response;
@@ -134,11 +135,6 @@ function load_user_jurisdictions()
 			load_users();
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
 		}
-		else
-		{
-			g_user_role_jurisdiction = null;
-		}
-
 
 	});
 }
