@@ -56,6 +56,8 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push(p_user.name);
 	result.push("' onchange='user_role_list_change(this, \"");
 	result.push(p_user._id);
+	result.push("\", \"");
+	result.push(p_created_by);
 	result.push("\")'");
 	result.push("'>");
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
@@ -84,7 +86,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 		}
 	}
 	result.push("</select>");
-	result.push("<br/><input type='button' value='Add Role' onclick='add_role(\"" + p_user._id + "\")' />");
+	result.push("<br/><input type='button' value='Add Role' onclick='add_role(\"" + p_user._id + "\", \"" + p_created_by + "\")' />");
 	result.push("</td>");	
 
 
@@ -100,7 +102,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 	p_created_by
 );
 
-	Array.prototype.push.apply(result, user_role_edit_render(p_user, temp_user_role));
+	Array.prototype.push.apply(result, user_role_edit_render(p_user, temp_user_role, p_created_by));
 
 
 
@@ -133,7 +135,6 @@ user_role_jurisdiction
 
 
 	result.push("<td>&nbsp;")
-	//result.push("<input type='button' value='disable user'/>");
 	result.push("<input type='button' value='Save User " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
 	
 	result.push("<span id='");
@@ -149,7 +150,7 @@ user_role_jurisdiction
 
 
 
-function user_role_list_change(p_select_list, p_user_id)
+function user_role_list_change(p_select_list, p_user_id, p_updated_by)
 {
 	if(p_select_list.selectedIndex)
 	{
@@ -179,7 +180,7 @@ function user_role_list_change(p_select_list, p_user_id)
 
 		if(user && user_role_jurisdiction)
 		{
-			var render_result = user_role_edit_render(p_user, p_user_role_jurisdiction);
+			var render_result = user_role_edit_render(user, user_role_jurisdiction, p_updated_by);
 			var selected_user_role_for_ = document.getElementById("selected_user_role_for_" + user.name);
 
 			selected_user_role_for_.outerHTML = render_result.join("");
@@ -217,33 +218,6 @@ function user_role_render(p_user, p_user_role_jurisdiction)
 	return result;
 }
 
-/*
-function user_role_render(p_user)
-{
-	var result = [];
-	var role_set = [ '', 'abstractor','committee_member','form_designer'];
-
-	result.push("<select size='1' path='" + p_user._id + "'>")
-	for(var i = 0; i < role_set.length; i++)
-	{
-		var item = role_set[i];
-		if(p_user.roles.indexOf(item) > -1)
-		{
-			// do nothing
-		}
-		else
-		{
-			result.push("<option>");
-			result.push(item);
-			result.push("</option>");
-		}
-	}
-	result.push("</select>");
-
-	return result;
-}
-
-*/
 
 function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
 {
@@ -298,7 +272,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
 
 }
 
-function user_role_edit_render(p_user, p_user_role_jurisdiction)
+function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 {
 	var result = [];
 
@@ -318,13 +292,13 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction)
 
 
 	Array.prototype.push.apply(result, user_role_render(p_user, p_user_role_jurisdiction));
-	//result.push(user_role.role_name);
+
 	result.push("</td></tr>")
 	result.push("<tr><td>")
 	result.push("jurisdiction_id");
 	result.push("</td><td>")
 	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, p_user_role_jurisdiction.jurisdiction_id, 0));
-	//result.push(temp_user_role.jurisdiction_id);
+
 	result.push("</td></tr>")
 	result.push("<tr><td>")
 	result.push("effective_start_date");
@@ -341,24 +315,10 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction)
 	result.push("</td><td><input type='text' value='")
 	result.push(p_user_role_jurisdiction.is_active);
 	result.push("' /> </td></tr>")
-	
-
-/*
-	for(var j = 0; j < p_user.roles.length; j++)
-	{
-		result.push("<tr><td>");
-		result.push(p_user.roles[j]);
-		result.push("</td><td>&nbsp;</td></tr>");
-	}
-	result.push("<tr><td colspan=2 align=right>");
-	*/
-	//result.push("<tr><td colspan=2 align=right>");
-
-
 
 	result.push("<tr><td>");
 	result.push("<input type='button' value='Remove Role' onclick='remove_role(\"" + p_user_role_jurisdiction._id + "\")'/>");
-	result.push("<input type='button' value='Save Role' onclick='save_role(\"" + p_user_role_jurisdiction._id + "\")' />");
+	result.push("<input type='button' value='Update Role' onclick='update_role(\"" + p_user_role_jurisdiction._id + "\",\"" + p_updated_by + "\")' />");
 	result.push("</td></tr>");
 	result.push("</table></td>");
 

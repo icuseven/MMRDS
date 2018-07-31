@@ -167,7 +167,7 @@ function load_users()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", $mmria.getCookie("uid")).join("")
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, $mmria.getCookie("uid")).join("")
 			+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
 			;
 
@@ -436,33 +436,88 @@ function save_user(p_user_id)
 	}
 }
 
-function add_role(p_user_id)
+function add_role(p_user_id, p_created_by)
 {
-	var selected_role = document.querySelector('select[path="' + p_user_id + '"]');
-	if(selected_role && selected_role.value != '')
+	var user_index = -1;
+	var user_list = g_ui.user_summary_list;
+	for(var i = 0; i < user_list.length; i++)
 	{
-		var user_index = -1;
-		var user_list = g_ui.user_summary_list;
-		var escaped_id =  convert_to_jquery_id(p_user_id);
-		for(var i = 0; i < user_list.length; i++)
+		if(user_list[i]._id == p_user_id)
 		{
-			if(user_list[i]._id == p_user_id)
-			{
-				user_index = i;
-				break;
-			}
-		}
-
-		if(user_index > -1)
-		{
-			var user = user_list[user_index];
-			user.roles.push(selected_role.value);
-			g_ui.user_summary_list[user_index] = user;
-			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
-			
+			user_index = i;
+			break;
 		}
 	}
+
+	if(user_index > -1)
+	{
+
+		var user = user_list[user_index];
+
+		var temp_user_role = user_role_jurisdiction_add
+		(
+			"",
+			user.name,
+			"",
+			new Date(),
+			new Date(new Date().getTime() + 90*24*60*60*1000),
+			true,
+			p_created_by
+		);
+
+		g_user_role_jurisdiction.push(temp_user_role);
+
+		
+
+		var role_list_for_ = document.getElementById("role_list_for_" + user.name);
+
+
+		var opt = document.createElement('option');
+		var option_text = [];
+		option_text.push(temp_user_role.user_id);
+		option_text.push(" ");
+		option_text.push(temp_user_role.role_name);
+		option_text.push(" ");
+		option_text.push(temp_user_role.jurisdiction_id);
+		option_text.push(" ");
+		option_text.push(temp_user_role.effective_start_date);
+		option_text.push(" ");
+		option_text.push(temp_user_role.effective_end_date);
+		option_text.push(" ");
+		option_text.push(temp_user_role.is_active);
+
+		opt.value = temp_user_role._id;
+		opt.innerHTML = option_text.join("");
+
+		role_list_for_.appendChild(opt);
+	}
+
 }
+
+
+function update_role(p_user_role_jurisdiction_id, p_user_id)
+{
+	var user_index = -1;
+	var user_list = g_ui.user_summary_list;
+
+	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
+	{
+		if(g_user_role_jurisdiction[i]._id == p_user_role_jurisdiction_id)
+		{
+			user_index = i;
+			break;
+		}
+	}
+
+	if(user_index > -1)
+	{
+		var user = g_user_role_jurisdiction[user_index];
+
+		var selected_user_role_for_ = null;
+	}
+}
+
+
 
 
 function remove_role(p_user_id, p_role)
