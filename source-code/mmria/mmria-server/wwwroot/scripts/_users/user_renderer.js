@@ -5,7 +5,7 @@ function user_render(p_ui, p_created_by)
 	var result = [];
 
 	result.push("<div style='clear:both;margin-left:10px;'>");
-	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=5>User List</th></tr>");
+	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=6>User List</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{

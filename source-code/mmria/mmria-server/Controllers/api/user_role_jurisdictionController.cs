@@ -91,10 +91,10 @@ namespace mmria.server
 		[HttpPost]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
         (
-            [FromBody] mmria.common.model.couchdb.user_role_jurisdiction jurisdiction_tree
+            [FromBody] mmria.common.model.couchdb.user_role_jurisdiction user_role_jurisdiction
         ) 
 		{ 
-			string jurisdiction_json;
+			string user_role_jurisdiction_json;
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
 			try
@@ -103,55 +103,31 @@ namespace mmria.server
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(jurisdiction_tree, settings);
+				user_role_jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(user_role_jurisdiction, settings);
 
-				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction";
-
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(jurisdiction_tree_url));
-				request.Method = "PUT";
-				request.ContentType = "text/*";
-				request.ContentLength = jurisdiction_json.Length;
-				request.PreAuthenticate = false;
-
-				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-				{
-					string auth_session_value = this.Request.Cookies["AuthSession"];
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-				}
+				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction/" + user_role_jurisdiction._id;
 
 
-				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-				{
-					try
-					{
-						streamWriter.Write(jurisdiction_json);
-						streamWriter.Flush();
-						streamWriter.Close();
+				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, user_role_jurisdiction_json, Program.config_timer_user_name, Program.config_timer_password);
 
+/*
+                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
+                {
+                    string auth_session_value = this.Request.Cookies["AuthSession"];
+                    document_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
+                    document_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
+                }
+ */
+                try
+                {
+                    string responseFromServer = await document_curl.executeAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    Log.Information ($"jurisdiction_treeController:{ex}");
+                }
 
-						System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-						System.IO.Stream dataStream = response.GetResponseStream ();
-						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-						string responseFromServer = reader.ReadToEnd ();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-						if(response.Headers["Set-Cookie"] != null)
-						{
-							this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
-						}
-
-
-					//System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(Program.config_file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
-						
-					}
-					catch(Exception ex)
-					{
-						Log.Information ($"{ex}");
-					}
-				}
 
 				if (!result.ok) 
 				{

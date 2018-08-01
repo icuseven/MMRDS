@@ -546,11 +546,11 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			user_role.effective_start_date = new Date(effective_start_date.value);
 			user_role.effective_end_date = new Date(effective_end_date.value);
 			user_role.is_active = (is_active.value == "true")? true: false;
+			user_role.last_updated_by = p_user_id;
 
-			
-			var render_result = render_role_list_for(user, p_user_id);
-			var role_list_for_ = document.getElementById("role_list_for_" + user.name);
-			role_list_for_.outerHTML = render_result.join("");
+			save_user_role_jurisdiction(user_role, user, p_user_id);
+
+
 		}
 	}
 }
