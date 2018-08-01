@@ -197,7 +197,7 @@ function render_role_list_for(p_user, p_created_by)
 
 function user_role_list_change(p_select_list, p_user_id, p_updated_by)
 {
-	if(p_select_list.selectedIndex)
+	if(p_select_list.selectedIndex > -1)
 	{
 		var selected_id = p_select_list.value;
 
