@@ -658,8 +658,34 @@ function clear_status()
 
 function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 {
-	var new_child  = jurisdiction_add(p_parent_id, p_name, p_user_id);
-	if(p_name != "" && get_jurisdiction(new_child.id, g_jurisdiction_tree) == null)
+	var parent = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
+	var new_child  = null;
+
+	if(parent)
+	{
+		if(parent.name == "/")
+		{
+			new_child  = jurisdiction_add(p_parent_id, "/" + p_name, p_user_id);
+		}
+		else
+		{
+			new_child  = jurisdiction_add(p_parent_id, parent.name + "/" + p_name, p_user_id);
+		}
+		
+	}
+	else
+	{
+		new_child  = jurisdiction_add(p_parent_id, p_name, p_user_id);
+	}
+	
+	
+	if
+	(
+		p_name != null && 
+		p_name != "" && 
+		p_name.match(/\W/) == null && 
+		get_jurisdiction(new_child.id, g_jurisdiction_tree) == null
+	)
 	{
 		var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
 		if(node_to_add_to)

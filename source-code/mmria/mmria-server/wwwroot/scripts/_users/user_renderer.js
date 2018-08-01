@@ -272,34 +272,19 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 
 		result.push("<select id='selected_user_role_for_" + p_user_name + "_jurisdiction' size=1")
 		result.push("><option></option>")
-		result.push("<option")
-
-		if(p_data.name == p_selected_id)
-		{
-			result.push(" selected=true")
-		}
-		result.push(">")
-		result.push(p_data.name);
-		result.push("</option>")
 		p_level = 0;
 	}
-	else
-	{
-		result.push("<option")
-		if(p_data.name == p_selected_id)
-		{
-			result.push(" selected=true")
-		}
-		result.push(">")
 
-		for(var i = 0; i < p_level; i++)
-		{
-			result.push("-");
-		}
-		result.push(p_data.name);
-		result.push("</option>")
-	
+	result.push("<option")
+	if(p_data.name == p_selected_id)
+	{
+		result.push(" selected=true")
 	}
+	result.push(">")
+	result.push(p_data.name);
+	result.push("</option>")
+	
+
 
 	if(p_data.children != null)
 	{
@@ -310,8 +295,11 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 			
 		}
 	}
-	result.push("</select>");
-	
+
+	if( p_data._id)
+	{
+		result.push("</select>");
+	}
 
 	return result;
 
