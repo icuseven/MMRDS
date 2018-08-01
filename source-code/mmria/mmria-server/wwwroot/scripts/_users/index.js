@@ -490,6 +490,11 @@ function add_role(p_user_id, p_created_by)
 		opt.innerHTML = option_text.join("");
 
 		role_list_for_.appendChild(opt);
+
+
+		var render_result = user_role_edit_render(user, temp_user_role, p_created_by);
+		var selected_user_role_for_ = document.getElementById("selected_user_role_for_" + user.name);
+		selected_user_role_for_.outerHTML = render_result.join("");
 	}
 
 }
@@ -497,23 +502,56 @@ function add_role(p_user_id, p_created_by)
 
 function update_role(p_user_role_jurisdiction_id, p_user_id)
 {
-	var user_index = -1;
-	var user_list = g_ui.user_summary_list;
-
+	var user_role_index = -1;
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
 		if(g_user_role_jurisdiction[i]._id == p_user_role_jurisdiction_id)
 		{
-			user_index = i;
+			user_role_index = i;
 			break;
 		}
 	}
 
-	if(user_index > -1)
-	{
-		var user = g_user_role_jurisdiction[user_index];
 
-		var selected_user_role_for_ = null;
+
+	if(user_role_index > -1)
+	{
+		var user_index = -1;
+		var user_list = g_ui.user_summary_list;
+		for(var i = 0; i < user_list.length; i++)
+		{
+			if(user_list[i].name ==  g_user_role_jurisdiction[user_role_index].user_id)
+			{
+				user_index = i;
+				break;
+			}
+		}
+
+		if(user_index > -1)
+		{
+
+		
+			var user_role = g_user_role_jurisdiction[user_role_index];
+			var user = user_list[user_index];
+
+			var selected_user_role_for_ = null;
+			var role = document.getElementById("selected_user_role_for_" + user_role.user_id + "_role");
+			var jurisdiction = document.getElementById("selected_user_role_for_" + user_role.user_id+ "_jurisdiction");
+			var effective_start_date = document.getElementById("selected_user_role_for_" + user_role.user_id + "_effective_start_date");
+			var effective_end_date = document.getElementById("selected_user_role_for_" + user_role.user_id + "_effective_end_date");
+			var is_active = document.getElementById("selected_user_role_for_" + user_role.user_id + "_is_active");
+
+			user_role.role_name = role.value;
+			user_role.jurisdiction_id = jurisdiction.value;
+			user_role.effective_start_date = effective_start_date.value;
+			user_role.effective_end_date = effective_end_date.value;
+			user_role.is_active = is_active.value;
+
+			
+			var render_result = render_role_list_for(user, p_user_id);
+			var role_list_for_ = document.getElementById("role_list_for_" + user.name);
+			role_list_for_.outerHTML = render_result.join("");
+		}
 	}
 }
 

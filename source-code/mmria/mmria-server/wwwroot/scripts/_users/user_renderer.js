@@ -102,6 +102,9 @@ function user_entry_render(p_user, p_i, p_created_by)
 	p_created_by
 );
 
+
+	//g_user_role_jurisdiction.push(temp_user_role);
+
 	Array.prototype.push.apply(result, user_role_edit_render(p_user, temp_user_role, p_created_by));
 
 
@@ -149,6 +152,48 @@ user_role_jurisdiction
 }
 
 
+function render_role_list_for(p_user, p_created_by)
+{
+	var result = [];
+
+	result.push("<select size='7' id='role_list_for_");
+	result.push(p_user.name);
+	result.push("' onchange='user_role_list_change(this, \"");
+	result.push(p_user._id);
+	result.push("\", \"");
+	result.push(p_created_by);
+	result.push("\")'");
+	result.push("'>");
+	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
+	{
+		var user_role = g_user_role_jurisdiction[i];
+		if(user_role.user_id == p_user.name)
+		{
+			result.push("<option");
+
+			result.push(" value='");
+			result.push(user_role._id);
+			result.push("'>");
+			result.push(user_role.user_id);
+			result.push(" ");
+			result.push(user_role.role_name);
+			result.push(" ");
+			result.push(user_role.jurisdiction_id);
+			result.push(" ");
+			result.push(user_role.effective_start_date);
+			result.push(" ");
+			result.push(user_role.effective_end_date);
+			result.push(" ");
+			result.push(user_role.is_active);
+
+			result.push("</option>");
+		}
+	}
+	result.push("</select>");
+
+	return result;
+}
+
 
 function user_role_list_change(p_select_list, p_user_id, p_updated_by)
 {
@@ -195,7 +240,7 @@ function user_role_render(p_user, p_user_role_jurisdiction)
 	var result = [];
 	var role_set = [ '', 'abstractor','committee_member','form_designer', 'jurisdiction_admin'];
 
-	result.push("<select size='1' path='" + p_user._id + "'>")
+	result.push("<select id='selected_user_role_for_" + p_user.name + "_role' size='1' path='" + p_user._id + "'>")
 	for(var i = 0; i < role_set.length; i++)
 	{
 		var item = role_set[i];
@@ -219,13 +264,13 @@ function user_role_render(p_user, p_user_role_jurisdiction)
 }
 
 
-function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
+function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_name)
 {
 	var result = [];
 	if( p_data._id)
 	{
 
-		result.push("<select size=1")
+		result.push("<select id='selected_user_role_for_" + p_user_name + "_jurisdiction' size=1")
 		result.push("><option></option>")
 		result.push("<option")
 
@@ -261,7 +306,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
 		for(var i = 0; i < p_data.children.length; i++)
 		{
 			var child = p_data.children[i];
-			Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1));
+			Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1, p_user_name));
 			
 		}
 	}
@@ -297,22 +342,22 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push("<tr><td>")
 	result.push("jurisdiction_id");
 	result.push("</td><td>")
-	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, p_user_role_jurisdiction.jurisdiction_id, 0));
+	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, p_user_role_jurisdiction.jurisdiction_id, 0, p_user.name));
 
 	result.push("</td></tr>")
 	result.push("<tr><td>")
 	result.push("effective_start_date");
-	result.push("</td><td><input type='text' size=25 value='")
+	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_start_date' type='text' size=25 value='")
 	result.push(p_user_role_jurisdiction.effective_start_date.toISOString());
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
 	result.push("effective_end_date");
-	result.push("</td><td><input type='text' size=25 value='")
+	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_end_date' type='text' size=25 value='")
 	result.push(p_user_role_jurisdiction.effective_end_date.toISOString());
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
 	result.push("is_active");
-	result.push("</td><td><input type='text' value='")
+	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_is_active' type='text' value='")
 	result.push(p_user_role_jurisdiction.is_active);
 	result.push("' /> </td></tr>")
 
