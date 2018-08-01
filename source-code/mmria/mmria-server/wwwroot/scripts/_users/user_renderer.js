@@ -348,12 +348,28 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push("<tr><td>")
 	result.push("effective_start_date");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_start_date' type='text' size=25 value='")
-	result.push(p_user_role_jurisdiction.effective_start_date.toISOString());
+	if(p_user_role_jurisdiction.effective_start_date instanceof Date)
+	{
+		result.push(p_user_role_jurisdiction.effective_start_date.toISOString());
+	}
+	else
+	{
+		//result.push(new Date(p_user_role_jurisdiction.effective_start_date).toISOString());
+		result.push(p_user_role_jurisdiction.effective_start_date);
+	}
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
 	result.push("effective_end_date");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_end_date' type='text' size=25 value='")
-	result.push(p_user_role_jurisdiction.effective_end_date.toISOString());
+	if(p_user_role_jurisdiction.effective_end_date instanceof Date)
+	{
+		result.push(p_user_role_jurisdiction.effective_end_date.toISOString());
+	}
+	else
+	{
+		result.push(p_user_role_jurisdiction.effective_end_date);
+	}
+	
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
 	result.push("is_active");
