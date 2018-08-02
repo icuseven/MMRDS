@@ -24,9 +24,9 @@ namespace mmria.server
 		{ 
 			try
 			{
- 				var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(User);
+ 				var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(User);
 
-				var jurisdiction_username_hashset = mmria.server.util.case_authorization.get_user_jurisdiction_set();
+				var jurisdiction_username_hashset = mmria.server.util.authorization_case.get_user_jurisdiction_set();
 
 
 
@@ -305,7 +305,7 @@ namespace mmria.server
 					var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user> (document_json);
 					IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
 
-					if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
+					if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
 					{
 						return null;
 					}

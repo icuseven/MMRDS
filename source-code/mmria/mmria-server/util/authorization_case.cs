@@ -8,8 +8,22 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.util
 {  
-    public class case_authorization
+
+    public enum ResourceRightEnum
     {
+        ReadCase,
+        WriteCase,
+        ReadMetadata,
+        WriteMetadata,
+        ReadUser,
+        WriteUser,
+        ReadJurisdiction,
+        WriteJurisdiction
+    }
+
+    public class authorization_case
+    {
+
 
 
         public static bool is_authorized_to_handle_jurisdiction_id
@@ -21,7 +35,7 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
 
 
 			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id?{p_user.name}";
@@ -83,7 +97,7 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
                 
             foreach(string jurisdiction_id in  jurisdiction_hashset)
             {
@@ -108,7 +122,7 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
            
             var byName = (IDictionary<string,object>)p_case_expando_object;
 
@@ -144,7 +158,7 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.case_authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
 
             
             foreach(string jurisdiction_item in jurisdiction_hashset)

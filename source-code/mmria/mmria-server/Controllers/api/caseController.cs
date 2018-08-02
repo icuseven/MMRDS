@@ -59,7 +59,7 @@ namespace mmria.server
  */
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-					if(mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, result))
+					if(mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, result))
 					{
 						return result;
 					}
@@ -119,7 +119,7 @@ namespace mmria.server
 					byName.Add("jurisdiction_id", "/");
 				}
 
-				if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, byName["jurisdiction_id"].ToString()))
+				if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, byName["jurisdiction_id"].ToString()))
 				{
 					Console.Write($"unauthorized PUT {byName["jurisdiction_id"]}: {byName["_id"]}");
 					return result;
@@ -135,7 +135,7 @@ namespace mmria.server
 					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
 					IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
 
-					if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, check_document_expando_object))
+					if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, check_document_expando_object))
 					{
 						Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
 						return result;
