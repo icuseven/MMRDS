@@ -143,6 +143,69 @@ namespace mmria.server
 			return result;
 		} 
 
+
+		[HttpDelete]
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Delete(string user_role_id = null, string rev = null) 
+        { 
+            try
+            {
+                string request_string = null;
+
+                if (!string.IsNullOrWhiteSpace (user_role_id) && !string.IsNullOrWhiteSpace (rev)) 
+                {
+                    request_string = Program.config_couchdb_url + "/jurisdiction/" + user_role_id + "?rev=" + rev;
+                }
+                else 
+                {
+                    return null;
+                }
+
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/jurisdiction/" + user_role_id, null, Program.config_timer_user_name, Program.config_timer_password);
+					// check if doc exists
+
+				try 
+				{
+					string document_json = null;
+					document_json = await check_document_curl.executeAsync ();
+					var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (document_json);
+					IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
+
+					if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
+					{
+						return null;
+					}
+
+					if (result_dictionary.ContainsKey ("_rev")) 
+					{
+						request_string = Program.config_couchdb_url + "/jurisdiction/" + user_role_id + "?rev=" + result_dictionary ["_rev"];
+						//System.Console.WriteLine ("json\n{0}", object_string);
+					}
+
+				} 
+				catch (Exception ex) 
+				{
+					// do nothing for now document doesn't exsist.
+                    System.Console.WriteLine ($"err caseController.Delete\n{ex}");
+				}
+
+                string responseFromServer = await delete_report_curl.executeAsync ();;
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+                return result;
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine (ex);
+            } 
+
+            return null;
+        }
+
+
 	} 
+
+
 }
 

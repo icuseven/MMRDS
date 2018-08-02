@@ -172,6 +172,11 @@ namespace mmria.server
 			try
 			{
 				string request_string = this.get_couch_db_url() + "/_users/" + id;
+
+				var user_curl = new cURL("PUT", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var responseFromServer = await user_curl.executeAsync();
+
+/*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
@@ -188,6 +193,7 @@ namespace mmria.server
 				System.IO.Stream dataStream = response.GetResponseStream ();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				string responseFromServer = reader.ReadToEnd ();
+*/
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
 			}
 			catch(Exception ex)
@@ -213,8 +219,15 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
 
+				
+
 				string user_db_url = this.get_couch_db_url() + "/_users/"  + user._id;
 
+				var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				var responseFromServer = await user_curl.executeAsync();
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+/*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(user_db_url));
 				request.Method = "PUT";
 				request.ContentType = "application/json";
@@ -250,7 +263,7 @@ namespace mmria.server
 						Console.WriteLine (ex);
 					}
 				}
-
+ */
 				if (!result.ok) 
 				{
 
@@ -265,6 +278,64 @@ namespace mmria.server
 			return result;
 		} 
 
+		[HttpDelete]
+        public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Delete(string user_id = null, string rev = null) 
+        { 
+            try
+            {
+                string request_string = null;
+
+                if (!string.IsNullOrWhiteSpace (user_id) && !string.IsNullOrWhiteSpace (rev)) 
+                {
+                    request_string = Program.config_couchdb_url + "/_users/" + user_id + "?rev=" + rev;
+                }
+                else 
+                {
+                    return null;
+                }
+
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/_users/" + user_id, null, Program.config_timer_user_name, Program.config_timer_password);
+					// check if doc exists
+
+				try 
+				{
+					string document_json = null;
+					document_json = await check_document_curl.executeAsync ();
+					var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user> (document_json);
+					IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
+
+					if(!mmria.server.util.case_authorization.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
+					{
+						return null;
+					}
+
+					if (result_dictionary.ContainsKey ("_rev")) 
+					{
+						request_string = Program.config_couchdb_url + "/_users/" + user_id + "?rev=" + result_dictionary ["_rev"];
+						//System.Console.WriteLine ("json\n{0}", object_string);
+					}
+
+				} 
+				catch (Exception ex) 
+				{
+					// do nothing for now document doesn't exsist.
+                    System.Console.WriteLine ($"err caseController.Delete\n{ex}");
+				}
+
+                string responseFromServer = await delete_report_curl.executeAsync ();;
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+
+                return result;
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine (ex);
+            } 
+
+            return null;
+        }
 
 		private string get_couch_db_url()
 		{

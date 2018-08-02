@@ -558,30 +558,74 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 
 
 
-function remove_role(p_user_id, p_role)
+function remove_role(p_user_role_id)
 {
-	var user_index = -1;
-	var user_list = g_ui.user_summary_list;
-	var escaped_id =  convert_to_jquery_id(p_user_id);
-	for(var i = 0; i < user_list.length; i++)
+	var user_role_index = -1;
+	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
-		if(user_list[i]._id == p_user_id)
+		if(g_user_role_jurisdiction[i]._id == p_user_role_id)
 		{
-			user_index = i;
+			user_role_index = i;
 			break;
 		}
 	}
 
-	if(user_index > -1)
+	if(user_role_index > -1)
 	{
-		var user = user_list[user_index];
-		var role_index = user.roles.indexOf(p_role);
-		if(role_index > -1)
-		{
-			user.roles.splice(role_index, 1);
-			g_ui.user_summary_list[user_index] = user;
-			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_ui).join("") );
+		var user_role = g_user_role_jurisdiction[user_role_index];
+		
+
+		if(user_role._rev)
+		{ 
+			$.ajax({
+				url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction?user_id=' + p_user_id + '&rev=' + p_rev,
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				//data: JSON.stringify(p_data),
+				type: "DELETE",
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+				);
+				}
+			}).done(function(response) 
+			{
+				if(response.ok)
+				{
+
+					g_user_role_jurisdiction.splice(user_role_index, 1);
+
+					for(var i = 0; i < g_ui.user_summary_list.length; i++)
+					{
+						if(g_ui.user_summary_list[i].name == user_role.user_id)
+						{
+							var escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
+							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "", g_ui).join("") );
+							break;
+						}
+					}
+					
+				}
+			});
 		}
+		else
+		{
+				
+			g_user_role_jurisdiction.splice(user_role_index, 1);
+
+			for(var i = 0; i < g_ui.user_summary_list.length; i++)
+			{
+				if(g_ui.user_summary_list[i].name == user_role.user_id)
+				{
+					var escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
+					$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "", g_ui).join("") );
+					break;
+				}
+			}
+
+		}
+
+		
 	}
 }
 

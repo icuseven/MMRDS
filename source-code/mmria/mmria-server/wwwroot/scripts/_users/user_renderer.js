@@ -39,6 +39,11 @@ function user_entry_render(p_user, p_i, p_created_by)
 	}
 
 	result.push(p_user.name);
+	if(p_user._rev)
+	{
+		result.push("<br/><input type='button' value='remove user' onclick='remove_user_click(\"" + p_user._id + "\", \"" + p_user._rev + "\")'/>");
+	}
+	
 	result.push("</td><td>");
 
 	result.push("<td>");
@@ -374,4 +379,42 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	// Role edit - end
 
 	return result;
+}
+
+
+function remove_user_click(p_user_id, p_rev)
+{
+	if(p_user_id && p_rev)
+	{ 
+		$.ajax({
+			url: location.protocol + '//' + location.host + '/api/user?user_id=' + p_user_id + '&rev=' + p_rev,
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			//data: JSON.stringify(p_data),
+			type: "DELETE",
+			beforeSend: function (request)
+			{
+			  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+			);
+			}
+		}).done(function(response) 
+		{
+			if(response.ok)
+			{
+				for(var i in g_ui.user_summary_list)
+				{
+					if(g_ui.user_summary_list[i]._id == response.id)
+					{
+						g_ui.user_summary_list.splice(i,1)
+
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, $mmria.getCookie("uid")).join("")
+						+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
+						;
+
+						break;
+					}
+				}
+			}
+		});
+	}
 }
