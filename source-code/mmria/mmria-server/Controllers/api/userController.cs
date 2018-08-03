@@ -305,7 +305,7 @@ namespace mmria.server
 					var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user> (document_json);
 					IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
 
-					if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
+					if(!mmria.server.util.authorization_user.is_authorized_to_handle_jurisdiction_id(User, check_document_curl_result))
 					{
 						return null;
 					}
