@@ -230,8 +230,41 @@ function add_new_user_click()
 		var new_user = $$.add_new_user(new_user_name, "password");
 		user_id = new_user._id;
 		g_ui.user_summary_list.push(new_user);
-		document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
-		create_status_message("new user has been added.", "new_user");
+
+		$.ajax({
+			url: location.protocol + '//' + location.host + '/api/user',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(new_user),
+			type: "POST"
+		}).done(function(response) 
+		{
+			var response_obj = eval(response);
+			if(response_obj.ok)
+			{
+				for(var i = 0; i < g_ui.user_summary_list.length; i++)
+				{
+					if(g_ui.user_summary_list[i]._id == response_obj.id)
+					{
+						g_ui.user_summary_list[i]._rev = response_obj.rev; 
+						break;
+					}
+				}
+
+				if(response_obj.auth_session)
+				{
+					//profile.auth_session = response_obj.auth_session;
+					$mmria.addCookie("AuthSession", response_obj.auth_session);
+				}
+
+				document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+				create_status_message("new user has been added.", "new_user");
+
+			}
+			//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+			
+		});
+
 		//console.log("greatness awaits.");
 	}
 	else
@@ -467,10 +500,10 @@ function add_role(p_user_id, p_created_by)
 
 		g_user_role_jurisdiction.push(temp_user_role);
 
-
-		save_user_role_jurisdiction(temp_user_role, user, p_user_id);
-		
 /*
+		save_user_role_jurisdiction(temp_user_role, user, p_user_id);
+*/		
+
 		var role_list_for_ = document.getElementById("role_list_for_" + user.name);
 
 
@@ -497,7 +530,7 @@ function add_role(p_user_id, p_created_by)
 		var render_result = user_role_edit_render(user, temp_user_role, p_created_by);
 		var selected_user_role_for_ = document.getElementById("selected_user_role_for_" + user.name);
 		selected_user_role_for_.outerHTML = render_result.join("");
-*/
+
 	}
 
 }
@@ -551,8 +584,14 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			user_role.is_active = (is_active.value == "true")? true: false;
 			user_role.last_updated_by = p_user_id;
 
-			save_user_role_jurisdiction(user_role, user, p_user_id);
-
+			if(user_role.jurisdiction_id && user_role.role_name)
+			{
+				save_user_role_jurisdiction(user_role, user, p_user_id);
+			}
+			else
+			{
+				create_status_warning("invalid jusidiction or role name", convert_to_jquery_id(user._id));
+			}
 
 		}
 	}

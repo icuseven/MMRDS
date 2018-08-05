@@ -65,12 +65,12 @@ function save_jurisdiction_tree_click(p_user_id)
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(g_jurisdiction_tree),
-					type: "POST",
+					type: "POST",/*
 					beforeSend: function (request)
 					{
 						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-					}//,
+					},*/
 			}).done(function(response) 
 			{
 
@@ -96,12 +96,12 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(p_user_role),
-					type: "POST",
+					type: "POST",/*
 					beforeSend: function (request)
 					{
 						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-					}//,
+					},*/
 			}).done(function(response) 
 			{
 
