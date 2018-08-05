@@ -59,7 +59,7 @@ namespace mmria.server
  */
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-					if(mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, result))
+					if(mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.ReadCase, result))
 					{
 						return result;
 					}
@@ -119,7 +119,7 @@ namespace mmria.server
 					byName.Add("jurisdiction_id", "/");
 				}
 
-				if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, byName["jurisdiction_id"].ToString()))
+				if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, byName["jurisdiction_id"].ToString()))
 				{
 					Console.Write($"unauthorized PUT {byName["jurisdiction_id"]}: {byName["_id"]}");
 					return result;
@@ -130,12 +130,11 @@ namespace mmria.server
 				try 
 				{
 					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, Program.config_timer_user_name, Program.config_timer_password);
-					string document_json = null;
-					document_json = await check_document_curl.executeAsync ();
-					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
+					string check_document_json = await check_document_curl.executeAsync ();
+					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
 					IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
 
-					if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, check_document_expando_object))
+					if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, check_document_expando_object))
 					{
 						Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
 						return result;
@@ -145,7 +144,7 @@ namespace mmria.server
 				catch (Exception ex) 
 				{
 					// do nothing for now document doesn't exsist.
-                    System.Console.WriteLine ($"err caseController.Delete\n{ex}");
+                    System.Console.WriteLine ($"err caseController.Post\n{ex}");
 				}
 				// end - check if doc exists
 
@@ -153,6 +152,8 @@ namespace mmria.server
 
 
 				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
+
+
 
 				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, null, null);
 

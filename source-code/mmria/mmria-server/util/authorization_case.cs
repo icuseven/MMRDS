@@ -14,6 +14,7 @@ namespace mmria.server.util
         public static bool is_authorized_to_handle_jurisdiction_id
         (
           System.Security.Claims.ClaimsPrincipal p_claims_principal, 
+          ResourceRightEnum p_resoure_right_enum,
           System.Dynamic.ExpandoObject p_case_expando_object
         )
         {
@@ -28,9 +29,13 @@ namespace mmria.server.util
             {
 
                 var regex = new System.Text.RegularExpressions.Regex("^" + @byName["jurisdiction_id"]);
-                foreach((string, ResourceRightEnum) jurisdiction_id in  jurisdiction_hashset)
+                foreach(var jurisdiction_item in  jurisdiction_hashset)
                 {
-                    if(regex.IsMatch(jurisdiction_id.Item1))
+                    if
+                    (
+                        regex.IsMatch(jurisdiction_item.jurisdiction_id) && 
+                        p_resoure_right_enum ==  jurisdiction_item.ResourceRight
+                    )
                     {
                         result = true;
                         break;
@@ -50,6 +55,7 @@ namespace mmria.server.util
         public static bool is_authorized_to_handle_jurisdiction_id
         (
           System.Security.Claims.ClaimsPrincipal p_claims_principal, 
+          ResourceRightEnum p_resoure_right_enum,
           string jurisdiction_id
         )
         {
@@ -59,10 +65,14 @@ namespace mmria.server.util
             var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
 
             
-            foreach((string,ResourceRightEnum) jurisdiction_item in jurisdiction_hashset)
+            foreach(var jurisdiction_item in jurisdiction_hashset)
             {
-                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.Item1);
-                if(regex.IsMatch(jurisdiction_id))
+                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+                if
+                (
+                    regex.IsMatch(jurisdiction_id) &&
+                    p_resoure_right_enum == jurisdiction_item.ResourceRight
+                )
                 {
                     result = true;
                     break;
