@@ -34,24 +34,7 @@ namespace mmria.server
 
 				var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_password);
 				string responseFromServer = await user_curl.executeAsync();
-/*
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-				request.PreAuthenticate = false;
-				//request.Method = "GET";
 
-				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
-				System.Net.WebResponse response = await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				 
-				string responseFromServer = reader.ReadToEnd ();
-				*/
 /*
 
 
@@ -176,24 +159,6 @@ namespace mmria.server
 				var user_curl = new cURL("PUT", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
 				var responseFromServer = await user_curl.executeAsync();
 
-/*
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-
-				request.PreAuthenticate = false;
-
-
-				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-				{
-					string auth_session_value = this.Request.Cookies["AuthSession"];
-					request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-				}
-
-				System.Net.WebResponse response = await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string responseFromServer = reader.ReadToEnd ();
-*/
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
 			}
 			catch(Exception ex)
@@ -227,43 +192,6 @@ namespace mmria.server
 				var responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
-/*
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(user_db_url));
-				request.Method = "PUT";
-				request.ContentType = "application/json";
-				request.ContentLength = object_string.Length;
-				request.PreAuthenticate = false;
-
-				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
-				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-				{
-					try
-					{
-						streamWriter.Write(object_string);
-						streamWriter.Flush();
-						streamWriter.Close();
-
-
-						System.Net.WebResponse response = await request.GetResponseAsync();
-						System.IO.Stream dataStream = response.GetResponseStream ();
-						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-						string responseFromServer = reader.ReadToEnd ();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-					
-					}
-					catch(Exception ex)
-					{
-						Console.WriteLine (ex);
-					}
-				}
- */
 				if (!result.ok) 
 				{
 

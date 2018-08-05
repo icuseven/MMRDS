@@ -49,7 +49,7 @@ namespace mmria.server.util
 
             var user_name = p_claims_principal.Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value; 
 
-			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id?{user_name}";
+			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id";
 			var jurisdicion_curl = new cURL("GET", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_password);
 			string jurisdicion_result_string = null;
 			try
@@ -65,7 +65,7 @@ namespace mmria.server.util
 			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(jurisdicion_result_string);
             foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> jvi in jurisdiction_view_response.rows)
             {
-                if(jvi.key!=null)
+                if(jvi.key!=null && jvi.value.user_id == user_name)
                 {
                     switch(jvi.value.role_name)
                     {
@@ -106,6 +106,37 @@ namespace mmria.server.util
             return result;
         }
 
+
+        public static HashSet<(string jurisdiction_id, string user_id, string role_name)> get_current_user_role_jurisdiction_set_for(string p_user_name)
+        {
+            var result = new HashSet<(string jurisdiction_id, string user_id, string role_name)>();
+
+
+			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id";
+			var jurisdicion_curl = new cURL("GET", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_password);
+			string jurisdicion_result_string = null;
+			try
+			{
+				jurisdicion_result_string = jurisdicion_curl.execute();
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine(ex);
+                return result;
+			}
+			
+			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(jurisdicion_result_string);
+            foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> jvi in jurisdiction_view_response.rows)
+            {
+                if(jvi.key!=null && jvi.value.user_id == p_user_name)
+                {
+                    result.Add((jvi.value.jurisdiction_id, jvi.value.user_id, jvi.value.role_name));
+                }
+                
+            }
+
+            return result;
+        }
 
     }
 }

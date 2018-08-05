@@ -100,16 +100,12 @@ namespace mmria.server.Controllers
 				using (System.IO.Stream stream = request.GetRequestStream())
 				{
 					stream.Write(post_byte_array, 0, post_byte_array.Length);
-				}/**/
+				}
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-
 				System.IO.Stream dataStream = response.GetResponseStream ();
-
-				// Open the stream using a StreamReader for easy access.
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				// Read the content.
-				string responseFromServer = reader.ReadToEnd ();
+				string responseFromServer = await reader.ReadToEndAsync ();
 
 				mmria.common.model.couchdb.login_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.login_response>(responseFromServer);
 
@@ -136,22 +132,37 @@ namespace mmria.server.Controllers
 				//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 				if (json_result.ok && !string.IsNullOrWhiteSpace(json_result.name)) 
 				{
-					const string Issuer = "https://contoso.com";
+/*
+                    //string jurisdiction_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id?" + $"/jurisdiction/" + json_result.name;
+                    string jurisdiction_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_idfilter?key={json_result.name}";
+                    //_design/filter/_view/filter?key=%22fun%22
+                    var jurisdiction_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_password);
+                    responseFromServer = await jurisdiction_curl.executeAsync();
 
-					var claims = new List<Claim>();
-					claims.Add(new Claim(ClaimTypes.Name, json_result.name, ClaimValueTypes.String, Issuer));
-					foreach(string role in json_result.roles)
-					{
+                    var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user_role_jurisdiction>> (responseFromServer);
+ */
+                    const string Issuer = "https://contoso.com";
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.Name, json_result.name, ClaimValueTypes.String, Issuer));
+
+ 
+                    foreach(var role in json_result.roles)
+                    {
                         if(role == "_admin")
                         {
                             claims.Add(new Claim(ClaimTypes.Role, "installation_admin", ClaimValueTypes.String, Issuer));
                         }
-                        else
-                        {
-                            claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
-                        }
-						
-					}
+                    }
+ 
+
+                    foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
+                    {
+
+                        claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+                    }
+
+
+
 
                     Response.Cookies.Append("uid", json_result.name);
                     Response.Cookies.Append("roles", string.Join(",",json_result.roles));
