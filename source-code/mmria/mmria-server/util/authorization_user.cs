@@ -21,7 +21,7 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
 
 
 			string jurisdicion_view_url = $"{Program.config_couchdb_url}/jurisdiction/_design/sortable/_view/by_user_id?{p_user.name}";
@@ -43,9 +43,9 @@ namespace mmria.server.util
             {
 
                 bool is_jurisdiction_ok = false;
-                foreach(string jurisdiction_item in jurisdiction_hashset)
+                foreach((string, ResourceRightEnum) jurisdiction_item in jurisdiction_hashset)
                 {
-                    var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+                    var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.Item1);
                     if(cvi.value.jurisdiction_id == null)
                     {
                         cvi.value.jurisdiction_id = "/";
@@ -83,11 +83,11 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
                 
-            foreach(string jurisdiction_id in  jurisdiction_hashset)
+            foreach(var jurisdiction_id in  jurisdiction_hashset)
             {
-                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_id);
+                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_id.jurisdiction_id);
                 if(p_user_role_jurisdiction.jurisdiction_id != null && regex.IsMatch(p_user_role_jurisdiction.jurisdiction_id))
                 {
                     result = true;
@@ -108,7 +108,7 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
            
             var byName = (IDictionary<string,object>)p_case_expando_object;
 
@@ -116,9 +116,9 @@ namespace mmria.server.util
             {
 
                 var regex = new System.Text.RegularExpressions.Regex("^" + @byName["jurisdiction_id"]);
-                foreach(string jurisdiction_id in  jurisdiction_hashset)
+                foreach((string, ResourceRightEnum) jurisdiction_id in  jurisdiction_hashset)
                 {
-                    if(regex.IsMatch(jurisdiction_id))
+                    if(regex.IsMatch(jurisdiction_id.Item1))
                     {
                         result = true;
                         break;
@@ -144,12 +144,12 @@ namespace mmria.server.util
 
             bool result = false;
 
-            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(p_claims_principal);
+            var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
 
             
-            foreach(string jurisdiction_item in jurisdiction_hashset)
+            foreach((string, ResourceRightEnum) jurisdiction_item in jurisdiction_hashset)
             {
-                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.Item1);
                 if(regex.IsMatch(jurisdiction_id))
                 {
                     result = true;

@@ -24,7 +24,7 @@ namespace mmria.server
 		{ 
 			try
 			{
- 				var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(User);
+ 				var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(User);
 
 				var jurisdiction_username_hashset = mmria.server.util.authorization_case.get_user_jurisdiction_set();
 
@@ -116,23 +116,23 @@ namespace mmria.server
 				foreach(mmria.common.model.couchdb.get_response_item<mmria.common.model.couchdb.user> uai in user_alldocs_response.rows)
 				{
 					bool is_jurisdiction_ok = false;
-					foreach(string jurisdiction_item in jurisdiction_hashset)
+					foreach(var jurisdiction_item in jurisdiction_hashset)
 					{
 
-						if(jurisdiction_item == "/")
+						if(jurisdiction_item.jurisdiction_id == "/")
 						{
 							is_jurisdiction_ok = true;
 							break;
 						}
-						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
-						foreach(string jurisdiction_username in jurisdiction_username_hashset)
+						foreach(var jurisdiction_username in jurisdiction_username_hashset)
 						{
-							var jurisdiction_username_array = jurisdiction_username.Split(",");
+
 							if
 							(
-								regex.IsMatch(jurisdiction_username_array[0]) && 
-								uai.doc.name == jurisdiction_username_array[1]
+								regex.IsMatch(jurisdiction_username.jurisdiction_id) && 
+								uai.doc.name == jurisdiction_username.user_id
 							)
 							{
 								is_jurisdiction_ok = true;

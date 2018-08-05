@@ -52,7 +52,7 @@ by_state_of_death
 */
 
 
-            var jurisdiction_hashset = mmria.server.util.authorization_case.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(User);
 
             string sort_view = sort.ToLower ();
             switch (sort_view)
@@ -146,7 +146,7 @@ by_state_of_death
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
                         bool is_jurisdiction_ok = false;
-                        foreach(string jurisdiction_item in jurisdiction_hashset)
+                        foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
                             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
                             if(cvi.value.jurisdiction_id == null)
@@ -228,9 +228,9 @@ by_state_of_death
 
 
                         bool is_jurisdiction_ok = false;
-                        foreach(string jurisdiction_item in jurisdiction_hashset)
+                        foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
-                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
+                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
                             if(cvi.value.jurisdiction_id == null)
                             {
