@@ -144,8 +144,8 @@ by_state_of_death
                         bool is_jurisdiction_ok = false;
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
-                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
-                            if(regex.IsMatch(cvi.value.jurisdiction_id))
+                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+                            if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
                             {
                                 is_jurisdiction_ok = true;
                                 break;
@@ -221,7 +221,7 @@ by_state_of_death
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
                             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-                            if(regex.IsMatch(cvi.value.jurisdiction_id))
+                            if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
                             {
                                 is_jurisdiction_ok = true;
                                 break;
