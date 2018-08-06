@@ -6,6 +6,7 @@
 var g_metadata = null;
 var g_data = null;
 var g_source_db = null;
+var g_jurisdiction_list = [];
 var g_metadata_path = [];
 var g_validator_map = [];
 var g_event_map = [];
@@ -557,7 +558,7 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
-      load_profile();
+      load_user_role_jurisdiction();
 
  
 
@@ -565,6 +566,43 @@ function load_values()
 
 }
 
+
+
+function load_user_role_jurisdiction()
+{
+
+  /*            int skip = 0,
+            int take = 25,
+            string sort = "by_date_created",
+            string search_key = null,
+            bool descending = false
+            */
+
+
+
+	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + $mmria.getCookie("uid"),
+	}).done(function(response) {
+
+      g_jurisdiction_list = []
+      for(var i in response.rows)
+      {
+
+          var value = response.rows[i].value;
+          if(value.user_id == $mmria.getCookie("uid") && value.role_name == "abstractor")
+          {
+            g_jurisdiction_list.push(value.jurisdiction_id);
+          }
+          
+      }
+			
+      load_profile();
+
+ 
+
+	});
+
+}
 var update_session_timer_interval_id = null;
 
 function load_profile()
