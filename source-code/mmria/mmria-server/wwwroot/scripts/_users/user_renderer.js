@@ -42,6 +42,9 @@ function user_entry_render(p_user, p_i, p_created_by)
 	if(p_user._rev)
 	{
 		result.push("<br/><input type='button' value='remove user' onclick='remove_user_click(\"" + p_user._id + "\", \"" + p_user._rev + "\")'/>");
+		result.push("<br/><span id='");
+		result.push(convert_to_jquery_id(p_user._id));
+		result.push("_status_area'></span>");
 	}
 	
 	result.push("</td><td>");
@@ -53,6 +56,10 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
 	result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
 	result.push("<br/><input type='button' value='Update password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+
+	
+
+
 	result.push("</td>");
 
 
@@ -143,11 +150,8 @@ user_role_jurisdiction
 
 
 	result.push("<td>&nbsp;")
-	result.push("<input type='button' value='Save User " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
-	
-	result.push("<span id='");
-	result.push(convert_to_jquery_id(p_user._id));
-	result.push("_status_area'><span id=");
+	//result.push("<input type='button' value='Save User " + p_user.name + " changes' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+
 	result.push("</td>")
 	result.push("</tr>");
 
