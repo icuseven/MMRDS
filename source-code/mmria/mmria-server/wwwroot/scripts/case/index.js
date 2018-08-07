@@ -26,14 +26,6 @@ var g_change_stack = [];
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
 {
-    if(
-        !(
-          profile.user_roles && 
-          profile.user_roles.indexOf("abstractor") > -1)
-        )
-    {
-      return;
-    }
 
   var current_value = eval(p_object_path);
   //if(current_value != value)
@@ -105,7 +97,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         {
           item.push(value);
         }
-    }
+      }
       else if(metadata.type.toLowerCase() == "boolean")
       {
         eval(p_object_path + ' = ' + value);
@@ -971,57 +963,46 @@ function get_specific_case(p_id)
 function save_case(p_data, p_call_back)
 {
 
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-      $.ajax({
-        url: location.protocol + '//' + location.host + '/api/case',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(p_data),
-        type: "POST",
-        beforeSend: function (request)
-        {
-          request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-        );
-        }
-    }).done(function(case_response) {
 
-        console.log("save_case: success");
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/case',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(p_data),
+      type: "POST",
+      beforeSend: function (request)
+      {
+        request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
+      );
+      }
+  }).done(function(case_response) {
 
-        g_change_stack = [];
+      console.log("save_case: success");
 
-        if(g_data && g_data._id == case_response.id)
-        {
-          g_data._rev = case_response.rev;
-          set_local_case(g_data);
-          //console.log('set_value save finished');
-        }
+      g_change_stack = [];
 
-        
-        if(case_response.auth_session)
-        {
-          profile.auth_session = case_response.auth_session;
-          $mmria.addCookie("AuthSession", case_response.auth_session);
-          set_session_warning_interval();
-        }
+      if(g_data && g_data._id == case_response.id)
+      {
+        g_data._rev = case_response.rev;
+        set_local_case(g_data);
+        //console.log('set_value save finished');
+      }
 
-        if(p_call_back)
-        {
-          p_call_back();
-        }
+      
+      if(case_response.auth_session)
+      {
+        profile.auth_session = case_response.auth_session;
+        $mmria.addCookie("AuthSession", case_response.auth_session);
+        set_session_warning_interval();
+      }
+
+      if(p_call_back)
+      {
+        p_call_back();
+      }
 
 
-    }).fail(function(xhr, err) { console.log("save_case: failed", err); });
-
-  }
-  else
-  {
-    if(p_call_back)
-    {
-      p_call_back();
-    }
-  }
-  
+  }).fail(function(xhr, err) { console.log("save_case: failed", err); });
 
 }
 
@@ -1388,10 +1369,9 @@ function add_new_form_click(p_metadata_path, p_object_path)
 
 function save_form_click()
 {
-  if(profile.user_roles && profile.user_roles.length > 0 && profile.user_roles.indexOf("abstractor") > -1)
-  {
-    save_case(g_data, create_save_message);
-  }
+
+  save_case(g_data, create_save_message);
+
   
 }
 
@@ -1417,32 +1397,23 @@ function clear_nav_status_area()
 function set_local_case(p_data, p_call_back)
 {
 
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-    localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
+  localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
 
-    if(p_call_back)
-    {
-      p_call_back();
-    }
-  }
-  else
+  if(p_call_back)
   {
-    if(p_call_back)
-    {
-      p_call_back();
-    }
+    p_call_back();
   }
+  
+
 }
 
 
 function get_local_case(p_id)
 {
   var result = null;
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-    result = JSON.parse(localStorage.getItem('case_' + p_id));
-  }
+
+  result = JSON.parse(localStorage.getItem('case_' + p_id));
+
 
   return result;
 }
