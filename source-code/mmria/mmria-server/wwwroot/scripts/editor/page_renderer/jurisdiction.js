@@ -13,12 +13,12 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push("\",this.value)'  ");
     p_result.push(">");
 
-
+/*
     if(g_jurisdiction_list.length > 1)
     {
         p_result.push("<option value=''></option>");
     }
-
+*/
 
     for(var i = 0; i < g_jurisdiction_list.length; i++)
     {

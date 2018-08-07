@@ -7,6 +7,8 @@ var g_metadata = null;
 var g_data = null;
 var g_source_db = null;
 var g_jurisdiction_list = [];
+var g_user_role_jurisdiction_list = [];
+var g_jurisdiction_tree = [];
 var g_metadata_path = [];
 var g_validator_map = [];
 var g_event_map = [];
@@ -558,7 +560,7 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
-      load_user_role_jurisdiction();
+      load_jurisdiction_tree();
 
  
 
@@ -566,6 +568,28 @@ function load_values()
 
 }
 
+
+function load_jurisdiction_tree()
+{
+	var metadata_url = location.protocol + '//' + location.host + '/api/jurisdiction_tree';
+
+	$.ajax
+	({
+			url: metadata_url,
+			beforeSend: function (request)
+			{
+				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
+			}
+	}).done(function(response) 
+	{
+
+			g_jurisdiction_tree = response;
+
+			load_user_role_jurisdiction()
+			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_ui).join("");
+
+	});
+}
 
 
 function load_user_role_jurisdiction()
@@ -584,18 +608,20 @@ function load_user_role_jurisdiction()
 			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + $mmria.getCookie("uid"),
 	}).done(function(response) {
 
-      g_jurisdiction_list = []
+      g_user_role_jurisdiction_list = []
       for(var i in response.rows)
       {
 
           var value = response.rows[i].value;
           if(value.user_id == $mmria.getCookie("uid") && value.role_name == "abstractor")
           {
-            g_jurisdiction_list.push(value.jurisdiction_id);
+            g_user_role_jurisdiction_list.push(value.jurisdiction_id);
           }
           
       }
-			
+      
+      create_jurisdiction_list(g_jurisdiction_tree);
+
       load_profile();
 
  
@@ -603,6 +629,37 @@ function load_user_role_jurisdiction()
 	});
 
 }
+
+
+function create_jurisdiction_list(p_data)
+{
+
+  for(var i = 0; i < g_user_role_jurisdiction_list.length; i++)
+  {
+    var jurisdiction_regex = new RegExp ("^" +  g_user_role_jurisdiction_list[i]); 
+    var match = p_data.name.match(jurisdiction_regex);
+    if(match)
+    {
+      g_jurisdiction_list.push(p_data.name);
+      break;
+    }
+
+  }
+		
+	if(p_data.children != null)
+	{
+		for(var i = 0; i < p_data.children.length; i++)
+		{
+
+			var child = p_data.children[i];
+			create_jurisdiction_list(child);
+
+			
+		}
+	}
+}
+
+
 var update_session_timer_interval_id = null;
 
 function load_profile()

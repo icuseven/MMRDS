@@ -31,22 +31,7 @@ namespace mmria.server
 
 				var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, Program.config_timer_user_name, Program.config_timer_password);
 				string response_from_server = await jurisdiction_curl.executeAsync ();
-/*
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(jurisdiction_tree_url));
-				request.Method = "GET";
-				request.PreAuthenticate = false;
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
 
-				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string response_from_server = await reader.ReadToEndAsync (); 
-*/
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
 
 			}
@@ -77,33 +62,6 @@ namespace mmria.server
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(jurisdiction_tree, settings);
-
-				/*
-				System.IO.Stream dataStream0 = this.Request.Body;
-				// Open the stream using a StreamReader for easy access.
-				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-				// Read the content.
-				jurisdiction_json = await reader0.ReadToEndAsync ();
-				
-
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(jurisdiction_request, settings);
-
-				var byName = (IDictionary<string,object>)jurisdiction_request;
-				var temp_id = byName["_id"]; 
-				string id_val = null;
-
-				if(temp_id is DateTime)
-				{
-					id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
-				}
-				else
-				{
-					id_val = temp_id.ToString();
-				}
-				*/
 
 				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction/jurisdiction_tree";
 

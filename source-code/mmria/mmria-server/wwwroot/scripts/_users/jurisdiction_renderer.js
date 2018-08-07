@@ -34,10 +34,6 @@ function jurisdiction_render(p_data)
 	}
 	result.push("</li>");
 	
-
-
-
-
 	return result;
 
 }
