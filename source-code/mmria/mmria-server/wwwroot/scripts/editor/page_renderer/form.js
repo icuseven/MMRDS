@@ -208,6 +208,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            p_result.push("</h3>");
        }
        
+       if(g_data && p_metadata.name == "home_record")
+       {       
+            user_jurisdiction_render(p_result, p_metadata, g_data.jurisdiction_id, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+       }
 
        if(g_data && p_metadata.name == "case_narrative")
        {

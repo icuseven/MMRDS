@@ -71,7 +71,11 @@ function metadata_summary_new_tuple(p_metadata, p_path, p_left, p_group_level)
 		onfocus:0,
 		onchange:0,
 		onblur:0,
-		onclick:0
+		onclick:0,
+		hidden:0,
+		boolean:0,
+		buttons:0,
+		charts:0
 	};
 
 switch(p_metadata.type.toLowerCase())
@@ -123,9 +127,24 @@ switch(p_metadata.type.toLowerCase())
 			result.list_values = p_metadata.values.length;
 			result.right = result.left + 1;
 			break;
-
+		case "boolean":
+			result.boolean = 1;
+			break;
+		case "hidden":
+			result.hidden = 1;
+			break;
+		case "button":
+			result.buttons = 1;
+			break;
+		case "chart":
+			result.charts = 1;
+			break;			
 		default:
-			console.log("metadata_summary_add: Missing" + p_metadata.type);
+			if(p_metadata.type != "app")
+			{
+				console.log("metadata_summary_add: Missing" + p_metadata.type);
+			}
+			
 			break;
 		
 		

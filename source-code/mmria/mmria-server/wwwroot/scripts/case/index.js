@@ -665,11 +665,7 @@ function load_profile()
 function get_case_set(p_call_back)
 {
 
-  var case_view_url = location.protocol + '//' + location.host + '/api/de_id_view' + g_ui.case_view_request.get_query_string();
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-   case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
-  }
+  var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
 
   $.ajax({
     url: case_view_url,
@@ -862,12 +858,10 @@ function get_specific_case(p_id)
 {
 
 
-  var case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + p_id;
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
+
     
 
-    case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+    var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
     $.ajax({
       url: case_url,
     }).done(function(case_response) {
@@ -911,20 +905,7 @@ function get_specific_case(p_id)
       console.log( "get_specific_case:",  textStatus, errorThrown);
       g_data = get_local_case(p_id);
     });
-  }
-  else
-  {
-    $.ajax({
-      url: case_url,
-    }).done(function(case_response) {
-    
-    
-      
-    
-        g_data = case_response;
-        g_render();
-    });
-  }
+
 
 
 

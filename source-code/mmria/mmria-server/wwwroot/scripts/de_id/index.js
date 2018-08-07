@@ -666,10 +666,6 @@ function get_case_set(p_call_back)
 {
 
   var case_view_url = location.protocol + '//' + location.host + '/api/de_id_view' + g_ui.case_view_request.get_query_string();
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-   case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
-  }
 
   $.ajax({
     url: case_view_url,
@@ -863,68 +859,18 @@ function get_specific_case(p_id)
 
 
   var case_url = location.protocol + '//' + location.host + '/api/de_id?case_id=' + p_id;
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-    
 
-    case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
-    $.ajax({
-      url: case_url,
-    }).done(function(case_response) {
+  $.ajax({
+    url: case_url,
+  }).done(function(case_response) {
+  
+  
     
-        var local_data = get_local_case(p_id);
+  
+      g_data = case_response;
+      g_render();
+  });
 
-        if(local_data)
-        {
-            if(local_data._rev == case_response._rev)
-            {
-                g_data = local_data;
-            }
-            else
-            {
-              /*
-              console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
-              var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
-              if(date_difference.days > 3)
-              {*/
-
-                local_data = case_response;
-              /*}
-              else
-              {
-                local_data._rev = case_response._rev;
-              }*/
-              
-              set_local_case(local_data);
-              g_data = local_data;
-            }
-
-            g_render();
-        }
-        else
-        {
-          g_data = case_response;
-        }
-        g_render();
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log( "get_specific_case:",  textStatus, errorThrown);
-      g_data = get_local_case(p_id);
-    });
-  }
-  else
-  {
-    $.ajax({
-      url: case_url,
-    }).done(function(case_response) {
-    
-    
-      
-    
-        g_data = case_response;
-        g_render();
-    });
-  }
 
 
 
