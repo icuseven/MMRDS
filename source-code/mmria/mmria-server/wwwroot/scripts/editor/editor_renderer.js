@@ -299,7 +299,8 @@ var valid_types = [
 "label",
 "button",
 "address",
-"chart"
+"chart",
+"jurisdiction"
 ];
 
 
@@ -795,6 +796,7 @@ function render_attribute_add_control(p_path, node_type)
 		case "date":
 		case "datetime":
 		case "time":
+		case "jurisdiction":
 			is_range = true;
 			break;
 		case "address":
