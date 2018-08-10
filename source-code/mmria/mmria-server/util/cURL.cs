@@ -16,10 +16,14 @@ namespace mmria.server
 		string user_id;
 		string password;
 
+		string content_type;
+
 		public cURL (string p_method, string p_headers, string p_url, string p_pay_load, string p_username = null,
-		string p_password = null)
+		string p_password = null, string p_content_type = "application/json")
 		{
 			this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
+
+			this.content_type = p_content_type;
 
 			this.user_id = p_username;
 			this.password = p_password;
@@ -75,7 +79,7 @@ namespace mmria.server
 
 			var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url);
 			httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
-			httpWebRequest.ContentType = "application/json";
+			httpWebRequest.ContentType = this.content_type;
 			httpWebRequest.PreAuthenticate = false;
 			httpWebRequest.Accept = "*/*";
 			httpWebRequest.Method = this.method;
@@ -127,7 +131,7 @@ namespace mmria.server
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create (this.url);
             httpWebRequest.ReadWriteTimeout = 100000; //this can cause issues which is why we are manually setting this
-            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.ContentType = this.content_type;
             httpWebRequest.PreAuthenticate = false;
             httpWebRequest.Accept = "*/*";
             httpWebRequest.Method = this.method;

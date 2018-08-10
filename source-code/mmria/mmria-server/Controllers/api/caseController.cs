@@ -152,17 +152,7 @@ namespace mmria.server
 
 
 				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
-
-
-
-				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, null, null);
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    document_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
-                    document_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
+				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
 
                 try
                 {

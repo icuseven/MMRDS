@@ -55,7 +55,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;			
 		case 'hidden':
 			hidden_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
-			break;			
+			break;
+		case 'jurisdiction':
+			user_jurisdiction_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render);
+			break;						
 		default:
 			console.log("page_render not processed", p_metadata);
 			break;

@@ -164,6 +164,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		case 'address':
 		case 'textarea':
 		case 'hidden':
+		case 'jurisdiction':
 			result.push('<li path="');
 			result.push(p_path);
 			result.push('">');

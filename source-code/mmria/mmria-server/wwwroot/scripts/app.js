@@ -45,16 +45,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		
 		
 		var abstractor_menu = app.querySelector('#abstractor_menu')
-		if(profile.user_roles.indexOf('abstractor') > -1)
-		{
-			abstractor_menu.style.display = "block";
+		abstractor_menu.style.display = "block";
 			
-		}
-		else
-		{
-			abstractor_menu.style.display = "none";
-			
-		}
+
 		
     });/**/
   

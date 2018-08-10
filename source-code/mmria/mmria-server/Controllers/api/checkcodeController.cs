@@ -74,11 +74,21 @@ namespace mmria.server
 					// Read the content.
 					check_code_json = await reader0.ReadToEndAsync ();
 
-
-
-
                     string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
+					var put_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_password, "text/*");
+                    if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
+                    {
+                        string If_Match = this.Request.Headers["If-Match"];
+                        put_curl.AddHeader("If-Match",  If_Match);
+                    }
+
+					string responseFromServer = await put_curl.executeAsync();
+
+					result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+
+/*
 					System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 					request.Method = "PUT";
 					request.ContentType = "text/*";
@@ -98,6 +108,7 @@ namespace mmria.server
                         string If_Match = this.Request.Headers["If-Match"];
                         request.Headers.Add("If-Match",  If_Match);
                     }
+
 
 					using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
 					{
@@ -129,7 +140,7 @@ namespace mmria.server
 							Console.WriteLine (ex);
 						}
 					}
-
+ */
 					if (!result.ok) 
 					{
 

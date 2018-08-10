@@ -2,12 +2,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 {
 
     p_result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
-    if(window.location.href.indexOf('preview.html') < 0 && g_source_db=="mmrds")
-    {
-        // p_result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+    // p_result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 
-        p_result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
-    }
+    p_result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+    
 
 
     p_result.push("<fieldset><legend>Search and Sort Case Listings</legend>");
