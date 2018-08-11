@@ -4,12 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Net.Mail;
 using System.Net;
-
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.util.email
 {
 
-	/*
 	public class Email_Handler
 	{ 
 
@@ -22,8 +21,14 @@ namespace mmria.server.util.email
 		/// <param name="passCode"> Code for accessing an unfinished survey </param>
 		/// <returns></returns>
 
+        private IConfiguration Configuration;
+        public Email_Handler(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public static bool SendMessage( Email Email)
+
+		public bool SendMessage( Email Email)
 		{
 			try
 			{
@@ -40,7 +45,7 @@ namespace mmria.server.util.email
 				// EMAIL_PASSWORD [ password of sender and authenticator ]
 
 
-				string s = ConfigurationManager.AppSettings["EMAIL_USE_AUTHENTICATION"];
+				string s = this.Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
 				if (!String.IsNullOrEmpty(s))
 				{
 					if (s.ToUpper() == "TRUE")
@@ -49,7 +54,7 @@ namespace mmria.server.util.email
 					}
 				}
 
-				s = ConfigurationManager.AppSettings["EMAIL_USE_SSL"];
+				s = this.Configuration["mmria_settings:EMAIL_USE_SSL"];
 				if (!String.IsNullOrEmpty(s))
 				{
 					if (s.ToUpper() == "TRUE")
@@ -58,7 +63,7 @@ namespace mmria.server.util.email
 					}
 				}
 
-				s = ConfigurationManager.AppSettings["SMTP_PORT"];
+				s = this.Configuration["mmria_settings:SMTP_PORT"];
 				if (!int.TryParse(s, out SMTPPort))
 				{
 					SMTPPort = 25;
@@ -73,12 +78,12 @@ namespace mmria.server.util.email
 				message.Subject = Email.Subject;
 				message.From =  new System.Net.Mail.MailAddress(Email.From.ToString());
 				message.Body = Email.Body;  
-				System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(ConfigurationManager.AppSettings["SMTP_HOST"].ToString());
+				System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(this.Configuration["mmria_settings:SMTP_HOST"].ToString());
 				smtp.Port = SMTPPort;
 
 				if (isAuthenticated)
 				{
-					smtp.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EMAIL_FROM"].ToString(), ConfigurationManager.AppSettings["EMAIL_PASSWORD"].ToString());
+					smtp.Credentials = new System.Net.NetworkCredential(this.Configuration["mmria_settings:EMAIL_FROM"].ToString(), this.Configuration["mmria_settings:EMAIL_PASSWORD"].ToString());
 				}
 
 
@@ -97,7 +102,7 @@ namespace mmria.server.util.email
 		}
 
 	}
-*/
+
 
 
 }
