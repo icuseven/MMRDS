@@ -45,6 +45,82 @@ namespace mmria.server.util.email
 				// EMAIL_PASSWORD [ password of sender and authenticator ]
 
 
+/*
+                var EmailObj = new Common.Email.Email();
+                EmailObj.Body = redirectUrl + " and Pass Code is: " + passCode;
+                EmailObj.From = ConfigurationManager.AppSettings["EMAIL_FROM"].ToString();
+                EmailObj.Subject = Uri.UnescapeDataString(emailSubject);
+                List<string> tempList = new List<string>();
+                tempList.Add(emailAddress);
+                EmailObj.To = tempList;
+
+                if (new Email_Handler().SendMessage(EmailObj))
+                {
+                    return Json(true);
+                }
+                else
+                {
+                    return Json(false);
+                }
+
+
+
+               var Email = new Email();
+               Email.Body = "The following survey has been promoted to FINAL mode:\n Title:" + SurveyInfo.SurveyName + " \n Survey ID:" + SurveyInfo.SurveyId + " \nOrganization:" + SurveyInfo.OrganizationName + "\n Start Date & Time:" + SurveyInfo.StartDate + "\n Closing Date & Time:" + SurveyInfo.ClosingDate + " \n \n \n  Thank you.";
+               Email.From = ConfigurationManager.AppSettings["EMAIL_FROM"];
+               Email.To = AdminList;
+               Email.Subject = "Survey -" + SurveyInfo.SurveyName + " has been promoted to FINAL";
+               bool success = Epi.Web.Common.Email.EmailHandler.SendMessage(Email);
+
+
+              var Email = new Email();
+              Email.Body = "Organization Name:" + Organization.Organization + "\nOrganization Key: " + strOrgKeyDecrypted + "\nAdmin Email: " + AdminBO.AdminEmail + "\n\nThank you.";
+              Email.From = ConfigurationManager.AppSettings["EMAIL_FROM"];
+              Email.To = AdminList;
+              Email.Subject = "An organization account has been created.";
+              if (AdminList.Count() > 0)
+                  {
+                  bool success = new Email_Handler().SendMessage(Email);
+                  }
+
+
+			EmailObj.Body = Body +
+				"\n\n Survey URL: \n" + SurveyUrl;
+
+			EmailObj.From = Sender;// ConfigurationManager.AppSettings["EMAIL_FROM"].ToString();
+			EmailObj.Subject = Uri.UnescapeDataString(Subject);
+
+
+			List<string> tempList = new List<string>();
+			tempList.Add(UserEamil);
+			EmailObj.To = tempList;
+			bool EmailSent = new Email_Handler().SendMessage(EmailObj);
+
+
+
+			try
+			{
+				EmailObj.Body = Body2 +
+						"\n\n Survey URL: \n" + SurveyUrl;
+				EmailObj.Subject = Uri.UnescapeDataString(Subject2);
+				EmailObj.From = Sender2;// ConfigurationManager.AppSettings["EMAIL_FROM"].ToString();
+				List<string> tempList = new List<string>();
+				tempList.Add(UserEamil);
+				EmailObj.To = tempList;
+				bool EmailSent = new Email_Handler().SendMessage(EmailObj);
+				xlWorksheet.SetValue(row, 8, "Email sent successfully!");
+
+			}
+			catch (Exception ex)
+			{
+				xlWorksheet.SetValue(row, 8, "Error occurred while sending email.");
+				//throw ex;
+			}
+
+
+
+ */
+
 				string s = this.Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
 				if (!String.IsNullOrEmpty(s))
 				{
