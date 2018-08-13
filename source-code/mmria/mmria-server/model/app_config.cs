@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Web;
+using Quartz;
+using Quartz.Impl;
+using Microsoft.Extensions.Configuration;
+
+namespace mmria.server.model
+{
+	public class app_config
+    {
+            public string web_site_url {get; set;} = "http://*:12345";
+            public string log_directory {get; set;} = "c:/temp/mmria-log";
+            public string export_directory {get; set;} = "c:/temp/mmria-export";
+            public string couchdb_url {get; set;} = "http://localhost:5984";
+            public string timer_user_name {get; set;} = null;
+            public string timer_password {get; set;} = null;
+            public string cron_schedule {get; set;} = "0 */1 * * * ?";
+            public int? password_minimum_length {get; set;} =  8;
+            public int? password_days_before_expires {get; set;} = 0;
+            public int? password_days_before_user_is_notified_of_expiration {get; set;} = 0;
+            public bool? EMAIL_USE_AUTHENTICATION {get; set;} = false;
+            public bool? EMAIL_USE_SSL {get; set;} = false;
+            public string SMTP_HOST {get; set;} = null;
+            public int? SMTP_PORT {get; set;} = 25;
+            public string EMAIL_FROM {get; set;} = null;
+            public string EMAIL_PASSWORD {get; set;} = null;
+
+            public bool? is_environment_based {get; set;} = false;
+/*
+            public string geocode_api_key":"",
+            public string geocode_api_url":"",
+ */
+            
+    }
+}
