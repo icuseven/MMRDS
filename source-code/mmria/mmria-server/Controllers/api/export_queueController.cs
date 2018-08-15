@@ -6,9 +6,11 @@ using System.Dynamic;
 using mmria.common.model;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
+	[Authorize(Roles  = "abstractor")]
 	[Route("api/[controller]")]
 	public class export_queueController: ControllerBase
 	{ 
@@ -30,14 +32,7 @@ namespace mmria.server
 			try
 			{
 				string request_string = Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true";
-				var export_queue_curl = new cURL ("GET", null, request_string, null, null, null);
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    export_queue_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
-                    export_queue_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
+				var export_queue_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
 
 				string responseFromServer = await export_queue_curl.executeAsync();
 
