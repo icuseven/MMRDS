@@ -500,10 +500,6 @@ function add_role(p_user_id, p_created_by)
 
 		g_user_role_jurisdiction.push(temp_user_role);
 
-/*
-		save_user_role_jurisdiction(temp_user_role, user, p_user_id);
-*/		
-
 		var role_list_for_ = document.getElementById("role_list_for_" + user.name);
 
 
@@ -515,9 +511,25 @@ function add_role(p_user_id, p_created_by)
 		option_text.push(" ");
 		option_text.push(temp_user_role.jurisdiction_id);
 		option_text.push(" ");
-		option_text.push(temp_user_role.effective_start_date);
+
+		if(temp_user_role.effective_start_date instanceof Date)
+		{
+			option_text.push(temp_user_role.effective_start_date.toISOString());
+		}
+		else
+		{
+			option_text.push(temp_user_role.effective_start_date);
+		}
+		
 		option_text.push(" ");
-		option_text.push(temp_user_role.effective_end_date);
+		if(temp_user_role.effective_end_date instanceof Date)
+		{
+			option_text.push(temp_user_role.effective_end_date.toISOString());
+		}
+		else
+		{
+			option_text.push(temp_user_role.effective_end_date);
+		}		
 		option_text.push(" ");
 		option_text.push(temp_user_role.is_active);
 
@@ -526,7 +538,7 @@ function add_role(p_user_id, p_created_by)
 
 		role_list_for_.appendChild(opt);
 
-
+	
 		var render_result = user_role_edit_render(user, temp_user_role, p_created_by);
 		var selected_user_role_for_ = document.getElementById("selected_user_role_for_" + user.name);
 		selected_user_role_for_.outerHTML = render_result.join("");

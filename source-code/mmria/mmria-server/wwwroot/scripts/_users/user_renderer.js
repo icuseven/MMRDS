@@ -189,9 +189,27 @@ function render_role_list_for(p_user, p_created_by)
 			result.push(" ");
 			result.push(user_role.jurisdiction_id);
 			result.push(" ");
-			result.push(user_role.effective_start_date);
+
+			if(user_role.effective_start_date instanceof Date)
+			{
+				result.push(user_role.effective_start_date.toISOString());
+			}
+			else
+			{
+				result.push(user_role.effective_start_date);
+			}
+
+
 			result.push(" ");
-			result.push(user_role.effective_end_date);
+			
+			if(user_role.effective_end_date instanceof Date)
+			{
+				result.push(user_role.effective_end_date.toISOString());
+			}
+			else
+			{
+				result.push(user_role.effective_end_date);
+			}			
 			result.push(" ");
 			result.push(user_role.is_active);
 

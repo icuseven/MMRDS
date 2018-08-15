@@ -108,7 +108,7 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 							
 							for(var i in g_user_role_jurisdiction)
 							{
-								if(g_user_role_jurisdiction[i]._id == response._id)
+								if(g_user_role_jurisdiction[i]._id == response_obj.id)
 								{
 									g_user_role_jurisdiction[i]._rev = response_obj.rev; 
 									//document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_ui).join("");
