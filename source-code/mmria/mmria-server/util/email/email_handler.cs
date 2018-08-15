@@ -28,13 +28,18 @@ namespace mmria.server.util.email
         }
 
 
-		public bool SendMessage( Email Email)
+		public bool SendMessage
+		( 
+			Email Email,
+			bool p_is_authenticated = false,
+			bool p_is_using_ssl = false,
+			int p_smtp_port = 25,
+			bool p_configuration_override = true
+		)
 		{
 			try
 			{
-				bool isAuthenticated = false;
-				bool isUsingSSL = false;
-				int SMTPPort = 25;
+
 
 				// App Config Settings:
 				// EMAIL_USE_AUTHENTICATION [ True | False ] default is False
@@ -122,27 +127,27 @@ namespace mmria.server.util.email
  */
 
 				string s = this.Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
-				if (!String.IsNullOrEmpty(s))
+				if (p_configuration_override && !String.IsNullOrEmpty(s))
 				{
 					if (s.ToUpper() == "TRUE")
 					{
-						isAuthenticated = true;
+						p_is_authenticated = true;
 					}
 				}
 
 				s = this.Configuration["mmria_settings:EMAIL_USE_SSL"];
-				if (!String.IsNullOrEmpty(s))
+				if (p_configuration_override && !String.IsNullOrEmpty(s))
 				{
 					if (s.ToUpper() == "TRUE")
 					{
-						isUsingSSL = true;
+						p_is_using_ssl = true;
 					}
 				}
 
 				s = this.Configuration["mmria_settings:SMTP_PORT"];
-				if (!int.TryParse(s, out SMTPPort))
+				if (p_configuration_override && !int.TryParse(s, out p_smtp_port))
 				{
-					SMTPPort = 25;
+					p_smtp_port = 25;
 				}
 
 				System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
@@ -154,19 +159,23 @@ namespace mmria.server.util.email
 				message.Subject = Email.Subject;
 				message.From =  new System.Net.Mail.MailAddress(Email.From.ToString());
 				message.Body = Email.Body;  
-				System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(this.Configuration["mmria_settings:SMTP_HOST"].ToString());
-				smtp.Port = SMTPPort;
 
-				if (isAuthenticated)
+
+
+				System.Net.Mail.SmtpClient smtp_client = new System.Net.Mail.SmtpClient(this.Configuration["mmria_settings:SMTP_HOST"].ToString(), p_smtp_port);
+
+
+				if (p_is_authenticated)
 				{
-					smtp.Credentials = new System.Net.NetworkCredential(this.Configuration["mmria_settings:EMAIL_FROM"].ToString(), this.Configuration["mmria_settings:EMAIL_PASSWORD"].ToString());
+					smtp_client.UseDefaultCredentials = false;
+					smtp_client.Credentials = new System.Net.NetworkCredential(this.Configuration["mmria_settings:EMAIL_FROM"].ToString(), this.Configuration["mmria_settings:EMAIL_PASSWORD"].ToString());
 				}
 
 
-				smtp.EnableSsl = isUsingSSL;
+				smtp_client.EnableSsl = p_is_using_ssl;
 
 
-				smtp.Send(message);
+				smtp_client.Send(message);
 
 				return true;
 
