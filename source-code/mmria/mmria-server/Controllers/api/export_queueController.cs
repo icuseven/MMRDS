@@ -130,15 +130,8 @@ namespace mmria.server
 
 				string export_queue_request_url = Program.config_couchdb_url + "/export_queue/"  +  queue_item._id;
 
-				var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, null, null);
+				var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
 
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-					export_queue_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
-					export_queue_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
 
 				string responseFromServer = await export_queue_curl.executeAsync();
 
