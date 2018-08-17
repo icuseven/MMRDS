@@ -2,22 +2,29 @@
 
 <a href="/Home">Home</a>
 <br/>
+<style>
+ .wide
+{
+     width: 400px;
+}
+</style>
 @using (Html.BeginForm("Index", "_config", FormMethod.Post))
 {
     <table>
+    <tr><th colspan=2>view configuration</th></tr>
     <tr><th>name</th><th>value</th></tr>
 
 
 
-    <tr><td>is_environment_based</td><td>@Html.CheckBoxFor(m => m.is_environment_based.Value)</td></tr>
+    <tr><td>is_environment_based</td><td>@Html.TextBoxFor(m => m.is_environment_based.Value)</td></tr>
 
-    <tr><td>web_site_url</td><td>@Html.TextBoxFor(m => m.web_site_url)</td></tr>
+    <tr><td>web_site_url</td><td>@Html.TextBoxFor(m => m.web_site_url, new { @class= "wide" })</td></tr>
 
-    <tr><td>log_directory</td><td>@Html.TextBoxFor(m => m.log_directory)</td></tr>
+    <tr><td>log_directory</td><td>@Html.TextBoxFor(m => m.log_directory, new { @class= "wide" })</td></tr>
 
-    <tr><td>export_directory</td><td>@Html.TextBoxFor(m => m.export_directory)</td></tr>
+    <tr><td>export_directory</td><td>@Html.TextBoxFor(m => m.export_directory, new { @class= "wide" })</td></tr>
 
-    <tr><td>couchdb_url</td><td>@Html.TextBoxFor(m => m.couchdb_url)</td></tr>
+    <tr><td>couchdb_url</td><td>@Html.TextBoxFor(m => m.couchdb_url, new { @class= "wide" })</td></tr>
 
     <tr><td>timer_user_name</td><td>@Html.TextBoxFor(m => m.timer_user_name)</td></tr>
 
@@ -39,12 +46,13 @@
 
     <tr><td>SMTP_PORT</td><td>@Html.TextBoxFor(m => m.SMTP_PORT)</td></tr>
 
-    <tr><td>EMAIL_FROM</td><td>@Html.TextBoxFor(m => m.EMAIL_FROM)</td></tr>
+    <tr><td>EMAIL_FROM</td><td>@Html.TextBoxFor(m => m.EMAIL_FROM, new { @class= "wide" })</td></tr>
 
-    <tr><td>EMAIL_PASSWORD</td><td>@Html.TextBoxFor(m => m.EMAIL_PASSWORD)</td></tr>
+    <tr><td>EMAIL_PASSWORD</td><td>@Html.TextBoxFor(m => m.EMAIL_PASSWORD, new { @class= "wide" })</td></tr>
 
 
     </table>
-
-    <input type="submit" value="save" />
 }
+<br/>
+<p><b>NOTE:</b> To change settings please edit the appsettings.json configuration file and restart the mmria-server or mmria-service.</p>
+<a href="/Home">Home</a>

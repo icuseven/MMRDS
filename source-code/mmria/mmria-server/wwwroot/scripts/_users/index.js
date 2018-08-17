@@ -168,7 +168,7 @@ function load_users()
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
 			document.getElementById('form_content_id').innerHTML = user_render(g_ui, $mmria.getCookie("uid")).join("")
-			+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
+			+ "" + jurisdiction_render(g_jurisdiction_tree).join("");
 			;
 
 	});

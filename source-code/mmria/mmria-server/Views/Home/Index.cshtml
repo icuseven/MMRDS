@@ -63,31 +63,37 @@ else
 
     @if(is_abtractor)
     {
+        <li>=Abstractor=</li>
         <li><a href="/Case">view case data</a></li>
         <li><a href="/export-queue">export data</a></li>
     }
 
     @if(is_committee_member)
     {
-        <li><a href="/committee-member">view case data</a></li>
+        <li>=Committee Member=</li>
+        <li><a href="/de-identified">view de-identified case data</a></li>
     }
 
 
     @if(is_form_designer)
     {
-        <li><a href="/editor">open form editor</a></li>
-        <li><a href="/migration-plan">migration plan</a></li>
+        <li>=Form Designer=</li>
+        <li><a href="/editor">open form designer</a></li>
+        <li><a href="/migration-plan">manage a migration plan</a></li>
     }
 
-    @if(is_jurisdiction_admin || is_installation_admin)
+    @if(is_jurisdiction_admin && ! is_installation_admin)
     {
-        <li><a href="/_users">manage users</a></li>
+        <li>=Jurisdiction Admin=</li>
+        <li><a href="/_users">manage users & jurisdictions</a></li>
     }
 
 
     @if(is_installation_admin)
     {
-        <li><a href="/_config">manage configuration</a></li>
+        <li>=Installation Admin=</li>
+        <li><a href="/_users">manage users & jurisdictions</a></li>
+        <li><a href="/_config">view configuration</a></li>
     }
     <li>======================</li>
     <li><a href="/aggregate-report">view aggregate report</a></li>
