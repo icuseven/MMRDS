@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using mmria.common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
+    [Authorize(Roles  = "committee_member")]
     [Route("api/[controller]")]
 	public class de_id_viewController: ControllerBase
 	{
@@ -15,7 +18,7 @@ namespace mmria.server
 
         // GET api/values 
         [HttpGet]
-        public mmria.common.model.couchdb.case_view_response Get
+        public async Task<mmria.common.model.couchdb.case_view_response> Get
         (
             int skip = 0,
             int take = 25,
@@ -112,24 +115,9 @@ by_state_of_death
 
 
                 string request_string = request_builder.ToString();
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
-				request.PreAuthenticate = false;
-
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
-
-
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string responseFromServer = reader.ReadToEnd ();
+                var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				string responseFromServer = await request_curl.executeAsync();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
@@ -145,6 +133,12 @@ by_state_of_death
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
                             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+                            if(cvi.value.jurisdiction_id == null)
+                            {
+                                cvi.value.jurisdiction_id = "/";
+                            }
+
                             if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
                             {
                                 is_jurisdiction_ok = true;
