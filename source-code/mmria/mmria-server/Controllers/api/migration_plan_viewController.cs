@@ -14,7 +14,6 @@ namespace mmria.server
     [Route("api/[controller]")]
 	public class migration_plan_viewController: ControllerBase
 	{
-        // GET api/values 
         [HttpGet]
         public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>> Get
         (
@@ -25,38 +24,6 @@ namespace mmria.server
             bool descending = false
         ) 
 		{
-            /*
-             * 
-             * http://localhost:5984/de_id/_design/sortable/_view/conflicts
-             * 
-
-by_date_created
-by_created_by
-by_date_last_updated
-by_last_updated_by
-by_role_name
-by_user_id
-by_parent_id
-by_jurisdiction_id
-by_is_active
-by_effective_start_date
-by_effective_end_date
-
-
-date_created
-created_by
-date_last_updated
-last_updated_by
-role_name
-user_id
-parent_id
-jurisdiction_id
-is_active
-effective_start_date
-effective_end_date
-
-*/
-
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {
@@ -73,14 +40,12 @@ effective_end_date
                 break;
             }
 
-
-
 			try
 			{
                 System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
                 request_builder.Append (Program.config_couchdb_url);
                 request_builder.Append ($"/metadata/_design/sortable/_view/{sort_view}?");
-
+                //http://localhost:5984/metadata/_design/sortable/_view/by_date_last_updated
 
                 if (string.IsNullOrWhiteSpace (search_key))
                 {
@@ -116,41 +81,25 @@ effective_end_date
                 }
 
 
-
 				var migration_plan_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_password);
 				string response_from_server = await migration_plan_curl.executeAsync ();
 
-                var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>>(response_from_server);
+                var migration_plan_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>>(response_from_server);
 
                 if (string.IsNullOrWhiteSpace (search_key)) 
                 {
-                    return case_view_response;
+                    return migration_plan_view_response;
                 } 
                 else 
                 {
                     string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
 
                     var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>();
-                    result.offset = case_view_response.offset;
-                    result.total_rows = case_view_response.total_rows;
+                    result.offset = migration_plan_view_response.offset;
+                    result.total_rows = migration_plan_view_response.total_rows;
 
-                    //foreach(mmria.common.model.couchdb.migration_plan cvi in case_view_response.rows)
-                    foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.migration_plan> cvi in case_view_response.rows)
+                    foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.migration_plan> cvi in migration_plan_view_response.rows)
                     {
-/*
-date_created
-created_by
-date_last_updated
-last_updated_by
-role_name
-user_id
-parent_id
-jurisdiction_id
-is_active
-effective_start_date
-effective_end_date
- */ 
-
                         bool add_item = false;
 
                         if(cvi.value.name != null && cvi.value.name.Equals(key_compare, StringComparison.OrdinalIgnoreCase))
@@ -196,25 +145,7 @@ effective_end_date
                         }
 
 
-                        bool is_jurisdiction_ok = false;
-                        foreach(string jurisdiction_item in jurisdiction_hashset)
-                        {
-                            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item);
-
-                            if(cvi.value.jurisdiction_id == null)
-                            {
-                                cvi.value.jurisdiction_id = "/";
-                            }
-
-
-                            if(regex.IsMatch(cvi.value.jurisdiction_id))
-                            {
-                                is_jurisdiction_ok = true;
-                                break;
-                            }
-                        }
-
-                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
+                        if(add_item) result.rows.Add (cvi);
                        
                     }
 
@@ -223,23 +154,10 @@ effective_end_date
 
                     return result;
                 }
-
-
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-
-
-
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine (ex);
-
 			} 
 
 			return null;

@@ -1,5 +1,6 @@
 {
     "_id": "de-identified-list",
+    "data_type":"de-identified-list",
     "paths":[
     "home_record/first_name",
     "home_record/last_name",
