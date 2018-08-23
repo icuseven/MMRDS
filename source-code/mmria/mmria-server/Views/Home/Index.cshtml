@@ -50,6 +50,40 @@
     }
 }
 
+<script src="./scripts/index.js" type="text/javascript"> </script>
+
+<script>
+    /*
+var g_metadata = null;
+var default_object = null;
+
+function open_blank_version(p_section)
+{
+
+
+	var blank_window = window.open('./print-version','_blank_version',null,false);
+
+	window.setTimeout(function()
+	{
+		blank_window.create_print_version(g_metadata, default_object, p_section)
+	}, 1000);	
+}
+*/
+
+function get_metadata()
+{
+  	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+	}).done(function(response) {
+			g_metadata = response;
+      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
+      default_object =  create_default_object(g_metadata, {});
+    });
+}
+
+
+</script>
+
 @if (!is_authenticated)
 {
     <h1>Index</h1>
@@ -99,8 +133,8 @@ else
     }
     <li>======================</li>
     <li><a href="/aggregate-report">view aggregate report</a></li>
-    <li><a href="/metadata-listing">show metadata listing</a></li>
-    <li><a target="_print_version" href="/print-version">print blank version</a></li>
+    <li><a href="/metadata-listing" >show metadata listing</a></li>
+    <li><a onclick="open_blank_version('all')">print blank version</a></li>
     </ul>
 }
 
