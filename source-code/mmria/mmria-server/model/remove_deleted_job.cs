@@ -99,7 +99,7 @@ namespace mmria.server.model
 							try
 							{
 								mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, null, "DELETE");
-								sync_document.execute ();
+								sync_document.executeAsync ();
 								
 			
 							}
@@ -122,7 +122,7 @@ namespace mmria.server.model
 								if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
 								{
 									mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, document_json);
-									sync_document.execute ();
+									sync_document.executeAsync ();
 								}
 			
 							}

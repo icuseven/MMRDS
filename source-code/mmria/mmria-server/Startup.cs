@@ -194,7 +194,7 @@ namespace mmria.server
 			(
 				new Action (async () => 
 				{
-                    mmria.server.util.c_db_setup.Setup();
+                    await mmria.server.util.c_db_setup.Setup();
 				}
 				
 			));

@@ -47,7 +47,7 @@ namespace mmria.server
 																			 Program.config_timer_password
 																		 );
 
-                            sync_all.execute (); 
+                            sync_all.executeAsync (); 
                         }
                         catch (Exception ex) 
                         {

@@ -66,7 +66,6 @@ namespace mmria.server
 		} 
 
 
-		// POST api/values 
         [HttpPost]
 		public async Task<mmria.common.model.couchdb.document_put_response> Post
 		(
@@ -200,22 +199,10 @@ namespace mmria.server
                     return null;
                 }
 
-                var delete_report_curl = new cURL ("DELETE", null, request_string, null);
-				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, null, null);
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_password);
 
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    delete_report_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
-                    delete_report_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
-                    check_document_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
-                    check_document_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
-
-					// check if doc exists
-
+				// check if doc exists
 				try 
 				{
 					string document_json = null;

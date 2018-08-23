@@ -75,7 +75,7 @@ namespace mmria.server.util
 			return result;
 		}
 
-		public async System.Threading.Tasks.Task execute()
+		public async System.Threading.Tasks.Task executeAsync()
 		{
 
 

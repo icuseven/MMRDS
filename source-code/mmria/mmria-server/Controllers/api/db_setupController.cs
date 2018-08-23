@@ -49,7 +49,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		}
 
         [HttpGet]
-		public IDictionary<string, string> Get
+		public async Task<IDictionary<string, string>> Get
 		(
 			string p_target_db_user_name, 
 			string p_target_db_password
@@ -59,7 +59,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
 			Dictionary<string,string> result = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             //var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_password);
-            if(!url_endpoint_exists (Program.config_couchdb_url, p_target_db_user_name, p_target_db_password))
+            if(!await url_endpoint_exists (Program.config_couchdb_url, p_target_db_user_name, p_target_db_password))
             {
                 result.Add ("End point url NOT available:", Program.config_couchdb_url);
                 return result;
@@ -74,15 +74,15 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     current_directory = System.IO.Directory.GetCurrentDirectory();
                 }
 
-                if (url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_password)) 
+                if (await url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_password)) 
                 {
                     var metadata_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/metadata", null, p_target_db_user_name, p_target_db_password);
-                    Log.Information($"metadata_curl\n{metadata_curl.execute ()}");
+                    Log.Information($"metadata_curl\n{await metadata_curl.executeAsync ()}");
                 }
 
                 try 
                 {
-                    mmria.server.util.c_db_setup.UpdateMetadata(current_directory);
+                    await mmria.server.util.c_db_setup.UpdateMetadata(current_directory);
                 }
                 catch (Exception ex) 
                 {
@@ -91,27 +91,24 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 
 
 
-                if (!url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_password)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_password)) 
                 {
                     var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, p_target_db_user_name, p_target_db_password);
-                    Log.Information($"mmrds_curl\n{ mmrds_curl.execute ()}");
+                    Log.Information($"mmrds_curl\n{ await mmrds_curl.executeAsync ()}");
 
-                    new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).execute ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).executeAsync ();
                     Log.Information($"mmrds/_security completed successfully");
                 }
 
                 try 
                 {
 					string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")).ReadToEnd ();
-                    //var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, p_target_db_user_name, p_target_db_password);
-                    //case_design_sortable_curl.execute ();
-                    sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_password);
+
+                    await sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_password);
 
 
 					string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")).ReadToEnd ();
-                    //var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, p_target_db_user_name, p_target_db_password);
-                    //case_store_design_auth_curl.execute ();
-                    sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_password);
+                    await sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_password);
                 }
                 catch (Exception ex) 
                 {
@@ -119,12 +116,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 }
                 
 
-                if (!url_endpoint_exists (Program.config_couchdb_url + "/export_queue", p_target_db_user_name, p_target_db_password)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + "/export_queue", p_target_db_user_name, p_target_db_password)) 
                 {
                     System.Console.WriteLine ("Creating export_queue db.");
                     var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, p_target_db_user_name, p_target_db_password);
-                    System.Console.WriteLine (export_queue_curl.execute ());
-                    new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_password).execute ();
+                    System.Console.WriteLine (await export_queue_curl.executeAsync ());
+                    await new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_password).executeAsync ();
                 }
             }
             catch(Exception ex) 
@@ -136,14 +133,14 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
         } 
 
 
-        private bool url_endpoint_exists(string p_target_db_url, string p_user_name, string p_password)
+        private async Task<bool> url_endpoint_exists(string p_target_db_url, string p_user_name, string p_password)
         {
             bool result = false;
 
             var curl = new cURL ("HEAD", null, p_target_db_url, null, p_user_name, p_password);	 
             try
             {
-                curl.execute();
+                await curl.executeAsync();
                 /*
                 HTTP/1.1 200 OK
                 Cache-Control: must-revalidate
@@ -177,7 +174,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
         }
 
 
-        private string get_revision (string p_document_url)
+        private async Task<string> get_revision (string p_document_url)
         {
 
             string result = null;
@@ -188,7 +185,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
             try 
             {
 
-                document_json = document_curl.execute ();
+                document_json = await document_curl.executeAsync ();
                 var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
                 IDictionary<string, object> updater = request_result as IDictionary<string, object>;
                 result = updater ["_rev"].ToString ();
@@ -205,12 +202,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
             return result;
         }
 
-        private bool sync_document(string p_document_json, string p_target_db_url, string p_user_name, string p_password)
+        private async Task<bool> sync_document(string p_document_json, string p_target_db_url, string p_user_name, string p_password)
         {
 
             bool result = false;
 
-            string revision_id = get_revision (p_target_db_url);
+            string revision_id = await get_revision (p_target_db_url);
             string storage_document_json = null;
             if (!string.IsNullOrEmpty (revision_id)) 
             {
@@ -225,7 +222,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
             var curl = new cURL ("PUT", null, p_target_db_url, storage_document_json, p_user_name, p_password);
             try 
             {
-                string curl_result = curl.execute ();
+                string curl_result = await curl.executeAsync ();
                 System.Console.WriteLine ("db_setupController.sync_document");
                 System.Console.WriteLine (curl_result);
                 result = true;

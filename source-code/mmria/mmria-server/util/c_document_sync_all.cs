@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 namespace mmria.server.util
@@ -19,13 +20,13 @@ namespace mmria.server.util
 		}
 
 
-		public void execute ()
+		public async Task executeAsync ()
 		{
 			try
 			{
 
 				var delete_de_id_curl = new cURL ("DELETE", null, this.couchdb_url + "/de_id", null, this.user_name, this.password);
-				delete_de_id_curl.execute ();
+				await delete_de_id_curl.executeAsync ();
 			}
 			catch (Exception ex)
 			{
@@ -36,7 +37,7 @@ namespace mmria.server.util
 			try
 			{
 				var delete_report_curl = new cURL ("DELETE", null, this.couchdb_url + "/report", null, this.user_name, this.password);
-				delete_report_curl.execute ();
+				await delete_report_curl.executeAsync ();
 			}
 			catch (Exception ex)
 			{
@@ -48,7 +49,7 @@ namespace mmria.server.util
 			try
 			{
 				var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id", null, this.user_name, this.password);
-				create_de_id_curl.execute ();
+				await create_de_id_curl.executeAsync ();
 			}
 			catch (Exception ex)
 			{
@@ -64,9 +65,9 @@ namespace mmria.server.util
 					current_directory = System.IO.Directory.GetCurrentDirectory();
 				}
 
-                string result = System.IO.File.OpenText (System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")).ReadToEnd ();
+                string result = await System.IO.File.OpenText (System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")).ReadToEndAsync ();
                 var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id/_design/sortable", result, this.user_name, this.password);
-                create_de_id_curl.execute ();
+                await create_de_id_curl.executeAsync ();
  
             } 
             catch (Exception ex) 
@@ -79,7 +80,7 @@ namespace mmria.server.util
 			try
 			{
 				var create_report_curl = new cURL ("PUT", null, this.couchdb_url + "/report", null, this.user_name, this.password);
-				create_report_curl.execute ();	
+				await create_report_curl.executeAsync ();	
 			}
 			catch (Exception ex)
 			{
@@ -89,7 +90,7 @@ namespace mmria.server.util
 
 
 			cURL de_identified_list_curl = new cURL("GET", null, this.couchdb_url + "/metadata/de-identified-list", null, this.user_name, this.password);
-			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
+			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await de_identified_list_curl.executeAsync());
 			HashSet<string> de_identified_set = new HashSet<string>();
 			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
 			{
@@ -98,7 +99,7 @@ namespace mmria.server.util
 			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
 
 			var curl = new cURL ("GET", null, this.couchdb_url + "/mmrds/_all_docs?include_docs=true", null, this.user_name, this.password);
-			string res = curl.execute ();
+			string res = await curl.executeAsync ();
 /*
 {
   "total_rows": 3, "offset": 0, "rows": [
@@ -125,7 +126,7 @@ namespace mmria.server.util
         				{
         					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
         					mmria.server.util.c_sync_document sync_document = new c_sync_document (document_id, document_json);
-        					sync_document.execute ();
+        					await sync_document.executeAsync ();
                         }
     				}
                     catch (Exception document_ex)

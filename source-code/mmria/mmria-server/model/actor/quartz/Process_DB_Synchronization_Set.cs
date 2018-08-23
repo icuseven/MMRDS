@@ -80,14 +80,14 @@ namespace mmria.server.model.actor.quartz
 				{
 					System.Threading.Tasks.Task.Run
 					(
-						new Action (() => 
+						new Action (async () => 
 						{
 							if (kvp.Value.Value)
 							{
 								try
 								{
 									mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, null, "DELETE");
-									sync_document.execute ();
+									await sync_document.executeAsync ();
 								
 			
 								}
@@ -105,11 +105,11 @@ namespace mmria.server.model.actor.quartz
 		
 								try
 								{
-									document_json = document_curl.execute ();
+									document_json = await document_curl.executeAsync ();
 									if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
 									{
 										mmria.server.util.c_sync_document sync_document = new mmria.server.util.c_sync_document (kvp.Key, document_json);
-										sync_document.execute ();
+										await sync_document.executeAsync ();
 									}
 			
 								}
