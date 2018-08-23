@@ -83,18 +83,6 @@ function navigation_render(p_metadata, p_level, p_ui)
           // forms end
         }
 
-
-        if(
-            (
-              profile.user_roles && 
-              profile.user_roles.length > 0 &&
-              profile.user_roles.indexOf("_admin") < 0
-            ) 
-            ||
-            (
-              window.location.href.indexOf('preview.html') > 0
-            )
-        )
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {        
         // print version start
