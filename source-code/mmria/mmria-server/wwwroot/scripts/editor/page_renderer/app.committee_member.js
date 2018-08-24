@@ -2,12 +2,11 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 {
 
     p_result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
-    if(window.location.href.indexOf('preview.html') < 0 && g_source_db=="mmrds")
-    {
-        // p_result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+    
+    // p_result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 
-        p_result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
-    }
+    p_result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
+    
 
 
     p_result.push("<fieldset><legend>Search and Sort Case Listings</legend>");
@@ -134,18 +133,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     }
     
 
-    if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-    {
-        if(p_ui.case_view_request.sort=="by_agency_case_id")
-        {
-            p_result.push("<option selected>agency_case_id</option>");
-        }
-        else
-        {
-            p_result.push("<option>agency_case_id</option>");
-        }
-    }
-    
+   
     if(p_ui.case_view_request.sort=="by_created_by")
     {
         p_result.push("<option selected>created_by</option>");
@@ -332,15 +320,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             p_result.push(" )");
         }
 
-        if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-        {
-            if(item.value.agency_case_id)
-            {
-                p_result.push("  ac_id: ");
-                p_result.push(item.value.agency_case_id)
-            }
-        }
-        
+      
         p_result.push("</a>");
         p_result.push("</td>");
 
@@ -363,12 +343,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
         p_result.push("<td>");
         p_result.push("&nbsp;");
-        if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-        {
-            // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
 
-                p_result.push(" <input type='button3'  class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/> ");
-        }
         p_result.push("</td>");
 
         

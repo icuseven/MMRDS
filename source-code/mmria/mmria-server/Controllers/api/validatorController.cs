@@ -98,6 +98,9 @@ namespace mmria.server
 
 				string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
+				var validator_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_password,"text/*");
+
+/*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 				request.Method = "PUT";
 				request.ContentType = "text/*";
@@ -111,41 +114,46 @@ namespace mmria.server
 					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
 					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
 				}
-
+ */
 				if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
 				{
 					string If_Match = this.Request.Headers["If-Match"];
-					request.Headers.Add("If-Match",  If_Match);
+					validator_curl.AddHeader("If-Match",  If_Match);
 				}
 
-				using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
+				try
 				{
-					try
+
+					/*
+					streamWriter.Write(validator_js_text);
+					streamWriter.Flush();
+					streamWriter.Close();
+
+					System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
+					System.IO.Stream dataStream = response.GetResponseStream ();
+					System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+
+										if(response.Headers["Set-Cookie"] != null)
 					{
-						streamWriter.Write(validator_js_text);
-						streamWriter.Flush();
-						streamWriter.Close();
-
-						System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-						System.IO.Stream dataStream = response.GetResponseStream ();
-						System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-						string responseFromServer = await reader.ReadToEndAsync ();
-
-						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-						if(response.Headers["Set-Cookie"] != null)
-						{
-							this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
-						}
-
-					//System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(Program.config_file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
-						
+						this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
 					}
-					catch(Exception ex)
-					{
-						Console.WriteLine (ex);
-					}
+					 */
+					string responseFromServer = await validator_curl.executeAsync();
+
+					result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+
+
+				//System.Threading.Tasks.Task.Run( new Action(()=> { var f = new GenerateSwaggerFile(); System.IO.File.WriteAllText(Program.config_file_root_folder + "/api-docs/api.json", f.generate(metadata)); }));
+					
 				}
+				catch(Exception ex)
+				{
+					Console.WriteLine (ex);
+				}
+			
+ 				
+
 
 				if (!result.ok) 
 				{

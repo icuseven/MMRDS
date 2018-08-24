@@ -38,15 +38,6 @@ initialize_profile: function ()
 		profile.user_roles = $mmria.getCookie("roles");
 		profile.auth_session = $mmria.getCookie("AuthSession");
 
-		if(profile.user_roles.indexOf("abstractor") >-1)
-		{
-			g_source_db = "mmrds";
-		}
-		else //if(profile.user_roles.indexOf("committee_member") >-1)
-		{
-			g_source_db = "de_id";
-		}
-
 		if(profile.on_login_call_back)
 		{
 			profile.on_login_call_back();
@@ -309,15 +300,6 @@ login_response: function (response)
 			$mmria.addCookie("roles", json_response.roles);
 			
 			set_session_warning_interval();
-
-			if(profile.user_roles.indexOf("abstractor") >-1)
-			{
-				g_source_db = "mmrds";
-			}
-			else //if(profile.user_roles.indexOf("committee_member") >-1)
-			{
-				g_source_db = "de_id";
-			}
 
 			if(profile.on_login_call_back)
 			{

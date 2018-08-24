@@ -101,11 +101,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            p_result.push(p_metadata.prompt);
            
 
-
-            p_result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
-            p_result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
-
-
            p_result.push("</h2><h4 style='grid-column:1/-1;'>");
            p_result.push(" record: ");
            p_result.push(data_index + 1);
@@ -151,10 +146,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                //p_result.push("</div>");
            }
 
-
-            p_result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
-            p_result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
-           
            p_result.push("</section>");
 
        }
@@ -183,10 +174,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
        }
 
        p_result.push(p_metadata.prompt);
-       
-        p_result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
-        p_result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
-    
+
        p_result.push("</h2>");
        if(g_data)
        {
@@ -323,10 +311,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            }
            Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
        }
-       
-
-        p_result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
-        p_result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
        
        p_result.push("</section>");
    }

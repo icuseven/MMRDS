@@ -663,17 +663,6 @@ function load_profile()
       $("#footer").hide();
       $("#root").removeClass("header");
       get_metadata();
-      /*
-      if
-      (
-          g_source_db == "mmrds" &&
-          profile.user_roles && profile.user_roles.length > 0 &&
-          profile.user_roles.indexOf("_admin") < 0
-      )
-      {
-
-        update_session_timer_interval_id = window.setInterval(profile.update_session_timer, 120000);
-      }*/
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)

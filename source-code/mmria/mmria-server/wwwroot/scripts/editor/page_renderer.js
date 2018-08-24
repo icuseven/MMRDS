@@ -190,14 +190,13 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 
 
-		if(window.location.href.indexOf('preview.html') < 0  && g_source_db=="mmrds")
+		
+		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+		if(path_to_onclick_map[p_metadata_path])
 		{
-			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-			if(path_to_onclick_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
-			}
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
 		}
+		
 	}
 	else
 	{
@@ -259,39 +258,27 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	
 
-		if(window.location.href.indexOf('preview.html') < 0 && g_source_db=="mmrds")
-		{
-			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
-			if(path_to_onfocus_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
-			}
 
-	/*
-			if(
-				p_metadata.type == "number" ||
-				p_metadata.type == "datetime" ||
-				p_metadata.type == "date" ||
-				p_metadata.type == "time" 
-			)
-			{
-				page_render_create_onchange_event(p_result, p_metadata, p_metadata_path, p_object_path)
-			}
-			else */
-			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-			if(path_to_onchange_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
-			}
-			
-			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-			if(path_to_onclick_map[p_metadata_path])
-			{
-				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
-			}
-			
-			page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+		if(path_to_onfocus_map[p_metadata_path])
+		{
+			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
 		}
+
+		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+		if(path_to_onchange_map[p_metadata_path])
+		{
+			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+		}
+		
+		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+		if(path_to_onclick_map[p_metadata_path])
+		{
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+		}
+		
+		page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+	
 	}
 /*
 	p_result.push("' onblur='g_set_data_object_from_path(\"");
