@@ -26,7 +26,7 @@ namespace mmria.common.model.couchdb
 		public DateTime? date_last_updated { get; set; } 
 		public string last_updated_by { get; set; }
 
-        public string data_type { get; } = "migration-plan";
+        public string data_type { get; set;}
         public List<migration_plan_item> plan_items{ get; set; }
 
         public migration_plan()

@@ -7,61 +7,15 @@
 <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 <script src="./scripts/jquery-3.1.1.min.js"></script>
+<script src="./scripts/mmria.js"></script>
 <script src="./scripts/migration-plan/index.js"></script>
 <script>
  
-function get_migation_plan_default()
-{
-  return {
-    "_id": $mmria.get_new_guid(),
-    "name":"",
-    "description":"",
-    "date_created": new Date(), 
-    "created_by": "", 
-    "date_last_updated": new Date(),
-    "last_updated_by":"",
-    "data_type":"migration-plan",
-    "plan_items":[
-        {
-            "old_mmria_path": "",
-            "new_mmria_path": "",
-            "old_value":"",
-            "new_value":"",
-            "comment":""
-        }
-    ]
-};
-
-}
-
-var get_migation_plan_item_default()
-{
-  return {
-
-            "old_mmria_path": "",
-            "new_mmria_path": "",
-            "old_value":"",
-            "new_value":"",
-            "comment":""
-};
-
-}
 
 
 function main()
 {
-  $.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-	}).done(function(response) {
-			g_metadata = response;
-      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
-      default_object =  create_default_object(g_metadata, {});
 
-      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-
-      //window.location.href = location.protocol + '//' + location.host;
-
-	});
   //print_node(metadata);
 }
 
@@ -84,7 +38,7 @@ function print_node(p_node)
 
 </script>
 </head>
-<body onload="main()">
+<body>
   <a href="/home">home</a><br/>
   Migration Plan Summary<br/>
   <a href="/migrationplan/detail">detail</a><br/>
