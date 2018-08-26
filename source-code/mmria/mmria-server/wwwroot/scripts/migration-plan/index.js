@@ -1,5 +1,4 @@
 
-var g_migration_plan_view = null;
 var g_migration_plan_list = [];
 
 
@@ -50,7 +49,7 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	load_migration_plan_view();
+	load_migration_plan();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -74,31 +73,32 @@ $(function ()
 
 
 
-function load_migration_plan_view()
+function load_migration_plan()
 {
 
 	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/migration_plan_view',
+		url: location.protocol + '//' + location.host + '/api/migration_plan',
 	}).done(function(response) 
 	{
-		g_migration_plan_view = [];
-		for(var i in response.rows)
+		g_migration_plan_list = [];
+		for(var i in response)
 		{
-			var item = response.rows[i];
-			if(item.value.data_type && item.value.data_type=="migration-plan")
+			var item = response[i];
+			if(item.data_type=="migration-plan")
 			{
-				g_migration_plan_view.push(item.value);
+				
+				g_migration_plan_list.push(item);
 			}
 
 			
 		}
 		
-		document.getElementById('output').innerHTML = render_migration_plan_view().join("");
+		document.getElementById('output').innerHTML = render_migration_plan().join("");
 	});
 
 }
 
-function render_migration_plan_view()
+function render_migration_plan()
 {
 
 	var result = [];
@@ -114,9 +114,9 @@ function render_migration_plan_view()
 	result.push("<th>last_updated_by</th>");
 	result.push("<th>&nbsp;</th>");
 	result.push("</tr>");
-	for(var i in g_migration_plan_view)
+	for(var i in g_migration_plan_list)
 	{
-		var item = g_migration_plan_view[i];
+		var item = g_migration_plan_list[i];
 
 		if(i % 2)
 		{
@@ -225,7 +225,23 @@ function delete_plan_click(p_id)
 
 function edit_plan_click(p_id)
 {
-	console.log("editt_plan_click");
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		document.getElementById('output').innerHTML = render_edit_migration_plan(selected_plan).join("");
+
+	}
+	
 }
 
 
@@ -235,62 +251,142 @@ function render_edit_migration_plan(p_migration_plan)
 
 	var result = [];
 
+	result.push("<a href=/migrationplan>back to migration plan list</a><br/>");
 	result.push("<table>");
-	result.push("<tr><th colspan=6 bgcolor=silver>migration plan list</th></tr>");
-	result.push("<tr>");
-	result.push("<th>name</th>");
-	result.push("<th>description</th>");
-	result.push("<th>created_by</th>");
-	result.push("<th>date_created</th>");
-	result.push("<th>date_last_updated</th>");
-	result.push("<th>last_updated_by</th>");
+	result.push("<tr bgcolor=#CCCCCC><th colspan=2>selected migration plan</th><ttr>");
+	result.push("<tr><td><b>name:</b></td>");
+	result.push("<td><input type='text' value='");
+	result.push(p_migration_plan.name);
+	result.push("'/></td>");
 	result.push("</tr>");
-	for(var i in g_migration_plan_view)
-	{
-		var item = g_migration_plan_view[i];
-
-		if(i % 2)
-		{
-			result.push("<tr bgcolor='#999999'>");
-		}
-		else
-		{
-			result.push("<tr>");
-		}
-		result.push("<td>");
-		result.push(item.name);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.description);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.created_by);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.date_created);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.date_last_updated);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.last_updated_by);
-		result.push("</td>");
-		result.push("</tr>");		
-		
-	}
-
+	result.push("<tr><td valign=top><b>description:</b></td>");
+	result.push("<td><textarea cols=35 rows=7>");
+	result.push(p_migration_plan.description);
+	result.push("</textarea></td>");
+	result.push("</tr>");
+	result.push("<tr><td><b>created by:</b></td><td>");
+	result.push(p_migration_plan.created_by);
+	result.push("</td>");
+	result.push("<tr><td><b>date created:</b></td><td>");
+	result.push(p_migration_plan.date_created);
+	result.push("</td>");
+	result.push("<tr><td><b>last updated by:</b></td><td>");
+	result.push(p_migration_plan.date_last_updated);
+	result.push("</td>");
+	result.push("<tr><td><b>created by:</b></td><td>");
+	result.push(p_migration_plan.last_updated_by);
+	result.push("</td>");
+	result.push("</tr>");		
+	
+	
+/*
 	result.push("<tr>");
 	result.push("<td colspan=2>name: <input id='add_new_plan_name' type='text' value='' /></td>")
 	result.push("<td colspan=2>description: <input id='add_new_plan_description' type='text' value='' /></td>")
 	result.push("<td colspan=2><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td>")
 	result.push("</tr>");
+*/
+	result.push("</table>");
+
+
+	Array.prototype.push.apply(result, render_migration_plan_item_list(p_migration_plan))
+
+	result.push("<br/><input type=button value='== save migration plan ==' onclick='save_migration_plan_item_click(\"" + p_migration_plan._id + "\")' /><br/>");
+
+	result.push("<br/><a href=/migrationplan>back to migration plan list</a><br/>");
+	return result;
+
+}
+
+
+function render_migration_plan_item_list(p_migration_plan)
+{
+
+	var result = [];
+
+	result.push("<table>");
+	result.push("<tr><th colspan=6 bgcolor=silver>migration plan item list</th></tr>");
+	result.push("<tr>");
+	result.push("<th>old_mmria_path</th>");
+	result.push("<th>new_mmria_path</th>");
+	result.push("<th>old_value</th>");
+	result.push("<th>new_value</th>");
+	result.push("<th>comment</th>");
+	result.push("<th>&nbsp;</th>");
+	result.push("</tr>");
+	for(var i in p_migration_plan.plan_items)
+	{
+		var item = p_migration_plan.plan_items[i];
+
+		if(i % 2)
+		{
+			result.push("<tr bgcolor='#CCCCCC'>");
+		}
+		else
+		{
+			result.push("<tr>");
+		}
+
+		create_input_box_td(result, item.old_mmria_path);
+		create_input_box_td(result, item.new_mmria_path);
+		create_input_box_td(result, item.old_value);
+		create_input_box_td(result, item.new_value);
+		create_input_box_td(result, item.comment);
+		
+		result.push("<td><input type=button value=delete onclick='delete_plan_item_click(" + i + ")' /></td>");
+		result.push("</tr>");		
+		
+	}
+
+
+	result.push("<tr bgcolor='#DDDDDD'>");
+	create_input_box_td(result, "");
+	create_input_box_td(result, "");
+	create_input_box_td(result, "");
+	create_input_box_td(result, "");
+	create_input_box_td(result, "");
+	
+	result.push("<td><input type=button value='add new item' onclick='add_new_plan_item_click(\"" + p_migration_plan._id + "\")' /></td>");
+	result.push("</tr>");
+
+/*
+	result.push("<tr>");
+	result.push("<td colspan=2>name: <input id='add_new_plan_name' type='text' value='' /></td>")
+	result.push("<td colspan=2>description: <input id='add_new_plan_description' type='text' value='' /></td>")
+	result.push("<td colspan=2><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td>")
+	result.push("</tr>");
+*/
 	result.push("</table>");
 
 	return result;
 
 }
 
+function create_input_box_td(p_result, p_item_text)
+{
+	p_result.push("<td><input alt='");
+	p_result.push(p_item_text);
+	p_result.push("' type='text' value='");
+	p_result.push(p_item_text);
+	p_result.push("'/></td>");
+}
 
+
+function delete_plan_item_click(p_item_index)
+{
+
+}
+
+
+function add_new_plan_item_click()
+{
+
+}
+
+function save_migration_plan_item_click(p_id)
+{
+
+}
 
 function add_new_user_click()
 {

@@ -19,6 +19,52 @@ namespace mmria.server
 	{ 
 
 		[HttpGet]
+        public async System.Threading.Tasks.Task<List<mmria.common.model.couchdb.migration_plan>> Get(string id) 
+		{ 
+			List<mmria.common.model.couchdb.migration_plan> result = new List<mmria.common.model.couchdb.migration_plan>();
+			try
+			{
+				string request_string = this.get_couch_db_url() + "/metadata/_all_docs?include_docs=true";
+
+				if(!string.IsNullOrWhiteSpace(id))
+				{
+					if(id == "2016-06-12T13:49:24.759Z") return null;
+					
+					request_string = this.get_couch_db_url() + "/metadata/" + id;
+				}
+
+				var migration_plan_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var responseFromServer = await migration_plan_curl.executeAsync();
+
+				if(!string.IsNullOrWhiteSpace(id))
+				{
+					result.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.migration_plan>(responseFromServer));
+				}
+				else
+				{
+					var response_header = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.migration_plan>>(responseFromServer);
+
+					foreach(var row in response_header.rows)
+					{
+						if(row.doc != null && row.doc.data_type == "migration-plan")
+						{
+							result.Add(row.doc);
+						}
+					}
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return result; 
+		} 
+
+/*
+		[HttpGet]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.migration_plan> Get(string id) 
 		{ 
 			mmria.common.model.couchdb.migration_plan result = null;
@@ -26,7 +72,7 @@ namespace mmria.server
 			{
 				string request_string = this.get_couch_db_url() + "/metadata/" + id;
 
-				var migration_plan_curl = new cURL("PUT", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var migration_plan_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
 				var responseFromServer = await migration_plan_curl.executeAsync();
 
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.migration_plan>(responseFromServer);
@@ -39,6 +85,7 @@ namespace mmria.server
 
 			return result; 
 		} 
+ */
 
 		[HttpPost]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post([FromBody] mmria.common.model.couchdb.migration_plan migration_plan) 
