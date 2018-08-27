@@ -64,13 +64,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                p_result.push('View Record ');
                p_result.push(i + 1);
    
-               p_result.push('</a>&nbsp;|&nbsp;');
-               
-                p_result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
-                p_result.push("\">");
-                p_result.push('Delete Record ');
-                p_result.push(i + 1);
-                p_result.push('</a>');
+               p_result.push('</a>');
                
                p_result.push('</div>');
            }
