@@ -70,6 +70,7 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('<li class="dropdown">');
           result.push('<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Case Forms<span class="caret"></span></a>');
             result.push('<ul class="dropdown-menu" aria-labelledby="themes">');
+            
             for(var i = 0; i < p_metadata.children.length; i++)
             {
               var child = p_metadata.children[i];
@@ -86,6 +87,7 @@ function navigation_render(p_metadata, p_level, p_ui)
         result.push('<li class="dropdown">');
           result.push('<a  class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version  <span class="caret"></span></a>');
           result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
+          result.push('<li><a onclick="open_core_summary(\'all\')">Core Elements Only</a></li>');
           result.push('<li><a tabindex="-1" onclick="open_print_version(\'all\')">All</a></li>');
           for(var i = 0; i < p_metadata.children.length; i++)
           {
