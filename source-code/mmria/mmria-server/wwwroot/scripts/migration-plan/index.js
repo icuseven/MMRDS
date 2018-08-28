@@ -102,7 +102,15 @@ function render_migration_plan()
 {
 
 	var result = [];
+	result.push("<br/>");
+	result.push("<table bgcolor=#CCCCCC>");
+	result.push("<tr><th colspan=2 bgcolor=silver>add new migration plan</td><tr>");
+	result.push("<tr><td align=right><b>name:</b></td><td><input id='add_new_plan_name' type='text' value='' size=45 /></td></tr>")
+	result.push("<tr><td><b>description:</b></td><td><textarea cols=45 rows=7 id='add_new_plan_description'></textarea></td></tr>")
+	result.push("<tr><td colspan=2 align=right><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td></tr>")
+	result.push("</table>");
 
+	result.push("<br/><br/>");
 	result.push("<table>");
 	result.push("<tr><th colspan=6 bgcolor=silver>migration plan list</th></tr>");
 	result.push("<tr>");
@@ -149,13 +157,10 @@ function render_migration_plan()
 		
 	}
 
-	result.push("<tr>");
-	result.push("<td colspan=2>name: <input id='add_new_plan_name' type='text' value='' /></td>")
-	result.push("<td colspan=2>description: <input id='add_new_plan_description' type='text' value='' /></td>")
-	result.push("<td colspan=2><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td>")
-	result.push("</tr>");
-	result.push("</table>");
 
+	result.push("</table>");
+	result.push("<br/>");
+	
 	return result;
 
 }
@@ -385,7 +390,21 @@ function add_new_plan_item_click()
 
 function save_migration_plan_item_click(p_id)
 {
+	var selected_plan = null;
 
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		server_save(selected_plan)
+	}
 }
 
 function add_new_user_click()
