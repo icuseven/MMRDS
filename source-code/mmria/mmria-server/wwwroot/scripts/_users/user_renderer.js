@@ -407,7 +407,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 function remove_user_click(p_user_id, p_rev)
 {
 	var retVal = prompt("Confirm removal by entering the user name to delete: ", "user name here");
-	if(p_user_id && p_rev && retVal && retVal == p_user_id)
+	if(p_user_id && p_rev && retVal && retVal == p_user_id.replace("org.couchdb.user:",""))
 	{ 
 		$.ajax({
 			url: location.protocol + '//' + location.host + '/api/user?user_id=' + p_user_id + '&rev=' + p_rev,
