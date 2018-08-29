@@ -316,11 +316,11 @@ function render_edit_migration_plan(p_migration_plan)
 
 	result.push("<a href=/migrationplan>back to migration plan list</a><br/>");
 	result.push("<table>");
-	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th><ttr>");
+	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th></tr>");
 	result.push("<tr><td><b>name:</b></td>");
-	result.push("<td><input type='text' value='");
+	result.push("<td><span title='" + p_migration_plan.name + "'><input type='text' value='");
 	result.push(p_migration_plan.name);
-	result.push("' onblur='update_plan_name_click(\"" + p_migration_plan._id + "\", this.value)'/></td>");
+	result.push("' onblur='update_plan_name_click(\"" + p_migration_plan._id + "\", this.value)'/></span> <input type=button value='== run migration plan ==' onclick='run_migration_plan_item_click(\"" + p_migration_plan._id + "\")' /></td>");
 	result.push("</tr>");
 	result.push("<tr><td valign=top><b>description:</b></td>");
 	result.push("<td><textarea cols=35 rows=7 onblur='update_plan_description_click(\"" + p_migration_plan._id + "\", this.value)'>");
@@ -607,5 +607,28 @@ function save_migration_plan_item_click(p_id)
 	if(selected_plan)
 	{
 		server_save(selected_plan)
+	}
+}
+
+function run_migration_plan_item_click(p_id)
+{
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		var answer = prompt ("Are you sure you want to run the [" + selected_plan.name + "] migration plan?", "Enter yes to confirm");
+		if(answer == "yes")
+		{
+			
+		}
 	}
 }
