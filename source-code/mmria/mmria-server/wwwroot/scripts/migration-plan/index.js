@@ -316,7 +316,7 @@ function render_edit_migration_plan(p_migration_plan)
 
 	result.push("<a href=/migrationplan>back to migration plan list</a><br/>");
 	result.push("<table>");
-	result.push("<tr bgcolor=#CCCCCC><th colspan=2>selected migration plan</th><ttr>");
+	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th><ttr>");
 	result.push("<tr><td><b>name:</b></td>");
 	result.push("<td><input type='text' value='");
 	result.push(p_migration_plan.name);
@@ -360,7 +360,7 @@ function render_migration_plan_item_list(p_migration_plan)
 	var result = [];
 
 	result.push("<table>");
-	result.push("<tr><th colspan=6 bgcolor=silver>migration plan item list</th></tr>");
+	result.push("<tr><th colspan=6 bgcolor=#DDDD88>migration plan item list</th></tr>");
 	result.push("<tr>");
 	result.push("<th>old_mmria_path</th>");
 	result.push("<th>new_mmria_path</th>");
@@ -394,6 +394,16 @@ function render_migration_plan_item_list(p_migration_plan)
 	}
 
 
+	result.push("<tr><th colspan=6>&nbsp;</th></tr>");
+	result.push("<tr bgcolor='#DDDD88'><th colspan=6>add new plan item</th></tr>");
+	result.push("<tr bgcolor='#DDDD88'>");
+	result.push("<th>old_mmria_path</th>");
+	result.push("<th>new_mmria_path</th>");
+	result.push("<th>old_value</th>");
+	result.push("<th>new_value</th>");
+	result.push("<th>comment</th>");
+	result.push("<th>&nbsp;</th>");
+	result.push("</tr>");
 	result.push("<tr valign=top bgcolor='#DDDDDD'>");
 	create_input_box_td(result, "", "new_old_mmria_path");
 	create_input_box_td(result, "", "new_new_mmria_path");
@@ -412,9 +422,9 @@ function render_migration_plan_item_list(p_migration_plan)
 
 function create_input_box_td(p_result, p_item_text, p_id)
 {
-	p_result.push("<td><input alt='");
+	p_result.push("<td><span title='");
 	p_result.push(p_item_text);
-	p_result.push("' type='text' value='");
+	p_result.push("'><input type='text' value='");
 	p_result.push(p_item_text);
 
 	if(p_id)
@@ -423,23 +433,23 @@ function create_input_box_td(p_result, p_item_text, p_id)
 		p_result.push(p_id);
 	}
 	
-	p_result.push("'/></td>");
+	p_result.push("'/><span></td>");
 		
 }
 
 
 function create_textarea_td(p_result, p_item_text, p_id)
 {
-	p_result.push("<td><textarea cols=35 rows=3 alt='");
+	p_result.push("<td><span title='");
 	p_result.push(p_item_text);
 	if(p_id)
 	{
 		p_result.push("' id='");
 		p_result.push(p_id);
 	}
-	p_result.push("'>");
+	p_result.push("'><textarea cols=35 rows=3>");
 	p_result.push(p_item_text);
-	p_result.push("</textarea></td>");
+	p_result.push("</textarea></span></td>");
 		
 }
 
