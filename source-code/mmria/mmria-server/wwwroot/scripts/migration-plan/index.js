@@ -382,36 +382,20 @@ function render_migration_plan_item_list(p_migration_plan)
 			result.push("<tr valign=top>");
 		}
 
-		create_input_box_td(result, item.old_mmria_path, "oldmmriapath_" + i);
-		create_input_box_td(result, item.new_mmria_path, "newmmriapath_" + i);
-		create_input_box_td(result, item.old_value, "oldvalue_" + i);
-		create_input_box_td(result, item.new_value, "newvalue_" + i);
-		create_textarea_td(result, item.comment, "comment_" + i);
+		create_input_box_td(result, item.old_mmria_path, "oldmmriapath_" + i, "update_plan_item_old_mmria_path_onblur", p_migration_plan._id, i);
+		create_input_box_td(result, item.new_mmria_path, "newmmriapath_" + i, "update_plan_item_new_mmria_path_onblur", p_migration_plan._id, i);
+		create_input_box_td(result, item.old_value, "oldvalue_" + i, "update_plan_item_old_value_onblur", p_migration_plan._id, i);
+		create_input_box_td(result, item.new_value, "newvalue_" + i, "update_plan_item_new_value_onblur", p_migration_plan._id, i);
+		create_textarea_td(result, item.comment, "comment_" + i, "update_plan_item_comment_onblur", p_migration_plan._id, i);
 		
-		result.push("<td><input type=button value=delete onclick='delete_plan_item_click(\"" + p_migration_plan._id + "\"," + i + ")' /> | <input type=button value=update onclick='update_plan_item_click(\"" + p_migration_plan._id + "\"," + i + ")' /></td>");
+		result.push("<td><input type=button value=delete onclick='delete_plan_item_click(\"" + p_migration_plan._id + "\"," + i + ")' /></td>");
 		result.push("</tr>");		
 		
 	}
 
 
-	result.push("<tr><th colspan=6>&nbsp;</th></tr>");
-	result.push("<tr bgcolor='#DDDD88'><th colspan=6>add new plan item</th></tr>");
-	result.push("<tr bgcolor='#DDDD88'>");
-	result.push("<th>old_mmria_path</th>");
-	result.push("<th>new_mmria_path</th>");
-	result.push("<th>old_value</th>");
-	result.push("<th>new_value</th>");
-	result.push("<th>comment</th>");
-	result.push("<th>&nbsp;</th>");
-	result.push("</tr>");
-	result.push("<tr valign=top bgcolor='#DDDDDD'>");
-	create_input_box_td(result, "", "new_old_mmria_path");
-	create_input_box_td(result, "", "new_new_mmria_path");
-	create_input_box_td(result, "", "new_old_value");
-	create_input_box_td(result, "", "new_new_value");
-	create_textarea_td(result, "", "new_comment");
-	
-	result.push("<td><input type=button value='add new item' onclick='add_new_plan_item_click(\"" + p_migration_plan._id + "\")' /></td>");
+	result.push("<tr>");
+	result.push("<td colspan=6 align=right><input type=button value='add new item' onclick='add_new_plan_item_click(\"" + p_migration_plan._id + "\")' /></td>");
 	result.push("</tr>");
 
 	result.push("</table>");
@@ -420,7 +404,7 @@ function render_migration_plan_item_list(p_migration_plan)
 
 }
 
-function create_input_box_td(p_result, p_item_text, p_id)
+function create_input_box_td(p_result, p_item_text, p_id, p_onblur, p_plan_id,  p_index)
 {
 	p_result.push("<td><span title='");
 	p_result.push(p_item_text);
@@ -432,13 +416,19 @@ function create_input_box_td(p_result, p_item_text, p_id)
 		p_result.push("' id='");
 		p_result.push(p_id);
 	}
-	
-	p_result.push("'/><span></td>");
+	p_result.push("'");
+
+	if(p_onblur)
+	{
+		p_result.push(" onblur='" + p_onblur + "(\"" + p_plan_id + "\",\"" + p_index + "\", this.value)'");
+	}
+
+	p_result.push("/><span></td>");
 		
 }
 
 
-function create_textarea_td(p_result, p_item_text, p_id)
+function create_textarea_td(p_result, p_item_text, p_id, p_onblur, p_plan_id, p_index)
 {
 	p_result.push("<td><span title='");
 	p_result.push(p_item_text);
@@ -447,7 +437,14 @@ function create_textarea_td(p_result, p_item_text, p_id)
 		p_result.push("' id='");
 		p_result.push(p_id);
 	}
-	p_result.push("'><textarea cols=35 rows=3>");
+	p_result.push("'><textarea cols=35 rows=3 ");
+	
+	if(p_onblur)
+	{
+		p_result.push(" onblur='" + p_onblur + "(\"" + p_plan_id + "\",\"" + p_index + "\", this.value)'");
+	}
+
+	p_result.push(">");
 	p_result.push(p_item_text);
 	p_result.push("</textarea></span></td>");
 		
@@ -492,20 +489,7 @@ function add_new_plan_item_click(p_id)
 
 	if(selected_plan)
 	{
-		var new_old_mmria_path = document.getElementById("new_old_mmria_path").value;
-		var new_new_mmria_path = document.getElementById("new_new_mmria_path").value;
-		var new_old_value = document.getElementById("new_old_value").value;
-		var new_new_value = document.getElementById("new_new_value").value;
-		var new_comment = document.getElementById("new_comment").value;
-
 		var plan_item = get_migation_plan_item_default();
-
-		plan_item.old_mmria_path = new_old_mmria_path;
-		plan_item.new_mmria_path = new_new_mmria_path;
-		plan_item.old_value = new_old_value;
-		plan_item.new_value = new_new_value;
-		plan_item.comment = new_comment;
-
 		selected_plan.plan_items.push(plan_item);
 
 		document.getElementById('output').innerHTML = render_edit_migration_plan(selected_plan).join("");
@@ -513,40 +497,6 @@ function add_new_plan_item_click(p_id)
 	}
 }
 
-
-function update_plan_item_click(p_id, p_item_index)
-{
-	var selected_plan = null;
-
-	for(var i = 0; i < g_migration_plan_list.length; i++)
-	{
-		if(g_migration_plan_list[i]._id == p_id)
-		{
-			selected_plan = g_migration_plan_list[i]; 
-			break;
-		}
-	}	
-
-	if(selected_plan)
-	{
-		var old_mmria_path = document.getElementById("oldmmriapath_" + p_item_index).value;
-		var new_mmria_path = document.getElementById("newmmriapath_" + p_item_index).value;
-		var old_value = document.getElementById("oldvalue_" + p_item_index).value;
-		var new_value = document.getElementById("newvalue_" + p_item_index).value;
-		var comment = document.getElementById("comment_" + p_item_index).value;
-
-		var plan_item = selected_plan.plan_items[p_item_index];
-
-		plan_item.old_mmria_path = old_mmria_path;
-		plan_item.new_mmria_path = new_mmria_path;
-		plan_item.old_value = old_value;
-		plan_item.new_value = new_value;
-		plan_item.comment = comment;
-
-		document.getElementById('output').innerHTML = render_edit_migration_plan(selected_plan).join("");
-
-	}
-}
 
 function update_plan_name_click(p_id, p_value)
 {
@@ -630,5 +580,112 @@ function run_migration_plan_item_click(p_id)
 		{
 			
 		}
+	}
+}
+
+
+function update_plan_item_old_mmria_path_onblur(p_id, p_item_index, p_value)
+{
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		var plan_item = selected_plan.plan_items[p_item_index];
+		plan_item.old_mmria_path = p_value;
+	}
+}
+
+function update_plan_item_new_mmria_path_onblur(p_id, p_item_index, p_value)
+{
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		var plan_item = selected_plan.plan_items[p_item_index];
+		plan_item.new_mmria_path = p_value;
+	}
+}
+
+function update_plan_item_old_value_onblur(p_id, p_item_index, p_value)
+{
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		var plan_item = selected_plan.plan_items[p_item_index];
+
+		plan_item.old_value = p_value;
+
+	}
+}
+
+function update_plan_item_new_value_onblur(p_id, p_item_index, p_value)
+{
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		var plan_item = selected_plan.plan_items[p_item_index];
+
+		plan_item.new_value = p_value;
+	}
+}
+
+
+function update_plan_item_comment_onblur(p_id, p_item_index, p_value)
+{
+	var selected_plan = null;
+
+	for(var i = 0; i < g_migration_plan_list.length; i++)
+	{
+		if(g_migration_plan_list[i]._id == p_id)
+		{
+			selected_plan = g_migration_plan_list[i]; 
+			break;
+		}
+	}	
+
+	if(selected_plan)
+	{
+		var plan_item = selected_plan.plan_items[p_item_index];
+
+		plan_item.comment = p_value;
+
 	}
 }
