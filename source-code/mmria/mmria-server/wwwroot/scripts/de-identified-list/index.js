@@ -1,45 +1,5 @@
 
-var g_migration_plan_list = [];
-
-
-function get_migation_plan_default()
-{
-  return {
-    "_id": $mmria.get_new_guid(),
-    "name":"",
-    "description":"",
-    "date_created": new Date(), 
-    "created_by": "", 
-    "date_last_updated": new Date(),
-    "last_updated_by":"",
-    "data_type":"migration-plan",
-    "plan_items":[
-        {
-            "old_mmria_path": "",
-            "new_mmria_path": "",
-            "old_value":"",
-            "new_value":"",
-            "comment":""
-        }
-    ]
-};
-
-}
-
-function get_migation_plan_item_default ()
-{
-  return {
-
-            "old_mmria_path": "",
-            "new_mmria_path": "",
-            "old_value":"",
-            "new_value":"",
-            "comment":""
-};
-
-}
-
-
+var g_de_identified_list = null;
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -49,7 +9,7 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	load_migration_plan();
+	load_de_identification_list();
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -73,58 +33,37 @@ $(function ()
 
 
 
-function load_migration_plan()
+function load_de_identification_list()
 {
 
 	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/migration_plan',
+		url: location.protocol + '//' + location.host + '/api/de_identified_list',
 	}).done(function(response) 
 	{
-		g_migration_plan_list = [];
-		for(var i in response)
-		{
-			var item = response[i];
-			if(item.data_type=="migration-plan")
-			{
-				
-				g_migration_plan_list.push(item);
-			}
-
-			
-		}
+		g_de_identified_list = response;
 		
-		document.getElementById('output').innerHTML = render_migration_plan().join("");
+		document.getElementById('output').innerHTML = render_de_identified_list().join("");
 	});
 
 }
 
-function render_migration_plan()
+function render_de_identified_list()
 {
 
 	var result = [];
 	result.push("<br/>");
-	result.push("<table bgcolor=#CCCCCC>");
-	result.push("<tr><th colspan=2 bgcolor=silver>add new migration plan</td><tr>");
-	result.push("<tr><td align=right><b>name:</b></td><td><input id='add_new_plan_name' type='text' value='' size=45 /></td></tr>")
-	result.push("<tr><td><b>description:</b></td><td><textarea cols=45 rows=7 id='add_new_plan_description'></textarea></td></tr>")
-	result.push("<tr><td colspan=2 align=right><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td></tr>")
-	result.push("</table>");
-
-	result.push("<br/><br/>");
 	result.push("<table>");
-	result.push("<tr><th colspan=6 bgcolor=silver>migration plan list</th></tr>");
+	result.push("<tr><th colspan=2 bgcolor=silver>de identified list</th></tr>");
 	result.push("<tr>");
-	result.push("<th>name</th>");
-	result.push("<th>description</th>");
-	result.push("<th>created_by</th>");
-	result.push("<th>date_created</th>");
-	result.push("<th>date_last_updated</th>");
-	result.push("<th>last_updated_by</th>");
+	result.push("<th>path</th>");
 	result.push("<th>&nbsp;</th>");
 	result.push("</tr>");
-	for(var i in g_migration_plan_list)
+
+	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
+
+	for(var i in g_de_identified_list.paths)
 	{
-		var item = g_migration_plan_list[i];
+		var item = g_de_identified_list.paths[i];
 
 		if(i % 2)
 		{
@@ -134,30 +73,21 @@ function render_migration_plan()
 		{
 			result.push("<tr>");
 		}
-		result.push("<td>");
-		result.push(item.name);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.description);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.created_by);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.date_created);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.date_last_updated);
-		result.push("</td>");
-		result.push("<td>");
-		result.push(item.last_updated_by);
-		result.push("</td>");
-		result.push("<td><input type=button value=delete onclick='delete_plan_click(\"" + item._id + "\")' /> | <input type=button value=edit onclick='edit_plan_click(\"" + item._id + "\")' /></td>");
+		result.push("<td><span title='");
+		result.push(item);
+		result.push("'><input size='120' type='text' value='");
+		result.push(item);
+		result.push("' onblur='update_item("+ i+", this.value)'/></span></td>");
+		result.push("<td><input type=button value=delete onclick='delete_item(" + i + ")' /></td>");
 		result.push("</tr>");		
 		
 	}
 
+	result.push("<tr><td colspan=2 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
 
+	result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
+
+	
 	result.push("</table>");
 	result.push("<br/>");
 	
@@ -165,40 +95,35 @@ function render_migration_plan()
 
 }
 
-
-function add_new_plan_click()
+function update_item(p_index, p_value)
 {
-	
+	g_de_identified_list.paths[p_index] = p_value;
 
-	var new_name = document.getElementById('add_new_plan_name').value;
-	var new_description = document.getElementById('add_new_plan_description').value;
 
-	if(new_name && new_description)
-	{
-		var new_plan = get_migation_plan_default();
-
-		new_plan.name = new_name;
-		new_plan.description = new_description;
-		new_plan.created_by = $mmria.getCookie("uid");
-		new_plan.last_updated_by = $mmria.getCookie("uid");
-
-		g_migration_plan_list.push(new_plan);
-		server_save(new_plan);
-	}
-	
 }
 
-function server_save(p_migration_plan)
+function delete_item(p_index)
+{
+	g_de_identified_list.paths.splice(p_index,1);
+	document.getElementById('output').innerHTML = render_de_identified_list().join("");
+}
+
+function add_new_item_click()
+{
+	
+	g_de_identified_list.paths.push("");
+
+	document.getElementById('output').innerHTML = render_de_identified_list().join("");
+}
+
+function server_save()
 {
 
-	p_migration_plan.date_last_updated = new Date().toISOString();
-	p_migration_plan.last_updated_by = $mmria.getCookie("uid");
-
 	$.ajax({
-				url: location.protocol + '//' + location.host + '/api/migration_plan',
+				url: location.protocol + '//' + location.host + '/api/de_identified_list',
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
-				data: JSON.stringify(p_migration_plan),
+				data: JSON.stringify(g_de_identified_list),
 				type: "POST"/*,
 				beforeSend: function (request)
 				{
@@ -211,16 +136,9 @@ function server_save(p_migration_plan)
 			var response_obj = eval(response);
 			if(response_obj.ok)
 			{
-				for(var i = 0; i < g_migration_plan_list.length; i++)
-				{
-					if(g_migration_plan_list[i]._id == response_obj.id)
-					{
-						g_migration_plan_list[i]._rev = response_obj.rev; 
-						break;
-					}
-				}			
+				g_de_identified_list._rev = response_obj.rev; 
 
-				document.getElementById('output').innerHTML = render_edit_migration_plan(p_migration_plan).join("");
+				document.getElementById('output').innerHTML = render_de_identified_list().join("");
 			}
 		});
 
@@ -672,24 +590,3 @@ function update_plan_item_new_value_onblur(p_id, p_item_index, p_value)
 }
 
 
-function update_plan_item_comment_onblur(p_id, p_item_index, p_value)
-{
-	var selected_plan = null;
-
-	for(var i = 0; i < g_migration_plan_list.length; i++)
-	{
-		if(g_migration_plan_list[i]._id == p_id)
-		{
-			selected_plan = g_migration_plan_list[i]; 
-			break;
-		}
-	}	
-
-	if(selected_plan)
-	{
-		var plan_item = selected_plan.plan_items[p_item_index];
-
-		plan_item.comment = p_value;
-
-	}
-}
