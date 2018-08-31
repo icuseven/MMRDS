@@ -135,7 +135,30 @@ else
     <li>======================</li>
     <li><a href="/aggregate-report">view aggregate report</a></li>
     <li><a href="/metadata-listing" >show metadata listing</a></li>
-    <li><a onclick="open_blank_version('all')">print blank version</a></li>
+    <li>
+        <select id="print_blank_version">
+            <option value="">(select form to print)</option>
+            <option value="home_record">Home Record</option>
+            <option value="death_certificate">Death Certificate</option>
+            <option value="birth_fetal_death_certificate_parent">Birth/Fetal Death Certificate- Parent Section</option>
+            <option value="birth_certificate_infant_fetal_section">Birth/Fetal Death Certificate- Infant/Fetal Section</option>
+            <option value="autopsy_report">Autopsy Report</option>
+            <option value="prenatal">Prenatal Care Record</option>
+            <option value="er_visit_and_hospital_medical_records">ER Visits and Hospitalizations</option>
+            <option value="other_medical_office_visits">Other Medical Office Visits</option>
+            <option value="medical_transport">Medical Transport</option>
+            <option value="social_and_environmental_profile">Social and Environmental Profile</option>
+            <option value="mental_health_profile">Mental Health Profile</option>
+            <option value="informant_interviews">Informant Interviews</option>
+            <option value="case_narrative">Case Narrative</option>
+            <option value="committee_review">Committee Decisions</option>
+        </select>
+        <input type="button"  onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
+    </li>
     </ul>
+
+
+
+
 }
 
