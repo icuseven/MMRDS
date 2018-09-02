@@ -67,6 +67,40 @@ namespace mmria.server.util
             {
                 if(jvi.key!=null && jvi.value.user_id == user_name)
                 {
+                    if
+                    (
+                        jvi.value.is_active == null ||
+                        jvi.value.effective_start_date == null ||
+                        jvi.value.effective_end_date == null
+                    )
+                    {
+                        continue;
+                    }
+
+                    if
+                    (
+                        !
+                        (jvi.value.is_active.HasValue ||
+                        jvi.value.effective_start_date.HasValue ||
+                        jvi.value.effective_end_date.HasValue)
+                    )
+                    {
+                        continue;
+                    }
+
+                    var now_date = DateTime.Now;
+                    if
+                    (
+                        !jvi.value.is_active.Value ||
+                        !(
+                            jvi.value.effective_start_date.Value <= now_date ||
+                            now_date <= jvi.value.effective_end_date.Value
+                        )
+                    )
+                    {
+                        continue;
+                    }
+
                     switch(jvi.value.role_name)
                     {
                         case "abstractor":
@@ -130,6 +164,42 @@ namespace mmria.server.util
             {
                 if(jvi.key!=null && jvi.value.user_id == p_user_name)
                 {
+
+                    if
+                    (
+                        jvi.value.is_active == null ||
+                        jvi.value.effective_start_date == null ||
+                        jvi.value.effective_end_date == null
+                    )
+                    {
+                        continue;
+                    }
+
+                    if
+                    (
+                        !
+                        (jvi.value.is_active.HasValue ||
+                        jvi.value.effective_start_date.HasValue ||
+                        jvi.value.effective_end_date.HasValue)
+                    )
+                    {
+                        continue;
+                    }
+
+                    var now_date = DateTime.Now;
+                    if
+                    (
+                        !jvi.value.is_active.Value ||
+                        !(
+                            jvi.value.effective_start_date.Value <= now_date ||
+                            now_date <= jvi.value.effective_end_date.Value
+                        )
+                    )
+                    {
+                        continue;
+                    }
+
+
                     result.Add((jvi.value.jurisdiction_id, jvi.value.user_id, jvi.value.role_name));
                 }
                 
