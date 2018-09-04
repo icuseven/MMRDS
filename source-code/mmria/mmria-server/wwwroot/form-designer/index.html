@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Form Designer</title>
+        <meta name="description" content="MMRIA form designer">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+        <script src="../scripts/form-designer/interact.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Image and text -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="/">MMRIA</a>
+        </nav>
+        <div id="fd-container" class="container-fluid">
+            <div class="row">
+                <div class="col-3 fd-side-nav-container">
+                    <h4>Form Designer</h4>
+                    <ul id="repeatNavContainer"></ul>
+                </div>
+                <div class="col">
+                    <button id="getStyle" class="btn btn-raised btn-success">Save form</button> <span>view results in console</span>
+                    <div class="fd-grid-container">
+                        <div id="repeatLabelContainer" class="resize-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
+        <script src="../scripts/form-designer/app.js"></script>
+    </body>
+</html>
