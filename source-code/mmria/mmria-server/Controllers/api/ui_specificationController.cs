@@ -16,6 +16,7 @@ namespace mmria.server
 		{
 		}
 
+		[AllowAnonymous] 
 		[HttpGet]
 		public async System.Threading.Tasks.Task<IList<mmria.common.metadata.UI_Specification>> Get(string p_urj_id = "default-ui-specification")
 		{
@@ -39,6 +40,17 @@ namespace mmria.server
 
 					foreach(var row in ui_specification_list.rows)
 					{
+						var ui_specification = row.doc;
+						if
+						(
+							ui_specification.data_type == null || 
+							ui_specification.data_type != "ui-specification"|| 
+							ui_specification._id == "2016-06-12T13:49:24.759Z" ||
+							ui_specification._id == "de-identified-list"
+						)
+						{
+							continue;
+						}
 						result.Add(row.doc);
 					}
 					 
@@ -50,7 +62,22 @@ namespace mmria.server
 					string responseFromServer = await case_curl.executeAsync();
 
 					var ui_specification = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.UI_Specification> (responseFromServer);
-					result.Add(ui_specification);
+
+					if
+					(
+						ui_specification.data_type == null || 
+						ui_specification.data_type != "ui-specification"|| 
+						ui_specification._id == "2016-06-12T13:49:24.759Z" ||
+						ui_specification._id == "de-identified-list"
+					)
+					{
+						// do nothing
+					}
+					else
+					{
+						result.Add(ui_specification);
+					}
+					
 				}
                 
 
@@ -64,8 +91,7 @@ namespace mmria.server
 		}
 
 
-		// POST api/values 
-		//[Route("api/metadata")]
+
 		[HttpPost]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
         (
@@ -79,7 +105,14 @@ namespace mmria.server
 			{
 
 
-				if(ui_specification._id != "default-ui-specification")
+				if
+				(
+					ui_specification.data_type == null ||
+					ui_specification.data_type != "ui-specification" || 
+					ui_specification._id == "2016-06-12T13:49:24.759Z" ||
+					ui_specification._id == "de-identified-list"
+
+				)
 				{
 					return null;
 				}
@@ -120,6 +153,7 @@ namespace mmria.server
 		} 
 
 
+		
 		[HttpDelete]
         public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Delete(string _id = null, string rev = null) 
         { 
@@ -139,6 +173,17 @@ namespace mmria.server
                 {
                     return null;
                 }
+
+
+				if
+				(
+					_id == "2016-06-12T13:49:24.759Z" ||
+					_id == "de-identified-list"
+				)
+				{
+					return null;
+				}
+
 
                 var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
 
