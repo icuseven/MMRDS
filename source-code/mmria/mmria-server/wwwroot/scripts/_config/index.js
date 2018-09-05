@@ -144,7 +144,7 @@ else
 
 			if(setup_response)
 			{
-				document.getElementById("config_form_output").innerHTML = JSON.stringify(setup_response);
+				document.getElementById("config_form_output").innerHTML = "Upgrade Response Completed. Status = " + JSON.stringify(setup_response);
 			}
 
 	});
