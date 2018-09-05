@@ -5,7 +5,7 @@ namespace mmria.common.metadata
 	{
 		public string prompt { get; set; }
 		public string name { get; set; }
-		public string type { get; set; } //= "form"
+		public string type { get; set; }
 		public string cardinality { get; set; } 
 		public node[] children { get; set; } 
 

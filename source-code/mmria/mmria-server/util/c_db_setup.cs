@@ -291,6 +291,15 @@ namespace mmria.server.util
                     var migration_plan_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/sortable", migration_plan_sortable, Program.config_timer_user_name, Program.config_timer_password);
                     var migration_plan_sortable_result_string = await migration_plan_sortable_curl.executeAsync ();
 
+
+                    var default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
+                    var default_ui_specification_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/default_ui_specification", default_ui_specification_json, Program.config_timer_user_name, Program.config_timer_password);
+                    var default_ui_specification_result_string = await default_ui_specification_curl.executeAsync ();
+
+
+
+
+
                 }
                 catch (Exception ex) 
                 {

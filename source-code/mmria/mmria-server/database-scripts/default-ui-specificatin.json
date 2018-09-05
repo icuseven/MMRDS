@@ -1,0 +1,23 @@
+{
+	"name": "default_ui_specification",
+	"_id": "default-ui-specification",
+	"data_type": "ui-specification",
+	"date_created": "2018-09-05T13:49:24.759Z",
+	"created_by": "jhaines",
+	"date_last_updated": "2018-09-05T13:49:24.759Z",
+	"last_updated_by": "jhaines",
+	"dimension": { 
+		"width": 8.5,
+		"height": 
+	},
+	"form_design": {
+		"home_record/jurisdiction_id": {
+			"prompt": {
+				"x": 5,
+				"y": 10,
+				"height": 45,
+				"width": 45
+			}
+		}
+	}
+}
