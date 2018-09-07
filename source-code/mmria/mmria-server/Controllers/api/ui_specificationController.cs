@@ -16,18 +16,19 @@ namespace mmria.server
 		{
 		}
 
+		[Route("{id?}")]
 		[AllowAnonymous] 
 		[HttpGet]
-		public async System.Threading.Tasks.Task<IList<mmria.common.metadata.UI_Specification>> Get(string p_urj_id = "default-ui-specification")
+		public async System.Threading.Tasks.Task<mmria.common.metadata.UI_Specification> Get(string p_urj_id = "default-ui-specification")
 		{
 			Log.Information  ("Recieved message.");
-			var result = new List<mmria.common.metadata.UI_Specification>();
+			var result = new mmria.common.metadata.UI_Specification();
 
 			try
 			{
 				string ui_specification_url = Program.config_couchdb_url + $"/metadata/" + p_urj_id;
 				if(string.IsNullOrWhiteSpace(p_urj_id))
-				{
+				{/*
 					ui_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
 
 					var case_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
@@ -52,15 +53,20 @@ namespace mmria.server
 							continue;
 						}
 						result.Add(row.doc);
-					}
+						 
+					}*/
 					 
 				}
 				else
 				{
-					ui_specification_url = Program.config_couchdb_url + $"/metadata/" + p_urj_id;	
-					var case_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
-					string responseFromServer = await case_curl.executeAsync();
+					
+					var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
+					string responseFromServer = await ui_specification_curl.executeAsync();
 
+					//Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.UI_Specification> (responseFromServer);
+					/*
 					var ui_specification = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.UI_Specification> (responseFromServer);
 
 					if
@@ -77,8 +83,8 @@ namespace mmria.server
 					{
 						result.Add(ui_specification);
 					}
-					
-				}
+					*/
+				} 
                 
 
 			}
