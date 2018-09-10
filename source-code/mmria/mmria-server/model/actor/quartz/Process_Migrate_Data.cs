@@ -12,52 +12,57 @@ namespace mmria.server.model.actor.quartz
 
         protected override void OnReceive(object message)
         {
-        
-
-
-			string migration_plan_id = message.ToString();
-
-            Console.WriteLine($"Process_Migrate_Data {System.DateTime.Now}");
-
-
-			string url = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
-
-			var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_password);
-			string responseFromServer = case_curl.execute();
-              
-            var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
-
-			var migration_plan = get_migration_plan("0b12902e-41fc-648c-2dcb-e0f1d2f47d4a");
-
-			var lookup = get_look_up(migration_plan);
-
-			foreach(var case_item in case_response.rows)
+			try
 			{
-				foreach(var plan_item in migration_plan.plan_items)
+				string migration_plan_id = message.ToString();
+
+				Console.WriteLine($"Process_Migrate_Data {System.DateTime.Now}");
+
+
+				string url = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
+
+				var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_password);
+				string responseFromServer = case_curl.execute();
+				
+				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
+
+				var migration_plan = get_migration_plan("0b12902e-41fc-648c-2dcb-e0f1d2f47d4a");
+
+				var lookup = get_look_up(migration_plan);
+
+				foreach(var case_item in case_response.rows)
 				{
-					var old_value = get_value(plan_item.old_mmria_path, case_item.doc);
-
-					string new_value = old_value;
-					if
-					(
-						lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value + "")
-					)
+					foreach(var plan_item in migration_plan.plan_items)
 					{
-						new_value = lookup[plan_item.old_mmria_path][plan_item.new_mmria_path][old_value];
+						if
+						(
+							string.IsNullOrWhiteSpace(plan_item.old_mmria_path) || 
+							string.IsNullOrWhiteSpace(plan_item.new_mmria_path)
+						)
+						{
+							continue;
+						}
+
+						var old_value = get_value(plan_item.old_mmria_path.TrimEnd('/'), case_item.doc);
+
+						string new_value = old_value;
+						if
+						(
+							lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value + "")
+						)
+						{
+							new_value = lookup[plan_item.old_mmria_path][plan_item.new_mmria_path][old_value];
+						}
+
+						var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc);
 					}
-
-					var set_result = set_value(plan_item.new_mmria_path, new_value, case_item.doc);
 				}
+			
 			}
-			/*
-{"total_rows":7,"offset":0,"rows":[
-{"id":"010d8406-55d0-416f-9000-55c068b4ec54","key":"010d8406-55d0-416f-9000-55c068b4ec54","value":{"rev":"1-c6855378e0dc9920bc13669c3de428b9"},"doc":{
-	}			
-			*/
-
-
-			//result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
-
+			catch(Exception ex)
+			{
+				Console.WriteLine($"Process_Migrate_Data exception {System.DateTime.Now}\n{ex}");
+			}
 
         }
 
@@ -119,9 +124,62 @@ namespace mmria.server.model.actor.quartz
 			return result;
 		}
 
-		private string get_value(string p_metadata_path, System.Dynamic.ExpandoObject p_case)
+		private string get_value(string p_metadata_path, object p_case)
 		{
 			string result = null;
+
+			var metadata_path_array = p_metadata_path.Split("/");
+			var item_key = metadata_path_array[0];
+
+			if(metadata_path_array.Length == 1)
+			{
+				switch(p_case)
+				{
+					case IDictionary<string,object> val:
+						if(val.ContainsKey(item_key))
+						{
+							object new_item = val[item_key];
+
+							switch(new_item)
+							{
+								default:
+									result = new_item.ToString();
+								break;
+							}
+						}
+
+						break;
+
+				}
+			}
+			else
+			{
+				var  builder = new System.Text.StringBuilder();
+				for(int i = 1; i < metadata_path_array.Length; i++)
+				{
+					builder.Append(metadata_path_array[i]);
+					builder.Append("/");
+				}
+				builder.Length = builder.Length - 1;
+
+				var metadata_path = builder.ToString();
+				object new_item = null;
+
+				switch(p_case)
+				{
+					case IDictionary<string,object> val:
+						if(val.ContainsKey(item_key))
+						{
+							new_item = val[item_key];
+						}
+
+						break;
+
+				}
+				result = get_value(metadata_path, new_item);
+			}
+			
+
 
 			return result;
 		}
