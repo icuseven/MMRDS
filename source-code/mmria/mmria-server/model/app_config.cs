@@ -30,6 +30,11 @@ namespace mmria.server.model
             public string EMAIL_PASSWORD {get; set;} = null;
 
             public bool? is_environment_based {get; set;} = false;
+
+            public int? default_days_in_effective_date_interva {get; set;} = 90;
+            public int? unsuccessful_login_attempts_number_before_lockout {get; set;} = 5;
+            public int? unsuccessful_login_attempts_with_number_of_minutes {get; set;} = 120;
+            public int? unsuccessful_login_attempts_lockout_number_of_minutes {get; set;} = 15;
 /*
             public string geocode_api_key":"",
             public string geocode_api_url":"",

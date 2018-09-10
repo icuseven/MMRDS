@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 using mmria.common.model;
+using Akka.Actor;
 
 namespace mmria.server
 {
@@ -17,6 +18,21 @@ namespace mmria.server
 	[Route("api/[controller]")]
 	public class migration_planController: ControllerBase 
 	{ 
+		private ActorSystem _actorSystem;
+		public migration_planController(ActorSystem actorSystem, IAuthorizationService authorizationService)
+		{
+		    _actorSystem = actorSystem;
+		}
+
+		[Route("run/{id}")]
+		[HttpGet]
+        public void Run(string id) 
+		{ 
+
+			_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(id);
+
+		}
+
 
 		[HttpGet]
         public async System.Threading.Tasks.Task<List<mmria.common.model.couchdb.migration_plan>> Get(string id) 

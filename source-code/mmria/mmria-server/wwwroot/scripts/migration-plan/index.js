@@ -582,7 +582,23 @@ function run_migration_plan_item_click(p_id)
 		var answer = prompt ("Are you sure you want to run the [" + selected_plan.name + "] migration plan?", "Enter yes to confirm");
 		if(answer == "yes")
 		{
-			
+			$.ajax({
+				url: location.protocol + '//' + location.host + '/api/migration_plan/run/' + selected_plan._id,
+				contentType: 'application/json; charset=utf-8',
+				//dataType: 'json',
+				//data: JSON.stringify(p_migration_plan),
+				type: "GET"/*,
+				beforeSend: function (request)
+				{
+					request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
+				},*/
+			}).done(function(response) 
+			{
+				alert("message sent");
+				//document.getElementById('output').innerHTML = render_migration_plan().join("");
+
+			});
 		}
 	}
 }

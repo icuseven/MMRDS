@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace mmria.common.model
 {
 
-    class migration_plan_item
+    public class migration_plan_item
     {
         public string old_mmria_path { get; set; }
         public string new_mmria_path{ get; set; }
@@ -15,7 +15,7 @@ namespace mmria.common.model
     }
 
 
-    class migration_plan 
+    public class migration_plan 
     {
 
         public migration_plan()

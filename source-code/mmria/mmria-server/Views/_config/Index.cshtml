@@ -51,6 +51,13 @@
 
     <tr><td>EMAIL_PASSWORD</td><td>@Html.TextBoxFor(m => m.EMAIL_PASSWORD, new { @class= "wide" })</td></tr>
 
+  <tr><td>default_days_in_effective_date_interval</td><td>@Html.TextBoxFor(m => m.default_days_in_effective_date_interval)</td></tr>
+
+  <tr><td>unsuccessful_login_attempts_number_before_lockout</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_number_before_lockout)</td></tr>            
+
+  <tr><td>unsuccessful_login_attempts_with_number_of_minutes</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_with_number_of_minutes)</td></tr>
+
+  <tr><td>unsuccessful_login_attempts_lockout_number_of_minutes</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_lockout_number_of_minutes)</td></tr>
 
     </table>
 }
