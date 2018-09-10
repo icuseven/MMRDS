@@ -167,7 +167,11 @@ namespace mmria.server.model.actor.quartz
 							switch(new_item)
 							{
 								default:
-									result = new_item.ToString();
+									if(new_item != null)
+									{
+										result = new_item.ToString();
+									}
+									
 								break;
 							}
 						}
