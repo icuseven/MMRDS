@@ -16,6 +16,56 @@ namespace mmria.server
 		{
 		}
 
+
+		[Route("list")]
+		[AllowAnonymous] 
+		[HttpGet]
+		public async System.Threading.Tasks.Task<List<mmria.common.metadata.UI_Specification>> List()
+		{
+			Log.Information  ("Recieved message.");
+			var result = new List<mmria.common.metadata.UI_Specification>();
+
+			try
+			{
+				string ui_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
+
+				var curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				string responseFromServer = await curl.executeAsync();
+
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
+						NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                        MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
+				};
+				var ui_specification_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.metadata.UI_Specification>> (responseFromServer, settings);
+
+				foreach(var row in ui_specification_list.rows)
+				{
+					var ui_specification = row.doc;
+					if
+					(
+						ui_specification.data_type == null || 
+						ui_specification.data_type != "ui-specification"|| 
+						ui_specification._id == "2016-06-12T13:49:24.759Z" ||
+						ui_specification._id == "de-identified-list"
+					)
+					{
+						continue;
+					}
+					result.Add(row.doc);
+						
+				}
+
+			}
+			catch(Exception ex) 
+			{
+				Log.Information ($"{ex}");
+			}
+
+			return result;
+		}
+
+
+
 		[Route("{id?}")]
 		[AllowAnonymous] 
 		[HttpGet]
@@ -27,65 +77,15 @@ namespace mmria.server
 			try
 			{
 				string ui_specification_url = Program.config_couchdb_url + $"/metadata/" + p_urj_id;
-				if(string.IsNullOrWhiteSpace(p_urj_id))
-				{/*
-					ui_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
+				
+				var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				string responseFromServer = await ui_specification_curl.executeAsync();
 
-					var case_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
-					string responseFromServer = await case_curl.executeAsync();
-
-
-					var ui_specification_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.metadata.UI_Specification>> (responseFromServer);
-
-
-
-					foreach(var row in ui_specification_list.rows)
-					{
-						var ui_specification = row.doc;
-						if
-						(
-							ui_specification.data_type == null || 
-							ui_specification.data_type != "ui-specification"|| 
-							ui_specification._id == "2016-06-12T13:49:24.759Z" ||
-							ui_specification._id == "de-identified-list"
-						)
-						{
-							continue;
-						}
-						result.Add(row.doc);
-						 
-					}*/
-					 
-				}
-				else
-				{
-					
-					var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
-					string responseFromServer = await ui_specification_curl.executeAsync();
-
-					//Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-					//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.UI_Specification> (responseFromServer);
-					/*
-					var ui_specification = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.UI_Specification> (responseFromServer);
-
-					if
-					(
-						ui_specification.data_type == null || 
-						ui_specification.data_type != "ui-specification"|| 
-						ui_specification._id == "2016-06-12T13:49:24.759Z" ||
-						ui_specification._id == "de-identified-list"
-					)
-					{
-						// do nothing
-					}
-					else
-					{
-						result.Add(ui_specification);
-					}
-					*/
-				} 
-                
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
+						NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                        MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
+				};
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.UI_Specification> (responseFromServer, settings);
 
 			}
 			catch(Exception ex) 
@@ -123,8 +123,10 @@ namespace mmria.server
 					return null;
 				}
 
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
+						NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                        MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
+				};
 				ui_specification_json = Newtonsoft.Json.JsonConvert.SerializeObject(ui_specification, settings);
 
 				string ui_specification_url = Program.config_couchdb_url + "/metadata/" + ui_specification._id;
