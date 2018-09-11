@@ -97,7 +97,7 @@ namespace mmria.server
 		}
 
 
-
+		[Route("{id?}")]
 		[HttpPost]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
         (
