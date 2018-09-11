@@ -26,7 +26,7 @@ namespace mmria.server.model.actor.quartz
 				
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
-				var migration_plan = get_migration_plan("0b12902e-41fc-648c-2dcb-e0f1d2f47d4a");
+				var migration_plan = get_migration_plan(migration_plan_id);
 
 				var lookup = get_look_up(migration_plan);
 

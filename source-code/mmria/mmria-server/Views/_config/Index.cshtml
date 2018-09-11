@@ -12,19 +12,24 @@
 @using (Html.BeginForm("Index", "_config", FormMethod.Post))
 {
     <table>
-    <tr><th colspan=2>view configuration</th></tr>
-    <tr><th>name</th><th>value</th></tr>
+    <tr><th colspan=2>View Configuration Settings</th></tr>
+    <tr><th>&nbsp;</th><th>&nbsp;</th></tr>
+    <tr><th colspan=2>Installation Information</th></tr>
 
 
 
     <tr><td>is_environment_based</td><td>@Html.TextBoxFor(m => m.is_environment_based.Value)</td></tr>
 
-    <tr><td>web_site_url</td><td>@Html.TextBoxFor(m => m.web_site_url, new { @class= "wide" })</td></tr>
+    <tr><td><span title="web_site_url: The only important thing for this setting is the port number. ">web_site_url</span></td><td>@Html.TextBoxFor(m => m.web_site_url, new { @class= "wide" })</td></tr>
 
     <tr><td>log_directory</td><td>@Html.TextBoxFor(m => m.log_directory, new { @class= "wide" })</td></tr>
 
     <tr><td>export_directory</td><td>@Html.TextBoxFor(m => m.export_directory, new { @class= "wide" })</td></tr>
 
+
+    <tr><td colspan=2>&nbsp;</td></tr>
+    <tr><td colspan=2 align=center><b>Database Information</b></td></tr>
+    
     <tr><td>couchdb_url</td><td>@Html.TextBoxFor(m => m.couchdb_url, new { @class= "wide" })</td></tr>
 
     <tr><td>timer_user_name</td><td>@Html.TextBoxFor(m => m.timer_user_name)</td></tr>
@@ -33,11 +38,8 @@
 
     <tr><td>cron_schedule</td><td>@Html.TextBoxFor(m => m.cron_schedule)</td></tr>
 
-    <tr><td>password_minimum_length</td><td>@Html.TextBoxFor(m => m.password_minimum_length)</td></tr>
-
-    <tr><td>password_days_before_expires</td><td>@Html.TextBoxFor(m => m.password_days_before_expires)</td></tr>
-
-    <tr><td>password_days_before_user_is_notified_of_expiration</td><td>@Html.TextBoxFor(m => m.password_days_before_user_is_notified_of_expiration)</td></tr>
+    <tr><td colspan=2>&nbsp;</td></tr>
+    <tr><td colspan=2 align=center><b>Email Configuration</b></td></tr>
 
     <tr><td>EMAIL_USE_AUTHENTICATION</td><td>@Html.TextBoxFor(m => m.EMAIL_USE_AUTHENTICATION)</td></tr>
 
@@ -51,6 +53,17 @@
 
     <tr><td>EMAIL_PASSWORD</td><td>@Html.TextBoxFor(m => m.EMAIL_PASSWORD, new { @class= "wide" })</td></tr>
 
+    <tr><td colspan=2>&nbsp;</td></tr>
+    <tr><td colspan=2 align=center><b>Password Policy</b></td></tr>
+
+    <tr><td>password_minimum_length</td><td>@Html.TextBoxFor(m => m.password_minimum_length)</td></tr>
+
+    <tr><td>password_days_before_expires</td><td>@Html.TextBoxFor(m => m.password_days_before_expires)</td></tr>
+
+    <tr><td>password_days_before_user_is_notified_of_expiration</td><td>@Html.TextBoxFor(m => m.password_days_before_user_is_notified_of_expiration)</td></tr>
+
+  <tr><td colspan=2>&nbsp;</td></tr>
+  <tr><td colspan=2 align=center><b>Authentication Policy</b></td></tr>
   <tr><td>default_days_in_effective_date_interval</td><td>@Html.TextBoxFor(m => m.default_days_in_effective_date_interval)</td></tr>
 
   <tr><td>unsuccessful_login_attempts_number_before_lockout</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_number_before_lockout)</td></tr>            
@@ -66,11 +79,11 @@
 <a href="/Home">Home</a>
 <br/><br/>
 <div id="config_db">
-<p>To Database upgrade use the below form.</p>
+<p>To apply the latest metadata updates to the Database, please use the form below.</p>
 <form id='config_form'>
 <!--target_server: <input id="p_target_server" type="text" value="http://localhost:5984" /><br/-->
-target_db_user_name: <input id="p_target_db_user_name" type="text" value="" /><br/>
-target_db_password: <input id="p_target_db_password" type="password" value="" /><br/><br/>
+<b>target_db_user_name:</b> <input id="p_target_db_user_name" type="text" value="" /><br/>
+<b>target_db_password:</b> <input id="p_target_db_password" type="password" value="" /><br/><br/>
 <br/><br/>
 <input type="button" value="run db  upgrade" onclick="run_db_setup_click()"/>
 <br/><br/>

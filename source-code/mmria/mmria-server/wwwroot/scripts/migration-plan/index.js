@@ -321,15 +321,17 @@ function render_edit_migration_plan(p_migration_plan)
 	result.push("<a href=/migrationplan>back to migration plan list</a><br/>");
 	result.push("<table>");
 	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th></tr>");
+	
 	result.push("<tr><td><b>name:</b></td>");
-	result.push("<td><span title='" + p_migration_plan.name + "'><input type='text' value='");
+	result.push("<td colspan=2><span title='" + p_migration_plan.name + "'><input type='text' size=50 value='");
 	result.push(p_migration_plan.name);
-	result.push("' onblur='update_plan_name_click(\"" + p_migration_plan._id + "\", this.value)'/></span> <input type=button value='== run migration plan ==' onclick='run_migration_plan_item_click(\"" + p_migration_plan._id + "\")' /></td>");
-	result.push("</tr>");
+	result.push("' onblur='update_plan_name_click(\"" + p_migration_plan._id + "\", this.value)'/></span> </td>");
+	result.push("<tr><td align=right colspan=2><input type=button value='== run migration plan ==' onclick='run_migration_plan_item_click(\"" + p_migration_plan._id + "\")' /></td></tr>");
+	result.push("<tr><td bgcolor='FFCCAA' colspan=2 id='message_output'></td></tr>");
 	result.push("<tr><td valign=top><b>description:</b></td>");
 	result.push("<td><textarea cols=35 rows=7 onblur='update_plan_description_click(\"" + p_migration_plan._id + "\", this.value)'>");
 	result.push(p_migration_plan.description);
-	result.push("</textarea></td>");
+	result.push("</textarea></td></tr>");
 	result.push("</tr>");
 	result.push("<tr><td><b>created by:</b></td><td>");
 	result.push(p_migration_plan.created_by);
@@ -595,8 +597,14 @@ function run_migration_plan_item_click(p_id)
 				},*/
 			}).done(function(response) 
 			{
-				alert("message sent");
-				//document.getElementById('output').innerHTML = render_migration_plan().join("");
+
+				var message = [];
+				message.push(new Date().toISOString());
+				message.push(" Migration Plan [");
+				message.push(selected_plan.name)
+				message.push(" sent for processing.");
+
+				document.getElementById('message_output').innerHTML = message.join("");
 
 			});
 		}
