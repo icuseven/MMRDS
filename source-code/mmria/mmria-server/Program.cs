@@ -101,8 +101,22 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static string config_cron_schedule;
         public static string config_export_directory;
 
-        public static bool is_processing_export_queue;
-        public static bool is_processing_syncronization;
+
+        public static int config_password_minimum_length = 8;
+        public static int config_password_days_before_expires = 0;
+        public static int config_password_days_before_user_is_notified_of_expiration = 0;
+        public static bool config_EMAIL_USE_AUTHENTICATION = true;
+        public static bool config_EMAIL_USE_SSL = true;
+        public static string config_SMTP_HOST = null;
+        public static int config_SMTP_PORT = 587;
+        public static string config_EMAIL_FROM = null;
+        public static string config_EMAIL_PASSWORD = null;
+        public static int config_default_days_in_effective_date_interval = 90;
+        public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
+        public static int config_unsuccessful_login_attempts_with_number_of_minutes = 120;
+        public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
+
+
 
         
         public static Akka.Actor.ActorSystem actorSystem;

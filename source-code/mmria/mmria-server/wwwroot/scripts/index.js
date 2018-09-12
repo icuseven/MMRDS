@@ -558,7 +558,7 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
-      load_user_role_jurisdiction();
+      load_profile();
 
  
 
@@ -595,10 +595,7 @@ function load_user_role_jurisdiction()
           }
           
       }
-			
-      load_profile();
 
- 
 
 	});
 
