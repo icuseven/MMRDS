@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace mmria.server
 {
@@ -11,36 +13,27 @@ namespace mmria.server
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        IConfiguration configuration;
+        public ValuesController(IConfiguration p_configuration)
+        {
+            configuration = p_configuration;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<KeyValuePair<string,string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
+
+                result.Add("password_minimum_length", configuration["mmria_settings:password_minimum_length"]);
+                result.Add("password_days_before_expires", configuration["mmria_settings:password_days_before_expires"]);
+                result.Add("password_days_before_user_is_notified_of_expiration", configuration["mmria_settings:password_days_before_user_is_notified_of_expiration"]);
+                result.Add("default_days_in_effective_date_interval", configuration["mmria_settings:default_days_in_effective_date_interval"]);
+                result.Add("unsuccessful_login_attempts_number_before_lockout", configuration["mmria_settings:unsuccessful_login_attempts_number_before_lockout"]);
+                result.Add("unsuccessful_login_attempts_with_number_of_minutes", configuration["mmria_settings:unsuccessful_login_attempts_with_number_of_minutes"]);
+                result.Add("unsuccessful_login_attempts_lockout_number_of_minutes", configuration["mmria_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
+
+            return result;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
