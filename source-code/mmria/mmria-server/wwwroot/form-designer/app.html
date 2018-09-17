@@ -23,13 +23,22 @@
         </nav>
         <div id="fd-container" class="container-fluid">
             <div class="row">
-                <div class="col fd-side-nav-container">
-                    <h4>Form Designer Specification Selection</h4>
+                <div class="col-3 fd-side-nav-container">
+                    <h4>Form Designer</h4>
+                    <ul>
+                        <li><a href="index.html"><< go back</a></li>
+                    </ul>
                     <ul id="repeatNavContainer"></ul>
+                </div>
+                <div class="col">
+                    <button id="getStyle" class="btn btn-raised btn-success">Save form</button> <span>view results in console</span>
+                    <div class="fd-grid-container">
+                        <div id="repeatLabelContainer" class="resize-container"></div>
+                    </div>
                 </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
-        <script src="../scripts/form-designer/spec.js"></script>
+        <script src="../scripts/form-designer/app.js"></script>
     </body>
 </html>

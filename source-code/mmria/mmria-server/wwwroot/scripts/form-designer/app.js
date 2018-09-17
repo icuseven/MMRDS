@@ -16,6 +16,7 @@ interact('.draggable')
     onmove: dragMoveListener,
     // call this function on every dragend event
     onend: function (event) {
+      event.target.style.position = 'absolute';
         // uncomment function below to get a real-time read out of new label properties
         
         var textEl = event.target.querySelector('p');
@@ -81,6 +82,9 @@ interact('.resize-drag')
     target.style.width  = event.rect.width + 'px';
     target.style.height = event.rect.height + 'px';
 
+    target.setAttribute('data-w', event.rect.width);
+    target.setAttribute('data-h', event.rect.height);
+
     // translate when resizing from top or left edges
     x += event.deltaRect.left;
     y += event.deltaRect.top;
@@ -98,18 +102,53 @@ interact('.resize-drag')
     target.style.position = 'absolute';
   });
 
+// Start metaData functionality
+
+// Global data
+var activeRecord;
+var activeRecordElements = [];
+
+// Log new element styles
 $('#getStyle').click(function() {
+  var x;
+  var y;
+  var w;
+  var h;
+  console.clear();
   //console.log($(this.id).attr('style'));
+
+  // We are working with the current activeRecord group of elements
+  console.log(activeRecord);
   $(".resize-drag").each(function(e) {
     console.log(this.id, $(this).attr('style'));
-  })
+    console.log('x: ', $(this).attr('data-x'), 'y: ', $(this).attr('data-y'));
+    x = $(this).attr('data-x');
+    y = $(this).attr('data-y');
+    h = $(this).attr('data-h');
+    w = $(this).attr('data-w');
+  });
+  getFormSpecs(x,y,h,w);
 });
 
-// Start metaData functionality
+// Get specification list
+var urlList = location.protocol + '//' + location.host + '/api/ui_specification/list';
+var dmWidth;
+$.get(urlList, function(data, status){
+  console.log(data);
+  $.each(data, function(index, value){
+    console.log(value._id);
+    console.log(value.dimension.width);
+    dmWidth = parseInt(value.dimension.width) * 125;
+    $(".fd-grid-container").css("width", dmWidth+"px");
+  });
+});
+
+// Get api data
 var url = location.protocol + '//' + location.host + '/api/metadata';
 $.get(url, function(data, status){
   var result = $.grep(data.children, function(e){ return e.type == 'form'; });
   console.log(result);
+
 
   var inHTML = "";
 
@@ -121,6 +160,7 @@ $.get(url, function(data, status){
   $("#repeatNavContainer").html(inHTML);
 
   $(".clickTrigger").click(function() {
+    activeRecord = this.id;
     var caseForm = result.find(x => x.name === this.id);
     
     var inHTML = "";
@@ -138,3 +178,61 @@ $.get(url, function(data, status){
   });
 
 });
+
+var revId;
+// Get Form Specifications
+function getFormSpecs(x,y,w,h) {
+  var url = location.protocol + '//' + location.host +'/api/ui_specification/default-ui-specification';
+
+  $.get(url, function(data, status) {
+    console.log(data);
+    revId = data._rev;
+
+    var formData = {
+      "_id": "default-ui-specification",
+      "_rev": revId,
+      "name": "default_ui_specification",
+      "data_type": "ui-specification",
+      "date_created": "2018-09-05T13:49:24.759Z",
+      "created_by": "jhaines",
+      "date_last_updated": "2018-09-05T13:49:24.759Z",
+      "last_updated_by": "jhaines",
+      "dimension": {
+        "width": 8.5,
+        "height": null
+      },
+      "form_design": {
+        [activeRecord]: {
+          "prompt": {
+            "x": x,
+            "y": y,
+            "height": h,
+            "width": w
+          },
+        }
+      }
+    }
+  
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/ui_specification/default-ui-specification',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(formData),
+      type: "POST"
+    }).done(function(response) 
+    {
+      console.log(response);
+      console.log(revId);
+      // var response_obj = eval(response);
+      // if(response_obj.ok) {
+      // }
+    });
+
+    $.get(url, function(data, status) {
+      console.log('updated record', data);
+    });
+
+  });
+
+  
+};
