@@ -15,8 +15,14 @@ function user_render(p_ui, p_created_by)
 			Array.prototype.push.apply(result, user_entry_render(item, i, p_created_by));
 		}
 	}
-	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
-	result.push("<tr><td colspan=4 align=right>enter new user name:<input type='text' id='new_user_name' value=''/> <input type='button' value='add new user' onclick='add_new_user_click()' /><span id='new_user_status_area'></span></tr>")
+	result.push("<tr><td colspan=6 align=right>&nbsp;</tr>");
+	result.push("<tr><td colspan=6 align=right>");
+	result.push("Enter new user name:<input type='text' id='new_user_name' value=''/><br/>");
+	result.push("Password: <input type='text' id='new_user_password' value=''/><br/>");
+	result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
+	result.push("<input type='button' value='add new user' onclick='add_new_user_click()' /><br/>");
+	result.push("<span id='new_user_status_area'>");
+	result.push("</span></tr>");
 	result.push("</table></div><br/><br/>");
 
 
