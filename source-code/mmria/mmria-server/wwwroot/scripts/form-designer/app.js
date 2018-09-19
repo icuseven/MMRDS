@@ -43,6 +43,9 @@ interact('.draggable')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
+
+    // Output current metadata to specs
+    writeFormSpecs(target.getAttribute('data-x'), target.getAttribute('data-y'), target.getAttribute('data-h'), target.getAttribute('data-w'), target.id);
   }
 
   // this is used later for resizing
@@ -97,6 +100,9 @@ interact('.resize-drag')
 
     // uncomment function below to get a real-time read out of new label properties 
     // target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height);
+    
+    // Output current metadata to specs
+    writeFormSpecs(target.getAttribute('data-x'), target.getAttribute('data-y'), target.getAttribute('data-h'), target.getAttribute('data-w'), target.id);
 
     // set position: absolute to prevent effecting other objects
     target.style.position = 'absolute';
@@ -106,7 +112,8 @@ interact('.resize-drag')
 
 // Global data
 var activeRecord;
-var activeRecordElements = [];
+var activeRecordElements;
+var fieldType = 'strings';
 
 // Log new element styles
 $('#getStyle').click(function() {
@@ -114,6 +121,7 @@ $('#getStyle').click(function() {
   var y;
   var w;
   var h;
+  var currentId;
   console.clear();
   //console.log($(this.id).attr('style'));
 
@@ -126,8 +134,9 @@ $('#getStyle').click(function() {
     y = $(this).attr('data-y');
     h = $(this).attr('data-h');
     w = $(this).attr('data-w');
+    currentId = this.id;
   });
-  getFormSpecs(x,y,h,w);
+  getFormSpecs(x,y,h,w,currentId);
 });
 
 // Get specification list
@@ -150,6 +159,8 @@ $.get(url, function(data, status){
   console.log(result);
 
 
+
+
   var inHTML = "";
 
   $.each(result, function(index, value){
@@ -164,8 +175,12 @@ $.get(url, function(data, status){
     var caseForm = result.find(x => x.name === this.id);
     
     var inHTML = "";
+
+    // Set what type of fields you would like
+    activeRecordElements = getCaseFormElements(caseForm);
     
-    $.each(caseForm.children, function(index, value) {
+    // use $.each(caseForm.children, function(index, value) to revert back to all
+    $.each(activeRecordElements[fieldType], function(index, value) {
       var newItem = `
         <div class="resize-drag" id="`+value.name+`">
         `+value.prompt+`
@@ -179,10 +194,30 @@ $.get(url, function(data, status){
 
 });
 
+// Write form specs to screen
+function writeFormSpecs(x,y,w,h,id) {
+  var elementId = activeRecord+'/'+id;
+  var formData = {
+    "form_design": {
+      [elementId]: {
+        "prompt": {
+          "x": x,
+          "y": y,
+          "height": h,
+          "width": w
+        },
+      }
+    }
+  }
+  var html = JSON.stringify(formData, undefined, 2)
+  $("#specBlock").html(html)
+}
+
 var revId;
 // Get Form Specifications
-function getFormSpecs(x,y,w,h) {
+function getFormSpecs(x,y,w,h,currentElement) {
   var url = location.protocol + '//' + location.host +'/api/ui_specification/default-ui-specification';
+  var elementId = activeRecord+'/'+currentElement;
 
   $.get(url, function(data, status) {
     console.log(data);
@@ -202,7 +237,7 @@ function getFormSpecs(x,y,w,h) {
         "height": null
       },
       "form_design": {
-        [activeRecord]: {
+        [elementId]: {
           "prompt": {
             "x": x,
             "y": y,
@@ -236,3 +271,17 @@ function getFormSpecs(x,y,w,h) {
 
   
 };
+
+// Grab caseFormElements fo certain type
+function getCaseFormElements(caseForm) {
+  var elements = {
+    'labels': $.grep(caseForm.children, function(e){ return e.type == 'label'; }),
+    'strings': $.grep(caseForm.children, function(e){ return e.type == 'string'; })
+  }
+  return elements;
+}
+
+// Grab fieldType for activeRecord
+function grabNewType(arg) {
+  fieldType = arg;
+}
