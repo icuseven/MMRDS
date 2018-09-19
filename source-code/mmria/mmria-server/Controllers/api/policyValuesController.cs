@@ -9,12 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace mmria.server
 {
-    [AllowAnonymous] 
+    //[AllowAnonymous] 
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class policyValuesController : Controller
     {
         IConfiguration configuration;
-        public ValuesController(IConfiguration p_configuration)
+        public policyValuesController(IConfiguration p_configuration)
         {
             configuration = p_configuration;
         }
