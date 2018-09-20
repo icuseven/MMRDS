@@ -429,12 +429,12 @@ function remove_user_click(p_user_id, p_rev)
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			//data: JSON.stringify(p_data),
-			type: "DELETE",
+			type: "DELETE"/*,
 			beforeSend: function (request)
 			{
 			  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
 			);
-			}
+			}*/
 		}).done(function(response) 
 		{
 			if(response.ok)

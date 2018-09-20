@@ -160,7 +160,7 @@ function load_users()
 			{
 				temp.push(response.rows[i].doc);
 			}
-			console.log(temp);
+			//console.log(temp);
 			g_ui.user_summary_list = temp;
 			console.log(g_ui.user_summary_list);
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
@@ -602,6 +602,7 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 
 			if(user_role.jurisdiction_id && user_role.role_name)
 			{
+				document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
 				save_user_role_jurisdiction(user_role, user, p_user_id);
 			}
 			else
@@ -631,7 +632,7 @@ function remove_role(p_user_role_id)
 	if(user_role_index > -1)
 	{
 		var user_role = g_user_role_jurisdiction[user_role_index];
-		
+		document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
 
 		if(user_role._rev)
 		{ 
@@ -640,12 +641,12 @@ function remove_role(p_user_role_id)
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
 				//data: JSON.stringify(p_data),
-				type: "DELETE",
+				type: "DELETE"/*,
 				beforeSend: function (request)
 				{
 					request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
 				);
-				}
+				}*/
 			}).done(function(response) 
 			{
 				if(response.ok)
