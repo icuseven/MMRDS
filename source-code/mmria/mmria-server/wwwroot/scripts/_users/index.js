@@ -1,5 +1,5 @@
 
-var g_couchdb_url = null;
+var g_policy_values = null;
 var g_jurisdiction_tree = null;
 var g_user_role_jurisdiction = null;
 
@@ -82,9 +82,9 @@ $(function ()
 function load_values()
 {
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
+			url: location.protocol + '//' + location.host + '/api/policyvalues',
 	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
+			g_policy_values = response;
 			load_jurisdictions();
 	});
 
@@ -394,7 +394,7 @@ function is_valid_password(p_value)
 
 	if(
 		p_value &&
-		p_value.length >= 8
+		p_value.length >= g_policy_values.password_minimum_length
 	)
 	{
 		//console.log("greatness awaits.");
@@ -496,7 +496,7 @@ function add_role(p_user_id, p_created_by)
 			user.name,
 			"",
 			new Date(),
-			new Date(new Date().getTime() + 90*24*60*60*1000),
+			g_policy_values.default_days_in_effective_date_interval >0? new Date(new Date().getTime() + g_policy_values.default_days_in_effective_date_interval*24*60*60*1000) : "",
 			true,
 			p_created_by
 		);
@@ -537,6 +537,7 @@ function add_role(p_user_id, p_created_by)
 		option_text.push(temp_user_role.is_active);
 
 		opt.value = temp_user_role._id;
+		opt.selected = true;
 		opt.innerHTML = option_text.join("");
 
 		role_list_for_.appendChild(opt);
