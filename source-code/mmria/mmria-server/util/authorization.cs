@@ -70,8 +70,7 @@ namespace mmria.server.util
                     if
                     (
                         jvi.value.is_active == null ||
-                        jvi.value.effective_start_date == null ||
-                        jvi.value.effective_end_date == null
+                        jvi.value.effective_start_date == null 
                     )
                     {
                         continue;
@@ -81,14 +80,25 @@ namespace mmria.server.util
                     (
                         !
                         (jvi.value.is_active.HasValue ||
-                        jvi.value.effective_start_date.HasValue ||
-                        jvi.value.effective_end_date.HasValue)
+                        jvi.value.effective_start_date.HasValue)
                     )
                     {
                         continue;
                     }
 
+                    
+                        
                     var now_date = DateTime.Now;
+
+                    if
+                    (
+                        jvi.value.effective_end_date == null ||
+                        jvi.value.effective_end_date.HasValue == false
+                    )
+                    {
+                        jvi.value.effective_end_date = now_date;
+                    }
+
                     if
                     (
                         !jvi.value.is_active.Value ||
@@ -168,8 +178,7 @@ namespace mmria.server.util
                     if
                     (
                         jvi.value.is_active == null ||
-                        jvi.value.effective_start_date == null ||
-                        jvi.value.effective_end_date == null
+                        jvi.value.effective_start_date == null
                     )
                     {
                         continue;
@@ -179,14 +188,23 @@ namespace mmria.server.util
                     (
                         !
                         (jvi.value.is_active.HasValue ||
-                        jvi.value.effective_start_date.HasValue ||
-                        jvi.value.effective_end_date.HasValue)
+                        jvi.value.effective_start_date.HasValue)
                     )
                     {
                         continue;
                     }
 
                     var now_date = DateTime.Now;
+
+                    if
+                    (
+                        jvi.value.effective_end_date == null ||
+                        jvi.value.effective_end_date.HasValue == false
+                    )
+                    {
+                        jvi.value.effective_end_date = now_date;
+                    }
+
                     if
                     (
                         !jvi.value.is_active.Value ||
