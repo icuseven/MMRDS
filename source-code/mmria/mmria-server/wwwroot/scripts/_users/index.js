@@ -222,57 +222,65 @@ function add_new_user_click()
 	var new_user_password = document.getElementById('new_user_password').value;
 	var new_user_verify= document.getElementById('new_user_verify').value;
 	var user_id = null;
-	if(
-		is_valid_user_name(new_user_name) && 
-		is_valid_password(new_user_password) && 
-		is_valid_password(new_user_verify) &&
-		new_user_password == new_user_verify
-	)
+	if(is_valid_user_name(new_user_name))
 	{
 
-		var new_user = $$.add_new_user(new_user_name, new_user_password);
-		user_id = new_user._id;
-		g_ui.user_summary_list.push(new_user);
-
-		$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user',
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			data: JSON.stringify(new_user),
-			type: "POST"
-		}).done(function(response) 
+		if
+		(
+			is_valid_password(new_user_password) && 
+			is_valid_password(new_user_verify) &&
+			new_user_password == new_user_verify
+		)
 		{
-			var response_obj = eval(response);
-			if(response_obj.ok)
+
+			var new_user = $$.add_new_user(new_user_name, new_user_password);
+			user_id = new_user._id;
+			g_ui.user_summary_list.push(new_user);
+	
+			$.ajax({
+				url: location.protocol + '//' + location.host + '/api/user',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(new_user),
+				type: "POST"
+			}).done(function(response) 
 			{
-				for(var i = 0; i < g_ui.user_summary_list.length; i++)
+				var response_obj = eval(response);
+				if(response_obj.ok)
 				{
-					if(g_ui.user_summary_list[i]._id == response_obj.id)
+					for(var i = 0; i < g_ui.user_summary_list.length; i++)
 					{
-						g_ui.user_summary_list[i]._rev = response_obj.rev; 
-						break;
+						if(g_ui.user_summary_list[i]._id == response_obj.id)
+						{
+							g_ui.user_summary_list[i]._rev = response_obj.rev; 
+							break;
+						}
 					}
+	
+					if(response_obj.auth_session)
+					{
+						//profile.auth_session = response_obj.auth_session;
+						$mmria.addCookie("AuthSession", response_obj.auth_session);
+					}
+	
+					document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
+					create_status_message("new user has been added.", "new_user");
+	
 				}
-
-				if(response_obj.auth_session)
-				{
-					//profile.auth_session = response_obj.auth_session;
-					$mmria.addCookie("AuthSession", response_obj.auth_session);
-				}
-
-				document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
-				create_status_message("new user has been added.", "new_user");
-
-			}
-			//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+				
+			});
+		}
+		else
+		{
+			create_status_warning("invalid password. minimum length is: " + g_policy_values.password_minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", "new_user");
 			
-		});
-
+		}
 
 	}
 	else
 	{
-		create_status_warning("invalid user name or password.", "new_user");
+		create_status_warning("invalid user name. user name should be unique and at least 5 characters long. ", "new_user");
 		console.log("got nothing.");
 	}
 }
@@ -363,7 +371,9 @@ function change_password_user_click(p_user_id)
 	}
 	else
 	{
-		create_status_warning("invalid password and confirm", convert_to_jquery_id(user._id));
+
+		create_status_warning("invalid password. minimum length is: " + g_policy_values.password_minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", convert_to_jquery_id(user._id));
+		//create_status_warning("invalid password and confirm", convert_to_jquery_id(user._id));
 		console.log("got nothing.");
 	}
 }
@@ -375,7 +385,7 @@ function is_valid_user_name(p_value)
 
 	if(
 		p_value && 
-		p_value.length >4
+		p_value.length > 4
 	)
 	{
 		//console.log("greatness awaits.");
@@ -392,9 +402,13 @@ function is_valid_password(p_value)
 {
 	var result = true;
 
+    var valid_character_re = /^[a-zA-Z0-9!@#$\%\?\* ]+$/g;
+
+
 	if(
 		p_value &&
-		p_value.length >= g_policy_values.password_minimum_length
+		p_value.length >= g_policy_values.password_minimum_length &&
+		p_value.match(valid_character_re)
 	)
 	{
 		//console.log("greatness awaits.");
