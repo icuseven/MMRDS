@@ -4,10 +4,13 @@ using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Remote;
 using Xunit;
 
 namespace test
 {
+        //https://github.com/SeleniumHQ/docker-selenium
+    // docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-chrome:3.14.0-europium
     public class SeleniumTest
     {
     public class Class1
@@ -30,13 +33,29 @@ namespace test
         }
 
         [Fact]
-        public void LoginTest()
+        public void Test1()
         {
             int milliseconds_in_second = 1000;
 
+/* 
+            var options = new OpenQA.Selenium.Chrome.ChromeOptions();
+            //options.BinaryLocation = "/usr/share/iron/chrome-wrapper";
+            options.BinaryLocation = "/wd/hub";
+            options.DebuggerAddress  = "localhost:4444";
+            options.
+
+driver = webdriver.Chrome(chrome_driver_binary, chrome_options=options)
+            System.setProperty("webdriver.chrome.driver","");
+
+                        
+                        using (var driver = new ChromeDriver("/media/jhaines/tera27/file-set/workspace/coffeebreak-test/bin/Debug/netcoreapp2.1/", options))
+*/
+
+
             // Initialize the Chrome Driver
-            using (var driver = new ChromeDriver())
-            {
+            //using (var driver = new ChromeDriver("/media/jhaines/tera27/file-set/workspace/coffeebreak-test/bin/Debug/netcoreapp2.1/", options))
+            using (var driver = new RemoteWebDriver(new System.Uri("http://localhost:4444/wd/hub"),new ChromeOptions()))
+            {            
                 // Go to the home page
                 driver.Navigate().GoToUrl("http://test.mmria.org");
 
@@ -47,9 +66,9 @@ namespace test
                 //var login_toggle = driver.FindElementByXPath("//li[@id='profile_content_id']/a[@class='dropdown-toggle']");
                 var login_toggle = driver.FindElementByXPath("//li[@id='profile_content_id']/a");
                 login_toggle.Click();
-                var userNameField = driver.FindElementById("profile_form_user_name");
-                var userPasswordField = driver.FindElementById("profile_form_password");
-                var loginButton = driver.FindElementByXPath("//input[@value='Log in']");
+                var userNameField = driver.FindElementByXPath("//*[@id='profile_content_id2']/div/input[1]");
+                var userPasswordField = driver.FindElementByXPath("//*[@id='profile_content_id2']/div/input[2]");
+                var loginButton = driver.FindElementByXPath("//*[@id='profile_content_id2']/div/input[3]");
 
                 // Type user name and password
                 userNameField.SendKeys("user1");
@@ -57,7 +76,7 @@ namespace test
 
                 // and click the login button
                 loginButton.Click();
-
+/*
                 // Extract the text and save it into result.txt
                 var result = driver.FindElementById("form_content_id").Text;
                 File.WriteAllText("result.txt", result);
@@ -70,11 +89,11 @@ namespace test
 
                 var AddNewCaseButton = driver.FindElementByXPath("//*[@id='app_summary']/input[1]");
                 AddNewCaseButton.Click();
-
+ */
                 System.Threading.Thread.Sleep(5 * milliseconds_in_second);
                 // Take a screenshot and save it into screen.png
                 driver.GetScreenshot().SaveAsFile(@"add_new_case.png", ScreenshotImageFormat.Png);
-/* */
+
                  Assert.Equal(1, 1);
             }
         }
