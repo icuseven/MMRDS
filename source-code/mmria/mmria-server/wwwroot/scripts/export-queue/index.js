@@ -11,20 +11,10 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
-	load_values();
+	load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 	update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
-function load_values()
-{
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
-	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
-			load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
-	});
-
-}
 
 function load_data(p_uid, p_pwd)
 {

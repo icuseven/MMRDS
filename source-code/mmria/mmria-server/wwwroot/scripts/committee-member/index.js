@@ -103,7 +103,7 @@ var $$ = {
 $(function ()
 {
 
-  load_values();
+  load_profile();
 });
 
 
