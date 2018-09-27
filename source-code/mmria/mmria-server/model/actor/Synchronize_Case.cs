@@ -10,10 +10,11 @@ namespace mmria.server.model.actor
 
 	public class Sync_Document_Message
 	{
-	    public Sync_Document_Message (string p_document_json, string p_document_id, string p_method = "PUT")
+	    public Sync_Document_Message (string p_document_id, string p_document_json, string p_method = "PUT")
         {
-            document_json = p_document_json;
+            
             document_id = p_document_id;
+            document_json = p_document_json;
             method = p_method;
         }
 		public string document_json { get; private set; }
