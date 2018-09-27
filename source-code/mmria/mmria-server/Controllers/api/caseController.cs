@@ -189,6 +189,7 @@ namespace mmria.server
             try
             {
                 string request_string = null;
+				mmria.server.util.c_sync_document sync_document = null;
 
                 if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
                 {
@@ -215,6 +216,8 @@ namespace mmria.server
 						//System.Console.WriteLine ("json\n{0}", object_string);
 					}
 
+					sync_document = new mmria.server.util.c_sync_document (case_id, document_json, "DELETE");
+
 				} 
 				catch (Exception ex) 
 				{
@@ -226,6 +229,9 @@ namespace mmria.server
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
 
+				await sync_document.executeAsync();
+
+/*
 				mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
 				(
 					Program.config_cron_schedule,
@@ -240,10 +246,10 @@ namespace mmria.server
 		/*
 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
- */
+ * /
  				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>()).Tell(new_scheduleInfo);
 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>()).Tell(new_scheduleInfo);
-
+ */
 
                 return result;
 
