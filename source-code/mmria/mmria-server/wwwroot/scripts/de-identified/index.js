@@ -185,7 +185,7 @@ var g_ui = {
     total_rows: 0,
     page :1,
     skip : 0,
-    take : 25,
+    take : 100,
     sort : "by_date_last_updated",
     search_key : null,
     descending : true,
@@ -378,22 +378,8 @@ $(function ()
 
   $.datetimepicker.setLocale('en');
 
-  load_values();
+  load_user_role_jurisdiction();
 });
-
-function load_values()
-{
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
-	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
-      load_user_role_jurisdiction();
-
- 
-
-	});
-
-}
 
 
 

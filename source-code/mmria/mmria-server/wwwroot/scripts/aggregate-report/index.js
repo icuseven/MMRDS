@@ -23,7 +23,7 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('report_output_id').innerHTML = "";
-	load_values();
+	load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
 });
 
 function load_values()

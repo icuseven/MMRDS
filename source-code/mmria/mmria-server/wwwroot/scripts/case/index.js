@@ -350,7 +350,7 @@ var g_ui = {
     total_rows: 0,
     page :1,
     skip : 0,
-    take : 25,
+    take : 100,
     sort : "by_date_last_updated",
     search_key : null,
     descending : true,
@@ -543,7 +543,7 @@ $(function ()
 
   $.datetimepicker.setLocale('en');
 
-  load_values();
+  load_jurisdiction_tree();
 });
 
 function load_values()
