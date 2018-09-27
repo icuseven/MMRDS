@@ -598,9 +598,13 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 		if(user_index > -1)
 		{
 
+			
 		
 			var user_role = g_user_role_jurisdiction[user_role_index];
 			var user = user_list[user_index];
+
+
+			
 
 			var selected_user_role_for_ = null;
 			var role = document.getElementById("selected_user_role_for_" + user_role.user_id + "_role");
@@ -618,6 +622,7 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 
 			if(user_role.jurisdiction_id && user_role.role_name)
 			{
+				document.getElementById(convert_to_jquery_id(user._id) + "_status_area").innerHTML = "";
 				document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
 				save_user_role_jurisdiction(user_role, user, p_user_id);
 			}
@@ -648,21 +653,26 @@ function remove_role(p_user_role_id)
 	if(user_role_index > -1)
 	{
 		var user_role = g_user_role_jurisdiction[user_role_index];
-		document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
 
+		var retVal = null
+		
 		if(user_role._rev)
+		{
+			retVal = prompt("Confirm role [" + user_role.role_name + "] removal for user [" + user_role.user_id + "] by entering the role name: ", "role name to remove here");
+		
+
+			document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
+
+			document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
+		}
+
+		if(retVal && retVal.toLocaleLowerCase() == user_role.role_name && user_role._rev)
 		{ 
 			$.ajax({
 				url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction?_id=' + user_role._id + '&rev=' + user_role._rev,
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
-				//data: JSON.stringify(p_data),
-				type: "DELETE"/*,
-				beforeSend: function (request)
-				{
-					request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-				);
-				}*/
+				type: "DELETE"
 			}).done(function(response) 
 			{
 				if(response.ok)

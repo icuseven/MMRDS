@@ -428,13 +428,7 @@ function remove_user_click(p_user_id, p_rev)
 			url: location.protocol + '//' + location.host + '/api/user?user_id=' + p_user_id + '&rev=' + p_rev,
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
-			//data: JSON.stringify(p_data),
-			type: "DELETE"/*,
-			beforeSend: function (request)
-			{
-			  request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-			);
-			}*/
+			type: "DELETE"
 		}).done(function(response) 
 		{
 			if(response.ok)
