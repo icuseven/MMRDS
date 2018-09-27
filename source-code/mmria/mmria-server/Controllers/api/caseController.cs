@@ -150,22 +150,14 @@ namespace mmria.server
                     Console.WriteLine(ex);
                 }
 
-
-				mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
+				var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
 				(
-					Program.config_cron_schedule,
-					Program.config_couchdb_url,
-					Program.config_timer_user_name,
-					Program.config_timer_password,
-					Program.config_export_directory
+					id_val,
+					 object_string
 				);
 
-		/*
-				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
-				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
- */
- 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>()).Tell(new_scheduleInfo);
-				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>()).Tell(new_scheduleInfo);
+ 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+		
 
                 if (!result.ok)
                 {
@@ -203,10 +195,11 @@ namespace mmria.server
                 var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
 				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_password);
 
+				string document_json = null;
 				// check if doc exists
 				try 
 				{
-					string document_json = null;
+					
 					document_json = await check_document_curl.executeAsync ();
 					var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
 					IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
@@ -215,9 +208,6 @@ namespace mmria.server
 						request_string = Program.config_couchdb_url + "/mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
 						//System.Console.WriteLine ("json\n{0}", object_string);
 					}
-
-					sync_document = new mmria.server.util.c_sync_document (case_id, document_json, "DELETE");
-
 				} 
 				catch (Exception ex) 
 				{
@@ -229,28 +219,17 @@ namespace mmria.server
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
 
-				await sync_document.executeAsync();
+				if(! string.IsNullOrWhiteSpace(document_json))
+				{
+					var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+					(
+						case_id,
+						document_json,
+						"DELETE"
+					);
 
-/*
-				mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
-				(
-					Program.config_cron_schedule,
-					Program.config_couchdb_url,
-					Program.config_timer_user_name,
-					Program.config_timer_password,
-					Program.config_export_directory
-				);
-
-		
-
-		/*
-				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
-				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
- * /
- 				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_DB_Synchronization_Set>()).Tell(new_scheduleInfo);
-				_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Synchronize_Deleted_Case_Records>()).Tell(new_scheduleInfo);
- */
-
+					_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+				}
                 return result;
 
             }
