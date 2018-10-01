@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace mmria.server.Controllers
 {
-    [AllowAnonymous] 
+    
     public partial class AccountController : Controller
     {
         public List<ApplicationUser> Users => new List<ApplicationUser>() 
@@ -26,7 +26,7 @@ namespace mmria.server.Controllers
         };
 
 
-
+        [AllowAnonymous] 
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             TempData["returnUrl"] = returnUrl;
@@ -69,6 +69,7 @@ namespace mmria.server.Controllers
             return RedirectToLocal(returnUrl);
         } */
 
+        [AllowAnonymous] 
         [HttpPost]
         public async Task<IActionResult> Login(ApplicationUser user, string returnUrl = null) 
         {
@@ -287,7 +288,14 @@ namespace mmria.server.Controllers
             }
         }
 
+        [AllowAnonymous] 
         public IActionResult Forbidden()
+        {
+            return View();
+        }
+
+
+        public IActionResult Profile()
         {
             return View();
         }
