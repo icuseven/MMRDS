@@ -576,7 +576,9 @@ function load_user_role_jurisdiction()
 
       var role_list_html = [];
       role_list_html.push("<table border=1>");
-      role_list_html.push("<tr bgcolor='gray'><th colspan='7' align='center'> Role list for user: [ " + $mmria.getCookie("uid") + " ]</th></tr>");
+      role_list_html.push("<tr bgcolor='gray'><th colspan='7'>User: [ " + $mmria.getCookie("uid") + " ] Your password will expire in X days.</th></tr>");
+      role_list_html.push("<tr bgcolor='gray'><th colspan='7'>&nbsp;</th></tr>");
+      role_list_html.push("<tr bgcolor='gray'><th colspan='7'></th></tr>");
       role_list_html.push("<tr bgcolor='gray'>");
       role_list_html.push("<th>Role Name</th>");
       role_list_html.push("<th>Jurisdiction</th>");
