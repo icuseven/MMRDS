@@ -76,13 +76,18 @@ function get_metadata()
 			url: location.protocol + '//' + location.host + '/api/metadata',
 	}).done(function(response) {
 			g_metadata = response;
-      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
     });
 }
 
 
 </script>
+<br/>
+<br/>
+<div id="role_list">
+    
+</div>
+
 
 @if (!is_authenticated)
 {
@@ -160,7 +165,5 @@ else
 
 }
 
-<div id="role_list">
-    
-</div>
+
 

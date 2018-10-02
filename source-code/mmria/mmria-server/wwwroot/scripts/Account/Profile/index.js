@@ -39,11 +39,10 @@ function load_user_role_jurisdiction()
       g_jurisdiction_list = []
 
       var role_list_html = [];
+      role_list_html.push("<p>[ " + $mmria.getCookie("uid") + " ] Your password will expire in X days.</p>");
       role_list_html.push("<table border=1>");
-      role_list_html.push("<tr bgcolor='gray'><th colspan='7'>User: [ " + $mmria.getCookie("uid") + " ] Your password will expire in X days.</th></tr>");
-      role_list_html.push("<tr bgcolor='gray'><th colspan='7'>&nbsp;</th></tr>");
-      role_list_html.push("<tr bgcolor='gray'><th colspan='7'></th></tr>");
-      role_list_html.push("<tr bgcolor='gray'>");
+      role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan=7>Role assignment list</th></tr>");
+      role_list_html.push("<tr bgcolor='#CCCCCC'>");
       role_list_html.push("<th>Role Name</th>");
       role_list_html.push("<th>Jurisdiction</th>");
       role_list_html.push("<th>Is Active</th>");
