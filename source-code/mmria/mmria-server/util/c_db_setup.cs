@@ -131,6 +131,40 @@ namespace mmria.server.util
 
 
 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + "/session", Program.config_timer_user_name, Program.config_timer_password)) 
+                {
+                    var session_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session", null, Program.config_timer_user_name, Program.config_timer_password);
+                    Log.Information ("session_curl\n{0}", await session_curl.executeAsync ());
+
+                    await new cURL ("PUT", null, Program.config_couchdb_url + "/session/_security", "{\"admins\":{\"names\":[],\"roles\":[\"_admin\"]},\"members\":{\"names\":[],\"roles\":[\"_admin\"]}}", Program.config_timer_user_name, Program.config_timer_password).executeAsync ();
+                    Log.Information ("session/_security completed successfully");
+
+
+                    try 
+                    {
+                        
+                        /*
+                        string session_design_profile_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/session_design_profile_sortable.json")).ReadToEnd ();
+                        var session_design_profile_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/profile_sortable", session_design_profile_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                        await session_design_profile_sortable_curl.executeAsync ();
+                        */
+                        //await EnsureUpdate(case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable");
+
+                        string session_design_session_event_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_event_sortable.json")).ReadToEndAsync ();
+                        var session_design_session_event_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_event_sortable", session_design_session_event_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                        await session_design_session_event_sortable_curl.executeAsync ();
+
+                        //await EnsureUpdate(case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth");
+
+                    }
+                    catch (Exception ex) 
+                    {
+                        Log.Information ($"unable to configure mmrds database:\n{ex}");
+                    }
+                
+
+                }
+
 
 
 

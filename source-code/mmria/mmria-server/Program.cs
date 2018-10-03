@@ -113,7 +113,7 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static string config_EMAIL_PASSWORD = null;
         public static int config_default_days_in_effective_date_interval = 90;
         public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
-        public static int config_unsuccessful_login_attempts_with_number_of_minutes = 120;
+        public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
         public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
 
 

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -19,6 +21,14 @@ namespace mmria.server.Controllers
     
     public partial class AccountController : Controller
     {
+
+/*
+        public IConfiguration Configuration { get; }
+        public AccountController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+ */
         public List<ApplicationUser> Users => new List<ApplicationUser>() 
         {
             new ApplicationUser { UserName = "user1", Password = "password" },
@@ -85,6 +95,15 @@ namespace mmria.server.Controllers
 
 			try
 			{
+
+
+                var unsuccessful_login_attempts_number_before_lockout = Program.config_unsuccessful_login_attempts_number_before_lockout;
+                var unsuccessful_login_attempts_within_number_of_minutes = Program.config_unsuccessful_login_attempts_within_number_of_minutes;
+                var unsuccessful_login_attempts_lockout_number_of_minutes = Program.config_unsuccessful_login_attempts_lockout_number_of_minutes;
+
+
+
+
                 string post_data = string.Format ("name={0}&password={1}", user.UserName, user.Password);
 				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 

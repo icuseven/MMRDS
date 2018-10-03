@@ -60,22 +60,23 @@ namespace mmria.server
                 Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
                 Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
 
-/*
-                Program.config_password_minimum_length = System.Environment.GetEnvironmentVariable ("password_minimum_length"); // = 8;
-                Program.config_password_days_before_expires = System.Environment.GetEnvironmentVariable ("password_days_before_expires"); //  = 0;
-                Program.config_password_days_before_user_is_notified_of_expiration = System.Environment.GetEnvironmentVariable ("password_days_before_user_is_notified_of_expiration"); //  = 0;
+
+                Program.config_password_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_minimum_length"))? 8: int.Parse(System.Environment.GetEnvironmentVariable ("password_minimum_length"));
+                Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_days_before_expires"))? 0: int.Parse(System.Environment.GetEnvironmentVariable ("password_days_before_expires"));
+                Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_days_before_user_is_notified_of_expiration"))? 0: int.Parse(System.Environment.GetEnvironmentVariable ("password_days_before_user_is_notified_of_expiration"));
+
+                /*
                 Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
                 Program.config_EMAIL_USE_SSL = System.Environment.GetEnvironmentVariable ("EMAIL_USE_SSL"); //  = true;
                 Program.config_SMTP_HOST = System.Environment.GetEnvironmentVariable ("SMTP_HOST"); //  = null;
                 Program.config_SMTP_PORT = System.Environment.GetEnvironmentVariable ("SMTP_PORT"); //  = 587;
                 Program.config_EMAIL_FROM = System.Environment.GetEnvironmentVariable ("EMAIL_FROM"); //  = null;
                 Program.config_EMAIL_PASSWORD = System.Environment.GetEnvironmentVariable ("EMAIL_PASSWORD"); //  = null;
-                Program.config_default_days_in_effective_date_interval = System.Environment.GetEnvironmentVariable ("default_days_in_effective_date_interval"); //  = 90;
-                Program.config_unsuccessful_login_attempts_number_before_lockout = System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_number_before_lockout"); //  = 5;
-                Program.config_unsuccessful_login_attempts_with_number_of_minutes = System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_with_number_of_minutes"); //  = 120;
-                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes");//  = 15;
- */
-
+                */
+                Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("default_days_in_effective_date_interval"))? 90:int.Parse(System.Environment.GetEnvironmentVariable ("default_days_in_effective_date_interval"));
+                Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_number_before_lockout"))? 5:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_number_before_lockout"));
+                Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_within_number_of_minutes"))? 120:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_within_number_of_minutes"));
+                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes"))? 15:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes"));
 
 
             }
@@ -91,21 +92,25 @@ namespace mmria.server
                 Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
                 Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
-/*
-                Program.config_password_minimum_length = Configuration["mmria_settings:password_minimum_length"];
-                Program.config_password_days_before_expires = Configuration["mmria_settings:password_days_before_expires"];
-                Program.config_password_days_before_user_is_notified_of_expiration = Configuration["mmria_settings:password_days_before_user_is_notified_of_expiration"];
+
+                Program.config_password_minimum_length = string.IsNullOrWhiteSpace(Configuration["mmria_settings:password_minimum_length"])? 8: int.Parse(Configuration["mmria_settings:password_minimum_length"]);
+                Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(Configuration["mmria_settings:password_days_before_expires"])? 0: int.Parse(Configuration["mmria_settings:password_days_before_expires"]);
+                Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["mmria_settings:password_days_before_user_is_notified_of_expiration"])? 0: int.Parse(Configuration["mmria_settings:password_days_before_user_is_notified_of_expiration"]);
+                
+
+                /*
                 Program.config_EMAIL_USE_AUTHENTICATION = Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
                 Program.config_EMAIL_USE_SSL = Configuration["mmria_settings:EMAIL_USE_SSL"];
                 Program.config_SMTP_HOST = Configuration["mmria_settings:SMTP_HOST"];
                 Program.config_SMTP_PORT = Configuration["mmria_settings:SMTP_PORT"];
                 Program.config_EMAIL_FROM = Configuration["mmria_settings:EMAIL_FROM"];
                 Program.config_EMAIL_PASSWORD = Configuration["mmria_settings:EMAIL_PASSWORD"];
-                Program.config_default_days_in_effective_date_interval = Configuration["mmria_settings:default_days_in_effective_date_interval"];
-                Program.config_unsuccessful_login_attempts_number_before_lockout = Configuration["mmria_settings:unsuccessful_login_attempts_number_before_lockout"];
-                Program.config_unsuccessful_login_attempts_with_number_of_minutes = Configuration["mmria_settings:unsuccessful_login_attempts_with_number_of_minutes"];
-                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = Configuration["mmria_settings:unsuccessful_login_attempts_lockout_number_of_minutes"];
- */
+                */
+                Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["mmria_settings:default_days_in_effective_date_interval"])? 0: int.Parse(Configuration["mmria_settings:default_days_in_effective_date_interval"]);
+                Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["mmria_settings:unsuccessful_login_attempts_number_before_lockout"])? 5:int.Parse(Configuration["mmria_settings:unsuccessful_login_attempts_number_before_lockout"]);
+                Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["mmria_settings:unsuccessful_login_attempts_within_number_of_minutes"])? 120:int.Parse(Configuration["mmria_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
+                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["mmria_settings:unsuccessful_login_attempts_lockout_number_of_minutes"])? 15:int.Parse(Configuration["mmria_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
+ 
 
 
 
