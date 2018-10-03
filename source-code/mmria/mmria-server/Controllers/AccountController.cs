@@ -102,6 +102,38 @@ namespace mmria.server.Controllers
                 var unsuccessful_login_attempts_lockout_number_of_minutes = Program.config_unsuccessful_login_attempts_lockout_number_of_minutes;
 
 
+                var is_locked_out = false;
+                var failed_login_count = 0;
+                
+
+                try
+                {
+                    var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_date_created_user_id?startkey=[" + "{}" + $",\"{user.UserName}\"]&decending=true&limit={unsuccessful_login_attempts_number_before_lockout}";
+
+                    var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_password);
+                    string response_from_server = await session_event_curl.executeAsync ();
+
+                    var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
+
+                    
+                    foreach(var session_event in session_event_response.rows.Take(5))
+                    {
+                        if(session_event.value.action_result == mmria.common.model.couchdb.session_event.session_event_action_enum.failed_login)
+                        {
+                            failed_login_count++;
+                        }
+                    }
+                }
+                catch(Exception ex) 
+                {
+                    System.Console.WriteLine ($"{ex}");
+                }
+
+                if(failed_login_count >=5)
+                {
+                    is_locked_out = true;
+                }
+
 
 
                 string post_data = string.Format ("name={0}&password={1}", user.UserName, user.Password);
