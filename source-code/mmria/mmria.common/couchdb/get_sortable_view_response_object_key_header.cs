@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace mmria.common.model.couchdb
 {
@@ -33,12 +34,62 @@ namespace mmria.common.model.couchdb
         public get_sortable_view_response_object_key_item(){}
 
 		public string id { get; set; } //": "16e458537602f5ef2a710089dffd9453",
-		public System.Collections.Generic.List<string> key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
+		public object[] key { get; set; } //": "16e458537602f5ef2a710089dffd9453",
 
         //public T value {  get; set; }
         public T value {  get; set; }
 
 	
 	}
+
+
+    public class Compare_Session_Event_By_DateCreated<T> : IComparer<get_sortable_view_response_item<session_event>>
+    {
+        public int Compare(get_sortable_view_response_item<session_event> a, get_sortable_view_response_item<session_event> b)
+        {
+            if (a.value.date_created > b.value.date_created)
+            {
+                return -1;
+            }
+                
+            if (a.value.date_created < b.value.date_created)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+                
+        }
+    }
+
+/*
+    public class Compare_Session_Event_By_DateCreated<T> : IComparer<get_sortable_view_response_object_key_item<T>>
+    {
+        public int Compare(get_sortable_view_response_object_key_item<T> a, get_sortable_view_response_object_key_item<T> b)
+        {
+            var a_date = a.key[0] as DateTime?;
+            var b_date = b.key[0] as DateTime?;
+
+
+            if (a_date.Value > b_date.Value)
+            {
+                return -1;
+            }
+                
+            if (a_date.Value < b_date.Value)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+                
+        }
+    }
+
+     */
 
 }
