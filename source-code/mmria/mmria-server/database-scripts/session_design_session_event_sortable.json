@@ -8,6 +8,9 @@
 	"by_ip": {
       "map": "function(doc) { \n   if(doc.data_type== 'session-event') emit(doc.ip, { _id:doc._id, data_type:doc.data_type, date_created:doc.date_created, user_id:doc.user_id, ip:doc.ip, action_result:doc.action_result });  \n }"
     },
+  "by_date_created_user_id": {
+      "map": "function(doc) { \n   if(doc.data_type== 'session-event') emit([doc.date_created, doc.user_id], { _id:doc._id, data_type:doc.data_type, date_created:doc.date_created, user_id:doc.user_id, ip:doc.ip, action_result:doc.action_result }); \n }"
+    },        
   "by_user_id": {
       "map": "function(doc) { \n   if(doc.data_type== 'session-event') emit(doc.user_id, { _id:doc._id, data_type:doc.data_type, date_created:doc.date_created, user_id:doc.user_id, ip:doc.ip, action_result:doc.action_result }); \n }"
     },    

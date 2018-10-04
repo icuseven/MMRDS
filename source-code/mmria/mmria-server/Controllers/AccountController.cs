@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Akka.Actor;
+
 
 //https://github.com/blowdart/AspNetAuthorizationWorkshop
 //https://digitalmccullough.com/posts/aspnetcore-auth-system-demystified.html
@@ -22,13 +25,20 @@ namespace mmria.server.Controllers
     public partial class AccountController : Controller
     {
 
-/*
-        public IConfiguration Configuration { get; }
-        public AccountController(IConfiguration configuration)
+        private IHttpContextAccessor _accessor;
+        private ActorSystem _actorSystem;
+
+
+
+        //public IConfiguration Configuration { get; }
+        //public AccountController(IConfiguration configuration)
+
+        public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem)
         {
-            Configuration = configuration;
+            _accessor = httpContextAccessor;
+            _actorSystem = actorSystem;
         }
- */
+
         public List<ApplicationUser> Users => new List<ApplicationUser>() 
         {
             new ApplicationUser { UserName = "user1", Password = "password" },
@@ -115,12 +125,27 @@ namespace mmria.server.Controllers
 
                     var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
 
-                    
-                    foreach(var session_event in session_event_response.rows.Take(5))
+                    DateTime first_item_date = DateTime.MinValue;
+
+                    var Consecutive_Fail_Count = 0;
+
+                    for(int i = 0; i < session_event_response.rows.Count; i++)
                     {
+                        var session_event = session_event_response.rows[i];
+
+                        if(i == 0)
+                        {
+                            first_item_date = session_event.value.date_created;
+                        }
+
                         if(session_event.value.action_result == mmria.common.model.couchdb.session_event.session_event_action_enum.failed_login)
                         {
+                            Consecutive_Fail_Count++;
                             failed_login_count++;
+                        }
+                        else
+                        {
+
                         }
                     }
                 }
@@ -214,8 +239,6 @@ namespace mmria.server.Controllers
                     }
 
 
-
-
                     Response.Cookies.Append("uid", json_result.name);
                     Response.Cookies.Append("roles", string.Join(",",json_result.roles));
 					
@@ -278,6 +301,20 @@ namespace mmria.server.Controllers
 				}
 				*/
 
+                if(!is_locked_out)
+                {
+                    var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
+                    (
+                        DateTime.Now,
+                        user.UserName,
+                        _accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                        json_result.ok && json_result.name != null? mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
+                    );
+
+                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+
+                }
+                
 
 				//this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
 
