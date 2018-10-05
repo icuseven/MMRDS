@@ -1,0 +1,38 @@
+body,
+html,
+.set-height {
+    height: 100%;
+}
+
+.main-wrapper {
+    padding-top: 15px;
+}
+
+ul#repeatNavContainer {
+    list-style: none;
+    padding: 0;
+}
+
+ul#repeatNavContainer li {
+    padding: 8px;
+    border: 1px solid lightgray;
+    margin-bottom: 10px;
+}
+
+ul#repeatNavContainer li:hover {
+    cursor: pointer;
+    border-color: purple;
+}
+
+.form-designer-canvas {
+    position: relative;
+}
+
+#formSelector {
+    margin-top: 15px;
+}
+
+#formDesignSpecs {
+    margin-top: 15px;
+    display: none;
+}

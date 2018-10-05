@@ -10,8 +10,8 @@
         <meta name="description" content="MMRIA form designer">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
-        <script src="../scripts/form-designer/interact.js"></script>
+        <link rel="stylesheet" href="style-formDesigner.css">
+        <link rel="stylesheet" href="style-interact.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -21,28 +21,38 @@
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="/">MMRIA</a>
         </nav>
-        <div id="fd-container" class="container-fluid">
-            <div class="row">
-                <div class="col-3 fd-side-nav-container">
+        
+        <div class="container-fluid main-wrapper set-height">
+            <div class="row set-height">
+                <div class="col-sm-3 left-side-bar">
                     <h4>Form Designer</h4>
-                    <ul>
-                        <li><a href="index.html"><< go back</a></li>
-                    </ul>
-                    <ul id="repeatNavContainer"></ul>
-                </div>
-                <div class="col">
-                    <button id="getStyle" class="btn btn-raised btn-success">Save form</button> <span>view results in console</span>
+                    <hr>
                     <div>
-                        <button class="btn btn-raised btn-primary" onclick="grabNewType('strings')">Get Text Fields</button> <button class="btn btn-raised btn-warning" onclick="grabNewType('labels')">Get label Fields</button> <span>default is 'string/textfields'</span>
+                        <button type="button" class="btn btn-raised btn-primary" onclick="toggleSideBar('form')">Form List</button>
+                        <button type="button" class="btn btn-raised btn-success" onclick="toggleSideBar('specs')">View Specs</button>
                     </div>
-                    <div id=""><pre id="specBlock"></pre></div>
-                    <div class="fd-grid-container">
-                        <div id="repeatLabelContainer" class="resize-container"></div>
+        
+                    <div id="formSelector">
+                        <ul id="repeatNavContainer"></ul>
+                    </div>
+        
+                    <div id="formDesignSpecs">
+                        <pre class="formDesignSpecsPre"></pre>
+                    </div>
+                </div>
+        
+                <div class="col set-height">
+                    <div class="dropzone form-designer-wrapper">
+                        <div class="resize-container form-designer-canvas"></div>
                     </div>
                 </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
+        <script src="../scripts/form-designer/dataService.js"></script>
+        <script src="../scripts/form-designer/interact.js"></script>
+        <script src="../scripts/form-designer/interact-draggable.js"></script>
+        <script src="../scripts/form-designer/interact-drag-dropzone.js"></script>
         <script src="../scripts/form-designer/app.js"></script>
     </body>
 </html>
