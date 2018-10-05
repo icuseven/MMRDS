@@ -167,7 +167,7 @@ namespace mmria.server.Controllers
                                 }
                             }
                         }
-                        else
+                        else if(session_event.value.action_result == mmria.common.model.couchdb.session_event.session_event_action_enum.successful_login)
                         {
                             break;
                         }

@@ -30,61 +30,10 @@ namespace mmria.server
 
 
 
-				string request_string = this.get_couch_db_url() + "/_users/_all_docs?include_docs=true&skip=1";
+				string request_string = Program.config_couchdb_url + "/_users/_all_docs?include_docs=true&skip=1";
 
 				var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_password);
 				string responseFromServer = await user_curl.executeAsync();
-
-/*
-
-
-{
-	"total_rows":4,
-	"offset":1,
-	"rows":
-	[
-		{
-			"id":"org.couchdb.user:install",
-			"key":"org.couchdb.user:install",
-			"value":
-			{
-				"rev":"1-ecd8ce6efa88cc72576ac17e2e7eb990"},
-				"doc":
-				{
-					"_id":"org.couchdb.user:install",
-					"_rev":"1-ecd8ce6efa88cc72576ac17e2e7eb990",
-					"password_scheme":"pbkdf2",
-					"iterations":10,
-					"name":"install",
-					"roles":
-					[
-						"installation_admin"
-					],
-					"type":"user",
-					"derived_key":"ab55b8c441eefb32c8fd40d228e3a91193ed9135",
-					"salt":"969c09275126e3cc60481536dc6d985f"
-				}
-			}
-		},
-
-		{"id":"org.couchdb.user:juris","key":"org.couchdb.user:juris","value":{"rev":"1-604c52cf2637a4e59c3ad07f60774a95"},"doc":{"_id":"org.couchdb.user:juris","_rev":"1-604c52cf2637a4e59c3ad07f60774a95","password_scheme":"pbkdf2","iterations":10,"name":"juris","roles":["jurisdiction_admin"],"type":"user","derived_key":"ab55b8c441eefb32c8fd40d228e3a91193ed9135","salt":"969c09275126e3cc60481536dc6d985f"}},
-		{"id":"org.couchdb.user:user1","key":"org.couchdb.user:user1","value":{"rev":"1-94774b3d9ba9ce4d297f3db3727e9cbb"},"doc":{"_id":"org.couchdb.user:user1","_rev":"1-94774b3d9ba9ce4d297f3db3727e9cbb","password_scheme":"pbkdf2","iterations":10,"name":"user1","roles":["abstractor","form_designer"],"type":"user","derived_key":"ab55b8c441eefb32c8fd40d228e3a91193ed9135","salt":"969c09275126e3cc60481536dc6d985f"}}
-	]
-}
-
-
-*/
-
-
-
-				/*mmria.common.model.couchdb.user_alldocs_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_alldocs_response>(responseFromServer);
-				mmria.common.model.couchdb.user_alldocs_response[] result =  new mmria.common.model.couchdb.user_alldocs_response[] 
-				{ 
-					json_result
-				}; 
-				
-				return result;
-				*/
 
 				var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
 			
@@ -148,13 +97,12 @@ namespace mmria.server
 			//return new mmria.common.model.couchdb.user[] { default(mmria.common.model.couchdb.user), default(mmria.common.model.couchdb.user) }; 
 		} 
 
-		// GET api/values/5 
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> Get(string id) 
 		{ 
 			mmria.common.model.couchdb.user result = null;
 			try
 			{
-				string request_string = this.get_couch_db_url() + "/_users/" + id;
+				string request_string = Program.config_couchdb_url + "/_users/" + id;
 
 				var user_curl = new cURL("PUT", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
 				var responseFromServer = await user_curl.executeAsync();
@@ -173,8 +121,6 @@ namespace mmria.server
 		[HttpPost]
         public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post([FromBody] mmria.common.model.couchdb.user user) 
 		{ 
-			//bool valid_login = false;
-
 			string object_string = null;
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
@@ -186,7 +132,7 @@ namespace mmria.server
 
 				
 
-				string user_db_url = this.get_couch_db_url() + "/_users/"  + user._id;
+				string user_db_url = Program.config_couchdb_url + "/_users/"  + user._id;
 
 				var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
 				var responseFromServer = await user_curl.executeAsync();
@@ -264,13 +210,6 @@ namespace mmria.server
 
             return null;
         }
-
-		private string get_couch_db_url()
-		{
-            string result = Program.config_couchdb_url;
-
-			return result;
-		}
 
 	} 
 }

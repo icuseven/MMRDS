@@ -8,6 +8,7 @@ namespace mmria.common.model.couchdb
         {
             failed_login,
             successful_login,
+            password_changed
             
         }
     	public session_event ()

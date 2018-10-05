@@ -14,7 +14,8 @@ namespace mmria.server.model.actor
         public enum Session_Event_Message_Action_Enum
         {
             failed_login,
-            successful_login
+            successful_login,
+            password_changed
         }
 
         public Session_Event_Message
