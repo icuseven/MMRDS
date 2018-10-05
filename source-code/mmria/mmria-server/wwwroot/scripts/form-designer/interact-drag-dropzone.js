@@ -125,8 +125,8 @@ interact('.drag-drop')
             createOrUpdateFormElements(
                 activeForm,
                 fid,
-                target.getAttribute('data-t'),
-                target.getAttribute('data-l'),
+                parseFloat(target.getAttribute('data-t')),
+                parseFloat(target.getAttribute('data-l')),
                 event.rect.width,
                 event.rect.height,
                 pc

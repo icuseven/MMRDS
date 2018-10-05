@@ -105,10 +105,12 @@ function styleElementsPerDefinition(fe) {
             if('prompt' in formDesign.form_design[tid]) {
                 // set style for element prompt
                 $('#' + value.name).css({"position": 'absolute', "top": el.prompt.t, "left": el.prompt.l, "width": el.prompt.w, "height": el.prompt.h});
+                $('#' + value.name).attr({ "data-t": el.prompt.t, "data-l": el.prompt.l, "data-w": el.prompt.w, "data-h": el.prompt.h });
             }
             if ('control' in formDesign.form_design[tid]) {
                 // set style for element control
-                $('#' + value.name + '-control').css({"position": 'absolute', "top": el.control.t, "left": el.control.l, "width": el.control.w, "height": el.control.h})
+                $('#' + value.name + '-control').css({"position": 'absolute', "top": el.control.t, "left": el.control.l, "width": el.control.w, "height": el.control.h});
+                $('#' + value.name + '-control').attr({ "data-t": el.prompt.t, "data-l": el.prompt.l, "data-w": el.prompt.w, "data-h": el.prompt.h });
             }
         }
     });
