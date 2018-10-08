@@ -327,8 +327,10 @@ namespace mmria.server.util
 							case "list":
 
 								if
+								(
 									(path_to_node_map[path].is_multiselect != null &&
-								   path_to_node_map[path].is_multiselect == true
+								   path_to_node_map[path].is_multiselect == true) ||
+								   val is List<object>
 
 								  )
 								{
@@ -351,7 +353,24 @@ namespace mmria.server.util
 								{
 									if (val != null)
 									{
-										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+
+										if(val is List<object>)
+										{
+											List<object> temp = val as List<object>;
+											if (temp != null && temp.Count > 0)
+											{
+
+												if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+												{
+													row[convert_path_to_field_name(path)] = string.Join("|", temp);
+												}
+												else
+												{
+													row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+												}
+											}
+										}
+										else if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
 										{
 											row[convert_path_to_field_name(path)] = val;
 										}
@@ -1240,11 +1259,11 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				/*
-				if (p_path == "home_record/date_of_death/is_estimated")
+				
+				if (p_path.Contains("pmss_mm"))
 				{
 					System.Console.WriteLine("break");
-				}*/
+				}
 
 
 				for (int i = 0; i < path.Length; i++)

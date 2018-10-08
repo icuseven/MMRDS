@@ -288,8 +288,9 @@ namespace mmria.server.util
 
 							if
 							(
-								path_to_node_map [path].is_multiselect != null &&
-							  	path_to_node_map [path].is_multiselect == true
+								(path_to_node_map [path].is_multiselect != null &&
+							  	path_to_node_map [path].is_multiselect == true) ||
+								val is List<object>
 
 							) 
 							{
@@ -321,7 +322,28 @@ namespace mmria.server.util
 						default:
 							if (val != null) 
 							{
-								row [convert_path_to_field_name (path)] = val;
+
+								if(val is List<object>)
+								{
+									List<object> temp = val as List<object>;
+									if (temp != null && temp.Count > 0)
+									{
+
+										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+										{
+											row[convert_path_to_field_name(path)] = string.Join("|", temp);
+										}
+										else
+										{
+											row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+										}
+									}
+								}
+								else
+								{
+									row [convert_path_to_field_name (path)] = val;
+								}
+								
 							}
 							break;
 						}
@@ -957,6 +979,10 @@ namespace mmria.server.util
 
 						}
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
+					}
+					else if (((IDictionary<string, object>)index)[path[i]]is List<object>)
+					{
+						index = ((IDictionary<string, object>)index)[path[i]] as List<object>;
 					}
 					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
 					{

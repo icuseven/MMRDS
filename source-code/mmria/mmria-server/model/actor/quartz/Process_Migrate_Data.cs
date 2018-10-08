@@ -258,13 +258,13 @@ namespace mmria.server.model.actor.quartz
 					case IDictionary<string,object> val:
 						if(val.ContainsKey(item_key))
 						{
-							new_item = val[item_key];
+							result = set_value(metadata_path, p_value, val);
 						}
 
 						break;
 
 				}
-				result = set_value(metadata_path, p_value, new_item);
+				//result = set_value(metadata_path, p_value, new_item);
 			}
 			
 
