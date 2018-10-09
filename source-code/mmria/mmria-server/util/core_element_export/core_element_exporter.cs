@@ -295,7 +295,7 @@ namespace mmria.server.util
 							) 
 							{
 
-								IList<object> temp = val as IList<object>;
+								List<object> temp = val as List<object>;
 								if (temp != null && temp.Count > 0) 
 								{
 
@@ -950,11 +950,11 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				/*
-				if (p_path == "home_record/date_of_death/is_estimated")
+				
+				if (p_path == "committee_review/pmss_mm")
 				{
 					System.Console.WriteLine("break");
-				}*/
+				}
 
 
 				for (int i = 0; i < path.Length; i++)
