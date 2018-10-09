@@ -3,7 +3,7 @@
  *****************************************************/
 var urlTestBase = 'http://test.mmria.org/api/';
 var urlProdBase = location.protocol + '//' + location.host + '/api/';
-var urlMetaData = urlProdBase + "metadata";
+var urlMetaData = urlTestBase+'metadata';
 
 
 /******************************************************
@@ -47,7 +47,7 @@ function buildFormList(data) {
 function groupFormElementsByType(caseForm) {
     var elements = {
         'labels': $.grep(caseForm.children, function (e) { return e.type == 'label'; }),
-        'strings': $.grep(caseForm.children, function (e) { return e.type == 'string'; })
+        'strings': $.grep(caseForm.children, function (e) { return e.type == 'string'; }),
     }
     return elements;
 }
@@ -78,19 +78,13 @@ function buildFormElementPromptControl(fe) {
 
     $.each(fe.strings, function(index, value) {
         var newItem = `<div id="` + value.name + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
-        newItem += `<div id="` + value.name + `-control" class="resize-drag drag-drop yes-drop"> <input type="text" placeholder="` + value.prompt + `"> </div>`;
-        inHTML += newItem;
-    });
-
-    $.each(fe.labels, function (index, value) {
-        var newItem = `<div id="` + value.name + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
+        newItem += `<div id="` + value.name + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
         inHTML += newItem;
     });
 
     $(".form-designer-canvas").html(inHTML);
 
     styleElementsPerDefinition(fe.strings);
-    styleElementsPerDefinition(fe.labels);
 }
 
 /**
@@ -104,12 +98,12 @@ function styleElementsPerDefinition(fe) {
             var el = formDesign.form_design[tid];
             if('prompt' in formDesign.form_design[tid]) {
                 // set style for element prompt
-                $('#' + value.name).css({"position": 'absolute', "top": el.prompt.t, "left": el.prompt.l, "width": el.prompt.w, "height": el.prompt.h});
-                $('#' + value.name).attr({ "data-t": el.prompt.t, "data-l": el.prompt.l, "data-w": el.prompt.w, "data-h": el.prompt.h });
+                $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.t, "left": el.prompt.l, "width": el.prompt.w, "height": el.prompt.h});
+                $('#' + value.name).attr({"data-t": el.prompt.t, "data-l": el.prompt.l, "data-w": el.prompt.w, "data-h": el.prompt.h });
             }
             if ('control' in formDesign.form_design[tid]) {
                 // set style for element control
-                $('#' + value.name + '-control').css({"position": 'absolute', "top": el.control.t, "left": el.control.l, "width": el.control.w, "height": el.control.h});
+                $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.t, "left": el.control.l, "width": el.control.w, "height": el.control.h });
                 $('#' + value.name + '-control').attr({ "data-t": el.prompt.t, "data-l": el.prompt.l, "data-w": el.prompt.w, "data-h": el.prompt.h });
             }
         }
