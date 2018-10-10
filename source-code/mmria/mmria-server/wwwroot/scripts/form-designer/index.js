@@ -12,8 +12,6 @@ function get_new_ui_specification(p_name)
             "width": 8.5,
             "height": null
         },
-        "form_design": {
-        }
-        
+        "form_design": {}       
     };
 }

@@ -3,7 +3,7 @@
  *****************************************************/
 var activeForm;
 var formElements;
-
+var uiSpecification = get_new_ui_specification("default"); 
 var formDesign = {
   form_design: {}
 };
@@ -63,7 +63,8 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
  * Implements method to write form designer specs to screen for debugging
  */
 function writeFormSpecs() {
-	var html = JSON.stringify(formDesign, undefined, 1)
+	uiSpecification.form_design = formDesign.form_design;
+	var html = JSON.stringify(uiSpecification, undefined, 1)
 	$(".formDesignSpecsPre").html(html);
 }
 

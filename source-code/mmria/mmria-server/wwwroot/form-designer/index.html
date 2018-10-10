@@ -27,6 +27,13 @@
             <div class="row">
                 <div class="col fd-side-nav-container">
                     <h4>Form Designer Specification Selection</h4>
+                    <div>
+                        <div class="form-group">
+                            <label for="ui-spec" class="bmd-label-floating">New UI Specification</label>
+                            <input type="text" class="form-control" id="ui-spec" name="ui-spec">
+                        </div>
+                        <button class="btn btn-primary btn-raised" onclick="addNewSpec(document.getElementById('ui-spec').value)">Submit</button>
+                    </div>
                     <ul id="repeatNavContainer"></ul>
                 </div>
             </div>
