@@ -323,7 +323,20 @@ namespace mmria.server.util
 
                     var migration_plan_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/migration_plan_sortable.json")).ReadToEndAsync (); ;
                     var migration_plan_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/sortable", migration_plan_sortable, Program.config_timer_user_name, Program.config_timer_password);
-                    var migration_plan_sortable_result_string = await migration_plan_sortable_curl.executeAsync ();
+
+
+                    var migration_plan_directory_files =  System.IO.Directory.GetFiles(System.IO.Path.Combine (current_directory, "database-scripts/migration-plan-set"));
+                    foreach(var file_path in migration_plan_directory_files)
+                    {
+                        var file_info = new System.IO.FileInfo(file_path);
+                        var migration_plan = await System.IO.File.OpenText (file_path).ReadToEndAsync (); ;
+                        var migration_plan_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/" + file_info.Name.Replace(".json",""), migration_plan, Program.config_timer_user_name, Program.config_timer_password);
+                        var migration_plan_result_string = await migration_plan_curl.executeAsync ();
+                    }
+                    
+                    
+
+                    
 
 
                     var default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
