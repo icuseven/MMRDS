@@ -226,6 +226,8 @@ namespace mmria.server.model.actor.quartz
 					case IDictionary<string,object> val:
 						if(val.ContainsKey(item_key))
 						{
+							val[item_key] = p_value;
+							/*
 							object new_item = val[item_key];
 
 							switch(new_item)
@@ -233,7 +235,11 @@ namespace mmria.server.model.actor.quartz
 								default:
 									val[item_key] = new_item.ToString();
 								break;
-							}
+							} */
+						}
+						else
+						{
+							val.Add(item_key, p_value);
 						}
 
 						break;
@@ -258,7 +264,31 @@ namespace mmria.server.model.actor.quartz
 					case IDictionary<string,object> val:
 						if(val.ContainsKey(item_key))
 						{
-							result = set_value(metadata_path, p_value, val);
+							result = set_value(metadata_path, p_value, val[item_key]);
+						}
+						else
+						{
+							// error
+						}
+
+						break;
+					case IList<object> val:
+						foreach(var item in val)
+						{
+							switch(item)
+							{
+								case IDictionary<string,object> item_val:
+									if(item_val.ContainsKey(item_key))
+									{
+										result &= set_value(metadata_path, p_value, item_val[item_key]);
+									}
+									else
+									{
+										// error
+									}
+
+									break;
+							}
 						}
 
 						break;
