@@ -43,18 +43,23 @@ namespace mmria.server.model.actor.quartz
 							continue;
 						}
 
-						var old_value = get_value(plan_item.old_mmria_path.TrimEnd('/'), case_item.doc);
+						var old_value_list = get_value(plan_item.old_mmria_path.TrimEnd('/'), case_item.doc);
 
-						string new_value = old_value;
-						if
-						(
-							lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value + "")
-						)
+						for(var i = 0; i < old_value_list.Count; i++)
 						{
-							new_value = lookup[plan_item.old_mmria_path][plan_item.new_mmria_path][old_value];
-						}
+							var old_value = old_value_list[i];
 
-						var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc);
+							string new_value = old_value.value;
+							if
+							(
+								lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value.value + "")
+							)
+							{
+								new_value = lookup[plan_item.old_mmria_path][plan_item.new_mmria_path][old_value.value];
+							}
+
+							var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
+						}
 					}
 
 					set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item.doc);
@@ -148,9 +153,9 @@ namespace mmria.server.model.actor.quartz
 			return result;
 		}
 
-		private string get_value(string p_metadata_path, object p_case)
+		private List<(string value,int index)> get_value(string p_metadata_path, object p_case, int p_index = -1)
 		{
-			string result = null;
+			var result = new List<(string value,int index)>();
 
 			var metadata_path_array = p_metadata_path.Split("/");
 			var item_key = metadata_path_array[0];
@@ -169,7 +174,7 @@ namespace mmria.server.model.actor.quartz
 								default:
 									if(new_item != null)
 									{
-										result = new_item.ToString();
+										result.Add((new_item.ToString(), p_index));
 									}
 									
 								break;
@@ -200,11 +205,29 @@ namespace mmria.server.model.actor.quartz
 						{
 							new_item = val[item_key];
 						}
-
+						result.AddRange(get_value(metadata_path, new_item));
 						break;
 
+					case IList<object> val:
+
+						for(var i = 0; i < val.Count; i++)
+						{
+							var item = val[i];
+							switch(item)
+							{
+								case IDictionary<string,object> item_val:
+								if(item_val.ContainsKey(item_key))
+								{
+									new_item = item_val[item_key];
+								}
+								result.AddRange(get_value(metadata_path, new_item, i));
+								break;
+							}
+						}
+						
+						break;
 				}
-				result = get_value(metadata_path, new_item);
+				
 			}
 			
 
@@ -212,7 +235,7 @@ namespace mmria.server.model.actor.quartz
 			return result;
 		}
 
-		private bool set_value(string p_metadata_path, string p_value, object p_case)
+		private bool set_value(string p_metadata_path, string p_value, object p_case, int p_index = -1)
 		{
 			bool result = false;
 
@@ -221,29 +244,45 @@ namespace mmria.server.model.actor.quartz
 
 			if(metadata_path_array.Length == 1)
 			{
-				switch(p_case)
+				if(p_index < 0)
 				{
-					case IDictionary<string,object> val:
-						if(val.ContainsKey(item_key))
-						{
-							val[item_key] = p_value;
-							/*
-							object new_item = val[item_key];
-
-							switch(new_item)
+					switch(p_case)
+					{
+						case IDictionary<string,object> val:
+							if(val.ContainsKey(item_key))
 							{
-								default:
-									val[item_key] = new_item.ToString();
+								val[item_key] = p_value;
+							}
+							else
+							{
+								val.Add(item_key, p_value);
+							}
+
+							break;
+
+					}
+				}
+				else
+				{
+					switch(p_case)
+					{
+						case IList<object> val:
+							switch(val[p_index])
+							{
+								case  IDictionary<string,object> list_val:
+								if(list_val.ContainsKey(item_key))
+								{
+									list_val[item_key] = p_value;
+								}
+								else
+								{
+									list_val.Add(item_key, p_value);
+								}
 								break;
-							} */
-						}
-						else
-						{
-							val.Add(item_key, p_value);
-						}
+							}
+							break;
 
-						break;
-
+					}
 				}
 			}
 			else
