@@ -48,6 +48,8 @@ function groupFormElementsByType(caseForm) {
     var elements = {
         'labels': $.grep(caseForm.children, function (e) { return e.type == 'label'; }),
         'strings': $.grep(caseForm.children, function (e) { return e.type == 'string'; }),
+        'groups': $.grep(caseForm.children, function (e) { return e.type == 'group'; }),
+        'grids': $.grep(caseForm.children, function (e) { return e.type == 'Grid'; }),
     }
     return elements;
 }
@@ -76,14 +78,57 @@ function populateFormDesignerCanvas(metaDataForms) {
 function buildFormElementPromptControl(fe) {
     var inHTML = '';
 
+    // String fields
     $.each(fe.strings, function(index, value) {
         var newItem = `<div id="` + value.name + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
         newItem += `<div id="` + value.name + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
         inHTML += newItem;
     });
 
+    // Label fields
+    $.each(fe.labels, function (index, value) {
+        var newItem = `<div id="` + value.name + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
+        inHTML += newItem;
+    });
+
+    // Field groups
+    $.each(fe.groups, function(index, value) {
+        var groupName = value.name;
+        var stringSet = $.grep(value.children, function(e) {
+          return e.type == "string";
+        });
+
+        if (stringSet.length > 0) {
+            $.each(stringSet, function(index, value) {
+                var eid = groupName + '__' + value.name;
+                var newItem = `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
+                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
+                inHTML += newItem;
+            })
+        }
+    });
+
+    // Grids
+    $.each(fe.grids, function (index, value) {
+        var groupName = value.name;
+        var stringSet = $.grep(value.children, function (e) {
+            return e.type == "string";
+        });
+
+        if (stringSet.length > 0) {
+            $.each(stringSet, function (index, value) {
+                var eid = groupName + '__' + value.name;
+                var newItem = `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
+                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
+                inHTML += newItem;
+            })
+        }
+    });
+
+    // Write elements to canvas
     $(".form-designer-canvas").html(inHTML);
 
+    // Add style to written elements
     styleElementsPerDefinition(fe.strings);
 }
 
@@ -91,7 +136,7 @@ function buildFormElementPromptControl(fe) {
  * Implements method to apply styles to form elements per saved form definitions
  * @param {Array} fe 
  */
-function styleElementsPerDefinition(fe) {
+function styleElementsPerDefinition(fe, group = null) {
     $.each(fe, function(index, value) {
         var tid = activeForm+'/'+value.name;
         if(tid in formDesign.form_design) {
