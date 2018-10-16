@@ -69,14 +69,14 @@ namespace mmria.server
 		[Route("{id?}")]
 		[AllowAnonymous] 
 		[HttpGet]
-		public async System.Threading.Tasks.Task<mmria.common.metadata.UI_Specification> Get(string p_urj_id = "default-ui-specification")
+		public async System.Threading.Tasks.Task<mmria.common.metadata.UI_Specification> Get(string id = "default-ui-specification")
 		{
 			Log.Information  ("Recieved message.");
 			var result = new mmria.common.metadata.UI_Specification();
 
 			try
 			{
-				string ui_specification_url = Program.config_couchdb_url + $"/metadata/" + p_urj_id;
+				string ui_specification_url = Program.config_couchdb_url + $"/metadata/" + id;
 				
 				var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
 				string responseFromServer = await ui_specification_curl.executeAsync();
