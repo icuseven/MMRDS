@@ -29,6 +29,7 @@ writeFormSpecs();
  * @param {string} promptVcontrol 
  */
 function createOrUpdateFormElements(activeForm, formElement, t, l, w, h, promptVcontrol) {
+	formElement = formElement.replace('__', '/');
 	var prop = activeForm+'/'+formElement;
 	if (prop in formDesign.form_design) {
 		formDesign.form_design[prop][promptVcontrol] = {
@@ -64,16 +65,14 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
  */
 function writeFormSpecs() {
 	uiSpecification.form_design = formDesign.form_design;
-	var html = JSON.stringify(uiSpecification, undefined, 1)
+	var html = JSON.stringify(uiSpecification, undefined, 4)
 	$(".formDesignSpecsPre").html(html);
 }
 
 function toggleSideBar(arg) {
 	if (arg === 'specs') {
-		$('#formSelector').hide();
 		$('#formDesignSpecs').show();
 	} else {
-		$('#formSelector').show();
 		$('#formDesignSpecs').hide();
 	}
 }
