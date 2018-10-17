@@ -262,4 +262,4 @@ paket-files/
 .idea/
 *.sln.iml
 
-/mmria-server/appsettings.json
+./mmria-server/appsettings.json
