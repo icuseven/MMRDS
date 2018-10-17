@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Akka.Actor;
 
 
@@ -112,6 +113,8 @@ namespace mmria.server.Controllers
             {
                 return BadRequest(badUserNameOrPasswordMessage);
             }
+
+
 
 			try
 			{
@@ -284,7 +287,7 @@ namespace mmria.server.Controllers
                 (
                     DateTime.Now,
                     user.UserName,
-                    _accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                    this.GetRequestIP(),
                     json_result.ok && json_result.name != null? mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
                 );
 
@@ -301,7 +304,7 @@ namespace mmria.server.Controllers
                 (
                     DateTime.Now,
                     user.UserName,
-                    _accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                    this.GetRequestIP(),
                     mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
                 );
 
@@ -368,6 +371,95 @@ namespace mmria.server.Controllers
         public IActionResult Profile()
         {
             return View();
+        }
+
+        public string GetRequestIP(bool tryUseXForwardHeader = true)
+        {
+            string ip = null;
+
+            // todo support new "Forwarded" header (2014) https://en.wikipedia.org/wiki/X-Forwarded-For
+
+            // X-Forwarded-For (csv list):  Using the First entry in the list seems to work
+            // for 99% of cases however it has been suggested that a better (although tedious)
+            // approach might be to read each IP from right to left and use the first public IP.
+            // http://stackoverflow.com/a/43554000/538763
+            //
+            if (tryUseXForwardHeader)
+                ip = GetHeaderValueAs<string>("X-Forwarded-For").SplitCsv().FirstOrDefault();
+
+            // RemoteIpAddress is always null in DNX RC1 Update1 (bug).
+            if (ip.IsNullOrWhitespace() && _accessor.HttpContext?.Connection?.RemoteIpAddress != null)
+                ip = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
+
+            if (ip.IsNullOrWhitespace())
+                ip = GetHeaderValueAs<string>("REMOTE_ADDR");
+
+            // _httpContextAccessor.HttpContext?.Request?.Host this is the local host.
+
+            if (ip.IsNullOrWhitespace())
+                throw new Exception("Unable to determine caller's IP.");
+
+            return ip;
+        }
+
+        public T GetHeaderValueAs<T>(string headerName)
+        {
+            Microsoft.Extensions.Primitives.StringValues values;
+
+            if (_accessor.HttpContext?.Request?.Headers?.TryGetValue(headerName, out values) ?? false)
+            {
+                string rawValues = values.ToString();   // writes out as Csv when there are multiple.
+
+                if (!rawValues.IsNullOrWhitespace())
+                    return (T)Convert.ChangeType(values.ToString(), typeof(T));
+            }
+            return default(T);
+        }
+
+    }
+
+    public static class IsLocalExtension
+    {
+        public static List<string> SplitCsv(this string csvList, bool nullOrWhitespaceInputReturnsNull = false)
+        {
+            if (string.IsNullOrWhiteSpace(csvList))
+                return nullOrWhitespaceInputReturnsNull ? null : new List<string>();
+
+            return csvList
+                .TrimEnd(',')
+                .Split(',')
+                .AsEnumerable<string>()
+                .Select(s => s.Trim())
+                .ToList();
+        }
+
+        public static bool IsNullOrWhitespace(this string s)
+        {
+            return String.IsNullOrWhiteSpace(s);
+        }
+
+
+        private const string NullIpAddress = "::1";
+//_accessor.HttpContext.Connection.RemoteIpAddress.ToString()
+        public static bool IsLocal(this HttpRequest req, IHttpContextAccessor _accessor)
+        {
+            var connection = req.HttpContext.Connection;
+            if (_accessor.HttpContext.Connection.RemoteIpAddress.IsSet())
+            {
+                //We have a remote address set up
+                return _accessor.HttpContext.Connection.LocalIpAddress.IsSet() 
+                    //Is local is same as remote, then we are local
+                    ? _accessor.HttpContext.Connection.RemoteIpAddress.Equals(_accessor.HttpContext.Connection.LocalIpAddress) 
+                    //else we are remote if the remote IP address is not a loopback address
+                    : System.Net.IPAddress.IsLoopback(_accessor.HttpContext.Connection.RemoteIpAddress);
+            }
+
+            return true;
+        }
+
+        private static bool IsSet(this System.Net.IPAddress address)
+        {
+            return address != null && address.ToString() != NullIpAddress;
         }
     }
 }
