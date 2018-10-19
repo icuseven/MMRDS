@@ -305,7 +305,7 @@ function render_total_number_of_cases_by_pregnancy_relatedness(p_data, p_post_ht
 	result.push("<li>Pregnancy-Related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related);
 	result.push("</li><li>Pregnancy Associated But NOT Related: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related);
 	result.push("</li><li>Not Pregnancy-Related or Associated (i.e. False Positive): ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated);
-	result.push("</li><li>Unable to Determine if Pregnancy-Related or Associated: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);
+	result.push("</li><li>Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine);
 	result.push("</li><li>Blank: ");result.push(p_data.total_number_of_cases_by_pregnancy_relatedness.blank);
 	result.push("</li></ul></p>");
 

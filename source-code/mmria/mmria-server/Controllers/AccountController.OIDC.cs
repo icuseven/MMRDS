@@ -38,6 +38,15 @@ namespace mmria.common.Controllers
         public const string IdpUrl = "https://idp.int.identitysandbox.gov";
         public const string AcrValues = "http://idmanagement.gov/ns/assurance/loa/1";
 
+/*
+                    "maximun_number_of_login_sessions": 2,
+            "sams_endpoint_authorization": "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/authorize",
+            "sams_endpoint_token": "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/token",
+            "sams_endpoint_user_info": "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfo",
+            "sams_endpoint_token_validation": "https://apigw-stg.cdc.gov:8443/sams/oauth/tokenvalidate",
+            "sams_endpoint_user_info_sys": "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfosys"
+ */
+
         public ActionResult Index()
         {
             if (TempData["email"] == null)
@@ -54,6 +63,15 @@ namespace mmria.common.Controllers
 
         public ActionResult SignIn()
         {
+
+            //this._configuration;
+            var sams_endpoint_authorization = "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/authorize";
+            var sams_endpoint_token = "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/token";
+            var sams_endpoint_user_info = "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfo";
+            var sams_endpoint_token_validation = "https://apigw-stg.cdc.gov:8443/sams/oauth/tokenvalidate";
+            var sams_endpoint_user_info_sys = "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfosys";
+
+
             var state = Guid.NewGuid().ToString("N");
             var nonce = Guid.NewGuid().ToString("N");
 
@@ -67,6 +85,19 @@ namespace mmria.common.Controllers
                 "&state=" + state +
                 "&nonce=" + nonce;
             System.Diagnostics.Debug.WriteLine($"url: {url}");
+
+
+            var sams_url = $"{sams_endpoint_authorization}?" +
+                "&acr_values=" + System.Web.HttpUtility.HtmlEncode(AcrValues) +
+                "&client_id=" + ClientId +
+                "&prompt=select_account" +
+                "&redirect_uri=" + $"{ClientUrl}/Account/SignInCallback" +
+                "&response_type=code" +
+                "&scope=openid+email" +
+                "&state=" + state +
+                "&nonce=" + nonce;
+            System.Diagnostics.Debug.WriteLine($"url: {url}");
+
             return Redirect(url);
         }
 

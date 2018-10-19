@@ -29,15 +29,14 @@ namespace mmria.server.Controllers
         private IHttpContextAccessor _accessor;
         private ActorSystem _actorSystem;
 
-
-
-        //public IConfiguration Configuration { get; }
+        private IConfiguration _configuration;
         //public AccountController(IConfiguration configuration)
 
-        public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem)
+        public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
         {
             _accessor = httpContextAccessor;
             _actorSystem = actorSystem;
+            _configuration = configuration;
         }
 
         public List<ApplicationUser> Users => new List<ApplicationUser>() 
