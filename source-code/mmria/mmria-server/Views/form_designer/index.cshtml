@@ -10,7 +10,7 @@
         <meta name="description" content="MMRIA form designer">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../form-designer/style.css">
         <script src="../scripts/form-designer/interact.js"></script>
         <script src="../scripts/mmria.js"></script>
         <script src="../scripts/form-designer/index.js"></script>
@@ -29,10 +29,10 @@
                     <h4>Form Designer Specification Selection</h4>
                     <div>
                         <div class="form-group">
-                            <label for="ui-spec" class="bmd-label-floating">New UI Specification</label>
-                            <input type="text" class="form-control" id="ui-spec" name="ui-spec">
+                            <label for="ui-spec" class="bmd-label-floating">Enter new name: </label>
+                            <input type="text" class="mmria-text" id="ui-spec" name="ui-spec">
                         </div>
-                        <button class="btn btn-primary btn-raised" onclick="addNewSpec(document.getElementById('ui-spec').value)">Submit</button>
+                        <button class="btn btn-primary btn-raised" onclick="addNewSpec(document.getElementById('ui-spec').value)">Add new specification</button>
                     </div>
                     <ul id="repeatNavContainer"></ul>
                 </div>
