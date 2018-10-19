@@ -45,15 +45,18 @@ function create_total_number_of_cases_by_pregnancy_relatedness(p_row_set)
 		{
 		
 		case 'Pregnancy Related':
+		//case 'Pregnancy-Related':
 			count['Pregnancy Related']++;
 			break;
 		case 'Pregnancy Associated But NOT Related':
+		//case 'Pregnancy-Associated, but NOT -Related':
 			count['Pregnancy-Associated but NOT Related']++;
 			break;
 		case 'Not Pregnancy Related or Associated (i.e. False Positive)':
 			count['Not Pregnancy Related or Associated (i.e. False Positive)']++;
 			break;
 		case 'Unable to Determine if Pregnancy Related or Associated':
+		//case 'Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness':
 			count['Unable to Determine if Pregnancy Related or Associated']++;
 			break;
 		case '':

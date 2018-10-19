@@ -29,7 +29,7 @@ namespace mmria.server
         }
 
 		[HttpPost]
-        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post([FromBody] mmria.common.model.couchdb.user user) 
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post([FromBody] ApplicationUser user) 
 		{ 
 			//bool valid_login = false;
 
@@ -40,24 +40,35 @@ namespace mmria.server
 					u => u.IsAuthenticated && 
 					u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
+/* */
 
-			if("org.couchdb.user:" + userName != user._id)
-			{
-				return null;
-			}
+
 
 
 			try
 			{
+				string user_db_url = Program.config_couchdb_url + "/_users/org.couchdb.user:" + userName;
+				var user_curl = new cURL("GET", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				var responseFromServer = await user_curl.executeAsync();
+				var user_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
+
+				if
+				(
+					user_object == null ||
+					!user.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
+				)
+				{
+					return null;
+				}
+
+				user_object.password = user.Password;
+
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
+				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user_object, settings);
 
-
-				string user_db_url = Program.config_couchdb_url + "/_users/"  + user._id;
-
-				var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
-				var responseFromServer = await user_curl.executeAsync();
+				user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
 				if (result.ok) 
