@@ -28,11 +28,9 @@
                     <h4>Form Designer</h4>
                     <hr>
                     <div>
-                        <button type="button" class="btn btn-raised btn-primary" onclick="toggleSideBar('form')">Form List</button>
-                        <button type="button" class="btn btn-raised btn-success" onclick="toggleSideBar('specs')">View Specs</button>
-                        <button type="button" class="btn btn-raised btn-default" onclick="saveSpec()">Save Specs</button>
-                        <br>
-                        <a href="/form-designer">< back</a>
+                        <button type="button" class="btn btn-raised btn-success" data-toggle="modal" data-target="#specModal">View Specs</button>
+                        <button type="button" class="btn btn-raised btn-primary" onclick="saveSpec()">Save Specs</button>
+                        <a type="button" class="btn btn-raised btn-default" href="/form-designer">< Back</a>
                     </div>
         
                     <div id="formSelector">
@@ -41,11 +39,31 @@
                 </div>
         
                 <div class="col set-height">
-                    <div id="formDesignSpecs">
-                        <pre class="formDesignSpecsPre"></pre>
-                    </div>
                     <div class="dropzone form-designer-wrapper">
                         <div class="resize-container form-designer-canvas"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="specModal" tabindex="-1" role="dialog" aria-labelledby="specModalLabel" aria-hidden="true">
+                <div class="modal-dialog mmria-modal-dialog-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="specModalLabel">UI Specifications Model</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="formDesignSpecs">
+                                <pre class="formDesignSpecsPre"></pre>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="saveSpec()">Save changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,5 +76,10 @@
         <script src="../scripts/form-designer/interact-draggable.js"></script>
         <script src="../scripts/form-designer/interact-drag-dropzone.js"></script>
         <script src="../scripts/form-designer/app.js"></script>
+        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+            crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+            crossorigin="anonymous"></script>
+        <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
     </body>
 </html>

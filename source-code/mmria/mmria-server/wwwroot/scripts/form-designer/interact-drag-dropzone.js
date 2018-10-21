@@ -51,7 +51,7 @@ interact('.dropzone').dropzone({
             pc
         );
         writeFormSpecs();
-        console.log(formDesign);
+        console.log('on drop',uiSpecification);
     },
     ondropdeactivate: function (event) {
         // remove active dropzone feedback
@@ -132,6 +132,5 @@ interact('.drag-drop')
                 pc
             );
             writeFormSpecs();
-            console.log(formDesign);
         }
     });

@@ -36,3 +36,7 @@ ul#repeatNavContainer li:hover {
     margin-top: 15px;
     /* display: none; */
 }
+
+.mmria-modal-dialog-lg {
+    max-width: 50%;
+}

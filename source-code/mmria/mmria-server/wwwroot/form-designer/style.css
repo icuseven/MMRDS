@@ -53,3 +53,7 @@ body {
     cursor: pointer;
     border-color: purple;
   }
+
+  input.mmria-text {
+    /* styles will go here */
+  }

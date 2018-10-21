@@ -137,19 +137,20 @@ function buildFormElementPromptControl(fe) {
  * @param {Array} fe 
  */
 function styleElementsPerDefinition(fe, group = null) {
-    $.each(fe, function(index, value) {
-        var tid = activeForm+'/'+value.name;
-        if(tid in formDesign.form_design) {
-            var el = formDesign.form_design[tid];
-            if('prompt' in formDesign.form_design[tid]) {
+    $.each(fe, function (index, value) {
+        var tid = activeForm + '/' + value.name;
+        if (tid in uiSpecification.form_design) {
+            var el = uiSpecification.form_design[tid];
+            console.log(el);
+            if ('prompt' in uiSpecification.form_design[tid]) {
                 // set style for element prompt
-                $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.w, "height": el.prompt.h});
-                $('#' + value.name).attr({"data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.w, "data-h": el.prompt.h });
+                $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
             }
-            if ('control' in formDesign.form_design[tid]) {
+            if ('control' in uiSpecification.form_design[tid]) {
                 // set style for element control
-                $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.w, "height": el.control.h });
-                $('#' + value.name + '-control').attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.w, "data-h": el.prompt.h });
+                $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                $('#' + value.name + '-control').attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
             }
         }
     });

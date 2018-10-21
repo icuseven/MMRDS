@@ -4,9 +4,6 @@
 var activeForm;
 var formElements; 
 var uiSpecification;
-var formDesign = {
-  form_design: {}
-};
 var specId = getUrlParam();
 
 /******************************************************
@@ -31,16 +28,16 @@ getSpecById(specId);
  */
 function createOrUpdateFormElements(activeForm, formElement, t, l, w, h, promptVcontrol) {
 	formElement = formElement.replace('__', '/');
-	var prop = activeForm+'/'+formElement;
-	if (prop in formDesign.form_design) {
-		formDesign.form_design[prop][promptVcontrol] = {
+	var prop = activeForm + '/' + formElement;
+	if (prop in uiSpecification.form_design) {
+		uiSpecification.form_design[prop][promptVcontrol] = {
 			'x': t,
 			'y': l,
-			'h': h,
-			'w': w
+			'height': h,
+			'width': w
 		}
 	} else {
-		formDesign.form_design[prop] = new element(t,l,w,h,promptVcontrol);
+		uiSpecification.form_design[prop] = new element(t, l, w, h, promptVcontrol);
 	}
 }
 
@@ -56,8 +53,8 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
 	this[e] = {
 		'x': t,
 		'y': l,
-		'h': h,
-		'w': w
+		'height': h,
+		'width': w
 	}
 }
 
@@ -65,23 +62,8 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
  * Implements method to write form designer specs to screen for debugging
  */
 function writeFormSpecs(initial = false) {
-	if(!initial) {
-		uiSpecification.form_design = formDesign.form_design;
-	}
 	var html = JSON.stringify(uiSpecification, undefined, 4)
 	$(".formDesignSpecsPre").html(html);
-}
-
-/**
- * Implements method to toggle specs view recieves arg of requested view.
- * @param {String} arg 
- */
-function toggleSideBar(arg) {
-	if (arg === 'specs') {
-		$('#formDesignSpecs').show();
-	} else {
-		$('#formDesignSpecs').hide();
-	}
 }
 
 
@@ -118,7 +100,7 @@ function getSpecById(id) {
 	var url = location.protocol + "//" + location.host + "/api/ui_specification/" + id;
 	$.get(url, function(data, status) {
 		uiSpecification = data;
-		writeFormSpecs(true);
+		writeFormSpecs();
 		console.log(uiSpecification);
 	})
 }
