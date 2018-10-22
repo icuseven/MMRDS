@@ -49,7 +49,20 @@ function load_user_role_jurisdiction()
 
       var role_list_html = [];
 
-      role_list_html.push("<p>[ " + $mmria.getCookie("uid") + " ] Your password will expire in X days.</p>");
+      role_list_html.push("<p>[ " + $mmria.getCookie("uid") + " ] ");
+      if(g_config_password_days_before_expires > 0)
+      {
+        if(g_days_til_password_expires >= 0)
+        {
+          role_list_html.push("Your password will expire in " + g_days_til_password_expires + " day(s).");
+        }
+        else
+        {
+          role_list_html.push("Your password expired " + (-1 * g_days_til_password_expires) + " day(s) ago.");
+        }
+        
+      }
+      role_list_html.push("</p>");
       role_list_html.push("<table border=1>");
       role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan=7>Role assignment list</th></tr>");
       role_list_html.push("<tr bgcolor='#CCCCCC'>");

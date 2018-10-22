@@ -70,6 +70,9 @@ namespace mmria.server.model.actor
                         case Session_Event_Message.Session_Event_Message_Action_Enum.successful_login:
                             se.action_result = mmria.common.model.couchdb.session_event.session_event_action_enum.successful_login;
                             break;
+                        case Session_Event_Message.Session_Event_Message_Action_Enum.password_changed:
+                            se.action_result = mmria.common.model.couchdb.session_event.session_event_action_enum.password_changed;
+                            break;                            
                         case Session_Event_Message.Session_Event_Message_Action_Enum.failed_login:
                         default:
                             se.action_result = mmria.common.model.couchdb.session_event.session_event_action_enum.failed_login;

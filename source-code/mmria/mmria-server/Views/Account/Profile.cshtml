@@ -7,10 +7,17 @@
     <script src="../scripts/jquery-3.1.1.min.js"></script>
     <script src="../scripts/mmria.js" type="text/javascript"></script>
     <script src="../scripts/Account/Profile/index.js" type="text/javascript"></script>
+    <script>
+        var g_days_til_password_expires = '@ViewBag.days_til_password_expires';
+        var g_config_password_days_before_expires = '@ViewBag.config_password_days_before_expires';
+        
+    </script>
     
 </head>
 <body>
 <div>Profile UI</div>
+
+<a href="/Home">Home</a>
 
 
 
@@ -21,5 +28,6 @@
 <div id="password_div">
     
 </div>
+<a href="/Home">Home</a>
 </body> 
 </html>
