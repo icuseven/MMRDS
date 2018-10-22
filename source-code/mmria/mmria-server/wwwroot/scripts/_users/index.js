@@ -753,8 +753,9 @@ function create_status_message(p_message, p_div_id)
 {
 	var result = [];
 
-	result.push('<div class="alert alert-success alert-dismissible">');
-	result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	//result.push('<div class="alert alert-success alert-dismissible">');
+	result.push('<div>');
+	//result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
 	result.push('<strong>Info!</strong> ');
 	result.push(p_message);
 	result.push('</div>');
@@ -768,8 +769,9 @@ function create_status_warning(p_message, p_div_id)
 {
 	var result = [];
 
-	result.push('<div class="alert alert-danger">');
-	result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	//result.push('<div class="alert alert-danger">');
+	result.push('<div>');
+	//result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
 	result.push('<strong>Warning!</strong> ');
 	result.push(p_message);
 	result.push('</div>');
