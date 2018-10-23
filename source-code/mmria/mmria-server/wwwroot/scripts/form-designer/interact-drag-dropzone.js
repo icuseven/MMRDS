@@ -24,7 +24,7 @@ interact('.dropzone').dropzone({
         // remove the drop feedback style
         event.target.classList.remove('drop-target');
         // event.relatedTarget.classList.remove('can-drop');
-        event.relatedTarget.textContent = 'Dragged out';
+        // event.relatedTarget.textContent = 'Dragged out';
     },
     ondrop: function (event) {
         // event.relatedTarget.textContent = 'Dropped';
@@ -51,7 +51,6 @@ interact('.dropzone').dropzone({
             pc
         );
         writeFormSpecs();
-        console.log('on drop',uiSpecification);
     },
     ondropdeactivate: function (event) {
         // remove active dropzone feedback

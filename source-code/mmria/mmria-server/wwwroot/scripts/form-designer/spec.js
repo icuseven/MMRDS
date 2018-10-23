@@ -5,6 +5,7 @@ var urlList = location.protocol + '//' + location.host + '/api/ui_specification/
 var dmWidth;
 var specList = [];
 var modifySpecId;
+var modifySpecRev;
 
 /******************************************************
  * START logic
@@ -39,16 +40,16 @@ function addNewSpec(name) {
 
 /**
  * Implements method to delete UI Specificatin by ID
- * @param {String} id 
  */
 function deleteSpec() {
   $.ajax({
-    url: location.protocol + '//' + location.host + '/api/ui_specification/' + modifySpecId,
+    url: location.protocol + '//' + location.host + '/api/ui_specification/' + modifySpecId + '?rev=' + modifySpecRev,
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: '',
     type: "DELETE"
   }).done(function (response) {
+    console.log(response);
       var response_obj = eval(response);
       if (response_obj.ok) {
         console.log(response_obj);
@@ -92,12 +93,15 @@ function modifySpec(modName = null, modHeight = null, modWidth = null) {
 }
 
 /**
- * Implements method to set global var modifySpecId used for modifySpec function
+ * Implements method to set global var modifySpecId and modifySpecRev used for modifySpec and deleteSpec function
  * @param {String} id 
  */
 function setModifySpecId(id) {
   modifySpecId = id;
-  console.log(modifySpecId);
+  let url = location.protocol + "//" + location.host + "/api/ui_specification/" + modifySpecId;
+  $.get(url, function (data, status) {
+    modifySpecRev = data._rev;
+  });
 }
 
 /**
@@ -116,8 +120,8 @@ function grapSpecList() {
 
 /**
  * Implements method to dynamically build table row template
- * @param {*} index 
- * @param {*} value 
+ * @param {Number} index 
+ * @param {Object} value 
  */
 function tplSpecTableRow(index, value) {
   let tpl;

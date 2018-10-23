@@ -4,6 +4,9 @@
 var activeForm;
 var formElements; 
 var uiSpecification;
+var localFDRev = {};
+var localFDRevCount = 0;
+var localFDRevIndex = 0;
 var specId = getUrlParam();
 
 /******************************************************
@@ -62,6 +65,7 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
  * Implements method to write form designer specs to screen for debugging
  */
 function writeFormSpecs(initial = false) {
+	handleLocalFDRevisons();
 	var html = JSON.stringify(uiSpecification, undefined, 4)
 	$(".formDesignSpecsPre").html(html);
 }
@@ -118,5 +122,41 @@ function saveSpec() {
 			getSpecById(specId);
 		}
 	});
+}
+
+function handleLocalFDRevisons() {
+	if(localFDRevCount < 1) {
+		localFDRev[0] = uiSpecification;
+	} else {
+		localFDRev[localFDRevCount] = uiSpecification;
+	}
+	localFDRevCount++;
+	console.log('local revision', localFDRev);
+	console.log('local revision count', localFDRevCount);
+}
+
+function revertFDEvents() {
+	localFDRevCount--;
+	if (localFDRevCount < 1) {
+		localFDRevCount = 0;
+		uiSpecification = localFDRev[localFDRevCount];
+		$.get(urlMetaData, function (data, status) {
+			var metaDataForms = buildFormList(data);
+
+			populateFormDesignerCanvas(metaDataForms, true);
+
+		});
+	} else {
+		uiSpecification = localFDRev[localFDRevCount];
+		$.get(urlMetaData, function (data, status) {
+			var metaDataForms = buildFormList(data);
+			console.log("from get", metaDataForms);
+
+			populateFormDesignerCanvas(metaDataForms, true);
+
+		});
+	}
+	console.log("revert - local revision", localFDRev);
+  	console.log("revert - local revision count", localFDRevCount);
 }
 

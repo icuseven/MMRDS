@@ -59,8 +59,16 @@ function groupFormElementsByType(caseForm) {
  * allowing user to set form elements prompt and control metadata via drag and drop
  * @param {Array} metaDataForms 
  */
-function populateFormDesignerCanvas(metaDataForms) {
-    $(".clickTrigger").click(function () {
+function populateFormDesignerCanvas(metaDataForms, revert = false) {
+    if (revert) {
+        var caseForm = metaDataForms.find(x => x.name === activeForm);
+
+        // Set what type of fields you would like
+        formElements = groupFormElementsByType(caseForm);
+
+        buildFormElementPromptControl(formElements);
+    } else {
+       $(".clickTrigger").click(function () {
         activeForm = this.id;
         var caseForm = metaDataForms.find(x => x.name === this.id);
 
@@ -68,7 +76,8 @@ function populateFormDesignerCanvas(metaDataForms) {
         formElements = groupFormElementsByType(caseForm);
 
         buildFormElementPromptControl(formElements);
-    });
+    }); 
+    }
 }
 
 /**
@@ -141,7 +150,6 @@ function styleElementsPerDefinition(fe, group = null) {
         var tid = activeForm + '/' + value.name;
         if (tid in uiSpecification.form_design) {
             var el = uiSpecification.form_design[tid];
-            console.log(el);
             if ('prompt' in uiSpecification.form_design[tid]) {
                 // set style for element prompt
                 $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
