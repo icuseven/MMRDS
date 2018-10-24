@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace mmria.server
 {
@@ -39,7 +40,12 @@ namespace mmria.server
 
             Program.config_geocode_api_key = "";
             Program.config_geocode_api_url = "";
-            //Program.config_file_root_folder = "wwwroot";          
+            //Program.config_file_root_folder = "wwwroot";       
+
+             Log.Information ("SAMS:Client ID: {0}", Configuration["SAMS:Client ID"]);
+             Log.Information ("SAMS:Client Secret: {0}", Configuration["SAMS:Client Secret"]);
+             Log.Information ("SAMS:CallBackURL: {0}", Configuration["SAMS:CallBackURL"]);
+             Log.Information ("SAMS:Activity Name: {0}", Configuration["SAMS:Activity Name"]);
 
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {

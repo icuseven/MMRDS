@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    <UserSecretsId>mmria-secret-id</UserSecretsId>
 	  <OutputType>Exe</OutputType>
     <DefaultItemExcludes>$(DefaultItemExcludes);MMRIA_Windows_Services.cs;Program.server.cs;a\**\*.pattern</DefaultItemExcludes>
   </PropertyGroup>
