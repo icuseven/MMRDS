@@ -16,17 +16,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Specialized;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
-using System.Text; /*
-using System.Web;
-using System.Web.Mvc;
+using System.Text;
 
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Akka.Actor;
 
+/*
 https://github.com/18F/identity-oidc-aspnet
 
 */
@@ -40,6 +39,18 @@ namespace mmria.common.Controllers
         public const string IdpUrl = "https://idp.int.identitysandbox.gov";
         public const string AcrValues = "http://idmanagement.gov/ns/assurance/loa/1";
 
+
+       // private IConfiguration _configuration;
+        private IHttpContextAccessor _accessor;
+        private ActorSystem _actorSystem;
+
+
+        public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
+        {
+            _accessor = httpContextAccessor;
+            _actorSystem = actorSystem;
+            _configuration = configuration;
+        }
         private IConfiguration _configuration;
 
         public ActionResult Index()
@@ -56,23 +67,24 @@ namespace mmria.common.Controllers
             return View();
         }
 
+        [AllowAnonymous] 
         public ActionResult SignIn()
         {
 
-            //this._configuration;
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
             var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
             var sams_endpoint_token_validation = _configuration["sams:token_validation"];
             var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
-
+            var sams_client_id = _configuration["sams:client_id"];
+            var sams_callback_url = _configuration["sams:callback_url"];        
 
             var state = Guid.NewGuid().ToString("N");
             var nonce = Guid.NewGuid().ToString("N");
 
-            var url = $"{IdpUrl}/openid_connect/authorize?" +
+            var url = $"{sams_endpoint_authorization}?" +
                 "&acr_values=" + System.Web.HttpUtility.HtmlEncode(AcrValues) +
-                "&client_id=" + ClientId +
+                "&client_id=" + sams_client_id +
                 "&prompt=select_account" +
                 "&redirect_uri=" + $"{ClientUrl}/Account/SignInCallback" +
                 "&response_type=code" +
@@ -84,20 +96,29 @@ namespace mmria.common.Controllers
 
             var sams_url = $"{sams_endpoint_authorization}?" +
                 "&acr_values=" + System.Web.HttpUtility.HtmlEncode(AcrValues) +
-                "&client_id=" + ClientId +
+                "&client_id=" + sams_client_id +
                 "&prompt=select_account" +
-                "&redirect_uri=" + $"{ClientUrl}/Account/SignInCallback" +
+                "&redirect_uri=" + $"{sams_callback_url}" +
                 "&response_type=code" +
                 "&scope=openid+email" +
                 "&state=" + state +
                 "&nonce=" + nonce;
             System.Diagnostics.Debug.WriteLine($"url: {url}");
 
-            return Redirect(url);
+            return Redirect(sams_url);
         }
 
+        [AllowAnonymous] 
         public ActionResult SignInCallback()
         {
+            var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
+            var sams_endpoint_token = _configuration["sams:endpoint_token"];
+            var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
+            var sams_endpoint_token_validation = _configuration["sams:token_validation"];
+            var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
+            var sams_client_id = _configuration["sams:client_id"];
+            var sams_callback_url = _configuration["sams:callback_url"];        
+
             // Retrieve code and state from query string, pring for debugging
             var querystring_array = Request.QueryString.Value.Skip(1).ToString().Split("&");
             var querystring_dictionary = new Dictionary<string,string>();
@@ -119,9 +140,9 @@ namespace mmria.common.Controllers
             var header = new JwtHeader(signingCredentials);
             var payload = new JwtPayload
             {
-                {"iss", ClientId},
-                {"sub", ClientId},
-                {"aud", $"{IdpUrl}/api/openid_connect/token"},
+                {"iss", sams_client_id},
+                {"sub", sams_client_id},
+                {"aud", $"{sams_endpoint_token}"},
                 {"jti", Guid.NewGuid().ToString("N")},
                 {"exp", (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds + 5 * 60}
             };
