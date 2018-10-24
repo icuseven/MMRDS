@@ -42,10 +42,10 @@ namespace mmria.server
             Program.config_geocode_api_url = "";
             //Program.config_file_root_folder = "wwwroot";       
 
-             Log.Information ("SAMS:Client ID: {0}", Configuration["SAMS:Client ID"]);
-             Log.Information ("SAMS:Client Secret: {0}", Configuration["SAMS:Client Secret"]);
-             Log.Information ("SAMS:CallBackURL: {0}", Configuration["SAMS:CallBackURL"]);
-             Log.Information ("SAMS:Activity Name: {0}", Configuration["SAMS:Activity Name"]);
+             Log.Information ("sams:client_id: {0}", Configuration["sams:client_id"]);
+             Log.Information ("sams:client_secret: {0}", Configuration["sams:client_secret"]);
+             Log.Information ("sams:callback_url: {0}", Configuration["sams:callback_url"]);
+             Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
 
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {

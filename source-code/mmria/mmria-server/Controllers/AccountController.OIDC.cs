@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Web;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 
 using Microsoft.IdentityModel.Tokens;
@@ -38,14 +40,7 @@ namespace mmria.common.Controllers
         public const string IdpUrl = "https://idp.int.identitysandbox.gov";
         public const string AcrValues = "http://idmanagement.gov/ns/assurance/loa/1";
 
-/*
-                    "maximun_number_of_login_sessions": 2,
-            "sams_endpoint_authorization": "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/authorize",
-            "sams_endpoint_token": "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/token",
-            "sams_endpoint_user_info": "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfo",
-            "sams_endpoint_token_validation": "https://apigw-stg.cdc.gov:8443/sams/oauth/tokenvalidate",
-            "sams_endpoint_user_info_sys": "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfosys"
- */
+        private IConfiguration _configuration;
 
         public ActionResult Index()
         {
@@ -65,11 +60,11 @@ namespace mmria.common.Controllers
         {
 
             //this._configuration;
-            var sams_endpoint_authorization = "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/authorize";
-            var sams_endpoint_token = "https://apigw-stg.cdc.gov:8443/auth/oauth/v2/token";
-            var sams_endpoint_user_info = "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfo";
-            var sams_endpoint_token_validation = "https://apigw-stg.cdc.gov:8443/sams/oauth/tokenvalidate";
-            var sams_endpoint_user_info_sys = "https://apigw-stg.cdc.gov:8443/openid/connect/v1/userinfosys";
+            var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
+            var sams_endpoint_token = _configuration["sams:endpoint_token"];
+            var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
+            var sams_endpoint_token_validation = _configuration["sams:token_validation"];
+            var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
 
 
             var state = Guid.NewGuid().ToString("N");
