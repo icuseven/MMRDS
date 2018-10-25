@@ -76,6 +76,10 @@ namespace mmria.server
 					{
 						days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
 					}
+					else if(session_event_response.rows.Count > 0)
+                    {
+                        days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
+                    }
 						
 					
 				}

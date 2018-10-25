@@ -99,9 +99,9 @@ namespace mmria.server
                 Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
 
-                Program.config_password_minimum_length = string.IsNullOrWhiteSpace(Configuration["mmria_settings:password_minimum_length"])? 8: int.Parse(Configuration["mmria_settings:password_minimum_length"]);
-                Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(Configuration["mmria_settings:password_days_before_expires"])? 0: int.Parse(Configuration["mmria_settings:password_days_before_expires"]);
-                Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["mmria_settings:password_days_before_user_is_notified_of_expiration"])? 0: int.Parse(Configuration["mmria_settings:password_days_before_user_is_notified_of_expiration"]);
+                Program.config_password_minimum_length = string.IsNullOrWhiteSpace(Configuration["password_settings:minimum_length"])? 8: int.Parse(Configuration["password_settings:minimum_length"]);
+                Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_expires"])? 0: int.Parse(Configuration["password_settings:days_before_expires"]);
+                Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_user_is_notified_of_expiration"])? 0: int.Parse(Configuration["password_settings:days_before_user_is_notified_of_expiration"]);
                 
 
                 /*
@@ -112,10 +112,10 @@ namespace mmria.server
                 Program.config_EMAIL_FROM = Configuration["mmria_settings:EMAIL_FROM"];
                 Program.config_EMAIL_PASSWORD = Configuration["mmria_settings:EMAIL_PASSWORD"];
                 */
-                Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["mmria_settings:default_days_in_effective_date_interval"])? 0: int.Parse(Configuration["mmria_settings:default_days_in_effective_date_interval"]);
-                Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["mmria_settings:unsuccessful_login_attempts_number_before_lockout"])? 5:int.Parse(Configuration["mmria_settings:unsuccessful_login_attempts_number_before_lockout"]);
-                Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["mmria_settings:unsuccessful_login_attempts_within_number_of_minutes"])? 120:int.Parse(Configuration["mmria_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
-                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["mmria_settings:unsuccessful_login_attempts_lockout_number_of_minutes"])? 15:int.Parse(Configuration["mmria_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
+                Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["authentication_settings:default_days_in_effective_date_interval"])? 0: int.Parse(Configuration["authentication_settings:default_days_in_effective_date_interval"]);
+                Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"])? 5:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
+                Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"])? 120:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
+                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"])? 15:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
  
 
 
