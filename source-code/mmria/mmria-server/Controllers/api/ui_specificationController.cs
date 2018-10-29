@@ -172,7 +172,7 @@ namespace mmria.server
                 if (
 						!string.IsNullOrWhiteSpace (_id) &&
 						!string.IsNullOrWhiteSpace (rev)
-						&& _id == "default-ui-specification"
+						&& _id != "default-ui-specification"
 				) 
                 {
                     request_string = Program.config_couchdb_url + "/metadata/" + _id + "?rev=" + rev;
