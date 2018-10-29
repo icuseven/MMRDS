@@ -70,6 +70,7 @@ function writeFormSpecs() {
 
 	var html = JSON.stringify(uiSpecification, undefined, 4)
 	$(".formDesignSpecsPre").html(html);
+
 }
 
 
@@ -161,6 +162,18 @@ function deleteLocalRevision() {
 		formElements = groupFormElementsByType(caseForm);
 
 		buildFormElementPromptControl(formElements);
+
+		// Rebuild on caseForm click
+		$(".clickTrigger").click(function () {
+			console.log(activeForm);
+			activeForm = this.id;
+			var caseForm = metaDataForms.find(x => x.name === this.id);
+
+			// Set what type of fields you would like
+			formElements = groupFormElementsByType(caseForm);
+
+			buildFormElementPromptControl(formElements);
+		});
 	});
 	writeLocalRevision();
 }

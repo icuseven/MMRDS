@@ -61,6 +61,7 @@ function groupFormElementsByType(caseForm) {
  */
 function populateFormDesignerCanvas(metaDataForms) {
     $(".clickTrigger").click(function () {
+        console.log(activeForm);
         activeForm = this.id;
         var caseForm = metaDataForms.find(x => x.name === this.id);
 
