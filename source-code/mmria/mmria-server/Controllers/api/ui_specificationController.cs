@@ -161,7 +161,7 @@ namespace mmria.server
 		} 
 
 
-		[Route("{id?}")]
+		[Route("{_id?}")]
 		[HttpDelete]
         public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Delete(string _id = null, string rev = null) 
         { 
