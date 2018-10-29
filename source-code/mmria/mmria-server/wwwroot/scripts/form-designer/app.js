@@ -4,9 +4,10 @@
 var activeForm;
 var formElements; 
 var uiSpecification;
+var undoManager = new UndoManager();
 var localFDRev = {};
 var localFDRevCount = 0;
-var localFDRevIndex = 0;
+var localFDRevCountCurrent;
 var specId = getUrlParam();
 
 /******************************************************
@@ -64,10 +65,12 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
 /**
  * Implements method to write form designer specs to screen for debugging
  */
-function writeFormSpecs(initial = false) {
-	handleLocalFDRevisons();
+function writeFormSpecs() {
+	createLocalRevision();
+
 	var html = JSON.stringify(uiSpecification, undefined, 4)
 	$(".formDesignSpecsPre").html(html);
+
 }
 
 
@@ -105,10 +108,12 @@ function getSpecById(id) {
 	$.get(url, function(data, status) {
 		uiSpecification = data;
 		writeFormSpecs();
-		console.log(uiSpecification);
 	})
 }
 
+/**
+ * Implements method to save current specification to database
+ */
 function saveSpec() {
 	$.ajax({
 		url: location.protocol + "//" + location.host + "/api/ui_specification/" + specId,
@@ -124,39 +129,73 @@ function saveSpec() {
 	});
 }
 
-function handleLocalFDRevisons() {
-	if(localFDRevCount < 1) {
-		localFDRev[0] = uiSpecification;
-	} else {
-		localFDRev[localFDRevCount] = uiSpecification;
-	}
+/**
+ * Implements method to add a local specification revision to memory (Future proof for redo functionality)
+ */
+function addLocalRevision() {
+	localFDRevCountCurrent = localFDRevCount;
+	localFDRev[localFDRevCountCurrent] = JSON.parse(JSON.stringify(uiSpecification));
 	localFDRevCount++;
-	console.log('local revision', localFDRev);
-	console.log('local revision count', localFDRevCount);
+	writeLocalRevision();
 }
 
-function revertFDEvents() {
-	localFDRevCount--;
-	if (localFDRevCount < 1) {
-		localFDRevCount = 0;
-		uiSpecification = localFDRev[localFDRevCount];
-		$.get(urlMetaData, function (data, status) {
-			var metaDataForms = buildFormList(data);
-
-			populateFormDesignerCanvas(metaDataForms, true);
-
-		});
+/**
+ * Implements method to undo last action in form designer, falling back to last local revision
+ */
+function deleteLocalRevision() {
+	if(localFDRevCountCurrent <= 0) {
+		localFDRevCount = 1;
+		localFDRevCountCurrent = 0;
+		alert('You cannot undo any further, this is the last saved revision.');
 	} else {
-		uiSpecification = localFDRev[localFDRevCount];
-		$.get(urlMetaData, function (data, status) {
-			var metaDataForms = buildFormList(data);
-			console.log("from get", metaDataForms);
-
-			populateFormDesignerCanvas(metaDataForms, true);
-
-		});
+		delete localFDRev[localFDRevCountCurrent];
+		localFDRevCountCurrent--;
+		localFDRevCount--;
 	}
-	console.log("revert - local revision", localFDRev);
-  	console.log("revert - local revision count", localFDRevCount);
+	uiSpecification = JSON.parse(JSON.stringify(localFDRev[localFDRevCountCurrent]));
+	$.get(urlMetaData, function (data, status) {
+		var metaDataForms = buildFormList(data);
+
+		var caseForm = metaDataForms.find(x => x.name === activeForm);
+
+		// Set what type of fields you would like
+		formElements = groupFormElementsByType(caseForm);
+
+		buildFormElementPromptControl(formElements);
+
+		// Rebuild on caseForm click
+		$(".clickTrigger").click(function () {
+			console.log(activeForm);
+			activeForm = this.id;
+			var caseForm = metaDataForms.find(x => x.name === this.id);
+
+			// Set what type of fields you would like
+			formElements = groupFormElementsByType(caseForm);
+
+			buildFormElementPromptControl(formElements);
+		});
+	});
+	writeLocalRevision();
+}
+
+/**
+ * Implements method to create local revision object into memory and Initialize undo functionality
+ */
+function createLocalRevision() {
+	addLocalRevision();
+
+	undoManager.add({
+		undo: function () {
+			deleteLocalRevision();
+		},
+		redo: function () {
+			addLocalRevision();
+		}
+	});
+}
+
+function writeLocalRevision() {
+	var html = localFDRevCountCurrent;
+  	$("#local-rev").html(html);
 }
 

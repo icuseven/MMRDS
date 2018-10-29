@@ -48,8 +48,8 @@ function groupFormElementsByType(caseForm) {
     var elements = {
         'labels': $.grep(caseForm.children, function (e) { return e.type == 'label'; }),
         'strings': $.grep(caseForm.children, function (e) { return e.type == 'string'; }),
-        'groups': $.grep(caseForm.children, function (e) { return e.type == 'group'; }),
-        'grids': $.grep(caseForm.children, function (e) { return e.type == 'Grid'; }),
+        // 'groups': $.grep(caseForm.children, function (e) { return e.type == 'group'; }),
+        // 'grids': $.grep(caseForm.children, function (e) { return e.type == 'Grid'; }),
     }
     return elements;
 }
@@ -59,16 +59,9 @@ function groupFormElementsByType(caseForm) {
  * allowing user to set form elements prompt and control metadata via drag and drop
  * @param {Array} metaDataForms 
  */
-function populateFormDesignerCanvas(metaDataForms, revert = false) {
-    if (revert) {
-        var caseForm = metaDataForms.find(x => x.name === activeForm);
-
-        // Set what type of fields you would like
-        formElements = groupFormElementsByType(caseForm);
-
-        buildFormElementPromptControl(formElements);
-    } else {
-       $(".clickTrigger").click(function () {
+function populateFormDesignerCanvas(metaDataForms) {
+    $(".clickTrigger").click(function () {
+        console.log(activeForm);
         activeForm = this.id;
         var caseForm = metaDataForms.find(x => x.name === this.id);
 
@@ -76,8 +69,7 @@ function populateFormDesignerCanvas(metaDataForms, revert = false) {
         formElements = groupFormElementsByType(caseForm);
 
         buildFormElementPromptControl(formElements);
-    }); 
-    }
+    });
 }
 
 /**
@@ -102,6 +94,8 @@ function buildFormElementPromptControl(fe) {
 
     // Field groups
     $.each(fe.groups, function(index, value) {
+        var newItem = `<fieldset id="` + value.name + `" class="resize-drag drag-drop yes-drop fd-fieldset">`
+        newItem += '<legend>' + value.prompt + '</legend>';
         var groupName = value.name;
         var stringSet = $.grep(value.children, function(e) {
           return e.type == "string";
@@ -110,11 +104,12 @@ function buildFormElementPromptControl(fe) {
         if (stringSet.length > 0) {
             $.each(stringSet, function(index, value) {
                 var eid = groupName + '__' + value.name;
-                var newItem = `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
+                newItem += `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
                 newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
-                inHTML += newItem;
             })
         }
+        newItem += `</fieldset>`;
+        inHTML += newItem;
     });
 
     // Grids
@@ -151,14 +146,18 @@ function styleElementsPerDefinition(fe, group = null) {
         if (tid in uiSpecification.form_design) {
             var el = uiSpecification.form_design[tid];
             if ('prompt' in uiSpecification.form_design[tid]) {
-                // set style for element prompt
-                $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
-                $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                if(el.prompt) {
+                    // set style for element prompt
+                    $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                    $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                }
             }
             if ('control' in uiSpecification.form_design[tid]) {
-                // set style for element control
-                $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
-                $('#' + value.name + '-control').attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                if (el.control) {
+                    // set style for element control
+                    $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                    $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
+                }
             }
         }
     });
