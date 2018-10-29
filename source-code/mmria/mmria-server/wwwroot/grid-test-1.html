@@ -7,7 +7,42 @@
 <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 <script src="./scripts/jquery-3.1.1.min.js"></script>
+<style>
 
+  .grid {
+    display: grid | inline-grid;
+    grid-template-rows: 25% 50% 25%;
+  }
+  
+  .grid div {
+            width: 100%;
+            height: 100%;
+        }
+
+  #header {
+    background-color: #351147;
+    border: 0px;
+    padding: 20px 0;
+    transition: all 0.3s;
+    color: #FFFFFF;
+    
+  }        
+
+  #footer {
+    background-color: #351147;
+    border: 0px;
+    padding: 20px 0;
+    transition: all 0.3s;
+    color: #FFFFFF;
+    
+  }
+
+  #content
+  {
+    
+  }
+
+</style>
 <script>
  
 var metadata = {
@@ -45,9 +80,19 @@ function print_node(p_node)
 </script>
 </head>
 <body onload="main()">
-<div id="output">
-
+<div class="grid">
+ 
+  <div id="header">Header </div>
+  <div id="content">
+    <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
+    
+    <div id="output"><p>Content</p>
+        <img src="/img/mmrai_landing_logo1.png" width=1095 height=887/>
+    </div>
+  </div>
+  <div id="footer">footer</div>
 </div>
+
 </div>
 </body>
 </html>

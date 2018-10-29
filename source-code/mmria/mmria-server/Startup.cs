@@ -157,15 +157,36 @@ namespace mmria.server
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
             quartzSupervisor.Tell("init");
 
+            var use_sams = false;
+            
+            if(!string.IsNullOrWhiteSpace(Configuration["sams:is_enabled"]))
+            {
+                bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
+            }
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                options => 
-                {
-                        options.LoginPath = new PathString("/Account/Login/");
-                        options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                        options.Cookie.SameSite = SameSiteMode.None;
-                });
+            if(use_sams)
+            {
+                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                        options => 
+                        {
+                                options.LoginPath = new PathString("/Account/SignIn");
+                                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                                options.Cookie.SameSite = SameSiteMode.None;
+                        });
+            }
+            else
+            {
+                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                    options => 
+                    {
+                            options.LoginPath = new PathString("/Account/Login/");
+                            options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                            options.Cookie.SameSite = SameSiteMode.None;
+                    });
+            }
+            
 
             services.AddAuthorization(options =>
             {

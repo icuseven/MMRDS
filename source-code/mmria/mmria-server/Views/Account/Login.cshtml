@@ -1,14 +1,81 @@
-<html>
-<body>
-<div>Login Form</div>
-@model ApplicationUser
-@{
-    <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
-        User name: <input name="username" type="text" />
-        Password: <input name="password" type="password" />
-        <input name="submit" value="Login" type="submit" />
-        <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
-    </form>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+<style>
+
+  .grid {
+    display: grid | inline-grid;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  
+  .grid div {
+            width: 100%;
+            height: 100%;
+        }
+
+  #header {
+    background-color: #351147;
+    border: 0px;
+    height:  50px;
+    padding: 20px 0;
+    transition: all 0.3s;
+    color: #FFFFFF;
+    
+  }        
+
+  td {color: #FFFFFF;}
+  table { margin-left: auto; }
+
+  #footer {
+    background-color: #351147;
+    border: 0px;
+    padding: 20px 0;
+    transition: all 0.3s;
+    color: #FFFFFF;
+    height:  50px;
+    
+  }
+
+  #content
+  {
+    height:  666px;
+    align-content: center;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 50%;*/
 }
+</style>
+</head>
+<body>
+<div class="grid">
+    <div id="header">
+        @model ApplicationUser
+        @{
+            <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
+                <table>
+                <tr><td>User name:</td><td><input name="username" type="text" /></td></tr>
+                <tr><td>Password:</td><td><input name="password" type="password" /></td></tr>
+                <tr><td colspan=2 align=right><input name="submit" value="Login" type="submit" /></td></tr>
+                </table>
+                <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
+                
+            </form>
+        }        
+    </div>
+    <div id="content">
+        <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
+        <p><img class="center" src="/img/mmrai_landing_logo1.png" width=821.25 height=665.25/></p>
+        
+    </div>
+    <div id="footer">footer   <%=version%> </div>
+</div>
 </body> 
 </html>

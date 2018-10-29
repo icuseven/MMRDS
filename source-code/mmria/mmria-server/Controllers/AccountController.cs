@@ -103,6 +103,19 @@ namespace mmria.server.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(ApplicationUser user, string returnUrl = null) 
         {
+
+            var use_sams = false;
+            
+            if(!string.IsNullOrWhiteSpace(_configuration["sams:is_enabled"]))
+            {
+                bool.TryParse(_configuration["sams:is_enabled"], out use_sams);
+            }
+
+            if(use_sams)
+            {
+                return RedirectToAction("SignIn");
+            }
+
             const string badUserNameOrPasswordMessage = "Username or password is incorrect.";
             if(
                 user == null ||

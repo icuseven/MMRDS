@@ -30,7 +30,7 @@ namespace mmria.server.Controllers
             passwordChange = p_c;
         }
  */
-        [AllowAnonymous] 
+        //[AllowAnonymous] 
         public async Task<IActionResult> Index()
         {
 
