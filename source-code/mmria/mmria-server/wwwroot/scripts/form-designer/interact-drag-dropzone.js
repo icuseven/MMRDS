@@ -50,6 +50,7 @@ interact('.dropzone').dropzone({
             event.relatedTarget.getAttribute('data-h'), 
             pc
         );
+        
         writeFormSpecs();
     },
     ondropdeactivate: function (event) {
@@ -130,6 +131,7 @@ interact('.drag-drop')
                 event.rect.height,
                 pc
             );
+
             writeFormSpecs();
         }
     });
