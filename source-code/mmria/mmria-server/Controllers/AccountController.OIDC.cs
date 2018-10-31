@@ -118,9 +118,12 @@ namespace mmria.common.Controllers
             var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
             var sams_client_id = _configuration["sams:client_id"];
             var sams_callback_url = _configuration["sams:callback_url"];        
-
+//?code=6c17b2a3-d65a-44fd-a28c-9aee982f80be&state=a4c8326ca5574999aa13ca02e9384c3d
             // Retrieve code and state from query string, pring for debugging
-            var querystring_array = Request.QueryString.Value.Skip(1).ToString().Split("&");
+            var querystring = Request.QueryString.Value;
+            var querystring_skip = querystring.Substring(1, querystring.Length -1);
+            var querystring_array = querystring_skip.Split("&");
+
             var querystring_dictionary = new Dictionary<string,string>();
             foreach(string item in querystring_array)
             {
@@ -159,7 +162,8 @@ namespace mmria.common.Controllers
                 data["code"] = code;
                 data["grant_type"] = "authorization_code";
 
-                var response = wb.UploadValues($"{IdpUrl}/api/openid_connect/token", "POST", data);
+                //var response = wb.UploadValues($"{IdpUrl}/api/openid_connect/token", "POST", data);
+                var response = wb.UploadValues($"{sams_endpoint_token}", "POST", data);
 
                 var responseString = Encoding.ASCII.GetString(response);
                 dynamic tokenResponse = JObject.Parse(responseString);
@@ -170,7 +174,8 @@ namespace mmria.common.Controllers
 
                 TempData["id"] = userId;
                 TempData["email"] = userEmail;
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index", "HOME");
+                return RedirectToAction("Index", "HOME");
             }
         }
     }
