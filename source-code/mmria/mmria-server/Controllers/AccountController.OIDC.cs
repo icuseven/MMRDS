@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Web;
+using System.Net.Http;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -109,7 +111,7 @@ namespace mmria.common.Controllers
         }
 
         [AllowAnonymous] 
-        public ActionResult SignInCallback()
+        public async Task<ActionResult> SignInCallback()
         {
             var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
@@ -117,6 +119,8 @@ namespace mmria.common.Controllers
             var sams_endpoint_token_validation = _configuration["sams:token_validation"];
             var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
             var sams_client_id = _configuration["sams:client_id"];
+            var sams_client_secret = _configuration["sams:client_secret"];
+            
             var sams_callback_url = _configuration["sams:callback_url"];        
 //?code=6c17b2a3-d65a-44fd-a28c-9aee982f80be&state=a4c8326ca5574999aa13ca02e9384c3d
             // Retrieve code and state from query string, pring for debugging
@@ -136,11 +140,36 @@ namespace mmria.common.Controllers
             System.Diagnostics.Debug.WriteLine($"code: {code}");
             System.Diagnostics.Debug.WriteLine($"state: {state}");
 
+
+
+
+            HttpClient client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_token);
+            request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
+                { "client_id", sams_client_id },
+                { "client_secret", sams_client_secret },
+                { "grant_type", "client_credentials" }
+            });
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
+            var token = payload.Value<string>("access_token");
+
+            //return RedirectToAction("Index", "HOME");
+            return RedirectToAction("Index", "HOME");
+
+
+
             // Generate JWT for token request
             //var cert = new X509Certificate2(Server.MapPath("~/App_Data/cert.pfx"), "1234");
+            /*
             var cert = new X509Certificate2();
             var signingCredentials = new SigningCredentials(new X509SecurityKey(cert), SecurityAlgorithms.RsaSha256);
             var header = new JwtHeader(signingCredentials);
+             
+            var header = new JwtHeader();
             var payload = new JwtPayload
             {
                 {"iss", sams_client_id},
@@ -176,7 +205,7 @@ namespace mmria.common.Controllers
                 TempData["email"] = userEmail;
                 //return RedirectToAction("Index", "HOME");
                 return RedirectToAction("Index", "HOME");
-            }
+            }*/
         }
     }
 }
