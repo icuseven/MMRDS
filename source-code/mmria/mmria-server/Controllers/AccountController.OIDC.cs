@@ -117,7 +117,7 @@ namespace mmria.common.Controllers
             var sams_endpoint_token = _configuration["sams:endpoint_token"];
             var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
             var sams_endpoint_token_validation = _configuration["sams:token_validation"];
-            var sams_endpoint_user_info_sys = _configuration["sams:user_info_sys"];
+            var sams_endpoint_user_info_sys = _configuration["sams:endpoint_user_info_sys"];
             var sams_client_id = _configuration["sams:client_id"];
             var sams_client_secret = _configuration["sams:client_secret"];
             
@@ -148,7 +148,8 @@ namespace mmria.common.Controllers
             request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
                 { "client_id", sams_client_id },
                 { "client_secret", sams_client_secret },
-                { "grant_type", "client_credentials" }
+                { "grant_type", "client_credentials" },
+                //{ "scope", "MMRIA" },
             });
 
             var response = await client.SendAsync(request);
@@ -156,6 +157,30 @@ namespace mmria.common.Controllers
 
             var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
             var token = payload.Value<string>("access_token");
+            var scope = payload.Value<string>("scope");
+
+
+            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info_sys);
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token); 
+            /*
+            user_info_sys_request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
+                { "client_id", sams_client_id },
+                { "client_secret", sams_client_secret },
+                //{ "grant_type", "client_credentials" },
+                //{ "scope", "MMRIA" },
+            });
+             */
+
+
+
+            response = await client.SendAsync(user_info_sys_request);
+            response.EnsureSuccessStatusCode();
+
+            var temp_string = await response.Content.ReadAsStringAsync();
+            payload = JObject.Parse(temp_string);
+
+            
+            var email = payload.Value<string>("email");
 
             //return RedirectToAction("Index", "HOME");
             return RedirectToAction("Index", "HOME");

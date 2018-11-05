@@ -32,6 +32,8 @@ namespace mmria.common.metadata
 		public string last_updated_by { get; set; }         
 
 		public string name { get; set; }
+
+        public string metadata_id { get; set; }
 		public Dimension dimension { get; set; } 
 
         public Dictionary<string, Dimension_Object> form_design { get; set; } 
