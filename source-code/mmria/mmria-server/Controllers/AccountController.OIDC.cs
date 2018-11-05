@@ -149,7 +149,6 @@ namespace mmria.common.Controllers
                 { "client_id", sams_client_id },
                 { "client_secret", sams_client_secret },
                 { "grant_type", "client_credentials" },
-                //{ "scope", "MMRIA" },
             });
 
             var response = await client.SendAsync(request);
@@ -160,16 +159,19 @@ namespace mmria.common.Controllers
             var scope = payload.Value<string>("scope");
 
 
-            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info_sys);
+            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info);
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token); 
-            /*
+            //client.DefaultRequestHeaders.Add("client_id", sams_client_id); 
+            //client.DefaultRequestHeaders.Add("client_secret", sams_client_secret); 
+
+            
             user_info_sys_request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
                 { "client_id", sams_client_id },
                 { "client_secret", sams_client_secret },
-                //{ "grant_type", "client_credentials" },
-                //{ "scope", "MMRIA" },
+                { "grant_type", "client_credentials" },
+                { "scope", scope },
             });
-             */
+            /* */
 
 
 
