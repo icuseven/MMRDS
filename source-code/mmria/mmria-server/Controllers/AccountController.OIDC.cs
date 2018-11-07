@@ -266,5 +266,19 @@ namespace mmria.common.Controllers
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
+
+ 
+
+        private bool checkID(string idBody, string issuer, string clientID)
+        {
+            dynamic o = JObject.Parse(idBody);
+            
+            if (o.iss != issuer) return false;
+            if (o.aud != clientID) return false;
+            if (o.exp < DateTime.UtcNow) return false;
+
+            return true;
+        }
+
     }
 }
