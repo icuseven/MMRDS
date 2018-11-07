@@ -102,7 +102,7 @@ namespace mmria.common.Controllers
                 "&prompt=select_account" +
                 "&redirect_uri=" + $"{sams_callback_url}" +
                 "&response_type=code" +
-                "&scope=openid+email" +
+                "&scope=" + System.Web.HttpUtility.HtmlEncode("openid profile email") +
                 "&state=" + state +
                 "&nonce=" + nonce;
             System.Diagnostics.Debug.WriteLine($"url: {url}");
@@ -160,6 +160,7 @@ namespace mmria.common.Controllers
                 { "client_secret", sams_client_secret },
                 { "grant_type", "authorization_code" },
                 { "code", code },
+                { "scope", "openid profile email"},
                 {"redirect_uri", sams_callback_url }
             });
 
@@ -180,9 +181,13 @@ namespace mmria.common.Controllers
             var replaced_value = id_array[1].Replace('-', '+').Replace('_', '/');
             var base64 = replaced_value.PadRight(replaced_value.Length + (4 - replaced_value.Length % 4) % 4, '=');
 
+
+            var id_0 = DecodeToken(id_array[0]);
+            var id_1 = DecodeToken(id_array[1]);
+
             var id_body = Base64Decode(base64);
 
-            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info_sys);
+            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info + "?token=" + id_token);
 
 
             user_info_sys_request.Headers.Add("Authorization","Bearer " + access_token); 
@@ -207,7 +212,7 @@ namespace mmria.common.Controllers
             payload = JObject.Parse(temp_string);
 
             
-            var email = payload.Value<string>("email");
+            var email = payload.Value<string>("sub");
 
             //return RedirectToAction("Index", "HOME");
             return RedirectToAction("Index", "HOME");
@@ -260,6 +265,13 @@ namespace mmria.common.Controllers
             }*/
         }
 
+
+        private string DecodeToken(string p_value)
+        {
+            var replaced_value = p_value.Replace('-', '+').Replace('_', '/');
+            var base64 = replaced_value.PadRight(replaced_value.Length + (4 - replaced_value.Length % 4) % 4, '=');
+            return Base64Decode(base64);
+        }
 
         private string Base64Decode(string base64EncodedData) 
         {
