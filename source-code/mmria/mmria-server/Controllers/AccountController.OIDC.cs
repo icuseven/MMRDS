@@ -145,33 +145,58 @@ namespace mmria.common.Controllers
 
             HttpClient client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_token);
+
+            /*
             request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
                 { "client_id", sams_client_id },
                 { "client_secret", sams_client_secret },
                 { "grant_type", "client_credentials" },
+                { "code", code },
             });
+             */
+
+            request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
+                { "client_id", sams_client_id },
+                { "client_secret", sams_client_secret },
+                { "grant_type", "authorization_code" },
+                { "code", code },
+                {"redirect_uri", sams_callback_url }
+            });
+
 
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
-            var token = payload.Value<string>("access_token");
+            var access_token = payload.Value<string>("access_token");
             var scope = payload.Value<string>("scope");
 
 
-            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info);
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token); 
-            //client.DefaultRequestHeaders.Add("client_id", sams_client_id); 
-            //client.DefaultRequestHeaders.Add("client_secret", sams_client_secret); 
 
-            
+            var id_token = payload.Value<string>("id_token");;
+            var id_array = id_token.Split('.');
+
+
+            var replaced_value = id_array[1].Replace('-', '+').Replace('_', '/');
+            var base64 = replaced_value.PadRight(replaced_value.Length + (4 - replaced_value.Length % 4) % 4, '=');
+
+            var id_body = Base64Decode(base64);
+
+            var user_info_sys_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_user_info_sys);
+
+
+            user_info_sys_request.Headers.Add("Authorization","Bearer " + access_token); 
+            user_info_sys_request.Headers.Add("client_id", sams_client_id); 
+            user_info_sys_request.Headers.Add("client_secret", sams_client_secret); 
+
+            /* 
             user_info_sys_request.Content = new FormUrlEncodedContent(new Dictionary<string, string> {
                 { "client_id", sams_client_id },
                 { "client_secret", sams_client_secret },
                 { "grant_type", "client_credentials" },
                 { "scope", scope },
             });
-            /* */
+            */
 
 
 
@@ -233,6 +258,13 @@ namespace mmria.common.Controllers
                 //return RedirectToAction("Index", "HOME");
                 return RedirectToAction("Index", "HOME");
             }*/
+        }
+
+
+        private string Base64Decode(string base64EncodedData) 
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }
