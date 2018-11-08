@@ -48,7 +48,7 @@ function groupFormElementsByType(caseForm) {
     var elements = {
         'labels': $.grep(caseForm.children, function (e) { return e.type == 'label'; }),
         'strings': $.grep(caseForm.children, function (e) { return e.type == 'string'; }),
-        // 'groups': $.grep(caseForm.children, function (e) { return e.type == 'group'; }),
+        'groups': $.grep(caseForm.children, function (e) { return e.type == 'group'; }),
         // 'grids': $.grep(caseForm.children, function (e) { return e.type == 'Grid'; }),
     }
     return elements;
