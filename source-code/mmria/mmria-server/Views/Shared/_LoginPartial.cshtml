@@ -15,7 +15,7 @@
       </li>
 
       <li><strong>Welcome!</strong> 
-      <li><strong>User:</strong>@UserName</li>
+      <li><strong>User:</strong>@Html.Raw(System.Web.HttpUtility.HtmlEncode(UserName))</li>
       <li><strong>ROLES:</strong><ul>
       @foreach(var role_claim in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
       {

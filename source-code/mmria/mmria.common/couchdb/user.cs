@@ -29,7 +29,7 @@ namespace mmria.common.model.couchdb
 
 		public user()
 		{
-
+			
 		}
 
 	}

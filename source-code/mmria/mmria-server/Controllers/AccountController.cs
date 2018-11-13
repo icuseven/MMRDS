@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Akka.Actor;
 
 
+
+
 //https://github.com/blowdart/AspNetAuthorizationWorkshop
 //https://digitalmccullough.com/posts/aspnetcore-auth-system-demystified.html
 //https://gitlab.com/free-time-programmer/tutorials/demystify-aspnetcore-auth/tree/master
@@ -509,6 +511,49 @@ namespace mmria.server.Controllers
             return default(T);
         }
 
+
+        public async Task create_user_principal(string p_user_name, List<string> p_role_list)
+        {
+            const string Issuer = "https://contoso.com";
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, p_user_name, ClaimValueTypes.String, Issuer));
+
+
+            foreach(var role in p_role_list)
+            {
+                if(role == "_admin")
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, "installation_admin", ClaimValueTypes.String, Issuer));
+                }
+            }
+
+
+            foreach(var role in mmria.server.util.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+            {
+
+                claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+            }
+
+
+            Response.Cookies.Append("uid", p_user_name);
+            Response.Cookies.Append("roles", string.Join(",",p_role_list));
+            
+            var userIdentity = new ClaimsIdentity("SuperSecureLogin");
+            userIdentity.AddClaims(claims);
+            var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                userPrincipal,
+                new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                    IsPersistent = false,
+                    AllowRefresh = false,
+                });
+
+        }
+
     }
 
     public static class IsLocalExtension
@@ -554,5 +599,8 @@ namespace mmria.server.Controllers
         {
             return address != null && address.ToString() != NullIpAddress;
         }
+
+
+
     }
 }
