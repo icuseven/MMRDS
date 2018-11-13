@@ -52,6 +52,7 @@ interact('.dropzone').dropzone({
         );
         
         writeFormSpecs();
+        writeActionSpecs("in", event.relatedTarget.id);
     },
     ondropdeactivate: function (event) {
         // remove active dropzone feedback
@@ -62,7 +63,7 @@ interact('.dropzone').dropzone({
 
 interact('.drag-drop')
     .draggable({
-        inertia: true,
+        inertia: false,
         restrict: {
             restriction: "parent",
             endOnly: true,
@@ -87,7 +88,7 @@ interact('.drag-drop')
             min: { width: 100, height: 20 },
         },
 
-        inertia: true,
+        inertia: false,
     })
     .on('resizemove', function (event) {
         var target = event.target,
@@ -133,5 +134,6 @@ interact('.drag-drop')
             );
 
             writeFormSpecs();
+            writeActionSpecs('in', target.id);
         }
     });

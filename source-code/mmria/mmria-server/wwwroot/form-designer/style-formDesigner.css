@@ -1,7 +1,7 @@
 body,
 html,
 .set-height {
-    height: 200%;
+    height: 100%;
 }
 
 .main-wrapper {
@@ -26,6 +26,7 @@ ul#repeatNavContainer li:hover {
 
 .form-designer-canvas {
     position: relative;
+    height: 500% !important;
 }
 
 #formSelector {
@@ -39,4 +40,28 @@ ul#repeatNavContainer li:hover {
 
 .mmria-modal-dialog-lg {
     max-width: 50%;
+}
+
+.form-designer-wrapper {
+    height: 85%;
+    overflow-y: scroll;
+    border-bottom: 2px solid gray;
+}
+
+#real-time-container {
+    margin: 10px 0px;
+    border: 1px solid lightgray;
+    background-color: gray;
+    padding: 8px;
+    overflow-x: scroll;
+}
+
+.liveSpecHeading {
+    color: #ffffff;
+    font-weight: bold;
+    padding-bottom: 8px;
+}
+
+.liveSpec {
+    color: lightgray;
 }

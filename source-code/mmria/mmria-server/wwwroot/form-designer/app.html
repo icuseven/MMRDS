@@ -20,18 +20,22 @@
         <![endif]-->
         <!-- Image and text -->
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="/">MMRIA</a>
+            <a class="navbar-brand" href="/">MMRIA</a> Form Designer
         </nav>
         
         <div class="container-fluid main-wrapper set-height">
             <div class="row set-height">
                 <div class="col-sm-3 left-side-bar">
-                    <h4>Form Designer</h4>
-                    <hr>
+                    <!-- <h4>Form Designer</h4>
+                    <hr> -->
                     <div>
                         <button type="button" class="btn btn-raised btn-success" data-toggle="modal" data-target="#specModal">View Specs</button>
                         <button type="button" class="btn btn-raised btn-primary" onclick="saveSpec()">Save Specs</button>
                         <a type="button" class="btn btn-raised btn-default" href="/form-designer">< Back</a>
+                    </div>
+                    <div id="real-time-container">
+                        <div class="liveSpecHeading">No Active Control Selected</div>
+                        <div class="liveSpec">Default specifications</div>
                     </div>
         
                     <div id="formSelector">

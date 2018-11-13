@@ -4,6 +4,7 @@
 var urlTestBase = 'http://test.mmria.org/api/';
 var urlProdBase = location.protocol + '//' + location.host + '/api/';
 var urlMetaData = urlProdBase + "metadata";
+var activeSpec;
 
 
 /******************************************************
@@ -69,6 +70,13 @@ function populateFormDesignerCanvas(metaDataForms) {
         formElements = groupFormElementsByType(caseForm);
 
         buildFormElementPromptControl(formElements);
+
+        $('.resize-drag').on('mouseenter', function () {
+            writeActionSpecs('in', this.id);
+        });
+        $(".resize-drag").on("mouseleave", function() {
+          writeActionSpecs('out', this.id);
+        });
     });
 }
 
@@ -162,4 +170,26 @@ function styleElementsPerDefinition(fe, group = null) {
         }
     });
 
+}
+function writeActionSpecs(val, obj) {
+    let prop;
+    obj = obj.replace('__', '/');
+    if(obj.includes('control')) {
+        obj = obj.replace('-control', '');
+        prop = activeForm + "/" + obj;
+        activeSpec = uiSpecification.form_design[prop];
+    } else {
+        prop = activeForm + "/" + obj;
+        activeSpec = uiSpecification.form_design[prop];
+    }
+    if(val === 'in') {
+        if (activeSpec === undefined) {
+            var html = "Default specifications";
+        } else {
+            var html = JSON.stringify(activeSpec, undefined, 4);
+        }
+        $(".liveSpecHeading").html(prop);
+        $(".liveSpec").html(html);
+        $('.liveSpec').show('slow');
+    }
 }
