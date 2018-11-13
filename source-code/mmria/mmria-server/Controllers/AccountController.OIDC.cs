@@ -213,8 +213,9 @@ namespace mmria.common.Controllers
 			try
 			{
 				string request_string = config_couchdb_url + "/_users/" + System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + email);
-
-				var user_curl = new mmria.server.cURL("PUT", null, request_string, null, config_timer_user_name, config_timer_password);
+                //string request_string = config_couchdb_url + "/_users/org.couchdb.user:" + email;
+//http://localhost:5984/_users/org.couchdb.user%3Ajhaines%40cdc.gov
+				var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
 				var responseFromServer = await user_curl.executeAsync();
 
 				user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
