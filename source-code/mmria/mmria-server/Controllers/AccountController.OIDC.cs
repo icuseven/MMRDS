@@ -385,8 +385,8 @@ namespace mmria.common.Controllers
             }
 
 
-            Response.Cookies.Append("uid", p_user_name);
-            Response.Cookies.Append("roles", string.Join(",",p_role_list));
+            //Response.Cookies.Append("uid", p_user_name);
+            //Response.Cookies.Append("roles", string.Join(",",p_role_list));
             
             var userIdentity = new ClaimsIdentity("SuperSecureLogin");
             userIdentity.AddClaims(claims);

@@ -297,8 +297,8 @@ namespace mmria.server.Controllers
                     }
 
 
-                    Response.Cookies.Append("uid", json_result.name);
-                    Response.Cookies.Append("roles", string.Join(",",json_result.roles));
+                    //Response.Cookies.Append("uid", json_result.name);
+                    //Response.Cookies.Append("roles", string.Join(",",json_result.roles));
                     
                     //claims.Add(new Claim("EmployeeId", string.Empty, ClaimValueTypes.String, Issuer));
                     //claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
