@@ -93,9 +93,11 @@ function get_metadata()
 </div>
 
 
-@if (!is_authenticated)
+@if (is_guest)
 {
-    <h1>Index</h1>
+    <h1>Welcome to MMRIA</h1>
+    <p>As a MMRIA user, you currently do not have any active role assigments.</p>
+    <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
     
 }
 else
