@@ -28,13 +28,13 @@ on_logout_call_back: null,
 
 initialize_profile: function ()
 {
-	var current_auth_session = $mmria.getCookie("uid");
+	var current_auth_session = g_uid;
 
 	if(current_auth_session)
 	{
 
 		profile.is_logged_in = true;
-		profile.user_name = $mmria.getCookie("uid");
+		profile.user_name = g_uid;
 		profile.user_roles = $mmria.getCookie("roles");
 		profile.auth_session = $mmria.getCookie("AuthSession");
 
@@ -503,7 +503,7 @@ logout : function()
 			if
 			(
 				json_response.userCTX.name &&
-				json_response.userCTX.name == $mmria.getCookie("uid") && 
+				json_response.userCTX.name == g_uid && 
 				json_response.auth_session 
 
 			)
