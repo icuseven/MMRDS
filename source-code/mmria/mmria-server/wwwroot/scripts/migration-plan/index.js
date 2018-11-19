@@ -179,8 +179,8 @@ function add_new_plan_click()
 
 		new_plan.name = new_name;
 		new_plan.description = new_description;
-		new_plan.created_by = $mmria.getCookie("uid");
-		new_plan.last_updated_by = $mmria.getCookie("uid");
+		new_plan.created_by = g_uid;
+		new_plan.last_updated_by = g_uid;
 
 		g_migration_plan_list.push(new_plan);
 		server_save(new_plan);
@@ -192,7 +192,7 @@ function server_save(p_migration_plan)
 {
 
 	p_migration_plan.date_last_updated = new Date().toISOString();
-	p_migration_plan.last_updated_by = $mmria.getCookie("uid");
+	p_migration_plan.last_updated_by = g_uid;
 
 	$.ajax({
 				url: location.protocol + '//' + location.host + '/api/migration_plan',
@@ -202,7 +202,7 @@ function server_save(p_migration_plan)
 				type: "POST"/*,
 				beforeSend: function (request)
 				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				},*/
 		}).done(function(response) 
@@ -238,7 +238,7 @@ function server_delete(p_migration_plan)
 				type: "DELETE"/*,
 				beforeSend: function (request)
 				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				},*/
 		}).done(function(response) 
@@ -592,7 +592,7 @@ function run_migration_plan_item_click(p_id)
 				type: "GET"/*,
 				beforeSend: function (request)
 				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				},*/
 			}).done(function(response) 

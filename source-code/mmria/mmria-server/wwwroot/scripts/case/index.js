@@ -597,7 +597,7 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + $mmria.getCookie("uid"),
+			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
 	}).done(function(response) {
 
       g_user_role_jurisdiction_list = []
@@ -605,7 +605,7 @@ function load_user_role_jurisdiction()
       {
 
           var value = response.rows[i].value;
-          if(value.user_id == $mmria.getCookie("uid") && value.role_name == "abstractor")
+          if(value.user_id == g_uid && value.role_name == "abstractor")
           {
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
           }

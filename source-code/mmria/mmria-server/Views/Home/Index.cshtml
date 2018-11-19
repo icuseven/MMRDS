@@ -2,7 +2,7 @@
 @{ 
     Layout = "_GridLayout"; 
     var is_guest = true;
-    var is_abtractor = false;
+    var is_abstractor = false;
     var is_authenticated = false;
     var is_committee_member = false;
     var is_form_designer = false;
@@ -21,7 +21,7 @@
             switch(role.Value)
             {
                 case "abstractor":
-                    is_abtractor = true;
+                    is_abstractor = true;
                     is_authenticated = true;
                     is_guest = false;
                     break;
@@ -107,7 +107,7 @@ else
     <ul>
 
 
-    @if(is_abtractor)
+    @if(is_abstractor)
     {
         <li>=Abstractor=</li>
         <li><a href="/Case">view case data</a></li>
@@ -144,8 +144,14 @@ else
         <li><a href="/_users">manage users & jurisdictions</a></li>
         <li><a href="/_config">view configuration</a></li>
     }
+
     <li>======================</li>
-    <li><a href="/aggregate-report">view aggregate report</a></li>
+    @if(is_abstractor || is_committee_member)
+    {
+     
+        <li><a href="/aggregate-report">view aggregate report</a></li>
+    }
+
     <li><a href="/metadata-listing" >show metadata listing</a></li>
     <li>
         <select id="print_blank_version">
@@ -168,7 +174,12 @@ else
         </select>
         <input type="button"  onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
     </li>
-    <li><a href="/Account/Profile" >manage account profile</a></li>
+
+    @if(!is_installation_admin)
+    {
+        <li><a href="/Account/Profile" >manage account profile</a></li>
+    }
+    
     </ul>
 
 }

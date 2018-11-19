@@ -127,7 +127,7 @@ function server_save()
 				type: "POST"/*,
 				beforeSend: function (request)
 				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				},*/
 		}).done(function(response) 
@@ -156,7 +156,7 @@ function server_delete(p_migration_plan)
 				type: "DELETE"/*,
 				beforeSend: function (request)
 				{
-					request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+					request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 				},*/
 		}).done(function(response) 

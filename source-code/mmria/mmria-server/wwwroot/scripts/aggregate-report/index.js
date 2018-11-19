@@ -23,7 +23,7 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('report_output_id').innerHTML = "";
-	load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+	load_data(g_uid, $mmria.getCookie("pwd"));
 });
 
 function load_values()
@@ -32,7 +32,7 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/values',
 	}).done(function(response) {
 			g_couchdb_url = response.couchdb_url;
-			load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"))
+			load_data(g_uid, $mmria.getCookie("pwd"))
 	});
 
 }

@@ -456,7 +456,7 @@ function remove_user_click(p_user_id, p_rev)
 					{
 						g_ui.user_summary_list.splice(i,1)
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui, $mmria.getCookie("uid")).join("")
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_uid).join("")
 						+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
 						;
 

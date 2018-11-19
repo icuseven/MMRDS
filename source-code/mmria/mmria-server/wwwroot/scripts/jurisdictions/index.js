@@ -123,7 +123,7 @@ function server_save(p_jurisdiction)
 					type: "POST",
 					beforeSend: function (request)
 					{
-						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					}//,
 			}).done(function(response) 

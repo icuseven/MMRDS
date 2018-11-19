@@ -363,7 +363,7 @@ namespace mmria.server.model
 				export_queue_item item_to_process = result [0];
 
 				item_to_process.date_last_updated = new DateTime?();
-				//item_to_process.last_updated_by = $mmria.getCookie("uid");
+				//item_to_process.last_updated_by = g_uid;
 
 
 				List<string> args = new List<string>();

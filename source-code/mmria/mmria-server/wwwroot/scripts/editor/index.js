@@ -328,7 +328,7 @@ function perform_save(current_auth_session)
 			beforeSend: function (request)
 			{
 				request.setRequestHeader("AuthSession", current_auth_session);
-				request.setRequestHeader("uid", $mmria.getCookie("uid"));
+				request.setRequestHeader("uid", g_uid);
 				request.setRequestHeader("roles", $mmria.getCookie("roles"));
 			}//,
 	}).done(function(response) 
@@ -443,7 +443,7 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 			{
 			  	request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 			  	request.setRequestHeader("If-Match", g_metadata._rev);
-				request.setRequestHeader("uid", $mmria.getCookie("uid"));
+				request.setRequestHeader("uid", g_uid);
 				request.setRequestHeader("roles", $mmria.getCookie("roles"));
 			}
 	}).done(function(response) 
@@ -500,7 +500,7 @@ function create_check_code_submit()
 									{
 										request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 										request.setRequestHeader("If-Match", g_metadata._rev);
-										request.setRequestHeader("uid", $mmria.getCookie("uid"));
+										request.setRequestHeader("uid", g_uid);
 										request.setRequestHeader("roles", $mmria.getCookie("roles"));
 									}
 

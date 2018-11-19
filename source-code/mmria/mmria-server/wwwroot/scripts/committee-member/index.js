@@ -124,7 +124,7 @@ function load_values()
 function load_profile()
 {
 
-  var uid = $mmria.getCookie("uid");
+  var uid = g_uid;
 	var pwd = $mmria.getCookie("pwd");
   var auth_session = $mmria.getCookie("AuthSession");
 

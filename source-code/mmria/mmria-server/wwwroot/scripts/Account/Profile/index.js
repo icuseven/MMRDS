@@ -47,13 +47,13 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + $mmria.getCookie("uid"),
+			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
 	}).done(function(response) {
 
       g_jurisdiction_list = []
 
       var role_list_html = [];
-	  role_list_html.push("<p>[ " + $mmria.getCookie("uid") + " ] ");
+	  role_list_html.push("<p>[ " + g_uid + " ] ");
       if(g_config_password_days_before_expires > 0)
       {
         if(g_days_til_password_expires >= 0)
@@ -84,7 +84,7 @@ function load_user_role_jurisdiction()
           var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
 
           var value = response.rows[i].value;
-          if(value.user_id == $mmria.getCookie("uid"))
+          if(value.user_id == g_uid)
           {
             g_jurisdiction_list.push(value);
 
@@ -169,7 +169,7 @@ function change_password_user_click()
 	{
 
 		var user_message = {
-			UserName: $mmria.getCookie("uid"),
+			UserName: g_uid,
 			Password: new_user_password
 		}
 

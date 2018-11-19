@@ -11,7 +11,7 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
-	load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+	load_data(g_uid, $mmria.getCookie("pwd"));
 	update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
@@ -66,9 +66,9 @@ function create_queue_item(p_export_type)
 	var result = {
 			_id: new_date.replace(/:/g, "-") + ".zip",
 			date_created: new_date,
-			created_by: $mmria.getCookie("uid"),
+			created_by: g_uid,
 			date_last_updated: new_date,
-			last_updated_by: $mmria.getCookie("uid"),
+			last_updated_by: g_uid,
 			file_name: new_date.replace(/:/g, "-") + ".zip",
 			export_type: p_export_type,
 			status: "Confirmation Required"	
@@ -145,7 +145,7 @@ function confirm_export_item(p_id)
 	{
 		item.status = "In Queue...";
 		item.date_last_updated = new Date().toISOString();
-		item.last_updated_by = $mmria.getCookie("uid");
+		item.last_updated_by = g_uid;
 
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
@@ -161,7 +161,7 @@ function confirm_export_item(p_id)
 				}//,
 		}).done(function(response) {
 				//g_metadata = response;
-				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+				load_data(g_uid, $mmria.getCookie("pwd"));
 		});
 	}
 	
@@ -187,7 +187,7 @@ function download_export_item(p_id)
 	{
 		var download_url = location.protocol + '//' + location.host + '/api/zip/' + p_id;
 		window.open(download_url, "_zip");
-		load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+		load_data(g_uid, $mmria.getCookie("pwd"));
 	}
 }
 
@@ -198,7 +198,7 @@ function delete_export_item(p_id)
 	{
 		item.status = "Deleted";
 		item.date_last_updated = new Date().toISOString();
-		item.last_updated_by = $mmria.getCookie("uid");
+		item.last_updated_by = g_uid;
 		//item._deleted = true;
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
@@ -214,7 +214,7 @@ function delete_export_item(p_id)
 				}//,
 		}).done(function(response) {
 				//g_metadata = response;
-				load_data($mmria.getCookie("uid"), $mmria.getCookie("pwd"));
+				load_data(g_uid, $mmria.getCookie("pwd"));
 		});
 	}
 }
@@ -236,7 +236,7 @@ function update_queue_task()
 		}
 	}
 
-	var url =  location.protocol + '//' + location.host + '/api/export_queue?' + $mmria.getCookie("uid");
+	var url =  location.protocol + '//' + location.host + '/api/export_queue?' + g_uid;
 
 	$.ajax({
 			url: url

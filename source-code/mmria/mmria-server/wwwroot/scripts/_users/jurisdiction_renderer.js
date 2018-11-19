@@ -7,12 +7,12 @@ function jurisdiction_render(p_data)
 		
 		result.push("<div id='" + p_data._id.replace("/","_") + "'");
 		result.push("<p><b>Jurisdiction Tree<b> ");
-		result.push("<br/><input type='button' value='save jusridiction tree' onclick='save_jurisdiction_tree_click(\"" + $mmria.getCookie("uid") + "\")' />");
+		result.push("<br/><input type='button' value='save jusridiction tree' onclick='save_jurisdiction_tree_click(\"" + g_uid + "\")' />");
 		result.push("</p><ul>");
 		result.push("<li>");
 		result.push(p_data.name);
 		result.push("&nbsp;");
-		result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />");
+		result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"" + g_uid + "\")' />");
 	
 		
 	}
@@ -21,7 +21,7 @@ function jurisdiction_render(p_data)
 		result.push("<li id='" + p_data.id.replace("/","_") + "'>");
 		result.push(p_data.name);
 		result.push("&nbsp;");
-		result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"" + $mmria.getCookie("uid") + "\")' />&nbsp;<input type='button' value='delete' onclick='jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"" + $mmria.getCookie("uid") + "\")' />");
+		result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"" + g_uid + "\")' />&nbsp;<input type='button' value='delete' onclick='jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"" + g_uid + "\")' />");
 		
 	}
 
@@ -41,7 +41,7 @@ function jurisdiction_render(p_data)
 	if(p_data._id)
 	{
 		result.push("</ul>");
-		result.push("<br/><input type='button' value='save jusridiction tree' onclick='save_jurisdiction_tree_click(\"" + $mmria.getCookie("uid") + "\")' /><br/>");
+		result.push("<br/><input type='button' value='save jusridiction tree' onclick='save_jurisdiction_tree_click(\"" + g_uid + "\")' /><br/>");
 		result.push("</div>")
 	}
 
@@ -75,7 +75,7 @@ function save_jurisdiction_tree_click(p_user_id)
 					type: "POST",/*
 					beforeSend: function (request)
 					{
-						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					},*/
 			}).done(function(response) 
@@ -106,7 +106,7 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 					type: "POST",/*
 					beforeSend: function (request)
 					{
-						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					},*/
 			}).done(function(response) 

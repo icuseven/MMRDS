@@ -167,7 +167,7 @@ function load_users()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, $mmria.getCookie("uid")).join("")
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_uid).join("")
 			+ "" + jurisdiction_render(g_jurisdiction_tree).join("");
 			;
 
@@ -196,7 +196,7 @@ function server_save(p_user)
 					type: "POST",
 					beforeSend: function (request)
 					{
-						request.setRequestHeader ("Authorization", "Basic " + btoa($mmria.getCookie("uid")  + ":" + $mmria.getCookie("pwd")));
+						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					}//,
 			}).done(function(response) 
