@@ -543,7 +543,15 @@ function add_role(p_user_id, p_created_by)
 		option_text.push(" ");
 		if(temp_user_role.effective_end_date instanceof Date)
 		{
-			option_text.push(temp_user_role.effective_end_date.toISOString());
+			if(user_role.effective_end_date != "Invalid Date")
+			{
+				option_text.push(temp_user_role.effective_end_date.toISOString());
+			}
+			else
+			{
+				option_text.push(temp_user_role.effective_end_date);
+			}
+			
 		}
 		else
 		{

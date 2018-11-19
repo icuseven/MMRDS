@@ -94,9 +94,25 @@ function user_entry_render(p_user, p_i, p_created_by)
 			result.push(" ");
 			result.push(user_role.jurisdiction_id);
 			result.push(" ");
-			result.push(user_role.effective_start_date);
+			if(user_role.effective_start_date instanceof Date && user_role.effective_start_date != "Invalid Date")
+			{
+				result.push(user_role.effective_start_date.toISOString());
+			}
+			else
+			{
+				result.push(user_role.effective_start_date);
+			}
+
 			result.push(" ");
-			result.push(user_role.effective_end_date);
+
+			if(user_role.effective_end_date instanceof Date && user_role.effective_end_date != "Invalid Date")
+			{
+				result.push(user_role.effective_end_date.toISOString());
+			}
+			else
+			{
+				result.push(user_role.effective_end_date);
+			}
 			result.push(" ");
 			result.push(user_role.is_active);
 
@@ -196,7 +212,7 @@ function render_role_list_for(p_user, p_created_by)
 			result.push(user_role.jurisdiction_id);
 			result.push(" ");
 
-			if(user_role.effective_start_date instanceof Date)
+			if(user_role.effective_start_date instanceof Date && user_role.effective_start_date != "Invalid Date")
 			{
 				result.push(user_role.effective_start_date.toISOString());
 			}
@@ -208,7 +224,7 @@ function render_role_list_for(p_user, p_created_by)
 
 			result.push(" ");
 			
-			if(user_role.effective_end_date instanceof Date)
+			if(user_role.effective_end_date instanceof Date && user_role.effective_end_date != "Invalid Date")
 			{
 				result.push(user_role.effective_end_date.toISOString());
 			}
@@ -378,7 +394,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push("<tr><td>")
 	result.push("effective_start_date");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_start_date' type='text' size=25 value='")
-	if(p_user_role_jurisdiction.effective_start_date instanceof Date)
+	if(p_user_role_jurisdiction.effective_start_date instanceof Date && p_user_role_jurisdiction.effective_start_date != "Invalid Date")
 	{
 		result.push(p_user_role_jurisdiction.effective_start_date.toISOString());
 	}
@@ -391,9 +407,10 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push("<tr><td>")
 	result.push("effective_end_date");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_end_date' type='text' size=25 value='")
-	if(p_user_role_jurisdiction.effective_end_date instanceof Date)
+	if(p_user_role_jurisdiction.effective_end_date instanceof Date && p_user_role_jurisdiction.effective_end_date != "Invalid Date")
 	{
 		result.push(p_user_role_jurisdiction.effective_end_date.toISOString());
+	
 	}
 	else
 	{

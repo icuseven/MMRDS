@@ -166,25 +166,60 @@ namespace mmria.server
 
             if(use_sams)
             {
-                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
+                {
+                    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
                         {
                                 options.LoginPath = new PathString("/Account/SignIn");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
                         });
+                }
+                else
+                {
+                    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                        options => 
+                        {
+                                options.LoginPath = new PathString("/Account/SignIn");
+                                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                                options.Cookie.SameSite = SameSiteMode.None;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+                        });
+                }
+                
             }
             else
             {
-                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                    options => 
-                    {
-                            options.LoginPath = new PathString("/Account/Login/");
-                            options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                            options.Cookie.SameSite = SameSiteMode.None;
-                    });
+                if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
+                {
+                    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                        options => 
+                        {
+                                options.LoginPath = new PathString("/Account/Login/");
+                                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                                options.Cookie.SameSite = SameSiteMode.None;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                        });
+                }
+                else
+                {
+                    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                        options => 
+                        {
+                                options.LoginPath = new PathString("/Account/Login/");
+                                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                                options.Cookie.SameSite = SameSiteMode.None;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                        });
+                }
             }
             
 
@@ -238,6 +273,9 @@ namespace mmria.server
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+
 
             //app.UseMvc();
 
