@@ -411,7 +411,14 @@ function load_user_role_jurisdiction()
           
       }
 			
-      load_profile();
+      $("#landing_page").hide();
+      $("#logout_page").hide();
+      $("#footer").hide();
+      $("#root").removeClass("header");
+
+      get_metadata();
+
+      //load_profile();
 
  
 

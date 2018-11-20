@@ -614,7 +614,14 @@ function load_user_role_jurisdiction()
       
       create_jurisdiction_list(g_jurisdiction_tree);
 
-      load_profile();
+      $("#landing_page").hide();
+      $("#logout_page").hide();
+      $("#footer").hide();
+      $("#root").removeClass("header");
+
+      get_metadata();
+
+      //load_profile();
 
  
 
