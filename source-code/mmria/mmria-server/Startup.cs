@@ -42,8 +42,10 @@ namespace mmria.server
             Program.config_geocode_api_url = "";
             //Program.config_file_root_folder = "wwwroot";       
 
+/*
              Log.Information ("sams:client_id: {0}", Configuration["sams:client_id"]);
              Log.Information ("sams:client_secret: {0}", Configuration["sams:client_secret"]);
+ */             
              Log.Information ("sams:callback_url: {0}", Configuration["sams:callback_url"]);
              Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
 
@@ -188,7 +190,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/SignIn");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
                         });
                 }
@@ -217,7 +219,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/Login/");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                         });
                 }
             }
