@@ -13,6 +13,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="style-formDesigner.css">
         <link rel="stylesheet" href="style-interact.css">
+        <link rel="stylesheet" href="style-multiselection.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -29,24 +30,29 @@
                     <!-- <h4>Form Designer</h4>
                     <hr> -->
                     <div>
-                        <button type="button" class="btn btn-raised btn-success" data-toggle="modal" data-target="#specModal">View Specs</button>
-                        <button type="button" class="btn btn-raised btn-primary" onclick="saveSpec()">Save Specs</button>
-                        <a type="button" class="btn btn-raised btn-default" href="/form-designer">< Back</a>
+                        <button type="button" class="btn btn-raised btn-success" data-toggle="modal" data-target="#specModal">View Spec</button>
+                        <button type="button" class="btn btn-raised btn-primary" onclick="saveSpec()">Save</button>
+                        <a type="button" class="btn btn-raised btn-default" href="/form-designer">Summary</a>
                     </div>
-                    <div id="real-time-container">
-                        <div class="liveSpecHeading">No Active Control Selected</div>
-                        <div class="liveSpec">Default specifications</div>
-                    </div>
-        
                     <div id="formSelector">
                         <ul id="repeatNavContainer"></ul>
                     </div>
                 </div>
         
                 <div class="col set-height">
-                    <div class="text-right">
-                        <span>Local revision # </span> <span id="local-rev" style="margin-right: 15px;"></span>
-                        <button type="button" class="btn btn-outline-warning" onclick="undoManager.undo()">Undo Last Action</button>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div id="real-time-container">
+                                <div class="liveSpecHeading">No Active Control Selected</div>
+                                <!-- <div class="liveSpec">Default specifications</div> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="text-right">
+                                <span>Local revision # </span> <span id="local-rev" style="margin-right: 15px;"></span>
+                                <button type="button" class="btn btn-outline-warning" onclick="undoManager.undo()">Undo Last Action</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="dropzone form-designer-wrapper">
                         <div class="resize-container form-designer-canvas"></div>
@@ -85,6 +91,7 @@
         <script src="../scripts/form-designer/interact-draggable.js"></script>
         <script src="../scripts/form-designer/interact-drag-dropzone.js"></script>
         <script src="../scripts/form-designer/fd-undo.js"></script>
+        <script src="../scripts/form-designer/fd-multiselection.js"></script>
         <script src="../scripts/form-designer/app.js"></script>
         <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
             crossorigin="anonymous"></script>

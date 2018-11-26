@@ -62,7 +62,6 @@ function groupFormElementsByType(caseForm) {
  */
 function populateFormDesignerCanvas(metaDataForms) {
     $(".clickTrigger").click(function () {
-        console.log(activeForm);
         activeForm = this.id;
         var caseForm = metaDataForms.find(x => x.name === this.id);
 
@@ -141,7 +140,7 @@ function buildFormElementPromptControl(fe) {
     $(".form-designer-canvas").html(inHTML);
 
     // Add style to written elements
-    styleElementsPerDefinition(fe.strings);
+    styleElementsPerDefinition(fe.strings, fe.groups);
 }
 
 /**
@@ -169,6 +168,59 @@ function styleElementsPerDefinition(fe, group = null) {
             }
         }
     });
+
+    if (group) {
+        console.log(group);
+        $.each(group, function (index, value) {
+            var tid = activeForm + '/' + value.name;
+            var gn = value.name;
+            if (tid in uiSpecification.form_design) {
+                var el = uiSpecification.form_design[tid];
+                if ('prompt' in uiSpecification.form_design[tid]) {
+                    if (el.prompt) {
+                        // set style for element prompt
+                        $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                        $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                    }
+                }
+                if ('control' in uiSpecification.form_design[tid]) {
+                    if (el.control) {
+                        // set style for element control
+                        $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                        $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
+                    }
+                }
+            }
+
+            var stringSet = $.grep(value.children, function (e) {
+                return e.type == "string";
+            });
+
+            if (stringSet.length > 0) {
+                $.each(stringSet, function (index, value) {
+                    var eid = tid + '/' + value.name;
+                    var jeid = gn + '__' + value.name;
+                    if (eid in uiSpecification.form_design) {
+                        var el = uiSpecification.form_design[eid];
+                        if ('prompt' in uiSpecification.form_design[eid]) {
+                            if (el.prompt) {
+                                // set style for element prompt
+                                $('#' + jeid).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                                $('#' + jeid).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                            }
+                        }
+                        if ('control' in uiSpecification.form_design[eid]) {
+                            if (el.control) {
+                                // set style for element control
+                                $('#' + jeid + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                                $('#' + jeid + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
+                            }
+                        }
+                    }
+                })
+            }
+        });
+    }
 
 }
 function writeActionSpecs(val, obj) {

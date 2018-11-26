@@ -199,3 +199,9 @@ function writeLocalRevision() {
   	$("#local-rev").html(html);
 }
 
+// new Selectables({
+// 	elements: 'div',
+// 	zone: 'div.form-designer-canvas',
+// 	selectedClass: 'pselect'
+// });
+

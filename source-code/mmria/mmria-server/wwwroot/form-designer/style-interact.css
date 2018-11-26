@@ -1,5 +1,5 @@
 .resize-drag {
-    background-color: rgb(143, 195, 233);
+    /* background-color: rgb(143, 195, 233); */
     color: white;
     font-size: 14px;
     font-family: sans-serif;
@@ -51,14 +51,15 @@
     min-width: 40px;
     padding: 12px;
     color: #212529;
-    background-color: #dee2e6;
+    /*background-color: #dee2e6;*/
     -webkit-transform: translate(0px, 0px);
     transform: translate(0px, 0px);
     transition: background-color 0.3s;
 }
 
 .drag-drop:hover {
-    background: #90b9b5;
+    /* background: #90b9b5; */
+    background-color: rgb(144, 185, 181, 0.2)
 }
 
 .drag-drop.can-drop {
