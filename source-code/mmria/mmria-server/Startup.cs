@@ -177,7 +177,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/SignIn");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                                //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
                         });
                 }
@@ -190,7 +190,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/SignIn");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                               // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
                         });
                 }
@@ -207,7 +207,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/Login/");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                                //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                         });
                 }
                 else
@@ -219,7 +219,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/Login/");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                               // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                         });
                 }
             }

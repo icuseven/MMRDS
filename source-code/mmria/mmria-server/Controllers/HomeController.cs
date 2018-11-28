@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 
 namespace mmria.server.Controllers
@@ -17,19 +18,14 @@ namespace mmria.server.Controllers
     {
 
 
-/*
-		private IHttpContextAccessor _accessor;
-        private ActorSystem _actorSystem;
 
-        private passwordChangeController passwordChange;
-
-		public HomeController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, passwordChangeController p_c)
+		private IConfiguration _config;
+        
+        		public HomeController(IConfiguration p_config)
         {
-            _accessor = httpContextAccessor;
-            _actorSystem = actorSystem;
-            passwordChange = p_c;
+            _config = p_config;
         }
- */
+
         //[AllowAnonymous] 
         public async Task<IActionResult> Index()
         {
@@ -84,6 +80,7 @@ namespace mmria.server.Controllers
 				}
 			}
 
+			ViewBag.sams_is_enabled = _config["sams:is_enabled"];
             ViewBag.days_til_password_expires = days_til_password_expires;
 			ViewBag.config_password_days_before_expires = password_days_before_expires;
 

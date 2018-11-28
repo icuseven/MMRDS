@@ -50,7 +50,7 @@ function load_user_role_jurisdiction()
       var role_list_html = [];
 
       role_list_html.push("<p>[ " + g_uid + " ] ");
-      if(g_config_password_days_before_expires > 0)
+      if(g_sams_is_enabled.toLowerCase() != "true" && g_config_password_days_before_expires > 0)
       {
         if(g_days_til_password_expires >= 0)
         {

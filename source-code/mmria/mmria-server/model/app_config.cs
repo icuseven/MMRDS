@@ -24,6 +24,10 @@ namespace mmria.server.model
             public int? password_days_before_user_is_notified_of_expiration {get; set;} = 0;
             public bool? EMAIL_USE_AUTHENTICATION {get; set;} = false;
             public bool? EMAIL_USE_SSL {get; set;} = false;
+
+            public bool? is_development {get; set;} = false;
+
+            public bool? sams_is_enabled {get; set;} = false;
             public string SMTP_HOST {get; set;} = null;
             public int? SMTP_PORT {get; set;} = 25;
             public string EMAIL_FROM {get; set;} = null;

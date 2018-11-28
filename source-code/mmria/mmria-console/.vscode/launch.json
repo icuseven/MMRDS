@@ -12,11 +12,11 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/mmria-console.dll",
             "args": [
-                "import",
-                "user_name:user1",
-                "password:password",
-                "source_file_path:C:/temp/mmria-import/",
-                "url:http://demo.mmria.org"
+                "restore",
+                "user_name:mmrds",
+                "password:mmrds",
+                "database_url:http://172.17.0.1:5984/de_id",
+                "backup_file_path:/workspace/bk-de_id.bk"
             ],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
