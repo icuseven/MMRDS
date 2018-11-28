@@ -244,6 +244,10 @@
         {
           "description": "",
           "value": "VI- Virgin Islands"
+        },
+        {
+          "description": "",
+          "value": "new value"
         }
       ]
     },
@@ -1887,6 +1891,18 @@
           "value": "31"
         }
       ]
+    },
+    {
+      "prompt": "list prompt",
+      "name": "new_list_name",
+      "type": "list",
+      "values": []
+    },
+    {
+      "prompt": "list prompt",
+      "name": "new_list_name",
+      "type": "list",
+      "values": []
     }
   ],
   "global": {
@@ -1937,11 +1953,11 @@
       "type": "form",
       "cardinality": "1",
       "children": [
-				{
-					"prompt": "jurisdiction",
-					"name": "jurisdiction_id",
-					"type": "jurisdiction"
-				},
+        {
+          "prompt": "jurisdiction",
+          "name": "jurisdiction_id",
+          "type": "jurisdiction"
+        },
         {
           "prompt": "First Name",
           "name": "first_name",
@@ -13843,11 +13859,6 @@
           "prompt": "<span><strong> Information</strong> About the Informant</span>",
           "name": "information_about_the_informant",
           "type": "label"
-        },
-        {
-          "prompt": "Informant Name",
-          "name": "informant_name",
-          "type": "string"
         },
         {
           "prompt": "Age Group",
