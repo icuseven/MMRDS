@@ -98,15 +98,15 @@ namespace mmria.server
 					id_val = temp_id.ToString();
 				}
 
-
-				if(!byName.ContainsKey("jurisdiction_id"))
+				var home_record = (IDictionary<string,object>)byName["home_record"];
+				if(!home_record.ContainsKey("jurisdiction_id"))
 				{
-					byName.Add("jurisdiction_id", "/");
+					home_record.Add("jurisdiction_id", "/");
 				}
 
-				if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, byName["jurisdiction_id"].ToString()))
+				if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
 				{
-					Console.Write($"unauthorized PUT {byName["jurisdiction_id"]}: {byName["_id"]}");
+					Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
 					return result;
 				}
 

@@ -123,9 +123,9 @@ var g_ui = {
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
-    result.created_by = profile.user_name;
+    result.created_by = g_uid;
     result.date_last_updated = new Date();
-    result.last_updated_by = profile.user_name;
+    result.last_updated_by = g_uid;
 
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
@@ -1073,7 +1073,7 @@ function open_aggregate_report_version(p_section)
 
 	window.setTimeout(function()
 	{
-		report_window.load_data(profile.user_name, profile.password)
+		report_window.load_data(g_uid, profile.password)
 	}, 1000);	
 }
 
@@ -1085,7 +1085,7 @@ function open_export_queue()
 
 	window.setTimeout(function()
 	{
-		export_queue_window.load_data(profile.user_name, profile.password)
+		export_queue_window.load_data(g_uid, profile.password)
 	}, 1000);	
 }
 

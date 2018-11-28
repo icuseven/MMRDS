@@ -45,7 +45,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
       g_data.date_last_updated = new Date();
-      g_data.last_updated_by = profile.user_name;
+      g_data.last_updated_by = g_uid;
 		
       g_change_stack.push({
         object_path : p_object_path,
@@ -115,7 +115,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, value)
       });
 
       g_data.date_last_updated = new Date();
-      g_data.last_updated_by = profile.user_name;
+      g_data.last_updated_by = g_uid;
 
       set_local_case(g_data, function (){
 
@@ -288,10 +288,18 @@ var g_ui = {
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
-    result.created_by = profile.user_name;
+    result.created_by = g_uid;
     result.date_last_updated = new Date();
-    result.last_updated_by = profile.user_name;
+    result.last_updated_by = g_uid;
 
+    if(g_jurisdiction_list.length > 0)
+    {
+      result.home_record.jurisdiction_id = g_jurisdiction_list[0];
+    }
+    else
+    {
+      result.home_record.jurisdiction_id = "/";
+    }
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
 		var new_data = [];
@@ -902,20 +910,18 @@ function window_on_hash_change(e)
 function get_specific_case(p_id)
 {
 
-
-
-    
-
     var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
     $.ajax({
       url: case_url,
-    }).done(function(case_response) {
-    
+    }).done(function(case_response) 
+    {
+      if(case_response)
+      {
         var local_data = get_local_case(p_id);
 
         if(local_data)
         {
-            if(local_data._rev == case_response._rev)
+            if(local_data._rev && local_data._rev == case_response._rev)
             {
                 g_data = local_data;
             }
@@ -945,6 +951,11 @@ function get_specific_case(p_id)
           g_data = case_response;
         }
         g_render();
+      }
+      else
+      {
+        g_render();
+      }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
       console.log( "get_specific_case:",  textStatus, errorThrown);
@@ -1320,7 +1331,7 @@ function open_aggregate_report_version(p_section)
 
 	window.setTimeout(function()
 	{
-		report_window.load_data(profile.user_name, profile.password)
+		report_window.load_data(g_uid, profile.password)
 	}, 1000);	
 }
 
@@ -1332,7 +1343,7 @@ function open_export_queue()
 
 	window.setTimeout(function()
 	{
-		export_queue_window.load_data(profile.user_name, profile.password)
+		export_queue_window.load_data(g_uid, profile.password)
 	}, 1000);	
 }
 

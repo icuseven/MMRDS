@@ -128,17 +128,21 @@ by_state_of_death
                     mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
                     result.offset = case_view_response.offset;
                     result.total_rows = case_view_response.total_rows;
+                    
 
                     foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                     {
                         bool is_jurisdiction_ok = false;
+
+                        if(cvi.value.jurisdiction_id == null)
+                        {
+                            cvi.value.jurisdiction_id = "/";
+                        }
+
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
                             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-                            if(cvi.value.jurisdiction_id == null)
-                            {
-                                cvi.value.jurisdiction_id = "/";
-                            }
+
 
                             if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
                             {
@@ -149,6 +153,8 @@ by_state_of_death
 
                         if(is_jurisdiction_ok) result.rows.Add (cvi);
                     }
+                    
+                    result.total_rows = result.rows.Count;
 
                     return result;
                 } 

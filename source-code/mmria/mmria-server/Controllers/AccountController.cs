@@ -464,6 +464,7 @@ namespace mmria.server.Controllers
             
             ViewBag.days_til_password_expires = days_til_password_expires;
             ViewBag.config_password_days_before_expires = password_days_before_expires;
+            ViewBag.sams_is_enabled = _configuration["sams:is_enabled"];
 
             return View();
         }

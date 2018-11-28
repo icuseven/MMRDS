@@ -101,7 +101,7 @@ function load_user_role_jurisdiction()
             if(value.effective_end_date && value.effective_end_date != "")
             {
               effective_end_date = value.effective_end_date.split('T')[0];
-              diffDays = Math.round(Math.abs((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay)));
+              diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
               
             }
 
@@ -117,7 +117,15 @@ function load_user_role_jurisdiction()
             
             role_list_html.push("<td>" + value.role_name + "</td>");
             role_list_html.push("<td>" + value.jurisdiction_id + "</td>");
-            role_list_html.push("<td>" + value.is_active + "</td>");
+            if(diffDays < 0)
+            {
+              role_list_html.push("<td>false</td>");
+            }
+            else
+            {
+              role_list_html.push("<td>" + value.is_active + "</td>");
+            }
+            
             role_list_html.push("<td>" + effective_start_date + "</td>");
             role_list_html.push("<td>" + effective_end_date + "</td>");
             role_list_html.push("<td align='right'>" + diffDays + "</td>");
