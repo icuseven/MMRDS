@@ -139,14 +139,12 @@ namespace mmria.server.util
 			}
 			
 			var jurisdiction_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(jurisdicion_result_string);
+            
+            var now = DateTime.Now;
             foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> jvi in jurisdiction_view_response.rows)
             {
-                if(jvi.key!=null)
+                if(jvi.key!=null && jvi.key == user_name)
                 {
-                    
-
-                    var now = DateTime.Now;
-
                     if(jvi.value.is_active != null && jvi.value.is_active.HasValue && jvi.value.is_active.Value)
                     {
 
