@@ -143,7 +143,41 @@ namespace mmria.server.util
             {
                 if(jvi.key!=null)
                 {
-                    result.Add(jvi.value.jurisdiction_id);
+                    
+
+                    var now = DateTime.Now;
+
+                    if(jvi.value.is_active != null && jvi.value.is_active.HasValue && jvi.value.is_active.Value)
+                    {
+
+                        bool add_item = true;
+                        
+                        if(jvi.value.effective_start_date != null && jvi.value.effective_start_date.HasValue)
+                        {
+                            if(jvi.value.effective_start_date > now)
+                            {
+                                add_item = false;
+                            }
+                            
+                        }
+
+                        if(jvi.value.effective_end_date != null && jvi.value.effective_end_date.HasValue)
+                        {
+                            
+                            if(jvi.value.effective_end_date.Value < now)
+                            {
+                                add_item = false;
+                            }
+                            
+                        }
+
+                        if(add_item)
+                        {
+                            result.Add(jvi.value.jurisdiction_id);
+                        }
+                        
+
+                    }
                 }
                 
             }

@@ -151,7 +151,7 @@ effective_end_date
 
                         if(is_jurisdiction_ok) result.rows.Add (cvi);
                     }
-
+                    result.total_rows = result.rows.Count;
                     return result;
                 } 
                 else 
