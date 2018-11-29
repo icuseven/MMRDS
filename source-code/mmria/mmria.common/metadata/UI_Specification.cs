@@ -5,6 +5,7 @@ namespace mmria.common.metadata
 {
     public class Dimension
     {
+        public string style { get; set; }
         public float? x { get; set; }
         public float? y { get; set; }
         public float? width { get; set; }
@@ -24,7 +25,11 @@ namespace mmria.common.metadata
             this.form_design = new Dictionary<string, Dimension_Object>(StringComparer.OrdinalIgnoreCase);
         }
         public string _id { get; set; }
-		public string _rev { get; set; }
+
+        public string _rev { get; set; }
+
+        public string css { get; set; }
+		
 		public string data_type { get; set; }
 		public string date_created { get; set; } 
 		public string created_by { get; set; } 
