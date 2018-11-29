@@ -102,10 +102,8 @@ namespace mmria.server.util
                     if
                     (
                         !jvi.value.is_active.Value ||
-                        !(
-                            jvi.value.effective_start_date.Value <= now_date ||
-                            now_date <= jvi.value.effective_end_date.Value
-                        )
+                        !(jvi.value.effective_start_date.Value <= now_date) ||
+                        !(now_date <= jvi.value.effective_end_date.Value)
                     )
                     {
                         continue;

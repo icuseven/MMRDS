@@ -23,30 +23,30 @@ namespace mmria.server.util
 
             var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
            
-            var byName = (IDictionary<string,object>)p_case_expando_object;
-
-            if(byName.ContainsKey("jurisdiction_id"))
+            dynamic byName = (IDictionary<string,object>)p_case_expando_object;
+            if(byName.home_record == null)
             {
-
-                var regex = new System.Text.RegularExpressions.Regex("^" + @byName["jurisdiction_id"]);
-                foreach(var jurisdiction_item in  jurisdiction_hashset)
-                {
-                    if
-                    (
-                        regex.IsMatch(jurisdiction_item.jurisdiction_id) && 
-                        p_resoure_right_enum ==  jurisdiction_item.ResourceRight
-                    )
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-
+                byName.home_record = new Dictionary<string,object>();
             }
-            else
+
+            if(byName.home_record._id == null)
             {
-                byName.Add("jurisdiction_id", "/");
-                result = true;
+                byName.home_record._id = "/";
+            }
+
+            var regex = new System.Text.RegularExpressions.Regex("^" + byName.home_record._id);
+            foreach(var jurisdiction_item in  jurisdiction_hashset)
+            {
+                if
+                (
+                    regex.IsMatch(jurisdiction_item.jurisdiction_id) && 
+                    p_resoure_right_enum ==  jurisdiction_item.ResourceRight
+                )
+                {
+                    
+                    result = true;
+                    break;
+                }
             }
 
             return result;
