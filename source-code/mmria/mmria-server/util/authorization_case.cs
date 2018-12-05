@@ -29,12 +29,12 @@ namespace mmria.server.util
                 byName.home_record = new Dictionary<string,object>();
             }
 
-            if(byName.home_record._id == null)
+            if(byName.home_record.jurisdiction_id == null)
             {
-                byName.home_record._id = "/";
+                byName.home_record.jurisdiction_id = "/";
             }
 
-            var regex = new System.Text.RegularExpressions.Regex("^" + byName.home_record._id);
+            var regex = new System.Text.RegularExpressions.Regex("^" + byName.home_record.jurisdiction_id);
             foreach(var jurisdiction_item in  jurisdiction_hashset)
             {
                 if
