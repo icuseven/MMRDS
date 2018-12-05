@@ -34,12 +34,13 @@ namespace mmria.server.util
                 byName.home_record.jurisdiction_id = "/";
             }
 
-            var regex = new System.Text.RegularExpressions.Regex("^" + byName.home_record.jurisdiction_id);
+            
             foreach(var jurisdiction_item in  jurisdiction_hashset)
             {
+                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
                 if
                 (
-                    regex.IsMatch(jurisdiction_item.jurisdiction_id) && 
+                    regex.IsMatch(byName.home_record.jurisdiction_id) && 
                     p_resoure_right_enum ==  jurisdiction_item.ResourceRight
                 )
                 {
