@@ -194,7 +194,8 @@ function change_password_user_click()
 			{
 				//document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
 				document.getElementById('message_area').innerHTML = "new password saved";
-				//console.log("password saved sent", response);
+				document.getElementById('new_password').value = "";
+				document.getElementById('confirm_password').value = "";
 			}
 		});
 		
