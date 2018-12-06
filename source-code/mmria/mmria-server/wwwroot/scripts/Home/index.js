@@ -22,11 +22,29 @@ $(function ()
 
   $.datetimepicker.setLocale('en');
 
-
-  load_user_role_jurisdiction();
+  get_metadata();
+ 
   
   
 });
+
+function get_metadata()
+{
+  document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
+
+  	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+	}).done(function(response) {
+			g_metadata = response;
+      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
+      default_object =  create_default_object(g_metadata, {});
+
+
+      load_user_role_jurisdiction();
+
+	});
+}
+
 
 
 function load_user_role_jurisdiction()
@@ -155,7 +173,6 @@ function load_profile()
       $("#logout_page").hide();
       $("#footer").hide();
       $("#root").removeClass("header");
-      get_metadata();
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)
@@ -169,17 +186,8 @@ function load_profile()
       //$("#landing_page").show();
       $("#root").addClass("header");
       $("#footer").show();
-      if
-      (
-          profile.user_roles && profile.user_roles.length > 0 && 
-          profile.user_roles.indexOf("_admin") < 0 &&
-          profile.user_roles.indexOf("committee_member") < 0
-      )
-      {
-        //replicate_db_and_log_out(p_user_name, p_password);
-      }
 
-       document.getElementById('navbar').innerHTML = "";
+      document.getElementById('navbar').innerHTML = "";
       document.getElementById('form_content_id').innerHTML ="";
 
 
