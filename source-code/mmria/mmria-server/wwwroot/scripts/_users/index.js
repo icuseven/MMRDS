@@ -406,6 +406,16 @@ function is_valid_user_name(p_value)
 		result = false;
 	}
 
+
+	for(var i in g_ui.user_summary_list)
+	{
+		if(g_ui.user_summary_list[i]._id.toLowerCase() == "org.couchdb.user:" + p_value.toLowerCase())
+		{
+			result = false;
+			break;
+		}
+	}
+
 	return result;
 }
 
