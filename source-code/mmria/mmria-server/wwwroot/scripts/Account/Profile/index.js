@@ -148,16 +148,21 @@ function load_user_role_jurisdiction()
 function render_password()
 {
   var result = [];
-  
-	result.push("<table>");
-	result.push("<tr><th colspan=2>Change Password</th></tr>");
-	result.push("<tr><td>New Password</td><td><input id='new_password' type='password' value=''  /></td></tr>");
-	result.push("<tr><td>Verify Password</td><td><input id='confirm_password' type='password' value=''  /></td></tr>");
-	result.push("<tr><td>&nbsp;</td><td><input type='button' value='Update password' onclick='change_password_user_click()'/></td></tr>");
-	result.push("<tr><td>&nbsp;</td><td id='message_area'></td></tr>");
+	if(g_sams_is_enabled != "True")
+	{
+		result.push("<table>");
+		result.push("<tr><th colspan=2>Change Password</th></tr>");
+		result.push("<tr><td>New Password</td><td><input id='new_password' type='password' value=''  /></td></tr>");
+		result.push("<tr><td>Verify Password</td><td><input id='confirm_password' type='password' value=''  /></td></tr>");
+		result.push("<tr><td>&nbsp;</td><td><input type='button' value='Update password' onclick='change_password_user_click()'/></td></tr>");
+		result.push("<tr><td>&nbsp;</td><td id='message_area'></td></tr>");
 
-  result.push("</table>");
-  
+		result.push("</table>");
+	}
+	else
+	{
+		result.push("&nbsp;")
+	}
   return result;
 }
 
@@ -168,11 +173,10 @@ function change_password_user_click()
 	var new_user_password = document.getElementById('new_password').value;
 	var new_confirm_password = document.getElementById('confirm_password').value;
 
-	if(
+	if
+	(
 		new_user_password == new_confirm_password &&
-		is_valid_password(new_user_password) && 
-		is_valid_password(new_confirm_password)
-		
+		is_valid_password(new_user_password) 
 	)
 	{
 
@@ -194,7 +198,8 @@ function change_password_user_click()
 			{
 				//document.getElementById('form_content_id').innerHTML = user_render(g_ui, "", g_ui).join("");
 				document.getElementById('message_area').innerHTML = "new password saved";
-				//console.log("password saved sent", response);
+				document.getElementById('new_password').value = "";
+				document.getElementById('confirm_password').value = "";
 			}
 		});
 		
@@ -232,7 +237,7 @@ function is_valid_password(p_value)
 {
 	var result = true;
 
-    var valid_character_re = /^[a-zA-Z0-9!@#$\%\?\* ]+$/g;
+    var valid_character_re = /^[a-zA-Z0-9!@#$\%\?\* \-]+$/g;
 
 	if(
 		p_value &&

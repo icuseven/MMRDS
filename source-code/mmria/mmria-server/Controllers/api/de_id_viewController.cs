@@ -139,7 +139,7 @@ by_state_of_death
                                 cvi.value.jurisdiction_id = "/";
                             }
 
-                            if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+                            if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadDeidentifiedCase)
                             {
                                 is_jurisdiction_ok = true;
                                 break;
@@ -148,6 +148,8 @@ by_state_of_death
 
                         if(is_jurisdiction_ok) result.rows.Add (cvi);
                     }
+
+                    result.total_rows = result.rows.Count;
 
                     return result;
                 } 
@@ -215,7 +217,7 @@ by_state_of_death
                         foreach(var jurisdiction_item in jurisdiction_hashset)
                         {
                             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-                            if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+                            if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadDeidentifiedCase)
                             {
                                 is_jurisdiction_ok = true;
                                 break;

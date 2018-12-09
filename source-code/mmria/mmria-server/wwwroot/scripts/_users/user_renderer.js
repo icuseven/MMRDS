@@ -18,8 +18,13 @@ function user_render(p_ui, p_created_by)
 	result.push("<tr><td colspan=6 align=right>&nbsp;</tr>");
 	result.push("<tr><td colspan=6 align=right>");
 	result.push("Enter new user name:<input type='text' id='new_user_name' value=''/><br/>");
-	result.push("Password: <input type='text' id='new_user_password' value=''/><br/>");
-	result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
+
+	if(g_policy_values.sams_is_enabled != "True")
+	{
+		result.push("Password: <input type='text' id='new_user_password' value=''/><br/>");
+		result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
+	}
+	
 	result.push("<input type='button' value='add new user' onclick='add_new_user_click()' /><br/>");
 	result.push("<span id='new_user_status_area'>");
 	result.push("</span></tr>");
@@ -56,13 +61,20 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push("</td><td>");
 
 	result.push("<td>");
-	result.push("<strong>");
-	result.push(p_user.name);
-	result.push("</strong><br/>");
-	result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
-	result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
-	result.push("<br/><input type='button' value='Update password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
 
+	if(g_policy_values.sams_is_enabled != "True")
+	{
+		result.push("<strong>");
+		result.push(p_user.name);
+		result.push("</strong><br/>");
+		result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
+		result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
+		result.push("<br/><input type='button' value='Update password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+	}
+	else
+	{
+		result.push("&nbsp;")
+	}
 	
 
 

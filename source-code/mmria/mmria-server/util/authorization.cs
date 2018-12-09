@@ -116,7 +116,7 @@ namespace mmria.server.util
                             result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteCase));
                             result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                             break;
-                        case "committe_member":
+                        case "committee_member":
                             result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadDeidentifiedCase));
                             result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                             break;

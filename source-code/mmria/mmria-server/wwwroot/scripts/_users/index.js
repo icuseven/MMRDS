@@ -219,8 +219,21 @@ function server_save(p_user)
 function add_new_user_click()
 {
 	var new_user_name = document.getElementById('new_user_name').value;
-	var new_user_password = document.getElementById('new_user_password').value;
-	var new_user_verify= document.getElementById('new_user_verify').value;
+	var new_user_password = null;
+	var new_user_verify= null;
+
+	if(g_policy_values.sams_is_enabled == "True")
+	{
+		new_user_password = $mmria.get_new_guid().replace("-","");
+		new_user_verify = new_user_password;
+	}
+	else
+	{
+		new_user_password = document.getElementById('new_user_password').value;
+		new_user_verify= document.getElementById('new_user_verify').value;
+	}
+
+
 	var user_id = null;
 	if(is_valid_user_name(new_user_name))
 	{
@@ -228,9 +241,7 @@ function add_new_user_click()
 		if
 		(
 			new_user_password == new_user_verify &&
-			is_valid_password(new_user_password) && 
-			is_valid_password(new_user_verify)
-			
+			is_valid_password(new_user_password)
 		)
 		{
 
@@ -308,9 +319,7 @@ function change_password_user_click(p_user_id)
 
 	if(
 		new_user_password == new_confirm_password &&
-		is_valid_password(new_user_password) && 
-		is_valid_password(new_confirm_password)
-		
+		is_valid_password(new_user_password)
 	)
 	{
 
@@ -397,6 +406,16 @@ function is_valid_user_name(p_value)
 		result = false;
 	}
 
+
+	for(var i in g_ui.user_summary_list)
+	{
+		if(g_ui.user_summary_list[i]._id.toLowerCase() == "org.couchdb.user:" + p_value.toLowerCase())
+		{
+			result = false;
+			break;
+		}
+	}
+
 	return result;
 }
 
@@ -404,7 +423,7 @@ function is_valid_password(p_value)
 {
 	var result = true;
 
-    var valid_character_re = /^[a-zA-Z0-9!@#$\%\?\* ]+$/g;
+    var valid_character_re = /^[a-zA-Z0-9!@#$\%\?\* \-]+$/g;
 
 
 	if(
