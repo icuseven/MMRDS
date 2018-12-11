@@ -6,26 +6,14 @@
 		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> @UserName</a>
 		<ul class="dropdown-menu" role="menu">
 
-      <form id="profile_form2" action="/Account/Logout" method="POST">
-      <div class="form-group" id="profile_content_id">
-      <li>
-        
-          <span class="input-group-addon">
-          <img  class="navbar-brand" src="images/mmria-secondary.svg" height=55 width=100 style="padding: 1px 1px;" />
-          </span>
-      </li>
-
-      <li><strong>Welcome!</strong> 
-      <li><strong>User:</strong>@Html.Raw(System.Web.HttpUtility.HtmlEncode(UserName))</li>
-      <li><strong>ROLES:</strong><ul>
-      @foreach(var role_claim in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
-      {
-        <li>@role_claim.Value</li>
-      }
+    <form id="profile_form2" action="/Account/Logout" method="POST">
+      
     <li>
+      <div class="form-group" id="profile_content_id">
       <input name="submit" value="Log Out" type="submit" />
+      </div>
 		</li>
-    </div>
+    
 		</form>
 		</ul>
 } 
