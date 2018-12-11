@@ -214,13 +214,7 @@
       <p>&nbsp;</p>
             <!--img src="img/mmrai_landing_logo1.png" style="padding: 1px 1px; height: 200px; width: 400px; border: 1px solid black;" /-->
     </div>
-    <footer id="footer" class="navbar navbar-default navbar-fixed-bottom">
-            <div class="col-md-6 col-sm-6 col-xs-12" style="color:white;align:right;">
-                    <%=version%>
-                </div>
-    
-    
-    </footer>
+    @await Html.PartialAsync("_Footer")
   </main>
   
   </body>

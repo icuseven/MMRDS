@@ -109,10 +109,7 @@
           @RenderBody()
         </main>
 
-        <footer id="footer" class="navbar navbar-default navbar-fixed-bottom">
-            
-                    <%=version%>
-        </footer>
+        @await Html.PartialAsync("_Footer")
     
     
     </div>
