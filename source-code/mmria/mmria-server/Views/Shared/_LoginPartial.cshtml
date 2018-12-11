@@ -5,6 +5,7 @@
 
 		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> @UserName</a>
 		<ul class="dropdown-menu" role="menu">
+
       <form id="profile_form2" action="/Account/Logout" method="POST">
       <div class="form-group" id="profile_content_id">
       <li>
@@ -24,7 +25,6 @@
     <li>
       <input name="submit" value="Log Out" type="submit" />
 		</li>
-		<div><%=version%></div>
     </div>
 		</form>
 		</ul>
@@ -49,8 +49,6 @@ else
         Password: <input name="password" type="password" />
         <input name="submit" value="Login" type="submit" />
         <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
-   
-        <div><%=version%></div>
       </div>
 		</li>    
     </form>

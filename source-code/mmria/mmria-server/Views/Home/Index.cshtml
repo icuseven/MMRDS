@@ -58,33 +58,6 @@ var g_uid = '@userName';
 var g_days_til_password_expires = '@ViewBag.days_til_password_expires';
 var g_config_password_days_before_expires = '@ViewBag.config_password_days_before_expires';
 var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
-    /*
-var g_metadata = null;
-var default_object = null;
-
-function open_blank_version(p_section)
-{
-
-
-	var blank_window = window.open('./print-version','_blank_version',null,false);
-
-	window.setTimeout(function()
-	{
-		blank_window.create_print_version(g_metadata, default_object, p_section)
-	}, 1000);	
-}
-*/
-
-function get_metadata()
-{
-  	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
-	}).done(function(response) {
-			g_metadata = response;
-      default_object =  create_default_object(g_metadata, {});
-    });
-}
-
 
 </script>
 

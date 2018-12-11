@@ -30,18 +30,13 @@ $(function ()
 
 function get_metadata()
 {
-  document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
   	$.ajax({
 			url: location.protocol + '//' + location.host + '/api/metadata',
 	}).done(function(response) {
 			g_metadata = response;
-      metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
-
-
       load_user_role_jurisdiction();
-
 	});
 }
 

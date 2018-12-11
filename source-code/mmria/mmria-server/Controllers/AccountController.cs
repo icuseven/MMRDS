@@ -381,9 +381,23 @@ namespace mmria.server.Controllers
                     AllowRefresh = false,
                 }
             );
+
+            if
+            (
+                !string.IsNullOrWhiteSpace(_configuration["sams:is_enabled"])  &&
+                _configuration["sams:is_enabled"].ToLower() == "true" 
+            )
+            {
+                return Redirect("https://auth-stg.cdc.gov/errors/globallogout.asp");
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            
             //Response.Cookies.Delete("uid");
             //Response.Cookies.Delete("roles");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
