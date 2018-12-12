@@ -18,16 +18,16 @@
         }
 
   #header {
-    background-color: #351147;
+    /*background-color: #351147; */
     border: 0px;
-    height:  50px;
+    height:  70px;
     padding: 20px 0;
     transition: all 0.3s;
     color: #FFFFFF;
     
   }        
 
-  td {color: #FFFFFF;}
+  /* td {color: #FFFFFF;} */
   table { margin-left: auto; }
 
   #footer {
@@ -51,12 +51,34 @@
     margin-left: auto;
     margin-right: auto;
     /*width: 50%;*/
+  
 }
+
+.cdcSlimFooter#footer {
+    background: #fff;
+    overflow: visible;
+}
+
+
+#footer {
+    background-color: #f0f0f0;
+    border-top-width: 1px;
+    overflow: hidden;
+    position: relative;
+    min-height: 200px;
+}
+
 </style>
 </head>
 <body>
 <div class="grid">
-    <div id="header">
+    <header id="header">
+    <span>
+    <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
+	    <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
+	</a>
+    
+    
         @model ApplicationUser
         @{
             <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
@@ -68,8 +90,9 @@
                 <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
                 
             </form>
-        }        
-    </div>
+        }     
+    </span>
+    </header>
     <div id="content">
         <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
         <p><img class="center" src="/img/mmrai_landing_logo1.png" width=821.25 height=665.25/></p>

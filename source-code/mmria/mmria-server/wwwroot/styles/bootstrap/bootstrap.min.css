@@ -180,7 +180,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
     cursor: pointer;
     color: #ffffff;
  
-background-color: #48ceb9;
+/*background-color: #48ceb9;*/
+background-color: #097564;
 
  
     font-size: 17px;
@@ -1500,12 +1501,14 @@ input, button, select, textarea {
 }
 
 a {
-    color: #a088e4;
+    /*color: #a088e4;*/
+    color: #351147;
     text-decoration: none
 }
 
     a:hover, a:focus {
-        color: #a088e4;
+        /*color: #a088e4;*/
+        color: #351147;
         text-decoration: underline
     }
 
@@ -8234,7 +8237,7 @@ border-radius: 4px;
 
 select, select.form-control {
 
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAJ1BMVEVmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmaP/QSjAAAADHRSTlMAAgMJC0uWpKa6wMxMdjkoAAAANUlEQVR4AeXJyQEAERAAsNl7Hf3X6xt0QL6JpZWq30pdvdadme+0PMdzvHm8YThHcT1H7K0BtOMDniZhWOgAAAAASUVORK5CYII=);
+    /*background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAJ1BMVEVmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmaP/QSjAAAADHRSTlMAAgMJC0uWpKa6wMxMdjkoAAAANUlEQVR4AeXJyQEAERAAsNl7Hf3X6xt0QL6JpZWq30pdvdadme+0PMdzvHm8YThHcT1H7K0BtOMDniZhWOgAAAAASUVORK5CYII=);*/
     -webkit-background-size: 13px 13px;
     background-size: 23px;
     background-repeat: no-repeat;
