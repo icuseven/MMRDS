@@ -8316,10 +8316,11 @@ select option1{
 
 select option {
     margin: 1px;
-    background: rgba(0, 0, 0, 0.3);
+    /*background: rgba(20, 20, 20, 0.3);
+    background: rgba(00, 00, 00, 0.3);
     color: #fff;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-    background-color: #7F7E80;
+    background-color: rgb(17, 16, 17);*/
     }
   
 
@@ -8339,13 +8340,13 @@ select option {
     select:focus, select.form-control:focus {
         -webkit-box-shadow: inset 0 -2px 0 #a088e4;
         box-shadow: inset 0 -2px 0 #a088e4;
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAJ1BMVEUhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISF8S9ewAAAADHRSTlMAAgMJC0uWpKa6wMxMdjkoAAAANUlEQVR4AeXJyQEAERAAsNl7Hf3X6xt0QL6JpZWq30pdvdadme+0PMdzvHm8YThHcT1H7K0BtOMDniZhWOgAAAAASUVORK5CYII=)
+        /*background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAJ1BMVEUhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISF8S9ewAAAADHRSTlMAAgMJC0uWpKa6wMxMdjkoAAAANUlEQVR4AeXJyQEAERAAsNl7Hf3X6xt0QL6JpZWq30pdvdadme+0PMdzvHm8YThHcT1H7K0BtOMDniZhWOgAAAAASUVORK5CYII=)*/
     }
 
     select[multiple], select.form-control[multiple] {
         /* background: none */
         width: auto;
-        background-color: #7f7e80;
+        /*background-color: #010115;*/
     }
 
 .radio label, .radio-inline label, .checkbox label, .checkbox-inline label {

@@ -12,6 +12,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     // p_result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
+    p_result.push("<label for='search_text_box'>Search Text</label>");
     p_result.push("Search Text: <input type='text1' class='form-control1' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
     if(g_ui.case_view_request.search_key!= null)
     {
@@ -34,9 +35,11 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     // p_result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
+    p_result.push("<label for='search_command_button'>Execute Search</label>");
     p_result.push("<input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 
 
+    p_result.push("<label for='search_sort_by'>Sort By</label>");
     p_result.push("<br/> Sort By:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
@@ -173,6 +176,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     }
     p_result.push("</select>");
 
+    p_result.push("<label for='sort_decending'>Is Sort Decending?</label>");
     p_result.push(" Sort Descending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
     if(p_ui.case_view_request.descending)
     {
@@ -183,6 +187,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     p_result.push("<br/>");
+    p_result.push("<label for='search_records_per_page'>Records per page</label>");
     p_result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
     if(p_ui.case_view_request.take==25)
     {
@@ -233,7 +238,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     // p_result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
-
+    p_result.push("<label for='search_command_button'>Apply Search</label>");
     p_result.push("<br/><br/><p style='text-align:right;'><input type='button' class='btn btn-primary'  alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
     p_result.push("</p><br/><hr/>");
 
@@ -251,14 +256,16 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(p_ui.case_view_request.total_rows);
 
     p_result.push("<br/> Select Page: ");
+
     for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
     {
         // p_result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
-        p_result.push(" <input type='button2' class='btn btn-primary' alt='search' onclick='g_ui.case_view_request.page=");
+        p_result.push("<label><input type='button2' class='btn btn-primary' title='search' onclick='g_ui.case_view_request.page=");
         p_result.push(current_page);
         p_result.push(";get_case_set();' value='");
         p_result.push(current_page);
         p_result.push("' />");
+        p_result.push("Select page " + current_page + "</label>");
     }
 
     //p_result.push(" <input type='button' alt='search' value='next' />");
@@ -362,7 +369,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
         // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
 
-        p_result.push(" <input type='button3'  class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/> ");
+        p_result.push("<label><input type='button3'  class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>delete record " + i + "</label>");
 
         p_result.push("</td>");
 
@@ -454,11 +461,11 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
     {
         // p_result.push(" <input type='button' alt='search' onclick='g_ui.case_view_request.page=");
-        p_result.push(" <input type='button2' class='btn btn-primary' alt='search' onclick='g_ui.case_view_request.page=");
+        p_result.push("<label><input type='button2' class='btn btn-primary' alt='select page " + current_page + "' onclick='g_ui.case_view_request.page=");
         p_result.push(current_page);
         p_result.push(";get_case_set();' value='");
         p_result.push(current_page);
-        p_result.push("' />");
+        p_result.push("' />select page " + current_page + "</label>");
     }
 
 
