@@ -388,7 +388,7 @@ namespace mmria.server.Controllers
                 _configuration["sams:is_enabled"].ToLower() == "true" 
             )
             {
-                return Redirect("https://auth-stg.cdc.gov/errors/globallogout.asp");
+                return Redirect(_configuration["sams:logout_url"]);
             }
             else
             {
