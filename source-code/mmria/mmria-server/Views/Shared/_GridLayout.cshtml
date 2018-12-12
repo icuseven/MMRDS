@@ -7,6 +7,7 @@
   <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
   <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
   
+  <link rel="stylesheet" href="/styles/cdc.app.css" />
   <LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
   <link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/jquery/jquery.datetimepicker.css" type="text/css" rel="stylesheet" />
@@ -18,6 +19,7 @@
   
   <link rel="stylesheet" type="text/css" href="css/animate.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+
   
   <!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
   <script src="js/jquery.min.js"></script>
@@ -25,7 +27,7 @@
     
   <script src="js/wow.js"></script>
   <script src="js/jquery.bxslider.min.js"></script>
-  <script src="js/custom.js"></script>
+  <!-- script src="js/custom.js"></script-->
   
   
   <script src="./scripts/jquery-3.1.1.min.js"></script>
@@ -89,34 +91,81 @@
   <script src="./api/validator" type="text/javascript"> </script>
   <style>
 
-.container {
-  display: grid | inline-grid;
-  grid-template-rows: 25% 50% 25%;
+  .grid {
+    display: grid | inline-grid;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  
+  .grid div {
+            width: 100%;
+            height: 100%;
+        }
+
+  #header {
+    /*background-color: #351147; */
+    border: 0px;
+    height:  70px;
+    padding: 20px 0;
+    transition: all 0.3s;
+    color: #FFFFFF;
+    
+  }        
+
+  /* td {color: #FFFFFF;} */
+  table { margin-left: auto; }
+/*
+  #footer {
+    background-color: #351147;
+    border: 0px;
+    padding: 20px 0;
+    transition: all 0.3s;
+    color: #FFFFFF;
+    height:  50px;
+    
+  }*/
+
+  #content
+  {
+    height:  666px;
+    align-content: center;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /*width: 50%;*/
+  
 }
+
 </style>
 </head>
 
 <body>
-    <div class="container" class="navbar-header">
+  <div class="grid">
+    <header id="header">
+    <span>
+    <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
+	    <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
+	</a>
+      <div class="container" class="navbar-header">
         <nav>
            <ul class="nav navbar-nav navbar-right">
               <li class="dropdown" id="profile_content_id">
-              @await Html.PartialAsync("_LoginPartial")
+                @await Html.PartialAsync("_LoginPartial")  
               </li>
             </ul>
         </nav>
-        <main>
-          @RenderBody()
-        </main>
-
-        @await Html.PartialAsync("_Footer")
-    
-    
-    </div>
-    </div>
-
+    </span>
+    </header>
+     
+    <main id="content">
+         @RenderBody()
+    </main>
   </div>
-  
-  </body>
+    @await Html.PartialAsync("_Footer")
 
-  </html>
+ 
+</body>
+
+</html>

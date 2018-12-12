@@ -369,7 +369,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
         // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
 
-        p_result.push("<label><input type='button3'  class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>delete record " + i + "</label>");
+        p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
+        p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
+        
 
         p_result.push("</td>");
 
