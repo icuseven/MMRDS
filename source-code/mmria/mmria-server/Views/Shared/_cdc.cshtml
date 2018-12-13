@@ -66,27 +66,15 @@
     <span>
     <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
 	    <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
-	</a>
+  	</a>
     
     
-        @model ApplicationUser
-        @{
-            <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
-                <table>
-                <tr><td><label for="login_username">User name:</label></td><td><input id="login_username" name="username" type="text" /></td></tr>
-                <tr><td><label for="login_password">Password:</label></td><td><input id="login_password" name="password" type="password" /></td></tr>
-                <tr><td colspan=2 align=right><input name="submit" value="Login" type="submit" /></td></tr>
-                </table>
-                <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
-                
-            </form>
-        }     
+    @await Html.PartialAsync("_LoginPartial")
+    
     </span>
     </header>
     <main id="content">
-        <h1>Welcome to MMRIA</h1>
-        <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
-        <p><img class="center" alt="MMRIA Landing Logo" src="/img/mmrai_landing_logo1.png" width=821.25 height=665.25/></p>
+      @RenderBody()
         
     </main>
     @await Html.PartialAsync("_Footer")
