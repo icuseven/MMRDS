@@ -20,7 +20,7 @@ $(function ()
 
   //set_session_warning_interval();
 
-  $.datetimepicker.setLocale('en');
+  //$.datetimepicker.setLocale('en');
 
   get_metadata();
  
@@ -153,7 +153,7 @@ function load_user_role_jurisdiction()
       
 
       document.getElementById("role_list").innerHTML = role_list_html.join("");
-      load_profile();
+      //load_profile();
 
 	});
 
@@ -162,6 +162,7 @@ function load_user_role_jurisdiction()
 
 function load_profile()
 {
+    /*
     profile.on_login_call_back = function ()
     {
       $("#landing_page").hide();
@@ -190,8 +191,8 @@ function load_profile()
       window.location.href = url;
     };
 
-
-  	profile.initialize_profile();
+    
+  	profile.initialize_profile();*/
 }
 
 function open_blank_version(p_section)

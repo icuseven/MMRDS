@@ -1,6 +1,6 @@
 @using System.Security.Claims;
 @{ 
-    Layout = "_GridLayout"; 
+    Layout = "_cdc"; 
     var is_guest = true;
     var is_abstractor = false;
     var is_authenticated = false;
@@ -63,9 +63,9 @@ var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
 
 <br/>
 <br/>
-<div id="role_list">
+<span id="role_list">
     
-</div>
+</span>
 
 
 @if (is_guest)
@@ -78,6 +78,8 @@ var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
 else
 {
     <h1>Select your action:</h1>
+
+
 
     <ul>
 
