@@ -1,21 +1,14 @@
 @using System.Security.Claims;
 @if(User.Identities.Any(u => u.IsAuthenticated)) 
 {
-  var UserName = User.Identities.First( u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+    var UserName = User.Identities.First( u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-user"></span> @UserName</a>
-		<ul class="dropdown-menu" role="menu">
-
+		<span style="float:right;color:#000000;">@UserName&nbsp;
     <form id="profile_form2" action="/Account/Logout" method="POST">
-      
-    <li>
-      <div class="form-group" id="profile_content_id2">
-      <input name="submit" value="Log Out" type="submit" />
-      </div>
-		</li>
-    
+    <input name="submit" value="Log Out" type="submit" />
 		</form>
-		</ul>
+    </span>
+
 } 
 else 
 {
