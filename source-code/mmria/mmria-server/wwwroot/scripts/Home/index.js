@@ -62,7 +62,8 @@ function load_user_role_jurisdiction()
 
       var role_list_html = [];
 
-      role_list_html.push("<p>[ " + g_uid + " ] ");
+      //role_list_html.push("<p>[ " + g_uid + " ] ");
+      role_list_html.push("<p>");
       if(g_sams_is_enabled.toLowerCase() != "true" && g_config_password_days_before_expires > 0)
       {
         if(g_days_til_password_expires >= 0)
@@ -77,7 +78,7 @@ function load_user_role_jurisdiction()
       }
       role_list_html.push("</p>");
       role_list_html.push("<table border=1>");
-      role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan=7>Role assignment list</th></tr>");
+      role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan=7>Role assignment list for " + g_uid + "</th></tr>");
       role_list_html.push("<tr bgcolor='#CCCCCC'>");
       role_list_html.push("<th>Role Name</th>");
       role_list_html.push("<th>Jurisdiction</th>");
