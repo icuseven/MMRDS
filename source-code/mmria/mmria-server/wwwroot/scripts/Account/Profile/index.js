@@ -152,8 +152,8 @@ function render_password()
 	{
 		result.push("<table>");
 		result.push("<tr><th colspan=2>Change Password</th></tr>");
-		result.push("<tr><td>New Password</td><td><input id='new_password' type='password' value=''  /></td></tr>");
-		result.push("<tr><td>Verify Password</td><td><input id='confirm_password' type='password' value=''  /></td></tr>");
+		result.push("<tr><td><label for='new_password'>New Password</label></td><td><input id='new_password' type='password' value=''  /></td></tr>");
+		result.push("<tr><td><label for='confirm_password'>Verify Password</label></td><td><input id='confirm_password' type='password' value=''  /></td></tr>");
 		result.push("<tr><td>&nbsp;</td><td><input type='button' value='Update password' onclick='change_password_user_click()'/></td></tr>");
 		result.push("<tr><td>&nbsp;</td><td id='message_area'></td></tr>");
 
