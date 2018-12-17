@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "form_designer")]
-    [Route("de-identified-list")]
+    [Authorize(Roles  = "abstractor,committee_member")]
+    [Route("aggregate-report")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public class de_identified_listController : Controller
+    public class aggregate_reportController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         //private readonly IDocumentRepository _documentRepository;
 
-        public de_identified_listController(IAuthorizationService authorizationService)
+        public aggregate_reportController(IAuthorizationService authorizationService)
         {
             _authorizationService = authorizationService;
             //_documentRepository = documentRepository;

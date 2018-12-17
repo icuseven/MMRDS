@@ -74,14 +74,14 @@ function generate_report_click()
 		//console.log(data);
     var post_html_callback = [];
 		var render_result = [];
-    render_result.push("<h4>Year of Death: ");
+    render_result.push("<h2>Year of Death: ");
     render_result.push(filter.year_of_death);
-    render_result.push("</h4>");
-    render_result.push("<h4>Year and Month of Case Review: ");
+    render_result.push("</h2>");
+    render_result.push("<h2>Year and Month of Case Review: ");
     render_result.push(filter.year_of_case_review);
     render_result.push("&nbsp;");
     render_result.push(filter.month_of_case_review);
-    render_result.push("</h4>");
+    render_result.push("</h2>");
 
 		Array.prototype.push.apply(render_result, render_total_number_of_cases_by_pregnancy_relatedness(data, post_html_callback));
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_related_deaths_by_ethnicity(data));

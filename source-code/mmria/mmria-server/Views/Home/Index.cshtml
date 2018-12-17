@@ -86,7 +86,7 @@ else
 
     @if(is_abstractor)
     {
-        <li>=Abstractor=</li>
+        <li style="list-style-type: none;">Abstractor</li>
         <li><a href="/Case">view case data</a></li>
         <li><a href="/export-queue">export data</a></li>
         //<li><a href="/recover-case">recover-case</a></li>
@@ -94,14 +94,14 @@ else
 
     @if(is_committee_member)
     {
-        <li>=Committee Member=</li>
+        <li style="list-style-type: none;">Committee Member</li>
         <li><a href="/de-identified">view de-identified case data</a></li>
     }
 
 
     @if(is_form_designer)
     {
-        <li>=Form Designer=</li>
+        <li style="list-style-type: none;">Form Designer</li>
         <li><a href="/editor">open metadata editor</a></li>
         <li><a href="/form-designer">open form designer</a></li>
         <li><a href="/migrationplan">manage a migration plan</a></li>
@@ -110,19 +110,19 @@ else
 
     @if(is_jurisdiction_admin && ! is_installation_admin)
     {
-        <li>=Jurisdiction Admin=</li>
+        <li style="list-style-type: none;">Jurisdiction Admin</li>
         <li><a href="/_users">manage users & jurisdictions</a></li>
     }
 
 
     @if(is_installation_admin)
     {
-        <li>=Installation Admin=</li>
+        <li style="list-style-type: none;">Installation Admin</li>
         <li><a href="/_users">manage users & jurisdictions</a></li>
         <li><a href="/_config">view configuration</a></li>
     }
 
-    <li>======================</li>
+    <li style="list-style-type: none;">General</li>
     @if(is_abstractor || is_committee_member)
     {
      
