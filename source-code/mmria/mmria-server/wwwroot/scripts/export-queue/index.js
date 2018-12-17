@@ -11,12 +11,12 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
-	load_data(g_uid, $mmria.getCookie("pwd"));
+	load_data(g_uid);
 	update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
 
-function load_data(p_uid, p_pwd)
+function load_data(p_uid)
 {
 	var url =  location.protocol + '//' + location.host + '/api/export_queue?' + p_uid
 

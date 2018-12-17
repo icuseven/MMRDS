@@ -14,17 +14,21 @@
 <style>
 
   .grid {
-    display: grid | inline-grid;
-    grid-template-rows: 1fr 1fr 155px;
+    display: grid;
+    grid-template-rows: 155px; 1fr 155px;
   }
-  
+  /*
   .grid div {
             width: 100%;
             height: 100%;
         }
+      */
 
   #header {
     /*background-color: #351147; */
+    display: grid;
+    grid-template-columns: 1f  1f 1f;
+    grid-template-rows: 1f  1f;
     border: 0px;
     height:  70px;
     padding: 20px 0;
@@ -32,6 +36,24 @@
     color: #FFFFFF;
     
   }        
+
+  .header-top-left
+  {
+    grid-row 1;
+    grid-column: 1;
+  }
+
+  .header-top-right
+  {
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  .header-second-row 
+  {
+    grid-row: 2;
+    grid-column: 1;
+  }
 
   /* td {color: #FFFFFF;} 
   table { margin-left: auto; }*/
@@ -66,15 +88,22 @@
 <body>
 <div class="grid">
     <header id="header">
-    <span>
-    <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
-	    <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
-  	</a>
+      <div class="header-top-left">
+        <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
+          <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
+        </a>
+      </div>
+
     
     
-    @await Html.PartialAsync("_LoginPartial")
+      @await Html.PartialAsync("_LoginPartial")
     
-    </span>
+    
+    
+      <a href="/Home" class="header-second-row">
+        <img src="../images/mmria-secondary.svg" height="37.5" width="50" alt="MMRIA Application">
+      </a>
+    
     </header>
     <main id="content">
       @RenderBody()

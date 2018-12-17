@@ -3,11 +3,11 @@
 {
     var UserName = User.Identities.First( u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-		<span style="float:right;color:#000000;">@UserName&nbsp;
+		<div class="header-top-right" style="color:#000000;">@UserName&nbsp;
     <form id="profile_form2" action="/Account/Logout" method="POST">
     <input name="submit" value="Log Out" type="submit" />
 		</form>
-    </span>
+    </div>
 
 } 
 else 
