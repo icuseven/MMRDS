@@ -115,6 +115,17 @@ function getSpecById(id) {
  * Implements method to save current specification to database
  */
 function saveSpec() {
+	// createOrUpdateFormElements(
+	// 	activeForm,
+	// 	fid,
+	// 	$("#" + event.relatedTarget.id).position().top,
+	// 	$("#" + event.relatedTarget.id).position().left,
+	// 	event.relatedTarget.getAttribute('data-w'),
+	// 	event.relatedTarget.getAttribute('data-h'),
+	// 	pc
+	// );
+
+	// writeFormSpecs();
 	$.ajax({
 		url: location.protocol + "//" + location.host + "/api/ui_specification/" + specId,
 		contentType: 'application/json; charset=utf-8',
@@ -198,10 +209,3 @@ function writeLocalRevision() {
 	var html = localFDRevCountCurrent;
   	$("#local-rev").html(html);
 }
-
-// new Selectables({
-// 	elements: 'div',
-// 	zone: 'div.form-designer-canvas',
-// 	selectedClass: 'pselect'
-// });
-

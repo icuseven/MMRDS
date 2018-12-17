@@ -10,6 +10,7 @@
     width: auto;
     /* This makes things *much* easier */
     box-sizing: border-box;
+    display: inline-block;
 }
 
 .resize-drag textarea {
@@ -80,4 +81,9 @@
 
 legend {
     width: auto;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 8px;
 }
