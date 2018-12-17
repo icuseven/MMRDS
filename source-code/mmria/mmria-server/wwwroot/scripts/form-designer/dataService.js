@@ -5,7 +5,8 @@ var urlTestBase = 'http://test.mmria.org/api/';
 var urlProdBase = location.protocol + '//' + location.host + '/api/';
 var urlMetaData = urlProdBase + "metadata";
 var activeSpec;
-
+var initFields = false;
+var initFieldSets = false;
 
 /******************************************************
  * START logic
@@ -76,6 +77,24 @@ function populateFormDesignerCanvas(metaDataForms) {
         $(".resize-drag").on("mouseleave", function() {
           writeActionSpecs('out', this.id);
         });
+
+        // new Selectables({
+        //     elements: ".resize-drag",
+        //     zone: "div.form-designer-canvas",
+        //     selectedClass: "active",
+        //     moreUsing: 'commandKey'
+        // });
+
+        // if(initFieldSets == false) {
+        //     bootstrapUISpec("fieldSets");
+        // }
+        // if (initFields == false) {
+        //     bootstrapUISpec("fields");
+        // }
+        bootstrapUISpec("fieldSets");
+        bootstrapUISpec("fields");
+
+        
     });
 }
 
@@ -89,7 +108,7 @@ function buildFormElementPromptControl(fe) {
     // String fields
     $.each(fe.strings, function(index, value) {
         var newItem = `<div id="` + value.name + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
-        newItem += `<div id="` + value.name + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
+        newItem += `<div id="` + value.name + `-control" class="resize-drag drag-drop yes-drop"> <input type="text" rows="1" placeholder="` + value.prompt + `"></input></div>`;
         inHTML += newItem;
     });
 
@@ -112,7 +131,7 @@ function buildFormElementPromptControl(fe) {
             $.each(stringSet, function(index, value) {
                 var eid = groupName + '__' + value.name;
                 newItem += `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
-                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
+                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <input type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
             })
         }
         newItem += `</fieldset>`;
@@ -130,7 +149,7 @@ function buildFormElementPromptControl(fe) {
             $.each(stringSet, function (index, value) {
                 var eid = groupName + '__' + value.name;
                 var newItem = `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
-                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <textarea type="text" rows="1" placeholder="` + value.prompt + `"></textarea></div>`;
+                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <input type="text" rows="1" placeholder="` + value.prompt + `"></input></div>`;
                 inHTML += newItem;
             })
         }
@@ -170,7 +189,6 @@ function styleElementsPerDefinition(fe, group = null) {
     });
 
     if (group) {
-        console.log(group);
         $.each(group, function (index, value) {
             var tid = activeForm + '/' + value.name;
             var gn = value.name;
@@ -178,6 +196,7 @@ function styleElementsPerDefinition(fe, group = null) {
                 var el = uiSpecification.form_design[tid];
                 if ('prompt' in uiSpecification.form_design[tid]) {
                     if (el.prompt) {
+                        if (el.prompt.width == null) { el.prompt.width = 1037.75 };
                         // set style for element prompt
                         $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
                         $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
@@ -185,6 +204,7 @@ function styleElementsPerDefinition(fe, group = null) {
                 }
                 if ('control' in uiSpecification.form_design[tid]) {
                     if (el.control) {
+                        if (el.control.width == null) { el.control.width = 1037.75 };
                         // set style for element control
                         $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
                         $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
@@ -243,5 +263,54 @@ function writeActionSpecs(val, obj) {
         $(".liveSpecHeading").html(prop);
         $(".liveSpec").html(html);
         $('.liveSpec').show('slow');
+    }
+}
+
+function bootstrapUISpec(itemType) {
+    if(itemType === 'fields') {
+        var fields = document.getElementsByClassName("resize-drag");
+        initFields = true;
+        for (index = 0; index < fields.length; ++index) {
+            let itemID1 = fields[index].id;
+            let itemID = fields[index].id;
+            let pc;
+            if ($('#' + itemID1).is('fieldset')) { continue; }
+            if (itemID.includes('-control')) {
+                pc = 'control';
+                itemID = itemID1.split('-')[0];
+            } else {
+                pc = 'prompt';
+            }
+            let top = $('#' + itemID1).position().top;
+            let left = $("#" + itemID1).position().left;
+
+            createOrUpdateFormElements(activeForm, itemID, top, left, null, null, pc);
+
+            writeFormSpecs();
+            //console.log(item.getBoundingClientRect());
+        }
+    } else {
+        var fieldSets = document.getElementsByClassName("fd-fieldset");
+        initFieldSets = true;
+        for (index = 0; index < fieldSets.length; ++index) {
+            let itemID1 = fieldSets[index].id;
+            let itemID = fieldSets[index].id;
+            let pc;
+            if (itemID.includes('-control')) {
+                pc = 'control';
+                itemID = itemID1.split('-')[0];
+            } else {
+                pc = 'prompt';
+            }
+            let top = $("#" + itemID1).position().top;
+            let left = $("#" + itemID1).position().left;
+            let height = $("#" + itemID1).height();
+
+            console.log(itemID1);
+
+
+            createOrUpdateFormElements(activeForm, itemID, top, left, 1037.75, height, 'prompt');
+            writeFormSpecs();
+        }
     }
 }

@@ -10,6 +10,8 @@ interact('.dropzone').dropzone({
     ondropactivate: function (event) {
         // add active dropzone feedback
         event.target.classList.add('drop-active');
+
+        console.log('we are dragging something');
     },
     ondragenter: function (event) {
         var draggableElement = event.relatedTarget,
@@ -91,6 +93,7 @@ interact('.drag-drop')
         inertia: false,
     })
     .on('resizemove', function (event) {
+        console.log('we are re-sizing something');
         var target = event.target,
             x = (parseFloat(target.getAttribute('data-x')) || 0),
             y = (parseFloat(target.getAttribute('data-y')) || 0);
