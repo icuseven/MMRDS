@@ -1954,11 +1954,6 @@
       "cardinality": "1",
       "children": [
         {
-          "prompt": "jurisdiction",
-          "name": "jurisdiction_id",
-          "type": "jurisdiction"
-        },
-        {
           "prompt": "First Name",
           "name": "first_name",
           "type": "string",
@@ -2085,6 +2080,11 @@
           "name": "primary_abstractor",
           "type": "string"
         },
+        {
+          "prompt": "jurisdiction",
+          "name": "jurisdiction_id",
+          "type": "jurisdiction"
+        },        
         {
           "prompt": "Case Progress Report",
           "name": "case_progress_report",
