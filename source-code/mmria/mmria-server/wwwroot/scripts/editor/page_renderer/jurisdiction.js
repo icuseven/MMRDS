@@ -4,7 +4,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push(" mpath='" + p_metadata_path + "' style>");
 
 
-    p_result.push("<span>Jurisdiction Id</span>");
+    p_result.push("<label>Jurisdiction ID");
 
     p_result.push("<select name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
     p_result.push(p_object_path);
@@ -43,6 +43,6 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
         
     }
-    p_result.push("</select></div>");
+    p_result.push("</select></label></div>");
 
 }

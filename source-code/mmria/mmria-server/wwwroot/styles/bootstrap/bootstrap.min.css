@@ -163,10 +163,10 @@ button, select {
 
     
 
-    src: url('../css/fonts/BwSurco-Black.eot');
+    src: url('../../css/fonts/BwSurco-Black.eot');
     src: 
-    url('../css/fonts/BwSurco-Black.woff') format('woff'),
-    url('../css/fonts/BwSurco-Black.otf') format('opentype');
+    url('../../css/fonts/BwSurco-Black.woff') format('woff'),
+    url('../../css/fonts/BwSurco-Black.otf') format('opentype');
  
     }
 
@@ -1589,7 +1589,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 400;
     line-height: 1.1;
     /* color: #a088e4; */
-    color: #e24944;
+    color: #0c0100;
 }
 
 h9 {

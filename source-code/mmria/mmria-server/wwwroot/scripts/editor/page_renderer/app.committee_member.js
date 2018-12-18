@@ -1,7 +1,7 @@
 function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
 
-    p_result.push("<section id='app_summary'><h2>Line Listing Summary</h2>");
+    p_result.push("<section id='app_summary'><h1>Line Listing Summary</h1>");
     
     // p_result.push("<input type='button'  class='btn-green' value='Add New Case' onclick='g_ui.add_new_case()' /><hr/>");
 
