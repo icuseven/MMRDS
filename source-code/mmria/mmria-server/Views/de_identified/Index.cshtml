@@ -1,23 +1,22 @@
-@{   Layout = "_De_idLayout"; }
-
 @using System.Security.Claims;
+@{ 
+    Layout = "_cdc_deidentified"; 
+    var userName = "";
 
-@if (!User.Identities.Any(u => u.IsAuthenticated))
-{
-    <h1>Index</h1>
-}
-else
-{
-    <h1>Index @User.Identities.First(
-      u => u.IsAuthenticated && 
-      u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value</h1>
-
-    <ul>
-    @foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    if(User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <li>@role.Value</li>
+        userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
-    </ul>
-    
 }
+
+<script>
+
+    var g_uid = '@userName';
+
+</script>
+
+<div id="navbar"></div><br/>
+<div id="form_content_id"></div>
 
