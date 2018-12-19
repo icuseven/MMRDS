@@ -643,7 +643,11 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			user_role.role_name = role.value;
 			user_role.jurisdiction_id = jurisdiction.value;
 			user_role.effective_start_date = new Date(effective_start_date.value);
-			user_role.effective_end_date = new Date(effective_end_date.value);
+			if(effective_end_date.value != null && effective_end_date.value != "")
+			{
+				user_role.effective_end_date = new Date(effective_end_date.value);
+			}
+			
 			user_role.is_active = (is_active.value == "true")? true: false;
 			user_role.last_updated_by = p_user_id;
 
