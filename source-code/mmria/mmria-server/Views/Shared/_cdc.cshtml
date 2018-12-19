@@ -34,7 +34,10 @@
     padding: 20px 0;
     transition: all 0.3s;
     color: #FFFFFF;
-    
+    position: fixed; /* Set the navbar to fixed position */
+    width: 100%; /* Full width */
+    /*overflow: hidden;*/
+    top: 0;
   }        
 
   .header-top-left
@@ -64,6 +67,7 @@
   {
     /*height:  666px;*/
     align-content: center;
+    margin-top: 152px;
   }
 
   .center {
@@ -71,14 +75,25 @@
     margin-left: auto;
     margin-right: auto;
     /*width: 50%;*/
-  
-}
+  }
 
+/*
+  #footer 
+  {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+  }
+*/
 
 </style>
 </head>
 <body>
-<div class="grid">
+
     <header id="header">
       <div class="header-top-left">
         <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
@@ -91,10 +106,11 @@
       @await Html.PartialAsync("_LoginPartial")
     
     
-    
-      <a href="/Home" class="header-second-row">
+    <div id="navbar" class="header-second-row">
+      <a href="/Home">
         <img src="../images/mmria-secondary.svg" height="37.5" width="50" alt="MMRIA Application">
       </a>
+    </div>
     
     </header>
     <main id="content">
@@ -102,6 +118,6 @@
         
     </main>
     @await Html.PartialAsync("_Footer")
-</div>
+
 </body> 
 </html>
