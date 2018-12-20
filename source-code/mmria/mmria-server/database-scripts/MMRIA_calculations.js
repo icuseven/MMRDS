@@ -802,7 +802,7 @@ function er_hosp_arrival_ga(p_control) {
                 g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
                 $mmria.save_current_record();
                 $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks);
-                $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days;
+                $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days);
             }
         }
 }
