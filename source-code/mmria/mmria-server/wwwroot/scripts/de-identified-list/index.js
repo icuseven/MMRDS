@@ -73,11 +73,11 @@ function render_de_identified_list()
 		{
 			result.push("<tr>");
 		}
-		result.push("<td><span title='");
+		result.push("<td><label title='");
 		result.push(item);
 		result.push("'><input size='120' type='text' value='");
 		result.push(item);
-		result.push("' onblur='update_item("+ i+", this.value)'/></span></td>");
+		result.push("' onblur='update_item("+ i+", this.value)'/></label></td>");
 		result.push("<td><input type=button value=delete onclick='delete_item(" + i + ")' /></td>");
 		result.push("</tr>");		
 		

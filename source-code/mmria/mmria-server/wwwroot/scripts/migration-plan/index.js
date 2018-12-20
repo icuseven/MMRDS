@@ -105,8 +105,8 @@ function render_migration_plan()
 	result.push("<br/>");
 	result.push("<table bgcolor=#CCCCCC>");
 	result.push("<tr><th colspan=2 bgcolor=silver>add new migration plan</td><tr>");
-	result.push("<tr><td align=right><b>name:</b></td><td><input id='add_new_plan_name' type='text' value='' size=45 /></td></tr>")
-	result.push("<tr><td><b>description:</b></td><td><textarea cols=45 rows=7 id='add_new_plan_description'></textarea></td></tr>")
+	result.push("<tr><td align=right><label for='add_new_plan_name'><b>name:</b></label></td><td><input id='add_new_plan_name' type='text' value='' size=45 /></td></tr>")
+	result.push("<tr><td><label for='add_new_plan_description'><b>description:</b></label></td><td><textarea cols=45 rows=7 id='add_new_plan_description'></textarea></td></tr>")
 	result.push("<tr><td colspan=2 align=right><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td></tr>")
 	result.push("</table>");
 
@@ -120,7 +120,7 @@ function render_migration_plan()
 	result.push("<th>date_created</th>");
 	result.push("<th>date_last_updated</th>");
 	result.push("<th>last_updated_by</th>");
-	result.push("<th>&nbsp;</th>");
+	result.push("<th>action</th>");
 	result.push("</tr>");
 	for(var i in g_migration_plan_list)
 	{
@@ -323,13 +323,13 @@ function render_edit_migration_plan(p_migration_plan)
 	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th></tr>");
 	
 	result.push("<tr><td><b>name:</b></td>");
-	result.push("<td colspan=2><span title='" + p_migration_plan.name + "'><input type='text' size=50 value='");
+	result.push("<td colspan=2><label title='" + p_migration_plan.name + "'><input type='text' size=50 value='");
 	result.push(p_migration_plan.name);
-	result.push("' onblur='update_plan_name_click(\"" + p_migration_plan._id + "\", this.value)'/></span> </td>");
+	result.push("' onblur='update_plan_name_click(\"" + p_migration_plan._id + "\", this.value)'/></label> </td>");
 	result.push("<tr><td align=right colspan=2><input type=button value='== run migration plan ==' onclick='run_migration_plan_item_click(\"" + p_migration_plan._id + "\")' /></td></tr>");
 	result.push("<tr><td bgcolor='FFCCAA' colspan=2 id='message_output'></td></tr>");
-	result.push("<tr><td valign=top><b>description:</b></td>");
-	result.push("<td><textarea cols=35 rows=7 onblur='update_plan_description_click(\"" + p_migration_plan._id + "\", this.value)'>");
+	result.push("<tr><td valign=top><label for='selected_plan_description'><b>description:</b></label></td>");
+	result.push("<td><textarea id='selected_plan_description' cols=35 rows=7 onblur='update_plan_description_click(\"" + p_migration_plan._id + "\", this.value)'>");
 	result.push(p_migration_plan.description);
 	result.push("</textarea></td></tr>");
 	result.push("</tr>");
@@ -412,9 +412,9 @@ function render_migration_plan_item_list(p_migration_plan)
 
 function create_input_box_td(p_result, p_item_text, p_id, p_onblur, p_plan_id,  p_index)
 {
-	p_result.push("<td><span title='");
+	p_result.push("<td><label title='");
 	p_result.push(p_item_text);
-	p_result.push("'><input type='text' value='");
+	p_result.push("'>::<input type='text' value='");
 	p_result.push(p_item_text);
 
 	if(p_id)
@@ -429,21 +429,21 @@ function create_input_box_td(p_result, p_item_text, p_id, p_onblur, p_plan_id,  
 		p_result.push(" onblur='" + p_onblur + "(\"" + p_plan_id + "\",\"" + p_index + "\", this.value)'");
 	}
 
-	p_result.push("/><span></td>");
+	p_result.push("/></label></td>");
 		
 }
 
 
 function create_textarea_td(p_result, p_item_text, p_id, p_onblur, p_plan_id, p_index)
 {
-	p_result.push("<td><span title='");
+	p_result.push("<td><label title='");
 	p_result.push(p_item_text);
 	if(p_id)
 	{
 		p_result.push("' id='");
 		p_result.push(p_id);
 	}
-	p_result.push("'><textarea cols=35 rows=3 ");
+	p_result.push("'>::<textarea cols=35 rows=3 ");
 	
 	if(p_onblur)
 	{
@@ -452,7 +452,7 @@ function create_textarea_td(p_result, p_item_text, p_id, p_onblur, p_plan_id, p_
 
 	p_result.push(">");
 	p_result.push(p_item_text);
-	p_result.push("</textarea></span></td>");
+	p_result.push("</textarea></label></td>");
 		
 }
 
