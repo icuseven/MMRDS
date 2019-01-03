@@ -149,7 +149,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<label><input  class='");
+	p_result.push("<input  class='");
 	p_result.push(p_metadata.type.toLowerCase());
 	
 	if
@@ -288,8 +288,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	p_result.push("\",this.value)' /></div>");*/
 
 	p_result.push("/>");
-	p_result.push(p_metadata.prompt);
-	p_result.push("</label>");
+
 	
 }
 
@@ -458,7 +457,7 @@ var path_to_validation_description = [];
 
 function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
 {
-	p_result.push("<label><input  class='checkbox' type='checkbox' name='");
+	p_result.push("<input  class='checkbox' type='checkbox' name='");
 	p_result.push(p_metadata.name);
 	if(p_data == true)
 	{
@@ -494,9 +493,6 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 
 
 	p_result.push("/>");
-	p_result.push(p_metadata.prompt);
-	p_result.push("</label>");
-	
 	
 }
 
@@ -504,7 +500,7 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
 {
 
-	p_result.push("<label><textarea  class='");
+	p_result.push("<textarea  class='");
 	p_result.push(p_metadata.type.toLowerCase());
 	//hack
 	if(p_metadata.name == "case_opening_overview")
@@ -541,8 +537,6 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(" >");
 	p_result.push(p_data);
 	p_result.push("</textarea>");
-	p_result.push(p_metadata.prompt);
-	p_result.push("</label>");
 	
 }
 

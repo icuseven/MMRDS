@@ -35,7 +35,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
 
         p_result.push(">");
-        p_result.push("<span ");
+        p_result.push("<label ");
 
         if(p_metadata.description && p_metadata.description.length > 0)
         {
@@ -56,9 +56,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             p_result.push(p_metadata.prompt);
         }
-        p_result.push("</span> <br/>");
+        p_result.push("<br/>");
 
-        p_result.push("<label>");
+
 
         if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
         {
@@ -146,13 +146,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
             }
             p_result.push("</select>");
-            p_result.push(p_metadata.prompt);
+
 	        p_result.push("</label>");
 
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         //{
-            p_result.push("<br/><label><input placeholder='1Specify Other' class='list' type='text3' name='");
+            p_result.push("<br/><label><input placeholder='Specify Other' class='list' type='text3' name='");
             p_result.push(p_metadata.name);
             p_result.push("' value='");
             p_result.push(p_data);
@@ -161,7 +161,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("\",\"");
             p_result.push(p_metadata_path);
             p_result.push("\",this.value)' />");
-            p_result.push(p_metadata.prompt);
+
 	        p_result.push("</label> <br/> ");
         //}
 
@@ -219,7 +219,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
             }
             p_result.push("</select> ");
-            p_result.push(p_metadata.prompt);
+            
 	        p_result.push("</label>");
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
@@ -233,7 +233,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("\",\"");
             p_result.push(p_metadata_path);
             p_result.push("\",this.value)' /> ");
-            p_result.push(p_metadata.prompt);
+            
 	        p_result.push("</label>");
             
         //}
@@ -278,7 +278,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
 
         p_result.push(">");
-        p_result.push("<span ");
+        p_result.push("<label ");
         if(p_metadata.description && p_metadata.description.length > 0)
         {
             p_result.push("rel='tooltip'  data-original-title='");
@@ -298,9 +298,8 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             p_result.push(p_metadata.prompt);
         }
-        p_result.push("</span> <br/> ");
+        p_result.push("<br/> ");
 
-        p_result.push("<label>");
         if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         {
             p_result.push("<select size=");
@@ -386,7 +385,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
             }
             p_result.push("</select>");
-            p_result.push(p_metadata.prompt);
+            
 	        p_result.push("</label></div>");
         }
         else
@@ -441,7 +440,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
             }
             p_result.push("</select>");
-            p_result.push(p_metadata.prompt);
+            
 	        p_result.push("</label></div>");
         }
     }

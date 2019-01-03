@@ -35,7 +35,7 @@ function boolean_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_o
 
     page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path);
 
-    p_result.push("<span ");
+    p_result.push("<label ");
     if(p_metadata.description && p_metadata.description.length > 0)
     {
         p_result.push("rel='tooltip'  data-original-title='");
@@ -55,7 +55,7 @@ function boolean_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_o
     {
         p_result.push(p_metadata.prompt);
     }
-    p_result.push("</span>");
+    p_result.push("</label>");
 
     
     
