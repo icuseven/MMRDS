@@ -2135,7 +2135,7 @@ function duration_of_labor(p_control)
         var onset_date = new Date(onset_year, onset_month - 1, onset_day, onset_time.getHours(), onset_time.getMinutes());
         var arrival_date = new Date(arrival_year, arrival_month - 1, arrival_day, arrival_time.getHours(), arrival_time.getMinutes());
         var hours = Math.round((arrival_date - onset_date) / 3600000 * 100) / 100;
-        if (hours.length > 1) {
+        if (hours > 1) {
             g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = hours;
             $mmria.save_current_record();
             $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival);
