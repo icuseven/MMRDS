@@ -17,10 +17,10 @@ path_to_int_map['g_metadata.children[4].children[0]']= 6;
 path_to_int_map['g_metadata.children[4].children[1]']= 7;
 path_to_int_map['g_metadata.children[4].children[2]']= 8;
 path_to_int_map['g_metadata.children[4].children[3]']= 9;
-path_to_int_map['g_metadata.children[4].children[4]']= 10;
-path_to_int_map['g_metadata.children[4].children[4].children[0]']= 11;
-path_to_int_map['g_metadata.children[4].children[4].children[1]']= 12;
-path_to_int_map['g_metadata.children[4].children[4].children[2]']= 13;
+path_to_int_map['g_metadata.children[4].children[3].children[0]']= 10;
+path_to_int_map['g_metadata.children[4].children[3].children[1]']= 11;
+path_to_int_map['g_metadata.children[4].children[3].children[2]']= 12;
+path_to_int_map['g_metadata.children[4].children[4]']= 13;
 path_to_int_map['g_metadata.children[4].children[5]']= 14;
 path_to_int_map['g_metadata.children[4].children[6]']= 15;
 path_to_int_map['g_metadata.children[4].children[7]']= 16;
@@ -1071,44 +1071,43 @@ path_to_int_map['g_metadata.children[15].children[7]']= 1060;
 path_to_int_map['g_metadata.children[15].children[8]']= 1061;
 path_to_int_map['g_metadata.children[15].children[9]']= 1062;
 path_to_int_map['g_metadata.children[15].children[10]']= 1063;
-path_to_int_map['g_metadata.children[15].children[11]']= 1064;
-path_to_int_map['g_metadata.children[16]']= 1065;
-path_to_int_map['g_metadata.children[16].children[0]']= 1066;
-path_to_int_map['g_metadata.children[17]']= 1067;
-path_to_int_map['g_metadata.children[17].children[0]']= 1068;
-path_to_int_map['g_metadata.children[17].children[1]']= 1069;
-path_to_int_map['g_metadata.children[17].children[2]']= 1070;
-path_to_int_map['g_metadata.children[17].children[3]']= 1071;
-path_to_int_map['g_metadata.children[17].children[4]']= 1072;
-path_to_int_map['g_metadata.children[17].children[5]']= 1073;
-path_to_int_map['g_metadata.children[17].children[5].children[0]']= 1074;
-path_to_int_map['g_metadata.children[17].children[5].children[1]']= 1075;
-path_to_int_map['g_metadata.children[17].children[5].children[2]']= 1076;
-path_to_int_map['g_metadata.children[17].children[6]']= 1077;
-path_to_int_map['g_metadata.children[17].children[7]']= 1078;
-path_to_int_map['g_metadata.children[17].children[8]']= 1079;
-path_to_int_map['g_metadata.children[17].children[9]']= 1080;
-path_to_int_map['g_metadata.children[17].children[10]']= 1081;
-path_to_int_map['g_metadata.children[17].children[11]']= 1082;
-path_to_int_map['g_metadata.children[17].children[12]']= 1083;
-path_to_int_map['g_metadata.children[17].children[13]']= 1084;
-path_to_int_map['g_metadata.children[17].children[14]']= 1085;
-path_to_int_map['g_metadata.children[17].children[15]']= 1086;
-path_to_int_map['g_metadata.children[17].children[16]']= 1087;
-path_to_int_map['g_metadata.children[17].children[17]']= 1088;
-path_to_int_map['g_metadata.children[17].children[18]']= 1089;
-path_to_int_map['g_metadata.children[17].children[19]']= 1090;
-path_to_int_map['g_metadata.children[17].children[20]']= 1091;
-path_to_int_map['g_metadata.children[17].children[20].children[0]']= 1092;
-path_to_int_map['g_metadata.children[17].children[20].children[1]']= 1093;
-path_to_int_map['g_metadata.children[17].children[20].children[2]']= 1094;
-path_to_int_map['g_metadata.children[17].children[21]']= 1095;
-path_to_int_map['g_metadata.children[17].children[22]']= 1096;
-path_to_int_map['g_metadata.children[17].children[22].children[0]']= 1097;
-path_to_int_map['g_metadata.children[17].children[22].children[1]']= 1098;
-path_to_int_map['g_metadata.children[17].children[22].children[2]']= 1099;
+path_to_int_map['g_metadata.children[16]']= 1064;
+path_to_int_map['g_metadata.children[16].children[0]']= 1065;
+path_to_int_map['g_metadata.children[17]']= 1066;
+path_to_int_map['g_metadata.children[17].children[0]']= 1067;
+path_to_int_map['g_metadata.children[17].children[1]']= 1068;
+path_to_int_map['g_metadata.children[17].children[2]']= 1069;
+path_to_int_map['g_metadata.children[17].children[3]']= 1070;
+path_to_int_map['g_metadata.children[17].children[4]']= 1071;
+path_to_int_map['g_metadata.children[17].children[5]']= 1072;
+path_to_int_map['g_metadata.children[17].children[5].children[0]']= 1073;
+path_to_int_map['g_metadata.children[17].children[5].children[1]']= 1074;
+path_to_int_map['g_metadata.children[17].children[5].children[2]']= 1075;
+path_to_int_map['g_metadata.children[17].children[6]']= 1076;
+path_to_int_map['g_metadata.children[17].children[7]']= 1077;
+path_to_int_map['g_metadata.children[17].children[8]']= 1078;
+path_to_int_map['g_metadata.children[17].children[9]']= 1079;
+path_to_int_map['g_metadata.children[17].children[10]']= 1080;
+path_to_int_map['g_metadata.children[17].children[11]']= 1081;
+path_to_int_map['g_metadata.children[17].children[12]']= 1082;
+path_to_int_map['g_metadata.children[17].children[13]']= 1083;
+path_to_int_map['g_metadata.children[17].children[14]']= 1084;
+path_to_int_map['g_metadata.children[17].children[15]']= 1085;
+path_to_int_map['g_metadata.children[17].children[16]']= 1086;
+path_to_int_map['g_metadata.children[17].children[17]']= 1087;
+path_to_int_map['g_metadata.children[17].children[18]']= 1088;
+path_to_int_map['g_metadata.children[17].children[19]']= 1089;
+path_to_int_map['g_metadata.children[17].children[20]']= 1090;
+path_to_int_map['g_metadata.children[17].children[20].children[0]']= 1091;
+path_to_int_map['g_metadata.children[17].children[20].children[1]']= 1092;
+path_to_int_map['g_metadata.children[17].children[20].children[2]']= 1093;
+path_to_int_map['g_metadata.children[17].children[21]']= 1094;
+path_to_int_map['g_metadata.children[17].children[22]']= 1095;
+path_to_int_map['g_metadata.children[17].children[22].children[0]']= 1096;
+path_to_int_map['g_metadata.children[17].children[22].children[1]']= 1097;
+path_to_int_map['g_metadata.children[17].children[22].children[2]']= 1098;
 
-path_to_onfocus_map['g_metadata.children[4].children[6]']='xf_of';
+path_to_onfocus_map['g_metadata.children[4].children[5]']='xe_of';
 
 path_to_onfocus_map['g_metadata.children[5].children[2].children[1]']='x45_of';
 
@@ -1405,7 +1404,7 @@ var $global = {
             return result;
         }
     };
-function xf_of(p_control) {
+function xe_of(p_control) {
     if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && parseInt(this.date_of_death.year) > 999 && parseInt(this.date_of_death.year) < 2500) {
         this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + Math.random().toString().substring(2, 6);
         p_control.value = this.record_id;
@@ -1809,9 +1808,9 @@ function x28d_of(p_control) {
     var weeks = null;
     var days = null;
     var current_er_index = $global.get_current_multiform_index();
-    var event_year = parseInt(this.year);
-    var event_month = parseInt(this.month);
-    var event_day = parseInt(this.day);
+    var event_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.year);
+    var event_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.month);
+    var event_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.day);
     var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
@@ -1824,20 +1823,20 @@ function x28d_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', ga[1]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days);
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', ga[1]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_weeks);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_arrival.gestational_age_days);
         }
     }
 }
@@ -1846,9 +1845,9 @@ function x295_of(p_control) {
     var weeks = null;
     var days = null;
     var current_er_index = $global.get_current_multiform_index();
-    var event_year = parseInt(this.year);
-    var event_month = parseInt(this.month);
-    var event_day = parseInt(this.day);
+    var event_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.year);
+    var event_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.month);
+    var event_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.day);
     var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
@@ -1861,20 +1860,20 @@ function x295_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days', ga[1]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days);
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days', ga[1]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_weeks);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_admission/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_admission.gestational_age_days);
         }
     }
 }
@@ -1883,9 +1882,9 @@ function x2a6_of(p_control) {
     var weeks = null;
     var days = null;
     var current_er_index = $global.get_current_multiform_index();
-    var event_year = parseInt(this.year);
-    var event_month = parseInt(this.month);
-    var event_day = parseInt(this.day);
+    var event_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.year);
+    var event_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.month);
+    var event_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.day);
     var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
@@ -1898,20 +1897,20 @@ function x2a6_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days', ga[1]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days);
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks = ga[0];
+            g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days', ga[1]);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_weeks);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days', g_data.er_visit_and_hospital_medical_records[current_er_index].basic_admission_and_discharge_information.date_of_hospital_discharge.gestational_age_days);
         }
     }
 }
@@ -1920,9 +1919,9 @@ function x341_of(p_control) {
     var weeks = null;
     var days = null;
     var current_omov_index = $global.get_current_multiform_index();
-    var event_year = parseInt(this.year);
-    var event_month = parseInt(this.month);
-    var event_day = parseInt(this.day);
+    var event_year = parseInt(g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.year);
+    var event_month = parseInt(g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.month);
+    var event_day = parseInt(g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.day);
     var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
@@ -1935,20 +1934,20 @@ function x341_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
+            g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days', ga[1]);
+            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks', g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_weeks);
+            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days', g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_days);
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_weeks = ga[0];
+            g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days', ga[1]);
+            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks', g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_weeks);
+            $mmria.set_control_value('other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_days', g_data.other_medical_office_visits[current_omov_index].visit.date_of_medical_office_visit.gestational_age_days);
         }
     }
 }
@@ -1957,9 +1956,9 @@ function x39b_of(p_control) {
     var weeks = null;
     var days = null;
     var current_mt_index = $global.get_current_multiform_index();
-    var event_year = parseInt(this.year);
-    var event_month = parseInt(this.month);
-    var event_day = parseInt(this.day);
+    var event_year = parseInt(g_data.medical_transport[current_mt_index].date_of_transport.year);
+    var event_month = parseInt(g_data.medical_transport[current_mt_index].date_of_transport.month);
+    var event_day = parseInt(g_data.medical_transport[current_mt_index].date_of_transport.day);
     var edd_year = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.year);
     var edd_month = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.month);
     var edd_day = parseInt(g_data.prenatal.current_pregnancy.estimated_date_of_confinement.day);
@@ -1972,20 +1971,20 @@ function x39b_of(p_control) {
     if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(edd_year, edd_month, edd_day) == true) {
         ga = $global.calc_ga_edd(event_date, edd_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_weeks = ga[0];
+            g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_days', ga[1]);
+            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_weeks', g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_weeks);
+            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_days', g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_days);
         }
     } else if ($global.isValidDate(event_year, event_month, event_day) == true && $global.isValidDate(lmp_year, lmp_month, lmp_day) == true) {
         ga = $global.calc_ga_lmp(lmp_date, event_date);
         if (ga.length > 1) {
-            this.gestational_age_weeks = ga[0];
-            this.gestational_age_days = ga[1];
+            g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_weeks = ga[0];
+            g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_days = ga[1];
             $mmria.save_current_record();
-            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_weeks', ga[0]);
-            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_days', ga[1]);
+            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_weeks', g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_weeks);
+            $mmria.set_control_value('medical_transport/date_of_transport/gestational_age_days', g_data.medical_transport[current_mt_index].date_of_transport.gestational_age_days);
         }
     }
 }
@@ -2760,30 +2759,32 @@ function x23a_of(p_control) {
 function x2f6_ocl(p_control) {
     var hours = null;
     var current_dol_index = $global.get_current_multiform_index();
-    var onset_year = parseInt(this.year);
-    var onset_month = parseInt(this.month);
-    var onset_day = parseInt(this.day);
-    if (this.time_of_onset_of_labor instanceof Date) {
-        var onset_time = this.time_of_onset_of_labor;
+    var onset_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.year);
+    var onset_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.month);
+    var onset_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.day);
+    var onset_time = null;
+    if (g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor instanceof Date) {
+        onset_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor;
     } else {
-        var onset_time = new Date('January 1, 1900 ' + this.time_of_onset_of_labor);
+        onset_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor);
     }
     var arrival_year = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.year);
     var arrival_month = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.month);
     var arrival_day = parseInt(g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.day);
-    if (this.time_of_onset_of_labor instanceof Date) {
-        var arrival_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
+    var arrival_time = null;
+    if (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival instanceof Date) {
+        arrival_time = g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival;
     } else {
-        var arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
+        arrival_time = new Date('January 1, 1900 ' + g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival);
     }
-    if ($global.isValidDate(onset_year, onset_month, onset_day) == true && $global.isValidDate(arrival_year, arrival_month, arrival_day) == true && (this.time_of_onset_of_labor != '' || this.time_of_onset_of_labor != null) && (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null)) {
+    if ($global.isValidDate(onset_year, onset_month, onset_day) == true && $global.isValidDate(arrival_year, arrival_month, arrival_day) == true && (g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.time_of_onset_of_labor != null) && (g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival != '' || g_data.er_visit_and_hospital_medical_records[current_dol_index].basic_admission_and_discharge_information.date_of_arrival.time_of_arrival_time != null)) {
         var onset_date = new Date(onset_year, onset_month - 1, onset_day, onset_time.getHours(), onset_time.getMinutes());
         var arrival_date = new Date(arrival_year, arrival_month - 1, arrival_day, arrival_time.getHours(), arrival_time.getMinutes());
         var hours = Math.round((arrival_date - onset_date) / 3600000 * 100) / 100;
-        if (hours.length > 1) {
-            this.duration_of_labor_prior_to_arrival = hours;
+        if (hours > 1) {
+            g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = hours;
             $mmria.save_current_record();
-            $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', this.duration_of_labor_prior_to_arrival);
+            $mmria.set_control_value('er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival', g_data.er_visit_and_hospital_medical_records[current_dol_index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival);
         }
     }
 }
@@ -3118,20 +3119,20 @@ dictionary_path_to_path_map['created_by']='g_metadata.children[1]';
 dictionary_path_to_path_map['date_last_updated']='g_metadata.children[2]';
 dictionary_path_to_path_map['last_updated_by']='g_metadata.children[3]';
 dictionary_path_to_path_map['home_record']='g_metadata.children[4]';
-dictionary_path_to_path_map['home_record/jurisdiction_id']='g_metadata.children[4].children[0]';
-dictionary_path_to_path_map['home_record/first_name']='g_metadata.children[4].children[1]';
-dictionary_path_to_path_map['home_record/middle_name']='g_metadata.children[4].children[2]';
-dictionary_path_to_path_map['home_record/last_name']='g_metadata.children[4].children[3]';
-dictionary_path_to_path_map['home_record/date_of_death']='g_metadata.children[4].children[4]';
-dictionary_path_to_path_map['home_record/date_of_death/month']='g_metadata.children[4].children[4].children[0]';
-dictionary_path_to_path_map['home_record/date_of_death/day']='g_metadata.children[4].children[4].children[1]';
-dictionary_path_to_path_map['home_record/date_of_death/year']='g_metadata.children[4].children[4].children[2]';
-dictionary_path_to_path_map['home_record/state_of_death_record']='g_metadata.children[4].children[5]';
-dictionary_path_to_path_map['home_record/record_id']='g_metadata.children[4].children[6]';
-dictionary_path_to_path_map['home_record/agency_case_id']='g_metadata.children[4].children[7]';
-dictionary_path_to_path_map['home_record/how_was_this_death_identified']='g_metadata.children[4].children[8]';
-dictionary_path_to_path_map['home_record/specify_other_multiple_sources']='g_metadata.children[4].children[9]';
-dictionary_path_to_path_map['home_record/primary_abstractor']='g_metadata.children[4].children[10]';
+dictionary_path_to_path_map['home_record/first_name']='g_metadata.children[4].children[0]';
+dictionary_path_to_path_map['home_record/middle_name']='g_metadata.children[4].children[1]';
+dictionary_path_to_path_map['home_record/last_name']='g_metadata.children[4].children[2]';
+dictionary_path_to_path_map['home_record/date_of_death']='g_metadata.children[4].children[3]';
+dictionary_path_to_path_map['home_record/date_of_death/month']='g_metadata.children[4].children[3].children[0]';
+dictionary_path_to_path_map['home_record/date_of_death/day']='g_metadata.children[4].children[3].children[1]';
+dictionary_path_to_path_map['home_record/date_of_death/year']='g_metadata.children[4].children[3].children[2]';
+dictionary_path_to_path_map['home_record/state_of_death_record']='g_metadata.children[4].children[4]';
+dictionary_path_to_path_map['home_record/record_id']='g_metadata.children[4].children[5]';
+dictionary_path_to_path_map['home_record/agency_case_id']='g_metadata.children[4].children[6]';
+dictionary_path_to_path_map['home_record/how_was_this_death_identified']='g_metadata.children[4].children[7]';
+dictionary_path_to_path_map['home_record/specify_other_multiple_sources']='g_metadata.children[4].children[8]';
+dictionary_path_to_path_map['home_record/primary_abstractor']='g_metadata.children[4].children[9]';
+dictionary_path_to_path_map['home_record/jurisdiction_id']='g_metadata.children[4].children[10]';
 dictionary_path_to_path_map['home_record/case_progress_report']='g_metadata.children[4].children[11]';
 dictionary_path_to_path_map['home_record/case_progress_report/death_certificate']='g_metadata.children[4].children[11].children[0]';
 dictionary_path_to_path_map['home_record/case_progress_report/autopsy_report']='g_metadata.children[4].children[11].children[1]';
@@ -4169,14 +4170,13 @@ dictionary_path_to_path_map['informant_interviews/date_of_interview/year']='g_me
 dictionary_path_to_path_map['informant_interviews/interview_type']='g_metadata.children[15].children[1]';
 dictionary_path_to_path_map['informant_interviews/other_interview_type']='g_metadata.children[15].children[2]';
 dictionary_path_to_path_map['informant_interviews/information_about_the_informant']='g_metadata.children[15].children[3]';
-dictionary_path_to_path_map['informant_interviews/informant_name']='g_metadata.children[15].children[4]';
-dictionary_path_to_path_map['informant_interviews/age_group']='g_metadata.children[15].children[5]';
-dictionary_path_to_path_map['informant_interviews/relationship_to_deceased']='g_metadata.children[15].children[6]';
-dictionary_path_to_path_map['informant_interviews/other_relationship']='g_metadata.children[15].children[7]';
-dictionary_path_to_path_map['informant_interviews/ethnicity']='g_metadata.children[15].children[8]';
-dictionary_path_to_path_map['informant_interviews/race']='g_metadata.children[15].children[9]';
-dictionary_path_to_path_map['informant_interviews/interview_narrative']='g_metadata.children[15].children[10]';
-dictionary_path_to_path_map['informant_interviews/reviewer_note']='g_metadata.children[15].children[11]';
+dictionary_path_to_path_map['informant_interviews/age_group']='g_metadata.children[15].children[4]';
+dictionary_path_to_path_map['informant_interviews/relationship_to_deceased']='g_metadata.children[15].children[5]';
+dictionary_path_to_path_map['informant_interviews/other_relationship']='g_metadata.children[15].children[6]';
+dictionary_path_to_path_map['informant_interviews/ethnicity']='g_metadata.children[15].children[7]';
+dictionary_path_to_path_map['informant_interviews/race']='g_metadata.children[15].children[8]';
+dictionary_path_to_path_map['informant_interviews/interview_narrative']='g_metadata.children[15].children[9]';
+dictionary_path_to_path_map['informant_interviews/reviewer_note']='g_metadata.children[15].children[10]';
 dictionary_path_to_path_map['case_narrative']='g_metadata.children[16]';
 dictionary_path_to_path_map['case_narrative/case_opening_overview']='g_metadata.children[16].children[0]';
 dictionary_path_to_path_map['committee_review']='g_metadata.children[17]';
@@ -4212,7 +4212,7 @@ dictionary_path_to_path_map['committee_review/recommendations_of_committee']='g_
 dictionary_path_to_path_map['committee_review/recommendations_of_committee/committee_recommendations']='g_metadata.children[17].children[22].children[0]';
 dictionary_path_to_path_map['committee_review/recommendations_of_committee/prevention']='g_metadata.children[17].children[22].children[1]';
 dictionary_path_to_path_map['committee_review/recommendations_of_committee/impact_level']='g_metadata.children[17].children[22].children[2]';
-path_to_onfocus_map['g_metadata.children[4].children[6]']='xf_of';
+path_to_onfocus_map['g_metadata.children[4].children[5]']='xe_of';
 path_to_onclick_map['/children/5/children/1/children/7']='x2f_ocl';
 path_to_onclick_map['/children/5/children/1/children/8']='x30_ocl';
 path_to_onfocus_map['g_metadata.children[5].children[2].children[1]']='x45_of';
