@@ -2,12 +2,24 @@
 @{
     Layout = "_cdc";
     var userName = "";
+    var is_installation_admin = false;
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
+    }
+
+
+    foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    {
+        switch(role.Value)
+        {
+            case "installation_admin":
+                is_installation_admin = true;
+                break;
+        }
     }
 }
 
@@ -19,6 +31,7 @@
 <script src="../scripts/mmria.js" type="text/javascript"></script>
   <script>
     var g_uid = '@userName';
+    var g_is_installation_admin = '@is_installation_admin';
   </script>
 <style>
 

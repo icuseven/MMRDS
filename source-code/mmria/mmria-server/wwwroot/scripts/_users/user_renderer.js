@@ -299,7 +299,16 @@ function user_role_list_change(p_select_list, p_user_id, p_updated_by)
 function user_role_render(p_user, p_user_role_jurisdiction)
 {
 	var result = [];
-	var role_set = [ '', 'abstractor','committee_member','form_designer', 'jurisdiction_admin'];
+	var role_set = null;
+
+	if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
+	{
+		role_set = [ '', 'abstractor','committee_member','form_designer', 'jurisdiction_admin'];
+	}
+	else
+	{
+		role_set = [ '', 'abstractor','committee_member', 'jurisdiction_admin'];
+	}
 
 	result.push("<select id='selected_user_role_for_" + p_user.name + "_role' size='1' path='" + p_user._id + "'>")
 	for(var i = 0; i < role_set.length; i++)
