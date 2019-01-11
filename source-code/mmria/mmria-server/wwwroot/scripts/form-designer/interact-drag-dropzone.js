@@ -53,7 +53,7 @@ interact('.dropzone').dropzone({
             pc
         );
         
-        writeFormSpecs();
+        writeFormSpecs(true);
         writeActionSpecs("in", event.relatedTarget.id);
     },
     ondropdeactivate: function (event) {
@@ -136,7 +136,7 @@ interact('.drag-drop')
                 pc
             );
 
-            writeFormSpecs();
+            writeFormSpecs(true);
             writeActionSpecs('in', target.id);
         }
     });

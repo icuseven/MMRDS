@@ -65,8 +65,10 @@ function element(t = null, l = null, h = null, w = null, e = 'prompt') {
 /**
  * Implements method to write form designer specs to screen for debugging
  */
-function writeFormSpecs() {
-	createLocalRevision();
+function writeFormSpecs(logAction = false) {
+	if(logAction) {
+		createLocalRevision();
+	}
 
 	var html = JSON.stringify(uiSpecification, undefined, 4)
 	$(".formDesignSpecsPre").html(html);
@@ -205,6 +207,9 @@ function createLocalRevision() {
 	});
 }
 
+/**
+ * Implements method to write local revision to html view
+ */
 function writeLocalRevision() {
 	var html = localFDRevCountCurrent;
   	$("#local-rev").html(html);

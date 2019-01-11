@@ -47,12 +47,32 @@ function buildFormList(data) {
  * @param {Array} caseForm 
  */
 function groupFormElementsByType(caseForm) {
+
     var elements = {
         'labels': $.grep(caseForm.children, function (e) { return e.type == 'label'; }),
         'strings': $.grep(caseForm.children, function (e) { return e.type == 'string'; }),
         'groups': $.grep(caseForm.children, function (e) { return e.type == 'group'; }),
-        // 'grids': $.grep(caseForm.children, function (e) { return e.type == 'Grid'; }),
+        'grids': $.grep(caseForm.children, function (e) { return e.type == 'grid'; }),
+        'date': $.grep(caseForm.children, function (e) { return e.type == 'date'; }),
+        'number': $.grep(caseForm.children, function (e) { return e.type == 'number'; }),
+        'textareas': $.grep(caseForm.children, function (e) { return e.type == 'textarea'; }),
     }
+    return elements;
+}
+
+/**
+ * Implements method to get form elements of a group / grid / collection of fields and group by field/control type
+ * @param {Object} group 
+ */
+function groupFormGroupElements(group) {
+    var elements = {
+        'labels': $.grep(group.children, function (e) { return e.type == 'label'; }),
+        'strings': $.grep(group.children, function (e) { return e.type == 'string'; }),
+        'date': $.grep(group.children, function (e) { return e.type == 'date'; }),
+        'number': $.grep(group.children, function (e) { return e.type == 'number'; }),
+        'textareas': $.grep(group.children, function (e) { return e.type == 'textarea'; }),
+    }
+
     return elements;
 }
 
@@ -68,6 +88,7 @@ function populateFormDesignerCanvas(metaDataForms) {
 
         // Set what type of fields you would like
         formElements = groupFormElementsByType(caseForm);
+        fd_markup_build_fieldtypes(caseForm);
 
         buildFormElementPromptControl(formElements);
 
@@ -78,24 +99,57 @@ function populateFormDesignerCanvas(metaDataForms) {
           writeActionSpecs('out', this.id);
         });
 
+        // Uncomment or comment lines 103 - 114 to enable or disable multiselect
         // new Selectables({
         //     elements: ".resize-drag",
         //     zone: "div.form-designer-canvas",
         //     selectedClass: "active",
-        //     moreUsing: 'commandKey'
+        //     moreUsing: 'ctrlKey',
+        //     onSelect: function (element) {
+        //         fd_multiselect_prompt(element);
+        //     },
+        //     onDeselect: function (el) {
+        //         fd_multiselect_clear();
+        //     },
         // });
 
-        // if(initFieldSets == false) {
-        //     bootstrapUISpec("fieldSets");
-        // }
-        // if (initFields == false) {
-        //     bootstrapUISpec("fields");
-        // }
+        if(initFieldSets == false) {
+            bootstrapUISpec("fieldSets");
+        }
+        if (initFields == false) {
+            bootstrapUISpec("fields");
+        }
         bootstrapUISpec("fieldSets");
         bootstrapUISpec("fields");
 
         
     });
+}
+
+function fd_fire_multiselect() {
+    new Selectables({
+        elements: ".resize-drag",
+        zone: "div.form-designer-canvas",
+        selectedClass: "active",
+        moreUsing: 'ctrlKey',
+        onSelect: function (element) {
+            fd_multiselect_prompt(element);
+        },
+        onDeselect: function (el) {
+            fd_multiselect_clear();
+        },
+    });
+}
+
+function fd_multiselect_prompt(element) {
+    console.log(element.id);
+    let inHTML = `<div><h3>What would you like to do with the selected items?</h3></div>`;
+    $(".wysiwyg-container").html(inHTML);
+}
+
+function fd_multiselect_clear() {
+  let inHTML = ``;
+  $(".wysiwyg-container").html(inHTML);
 }
 
 /**
@@ -139,24 +193,24 @@ function buildFormElementPromptControl(fe) {
     });
 
     // Grids
-    $.each(fe.grids, function (index, value) {
-        var groupName = value.name;
-        var stringSet = $.grep(value.children, function (e) {
-            return e.type == "string";
-        });
+    // $.each(fe.grids, function (index, value) {
+    //     var groupName = value.name;
+    //     var stringSet = $.grep(value.children, function (e) {
+    //         return e.type == "string";
+    //     });
 
-        if (stringSet.length > 0) {
-            $.each(stringSet, function (index, value) {
-                var eid = groupName + '__' + value.name;
-                var newItem = `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
-                newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <input type="text" rows="1" placeholder="` + value.prompt + `"></input></div>`;
-                inHTML += newItem;
-            })
-        }
-    });
+    //     if (stringSet.length > 0) {
+    //         $.each(stringSet, function (index, value) {
+    //             var eid = groupName + '__' + value.name;
+    //             var newItem = `<div id="` + eid + `" class="resize-drag drag-drop yes-drop">` + value.prompt + `</div>`;
+    //             newItem += `<div id="` + eid + `-control" class="resize-drag drag-drop yes-drop"> <input type="text" rows="1" placeholder="` + value.prompt + `"></input></div>`;
+    //             inHTML += newItem;
+    //         })
+    //     }
+    // });
 
     // Write elements to canvas
-    $(".form-designer-canvas").html(inHTML);
+    //$(".form-designer-canvas").html(inHTML);
 
     // Add style to written elements
     styleElementsPerDefinition(fe.strings, fe.groups);
@@ -174,15 +228,15 @@ function styleElementsPerDefinition(fe, group = null) {
             if ('prompt' in uiSpecification.form_design[tid]) {
                 if(el.prompt) {
                     // set style for element prompt
-                    $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
-                    $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                    // $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                    // $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
                 }
             }
             if ('control' in uiSpecification.form_design[tid]) {
                 if (el.control) {
                     // set style for element control
-                    $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
-                    $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
+                    // $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                    // $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
                 }
             }
         }
@@ -198,16 +252,16 @@ function styleElementsPerDefinition(fe, group = null) {
                     if (el.prompt) {
                         if (el.prompt.width == null) { el.prompt.width = 1037.75 };
                         // set style for element prompt
-                        $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
-                        $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                        // $('#' + value.name).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                        // $('#' + value.name).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
                     }
                 }
                 if ('control' in uiSpecification.form_design[tid]) {
                     if (el.control) {
                         if (el.control.width == null) { el.control.width = 1037.75 };
                         // set style for element control
-                        $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
-                        $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
+                        // $('#' + value.name + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                        // $('#' + value.name + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
                     }
                 }
             }
@@ -225,15 +279,15 @@ function styleElementsPerDefinition(fe, group = null) {
                         if ('prompt' in uiSpecification.form_design[eid]) {
                             if (el.prompt) {
                                 // set style for element prompt
-                                $('#' + jeid).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
-                                $('#' + jeid).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
+                                // $('#' + jeid).css({ "position": 'absolute', "top": el.prompt.x, "left": el.prompt.y, "width": el.prompt.width, "height": el.prompt.height });
+                                // $('#' + jeid).attr({ "data-t": el.prompt.x, "data-l": el.prompt.y, "data-w": el.prompt.width, "data-h": el.prompt.height });
                             }
                         }
                         if ('control' in uiSpecification.form_design[eid]) {
                             if (el.control) {
                                 // set style for element control
-                                $('#' + jeid + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
-                                $('#' + jeid + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
+                                // $('#' + jeid + '-control').css({ "position": 'absolute', "top": el.control.x, "left": el.control.y, "width": el.control.width, "height": el.control.height });
+                                // $('#' + jeid + '-control').attr({ "data-t": el.control.x, "data-l": el.control.y, "data-w": el.control.width, "data-h": el.control.height });
                             }
                         }
                     }
@@ -306,7 +360,7 @@ function bootstrapUISpec(itemType) {
             let left = $("#" + itemID1).position().left;
             let height = $("#" + itemID1).height();
 
-            console.log(itemID1);
+            //console.log(itemID1);
 
 
             createOrUpdateFormElements(activeForm, itemID, top, left, 1037.75, height, 'prompt');
