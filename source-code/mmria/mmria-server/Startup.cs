@@ -228,11 +228,12 @@ namespace mmria.server
                 }
             }
             
-
+            //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-2.2
+            services.AddDistributedMemoryCache();
             services.AddSession(opts =>
             {
                 opts.Cookie.HttpOnly = true;
-                opts.Cookie.Name = ".session";
+                opts.Cookie.Name = ".mmria.session";
                 opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout_minutes);
             });
 
@@ -291,7 +292,7 @@ namespace mmria.server
 
 
             //app.UseMvc();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
