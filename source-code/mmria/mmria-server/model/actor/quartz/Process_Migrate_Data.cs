@@ -42,7 +42,17 @@ namespace mmria.server.model.actor.quartz
 						{
 							continue;
 						}
-
+/*
+						if
+						(
+							plan_item.old_mmria_path == "er_visit_and_hospital_medical_records/onset_of_labor/is_artificial" &&
+							case_item.id == "ad52d04f-dced-60ed-ba09-3cdfbba390b0"
+						)
+						{
+							Console.Write("break");
+						}
+ */
+ 
 						var old_value_list = get_value(plan_item.old_mmria_path.TrimEnd('/'), case_item.doc);
 
 						for(var i = 0; i < old_value_list.Count; i++)
@@ -56,9 +66,20 @@ namespace mmria.server.model.actor.quartz
 							)
 							{
 								new_value = lookup[plan_item.old_mmria_path][plan_item.new_mmria_path][old_value.value];
-							}
 
-							var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
+								var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
+							}
+							/*
+							else if
+							(
+								plan_item.old_mmria_path == plan_item.new_mmria_path
+							)
+							{
+								var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
+							}
+							 */
+
+							
 						}
 					}
 
@@ -257,7 +278,7 @@ namespace mmria.server.model.actor.quartz
 							{
 								val.Add(item_key, p_value);
 							}
-
+							result = true;
 							break;
 
 					}
@@ -278,6 +299,7 @@ namespace mmria.server.model.actor.quartz
 								{
 									list_val.Add(item_key, p_value);
 								}
+								result = true;
 								break;
 							}
 							break;
