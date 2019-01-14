@@ -233,7 +233,7 @@ namespace mmria.server
             {
                 opts.Cookie.HttpOnly = true;
                 opts.Cookie.Name = ".session";
-                opts.IdleTimeout = TimeSpan.FromMinutes(30);
+                opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout);
             });
 
             services.AddAuthorization(options =>
