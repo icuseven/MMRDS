@@ -68,7 +68,7 @@ namespace mmria.server
                 Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
                 Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
 
-                Program.config_session_idle_timeout = System.Environment.GetEnvironmentVariable ("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable ("session_idle_timeout"), out int test_int) ? test_int : 30;
+                Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable ("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable ("session_idle_timeout"), out int test_int) ? test_int : 30;
 
 
                 Program.config_password_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_minimum_length"))? 8: int.Parse(System.Environment.GetEnvironmentVariable ("password_minimum_length"));
@@ -102,7 +102,7 @@ namespace mmria.server
                 Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
                 Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
-                Program.config_session_idle_timeout = Configuration["mmria_settings:session_idle_timeout"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout"], out int test_int) ? test_int : 30;
+                Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout"], out int test_int) ? test_int : 30;
 
 
                 Program.config_password_minimum_length = string.IsNullOrWhiteSpace(Configuration["password_settings:minimum_length"])? 8: int.Parse(Configuration["password_settings:minimum_length"]);
@@ -233,7 +233,7 @@ namespace mmria.server
             {
                 opts.Cookie.HttpOnly = true;
                 opts.Cookie.Name = ".session";
-                opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout);
+                opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout_minutes);
             });
 
             services.AddAuthorization(options =>
