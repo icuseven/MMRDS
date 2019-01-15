@@ -212,7 +212,7 @@ namespace mmria.common.Controllers
             mmria.common.model.couchdb.user user = null;
 			try
 			{
-				string request_string = config_couchdb_url + "/_users/" + System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + email);
+				string request_string = config_couchdb_url + "/_users/" + System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + email.ToLower());
 				var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
 				var responseFromServer = await user_curl.executeAsync();
 
@@ -228,7 +228,7 @@ namespace mmria.common.Controllers
 
             if(user == null)// if user does NOT exists create user with email
             {
-                user = add_new_user(email, Guid.NewGuid().ToString());
+                user = add_new_user(email.ToLower(), Guid.NewGuid().ToString());
 
                 try
                 {
