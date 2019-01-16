@@ -647,6 +647,10 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			{
 				user_role.effective_end_date = new Date(effective_end_date.value);
 			}
+			else
+			{
+				user_role.effective_end_date = null;
+			}
 			
 			user_role.is_active = (is_active.value == "true")? true: false;
 			user_role.last_updated_by = p_user_id;

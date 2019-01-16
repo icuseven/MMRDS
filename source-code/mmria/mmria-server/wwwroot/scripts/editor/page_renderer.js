@@ -505,7 +505,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	//hack
 	if(p_metadata.name == "case_opening_overview")
 	{
-		p_result.push("'<textarea'  rows=5 cols=80 name='");
+		p_result.push("'<textarea'  rows=30 cols=120 name='");
 	}
 	else
 	{

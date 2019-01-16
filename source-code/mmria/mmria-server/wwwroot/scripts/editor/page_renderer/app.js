@@ -35,12 +35,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     // p_result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
-    p_result.push("<label for='search_command_button'>Execute Search</label>");
+    p_result.push("<label for='search_command_button'>==></label>");
     p_result.push("<input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 
 
-    p_result.push("<label for='search_sort_by'>Sort By</label>");
-    p_result.push("<br/> Sort By:<select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+    p_result.push("<br/><label for='search_sort_by'>Sort By:</label>");
+    p_result.push("<br/><select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
     
@@ -176,8 +176,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     }
     p_result.push("</select>");
 
-    p_result.push("<label for='sort_decending'>Is Sort Decending?</label>");
-    p_result.push(" Sort Descending: <input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+    p_result.push("<br/><label for='sort_decending'>Is Sort Decending?</label>");
+    p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
     if(p_ui.case_view_request.descending)
     {
         p_result.push(" checked='true' ");
@@ -187,8 +187,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     p_result.push("<br/>");
-    p_result.push("<label for='search_records_per_page'>Records per page</label>");
-    p_result.push("Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
+    p_result.push("<label for='search_records_per_page'>Records per page:</label>");
+    p_result.push("<select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
     if(p_ui.case_view_request.take==25)
     {
         p_result.push("<option selected>25</option>");
@@ -238,8 +238,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     // p_result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
-    p_result.push("<label for='search_command_button'>Apply Search</label>");
-    p_result.push("<br/><br/><p style='text-align:right;'><input type='button' class='btn btn-primary'  alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
+    p_result.push("");
+    p_result.push("<br/><br/><p style='text-align:right;'><label for='search_command_button'>==></label><input type='button' class='btn btn-primary'  alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
     p_result.push("</p><br/><hr/>");
 
     /*
@@ -265,7 +265,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(";get_case_set();' value='");
         p_result.push(current_page);
         p_result.push("' />");
-        p_result.push("Select page " + current_page + "</label>");
+        p_result.push(" | </label>");
+        //p_result.push("Select page " + current_page + "</label>");
     }
 
     //p_result.push(" <input type='button' alt='search' value='next' />");
@@ -467,7 +468,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(current_page);
         p_result.push(";get_case_set();' value='");
         p_result.push(current_page);
-        p_result.push("' />select page " + current_page + "</label>");
+        //p_result.push("' />select page " + current_page + "</label>");
+        p_result.push("' /> | </label>");
     }
 
 

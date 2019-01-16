@@ -205,42 +205,43 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
        if(g_data && p_metadata.name == "case_narrative")
        {
            //death_certificate/reviewer_note
-           p_result.push("<h3>Death Certificate Reviewer's Notes</h3>");
-           p_result.push("<label><textarea cols=80 rows=7>");
+           p_result.push("<p><h3>Death Certificate</h3>");
+           p_result.push("<label>Reviewer's Notes<br/><textarea cols=120 rows=7>");
            p_result.push(g_data.death_certificate.reviewer_note);
-           p_result.push("</textarea>death certificate</label>");
+           p_result.push("</textarea></label></p>");
 
            //birth_fetal_death_certificate_parent/reviewer_note
-           p_result.push("<h3>Birth/Fetal Death Certificate- Parent Section Reviewer's Notes</h3>");
-           p_result.push("<label><textarea cols=80 rows=7>");
+           p_result.push("<p><h3>Birth/Fetal Death Certificate- Parent Section </h3>");
+           p_result.push("<label>Reviewer's Notes<br/><textarea cols=120 rows=7>");
            p_result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
-           p_result.push("</textarea>Parent section birth/fetal death certificate</label>");
+           p_result.push("</textarea></label></p>");
 
            
            //birth_certificate_infant_fetal_section/reviewer_note
            p_result.push("<h3>Birth/Fetal Death Certificate- Infant/Fetal Section Reviewer's Notes</h3>");
            for(var i = 0; i < g_data.birth_certificate_infant_fetal_section.length; i++)
            {
-               p_result.push("<p>Note: ");
+               p_result.push("<p><label>Note: ");
                p_result.push(i+1);
                p_result.push("<br/>");
-               p_result.push("<label><textarea cols=80 rows=7>");
+               p_result.push("<textarea cols=120 rows=7>");
                p_result.push(g_data.birth_certificate_infant_fetal_section[i].reviewer_note);
-               p_result.push("</textarea>birth certificate infant fetal section</label>");
+               p_result.push("</textarea></label>");
+               p_result.push("</p>");
            }
            
            //autopsy_report/reviewer_note
-           p_result.push("<h3>Autopsy Report Reviewer's Notes</h3>");
-           p_result.push("<label><textarea cols=80 rows=7>");
+           p_result.push("<p><h3>Autopsy Report </h3>");
+           p_result.push("<label>Reviewer's Notes<br/><textarea cols=120 rows=7>");
            p_result.push(g_data.autopsy_report.reviewer_note);
-           p_result.push("</textarea>autopsy</label>");
+           p_result.push("</textarea></label></p>");
 
            
            //prenatal/reviewer_note
-           p_result.push("<h3>Prenatal Care Record Reviewer's Notes</h3>");
-           p_result.push("<label><textarea cols=80 rows=7>");
+           p_result.push("<p><h3>Prenatal Care Record </h3>");
+           p_result.push("<label>Reviewer's Notes<br/><textarea cols=120 rows=7>");
            p_result.push(g_data.prenatal.reviewer_note);
-           p_result.push("</textarea>prenatal</label>");
+           p_result.push("</textarea></label></p>");
            
 
            
@@ -248,12 +249,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            p_result.push("<h3>ER Visits and Hospitalizations Reviewer's Notes</h3>");
            for(var i = 0; i < g_data.er_visit_and_hospital_medical_records.length; i++)
            {
-               p_result.push("<p>Note: ");
+               p_result.push("<p><label>Note: ");
                p_result.push(i+1);
                p_result.push("<br/>");
-               p_result.push("<label><textarea cols=80 rows=7>");
+               p_result.push("<textarea cols=120 rows=7>");
                p_result.push(g_data.er_visit_and_hospital_medical_records[i].reviewer_note);
-               p_result.push("</textarea>er visit and hospital medical records</label>");
+               p_result.push("</textarea></label>");
                p_result.push("</p>");
            }
            
@@ -261,48 +262,48 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            p_result.push("<h3>Other Medical Office Visits Reviewer's Notes</h3>");
            for(var i = 0; i < g_data.other_medical_office_visits.length; i++)
            {
-               p_result.push("<p>Note: ");
+               p_result.push("<p><label>Note: ");
                p_result.push(i+1);
                p_result.push("<br/>");
-               p_result.push("<label><textarea cols=80 rows=7>");
+               p_result.push("<textarea cols=120 rows=7>");
                p_result.push(g_data.other_medical_office_visits[i].reviewer_note);
-               p_result.push("</textarea>other medical office visits</label>");
+               p_result.push("</textarea></label>");
                p_result.push("</p>");
            }
 ///medical_transport/transport_narrative_summary
            p_result.push("<h3>Medical Transport Reviewer's Notes</h3>");
            for(var i = 0; i < g_data.medical_transport.length; i++)
            {
-               p_result.push("<p>Note: ");
+               p_result.push("<p><label>Note: ");
                p_result.push(i+1);
                p_result.push("<br/>");
-               p_result.push("<label><textarea cols=80 rows=7>");
+               p_result.push("<textarea cols=120 rows=7>");
                p_result.push(g_data.medical_transport[i].reviewer_note);
-               p_result.push("</textarea>Medical transport</label>");
+               p_result.push("</textarea></label>");
                p_result.push("</p>");
            }
            
            //social_and_environmental_profile/reviewer_note
-           p_result.push("<h3>Social and Environmental Profile Reviewer's Notes</h3>");
-           p_result.push("<label><textarea cols=80 rows=7>");
+           p_result.push("<p><h3>Social and Environmental Profile </h3>");
+           p_result.push("<label>Reviewer's Notes<br/><textarea cols=120 rows=7>");
            p_result.push(g_data.social_and_environmental_profile.reviewer_note);
-           p_result.push("</textarea>social and environmental profile</label>");
+           p_result.push("</textarea></label></p>");
 
 
-           p_result.push("<h3>Mental Health Profile Reviewer's Notes</h3>");
-           p_result.push("<label><textarea cols=80 rows=7>");
+           p_result.push("<p><h3>Mental Health Profile </h3>");
+           p_result.push("<label>Reviewer's Notes<br/><textarea cols=120 rows=7>");
            p_result.push(g_data.mental_health_profile.reviewer_note);
-           p_result.push("</textarea>mental health profile</label>");
+           p_result.push("</textarea></label></p>");
 
            p_result.push("<h3>Informant Interviews Reviewer's Notes</h3>");
            for(var i = 0; i < g_data.informant_interviews.length; i++)
            {
-               p_result.push("<p>Note: ");
+               p_result.push("<p><label>Note: ");
                p_result.push(i+1);
                p_result.push("<br/>");
-               p_result.push("<label><textarea cols=80 rows=7>");
+               p_result.push("<textarea cols=120 rows=7>");
                p_result.push(g_data.informant_interviews[i].reviewer_note);
-               p_result.push("</textarea>Informant interview</label>");
+               p_result.push("</textarea></label>");
                p_result.push("</p>");
            }
 

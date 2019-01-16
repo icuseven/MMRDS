@@ -37,10 +37,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     // p_result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
 
-    p_result.push("<label><input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />Clear Search Text</label>");
+    p_result.push("<label>==><input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' /></label>");
 
 
-    p_result.push("<br/> Sort By:<label><select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+    p_result.push("<br/><label>Sort By: <select id='search_sort_by' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
 
 
     
@@ -164,19 +164,19 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("<option>date_last_updated</option>");
         
     }
-    p_result.push("</select>Sort by</label>");
+    p_result.push("</select></label>");
 
-    p_result.push(" Sort Descending: <label><input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+    p_result.push(" <label>Is sort decending?<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
     if(p_ui.case_view_request.descending)
     {
         p_result.push(" checked='true' ");
     }
-    p_result.push(" />Is sort decending?</label>");
+    p_result.push(" /></label>");
 
 
 
     p_result.push("<br/>");
-    p_result.push("Records per page: <label><select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
+    p_result.push("<label>Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
     if(p_ui.case_view_request.take==25)
     {
         p_result.push("<option selected>25</option>");
@@ -222,12 +222,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("<option>500</option>");
         
     }
-    p_result.push("</select>Records per page</label>");
+    p_result.push("</select></label>");
 
 
     // p_result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
 
-    p_result.push("<br/><br/><p style='text-align:right;'><label><input type='button' class='btn btn-primary'  alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' />Apply Search and Sort</label> ");
+    p_result.push("<br/><br/><p style='text-align:right;'><label>==><input type='button' class='btn btn-primary'  alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /></label> ");
     p_result.push("</p><br/><hr/>");
 
     /*
@@ -369,7 +369,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     p_result.push('<hr/>')
 
-    p_result.push("Records per page: <label><select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
+    p_result.push("<label>Records per page: <select id='search_records_per_page' onchange='g_ui.case_view_request.take = this.value;' >");
     if(p_ui.case_view_request.take==25)
     {
         p_result.push("<option selected>25</option>");
@@ -415,7 +415,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("<option>500</option>");
         
     }
-    p_result.push("</select>Records per page</label>");
+    p_result.push("</select></label>");
 
     p_result.push("<br/>");
     p_result.push("Page: ");
@@ -442,8 +442,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(current_page);
         p_result.push(";get_case_set();' value='");
         p_result.push(current_page);
-        p_result.push("' />Select page ");
-        p_result.push(current_page);
+        p_result.push("' /> |");
+        //p_result.push(current_page);
         p_result.push("</label>");
     }
 
