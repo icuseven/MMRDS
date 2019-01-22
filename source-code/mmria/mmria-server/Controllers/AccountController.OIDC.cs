@@ -392,12 +392,20 @@ namespace mmria.common.Controllers
             userIdentity.AddClaims(claims);
             var userPrincipal = new ClaimsPrincipal(userIdentity);
 
+            var session_idle_timeout_minutes = 30;
+            
+            if(_configuration["mmria_settings:session_idle_timeout_minutes"] != null)
+            {
+                int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
+            }
+
+
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 userPrincipal,
                 new AuthenticationProperties
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(session_idle_timeout_minutes),
                     IsPersistent = false,
                     AllowRefresh = true,
                 });

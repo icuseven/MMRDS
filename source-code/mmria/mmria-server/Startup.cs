@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,9 +19,15 @@ using Serilog;
 using Serilog.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using System.Security.Claims;
+using Newtonsoft.Json.Linq;
+
 
 namespace mmria.server
 {
@@ -174,6 +182,8 @@ namespace mmria.server
             {
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
                 {
+                    //https://github.com/jerriepelser-blog/AspnetCoreGitHubAuth/blob/master/AspNetCoreGitHubAuth/
+
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -182,8 +192,46 @@ namespace mmria.server
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
                                 //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                                //options.Events = get_sams_authentication_events();
 
                         });
+                        /*
+                        .AddOAuth("SAMS", options =>
+                        {
+                            options.ClientId = Configuration["sams:client_id"];
+                            options.ClientSecret = Configuration["sams:client_secret"];
+                            options.CallbackPath = new PathString("/Account/SignInCallback");//new PathString(Configuration["sams:callback_url"]);// new PathString("/signin-github");
+
+                            options.AuthorizationEndpoint = Configuration["sams:endpoint_authorization"];// "https://github.com/login/oauth/authorize";
+                            options.TokenEndpoint = Configuration["sams:endpoint_token"];// ""https://github.com/login/oauth/access_token";
+                            options.UserInformationEndpoint = Configuration["sams:endpoint_user_info"];// "https://api.github.com/user";
+
+                            options.SaveTokens = true;
+
+                            options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                            options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                            options.ClaimActions.MapJsonKey("urn:github:login", "login");
+                            options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
+                            options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
+
+                            options.Events = new OAuthEvents
+                            {
+                                OnCreatingTicket = async context =>
+                                {
+                                    var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
+                                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+                                    var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                                    response.EnsureSuccessStatusCode();
+
+                                    var user = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                                    context.RunClaimActions(user);
+                                }
+                            };
+                    }); */
+                        
                 }
                 else
                 {
@@ -195,8 +243,45 @@ namespace mmria.server
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
                                // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                               //options.Events = get_sams_authentication_events();
 
                         });
+                        /*
+                        .AddOAuth("SAMS", options =>
+                        {
+                            options.ClientId = Configuration["sams:client_id"];
+                            options.ClientSecret = Configuration["sams:client_secret"];
+                            options.CallbackPath = Configuration["sams:callback_url"];// new PathString("/signin-github");
+
+                            options.AuthorizationEndpoint = Configuration["sams:endpoint_authorization"];// "https://github.com/login/oauth/authorize";
+                            options.TokenEndpoint = Configuration["sams:endpoint_token"];// ""https://github.com/login/oauth/access_token";
+                            options.UserInformationEndpoint = Configuration["sams:endpoint_user_info"];// "https://api.github.com/user";
+
+                            options.SaveTokens = true;
+
+                            options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                            options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                            options.ClaimActions.MapJsonKey("urn:github:login", "login");
+                            options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
+                            options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
+
+                            options.Events = new OAuthEvents
+                            {
+                                OnCreatingTicket = async context =>
+                                {
+                                    var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
+                                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+                                    var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                                    response.EnsureSuccessStatusCode();
+
+                                    var user = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                                    context.RunClaimActions(user);
+                                }
+                            };
+                    }); */
                 }
                 
             }
@@ -277,6 +362,69 @@ namespace mmria.server
             
             
         }
+
+        /*
+        private CookieAuthenticationEvents get_sams_authentication_events()
+        {
+            //https://stackoverflow.com/questions/52175302/handling-expired-refresh-tokens-in-asp-net-core
+
+            var sams_endpoint_authorization = Configuration["sams:endpoint_authorization"];
+            var sams_endpoint_token = Configuration["sams:endpoint_token"];
+            var sams_endpoint_user_info = Configuration["sams:endpoint_user_info"];
+            var sams_endpoint_token_validation = Configuration["sams:token_validation"];
+            var sams_endpoint_user_info_sys = Configuration["sams:user_info_sys"];
+            var sams_client_id = Configuration["sams:client_id"];
+            var sams_client_secret = Configuration["sams:client_secret"];
+            var sams_callback_url = Configuration["sams:callback_url"]; 
+
+            var result = new CookieAuthenticationEvents
+            {
+                OnValidatePrincipal = context =>
+                {
+                    //check to see if user is authenticated first
+                    if (context.Principal.Identity.IsAuthenticated)
+                    {
+                        //get the users tokens
+                        var tokens = context.Properties.GetTokens();
+                        var refreshToken = tokens.FirstOrDefault(t => t.Name == "refresh_token");
+                        var accessToken = tokens.FirstOrDefault(t => t.Name == "access_token");
+                        var exp = tokens.FirstOrDefault(t => t.Name == "expires_at");
+                        var expires = DateTime.Parse(exp.Value);
+                        //check to see if the token has expired
+                        if (expires < DateTime.Now)
+                        {
+                            //token is expired, let's attempt to renew
+                            var tokenEndpoint = sams_endpoint_token;
+                            var tokenClient = new TokenClient(tokenEndpoint, sams_client_id, sams_client_secret);
+                            var tokenResponse = tokenClient.RequestRefreshTokenAsync(refreshToken.Value).Result;
+                            //check for error while renewing - any error will trigger a new login.
+                            if (tokenResponse.IsError)
+                            {
+                                //reject Principal
+                                context.RejectPrincipal();
+                                return Task.CompletedTask;
+                            }
+                            //set new token values
+                            refreshToken.Value = tokenResponse.RefreshToken;
+                            accessToken.Value = tokenResponse.AccessToken;
+                            //set new expiration date
+                            var newExpires = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
+                            exp.Value = newExpires.ToString("o", StringComparer.InvariantCultureIgnoreCase);
+                            //set tokens in auth properties 
+                            context.Properties.StoreTokens(tokens);
+                            //trigger context to renew cookie with new token values
+                            context.ShouldRenew = true;
+                            return Task.CompletedTask;
+                        }
+                    }
+                    return Task.CompletedTask;
+                }
+            };
+
+            return result;
+        }
+        */
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
