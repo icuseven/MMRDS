@@ -378,7 +378,7 @@ namespace mmria.server.Controllers
                 {
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(-5),
                     IsPersistent = false,
-                    AllowRefresh = false,
+                    AllowRefresh = true,
                 }
             );
 

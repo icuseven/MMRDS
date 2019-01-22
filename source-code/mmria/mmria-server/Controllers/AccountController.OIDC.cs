@@ -399,7 +399,7 @@ namespace mmria.common.Controllers
                 {
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
                     IsPersistent = false,
-                    AllowRefresh = false,
+                    AllowRefresh = true,
                 });
 
         }
