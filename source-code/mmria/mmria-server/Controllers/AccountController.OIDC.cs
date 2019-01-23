@@ -159,6 +159,10 @@ namespace mmria.common.Controllers
 
             var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
             var access_token = payload.Value<string>("access_token");
+            var refresh_token = payload.Value<string>("refresh_token");
+            var expires_in = payload.Value<int>("expires_in");
+
+
             var scope = payload.Value<string>("scope");
 
 

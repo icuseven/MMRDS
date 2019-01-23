@@ -207,6 +207,22 @@ namespace mmria.server.util
             return temp_string;
         }
 
+
+        public void get_refresh_token()
+        {
+/*
+https://auth0.com/learn/refresh-tokens/
+
+curl -X POST -H 'Authorization: Basic dGVzdGNsaWVudDpzZWNyZXQ=' -d 'refresh_token=fdb8fdbecf1d03ce5e6125c067733c0d51de209c&grant_type=refresh_token' localhost:3000/oauth/token
+
+{
+    "token_type":"bearer",
+    "access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiVlx1MDAxNcKbwoNUwoonbFPCu8KhwrYiLCJpYXQiOjE0NDQyNjI4NjYsImV4cCI6MTQ0NDI2Mjg4Nn0.Dww7TC-d0teDAgsmKHw7bhF2THNichsE6rVJq9xu_2s",
+    "expires_in":20,
+    "refresh_token":"7fd15938c823cf58e78019bea2af142f9449696a"
+}
+ */
+        }
         private string DecodeToken(string p_value)
         {
             var replaced_value = p_value.Replace('-', '+').Replace('_', '/');
