@@ -315,7 +315,7 @@ namespace mmria.server.util
                     metadata_result_string = await metadata_attachement_curl.executeAsync ();
                     metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
 
-                    metadata_attachment = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/mmria-check-code.js")).ReadToEndAsync (); ;
+                    metadata_attachment = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/validator.js")).ReadToEndAsync (); ;
                     var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_password);
                     mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
                     Log.Information($"{await mmria_check_code_curl.executeAsync ()}");
