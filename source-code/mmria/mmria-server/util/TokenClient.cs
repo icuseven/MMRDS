@@ -214,6 +214,8 @@ namespace mmria.server.util
             public string access_token;
             public int expires_in;
             public string refresh_token;
+
+            public bool is_error;
         }
 
         public async Task<refresh_token_struct> get_refresh_token
@@ -234,7 +236,7 @@ curl -X POST -H 'Authorization: Basic dGVzdGNsaWVudDpzZWNyZXQ=' -d 'refresh_toke
     "refresh_token":"7fd15938c823cf58e78019bea2af142f9449696a"
 }
  */
-            refresh_token_struct result;
+            refresh_token_struct result = new refresh_token_struct();
 
             HttpClient client = new HttpClient();
             var user_refresh_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_authorization + $"?refresh_token={p_refresh_token}&grant_type=refresh_token");
@@ -242,14 +244,20 @@ curl -X POST -H 'Authorization: Basic dGVzdGNsaWVudDpzZWNyZXQ=' -d 'refresh_toke
             user_refresh_request.Headers.Add("client_id", sams_client_id); 
             user_refresh_request.Headers.Add("client_secret", sams_client_secret); 
 
-
             var response = await client.SendAsync(user_refresh_request);
-            response.EnsureSuccessStatusCode();
+            if(response.IsSuccessStatusCode)
+            {
+                //response.EnsureSuccessStatusCode();
 
-            var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
-            result.access_token = payload.Value<string>("access_token");
-            result.expires_in = payload.Value<int>("expires_in");
-            result.refresh_token = payload.Value<string>("refresh_token");
+                var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
+                result.access_token = payload.Value<string>("access_token");
+                result.expires_in = payload.Value<int>("expires_in");
+                result.refresh_token = payload.Value<string>("refresh_token");
+            }
+            else
+            {
+                result.is_error = true;
+            }
 
             return result;
 

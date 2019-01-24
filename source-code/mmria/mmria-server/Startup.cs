@@ -363,7 +363,7 @@ namespace mmria.server
             
         }
 
-        /*
+        
         private CookieAuthenticationEvents get_sams_authentication_events()
         {
             //https://stackoverflow.com/questions/52175302/handling-expired-refresh-tokens-in-asp-net-core
@@ -395,21 +395,25 @@ namespace mmria.server
                         {
                             //token is expired, let's attempt to renew
                             var tokenEndpoint = sams_endpoint_token;
-                            var tokenClient = new TokenClient(tokenEndpoint, sams_client_id, sams_client_secret);
-                            var tokenResponse = tokenClient.RequestRefreshTokenAsync(refreshToken.Value).Result;
+                            var tokenClient = new mmria.server.util.TokenClient(Configuration);
+
+                            //var name = HttpContext.Session.GetString(SessionKeyName);
+                            //var name = HttpContext.Session.GetString(SessionKeyName);
+
+                            var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
                             //check for error while renewing - any error will trigger a new login.
-                            if (tokenResponse.IsError)
+                            if (tokenResponse.is_error)
                             {
                                 //reject Principal
                                 context.RejectPrincipal();
                                 return Task.CompletedTask;
                             }
                             //set new token values
-                            refreshToken.Value = tokenResponse.RefreshToken;
-                            accessToken.Value = tokenResponse.AccessToken;
+                            refreshToken.Value = tokenResponse.refresh_token;
+                            accessToken.Value = tokenResponse.access_token;
                             //set new expiration date
-                            var newExpires = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
-                            exp.Value = newExpires.ToString("o", StringComparer.InvariantCultureIgnoreCase);
+                            var newExpires = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.expires_in);
+                            exp.Value = newExpires.ToString("o", System.Globalization.CultureInfo.InvariantCulture);
                             //set tokens in auth properties 
                             context.Properties.StoreTokens(tokens);
                             //trigger context to renew cookie with new token values
@@ -423,7 +427,7 @@ namespace mmria.server
 
             return result;
         }
-        */
+        
         
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
