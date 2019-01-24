@@ -305,6 +305,13 @@ namespace mmria.server.Controllers
                     //claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
                     //var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+                    var session_idle_timeout_minutes = 30;
+                    
+                    if(_configuration["mmria_settings:session_idle_timeout_minutes"] != null)
+                    {
+                        int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
+                    }
+
                     var userIdentity = new ClaimsIdentity("SuperSecureLogin");
                     userIdentity.AddClaims(claims);
                     var userPrincipal = new ClaimsPrincipal(userIdentity);
@@ -314,7 +321,7 @@ namespace mmria.server.Controllers
                         userPrincipal,
                         new AuthenticationProperties
                         {
-                            ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                            ExpiresUtc = DateTime.UtcNow.AddMinutes(session_idle_timeout_minutes),
                             IsPersistent = false,
                             AllowRefresh = false,
                         });

@@ -208,7 +208,19 @@ namespace mmria.server.util
         }
 
 
-        public void get_refresh_token()
+
+        public struct refresh_token_struct
+        {
+            public string access_token;
+            public int expires_in;
+            public string refresh_token;
+        }
+
+        public async Task<refresh_token_struct> get_refresh_token
+        (
+            string p_access_token,
+            string p_refresh_token   
+        )
         {
 /*
 https://auth0.com/learn/refresh-tokens/
@@ -222,6 +234,39 @@ curl -X POST -H 'Authorization: Basic dGVzdGNsaWVudDpzZWNyZXQ=' -d 'refresh_toke
     "refresh_token":"7fd15938c823cf58e78019bea2af142f9449696a"
 }
  */
+            refresh_token_struct result;
+
+            HttpClient client = new HttpClient();
+            var user_refresh_request = new HttpRequestMessage(HttpMethod.Post, sams_endpoint_authorization + $"?refresh_token={p_refresh_token}&grant_type=refresh_token");
+            user_refresh_request.Headers.Add("Authorization","Bearer " + p_access_token); 
+            user_refresh_request.Headers.Add("client_id", sams_client_id); 
+            user_refresh_request.Headers.Add("client_secret", sams_client_secret); 
+
+
+            var response = await client.SendAsync(user_refresh_request);
+            response.EnsureSuccessStatusCode();
+
+            var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
+            result.access_token = payload.Value<string>("access_token");
+            result.expires_in = payload.Value<int>("expires_in");
+            result.refresh_token = payload.Value<string>("refresh_token");
+
+            return result;
+
+
+/*
+https://auth0.com/learn/refresh-tokens/
+
+curl -X POST -H 'Authorization: Basic dGVzdGNsaWVudDpzZWNyZXQ=' -d 'refresh_token=fdb8fdbecf1d03ce5e6125c067733c0d51de209c&grant_type=refresh_token' localhost:3000/oauth/token
+
+{
+    "token_type":"bearer",
+    "access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiVlx1MDAxNcKbwoNUwoonbFPCu8KhwrYiLCJpYXQiOjE0NDQyNjI4NjYsImV4cCI6MTQ0NDI2Mjg4Nn0.Dww7TC-d0teDAgsmKHw7bhF2THNichsE6rVJq9xu_2s",
+    "expires_in":20,
+    "refresh_token":"7fd15938c823cf58e78019bea2af142f9449696a"
+}
+ */
+
         }
         private string DecodeToken(string p_value)
         {
