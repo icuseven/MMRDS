@@ -18,6 +18,217 @@ namespace mmria.server
     public class sessionController: ControllerBase
 	{
 
+
+        [Route("list")]
+        [HttpGet]
+        public async System.Threading.Tasks.Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.session>> Get
+        (
+            int skip = 0,
+            int take = 25,
+            string sort = "by_date_created",
+            string search_key = null,
+            bool descending = false
+        ) 
+		{
+            /*
+             * 
+             * http://localhost:5984/de_id/_design/sortable/_view/conflicts
+             * 
+
+by_date_created
+by_created_by
+by_date_last_updated
+by_last_updated_by
+by_role_name
+by_user_id
+by_parent_id
+by_jurisdiction_id
+by_is_active
+by_effective_start_date
+by_effective_end_date
+
+
+date_created
+created_by
+date_last_updated
+last_updated_by
+role_name
+user_id
+parent_id
+jurisdiction_id
+is_active
+effective_start_date
+effective_end_date
+
+*/
+
+            string sort_view = sort.ToLower ();
+            switch (sort_view)
+            {
+                    case "by_date_created":
+                    case "by_date_created_user_id":
+                    case "by_session_event_id":
+                    case "by_user_id":
+					case "by_ip":
+                    break;
+
+                default:
+                    sort_view = "by_date_created";
+                break;
+            }
+
+
+
+			try
+			{
+                System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
+                request_builder.Append (Program.config_couchdb_url);
+                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
+
+
+                if (string.IsNullOrWhiteSpace (search_key))
+                {
+                    if (skip > -1) 
+                    {
+                        request_builder.Append ($"skip={skip}");
+                    } 
+                    else 
+                    {
+
+                        request_builder.Append ("skip=0");
+                    }
+
+
+                    if (take > -1) 
+                    {
+                        request_builder.Append ($"&limit={take}");
+                    }
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                } 
+                else 
+                {
+                    request_builder.Append ("skip=0");
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                }
+
+				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_password);
+				string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
+
+                var session_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.session>>(response_from_server);
+
+                if (string.IsNullOrWhiteSpace (search_key)) 
+                {
+                    return session_view_response;
+                } 
+                else 
+                {
+                    string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
+
+                    var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.session>();
+                    result.offset = session_view_response.offset;
+                    result.total_rows = session_view_response.total_rows;
+
+                    //foreach(mmria.common.model.couchdb.user_role_jurisdiction cvi in case_view_response.rows)
+                    foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.session> cvi in session_view_response.rows)
+                    {
+/*
+date_created
+created_by
+date_last_updated
+last_updated_by
+role_name
+user_id
+parent_id
+jurisdiction_id
+is_active
+effective_start_date
+effective_end_date
+ */ 
+
+                        bool add_item = false;
+                        if (cvi.value.ip != null && cvi.value.ip.Equals(key_compare, StringComparison.OrdinalIgnoreCase))
+                        {
+                            add_item = true;
+                        }
+
+						if(bool.TryParse(key_compare, out bool is_active))
+						{
+							if(cvi.value.is_active == is_active)
+							{
+								add_item = true;
+							}
+						}
+
+
+                        if(cvi.value.user_id != null && cvi.value.user_id.Equals (key_compare, StringComparison.OrdinalIgnoreCase))
+                        {
+                            add_item = true;
+                        }
+
+						DateTime is_date;
+						if(DateTime.TryParse(key_compare, out is_date))
+						{
+							if(cvi.value.date_created == is_date)
+							{
+								add_item = true;
+							}
+						}
+					
+
+						if(DateTime.TryParse(key_compare, out is_date))
+						{
+							if(cvi.value.date_last_updated == is_date)
+							{
+								add_item = true;
+							}
+						}
+                        
+
+                        if(cvi.value.session_event_id != null && cvi.value.session_event_id.Equals (key_compare, StringComparison.OrdinalIgnoreCase))
+                        {
+                            add_item = true;
+                        }
+
+                        if(add_item) result.rows.Add (cvi);
+                       
+                    }
+
+                    result.total_rows = result.rows.Count;
+                    result.rows =  result.rows.Skip (skip).Take (take).ToList ();
+
+                    return result;
+                }
+
+
+				/*
+		< HTTP/1.1 200 OK
+		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
+		< Version=1; Path=/; HttpOnly
+		> ...
+		<
+		{"ok":true}*/
+
+
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return null;
+		} 
+
+
 		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
 		//{"ok":true,"userCtx":{"name":"mmrds","roles":["_admin"]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"],"authenticated":"cookie"}}
 

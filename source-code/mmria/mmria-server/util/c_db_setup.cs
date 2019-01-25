@@ -154,6 +154,11 @@ namespace mmria.server.util
                         var session_design_session_event_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_event_sortable", session_design_session_event_sortable, Program.config_timer_user_name, Program.config_timer_password);
                         await session_design_session_event_sortable_curl.executeAsync ();
 
+
+                        string session_design_session_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_sortable.json")).ReadToEndAsync ();
+                        var session_design_session_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_sortable", session_design_session_sortable, Program.config_timer_user_name, Program.config_timer_password);
+                        await session_design_session_sortable_curl.executeAsync ();
+
                         //await EnsureUpdate(case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth");
 
                     }

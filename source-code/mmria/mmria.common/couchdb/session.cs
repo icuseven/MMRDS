@@ -13,6 +13,11 @@ namespace mmria.common.model.couchdb
         public string _rev {get; set;}
 		public string data_type { get; set; } = "session";
         public DateTime date_created {get; set;}
+        public DateTime date_last_updated {get; set;}
+
+        public DateTime? date_expired {get; set;}
+
+        public bool is_active {get; set;}
         public string user_id {get; set;}
         public string ip {get; set;}
         public string session_event_id {get; set;}
