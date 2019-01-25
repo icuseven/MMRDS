@@ -18,6 +18,7 @@ using Quartz.Impl;
 using Serilog;
 using Serilog.Configuration;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http.Authentication;
@@ -178,6 +179,16 @@ namespace mmria.server
                 bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
             }
 
+
+            //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-2.2
+            services.AddDistributedMemoryCache();
+            services.AddSession(opts =>
+            {
+                opts.Cookie.HttpOnly = true;
+                opts.Cookie.Name = ".mmria.session";
+                opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout_minutes);
+            });
+
             if(use_sams)
             {
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
@@ -192,7 +203,7 @@ namespace mmria.server
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
                                 //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                                //options.Events = get_sams_authentication_events();
+                                options.Events = get_sams_authentication_events();
 
                         });
                         /*
@@ -243,7 +254,7 @@ namespace mmria.server
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
                                // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                               //options.Events = get_sams_authentication_events();
+                               options.Events = get_sams_authentication_events();
 
                         });
                         /*
@@ -313,14 +324,7 @@ namespace mmria.server
                 }
             }
             
-            //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-2.2
-            services.AddDistributedMemoryCache();
-            services.AddSession(opts =>
-            {
-                opts.Cookie.HttpOnly = true;
-                opts.Cookie.Name = ".mmria.session";
-                opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout_minutes);
-            });
+
 
             services.AddAuthorization(options =>
             {

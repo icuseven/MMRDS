@@ -19,7 +19,7 @@
     },
 
 	"conflicts":  {
-      "map": "function(doc) { \n   if(doc._conflicts) { emit(doc._conflicts, null); } \n }"
+      "map": "function(doc) { \n   if(doc._conflicts && doc.data_type != null && doc.data_type== 'session-event') { emit(doc._conflicts, null); } \n }"
     }
   }
 }
