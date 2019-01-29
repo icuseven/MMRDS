@@ -30,38 +30,6 @@ namespace mmria.server
             bool descending = false
         ) 
 		{
-            /*
-             * 
-             * http://localhost:5984/de_id/_design/sortable/_view/conflicts
-             * 
-
-by_date_created
-by_created_by
-by_date_last_updated
-by_last_updated_by
-by_role_name
-by_user_id
-by_parent_id
-by_jurisdiction_id
-by_is_active
-by_effective_start_date
-by_effective_end_date
-
-
-date_created
-created_by
-date_last_updated
-last_updated_by
-role_name
-user_id
-parent_id
-jurisdiction_id
-is_active
-effective_start_date
-effective_end_date
-
-*/
-
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {
@@ -139,20 +107,6 @@ effective_end_date
                     //foreach(mmria.common.model.couchdb.user_role_jurisdiction cvi in case_view_response.rows)
                     foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.session> cvi in session_view_response.rows)
                     {
-/*
-date_created
-created_by
-date_last_updated
-last_updated_by
-role_name
-user_id
-parent_id
-jurisdiction_id
-is_active
-effective_start_date
-effective_end_date
- */ 
-
                         bool add_item = false;
                         if (cvi.value.ip != null && cvi.value.ip.Equals(key_compare, StringComparison.OrdinalIgnoreCase))
                         {
@@ -206,18 +160,6 @@ effective_end_date
 
                     return result;
                 }
-
-
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-
-
-
 			}
 			catch(Exception ex)
 			{
@@ -229,29 +171,15 @@ effective_end_date
 		} 
 
 
-		//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-		//{"ok":true,"userCtx":{"name":"mmrds","roles":["_admin"]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"],"authenticated":"cookie"}}
-
-		// GET api/values 
-		//public IEnumerable<master_record> Get() 
         [HttpGet]
 		public  async System.Threading.Tasks.Task<IEnumerable<session_response>> Get() 
 		{ 
 			try
 			{
-				string request_string = Program.config_couchdb_url + "/_session";
+				string request_string = Program.config_couchdb_url + "/session";
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
 				request.PreAuthenticate = false;
-
-
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
 
 				System.Net.WebResponse response = await request.GetResponseAsync();
 				System.IO.Stream dataStream = response.GetResponseStream ();
@@ -275,14 +203,6 @@ effective_end_date
 					}
 				}
 
-				/*
-		< HTTP/1.1 200 OK
-		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-		< Version=1; Path=/; HttpOnly
-		> ...
-		<
-		{"ok":true}*/
-	
 				session_response[] result =  new session_response[] 
 				{ 
 					json_result
@@ -300,147 +220,66 @@ effective_end_date
 			return null;
 		}
 
-
-		// GET api/values 
-		//public IEnumerable<master_record> Get() 
-		//public System.Net.Http.HttpResponseMessage Get
-		[AllowAnonymous] 
 		[HttpPut]
         [HttpPost]
-		public async System.Threading.Tasks.Task<IEnumerable<login_response>> Post
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-            [FromBody] Post_Request_Struct Post_Request
+            [FromBody] session Post_Request
 
 		) 
 		{ 
 
-            //Post_Request_Struct Post_Request = new Post_Request_Struct();
-
-			/*
-	HOST="http://127.0.0.1:5984"
-	> curl -vX POST $HOST/_session -H 'Content-Type: application/x-www-form-urlencoded' -d 'name=anna&password=secret'
-*/
 			try
 			{
-                string post_data = string.Format ("name={0}&password={1}", Post_Request.userid, Post_Request.password);
-				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
+				mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+				string request_string = Program.config_couchdb_url + $"/session/{Post_Request._id}";
 
-				//string request_string = "http://mmrds:mmrds@localhost:5984/_session";
-				string request_string = Program.config_couchdb_url + "/_session";
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
-				//request.UseDefaultCredentials = true;
-
-				request.PreAuthenticate = false;
-				//request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
-				request.Method = "POST";
-				request.ContentType = "application/x-www-form-urlencoded";
-				request.ContentLength = post_byte_array.Length;
-
-				using (System.IO.Stream stream = request.GetRequestStream())
+				try 
 				{
-					stream.Write(post_byte_array, 0, post_byte_array.Length);
-				}/**/
-
-				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-
-				System.IO.Stream dataStream = response.GetResponseStream ();
-
-				// Open the stream using a StreamReader for easy access.
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				// Read the content.
-				string responseFromServer = reader.ReadToEnd ();
-
-				login_response json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<login_response>(responseFromServer);
-
-				login_response[] result =  new login_response[] 
-				{ 
-					json_result
-				}; 
-
-
-
-
-
-
-				this.Response.Headers.Add("Set-Cookie", response.Headers["Set-Cookie"]);
-
-				string[] set_cookie = response.Headers["Set-Cookie"].Split(';');
-				string[] auth_array = set_cookie[0].Split('=');
-				if(auth_array.Length > 1)
-				{
-					string auth_session_token = auth_array[1];
-					result[0].auth_session = auth_session_token;
-				}
-				else
-				{
-					result[0].auth_session = "";
-				}
-
-				//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-				if (json_result.ok && !string.IsNullOrWhiteSpace(json_result.name)) 
-				{
-					const string Issuer = "https://contoso.com";
-
-					var claims = new List<Claim>();
-					claims.Add(new Claim(ClaimTypes.Name, json_result.name, ClaimValueTypes.String, Issuer));
-					foreach(string role in json_result.roles)
-					{
-						claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
-					}
 					
-					//claims.Add(new Claim("EmployeeId", string.Empty, ClaimValueTypes.String, Issuer));
-					//claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
-					//claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
 
-					//var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-					var userIdentity = new ClaimsIdentity("SuperSecureLogin");
-                    userIdentity.AddClaims(claims);
-					var userPrincipal = new ClaimsPrincipal(userIdentity);
+					var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+					string check_document_json = await check_document_curl.executeAsync ();
+					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<session> (check_document_json);
 
-					await HttpContext.SignInAsync(
-						CookieAuthenticationDefaults.AuthenticationScheme,
-						userPrincipal,
-						new AuthenticationProperties
-						{
-							ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-							IsPersistent = false,
-							AllowRefresh = false
-						});
-				}
+					var userName = User.Identities.First(
+					u => u.IsAuthenticated && 
+					u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-				/*
-				{
-					"ok":true,
-					"userCtx":
+
+					if(!userName.Equals(check_document_expando_object.user_id, StringComparison.OrdinalIgnoreCase))
 					{
-						"name":"mmrds",
-						"roles":["_admin"]
-					},
-					"info":
-					{
-						"authentication_db":"_users",
-						"authentication_handlers":
-						[
-							"oauth",
-							"cookie",
-							"default"
-						],
-						"authenticated":"cookie"
+						Console.Write($"unauthorized PUT {Post_Request._id} by: {userName}");
+						return result;
 					}
+
+				} 
+				catch (Exception ex) 
+				{
+					// do nothing for now document doesn't exsist.
+					System.Console.WriteLine ($"err caseController.Post\n{ex}");
 				}
-				*/
 
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Post_Request, settings);
 
-				//this.ActionContext.Response.Headers.Add("Set-Cookie", auth_session_token);
+				cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_password);
 
-				return result;
-
+				try
+				{
+					string responseFromServer = await document_curl.executeAsync();
+					result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+				}
+				catch(Exception ex)
+				{
+					Console.WriteLine(ex);
+				}
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine (ex);
-
 			} 
 
 			return null;
