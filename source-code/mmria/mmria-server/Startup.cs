@@ -388,41 +388,106 @@ namespace mmria.server
                     //check to see if user is authenticated first
                     if (context.Principal.Identity.IsAuthenticated)
                     {
-                        //get the users tokens
+                        
+/*
+                        var accessToken = context.Request.HttpContext.Session.GetString("access_token");
+                        var refreshToken = context.Request.HttpContext.Session.GetString("refresh_token");
+                        var exp = context.Request.HttpContext.Session.GetInt32("expires_in");
+ */
+
+            /*
                         var tokens = context.Properties.GetTokens();
                         var refreshToken = tokens.FirstOrDefault(t => t.Name == "refresh_token");
                         var accessToken = tokens.FirstOrDefault(t => t.Name == "access_token");
                         var exp = tokens.FirstOrDefault(t => t.Name == "expires_at");
                         var expires = DateTime.Parse(exp.Value);
+                         */
+
+                        //context.Request.Cookies.["sid"].
+                       // var expires = DateTime.Parse(exp.ToString());
                         //check to see if the token has expired
-                        if (expires < DateTime.Now)
+                        if (context.Properties.ExpiresUtc < DateTime.Now)
                         {
-                            //token is expired, let's attempt to renew
-                            var tokenEndpoint = sams_endpoint_token;
-                            var tokenClient = new mmria.server.util.TokenClient(Configuration);
-
-                            //var name = HttpContext.Session.GetString(SessionKeyName);
-                            //var name = HttpContext.Session.GetString(SessionKeyName);
-
-                            var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
-                            //check for error while renewing - any error will trigger a new login.
-                            if (tokenResponse.is_error)
+                            try 
                             {
-                                //reject Principal
-                                context.RejectPrincipal();
+                                var sid = context.Request.Cookies["sid"];
+
+                                string request_string = Program.config_couchdb_url + $"/session/{sid}";
+                                var curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                                string session_json = curl.execute();
+                                var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (session_json);
+
+                                var userName = context.Principal.Identities.First(
+                                        u => u.IsAuthenticated && 
+                                        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+
+
+                                if(!userName.Equals(session.user_id, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    context.RejectPrincipal();
+                                    return Task.CompletedTask;
+                                }
+
+                                var accessToken = session.data["access_token"];
+                                var refreshToken = session.data["refresh_token"];
+                                var exp = session.data["expires_in"];
+                                
+                                //token is expired, let's attempt to renew
+                                var tokenEndpoint = sams_endpoint_token;
+                                var tokenClient = new mmria.server.util.TokenClient(Configuration);
+
+                                //var name = HttpContext.Session.GetString(SessionKeyName);
+                                //var name = HttpContext.Session.GetString(SessionKeyName);
+
+                                var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
+                                //check for error while renewing - any error will trigger a new login.
+                                if (tokenResponse.is_error)
+                                {
+                                    //reject Principal
+                                    context.RejectPrincipal();
+                                    return Task.CompletedTask;
+                                }
+                                //set new token values
+                                refreshToken = tokenResponse.refresh_token;
+                                accessToken = tokenResponse.access_token;
+                                //set new expiration date
+                                var newExpires = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.expires_in);
+                                var exp_Value = newExpires.ToString("o", System.Globalization.CultureInfo.InvariantCulture);
+                                //set tokens in auth properties 
+                                //context.Properties.StoreTokens(tokens);
+                                session.data["access_token"] = accessToken;
+                                session.data["refresh_token"] = refreshToken;
+
+                                session.date_last_updated  = DateTime.UtcNow;
+
+
+                                var Session_Message = new mmria.server.model.actor.Session_Message
+                                (
+                                    session._id, //_id = 
+                                    session._rev, //_rev = 
+                                    session.date_created, //date_created = 
+                                    session.date_last_updated, //date_last_updated = 
+                                    session.date_expired, //date_expired = 
+
+                                    session.is_active, //is_active = 
+                                    session.user_id, //user_id = 
+                                    session.ip, //ip = 
+                                    session.session_event_id, // session_event_id = 
+                                    session.data
+                                );
+
+                                Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+ 
+                                //trigger context to renew cookie with new token values
+                                context.ShouldRenew = true;
                                 return Task.CompletedTask;
+
+                            } 
+                            catch (Exception ex) 
+                            {
+                                // do nothing for now document doesn't exsist.
+                                System.Console.WriteLine ($"err caseController.Post\n{ex}");
                             }
-                            //set new token values
-                            refreshToken.Value = tokenResponse.refresh_token;
-                            accessToken.Value = tokenResponse.access_token;
-                            //set new expiration date
-                            var newExpires = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.expires_in);
-                            exp.Value = newExpires.ToString("o", System.Globalization.CultureInfo.InvariantCulture);
-                            //set tokens in auth properties 
-                            context.Properties.StoreTokens(tokens);
-                            //trigger context to renew cookie with new token values
-                            context.ShouldRenew = true;
-                            return Task.CompletedTask;
                         }
                     }
                     return Task.CompletedTask;

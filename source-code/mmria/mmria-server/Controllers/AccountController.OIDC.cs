@@ -291,7 +291,7 @@ namespace mmria.common.Controllers
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-
+                Response.Cookies.Append("sid", Session_Message._id);
                 //return RedirectToAction("Index", "HOME");
                 //return RedirectToAction("Index", "HOME");
             }
