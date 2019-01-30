@@ -273,6 +273,25 @@ namespace mmria.common.Controllers
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
+
+
+                var Session_Message = new mmria.server.model.actor.Session_Message
+                (
+                    Guid.NewGuid().ToString(), //_id = 
+                    null, //_rev = 
+                    DateTime.Now, //date_created = 
+                    DateTime.Now, //date_last_updated = 
+                    null, //date_expired = 
+
+                    true, //is_active = 
+                    user.name, //user_id = 
+                    this.GetRequestIP(), //ip = 
+                    Session_Event_Message._id, // session_event_id = 
+                    new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase)
+                );
+
+                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+
                 //return RedirectToAction("Index", "HOME");
                 //return RedirectToAction("Index", "HOME");
             }

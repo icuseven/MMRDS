@@ -30,8 +30,11 @@ namespace mmria.server.model.actor
             user_id  = p_user_id;
             ip  = p_ip;
             action_result  = p_action_result;
+            
+            _id = Guid.NewGuid().ToString();
         }
 
+        public string _id {get; private set; }
         public DateTime date_created {get; private set;}
         public string user_id {get; private set;}
         public string ip {get; private set;}
@@ -60,7 +63,7 @@ namespace mmria.server.model.actor
 
                     var se = new mmria.common.model.couchdb.session_event();
                     se.data_type = "session-event";
-                    se._id = Guid.NewGuid().ToString();
+                    se._id =sem._id;
                     se.date_created  = sem.date_created;
                     se.user_id  = sem.user_id;
                     se.ip  = sem.ip;
