@@ -46,6 +46,7 @@ ul#repeatNavContainer li:hover {
     height: 85%;
     overflow-y: scroll;
     border-bottom: 2px solid gray;
+    position: relative;
 }
 
 #real-time-container {

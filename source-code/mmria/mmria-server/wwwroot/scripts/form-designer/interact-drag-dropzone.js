@@ -1,3 +1,4 @@
+
 // enable draggables to be dropped into this
 interact('.dropzone').dropzone({
     // only accept elements matching this CSS selector
@@ -11,7 +12,8 @@ interact('.dropzone').dropzone({
         // add active dropzone feedback
         event.target.classList.add('drop-active');
 
-        console.log('we are dragging something');
+        // Stop Multi-select functionality when user may be moving forward with drag-n-drop
+        fdDMS.stop();
     },
     ondragenter: function (event) {
         var draggableElement = event.relatedTarget,
@@ -93,7 +95,9 @@ interact('.drag-drop')
         inertia: false,
     })
     .on('resizemove', function (event) {
-        console.log('we are re-sizing something');
+
+        fdDMS.stop();
+
         var target = event.target,
             x = (parseFloat(target.getAttribute('data-x')) || 0),
             y = (parseFloat(target.getAttribute('data-y')) || 0);

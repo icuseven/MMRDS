@@ -7,6 +7,7 @@ var urlMetaData = urlProdBase + "metadata";
 var activeSpec;
 var initFields = false;
 var initFieldSets = false;
+var fdDMS;
 
 /******************************************************
  * START logic
@@ -33,7 +34,7 @@ function buildFormList(data) {
     var inHTML = '';
 
     $.each(metaDataForms, function (index, value) {
-        var newItem = "<li class=\"clickTrigger\" id=\"" + value.name + "\">" + value.prompt + "</li>";
+        var newItem = "<li class=\"clickTrigger\" id=\"trigger-" + value.name + "\">" + value.prompt + "</li>";
         inHTML += newItem;
     });
 
@@ -83,8 +84,8 @@ function groupFormGroupElements(group) {
  */
 function populateFormDesignerCanvas(metaDataForms) {
     $(".clickTrigger").click(function () {
-        activeForm = this.id;
-        var caseForm = metaDataForms.find(x => x.name === this.id);
+        activeForm = this.id.replace('trigger-','');
+        var caseForm = metaDataForms.find(x => x.name === activeForm);
 
         // Set what type of fields you would like
         formElements = groupFormElementsByType(caseForm);
@@ -93,25 +94,19 @@ function populateFormDesignerCanvas(metaDataForms) {
         buildFormElementPromptControl(formElements);
 
         $('.resize-drag').on('mouseenter', function () {
-            writeActionSpecs('in', this.id);
+            writeActionSpecs("in", activeForm);
         });
         $(".resize-drag").on("mouseleave", function() {
-          writeActionSpecs('out', this.id);
+            writeActionSpecs('out', activeForm);
         });
 
-        // Uncomment or comment lines 103 - 114 to enable or disable multiselect
-        // new Selectables({
-        //     elements: ".resize-drag",
-        //     zone: "div.form-designer-canvas",
-        //     selectedClass: "active",
-        //     moreUsing: 'ctrlKey',
-        //     onSelect: function (element) {
-        //         fd_multiselect_prompt(element);
-        //     },
-        //     onDeselect: function (el) {
-        //         fd_multiselect_clear();
-        //     },
-        // });
+        // Instantiate Form Designer Multi-select
+        fdDMS = new DragSelect({
+            selectables: document.querySelectorAll(".resize-drag"),
+            area: document.getElementById("fd-gs"),
+        });
+
+        fdCanvasSnapShot();
 
         if(initFieldSets == false) {
             bootstrapUISpec("fieldSets");
@@ -367,4 +362,80 @@ function bootstrapUISpec(itemType) {
             writeFormSpecs();
         }
     }
+}
+
+function fdControlStack() {
+   let elems = fdDMS.getSelection();
+   let promptId;
+   let promptHeight;
+   let promptPos;
+   let controlId;
+   let controlPos;
+   let controlHeight;
+   let controlTopPos;
+    $.each(elems, function (index, value) {
+        // Check to see if we are dealing with control or prompt
+        if(value.id.includes('-control')) {
+            // This is a control put the prompt above
+            promptId = value.id.replace('-control', '');
+            controlId = value.id;
+            promptPos = $('#'+promptId).position();
+            promptHeight = $('#'+promptId).outerHeight();
+            controlTopPos = promptPos.top + promptHeight;
+            $('#'+value.id).css({ position: 'absolute', top: controlTopPos, left: promptPos.left });
+
+        } else {
+            controlId = value.id + '-control';
+            promptId = value.id;
+            promptPos = $('#' + promptId).position();
+            promptHeight = $('#' + promptId).outerHeight();
+            controlTopPos = promptPos.top + promptHeight;
+            $('#' + controlId).css({ position: 'absolute', top: controlTopPos, left: promptPos.left });
+        }
+        // let fontSize = parseInt($("label[for="+value.id+"]").css("font-size"));
+        // fontSize = fontSize + 1 + 'px';
+        // $("label[for=" + value.id + "]").css("font-size",fontSize);
+    })
+}
+
+function fdChangeFontSize(o) {
+    let elems = fdDMS.getSelection();
+
+    $.each(elems, function(index, value) {
+        if(o == 'larger') {
+            let fontSize = parseInt($("label[for=" + value.id + "]").css("font-size"));
+            fontSize = fontSize + 1 + 'px';
+            $("label[for=" + value.id + "]").css("font-size", fontSize);
+        } else {
+            let fontSize = parseInt($("label[for=" + value.id + "]").css("font-size"));
+            fontSize = fontSize - 1 + 'px';
+            $("label[for=" + value.id + "]").css("font-size", fontSize);
+        }
+    })
+}
+
+function fdCanvasSnapShot() {
+    let elems = document.getElementById('fd-gs').getElementsByClassName('resize-drag');
+    let newElems = [];
+
+    $.each(elems, function(index, value) {
+        console.log(value);
+        let elemPos = $("#" + value.id).position();
+        let elemHeight = $("#" + value.id).outerHeight();
+        let elemWidth = $("#" + value.id).outerWidth();
+        let cssSytle = {
+            position: 'absolute',
+            top: elemPos.top,
+            left: elemPos.left,
+            height: elemHeight,
+            width: elemWidth
+        };
+        newElems.push({id: value.id, style: cssSytle})
+        // console.log({id: value.id, top: elemPos.top, left: elemPos.left, width: elemWidth, height: elemHeight});
+    })
+
+    console.log(newElems);
+    $.each(newElems, function(index, value) {
+        $('#'+value.id).css(value.style);
+    })
 }
