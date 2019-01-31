@@ -167,7 +167,9 @@ namespace mmria.common.Controllers
 
             HttpContext.Session.SetString("access_token", access_token);
             HttpContext.Session.SetString("refresh_token", refresh_token);
-            HttpContext.Session.SetInt32("expires_in", expires_in);
+
+            var unix_time = DateTimeOffset.UtcNow.AddSeconds(expires_in);
+            HttpContext.Session.SetString("expires_at", unix_time.ToString());
 
 
 
@@ -292,6 +294,7 @@ namespace mmria.common.Controllers
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
                 Response.Cookies.Append("sid", Session_Message._id);
+                Response.Cookies.Append("expires_at", unix_time.ToString());
                 //return RedirectToAction("Index", "HOME");
                 //return RedirectToAction("Index", "HOME");
             }

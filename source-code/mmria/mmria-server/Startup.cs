@@ -388,6 +388,11 @@ namespace mmria.server
                     //check to see if user is authenticated first
                     if (context.Principal.Identity.IsAuthenticated)
                     {
+
+                        
+                        var expires_at = context.Request.Cookies["expires_at"];
+
+                        var expires_at_time = DateTimeOffset.Parse(expires_at);
                         
 /*
                         var accessToken = context.Request.HttpContext.Session.GetString("access_token");
@@ -406,7 +411,7 @@ namespace mmria.server
                         //context.Request.Cookies.["sid"].
                        // var expires = DateTime.Parse(exp.ToString());
                         //check to see if the token has expired
-                        if (context.Properties.ExpiresUtc < DateTime.Now)
+                        if (expires_at_time.DateTime < DateTime.Now)
                         {
                             try 
                             {
@@ -430,7 +435,7 @@ namespace mmria.server
 
                                 var accessToken = session.data["access_token"];
                                 var refreshToken = session.data["refresh_token"];
-                                var exp = session.data["expires_in"];
+                                var exp = session.data["expires_at"];
                                 
                                 //token is expired, let's attempt to renew
                                 var tokenEndpoint = sams_endpoint_token;
@@ -450,13 +455,14 @@ namespace mmria.server
                                 //set new token values
                                 refreshToken = tokenResponse.refresh_token;
                                 accessToken = tokenResponse.access_token;
-                                //set new expiration date
-                                var newExpires = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.expires_in);
-                                var exp_Value = newExpires.ToString("o", System.Globalization.CultureInfo.InvariantCulture);
-                                //set tokens in auth properties 
-                                //context.Properties.StoreTokens(tokens);
+                                var unix_time = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.expires_in);
+
                                 session.data["access_token"] = accessToken;
                                 session.data["refresh_token"] = refreshToken;
+                                session.data["expires_at"] = unix_time.ToString();
+
+                                context.Response.Cookies.Append("expires_at", unix_time.ToString());
+
 
                                 session.date_last_updated  = DateTime.UtcNow;
 
