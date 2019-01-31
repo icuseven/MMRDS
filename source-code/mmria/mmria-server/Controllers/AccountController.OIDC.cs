@@ -262,7 +262,12 @@ namespace mmria.common.Controllers
             //create login session
             if(user_save_result == null || user_save_result.ok)
             {
-                await create_user_principal(user.name, new List<string>());
+                var session_data = new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase);
+                session_data["access_token"] = access_token;
+                session_data["refresh_token"] = refresh_token;
+                session_data["expires_at"] = unix_time.ToString();
+
+                await create_user_principal(user.name, new List<string>(), unix_time.DateTime);
 
 
                 var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
@@ -274,6 +279,7 @@ namespace mmria.common.Controllers
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+
 
 
 
@@ -289,7 +295,7 @@ namespace mmria.common.Controllers
                     user.name, //user_id = 
                     this.GetRequestIP(), //ip = 
                     Session_Event_Message._id, // session_event_id = 
-                    new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase)
+                    session_data
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
@@ -392,7 +398,7 @@ namespace mmria.common.Controllers
             return default(T);
         }
 
-        public async Task create_user_principal(string p_user_name, List<string> p_role_list)
+        public async Task create_user_principal(string p_user_name, List<string> p_role_list, DateTime p_session_expire_date_time)
         {
             const string Issuer = "https://contoso.com";
             var claims = new List<Claim>();
@@ -435,7 +441,7 @@ namespace mmria.common.Controllers
                 userPrincipal,
                 new AuthenticationProperties
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(session_idle_timeout_minutes),
+                    ExpiresUtc = p_session_expire_date_time,
                     IsPersistent = false,
                     AllowRefresh = true,
                 });

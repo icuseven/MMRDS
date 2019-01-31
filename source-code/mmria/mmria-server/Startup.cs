@@ -436,57 +436,62 @@ namespace mmria.server
                                 var accessToken = session.data["access_token"];
                                 var refreshToken = session.data["refresh_token"];
                                 var exp = session.data["expires_at"];
+                                expires_at_time = DateTimeOffset.Parse(exp);
                                 
-                                //token is expired, let's attempt to renew
-                                var tokenEndpoint = sams_endpoint_token;
-                                var tokenClient = new mmria.server.util.TokenClient(Configuration);
-
-                                //var name = HttpContext.Session.GetString(SessionKeyName);
-                                //var name = HttpContext.Session.GetString(SessionKeyName);
-
-                                var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
-                                //check for error while renewing - any error will trigger a new login.
-                                if (tokenResponse.is_error)
+                                // server-side check for expiration
+                                if (expires_at_time.DateTime < DateTime.Now)
                                 {
-                                    //reject Principal
-                                    context.RejectPrincipal();
+                                    //token is expired, let's attempt to renew
+                                    var tokenEndpoint = sams_endpoint_token;
+                                    var tokenClient = new mmria.server.util.TokenClient(Configuration);
+
+                                    //var name = HttpContext.Session.GetString(SessionKeyName);
+                                    //var name = HttpContext.Session.GetString(SessionKeyName);
+
+                                    var tokenResponse = tokenClient.get_refresh_token(accessToken.ToString(), refreshToken.ToString()).Result;
+                                    //check for error while renewing - any error will trigger a new login.
+                                    if (tokenResponse.is_error)
+                                    {
+                                        //reject Principal
+                                        context.RejectPrincipal();
+                                        return Task.CompletedTask;
+                                    }
+                                    //set new token values
+                                    refreshToken = tokenResponse.refresh_token;
+                                    accessToken = tokenResponse.access_token;
+                                    var unix_time = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.expires_in);
+
+                                    session.data["access_token"] = accessToken;
+                                    session.data["refresh_token"] = refreshToken;
+                                    session.data["expires_at"] = unix_time.ToString();
+
+                                    context.Response.Cookies.Append("expires_at", unix_time.ToString());
+
+
+                                    session.date_last_updated  = DateTime.UtcNow;
+
+
+                                    var Session_Message = new mmria.server.model.actor.Session_Message
+                                    (
+                                        session._id, //_id = 
+                                        session._rev, //_rev = 
+                                        session.date_created, //date_created = 
+                                        session.date_last_updated, //date_last_updated = 
+                                        session.date_expired, //date_expired = 
+
+                                        session.is_active, //is_active = 
+                                        session.user_id, //user_id = 
+                                        session.ip, //ip = 
+                                        session.session_event_id, // session_event_id = 
+                                        session.data
+                                    );
+
+                                    Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+    
+                                    //trigger context to renew cookie with new token values
+                                    context.ShouldRenew = true;
                                     return Task.CompletedTask;
                                 }
-                                //set new token values
-                                refreshToken = tokenResponse.refresh_token;
-                                accessToken = tokenResponse.access_token;
-                                var unix_time = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.expires_in);
-
-                                session.data["access_token"] = accessToken;
-                                session.data["refresh_token"] = refreshToken;
-                                session.data["expires_at"] = unix_time.ToString();
-
-                                context.Response.Cookies.Append("expires_at", unix_time.ToString());
-
-
-                                session.date_last_updated  = DateTime.UtcNow;
-
-
-                                var Session_Message = new mmria.server.model.actor.Session_Message
-                                (
-                                    session._id, //_id = 
-                                    session._rev, //_rev = 
-                                    session.date_created, //date_created = 
-                                    session.date_last_updated, //date_last_updated = 
-                                    session.date_expired, //date_expired = 
-
-                                    session.is_active, //is_active = 
-                                    session.user_id, //user_id = 
-                                    session.ip, //ip = 
-                                    session.session_event_id, // session_event_id = 
-                                    session.data
-                                );
-
-                                Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
- 
-                                //trigger context to renew cookie with new token values
-                                context.ShouldRenew = true;
-                                return Task.CompletedTask;
 
                             } 
                             catch (Exception ex) 
