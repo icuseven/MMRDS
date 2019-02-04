@@ -35,6 +35,7 @@ namespace mmria.server
     public class Startup
     {
         public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -553,7 +554,7 @@ namespace mmria.server
 			(
 				new Action (async () => 
 				{
-                    await mmria.server.util.c_db_setup.Setup();
+                    await new mmria.server.util.c_db_setup(Program.actorSystem).Setup();
 				}
 				
 			));

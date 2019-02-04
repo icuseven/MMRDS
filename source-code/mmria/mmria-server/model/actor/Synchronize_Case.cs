@@ -22,6 +22,16 @@ namespace mmria.server.model.actor
 		public string method { get; private set;}
     }
 
+
+
+	public class Sync_All_Documents_Message
+	{
+	    public Sync_All_Documents_Message (DateTime p_time_sent)
+        {
+            time_sent = p_time_sent;
+        }
+		public DateTime time_sent { get; private set; }
+    }
     public class Synchronize_Case : UntypedActor
     {
         protected override void PreStart() => Console.WriteLine("Synchronize_Case started");
@@ -46,6 +56,18 @@ namespace mmria.server.model.actor
                     Console.WriteLine($"Synchronize_Case exception: {ex}");
                 }
                 
+                break;
+
+                case Sync_All_Documents_Message sync_all_documents_message:
+
+                    mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
+                                                                            Program.config_couchdb_url,
+                                                                            Program.config_timer_user_name,
+                                                                            Program.config_timer_password
+                                                                        );
+
+                    sync_all.executeAsync ().Wait();
+
                 break;
             }
 

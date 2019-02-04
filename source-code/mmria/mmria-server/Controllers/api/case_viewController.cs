@@ -154,7 +154,7 @@ by_state_of_death
                         if(is_jurisdiction_ok) result.rows.Add (cvi);
                     }
                     
-                    result.total_rows = result.rows.Count;
+                    //result.total_rows = result.rows.Count;
 
                     return result;
                 } 
@@ -242,7 +242,7 @@ by_state_of_death
                       }
 
 
-                    result.total_rows = result.rows.Count;
+                    //result.total_rows = result.rows.Count;
                     result.rows =  result.rows.Skip (skip).Take (take).ToList ();
 
                     return result;

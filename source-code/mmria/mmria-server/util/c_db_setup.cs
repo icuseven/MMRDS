@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using Serilog;
 using Serilog.Configuration;
 using System.Threading.Tasks;
+using Akka.Actor;
 
 namespace mmria.server.util
 {
     public class c_db_setup
     {
-        public static async Task Setup()
+        private ActorSystem _actorSystem;
+
+        public c_db_setup(ActorSystem actorSystem)
+        {
+            _actorSystem = actorSystem;
+        }
+
+        public async Task Setup()
         {
             string current_directory = AppContext.BaseDirectory;
             if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
@@ -218,20 +226,16 @@ namespace mmria.server.util
 
                     Program.Last_Change_Sequence = latest_change_set.last_seq;
 
-                    
-                    await System.Threading.Tasks.Task.Run
-                    (
-                        new Action (async () => {
-                            mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
-                                                                                    Program.config_couchdb_url,
-                                                                                    Program.config_timer_user_name,
-                                                                                    Program.config_timer_password
-                                                                                );
 
-                            await sync_all.executeAsync ();
-                            //Program.StartSchedule ();
-                        })
+
+                    
+                    var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
+                    (
+                        DateTime.Now
                     );
+
+                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+
                 }
         
                 Log.Information("DB Repair Check - end");
