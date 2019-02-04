@@ -179,7 +179,7 @@ namespace mmria.server
                 bool.TryParse(Configuration["sams:is_enabled"], out use_sams);
             }
 
-
+/*
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-2.2
             services.AddDistributedMemoryCache();
             services.AddSession(opts =>
@@ -188,7 +188,7 @@ namespace mmria.server
                 opts.Cookie.Name = ".mmria.session";
                 opts.IdleTimeout = TimeSpan.FromMinutes(Program.config_session_idle_timeout_minutes);
             });
-
+ */
             if(use_sams)
             {
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
@@ -524,7 +524,7 @@ namespace mmria.server
 
 
             //app.UseMvc();
-            app.UseSession();
+            //app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

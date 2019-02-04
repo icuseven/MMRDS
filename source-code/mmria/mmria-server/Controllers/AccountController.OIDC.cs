@@ -165,11 +165,11 @@ namespace mmria.common.Controllers
 
             var scope = payload.Value<string>("scope");
 
-            HttpContext.Session.SetString("access_token", access_token);
-            HttpContext.Session.SetString("refresh_token", refresh_token);
+            //HttpContext.Session.SetString("access_token", access_token);
+            //HttpContext.Session.SetString("refresh_token", refresh_token);
 
             var unix_time = DateTimeOffset.UtcNow.AddSeconds(expires_in);
-            HttpContext.Session.SetString("expires_at", unix_time.ToString());
+            //HttpContext.Session.SetString("expires_at", unix_time.ToString());
 
 
 
