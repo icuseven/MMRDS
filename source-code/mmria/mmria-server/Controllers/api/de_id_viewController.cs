@@ -337,6 +337,7 @@ by_state_of_death
 
                 if (string.IsNullOrWhiteSpace (search_key))
                 {
+                    /*
                     if (skip > -1) 
                     {
                         request_builder.Append ($"skip={skip}");
@@ -352,6 +353,7 @@ by_state_of_death
                     {
                         request_builder.Append ($"&limit={take}");
                     }
+                     */
 
                     if (descending) 
                     {
@@ -360,7 +362,7 @@ by_state_of_death
                 } 
                 else 
                 {
-                    request_builder.Append ("skip=0");
+                    //request_builder.Append ("skip=0");
 
                     if (descending) 
                     {
@@ -378,6 +380,8 @@ by_state_of_death
 				string responseFromServer = await request_curl.executeAsync();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+                var temp = new List<mmria.common.model.couchdb.case_view_item>();
 
                 if (string.IsNullOrWhiteSpace (search_key)) 
                 {
@@ -404,10 +408,11 @@ by_state_of_death
                             }
                         }
 
-                        if(is_jurisdiction_ok) result.rows.Add (cvi);
+                        if(is_jurisdiction_ok) temp.Add (cvi);
                     }
 
-                    //result.total_rows = result.rows.Count;
+                    result.total_rows = temp.Count;
+                    result.rows = temp.Skip(skip).Take(take).ToList();
 
                     return result;
                 } 
@@ -482,12 +487,13 @@ by_state_of_death
                             }
                         }
 
-                        if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
+                        if(add_item && is_jurisdiction_ok) temp.Add (cvi);
                         
                       }
 
                     //result.total_rows = result.rows.Count;
-                    result.rows =  result.rows.Skip (skip).Take (take).ToList ();
+                    result.total_rows = temp.Count;
+                    result.rows = temp.Skip(skip).Take(take).ToList();
 
                     return result;
                 }
