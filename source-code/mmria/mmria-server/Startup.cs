@@ -561,34 +561,5 @@ namespace mmria.server
 
             // ****   Quartz Timer - End
 		}
-
-/*
-
-        private bool Verify_Password (string p_target_server, string p_user_name, string p_password)
-        {
-            bool result = false;
-
-            var curl = new cURL ("GET", null, p_target_server + "/mmrds/_design/auth", null, p_user_name, p_password);
-            try
-            {
-                curl.execute ();
-                /*
-                HTTP/1.1 200 OK
-                Cache-Control: must-revalidate
-                Content-Type: application/json
-                Date: Mon, 12 Aug 2013 01:27:41 GMT
-                Server: CouchDB (Erlang/OTP)* /
-                result = true;
-            } 
-            catch (Exception ex) 
-            {
-                Log.Information ($"failed Verify_Password check: {p_target_server}/mmrds/_design/auth\n{ex}");
-            }
-
-
-            return result;
-        }
- */
-
     }
 }
