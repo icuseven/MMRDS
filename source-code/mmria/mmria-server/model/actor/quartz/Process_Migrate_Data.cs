@@ -98,7 +98,7 @@ namespace mmria.server.model.actor.quartz
 							string new_value = old_value.value;
 							if
 							(
-								lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value.value + "") &&
+								lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value.value + "")
 								
 							)
 							{
