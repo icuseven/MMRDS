@@ -5,6 +5,14 @@ using Akka.Actor;
 
 namespace mmria.server.model.actor.quartz
 {
+	public class Process_All_Migrations_Message
+	{
+	    public Process_All_Migrations_Message (DateTime p_time_sent)
+        {
+            time_sent = p_time_sent;
+        }
+		public DateTime time_sent { get; private set; }
+    }
     public class Process_Migrate_Data : UntypedActor
     {
         protected override void PreStart() => Console.WriteLine("Process_Migrate_Data started");
@@ -12,9 +20,36 @@ namespace mmria.server.model.actor.quartz
 
         protected override void OnReceive(object message)
         {
+			switch (message)
+			{
+				case string migration_plan_id:
+					process_migration_plan_by_id(migration_plan_id);
+					break;
+				case Process_All_Migrations_Message process_all_migrations_message:
+				    string current_directory = AppContext.BaseDirectory;
+					if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+					{
+						current_directory = System.IO.Directory.GetCurrentDirectory();
+					}
+
+					var migration_plan_directory_files =  System.IO.Directory.GetFiles(System.IO.Path.Combine (current_directory, "database-scripts/migration-plan-set"));
+					foreach(var file_path in migration_plan_directory_files)
+					{
+						var file_info = new System.IO.FileInfo(file_path);
+						var id = file_info.Name.Replace(".json","");
+						process_migration_plan_by_id(id);
+					}
+
+					break;
+			}
+
+        }
+
+		private void process_migration_plan_by_id(string migration_plan_id)
+		{
 			try
 			{
-				string migration_plan_id = message.ToString();
+				//string migration_plan_id = message.ToString();
 
 				Console.WriteLine($"Process_Migrate_Data Begin {System.DateTime.Now}");
 
@@ -52,8 +87,8 @@ namespace mmria.server.model.actor.quartz
 						{
 							Console.Write("break");
 						}
- */
- 
+*/
+
 						var old_value_list = get_value(plan_item.old_mmria_path.TrimEnd('/'), case_item.doc);
 
 						for(var i = 0; i < old_value_list.Count; i++)
@@ -63,14 +98,18 @@ namespace mmria.server.model.actor.quartz
 							string new_value = old_value.value;
 							if
 							(
-								lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value.value + "")
+								lookup[plan_item.old_mmria_path][plan_item.new_mmria_path].ContainsKey(old_value.value + "") &&
+								
 							)
 							{
 								new_value = lookup[plan_item.old_mmria_path][plan_item.new_mmria_path][old_value.value];
+								if(old_value.value != new_value)
+								{
+									var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
 
-								var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
-
-								case_has_changed = true;
+									case_has_changed = true;
+								}
+								
 							}
 							/*
 							else if
@@ -80,7 +119,7 @@ namespace mmria.server.model.actor.quartz
 							{
 								var set_result = set_value(plan_item.new_mmria_path.TrimEnd('/'), new_value, case_item.doc, old_value.index);
 							}
-							 */
+							*/
 
 							
 						}
@@ -119,9 +158,7 @@ namespace mmria.server.model.actor.quartz
 			{
 				Console.WriteLine($"Process_Migrate_Data exception {System.DateTime.Now}\n{ex}");
 			}
-
-        }
-
+		}
 
         private mmria.common.model.migration_plan get_migration_plan(string p_id)
         {

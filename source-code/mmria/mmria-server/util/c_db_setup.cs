@@ -228,13 +228,20 @@ namespace mmria.server.util
 
 
 
-                    
+                    var Process_All_Migrations_Message = new mmria.server.model.actor.quartz.Process_All_Migrations_Message
+                    (
+                        DateTime.Now
+                    );
+
+                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
+
                     var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
                     (
                         DateTime.Now
                     );
 
                     _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+
 
                 }
         
@@ -333,21 +340,6 @@ namespace mmria.server.util
                     var migration_plan_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/migration_plan_sortable.json")).ReadToEndAsync (); ;
                     var migration_plan_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/sortable", migration_plan_sortable, Program.config_timer_user_name, Program.config_timer_password);
 
-
-                    var migration_plan_directory_files =  System.IO.Directory.GetFiles(System.IO.Path.Combine (current_directory, "database-scripts/migration-plan-set"));
-                    foreach(var file_path in migration_plan_directory_files)
-                    {
-                        var file_info = new System.IO.FileInfo(file_path);
-                        var migration_plan = await System.IO.File.OpenText (file_path).ReadToEndAsync (); ;
-                        var migration_plan_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/" + file_info.Name.Replace(".json",""), migration_plan, Program.config_timer_user_name, Program.config_timer_password);
-                        var migration_plan_result_string = await migration_plan_curl.executeAsync ();
-                    }
-                    
-                    
-
-                    
-
-
                     var default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
                     var default_ui_specification_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/default_ui_specification", default_ui_specification_json, Program.config_timer_user_name, Program.config_timer_password);
                     var default_ui_specification_result_string = await default_ui_specification_curl.executeAsync ();
@@ -366,6 +358,37 @@ namespace mmria.server.util
                 Log.Information ("metadata check End");
 
             }
+                
+            var migration_plan_directory_files =  System.IO.Directory.GetFiles(System.IO.Path.Combine (current_directory, "database-scripts/migration-plan-set"));
+            foreach(var file_path in migration_plan_directory_files)
+            {
+                var file_info = new System.IO.FileInfo(file_path);
+
+                var id = file_info.Name.Replace(".json","");
+                Log.Information ("migration plan check: " + id);
+                if
+                (
+                    !await url_endpoint_exists (Program.config_couchdb_url + "/metadata/" + id, Program.config_timer_user_name, Program.config_timer_password)
+                ) 
+                {
+                    
+                    try 
+                    {
+
+                        var migration_plan = await System.IO.File.OpenText (file_path).ReadToEndAsync (); ;
+                        var migration_plan_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/" + file_info.Name.Replace(".json",""), migration_plan, Program.config_timer_user_name, Program.config_timer_password);
+                        var migration_plan_result_string = await migration_plan_curl.executeAsync ();
+                    }
+                    catch (Exception ex) 
+                    {
+                        Log.Information ($"unable to configure migration plan:\n{ex}");
+                        result.Add("migration plan",ex.ToString());
+                    }
+                }
+            }
+
+
+
 
 
 
