@@ -251,9 +251,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(current_page);
         p_result.push(";get_case_set();' value='");
         p_result.push(current_page);
-        p_result.push("' />Select page");
-        p_result.push(current_page);
-        p_result.push("</label>");
+        p_result.push("' />");
+        p_result.push(" |</label>");
     }
 
     //p_result.push(" <input type='button' alt='search' value='next' />");

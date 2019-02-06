@@ -4,7 +4,7 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_result.push(p_metadata.name);
     p_result.push("_id' class='group' style='");
 
-
+    /*
     if(p_metadata.grid_template && p_metadata.grid_template!= "")
     {
         p_result.push("display:grid;grid-template:");
@@ -30,7 +30,7 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
         if(p_metadata.grid_template_areas && p_metadata.grid_template_areas!= "")
         {
-            p_result.push("grid-template-areas:");
+            p_result.push("grid-templ*ate-areas:");
             p_result.push(p_metadata.grid_auto_flow);
             p_result.push(";");
         }
@@ -61,10 +61,10 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_result.push(p_metadata.grid_area);
         p_result.push(";");
     }
-
+    */
 
     p_result.push("' >"); // close opening div
-    p_result.push("<h4 style='grid-column:1/-1;'>");
+    p_result.push("<h4>");
     p_result.push(p_metadata.prompt);
     p_result.push("</h4>");
 
