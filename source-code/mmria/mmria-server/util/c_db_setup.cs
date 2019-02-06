@@ -228,19 +228,12 @@ namespace mmria.server.util
 
 
 
-                    var Process_All_Migrations_Message = new mmria.server.model.actor.quartz.Process_All_Migrations_Message
+                    var Process_All_Migrations_Message = new mmria.server.model.actor.quartz.Process_Initial_Migrations_Message
                     (
                         DateTime.Now
                     );
 
                     _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
-
-                    var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
-                    (
-                        DateTime.Now
-                    );
-
-                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
 
 
                 }

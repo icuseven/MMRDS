@@ -5,9 +5,9 @@ using Akka.Actor;
 
 namespace mmria.server.model.actor.quartz
 {
-	public class Process_All_Migrations_Message
+	public class Process_Initial_Migrations_Message
 	{
-	    public Process_All_Migrations_Message (DateTime p_time_sent)
+	    public Process_Initial_Migrations_Message (DateTime p_time_sent)
         {
             time_sent = p_time_sent;
         }
@@ -25,7 +25,7 @@ namespace mmria.server.model.actor.quartz
 				case string migration_plan_id:
 					process_migration_plan_by_id(migration_plan_id);
 					break;
-				case Process_All_Migrations_Message process_all_migrations_message:
+				case Process_Initial_Migrations_Message process_initial_migrations_message:
 				    string current_directory = AppContext.BaseDirectory;
 					if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
 					{
@@ -39,6 +39,13 @@ namespace mmria.server.model.actor.quartz
 						var id = file_info.Name.Replace(".json","");
 						process_migration_plan_by_id(id);
 					}
+
+                    var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
+                    (
+                        DateTime.Now
+                    );
+
+                    Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
 
 					break;
 			}
