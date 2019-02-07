@@ -1,3 +1,25 @@
+// offsetRelative (or, if you prefer, positionRelative)
+(function ($) {
+  $.fn.offsetRelative = function (top) {
+    var $this = $(this);
+    var $parent = $this.offsetParent();
+    var offset = $this.position();
+    if (!top) return offset; // Didn't pass a 'top' element 
+    else if ($parent.get(0).tagName == "BODY") return offset; // Reached top of document
+    else if ($(top, $parent).length) return offset; // Parent element contains the 'top' element we want the offset to be relative to 
+    else if ($parent[0] == $(top)[0]) return offset; // Reached the 'top' element we want the offset to be relative to 
+    else { // Get parent's relative offset
+      var parent_offset = $parent.offsetRelative(top);
+      offset.top += parent_offset.top;
+      offset.left += parent_offset.left;
+      return offset;
+    }
+  };
+  $.fn.positionRelative = function (top) {
+    return $(this).offsetRelative(top);
+  };
+}(jQuery));
+
 let apiURL = location.protocol + "//" + location.host + "/api/";
 let endpointMetaData = 'metadata/';
 let endpointUISpecification = 'ui_specification/';
@@ -51,8 +73,9 @@ formDesigner = {
     }
   },
   fdObjectHandler: {
-    snapShot: function() {
-      let elems = document.getElementsByClassName('fd-path-object');
+    snapShot: function(undo = false) {
+      if(undo) { $('.fd-path-object').removeAttr('style'); return true }
+      let elems = document.getElementsByClassName("fd-path-object");
       let newElems = [];
       let target;
       let parent;
@@ -90,12 +113,12 @@ formDesigner = {
         formDesigner.fdObjectHandler.addPath(path, cssSytle, promptVcontrol);
 
         // Add current element/path to array for later inline style setting
-        newElems.push({target: target, style: cssSytle});
+        newElems.push({target: target, style: cssSytle, promptVcontrol: promptVcontrol, path: path});
       });
 
       // Set element positions via inline style
       $.each(newElems, function (index, value) {
-        $(value.target).css(value.style);
+        $(value.target).css(JSON.parse(uiSpecification.currentObject.form_design[value.path][value.promptVcontrol].style));
         $(value.target).css('transform','');
         $(value.target).removeAttr('data-x data-y');
       });
@@ -126,8 +149,12 @@ formDesigner = {
         };
       };
     },
-    mapToSpec: function() {
-      uiSpecification.currentObject.form_design = fdObject;
+    mapToSpec: function(data = null) {
+      if(data !== null) {
+        uiSpecification.currentObject.form_design = data.form_design;
+      } else {
+        uiSpecification.currentObject.form_design = fdObject;
+      }
       formDesigner.uiSpecHandler.writeToModal();
     }
   },
@@ -226,7 +253,7 @@ formDesigner = {
           uiSpecification.currentObject = data;
 
           // Map fdObject to Spec
-          formDesigner.fdObjectHandler.mapToSpec();
+          formDesigner.fdObjectHandler.mapToSpec(data);
 
           // Hide delete / modify controls for null or default UI
           if(uiSpecification.currentObject._id === null || uiSpecification.currentObject._id === 'default_ui_specification') {
@@ -251,6 +278,11 @@ formDesigner = {
 
           // Update canvas wrapper dimensions
           formDesigner.canvasHandler.setDimensions();
+
+          // Rebuild canvas from active form if applicable
+          if(metaData.activeForm !== '') {
+            formDesigner.canvasHandler.formFields.display(metaData.activeForm);
+          }
           
         });
     },
@@ -294,6 +326,42 @@ formDesigner = {
       }
     },
     formFields: {
+      widestInFormGroup: function() {
+        let w;
+        $(".form-group-wrapper").each(function(index, value) {
+          w = Math.max.apply(null, $(value).find('label, input, select').map(function () {
+            return $(this).outerWidth(true);
+          }).get());
+          $(value).css('width',w+'px');
+        });        
+      },
+      setFormGroupPosition: function(targetID) {
+        let fgp = {
+          top: Math.min.apply(null, [$(`label[for= '${targetID}']`).offset().top, $(`#${targetID}`).offset().top]),
+          left: Math.min.apply(null, [$(`label[for= '${targetID}']`).offset().left, $(`#${targetID}`).offset().left])
+        };
+        return fgp;
+        
+      },
+      wrapLabelControl: function(stacked = true) {
+        // Set dom back to static with undo snapshot
+        formDesigner.fdObjectHandler.snapShot(true);
+
+        let elems = document.getElementsByClassName("fd-path-object");
+        $(".form-group-wrapper").contents().unwrap();
+        $.each(elems, function(index, value) {
+          if (value.tagName === 'LABEL') {
+            targetID = $(value)[0].htmlFor;
+            let fgp = formDesigner.canvasHandler.formFields.setFormGroupPosition(targetID);
+            $(`label[for= '${targetID}'], #${targetID}`).removeAttr('style');
+            $(`label[for= '${targetID}'], #${targetID}`).wrapAll(`<div class="form-group form-group-wrapper" />`);
+          }
+        });
+        if (stacked) { formDesigner.canvasHandler.formFields.widestInFormGroup(); }
+        formDesigner.fdObjectHandler.snapShot();
+        $(".form-group-wrapper").contents().unwrap();
+
+      },
       display: function (formName) {
         let fields = formDesigner.dataHandler.getFormFields(formName);
         let tpl = '';
@@ -301,8 +369,16 @@ formDesigner = {
           if(value.type === 'group' || value.type === 'grid') {
             tpl += fdTemplates.formFields.controls.group(formName, value);
           } else {
+            // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
             tpl += fdTemplates.formFields.prompt(formName, value);
-            tpl += fdTemplates.formFields.controls.string(formName, value);
+            if(value.type === 'list') {
+              tpl += fdTemplates.formFields.controls.list(formName, value);
+            } else if (value.type === 'textarea') {
+              tpl += fdTemplates.formFields.controls.textarea(formName, value);
+            } else {
+              tpl += fdTemplates.formFields.controls.string(formName, value);
+            }
+            // tpl += `</div>`;
           }
         });
         $('#fd-canvas').html(tpl);
@@ -313,10 +389,13 @@ formDesigner = {
           area: document.getElementById("fd-canvas-wrapper")
         });
 
-        // formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.snapShot();
 
         // Initialize FD Object for form
         formDesigner.fdObjectHandler.mapToSpec();
+
+        // Mark active form
+        metaData.activeForm = formName;
       },
     },
     wysiwyg: {
@@ -329,12 +408,54 @@ formDesigner = {
         formDesigner.fdObjectHandler.snapShot();
         $('#temp-wrap > legend').remove();
         $("#temp-wrap").contents().unwrap();
+        formDesigner.fdObjectHandler.snapShot();
       },
       inline: function() {
         $(".ds-selected").removeAttr("style");
         $(".ds-selected").wrapAll(`<div id='temp-wrap' />`);
         $("#temp-wrap").contents().unwrap();
         formDesigner.fdObjectHandler.snapShot();
+      },
+      bold: function() {
+        let elems = fdDragSelect.getSelection();
+        $.each(elems, function (index, value) {
+          let fontWeight = $(value).css("font-weight");
+          if(fontWeight === 'normal' || fontWeight <= 400) {
+            $(value).css('font-weight', 'bold');
+          } else {
+            $(value).css("font-weight", "");
+          }
+        })
+      },
+      italic: function() {
+        let elems = fdDragSelect.getSelection();
+        $.each(elems, function (index, value) {
+          let fontStyle = $(value).css("font-style");
+          if (fontStyle === 'italic') {
+            $(value).css('font-style', '');
+          } else {
+            $(value).css("font-style", "italic");
+          }
+        })
+      },
+      color: function() {
+        let color = prompt("Enter your color in hex ex:#f1f233");
+        $(".ds-selected").css('color', color);
+      },
+      fontSize: function(control) {
+        let elems = fdDragSelect.getSelection();
+        $.each(elems, function(index, value) {
+          let fontSize = parseInt($(value).css('font-size'));
+          if(control === 'increase') {
+            fontSize = fontSize + 1 + 'px';
+          } else {
+            fontSize = fontSize - 1 + 'px';
+          }
+          $(value).css({ 'font-size': fontSize });
+        })
+      },
+      stackLabelControl: function(stacked = true) {
+        formDesigner.canvasHandler.formFields.wrapLabelControl(stacked);
       }
     }
   }

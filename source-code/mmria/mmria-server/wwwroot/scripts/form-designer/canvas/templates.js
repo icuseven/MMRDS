@@ -26,17 +26,53 @@ let fdTemplates = {
     },
     formFields: {
         prompt: function(formName, value) {
-            return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt} - label</label>`;
+            return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt}</label>`;
         },
         controls: {
             string: function(formName, value) {
-                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt}</div>`;
+                return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
-            textarea: function (formName, value) {},
-            list: function (formName, value) { },
-            listOptions: function (formName, value) { },
-            date: function (formName, value) { },
-            number: function (formName, value) { },
+            textarea: function (formName, value) {
+                return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80"></textarea>`;
+            },
+            list: function (formName, value) { 
+                let listOptions = fdTemplates.formFields.controls.listOptions(value);
+                let stringfield = `
+                                <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">
+                                    ${listOptions}
+                                </select>`;
+                return stringfield;
+            },
+            listOptions: function (data) { 
+                let values;
+                if (data.path_reference !== undefined) {
+
+                    let p = data.path_reference.split("/")[1];
+                    let apiOptionValues = $.grep(metaData.fullObject.lookup, function (e) {
+                        return e.name == p;
+                    });
+                    values = apiOptionValues[0].values;
+                } else {
+                    values = data.values;
+                }
+
+                let markup = '';
+                $.each(values, function (index, value) {
+                    if(value.value === '') {
+                        markup += `<option selected>- select -</option>`;
+                    } else {
+                        markup += `<option value="${value.value}">${value.value}</option>`;
+                    }
+                });
+
+                return markup;
+            },
+            date: function (formName, value) { 
+                return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
+            },
+            number: function (formName, value) { 
+                return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
+            },
             group: function (parentName, value) {
                 let newGroupName = `${parentName}--${value.name}`;
                 let groupFields = '';
@@ -45,8 +81,14 @@ let fdTemplates = {
                         newSubGroupName = `${newGroupName}--${value.name}`;
                         groupFields += fdTemplates.formFields.controls.group(newSubGroupName, value);
                     }
+                    // groupFields += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
                     groupFields += fdTemplates.formFields.prompt(newGroupName, value);
-                    groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
+                    if(value.type === 'list') {
+                        groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
+                    } else {
+                        groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
+                    }
+                    // groupFields += `</div>`;
                 })
                 let group = `
                             <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
