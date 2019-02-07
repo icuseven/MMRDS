@@ -13,13 +13,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
     // p_result.push("Search Text: <input type='text' id='search_text_box' onchange='g_ui.case_view_request.search_key = this.value;' value='");
-    p_result.push("<label for='search_text_box'>Search Text</label>");
-    p_result.push("Search Text: <input type='text1' class='form-control1' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
+    p_result.push("<label for='search_text_box'>Search Text: ");
+    p_result.push("<input type='text1' class='form-control1' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
     if(g_ui.case_view_request.search_key!= null)
     {
         p_result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
     }
-    p_result.push("' />  ");
+    p_result.push("' /> </label> ");
 
     p_post_html_render.push("$('#search_text_box').bind(\"enterKey\",function(e){");
     //p_post_html_render.push("	g_ui.case_view_request.search_key = \"\";");
@@ -125,13 +125,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("<option>month_of_death</option>");
     }
     
-    if(p_ui.case_view_request.sort=="by_committe_review_date")
+    if(p_ui.case_view_request.sort=="by_committee_review_date")
     {
-        p_result.push("<option selected>committe_review_date</option>");
+        p_result.push("<option selected>committee_review_date</option>");
     }
     else
     {
-        p_result.push("<option>committe_review_date</option>");
+        p_result.push("<option>committee_review_date</option>");
     }
     
 
@@ -166,7 +166,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     }
     p_result.push("</select></label>");
 
-    p_result.push(" <label>Is sort decending?<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+    p_result.push(" <label>Sort Descending<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
     if(p_ui.case_view_request.descending)
     {
         p_result.push(" checked='true' ");
@@ -266,7 +266,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("Case Listing");
     p_result.push("</th></tr>");
     p_result.push("<tr>");
-    p_result.push("<td> Case Infomation</td>");
+    p_result.push("<td> Case Information</td>");
     //p_result.push("<td>state of death</td>");
     //p_result.push("<td>year / month of death</td>");
     //p_result.push("<td>committe review date</td>");
@@ -284,7 +284,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     by_middle_name
     by_year_of_death
     by_month_of_death
-    by_committe_review_date
+    by_committee_review_date
     by_created_by
     by_last_updated_by
     by_state_of_death
@@ -336,7 +336,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(item.value.month_of_death);
         p_result.push("</td>");
         */
-        //p_result.push("<td>");p_result.push(item.value.committe_review_date);p_result.push("</td>");
+        //p_result.push("<td>");p_result.push(item.value.committee_review_date);p_result.push("</td>");
         
         p_result.push("<td>");
         p_result.push(item.value.last_updated_by);
