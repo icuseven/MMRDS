@@ -38,7 +38,7 @@ by_first_name
 by_middle_name
 by_year_of_death
 by_month_of_death
-by_committe_review_date
+by_committee_review_date
 by_created_by
 by_last_updated_by
 by_state_of_death
@@ -95,7 +95,7 @@ by_state_of_death
                 case "by_middle_name":
                 case "by_year_of_death":
                 case "by_month_of_death":
-                case "by_committe_review_date":
+                case "by_committee_review_date":
                 case "by_created_by":
                 case "by_last_updated_by":
                 case "by_state_of_death":
@@ -315,7 +315,7 @@ by_state_of_death
                 case "by_middle_name":
                 case "by_year_of_death":
                 case "by_month_of_death":
-                case "by_committe_review_date":
+                case "by_committee_review_date":
                 case "by_created_by":
                 case "by_last_updated_by":
                 case "by_state_of_death":
