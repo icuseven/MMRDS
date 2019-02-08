@@ -8346,6 +8346,7 @@ select option {
     select[multiple], select.form-control[multiple] {
         /* background: none */
         width: auto;
+        -webkit-appearance: menulist-text;
         /*background-color: #010115;*/
     }
 
