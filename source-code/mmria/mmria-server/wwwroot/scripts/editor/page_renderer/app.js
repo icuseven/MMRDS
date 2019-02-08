@@ -176,7 +176,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     }
     p_result.push("</select>");
 
-    p_result.push("<br/><label for='sort_decending'>Sort Decending</label>");
+    p_result.push("<br/><label for='sort_decending'>Sort Descending</label>");
     p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
     if(p_ui.case_view_request.descending)
     {
