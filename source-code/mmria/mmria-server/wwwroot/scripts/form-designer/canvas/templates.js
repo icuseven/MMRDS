@@ -13,8 +13,8 @@ let fdTemplates = {
         dashboard: {
             info: function() {
                 return `<span>
-                        Current Specification: <strong>${uiSpecification.currentObject.name}</strong> 
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#specModal">
+                        <strong>Current Specification: ${uiSpecification.currentObject.name}</strong> 
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#specModal">
                             More Info
                         </button> 
                         <button type="button" class="btn btn-primary" onclick="javascript: formDesigner.uiSpecHandler.modifySpec()">
@@ -37,11 +37,17 @@ let fdTemplates = {
             },
             list: function (formName, value) { 
                 let listOptions = fdTemplates.formFields.controls.listOptions(value);
-                let stringfield = `
+                let listField;
+                if (value.hasOwnProperty('is_multiselect')) {
+                    listField = `
+                                <div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${listOptions}</div>`;
+                } else {
+                    listField = `
                                 <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">
                                     ${listOptions}
                                 </select>`;
-                return stringfield;
+                }
+                return listField;
             },
             listOptions: function (data) { 
                 let values;
@@ -57,13 +63,21 @@ let fdTemplates = {
                 }
 
                 let markup = '';
-                $.each(values, function (index, value) {
-                    if(value.value === '') {
-                        markup += `<option selected>- select -</option>`;
-                    } else {
-                        markup += `<option value="${value.value}">${value.value}</option>`;
-                    }
-                });
+                if(data.is_multiselect) {
+                    markup += `<div>`
+                    $.each(values, function (index, value) {
+                        markup += `<input type="checkbox" name="favorite_pet" value="${value.value}">${value.value}`
+                    })
+                    markup += `</div>`
+                } else {
+                    $.each(values, function (index, value) {
+                        if (value.value === '') {
+                            markup += `<option selected>- select -</option>`;
+                        } else {
+                            markup += `<option value="${value.value}">${value.value}</option>`;
+                        }
+                    });
+                }
 
                 return markup;
             },
@@ -77,13 +91,13 @@ let fdTemplates = {
                 let newGroupName = `${parentName}--${value.name}`;
                 let groupFields = '';
                 $.each(value.children, function(index, value) {
-                    if(value.type === 'group') {
+                    if(value.type.toLowerCase() === 'group') {
                         newSubGroupName = `${newGroupName}--${value.name}`;
                         groupFields += fdTemplates.formFields.controls.group(newSubGroupName, value);
                     }
                     // groupFields += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
                     groupFields += fdTemplates.formFields.prompt(newGroupName, value);
-                    if(value.type === 'list') {
+                    if(value.type.toLowerCase() === 'list') {
                         groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
                     } else {
                         groupFields += fdTemplates.formFields.controls.string(newGroupName, value);

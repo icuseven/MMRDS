@@ -73,7 +73,7 @@ formDesigner = {
     }
   },
   fdObjectHandler: {
-    snapShot: function(undo = false) {
+    snapShot: function(undo = false, init = false) {
       if(undo) { $('.fd-path-object').removeAttr('style'); return true }
       let elems = document.getElementsByClassName("fd-path-object");
       let newElems = [];
@@ -100,31 +100,43 @@ formDesigner = {
         let elemPos = $(target).position();
         let elemHeight = $(target).outerHeight();
         let elemWidth = $(target).outerWidth();
+        let fontWeight = $(target).css('font-weight');
+        let fontSize = $(target).css('font-size');
+        let fontStyle = $(target).css('font-style');
+        let fontColor = $(target).css('color');
         let cssSytle = {
             position: 'absolute',
             top: elemPos.top,
             left: elemPos.left,
             height: elemHeight,
             width: elemWidth,
+            'font-weight': fontWeight,
+            'font-size': fontSize,
+            'font-style': fontStyle,
+            color: fontColor
         };
         
 
         // Add current element/path to fdObject
-        formDesigner.fdObjectHandler.addPath(path, cssSytle, promptVcontrol);
+        if(init === false) {
+          formDesigner.fdObjectHandler.addPath(path, cssSytle, promptVcontrol);
+        }
 
         // Add current element/path to array for later inline style setting
         newElems.push({target: target, style: cssSytle, promptVcontrol: promptVcontrol, path: path});
       });
 
+      // Update specification info (includes writing to modal).
+      formDesigner.fdObjectHandler.mapToSpec();
+
       // Set element positions via inline style
       $.each(newElems, function (index, value) {
-        $(value.target).css(JSON.parse(uiSpecification.currentObject.form_design[value.path][value.promptVcontrol].style));
+        if(uiSpecification.currentObject.form_design[value.path] !== undefined) {
+          $(value.target).css(JSON.parse(uiSpecification.currentObject.form_design[value.path][value.promptVcontrol].style));
+        }
         $(value.target).css('transform','');
         $(value.target).removeAttr('data-x data-y');
-      });
-
-      // Update specification info (includes writing to modal).
-      formDesigner.fdObjectHandler.mapToSpec();     
+      });     
     },
     quickSnap: function(elem) {
       console.log('quick snap', $(elem)[0].tagName);
@@ -148,13 +160,9 @@ formDesigner = {
           width: null,
         };
       };
+      
     },
     mapToSpec: function(data = null) {
-      if(data !== null) {
-        uiSpecification.currentObject.form_design = data.form_design;
-      } else {
-        uiSpecification.currentObject.form_design = fdObject;
-      }
       formDesigner.uiSpecHandler.writeToModal();
     }
   },
@@ -228,7 +236,6 @@ formDesigner = {
       if (name) { uiSpecification.currentObject.name = name; }
       if (height) { uiSpecification.currentObject.dimension.height = height; }
       if (width) { uiSpecification.currentObject.dimension.width = width; }
-      formDesigner.fdObjectHandler.snapShot();
       $.ajax({
         url: apiURL + endpointUISpecification + uiSpecification.currentID,
         contentType: "application/json; charset=utf-8",
@@ -237,7 +244,6 @@ formDesigner = {
         type: "POST"
       }).done(function(response) {
         let response_obj = eval(response);
-        console.log(response_obj);
         if (response_obj.ok) {
           formDesigner.uiSpecHandler.newBuild();
           let selector = { value: uiSpecification.currentID };
@@ -251,9 +257,10 @@ formDesigner = {
       $.get(apiURL + endpointUISpecification + currentID)
         .done(function(data, status) {
           uiSpecification.currentObject = data;
+          fdObject = uiSpecification.currentObject.form_design;
 
           // Map fdObject to Spec
-          formDesigner.fdObjectHandler.mapToSpec(data);
+          formDesigner.fdObjectHandler.mapToSpec();
 
           // Hide delete / modify controls for null or default UI
           if(uiSpecification.currentObject._id === null || uiSpecification.currentObject._id === 'default_ui_specification') {
@@ -366,14 +373,15 @@ formDesigner = {
         let fields = formDesigner.dataHandler.getFormFields(formName);
         let tpl = '';
         $.each(fields, function(index, value) {
-          if(value.type === 'group' || value.type === 'grid') {
+          if (value.type.toLowerCase() === 'group' || value.type.toLowerCase() === 'grid') {
             tpl += fdTemplates.formFields.controls.group(formName, value);
           } else {
             // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
             tpl += fdTemplates.formFields.prompt(formName, value);
-            if(value.type === 'list') {
+            if (value.type.toLowerCase() === 'list') {
+              console.log(value.type, value.type.toLowerCase())
               tpl += fdTemplates.formFields.controls.list(formName, value);
-            } else if (value.type === 'textarea') {
+            } else if (value.type.toLowerCase() === 'textarea') {
               tpl += fdTemplates.formFields.controls.textarea(formName, value);
             } else {
               tpl += fdTemplates.formFields.controls.string(formName, value);
@@ -389,7 +397,8 @@ formDesigner = {
           area: document.getElementById("fd-canvas-wrapper")
         });
 
-        formDesigner.fdObjectHandler.snapShot();
+        // On display we should pass true as 2nd paramater for snapshot so that we can read what is already saved.
+        formDesigner.fdObjectHandler.snapShot(false, true);
 
         // Initialize FD Object for form
         formDesigner.fdObjectHandler.mapToSpec();
@@ -425,7 +434,8 @@ formDesigner = {
           } else {
             $(value).css("font-weight", "");
           }
-        })
+        });
+        formDesigner.fdObjectHandler.snapShot();
       },
       italic: function() {
         let elems = fdDragSelect.getSelection();
@@ -436,11 +446,13 @@ formDesigner = {
           } else {
             $(value).css("font-style", "italic");
           }
-        })
+        });
+        formDesigner.fdObjectHandler.snapShot();
       },
       color: function() {
         let color = prompt("Enter your color in hex ex:#f1f233");
         $(".ds-selected").css('color', color);
+        formDesigner.fdObjectHandler.snapShot();
       },
       fontSize: function(control) {
         let elems = fdDragSelect.getSelection();
@@ -452,7 +464,8 @@ formDesigner = {
             fontSize = fontSize - 1 + 'px';
           }
           $(value).css({ 'font-size': fontSize });
-        })
+        });
+        formDesigner.fdObjectHandler.snapShot();
       },
       stackLabelControl: function(stacked = true) {
         formDesigner.canvasHandler.formFields.wrapLabelControl(stacked);
