@@ -38,6 +38,8 @@ let uiSpecification = {
   list: '',
   currentID: '',
   currentObject: {},
+  localRevision: {},
+  localCount: 1
 };
 let fdObject = {};
 
@@ -129,6 +131,9 @@ formDesigner = {
       // Update specification info (includes writing to modal).
       formDesigner.fdObjectHandler.mapToSpec();
 
+      // Take quicksnap for local revision
+      formDesigner.fdObjectHandler.quickSnap();
+
       // Set element positions via inline style
       $.each(newElems, function (index, value) {
         if(uiSpecification.currentObject.form_design[value.path] !== undefined) {
@@ -138,8 +143,10 @@ formDesigner = {
         $(value.target).removeAttr('data-x data-y');
       });     
     },
-    quickSnap: function(elem) {
-      console.log('quick snap', $(elem)[0].tagName);
+    quickSnap: function() {
+      uiSpecification.localRevision[uiSpecification.localCount] = JSON.parse(JSON.stringify(uiSpecification.currentObject));
+      uiSpecification.localCount++;
+      console.log(uiSpecification.localRevision);
     },
     addPath: function(path, style, promptVcontrol) {
       if(path in fdObject) {
@@ -235,7 +242,9 @@ formDesigner = {
     modifySpec: function(name = null, height = null, width = null) {
       if (name) { uiSpecification.currentObject.name = name; }
       if (height) { uiSpecification.currentObject.dimension.height = height; }
-      if (width) { uiSpecification.currentObject.dimension.width = width; }
+      if (width) { 
+        uiSpecification.currentObject.dimension.width = width;
+      }
       $.ajax({
         url: apiURL + endpointUISpecification + uiSpecification.currentID,
         contentType: "application/json; charset=utf-8",

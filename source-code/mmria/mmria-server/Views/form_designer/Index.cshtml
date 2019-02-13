@@ -33,7 +33,14 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="container-fluid">
-            <h4>Form Designer</h4>
+            <div class="row fd-header">
+                <div class="col-sm">
+                    <h4><a href="/">MMRIA</a></h4>
+                </div>
+                <div class="col-sm text-right">
+                    <p>Form Designer</p>
+                </div>
+            </div>
             <hr>
             <div class="row">
                 <div class="col-sm-3">
@@ -65,15 +72,6 @@
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSpecModal">Delete</button>
                         </span>
                         <div id="fd-canvas-controls" class="row">
-                            <!-- <div class="col-sm">
-                                <div id="ui-spec-delete-modify-container">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifySpecModal">Modify</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteSpecModal">Delete</button>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <p>Status</p>
-                            </div> -->
                             <div class="col-sm">
                                 <p>
                                     <button type="button" class="btn btn-primary" onclick="javascript: formDesigner.canvasHandler.wysiwyg.wrap()"><i class="material-icons">speaker_notes</i></button>
@@ -121,6 +119,7 @@
                         <div class="form-group">
                             <label for="ui-spec-mod-width" class="">Enter new width: </label>
                             <input type="text" class="mmria-text" id="ui-spec-mod-width" name="ui-spec-mod-width">
+                            <small id="emailHelp" class="form-text text-muted">Changes in canvas width will reset canvas item positions to default layout.</small>
                         </div>
                     </div>
                     <div class="modal-footer">
