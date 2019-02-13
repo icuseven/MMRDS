@@ -12,6 +12,8 @@ namespace mmria.server.util
 	{
 		private string auth_token = null;
 		private string user_name = null;
+
+		private string juris_user_name = null;
 		private string password = null;
 		private string database_path = null;
 		private string database_url = null;
@@ -44,6 +46,10 @@ namespace mmria.server.util
 					if (arg.ToLower().StartsWith("auth_token"))
 					{
 						this.auth_token = val;
+					}
+					else if (arg.ToLower().StartsWith("juris_user_name"))
+					{
+						this.juris_user_name = val;
 					}
 					else if (arg.ToLower().StartsWith("user_name"))
 					{
@@ -224,12 +230,12 @@ namespace mmria.server.util
 				de_identified_set.Add(path);
 			}
 			
-			//mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
+			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
 
 			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
 		
 
-      var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.user_name);
+      var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 
 			if (this.is_cdc_de_identified)
@@ -270,7 +276,32 @@ namespace mmria.server.util
 				}
 
 
+				var is_jurisdiction_ok = false;
 
+				var home_record = case_doc["home_record"] as IDictionary<string, object>;
+
+				if(!home_record.ContainsKey("jurisdiction_id"))
+				{
+					home_record.Add("jurisdiction_id", "/");
+				}
+
+				foreach(var jurisdiction_item in jurisdiction_hashset)
+				{
+					var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+					if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+					{
+						is_jurisdiction_ok = true;
+						break;
+					}
+					
+				}
+
+				if(!is_jurisdiction_ok)
+				{
+					continue;
+				}
 
 
 				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();

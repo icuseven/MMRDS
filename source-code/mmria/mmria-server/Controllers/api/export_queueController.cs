@@ -8,6 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 using Microsoft.AspNetCore.Authorization;
 
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+
 namespace mmria.server
 {
 	[Authorize(Roles  = "abstractor")]
@@ -147,13 +152,17 @@ namespace mmria.server
 					)
 				)
 				{
+
+					var juris_user_name = User.Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value; 
+
 					mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
 					(
 						Program.config_cron_schedule,
 						Program.config_couchdb_url,
 						Program.config_timer_user_name,
 						Program.config_timer_password,
-						Program.config_export_directory
+						Program.config_export_directory,
+						juris_user_name
 					);
 
 					//_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);

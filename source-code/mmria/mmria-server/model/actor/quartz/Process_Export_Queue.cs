@@ -109,6 +109,7 @@ namespace mmria.server.model.actor.quartz
 				args.Add("database_url:" + scheduleInfoMessage.couch_db_url);
 				args.Add ("item_file_name:" + item_to_process.file_name);
 				args.Add ("item_id:" + item_to_process._id);
+				args.Add ("juris_user_name:" + scheduleInfoMessage.jurisdiction_user_name);
 
 
 				if (item_to_process.export_type.StartsWith ("core csv", StringComparison.OrdinalIgnoreCase))

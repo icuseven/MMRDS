@@ -19,6 +19,8 @@ namespace mmria.server.util
 		private string item_id = null;
 		private bool is_offline_mode;
 
+		private string juris_user_name = null;
+
 		private mmria.server.model.actor.ScheduleInfoMessage Configuration;
 
 		public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
@@ -43,6 +45,10 @@ namespace mmria.server.util
 					if (arg.ToLower().StartsWith("auth_token"))
 					{
 						this.auth_token = val;
+					}
+					else if (arg.ToLower().StartsWith("juris_user_name"))
+					{
+						this.juris_user_name = val;
 					}
 					else if (arg.ToLower().StartsWith("user_name"))
 					{
@@ -225,7 +231,7 @@ namespace mmria.server.util
 			}
 
 
-			//var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.user_name);
+			var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{
@@ -241,10 +247,42 @@ namespace mmria.server.util
 
 				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
-				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
+				if 
+				(
+					case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
+
+				)
 				{
 					continue;
 				}
+
+				var is_jurisdiction_ok = false;
+
+				var home_record = case_doc["home_record"] as IDictionary<string, object>;
+
+				if(!home_record.ContainsKey("jurisdiction_id"))
+				{
+					home_record.Add("jurisdiction_id", "/");
+				}
+
+				foreach(var jurisdiction_item in jurisdiction_hashset)
+				{
+					var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+					if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+					{
+						is_jurisdiction_ok = true;
+						break;
+					}
+					
+				}
+
+				if(!is_jurisdiction_ok)
+				{
+					continue;
+				}
+
 				System.Data.DataRow row = path_to_csv_writer[core_file_name].Table.NewRow();
 				string mmria_case_id = case_doc["_id"].ToString();
 				row["_id"] = mmria_case_id;
