@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
+
 namespace mmria.server.util
 {
 	public class mmrds_exporter
@@ -222,10 +223,15 @@ namespace mmria.server.util
 			{
 				de_identified_set.Add(path);
 			}
-			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
+			
+			//mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
 
 			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
 		
+
+      var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.user_name);
+
+
 			if (this.is_cdc_de_identified)
 			{
 

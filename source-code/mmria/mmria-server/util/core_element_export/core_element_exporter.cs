@@ -225,6 +225,8 @@ namespace mmria.server.util
 			}
 
 
+			//var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.user_name);
+
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{
 				IDictionary<string, object> case_doc;
