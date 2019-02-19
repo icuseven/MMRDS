@@ -414,6 +414,10 @@ formDesigner = {
 
         // Mark active form
         metaData.activeForm = formName;
+
+        // Set form-list button active states
+        $('.form-list-item').removeClass('active');
+        $(`#${formName}`).addClass('active')
       },
     },
     wysiwyg: {

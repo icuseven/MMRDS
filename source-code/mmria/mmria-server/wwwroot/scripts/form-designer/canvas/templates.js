@@ -1,6 +1,7 @@
 let fdTemplates = {
     formListItem: function(value) {
-        return `<div id="${value.name}" class="form-list-item" onclick="javascript: formDesigner.canvasHandler.formFields.display(this.id);">${value.prompt}</div>`;
+        return `<button id="${value.name}" type="button" class="btn btn-outline-primary btn-block form-list-item" onclick="javascript: formDesigner.canvasHandler.formFields.display(this.id);">${value.prompt}</button>`;
+        //return `<div id="${value.name}" class="form-list-item" onclick="javascript: formDesigner.canvasHandler.formFields.display(this.id);">${value.prompt}</div>`;
     },
     uiSpecification: {
         options: function(value) {
