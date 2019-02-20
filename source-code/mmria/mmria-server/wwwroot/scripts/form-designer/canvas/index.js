@@ -75,7 +75,7 @@ formDesigner = {
     }
   },
   fdObjectHandler: {
-    snapShot: function(undo = false, init = false) {
+    snapShot: function(undo = false, init = false, unwrap = false) {
       if(undo) { $('.fd-path-object').removeAttr('style'); return true }
       let elems = document.getElementsByClassName("fd-path-object");
       let newElems = [];
@@ -99,7 +99,11 @@ formDesigner = {
           path = value.id.replace(/--/g, '/');
         }
 
-        let elemPos = $(target).position();
+        let elemPos = $(target).position();;
+
+        if(parentID === 'temp-wrap' && unwrap) {
+          elemPos = $(target).offsetRelative('.form-designer-canvas');
+        }
         let elemHeight = $(target).outerHeight();
         let elemWidth = $(target).outerWidth();
         let fontWeight = $(target).css('font-weight');
@@ -424,13 +428,12 @@ formDesigner = {
       wrap: function() {
         $('.ds-selected').removeAttr('style');
         $(".ds-selected").wrapAll(`<fieldset id='temp-wrap' class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" />`);
-        $('#temp-wrap').append(`<legend style="width:auto; padding: 8px">Temporary Wrapper</legend>`);
+        // $('#temp-wrap').append(`<legend style="width:auto; padding: 8px">Temporary Wrapper</legend>`);
       },
       unwrap: function() {
-        formDesigner.fdObjectHandler.snapShot();
-        $('#temp-wrap > legend').remove();
+        formDesigner.fdObjectHandler.snapShot(false, false, true);
+        // $('#temp-wrap > legend').remove();
         $("#temp-wrap").contents().unwrap();
-        formDesigner.fdObjectHandler.snapShot();
       },
       inline: function() {
         $(".ds-selected").removeAttr("style");
