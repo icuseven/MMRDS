@@ -39,7 +39,7 @@ let uiSpecification = {
   currentID: '',
   currentObject: {},
   localRevision: {},
-  localCount: 1
+  localCount: 0,
 };
 let fdObject = {};
 
@@ -136,7 +136,6 @@ formDesigner = {
       formDesigner.fdObjectHandler.mapToSpec();
 
       // Take quicksnap for local revision
-      formDesigner.fdObjectHandler.quickSnap();
 
       // Set element positions via inline style
       $.each(newElems, function (index, value) {
@@ -148,9 +147,19 @@ formDesigner = {
       });     
     },
     quickSnap: function() {
-      uiSpecification.localRevision[uiSpecification.localCount] = JSON.parse(JSON.stringify(uiSpecification.currentObject));
       uiSpecification.localCount++;
-      console.log(uiSpecification.localRevision);
+      uiSpecification.localRevision[uiSpecification.localCount] = JSON.parse(JSON.stringify(uiSpecification.currentObject));
+      $('#local-rev-container').html(fdTemplates.uiSpecification.dashboard.localRev());
+    },
+    rollBackRevision: function() {
+      console.log('first local', uiSpecification.localCount);
+      let index = uiSpecification.localCount - 1;
+      uiSpecification.localCount = index;
+      $('#local-rev-container').html(fdTemplates.uiSpecification.dashboard.localRev());
+      console.log('local count', uiSpecification.localCount);
+      uiSpecification.currentObject = JSON.parse(JSON.stringify(uiSpecification.localRevision[uiSpecification.localCount]));
+      formDesigner.canvasHandler.formFields.display(metaData.activeForm);
+      
     },
     addPath: function(path, style, promptVcontrol) {
       if(path in fdObject) {
@@ -270,6 +279,7 @@ formDesigner = {
       $.get(apiURL + endpointUISpecification + currentID)
         .done(function(data, status) {
           uiSpecification.currentObject = data;
+          uiSpecification.localRevision[0] = JSON.parse(JSON.stringify(uiSpecification.currentObject));;
           fdObject = uiSpecification.currentObject.form_design;
 
           // Map fdObject to Spec
@@ -379,6 +389,7 @@ formDesigner = {
         });
         if (stacked) { formDesigner.canvasHandler.formFields.widestInFormGroup(); }
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
         $(".form-group-wrapper").contents().unwrap();
 
       },
@@ -388,18 +399,21 @@ formDesigner = {
         $.each(fields, function(index, value) {
           if (value.type.toLowerCase() === 'group' || value.type.toLowerCase() === 'grid') {
             tpl += fdTemplates.formFields.controls.group(formName, value);
+          } else if(value.type.toLowerCase() === 'jurisdiction') {
+            // do nothing
+            return;
+          }
+          else {
+          // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
+          tpl += fdTemplates.formFields.prompt(formName, value);
+          if (value.type.toLowerCase() === 'list') {
+            tpl += fdTemplates.formFields.controls.list(formName, value);
+          } else if (value.type.toLowerCase() === 'textarea') {
+            tpl += fdTemplates.formFields.controls.textarea(formName, value);
           } else {
-            // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
-            tpl += fdTemplates.formFields.prompt(formName, value);
-            if (value.type.toLowerCase() === 'list') {
-              console.log(value.type, value.type.toLowerCase())
-              tpl += fdTemplates.formFields.controls.list(formName, value);
-            } else if (value.type.toLowerCase() === 'textarea') {
-              tpl += fdTemplates.formFields.controls.textarea(formName, value);
-            } else {
-              tpl += fdTemplates.formFields.controls.string(formName, value);
-            }
-            // tpl += `</div>`;
+            tpl += fdTemplates.formFields.controls.string(formName, value);
+          }
+          // tpl += `</div>`;
           }
         });
         $('#fd-canvas').html(tpl);
@@ -434,12 +448,14 @@ formDesigner = {
         formDesigner.fdObjectHandler.snapShot(false, false, true);
         // $('#temp-wrap > legend').remove();
         $("#temp-wrap").contents().unwrap();
+        formDesigner.fdObjectHandler.quickSnap();
       },
       inline: function() {
         $(".ds-selected").removeAttr("style");
         $(".ds-selected").wrapAll(`<div id='temp-wrap' />`);
         $("#temp-wrap").contents().unwrap();
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
       },
       bold: function() {
         let elems = fdDragSelect.getSelection();
@@ -452,6 +468,7 @@ formDesigner = {
           }
         });
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
       },
       italic: function() {
         let elems = fdDragSelect.getSelection();
@@ -464,11 +481,13 @@ formDesigner = {
           }
         });
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
       },
       color: function() {
         let color = prompt("Enter your color in hex ex:#f1f233");
         $(".ds-selected").css('color', color);
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
       },
       fontSize: function(control) {
         let elems = fdDragSelect.getSelection();
@@ -482,6 +501,7 @@ formDesigner = {
           $(value).css({ 'font-size': fontSize });
         });
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
       },
       stackLabelControl: function(stacked = true) {
         formDesigner.canvasHandler.formFields.wrapLabelControl(stacked);

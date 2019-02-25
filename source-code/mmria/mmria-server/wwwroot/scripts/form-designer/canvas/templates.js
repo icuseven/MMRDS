@@ -22,11 +22,20 @@ let fdTemplates = {
                             Save Specification
                         </button>
                         </span>`;
+            },
+            localRev: function() {
+                return `Local Revision # ${uiSpecification.localCount } 
+                        <button type="button" class="btn btn-warning" onclick="javascript: formDesigner.fdObjectHandler.rollBackRevision()">
+                            Undo
+                        </button>`;
             }
         },
     },
     formFields: {
         prompt: function(formName, value) {
+            if (value.type.toLowerCase() === 'list' && value.hasOwnProperty('is_multiselect')) {
+                return '';
+            }
             return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt}</label>`;
         },
         controls: {
@@ -41,7 +50,10 @@ let fdTemplates = {
                 let listField;
                 if (value.hasOwnProperty('is_multiselect')) {
                     listField = `
-                                <div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${listOptions}</div>`;
+                                <fieldset id="${formName}--${value.name}" class="resize-drag drag-drop yes-drop fd-path-object list-fieldset">
+                                    <legend style="width:auto; padding: 8px">${value.prompt}</legend>
+                                    ${listOptions}
+                                </fieldset>`;
                 } else {
                     listField = `
                                 <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">
@@ -65,11 +77,16 @@ let fdTemplates = {
 
                 let markup = '';
                 if(data.is_multiselect) {
-                    markup += `<div>`
                     $.each(values, function (index, value) {
-                        markup += `<input type="checkbox" name="favorite_pet" value="${value.value}">${value.value}`
+                        if (value.value === '') {
+                            return true;
+                        }
+                        markup += `
+                                  <div class="form-check form-check-inline" style="width:45%">
+                                    <input class="form-check-input" type="checkbox" id="${data.prompt}${index}" value="${value.value}">
+                                    <label class="form-check-label" for="${data.prompt}${index}">${value.value}</label>
+                                  </div>`;
                     })
-                    markup += `</div>`
                 } else {
                     $.each(values, function (index, value) {
                         if (value.value === '') {

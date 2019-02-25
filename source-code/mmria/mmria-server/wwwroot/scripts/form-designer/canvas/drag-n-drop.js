@@ -49,6 +49,7 @@ function dragMoveListener(event) {
     // Take a quickSnap when done moving
     if (event.button == 0) {
         formDesigner.fdObjectHandler.snapShot();
+        formDesigner.fdObjectHandler.quickSnap();
     }
 }
 
@@ -147,6 +148,7 @@ interact(".drag-drop")
 
     // Take a quickSnap when done re-sizing
     if(event.button == 0) {
-        formDesigner.fdObjectHandler.snapShot();
+      formDesigner.fdObjectHandler.snapShot();
+      formDesigner.fdObjectHandler.quickSnap();
     }
   });
