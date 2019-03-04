@@ -56,9 +56,6 @@ namespace mmria.server
              Log.Information ("sams:client_id: {0}", Configuration["sams:client_id"]);
              Log.Information ("sams:client_secret: {0}", Configuration["sams:client_secret"]);
  */             
-             Log.Information ("sams:callback_url: {0}", Configuration["sams:callback_url"]);
-             Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
-
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {
                 Log.Information ("using Environment");
@@ -84,6 +81,51 @@ namespace mmria.server
                 Program.config_password_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_minimum_length"))? 8: int.Parse(System.Environment.GetEnvironmentVariable ("password_minimum_length"));
                 Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_days_before_expires"))? 0: int.Parse(System.Environment.GetEnvironmentVariable ("password_days_before_expires"));
                 Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_days_before_user_is_notified_of_expiration"))? 0: int.Parse(System.Environment.GetEnvironmentVariable ("password_days_before_user_is_notified_of_expiration"));
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_authorization")))
+                {
+                    Configuration["sams:endpoint_authorization"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_authorization");
+                }
+
+                
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_token")))
+                {
+                    Configuration["sams:endpoint_token"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_token");
+                }
+                
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_user_info")))
+                {
+                    Configuration["sams:endpoint_user_info"] =  System.Environment.GetEnvironmentVariable ("sams_endpoint_user_info");
+                }
+                
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_token_validation")))
+                {
+                    Configuration["sams:token_validation"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_token_validation");
+                }
+                
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_user_info_sys")))
+                {
+                    Configuration["sams:user_info_sys"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_user_info_sys");
+                }
+                
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_client_id")))
+                {
+                    Configuration["sams:client_id"] = System.Environment.GetEnvironmentVariable ("sams_client_id");
+                }
+                
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_callback_url")))
+                {
+                    Configuration["sams:callback_url"] = System.Environment.GetEnvironmentVariable ("sams_callback_url");
+                }
+            
+
+
 
                 /*
                 Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
@@ -143,6 +185,9 @@ namespace mmria.server
             Log.Information($"Program.config_couchdb_url = {Program.config_couchdb_url}");
             Log.Information($"Logging = {Configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {Configuration["Console:LogLevel:Default"]}");
+            Log.Information ("sams:callback_url: {0}", Configuration["sams:callback_url"]);
+            Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
+
 
 
             Program.actorSystem = ActorSystem.Create("mmria-actor-system");
