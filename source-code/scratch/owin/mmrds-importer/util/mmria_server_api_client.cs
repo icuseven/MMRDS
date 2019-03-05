@@ -70,7 +70,7 @@ namespace mmria.console
 		{
 			mmria.common.model.couchdb.session_response result = null;
 
-			string URL = this.mmria_url + "/api/session";
+			string URL = this.mmria_url + "/api/sessionDB";
 			//string urlParameters = "?api_key=123";
 			string urlParameters = "";
 
@@ -101,7 +101,7 @@ namespace mmria.console
 			this.password = p_password;
 
 
-			string login_url = this.mmria_url + "/api/session/";
+			string login_url = this.mmria_url + "/api/sessionDB/";
 			var login_data = new { userid = this.user_name, password = this.password };
 			var login_curl = new cURL("POST", null, login_url, Newtonsoft.Json.JsonConvert.SerializeObject(login_data));
 			string login_result_string = null;
