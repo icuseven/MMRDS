@@ -34,6 +34,16 @@ namespace mmria.server
         public async System.Threading.Tasks.Task<IEnumerable<export_queue_item>> Get() 
 		{ 
 			List<export_queue_item> result = new List<export_queue_item>();
+
+			var userName = "";
+			if (User.Identities.Any(u => u.IsAuthenticated))
+			{
+				userName = User.Identities.First(
+					u => u.IsAuthenticated && 
+					u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+			}
+
+
 			try
 			{
 				string request_string = Program.config_couchdb_url + "/export_queue/_all_docs?include_docs=true";
@@ -64,8 +74,11 @@ namespace mmria.server
 						item.export_type = doc_item["export_type"] != null? doc_item["export_type"].ToString() : null;
 						item.status = doc_item["status"] != null? doc_item["status"].ToString() : null;
 					
-
-						result.Add(item);
+						if(userName.ToLowerInvariant() == item.created_by.ToLowerInvariant())
+						{
+							result.Add(item);
+						}
+						
 					}
 					catch(Exception ex)
 					{

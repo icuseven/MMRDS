@@ -502,6 +502,18 @@ namespace mmria.console.import
 						System.Console.WriteLine ("json\n{0}", json_string);
 					}
 
+
+					IDictionary<string, object> home_record = result_dictionary["home_record"] as IDictionary<string, object>;
+
+					if (home_record.ContainsKey("jurisdiction_id"))
+					{
+						home_record["jurisdiction_id"] = "/";
+					}
+					else
+					{
+						home_record.Add("jurisdiction_id", "/");
+					}
+
 					var update_curl = new cURL ("PUT", null, document_url, json_string, this.user_name, this.password);
 					try 
 					{
