@@ -534,6 +534,18 @@ namespace mmria.console.import
 					System.Console.WriteLine("Get case");
 					System.Console.WriteLine(ex);
 
+					IDictionary<string, object> home_record = case_data["home_record"] as IDictionary<string, object>;
+
+					if (home_record.ContainsKey("jurisdiction_id"))
+					{
+						home_record["jurisdiction_id"] = "/";
+					}
+					else
+					{
+						home_record.Add("jurisdiction_id", "/");
+					}
+
+
 					json_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_data, new Newtonsoft.Json.JsonSerializerSettings () {
 						Formatting = Newtonsoft.Json.Formatting.Indented,
 						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
