@@ -10,7 +10,22 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata_path);
         p_result.push("' ");
 
+        /*
         p_result.push(" style='");
+
+        var key = p_dictionary_path.substring(1);
+
+        if
+        (
+            g_default_ui_specification && 
+            g_default_ui_specification.form_design[key]  &&
+            g_default_ui_specification.form_design[key].prompt &&
+            g_default_ui_specification.form_design[key].prompt.style
+        )
+        {
+            p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].prompt.style));
+        }
+
         if(p_metadata.grid_row && p_metadata.grid_row!= "")
         {
             p_result.push("grid-row:");
@@ -32,10 +47,27 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(p_metadata.grid_area);
             p_result.push(";");
         }
-        p_result.push("' ");
+        
+        p_result.push("' ");*/
 
         p_result.push(">");
         p_result.push("<label ");
+
+        p_result.push(" style='");
+
+        var key = p_dictionary_path.substring(1);
+
+        if
+        (
+            g_default_ui_specification && 
+            g_default_ui_specification.form_design[key]  &&
+            g_default_ui_specification.form_design[key].prompt &&
+            g_default_ui_specification.form_design[key].prompt.style
+        )
+        {
+            p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].prompt.style));
+        }
+        p_result.push("' ");
 
         if(p_metadata.description && p_metadata.description.length > 0)
         {
@@ -279,6 +311,23 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push(">");
         p_result.push("<label ");
+
+        p_result.push(" style='");
+
+        var key = p_dictionary_path.substring(1);
+
+        if
+        (
+            g_default_ui_specification && 
+            g_default_ui_specification.form_design[key]  &&
+            g_default_ui_specification.form_design[key].prompt &&
+            g_default_ui_specification.form_design[key].prompt.style
+        )
+        {
+            p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].prompt.style));
+        }
+        p_result.push("' ");
+                
         if(p_metadata.description && p_metadata.description.length > 0)
         {
             p_result.push("rel='tooltip'  data-original-title='");

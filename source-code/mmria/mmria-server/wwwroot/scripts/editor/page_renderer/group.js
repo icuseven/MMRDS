@@ -1,8 +1,21 @@
 function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
-    p_result.push("<div id='");
+    p_result.push("<fieldset id='");
     p_result.push(p_metadata.name);
     p_result.push("_id' class='group' style='");
+
+    var key = p_dictionary_path.substring(1);
+
+    if
+    (
+        g_default_ui_specification && 
+        g_default_ui_specification.form_design[key]  &&
+        g_default_ui_specification.form_design[key].prompt &&
+        g_default_ui_specification.form_design[key].prompt.style
+    )
+    {
+        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].prompt.style));
+    }
 
     /*
     if(p_metadata.grid_template && p_metadata.grid_template!= "")
@@ -64,9 +77,9 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     */
 
     p_result.push("' >"); // close opening div
-    p_result.push("<h4>");
+    p_result.push("<legend>");
     p_result.push(p_metadata.prompt);
-    p_result.push("</h4>");
+    p_result.push("</legend>");
 
 
 
@@ -86,7 +99,7 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
 
     }
-    p_result.push("</div>");
+    p_result.push("</fieldset>");
 
 
 }

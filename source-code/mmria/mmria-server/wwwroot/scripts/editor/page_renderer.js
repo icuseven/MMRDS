@@ -1,3 +1,4 @@
+
 function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
 	var stack = [];
@@ -67,6 +68,19 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 	return result;
 
 }
+
+function convert_ui_spec_style_to_css(p_style_string)
+{
+
+	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
+	var result = p_style_string.substring(1);
+
+	result = result.replace(/["']/g, "").replace("{","").replace("}","").replace(/,/g, ";");
+
+
+	return result;
+}
+
 
 
 function convert_dictionary_path_to_array_field(p_path)
@@ -149,7 +163,25 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<input  class='");
+	p_result.push("<input ");
+
+    p_result.push(" style='");
+    var key = p_dictionary_path.substring(1);
+
+    if
+    (
+        g_default_ui_specification && 
+        g_default_ui_specification.form_design[key]  &&
+        g_default_ui_specification.form_design[key].control &&
+        g_default_ui_specification.form_design[key].control.style
+    )
+    {
+        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].control.style));
+    }
+    p_result.push("' ");
+
+
+	p_result.push(" class='");
 	p_result.push(p_metadata.type.toLowerCase());
 	
 	if

@@ -21,6 +21,9 @@ var g_remoteDB = null;
 var g_metadata_summary = [];
 var default_object = null;
 var g_change_stack = [];
+var g_default_ui_specification = null;
+var g_use_position_information = false;
+
 
 
 
@@ -627,7 +630,14 @@ function load_user_role_jurisdiction()
       $("#footer").hide();
       $("#root").removeClass("header");
 
-      get_metadata();
+      if(g_use_position_information)
+      {
+        get_ui_specification()
+      }
+      else
+      {
+        get_metadata();
+      }
 
       //load_profile();
 
@@ -677,7 +687,15 @@ function load_profile()
       $("#logout_page").hide();
       $("#footer").hide();
       $("#root").removeClass("header");
-      get_metadata();
+      if(g_use_position_information)
+      {
+        get_ui_specification()
+      }
+      else
+      {
+        get_metadata();
+      }
+      
     };
 
     profile.on_logout_call_back = function (p_user_name, p_password)
@@ -776,6 +794,16 @@ function get_case_set(p_call_back)
 
 }
 
+
+function get_ui_specification()
+{
+ 	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
+	}).done(function(response) {
+      g_default_ui_specification = response;
+      get_metadata();
+	});
+}
 
 function get_metadata()
 {

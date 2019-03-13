@@ -1,16 +1,50 @@
 function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
     p_result.push("<div class='form-control1' id='" + convert_object_path_to_jquery_id(p_object_path) + "'");
-    p_result.push(" mpath='" + p_metadata_path + "' style>");
+    p_result.push(" mpath='" + p_metadata_path + "' >");
 
 
-    p_result.push("<label>Jurisdiction ID");
+    p_result.push("<label");
+    p_result.push(" style='");
+    var key = p_dictionary_path.substring(1);
+
+    if
+    (
+        g_default_ui_specification && 
+        g_default_ui_specification.form_design[key]  &&
+        g_default_ui_specification.form_design[key].prompt &&
+        g_default_ui_specification.form_design[key].prompt.style
+    )
+    {
+        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].prompt.style));
+    }
+    p_result.push("' ");
+    p_result.push(">Jurisdiction ID ");
+
 
     p_result.push("<select name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
     p_result.push(p_object_path);
     p_result.push("\",\"");
     p_result.push(p_metadata_path);
     p_result.push("\",this.value)'  ");
+
+    
+
+    p_result.push(" style='");
+    var key = p_dictionary_path.substring(1);
+
+    if
+    (
+        g_default_ui_specification && 
+        g_default_ui_specification.form_design[key]  &&
+        g_default_ui_specification.form_design[key].control &&
+        g_default_ui_specification.form_design[key].control.style
+    )
+    {
+        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].control.style));
+    }
+    p_result.push("' ");
+
     p_result.push(">");
 
 /*
