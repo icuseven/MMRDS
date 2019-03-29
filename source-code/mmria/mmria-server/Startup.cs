@@ -119,6 +119,11 @@ namespace mmria.server
                 }
                 
 
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_client_secret")))
+                {
+                    Configuration["sams:client_secret"] = System.Environment.GetEnvironmentVariable ("sams_client_secret");
+                }
+
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_callback_url")))
                 {
                     Configuration["sams:callback_url"] = System.Environment.GetEnvironmentVariable ("sams_callback_url");
