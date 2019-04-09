@@ -129,8 +129,15 @@ namespace mmria.server
                     Configuration["sams:callback_url"] = System.Environment.GetEnvironmentVariable ("sams_callback_url");
                 }
             
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_logout_url")))
+                {
+                    Configuration["sams:logout_url"] = System.Environment.GetEnvironmentVariable ("sams_logout_url");
+                }
 
-
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_is_enabled")))
+                {
+                    Configuration["sams:is_enabled"] = System.Environment.GetEnvironmentVariable ("sams_is_enabled");
+                }
 
                 /*
                 Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
