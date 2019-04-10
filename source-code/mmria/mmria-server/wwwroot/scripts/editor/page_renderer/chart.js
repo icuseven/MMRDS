@@ -225,7 +225,7 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 				}
 				else 
 				{
-					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d\d:\d\d:\d\d[Z]?$/)
+					res = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d[Z]?$/)
 					if(res)
 					{
 						//var date_time = new Date(val);
@@ -285,7 +285,12 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label)
 			var val = array[i][field];
 			if(val)
 			{
-				result.push(parseFloat(val));
+				/*
+				var temp = parseFloat(val);
+				var rounded = Math.round(temp * 100) / 100;
+				result.push(rounded);
+				*/
+				result.push(parseFloat(val).toFixed(2));
 			}
 			else
 			{
