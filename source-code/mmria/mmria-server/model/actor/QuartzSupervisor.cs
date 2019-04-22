@@ -64,6 +64,8 @@ namespace mmria.server.model.actor
 
                 case "pulse":
 
+                    System.Threading.Tasks.Task.Run(async () => await new mmria.server.util.c_db_setup(Context.System).Install_Check());
+
                     mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
 						(
 							Program.config_cron_schedule,
@@ -95,13 +97,16 @@ namespace mmria.server.model.actor
 
                     }
 
-                    //checkForChanges.Tell("pulse");
+
+                    
+
                     
 
                 break;
             }
             
         }
+
     }
 
     public class CheckForChanges : UntypedActor
