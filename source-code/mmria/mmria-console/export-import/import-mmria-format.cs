@@ -102,7 +102,7 @@ namespace mmria.console
 			}
 
 
-			string login_url = this.mmria_url + "/api/sessionDB/";
+			string login_url = this.mmria_url + "/api/session/";
 			var login_data = new { userid = this.user_name, password = this.password };
 			var login_curl = new cURL("POST", null, login_url, Newtonsoft.Json.JsonConvert.SerializeObject(login_data));
 			string login_result_string = null;
@@ -149,6 +149,11 @@ namespace mmria.console
 				}
 
 
+				if (case_data_dictionary.ContainsKey ("_rev")) 
+				{
+					case_data_dictionary.Remove("_rev");
+				}
+
 				try
 				{
 					// check if doc exists
@@ -165,13 +170,15 @@ namespace mmria.console
 						case_data_dictionary ["_rev"] = result ["_rev"];
 
 
-						case_json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
-							Formatting = Newtonsoft.Json.Formatting.Indented,
-							DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
-							DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
-						});
 						//System.Console.WriteLine ("json\n{0}", case_json_string);
 					}
+
+					
+					case_json_string = Newtonsoft.Json.JsonConvert.SerializeObject (case_data, new Newtonsoft.Json.JsonSerializerSettings () {
+						Formatting = Newtonsoft.Json.Formatting.Indented,
+						DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+						DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc
+					});
 
 					var update_curl = new cURL ("POST", null, this.mmria_url + "/api/case", case_json_string, null, null);
 					update_curl.AddCookie("AuthSession", auth_session);

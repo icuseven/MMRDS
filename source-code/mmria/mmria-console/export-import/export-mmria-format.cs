@@ -155,12 +155,12 @@ namespace mmria.console
 			{
 				try
 				{
-					var get_case_curl = new cURL ("POST", null, this.mmria_url + $"/api/case?case_id={cvi.id}", null, null, null);
+					var get_case_curl = new cURL ("GET", null, this.mmria_url + $"/api/case?case_id={cvi.id}", null, null, null);
 					get_case_curl.AddCookie("AuthSession", auth_session);
-					get_case_curl.AddCookie("AuthSession", auth_session);
+					//get_case_curl.AddCookie("AuthSession", auth_session);
 					document_json = get_case_curl.execute();
 
-					System.IO.File.WriteAllText(this.source_file_path + $"/json/{cvi.id}.json",document_json);
+					System.IO.File.WriteAllText(this.source_file_path + $"/{cvi.id}.json",document_json);
 				}
 				catch(Exception ex)
 				{
