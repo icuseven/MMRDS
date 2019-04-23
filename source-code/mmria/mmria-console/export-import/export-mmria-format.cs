@@ -6,7 +6,7 @@ using System.IO;
 
 namespace mmria.console
 {
-	public class import_mmria_format
+	public class export_mmria_format
 	{
 		private string auth_token = null;
 		private string user_name = null;
@@ -16,7 +16,7 @@ namespace mmria.console
 
 		//import user_name:user1 password:password database_file_path:mapping-file-set/Maternal_Mortality.mdb url:http://localhost:12345
 
-		public import_mmria_format()
+		public export_mmria_format()
 		{
 			
 
@@ -63,7 +63,7 @@ namespace mmria.console
 				System.Console.WriteLine(" example 1 source_file_path:c:/temp/");
 				System.Console.WriteLine(" example 2 source_file_path:\"c:/temp folder/\"");
 				System.Console.WriteLine(" example 3 source_file_path:mapping-file-set\\\"");
-				System.Console.WriteLine(" mmria.exe import user_name:user1 password:secret url:http://localhost:12345 source_file_path:\"c:\\temp folder\\\"");
+				System.Console.WriteLine(" mmria-console.exe export user_name:user1 password:secret url:http://localhost:12345 source_file_path:\"c:\\temp folder\\\"");
 
 				return;
 			}
@@ -130,8 +130,45 @@ namespace mmria.console
 
 			auth_session = login_result_dictionary ["auth_session"].ToString();
 
+/*var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
+    get_query_string : function(){
+      var result = [];
+      result.push("?skip=" + (this.page - 1) * this.take);
+      result.push("take=" + this.take);
+      result.push("sort=" + this.sort);
+*/
+
+			string document_url = this.mmria_url + $"/api/case_view?take={int.MaxValue}";
+			var document_curl = new cURL("GET", null, document_url, null, null, null);
+			document_curl.AddCookie("AuthSession", auth_session);
+			string document_json = null;
+
+			document_json = document_curl.execute();
 
 
+			//System.IO.File.WriteAllText(this.source_file_path + "test.json",document_json);
+
+
+			mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(document_json);
+
+			foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+			{
+				try
+				{
+					var get_case_curl = new cURL ("POST", null, this.mmria_url + $"/api/case?case_id={cvi.id}", null, null, null);
+					get_case_curl.AddCookie("AuthSession", auth_session);
+					get_case_curl.AddCookie("AuthSession", auth_session);
+					document_json = get_case_curl.execute();
+
+					System.IO.File.WriteAllText(this.source_file_path + $"/json/{cvi.id}.json",document_json);
+				}
+				catch(Exception ex)
+				{
+					System.Console.Write(ex);
+				}
+			}
+
+/*
 			foreach (var file_name in System.IO.Directory.GetFiles(this.source_file_path))
 			{
 				
@@ -196,7 +233,7 @@ namespace mmria.console
 							System.Console.WriteLine ("json\n{0}", case_json_string);
 							
 						}
-						*/
+						* /
 						System.Console.WriteLine ($"Succesfully imported id {global_record_id}");
 						//System.Console.WriteLine (update_result_string);
 
@@ -216,9 +253,10 @@ namespace mmria.console
 
 				}
 			}
+			*/
 
 
-			Console.WriteLine("Import Finished");
+			Console.WriteLine("Export Finished");
 
 
 

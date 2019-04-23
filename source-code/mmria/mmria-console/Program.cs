@@ -28,6 +28,10 @@ namespace mmria.console
 						var db_import = new mmria.console.import_mmria_format();
 						db_import.Execute (args);
 					break;
+					case "export":
+						var db_export = new mmria.console.export_mmria_format();
+						db_export.Execute (args);
+						break;
 					default:
 						return;
 				}
