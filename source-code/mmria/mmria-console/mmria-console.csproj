@@ -9,6 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+
+    <PackageReference Include="NJsonSchema" Version="9.13.29" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.13.29" />
+
   </ItemGroup>
 
   <ItemGroup>
