@@ -199,7 +199,7 @@ namespace mmria.console
         {
 
 
-
+			//https://csharp.hotexamples.com/examples/NJsonSchema.CodeGeneration.CSharp/CSharpGenerator/-/php-csharpgenerator-class-examples.html
             //// Arrange
             var schemaData = @"{
               ""type"": ""object"",
