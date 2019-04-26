@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace mmria.console
 {
@@ -21,7 +22,7 @@ namespace mmria.console
 			
 
 		}
-		public async void Execute(string[] args)
+		public async Task Execute(string[] args)
 		{
 
 			if (args.Length > 1)

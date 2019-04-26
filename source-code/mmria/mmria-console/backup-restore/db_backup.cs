@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace mmria.console.db
 {
@@ -21,7 +22,7 @@ namespace mmria.console.db
 			
 
 		}
-		public void Execute (string [] args)
+		public async Task Execute (string [] args)
 		{
 			string export_directory = null;
 
@@ -111,7 +112,7 @@ namespace mmria.console.db
 
 			try 
 			{
-				mmria.console.model.couchdb.cBulkDocument bulk_document = GetDocumentList ();
+				mmria.console.model.couchdb.cBulkDocument bulk_document = await GetDocumentList ();
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -132,14 +133,16 @@ namespace mmria.console.db
 
 
 
-		private mmria.console.model.couchdb.cBulkDocument GetDocumentList ()
+		private async Task<mmria.console.model.couchdb.cBulkDocument> GetDocumentList ()
 		{
 
 			mmria.console.model.couchdb.cBulkDocument result = new model.couchdb.cBulkDocument ();
 
 			string URL = string.Format("{0}/_all_docs?include_docs=true", this.database_url);
 			cURL document_curl = new cURL ("GET", null, URL, null, this.user_name, this.password);
-			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_curl.execute ());
+			var curl_result = await document_curl.executeAsync();
+
+			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
 			dynamic all_cases_rows = all_cases.rows;
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows) 

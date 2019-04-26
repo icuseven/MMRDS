@@ -22,7 +22,7 @@ namespace mmria.console
 			
 
 		}
-		public async void Execute(string[] args)
+		public async Task Execute(string[] args)
 		{
 
 			if (args.Length > 1)
@@ -57,6 +57,7 @@ namespace mmria.console
 				}
 			}
 
+/*
 			if (string.IsNullOrWhiteSpace(this.source_file_path))
 			{
 				System.Console.WriteLine("missing source_file_path");
@@ -101,7 +102,7 @@ namespace mmria.console
 				System.Console.WriteLine($"source_file_path does NOT exist: {this.source_file_path}");
 				return;
 			}
-
+ */
 
 
 			var responseFromServer = await ReadMetadataAsync();
@@ -109,11 +110,11 @@ namespace mmria.console
 
 			var metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(responseFromServer);
 
-			var new_schema = GetSchema(metadata);
+			var new_schema = await GetSchema(metadata);
 
 
 			var location = Directory.GetCurrentDirectory();
-			var output_schema_path = Path.Combine(location, @"GeneratedSchema");
+			var output_schema_path = Path.Combine(location, @"schema/GeneratedSchema");
 			File.WriteAllText($"{output_schema_path}/generated_schema.json", new_schema.ToJson());
 
 
@@ -173,7 +174,7 @@ namespace mmria.console
 				return result;
 		}
 
-        static NJsonSchema.JsonSchema4 GetSchema(mmria.common.metadata.app p_app)
+        static async Task<NJsonSchema.JsonSchema4> GetSchema(mmria.common.metadata.app p_app)
         {
             //https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
                 
@@ -186,8 +187,102 @@ namespace mmria.console
 			schema.SchemaVersion = "http://json-schema.org/draft-06/schema#";
 
 			schema.Properties.Add("_id", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("name", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("prompt", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+
+			await Set_LookUp(schema.Definitions, p_app.lookup);
 
 			return schema;
         }
+
+		static async Task Set_LookUp(IDictionary<string, NJsonSchema.JsonSchema4> p_lookup, mmria.common.metadata.node[] p_lookup_node_list)
+        {
+
+
+
+            //// Arrange
+            var schemaData = @"{
+              ""type"": ""object"",
+              ""properties"": {
+            ""Bar"": {
+              ""oneOf"": [
+            {
+              ""$ref"": ""#/definitions/StringEnum""
+            }
+              ]
+            }
+              },
+              ""definitions"": {
+            ""StringEnum"": {
+              ""type"": ""string"",
+              ""enum"": [
+            ""0562"",
+            ""0532""
+              ],
+              ""description"": """"
+            }
+              }
+            }";
+            //var schema = NJsonSchema.JsonSchema4.FromJson(schemaData);
+
+			foreach(var node in p_lookup_node_list)
+			{
+				var new_definition = new NJsonSchema.JsonSchema4();
+
+				new_definition.Type =  NJsonSchema.JsonObjectType.Object;
+				new_definition.Title = node.name;
+				new_definition.Description = node.prompt;
+
+				p_lookup.Add(node.name, new_definition);
+
+
+//NJsonSchema.JsonSchema4.
+				
+
+				if(node.type.Equals("list", StringComparison.OrdinalIgnoreCase))
+				{
+					var new_value_node = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
+					new_definition.Properties.Add("value", new_value_node);
+
+					var json_builder = new System.Text.StringBuilder();
+
+					addDoubleQuotes(json_builder, "type");
+					json_builder.Append(": {");
+					addDoubleQuotes(json_builder, "enum");
+					json_builder.Append(": [");
+
+
+
+					foreach(var value in node.values)
+					{
+						addDoubleQuotes(json_builder, value.value);
+						json_builder.Append(",");
+						
+					}
+					json_builder.Length = json_builder.Length -1;
+					json_builder.Append("]");
+					json_builder.Append("}");
+
+					var list_json = json_builder.ToString();
+
+					new_value_node.OneOf.Add(await NJsonSchema.JsonSchema4.FromJsonAsync(list_json));
+
+				}
+				
+
+
+
+
+
+			}
+
+		}
+
+		private static void addDoubleQuotes(System.Text.StringBuilder p_builder, string p_value)
+		{
+			p_builder.Append("\"");
+			p_builder.Append(p_value);
+			p_builder.Append("\"");
+		}
 	}
 }

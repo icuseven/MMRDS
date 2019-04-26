@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace mmria.console
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             if (args.Length > 0)
 			{
@@ -18,19 +19,23 @@ namespace mmria.console
 						break;
 					case "backup":
 						var db_backup = new mmria.console.db.Backup();
-						db_backup.Execute (args);
+						await db_backup.Execute (args);
 					break;
 					case "restore":
 						var db_retore = new mmria.console.db.Restore ();
-						db_retore.Execute (args);
+						await db_retore.Execute (args);
 					break;
 					case "import":
 						var db_import = new mmria.console.import_mmria_format();
-						db_import.Execute (args);
+						await db_import.Execute (args);
 					break;
 					case "export":
 						var db_export = new mmria.console.export_mmria_format();
-						db_export.Execute (args);
+						await db_export.Execute (args);
+						break;
+					case "convert":
+						var convert = new mmria.console.convert();
+						await convert.Execute (args);
 						break;
 					default:
 						return;

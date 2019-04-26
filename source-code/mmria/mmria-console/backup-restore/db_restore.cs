@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace mmria.console.db
 {
@@ -21,7 +22,7 @@ namespace mmria.console.db
 			
 
 		}
-		public void Execute(string[] args)
+		public async Task Execute(string[] args)
 		{
 			string import_directory = null; //System.Configuration.ConfigurationManager.AppSettings["import_directory"];
 			this.is_offline_mode = false;  //bool.Parse(System.Configuration.ConfigurationManager.AppSettings["is_offline_mode"]);
@@ -121,7 +122,7 @@ namespace mmria.console.db
 				mmria.console.model.couchdb.cBulkDocument bulk_document =
 					Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.console.model.couchdb.cBulkDocument> (bulk_document_string, settings);
 
-				string post_result = Post_Document_List (bulk_document);
+				string post_result = await Post_Document_List (bulk_document);
 
 				Console.WriteLine (post_result);
 
@@ -135,7 +136,7 @@ namespace mmria.console.db
 		}
 
 
-		private string Post_Document_List (mmria.console.model.couchdb.cBulkDocument p_bulk_document)
+		private async Task<string> Post_Document_List (mmria.console.model.couchdb.cBulkDocument p_bulk_document)
 		{
 
 			string result = null;
@@ -144,7 +145,7 @@ namespace mmria.console.db
 			cURL document_curl = new cURL ("POST", null, URL, bulk_document_string, this.user_name, this.password);
 			try
 			{
-				result = document_curl.execute ();
+				result = await document_curl.executeAsync ();
 			}
 			catch (Exception ex)
 			{
