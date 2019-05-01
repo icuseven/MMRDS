@@ -645,6 +645,7 @@ namespace mmria.server
             }
 			else
             {
+                /*
                 System.Threading.Tasks.Task.Run
                 (
                     new Action (async () => 
@@ -653,6 +654,7 @@ namespace mmria.server
                     }
                     
                 ));
+                 */
             }
 
             // ****   Quartz Timer - End
