@@ -139,6 +139,18 @@ namespace mmria.server
                     Configuration["sams:is_enabled"] = System.Environment.GetEnvironmentVariable ("sams_is_enabled");
                 }
 
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("is_schedule_enabled"))&& bool.TryParse(System.Environment.GetEnvironmentVariable ("is_schedule_enabled"), out Program.is_schedule_enabled))
+                {
+                    Configuration["is_schedule_enabled"] = System.Environment.GetEnvironmentVariable ("is_schedule_enabled");
+                }
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("grantee_name")))
+                {
+                    Configuration["grantee_name"] = System.Environment.GetEnvironmentVariable ("grantee_name");
+                    Program.grantee_name = Configuration["grantee_name"];
+                }
+
                 /*
                 Program.config_EMAIL_USE_AUTHENTICATION = System.Environment.GetEnvironmentVariable ("EMAIL_USE_AUTHENTICATION"); //  = true;
                 Program.config_EMAIL_USE_SSL = System.Environment.GetEnvironmentVariable ("EMAIL_USE_SSL"); //  = true;
@@ -152,6 +164,7 @@ namespace mmria.server
                 Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_within_number_of_minutes"))? 120:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_within_number_of_minutes"));
                 Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes"))? 15:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes"));
 
+                
 
             }
             else 
@@ -187,7 +200,15 @@ namespace mmria.server
                 Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"])? 120:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
                 Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"])? 15:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
  
-
+                if(!string.IsNullOrEmpty(Configuration["mmria_settings:grantee_name"]))
+                {
+                    Program.grantee_name = Configuration["mmria_settings:grantee_name"];
+                }
+                
+                if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_schedule_enabled"]))
+                {
+                    bool.TryParse(Configuration["mmria_settings:is_schedule_enabled"], out Program.is_schedule_enabled);
+                }
 
 
             }
@@ -225,7 +246,11 @@ namespace mmria.server
 
             sched.ScheduleJob(job, trigger);
 
-            sched.Start();
+            if(Program.is_schedule_enabled)
+            {
+                sched.Start();
+            }
+            
  
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
             quartzSupervisor.Tell("init");
@@ -607,14 +632,28 @@ namespace mmria.server
 
         public void Start()
 		{
-			System.Threading.Tasks.Task.Run
-			(
-				new Action (async () => 
-				{
-                    await new mmria.server.util.c_db_setup(Program.actorSystem).Setup();
-				}
-				
-			));
+            if(Program.is_schedule_enabled)
+            {
+                System.Threading.Tasks.Task.Run
+                (
+                    new Action (async () => 
+                    {
+                        await new mmria.server.util.c_db_setup(Program.actorSystem).Setup();
+                    }
+                    
+                ));
+            }
+			else
+            {
+                System.Threading.Tasks.Task.Run
+                (
+                    new Action (async () => 
+                    {
+                        await new mmria.server.util.c_db_setup(Program.actorSystem).Install_Check();
+                    }
+                    
+                ));
+            }
 
             // ****   Quartz Timer - End
 		}

@@ -102,6 +102,9 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static string config_cron_schedule;
         public static string config_export_directory;
 
+
+        public static string grantee_name;
+        public static bool is_schedule_enabled;
         public static int config_session_idle_timeout_minutes;
 
 
