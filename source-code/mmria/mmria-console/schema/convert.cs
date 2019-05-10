@@ -272,6 +272,7 @@ namespace mmria.console
 						case "hidden":
 						case "string":
 									var string_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String};
+							
 									if(p_node.default_value != null)
 									{
 										string_property.Default = p_node.default_value;
@@ -353,11 +354,23 @@ namespace mmria.console
 								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
 								{
 									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+									foreach(var value in p_node.values)
+									{
+										property.EnumerationNames.Add(value.value);
+									}
 								}
 								else
 								{
-									p_parent.Properties.Add(p_node.name, new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String });
+									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
+									p_parent.Properties.Add(p_node.name, property);
+
+									foreach(var value in p_node.values)
+									{
+										property.EnumerationNames.Add(value.value);
+									}
 								}
+
+
 								break;
 						case "button":
 						case "chart":
