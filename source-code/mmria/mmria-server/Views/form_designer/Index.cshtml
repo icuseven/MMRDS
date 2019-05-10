@@ -32,9 +32,7 @@
 </head>
 <body>
 
-    @{
-        Html.RenderPartial("Partials/_BrowseHappy");
-    }
+    @{ Html.RenderPartial("Partials/_BrowseHappy"); }
 
     <div class="container-fluid">
         <div class="row fd-header">
@@ -47,7 +45,7 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div id="ui-spec-selector-container">
                     <div class="form-inline">
                         <div class="form-group">
@@ -56,7 +54,7 @@
                         </div>
                         <span class="form-group bmd-form-group" style="margin-left: 6px;">
                             <!-- needed to match padding for floating labels -->
-                            <button type="submit" class="btn btn-raised btn-primary" onclick="javascript: formDesigner.uiSpecHandler.addSpecToDB(document.getElementById('ui-spec-name-field').value);"><i class="material-icons">add</i> Add Specification</button>
+                            <button type="submit" class="form-designer-btn btn btn-raised btn-primary" onclick="javascript: formDesigner.uiSpecHandler.addSpecToDB(document.getElementById('ui-spec-name-field').value);"><i class="material-icons">add</i> Add Specification</button>
                         </span>
                     </div>
                     <hr>
@@ -68,7 +66,7 @@
                 </div>
                 <div id="form-list-container" class="fd-intial-cloaked"></div>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 <div id="fd-canvas-heads-up-display-wrapper" class="fd-initial-cloaked">
                     <span id="ui-spec-display-container">Form Designer Canvas</span>
                     <span id="ui-spec-delete-modify-container">
