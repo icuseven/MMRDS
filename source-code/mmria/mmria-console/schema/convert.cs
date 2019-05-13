@@ -199,7 +199,22 @@ namespace mmria.console
 			//schema.Properties.Add("name", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
 			//schema.Properties.Add("prompt", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
 
-			//await Set_LookUp(schema.Definitions, p_app.lookup);
+			
+
+			try
+
+			{
+				foreach(var child in p_app.lookup)
+				{
+						Set_LookUp(schema.Definitions, child);
+				}
+
+			}
+			catch(Exception ex)
+			{
+				System.Console.Write($"Set_LookUp Exception: {ex}");
+			}
+
 
 			try
 
@@ -389,76 +404,178 @@ namespace mmria.console
 			return p_parent;
 		}
 
-		static async Task Set_LookUp(IDictionary<string, NJsonSchema.JsonSchema4> p_lookup, mmria.common.metadata.node[] p_lookup_node_list)
+		static void Set_LookUp(IDictionary<string, NJsonSchema.JsonSchema4> p_parent, mmria.common.metadata.node p_node)
 		{
-			//https://csharp.hotexamples.com/examples/NJsonSchema.CodeGeneration.CSharp/CSharpGenerator/-/php-csharpgenerator-class-examples.html
-     	//// Arrange
-			var schemaData = @"{
-				""type"": ""object"",
-				""properties"": {
-			""Bar"": {
-				""oneOf"": [
+//https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
+
+			/*
+			var schema = new NJsonSchema.JsonSchema4();
+			
+			schema.Type =  NJsonSchema.JsonObjectType.Object;
+			schema.Title = "mmria_case";
+			schema.Description = "Here is a case for your ...!";
+			
+			schema.SchemaVersion = "http://json-schema.org/draft-06/schema#";
+ 			*/			
+
+
+			NJsonSchema.JsonProperty property = null;
+			//schema.Properties.Add("name", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("prompt", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+
+			try
 			{
-				""$ref"": ""#/definitions/StringEnum""
-			}
-				]
-			}
-				},
-				""definitions"": {
-			""StringEnum"": {
-				""type"": ""string"",
-				""enum"": [
-			""0562"",
-			""0532""
-				],
-				""description"": """"
-			}
-				}
-			}";
-			//var schema = NJsonSchema.JsonSchema4.FromJson(schemaData);
 
-			foreach(var node in p_lookup_node_list)
-			{
-				var new_definition = new NJsonSchema.JsonSchema4();
-
-				new_definition.Type =  NJsonSchema.JsonObjectType.Object;
-				new_definition.Title = node.name;
-				new_definition.Description = node.prompt;
-
-				p_lookup.Add(node.name, new_definition);
-
-				//NJsonSchema.JsonSchema4.
-				
-				if(node.type.Equals("list", StringComparison.OrdinalIgnoreCase))
+				switch(p_node.type.ToLower())
 				{
-					var new_value_node = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
-					new_definition.Properties.Add("value", new_value_node);
+						/*
+						case "app":
+						case "form":
+						case "group":
+						case "grid":
 
-					var json_builder = new System.Text.StringBuilder();
+						if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
+						{
+								property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+						}
+						else if(p_node.type.ToLower() == "grid")
+						{
+								property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+						}
+						else
+						{
+							property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Object};
+						}
 
-					addDoubleQuotes(json_builder, "type");
-					json_builder.Append(": {");
-					addDoubleQuotes(json_builder, "enum");
-					json_builder.Append(": [");
-
-
-					foreach(var value in node.values)
-					{
-						addDoubleQuotes(json_builder, value.value);
-						json_builder.Append(",");
+						p_parent.Properties.Add(p_node.name, property);
 						
-					}
-					json_builder.Length = json_builder.Length -1;
-					json_builder.Append("]");
-					json_builder.Append("}");
+						foreach(var child in p_node.children)
+						{
+								await GetSchema(property, child);
+						}
 
-					var list_json = json_builder.ToString();
+						break;
+						case "textarea":
+						case "hidden":
+						case "string":
+									var string_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String};
+							
+									if(p_node.default_value != null)
+									{
+										string_property.Default = p_node.default_value;
+									}
 
-					new_value_node.OneOf.Add(await NJsonSchema.JsonSchema4.FromJsonAsync(list_json));
+									if(p_node.is_required.HasValue && p_node.is_required.Value)
+									{
+										string_property.IsRequired = true;
+									}
 
+									p_parent.Properties.Add(p_node.name, string_property);
+									break;
+						case "datetime":
+						case "date":
+						case "time":
+									var date_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String, Format = "date-time" };
+									if(p_node.is_required.HasValue && p_node.is_required.Value)
+									{
+										date_property.IsRequired = true;
+									}
+									p_parent.Properties.Add(p_node.name, date_property);
+									break;
+						case "number":
+									var number_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Number };
+									if(p_node.default_value != null)
+									{
+										decimal decimal_value;
+										if(decimal.TryParse(p_node.default_value, out decimal_value))
+										{
+											number_property.Default = decimal_value;
+										}
+									}
+
+									if(p_node.is_required.HasValue && p_node.is_required.Value)
+									{
+										number_property.IsRequired = true;
+									}
+
+									if(p_node.min_value != null)
+									{
+										decimal number_value;
+										if(decimal.TryParse(p_node.min_value, out number_value))
+										{
+											number_property.Minimum = number_value;
+										}
+									}
+
+									if(p_node.max_value != null)
+									{
+										decimal number_value;
+										if(decimal.TryParse(p_node.max_value, out number_value))
+										{
+											number_property.Maximum = number_value;
+										}
+									}
+
+									p_parent.Properties.Add(p_node.name, number_property);
+									break;
+						case "boolean":
+									var boolean_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Boolean };
+									if(p_node.is_required.HasValue && p_node.is_required.Value)
+									{
+										boolean_property.IsRequired = true;
+									}
+
+									if(p_node.default_value != null)
+									{
+										bool bool_value;
+
+										if(bool.TryParse(p_node.default_value, out bool_value))
+										{
+											boolean_property.Default = bool_value;
+										}
+										
+									}
+									p_parent.Properties.Add(p_node.name,boolean_property);
+									break;		*/						
+						case "list":
+								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
+								{
+									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+									foreach(var value in p_node.values)
+									{
+										property.EnumerationNames.Add(value.value);
+									}
+								}
+								else
+								{
+									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
+									p_parent.Add(p_node.name, property);
+
+									foreach(var value in p_node.values)
+									{
+										property.EnumerationNames.Add(value.value);
+									}
+								}
+
+
+								break;
+								/*
+						case "button":
+						case "chart":
+						case "label":
+								break;
+						default:
+							System.Console.Write($"Convert.cs.GetSchema.switch.Missing: {p_node.type}");
+							break;
+							 */
 				}
-		
+
 			}
+			catch(Exception ex)
+			{
+				System.Console.Write($"GetSchemaGetSchema(p_parent, p_node) Exception: {ex}");
+			}
+			//return p_parent;
 
 		}
 
