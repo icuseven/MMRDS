@@ -369,19 +369,36 @@ namespace mmria.console
 								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
 								{
 									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
-									foreach(var value in p_node.values)
+
+									if(!string.IsNullOrWhiteSpace(p_node.path_reference))
 									{
-										property.EnumerationNames.Add(value.value);
+
 									}
+									else
+									{
+										foreach(var value in p_node.values)
+										{
+											property.EnumerationNames.Add(value.value);
+										}
+									}
+									
 								}
 								else
 								{
 									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
 									p_parent.Properties.Add(p_node.name, property);
 
-									foreach(var value in p_node.values)
+									if(!string.IsNullOrWhiteSpace(p_node.path_reference))
 									{
-										property.EnumerationNames.Add(value.value);
+
+									}
+									else
+									{
+
+										foreach(var value in p_node.values)
+										{
+											property.EnumerationNames.Add(value.value);
+										}
 									}
 								}
 
