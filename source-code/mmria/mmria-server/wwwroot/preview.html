@@ -246,13 +246,39 @@
     function main()
     {
         console.log("started");
+
+        
+        add_style_to_input_control("home_record/first_name");
+        add_style_to_input_control("home_record/middle_name");
+        add_style_to_input_control("home_record/last_name");
         
         // console.log("Label, home_record/first_name: " + ui_specification.form_design["home_record/first_name"].prompt.style);
         // console.log("Input, home_record/first_name: " + ui_specification.form_design["home_record/first_name"].control.style);
         
         // buildControls();
     }
+
+    function add_style_to_input_control(p_key)
+    {
+        var style_object = ui_specification.form_design[p_key];
+
+        var prompt_target = document.querySelector("div[metadata='" + p_key + "'] label");
+        prompt_target.style.cssText = get_style_string(style_object.prompt.style); 
+
+        var control_target = document.querySelector("div[metadata='" + p_key + "'] input");
+        control_target.style.cssText = get_style_string(style_object.control.style); 
+    }
     
+    function get_style_string(p_style_string)
+    {
+        var promptStyles = p_style_string;
+        promptStyles = promptStyles.replace(/[{}]/g, ""); // remove curly braces
+        promptStyles = promptStyles.replace(/['"]+/g, ''); // remove single/double quotes
+        promptStyles = promptStyles.replace(/[,]+/g, ';'); // replace commas w/ semicolons
+
+        return promptStyles;
+    }
+
     function buildControls()
     {
         var formDesign = ui_specification.form_design; // Gets the form_design child object
