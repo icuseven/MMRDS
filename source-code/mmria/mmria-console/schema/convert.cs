@@ -221,7 +221,7 @@ namespace mmria.console
 			{
 				foreach(var child in p_app.children)
 				{
-						await GetSchema(schema, child);
+						await GetSchema(schema.Definitions, schema, child);
 				}
 
 			}
@@ -233,7 +233,7 @@ namespace mmria.console
 		}
 
 
-		static async Task<NJsonSchema.JsonSchema4> GetSchema(NJsonSchema.JsonSchema4 p_parent, mmria.common.metadata.node p_node)
+		static async Task<NJsonSchema.JsonSchema4> GetSchema(IDictionary<string, NJsonSchema.JsonSchema4> p_lookup, NJsonSchema.JsonSchema4 p_parent, mmria.common.metadata.node p_node)
 		{
 				//https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
 
@@ -279,7 +279,7 @@ namespace mmria.console
 						
 						foreach(var child in p_node.children)
 						{
-								await GetSchema(property, child);
+								await GetSchema(p_lookup, property, child);
 						}
 
 						break;
@@ -369,10 +369,12 @@ namespace mmria.console
 								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
 								{
 									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+									p_parent.Properties.Add(p_node.name, property);
 
 									if(!string.IsNullOrWhiteSpace(p_node.path_reference))
 									{
-
+										property.Reference = p_lookup[p_node.path_reference.Replace("lookup/", "")];
+										//p_parent.Properties.Add(p_node.name, property);
 									}
 									else
 									{
@@ -390,6 +392,8 @@ namespace mmria.console
 
 									if(!string.IsNullOrWhiteSpace(p_node.path_reference))
 									{
+										property.Reference = p_lookup[p_node.path_reference.Replace("lookup/", "")];
+										//p_parent.Properties.Add(p_node.name, property);
 
 									}
 									else
@@ -444,116 +448,7 @@ namespace mmria.console
 			{
 
 				switch(p_node.type.ToLower())
-				{
-						/*
-						case "app":
-						case "form":
-						case "group":
-						case "grid":
-
-						if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
-						{
-								property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
-						}
-						else if(p_node.type.ToLower() == "grid")
-						{
-								property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
-						}
-						else
-						{
-							property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Object};
-						}
-
-						p_parent.Properties.Add(p_node.name, property);
-						
-						foreach(var child in p_node.children)
-						{
-								await GetSchema(property, child);
-						}
-
-						break;
-						case "textarea":
-						case "hidden":
-						case "string":
-									var string_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String};
-							
-									if(p_node.default_value != null)
-									{
-										string_property.Default = p_node.default_value;
-									}
-
-									if(p_node.is_required.HasValue && p_node.is_required.Value)
-									{
-										string_property.IsRequired = true;
-									}
-
-									p_parent.Properties.Add(p_node.name, string_property);
-									break;
-						case "datetime":
-						case "date":
-						case "time":
-									var date_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String, Format = "date-time" };
-									if(p_node.is_required.HasValue && p_node.is_required.Value)
-									{
-										date_property.IsRequired = true;
-									}
-									p_parent.Properties.Add(p_node.name, date_property);
-									break;
-						case "number":
-									var number_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Number };
-									if(p_node.default_value != null)
-									{
-										decimal decimal_value;
-										if(decimal.TryParse(p_node.default_value, out decimal_value))
-										{
-											number_property.Default = decimal_value;
-										}
-									}
-
-									if(p_node.is_required.HasValue && p_node.is_required.Value)
-									{
-										number_property.IsRequired = true;
-									}
-
-									if(p_node.min_value != null)
-									{
-										decimal number_value;
-										if(decimal.TryParse(p_node.min_value, out number_value))
-										{
-											number_property.Minimum = number_value;
-										}
-									}
-
-									if(p_node.max_value != null)
-									{
-										decimal number_value;
-										if(decimal.TryParse(p_node.max_value, out number_value))
-										{
-											number_property.Maximum = number_value;
-										}
-									}
-
-									p_parent.Properties.Add(p_node.name, number_property);
-									break;
-						case "boolean":
-									var boolean_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Boolean };
-									if(p_node.is_required.HasValue && p_node.is_required.Value)
-									{
-										boolean_property.IsRequired = true;
-									}
-
-									if(p_node.default_value != null)
-									{
-										bool bool_value;
-
-										if(bool.TryParse(p_node.default_value, out bool_value))
-										{
-											boolean_property.Default = bool_value;
-										}
-										
-									}
-									p_parent.Properties.Add(p_node.name,boolean_property);
-									break;		*/						
+				{						
 						case "list":
 								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
 								{
@@ -576,15 +471,7 @@ namespace mmria.console
 
 
 								break;
-								/*
-						case "button":
-						case "chart":
-						case "label":
-								break;
-						default:
-							System.Console.Write($"Convert.cs.GetSchema.switch.Missing: {p_node.type}");
-							break;
-							 */
+								
 				}
 
 			}
