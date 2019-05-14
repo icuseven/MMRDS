@@ -251,11 +251,40 @@
         add_style_to_input_control("home_record/first_name");
         add_style_to_input_control("home_record/middle_name");
         add_style_to_input_control("home_record/last_name");
+
+
+        add_style_to_group_control("home_record/date_of_death");
+
+        add_style_to_input_control("home_record/date_of_death/month");
+        add_style_to_input_control("home_record/date_of_death/day");
+        add_style_to_input_control("home_record/date_of_death/year");
         
+
+
+        add_style_to_select_control("home_record/state_of_death_record");
+        
+        add_style_to_input_control("home_record/record_id");
+        add_style_to_input_control("home_record/agency_case_id");
+        add_style_to_input_control("home_record/how_was_this_death_identified");
+        add_style_to_input_control("home_record/specify_other_multiple_sources");
+        add_style_to_input_control("home_record/primary_abstractor");
+        add_style_to_input_control("home_record/jurisdiction_id");
+
         // console.log("Label, home_record/first_name: " + ui_specification.form_design["home_record/first_name"].prompt.style);
         // console.log("Input, home_record/first_name: " + ui_specification.form_design["home_record/first_name"].control.style);
         
         // buildControls();
+    }
+
+    function add_style_to_select_control(p_key)
+    {
+        var style_object = ui_specification.form_design[p_key];
+
+        var prompt_target = document.querySelector("div[metadata='" + p_key + "'] label");
+        prompt_target.style.cssText = get_style_string(style_object.prompt.style); 
+
+        var control_target = document.querySelector("div[metadata='" + p_key + "'] select");
+        control_target.style.cssText = get_style_string(style_object.control.style); 
     }
 
     function add_style_to_input_control(p_key)
@@ -269,6 +298,13 @@
         control_target.style.cssText = get_style_string(style_object.control.style); 
     }
     
+    function add_style_to_group_control(p_key)
+    {
+        var style_object = ui_specification.form_design[p_key];
+        var control_target = document.querySelector("fieldset[metadata='" + p_key + "']");
+        control_target.style.cssText = get_style_string(style_object.control.style); 
+    }
+
     function get_style_string(p_style_string)
     {
         var promptStyles = p_style_string;
@@ -315,7 +351,7 @@
         <div>
             <h2>Page</h2>
             <h3>Home Record</h3>
-            <section id="form" style="border: 4px solid gray; padding: 20px; position: relative; height: 80vh; width: 90vw">
+            <section id="form" style="border: 4px solid gray; padding: 20px; position: relative; height: 1400px; width: 1400px">
 
                 <div metadata="home_record/first_name">
                     <label for="home_record--first_name" style="position:absolute; top:4; left:13; height:46; width:146.188; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41);">First Name</label>
