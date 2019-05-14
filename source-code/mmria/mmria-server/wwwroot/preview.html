@@ -250,7 +250,7 @@
         // console.log("Label, home_record/first_name: " + ui_specification.form_design["home_record/first_name"].prompt.style);
         // console.log("Input, home_record/first_name: " + ui_specification.form_design["home_record/first_name"].control.style);
         
-        buildControls();
+        // buildControls();
     }
     
     function buildControls()
@@ -260,14 +260,14 @@
 
         var promptTarget = document.querySelector("[metadata]").children[0]; // get the label
         var promptStyles = Object.values(formDesign)[0].prompt.style;
-        promptStyles = promptStyles.replace(/[{}]/g, ""); // remove curly braces
+        promptStyles = promptStyles.replace(/[{}]/g, "home_record--first_name"); // remove curly braces
         promptStyles = promptStyles.replace(/['"]+/g, ''); // remove single/double quotes
         promptStyles = promptStyles.replace(/[,]+/g, ';'); // replace commas w/ semicolons
         promptTarget.style.cssText = promptStyles; // apply styles to prompt as a string
 
         var controlTarget = document.querySelector("[metadata]").children[1]; // get the control
         var controlStyles = Object.values(formDesign)[0].control.style;
-        controlStyles = controlStyles.replace(/[{}]/g, ""); // remove curly braces
+        controlStyles = controlStyles.replace(/[{}]/g, "home_record--first_name"); // remove curly braces
         controlStyles = controlStyles.replace(/['"]+/g, ''); // remove single/double quotes
         controlStyles = controlStyles.replace(/[,]+/g, ';'); // replace commas w/ semicolons
         controlTarget.style.cssText = controlStyles; // apply styles to control as a string        
@@ -288,73 +288,75 @@
         </div>
         <div>
             <h2>Page</h2>
-            <section id="form" style="position: relative; height: 80vh; width: 90vw">
-                <h3>Home Records</h3>
+            <h3>Home Record</h3>
+            <section id="form" style="border: 4px solid gray; padding: 20px; position: relative; height: 80vh; width: 90vw">
 
                 <div metadata="home_record/first_name">
-                    <label>First Name</label>
-                    <input type="text" />
+                    <label for="home_record--first_name" style="position:absolute; top:4; left:13; height:46; width:146.188; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41);">First Name</label>
+                    <input id="home_record--first_name" type="text" style="position:absolute; top:53; left:8; height:67; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
 
                 <div metadata="home_record/middle_name">
-                    <label>Middle Name</label>
-                    <input type="text" />
+                    <label for="home_record--middle_name" style="position:absolute; top:8; left:216; height:46; width:124.266; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Middle Name</label>
+                    <input id="home_record--middle_name" type="text" style="position:absolute; top:64; left:216; height:56; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
 
                 <div metadata="home_record/last_name">
-                    <label>Last Name</label>
-                    <input type="text" />
+                    <label for="home_record--last_name" style="position:absolute; top:8; left:424; height:46; width:107.375; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Last Name</label>
+                    <input id="home_record--last_name" type="text" style="position:absolute; top:64; left:424; height:56; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
 
-                <fieldset metadata="home_record/date_of_death">
+                <fieldset metadata="home_record/date_of_death" style="position:absolute; top:123; left:12; height:219; width:644.5; font-weight:700; font-size:16px; font-style:normal; color:rgb(255, 0, 0)">
                     <legend>Date of Death</legend>
                     <div metadata="home_record/date_of_death/month">
-                        <label>Month</label>
-                        <input type="text" />
+                        <label for="home_record/date_of_death/month" style="position:absolute; top:48; left:20; height:50; width:74.4375; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Month</label>
+                        <input id="home_record/date_of_death/month" type="text" style="position:absolute; top:113; left:103; height:84; width:94; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                     </div>
+
                     <div metadata="home_record/date_of_death/day">
-                        <label>Day</label>
-                        <input type="text" />
+                        <label for="home_record/date_of_death/day" style="position:absolute; top:48; left:234.421875; height:50; width:123.422; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Day</label>
+                        <input id="home_record/date_of_death/day" type="text" style="position:absolute; top:113; left:247.421875; height:82; width:138; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                     </div>
+                    
                     <div metadata="home_record/date_of_death/year">
-                        <label>Year</label>
-                        <input type="text" />
+                        <label for="home_record/date_of_death/year" style="position:absolute; top:40.625; left:481.375; height:50; width:100; font-weight:700; font-size:16px; font-style:normal; color:rgb(255, 0, 0)">Year</label>
+                        <input id="home_record/date_of_death/year" type="text" style="position:absolute; top:110; left:498.875; height:78; width:100; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                     </div>                
                 </fieldset>
-                
+
                 <div metadata="home_record/state_of_death_record">
-                    <label>State of Death Records</label>
-                    <select size="1"><option value="" selected=""></option><option value="AL- Alabama">AL- Alabama</option><option value="AK- Alaska">AK- Alaska</option><option value="AZ- Arizona">AZ- Arizona</option><option value="AR- Arkansas">AR- Arkansas</option><option value="CA- California">CA- California</option><option value="CO- Colorado">CO- Colorado</option><option value="CT- Connecticut">CT- Connecticut</option><option value="DE- Delaware">DE- Delaware</option><option value="DC- District of Columbia">DC- District of Columbia</option><option value="FL- Florida">FL- Florida</option><option value="GA- Georgia">GA- Georgia</option><option value="HI- Hawaii">HI- Hawaii</option><option value="ID- Idaho">ID- Idaho</option><option value="IL- Illinois">IL- Illinois</option><option value="IN- Indiana">IN- Indiana</option><option value="IA- Iowa">IA- Iowa</option><option value="KS- Kansas">KS- Kansas</option><option value="KY- Kentucky">KY- Kentucky</option><option value="LA- Louisiana">LA- Louisiana</option><option value="ME- Maine">ME- Maine</option><option value="MD- Maryland">MD- Maryland</option><option value="MA- Massachusetts">MA- Massachusetts</option><option value="MI- Michigan">MI- Michigan</option><option value="MN- Minnesota">MN- Minnesota</option><option value="MS- Mississippi">MS- Mississippi</option><option value="MO- Missouri">MO- Missouri</option><option value="MT- Montana">MT- Montana</option><option value="NE- Nebraska">NE- Nebraska</option><option value="NV- Nevada">NV- Nevada</option><option value="NH- New Hampshire">NH- New Hampshire</option><option value="NJ- New Jersey">NJ- New Jersey</option><option value="NM- New Mexico">NM- New Mexico</option><option value="NY- New York">NY- New York</option><option value="NC- North Carolina">NC- North Carolina</option><option value="ND- North Dakota">ND- North Dakota</option><option value="OH- Ohio">OH- Ohio</option><option value="OK- Oklahoma">OK- Oklahoma</option><option value="OR- Oregon">OR- Oregon</option><option value="PA- Pennsylvania">PA- Pennsylvania</option><option value="RI- Rhode Island">RI- Rhode Island</option><option value="SC- South Carolina">SC- South Carolina</option><option value="SD- South Dakota">SD- South Dakota</option><option value="TN- Tennessee">TN- Tennessee</option><option value="TX- Texas">TX- Texas</option><option value="UT- Utah">UT- Utah</option><option value="VT- Vermont">VT- Vermont</option><option value="VA- Virginia">VA- Virginia</option><option value="WA- Washington">WA- Washington</option><option value="WV- West Virginia">WV- West Virginia</option><option value="WI- Wisconsin">WI- Wisconsin</option><option value="WY- Wyoming">WY- Wyoming</option><option value="AS- American Samoa">AS- American Samoa</option><option value="GU- Guam">GU- Guam</option><option value="MH- Marshall Islands">MH- Marshall Islands</option><option value="MP- Northern Marianas">MP- Northern Marianas</option><option value="PR- Puerto Rico">PR- Puerto Rico</option><option value="PW- Palau">PW- Palau</option><option value="VI- Virgin Islands">VI- Virgin Islands</option></select>
+                    <label for="home_record--state_of_death_record" style="position:absolute; top:11; left:664; height:69; width:247.547; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">State of Death Records</label>
+                    <select id="home_record--state_of_death_record" size="1" style="position:absolute; top:63; left:672; height:56; width:204; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)"><option value="home_record--first_name" selected="home_record--first_name"></option><option value="AL- Alabama">AL- Alabama</option><option value="AK- Alaska">AK- Alaska</option><option value="AZ- Arizona">AZ- Arizona</option><option value="AR- Arkansas">AR- Arkansas</option><option value="CA- California">CA- California</option><option value="CO- Colorado">CO- Colorado</option><option value="CT- Connecticut">CT- Connecticut</option><option value="DE- Delaware">DE- Delaware</option><option value="DC- District of Columbia">DC- District of Columbia</option><option value="FL- Florida">FL- Florida</option><option value="GA- Georgia">GA- Georgia</option><option value="HI- Hawaii">HI- Hawaii</option><option value="ID- Idaho">ID- Idaho</option><option value="IL- Illinois">IL- Illinois</option><option value="IN- Indiana">IN- Indiana</option><option value="IA- Iowa">IA- Iowa</option><option value="KS- Kansas">KS- Kansas</option><option value="KY- Kentucky">KY- Kentucky</option><option value="LA- Louisiana">LA- Louisiana</option><option value="ME- Maine">ME- Maine</option><option value="MD- Maryland">MD- Maryland</option><option value="MA- Massachusetts">MA- Massachusetts</option><option value="MI- Michigan">MI- Michigan</option><option value="MN- Minnesota">MN- Minnesota</option><option value="MS- Mississippi">MS- Mississippi</option><option value="MO- Missouri">MO- Missouri</option><option value="MT- Montana">MT- Montana</option><option value="NE- Nebraska">NE- Nebraska</option><option value="NV- Nevada">NV- Nevada</option><option value="NH- New Hampshire">NH- New Hampshire</option><option value="NJ- New Jersey">NJ- New Jersey</option><option value="NM- New Mexico">NM- New Mexico</option><option value="NY- New York">NY- New York</option><option value="NC- North Carolina">NC- North Carolina</option><option value="ND- North Dakota">ND- North Dakota</option><option value="OH- Ohio">OH- Ohio</option><option value="OK- Oklahoma">OK- Oklahoma</option><option value="OR- Oregon">OR- Oregon</option><option value="PA- Pennsylvania">PA- Pennsylvania</option><option value="RI- Rhode Island">RI- Rhode Island</option><option value="SC- South Carolina">SC- South Carolina</option><option value="SD- South Dakota">SD- South Dakota</option><option value="TN- Tennessee">TN- Tennessee</option><option value="TX- Texas">TX- Texas</option><option value="UT- Utah">UT- Utah</option><option value="VT- Vermont">VT- Vermont</option><option value="VA- Virginia">VA- Virginia</option><option value="WA- Washington">WA- Washington</option><option value="WV- West Virginia">WV- West Virginia</option><option value="WI- Wisconsin">WI- Wisconsin</option><option value="WY- Wyoming">WY- Wyoming</option><option value="AS- American Samoa">AS- American Samoa</option><option value="GU- Guam">GU- Guam</option><option value="MH- Marshall Islands">MH- Marshall Islands</option><option value="MP- Northern Marianas">MP- Northern Marianas</option><option value="PR- Puerto Rico">PR- Puerto Rico</option><option value="PW- Palau">PW- Palau</option><option value="VI- Virgin Islands">VI- Virgin Islands</option></select>
                 </div>
-                
+
                 <div metadata="home_record/record_id">
-                    <label>Record ID</label>
-                    <input type="text" />
+                    <label for="home_record--record_id" style="position:absolute; top:374; left:15.421875; height:50; width:108.25; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Record ID</label>
+                    <input id="home_record--record_id" type="text" style="position:absolute; top:370; left:194.421875; height:50; width:198; font-weight:400; font-size:16px; font-style:normal; color:\"rgb(0, 0, 0)" />
                 </div>
-                
+
                 <div metadata="home_record/agency_case_id">
-                    <label>Agency-based Case Identifier</label>
-                    <input type="text" />
+                    <label for="home_record--agency_case_id" style="position:absolute; top:370; left:527.421875; height:50; width:241.641; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Agency-based Case Identifier</label>
+                    <input id="home_record--agency_case_id" type="text" style="position:absolute; top:374; left:792.421875; height:50; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
-                
+
                 <div metadata="home_record/how_was_this_death_identified">
-                    <label>How was this death identified? (primary source)</label>
-                    <input type="text" />
+                    <label for="home_record--how_was_this_death_identified" style="position:absolute; top:450; left:19; height:50; width:381.25; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">How was this death identified? (primary source)</label>
+                    <input id="home_record--how_was_this_death_identified" type="text" style="position:absolute; top:511; left:19; height:56; width:494; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
-                
+
                 <div metadata="home_record/specify_other_multiple_sources">
-                    <label>Specify other or additional sources</label>
-                    <input type="text" />
+                    <label for="home_record--specify_other_multiple_sources" style="position:absolute; top:460; left:633.421875; height:50; width:385.438; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Specify other or additional sources</label>
+                    <input id="home_record--specify_other_multiple_sources" type="text" style="position:absolute; top:504; left:647.421875; height:56; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
-                
+
                 <div metadata="home_record/primary_abstractor">
-                    <label>Primary Abstractor</label>
-                    <input type="text" />
+                    <label for="home_record--primary_abstractor" style="position:absolute; top:587; left:18.890625; height:60; width:212.438; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Primary Abstractor</label>
+                    <input id="home_record--primary_abstractor" type="text" style="position:absolute; top:582; left:259.890625; height:56; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
-                
+
                 <div metadata="home_record/jurisdiction_id">
-                    <label>Jurisdiction ID</label>
-                    <input type="text" />
+                    <label for="home_record--jurisdiction_id" style="position:absolute; top:666; left:8; height:46; width:105.594; font-weight:400; font-size:16px; font-style:normal; color:rgb(33, 37, 41)">Jurisdiction ID</label>
+                    <input id="home_record--jurisdiction_id" type="text" style="position:absolute; top:722; left:8; height:56; width:198; font-weight:400; font-size:16px; font-style:normal; color:rgb(0, 0, 0)" />
                 </div>
             </section>
         </div>
