@@ -46,6 +46,9 @@ let fdObject = {};
 // Declare Drag Select object (assign after elements are in DOM)
 let fdDragSelect;
 
+// Global scope for items drag selected
+let globalDSelected = [];
+
 // Form Designer Object Handler
 formDesigner = {
   dataHandler: {
@@ -439,16 +442,28 @@ formDesigner = {
       },
     },
     wysiwyg: {
+      checkHierarchy: function() {
+
+      },
       wrap: function() {
-        $('.ds-selected').removeAttr('style');
-        $(".ds-selected").wrapAll(`<fieldset id='temp-wrap' class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" />`);
-        // $('#temp-wrap').append(`<legend style="width:auto; padding: 8px">Temporary Wrapper</legend>`);
+
+        $('.ds-selected').each(function(index, obj) {
+          $(this).parents().removeClass('ds-selected');
+        })
+
+        if (globalDSelected.length > 0) {
+          $('#btn-multiDrag').removeClass('multiDrag');
+          globalDSelected = [];
+          $(".multiDrag").removeClass("multiDrag");
+        } else {
+          $("#btn-multiDrag").addClass('multiDrag');
+          globalDSelected = [...$(".ds-selected")];
+          $(".ds-selected").addClass("multiDrag");
+        }
       },
       unwrap: function() {
-        formDesigner.fdObjectHandler.snapShot(false, false, true);
-        // $('#temp-wrap > legend').remove();
-        $("#temp-wrap").contents().unwrap();
-        formDesigner.fdObjectHandler.quickSnap();
+        globalDSelected = [];
+        $(".multiDrag").removeClass("multiDrag");
       },
       inline: function() {
         $(".ds-selected").removeAttr("style");

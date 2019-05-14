@@ -1,3 +1,4 @@
+
 // target elements with the "draggable" class
 interact('.draggable')
     .draggable({
@@ -28,29 +29,57 @@ interact('.draggable')
     });
 
 function dragMoveListener(event) {
-    
+    if (globalDSelected === undefined || globalDSelected.length === 0) {
+      // User should explicity select the move/drag tool in wysiwyg
+      return;
+    }
     // Stop drag-n-select when using drag-n-drop
     fdDragSelect.stop();
 
-    var target = event.target,
+    globalDSelected.forEach(function(element) {
+
+      var target = element,
         // keep the dragged position in the data-x/data-y attributes
-        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+        x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
 
-    // translate the element
-    target.style.webkitTransform =
-        target.style.transform =
-        'translate(' + x + 'px, ' + y + 'px)';
+      // console.log(target);
 
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
+      // translate the element
+      target.style.webkitTransform = target.style.transform =
+        "translate(" + x + "px, " + y + "px)";
+
+      // update the posiion attributes
+      target.setAttribute("data-x", x);
+      target.setAttribute("data-y", y);
+    });
 
     // Take a quickSnap when done moving
     if (event.button == 0) {
-        formDesigner.fdObjectHandler.snapShot();
-        formDesigner.fdObjectHandler.quickSnap();
+      formDesigner.fdObjectHandler.snapShot();
+      formDesigner.fdObjectHandler.quickSnap();
     }
+
+    fdDragSelect.start();
+}
+
+function multiDragMove() {
+  globalDSelected.forEach(function(element) {
+    var target = element,
+      // keep the dragged position in the data-x/data-y attributes
+      x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx,
+      y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
+
+    // console.log(target);
+
+    // translate the element
+    target.style.webkitTransform = target.style.transform =
+      "translate(" + x + "px, " + y + "px)";
+
+    // update the posiion attributes
+    target.setAttribute("data-x", x);
+    target.setAttribute("data-y", y);
+  });
 }
 
 // this is used later in the resizing

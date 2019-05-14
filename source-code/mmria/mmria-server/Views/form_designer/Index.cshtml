@@ -26,6 +26,7 @@
         integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../form-designer/css/main.css">
+    <link rel="stylesheet" href="../form-designer/css/add.css">
     <script>
         var g_uid = '@userName';
     </script>
@@ -77,8 +78,8 @@
                     <div id="fd-canvas-controls" class="row">
                         <div class="col-sm">
                             <p>
-                                <button type="button" class="btn btn-primary" title="Wrap Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.wrap()"><i class="material-icons">speaker_notes</i></button>
-                                <button type="button" class="btn btn-primary" title="Un-wrap Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.unwrap()"><i class="material-icons">speaker_notes_off</i></button>
+                                <button type="button" class="btn btn-primary" title="Move/Drag Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.wrap()" id="btn-multiDrag"><i class="material-icons">open_with</i></button>
+                                <!-- <button type="button" class="btn btn-primary" title="Un-wrap Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.unwrap()"><i class="material-icons">speaker_notes_off</i></button> -->
                                 <button type="button" class="btn btn-primary" title="Elements Inline" onclick="javascript: formDesigner.canvasHandler.wysiwyg.inline()"><i class="material-icons">reorder</i></button>
                                 <button type="button" class="btn btn-primary" title="Font Color" onclick="javascript: formDesigner.canvasHandler.wysiwyg.color()"><i class="material-icons">color_lens</i></button>
                                 <button type="button" class="btn btn-primary" title="Italic" onclick="javascript: formDesigner.canvasHandler.wysiwyg.italic()" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="material-icons">format_italic</i></button>
