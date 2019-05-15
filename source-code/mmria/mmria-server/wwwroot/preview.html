@@ -28,14 +28,14 @@
         "form_design": {
             "home_record/first_name": {
                 "prompt": {
-                    "style": "{\"position\":\"absolute\",\"top\":4,\"left\":13,\"height\":46px,\"width\":146.188px,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}",
+                    "style": "{\"position\":\"absolute\",\"top\":4,\"left\":13,\"height\":46,\"width\":146.188,\"font-weight\":\"400\",\"font-size\":\"16\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}",
                     "x": null,
                     "y": null,
                     "width": null,
                     "height": null
                 },
                 "control": {
-                    "style": "{\"position\":\"absolute\",\"top\":53,\"left\":8,\"height\":67px,\"width\":198px,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}",
+                    "style": "{\"position\":\"absolute\",\"top\":53,\"left\":8,\"height\":67,\"width\":198,\"font-weight\":\"400\",\"font-size\":\"16\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}",
                     "x": null,
                     "y": null,
                     "width": null,
@@ -2612,14 +2612,43 @@
         control_target.style.cssText = get_style_string(style_object.control.style); 
     }
 
-    function get_style_string(p_style_string)
+    function get_style_string(p_specicification_style_string)
     {
-        var promptStyles = p_style_string;
-        promptStyles = promptStyles.replace(/[{}]/g, ""); // remove curly braces
-        promptStyles = promptStyles.replace(/['"]+/g, ''); // remove single/double quotes
-        promptStyles = promptStyles.replace(/[,]+/g, ';'); // replace commas w/ semicolons
 
-        return promptStyles;
+        var result = [];
+
+        var properly_formated_style = p_specicification_style_string;
+        properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); // remove curly braces
+        properly_formated_style = properly_formated_style.replace(/['"]+/g, ''); // remove single/double quotes
+        properly_formated_style = properly_formated_style.replace(/[,]+/g, ';'); // replace commas w/ semicolons
+
+
+        properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+        //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
+        var items = properly_formated_style.split(";")
+        for(var i in items)
+        {
+            var pair = items[i].split(":");
+            switch(pair[0].toLocaleLowerCase())
+            {
+                case "top":
+                case "left":
+                case "height":
+                case "width":
+                case "font-size":
+                    result.push(pair[0] + ":" + pair[1].trim() + "px")
+
+                    break;
+
+                default:
+                    result.push(pair.join(":"));
+                    break;
+            }
+
+        }
+
+
+        return result.join(";");
     }
 </script>
 </head>
