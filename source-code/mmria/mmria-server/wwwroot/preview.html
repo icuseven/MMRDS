@@ -14,8 +14,7 @@
          $.ajax
          ({
             url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
-            //url: "http://test.mmria.org/api/ui_specification/default_ui_specification"
-        }).done(function(response) 
+          }).done(function(response) 
         {
             ui_specification = response;
             render();
@@ -78,7 +77,10 @@
     {
         var style_object = ui_specification.form_design[p_key];
         var control_target = document.querySelector("fieldset[metadata='" + p_key + "']");
-        control_target.style.cssText = get_style_string(style_object.control.style); 
+        control_target.style.cssText = get_only_size_and_position_string(style_object.control.style); 
+
+        var legend_target = document.querySelector("fieldset[metadata='" + p_key + "'] legend");
+        legend_target.style.cssText = get_only_font_style_string(style_object.control.style);
     }
 
     function get_style_string(p_specicification_style_string)
@@ -105,7 +107,18 @@
                 case "height":
                 case "width":
                 case "font-size":
-                    result.push(pair[0] + ":" + pair[1].trim() + "px")
+                    var value = pair[1].trim();
+                    if(/px$/.test(value))
+                    {
+                        result.push(pair[0] + ":" + value);
+                    }
+                    else
+                    {
+                        result.push(pair[0] + ":" + pair[1].trim() + "px");
+                    }
+
+
+                    
 
                     break;
 
@@ -119,6 +132,98 @@
 
         return result.join(";");
     }
+
+
+    function get_only_size_and_position_string(p_specicification_style_string)
+    {
+
+        var result = [];
+
+        var properly_formated_style = p_specicification_style_string;
+        properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+        properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+        properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+
+
+        properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+        //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
+        var items = properly_formated_style.split(";")
+        for(var i in items)
+        {
+            var pair = items[i].split(":");
+            switch(pair[0].toLocaleLowerCase())
+            {
+                case "top":
+                case "left":
+                case "height":
+                case "width":
+                    var value = pair[1].trim();
+                    if(/px$/.test(value))
+                    {
+                        result.push(pair[0] + ":" + value);
+                    }
+                    else
+                    {
+                        result.push(pair[0] + ":" + pair[1].trim() + "px");
+                    }
+                    break;
+                case "position":
+                    result.push(pair.join(":"));
+                    break;
+            }
+
+        }
+
+
+        return result.join(";");
+    }
+
+    function get_only_font_style_string(p_specicification_style_string)
+    {
+
+        var result = [];
+
+        var properly_formated_style = p_specicification_style_string;
+        properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+        properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+        properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+
+
+        properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+        //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
+        var items = properly_formated_style.split(";")
+        for(var i in items)
+        {
+            var pair = items[i].split(":");
+            switch(pair[0].toLocaleLowerCase())
+            {
+                case "font-size":
+                    var value = pair[1].trim();
+                    if(/px$/.test(value))
+                    {
+                        result.push(pair[0] + ":" + value);
+                    }
+                    else
+                    {
+                        result.push(pair[0] + ":" + pair[1].trim() + "px");
+                    }
+
+
+                    
+
+                    break;
+
+                case "font-weight":
+                case "color":
+                    result.push(pair.join(":"));
+                    break;
+            }
+
+        }
+
+        return result.join(";");
+    }
+
 </script>
 </head>
 
