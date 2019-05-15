@@ -50,6 +50,16 @@
         add_style_to_select_control("home_record/case_progress_report/death_certificate");
         add_style_to_select_control("home_record/case_progress_report/autopsy_report");
         add_style_to_select_control("home_record/case_progress_report/birth_certificate_parent_section");
+        add_style_to_select_control("home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section");
+        add_style_to_select_control("home_record/case_progress_report/prenatal_care_record");
+        add_style_to_select_control("home_record/case_progress_report/er_visits_and_hospitalizations");
+        add_style_to_select_control("home_record/case_progress_report/other_medical_visits");
+        add_style_to_select_control("home_record/case_progress_report/medical_transport");
+        add_style_to_select_control("home_record/case_progress_report/social_and_psychological_profile");
+        add_style_to_select_control("home_record/case_progress_report/mental_health_profile");
+        add_style_to_select_control("home_record/case_progress_report/informant_interviews");
+        add_style_to_select_control("home_record/case_progress_report/case_narrative");
+        add_style_to_select_control("home_record/case_progress_report/committe_review_worksheet");
     }
 
     function add_style_to_select_control(p_key)
@@ -218,11 +228,81 @@
                     </div>
                     
                     <div metadata="home_record/case_progress_report/birth_certificate_parent_section">
-                        <label for="home_record--case_progress_report--birth_certificate_parent_section">Case Progress Report</label>
+                        <label for="home_record--case_progress_report--birth_certificate_parent_section">Birth/Fetal Death Certificate- Parent Section</label>
                         <select id="home_record--case_progress_report--birth_certificate_parent_section">
                             <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
                         </select>
                     </div>                
+                    
+                    <div metadata="home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section">
+                        <label for="home_record--case_progress_report--birth_certificate_infant_or_fetal_death_section">Birth/Fetal Death Certificate- Infant/Fetal Section</label>
+                        <select id="home_record--case_progress_report--birth_certificate_infant_or_fetal_death_section>
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/prenatal_care_record">
+                        <label for="home_record--case_progress_report--prenatal_care_record">Prenatal Care Record</label>
+                        <select id="home_record--case_progress_report--prenatal_care_record">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/er_visits_and_hospitalizations">
+                        <label for="home_record--case_progress_report--er_visits_and_hospitalizations">ER Visits and Hospitalizations</label>
+                        <select id="home_record--case_progress_report--er_visits_and_hospitalizations>
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/other_medical_visits">
+                        <label for="home_record--case_progress_report--other_medical_visits">Other Medical Office Visits</label>
+                        <select id="home_record--case_progress_report--other_medical_visits">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                   
+                    <div metadata="home_record/case_progress_report/medical_transport">
+                        <label for="home_record--case_progress_report--medical_transport">Medical Transport</label>
+                        <select id="home_record--case_progress_report--medical_transport">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/social_and_psychological_profile">
+                        <label for="home_record--case_progress_report--social_and_psychological_profile">Social and Environmental Profile</label>
+                        <select id="home_record--case_progress_report--social_and_psychological_profile">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/mental_health_profile">
+                        <label for="home_record--case_progress_report--mental_health_profile">Mental Health Profile</label>
+                        <select id="home_record--case_progress_report--mental_health_profile">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/informant_interviews">
+                        <label for="home_record--case_progress_report--informant_interviews">Informant Interviews</label>
+                        <select id="home_record--case_progress_report--informant_interviews">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/case_narrative">
+                        <label for="home_record--case_progress_report--case_narrative">Case Narrative</label>
+                        <select id="home_record--case_progress_report--case_narrative">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
+                    
+                    <div metadata="home_record/case_progress_report/committe_review_worksheet">
+                        <label for="home_record--case_progress_report--committe_review_worksheet">Committee Decisions</label>
+                        <select id="home_record--case_progress_report--committe_review_worksheet">
+                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
+                        </select>
+                    </div>
                 </fieldset>
             </section>
         </div>
