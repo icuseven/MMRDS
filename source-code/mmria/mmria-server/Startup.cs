@@ -50,12 +50,57 @@ namespace mmria.server
 
             Program.config_geocode_api_key = "";
             Program.config_geocode_api_url = "";
-            //Program.config_file_root_folder = "wwwroot";       
 
-/*
-             Log.Information ("sams:client_id: {0}", Configuration["sams:client_id"]);
-             Log.Information ("sams:client_secret: {0}", Configuration["sams:client_secret"]);
- */             
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_schedule_enabled"]))
+            {
+                bool.TryParse(Configuration["mmria_settings:is_schedule_enabled"], out Program.is_schedule_enabled);
+            }
+
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_db_check_enabled"]))
+            {
+                bool.TryParse(Configuration["mmria_settings:is_db_check_enabled"], out Program.is_db_check_enabled);
+            }
+
+
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:grantee_name"]))
+            {
+                Program.grantee_name = Configuration["mmria_settings:grantee_name"];
+            }
+
+            var test_int = 0;
+            //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
+            //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+            Program.config_couchdb_url = Configuration["mmria_settings:couchdb_url"];
+            Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
+            //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
+            Program.config_timer_user_name = Configuration["mmria_settings:timer_user_name"];
+            Program.config_timer_password = Configuration["mmria_settings:timer_password"];
+            Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
+            Program.config_export_directory = Configuration["mmria_settings:export_directory"];
+
+            Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout"], out test_int) ? test_int : 30;
+
+
+            Program.config_password_minimum_length = string.IsNullOrWhiteSpace(Configuration["password_settings:minimum_length"])? 8: int.Parse(Configuration["password_settings:minimum_length"]);
+            Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_expires"])? 0: int.Parse(Configuration["password_settings:days_before_expires"]);
+            Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_user_is_notified_of_expiration"])? 0: int.Parse(Configuration["password_settings:days_before_user_is_notified_of_expiration"]);
+            
+
+            /*
+            Program.config_EMAIL_USE_AUTHENTICATION = Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
+            Program.config_EMAIL_USE_SSL = Configuration["mmria_settings:EMAIL_USE_SSL"];
+            Program.config_SMTP_HOST = Configuration["mmria_settings:SMTP_HOST"];
+            Program.config_SMTP_PORT = Configuration["mmria_settings:SMTP_PORT"];
+            Program.config_EMAIL_FROM = Configuration["mmria_settings:EMAIL_FROM"];
+            Program.config_EMAIL_PASSWORD = Configuration["mmria_settings:EMAIL_PASSWORD"];
+            */
+            Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["authentication_settings:default_days_in_effective_date_interval"])? 0: int.Parse(Configuration["authentication_settings:default_days_in_effective_date_interval"]);
+            Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"])? 5:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
+            Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"])? 120:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
+            Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"])? 15:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
+
+
+
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {
                 Log.Information ("using Environment");
@@ -75,7 +120,10 @@ namespace mmria.server
                 Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
                 Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
 
-                Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable ("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable ("session_idle_timeout"), out int test_int) ? test_int : 30;
+
+                //
+
+                Program.config_session_idle_timeout_minutes = System.Environment.GetEnvironmentVariable ("session_idle_timeout") != null && int.TryParse(System.Environment.GetEnvironmentVariable ("session_idle_timeout"), out test_int) ? test_int : 30;
 
 
                 Program.config_password_minimum_length = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("password_minimum_length"))? 8: int.Parse(System.Environment.GetEnvironmentVariable ("password_minimum_length"));
@@ -170,59 +218,8 @@ namespace mmria.server
                 Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_within_number_of_minutes"))? 120:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_within_number_of_minutes"));
                 Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes"))? 15:int.Parse(System.Environment.GetEnvironmentVariable ("unsuccessful_login_attempts_lockout_number_of_minutes"));
 
-                
-
             }
-            else 
-            {
-                //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
-                //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
-                Program.config_couchdb_url = Configuration["mmria_settings:couchdb_url"];
-                Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
-                //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
-                Program.config_timer_user_name = Configuration["mmria_settings:timer_user_name"];
-                Program.config_timer_password = Configuration["mmria_settings:timer_password"];
-                Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
-                Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
-                Program.config_session_idle_timeout_minutes = Configuration["mmria_settings:session_idle_timeout"] != null && int.TryParse(Configuration["mmria_settings:session_idle_timeout"], out int test_int) ? test_int : 30;
-
-
-                Program.config_password_minimum_length = string.IsNullOrWhiteSpace(Configuration["password_settings:minimum_length"])? 8: int.Parse(Configuration["password_settings:minimum_length"]);
-                Program.config_password_days_before_expires = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_expires"])? 0: int.Parse(Configuration["password_settings:days_before_expires"]);
-                Program.config_password_days_before_user_is_notified_of_expiration = string.IsNullOrWhiteSpace(Configuration["password_settings:days_before_user_is_notified_of_expiration"])? 0: int.Parse(Configuration["password_settings:days_before_user_is_notified_of_expiration"]);
-                
-
-                /*
-                Program.config_EMAIL_USE_AUTHENTICATION = Configuration["mmria_settings:EMAIL_USE_AUTHENTICATION"];
-                Program.config_EMAIL_USE_SSL = Configuration["mmria_settings:EMAIL_USE_SSL"];
-                Program.config_SMTP_HOST = Configuration["mmria_settings:SMTP_HOST"];
-                Program.config_SMTP_PORT = Configuration["mmria_settings:SMTP_PORT"];
-                Program.config_EMAIL_FROM = Configuration["mmria_settings:EMAIL_FROM"];
-                Program.config_EMAIL_PASSWORD = Configuration["mmria_settings:EMAIL_PASSWORD"];
-                */
-                Program.config_default_days_in_effective_date_interval = string.IsNullOrWhiteSpace(Configuration["authentication_settings:default_days_in_effective_date_interval"])? 0: int.Parse(Configuration["authentication_settings:default_days_in_effective_date_interval"]);
-                Program.config_unsuccessful_login_attempts_number_before_lockout = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"])? 5:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
-                Program.config_unsuccessful_login_attempts_within_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"])? 120:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
-                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = string.IsNullOrWhiteSpace(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"])? 15:int.Parse(Configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
- 
-                if(!string.IsNullOrEmpty(Configuration["mmria_settings:grantee_name"]))
-                {
-                    Program.grantee_name = Configuration["mmria_settings:grantee_name"];
-                }
-                
-                if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_schedule_enabled"]))
-                {
-                    bool.TryParse(Configuration["mmria_settings:is_schedule_enabled"], out Program.is_schedule_enabled);
-                }
-
-                if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_db_check_enabled"]))
-                {
-                    bool.TryParse(Configuration["mmria_settings:is_db_check_enabled"], out Program.is_db_check_enabled);
-                }
-
-
-            }
 
 
             Log.Information($"Program.config_timer_user_name = {Program.config_timer_user_name}");
