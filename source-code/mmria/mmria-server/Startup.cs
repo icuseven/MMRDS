@@ -231,6 +231,8 @@ namespace mmria.server
             Log.Information($"Console = {Configuration["Console:LogLevel:Default"]}");
             Log.Information ("sams:callback_url: {0}", Configuration["sams:callback_url"]);
             Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
+            Log.Information ("mmria_settings:is_schedule_enabled: {0}", Configuration["mmria_settings:is_schedule_enabled"]);
+            Log.Information ("mmria_settings:is_db_check_enabled: {0}", Configuration["mmria_settings:is_db_check_enabled"]);
 
 
 
