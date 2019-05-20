@@ -145,6 +145,12 @@ namespace mmria.server
                     Configuration["is_schedule_enabled"] = System.Environment.GetEnvironmentVariable ("is_schedule_enabled");
                 }
 
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("is_db_check_enabled"))&& bool.TryParse(System.Environment.GetEnvironmentVariable ("is_db_check_enabled"), out Program.is_db_check_enabled))
+                {
+                    Configuration["is_db_check_enabled"] = System.Environment.GetEnvironmentVariable ("is_db_check_enabled");
+                }
+
+
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("grantee_name")))
                 {
                     Configuration["grantee_name"] = System.Environment.GetEnvironmentVariable ("grantee_name");
@@ -208,6 +214,11 @@ namespace mmria.server
                 if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_schedule_enabled"]))
                 {
                     bool.TryParse(Configuration["mmria_settings:is_schedule_enabled"], out Program.is_schedule_enabled);
+                }
+
+                if(!string.IsNullOrEmpty(Configuration["mmria_settings:is_db_check_enabled"]))
+                {
+                    bool.TryParse(Configuration["mmria_settings:is_db_check_enabled"], out Program.is_db_check_enabled);
                 }
 
 

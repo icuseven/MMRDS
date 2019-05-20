@@ -107,6 +107,7 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static bool is_schedule_enabled;
         public static int config_session_idle_timeout_minutes;
 
+        public static bool is_db_check_enabled = false;
 
         public static int config_password_minimum_length = 8;
         public static int config_password_days_before_expires = 0;

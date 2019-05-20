@@ -64,8 +64,8 @@ namespace mmria.server.model.actor
 
                 case "pulse":
 
-                    System.Threading.Tasks.Task.Run(async () => await new mmria.server.util.c_db_setup(Context.System).Install_Check());
-
+                
+                
                     mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
 						(
 							Program.config_cron_schedule,
@@ -76,6 +76,11 @@ namespace mmria.server.model.actor
 						);
 
 
+                    if(Program.is_db_check_enabled)
+                    {
+                        Context.ActorOf(Props.Create<Check_DB_Install>(), "Check_DB_Install").Tell(new_scheduleInfo);
+                    }
+                    
                     bool is_rebuild_queue = false;
 
                     var midnight_timespan = new TimeSpan(0, 0, 0);
