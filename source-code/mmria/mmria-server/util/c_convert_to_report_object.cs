@@ -1175,7 +1175,7 @@ age_45_and_above
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = 1;
 						break;
 						case "Not Pregnancy Related or Associated (i.e. False Positive)":
-						case "Not Pregnancy Related or -Associated (i.e. False Positive)":
+						case "Not Pregnancy-Related or -Associated (i.e. False Positive)":
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated = 1;
 						break;
 						case "Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness":
