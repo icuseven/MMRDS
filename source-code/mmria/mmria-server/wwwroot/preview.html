@@ -216,17 +216,24 @@
                 result.push("</label>");
 
                 result.push("<select id='");
-                result.push();
+                result.push(p_path);
                 result.push("' type='text' style='");
                 if(style_object.control)
                 result.push(get_style_string(style_object.control.style));
+                result.push("' "); 
+                if(p_metadata.list_display_size != null)
+                {
+                    result.push(" size='"); 
+                    result.push(p_metadata.list_display_size);
+                }
+                
                 result.push("' >"); 
 
                 for(var i in p_metadata.values)
                 {
                     var child = p_metadata.values[i];
                     result.push("<option>");
-                    if(child.description == null)
+                    if(child.description == null || child.description == "")
                     {
                         result.push(child.value);
                     }
