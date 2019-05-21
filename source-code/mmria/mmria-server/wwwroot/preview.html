@@ -32,13 +32,65 @@
         {
             g_metadata = response;
             document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
-            render();
+            document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
         });
     }
     
-    function render()
+
+    function form_selection_change(p_form_control)
     {
+        var selected_form = p_form_control.value;
+        document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
+    }
+
+    function render(p_metadata, p_path, p_form)
+    {
+
+        var result = [];
+
+        switch(p_metadata.type.toLocaleLowerCase())
+        {
+            case "app":
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
+            }
+            break;
+            case "form":
+
+                if(p_metadata.name == p_form)
+                {
+
+                    for(var i in p_metadata.children)
+                    {
+                        var child = p_metadata.children[i];
+                        Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
+                    }
+                }
+                break;
+            case "string":
+            case "number":
+            Array.prototype.push.apply(result, render_input_control(p_metadata, p_path));
+            break;
+            case "group":
+                Array.prototype.push.apply(result, render_group_control(p_metadata, p_path));
+            //add_style_to_group_control(p_path);
+            break;
+            case "list":
+                Array.prototype.push.apply(result, render_select_control(p_metadata, p_path));
+                //add_style_to_select_control(p_path);
+            break;
+            
+
+        }
+
+        return result;
+
+
         console.log("started");
+
+        /*
         
         add_style_to_input_control("home_record/first_name");
         add_style_to_input_control("home_record/middle_name");
@@ -74,7 +126,125 @@
         add_style_to_select_control("home_record/case_progress_report/informant_interviews");
         add_style_to_select_control("home_record/case_progress_report/case_narrative");
         add_style_to_select_control("home_record/case_progress_report/committe_review_worksheet");
+
+        */
     }
+
+    function render_input_control(p_metadata, p_path)
+    {   
+        var result = [];
+
+        var style_object = ui_specification.form_design[p_path.substring(1)];
+        if(style_object)
+        {
+            result.push("<div metadata='");
+            result.push(p_path);
+            result.push("'>");
+            
+                result.push("<label for='");
+                result.push(p_path.replace(/\//g, "--"));
+                result.push("' style='");
+                result.push(get_style_string(style_object.prompt.style)); 
+                result.push("'>");
+                result.push(p_metadata.prompt);
+                result.push("</label>");
+
+                result.push("<input id='");
+                result.push();
+                result.push("' type='text' style='");
+                result.push(get_style_string(style_object.control.style));
+                result.push("' />"); 
+
+
+            result.push("</div>");
+        }
+
+        return result;
+    }
+
+    function render_group_control(p_metadata, p_path)
+    {   
+        var result = [];
+
+        var style_object = ui_specification.form_design[p_path.substring(1)];
+        if(style_object)
+        {
+
+            result.push("<fieldset metadata='");
+            result.push(p_path);
+            result.push("' style='");
+            if(style_object.control)
+            result.push(get_only_size_and_position_string(style_object.control.style)); 
+            result.push("'>");
+            
+                result.push("<legend style='");
+                result.push(get_only_font_style_string(style_object.control.style)); 
+                result.push("'>");
+                result.push(p_metadata.prompt);
+                result.push("</legend>");
+
+                for(var i in p_metadata.children)
+                {
+                    var child = p_metadata.children[i];
+                    Array.prototype.push.apply(result, render(child, p_path + "/" + child.name));
+                }
+
+            result.push("</fieldset>");
+        }
+
+        return result;
+    }
+
+    function render_select_control(p_metadata, p_path)
+    {   
+        var result = [];
+
+        var style_object = ui_specification.form_design[p_path.substring(1)];
+        if(style_object)
+        {
+            result.push("<div metadata='");
+            result.push(p_path);
+            result.push("'>");
+            
+                result.push("<label for='");
+                result.push(p_path.replace(/\//g, "--"));
+                result.push("' style='");
+                if(style_object.prompt)
+                result.push(get_style_string(style_object.prompt.style)); 
+                result.push("'>");
+                result.push(p_metadata.prompt);
+                result.push("</label>");
+
+                result.push("<select id='");
+                result.push();
+                result.push("' type='text' style='");
+                if(style_object.control)
+                result.push(get_style_string(style_object.control.style));
+                result.push("' >"); 
+
+                for(var i in p_metadata.values)
+                {
+                    var child = p_metadata.values[i];
+                    result.push("<option>");
+                    if(child.description == null)
+                    {
+                        result.push(child.value);
+                    }
+                    else
+                    {
+                        result.push(child.description);
+                    }
+                    result.push("</option>");
+
+                }
+
+                result.push("</select>");
+            result.push("</div>");
+        }
+
+        return result;
+    }
+
 
     function add_style_to_select_control(p_key)
     {
@@ -282,7 +452,7 @@
     <div>
         <div>
             <h2>Navigation</h2>
-            <p>select form: <select id="selected_form">
+            <p>select form: <select id="selected_form" onchange="form_selection_change(this);">
 
             </select>
             </p>
