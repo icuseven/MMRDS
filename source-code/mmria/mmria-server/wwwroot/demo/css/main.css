@@ -1,19 +1,58 @@
+body {
+    min-height: 100%;
+}
+
 .app-header {
+    background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     min-height: 200px;
-    padding-bottom: 40px;
-    padding-top: 40px;
 }
 
-.nav-utils-id + .nav-utils-btn {
+.app-utils {
+    background-color: #F5F5F5;
+    font-size: 90%;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.app-logo {
+    display: block;
+    height: 80px;
+}
+.app-logo img {
+    max-width: 100%;
+    height: 100%;
+}
+
+.nav-utils-id + .nav-utils-link {
     margin-left: 20px;
 }
 
-.form-designer-output {
-    height: 100%;
-    position: relative;
+.app-content {
+    background-color: #F5F5F5;
+    padding-bottom: 20px;
+    padding-top: 30px;
+}
+
+.app-title {
+    color: #333333;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.data-collection-output {
+    background-color: #FFFFFF;
+    border: 1px solid;
+    border-color: gray;
+    min-height: 100vh;
+    overflow-y: scroll;
+    padding: 20px;
     width: 100%;
+}
+
+.data-collection-output-inner {
+    position: relative;
 }

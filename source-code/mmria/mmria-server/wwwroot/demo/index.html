@@ -6,23 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
     <title>MMRIA</title>
+    <!-- TODO: Localize bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="css/main.css">
 </head>
 <body onload="main()">
 
     <header id="header" class="app-header" role="banner" aria-label="Header">
+        <div class="app-utils">
+            <div class="container text-right">
+                <nav class="nav-utils row no-gutters align-items-center justify-content-end">
+                    <!-- TODO: Hook in dynamic user -->
+                    <span class="nav-utils-id">user1</span>
+                    <!-- TODO: Hook in actually logging user out -->
+                    <a href="#" class="nav-utils-link">Log Out</a>
+                </nav>
+            </div>
+        </div>
         <div class="container">
             <div class="row no-gutters align-items-end">
-                <div class="col-8">
-                    <a title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" style="background-color:#FFFFFF;" href="https://www.cdc.gov"><img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg"></a>
-                </div>
-                <div class="col-4">
-                    <nav class="nav-utils row no-gutters align-items-center justify-content-end">
-                        <span class="nav-utils-id">user1</span>
-                        <button class="nav-utils-btn btn btn-success">Log Out</button>
-                    </nav>
-                </div>
+                <a class="app-logo" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov"><img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg"></a>
             </div>
         </div>
         <div class="container">
@@ -35,11 +38,11 @@
         </div>
     </header>
 
-    <main id="content" role="main">
+    <main id="content" class="app-content" role="main">
         <div class="container">
-            <h3 id="form-title">Home Record</h3>
-            <div class="row">
-                <section id="form" class="form-designer-output">
+            <h3 id="form_title" class="app-title">Home Record</h3>
+            <div class="data-collection-output row no-gutters">
+                <section id="form" class="data-collection-output-inner">
 
                     <!-- Form Designer Output goes here -->
 
