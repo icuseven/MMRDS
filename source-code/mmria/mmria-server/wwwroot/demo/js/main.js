@@ -33,12 +33,12 @@ function form_selection_change(p_form_control)
     var selected_form = p_form_control.value;
     var form_select = $("#selected_form");
     var newFormTitle = form_select.find(':selected')[0].innerText;
-    var formTitle = $("#form_title")[0];
+    // var formTitle = $("#form_title")[0];
 
     document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
     
     // Sets the form title
-    formTitle.innerText = newFormTitle;
+    // formTitle.innerText = newFormTitle;
 }
 
 function render(p_metadata, p_path, p_form, p_is_grid)

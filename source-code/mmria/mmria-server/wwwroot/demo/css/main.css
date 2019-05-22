@@ -1,3 +1,9 @@
+.silent-list {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+}
+
 .util {
     font-size: 80%;
     list-style-type: none;
@@ -17,7 +23,7 @@
 }
 
 .app-title {
-    color: #333333;
+    color: #712177;
     font-weight: 700;
     margin-bottom: 30px;
 }
@@ -34,4 +40,37 @@
 
 .data-collection-output-inner {
     position: relative;
+}
+
+[type="text"] {
+    outline: none;
+}
+
+.data-collection-output [type="text"] {
+    background-color: #FFFFFF;
+    border: 2px solid;
+    border-color: #BBBBBB;
+    border-radius: 4px;
+    padding: 6px 12px;
+    transition: border-color 75ms ease-in;
+}
+.data-collection-output [type="text"]:focus {
+    border-color: #712177;
+    transition: border-color 125ms ease-out;
+}
+
+.data-collection-output fieldset {
+    border: 1px solid;
+    border-color: #BBBBBB;
+    padding: 8px 16px;
+}
+
+.data-collection-output legend {
+    display: inline-block;
+    font-size: 1.25rem !important;
+    padding-bottom: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+    width: auto;
 }
