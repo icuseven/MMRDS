@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+    <title>MMRIA</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+</head>
+<body onload="main()">
+
+    <header id="header" class="app-header" role="banner" aria-label="Header">
+        <div class="container">
+            <div class="row no-gutters align-items-end">
+                <div class="col-8">
+                    <a title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" style="background-color:#FFFFFF;" href="https://www.cdc.gov"><img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg"></a>
+                </div>
+                <div class="col-4">
+                    <nav class="nav-utils row no-gutters align-items-center justify-content-end">
+                        <span class="nav-utils-id">user1</span>
+                        <button class="nav-utils-btn btn btn-success">Log Out</button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row no-gutters">
+                <nav>
+                    <label>Select form:</label>
+                    <select id="selected_form" onchange="form_selection_change(this);"></select>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main id="content" role="main">
+        <div class="container">
+            <h3 id="form-title">Home Record</h3>
+            <div class="row">
+                <div class="form-designer-wrapper form-designer-output">
+                    <section id="form" class="form-designer-canvas" style="position: relative;">
+                        <!-- Form Designer Output goes here -->
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../scripts/jquery-3.1.1.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

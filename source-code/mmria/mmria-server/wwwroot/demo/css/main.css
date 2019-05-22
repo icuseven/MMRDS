@@ -1,0 +1,13 @@
+.app-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    min-height: 200px;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.nav-utils-id + .nav-utils-btn {
+    margin-left: 20px;
+}
