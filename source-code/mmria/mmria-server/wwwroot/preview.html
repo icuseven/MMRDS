@@ -2,20 +2,48 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
-    <title>Test Page</title>
-    <script src="./scripts/jquery-3.1.1.min.js"></script>
+    <title>MMRIA</title>
+</head>
 
+<body onload="main()">
+
+    <h1>MMRIA</h1>
+    <div>
+        <div>
+            <h2>Navigation</h2>
+            <div>
+                <label>Select form:</label>
+                <select id="selected_form" onchange="form_selection_change(this);"></select>
+            </div>
+        </div>
+        <div>
+
+            <h3 id="form-title">Home Record</h3>
+
+            <div class="form-designer-wrapper form-designer-output">
+                <section id="form" class="form-designer-canvas" style="position: relative;">
+
+                    <!-- Form Designer Output goes here -->
+                    
+                </section>
+            </div>
+        </div>
+    </div>
+
+<script src="./scripts/jquery-3.1.1.min.js"></script>
 <script>
     var g_metadata = null;
     var ui_specification = null;
 
     function main()
     {
-         $.ajax
-         ({
+            $.ajax
+            ({
             url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
-          }).done(function(response) 
+            }).done(function(response) 
         {
             ui_specification = response;
             get_metadata();
@@ -25,10 +53,10 @@
 
     function get_metadata()
     {
-         $.ajax
-         ({
+        $.ajax
+        ({
             url: location.protocol + '//' + location.host + '/api/metadata',
-          }).done(function(response) 
+        }).done(function(response) 
         {
             g_metadata = response;
             document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
@@ -40,7 +68,14 @@
     function form_selection_change(p_form_control)
     {
         var selected_form = p_form_control.value;
+        var form_select = $("#selected_form");
+        var newFormTitle = form_select.find(':selected')[0].innerText;
+        var formTitle = $("#form-title")[0];
+
         document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
+        
+        // Sets the form title
+        formTitle.innerText = newFormTitle;
     }
 
     function render(p_metadata, p_path, p_form)
@@ -176,9 +211,11 @@
             if(style_object.control)
             result.push(get_only_size_and_position_string(style_object.control.style)); 
             result.push("'>");
+
+            console.log(style_object.control);
             
                 result.push("<legend style='");
-                result.push(get_only_font_style_string(style_object.control.style)); 
+                result.push(get_only_font_style_string(style_object.control.style));
                 result.push("'>");
                 result.push(p_metadata.prompt);
                 result.push("</legend>");
@@ -389,8 +426,6 @@
         properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
         properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
         properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
-
-
         properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
         //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
         var items = properly_formated_style.split(";")
@@ -409,10 +444,6 @@
                     {
                         result.push(pair[0] + ":" + pair[1].trim() + "px");
                     }
-
-
-                    
-
                     break;
 
                 case "font-weight":
@@ -450,187 +481,6 @@
 
         return result;
     }
-
 </script>
-</head>
-
-<body onload="main()">
-    <h1>MMRIA</h1>
-    <div>
-        <div>
-            <h2>Navigation</h2>
-            <p>select form: <select id="selected_form" onchange="form_selection_change(this);">
-
-            </select>
-            </p>
-        </div>
-        <div>
-            <h3>Home Record</h3>
-            <section id="form" style="border: 4px solid #005eaa; padding: 20px; position: relative; height: 2400px; width: 1400px">
-
-                <div metadata="home_record/first_name">
-                    <label for="home_record--first_name">First Name</label>
-                    <input id="home_record--first_name" type="text" />
-                </div>
-
-                <div metadata="home_record/middle_name">
-                    <label for="home_record--middle_name">Middle Name</label>
-                    <input id="home_record--middle_name" type="text" />
-                </div>
-
-                <div metadata="home_record/last_name">
-                    <label for="home_record--last_name">Last Name</label>
-                    <input id="home_record--last_name" type="text" />
-                </div>
-
-                <fieldset metadata="home_record/date_of_death">
-                    <legend>Date of Death</legend>
-                    <div metadata="home_record/date_of_death/month">
-                        <label for="home_record/date_of_death/month">Month</label>
-                        <input id="home_record/date_of_death/month" type="text" />
-                    </div>
-
-                    <div metadata="home_record/date_of_death/day">
-                        <label for="home_record/date_of_death/day">Day</label>
-                        <input id="home_record/date_of_death/day" type="text" />
-                    </div>
-                    
-                    <div metadata="home_record/date_of_death/year">
-                        <label for="home_record/date_of_death/year">Year</label>
-                        <input id="home_record/date_of_death/year" type="text" />
-                    </div>                
-                </fieldset>
-
-                <div metadata="home_record/state_of_death_record">
-                    <label for="home_record--state_of_death_record">State of Death Records</label>
-                    <select id="home_record--state_of_death_record" size="1"><option value="home_record--first_name" selected="home_record--first_name"></option><option value="AL- Alabama">AL- Alabama</option><option value="AK- Alaska">AK- Alaska</option><option value="AZ- Arizona">AZ- Arizona</option><option value="AR- Arkansas">AR- Arkansas</option><option value="CA- California">CA- California</option><option value="CO- Colorado">CO- Colorado</option><option value="CT- Connecticut">CT- Connecticut</option><option value="DE- Delaware">DE- Delaware</option><option value="DC- District of Columbia">DC- District of Columbia</option><option value="FL- Florida">FL- Florida</option><option value="GA- Georgia">GA- Georgia</option><option value="HI- Hawaii">HI- Hawaii</option><option value="ID- Idaho">ID- Idaho</option><option value="IL- Illinois">IL- Illinois</option><option value="IN- Indiana">IN- Indiana</option><option value="IA- Iowa">IA- Iowa</option><option value="KS- Kansas">KS- Kansas</option><option value="KY- Kentucky">KY- Kentucky</option><option value="LA- Louisiana">LA- Louisiana</option><option value="ME- Maine">ME- Maine</option><option value="MD- Maryland">MD- Maryland</option><option value="MA- Massachusetts">MA- Massachusetts</option><option value="MI- Michigan">MI- Michigan</option><option value="MN- Minnesota">MN- Minnesota</option><option value="MS- Mississippi">MS- Mississippi</option><option value="MO- Missouri">MO- Missouri</option><option value="MT- Montana">MT- Montana</option><option value="NE- Nebraska">NE- Nebraska</option><option value="NV- Nevada">NV- Nevada</option><option value="NH- New Hampshire">NH- New Hampshire</option><option value="NJ- New Jersey">NJ- New Jersey</option><option value="NM- New Mexico">NM- New Mexico</option><option value="NY- New York">NY- New York</option><option value="NC- North Carolina">NC- North Carolina</option><option value="ND- North Dakota">ND- North Dakota</option><option value="OH- Ohio">OH- Ohio</option><option value="OK- Oklahoma">OK- Oklahoma</option><option value="OR- Oregon">OR- Oregon</option><option value="PA- Pennsylvania">PA- Pennsylvania</option><option value="RI- Rhode Island">RI- Rhode Island</option><option value="SC- South Carolina">SC- South Carolina</option><option value="SD- South Dakota">SD- South Dakota</option><option value="TN- Tennessee">TN- Tennessee</option><option value="TX- Texas">TX- Texas</option><option value="UT- Utah">UT- Utah</option><option value="VT- Vermont">VT- Vermont</option><option value="VA- Virginia">VA- Virginia</option><option value="WA- Washington">WA- Washington</option><option value="WV- West Virginia">WV- West Virginia</option><option value="WI- Wisconsin">WI- Wisconsin</option><option value="WY- Wyoming">WY- Wyoming</option><option value="AS- American Samoa">AS- American Samoa</option><option value="GU- Guam">GU- Guam</option><option value="MH- Marshall Islands">MH- Marshall Islands</option><option value="MP- Northern Marianas">MP- Northern Marianas</option><option value="PR- Puerto Rico">PR- Puerto Rico</option><option value="PW- Palau">PW- Palau</option><option value="VI- Virgin Islands">VI- Virgin Islands</option></select>
-                </div>
-
-                <div metadata="home_record/record_id">
-                    <label for="home_record--record_id">Record ID</label>
-                    <input id="home_record--record_id" type="text" />
-                </div>
-
-                <div metadata="home_record/agency_case_id">
-                    <label for="home_record--agency_case_id">Agency-based Case Identifier</label>
-                    <input id="home_record--agency_case_id" type="text" />
-                </div>
-
-                <div metadata="home_record/how_was_this_death_identified">
-                    <label for="home_record--how_was_this_death_identified">How was this death identified? (primary source)</label>
-                    <input id="home_record--how_was_this_death_identified" type="text" />
-                </div>
-
-                <div metadata="home_record/specify_other_multiple_sources">
-                    <label for="home_record--specify_other_multiple_sources">Specify other or additional sources</label>
-                    <input id="home_record--specify_other_multiple_sources" type="text" />
-                </div>
-
-                <div metadata="home_record/primary_abstractor">
-                    <label for="home_record--primary_abstractor">Primary Abstractor</label>
-                    <input id="home_record--primary_abstractor" type="text" />
-                </div>
-
-                <div metadata="home_record/jurisdiction_id">
-                    <label for="home_record--jurisdiction_id">Jurisdiction ID</label>
-                    <input id="home_record--jurisdiction_id" type="text" />
-                </div>
-
-                <fieldset metadata="home_record/case_progress_report">
-                    <legend>Case Progress Report</legend>
-                    <div metadata="home_record/case_progress_report/death_certificate">
-                        <label for="home_record--case_progress_report--death_certificate">Death Certificate</label>
-                        <select id="home_record--case_progress_report--death_certificate">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-
-                    <div metadata="home_record/case_progress_report/autopsy_report">
-                        <label for="home_record--case_progress_report--autopsy_report">Autopsy Report</label>
-                        <select id="home_record--case_progress_report--autopsy_report">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/birth_certificate_parent_section">
-                        <label for="home_record--case_progress_report--birth_certificate_parent_section">Birth/Fetal Death Certificate- Parent Section</label>
-                        <select id="home_record--case_progress_report--birth_certificate_parent_section">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>                
-                    
-                    <div metadata="home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section">
-                        <label for="home_record--case_progress_report--birth_certificate_infant_or_fetal_death_section">Birth/Fetal Death Certificate- Infant/Fetal Section</label>
-                        <select id="home_record--case_progress_report--birth_certificate_infant_or_fetal_death_section">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/prenatal_care_record">
-                        <label for="home_record--case_progress_report--prenatal_care_record">Prenatal Care Record</label>
-                        <select id="home_record--case_progress_report--prenatal_care_record">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/er_visits_and_hospitalizations">
-                        <label for="home_record--case_progress_report--er_visits_and_hospitalizations">ER Visits and Hospitalizations</label>
-                        <select id="home_record--case_progress_report--er_visits_and_hospitalizations">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/other_medical_visits">
-                        <label for="home_record--case_progress_report--other_medical_visits">Other Medical Office Visits</label>
-                        <select id="home_record--case_progress_report--other_medical_visits">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                   
-                    <div metadata="home_record/case_progress_report/medical_transport">
-                        <label for="home_record--case_progress_report--medical_transport">Medical Transport</label>
-                        <select id="home_record--case_progress_report--medical_transport">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/social_and_psychological_profile">
-                        <label for="home_record--case_progress_report--social_and_psychological_profile">Social and Environmental Profile</label>
-                        <select id="home_record--case_progress_report--social_and_psychological_profile">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/mental_health_profile">
-                        <label for="home_record--case_progress_report--mental_health_profile">Mental Health Profile</label>
-                        <select id="home_record--case_progress_report--mental_health_profile">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/informant_interviews">
-                        <label for="home_record--case_progress_report--informant_interviews">Informant Interviews</label>
-                        <select id="home_record--case_progress_report--informant_interviews">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/case_narrative">
-                        <label for="home_record--case_progress_report--case_narrative">Case Narrative</label>
-                        <select id="home_record--case_progress_report--case_narrative">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                    
-                    <div metadata="home_record/case_progress_report/committe_review_worksheet">
-                        <label for="home_record--case_progress_report--committe_review_worksheet">Committee Decisions</label>
-                        <select id="home_record--case_progress_report--committe_review_worksheet">
-                            <option selected="">- select -</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Not Available">Not Available</option><option value="Not Applicable">Not Applicable</option>
-                        </select>
-                    </div>
-                </fieldset>
-            </section>
-        </div>
-    </div>
 </body>
 </html>
