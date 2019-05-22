@@ -78,7 +78,7 @@
         formTitle.innerText = newFormTitle;
     }
 
-    function render(p_metadata, p_path, p_form)
+    function render(p_metadata, p_path, p_form, p_is_grid)
     {
 
         var result = [];
@@ -106,15 +106,21 @@
                 break;
             case "string":
             case "number":
-            Array.prototype.push.apply(result, render_input_control(p_metadata, p_path));
-            break;
+            case "date":
+            case "datetime":
+            case "time":
+                Array.prototype.push.apply(result, render_input_control(p_metadata, p_path, p_is_grid));
+                break;
             case "group":
-                Array.prototype.push.apply(result, render_group_control(p_metadata, p_path));
-            //add_style_to_group_control(p_path);
+                Array.prototype.push.apply(result, render_group_control(p_metadata, p_path, p_is_grid));
+            
             break;
+            case "grid":
+                Array.prototype.push.apply(result, render_grid_control(p_metadata, p_path));
+                break;
             case "list":
-                Array.prototype.push.apply(result, render_select_control(p_metadata, p_path));
-                //add_style_to_select_control(p_path);
+                Array.prototype.push.apply(result, render_select_control(p_metadata, p_path, p_is_grid));
+            
             break;
             
 
@@ -125,47 +131,9 @@
 
         console.log("started");
 
-        /*
-        
-        add_style_to_input_control("home_record/first_name");
-        add_style_to_input_control("home_record/middle_name");
-        add_style_to_input_control("home_record/last_name");
-
-        add_style_to_group_control("home_record/date_of_death");
-
-        add_style_to_input_control("home_record/date_of_death/month");
-        add_style_to_input_control("home_record/date_of_death/day");
-        add_style_to_input_control("home_record/date_of_death/year");
-        
-        add_style_to_select_control("home_record/state_of_death_record");
-        
-        add_style_to_input_control("home_record/record_id");
-        add_style_to_input_control("home_record/agency_case_id");
-        add_style_to_input_control("home_record/how_was_this_death_identified");
-        add_style_to_input_control("home_record/specify_other_multiple_sources");
-        add_style_to_input_control("home_record/primary_abstractor");
-        add_style_to_input_control("home_record/jurisdiction_id");
-
-        add_style_to_group_control("home_record/case_progress_report");
-
-        add_style_to_select_control("home_record/case_progress_report/death_certificate");
-        add_style_to_select_control("home_record/case_progress_report/autopsy_report");
-        add_style_to_select_control("home_record/case_progress_report/birth_certificate_parent_section");
-        add_style_to_select_control("home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section");
-        add_style_to_select_control("home_record/case_progress_report/prenatal_care_record");
-        add_style_to_select_control("home_record/case_progress_report/er_visits_and_hospitalizations");
-        add_style_to_select_control("home_record/case_progress_report/other_medical_visits");
-        add_style_to_select_control("home_record/case_progress_report/medical_transport");
-        add_style_to_select_control("home_record/case_progress_report/social_and_psychological_profile");
-        add_style_to_select_control("home_record/case_progress_report/mental_health_profile");
-        add_style_to_select_control("home_record/case_progress_report/informant_interviews");
-        add_style_to_select_control("home_record/case_progress_report/case_narrative");
-        add_style_to_select_control("home_record/case_progress_report/committe_review_worksheet");
-
-        */
     }
 
-    function render_input_control(p_metadata, p_path)
+    function render_input_control(p_metadata, p_path, p_is_grid)
     {   
         var result = [];
 
@@ -176,17 +144,20 @@
             result.push(p_path);
             result.push("'>");
             
-                result.push("<label for='");
-                result.push(p_path.replace(/\//g, "--"));
-                result.push("' style='");
-                result.push(get_style_string(style_object.prompt.style)); 
-                result.push("'>");
-                result.push(p_metadata.prompt);
-                result.push("</label>");
-
+                if(!p_is_grid)
+                {
+                    result.push("<label for='");
+                    result.push(p_path.replace(/\//g, "--"));
+                    result.push("' style='");
+                    result.push(get_style_string(style_object.prompt.style)); 
+                    result.push("'>");
+                    result.push(p_metadata.prompt);
+                    result.push("</label>");
+                }
                 result.push("<input id='");
                 result.push();
                 result.push("' type='text' style='");
+                if(!p_is_grid)
                 result.push(get_style_string(style_object.control.style));
                 result.push("' />"); 
 
@@ -232,7 +203,54 @@
         return result;
     }
 
-    function render_select_control(p_metadata, p_path)
+    function render_grid_control(p_metadata, p_path)
+    {   
+        var result = [];
+
+        var style_object = ui_specification.form_design[p_path.substring(1)];
+        if(style_object)
+        {
+
+            result.push("<table metadata='");
+            result.push(p_path);
+            result.push("' style='");
+            if(style_object.control)
+            result.push(get_only_size_and_position_string(style_object.control.style)); 
+            result.push("' border=1>");
+
+            result.push("<tr><th align=center colspan=");
+            result.push(p_metadata.children.length);
+            result.push(">");
+            result.push(p_metadata.prompt);
+            result.push("</th></tr>");
+            result.push("<tr>");
+            for(var i in p_metadata.children)
+            {
+                
+                var child = p_metadata.children[i];
+                result.push("<th>")
+                result.push(child.prompt);
+                result.push("</th>")
+
+            }
+            result.push("</tr>")
+
+            result.push("<tr>");
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                result.push("<td>");
+                Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, null, true));
+                result.push("</td>");
+            }
+            result.push("</tr>");
+            result.push("</table>");
+        }
+
+        return result;
+    }
+
+    function render_select_control(p_metadata, p_path, p_is_grid)
     {   
         var result = [];
 
@@ -242,19 +260,21 @@
             result.push("<div metadata='");
             result.push(p_path);
             result.push("'>");
-            
-                result.push("<label for='");
-                result.push(p_path.replace(/\//g, "--"));
-                result.push("' style='");
-                if(style_object.prompt)
-                result.push(get_style_string(style_object.prompt.style)); 
-                result.push("'>");
-                result.push(p_metadata.prompt);
-                result.push("</label>");
-
+                if(!p_is_grid)
+                {
+                    result.push("<label for='");
+                    result.push(p_path.replace(/\//g, "--"));
+                    result.push("' style='");
+                    if(style_object.prompt)
+                    result.push(get_style_string(style_object.prompt.style)); 
+                    result.push("'>");
+                    result.push(p_metadata.prompt);
+                    result.push("</label>");
+                }
                 result.push("<select id='");
                 result.push(p_path);
                 result.push("' type='text' style='");
+                if(!p_is_grid)
                 if(style_object.control)
                 result.push(get_style_string(style_object.control.style));
                 result.push("' "); 
@@ -289,38 +309,6 @@
         return result;
     }
 
-
-    function add_style_to_select_control(p_key)
-    {
-        var style_object = ui_specification.form_design[p_key];
-
-        var prompt_target = document.querySelector("div[metadata='" + p_key + "'] label");
-        prompt_target.style.cssText = get_style_string(style_object.prompt.style); 
-
-        var control_target = document.querySelector("div[metadata='" + p_key + "'] select");
-        control_target.style.cssText = get_style_string(style_object.control.style); 
-    }
-
-    function add_style_to_input_control(p_key)
-    {
-        var style_object = ui_specification.form_design[p_key];
-
-        var prompt_target = document.querySelector("div[metadata='" + p_key + "'] label");
-        prompt_target.style.cssText = get_style_string(style_object.prompt.style); 
-
-        var control_target = document.querySelector("div[metadata='" + p_key + "'] input");
-        control_target.style.cssText = get_style_string(style_object.control.style); 
-    }
-    
-    function add_style_to_group_control(p_key)
-    {
-        var style_object = ui_specification.form_design[p_key];
-        var control_target = document.querySelector("fieldset[metadata='" + p_key + "']");
-        control_target.style.cssText = get_only_size_and_position_string(style_object.control.style); 
-
-        var legend_target = document.querySelector("fieldset[metadata='" + p_key + "'] legend");
-        legend_target.style.cssText = get_only_font_style_string(style_object.control.style);
-    }
 
     function get_style_string(p_specicification_style_string)
     {
