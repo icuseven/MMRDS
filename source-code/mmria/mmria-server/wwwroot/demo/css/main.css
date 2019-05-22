@@ -11,3 +11,9 @@
 .nav-utils-id + .nav-utils-btn {
     margin-left: 20px;
 }
+
+.form-designer-output {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
