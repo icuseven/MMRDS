@@ -93,13 +93,17 @@
     <div class="container-fluid app-nav">
         <nav class="container">
             <ul class="row silent-list">
-                <li>Home</li>
-                <li>Summary</li>
                 <li>
-                    Case Forms
+                    <a href="#">Home</a>
                 </li>
                 <li>
-                    Print Version
+                    <a href="#">Summary</a>
+                </li>
+                <li>
+                    <a href="#">Case Forms</a>
+                </li>
+                <li>
+                    <a href="#">Print Version</a>
                 </li>
             </ul>
         </nav>
@@ -111,14 +115,36 @@
             <select id="selected_form" onchange="form_selection_change(this);"></select>
         </div>
         <div class="container">
-            <h3 id="form_title" class="app-title">Doe, Jane</h3>
-            <div class="data-collection-output row no-gutters">
-                <section id="form" class="data-collection-output-inner">
+            <header class="data-collection-header row align-items-end no-gutters">
+                <div class="col-8">
+                    <!-- TODO: Tie in name, last name, record ID dynamically -->
+                    <h3 id="form_title" class="form-title">Doe, Jane</h3>
+                    <p class="form-info"><strong>Record ID:</strong> <span>XX-1234-5678</span></p>
+                </div>
+                <div class="col">
+                    <div class="row no-gutters justify-content-end">
+                        <!-- TODO: Hook up Undo and Save functionality -->
+                        <!-- TODO: Undo btn should only show if there are changes to form -->
+                        <button class="btn btn-secondary">Undo</button>
+                        <button class="btn btn-secondary">Cancel</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </header>
+            <div class="data-collection-body row no-gutters">
+                <section id="form" class="data-collection-output">
 
                     <!-- Form Designer Output goes here -->
 
                 </section>
             </div>
+            <footer class="data-collection-footer row align-items-end no-gutters">
+                <!-- TODO: Hook up Undo and Save functionality -->
+                <!-- TODO: Undo btn should only show if there are changes to form -->
+                <button class="btn btn-secondary">Undo</button>
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Save</button>
+            </footer>
         </div>
     </main>
 
