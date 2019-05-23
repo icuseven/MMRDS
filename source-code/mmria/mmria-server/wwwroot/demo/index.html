@@ -111,8 +111,11 @@
 
     <main id="content" class="app-content" role="main">
         <div class="container">
+                <label>search for field:
+                <input id="search_text" type="text" value="" onchange="search_text_change(this);"/></label>
             <label>Select a case form:</label>
             <select id="selected_form" onchange="form_selection_change(this);"></select>
+            
         </div>
         <div class="container">
             <header class="data-collection-header row align-items-end no-gutters">
@@ -239,5 +242,6 @@
     <!-- <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/app.bundle.min.js"></script> -->
     <script src="js/main.js"></script>
+    <script src="js/search.view.js"></script>
 </body>
 </html>
