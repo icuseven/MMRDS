@@ -3,6 +3,9 @@
     margin: 0;
     padding-left: 0;
 }
+.silent-list li + li {
+    margin-left: 8px;
+}
 
 .theme-purple .btn-primary {
     background-color: #712177;
@@ -27,13 +30,27 @@
     margin-bottom: 0;
 }
 .util-item + .util-item  {
-    margin-left: 16px;
+    margin-left: 15px;
 }
 
 .app-content {
     background-color: #F5F5F5;
+    margin-left: auto;
+    margin-right: auto;
     padding-bottom: 20px;
     padding-top: 32px;
+    width: 90%;
+}
+
+.form-nav {
+    background-color: #FFFFFF;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    position: relative;
+    z-index: 0;
+}
+.form-nav .btn-outline-secondary {
+    border-color: #ced4da;
 }
 
 .data-collection-body {
@@ -51,16 +68,15 @@
 }
 
 .data-collection-header {
-    margin-bottom: 16px;
+    margin-bottom: 15px;
     margin-top: 32px;
 }
 
 .data-collection-footer {
-    margin-bottom: 16px;
-    margin-top: 32px;
+    margin-bottom: 15px;
 }
 .data-collection-body + .data-collection-footer {
-    margin-top: 16px;
+    margin-top:24px;
 }
 
 .form-title {
@@ -97,7 +113,7 @@
 .data-collection-output fieldset {
     border: 1px solid;
     border-color: #BBBBBB;
-    padding: 8px 16px;
+    padding: 8px 15px;
 }
 
 .data-collection-output legend {

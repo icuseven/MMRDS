@@ -1,8 +1,7 @@
 
-function search_text_change(p_form_control)
+function search_text()
 {
-    var search_text = p_form_control.value;
-    // var formTitle = $("#form_title")[0];
+    var search_text = $("#search_text")[0].value;
 
     if(search_text != null && search_text.length > 3)
     {
@@ -12,12 +11,26 @@ function search_text_change(p_form_control)
     {
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
     }
+}
+// function search_text_change(p_form_control)
+// {
+//     var search_text = p_form_control.value;
+//     // var formTitle = $("#form_title")[0];
+
+//     if(search_text != null && search_text.length > 3)
+//     {
+//         document.getElementById("form").innerHTML = render_search_text(g_metadata, "", search_text).join("");
+//     }
+//     else
+//     {
+//         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
+//     }
 
     
     
-    // Sets the form title
-    // formTitle.innerText = newFormTitle;
-}
+//     // Sets the form title
+//     // formTitle.innerText = newFormTitle;
+// }
 
 function render_search_text(p_metadata, p_path, p_search_text, p_is_grid)
 {
