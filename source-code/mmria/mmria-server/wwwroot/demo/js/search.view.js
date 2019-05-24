@@ -1,7 +1,7 @@
-
-function search_text()
+function search_text_change(p_form_control)
 {
-    var search_text = $("#search_text")[0].value;
+    var search_text = p_form_control.value;
+    // var formTitle = $("#form_title")[0];
 
     if(search_text != null && search_text.length > 3)
     {
@@ -12,25 +12,6 @@ function search_text()
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
     }
 }
-// function search_text_change(p_form_control)
-// {
-//     var search_text = p_form_control.value;
-//     // var formTitle = $("#form_title")[0];
-
-//     if(search_text != null && search_text.length > 3)
-//     {
-//         document.getElementById("form").innerHTML = render_search_text(g_metadata, "", search_text).join("");
-//     }
-//     else
-//     {
-//         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
-//     }
-
-    
-    
-//     // Sets the form title
-//     // formTitle.innerText = newFormTitle;
-// }
 
 function render_search_text(p_metadata, p_path, p_search_text, p_is_grid)
 {
@@ -83,7 +64,12 @@ function render_search_text(p_metadata, p_path, p_search_text, p_is_grid)
                 Array.prototype.push.apply(result, render_search_text_select_control(p_metadata, p_path, p_is_grid));    
             }
             
-        
+        case "textarea":
+            if(p_metadata.prompt.toLocaleLowerCase().search(p_search_text.toLocaleLowerCase()) > -1)
+            {
+                Array.prototype.push.apply(result, render_search_text_textarea_control(p_metadata, p_path, p_is_grid));    
+            }
+                
         break;
         
 
@@ -106,30 +92,71 @@ function render_search_text_input_control(p_metadata, p_path, p_search_text, p_i
         result.push("<div metadata='");
         result.push(p_path);
         result.push("'>");
-        
+            result.push("<p>MMRIA Path - ");
+            result.push(p_path);
+            result.push("</p>");
             if(!p_is_grid)
             {
                 result.push("<label for='");
                 result.push(p_path.replace(/\//g, "--"));
                 result.push("' style='");
-                //result.push(get_style_string(style_object.prompt.style)); 
+                result.push(get_only_size_and_font_style_string(style_object.prompt.style)); 
                 result.push("'>");
                 result.push(p_metadata.prompt);
                 result.push("</label>");
             }
             result.push("<input id='");
-            result.push();
+            result.push(p_path.replace(/\//g, "--"));
             result.push("' type='text' style='");
-            //if(!p_is_grid)
-                //result.push(get_style_string(style_object.control.style));
+            if(!p_is_grid)
+                result.push(get_only_size_and_font_style_string(style_object.control.style));
             result.push("' />"); 
 
 
-        result.push("</div>");
+        result.push("</div><br/>");
     }
 
     return result;
 }
+
+
+function render_search_text_textarea_control(p_metadata, p_path, p_search_text, p_is_grid)
+{   
+    var result = [];
+
+    var style_object = ui_specification.form_design[p_path.substring(1)];
+    if(style_object)
+    {
+        result.push("<div metadata='");
+        result.push(p_path);
+        result.push("'>");
+        result.push("<p>MMRIA Path - ");
+        result.push(p_path);
+        result.push("</p>");
+            if(!p_is_grid)
+            {
+                result.push("<label for='");
+                result.push(p_path.replace(/\//g, "--"));
+                result.push("' style='");
+                result.push(get_only_size_and_font_style_string(style_object.prompt.style)); 
+                result.push("'>");
+                result.push(p_metadata.prompt);
+                result.push("</label><br/>");
+            }
+            result.push("<textarea id='");
+            result.push(p_path.replace(/\//g, "--"));
+            result.push("' type='text' style='");
+            if(!p_is_grid)
+                result.push(get_only_size_and_font_style_string(style_object.control.style));
+            result.push("' />"); 
+
+            result.push("</textarea>");
+        result.push("</div><br/>");
+    }
+
+    return result;
+}
+
 
 function render_search_text_group_control(p_metadata, p_path, p_search_text)
 {   
@@ -235,9 +262,9 @@ function render_search_text_select_control(p_metadata, p_path, p_is_grid)
             result.push("<select id='");
             result.push(p_path);
             result.push("' type='text' style='");
-            //if(!p_is_grid)
-            //if(style_object.control)
-            //result.push(get_style_string(style_object.control.style));
+            if(!p_is_grid)
+            if(style_object.control)
+            result.push(get_only_size_and_font_style_string(style_object.control.style));
             result.push("' "); 
             if(p_metadata.list_display_size != null)
             {
@@ -270,4 +297,55 @@ function render_search_text_select_control(p_metadata, p_path, p_is_grid)
     return result;
 }
 
+function get_only_size_and_font_style_string(p_specicification_style_string)
+{
 
+    var result = [];
+
+    var properly_formated_style = p_specicification_style_string;
+    properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+    properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+    properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+    properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+    //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
+    var items = properly_formated_style.split(";")
+    for(var i in items)
+    {
+        var pair = items[i].split(":");
+        switch(pair[0].toLocaleLowerCase())
+        {
+
+            case "height":
+            case "width":
+                var value = pair[1].trim();
+                if(/px$/.test(value))
+                {
+                    result.push(pair[0] + ":" + value);
+                }
+                else
+                {
+                    result.push(pair[0] + ":" + pair[1].trim() + "px");
+                }
+                break;
+            case "font-size":
+                var value = pair[1].trim();
+                if(/px$/.test(value))
+                {
+                    result.push(pair[0] + ":" + value);
+                }
+                else
+                {
+                    result.push(pair[0] + ":" + pair[1].trim() + "px");
+                }
+                break;
+
+            case "font-weight":
+            case "color":
+                result.push(pair.join(":"));
+                break;
+        }
+
+    }
+
+    return result.join(";");
+}
