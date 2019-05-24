@@ -73,7 +73,7 @@ function render_search_text(p_metadata, p_path, p_search_text, p_is_grid)
             {
                 Array.prototype.push.apply(result, render_search_text_select_control(p_metadata, p_path, p_is_grid));    
             }
-            
+            break;
         case "textarea":
             if(p_metadata.prompt.toLocaleLowerCase().search(p_search_text.toLocaleLowerCase()) > -1)
             {
