@@ -102,9 +102,9 @@ function render_search_text_input_control(p_metadata, p_path, p_search_text, p_i
         result.push("<div metadata='");
         result.push(p_path);
         result.push("'>");
-            result.push("<p>MMRIA Path - ");
-            result.push(p_path);
-            result.push("</p>");
+        result.push("<p>");
+        result.push(p_path.substring(1).replace(/\//g, " > "));
+        result.push("</p>");
             if(!p_is_grid)
             {
                 result.push("<label for='");
@@ -140,8 +140,8 @@ function render_search_text_textarea_control(p_metadata, p_path, p_search_text, 
         result.push("<div metadata='");
         result.push(p_path);
         result.push("'>");
-        result.push("<p>MMRIA Path - ");
-        result.push(p_path);
+        result.push("<p>");
+        result.push(p_path.substring(1).replace(/\//g, " > "));
         result.push("</p>");
             if(!p_is_grid)
             {
@@ -258,6 +258,9 @@ function render_search_text_select_control(p_metadata, p_path, p_is_grid)
         result.push("<div metadata='");
         result.push(p_path);
         result.push("'>");
+        result.push("<p>");
+        result.push(p_path.substring(1).replace(/\//g, " > "));
+        result.push("</p>");
             if(!p_is_grid)
             {
                 result.push("<label for='");
@@ -301,7 +304,7 @@ function render_search_text_select_control(p_metadata, p_path, p_is_grid)
             }
 
             result.push("</select>");
-        result.push("</div>");
+        result.push("</div><br/>");
     }
 
     return result;
