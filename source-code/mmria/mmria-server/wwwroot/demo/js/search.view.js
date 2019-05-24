@@ -1,15 +1,25 @@
 function search_text_change(p_form_control)
 {
     var search_text = p_form_control.value;
-    // var formTitle = $("#form_title")[0];
 
     if(search_text != null && search_text.length > 3)
     {
+        document.getElementById("selected_form").value = "";
         document.getElementById("form").innerHTML = render_search_text(g_metadata, "", search_text).join("");
     }
     else
     {
-        document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
+
+        
+        if(document.getElementById("selected_form").value.length > 0)
+        {
+            form_selection_change(document.getElementById("selected_form"));
+        }
+        /*
+        else
+        {
+            document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
+        }*/
     }
 }
 

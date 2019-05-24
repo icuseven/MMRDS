@@ -31,14 +31,13 @@ function get_metadata()
 function form_selection_change(p_form_control)
 {
     var selected_form = p_form_control.value;
-    var form_select = $("#selected_form");
-    var newFormTitle = form_select.find(':selected')[0].innerText;
-    // var formTitle = $("#form_title")[0];
 
-    document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
-    
-    // Sets the form title
-    // formTitle.innerText = newFormTitle;
+    if(selected_form != null && selected_form.length > 0)
+    {
+        var form_select = $("#selected_form");
+        var newFormTitle = form_select.find(':selected')[0].innerText;
+        document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
+    }
 }
 
 function render(p_metadata, p_path, p_form, p_is_grid)
@@ -410,9 +409,12 @@ function render_selected_form(p_metadata)
 {
     var result = [];
 
+    
+
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
+        result.push("<option value=''>Select a form</option>");
         for(var i in p_metadata.children)
         {
             var child = p_metadata.children[i];
