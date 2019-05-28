@@ -63,7 +63,8 @@
     width: 100%;
 }
 
-.data-collector-header .btn + .btn {
+.data-collector-header .btn + .btn,
+.data-collector-footer .btn + .btn {
     margin-left: 5px;
 }
 
@@ -104,6 +105,18 @@
 }
 .form-title + .form-info {
     margin-top: 10px;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+.input-wrap .input-icon {
+    right: 6px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 

@@ -9,7 +9,6 @@ function search_text_change(p_form_control)
     }
     else
     {
-
         
         if(document.getElementById("selected_form").value.length > 0)
         {
