@@ -24,38 +24,30 @@ function get_metadata()
         g_metadata = response;
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
+        document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
     });
 }
 
-
-function form_selection_change(event, p_form_control)
+function form_selection_change(p_form_control)
 {
-    switch(event.type) {
-        case "change":
-            var selected_form = p_form_control.value;
-            // console.log(event.type);
-            // console.log(selected_form);
-            if(selected_form != null && selected_form.length > 0)
-            {
-                var form_type = document.getElementById('form_type');
-                var form_select = $("#selected_form");
-                var form_title_new = form_select.find(':selected')[0].innerText;
-                document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
-                form_type.innerHTML = form_title_new;
-            }
-            break;
-        case "click":
-            var selected_form = p_form_control.getAttribute("data-value");
-            var selected_title = p_form_control.innerText;
-            // console.log(event.type);
-            // console.log(selected_form);
-            console.log(selected_title);
-            var form_type = document.getElementById('form_type');
-            document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
-            form_type.innerHTML = selected_title;
-            break;
-    }    
+    var selected_form = p_form_control.value;
     
+    if(selected_form != null && selected_form.length > 0)
+    {
+        var form_type = document.getElementById('form_type');
+        var form_select = $("#selected_form");
+        var form_title_new = form_select.find(':selected')[0].innerText;
+        document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
+        form_type.innerHTML = form_title_new;
+    }
+}
+
+function form_selection_click(p_form_control)
+{
+    var selected_form = p_form_control.getAttribute("data-value");
+    var selected_title = p_form_control.innerText;
+    document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
+    form_type.innerHTML = selected_title;
 }
 
 function render(p_metadata, p_path, p_form, p_is_grid)
@@ -430,13 +422,12 @@ function render_selected_form(p_metadata)
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-            result.push("<option value=''>Select a form</option>");
-            for(var i in p_metadata.children)
-            {
-                var child = p_metadata.children[i];
-                Array.prototype.push.apply(result, render_selected_form(child));
-            }
-            render_app_nav(p_metadata);
+        result.push("<option value=''>Select a form</option>");
+        for(var i in p_metadata.children)
+        {
+            var child = p_metadata.children[i];
+            Array.prototype.push.apply(result, render_selected_form(child));
+        }
         break;
         case "form":
             // console.log(p_metadata.prompt);
@@ -451,16 +442,16 @@ function render_selected_form(p_metadata)
     return result;
 }
 
-function render_app_nav(p_metadata) {
+function render_app_nav_btns(p_metadata) {
+    console.log(p_metadata);
     var items = p_metadata.children;
-    var container = document.getElementById("form_nav");
     var nav = '';
     for (var i = 0; i < items.length; i++) {
         // console.log(items[i].type);
         if (items[i].type == 'form') {
             // console.log(items[i]);
-            nav += '<button class="btn btn-outline-secondary" data-value="'+ items[i].name +'" onclick="form_selection_change(event, this)">'+ items[i].prompt +'</button>'
+            nav += '<button class="btn btn-outline-secondary" data-value="'+ items[i].name +'" onclick="form_selection_click(this);">'+ items[i].prompt +'</button>'
         }
     }
-    container.innerHTML = nav;
+    return nav;
 }
