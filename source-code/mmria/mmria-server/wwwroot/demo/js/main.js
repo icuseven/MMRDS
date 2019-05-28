@@ -22,6 +22,7 @@ function get_metadata()
     }).done(function(response) 
     {
         g_metadata = response;
+        console.log(response);
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
         document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
@@ -443,7 +444,6 @@ function render_selected_form(p_metadata)
 }
 
 function render_app_nav_btns(p_metadata) {
-    console.log(p_metadata);
     var items = p_metadata.children;
     var nav = '';
     for (var i = 0; i < items.length; i++) {
