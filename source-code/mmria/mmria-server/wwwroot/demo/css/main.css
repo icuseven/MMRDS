@@ -93,6 +93,11 @@
     margin-top:24px;
 }
 
+.form-type {
+    font-size: 1.25rem;
+    margin-top: 0;
+}
+
 .form-title {
     color: #712177;
     font-weight: 700;
