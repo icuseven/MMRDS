@@ -409,8 +409,6 @@ function render_selected_form(p_metadata)
 {
     var result = [];
 
-    
-
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
@@ -422,12 +420,13 @@ function render_selected_form(p_metadata)
         }
         break;
         case "form":
-        result.push("<option value='");
-        result.push(p_metadata.name);
-        result.push("'>")
-        result.push(p_metadata.prompt);
-        result.push("</option>");
-        break;
+            // console.log(p_metadata.prompt);
+            result.push("<option value='");
+            result.push(p_metadata.name);
+            result.push("'>")
+            result.push(p_metadata.prompt);
+            result.push("</option>");
+            break;
     }
 
     return result;

@@ -1,3 +1,12 @@
+/*
+    GLOBAL OVERRIDES
+*/
+
+.form-control {
+    outline: none;
+}
+
+
 .silent-list {
     list-style-type: none;
     margin: 0;
@@ -9,10 +18,6 @@
 
 .theme-purple .btn-primary {
     background-color: #712177;
-}
-
-.btn + .btn {
-    margin-left: 8px;
 }
 
 .site-title {
@@ -39,7 +44,7 @@
     margin-right: auto;
     padding-bottom: 20px;
     padding-top: 32px;
-    width: 90%;
+    width: calc(100% - 40px);
 }
 
 .form-nav {
@@ -53,7 +58,16 @@
     border-color: #ced4da;
 }
 
-.data-collection-body {
+.data-collector-nav button {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.data-collector-header .btn + .btn {
+    margin-left: 5px;
+}
+
+.data-collector-body {
     background-color: #FFFFFF;
     border: 1px solid;
     border-color: gray;
@@ -63,19 +77,18 @@
     width: 100%;
 }
 
-.data-collection-output {
+.data-collector-output {
     position: relative;
 }
 
-.data-collection-header {
+.data-collector-header {
     margin-bottom: 15px;
-    margin-top: 32px;
 }
 
-.data-collection-footer {
+.data-collector-footer {
     margin-bottom: 15px;
 }
-.data-collection-body + .data-collection-footer {
+.data-collector-body + .data-collector-footer {
     margin-top:24px;
 }
 
@@ -93,11 +106,16 @@
     margin-top: 10px;
 }
 
-[type="text"] {
-    outline: none;
-}
 
-.data-collection-output [type="text"] {
+
+
+
+
+/*
+    Form styles for anything inside of data-collector output
+*/
+
+.data-collector-output [type="text"] {
     background-color: #FFFFFF;
     border: 2px solid;
     border-color: #BBBBBB;
@@ -105,18 +123,18 @@
     padding: 6px 12px;
     transition: border-color 75ms ease-in;
 }
-.data-collection-output [type="text"]:focus {
+.data-collector-output [type="text"]:focus {
     border-color: #712177;
     transition: border-color 125ms ease-out;
 }
 
-.data-collection-output fieldset {
+.data-collector-output fieldset {
     border: 1px solid;
     border-color: #BBBBBB;
     padding: 8px 15px;
 }
 
-.data-collection-output legend {
+.data-collector-output legend {
     display: inline-block;
     font-size: 1.25rem !important;
     padding-bottom: 6px;
@@ -124,4 +142,14 @@
     padding-right: 4px;
     padding-top: 2px;
     width: auto;
+}
+
+.data-collector-output label {
+    line-height: 16px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 5px;
+    padding-top: 15px;
 }
