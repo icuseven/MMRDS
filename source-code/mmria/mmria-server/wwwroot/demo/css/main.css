@@ -104,12 +104,15 @@
     margin-bottom: 0;
     margin-top: 0;
 }
+.form-info + .form-title {
+    margin-top: 5px;
+}
 
 .form-info {
     margin-bottom: 0;
 }
 .form-title + .form-info {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .input-wrap {

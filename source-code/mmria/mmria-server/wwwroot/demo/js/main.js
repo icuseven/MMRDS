@@ -30,7 +30,6 @@ function get_metadata()
 
 function form_selection_change(event, p_form_control)
 {
-    
     switch(event.type) {
         case "change":
             var selected_form = p_form_control.value;
@@ -47,13 +46,13 @@ function form_selection_change(event, p_form_control)
             break;
         case "click":
             var selected_form = p_form_control.getAttribute("data-value");
+            var selected_title = p_form_control.innerText;
             // console.log(event.type);
             // console.log(selected_form);
+            console.log(selected_title);
             var form_type = document.getElementById('form_type');
-            var form_select = $("#selected_form");
-            var form_title_new = form_select.find(':selected')[0].innerText;
             document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
-            form_type.innerHTML = form_title_new;
+            form_type.innerHTML = selected_title;
             break;
     }    
     
