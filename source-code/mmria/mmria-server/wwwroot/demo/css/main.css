@@ -34,7 +34,7 @@ body {
 }
 
 .util {
-    font-size: 85%;
+    /* font-size: 85%; */
     list-style-type: none;
     margin-bottom: 0;
 }
@@ -135,6 +135,9 @@ body {
 .form-tag {
     font-size: 21px;
     font-weight: 700;
+}
+.form-info + .form-tag {
+    margin-top: 15px;
 }
 
 .form-title {

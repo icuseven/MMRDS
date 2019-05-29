@@ -2,13 +2,13 @@ function search_text_change(p_form_control)
 {
     var search_text = p_form_control.value;
     var form_container = document.getElementById("form");
-    var form_tag = document.getElementById("form_tag");
+    var form_result = document.getElementById("form_result");
     var form_dropdown = document.getElementById("selected_form");
 
     // if text isn't null and longer than 3
     if(search_text != null && search_text.length > 3)
     {
-        form_tag.innerHTML = "Search results for: <em>" + search_text + "</em>";
+        form_result.innerHTML = "Search results for field(s): <em>" + search_text + "</em>";
         form_dropdown.value = "";
         form_container.innerHTML = render_search_text(g_metadata, "", search_text).join("");
     }

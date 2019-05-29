@@ -24,17 +24,22 @@ function get_metadata()
     {
         g_metadata = response;
 
-
         for(var i in g_metadata.lookup)
         {
             var child = g_metadata.lookup[i];
 
             g_look_up["lookup/" + child.name] = child.values;
         }
+
         // console.log(response);
+        
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
-        document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
+
+        // if 'form_nav' exists (not nullor undefined)
+        if (!isNullOrUndefined(document.getElementById("form_nav"))) {
+            document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
+        }
     });
 }
 
@@ -454,7 +459,7 @@ function render_selected_form(p_metadata)
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-        result.push("<option value=''>Select a form</option>");
+        // result.push("<option value=''>Select a form</option>");
         for(var i in p_metadata.children)
         {
             var child = p_metadata.children[i];
@@ -487,4 +492,13 @@ function render_app_nav_btns(p_metadata) {
         }
     }
     return nav;
+}
+
+// Service func to help if a value is null, undefined, 0, ''(empty str), false or NaN
+function isNullOrUndefined (val) {
+    if (typeof val !== 'undefined' && val) {
+        return false;
+    } else {
+        return true;
+    }
 }
