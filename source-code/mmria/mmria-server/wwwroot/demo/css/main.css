@@ -1,11 +1,18 @@
 /*
     GLOBAL OVERRIDES
 */
+html,
+body {
+    font-size: 1rem;
+}
 
 .form-control {
     outline: none;
 }
 
+.list-group-item-action svg {
+    margin-right: 5px;
+}
 
 .silent-list {
     list-style-type: none;
@@ -21,9 +28,9 @@
 }
 
 .site-title {
-    position: sticky; /* Progressive enhancement */
-    top: -1px; /* 'sticky' when top becomes the value */
-    z-index: 1;
+    /* position: sticky; Progressive enhancement */
+    /* top: -1px; 'sticky' when top becomes the value */
+    /* z-index: 1; */
 }
 
 .util {
@@ -58,8 +65,20 @@
     border-color: #ced4da;
 }
 
+.data-collector-nav {
+    position: sticky;
+    top: -1px;
+}
+
+.data-collector-nav .tp-nav-main svg {
+    display: inline-block;
+}
+
 .data-collector-nav button {
-    margin-bottom: 5px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
     width: 100%;
 }
 
@@ -70,8 +89,8 @@
 
 .data-collector-body {
     background-color: #FFFFFF;
-    border: 1px solid;
-    border-color: gray;
+    border: 2px solid;
+    border-color: #BBBBBB;
     min-height: 100vh;
     overflow-y: scroll;
     padding: 20px;
@@ -91,6 +110,21 @@
 }
 .data-collector-body + .data-collector-footer {
     margin-top:24px;
+}
+
+.data-collector-search {
+    padding-left: 20px;
+    padding-right: 0;
+}
+
+.data-collector-search label {
+    color: #000000;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+.data-collector-search .form-control {
+    font-size: 14.4px;
 }
 
 .form-type {
@@ -124,8 +158,12 @@
 .input-wrap {
     position: relative;
 }
+.data-collector-sidebar .input-wrap {
+    width: 100%;
+}
 
 .input-wrap .input-icon {
+    color: #444444;
     right: 6px;
     pointer-events: none;
     position: absolute;
@@ -142,23 +180,24 @@
     Form styles for anything inside of data-collector output
 */
 
-.data-collector-output [type="text"] {
+.data-collector-output input,
+.data-collector-output textarea {
     background-color: #FFFFFF;
     border: 2px solid;
     border-color: #BBBBBB;
     border-radius: 4px;
     padding: 6px 12px;
-    transition: border-color 75ms ease-in;
 }
-.data-collector-output [type="text"]:focus {
+.data-collector-output input:focus,
+.data-collector-output textarea:focus {
     border-color: #712177;
-    transition: border-color 125ms ease-out;
 }
 
 .data-collector-output fieldset {
-    border: 1px solid;
+    border: 2px solid;
     border-color: #BBBBBB;
-    padding: 8px 15px;
+    border-radius: 4px;
+    padding: 6px 12px;
 }
 
 .data-collector-output legend {

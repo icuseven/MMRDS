@@ -450,7 +450,9 @@ function render_app_nav_btns(p_metadata) {
         // console.log(items[i].type);
         if (items[i].type == 'form') {
             // console.log(items[i]);
-            nav += '<button class="btn btn-outline-secondary" data-value="'+ items[i].name +'" onclick="form_selection_click(this);">'+ items[i].prompt +'</button>'
+            nav += '<li class="list-group-item nav-lvl2">'
+                nav += '<a href="#" class="list-group-item-action" data-value="'+ items[i].name +'" onclick="form_selection_click(this);">'+ items[i].prompt +'</a>'
+            nav += '</li>'
         }
     }
     return nav;
