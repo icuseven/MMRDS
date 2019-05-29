@@ -79,7 +79,7 @@
 
     <main id="content" class="container-fluid app-content" role="main">
         <div class="row">
-            <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+            <div class="col col-12 col-sm-4 col-md-3 col-lg-2">
                 <div class="row mb-3">
                     <div class="col input-group">
                         <label>Search all forms for:</label>
@@ -102,26 +102,25 @@
                                 onchange="form_selection_change(this);"></select>
                     </div>
                 </div>
-                <nav id="form_nav" class="data-collector-nav btn-set">
-                    <!-- The below buttons need to be wired up -->
-                    <!-- <button class="btn btn-outline-secondary">Home Record</button>
-                    <button class="btn btn-outline-secondary">Death Certificate</button>
-                    <button class="btn btn-outline-secondary">Birth/Fetal Death Certificate - Parent Section</button>
-                    <button class="btn btn-outline-secondary">Birth/Fetal Death Certificate - Infant/Fetal Section</button> -->
+                <nav id="form_nav" class="data-collector-nav">
+
+                    <!-- Retrieves buttons dynamically from JS -->
+                    
                 </nav>
             </div>
-            <div class="col">
+            <div class="col col-12 col-sm-8 col-md-9 col-lg-10">
                 <header class="data-collector-header row align-items-end no-gutters">
                     <div class="col-8">
-                        <p class="form-label form-info"><strong id="form_type">Home Record</strong></p>
+                        <p id="form_tag" class="form-tag form-info">Home Record</strong></p>
                         <!-- TODO: Tie in name, last name, record ID dynamically -->
-                        <h3 id="form_title" class="form-title">Doe, Jane <span class="fi cdc-icon-print x24" aria-hidden="true"></span></h3>
+                        <h3 id="form_title" class="form-title">Doe, Jane</h3>
                         <p class="form-info"><strong>Record ID:</strong> <span>XX-1234-5678</span></p>
                     </div>
                     <div class="col">
                         <div class="row no-gutters justify-content-end">
-                            <!-- TODO: Hook up Undo and Save functionality -->
+                            <!-- TODO: Wire up functionality -->
                             <!-- TODO: Undo btn should only show if there are changes to form -->
+                            <!-- TODO: Cancel btn takes it back to the last time it was saved -->
                             <button class="btn btn-link">Cancel</button>
                             <button class="btn btn-secondary">Undo</button>
                             <button class="btn btn-primary">Save</button>
@@ -136,8 +135,9 @@
                     </section>
                 </div>
                 <footer class="data-collector-footer row align-items-end no-gutters">
-                    <!-- TODO: Hook up Undo and Save functionality -->
+                    <!-- TODO: Wire up functionality -->
                     <!-- TODO: Undo btn should only show if there are changes to form -->
+                    <!-- TODO: Cancel btn takes it back to the last time it was saved -->
                     <button class="btn btn-primary">Save</button>
                     <button class="btn btn-secondary">Undo</button>
                     <button class="btn btn-link">Cancel</button>

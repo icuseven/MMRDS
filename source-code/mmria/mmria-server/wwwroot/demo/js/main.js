@@ -22,7 +22,7 @@ function get_metadata()
     }).done(function(response) 
     {
         g_metadata = response;
-        console.log(response);
+        // console.log(response);
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
         document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
@@ -35,11 +35,11 @@ function form_selection_change(p_form_control)
     
     if(selected_form != null && selected_form.length > 0)
     {
-        var form_type = document.getElementById('form_type');
+        var form_tag = document.getElementById('form_tag');
         var form_select = $("#selected_form");
         var form_title_new = form_select.find(':selected')[0].innerText;
         document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
-        form_type.innerHTML = form_title_new;
+        form_tag.innerHTML = form_title_new;
     }
 }
 
@@ -48,7 +48,7 @@ function form_selection_click(p_form_control)
     var selected_form = p_form_control.getAttribute("data-value");
     var selected_title = p_form_control.innerText;
     document.getElementById("form").innerHTML = render(g_metadata, "", selected_form).join("");
-    form_type.innerHTML = selected_title;
+    form_tag.innerHTML = selected_title;
 }
 
 function render(p_metadata, p_path, p_form, p_is_grid)

@@ -1,24 +1,29 @@
 function search_text_change(p_form_control)
 {
     var search_text = p_form_control.value;
+    var form_container = document.getElementById("form");
+    var form_tag = document.getElementById("form_tag");
+    var form_dropdown = document.getElementById("selected_form");
 
+    // if text isn't null and longer than 3
     if(search_text != null && search_text.length > 3)
     {
-        document.getElementById("selected_form").value = "";
-        document.getElementById("form").innerHTML = render_search_text(g_metadata, "", search_text).join("");
+        form_tag.innerHTML = "Search results for: <em>" + search_text + "</em>";
+        form_dropdown.value = "";
+        form_container.innerHTML = render_search_text(g_metadata, "", search_text).join("");
     }
     else
     {
-        
-        if(document.getElementById("selected_form").value.length > 0)
+        if(form_dropdown.value.length > 0)
         {
-            form_selection_change(document.getElementById("selected_form"));
+
+            form_selection_change(form_dropdown);
         }
-        /*
         else
         {
-            document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
-        }*/
+            // document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
+            console.log('None!');
+        }
     }
 }
 
@@ -27,19 +32,16 @@ function render_search_text(p_metadata, p_path, p_search_text, p_is_grid)
 
     var result = [];
 
-    
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-        for(var i in p_metadata.children)
-        {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result, render_search_text(child, p_path + "/" + child.name, p_search_text));
-        }
-        break;
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                Array.prototype.push.apply(result, render_search_text(child, p_path + "/" + child.name, p_search_text));
+            }
+            break;
         case "form":
-
-            
             for(var i in p_metadata.children)
             {
                 var child = p_metadata.children[i];
@@ -77,15 +79,11 @@ function render_search_text(p_metadata, p_path, p_search_text, p_is_grid)
             if(p_metadata.prompt.toLocaleLowerCase().search(p_search_text.toLocaleLowerCase()) > -1)
             {
                 Array.prototype.push.apply(result, render_search_text_textarea_control(p_metadata, p_path, p_is_grid));    
-            }
-                
-        break;
-        
-
+            }  
+            break;
     }
 
     return result;
-
 
     console.log("started");
 

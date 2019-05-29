@@ -98,8 +98,9 @@
     margin-top: 0;
 }
 
-.form-label {
-    font-size: 20px;
+.form-tag {
+    font-size: 21px;
+    font-weight: 700;
 }
 
 .form-title {
@@ -110,7 +111,7 @@
     margin-top: 0;
 }
 .form-info + .form-title {
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .form-info {
