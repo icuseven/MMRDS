@@ -284,20 +284,42 @@ function render_search_text_select_control(p_metadata, p_path, p_is_grid)
             
             result.push("' >"); 
 
-            for(var i in p_metadata.values)
+            if(p_metadata.path_reference && p_metadata.path_reference.length > 0)
             {
-                var child = p_metadata.values[i];
-                result.push("<option>");
-                if(child.description == null || child.description == "")
+                for(var i in g_look_up[p_metadata.path_reference])
                 {
-                    result.push(child.value);
-                }
-                else
-                {
-                    result.push(child.description);
-                }
-                result.push("</option>");
+                    var child = g_look_up[p_metadata.path_reference][i];
+                    result.push("<option>");
+                    if(child.description == null || child.description == "")
+                    {
+                        result.push(child.value);
+                    }
+                    else
+                    {
+                        result.push(child.description);
+                    }
+                    result.push("</option>");
 
+                }
+            }
+            else
+            {
+
+                for(var i in p_metadata.values)
+                {
+                    var child = p_metadata.values[i];
+                    result.push("<option>");
+                    if(child.description == null || child.description == "")
+                    {
+                        result.push(child.value);
+                    }
+                    else
+                    {
+                        result.push(child.description);
+                    }
+                    result.push("</option>");
+
+                }
             }
 
             result.push("</select>");

@@ -1,5 +1,6 @@
 var g_metadata = null;
 var ui_specification = null;
+var g_look_up = {};
 
 function main()
 {
@@ -22,6 +23,14 @@ function get_metadata()
     }).done(function(response) 
     {
         g_metadata = response;
+
+
+        for(var i in g_metadata.lookup)
+        {
+            var child = g_metadata.lookup[i];
+
+            g_look_up["lookup/" + child.name] = child.values;
+        }
         // console.log(response);
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
@@ -257,20 +266,42 @@ function render_select_control(p_metadata, p_path, p_is_grid)
             
             result.push("' >"); 
 
-            for(var i in p_metadata.values)
+            if(p_metadata.path_reference && p_metadata.path_reference.length > 0)
             {
-                var child = p_metadata.values[i];
-                result.push("<option>");
-                if(child.description == null || child.description == "")
+                for(var i in g_look_up[p_metadata.path_reference])
                 {
-                    result.push(child.value);
-                }
-                else
-                {
-                    result.push(child.description);
-                }
-                result.push("</option>");
+                    var child = g_look_up[p_metadata.path_reference][i];
+                    result.push("<option>");
+                    if(child.description == null || child.description == "")
+                    {
+                        result.push(child.value);
+                    }
+                    else
+                    {
+                        result.push(child.description);
+                    }
+                    result.push("</option>");
 
+                }
+            }
+            else
+            {
+
+                for(var i in p_metadata.values)
+                {
+                    var child = p_metadata.values[i];
+                    result.push("<option>");
+                    if(child.description == null || child.description == "")
+                    {
+                        result.push(child.value);
+                    }
+                    else
+                    {
+                        result.push(child.description);
+                    }
+                    result.push("</option>");
+
+                }
             }
 
             result.push("</select>");
