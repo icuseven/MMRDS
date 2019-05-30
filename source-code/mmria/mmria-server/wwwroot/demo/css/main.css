@@ -46,11 +46,8 @@ body {
 }
 
 .app-content {
-    background-color: #F5F5F5;
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: 20px;
-    padding-top: 32px;
     width: calc(100% - 40px);
 }
 
