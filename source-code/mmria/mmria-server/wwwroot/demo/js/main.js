@@ -142,7 +142,7 @@ function render_input_control(p_metadata, p_path, p_is_grid)
                 result.push("</label>");
             }
             result.push("<input id='");
-            result.push();
+            result.push(p_path.replace(/\//g, "--"));
             result.push("' type='text' style='");
             if(!p_is_grid)
             result.push(get_style_string(style_object.control.style));
@@ -257,7 +257,7 @@ function render_select_control(p_metadata, p_path, p_is_grid)
                 result.push("</label>");
             }
             result.push("<select id='");
-            result.push(p_path);
+            result.push(p_path.replace(/\//g, "--"));
             result.push("' type='text' style='");
             if(!p_is_grid)
             if(style_object.control)
