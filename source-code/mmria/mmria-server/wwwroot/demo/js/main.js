@@ -30,8 +30,6 @@ function get_metadata()
 
             g_look_up["lookup/" + child.name] = child.values;
         }
-
-        // console.log(response);
         
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
@@ -276,8 +274,6 @@ function render_select_control(p_metadata, p_path, p_is_grid)
             {
                 for(var i in g_look_up[p_metadata.path_reference])
                 {
-                    var dataset = g_look_up;
-                    console.log(dataset);
                     var child = g_look_up[p_metadata.path_reference][i];
 
                     // Removes the empty option if child.description OR child.value is null/undefined
@@ -300,8 +296,6 @@ function render_select_control(p_metadata, p_path, p_is_grid)
 
                 for(var i in p_metadata.values)
                 {
-                    var dataset = p_metadata;
-                    // console.log(dataset);
                     var child = p_metadata.values[i];
                     
                     // Removes the empty option if child.description OR child.value is null/undefined
@@ -479,7 +473,6 @@ function render_selected_form(p_metadata)
         }
         break;
         case "form":
-            // console.log(p_metadata.prompt);
             result.push("<option value='");
             result.push(p_metadata.name);
             result.push("'>")
@@ -495,9 +488,7 @@ function render_app_nav_btns(p_metadata) {
     var items = p_metadata.children;
     var nav = '';
     for (var i = 0; i < items.length; i++) {
-        // console.log(items[i].type);
         if (items[i].type == 'form') {
-            // console.log(items[i]);
             nav += '<li class="list-group-item nav-lvl2">'
                 nav += '<a href="#" class="list-group-item-action" data-value="'+ items[i].name +'" onclick="form_selection_click(this);">'+ items[i].prompt +'</a>'
             nav += '</li>'
