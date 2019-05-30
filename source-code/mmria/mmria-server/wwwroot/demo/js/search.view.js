@@ -8,7 +8,7 @@ function search_text_change(p_form_control)
     // if text isn't null and longer than 3
     if(search_text != null && search_text.length > 3)
     {
-        form_tag.innerHTML = "Search results for field(s): <em>" + search_text + "</em>";
+        form_tag.innerHTML = "Search results for: <em>" + search_text + "</em>";
         form_dropdown.value = "";
         form_container.innerHTML = render_search_text(g_metadata, "", search_text).join("");
     }
