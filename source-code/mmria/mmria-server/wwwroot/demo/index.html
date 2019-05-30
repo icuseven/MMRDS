@@ -83,8 +83,8 @@
                            Summary
                         </a>
                         <a href="#nav-group-navigation" class="nav-expandcollapse nav-minus" data-toggle="collapse" aria-controls="nav-group-navigation" aria-expanded="true"><svg viewBox="0 0 24 24"><title>collapse</title><path d="M19,13H5V11H19V13Z"></path></svg></a>
-                        <div class="data-collector-search col input-group mt-1 mb-3">
-                            <div class="input-wrap mb-1">
+                        <div class="data-collector-search col input-group">
+                            <div class="input-wrap  mt-2">
                                 <label for="search_text">Search for fields:</label>
                                 <div class="input-wrap">
                                     <input id="search_text"
@@ -95,7 +95,7 @@
                                     <i class="input-icon cdc-icon-magnify x20" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div class="input-wrap">
+                            <div class="input-wrap  mt-2">
                                 <label>Select a case form:</label>
                                 <select id="selected_form"
                                         class="form-control"
@@ -121,11 +121,10 @@
         <main class="data-collector-main content col col-12 col-sm-8 col-md-9" role="main" aria-label="Main Content Area">
             <header class="data-collector-header row align-items-start no-gutters">
                 <div class="col-8">
-                    <p id="form_tag" class="form-tag form-info">Home Record</strong></p>
                     <!-- TODO: Tie in name, last name, record ID dynamically -->
                     <h3 id="form_title" class="form-title">Doe, Jane</h3>
                     <p class="form-info"><strong>Record ID:</strong> <span>XX-1234-5678</span></p>
-                    <p id="form_result" class="form-tag form-info"></strong></p>
+                    <p id="form_tag" class="form-tag form-info">Home Record</strong></p>
                 </div>
                 <div class="col">
                     <div class="row no-gutters justify-content-end">

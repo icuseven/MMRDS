@@ -269,24 +269,30 @@ function render_select_control(p_metadata, p_path, p_is_grid)
                 result.push(p_metadata.list_display_size);
             }
             
-            result.push("' >"); 
+            result.push("' >");
+            result.push("<option>Select One</option>");
 
             if(p_metadata.path_reference && p_metadata.path_reference.length > 0)
             {
                 for(var i in g_look_up[p_metadata.path_reference])
                 {
+                    var dataset = g_look_up;
+                    console.log(dataset);
                     var child = g_look_up[p_metadata.path_reference][i];
-                    result.push("<option>");
-                    if(child.description == null || child.description == "")
-                    {
-                        result.push(child.value);
-                    }
-                    else
-                    {
-                        result.push(child.description);
-                    }
-                    result.push("</option>");
 
+                    // Removes the empty option if child.description OR child.value is null/undefined
+                    if (!isNullOrUndefined(child.description) || !isNullOrUndefined(child.value)) {
+                        result.push("<option value='"+ child.value +"'>");
+                        if(child.description == null || child.description == "")
+                        {
+                            result.push(child.value);
+                        }
+                        else
+                        {
+                            result.push(child.description);
+                        }
+                        result.push("</option>");
+                    }
                 }
             }
             else
@@ -294,17 +300,23 @@ function render_select_control(p_metadata, p_path, p_is_grid)
 
                 for(var i in p_metadata.values)
                 {
+                    var dataset = p_metadata;
+                    // console.log(dataset);
                     var child = p_metadata.values[i];
-                    result.push("<option>");
-                    if(child.description == null || child.description == "")
-                    {
-                        result.push(child.value);
+                    
+                    // Removes the empty option if child.description OR child.value is null/undefined
+                    if (!isNullOrUndefined(child.description) || !isNullOrUndefined(child.value)) {
+                        result.push("<option value='"+ child.value +"'>");
+                        if(child.description == null || child.description == "")
+                        {
+                            result.push(child.value);
+                        }
+                        else
+                        {
+                            result.push(child.description);
+                        }
+                        result.push("</option>");
                     }
-                    else
-                    {
-                        result.push(child.description);
-                    }
-                    result.push("</option>");
 
                 }
             }
