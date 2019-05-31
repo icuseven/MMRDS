@@ -229,6 +229,8 @@ body {
 
 .data-collector-output th,
 .data-collector-output td {
+    border: 2px solid;
+    border-color: #BBBBBB;
     padding: 6px 12px;
 }
 
