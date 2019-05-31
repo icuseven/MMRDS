@@ -234,6 +234,6 @@ body {
     padding: 6px 12px;
 }
 
-.data-collector-output th {
-    background-color: #BBBBBB;
+.data-collector-output tr:first-of-type th {
+    background-color: #F0F0F0;
 }
