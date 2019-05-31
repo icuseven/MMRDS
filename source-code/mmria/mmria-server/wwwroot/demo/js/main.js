@@ -4,8 +4,8 @@ var g_look_up = {};
 
 function main()
 {
-        $.ajax
-        ({
+    $.ajax
+    ({
         url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
         }).done(function(response) 
     {
@@ -71,12 +71,13 @@ function render(p_metadata, p_path, p_form, p_is_grid)
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-        for(var i in p_metadata.children)
-        {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
-        }
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
+            }
         break;
+
         case "form":
 
             if(p_metadata.name == p_form)
@@ -88,34 +89,32 @@ function render(p_metadata, p_path, p_form, p_is_grid)
                     Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
                 }
             }
-            break;
+        break;
+
         case "string":
         case "number":
         case "date":
         case "datetime":
         case "time":
             Array.prototype.push.apply(result, render_input_control(p_metadata, p_path, p_is_grid));
-            break;
+        break;
+
         case "group":
             Array.prototype.push.apply(result, render_group_control(p_metadata, p_path, p_is_grid));
-        
         break;
+
         case "grid":
             Array.prototype.push.apply(result, render_grid_control(p_metadata, p_path));
-            break;
+        break;
+
         case "list":
             Array.prototype.push.apply(result, render_select_control(p_metadata, p_path, p_is_grid));
-        
         break;
-        
-
     }
 
     return result;
 
-
     console.log("started");
-
 }
 
 function render_input_control(p_metadata, p_path, p_is_grid)
@@ -144,8 +143,7 @@ function render_input_control(p_metadata, p_path, p_is_grid)
             result.push("' type='text' style='");
             if(!p_is_grid)
             result.push(get_style_string(style_object.control.style));
-            result.push("' />"); 
-
+            result.push("' />");
 
         result.push("</div>");
     }
@@ -293,7 +291,6 @@ function render_select_control(p_metadata, p_path, p_is_grid)
             }
             else
             {
-
                 for(var i in p_metadata.values)
                 {
                     var child = p_metadata.values[i];
@@ -321,7 +318,6 @@ function render_select_control(p_metadata, p_path, p_is_grid)
 
     return result;
 }
-
 
 function get_style_string(p_specicification_style_string)
 {
@@ -356,19 +352,14 @@ function get_style_string(p_specicification_style_string)
                 {
                     result.push(pair[0] + ":" + pair[1].trim() + "px");
                 }
-
-
-                
-
-                break;
+            break;
 
             default:
                 result.push(pair.join(":"));
-                break;
+            break;
         }
 
     }
-
 
     return result.join(";");
 }
@@ -413,7 +404,6 @@ function get_only_size_and_position_string(p_specicification_style_string)
         }
 
     }
-
 
     return result.join(";");
 }
@@ -465,20 +455,21 @@ function render_selected_form(p_metadata)
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-        // result.push("<option value=''>Select a form</option>");
-        for(var i in p_metadata.children)
-        {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result, render_selected_form(child));
-        }
+            // result.push("<option value=''>Select a form</option>");
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                Array.prototype.push.apply(result, render_selected_form(child));
+            }
         break;
+
         case "form":
             result.push("<option value='");
             result.push(p_metadata.name);
             result.push("'>")
             result.push(p_metadata.prompt);
             result.push("</option>");
-            break;
+        break;
     }
 
     return result;
