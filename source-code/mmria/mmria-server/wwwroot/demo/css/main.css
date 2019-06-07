@@ -193,6 +193,11 @@ body {
     border-color: #712177;
 }
 
+.data-collector-output [type="button"] {
+    height: 56px;
+    width: 100%;
+}
+
 .data-collector-output fieldset {
     border: 2px solid;
     border-color: #BBBBBB;

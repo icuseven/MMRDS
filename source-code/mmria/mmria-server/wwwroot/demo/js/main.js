@@ -110,6 +110,10 @@ function render(p_metadata, p_path, p_form, p_is_grid)
         case "list":
             Array.prototype.push.apply(result, render_select_control(p_metadata, p_path, p_is_grid));
         break;
+
+        case "button":
+            Array.prototype.push.apply(result, render_button_control(p_metadata, p_path, p_is_grid));
+        break;
     }
 
     return result;
@@ -227,6 +231,19 @@ function render_grid_control(p_metadata, p_path)
         result.push("</tr>");
         result.push("</table>");
     }
+
+    return result;
+}
+
+function render_button_control(p_metadata, p_path, p_is_grid)
+{
+    var result = [];
+    var style_object = ui_specification.form_design[p_path.substring(1)];
+    console.log(style_object);
+
+    result.push("<div style='"+ get_style_string(style_object.control.style) +"'>")
+    result.push("<input class='btn btn-secondary' type='"+ p_metadata.type +"' value='"+ p_metadata.prompt +"' />")
+    result.push("</div>")
 
     return result;
 }
