@@ -399,10 +399,11 @@ formDesigner = {
       display: function (formName) {
         let fields = formDesigner.dataHandler.getFormFields(formName);
         let tpl = '';
+        console.log(fields);
         $.each(fields, function(index, value) {
           if (value.type.toLowerCase() === 'group' || value.type.toLowerCase() === 'grid') {
             tpl += fdTemplates.formFields.controls.group(formName, value);
-          } else if(value.type.toLowerCase() === 'jurisdiction') {
+          } else if(value.type.toLowerCase() === 'jurisdiction' || value.type.toLowerCase() === 'hidden') {
             // do nothing
             return;
           }
@@ -413,6 +414,10 @@ formDesigner = {
             tpl += fdTemplates.formFields.controls.list(formName, value);
           } else if (value.type.toLowerCase() === 'textarea') {
             tpl += fdTemplates.formFields.controls.textarea(formName, value);
+          } else if (value.type.toLowerCase() === 'hidden') {
+            return; // do nothing
+          } else if (value.type.toLowerCase() === 'button') {
+            tpl += fdTemplates.formFields.controls.button(formName, value)
           } else {
             tpl += fdTemplates.formFields.controls.string(formName, value);
           }
