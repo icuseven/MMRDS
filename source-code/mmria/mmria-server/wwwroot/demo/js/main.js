@@ -4,8 +4,8 @@ var g_look_up = {};
 
 function main()
 {
-        $.ajax
-        ({
+    $.ajax
+    ({
         url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
         }).done(function(response) 
     {
@@ -24,17 +24,20 @@ function get_metadata()
     {
         g_metadata = response;
 
-
         for(var i in g_metadata.lookup)
         {
             var child = g_metadata.lookup[i];
 
             g_look_up["lookup/" + child.name] = child.values;
         }
-        // console.log(response);
+        
         document.getElementById("selected_form").innerHTML = render_selected_form(g_metadata).join("");
         document.getElementById("form").innerHTML = render(g_metadata, "", "home_record").join("");
-        document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
+
+        // if 'form_nav' exists (not nullor undefined)
+        if (!isNullOrUndefined(document.getElementById("form_nav"))) {
+            document.getElementById("form_nav").innerHTML = render_app_nav_btns(g_metadata);
+        }
     });
 }
 
@@ -68,12 +71,13 @@ function render(p_metadata, p_path, p_form, p_is_grid)
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-        for(var i in p_metadata.children)
-        {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
-        }
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
+            }
         break;
+
         case "form":
 
             if(p_metadata.name == p_form)
@@ -85,34 +89,36 @@ function render(p_metadata, p_path, p_form, p_is_grid)
                     Array.prototype.push.apply(result, render(child, p_path + "/" + child.name, p_form));
                 }
             }
-            break;
+        break;
+
         case "string":
         case "number":
         case "date":
         case "datetime":
         case "time":
             Array.prototype.push.apply(result, render_input_control(p_metadata, p_path, p_is_grid));
-            break;
+        break;
+
         case "group":
             Array.prototype.push.apply(result, render_group_control(p_metadata, p_path, p_is_grid));
-        
         break;
+
         case "grid":
             Array.prototype.push.apply(result, render_grid_control(p_metadata, p_path));
-            break;
+        break;
+
         case "list":
             Array.prototype.push.apply(result, render_select_control(p_metadata, p_path, p_is_grid));
-        
         break;
-        
 
+        case "button":
+            Array.prototype.push.apply(result, render_button_control(p_metadata, p_path, p_is_grid));
+        break;
     }
 
     return result;
 
-
     console.log("started");
-
 }
 
 function render_input_control(p_metadata, p_path, p_is_grid)
@@ -137,12 +143,11 @@ function render_input_control(p_metadata, p_path, p_is_grid)
                 result.push("</label>");
             }
             result.push("<input id='");
-            result.push();
+            result.push(p_path.replace(/\//g, "--"));
             result.push("' type='text' style='");
             if(!p_is_grid)
             result.push(get_style_string(style_object.control.style));
-            result.push("' />"); 
-
+            result.push("' />");
 
         result.push("</div>");
     }
@@ -230,6 +235,19 @@ function render_grid_control(p_metadata, p_path)
     return result;
 }
 
+function render_button_control(p_metadata, p_path, p_is_grid)
+{
+    var result = [];
+    var style_object = ui_specification.form_design[p_path.substring(1)];
+    console.log(style_object);
+
+    result.push("<div style='"+ get_style_string(style_object.control.style) +"'>")
+    result.push("<input class='btn btn-secondary' type='"+ p_metadata.type +"' value='"+ p_metadata.prompt +"' />")
+    result.push("</div>")
+
+    return result;
+}
+
 function render_select_control(p_metadata, p_path, p_is_grid)
 {   
     var result = [];
@@ -252,7 +270,7 @@ function render_select_control(p_metadata, p_path, p_is_grid)
                 result.push("</label>");
             }
             result.push("<select id='");
-            result.push(p_path);
+            result.push(p_path.replace(/\//g, "--"));
             result.push("' type='text' style='");
             if(!p_is_grid)
             if(style_object.control)
@@ -264,42 +282,49 @@ function render_select_control(p_metadata, p_path, p_is_grid)
                 result.push(p_metadata.list_display_size);
             }
             
-            result.push("' >"); 
+            result.push("' >");
+            result.push("<option>Select One</option>");
 
             if(p_metadata.path_reference && p_metadata.path_reference.length > 0)
             {
                 for(var i in g_look_up[p_metadata.path_reference])
                 {
                     var child = g_look_up[p_metadata.path_reference][i];
-                    result.push("<option>");
-                    if(child.description == null || child.description == "")
-                    {
-                        result.push(child.value);
-                    }
-                    else
-                    {
-                        result.push(child.description);
-                    }
-                    result.push("</option>");
 
+                    // Removes the empty option if child.description OR child.value is null/undefined
+                    if (!isNullOrUndefined(child.description) || !isNullOrUndefined(child.value)) {
+                        result.push("<option value='"+ child.value +"'>");
+                        if(child.description == null || child.description == "")
+                        {
+                            result.push(child.value);
+                        }
+                        else
+                        {
+                            result.push(child.description);
+                        }
+                        result.push("</option>");
+                    }
                 }
             }
             else
             {
-
                 for(var i in p_metadata.values)
                 {
                     var child = p_metadata.values[i];
-                    result.push("<option>");
-                    if(child.description == null || child.description == "")
-                    {
-                        result.push(child.value);
+                    
+                    // Removes the empty option if child.description OR child.value is null/undefined
+                    if (!isNullOrUndefined(child.description) || !isNullOrUndefined(child.value)) {
+                        result.push("<option value='"+ child.value +"'>");
+                        if(child.description == null || child.description == "")
+                        {
+                            result.push(child.value);
+                        }
+                        else
+                        {
+                            result.push(child.description);
+                        }
+                        result.push("</option>");
                     }
-                    else
-                    {
-                        result.push(child.description);
-                    }
-                    result.push("</option>");
 
                 }
             }
@@ -310,7 +335,6 @@ function render_select_control(p_metadata, p_path, p_is_grid)
 
     return result;
 }
-
 
 function get_style_string(p_specicification_style_string)
 {
@@ -345,19 +369,14 @@ function get_style_string(p_specicification_style_string)
                 {
                     result.push(pair[0] + ":" + pair[1].trim() + "px");
                 }
-
-
-                
-
-                break;
+            break;
 
             default:
                 result.push(pair.join(":"));
-                break;
+            break;
         }
 
     }
-
 
     return result.join(";");
 }
@@ -402,7 +421,6 @@ function get_only_size_and_position_string(p_specicification_style_string)
         }
 
     }
-
 
     return result.join(";");
 }
@@ -454,21 +472,21 @@ function render_selected_form(p_metadata)
     switch(p_metadata.type.toLocaleLowerCase())
     {
         case "app":
-        result.push("<option value=''>Select a form</option>");
-        for(var i in p_metadata.children)
-        {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result, render_selected_form(child));
-        }
+            // result.push("<option value=''>Select a form</option>");
+            for(var i in p_metadata.children)
+            {
+                var child = p_metadata.children[i];
+                Array.prototype.push.apply(result, render_selected_form(child));
+            }
         break;
+
         case "form":
-            // console.log(p_metadata.prompt);
             result.push("<option value='");
             result.push(p_metadata.name);
             result.push("'>")
             result.push(p_metadata.prompt);
             result.push("</option>");
-            break;
+        break;
     }
 
     return result;
@@ -478,13 +496,20 @@ function render_app_nav_btns(p_metadata) {
     var items = p_metadata.children;
     var nav = '';
     for (var i = 0; i < items.length; i++) {
-        // console.log(items[i].type);
         if (items[i].type == 'form') {
-            // console.log(items[i]);
             nav += '<li class="list-group-item nav-lvl2">'
                 nav += '<a href="#" class="list-group-item-action" data-value="'+ items[i].name +'" onclick="form_selection_click(this);">'+ items[i].prompt +'</a>'
             nav += '</li>'
         }
     }
     return nav;
+}
+
+// Service func to help if a value is null, undefined, 0, ''(empty str), false or NaN
+function isNullOrUndefined (val) {
+    if (typeof val !== 'undefined' && val) {
+        return false;
+    } else {
+        return true;
+    }
 }

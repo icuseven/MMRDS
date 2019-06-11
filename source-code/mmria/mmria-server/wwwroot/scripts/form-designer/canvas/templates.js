@@ -35,6 +35,8 @@ let fdTemplates = {
         prompt: function(formName, value) {
             if (value.type.toLowerCase() === 'list' && value.hasOwnProperty('is_multiselect')) {
                 return '';
+            } else if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') {
+                return '';
             }
             return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt}</label>`;
         },
@@ -44,6 +46,11 @@ let fdTemplates = {
             },
             textarea: function (formName, value) {
                 return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80"></textarea>`;
+            },
+            button: function (formName, value) {
+                return `<button id="${formName}--${value.name}" type="button" class="btn btn-raised btn-primary form-field-item resize-drag drag-drop yes-drop item fd-path-object">
+                            ${value.prompt}
+                        </button>`
             },
             list: function (formName, value) { 
                 let listOptions = fdTemplates.formFields.controls.listOptions(value);
@@ -117,6 +124,10 @@ let fdTemplates = {
                     groupFields += fdTemplates.formFields.prompt(newGroupName, value);
                     if(value.type.toLowerCase() === 'list') {
                         groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
+                    } else if (value.type.toLowerCase() === 'hidden') {
+                        return; // hide do nothing
+                    } else if (value.type.toLowerCase() === 'button') {
+                        groupFields += fdTemplates.formFields.controls.button(newGroupName, value)
                     } else {
                         groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
                     }
