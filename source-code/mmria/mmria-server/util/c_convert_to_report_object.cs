@@ -341,7 +341,11 @@ namespace mmria.server.util
 			object val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
 			if (val != null)
 			{
-				if ("No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase))
+				if 
+				(
+					"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+					"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
+				)
 				{
 					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race_of_mother");
 					if (val != null)
@@ -359,7 +363,14 @@ namespace mmria.server.util
 				{
 					val = get_value (p_source_object, "death_certificate/demographics/is_of_hispanic_origin");
 					
-					if(val != null && "No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase))
+					if
+					(
+						val != null && 
+						(
+							"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+							"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+						)
+					)
 					{
 						val = get_value (p_source_object, "death_certificate/race/race");
 						if (val != null)
