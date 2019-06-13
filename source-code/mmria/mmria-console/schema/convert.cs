@@ -116,7 +116,9 @@ namespace mmria.console
 			var location = Directory.GetCurrentDirectory();
 			var output_schema_path = Path.Combine(location, @"schema/GeneratedSchema");
 			var new_schema_json = new_schema.ToJson();
-			File.WriteAllText($"{output_schema_path}/generated_schema.json", new_schema_json);
+
+			var json_schema_path = $"{output_schema_path}/generated_schema.json";
+			File.WriteAllText(json_schema_path, new_schema_json);
 
 
 			//var filename = "address";
@@ -135,9 +137,29 @@ namespace mmria.console
 
 				var generatedFile = await GenerateFileAsync(filename, new_schema_json);
 
-				File.WriteAllText($"{output_path}/{filename}.cs", generatedFile);
-			
-		}
+				var cs_file_name = $"{output_path}/{filename}.cs";
+
+				File.WriteAllText(cs_file_name, generatedFile);
+
+
+
+				var dll_name = "my";
+				var dll_file_name = dll_name + ".dll";
+
+				if(System.IO.File.Exists(dll_file_name))
+				{
+					System.IO.File.Delete(dll_file_name);
+				}
+				var genlib = new mmria.console.schema.Generatelib();
+
+
+				genlib.Execute(dll_name, cs_file_name, json_schema_path);
+
+
+
+
+
+			}
 
 
 			Console.WriteLine("Convert Finished");
@@ -174,12 +196,15 @@ namespace mmria.console
 				{
 					Namespace = "AwesomeSauce.v1",
 					//ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Inpc 
-					ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco
+					ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco,
+					GenerateJsonMethods = false,
+					GenerateDataAnnotations = false
 				};
 
 				var generator = new NJsonSchema.CodeGeneration.CSharp.CSharpGenerator(schema, settings);
 				result = generator.GenerateFile();
 
+//NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.
 				return result;
 		}
 

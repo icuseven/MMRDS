@@ -109,7 +109,7 @@ namespace mmria.console
 			string login_result_string = null;
 			try
 			{
-				login_result_string = login_curl.execute();
+				login_result_string = await login_curl.executeAsync();
 			}
 			catch(Exception ex)
 			{
