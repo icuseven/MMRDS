@@ -84,6 +84,22 @@ namespace mmria.console.schema
                 System.Console.WriteLine(ex);
             }
 
+/*
+
+https://stackoverflow.com/questions/26851214/including-an-embedded-resource-in-a-compilation-made-by-roslyn
+https://stackoverflow.com/questions/8609476/how-to-open-a-pdf-file-that-is-also-a-project-resource/8609599#8609599
+
+const string resourcePath = @"C:\Projects\...\Properties\Resources.resources";
+var resourceDescription = new ResourceDescription(
+                "[namespace].Resources.resources",
+                () => File.OpenRead(resourcePath),
+                true);
+
+var result = mutantCompilation.Emit(file, manifestResources: new [] {resourceDescription}); 
+
+ */
+
+
             /*
 
             var a = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(fileName));
