@@ -1,0 +1,5 @@
+dataClassTypeCallback({ 
+   "0":  {"title":"Equal Number", "value":"equalnumber"},
+   "1":  {"title":"Equal Interval", "value":"equalinterval"},
+   "2":  {"title":"Category", "value":"category"}
+});

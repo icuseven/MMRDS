@@ -1,167 +1,154 @@
 @using System.Security.Claims;
 @{ 
-    Layout = "_cdc"; 
-    var is_guest = true;
-    var is_abstractor = false;
-    var is_authenticated = false;
-    var is_committee_member = false;
-    var is_form_designer = false;
-    var userName = "";
-    var is_installation_admin = false;
-    var is_jurisdiction_admin = false;
-    
-    if(User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        userName = User.Identities.First(
-        u => u.IsAuthenticated && 
-        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+  Layout = "_cdc"; 
+  var is_guest = true;
+  var is_abstractor = false;
+  var is_authenticated = false;
+  var is_committee_member = false;
+  var is_form_designer = false;
+  var userName = "";
+  var is_installation_admin = false;
+  var is_jurisdiction_admin = false;
+  
+  if(User.Identity != null && User.Identity.IsAuthenticated)
+  {
+    userName = User.Identities.First(
+    u => u.IsAuthenticated && 
+    u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-        foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
-        {
-            switch(role.Value)
-            {
-                case "abstractor":
-                    is_abstractor = true;
-                    is_authenticated = true;
-                    is_guest = false;
-                    break;
-                case "form_designer":
-                    is_form_designer = true;
-                    is_authenticated = true;
-                    is_guest = false;
-                    break;
-                case "committee_member":
-                    is_committee_member = true;
-                    is_authenticated = true;
-                    is_guest = false;
-                    break;
-                case "jurisdiction_admin":
-                    is_jurisdiction_admin = true;
-                    is_authenticated = true;
-                    is_guest = false;
-                    break;
-                case "installation_admin":
-                    is_installation_admin = true;
-                    is_authenticated = true;
-                    is_guest = false;
-                    break;
-            }
-        }
+    foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    {
+      switch(role.Value)
+      {
+        case "abstractor":
+          is_abstractor = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "form_designer":
+          is_form_designer = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "committee_member":
+          is_committee_member = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "jurisdiction_admin":
+          is_jurisdiction_admin = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "installation_admin":
+          is_installation_admin = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+      }
     }
+  }
 }
 
 <script src="./scripts/Home/index.js" type="text/javascript"> </script>
 
 <script>
-
-var g_uid = '@userName';
-var g_days_til_password_expires = '@ViewBag.days_til_password_expires';
-var g_config_password_days_before_expires = '@ViewBag.config_password_days_before_expires';
-var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
-
+  var g_uid = '@userName';
+  var g_days_til_password_expires = '@ViewBag.days_til_password_expires';
+  var g_config_password_days_before_expires = '@ViewBag.config_password_days_before_expires';
+  var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
 </script>
 
 <br/>
 <br/>
-<span id="role_list">
-    
-</span>
 
+<span id="role_list"></span>
 
 @if (is_guest)
 {
-    <h1>Welcome to MMRIA</h1>
-    <p>As a MMRIA user, you currently do not have any active role assigments.</p>
-    <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
-    
+  <h1>Welcome to MMRIA</h1>
+  <p>As a MMRIA user, you currently do not have any active role assigments.</p>
+  <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
 }
 else
 {
-    <h1>Select your action:</h1>
+  <h1>Select your action:</h1>
 
-
-
-    <ul style="margin-bottom: 250px;">
-
+  <ul style="margin-bottom: 250px;">
 
     @if(is_abstractor)
     {
-        <li style="list-style-type: none;">Abstractor</li>
-        <li><a href="/Case">view case data</a></li>
-        <li><a href="/export-queue">export data</a></li>
-        //<li><a href="/recover-case">recover-case</a></li>
+      <li style="list-style-type: none;">Abstractor</li>
+      <li><a href="/Case">view case data</a></li>
+      <li><a href="/export-queue">export data</a></li>
+      //<li><a href="/recover-case">recover-case</a></li>
     }
 
     @if(is_committee_member)
     {
-        <li style="list-style-type: none;">Committee Member</li>
-        <li><a href="/de-identified">view de-identified case data</a></li>
+      <li style="list-style-type: none;">Committee Member</li>
+      <li><a href="/de-identified">view de-identified case data</a></li>
     }
-
 
     @if(is_form_designer)
     {
-        <li style="list-style-type: none;">Form Designer</li>
-        <li><a href="/editor">open metadata editor</a></li>
-        <li><a href="/form-designer">open form designer</a></li>
-        <li><a href="/migrationplan">manage a migration plan</a></li>
-        <li><a href="/de-identified-list">manage de-identification list</a></li>
+      <li style="list-style-type: none;">Form Designer</li>
+      <li><a href="/editor">open metadata editor</a></li>
+      <li><a href="/form-designer">open form designer</a></li>
+      <li><a href="/migrationplan">manage a migration plan</a></li>
+      <li><a href="/de-identified-list">manage de-identification list</a></li>
     }
 
     @if(is_jurisdiction_admin && ! is_installation_admin)
     {
-        <li style="list-style-type: none;">Jurisdiction Admin</li>
-        <li><a href="/_users">manage users & jurisdictions</a></li>
+      <li style="list-style-type: none;">Jurisdiction Admin</li>
+      <li><a href="/_users">manage users & jurisdictions</a></li>
     }
 
 
     @if(is_installation_admin)
     {
-        <li style="list-style-type: none;">Installation Admin</li>
-        <li><a href="/_users">manage users & jurisdictions</a></li>
-        <li><a href="/_config">view configuration</a></li>
+      <li style="list-style-type: none;">Installation Admin</li>
+      <li><a href="/_users">manage users & jurisdictions</a></li>
+      <li><a href="/_config">view configuration</a></li>
     }
 
     <li style="list-style-type: none;">General</li>
+    
     @if(is_abstractor || is_committee_member)
     {
-     
-        <li><a href="/aggregate-report">view aggregate report</a></li>
+      <li><a href="/aggregate-report">view aggregate report</a></li>
     }
 
     <li><a href="/metadata-listing" >show metadata listing</a></li>
     <li>
-        <label for="print_blank_version">Print blank version.</label>
-        <select id="print_blank_version">
-            <option value="">(select form to print)</option>
-            <option value="All">All</option>
-            <option value="home_record">Home Record</option>
-            <option value="death_certificate">Death Certificate</option>
-            <option value="birth_fetal_death_certificate_parent">Birth/Fetal Death Certificate- Parent Section</option>
-            <option value="birth_certificate_infant_fetal_section">Birth/Fetal Death Certificate- Infant/Fetal Section</option>
-            <option value="autopsy_report">Autopsy Report</option>
-            <option value="prenatal">Prenatal Care Record</option>
-            <option value="er_visit_and_hospital_medical_records">ER Visits and Hospitalizations</option>
-            <option value="other_medical_office_visits">Other Medical Office Visits</option>
-            <option value="medical_transport">Medical Transport</option>
-            <option value="social_and_environmental_profile">Social and Environmental Profile</option>
-            <option value="mental_health_profile">Mental Health Profile</option>
-            <option value="informant_interviews">Informant Interviews</option>
-            <option value="case_narrative">Case Narrative</option>
-            <option value="committee_review">Committee Decisions</option>
-        </select>
-        <input type="button"  onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
+      <label for="print_blank_version">Print blank version.</label>
+      <select id="print_blank_version">
+        <option value="">(select form to print)</option>
+        <option value="All">All</option>
+        <option value="home_record">Home Record</option>
+        <option value="death_certificate">Death Certificate</option>
+        <option value="birth_fetal_death_certificate_parent">Birth/Fetal Death Certificate- Parent Section</option>
+        <option value="birth_certificate_infant_fetal_section">Birth/Fetal Death Certificate- Infant/Fetal Section</option>
+        <option value="autopsy_report">Autopsy Report</option>
+        <option value="prenatal">Prenatal Care Record</option>
+        <option value="er_visit_and_hospital_medical_records">ER Visits and Hospitalizations</option>
+        <option value="other_medical_office_visits">Other Medical Office Visits</option>
+        <option value="medical_transport">Medical Transport</option>
+        <option value="social_and_environmental_profile">Social and Environmental Profile</option>
+        <option value="mental_health_profile">Mental Health Profile</option>
+        <option value="informant_interviews">Informant Interviews</option>
+        <option value="case_narrative">Case Narrative</option>
+        <option value="committee_review">Committee Decisions</option>
+      </select>
+      <input type="button"  onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
     </li>
 
     @if(!is_installation_admin)
     {
-        <li><a href="/Account/Profile" >manage account profile</a></li>
+      <li><a href="/Account/Profile" >manage account profile</a></li>
     }
-    
-    </ul>
+  
+  </ul>
 
 }
-
-
-
-

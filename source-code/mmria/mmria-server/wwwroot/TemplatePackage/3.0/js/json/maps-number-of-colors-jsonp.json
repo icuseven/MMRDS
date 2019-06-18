@@ -1,0 +1,10 @@
+numColorsCatsCallback({ 
+   "0":  {"title":"2", "value":"2"},
+   "1":  {"title":"3", "value":"3"},
+   "2":  {"title":"4", "value":"4"},
+   "3":  {"title":"5", "value":"5"},
+   "4":  {"title":"6", "value":"6"},
+   "5":  {"title":"7", "value":"7"},
+   "6":  {"title":"8", "value":"8"},
+});
+

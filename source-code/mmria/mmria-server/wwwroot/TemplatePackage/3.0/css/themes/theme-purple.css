@@ -1,0 +1,186 @@
+.theme-purple .primary-color {
+  color: #c5bee1 !important;
+}
+.theme-purple .primary-bg-color {
+  background: #c5bee1 !important;
+}
+.theme-purple .primary-border {
+  border: 1px solid #c5bee1;
+}
+.theme-purple .secondary-color {
+  color: #dad5eb !important;
+}
+.theme-purple .secondary-bg-color {
+  background: #dad5eb;
+}
+.theme-purple .secondary-border {
+  border: 1px solid #dad5eb;
+}
+.theme-purple .selected-color {
+  color: #3d316a !important;
+}
+.theme-purple .selected-bg-color {
+  background: #3d316a !important;
+}
+.theme-purple .selected-border {
+  border: 1px solid #3d316a;
+}
+.theme-purple .border-bottom-themed {
+  border-bottom: 2px solid #3d316a;
+}
+.theme-purple .titlebar {
+  background: #3d316a;
+}
+.theme-purple .titlebar .navbar .nav li.dropdown.open > .dropdown-toggle {
+  background: #dad5eb !important;
+}
+.theme-purple #wrapper .module-typeL div h3 {
+  color: #3d316a;
+}
+.theme-purple #wrapper .module-typeL a:hover {
+  background: #3d316a;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-device-width: 320px) and (max-device-width: 568px) {
+  .theme-purple .navbtn a:active {
+    background: #3d316a;
+  }
+  .theme-purple .navbtn a:hover * {
+    color: #ffffff;
+  }
+}
+.theme-purple .back-btn {
+  background: #dad5eb;
+}
+.theme-purple .modal-header {
+  background: #dad5eb;
+  border-bottom: 2px solid #c5bee1;
+}
+.theme-purple .mp-pagination li {
+  background: #c5bee1;
+}
+.theme-purple .mp-pagination li.selected {
+  background: #3d316a;
+}
+.theme-purple #multiPage,
+.theme-purple .multipage,
+.theme-purple .module-typeI {
+  border-top: 4px solid #3d316a;
+}
+.theme-purple .module-typeG a.button,
+.theme-purple .emailupdates a.button {
+  background: #3d316a;
+}
+.theme-purple nav#left {
+  border-left: 1px solid #c5bee1;
+}
+.theme-purple nav#left h3 {
+  background: #3d316a;
+}
+.theme-purple nav#left ul li {
+  background: #c5bee1;
+}
+.theme-purple nav#left ul li ul li {
+  background: #dad5eb;
+}
+.theme-purple nav#left > ul {
+  border-bottom: 1px solid #c5bee1;
+  border-right: 1px solid #c5bee1;
+}
+.theme-purple nav#left li {
+  border-top: 1px solid #e5e5e5;
+}
+.theme-purple #search button {
+  background: #c5bee1;
+}
+.theme-purple .local .input-prepend {
+  background: #c5bee1;
+}
+.theme-purple #mobile-menu li:first-child {
+  background: #3d316a;
+}
+.theme-purple .table-striped-primary tbody > tr:nth-child(odd) > td,
+.theme-purple .table-striped-primary tbody > tr:nth-child(odd) > th {
+  background-color: #c5bee1;
+}
+.theme-purple .table-striped-secondary tbody > tr:nth-child(odd) > td,
+.theme-purple .table-striped-secondary tbody > tr:nth-child(odd) > th {
+  background-color: #dad5eb;
+}
+.theme-purple .table-hover-primary tbody tr:hover > td,
+.theme-purple .table-hover-primary tbody tr:hover > th {
+  background-color: #c5bee1;
+}
+.theme-purple .table-hover-secondary tbody tr:hover > td,
+.theme-purple .table-hover-secondary tbody tr:hover > th {
+  background-color: #dad5eb;
+}
+.theme-purple table.themed > thead > tr:first-child > th {
+  background-color: #c5bee1;
+}
+.theme-purple table.themed > thead > tr + tr > th {
+  background-color: #dad5eb;
+}
+.theme-purple table.themed > thead > tr + tr + tr > th {
+  background-color: #ffffff;
+}
+.theme-purple .somemore,
+.theme-purple p.somemore {
+  background: #3d316a;
+}
+.theme-purple .module-typeA h3,
+.theme-purple .module-typeP h3 {
+  background: #3d316a;
+}
+.theme-purple .module-typeC {
+  background: #dad5eb;
+}
+.theme-purple .module-typeE {
+  background: #3d316a;
+}
+.theme-purple .module-typeE .somemore {
+  color: #3d316a;
+}
+.theme-purple .module-typeE .somemore a,
+.theme-purple .module-typeE .somemore span {
+  color: #3d316a !important;
+}
+.theme-purple .module-typeF .somemore {
+  background: #3d316a;
+}
+.theme-purple .module-typeK a span {
+  background: #3d316a;
+  border-bottom: 3px solid #c5bee1;
+}
+.theme-purple .module-typeG {
+  background: #c5bee1;
+}
+.theme-purple .module-typeN h3 {
+  background: #3d316a;
+}
+.theme-purple .flexsliderbox .flex-control-nav a {
+  background-color: #dad5eb;
+  color: #3d316a;
+}
+.theme-purple .flexsliderbox .flex-control-nav a:hover {
+  background-color: #c5bee1;
+}
+.theme-purple .flexsliderbox .flex-control-nav a:active {
+  background-color: #3d316a;
+  color: #ffffff;
+}
+.theme-purple .flexsliderbox .flex-direction-nav li a.prev:before,
+.theme-purple .flexsliderbox .flex-direction-nav li a.flex-prev:before {
+  border-color: transparent #c5bee1 transparent transparent;
+}
+.theme-purple .flexsliderbox .flex-direction-nav li a.prev:after,
+.theme-purple .flexsliderbox .flex-direction-nav li a.flex-prev:after {
+  border-color: transparent #ffffff transparent transparent;
+}
+.theme-purple .flexsliderbox .flex-direction-nav li a.next:before,
+.theme-purple .flexsliderbox .flex-direction-nav li a.flex-next:before {
+  border-color: transparent transparent transparent #c5bee1;
+}
+.theme-purple .flexsliderbox .flex-direction-nav li a.next:after,
+.theme-purple .flexsliderbox .flex-direction-nav li a.flex-next:after {
+  border-color: transparent transparent transparent #ffffff;
+}

@@ -1,95 +1,139 @@
-<html lang="en">
+<html lang="en" class="theme-purple">
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
-<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-<link rel="stylesheet" href="/styles/cdc.app.css" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+  <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 
+  <link rel="shortcut icon" href="/TemplatePackage/4.0/assets/imgs/favicon.ico">
+  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/vendor/css/bootstrap.css">
+  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
+  <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
+  <link rel="stylesheet" href="/css/mmria/main.css" />
 
-<style>
+  @*
+  <style>
+    .grid {
+      display: grid | inline-grid;
+      grid-template-rows: 1fr 1fr 1fr;
+    }
 
-  .grid {
-    display: grid | inline-grid;
-    grid-template-rows: 1fr 1fr 1fr;
-  }
-  
-  .grid div {
-            width: 100%;
-            height: 100%;
-        }
+    .grid div {
+      width: 100%;
+      height: 100%;
+    }
 
-  #header {
-    /*background-color: #351147; */
-    border: 0px;
-    height:  70px;
-    padding: 20px 0;
-    transition: all 0.3s;
-    color: #FFFFFF;
-    
-  }        
+    #header {
+      /*background-color: #351147; */
+      border: 0px;
+      height: 70px;
+      padding: 20px 0;
+      transition: all 0.3s;
+      color: #FFFFFF;
 
-  /* td {color: #FFFFFF;} */
-  table { margin-left: auto; }
-/*
-  #footer {
-    background-color: #351147;
-    border: 0px;
-    padding: 20px 0;
-    transition: all 0.3s;
-    color: #FFFFFF;
-    height:  50px;
-    
-  }*/
+    }
 
-  #content
-  {
-    height:  666px;
-    align-content: center;
-  }
+    /* td {color: #FFFFFF;} */
+    table {
+      margin-left: auto;
+    }
 
-  .center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    /*width: 50%;*/
-  
-}
+    /*
+    #footer {
+      background-color: #351147;
+      border: 0px;
+      padding: 20px 0;
+      transition: all 0.3s;
+      color: #FFFFFF;
+      height:  50px;
+      
+    }*/
 
+    #content {
+      height: 666px;
+      align-content: center;
+    }
 
-</style>
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      /*width: 50%;*/
+    }
+  </style>
+  *@
 </head>
+
 <body>
-<div class="grid">
-    <header id="header">
-    <span>
-    <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
-	    <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
-	</a>
+  <div id="top" class="site">
+
+    @await Html.PartialAsync("_Header")
+
+    <div class="container-fluid site-title">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="display-6 text-white fw-500 pt-1 pb-1">
+              <a href="/">MMRIA</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main
+      id="content"
+      class="container-fluid app-content"
+      role="main"
+      aria-label="Main Content Area"
+      style="background-image: url('/img/Purple-Pattern-Light.png')">
+      <div class="container">
+        <div class="row">
+
+          @model ApplicationUser
+          @{
+          <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
+            <h3 class="login__title">Welcome to MMRIA</h3>
+            <p class="login__info">Please log in or contact <a href="#" class="link">mmriasupport@cdc.gov</a> if you currently do not have access.</p>
+            <div class="form-group mb-2">
+              <label for="login_username" class="login__label">Username</label>
+              <div>
+                <input id="login_username" class="login__field form-control" name="username" type="text" />
+                <i class="login__icon"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="login_password" class="login__label">Password</label>
+              <div>
+                <input id="login_password" class="login__field form-control" name="password" type="password" />
+                <i class="login__icon"></i>
+              </div>
+            </div>
+            <div class="form-controls">
+              <button name="submit" type="submit" class="login__btn">Login</button>
+            </div>
+            <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
+          </form>
+          }
     
-    
-        @model ApplicationUser
-        @{
-            <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
-                <table>
-                <tr><td><label for="login_username">User name:</label></td><td><input id="login_username" name="username" type="text" /></td></tr>
-                <tr><td><label for="login_password">Password:</label></td><td><input id="login_password" name="password" type="password" /></td></tr>
-                <tr><td colspan=2 align=right><input name="submit" value="Login" type="submit" /></td></tr>
-                </table>
-                <input type="hidden" name="returnUrl" value="@TempData["returnUrl"]" />
-                
-            </form>
-        }     
-    </span>
-    </header>
-    <main id="content">
-        <h1>Welcome to MMRIA</h1>
-        <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
-        <p><img class="center" alt="MMRIA Landing Logo" src="/img/mmrai_landing_logo1.png" width=821.25 height=665.25/></p>
-        
+          <!-- <h1>Welcome to MMRIA</h1> -->
+          <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
+          <!-- <img class="center" alt="MMRIA Landing Logo" src="/img/mmrai_landing_logo1.png" width=821.25 height=665.25/> -->
+
+        </div>
+      </div>
     </main>
+
     @await Html.PartialAsync("_Footer")
-</div>
-</body> 
+
+  </div>
+
+  <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
+  <script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script>
+  <script src="/TemplatePackage/4.0/assets/js/app.bundle.min.js"></script>
+  <script src="/js/mmria/main.js"></script>
+</body>
 </html>

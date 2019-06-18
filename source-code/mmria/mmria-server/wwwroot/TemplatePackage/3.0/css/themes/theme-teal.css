@@ -1,0 +1,186 @@
+.theme-teal .primary-color {
+  color: #c1ded5 !important;
+}
+.theme-teal .primary-bg-color {
+  background: #c1ded5 !important;
+}
+.theme-teal .primary-border {
+  border: 1px solid #c1ded5;
+}
+.theme-teal .secondary-color {
+  color: #deeee9 !important;
+}
+.theme-teal .secondary-bg-color {
+  background: #deeee9;
+}
+.theme-teal .secondary-border {
+  border: 1px solid #deeee9;
+}
+.theme-teal .selected-color {
+  color: #084239 !important;
+}
+.theme-teal .selected-bg-color {
+  background: #084239 !important;
+}
+.theme-teal .selected-border {
+  border: 1px solid #084239;
+}
+.theme-teal .border-bottom-themed {
+  border-bottom: 2px solid #084239;
+}
+.theme-teal .titlebar {
+  background: #084239;
+}
+.theme-teal .titlebar .navbar .nav li.dropdown.open > .dropdown-toggle {
+  background: #deeee9 !important;
+}
+.theme-teal #wrapper .module-typeL div h3 {
+  color: #084239;
+}
+.theme-teal #wrapper .module-typeL a:hover {
+  background: #084239;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-device-width: 320px) and (max-device-width: 568px) {
+  .theme-teal .navbtn a:active {
+    background: #084239;
+  }
+  .theme-teal .navbtn a:hover * {
+    color: #ffffff;
+  }
+}
+.theme-teal .back-btn {
+  background: #deeee9;
+}
+.theme-teal .modal-header {
+  background: #deeee9;
+  border-bottom: 2px solid #c1ded5;
+}
+.theme-teal .mp-pagination li {
+  background: #c1ded5;
+}
+.theme-teal .mp-pagination li.selected {
+  background: #084239;
+}
+.theme-teal #multiPage,
+.theme-teal .multipage,
+.theme-teal .module-typeI {
+  border-top: 4px solid #084239;
+}
+.theme-teal .module-typeG a.button,
+.theme-teal .emailupdates a.button {
+  background: #084239;
+}
+.theme-teal nav#left {
+  border-left: 1px solid #c1ded5;
+}
+.theme-teal nav#left h3 {
+  background: #084239;
+}
+.theme-teal nav#left ul li {
+  background: #c1ded5;
+}
+.theme-teal nav#left ul li ul li {
+  background: #deeee9;
+}
+.theme-teal nav#left > ul {
+  border-bottom: 1px solid #c1ded5;
+  border-right: 1px solid #c1ded5;
+}
+.theme-teal nav#left li {
+  border-top: 1px solid #e5e5e5;
+}
+.theme-teal #search button {
+  background: #c1ded5;
+}
+.theme-teal .local .input-prepend {
+  background: #c1ded5;
+}
+.theme-teal #mobile-menu li:first-child {
+  background: #084239;
+}
+.theme-teal .table-striped-primary tbody > tr:nth-child(odd) > td,
+.theme-teal .table-striped-primary tbody > tr:nth-child(odd) > th {
+  background-color: #c1ded5;
+}
+.theme-teal .table-striped-secondary tbody > tr:nth-child(odd) > td,
+.theme-teal .table-striped-secondary tbody > tr:nth-child(odd) > th {
+  background-color: #deeee9;
+}
+.theme-teal .table-hover-primary tbody tr:hover > td,
+.theme-teal .table-hover-primary tbody tr:hover > th {
+  background-color: #c1ded5;
+}
+.theme-teal .table-hover-secondary tbody tr:hover > td,
+.theme-teal .table-hover-secondary tbody tr:hover > th {
+  background-color: #deeee9;
+}
+.theme-teal table.themed > thead > tr:first-child > th {
+  background-color: #c1ded5;
+}
+.theme-teal table.themed > thead > tr + tr > th {
+  background-color: #deeee9;
+}
+.theme-teal table.themed > thead > tr + tr + tr > th {
+  background-color: #ffffff;
+}
+.theme-teal .somemore,
+.theme-teal p.somemore {
+  background: #084239;
+}
+.theme-teal .module-typeA h3,
+.theme-teal .module-typeP h3 {
+  background: #084239;
+}
+.theme-teal .module-typeC {
+  background: #deeee9;
+}
+.theme-teal .module-typeE {
+  background: #084239;
+}
+.theme-teal .module-typeE .somemore {
+  color: #084239;
+}
+.theme-teal .module-typeE .somemore a,
+.theme-teal .module-typeE .somemore span {
+  color: #084239 !important;
+}
+.theme-teal .module-typeF .somemore {
+  background: #084239;
+}
+.theme-teal .module-typeK a span {
+  background: #084239;
+  border-bottom: 3px solid #c1ded5;
+}
+.theme-teal .module-typeG {
+  background: #c1ded5;
+}
+.theme-teal .module-typeN h3 {
+  background: #084239;
+}
+.theme-teal .flexsliderbox .flex-control-nav a {
+  background-color: #deeee9;
+  color: #084239;
+}
+.theme-teal .flexsliderbox .flex-control-nav a:hover {
+  background-color: #c1ded5;
+}
+.theme-teal .flexsliderbox .flex-control-nav a:active {
+  background-color: #084239;
+  color: #ffffff;
+}
+.theme-teal .flexsliderbox .flex-direction-nav li a.prev:before,
+.theme-teal .flexsliderbox .flex-direction-nav li a.flex-prev:before {
+  border-color: transparent #c1ded5 transparent transparent;
+}
+.theme-teal .flexsliderbox .flex-direction-nav li a.prev:after,
+.theme-teal .flexsliderbox .flex-direction-nav li a.flex-prev:after {
+  border-color: transparent #ffffff transparent transparent;
+}
+.theme-teal .flexsliderbox .flex-direction-nav li a.next:before,
+.theme-teal .flexsliderbox .flex-direction-nav li a.flex-next:before {
+  border-color: transparent transparent transparent #c1ded5;
+}
+.theme-teal .flexsliderbox .flex-direction-nav li a.next:after,
+.theme-teal .flexsliderbox .flex-direction-nav li a.flex-next:after {
+  border-color: transparent transparent transparent #ffffff;
+}

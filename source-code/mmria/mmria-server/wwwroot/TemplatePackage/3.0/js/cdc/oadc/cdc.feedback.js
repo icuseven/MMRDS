@@ -1,0 +1,2 @@
+/*!  RD_TemplatePackage_3 2016-07-12 Build: 3.2.0.1 */
+$(function(){$("a.cdc-feedback").click(function(){var a=$(this).data("question-number");if(a&&!isNaN(a)){var b="/TemplatePackage/3.0/includes/feedback/feedback.html?questionNumber="+a;window.open(b,"_blank","height=550,width=600,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes")}})});

@@ -1,0 +1,10 @@
+themeCallback({ 
+   "0":  {"title":"Blue", "value":"theme-blue"},
+   "1":  {"title":"Green", "value":"theme-green"},
+   "2":  {"title":"Orange", "value":"theme-orange"},
+   "3":  {"title":"Purple", "value":"theme-purple"},
+   "4":  {"title":"Rose", "value":"theme-rose"},
+   "5":  {"title":"Tan", "value":"theme-tan"},
+   "6":  {"title":"Teal", "value":"theme-teal"}
+});
+

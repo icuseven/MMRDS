@@ -1,0 +1,18 @@
+colorPaletteCallback({ 
+    "0":  {"title":"Yellow-Orange-Red (Light to Dark)", "value":"yelloworangered"},
+    "1":  {"title":"Yellow-Orange-Red (Dark to Light)", "value":"yelloworangeredreverse"},
+    "2":  {"title":"Yellow-Orange-Brown (Light to Dark)", "value":"yelloworangebrown"},
+    "3":  {"title":"Yellow-Orange-Brown (Dark to Light)", "value":"yelloworangebrownreverse"},
+    "4":  {"title":"Pink-Purple (Light to Dark)", "value":"pinkpurple"},
+    "5":  {"title":"Pink-Purple (Dark to Light)", "value":"pinkpurplereverse"},
+    "6":  {"title":"Blue-Green (Light to Dark)", "value":"bluegreen"},
+    "7":  {"title":"Blue-Green (Dark to Light)", "value":"bluegreenreverse"},
+    "8":  {"title":"Red (Light to Dark)", "value":"red"},
+    "9":  {"title":"Red (Dark to Light)", "value":"redreverse"},
+    "10":  {"title":"Green-Blue (Light to Dark)", "value":"greenblue"},
+    "11":  {"title":"Green-Blue (Dark to Light)", "value":"greenbluereverse"},
+    "12":  {"title":"Qualitative #1", "value":"qualitative1"},
+    "13":  {"title":"Qualitative #2", "value":"qualitative2"},
+    "14":  {"title":"Qualitative #3", "value":"qualitative3"},
+    "15":  {"title":"Qualitative #4", "value":"qualitative4"}
+});

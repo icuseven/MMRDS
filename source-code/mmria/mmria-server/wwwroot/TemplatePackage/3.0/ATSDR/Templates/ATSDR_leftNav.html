@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--[if lt IE 8]>      <html class="no-js nav theme-green atsdr lt-ie10 lt-ie9 lt-ie8" lang="en-us"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js nav theme-green atsdr lt-ie10 lt-ie9" lang="en-us"> <![endif]-->
+<!--[if IE 9]>         <html class="no-js nav theme-green atsdr lt-ie10" lang="en-us"> <![endif]-->
+<!--[if !IE]><!-->     <html class="no-js nav theme-green atsdr" lang="en-us"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8" />
+		<title>ATSDR Page With Left Navigation (Template A)</title>
+
+		<meta name="description" content="ATSDR - Page with left navigation example description goes here" />
+		<meta name="keywords" content="keywords go here" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/TemplatePackage/3.0/images/cdc-touch-icon-144x144.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/TemplatePackage/3.0/images/cdc-touch-icon-114x114.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/TemplatePackage/3.0/images/cdc-touch-icon-72x72.png" />
+		<link rel="apple-touch-icon-precomposed" href="/TemplatePackage/3.0/images/cdc-touch-icon-57x57.png" />
+		<link rel="shortcut icon" href="/TemplatePackage/3.0/images/favicon.ico" />
+
+		<meta name="robots" content="index,follow" />
+		<meta property="cdc:template_version" content="3.0" />
+		<!--#include virtual="/TemplatePackage/3.0/includes/head.html" -->
+
+		<!-- Local CSS reference to allow overrides for the page/site -->
+		<link rel="stylesheet" href="/TemplatePackage/3.0/local/css/local.css" />
+
+		<!--
+			In WCMS templates there is a local SSI for other includes, references,
+			and head content (e.g., JavaScript).
+		-->
+		<!--include virtual="/~inc~/localRDAdditionalHeadIncludes.html" -->
+	</head>
+	<body>
+		<!--
+			In WCMS templates there is a local SSI for other content/assets that
+			must appear at the start of the body tag.
+		-->
+		<!--include virtual="/~inc~/localRDBodyTop.html" -->
+		<!--#include virtual="/TemplatePackage/3.0/includes/skipMenuNav.html" -->
+		<div id="wrapper">
+			<!--#include virtual="/TemplatePackage/3.0/includes/chromeFrame.html" -->
+			<header id="header">
+				<div class="container">
+					<!-- header -->
+					<div class="row">
+						<div id="logo" class="span14">
+							<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/logo.html" -->
+						</div>
+						<!-- search viewport 3/4 -->
+						<div id="searchArea" class="span10 hidden-one hidden-two">
+							<!--#include virtual="/TemplatePackage/3.0/includes/search.html" -->
+							<!--include virtual="/TemplatePackage/3.0/local/includes/localSearch.html" -->
+							<div class="a2z-button pull-right hidden-one hidden-two"><a href="#" id="azTab">ATSDR A-Z Index <span class="icon-angle-down"></span></a></div>
+						</div>
+						<!-- /search viewport 3/4 -->
+					</div>
+					<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/menu.html" -->
+					<div class="a2z-bar hide">
+						<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/a2z.html" -->
+					</div>
+					<!-- search viewport 1/2 -->
+					<div id="searchArea-two-column" class="span24 searchbar hide hidden-three hidden-four">
+						<!--#include virtual="/TemplatePackage/3.0/includes/search.html" -->
+						<!--include virtual="/TemplatePackage/3.0/local/includes/localSearchBottom.html" -->
+					</div>
+					<!-- /search viewport 1/2 -->
+					<!--#include virtual="/TemplatePackage/3.0/includes/emergency.html" -->
+					<!-- /header -->
+					<div class="titlebar">
+						<!-- When this template is used for a topic home page then the following should be an <h1> tag. -->
+						<h2>ATSDR Page With Left Navigation (Template A)</h2>
+					</div>
+					<!--#include virtual="/TemplatePackage/3.0/includes/noscript.html" -->
+				</div>
+			</header>
+			<div class="container">
+				<div id="content">
+					<div class="row">
+						<!-- left nav -->
+						<div id="nav-container" class="hidden-one hidden-two span5">
+							<nav id="left" class="hidden-one hidden-two">
+								<!--#include virtual="/TemplatePackage/3.0/local/includes/leftNav.html" -->
+							</nav>
+							<div class="nav-related">
+								<!--
+									The following are optional/local content includes for related
+									content that appears below the navigation in viewports 3/4.
+									NOTE:  these same includes must appear in the div.nav-related block
+									that appears after the editable area of the main content block.  Also,
+									because this content appears in the markup twice it should not contain
+									any markup with IDs as this will cause validation errors and other 
+									potential problems with scripts.
+								-->
+								<!--#include virtual="/TemplatePackage/3.0/local/includes/localEmailUpdates.html" -->
+								<!--#include virtual="/TemplatePackage/3.0/local/includes/related.html" -->
+								<!--
+									If there is content that is to appear below the left nav in
+									viewports 3/4 only then it can be included here.
+								-->
+								<!--#include virtual="/TemplatePackage/3.0/local/includes/leftNavRelated.html" -->
+							</div>
+						</div>
+						<div class="breadcrumbs hidden-one span19">
+							<!--#include virtual="/TemplatePackage/3.0/local/includes/breadcrumb.html" -->
+						</div>
+						<div class="span19 pagetitle">
+							<!-- div class='syndicate' --><!-- uncomment div for content syndication-->
+								<!-- When this template is used for a topic home page then the following should be an <h2> tag. -->
+								<h1>ATSDR Heading</h1>
+							<!--/div--><!-- uncomment div for content syndication-->
+						</div>
+						<div id="share-bar" class="span19">
+							<div class="socialmediabar">
+								<div class="row">
+									<div class="hidden-one pull-right">
+										<!--BEGIN PAGE OPTIONS - FOR DEMO PURPOSES ONLY - REMOVE INCLUDES BEFORE TEMPLATE USE. The markup in this region for page format & languages will be generated by the CMS via editorial options. -->
+										<!--#include virtual="/TemplatePackage/3.0/local/includes/pageOptionsLanguages.html" -->
+										<!--#include virtual="/TemplatePackage/3.0/local/includes/pageOptionsFormat.html" -->
+										<!-- END PAGE OPTIONS -->
+									</div>
+									<div class="span8">
+										<!--#include virtual="/TemplatePackage/3.0/includes/socialMediaShare.html" -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- body -->
+						<div id="body" class="span19">
+							<div id="contentArea">
+								<!-- begin editable -->
+								<!-- div class='syndicate' --><!-- uncomment div for content syndication-->
+
+									<!-- MAIN BODY CONTENT GOES HERE -->
+
+								<!--/div--><!-- uncomment div for content syndication-->
+								<!-- /end editable -->
+								<!-- Related Nav Area -->
+								<div class="nav-related hidden-three hidden-four">
+									<!--
+										Should contain same content (minus any viewport 3/4 specific content) as 
+										the div.nav-related block that appears at the start of the main content block.
+									-->
+									<!--#include virtual="/TemplatePackage/3.0/local/includes/localEmailUpdates.html" -->
+									<!--#include virtual="/TemplatePackage/3.0/local/includes/related.html" -->
+								</div>
+								<!-- /end Related Nav Area -->
+								<!-- Persistent Content Area -->
+								<div id="content-secondary">
+									<!-- begin editable -->
+									<!--  // This area is optional 
+									// All content in the Right Column (except for Page Option links and GovD) will be moved to the Persistent Content Area upon migration
+									-->
+									<!-- /end editable -->
+								</div><!-- /end #content-secondary -->
+							</div><!-- /end #contentArea -->
+						</div><!-- /end #body -->
+					</div>
+
+					<div class="row">
+						<div class="span24 visible-one">
+							<!--BEGIN PAGE OPTIONS - FOR DEMO PURPOSES ONLY - REMOVE INCLUDES BEFORE TEMPLATE USE. The markup in this region for page format & languages will be generated by the CMS via editorial options. -->
+							<!--#include virtual="/TemplatePackage/3.0/local/includes/pageOptionsFormatBottom.html" -->
+							<!--#include virtual="/TemplatePackage/3.0/local/includes/pageOptionsLanguagesBottom.html" -->
+							<!-- END PAGE OPTIONS -->
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span24">
+							<!--#include virtual="/TemplatePackage/3.0/includes/pluginsLegend.html" -->
+						</div>
+					</div>
+
+					<!-- date stamp -->
+					<div id="datestamp" class="row" itemscope="itemscope" itemtype="https://schema.org/WebPage">
+						<div class="span24">
+							<ul>
+								<li class="last-reviewed">Page last reviewed:<span itemprop="lastReviewed">January 4, 2013</span></li>
+								<li class="last-updated">Page last updated:<span itemprop="dateModified">January 4, 2013</span></li>
+								<li class="content-source">Content source:
+									<ul>
+										<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/datestamp.html" -->
+										<!--include virtual="/TemplatePackage/3.0/local/includes/contentSource.html" -->
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div><!-- /end #content -->
+			</div><!-- / end .container -->
+
+			<!-- footer -->
+			<footer id="footer">
+				<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/footerSocialMedia.html" -->
+				<div class="container">
+					<!--#include virtual="/TemplatePackage/3.0/includes/footerLogos.html" -->
+					<ul class="cdcLinks">
+						<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/footerCdcLinks.html" -->
+						<li class="local-contact">
+							<!--include virtual="/TemplatePackage/3.0/local/includes/localContact.html" -->
+						</li>
+						<li class="contact">
+							<!--#include virtual="/TemplatePackage/3.0/ATSDR/includes/footerGlobalContact.html" -->
+						</li>
+					</ul>
+				</div>
+			</footer>
+			<!-- /#footer -->
+			<div id="totop" class="off visible-one">TOP</div>
+		</div>
+		<!--#include virtual="/TemplatePackage/3.0/includes/js-core.html" -->
+		<!--#include virtual="/TemplatePackage/3.0/includes/js-modules.html" -->
+		<!--#include virtual="/TemplatePackage/3.0/includes/survey.html" -->
+		<!-- The following include is for including any local JS code to the page -->
+		<!--#include virtual="/TemplatePackage/3.0/local/includes/localJs.html" -->
+		<!--#include virtual="/TemplatePackage/3.0/includes/metricsTop.html" -->
+		<!-- The following include is where local metrics settings for SiteCatalyst and GA are made -->
+		<!--#include virtual="/TemplatePackage/3.0/local/includes/metricsSettings.html" -->
+		<!--#include virtual="/TemplatePackage/3.0/includes/metricsBottom.html" -->
+		<!-- The following include is for nav/breadcrumb rendering functionality and is needed in all templates -->
+		<!--#include virtual="/TemplatePackage/3.0/local/includes/leftNavRender.html" -->
+		<!--
+			In WCMS templates there is a local SSI for other content/assets that
+			must appear before the closing body tag.
+		-->
+		<!--include virtual="/~inc~/localRDBodyBottom.html" -->
+	</body>
+</html>

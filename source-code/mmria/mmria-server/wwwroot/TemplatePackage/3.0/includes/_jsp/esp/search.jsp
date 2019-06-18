@@ -1,0 +1,22 @@
+<%@ taglib uri="//java.sun.com/jsp/jstl/core" prefix="c" %><div class="hidden"><a href="#" name="searchTarget">Inicio de controles de b&uacute;squeda</a></div>
+<form class="searchForm" method="get" action="https://search.cdc.gov/search">
+	<fieldset class="search-form-wrapper">
+		<legend>Inicio de controles de b&uacute;squeda</legend>
+		<div class="search-form-checkbox">
+			<label class="subset"><input type="checkbox" name="subset" checked="checked" value="topic">TEMA SOLO</label>
+		</div>
+		<div class="search-input-wrapper">
+			<div class="search-buttons">
+				<button class="btn-clear"><span class="sprite-14-close">Cancelar</span></button>
+				<button class="btn-submit"><span class="sprite-14-search-black">Enviar</span></button>
+			</div>
+			<div class="search-input">
+				<label><input type="text" placeholder="BUSCAR" name="query" /><span class="hidden">Buscar en el CDC</span></label>
+			</div>
+		</div>
+		<input type="hidden" value="es" name="site" />
+		<input type="hidden" value="es" name="language" />
+		<input type="hidden" name="utf8" value="&#x2713;"/>
+		<input type="hidden" name="affiliate" value="cdc-es"/>
+	</fieldset>
+</form>

@@ -1,0 +1,5 @@
+colorPaletteTypeCallback({ 
+   "0":  {"title":"Qualitative", "value":"qualitative"},
+   "1":  {"title":"Sequential", "value":"sequential"}
+});
+

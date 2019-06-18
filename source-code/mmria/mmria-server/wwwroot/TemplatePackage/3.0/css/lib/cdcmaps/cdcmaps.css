@@ -1,0 +1,1078 @@
+ul.cdcmap-territories li {
+    display: inline-block;
+    width: 33%;
+    cursor: default;
+}
+
+.one ul.cdcmap-territories li {
+    width: 50%;
+}
+
+.cdcmap-legend {
+    overflow: hidden;
+}
+
+span.cdcmap-legendColorBox {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px solid lightgray;
+    margin-bottom: -2px;
+}
+
+.one div.cdcmap-legendItem {
+    float: left;
+    width: 50%;
+    
+}
+
+.cdcmap-legendItem {
+    cursor: pointer;
+}
+
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+div.cdcmap-subtext {
+    margin-bottom: 20px;
+}
+
+[id^="cdcmap-rawDataTable"] .icon-angle-down, [id^="cdcmap-rawDataTable"] .icon-angle-up {
+    margin-left: 5px;
+    display: none;
+}
+
+[id^="cdcmap-rawDataTable"] .sorting_asc .icon-angle-up, [id^="cdcmap-rawDataTable"] .sorting_desc .icon-angle-down {
+    display: inline;
+}
+
+div.cdcmap-tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em !important; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.95; 
+  position: absolute;
+  visibility: visible;
+}
+
+.one div.cdcmap-tooltip {
+    opacity: 1;
+    position: relative;
+    width: 100%;
+    box-shadow: none;
+    text-shadow: none;
+    display: block;
+    padding: 10px !important;
+    margin:-10px 0 10px 0;
+    border-color: #e5e5e5;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    height: 50px;
+    left: 0;
+    top: 0;
+}
+
+div.cdcmap-tooltip.hidden {
+    display: none !important;
+}
+
+.cdcmap-tooltip-instruction {
+    line-height: 50px;
+}
+
+.qNoData {fill: rgb(255,255,255); background-color: rgb(255,255,255);}
+.special1 {fill: rgb(240,240,240); background-color: rgb(240,240,240);}
+.special2 {fill: rgb(210,210,210); background-color: rgb(210,210,210);}
+.special3 {fill: rgb(210,210,210); background-color: rgb(210,210,210);}
+.special4 {fill: rgb(210,210,210); background-color: rgb(210,210,210);}
+
+.specialgray {fill: rgb(240,240,240); background-color: rgb(240,240,240);}
+.specialhatched {
+  fill:url(#hatching); 
+  background-image: url(images/hatching.png);
+}
+
+
+.yelloworangered .class1_color1 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangered .class2_color1 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangered .class2_color2 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangered .class3_color1 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangered .class3_color2 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangered .class3_color3 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangered .class4_color1 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangered .class4_color2 {fill:rgb(254,204,92); background-color: rgb(254,204,92); }
+.yelloworangered .class4_color3 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangered .class4_color4 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangered .class5_color1 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangered .class5_color2 {fill:rgb(254,204,92); background-color: rgb(254,204,92); }
+.yelloworangered .class5_color3 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangered .class5_color4 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangered .class5_color5 {fill:rgb(189,0,38); background-color: rgb(189,0,38); }
+.yelloworangered .class6_color1 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangered .class6_color2 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangered .class6_color3 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangered .class6_color4 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangered .class6_color5 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangered .class6_color6 {fill:rgb(189,0,38); background-color: rgb(189,0,38); }
+.yelloworangered .class7_color1 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangered .class7_color2 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangered .class7_color3 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangered .class7_color4 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangered .class7_color5 {fill:rgb(252,78,42); background-color: rgb(252,78,42); }
+.yelloworangered .class7_color6 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangered .class7_color7 {fill:rgb(177,0,38); background-color: rgb(177,0,38); }
+.yelloworangered .class8_color1 {fill:rgb(255,255,204); background-color: rgb(255,255,204); }
+.yelloworangered .class8_color2 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangered .class8_color3 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangered .class8_color4 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangered .class8_color5 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangered .class8_color6 {fill:rgb(252,78,42); background-color: rgb(252,78,42); }
+.yelloworangered .class8_color7 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangered .class8_color8 {fill:rgb(177,0,38); background-color: rgb(177,0,38); }
+.yelloworangered .class9_color1 {fill:rgb(255,255,204); background-color: rgb(255,255,204); }
+.yelloworangered .class9_color2 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangered .class9_color3 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangered .class9_color4 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangered .class9_color5 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangered .class9_color6 {fill:rgb(252,78,42); background-color: rgb(252,78,42); }
+.yelloworangered .class9_color7 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangered .class9_color8 {fill:rgb(189,0,38); background-color: rgb(189,0,38); }
+.yelloworangered .class9_color9 {fill:rgb(128,0,38); background-color: rgb(128,0,38); }
+
+
+
+.yelloworangebrown .class1_color1 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrown .class2_color1 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrown .class2_color2 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrown .class3_color1 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrown .class3_color2 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrown .class3_color3 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrown .class4_color1 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrown .class4_color2 {fill:rgb(254,217,142); background-color: rgb(254,217,142); }
+.yelloworangebrown .class4_color3 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrown .class4_color4 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrown .class5_color1 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrown .class5_color2 {fill:rgb(254,217,142); background-color: rgb(254,217,142); }
+.yelloworangebrown .class5_color3 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrown .class5_color4 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrown .class5_color5 {fill:rgb(153,52,4); background-color: rgb(153,52,4); }
+.yelloworangebrown .class6_color1 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrown .class6_color2 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrown .class6_color3 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrown .class6_color4 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrown .class6_color5 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrown .class6_color6 {fill:rgb(153,52,4); background-color: rgb(153,52,4); }
+.yelloworangebrown .class7_color1 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrown .class7_color2 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrown .class7_color3 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrown .class7_color4 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrown .class7_color5 {fill:rgb(236,112,20); background-color: rgb(236,112,20); }
+.yelloworangebrown .class7_color6 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrown .class7_color7 {fill:rgb(140,45,4); background-color: rgb(140,45,4); }
+.yelloworangebrown .class8_color1 {fill:rgb(255,255,229); background-color: rgb(255,255,229); }
+.yelloworangebrown .class8_color2 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrown .class8_color3 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrown .class8_color4 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrown .class8_color5 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrown .class8_color6 {fill:rgb(236,112,20); background-color: rgb(236,112,20); }
+.yelloworangebrown .class8_color7 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrown .class8_color8 {fill:rgb(140,45,4); background-color: rgb(140,45,4); }
+.yelloworangebrown .class9_color1 {fill:rgb(255,255,229); background-color: rgb(255,255,229); }
+.yelloworangebrown .class9_color2 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrown .class9_color3 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrown .class9_color4 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrown .class9_color5 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrown .class9_color6 {fill:rgb(236,112,20); background-color: rgb(236,112,20); }
+.yelloworangebrown .class9_color7 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrown .class9_color8 {fill:rgb(153,52,4); background-color: rgb(153,52,4); }
+.yelloworangebrown .class9_color9 {fill:rgb(102,37,6); background-color: rgb(102,37,6); }
+
+.pinkpurple .class1_color1 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurple .class2_color1 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurple .class2_color2 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurple .class3_color1 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurple .class3_color2 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurple .class3_color3 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurple .class4_color1 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurple .class4_color2 {fill:rgb(251,180,185); background-color: rgb(251,180,185); }
+.pinkpurple .class4_color3 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurple .class4_color4 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurple .class5_color1 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurple .class5_color2 {fill:rgb(251,180,185); background-color: rgb(251,180,185); }
+.pinkpurple .class5_color3 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurple .class5_color4 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurple .class5_color5 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurple .class6_color1 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurple .class6_color2 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurple .class6_color3 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurple .class6_color4 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurple .class6_color5 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurple .class6_color6 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurple .class7_color1 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurple .class7_color2 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurple .class7_color3 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurple .class7_color4 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurple .class7_color5 {fill:rgb(221,52,151); background-color: rgb(221,52,151); }
+.pinkpurple .class7_color6 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurple .class7_color7 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurple .class8_color1 {fill:rgb(255,247,243); background-color: rgb(255,247,243); }
+.pinkpurple .class8_color2 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurple .class8_color3 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurple .class8_color4 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurple .class8_color5 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurple .class8_color6 {fill:rgb(221,52,151); background-color: rgb(221,52,151); }
+.pinkpurple .class8_color7 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurple .class8_color8 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurple .class9_color1 {fill:rgb(255,247,243); background-color: rgb(255,247,243); }
+.pinkpurple .class9_color2 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurple .class9_color3 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurple .class9_color4 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurple .class9_color5 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurple .class9_color6 {fill:rgb(221,52,151); background-color: rgb(221,52,151); }
+.pinkpurple .class9_color7 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurple .class9_color8 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurple .class9_color9 {fill:rgb(73,0,106); background-color: rgb(73,0,106); }
+
+.bluegreen .class1_color1 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreen .class2_color1 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreen .class2_color2 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreen .class3_color1 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreen .class3_color2 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreen .class3_color3 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreen .class4_color1 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreen .class4_color2 {fill:rgb(189,201,225); background-color: rgb(189,201,225); }
+.bluegreen .class4_color3 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreen .class4_color4 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreen .class5_color1 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreen .class5_color2 {fill:rgb(189,201,225); background-color: rgb(189,201,225); }
+.bluegreen .class5_color3 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreen .class5_color4 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreen .class5_color5 {fill:rgb(1,108,89); background-color: rgb(1,108,89); }
+.bluegreen .class6_color1 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreen .class6_color2 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreen .class6_color3 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreen .class6_color4 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreen .class6_color5 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreen .class6_color6 {fill:rgb(1,108,89); background-color: rgb(1,108,89); }
+.bluegreen .class7_color1 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreen .class7_color2 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreen .class7_color3 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreen .class7_color4 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreen .class7_color5 {fill:rgb(54,144,192); background-color: rgb(54,144,192); }
+.bluegreen .class7_color6 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreen .class7_color7 {fill:rgb(1,100,80); background-color: rgb(1,100,80); }
+.bluegreen .class8_color1 {fill:rgb(255,247,251); background-color: rgb(255,247,251); }
+.bluegreen .class8_color2 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreen .class8_color3 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreen .class8_color4 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreen .class8_color5 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreen .class8_color6 {fill:rgb(54,144,192); background-color: rgb(54,144,192); }
+.bluegreen .class8_color7 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreen .class8_color8 {fill:rgb(1,100,80); background-color: rgb(1,100,80); }
+.bluegreen .class9_color1 {fill:rgb(255,247,251); background-color: rgb(255,247,251); }
+.bluegreen .class9_color2 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreen .class9_color3 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreen .class9_color4 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreen .class9_color5 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreen .class9_color6 {fill:rgb(54,144,192); background-color: rgb(54,144,192); }
+.bluegreen .class9_color7 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreen .class9_color8 {fill:rgb(1,108,89); background-color: rgb(1,108,89); }
+.bluegreen .class9_color9 {fill:rgb(1,70,54); background-color: rgb(1,70,54); }
+
+.orangered .class1_color1 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangered .class2_color1 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangered .class2_color2 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangered .class3_color1 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangered .class3_color2 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangered .class3_color3 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangered .class4_color1 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangered .class4_color2 {fill:rgb(253,204,138); background-color: rgb(253,204,138); }
+.orangered .class4_color3 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangered .class4_color4 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangered .class5_color1 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangered .class5_color2 {fill:rgb(253,204,138); background-color: rgb(253,204,138); }
+.orangered .class5_color3 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangered .class5_color4 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangered .class5_color5 {fill:rgb(179,0,0); background-color: rgb(179,0,0); }
+.orangered .class6_color1 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangered .class6_color2 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangered .class6_color3 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangered .class6_color4 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangered .class6_color5 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangered .class6_color6 {fill:rgb(179,0,0); background-color: rgb(179,0,0); }
+.orangered .class7_color1 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangered .class7_color2 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangered .class7_color3 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangered .class7_color4 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangered .class7_color5 {fill:rgb(239,101,72); background-color: rgb(239,101,72); }
+.orangered .class7_color6 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangered .class7_color7 {fill:rgb(153,0,0); background-color: rgb(153,0,0); }
+.orangered .class8_color1 {fill:rgb(255,247,236); background-color: rgb(255,247,236); }
+.orangered .class8_color2 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangered .class8_color3 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangered .class8_color4 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangered .class8_color5 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangered .class8_color6 {fill:rgb(239,101,72); background-color: rgb(239,101,72); }
+.orangered .class8_color7 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangered .class8_color8 {fill:rgb(153,0,0); background-color: rgb(153,0,0); }
+.orangered .class9_color1 {fill:rgb(255,247,236); background-color: rgb(255,247,236); }
+.orangered .class9_color2 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangered .class9_color3 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangered .class9_color4 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangered .class9_color5 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangered .class9_color6 {fill:rgb(239,101,72); background-color: rgb(239,101,72); }
+.orangered .class9_color7 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangered .class9_color8 {fill:rgb(179,0,0); background-color: rgb(179,0,0); }
+.orangered .class9_color9 {fill:rgb(127,0,0); background-color: rgb(127,0,0); }
+
+.red .class1_color1 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.red .class2_color1 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.red .class2_color2 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.red .class3_color1 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.red .class3_color2 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.red .class3_color3 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.red .class4_color1 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.red .class4_color2 {fill:rgb(252,174,145); background-color: rgb(252,174,145); }
+.red .class4_color3 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.red .class4_color4 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.red .class5_color1 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.red .class5_color2 {fill:rgb(252,174,145); background-color: rgb(252,174,145); }
+.red .class5_color3 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.red .class5_color4 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.red .class5_color5 {fill:rgb(165,15,21); background-color: rgb(165,15,21); }
+.red .class6_color1 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.red .class6_color2 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.red .class6_color3 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.red .class6_color4 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.red .class6_color5 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.red .class6_color6 {fill:rgb(165,15,21); background-color: rgb(165,15,21); }
+.red .class7_color1 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.red .class7_color2 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.red .class7_color3 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.red .class7_color4 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.red .class7_color5 {fill:rgb(239,59,44); background-color: rgb(239,59,44); }
+.red .class7_color6 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.red .class7_color7 {fill:rgb(153,0,13); background-color: rgb(153,0,13); }
+.red .class8_color1 {fill:rgb(255,245,240); background-color: rgb(255,245,240); }
+.red .class8_color2 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.red .class8_color3 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.red .class8_color4 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.red .class8_color5 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.red .class8_color6 {fill:rgb(239,59,44); background-color: rgb(239,59,44); }
+.red .class8_color7 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.red .class8_color8 {fill:rgb(153,0,13); background-color: rgb(153,0,13); }
+.red .class9_color1 {fill:rgb(255,245,240); background-color: rgb(255,245,240); }
+.red .class9_color2 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.red .class9_color3 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.red .class9_color4 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.red .class9_color5 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.red .class9_color6 {fill:rgb(239,59,44); background-color: rgb(239,59,44); }
+.red .class9_color7 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.red .class9_color8 {fill:rgb(165,15,21); background-color: rgb(165,15,21); }
+.red .class9_color9 {fill:rgb(103,0,13); background-color: rgb(103,0,13); }
+
+.greenblue .class1_color1 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenblue .class2_color1 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenblue .class2_color2 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenblue .class3_color1 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenblue .class3_color2 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenblue .class3_color3 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenblue .class4_color1 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenblue .class4_color2 {fill:rgb(186,228,188); background-color: rgb(186,228,188); }
+.greenblue .class4_color3 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenblue .class4_color4 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenblue .class5_color1 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenblue .class5_color2 {fill:rgb(186,228,188); background-color: rgb(186,228,188); }
+.greenblue .class5_color3 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenblue .class5_color4 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenblue .class5_color5 {fill:rgb(8,104,172); background-color: rgb(8,104,172); }
+.greenblue .class6_color1 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenblue .class6_color2 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenblue .class6_color3 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenblue .class6_color4 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenblue .class6_color5 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenblue .class6_color6 {fill:rgb(8,104,172); background-color: rgb(8,104,172); }
+.greenblue .class7_color1 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenblue .class7_color2 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenblue .class7_color3 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenblue .class7_color4 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenblue .class7_color5 {fill:rgb(78,179,211); background-color: rgb(78,179,211); }
+.greenblue .class7_color6 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenblue .class7_color7 {fill:rgb(8,88,158); background-color: rgb(8,88,158); }
+.greenblue .class8_color1 {fill:rgb(247,252,240); background-color: rgb(247,252,240); }
+.greenblue .class8_color2 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenblue .class8_color3 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenblue .class8_color4 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenblue .class8_color5 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenblue .class8_color6 {fill:rgb(78,179,211); background-color: rgb(78,179,211); }
+.greenblue .class8_color7 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenblue .class8_color8 {fill:rgb(8,88,158); background-color: rgb(8,88,158); }
+.greenblue .class9_color1 {fill:rgb(247,252,240); background-color: rgb(247,252,240); }
+.greenblue .class9_color2 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenblue .class9_color3 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenblue .class9_color4 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenblue .class9_color5 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenblue .class9_color6 {fill:rgb(78,179,211); background-color: rgb(78,179,211); }
+.greenblue .class9_color7 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenblue .class9_color8 {fill:rgb(8,104,172); background-color: rgb(8,104,172); }
+.greenblue .class9_color9 {fill:rgb(8,64,129); background-color: rgb(8,64,129); }
+
+.yelloworangeredreverse .class1_color1 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangeredreverse .class2_color1 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangeredreverse .class2_color2 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangeredreverse .class3_color3 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangeredreverse .class3_color2 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangeredreverse .class3_color1 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangeredreverse .class4_color4 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangeredreverse .class4_color3 {fill:rgb(254,204,92); background-color: rgb(254,204,92); }
+.yelloworangeredreverse .class4_color2 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangeredreverse .class4_color1 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangeredreverse .class5_color5 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangeredreverse .class5_color4 {fill:rgb(254,204,92); background-color: rgb(254,204,92); }
+.yelloworangeredreverse .class5_color3 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangeredreverse .class5_color2 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangeredreverse .class5_color1 {fill:rgb(189,0,38); background-color: rgb(189,0,38); }
+.yelloworangeredreverse .class6_color6 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangeredreverse .class6_color5 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangeredreverse .class6_color4 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangeredreverse .class6_color3 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangeredreverse .class6_color2 {fill:rgb(240,59,32); background-color: rgb(240,59,32); }
+.yelloworangeredreverse .class6_color1 {fill:rgb(189,0,38); background-color: rgb(189,0,38); }
+.yelloworangeredreverse .class7_color7 {fill:rgb(255,255,178); background-color: rgb(255,255,178); }
+.yelloworangeredreverse .class7_color6 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangeredreverse .class7_color5 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangeredreverse .class7_color4 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangeredreverse .class7_color3 {fill:rgb(252,78,42); background-color: rgb(252,78,42); }
+.yelloworangeredreverse .class7_color2 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangeredreverse .class7_color1 {fill:rgb(177,0,38); background-color: rgb(177,0,38); }
+.yelloworangeredreverse .class8_color8 {fill:rgb(255,255,204); background-color: rgb(255,255,204); }
+.yelloworangeredreverse .class8_color7 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangeredreverse .class8_color6 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangeredreverse .class8_color5 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangeredreverse .class8_color4 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangeredreverse .class8_color3 {fill:rgb(252,78,42); background-color: rgb(252,78,42); }
+.yelloworangeredreverse .class8_color2 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangeredreverse .class8_color1 {fill:rgb(177,0,38); background-color: rgb(177,0,38); }
+.yelloworangeredreverse .class9_color9 {fill:rgb(255,255,204); background-color: rgb(255,255,204); }
+.yelloworangeredreverse .class9_color8 {fill:rgb(255,237,160); background-color: rgb(255,237,160); }
+.yelloworangeredreverse .class9_color7 {fill:rgb(254,217,118); background-color: rgb(254,217,118); }
+.yelloworangeredreverse .class9_color6 {fill:rgb(254,178,76); background-color: rgb(254,178,76); }
+.yelloworangeredreverse .class9_color5 {fill:rgb(253,141,60); background-color: rgb(253,141,60); }
+.yelloworangeredreverse .class9_color4 {fill:rgb(252,78,42); background-color: rgb(252,78,42); }
+.yelloworangeredreverse .class9_color3 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.yelloworangeredreverse .class9_color2 {fill:rgb(189,0,38); background-color: rgb(189,0,38); }
+.yelloworangeredreverse .class9_color1 {fill:rgb(128,0,38); background-color: rgb(128,0,38); }
+
+.yelloworangebrownreverse .class1_color1 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrownreverse .class2_color1 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrownreverse .class2_color2 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrownreverse .class3_color3 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrownreverse .class3_color2 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrownreverse .class3_color1 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrownreverse .class4_color4 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrownreverse .class4_color3 {fill:rgb(254,217,142); background-color: rgb(254,217,142); }
+.yelloworangebrownreverse .class4_color2 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrownreverse .class4_color1 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrownreverse .class5_color5 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrownreverse .class5_color4 {fill:rgb(254,217,142); background-color: rgb(254,217,142); }
+.yelloworangebrownreverse .class5_color3 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrownreverse .class5_color2 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrownreverse .class5_color1 {fill:rgb(153,52,4); background-color: rgb(153,52,4); }
+.yelloworangebrownreverse .class6_color6 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrownreverse .class6_color5 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrownreverse .class6_color4 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrownreverse .class6_color3 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrownreverse .class6_color2 {fill:rgb(217,95,14); background-color: rgb(217,95,14); }
+.yelloworangebrownreverse .class6_color1 {fill:rgb(153,52,4); background-color: rgb(153,52,4); }
+.yelloworangebrownreverse .class7_color7 {fill:rgb(255,255,212); background-color: rgb(255,255,212); }
+.yelloworangebrownreverse .class7_color6 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrownreverse .class7_color5 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrownreverse .class7_color4 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrownreverse .class7_color3 {fill:rgb(236,112,20); background-color: rgb(236,112,20); }
+.yelloworangebrownreverse .class7_color2 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrownreverse .class7_color1 {fill:rgb(140,45,4); background-color: rgb(140,45,4); }
+.yelloworangebrownreverse .class8_color8 {fill:rgb(255,255,229); background-color: rgb(255,255,229); }
+.yelloworangebrownreverse .class8_color7 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrownreverse .class8_color6 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrownreverse .class8_color5 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrownreverse .class8_color4 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrownreverse .class8_color3 {fill:rgb(236,112,20); background-color: rgb(236,112,20); }
+.yelloworangebrownreverse .class8_color2 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrownreverse .class8_color1 {fill:rgb(140,45,4); background-color: rgb(140,45,4); }
+.yelloworangebrownreverse .class9_color9 {fill:rgb(255,255,229); background-color: rgb(255,255,229); }
+.yelloworangebrownreverse .class9_color8 {fill:rgb(255,247,188); background-color: rgb(255,247,188); }
+.yelloworangebrownreverse .class9_color7 {fill:rgb(254,227,145); background-color: rgb(254,227,145); }
+.yelloworangebrownreverse .class9_color6 {fill:rgb(254,196,79); background-color: rgb(254,196,79); }
+.yelloworangebrownreverse .class9_color5 {fill:rgb(254,153,41); background-color: rgb(254,153,41); }
+.yelloworangebrownreverse .class9_color4 {fill:rgb(236,112,20); background-color: rgb(236,112,20); }
+.yelloworangebrownreverse .class9_color3 {fill:rgb(204,76,2); background-color: rgb(204,76,2); }
+.yelloworangebrownreverse .class9_color2 {fill:rgb(153,52,4); background-color: rgb(153,52,4); }
+.yelloworangebrownreverse .class9_color1 {fill:rgb(102,37,6); background-color: rgb(102,37,6); }
+
+.pinkpurplereverse .class1_color1 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurplereverse .class2_color1 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurplereverse .class2_color2 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurplereverse .class3_color3 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurplereverse .class3_color2 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurplereverse .class3_color1 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurplereverse .class4_color4 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurplereverse .class4_color3 {fill:rgb(251,180,185); background-color: rgb(251,180,185); }
+.pinkpurplereverse .class4_color2 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurplereverse .class4_color1 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurplereverse .class5_color5 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurplereverse .class5_color4 {fill:rgb(251,180,185); background-color: rgb(251,180,185); }
+.pinkpurplereverse .class5_color3 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurplereverse .class5_color2 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurplereverse .class5_color1 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurplereverse .class6_color6 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurplereverse .class6_color5 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurplereverse .class6_color4 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurplereverse .class6_color3 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurplereverse .class6_color2 {fill:rgb(197,27,138); background-color: rgb(197,27,138); }
+.pinkpurplereverse .class6_color1 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurplereverse .class7_color7 {fill:rgb(254,235,226); background-color: rgb(254,235,226); }
+.pinkpurplereverse .class7_color6 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurplereverse .class7_color5 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurplereverse .class7_color4 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurplereverse .class7_color3 {fill:rgb(221,52,151); background-color: rgb(221,52,151); }
+.pinkpurplereverse .class7_color2 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurplereverse .class7_color1 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurplereverse .class8_color8 {fill:rgb(255,247,243); background-color: rgb(255,247,243); }
+.pinkpurplereverse .class8_color7 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurplereverse .class8_color6 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurplereverse .class8_color5 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurplereverse .class8_color4 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurplereverse .class8_color3 {fill:rgb(221,52,151); background-color: rgb(221,52,151); }
+.pinkpurplereverse .class8_color2 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurplereverse .class8_color1 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurplereverse .class9_color9 {fill:rgb(255,247,243); background-color: rgb(255,247,243); }
+.pinkpurplereverse .class9_color8 {fill:rgb(253,224,221); background-color: rgb(253,224,221); }
+.pinkpurplereverse .class9_color7 {fill:rgb(252,197,192); background-color: rgb(252,197,192); }
+.pinkpurplereverse .class9_color6 {fill:rgb(250,159,181); background-color: rgb(250,159,181); }
+.pinkpurplereverse .class9_color5 {fill:rgb(247,104,161); background-color: rgb(247,104,161); }
+.pinkpurplereverse .class9_color4 {fill:rgb(221,52,151); background-color: rgb(221,52,151); }
+.pinkpurplereverse .class9_color3 {fill:rgb(174,1,126); background-color: rgb(174,1,126); }
+.pinkpurplereverse .class9_color2 {fill:rgb(122,1,119); background-color: rgb(122,1,119); }
+.pinkpurplereverse .class9_color1 {fill:rgb(73,0,106); background-color: rgb(73,0,106); }
+
+.bluegreenreverse .class1_color1 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreenreverse .class2_color1 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreenreverse .class2_color2 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreenreverse .class3_color3 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreenreverse .class3_color2 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreenreverse .class3_color1 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreenreverse .class4_color4 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreenreverse .class4_color3 {fill:rgb(189,201,225); background-color: rgb(189,201,225); }
+.bluegreenreverse .class4_color2 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreenreverse .class4_color1 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreenreverse .class5_color5 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreenreverse .class5_color4 {fill:rgb(189,201,225); background-color: rgb(189,201,225); }
+.bluegreenreverse .class5_color3 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreenreverse .class5_color2 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreenreverse .class5_color1 {fill:rgb(1,108,89); background-color: rgb(1,108,89); }
+.bluegreenreverse .class6_color6 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreenreverse .class6_color5 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreenreverse .class6_color4 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreenreverse .class6_color3 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreenreverse .class6_color2 {fill:rgb(28,144,153); background-color: rgb(28,144,153); }
+.bluegreenreverse .class6_color1 {fill:rgb(1,108,89); background-color: rgb(1,108,89); }
+.bluegreenreverse .class7_color7 {fill:rgb(246,239,247); background-color: rgb(246,239,247); }
+.bluegreenreverse .class7_color6 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreenreverse .class7_color5 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreenreverse .class7_color4 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreenreverse .class7_color3 {fill:rgb(54,144,192); background-color: rgb(54,144,192); }
+.bluegreenreverse .class7_color2 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreenreverse .class7_color1 {fill:rgb(1,100,80); background-color: rgb(1,100,80); }
+.bluegreenreverse .class8_color8 {fill:rgb(255,247,251); background-color: rgb(255,247,251); }
+.bluegreenreverse .class8_color7 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreenreverse .class8_color6 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreenreverse .class8_color5 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreenreverse .class8_color4 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreenreverse .class8_color3 {fill:rgb(54,144,192); background-color: rgb(54,144,192); }
+.bluegreenreverse .class8_color2 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreenreverse .class8_color1 {fill:rgb(1,100,80); background-color: rgb(1,100,80); }
+.bluegreenreverse .class9_color9 {fill:rgb(255,247,251); background-color: rgb(255,247,251); }
+.bluegreenreverse .class9_color8 {fill:rgb(236,226,240); background-color: rgb(236,226,240); }
+.bluegreenreverse .class9_color7 {fill:rgb(208,209,230); background-color: rgb(208,209,230); }
+.bluegreenreverse .class9_color6 {fill:rgb(166,189,219); background-color: rgb(166,189,219); }
+.bluegreenreverse .class9_color5 {fill:rgb(103,169,207); background-color: rgb(103,169,207); }
+.bluegreenreverse .class9_color4 {fill:rgb(54,144,192); background-color: rgb(54,144,192); }
+.bluegreenreverse .class9_color3 {fill:rgb(2,129,138); background-color: rgb(2,129,138); }
+.bluegreenreverse .class9_color2 {fill:rgb(1,108,89); background-color: rgb(1,108,89); }
+.bluegreenreverse .class9_color1 {fill:rgb(1,70,54); background-color: rgb(1,70,54); }
+
+.orangeredreverse .class1_color1 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangeredreverse .class2_color1 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangeredreverse .class2_color2 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangeredreverse .class3_color3 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangeredreverse .class3_color2 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangeredreverse .class3_color1 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangeredreverse .class4_color4 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangeredreverse .class4_color3 {fill:rgb(253,204,138); background-color: rgb(253,204,138); }
+.orangeredreverse .class4_color2 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangeredreverse .class4_color1 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangeredreverse .class5_color5 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangeredreverse .class5_color4 {fill:rgb(253,204,138); background-color: rgb(253,204,138); }
+.orangeredreverse .class5_color3 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangeredreverse .class5_color2 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangeredreverse .class5_color1 {fill:rgb(179,0,0); background-color: rgb(179,0,0); }
+.orangeredreverse .class6_color6 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangeredreverse .class6_color5 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangeredreverse .class6_color4 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangeredreverse .class6_color3 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangeredreverse .class6_color2 {fill:rgb(227,74,51); background-color: rgb(227,74,51); }
+.orangeredreverse .class6_color1 {fill:rgb(179,0,0); background-color: rgb(179,0,0); }
+.orangeredreverse .class7_color7 {fill:rgb(254,240,217); background-color: rgb(254,240,217); }
+.orangeredreverse .class7_color6 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangeredreverse .class7_color5 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangeredreverse .class7_color4 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangeredreverse .class7_color3 {fill:rgb(239,101,72); background-color: rgb(239,101,72); }
+.orangeredreverse .class7_color2 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangeredreverse .class7_color1 {fill:rgb(153,0,0); background-color: rgb(153,0,0); }
+.orangeredreverse .class8_color8 {fill:rgb(255,247,236); background-color: rgb(255,247,236); }
+.orangeredreverse .class8_color7 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangeredreverse .class8_color6 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangeredreverse .class8_color5 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangeredreverse .class8_color4 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangeredreverse .class8_color3 {fill:rgb(239,101,72); background-color: rgb(239,101,72); }
+.orangeredreverse .class8_color2 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangeredreverse .class8_color1 {fill:rgb(153,0,0); background-color: rgb(153,0,0); }
+.orangeredreverse .class9_color9 {fill:rgb(255,247,236); background-color: rgb(255,247,236); }
+.orangeredreverse .class9_color8 {fill:rgb(254,232,200); background-color: rgb(254,232,200); }
+.orangeredreverse .class9_color7 {fill:rgb(253,212,158); background-color: rgb(253,212,158); }
+.orangeredreverse .class9_color6 {fill:rgb(253,187,132); background-color: rgb(253,187,132); }
+.orangeredreverse .class9_color5 {fill:rgb(252,141,89); background-color: rgb(252,141,89); }
+.orangeredreverse .class9_color4 {fill:rgb(239,101,72); background-color: rgb(239,101,72); }
+.orangeredreverse .class9_color3 {fill:rgb(215,48,31); background-color: rgb(215,48,31); }
+.orangeredreverse .class9_color2 {fill:rgb(179,0,0); background-color: rgb(179,0,0); }
+.orangeredreverse .class9_color1 {fill:rgb(127,0,0); background-color: rgb(127,0,0); }
+
+.redreverse .class1_color1 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.redreverse .class2_color1 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.redreverse .class2_color2 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.redreverse .class3_color3 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.redreverse .class3_color2 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.redreverse .class3_color1 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.redreverse .class4_color4 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.redreverse .class4_color3 {fill:rgb(252,174,145); background-color: rgb(252,174,145); }
+.redreverse .class4_color2 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.redreverse .class4_color1 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.redreverse .class5_color5 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.redreverse .class5_color4 {fill:rgb(252,174,145); background-color: rgb(252,174,145); }
+.redreverse .class5_color3 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.redreverse .class5_color2 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.redreverse .class5_color1 {fill:rgb(165,15,21); background-color: rgb(165,15,21); }
+.redreverse .class6_color6 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.redreverse .class6_color5 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.redreverse .class6_color4 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.redreverse .class6_color3 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.redreverse .class6_color2 {fill:rgb(222,45,38); background-color: rgb(222,45,38); }
+.redreverse .class6_color1 {fill:rgb(165,15,21); background-color: rgb(165,15,21); }
+.redreverse .class7_color7 {fill:rgb(254,229,217); background-color: rgb(254,229,217); }
+.redreverse .class7_color6 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.redreverse .class7_color5 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.redreverse .class7_color4 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.redreverse .class7_color3 {fill:rgb(239,59,44); background-color: rgb(239,59,44); }
+.redreverse .class7_color2 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.redreverse .class7_color1 {fill:rgb(153,0,13); background-color: rgb(153,0,13); }
+.redreverse .class8_color8 {fill:rgb(255,245,240); background-color: rgb(255,245,240); }
+.redreverse .class8_color7 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.redreverse .class8_color6 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.redreverse .class8_color5 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.redreverse .class8_color4 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.redreverse .class8_color3 {fill:rgb(239,59,44); background-color: rgb(239,59,44); }
+.redreverse .class8_color2 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.redreverse .class8_color1 {fill:rgb(153,0,13); background-color: rgb(153,0,13); }
+.redreverse .class9_color9 {fill:rgb(255,245,240); background-color: rgb(255,245,240); }
+.redreverse .class9_color8 {fill:rgb(254,224,210); background-color: rgb(254,224,210); }
+.redreverse .class9_color7 {fill:rgb(252,187,161); background-color: rgb(252,187,161); }
+.redreverse .class9_color6 {fill:rgb(252,146,114); background-color: rgb(252,146,114); }
+.redreverse .class9_color5 {fill:rgb(251,106,74); background-color: rgb(251,106,74); }
+.redreverse .class9_color4 {fill:rgb(239,59,44); background-color: rgb(239,59,44); }
+.redreverse .class9_color3 {fill:rgb(203,24,29); background-color: rgb(203,24,29); }
+.redreverse .class9_color2 {fill:rgb(165,15,21); background-color: rgb(165,15,21); }
+.redreverse .class9_color1 {fill:rgb(103,0,13); background-color: rgb(103,0,13); }
+
+.greenbluereverse .class1_color1 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenbluereverse .class2_color1 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenbluereverse .class2_color2 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenbluereverse .class3_color3 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenbluereverse .class3_color2 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenbluereverse .class3_color1 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenbluereverse .class4_color4 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenbluereverse .class4_color3 {fill:rgb(186,228,188); background-color: rgb(186,228,188); }
+.greenbluereverse .class4_color2 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenbluereverse .class4_color1 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenbluereverse .class5_color5 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenbluereverse .class5_color4 {fill:rgb(186,228,188); background-color: rgb(186,228,188); }
+.greenbluereverse .class5_color3 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenbluereverse .class5_color2 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenbluereverse .class5_color1 {fill:rgb(8,104,172); background-color: rgb(8,104,172); }
+.greenbluereverse .class6_color6 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenbluereverse .class6_color5 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenbluereverse .class6_color4 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenbluereverse .class6_color3 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenbluereverse .class6_color2 {fill:rgb(67,162,202); background-color: rgb(67,162,202); }
+.greenbluereverse .class6_color1 {fill:rgb(8,104,172); background-color: rgb(8,104,172); }
+.greenbluereverse .class7_color7 {fill:rgb(240,249,232); background-color: rgb(240,249,232); }
+.greenbluereverse .class7_color6 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenbluereverse .class7_color5 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenbluereverse .class7_color4 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenbluereverse .class7_color3 {fill:rgb(78,179,211); background-color: rgb(78,179,211); }
+.greenbluereverse .class7_color2 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenbluereverse .class7_color1 {fill:rgb(8,88,158); background-color: rgb(8,88,158); }
+.greenbluereverse .class8_color8 {fill:rgb(247,252,240); background-color: rgb(247,252,240); }
+.greenbluereverse .class8_color7 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenbluereverse .class8_color6 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenbluereverse .class8_color5 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenbluereverse .class8_color4 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenbluereverse .class8_color3 {fill:rgb(78,179,211); background-color: rgb(78,179,211); }
+.greenbluereverse .class8_color2 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenbluereverse .class8_color1 {fill:rgb(8,88,158); background-color: rgb(8,88,158); }
+.greenbluereverse .class9_color9 {fill:rgb(247,252,240); background-color: rgb(247,252,240); }
+.greenbluereverse .class9_color8 {fill:rgb(224,243,219); background-color: rgb(224,243,219); }
+.greenbluereverse .class9_color7 {fill:rgb(204,235,197); background-color: rgb(204,235,197); }
+.greenbluereverse .class9_color6 {fill:rgb(168,221,181); background-color: rgb(168,221,181); }
+.greenbluereverse .class9_color5 {fill:rgb(123,204,196); background-color: rgb(123,204,196); }
+.greenbluereverse .class9_color4 {fill:rgb(78,179,211); background-color: rgb(78,179,211); }
+.greenbluereverse .class9_color3 {fill:rgb(43,140,190); background-color: rgb(43,140,190); }
+.greenbluereverse .class9_color2 {fill:rgb(8,104,172); background-color: rgb(8,104,172); }
+.greenbluereverse .class9_color1 {fill:rgb(8,64,129); background-color: rgb(8,64,129); }
+
+.qualitative1 .class1_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class2_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class2_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class3_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class3_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class3_color3 {fill:rgb(51,160,44); background-color: rgb(51,160,44); }
+.qualitative1 .class4_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class4_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class4_color4 {fill:rgb(178223138); background-color: rgb(178223138); }
+.qualitative1 .class4_color3 {fill:rgb(51,160,44); background-color: rgb(51,160,44); }
+.qualitative1 .class5_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class5_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class5_color4 {fill:rgb(178,223,138); background-color: rgb(178,223,138); }
+.qualitative1 .class5_color3 {fill:rgb(51,160,44); background-color: rgb(51,160,44); }
+.qualitative1 .class5_color5 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.qualitative1 .class6_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class6_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class6_color4 {fill:rgb(178,223,138); background-color: rgb(178,223,138); }
+.qualitative1 .class6_color3 {fill:rgb(51,160,44); background-color: rgb(51,160,44); }
+.qualitative1 .class6_color6 {fill:rgb(251,154,153); background-color: rgb(251,154,153); }
+.qualitative1 .class6_color5 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.qualitative1 .class7_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class7_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class7_color4 {fill:rgb(178,223,138); background-color: rgb(178,223,138); }
+.qualitative1 .class7_color3 {fill:rgb(51,160,44); background-color: rgb(51,160,44); }
+.qualitative1 .class7_color6 {fill:rgb(251,154,153); background-color: rgb(251,154,153); }
+.qualitative1 .class7_color5 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.qualitative1 .class7_color7 {fill:rgb(106,61,154); background-color: rgb(106,61,154); }
+.qualitative1 .class8_color2 {fill:rgb(166,206,227); background-color: rgb(166,206,227); }
+.qualitative1 .class8_color1 {fill:rgb(31,120,180); background-color: rgb(31,120,180); }
+.qualitative1 .class8_color4 {fill:rgb(178,223,138); background-color: rgb(178,223,138); }
+.qualitative1 .class8_color3 {fill:rgb(51,160,44); background-color: rgb(51,160,44); }
+.qualitative1 .class8_color6 {fill:rgb(251,154,153); background-color: rgb(251,154,153); }
+.qualitative1 .class8_color5 {fill:rgb(227,26,28); background-color: rgb(227,26,28); }
+.qualitative1 .class8_color7 {fill:rgb(106,61,154); background-color: rgb(106,61,154); }
+.qualitative1 .class8_color8 {fill:rgb(202,178,214); background-color: rgb(202,178,214); }
+
+.qualitative2 .class1_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class2_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class2_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class3_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class3_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class3_color3 {fill:rgb(255,255,153); background-color: rgb(255,255,153); }
+.qualitative2 .class4_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class4_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class4_color3 {fill:rgb(255,255,153); background-color: rgb(255,255,153); }
+.qualitative2 .class4_color4 {fill:rgb(56,108,176); background-color: rgb(56,108,176); }
+.qualitative2 .class5_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class5_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class5_color3 {fill:rgb(255,255,153); background-color: rgb(255,255,153); }
+.qualitative2 .class5_color4 {fill:rgb(56,108,176); background-color: rgb(56,108,176); }
+.qualitative2 .class5_color5 {fill:rgb(240,02,127); background-color: rgb(240,02,127); }
+.qualitative2 .class6_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class6_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class6_color3 {fill:rgb(255,255,153); background-color: rgb(255,255,153); }
+.qualitative2 .class6_color4 {fill:rgb(56,108,176); background-color: rgb(56,108,176); }
+.qualitative2 .class6_color5 {fill:rgb(240,02,127); background-color: rgb(240,02,127); }
+.qualitative2 .class6_color6 {fill:rgb(191,91,23); background-color: rgb(191,91,23); }
+.qualitative2 .class7_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class7_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class7_color3 {fill:rgb(255,255,153); background-color: rgb(255,255,153); }
+.qualitative2 .class7_color4 {fill:rgb(56,108,176); background-color: rgb(56,108,176); }
+.qualitative2 .class7_color5 {fill:rgb(240,02,127); background-color: rgb(240,02,127); }
+.qualitative2 .class7_color6 {fill:rgb(191,91,23); background-color: rgb(191,91,23); }
+.qualitative2 .class7_color7 {fill:rgb(102,102,102); background-color: rgb(102,102,102); }
+.qualitative2 .class8_color1 {fill:rgb(127,201,127); background-color: rgb(127,201,127); }
+.qualitative2 .class8_color2 {fill:rgb(190,174,212); background-color: rgb(190,174,212); }
+.qualitative2 .class8_color3 {fill:rgb(255,255,153); background-color: rgb(255,255,153); }
+.qualitative2 .class8_color4 {fill:rgb(56,108,176); background-color: rgb(56,108,176); }
+.qualitative2 .class8_color5 {fill:rgb(240,02,127); background-color: rgb(240,02,127); }
+.qualitative2 .class8_color6 {fill:rgb(191,91,23); background-color: rgb(191,91,23); }
+.qualitative2 .class8_color7 {fill:rgb(102,102,102); background-color: rgb(102,102,102); }
+.qualitative2 .class8_color8 {fill:rgb(254,218,184); background-color: rgb(254,218,184); }
+
+.qualitative3 .class1_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class2_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class2_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class3_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class3_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class3_color3 {fill:rgb(117,112,179); background-color: rgb(117,112,179); }
+.qualitative3 .class4_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class4_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class4_color3 {fill:rgb(117,112,179); background-color: rgb(117,112,179); }
+.qualitative3 .class4_color4 {fill:rgb(231,41,138); background-color: rgb(231,41,138); }
+.qualitative3 .class5_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class5_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class5_color3 {fill:rgb(117,112,179); background-color: rgb(117,112,179); }
+.qualitative3 .class5_color4 {fill:rgb(231,41,138); background-color: rgb(231,41,138); }
+.qualitative3 .class5_color5 {fill:rgb(102,166,30); background-color: rgb(102,166,30); }
+.qualitative3 .class6_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class6_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class6_color3 {fill:rgb(117,112,179); background-color: rgb(117,112,179); }
+.qualitative3 .class6_color4 {fill:rgb(231,41,138); background-color: rgb(231,41,138); }
+.qualitative3 .class6_color5 {fill:rgb(102,166,30); background-color: rgb(102,166,30); }
+.qualitative3 .class6_color6 {fill:rgb(230,171,02); background-color: rgb(230,171,02); }
+.qualitative3 .class7_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class7_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class7_color3 {fill:rgb(117,112,179); background-color: rgb(117,112,179); }
+.qualitative3 .class7_color4 {fill:rgb(231,41,138); background-color: rgb(231,41,138); }
+.qualitative3 .class7_color5 {fill:rgb(102,166,30); background-color: rgb(102,166,30); }
+.qualitative3 .class7_color6 {fill:rgb(230,171,02); background-color: rgb(230,171,02); }
+.qualitative3 .class7_color7 {fill:rgb(166,118,29); background-color: rgb(166,118,29); }
+.qualitative3 .class8_color1 {fill:rgb(27,158,119); background-color: rgb(27,158,119); }
+.qualitative3 .class8_color2 {fill:rgb(217,95,02); background-color: rgb(217,95,02); }
+.qualitative3 .class8_color3 {fill:rgb(117,112,179); background-color: rgb(117,112,179); }
+.qualitative3 .class8_color4 {fill:rgb(231,41,138); background-color: rgb(231,41,138); }
+.qualitative3 .class8_color5 {fill:rgb(102,166,30); background-color: rgb(102,166,30); }
+.qualitative3 .class8_color6 {fill:rgb(230,171,02); background-color: rgb(230,171,02); }
+.qualitative3 .class8_color7 {fill:rgb(166,118,29); background-color: rgb(166,118,29); }
+.qualitative3 .class8_color8 {fill:rgb(102,102,102); background-color: rgb(102,102,102); }
+
+.qualitative4 .class1_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class2_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class2_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class3_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class3_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class3_color3 {fill:rgb(77,175,74); background-color: rgb(77,175,74); }
+.qualitative4 .class4_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class4_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class4_color3 {fill:rgb(77,175,74); background-color: rgb(77,175,74); }
+.qualitative4 .class4_color4 {fill:rgb(152,78,163); background-color: rgb(152,78,163); }
+.qualitative4 .class5_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class5_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class5_color3 {fill:rgb(77,175,74); background-color: rgb(77,175,74); }
+.qualitative4 .class5_color4 {fill:rgb(152,78,163); background-color: rgb(152,78,163); }
+.qualitative4 .class5_color5 {fill:rgb(255,127,00); background-color: rgb(255,127,00); }
+.qualitative4 .class6_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class6_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class6_color3 {fill:rgb(77,175,74); background-color: rgb(77,175,74); }
+.qualitative4 .class6_color4 {fill:rgb(152,78,163); background-color: rgb(152,78,163); }
+.qualitative4 .class6_color5 {fill:rgb(255,127,00); background-color: rgb(255,127,00); }
+.qualitative4 .class6_color6 {fill:rgb(255,255,51); background-color: rgb(255,255,51); }
+.qualitative4 .class7_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class7_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class7_color3 {fill:rgb(77,175,74); background-color: rgb(77,175,74); }
+.qualitative4 .class7_color4 {fill:rgb(152,78,163); background-color: rgb(152,78,163); }
+.qualitative4 .class7_color5 {fill:rgb(255,127,00); background-color: rgb(255,127,00); }
+.qualitative4 .class7_color6 {fill:rgb(255,255,51); background-color: rgb(255,255,51); }
+.qualitative4 .class7_color7 {fill:rgb(166,86,40); background-color: rgb(166,86,40); }
+.qualitative4 .class8_color1 {fill:rgb(228,26,28); background-color: rgb(228,26,28); }
+.qualitative4 .class8_color2 {fill:rgb(55,126,184); background-color: rgb(55,126,184); }
+.qualitative4 .class8_color3 {fill:rgb(77,175,74); background-color: rgb(77,175,74); }
+.qualitative4 .class8_color4 {fill:rgb(152,78,163); background-color: rgb(152,78,163); }
+.qualitative4 .class8_color5 {fill:rgb(255,127,0); background-color: rgb(255,127,0); }
+.qualitative4 .class8_color6 {fill:rgb(255,255,51); background-color: rgb(255,255,51); }
+.qualitative4 .class8_color7 {fill:rgb(166,86,40); background-color: rgb(166,86,40); }
+.qualitative4 .class8_color8 {fill:rgb(247,129,191); background-color: rgb(247,129,191); }
+
+
+.mesh {
+  fill: none;
+  /*stroke: lightgrey;
+  stroke-width: 0.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;*/
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g path.active {}
+
+[id^="cdcmap-container"] h3.cdcmap-title {
+  color: white!important;
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] {
+    padding: 0px 0px 0px 0px !important;
+}
+
+/*[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g path[data-state-id="15"],
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g path[data-state-id="2"] {*/
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g path[data-state-id], [id^="cdcmap-container"] .cdcmap-territoryCircle {
+    stroke: #404040;
+    stroke-width: 0.2px;
+}
+
+[id^="cdcmap-container"] {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+[id^="cdcmap-container"] svg g text {
+    cursor: default;
+    fill: black;
+}
+
+.one [id^="cdcmap-container"] svg g text.cdcmap-abbreviations {
+    font-size: 8px;
+}
+
+[id^="cdcmap-container"] {
+    margin-bottom: 20px;
+}
+
+[id^="cdcmap-rawDataTable"] th {
+    cursor: pointer;
+}
+
+[id^="cdcmap-rawDataTable"] td.cdcmap-textcenter, [id^="cdcmap-rawDataTable"] th.cdcmap-textcenter {
+    text-align: center;
+}
+
+[id^="cdcmap-timeIntervalOuter"] {
+    width: 100%;
+    padding: 0px !important;
+    margin: 0 10px;
+    display: none;
+}
+
+[id^="cdcmap-timeIntervalSliderContainer"] {
+    width: 85%;
+    display: inline-block;
+}
+
+.one [id^="cdcmap-timeIntervalSliderContainer"] {
+    width: 75%;
+}
+
+.two [id^="cdcmap-timeIntervalSliderContainer"] {
+    width: 80%;
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-sliderButtonContainer"] {
+    display: inline-block;
+    width: 10%;
+    text-align: center;
+    margin-left: 15px;
+    vertical-align: top;
+    margin-top: -3px;
+}
+
+.one [id^="cdcmap-container"] [id^="cdcmap-sliderButtonContainer"] {
+    width: 20%;
+    margin-left: 8px;
+}
+
+.two [id^="cdcmap-container"] [id^="cdcmap-sliderButtonContainer"] {
+    width: 15%;
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-sliderUp"], [id^="cdcmap-container"] [id^="cdcmap-sliderDown"] {
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.cdcmap-timeIntervalOldestItem {
+    float: left;
+}
+
+.cdcmap-timeIntervalNewestItem {
+    float: right;
+}
+
+.cdcmap-timeIntervalSliderContainer {
+    position: relative;
+}
+
+.cdcmap-timeIntervalTextContainer {
+    text-align: center;
+    font-size: 12px;
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g path[data-region-type].cdcmap-legend-not-selected,
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g circle.cdcmap-legend-not-selected,
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g rect.cdcmap-legend-not-selected {
+    fill: #ffffff !important;
+}
+
+[id^="cdcmap-resetMap-"] {
+    cursor: pointer;
+    display: none;
+}
+
+[id^="cdcmap-resetMap-"].somemore {
+    float:left !important;
+}
+
+[id^="cdcmap-rawDataTableContainer"] .somemore {
+	display: block !important;
+}
+
+.cdcmap-legendItemSelected {
+    font-weight: bold;
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g .cdcmap-navigable,
+[id^="cdcmap-rawDataTable-"] tr[data-navigateurl] td {
+    cursor: pointer;
+}
+
+[id^="cdcmap-rawDataTable-"] tr[data-navigateurl]:hover td {
+    background-color: #e5e5e5!important;
+}
+
+[id^="cdcmap-rawDataTable-"] table tr td, [id^="cdcmap-rawDataTable-"] table tr th {
+  padding: 4px 2px 4px 2px;
+}
+
+[id^="cdcmap-container"] [id^="cdcmap-svgContainer"] svg g image {
+	display: block !important;
+}
+
+#wrapper [id^="cdcmap-container"] .module-typeA {
+  padding-bottom: 0px;
+}
+
+[id^="cdcmap-rawDataTable-"] .modalButton img {
+  display: block !important;
+}
+
+[id^="cdcmap-rawDataTable-"] .childLocaleData {
+  margin-top: 8px;
+}
+
+[id^="cdcmap-rawDataTable-"] .childLocaleName {
+  margin-left: 20px;
+}
+
+[id^="cdcmap-container"] .mapLoader {
+  background: center top url('/TemplatePackage/3.0/images/social_media_loader.gif') no-repeat;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 30px;
+  text-align: center;
+}
+
+#wrapper [class*=module].tp-collapsible img.tp-collapsible-icon-collapse, html.js #wrapper [class*=module].tp-collapsible img.tp-collapsible-icon-expand {
+    width: auto!important;
+}
