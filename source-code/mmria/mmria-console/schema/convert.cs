@@ -197,8 +197,8 @@ namespace mmria.console
 					Namespace = "AwesomeSauce.v1",
 					//ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Inpc 
 					ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco,
-					GenerateJsonMethods = false,
-					GenerateDataAnnotations = false
+					GenerateJsonMethods = true,
+					GenerateDataAnnotations = true
 				};
 
 				var generator = new NJsonSchema.CodeGeneration.CSharp.CSharpGenerator(schema, settings);

@@ -67,7 +67,7 @@ namespace mmria.console.schema
                         MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "System.ObjectModel.dll"),
                         MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "System.dll"),
                         MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "System.Diagnostics.Tools.dll"),
-                        MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "System.ComponentModel.Annotations.dll"),
+                        MetadataReference.CreateFromFile("/media/jhaines/tera27/file-set/mmrds/MMRDS/source-code/mmria/mmria-console/bin/Release/netcoreapp2.0/ubuntu.16.10-x64/publish" + Path.DirectorySeparatorChar + "System.ComponentModel.Annotations.dll"),
                          /**/
                         MetadataReference.CreateFromFile(coreDir.FullName + Path.DirectorySeparatorChar + "System.Runtime.dll")
 
