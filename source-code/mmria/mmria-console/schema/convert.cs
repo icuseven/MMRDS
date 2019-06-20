@@ -191,7 +191,7 @@ namespace mmria.console
 		{
 				string result = null;
 
-				var schema = await NJsonSchema.JsonSchema4.FromJsonAsync(schemaJson);
+				var schema = await NJsonSchema.JsonSchema.FromJsonAsync(schemaJson);
 				var settings = new NJsonSchema.CodeGeneration.CSharp.CSharpGeneratorSettings()
 				{
 					Namespace = "AwesomeSauce.v1",
@@ -208,11 +208,11 @@ namespace mmria.console
 				return result;
 		}
 
-		static async Task<NJsonSchema.JsonSchema4> GetSchema(mmria.common.metadata.app p_app)
+		static async Task<NJsonSchema.JsonSchema> GetSchema(mmria.common.metadata.app p_app)
 		{
 				//https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
 						
-			var schema = new NJsonSchema.JsonSchema4();
+			var schema = new NJsonSchema.JsonSchema();
 			
 			schema.Type =  NJsonSchema.JsonObjectType.Object;
 			schema.Title = "mmria_case";
@@ -220,9 +220,9 @@ namespace mmria.console
 			
 			schema.SchemaVersion = "http://json-schema.org/draft-06/schema#";
 
-			schema.Properties.Add("_id", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
-			//schema.Properties.Add("name", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
-			//schema.Properties.Add("prompt", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			schema.Properties.Add("_id", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("name", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("prompt", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
 
 			
 
@@ -258,12 +258,12 @@ namespace mmria.console
 		}
 
 
-		static async Task<NJsonSchema.JsonSchema4> GetSchema(IDictionary<string, NJsonSchema.JsonSchema4> p_lookup, NJsonSchema.JsonSchema4 p_parent, mmria.common.metadata.node p_node)
+		static async Task<NJsonSchema.JsonSchema> GetSchema(IDictionary<string, NJsonSchema.JsonSchema> p_lookup, NJsonSchema.JsonSchema p_parent, mmria.common.metadata.node p_node)
 		{
 				//https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
 
 			/*
-			var schema = new NJsonSchema.JsonSchema4();
+			var schema = new NJsonSchema.JsonSchema();
 			
 			schema.Type =  NJsonSchema.JsonObjectType.Object;
 			schema.Title = "mmria_case";
@@ -273,9 +273,9 @@ namespace mmria.console
  			*/			
 
 
-			NJsonSchema.JsonProperty property = null;
-			//schema.Properties.Add("name", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
-			//schema.Properties.Add("prompt", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			NJsonSchema.JsonSchemaProperty property = null;
+			//schema.Properties.Add("name", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("prompt", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
 
 			try
 			{
@@ -289,29 +289,50 @@ namespace mmria.console
 
 						if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
 						{
-								property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+								
+								
+
+								property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
+								foreach(var child in p_node.children)
+								{
+										await GetSchema(p_lookup, property, child);
+								}
+								p_lookup.Add(p_node.name + "_type", property);
+								var property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array };
+								//property_list.Properties.Add().Items.Add(property);
+								p_parent.Properties.Add(p_node.name + "_form", property_list);
 						}
 						else if(p_node.type.ToLower() == "grid")
 						{
-								property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+								//property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+								property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
+								foreach(var child in p_node.children)
+								{
+										await GetSchema(p_lookup, property, child);
+								}
+
+								var property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = property };
+								p_parent.Properties.Add(p_node.name + "_grid", property_list);
 						}
 						else
 						{
-							property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Object};
+							property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
+
+							p_parent.Properties.Add(p_node.name, property);
+						
+							foreach(var child in p_node.children)
+							{
+									await GetSchema(p_lookup, property, child);
+							}
 						}
 
-						p_parent.Properties.Add(p_node.name, property);
-						
-						foreach(var child in p_node.children)
-						{
-								await GetSchema(p_lookup, property, child);
-						}
+
 
 						break;
 						case "textarea":
 						case "hidden":
 						case "string":
-									var string_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String};
+									var string_property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String};
 							
 									if(p_node.default_value != null)
 									{
@@ -328,7 +349,7 @@ namespace mmria.console
 						case "datetime":
 						case "date":
 						case "time":
-									var date_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String, Format = "date-time" };
+									var date_property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String, Format = "date-time" };
 									if(p_node.is_required.HasValue && p_node.is_required.Value)
 									{
 										date_property.IsRequired = true;
@@ -336,7 +357,7 @@ namespace mmria.console
 									p_parent.Properties.Add(p_node.name, date_property);
 									break;
 						case "number":
-									var number_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Number };
+									var number_property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Number };
 									if(p_node.default_value != null)
 									{
 										decimal decimal_value;
@@ -372,7 +393,7 @@ namespace mmria.console
 									p_parent.Properties.Add(p_node.name, number_property);
 									break;
 						case "boolean":
-									var boolean_property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Boolean };
+									var boolean_property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Boolean };
 									if(p_node.is_required.HasValue && p_node.is_required.Value)
 									{
 										boolean_property.IsRequired = true;
@@ -393,7 +414,7 @@ namespace mmria.console
 						case "list":
 								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
 								{
-									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+									property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
 									p_parent.Properties.Add(p_node.name, property);
 
 									if(!string.IsNullOrWhiteSpace(p_node.path_reference))
@@ -412,7 +433,7 @@ namespace mmria.console
 								}
 								else
 								{
-									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
+									property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String };
 									p_parent.Properties.Add(p_node.name, property);
 
 									if(!string.IsNullOrWhiteSpace(p_node.path_reference))
@@ -450,12 +471,12 @@ namespace mmria.console
 			return p_parent;
 		}
 
-		static void Set_LookUp(IDictionary<string, NJsonSchema.JsonSchema4> p_parent, mmria.common.metadata.node p_node)
+		static void Set_LookUp(IDictionary<string, NJsonSchema.JsonSchema> p_parent, mmria.common.metadata.node p_node)
 		{
 //https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
 
 			/*
-			var schema = new NJsonSchema.JsonSchema4();
+			var schema = new NJsonSchema.JsonSchema();
 			
 			schema.Type =  NJsonSchema.JsonObjectType.Object;
 			schema.Title = "mmria_case";
@@ -465,9 +486,9 @@ namespace mmria.console
  			*/			
 
 
-			NJsonSchema.JsonProperty property = null;
-			//schema.Properties.Add("name", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
-			//schema.Properties.Add("prompt", new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			NJsonSchema.JsonSchemaProperty property = null;
+			//schema.Properties.Add("name", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
+			//schema.Properties.Add("prompt", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
 
 			try
 			{
@@ -477,7 +498,7 @@ namespace mmria.console
 						case "list":
 								if(p_node.is_multiselect.HasValue && p_node.is_multiselect.Value == true)
 								{
-									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+									property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
 									foreach(var value in p_node.values)
 									{
 										property.EnumerationNames.Add(value.value);
@@ -485,7 +506,7 @@ namespace mmria.console
 								}
 								else
 								{
-									property = new NJsonSchema.JsonProperty(){ Type = NJsonSchema.JsonObjectType.String };
+									property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String };
 									p_parent.Add(p_node.name, property);
 
 									foreach(var value in p_node.values)
