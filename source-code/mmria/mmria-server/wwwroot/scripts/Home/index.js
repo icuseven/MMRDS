@@ -64,98 +64,103 @@ function load_user_role_jurisdiction()
 
       //role_list_html.push("<p>[ " + g_uid + " ] ");
       role_list_html.push("<p>");
-      if(g_sams_is_enabled.toLowerCase() != "true" && g_config_password_days_before_expires > 0)
-      {
-        if(g_days_til_password_expires >= 0)
+        if(g_sams_is_enabled.toLowerCase() != "true" && g_config_password_days_before_expires > 0)
         {
-          role_list_html.push("Your password will expire in " + g_days_til_password_expires + " day(s).");
-        }
-        else
-        {
-          role_list_html.push("Your password expired " + (-1 * g_days_til_password_expires) + " day(s) ago.");
-        }
-        
-      }
-      role_list_html.push("</p>");
-      role_list_html.push("<table border=1>");
-      role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan=7>Role assignment list for " + g_uid + "</th></tr>");
-      role_list_html.push("<tr bgcolor='#CCCCCC'>");
-      role_list_html.push("<th>Role Name</th>");
-      role_list_html.push("<th>Jurisdiction</th>");
-      role_list_html.push("<th>Is Active</th>");
-      role_list_html.push("<th>Start Date</th>");
-      role_list_html.push("<th>End Date</th>");
-      role_list_html.push("<th>Days Till<br/>Role Expires</th>");
-      role_list_html.push("<th>Jurisdiction<br/>Admin</th>");
-      role_list_html.push("</tr>");
-
-      if(response)
-      {
-        for(var i in response.rows)
-        {
-
-          var current_date = new Date();
-          var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-
-          var value = response.rows[i].value;
-          if(value.user_id == g_uid)
+          if(g_days_til_password_expires >= 0)
           {
-            g_jurisdiction_list.push(value);
-
-            var diffDays = 0;
-
-            var effective_start_date = "";
-            var effective_end_date = "never";
-
-            if(value.effective_start_date && value.effective_start_date != "")
-            {
-              effective_start_date = value.effective_start_date.split('T')[0];
-            }
-
-            if(value.effective_end_date && value.effective_end_date != "")
-            {
-              effective_end_date = value.effective_end_date.split('T')[0];
-              diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
-              
-            }
-
-            if(i % 2 == 0)
-            {
-              role_list_html.push("<tr>");
-              
-            }
-            else
-            {
-              role_list_html.push("<tr bgcolor='silver'>");
-            }
-            
-            role_list_html.push("<td>" + value.role_name + "</td>");
-            role_list_html.push("<td>" + value.jurisdiction_id + "</td>");
-            if(diffDays < 0)
-            {
-              role_list_html.push("<td>false</td>");
-            }
-            else
-            {
-              role_list_html.push("<td>" + value.is_active + "</td>");
-            }
-            
-            role_list_html.push("<td>" + effective_start_date + "</td>");
-            role_list_html.push("<td>" + effective_end_date + "</td>");
-            role_list_html.push("<td align='right'>" + diffDays + "</td>");
-            role_list_html.push("<td>" + value.last_updated_by + "</td>");
-            role_list_html.push("</tr>");
+            role_list_html.push("Your password will expire in " + g_days_til_password_expires + " day(s).");
+          }
+          else
+          {
+            role_list_html.push("Your password expired " + (-1 * g_days_til_password_expires) + " day(s) ago.");
           }
         }
-          
-      }
+      role_list_html.push("</p>");
+      role_list_html.push("<table class='table'>");
+        role_list_html.push("<thead class='thead h4'>");
+        role_list_html.push("<tr class='tr bg-primary'>");
+        role_list_html.push("<th class='th ' colspan='7'>Role assignment list for " + g_uid + "</th>");
+        role_list_html.push("</tr>");
+        role_list_html.push("</thead>");
+        role_list_html.push("<thead class='thead'>");
+        role_list_html.push("<tr class='tr'>");
+        role_list_html.push("<th class='th'>Role Name</th>");
+        role_list_html.push("<th class='th'>Jurisdiction</th>");
+        role_list_html.push("<th class='th'>Is Active</th>");
+        role_list_html.push("<th class='th'>Start Date</th>");
+        role_list_html.push("<th class='th'>End Date</th>");
+        role_list_html.push("<th class='th'>Days Till<br/>Role Expires</th>");
+        role_list_html.push("<th class='th'>Jurisdiction<br/>Admin</th>");
+        role_list_html.push("</tr>");
+        role_list_html.push("</thead>");
+        
+        role_list_html.push("<tbody class='tbody'>");
+          if(response)
+          {
+            for(var i in response.rows)
+            {
 
+              var current_date = new Date();
+              var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+
+              var value = response.rows[i].value;
+              if(value.user_id == g_uid)
+              {
+                g_jurisdiction_list.push(value);
+
+                var diffDays = 0;
+
+                var effective_start_date = "";
+                var effective_end_date = "never";
+
+                if(value.effective_start_date && value.effective_start_date != "")
+                {
+                  effective_start_date = value.effective_start_date.split('T')[0];
+                }
+
+                if(value.effective_end_date && value.effective_end_date != "")
+                {
+                  effective_end_date = value.effective_end_date.split('T')[0];
+                  diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
+                  
+                }
+
+                if(i % 2 == 0)
+                {
+                  role_list_html.push("<tr class='tr'>");
+                  
+                }
+                else
+                {
+                  role_list_html.push("<tr class='tr'>");
+                }
+                
+                role_list_html.push("<td class='td'>" + value.role_name + "</td>");
+                role_list_html.push("<td class='td'>" + value.jurisdiction_id + "</td>");
+                if(diffDays < 0)
+                {
+                  role_list_html.push("<td class='td'>false</td>");
+                }
+                else
+                {
+                  role_list_html.push("<td class='td'>" + value.is_active + "</td>");
+                }
+                
+                role_list_html.push("<td class='td'>" + effective_start_date + "</td>");
+                role_list_html.push("<td class='td'>" + effective_end_date + "</td>");
+                role_list_html.push("<td class='td'>" + diffDays + "</td>");
+                role_list_html.push("<td class='td'>" + value.last_updated_by + "</td>");
+                role_list_html.push("</tr>");
+              }
+            }
+              
+          }
+        
+        role_list_html.push("</tbody>");
       role_list_html.push("</table>");
       
-
       document.getElementById("role_list").innerHTML = role_list_html.join("");
       //load_profile();
-
 	});
 
 }
@@ -206,7 +211,3 @@ function open_blank_version(p_section)
 		blank_window.create_print_version(g_metadata, default_object, p_section)
 	}, 1000);	
 }
-
-
-
-
