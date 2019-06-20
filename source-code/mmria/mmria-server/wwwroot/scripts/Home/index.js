@@ -65,9 +65,9 @@ function load_user_role_jurisdiction()
         }
       role_list_html.push("</p>");
       role_list_html.push("<table class='table'>");
-        role_list_html.push("<thead class='thead h4'>");
-        role_list_html.push("<tr class='tr bg-primary'>");
-        role_list_html.push("<th class='th ' colspan='7'>Role assignment list for " + g_uid + "</th>");
+        role_list_html.push("<thead class='thead'>");
+        role_list_html.push("<tr class='tr bg-tertiary'>");
+        role_list_html.push("<th class='th h4' colspan='7'>Role assignment list for " + g_uid + "</th>");
         role_list_html.push("</tr>");
         role_list_html.push("</thead>");
         role_list_html.push("<thead class='thead'>");

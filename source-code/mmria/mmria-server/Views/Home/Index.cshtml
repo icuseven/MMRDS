@@ -61,10 +61,6 @@
 
 <div class="col">
 
-  <h2>Hello, @userName</h2>
-
-  <span id="role_list" class="d-block mb-5"></span>
-
   @if (is_guest)
   {
     <h1>Welcome to MMRIA</h1>
@@ -73,9 +69,10 @@
   }
   else
   {
-    <h3>Select your action:</h3>
+    <h2><span id="fancy_greeting">Hello</span>, @userName</h2>
+    <p>Please select an action below:</p>
 
-    <div class="grid">
+    <div class="grid mb-5">
       @if(is_abstractor)
       {
         <div class="card grid-item grid-item--3">
@@ -190,5 +187,7 @@
       </div>
     </div>
   }
+
+  <span id="role_list" class="d-block"></span>
 
 </div>

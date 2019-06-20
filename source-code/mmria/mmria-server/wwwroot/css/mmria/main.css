@@ -457,9 +457,7 @@ button {
   overflow: hidden;
 }
 
-.thead:first-of-type .tr {
-  color: var(--white);
-}
+.thead:first-of-type .tr {}
 .thead .tr {
   background-color: #f1f1f1;
 }
