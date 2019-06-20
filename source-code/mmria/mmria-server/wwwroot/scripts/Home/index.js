@@ -153,7 +153,6 @@ function load_user_role_jurisdiction()
 
 }
 
-
 function load_profile()
 {
     /*
