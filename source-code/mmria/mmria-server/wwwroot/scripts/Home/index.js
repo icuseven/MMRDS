@@ -4,11 +4,8 @@ var g_jurisdiction_list = [];
 var g_metadata = null;
 var default_object = null;
 
-
 $(function ()
 {
-
-
 	$(document).keydown(function(evt){
 		if (evt.keyCode==90 && (evt.ctrlKey)){
 			evt.preventDefault();
@@ -17,30 +14,21 @@ $(function ()
 
 	});
 
-
   //set_session_warning_interval();
-
   //$.datetimepicker.setLocale('en');
-
   get_metadata();
- 
-  
-  
 });
 
 function get_metadata()
 {
-
-  	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
+  $.ajax({
+		url: location.protocol + '//' + location.host + '/api/metadata',
 	}).done(function(response) {
-			g_metadata = response;
-      default_object =  create_default_object(g_metadata, {});
-      load_user_role_jurisdiction();
+    g_metadata = response;
+    default_object =  create_default_object(g_metadata, {});
+    load_user_role_jurisdiction();
 	});
 }
-
-
 
 function load_user_role_jurisdiction()
 {
