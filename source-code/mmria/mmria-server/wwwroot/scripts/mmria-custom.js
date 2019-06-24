@@ -1,4 +1,4 @@
-// Func to help if a value is null, undefined, 0, ''(empty str), false or NaN
+// Helper func to help if a value is null, undefined, 0, ''(empty str), false or NaN
 const isNullOrUndefined = (value) => {
   if (typeof value !== 'undefined' && value) {
       return false;
@@ -10,11 +10,13 @@ const isNullOrUndefined = (value) => {
 function ClassNameOnLoad(element, className, delay) {
   this.element = element;
   this.className = className;
-  this.delay = delay;
-  this.handleClass = setTimeout(() => {
-    this.element.classList.add(this.className);
+  this.delay = delay || 0;
+  this.addTheClass = setTimeout(() => {
+    if (!isNullOrUndefined(this.element)) {
+      this.element.classList.add(this.className);
+    }
   }, delay);
 };
 
 const userLogin = document.getElementById("user_login");
-const boom = new ClassNameOnLoad(userLogin, "is-active", 100);
+const fancyLogin = new ClassNameOnLoad(userLogin, "is-active", 100);
