@@ -1,0 +1,14 @@
+<script type='text/javascript' src='/JScript/Opt-in_triggerParams.js'></script>
+<script type='text/javascript' src='/JScript/Opt-in_stdLauncher.js'></script>
+<div style="border: 1px solid black; margin: 0px 12px 6px 0px; padding: 3px 3px 9px 3px;">
+	<div>
+		<span style="font-size: 110%; font-weight: bold">How are we doing?</span>
+	</div>
+	<div style="margin-top: 15px;">
+		<span>Please help us continue to improve our website by sharing your opinion.</span>
+
+	</div>
+	<div id="optin" style="margin-top: 15px;">
+		<a href="#" target="_top" onclick="optinPoll()">Provide feedback by filling out a short survey &gt;&gt;</a>
+	</div>
+</div>

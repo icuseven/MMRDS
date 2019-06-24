@@ -1,5 +1,4 @@
 <html lang="en" class="theme-purple">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,64 +6,11 @@
   <meta name="description"
     content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
   <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
-
   <link rel="shortcut icon" href="/TemplatePackage/4.0/assets/imgs/favicon.ico">
   <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/vendor/css/bootstrap.css">
   <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
   <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
   <link rel="stylesheet" href="/css/mmria/main.css" />
-
-  @*
-  <style>
-    .grid {
-      display: grid | inline-grid;
-      grid-template-rows: 1fr 1fr 1fr;
-    }
-
-    .grid div {
-      width: 100%;
-      height: 100%;
-    }
-
-    #header {
-      /*background-color: #351147; */
-      border: 0px;
-      height: 70px;
-      padding: 20px 0;
-      transition: all 0.3s;
-      color: #FFFFFF;
-
-    }
-
-    /* td {color: #FFFFFF;} */
-    table {
-      margin-left: auto;
-    }
-
-    /*
-    #footer {
-      background-color: #351147;
-      border: 0px;
-      padding: 20px 0;
-      transition: all 0.3s;
-      color: #FFFFFF;
-      height:  50px;
-      
-    }*/
-
-    #content {
-      height: 666px;
-      align-content: center;
-    }
-
-    .center {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      /*width: 50%;*/
-    }
-  </style>
-  *@
 </head>
 
 <body>
@@ -84,44 +30,40 @@
       </div>
     </div>
 
-    <main
-      id="content"
-      class="container-fluid app-content"
-      role="main"
-      aria-label="Main Content Area"
-      style="background-image: url('/img/Purple-Pattern-Light.png')">
+    <main id="content"
+          class="container-fluid app-content"
+          role="main"
+          aria-label="Main Content Area"
+          style="background-image: url('/img/Purple-Pattern-Light.png')">
       <div class="container">
         <div class="row">
 
           @model ApplicationUser
           @{
-          <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login" method="POST">
-            <h3 class="login__title">Welcome to MMRIA</h3>
-            <p class="login__info">Please log in. Contact your jurisdiction administrator if you are having trouble logging in.</p>
-            <div class="form-group mb-2">
-              <label for="login_username" class="login__label">Username</label>
-              <div>
-                <input id="login_username" class="login__field form-control" name="username" type="text" />
-                <i class="login__icon"></i>
+            <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login"
+              method="POST">
+              <h3 class="login__title">Welcome to MMRIA</h3>
+              <p class="login__info">Please log in. Contact your jurisdiction administrator if there are issues accessing the application.</p>
+              <div class="form-group mb-2">
+                <label for="login_username" class="login__label">Username</label>
+                <div>
+                  <input id="login_username" class="login__field form-control" name="username" type="text" />
+                  <i class="login__icon"></i>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="login_password" class="login__label">Password</label>
-              <div>
-                <input id="login_password" class="login__field form-control" name="password" type="password" />
-                <i class="login__icon"></i>
+              <div class="form-group">
+                <label for="login_password" class="login__label">Password</label>
+                <div>
+                  <input id="login_password" class="login__field form-control" name="password" type="password" />
+                  <i class="login__icon"></i>
+                </div>
               </div>
-            </div>
-            <div class="form-controls">
-              <button name="submit" type="submit" class="login__btn">Login</button>
-            </div>
-            <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
-          </form>
+              <div class="form-controls">
+                <button name="submit" type="submit" class="login__btn">Login</button>
+              </div>
+              <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
+            </form>
           }
-    
-          <!-- <h1>Welcome to MMRIA</h1> -->
-          <!--img src="/img/mmrai_landing_logo1.png" width=1095 height=887/-->
-          <!-- <img class="center" alt="MMRIA Landing Logo" src="/img/mmrai_landing_logo1.png" width=821.25 height=665.25/> -->
 
         </div>
       </div>
@@ -131,9 +73,92 @@
 
   </div>
 
+  <div id="metrics">
+    <!-- Google DAP inclusion -->
+    <script id="_fed_an_ua_tag"
+      src="/JScript/metrics/google/Universal-Federated-Analytics-Min.js?agency=HHS&amp;subagency=CDC"></script>
+
+    <!-- Begin Adobe Analytics code version: JS-2.0 -->
+    <script src="/JScript/metrics/topic_levels.js"></script>
+    <script src="/JScript/metrics/adobe/analytics_cdcgov.js"></script>
+    <script>
+      var pageHref = window.location.href.toLowerCase(),
+          pageTitle = document.title,
+          hostName = window.location.hostname.toLowerCase(),
+          simpleUrl = pageHref.split('?')[0].split('#')[0];
+
+      // Metrics Carry Over (from TP3)
+      s.prop2 = pageHref;
+      s.prop26 = pageTitle;
+      s.prop30 = pageTitle;
+      s.prop31 = pageHref;
+      s.prop46 = pageHref;
+      s.server = hostName;
+      //Simplified URL
+      s.prop73 = simpleUrl;
+      s.eVar73 = simpleUrl;
+
+      // Update the level variables here.
+      updateVariables(s);
+
+      // Set the referrer value if passed on the querystring from a CDC page-level redirect.
+      var qs = function (a) {
+        if (a === '') {
+          return;
+        }
+        var b = {};
+        for (var i = 0; i < a.length; ++i) {
+          var p = a[i].split('=');
+          if (p.length !== 2 || p[0] == "") {
+            continue;
+          }
+          b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, ' '));
+        }
+        return b;
+      }(window.location.search.substr(1).split('&'));
+
+      var refParam = qs['CDC_AA_refVal'];
+      if (refParam) {
+        s.referrer = refParam;
+      }
+    </script>
+
+    <noscript>
+      <a href="https://cdc.112.2o7.net">
+        <img src="https://cdc.112.2o7.net/b/ss/cdcgov/1/H.21--NS/01/H.21--NS/0" height="1" width="1" alt="Web Analytics" />
+      </a>
+    </noscript>
+    <!--/DO NOT REMOVE/-->
+    <!-- End Adobe Analytics code version: JS-2.0 -->
+  </div>
+
   <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
   <script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script>
   <script src="/TemplatePackage/4.0/assets/js/app.bundle.min.js"></script>
   <script src="/js/mmria/main.js"></script>
+  <script>
+    s.pageName = document.title;
+    s.channel = "mmria";
+
+    window.shortTitle = "";
+    window.pageOptions = window.pageOptions || {};
+    window.pageOptions.navigation = window.pageOptions.navigation || {};
+
+    window.pageOptions.navigation.breadcrumbs = {
+      mode: 'auto',
+      showCurrentPage: false,
+      prefix: [
+        {
+          text: 'CDC',
+          href: 'https://www.cdc.gov/'
+        }
+      ]
+    };
+
+    window.pageOptions.navigation.breadcrumbs = window.pageOptions.navigation.breadcrumbs || {};
+    window.pageOptions.navigation.pathToSelect = window.pageOptions.navigation.pathToSelect || window.location.pathname
+    window.CDC.tp4.public.appInit(window.pageOptions); 
+  </script>
 </body>
+
 </html>

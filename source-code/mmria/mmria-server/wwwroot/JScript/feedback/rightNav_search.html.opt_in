@@ -1,0 +1,16 @@
+<script type='text/javascript' src='/JScript/Opt-in_triggerParams.js'></script>
+<script type='text/javascript' src='/JScript/Opt-in_stdLauncher.js'></script>
+<div style="border: 1px solid black; margin: 0px 12px 6px 0px; padding: 3px 3px 9px 3px;">
+	<div>
+		<span style="font-size: 110%; font-weight: bold">How are we doing?</span>
+	</div>
+	<div style="margin-top: 15px;">
+		<span>Are these new search results useful to you?  Why or why not?  Help us to continue to improve our website.</span>
+	</div>
+	<div style="margin-top: 15px;">
+		<a href="/feedback.do?questionNumber=1" target="_blank" onclick="showWindow(1); return false;">Let us know how our search is working &gt;&gt;</a>
+	</div>
+	<div id="optin" style="margin-top: 15px;">
+		<a href="#" target="_top" onclick="Poll()">Opt-In Test</a>
+	</div>
+</div>

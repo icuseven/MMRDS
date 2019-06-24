@@ -1,0 +1,96 @@
+div.fsrwin {
+    border: 1px solid #ACACAC;
+}
+
+div.fsrwin div {
+    background: #FFFFFF none repeat scroll 0;
+    color: #4D4D4D;
+    font-family: Arial, Helvetica, Sans-Serif;
+    font-size: 10pt;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+}
+
+div.fsrwin b {
+    font-family: Arial, Helvetica, Sans-Serif;
+    font-size: 10pt;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div.fsrwin div.fsr_body {
+    padding: 0.385em 0.385em 0.385em 0.385em;
+}
+
+div.fsrwin div.fsr_closeButtons {
+    text-align: center;
+    padding: 0.308em 0 0.308em 0;
+}
+
+div.fsrwin button.fsr_button {
+    font-family: Arial, Helvetica, Sans-Serif;
+    border: 1px solid #999999;
+    cursor: pointer;
+    font-size: 12pt;
+    margin: 0.308em 0.308em;
+    padding: 0.385em 0.385em;
+    text-decoration: none;
+    text-transform: none;
+    font-weight: normal;
+    width: 200px;
+	float: none;
+}
+
+div.fsrwin button.fsr_accept {
+    background-color: #EEEEEE;
+    color: #000000;
+}
+
+div.fsrwin button.fsr_decline {
+    background-color: #EEEEEE;
+    color: #000000;
+}
+
+#fsrinvite div.fsri_sitelogo {
+    float: left;
+    width: 9.231em;
+    height: 2.692em;
+    text-align: left;
+}
+
+#fsrinvite div.fsri_sitelogo img {
+	width: 40%;
+}
+
+#fsrinvite div.fsri_fsrlogo {
+    float: right;
+    width: 9.231em;
+    height: 2.692em;
+    text-align: right;
+}
+
+#fsrinvite div.fsri_fsrlogo img {
+	width: 40%;
+}
+#fsrcontainer:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#fsrcontainer {
+    display: inline-block;
+}
+
+/* Hides from IE-mac \*/
+* html #fsrcontainer {
+    height: 1%;
+}
+
+#fsrcontainer {
+    display: block;
+}
+/* End hide from IE-mac */
