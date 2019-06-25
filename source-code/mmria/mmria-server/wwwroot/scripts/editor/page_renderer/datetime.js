@@ -13,6 +13,8 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_result.push("' ");
 
 			p_result.push(" style='");
+
+/*
 			if(p_metadata.grid_row && p_metadata.grid_row!= "")
 			{
 				p_result.push("grid-row:");
@@ -34,6 +36,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 				p_result.push(p_metadata.grid_area);
 				p_result.push(";");
 			}
+			*/
 			p_result.push("' ");
 
 			p_result.push(">");
@@ -42,13 +45,19 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			{
 				p_result.push("rel='tooltip'  data-original-title='");
 				p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-				p_result.push("'>");
+				p_result.push("'");
 			}
-			else
-			{
-				p_result.push(">");
-			}
+
 			
+			var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+			if(style_object)
+			{
+				p_result.push(" style='");
+				p_result.push(get_style_string(style_object.prompt.style));
+				p_result.push("'");
+			}
+			p_result.push(">");
+
 			if(p_is_grid_context && p_is_grid_context == true)
 			{
 

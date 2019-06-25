@@ -5,6 +5,13 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     //p_result.push("<table style='grid-column:1/-1'  id='");
     p_result.push("<table id='");
     p_result.push(p_metadata_path);
+    p_result.push("' style='");
+
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
+    {
+        p_result.push(get_only_size_and_position_string(style_object.control.style)); 
+    }
     p_result.push("' class='grid2'><tr><th colspan=");
     p_result.push(p_metadata.children.length + 1)
     p_result.push(">");
