@@ -22,7 +22,7 @@ var g_metadata_summary = [];
 var default_object = null;
 var g_change_stack = [];
 var g_default_ui_specification = null;
-var g_use_position_information = false;
+var g_use_position_information = true;
 
 
 

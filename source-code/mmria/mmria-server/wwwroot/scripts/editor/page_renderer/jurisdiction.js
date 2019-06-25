@@ -16,7 +16,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         g_default_ui_specification.form_design[key].prompt.style
     )
     {
-        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].prompt.style));
+        p_result.push(get_style_string(g_default_ui_specification.form_design[key].prompt.style));
     }
     p_result.push("' ");
     p_result.push(">Jurisdiction ID ");
@@ -41,7 +41,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         g_default_ui_specification.form_design[key].control.style
     )
     {
-        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].control.style));
+        p_result.push(get_style_string(g_default_ui_specification.form_design[key].control.style));
     }
     p_result.push("' ");
 

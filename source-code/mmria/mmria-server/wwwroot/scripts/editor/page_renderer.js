@@ -69,7 +69,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 }
 
-function convert_ui_spec_style_to_css(p_style_string)
+function get_style_string(p_style_string)
 {
 
 	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
@@ -176,7 +176,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
         g_default_ui_specification.form_design[key].control.style
     )
     {
-        p_result.push(convert_ui_spec_style_to_css(g_default_ui_specification.form_design[key].control.style));
+        p_result.push(get_style_string(g_default_ui_specification.form_design[key].control.style));
     }
     p_result.push("' ");
 
@@ -600,4 +600,133 @@ function make_c3_date(p_value)
 	result.push(date_time.getSeconds());
 
 	return result.join("");
+}
+
+function get_style_string(p_specicification_style_string)
+{
+
+    var result = [];
+
+    var properly_formated_style = p_specicification_style_string;
+    properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+    properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+    properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+
+
+    properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+    //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
+    var items = properly_formated_style.split(";")
+    for(var i in items)
+    {
+        var pair = items[i].split(":");
+        switch(pair[0].toLocaleLowerCase())
+        {
+            case "top":
+            case "left":
+            case "height":
+            case "width":
+            case "font-size":
+                var value = pair[1].trim();
+                if(/px$/.test(value))
+                {
+                    result.push(pair[0] + ":" + value);
+                }
+                else
+                {
+                    result.push(pair[0] + ":" + pair[1].trim() + "px");
+                }
+            break;
+
+            default:
+                result.push(pair.join(":"));
+            break;
+        }
+
+    }
+
+    return result.join(";");
+}
+
+
+function get_only_size_and_position_string(p_specicification_style_string)
+{
+
+    var result = [];
+
+    var properly_formated_style = p_specicification_style_string;
+    properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+    properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+    properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+
+
+    properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+    //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"ui_specification
+    var items = properly_formated_style.split(";")
+    for(var i in items)
+    {
+        var pair = items[i].split(":");
+        switch(pair[0].toLocaleLowerCase())
+        {
+            case "top":
+            case "left":
+            case "height":
+            case "width":
+                var value = pair[1].trim();
+                if(/px$/.test(value))
+                {
+                    result.push(pair[0] + ":" + value);
+                }
+                else
+                {
+                    result.push(pair[0] + ":" + pair[1].trim() + "px");
+                }
+                break;
+            case "position":
+                result.push(pair.join(":"));
+                break;
+        }
+
+    }
+
+    return result.join(";");
+}
+
+function get_only_font_style_string(p_specicification_style_string)
+{
+
+    var result = [];
+
+    var properly_formated_style = p_specicification_style_string;
+    properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+    properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+    properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+    properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+    //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
+    var items = properly_formated_style.split(";")
+    for(var i in items)
+    {
+        var pair = items[i].split(":");
+        switch(pair[0].toLocaleLowerCase())
+        {
+            case "font-size":
+                var value = pair[1].trim();
+                if(/px$/.test(value))
+                {
+                    result.push(pair[0] + ":" + value);
+                }
+                else
+                {
+                    result.push(pair[0] + ":" + pair[1].trim() + "px");
+                }
+                break;
+
+            case "font-weight":
+            case "color":
+                result.push(pair.join(":"));
+                break;
+        }
+
+    }
+
+    return result.join(";");
 }
