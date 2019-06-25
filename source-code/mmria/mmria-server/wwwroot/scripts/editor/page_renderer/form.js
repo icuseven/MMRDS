@@ -169,7 +169,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
        //p_result.push(" display='grid' grid-template-columns='1fr 1fr 1fr' ");
 
-       p_result.push(" style='position:relative;' class='form'><h2 style='grid-column:1/-1;' ");
+       p_result.push(" style='' class='form'><h2 style='grid-column:1/-1;' ");
 
        if(p_metadata.description && p_metadata.description.length > 0)
        {
