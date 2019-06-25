@@ -502,6 +502,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         }
     }
 
+    
     p_result.push('<footer class="footer_wrapper">');
     p_result.push('<p>&nbsp;</p>');
     p_result.push('</footer>');
