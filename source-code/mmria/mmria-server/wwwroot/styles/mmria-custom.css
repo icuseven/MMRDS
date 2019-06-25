@@ -490,6 +490,7 @@ button {
   position: relative;
 }
 
+.app-header + .app-content,
 .app-content + .app-footer {
   margin-top: 1rem;
 }
@@ -512,7 +513,7 @@ button {
 }
 
 .utility-item + .utility-item {
-  margin-left: 10px;
+  margin-left: 1rem;
 }
 
 .utility-btn {
@@ -529,6 +530,7 @@ button {
   outline: none;
   text-decoration: underline;
 }
+
 
 
 

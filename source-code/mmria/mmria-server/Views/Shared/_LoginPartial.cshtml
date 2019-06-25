@@ -4,14 +4,13 @@
 
   var UserName = User.Identities.First( u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-  <ul class="utility row justify-content-end list-unstyled">
+  <ul class="utility row no-gutters justify-content-end list-unstyled">
     <li class="utility-item">
       @UserName&nbsp;
     </li>
     <li class="utility-item">
       <form id="profile_form2" action="/Account/Logout" method="POST">
         <button name="submit" class="utility-btn" type="submit">Log out</button>
-        @*<input name="submit" value="Log out" type="submit" class="utility-btn" />*@
       </form>
     </li>
   </ul>
