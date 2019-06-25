@@ -1,14 +1,22 @@
-@using System.Security.Claims;
-<html lang="en">
-  <head>
+<html lang="en" class="theme-purple">
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+  <meta name="description"
+    content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
   <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+
+  <link rel="shortcut icon" href="/TemplatePackage/4.0/assets/imgs/favicon.ico">
+  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/vendor/css/bootstrap.css">
+  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
+  <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
+  <link rel="stylesheet" href="/styles/mmria-custom.css" />
+
+  <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
   
-  <link rel="stylesheet" href="/styles/cdc.app.css" />
-  <LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />
+  @*<link rel="stylesheet" href="/styles/cdc.app.css" />*@
+  @*<LINK href="./styles/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet" />*@
   <link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/jquery/jquery.datetimepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/bootstrap/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
@@ -18,22 +26,22 @@
   
   
   <link rel="stylesheet" type="text/css" href="css/animate.css">
-  <link rel="stylesheet" href="/styles/cdc.app.css" />
+  @*<link rel="stylesheet" href="/styles/cdc.app.css" />*@
 
   
-  <!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
-  <script src="js/jquery.min.js"></script>
+  @*<link href="./styles/styles.css" type="text/css" rel="stylesheet" />*@
+  @*<script src="js/jquery.min.js"></script>*@
   <script src="js/jquery.easing.min.js"></script>
     
   <script src="js/wow.js"></script>
   <script src="js/jquery.bxslider.min.js"></script>
-  <!-- script src="js/custom.js"></script-->
+  @*<script src="js/custom.js"></script>*@
   
   
   <script src="./scripts/jquery-3.1.1.min.js"></script>
   <script src="./scripts/jquery-ui.min.js"></script>
   <script src="./scripts/jquery/moment.js"></script>
-  <!--script src="./scripts/jquery/idle-timer.js"></script-->
+  @*<script src="./scripts/jquery/idle-timer.js"></script>*@
   <script src="./scripts/jquery/jquery.timepicker.js"></script>
   <script src="./scripts/jquery/jquery.numeric.min.js" type="text/javascript" ></script>
   <script src="./scripts/jquery/jquery.datetimepicker.js" type="text/javascript"></script>
@@ -44,7 +52,7 @@
   
   <script src="./scripts/flatpickr/flatpickr.js"></script>
   
-  <!--script src="./scripts/datediff.js"--></script>
+  @*<script src="./scripts/datediff.js"></script>*@
   
   <script src="./scripts/pouchdb/pouchdb.min.js"></script>
   <script src="./scripts/pouchdb/pouchdb.authentication.min.js"></script>
@@ -55,11 +63,11 @@
   <script src="./scripts/d3/d3.min.js" type="text/javascript"></script>
   <script src="./scripts/d3/c3.min.js" type="text/javascript"></script>
   
-  <!-- script src="scripts/ajax.js" type="text/javascript"></script>
+  @*<script src="scripts/ajax.js" type="text/javascript"></script>
   <script src="react-test/meta_navigator.js" type="text/javascript"></script>
   <script src="react-test/meta_navigator.js" type="text/javascript"></script>
   <script src="scripts/editor/tree_node.js" type="text/javascript"></script>
-  <script src="scripts/editor/editor.js" type="text/javascript"></script-->
+  <script src="scripts/editor/editor.js" type="text/javascript"></script>*@
   <script src="./scripts/metadata_summary.js" type="text/javascript"></script>
   <script src="./scripts/editor/navigation_renderer.js" type="text/javascript"></script>
 
@@ -86,116 +94,137 @@
   
   <script src="./scripts/profile.js" type="text/javascript"></script>
   <script src="./scripts/url_monitor.js" type="text/javascript"></script>
-  <!--script src="./scripts/feed_back_utils.js" type="text/javascript"></script>
+  @*<script src="./scripts/feed_back_utils.js" type="text/javascript"></script>
   <script src="./scripts/feed_back.js" type="text/javascript"></script>
-  <script src="./scripts/index.js" type="text/javascript"> </script-->
+  <script src="./scripts/index.js" type="text/javascript"> </script>*@
   <script src="./api/validator" type="text/javascript"> </script>
-  <style>
+  @*<style>
+    .grid {
+      display: grid;
+      grid-template-rows: 155px 1fr 155px;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-rows: 155px 1fr 155px;
-  }
-
-  .grid table {
-    display: block
-  }
+    .grid table {
+      display: block
+    }
 
 
-  #header 
-  {
-    background-color: #FFFFFF;
-    display: grid;
-    grid-template-columns: 1f  1f 1f;
-    grid-template-rows: 1f  1f;
-    border: 0px;
-    height:  70px;
-    padding: 20px 0;
-    transition: all 0.3s;
-    color: #FFFFFF;
-    position: fixed; /* Set the navbar to fixed position */
-    width: 100%; /* Full width */
-    height: 200px;
-    z-index: 10;
-    top: 0;
+    #header 
+    {
+      background-color: #FFFFFF;
+      display: grid;
+      grid-template-columns: 1f  1f 1f;
+      grid-template-rows: 1f  1f;
+      border: 0px;
+      height:  70px;
+      padding: 20px 0;
+      transition: all 0.3s;
+      color: #FFFFFF;
+      position: fixed; /* Set the navbar to fixed position */
+      width: 100%; /* Full width */
+      height: 200px;
+      z-index: 10;
+      top: 0;
+      
+    }        
+
+    .header-top-left
+    {
+      grid-row 1;
+      grid-column: 1;
+    }
+
+    .header-top-right
+    {
+      grid-row: 1;
+      grid-column: 3;
+    }
+
+    .header-second-row 
+    {
+      grid-row: 2;
+      grid-column: 1;
+    }
+
+
+    #content
+    {
+      /*height:  666px;*/
+      align-content: center;
+      margin: 20px;
+      margin-top: 50px;
+      overflow-y: auto;
+
+    }
+
+    .center 
+    {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      /*width: 50%;*/
     
-  }        
+    }
 
-  .header-top-left
-  {
-    grid-row 1;
-    grid-column: 1;
-  }
-
-  .header-top-right
-  {
-    grid-row: 1;
-    grid-column: 3;
-  }
-
-  .header-second-row 
-  {
-    grid-row: 2;
-    grid-column: 1;
-  }
-
-
-  #content
-  {
-    /*height:  666px;*/
-    align-content: center;
-    margin: 20px;
-    margin-top: 50px;
-    overflow-y: auto;
-
-  }
-
-  .center 
-  {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    /*width: 50%;*/
-  
-  }
-
-  #footer 
-  {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
-    /*text-align: center;*/
-  }
-
-</style>
+    #footer 
+    {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: red;
+      color: white;
+      /*text-align: center;*/
+    }
+  </style>*@
 </head>
 
 <body>
+  <div id="top" class="site">
 
-    <header id="header">
-      <div class="header-top-left">
-        <a  style="background-color:#FFFFFF;" title="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" href="https://www.cdc.gov">
-          <img alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People" src="/images/masthead_subpage.svg">
-        </a>
+    @await Html.PartialAsync("_Header")
+
+    <div class="container-fluid site-title">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="display-6 text-white fw-500 pt-1 pb-1">
+              <a href="/">MMRIA</a>
+            </div>
+          </div>
+          <div class="col">
+
+            @await Html.PartialAsync("_LoginPartial")
+
+          </div>
+        </div>
       </div>
-      @await Html.PartialAsync("_LoginPartial") 
+    </div>
 
     <div id="navbar" class="header-second-row">
-      <a href="/Home">
-        <img src="../images/mmria-secondary.svg" height="37.5" width="50" alt="MMRIA Application">
-      </a>
+      <a href="/Home">Home</a>
     </div>
-    
-    </header>
-    <main id="content">
-         @RenderBody()
+
+    <main id="content"
+          class="container app-content mt-4"
+          role="main"
+          aria-label="Main Content Area">
+      <div class="row">
+
+        @RenderBody()
+
+      </div>
     </main>
     
     @await Html.PartialAsync("_Footer")
+  
+  </div> <!-- end #top.site -->
 
+  <script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script>
+  <script src="/TemplatePackage/4.0/assets/js/app.bundle.min.js"></script>
+  <script src="/scripts/mmria-custom.js"></script>
+
+  @await Html.PartialAsync("_Metrics")
 
 </body>
 </html>
