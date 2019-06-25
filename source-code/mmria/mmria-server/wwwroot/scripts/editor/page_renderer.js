@@ -166,17 +166,22 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	p_result.push("<input ");
 
     p_result.push(" style='");
-    var key = p_dictionary_path.substring(1);
-
+    
+/*
+	var key = p_dictionary_path.substring(1);
     if
     (
         g_default_ui_specification && 
         g_default_ui_specification.form_design[key]  &&
         g_default_ui_specification.form_design[key].control &&
         g_default_ui_specification.form_design[key].control.style
-    )
+	)
+*/
+	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+
+	if(style_object)
     {
-        p_result.push(get_style_string(g_default_ui_specification.form_design[key].control.style));
+        p_result.push(get_style_string(style_object.control.style));
     }
     p_result.push("' ");
 
@@ -487,7 +492,7 @@ var path_to_validation_description = [];
 	
 }
 
-function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
+function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 	p_result.push("<input  class='checkbox' type='checkbox' name='");
 	p_result.push(p_metadata.name);
@@ -501,6 +506,15 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	}
 	p_result.push(p_data);
 	p_result.push("' ");
+
+	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
+    {
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.control.style));
+        p_result.push("'");
+    }
+
 
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
@@ -529,7 +543,7 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 }
 
 
-function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path)
+function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
 	p_result.push("<textarea  class='");
@@ -545,6 +559,15 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	}
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
+
+
+	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
+    {
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.control.style));
+        p_result.push("'");
+    }
 
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])

@@ -53,17 +53,10 @@ function number_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
     p_result.push("<label ");
     p_result.push(" style='");
 
-    var key = p_dictionary_path.substring(1);
-
-    if
-    (
-        g_default_ui_specification && 
-        g_default_ui_specification.form_design[key]  &&
-        g_default_ui_specification.form_design[key].prompt &&
-        g_default_ui_specification.form_design[key].prompt.style
-    )
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
     {
-        p_result.push(get_style_string(g_default_ui_specification.form_design[key].prompt.style));
+        p_result.push(get_style_string(style_object.prompt.style));
     }
     p_result.push("' ");
 

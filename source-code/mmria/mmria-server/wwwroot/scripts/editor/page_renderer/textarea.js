@@ -38,12 +38,17 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     {
         p_result.push("rel='tooltip'  data-original-title='");
         p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-        p_result.push("'>");
+        p_result.push("'");
     }
-    else
+    
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
     {
-        p_result.push(">");
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.prompt.style));
+        p_result.push("'");
     }
+    p_result.push(">");
     
     if(p_is_grid_context && p_is_grid_context == true)
     {
@@ -55,7 +60,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     }
     
     p_result.push("<br/>");
-    page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path);
+    page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
     p_result.push("</label><br/>");
     p_result.push("</div>");
 }

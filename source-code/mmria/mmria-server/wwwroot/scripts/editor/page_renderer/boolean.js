@@ -33,19 +33,24 @@ function boolean_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_o
 
     p_result.push(">");
 
-    page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path);
+    page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
     p_result.push("<label ");
     if(p_metadata.description && p_metadata.description.length > 0)
     {
         p_result.push("rel='tooltip'  data-original-title='");
         p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-        p_result.push("'>");
+        p_result.push("'");
     }
-    else
+
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
     {
-        p_result.push(">");
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.prompt.style));
+        p_result.push("'");
     }
+    p_result.push(">");
     
     if(p_is_grid_context && p_is_grid_context == true)
     {
