@@ -12,70 +12,11 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_result.push(get_only_size_and_position_string(style_object.control.style));
     }
 
-    /*
-    if(p_metadata.grid_template && p_metadata.grid_template!= "")
-    {
-        p_result.push("display:grid;grid-template:");
-        p_result.push(p_metadata.grid_template);
-        p_result.push(";");
-
-
-        if(p_metadata.grid_gap && p_metadata.grid_gap!= "")
-        {
-            p_result.push("grid-gap:");
-            p_result.push(p_metadata.grid_gap);
-            p_result.push(";");
-        }
-    
-    
-        if(p_metadata.grid_auto_flow && p_metadata.grid_auto_flow!= "")
-        {
-            p_result.push("grid-auto-flow:");
-            p_result.push(p_metadata.grid_auto_flow);
-            p_result.push(";");
-        }
-
-
-        if(p_metadata.grid_template_areas && p_metadata.grid_template_areas!= "")
-        {
-            p_result.push("grid-templ*ate-areas:");
-            p_result.push(p_metadata.grid_auto_flow);
-            p_result.push(";");
-        }
-
-    }
-
-
-
-
-    if(p_metadata.grid_row && p_metadata.grid_row!= "")
-    {
-        p_result.push("grid-row:");
-        p_result.push(p_metadata.grid_row);
-        p_result.push(";");
-    }
-
-
-    if(p_metadata.grid_column && p_metadata.grid_column!= "")
-    {
-        p_result.push("grid-column:");
-        p_result.push(p_metadata.grid_column);
-        p_result.push(";");
-    }
-
-    if(p_metadata.grid_area && p_metadata.grid_area!= "")
-    {
-        p_result.push("grid-area:");
-        p_result.push(p_metadata.grid_area);
-        p_result.push(";");
-    }
-    */
-
     p_result.push("' >"); // close opening div
     p_result.push("<legend style='");
 
-    var style_object = g_default_ui_specification.form_design[p_metadata_path.substring(1)];
-    if(style_object)
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object && style_object.prompt)
     {
         p_result.push(get_only_font_style_string(style_object.prompt.style));
     }

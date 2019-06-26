@@ -8,46 +8,6 @@ function number_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
     p_result.push(p_metadata_path);
     p_result.push("' ");
 
-/*
-    p_result.push(" style='");
-
-    var key = p_dictionary_path.substring(1);
-
-    if
-    (
-        g_default_ui_specification && 
-        g_default_ui_specification.form_design[key]  &&
-        g_default_ui_specification.form_design[key].prompt &&
-        g_default_ui_specification.form_design[key].prompt.style
-    )
-    {
-        p_result.push(get_style_string(g_default_ui_specification.form_design[key].prompt.style));
-    }
-
-
-    if(p_metadata.grid_row && p_metadata.grid_row!= "")
-    {
-        p_result.push("grid-row:");
-        p_result.push(p_metadata.grid_row);
-        p_result.push(";");
-    }
-
-
-    if(p_metadata.grid_column && p_metadata.grid_column!= "")
-    {
-        p_result.push("grid-column:");
-        p_result.push(p_metadata.grid_column);
-        p_result.push(";");
-    }
-
-    if(p_metadata.grid_area && p_metadata.grid_area!= "")
-    {
-        p_result.push("grid-area:");
-        p_result.push(p_metadata.grid_area);
-        p_result.push(";");
-    }
-    p_result.push("' ");
-    */
 
     p_result.push(">");
     p_result.push("<label ");
@@ -80,9 +40,9 @@ function number_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         p_result.push(p_metadata.prompt);
     }
     
-    
-    page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
     p_result.push("</label> ");
+    page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+    
     p_result.push("</div>");
     
 }

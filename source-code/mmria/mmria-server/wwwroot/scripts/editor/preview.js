@@ -114,8 +114,8 @@ window.onhashchange = function(e)
 			var section = section_list[i];
 			if(section.id == g_ui.url_state.path_array[1] + "_id")
 			{
-				section.style.display = "grid";
-				section.style["grid-template-columns"] = "1fr 1fr 1fr";
+				section.style.display = "block";
+				//section.style["grid-template-columns"] = "1fr 1fr 1fr";
 			}
 			else
 			{
@@ -133,10 +133,11 @@ window.onhashchange = function(e)
 			{
 					section.style.display = "block";
 			}
+
 			else
 			{
-				section.style.display = "grid";
-				section.style["grid-template-columns"] = "1fr 1fr 1fr";
+				section.style.display = "block";
+				//section.style["grid-template-columns"] = "1fr 1fr 1fr";
 			}
 		}
 	}

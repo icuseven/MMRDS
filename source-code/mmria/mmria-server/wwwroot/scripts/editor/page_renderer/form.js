@@ -38,7 +38,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
        }
 
 
-        p_result.push('<input path="" style="grid-column:1/-1;" type="button" class="btn btn-primary" value="Add New ');
+        p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
         p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
         p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
        

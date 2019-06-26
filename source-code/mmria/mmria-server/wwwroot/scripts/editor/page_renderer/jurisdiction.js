@@ -6,7 +6,6 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
     p_result.push("<label");
     p_result.push(" style='");
-    //var key = p_dictionary_path.substring(1);
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
@@ -14,7 +13,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
         p_result.push(get_style_string(style_object.prompt.style));
     }
     p_result.push("' ");
-    p_result.push(">Jurisdiction ID ");
+    p_result.push(">Jurisdiction ID </label>");
 
 
     p_result.push("<select name='" + p_metadata.name + "'  onchange='g_set_data_object_from_path(\"");
@@ -23,10 +22,8 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push(p_metadata_path);
     p_result.push("\",this.value)'  ");
 
-    
 
     p_result.push(" style='");
-    //var key = p_dictionary_path.substring(1);
 
     if(style_object)
     {
@@ -66,6 +63,6 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
         
     }
-    p_result.push("</select></label></div>");
+    p_result.push("</select></div>");
 
 }
