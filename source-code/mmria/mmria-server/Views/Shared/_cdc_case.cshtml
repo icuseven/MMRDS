@@ -180,45 +180,29 @@
 </head>
 
 <body>
-  <div id="top" class="site">
+    
+  @await Html.PartialAsync("_Header")
 
-    @await Html.PartialAsync("_Header")
+  <main id="content"
+        class="container-fluid app-main"
+        role="main"
+        aria-label="Main Content Area">
+    <div class="container app-content">
+      <div class="row">
+        <aside id="navbar" class="sidebar">
+          <a href="/Home">Home</a>
+        </aside>
 
-    <div class="container-fluid site-title">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col">
-            <div class="display-6 text-white fw-500 pt-1 pb-1">
-              <a href="/">MMRIA</a>
-            </div>
-          </div>
-          <div class="col">
+        <div class="app-content content">
 
-            @await Html.PartialAsync("_LoginPartial")
+          @RenderBody()
 
-          </div>
         </div>
       </div>
     </div>
-
-    <div id="navbar" class="header-second-row">
-      <a href="/Home">Home</a>
-    </div>
-
-    <main id="content"
-          class="container app-content mt-4"
-          role="main"
-          aria-label="Main Content Area">
-      <div class="row">
-
-        @RenderBody()
-
-      </div>
-    </main>
-    
-    @await Html.PartialAsync("_Footer")
+  </main>
   
-  </div> <!-- end #top.site -->
+  @await Html.PartialAsync("_Footer")
 
   <script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script>
   <script src="/TemplatePackage/4.0/assets/js/app.bundle.min.js"></script>

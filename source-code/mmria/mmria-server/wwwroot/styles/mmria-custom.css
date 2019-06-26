@@ -479,8 +479,7 @@ button {
 /*
   APP
 */
-.app-content {
-  background-color: var(--white);
+.app-main {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -490,9 +489,13 @@ button {
   position: relative;
 }
 
-.app-header + .app-content,
-.app-content + .app-footer {
+.app-header + .app-main,
+.app-main + .app-footer {
   margin-top: 1rem;
+}
+
+.app-content {
+  background-color: var(--white);
 }
 
 
@@ -562,19 +565,14 @@ button {
   opacity: 0;
   padding: 2rem;
   position: absolute;
-  top: 46%;
+  top: 44%;
   transform: translateX(-50%) translateY(-50%);
-  transition:
-    transform 125ms ease-out,
-    opacity 60ms ease
-  ;
+  transition: opacity 60ms ease;
   width: 90%;
 }
 .login.is-active {
   opacity: 1;
-  transform: translateX(-50%) translateY(-50%);
   transition:
-    transform 250ms ease-out,
     opacity 250ms ease
   ;
 }
