@@ -13,54 +13,10 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata_path);
         p_result.push("' ");
 
-        /*
-        p_result.push(" style='");
-
-        var key = p_dictionary_path.substring(1);
-
-        if
-        (
-            g_default_ui_specification && 
-            g_default_ui_specification.form_design[key]  &&
-            g_default_ui_specification.form_design[key].prompt &&
-            g_default_ui_specification.form_design[key].prompt.style
-        )
-        {
-            p_result.push(get_style_string(g_default_ui_specification.form_design[key].prompt.style));
-        }
-
-        if(p_metadata.grid_row && p_metadata.grid_row!= "")
-        {
-            p_result.push("grid-row:");
-            p_result.push(p_metadata.grid_row);
-            p_result.push(";");
-        }
-
-
-        if(p_metadata.grid_column && p_metadata.grid_column!= "")
-        {
-            p_result.push("grid-column:");
-            p_result.push(p_metadata.grid_column);
-            p_result.push(";");
-        }
-
-        if(p_metadata.grid_area && p_metadata.grid_area!= "")
-        {
-            p_result.push("grid-area:");
-            p_result.push(p_metadata.grid_area);
-            p_result.push(";");
-        }
-        
-        p_result.push("' ");*/
-
         p_result.push(">");
         p_result.push("<label ");
 
         p_result.push(" style='");
-
-        //var key = p_dictionary_path.substring(1);
-
-        
         if(style_object && style_object.prompt)
         {
             p_result.push(get_style_string(style_object.prompt.style));
@@ -291,35 +247,10 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata_path);
         p_result.push("' ");
 
-        p_result.push(" style='");
-        if(p_metadata.grid_row && p_metadata.grid_row!= "")
-        {
-            p_result.push("grid-row:");
-            p_result.push(p_metadata.grid_row);
-            p_result.push(";");
-        }
-
-
-        if(p_metadata.grid_column && p_metadata.grid_column!= "")
-        {
-            p_result.push("grid-column:");
-            p_result.push(p_metadata.grid_column);
-            p_result.push(";");
-        }
-
-        if(p_metadata.grid_area && p_metadata.grid_area!= "")
-        {
-            p_result.push("grid-area:");
-            p_result.push(p_metadata.grid_area);
-            p_result.push(";");
-        }
-        p_result.push("' ");
-
         p_result.push(">");
         p_result.push("<label ");
 
         p_result.push(" style='");
-
         if(style_object && style_object.prompt)
         {
             p_result.push(get_style_string(style_object.prompt.style));
@@ -376,7 +307,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
 
         p_result.push(p_metadata.name);
-        
+
         if(style_object && style_object.control)
         {
             p_result.push("'  style='");
