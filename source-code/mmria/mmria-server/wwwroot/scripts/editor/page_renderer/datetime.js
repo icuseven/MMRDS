@@ -59,7 +59,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 
 
 			*/
-			
+			p_result.push("</label> ");
 			p_result.push("<div style='position:relative'>");
 			page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
@@ -75,6 +75,6 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_post_html_render.push(');');
 
 			p_result.push("</div>");	
-			p_result.push("</label> ");
+			
 			p_result.push("</div>");	
 }

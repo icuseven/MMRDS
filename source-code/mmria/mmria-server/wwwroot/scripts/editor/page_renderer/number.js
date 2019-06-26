@@ -40,9 +40,9 @@ function number_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         p_result.push(p_metadata.prompt);
     }
     
-    
-    page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
     p_result.push("</label> ");
+    page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
+    
     p_result.push("</div>");
     
 }
