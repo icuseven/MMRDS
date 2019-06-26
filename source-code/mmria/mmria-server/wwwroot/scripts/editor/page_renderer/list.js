@@ -14,9 +14,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
 
         p_result.push(">");
-        p_result.push("<label ");
-
-        p_result.push(" style='");
+        p_result.push("<label for='");
+        p_result.push(p_object_path.replace(/\//g, "--"));
+        p_result.push("' style='");
         if(style_object && style_object.prompt)
         {
             p_result.push(get_style_string(style_object.prompt.style));
@@ -42,7 +42,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             p_result.push(p_metadata.prompt);
         }
-        p_result.push("<br/>");
+        p_result.push("</label>");
 
 
 
@@ -141,7 +141,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push("</select>");
 
-	        p_result.push("</label>");
 
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
@@ -214,7 +213,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push("</select> ");
             
-	        p_result.push("</label>");
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         //{
@@ -248,9 +246,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
 
         p_result.push(">");
-        p_result.push("<label ");
-
-        p_result.push(" style='");
+        p_result.push("<label for='");
+        p_result.push(p_object_path.replace(/\//g, "--"));
+        p_result.push("' style='");
         if(style_object && style_object.prompt)
         {
             p_result.push(get_style_string(style_object.prompt.style));
@@ -276,7 +274,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             p_result.push(p_metadata.prompt);
         }
-        p_result.push("<br/> ");
+        p_result.push("</label> ");
 
         if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         {
@@ -371,7 +369,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push("</select>");
             
-	        p_result.push("</label></div>");
+	        p_result.push("</div>");
         }
         else
         {
@@ -426,7 +424,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push("</select>");
             
-	        p_result.push("</label></div>");
+	        p_result.push("</div>");
         }
     }
 
