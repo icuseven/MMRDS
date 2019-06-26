@@ -861,8 +861,6 @@ function g_render()
         if(section.id == g_ui.url_state.path_array[1] + "_id")
         {
           section.style.display = "block";
-          //section.style.display = "grid";
-          //section.style["grid-template-columns"] = "1fr 1fr 1fr";
         }
         else
         {

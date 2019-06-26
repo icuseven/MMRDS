@@ -781,7 +781,6 @@ function get_case_set(p_call_back)
         {
           
             section.style.display = "block";
-            //section.style["grid-template-columns"] = "1fr 1fr 1fr";
           
         }
       }
