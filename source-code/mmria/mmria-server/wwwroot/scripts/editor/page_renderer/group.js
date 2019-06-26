@@ -74,8 +74,8 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_result.push("' >"); // close opening div
     p_result.push("<legend style='");
 
-    var style_object = g_default_ui_specification.form_design[p_metadata_path.substring(1)];
-    if(style_object)
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object && style_object.prompt)
     {
         p_result.push(get_only_font_style_string(style_object.prompt.style));
     }
