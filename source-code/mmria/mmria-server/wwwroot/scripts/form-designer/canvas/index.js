@@ -403,7 +403,7 @@ formDesigner = {
         $.each(fields, function(index, value) {
           if (value.type.toLowerCase() === 'group' || value.type.toLowerCase() === 'grid') {
             tpl += fdTemplates.formFields.controls.group(formName, value);
-          } else if(value.type.toLowerCase() === 'jurisdiction' || value.type.toLowerCase() === 'hidden') {
+          } else if(value.type.toLowerCase() === 'hidden') {
             // do nothing
             return;
           }
