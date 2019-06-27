@@ -719,7 +719,7 @@ function load_profile()
         //replicate_db_and_log_out(p_user_name, p_password);
       }
 
-       document.getElementById('navbar').innerHTML = "";
+       document.getElementById('navbar').innerHTML = "<p>testtestTestTEST</p>";
       document.getElementById('form_content_id').innerHTML ="";
 
 

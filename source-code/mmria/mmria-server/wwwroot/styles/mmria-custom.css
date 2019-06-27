@@ -369,12 +369,13 @@ template {
   --grape-dark: #351147;
   
   /* grays */
-  --neutral: #BBBBBB;
-  --neutral-light: #F5F5F5;
+  --neutral: #bbbbbb;
+  --neutral-light: #f0f0f0;
   --neutral-mid: #7a7a7a;
   --neutral-dark: #333333;
 
   --radius: 4px;
+  --border-width: 1px;
 }
 
 html {
@@ -387,8 +388,12 @@ body {
   min-height: 100%;
 }
 
-button {
+button,
+select {
   cursor: pointer;
+}
+
+button  {
   outline: none;
 }
 
@@ -453,7 +458,7 @@ button {
   border: none;
   border-radius: 4px;
   border-style: hidden;
-  box-shadow: 0 0 0 1px #BBBBBB;
+  box-shadow: 0 0 0 var(--border-width) var(--neutral);
   overflow: hidden;
 }
 
@@ -467,10 +472,12 @@ button {
 
 .thead .th,
 .tbody .td {
-  border: 1px solid;
-  border-color: #BBBBBB;
+  border: var(--border-width) solid;
+  border-color: var(--neutral);
   padding: 10px 12px;
+  vertical-align: middle;
 }
+
 
 
 
@@ -480,6 +487,7 @@ button {
   APP
 */
 .app-main {
+  background-color: var(--white);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -496,6 +504,14 @@ button {
 
 .app-content {
   background-color: var(--white);
+  padding: 1rem;
+}
+.app-sidebar + .app-content {
+  padding-left: 35px;
+}
+
+.app-sidebar {
+  padding: 1rem;
 }
 
 
@@ -547,10 +563,6 @@ button {
   margin-top: 0;
 }
 
-
-
-
-
 /*
   LOGIN MODULE
 */
@@ -596,11 +608,96 @@ button {
 
 .login__btn {
   background-color: var(--grape-dark);
-  border: 2px solid;
+  border: var(--border-width) solid;
   border-color: var(--grape-dark);
   border-radius: var(--radius);
   color: var(--white);
   height: 60px;
   text-transform: uppercase;
   width: 100%;
+}
+
+
+.construct {
+  width: 100%;
+}
+
+.construct__header {}
+
+.construct__title {
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.construct__subtitle {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.construct__body {
+  border: var(--border-width) solid;
+  border-color: var(--neutral);
+  border-radius: var(--radius);
+  min-height: 100vh;
+  min-height: calc(100vh - 156px);
+  overflow-y: scroll;
+  padding: 1rem;
+}
+
+.construct__body + .construct__footer {
+  margin-top: 1rem;
+}
+
+/*
+    Form styles for anything inside of data-collector output
+*/
+
+.construct-output {
+  position: relative;
+}
+
+.construct-output input,
+.construct-output textarea,
+.construct-output select {
+    background-color: #FFFFFF;
+    border: var(--border-width) solid;
+    border-color: var(--neutral);
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+.construct-output input:focus,
+.construct-output textarea:focus {
+    border-color: #712177;
+}
+
+.construct-output [type="button"] {
+    height: 56px;
+    width: 100%;
+}
+
+.construct-output fieldset {
+    border: var(--border-width) solid;
+    border-color: var(--neutral);
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+.construct-output legend {
+    display: inline-block;
+    font-size: 1.25rem !important;
+    padding-bottom: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+    width: auto;
+}
+
+.construct-output label {
+    line-height: 16px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 5px;
+    padding-top: 15px;
 }

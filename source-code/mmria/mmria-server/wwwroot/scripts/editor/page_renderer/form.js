@@ -87,6 +87,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            p_result.push("<section id='");
            p_result.push(p_metadata.name);
            p_result.push("' class='form'><h2 style='grid-column:1/-1;' ");
+           console.log(p_metadata);
            if(p_metadata.description && p_metadata.description.length > 0)
            {
                p_result.push("rel='tooltip'  data-original-title='");
@@ -165,43 +166,49 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
        p_result.push("<section id='");
        p_result.push(p_metadata.name);
-       p_result.push("_id' ");
-
+       p_result.push("_id' class='construct' ");
+       
        //p_result.push(" display='grid' grid-template-columns='1fr 1fr 1fr' ");
 
-       p_result.push(" style='' class='form'><h2 style='grid-column:1/-1;' ");
+       p_result.push(" style='' class='form'>");
+       p_result.push("<div class='construct__header row no-gutters align-items-start'>");
+            p_result.push("<div class='col col-8'>");
+                if(g_data)
+                {
+                    p_result.push("<h2 class='construct__title text-primary h1'>");
+                    p_result.push(g_data.home_record.last_name);
+                    p_result.push(", ");
+                    p_result.push(g_data.home_record.first_name);
+                    if(g_data.home_record.record_id)
+                    {
+                        p_result.push("  - ");
+                        p_result.push(g_data.home_record.record_id);
+                    }
+                    p_result.push("</h2>");
+                }
+                p_result.push("<p class='construct__subtitle'");
+                    if(p_metadata.description && p_metadata.description.length > 0)
+                    {
+                        p_result.push("rel='tooltip'  data-original-title='");
+                        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+                        p_result.push("'>");
+                    }
+                    else
+                    {
+                        p_result.push(">");
+                    }
 
-       if(p_metadata.description && p_metadata.description.length > 0)
-       {
-           p_result.push("rel='tooltip'  data-original-title='");
-           p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-           p_result.push("'>");
-       }
-       else
-       {
-           p_result.push(">");
-       }
+                    p_result.push(p_metadata.prompt);
+                p_result.push("</p>");
+            p_result.push("</div>");
+            p_result.push("<div class='col col-4 text-right'>");
+                p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+            p_result.push("</div>");
 
-       p_result.push(p_metadata.prompt);
-       
-        p_result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
-        p_result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
-    
-       p_result.push("</h2>");
-       if(g_data)
-       {
-           p_result.push("<h3  style='color: #341c54;grid-column:1/-1;'>");
-           p_result.push(g_data.home_record.last_name);
-           p_result.push(", ");
-           p_result.push(g_data.home_record.first_name);
-           if(g_data.home_record.record_id)
-           {
-               p_result.push("  - ");
-               p_result.push(g_data.home_record.record_id);
-           }
-           p_result.push("</h3>");
-       }
-       
+       p_result.push("</div> <!-- end .construct__header -->"); 
+       p_result.push("<div class='construct__body'>");
+       p_result.push("<div class='construct-output'>");
        if(g_data && p_metadata.name == "case_narrative")
        {
            //death_certificate/reviewer_note
@@ -310,7 +317,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            
        }
 
-
        for(var i = 0; i < p_metadata.children.length; i++)
        {
            var child = p_metadata.children[i];
@@ -324,10 +330,13 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
            }
            Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
        }
-       
 
-        p_result.push(" <input type='button'  class='btn btn-primary' value='undo' onclick='undo_click()' />");
-        p_result.push(" <input type='button'  class='btn btn-primary' value='save' onclick='save_form_click()' />");
+        p_result.push("</div> <!-- end .construct-output -->");     
+        p_result.push("</div> <!-- end .construct__body -->");     
+        p_result.push("<div class='construct__footer'>");
+            p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
+            p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+        p_result.push("</div> <!-- end .construct__footer -->"); 
        
        p_result.push("</section>");
    }

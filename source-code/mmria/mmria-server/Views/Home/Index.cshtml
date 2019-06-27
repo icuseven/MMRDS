@@ -59,135 +59,131 @@
   var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
 </script>
 
-<div class="col">
+@if (is_guest)
+{
+  <h1>Welcome to MMRIA</h1>
+  <p>As a MMRIA user, you currently do not have any active role assigments.</p>
+  <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
+}
+else
+{
+  <h2><span id="fancy_greeting">Hello</span>, @userName</h2>
+  <p>Please select an action.</p>
 
-  @if (is_guest)
-  {
-    <h1>Welcome to MMRIA</h1>
-    <p>As a MMRIA user, you currently do not have any active role assigments.</p>
-    <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
-  }
-  else
-  {
-    <h2><span id="fancy_greeting">Hello</span>, @userName</h2>
-    <p>Please select an action.</p>
-
-    <div class="grid mb-5">
-      @if(is_abstractor)
-      {
-        <div class="card grid-item grid-item--3">
-          <div class="card-header bg-secondary"><h4 class="h5">Abstractor</h4></div>
-          <div class="card-body">
-            <ul>
-              <li><a href="/Case">view case data</a></li>
-              <li><a href="/export-queue">export data</a></li>
-              @*<li><a href="/recover-case">recover-case</a></li>*@
-            </ul>
-          </div>
-        </div>
-      }
-
-      @if(is_committee_member)
-      {
-        <div class="card grid-item grid-item--3">
-          <div class="card-header bg-secondary"><h4 class="h5">Committee Member</h4></div>
-          <div class="card-body">
-            <ul>
-              <li><a href="/de-identified">view de-identified case data</a></li>
-            </ul>
-          </div>
-        </div>
-      }
-
-      @if(is_form_designer)
-      {
-        <div class="card grid-item grid-item--3">
-          <div class="card-header bg-secondary"><h4 class="h5">Form Designer</h4></div>
-          <div class="card-body">
-            <ul>
-              <li><a href="/editor">open metadata editor</a></li>
-              <li><a href="/form-designer">open form designer</a></li>
-              <li><a href="/migrationplan">manage a migration plan</a></li>
-              <li><a href="/de-identified-list">manage de-identification list</a></li>
-            </ul>
-          </div>
-        </div>
-      }
-
-      @if(is_jurisdiction_admin && ! is_installation_admin)
-      {
-        <div class="card grid-item grid-item--3">
-          <div class="card-header bg-secondary"><h4 class="h5">Jurisdiction Admin</h4></div>
-          <div class="card-body">
-            <ul>
-              <li><a href="/_users">manage users & jurisdictions</a></li>
-            </ul>
-          </div>
-        </div>
-      }
-
-
-      @if(is_installation_admin)
-      {
-        <div class="card grid-item grid-item--3">
-          <div class="card-header bg-secondary"><h4 class="h5">Installation Admin</h4></div>
-          <div class="card-body">
-            <ul>
-              <li><a href="/_users">manage users & jurisdictions</a></li>
-              <li><a href="/_config">view configuration</a></li>
-            </ul>
-          </div>
-        </div>
-      }
-
+  <div class="grid mb-5">
+    @if(is_abstractor)
+    {
       <div class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">General</h4></div>
+        <div class="card-header bg-secondary"><h4 class="h5">Abstractor</h4></div>
         <div class="card-body">
           <ul>
-
-              @if(!is_installation_admin)
-            {
-              <li><a href="/Account/Profile" >manage account profile</a></li>
-            }
-            
-            @if(is_abstractor || is_committee_member)
-            {
-              <li><a href="/aggregate-report">view aggregate report</a></li>
-            }
-
-            <li><a href="/metadata-listing" >show metadata listing</a></li>
-            <li>
-              <div class="form-group">
-                <label for="print_blank_version">Print blank version.</label>
-                <select id="print_blank_version" class="form-control">
-                  <option value="">(select form to print)</option>
-                  <option value="All">All</option>
-                  <option value="home_record">Home Record</option>
-                  <option value="death_certificate">Death Certificate</option>
-                  <option value="birth_fetal_death_certificate_parent">Birth/Fetal Death Certificate- Parent Section</option>
-                  <option value="birth_certificate_infant_fetal_section">Birth/Fetal Death Certificate- Infant/Fetal Section</option>
-                  <option value="autopsy_report">Autopsy Report</option>
-                  <option value="prenatal">Prenatal Care Record</option>
-                  <option value="er_visit_and_hospital_medical_records">ER Visits and Hospitalizations</option>
-                  <option value="other_medical_office_visits">Other Medical Office Visits</option>
-                  <option value="medical_transport">Medical Transport</option>
-                  <option value="social_and_environmental_profile">Social and Environmental Profile</option>
-                  <option value="mental_health_profile">Mental Health Profile</option>
-                  <option value="informant_interviews">Informant Interviews</option>
-                  <option value="case_narrative">Case Narrative</option>
-                  <option value="committee_review">Committee Decisions</option>
-                </select>
-              </div>
-              <div class="form-controls">
-                <input class="btn" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
-              </div>
-            </li>
+            <li><a href="/Case">view case data</a></li>
+            <li><a href="/export-queue">export data</a></li>
+            @*<li><a href="/recover-case">recover-case</a></li>*@
           </ul>
         </div>
       </div>
+    }
+
+    @if(is_committee_member)
+    {
+      <div class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">Committee Member</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/de-identified">view de-identified case data</a></li>
+          </ul>
+        </div>
+      </div>
+    }
+
+    @if(is_form_designer)
+    {
+      <div class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">Form Designer</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/editor">open metadata editor</a></li>
+            <li><a href="/form-designer">open form designer</a></li>
+            <li><a href="/migrationplan">manage a migration plan</a></li>
+            <li><a href="/de-identified-list">manage de-identification list</a></li>
+          </ul>
+        </div>
+      </div>
+    }
+
+    @if(is_jurisdiction_admin && ! is_installation_admin)
+    {
+      <div class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">Jurisdiction Admin</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/_users">manage users & jurisdictions</a></li>
+          </ul>
+        </div>
+      </div>
+    }
+
+
+    @if(is_installation_admin)
+    {
+      <div class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">Installation Admin</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/_users">manage users & jurisdictions</a></li>
+            <li><a href="/_config">view configuration</a></li>
+          </ul>
+        </div>
+      </div>
+    }
+
+    <div class="card grid-item grid-item--3">
+      <div class="card-header bg-secondary"><h4 class="h5">General</h4></div>
+      <div class="card-body">
+        <ul>
+
+            @if(!is_installation_admin)
+          {
+            <li><a href="/Account/Profile" >manage account profile</a></li>
+          }
+          
+          @if(is_abstractor || is_committee_member)
+          {
+            <li><a href="/aggregate-report">view aggregate report</a></li>
+          }
+
+          <li><a href="/metadata-listing" >show metadata listing</a></li>
+          <li>
+            <div class="form-group">
+              <label for="print_blank_version">Print blank version.</label>
+              <select id="print_blank_version" class="form-control">
+                <option value="">(select form to print)</option>
+                <option value="All">All</option>
+                <option value="home_record">Home Record</option>
+                <option value="death_certificate">Death Certificate</option>
+                <option value="birth_fetal_death_certificate_parent">Birth/Fetal Death Certificate- Parent Section</option>
+                <option value="birth_certificate_infant_fetal_section">Birth/Fetal Death Certificate- Infant/Fetal Section</option>
+                <option value="autopsy_report">Autopsy Report</option>
+                <option value="prenatal">Prenatal Care Record</option>
+                <option value="er_visit_and_hospital_medical_records">ER Visits and Hospitalizations</option>
+                <option value="other_medical_office_visits">Other Medical Office Visits</option>
+                <option value="medical_transport">Medical Transport</option>
+                <option value="social_and_environmental_profile">Social and Environmental Profile</option>
+                <option value="mental_health_profile">Mental Health Profile</option>
+                <option value="informant_interviews">Informant Interviews</option>
+                <option value="case_narrative">Case Narrative</option>
+                <option value="committee_review">Committee Decisions</option>
+              </select>
+            </div>
+            <div class="form-controls">
+              <input class="btn" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-  }
+  </div>
+}
 
-  <span id="role_list" class="d-block"></span>
-
-</div>
+<span id="role_list" class="d-block"></span>

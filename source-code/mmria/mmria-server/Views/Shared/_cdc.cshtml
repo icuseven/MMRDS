@@ -184,14 +184,12 @@
   @await Html.PartialAsync("_Header")
 
   <main id="content"
-        class="container-fluid app-main"
+        class="container app-main"
         role="main"
         aria-label="Main Content Area">
-    <div class="container app-content">
-      <div class="row">
-
-        @RenderBody()
-
+    <div class="row">
+      <div class="col">
+      @RenderBody()
       </div>
     </div>
   </main>

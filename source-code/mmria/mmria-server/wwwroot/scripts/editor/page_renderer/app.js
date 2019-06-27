@@ -275,18 +275,27 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
 
 
-    p_result.push("<table>");
-    p_result.push("<tr><th colspan=3 style='text-align:center;'>");
-    p_result.push("Case Listing");
-    p_result.push("</th></tr>");
-    p_result.push("<tr>");
-    p_result.push("<td> Case Information</td>");
-    //p_result.push("<td>state of death</td>");
-    //p_result.push("<td>year / month of death</td>");
-    //p_result.push("<td>committe review date</td>");
-    p_result.push("<td align=center>Last Updated </td>");
-    p_result.push("<td align=center>Actions</td>");
-    p_result.push("</tr>");
+    p_result.push("<table class='table'>");
+        p_result.push("<thead class='thead'>");
+            p_result.push("<tr class='tr bg-tertiary'>");
+                p_result.push("<th class='th h4' colspan=3>Case Listing</th>");
+            p_result.push("</tr>");
+        p_result.push("</thead>");
+        p_result.push("<thead class='thead'>");
+            p_result.push("<tr class='tr'>");
+                p_result.push("<th class='th'>Case Information</th>");
+                p_result.push("<th class='th'>Last Updated </th>");
+                p_result.push("<th class='th'>Actions</th>");
+            p_result.push("</tr>");
+        p_result.push("</thead>");
+   
+    // p_result.push("<td> Case Information</td>");
+    // //p_result.push("<td>state of death</td>");
+    // //p_result.push("<td>year / month of death</td>");
+    // //p_result.push("<td>committe review date</td>");
+    // p_result.push("<td align=center>Last Updated </td>");
+    // p_result.push("<td align=center>Actions</td>");
+    // p_result.push("</tr>");
 
     
 
@@ -304,94 +313,95 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     by_state_of_death
 
 */
-    
-    for(var i = 0; i < p_ui.case_view_list.length; i++)
-    {
-        var item = p_ui.case_view_list[i];
+        p_result.push("<tbody class='tbody'>");
+            for(var i = 0; i < p_ui.case_view_list.length; i++)
+            {
+                var item = p_ui.case_view_list[i];
 
-        if(i % 2)
-        {
-            p_result.push('		  <tr style="background:#FFFFFF" path="');
-        }
-        else
-        {
-            p_result.push('		  <tr style="background:#EEEEEE" path="');
-        }
-        p_result.push(item.id);
-        p_result.push('">');
-        
-        
-        
-        p_result.push("<td>");
-        p_result.push("<a href='#/")
-        p_result.push(i);
-        p_result.push("/home_record' role='button' class='btn-purple'>");
-        p_result.push(item.value.jurisdiction_id);p_result.push("  :");
-        p_result.push(item.value.last_name);p_result.push(", ");
-        p_result.push(item.value.first_name);p_result.push(" ");
-        p_result.push(item.value.middle_name);
-        if(item.value.record_id)
-        {
-            p_result.push(" - (");
-            p_result.push(item.value.record_id);
-            p_result.push(" )");
-        }
+                if(i % 2)
+                {
+                    p_result.push('		  <tr class="tr" path="');
+                }
+                else
+                {
+                    p_result.push('		  <tr class="tr" path="');
+                }
+                p_result.push(item.id);
+                p_result.push('">');
+                
+                
+                
+                p_result.push("<td class='td'>");
+                p_result.push("<a href='#/")
+                p_result.push(i);
+                p_result.push("/home_record' role='button' class='btn-purple'>");
+                p_result.push(item.value.jurisdiction_id);p_result.push("  :");
+                p_result.push(item.value.last_name);p_result.push(", ");
+                p_result.push(item.value.first_name);p_result.push(" ");
+                p_result.push(item.value.middle_name);
+                if(item.value.record_id)
+                {
+                    p_result.push(" - (");
+                    p_result.push(item.value.record_id);
+                    p_result.push(" )");
+                }
 
 
-        if(item.value.agency_case_id)
-        {
-            p_result.push("  ac_id: ");
-            p_result.push(item.value.agency_case_id)
-        }
-        
-        
-        p_result.push("</a>");
-        p_result.push("</td>");
+                if(item.value.agency_case_id)
+                {
+                    p_result.push("  ac_id: ");
+                    p_result.push(item.value.agency_case_id)
+                }
+                
+                
+                p_result.push("</a>");
+                p_result.push("</td>");
 
-        //p_result.push("<td>");p_result.push(item.value.state_of_death);p_result.push("</td>");
-        
-        /*
-        p_result.push("<td>");
-        p_result.push(item.value.year_of_death);
-        p_result.push(" / ");
-        p_result.push(item.value.month_of_death);
-        p_result.push("</td>");
-        */
-        //p_result.push("<td>");p_result.push(item.value.committee_review_date);p_result.push("</td>");
-        
-        p_result.push("<td>");
-        p_result.push(item.value.last_updated_by);
-        p_result.push(" ");
-        p_result.push(item.value.date_last_updated);
-        p_result.push("</td>");
+                //p_result.push("<td>");p_result.push(item.value.state_of_death);p_result.push("</td>");
+                
+                /*
+                p_result.push("<td>");
+                p_result.push(item.value.year_of_death);
+                p_result.push(" / ");
+                p_result.push(item.value.month_of_death);
+                p_result.push("</td>");
+                */
+                //p_result.push("<td>");p_result.push(item.value.committee_review_date);p_result.push("</td>");
+                
+                p_result.push("<td class='td'>");
+                p_result.push(item.value.last_updated_by);
+                p_result.push(" ");
+                p_result.push(item.value.date_last_updated);
+                p_result.push("</td>");
 
-        p_result.push("<td>");
-        p_result.push("&nbsp;");
+                p_result.push("<td class='td'>");
+                p_result.push("&nbsp;");
 
-        // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+                // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
 
-        p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
-        p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
-        
+                p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
+                p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
+                
 
-        p_result.push("</td>");
+                p_result.push("</td>");
 
-        
-        /*
-        <p class="p_result">');
-        p_result.push(item.value.last_name);
-        p_result.push(', ');
-        p_result.push(item.value.first_name);
-        p_result.push(' - ');
-        p_result.push(item.value.record_id);
-        p_result.push('	(');
-        p_result.push(item.value.state_of_death);
-        p_result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
-        */
-        p_result.push('</tr>');
-        
-    }
-    p_result.push('		</table>');
+                
+                /*
+                <p class="p_result">');
+                p_result.push(item.value.last_name);
+                p_result.push(', ');
+                p_result.push(item.value.first_name);
+                p_result.push(' - ');
+                p_result.push(item.value.record_id);
+                p_result.push('	(');
+                p_result.push(item.value.state_of_death);
+                p_result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> <input type="button" value="delete" onclick="delete_record(' + i + ')"/></p>');
+                */
+                p_result.push('</tr>');
+                
+            }
+        p_result.push("</tbody>");
+    p_result.push('</table>');
 
     p_result.push('<hr/>')
 
@@ -502,9 +512,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         }
     }
 
-    
-    p_result.push('<footer class="footer_wrapper">');
-    p_result.push('<p>&nbsp;</p>');
-    p_result.push('</footer>');
+    // TouF: Redundant, will not need
+    // p_result.push('<footer class="footer_wrapper">');
+    // p_result.push('<p>&nbsp;</p>');
+    // p_result.push('</footer>');
 
 }
