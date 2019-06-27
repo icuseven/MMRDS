@@ -117,7 +117,16 @@ namespace mmria.console
 			var output_schema_path = Path.Combine(location, @"schema/GeneratedSchema");
 			var new_schema_json = new_schema.ToJson();
 
+
+			//var modified_schema_json = Modify_json(new_schema_json);
+
+
+
 			var json_schema_path = $"{output_schema_path}/generated_schema.json";
+			if(System.IO.File.Exists(json_schema_path))
+			{
+				System.IO.File.Delete(json_schema_path);
+			}
 			File.WriteAllText(json_schema_path, new_schema_json);
 
 
@@ -138,6 +147,11 @@ namespace mmria.console
 				var generatedFile = await GenerateFileAsync(filename, new_schema_json);
 
 				var cs_file_name = $"{output_path}/{filename}.cs";
+				if(System.IO.File.Exists(cs_file_name))
+				{
+					System.IO.File.Delete(cs_file_name);
+				}
+
 
 				File.WriteAllText(cs_file_name, generatedFile);
 
@@ -183,7 +197,11 @@ namespace mmria.console
 				}
 		}
 
+		static string Modify_json(string p_json)
+		{
 
+			return p_json;
+		}
 
 
 
@@ -274,6 +292,7 @@ namespace mmria.console
 
 
 			NJsonSchema.JsonSchemaProperty property = null;
+			NJsonSchema.JsonSchemaProperty property_list = null;
 			//schema.Properties.Add("name", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
 			//schema.Properties.Add("prompt", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
 
@@ -282,40 +301,60 @@ namespace mmria.console
 
 				switch(p_node.type.ToLower())
 				{
-						case "app":
+						
 						case "form":
-						case "group":
-						case "grid":
-
-						if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
-						{
-								
-								
-
+							if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
+							{
 								property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
 								foreach(var child in p_node.children)
 								{
 										await GetSchema(p_lookup, property, child);
 								}
 								p_lookup.Add(p_node.name + "_type", property);
-								var property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array };
+								property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = p_lookup[p_node.name + "_type"] };
 								//property_list.Properties.Add().Items.Add(property);
 								p_parent.Properties.Add(p_node.name + "_form", property_list);
-						}
-						else if(p_node.type.ToLower() == "grid")
-						{
-								//property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+							}
+							else
+							{
 								property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
 								foreach(var child in p_node.children)
 								{
-										await GetSchema(p_lookup, property, child);
+									await GetSchema(p_lookup, property, child);
 								}
-
-								var property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = property };
+								p_parent.Properties.Add(p_node.name, property);
+							}
+							break;
+						
+						case "grid":
+							//property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+							property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
+							foreach(var child in p_node.children)
+							{
+								await GetSchema(p_lookup, property, child);
+							}
+							var number = -1;
+							var key = p_node.name + "_row";
+							if(p_lookup.ContainsKey(key))
+							{
+								number = p_lookup.Count;
+								key = key + number.ToString();
+							}
+							p_lookup.Add(key, property);
+							property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = p_lookup[key] };
+							if(number == -1)
+							{
 								p_parent.Properties.Add(p_node.name + "_grid", property_list);
-						}
-						else
-						{
+							}
+							else
+							{
+								p_parent.Properties.Add(p_node.name + "_grid" + number.ToString(), property_list);
+							}
+							
+							break;
+						case "app":
+						case "group":
+						
 							property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
 
 							p_parent.Properties.Add(p_node.name, property);
@@ -324,11 +363,7 @@ namespace mmria.console
 							{
 									await GetSchema(p_lookup, property, child);
 							}
-						}
-
-
-
-						break;
+							break;
 						case "textarea":
 						case "hidden":
 						case "string":
