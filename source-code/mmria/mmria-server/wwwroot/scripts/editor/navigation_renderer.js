@@ -1,7 +1,6 @@
 function navigation_render(p_metadata, p_level, p_ui)
 {
    var result = [];
-
    if(p_level > 1) return result;
 
    switch(p_metadata.type.toLowerCase())
@@ -105,13 +104,45 @@ function navigation_render(p_metadata, p_level, p_ui)
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="select_case">Select case form</label>');
               result.push('<div class="form-control-wrap">');
-                result.push('<select id="select_case" class="form-control">');
-                  result.push('<option value="">Home Record</option>');
+                result.push('<select id="select_case" class="form-control" onChange="selectNavGenerator(event);">');
+                  // result.push('<option value="">Home Record</option>');
+                  for(var i = 0; i < p_metadata.children.length; i++)
+                  {
+                    var child = p_metadata.children[i]; // Need to render new sub nav
+                    var url = p_ui.url_state.path_array[0] + "/" + child.name;
+                    // Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));  // Need to render new sub nav
+                    if (child.type === 'form') {
+                      result.push('<option value="' + child.name + '">');
+                      result.push(child.prompt);
+                      result.push('</option>');
+                    }
+                  }
+                result.push("</ul>");
                 result.push('</select>');
               result.push('</div>');
             result.push('</div>');
           result.push('</li>');
 
+          // // forms start
+          // result.push('<li class="">');
+          // result.push('<a href="#" id="case_form_list">Case Forms<span class="caret"></span></a>');
+          //   result.push('<ul class="list-unstyled" aria-labelledby="case_form_list">');
+          //     for(var i = 0; i < p_metadata.children.length; i++)
+          //     {
+          //       var child = p_metadata.children[i]; // Need to render new sub nav
+          //       var url = p_ui.url_state.path_array[0] + "/" + child.name;
+          //       // Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));  // Need to render new sub nav
+          //       if (child.type === 'form') {
+          //         result.push('<li>');
+          //           result.push('<a href="#/' + url + '">');
+          //             result.push(child.prompt);
+          //           result.push('</a>');
+          //         result.push('</li>');
+          //       }
+          //     }
+          //   result.push("</ul>");
+          // result.push('</li>');
+          // forms end
           // forms start
           result.push('<li class="dropdown">');
           result.push('<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="case_form_list">Case Forms<span class="caret"></span></a>');
@@ -119,7 +150,6 @@ function navigation_render(p_metadata, p_level, p_ui)
               for(var i = 0; i < p_metadata.children.length; i++)
               {
                 var child = p_metadata.children[i];
-                console.log(child);
                 Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
               }
             result.push("</ul>");
@@ -165,4 +195,10 @@ function navigation_render(p_metadata, p_level, p_ui)
    //Array.prototype.push.apply(result,b)
    //result.push("<div><fieldset><legend>navigation:</legend><div>root<ul><li>item1<li><li>item2</li></ul> - :: - hello this is a test</fieldset></div>");
    return result;
+}
+
+function selectNavGenerator(event) {
+  var p_metadata = g_metadata;
+  console.log(event.target.value);
+  console.log(g_metadata);
 }
