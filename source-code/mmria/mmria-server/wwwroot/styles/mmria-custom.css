@@ -448,9 +448,16 @@ button  {
   color: inherit;
 }
 
-.form-controls .btn {
-  /* background-color: var(--grape-dark);
-  color: var(--white); */
+.form-control-wrap {
+  position: relative;
+}
+
+.form-control-wrap .form-control + .fancy-form-icon {
+  right: 10px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .table {
@@ -519,7 +526,10 @@ button  {
 
 
 /*
-  UTILITY NAV
+  PATTERNS
+*/
+/*
+  Utility Nav
 */
 .utility,
 .utility-item,
@@ -548,6 +558,33 @@ button  {
   border: none;
   outline: none;
   text-decoration: underline;
+}
+
+/*
+  Sidebar Nav
+*/
+.fake-list-group-anchor {
+  border-left: 4px solid;
+  border-left-color: transparent;
+  text-decoration: none;
+  color: #333;
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  border-bottom: 1px dashed #e0e0e0;
+  position: relative;
+  transition: border-color .5s, background-color .5s, color .5s;
+}
+.fake-list-group-anchor:focus,
+.fake-list-group-anchor:hover {
+  border-left-color: var(--grape);
+  background-color: var(--neutral-light);
+  color: var(--grape);
+}
+
+.fake-list-group-anchor label {
+  font-size: 80%;
 }
 
 
@@ -700,4 +737,17 @@ button  {
     padding-left: 15px;
     padding-right: 5px;
     padding-top: 15px;
+}
+
+
+
+
+
+
+
+/*
+  HELPERS/UTILS
+*/
+.pointer-none {
+  pointer-events: none !important;
 }
