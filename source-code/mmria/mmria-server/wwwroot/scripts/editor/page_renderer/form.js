@@ -170,7 +170,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
        
        //p_result.push(" display='grid' grid-template-columns='1fr 1fr 1fr' ");
 
-       p_result.push(" style='' class='form'>");
+       p_result.push(" style='' class='construct'>");
        p_result.push("<div class='construct__header row no-gutters align-items-start'>");
             p_result.push("<div class='col col-8'>");
                 if(g_data)
@@ -212,7 +212,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
             p_result.push("</div>");
 
-       p_result.push("</div> <!-- end .construct__header -->"); 
+       p_result.push("</div> <!-- end .construct__header -->");
        p_result.push("<div class='construct__body'>");
        p_result.push("<div class='construct-output'>");
        if(g_data && p_metadata.name == "case_narrative")
