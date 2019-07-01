@@ -115,9 +115,9 @@
 
   @await Html.PartialAsync("_Header")
 
-  <main id="content" class="container app-main" role="main" aria-label="Main Content Area">
+  <main id="content" class="container-fluid app-main" role="main" aria-label="Main Content Area">
     <div class="row">
-      <aside class="col col-12 col-sm-4 col-md-3 app-sidebar">
+      <aside class="col-md-3 col-xl-2 app-sidebar">
         <nav role="navigation" aria-label="Left Navigation Menu">
           <!-- <a href="/Home">Home</a> -->
           <div class="nav-section-home d-sm-block">
@@ -130,7 +130,7 @@
         </nav>
       </aside>
 
-      <div class="col-12 col-sm-8 col-md-9 app-content">
+      <div class="col-md-9 col-xl-10 app-content">
         @RenderBody()
       </div>
     </div>
@@ -145,5 +145,4 @@
   @await Html.PartialAsync("_Metrics")
 
 </body>
-
 </html>

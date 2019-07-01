@@ -104,7 +104,7 @@ function navigation_render(p_metadata, p_level, p_ui)
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="select_case">Select case form</label>');
               result.push('<div class="form-control-wrap">');
-                result.push('<select id="select_case" class="form-control" onChange="selectNavGenerator(event);">');
+                result.push('<select id="select_case" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">');
                   // result.push('<option value="">Home Record</option>');
                   for(var i = 0; i < p_metadata.children.length; i++)
                   {
@@ -112,9 +112,22 @@ function navigation_render(p_metadata, p_level, p_ui)
                     var url = p_ui.url_state.path_array[0] + "/" + child.name;
                     // Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));  // Need to render new sub nav
                     if (child.type === 'form') {
-                      result.push('<option value="' + child.name + '">');
-                      result.push(child.prompt);
+
+                      if(p_ui.url_state.selected_id.toLowerCase() == child.name.toLowerCase())
+                      {
+                        result.push('<option value="' + url + '" selected>');
+                      }
+                      else
+                      {
+                        result.push('<option value="' + url + '">');
+                      }
+                      
+                        result.push(child.prompt);
                       result.push('</option>');
+                      // result.push('<option value="' + child.name);
+                      // result.push('" data-url="'+ url +'">');
+                      // result.push(child.prompt);
+                      // result.push('</option>');
                     }
                   }
                 result.push("</ul>");
@@ -144,43 +157,68 @@ function navigation_render(p_metadata, p_level, p_ui)
           // result.push('</li>');
           // forms end
           // forms start
-          result.push('<li class="dropdown">');
-          result.push('<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="case_form_list">Case Forms<span class="caret"></span></a>');
-            result.push('<ul class="dropdown-menu" aria-labelledby="case_form_list">');
-              for(var i = 0; i < p_metadata.children.length; i++)
-              {
-                var child = p_metadata.children[i];
-                Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
-              }
-            result.push("</ul>");
-          result.push('</li>');
+          // result.push('<li class="dropdown">');
+          // result.push('<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="case_form_list">Case Forms<span class="caret"></span></a>');
+          //   result.push('<ul class="dropdown-menu" aria-labelledby="case_form_list">');
+          //     for(var i = 0; i < p_metadata.children.length; i++)
+          //     {
+          //       var child = p_metadata.children[i];
+          //       Array.prototype.push.apply(result,navigation_render(child, p_level + 1, p_ui));
+          //     }
+          //   result.push("</ul>");
+          // result.push('</li>');
           // forms end
         }
 
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {        
-        // print version start
-        result.push('<li class="dropdown">');
-          result.push('<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version <span class="caret"></span></a>');
-          result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
-            result.push('<li><a onclick="open_core_summary(\'all\')">Core Elements Only</a></li>');
-            result.push('<li><a tabindex="-1" onclick="open_print_version(\'all\')">All</a></li>');
-            for(var i = 0; i < p_metadata.children.length; i++)
-            {
-              var child = p_metadata.children[i];
-              if(child.type.toLowerCase() == 'form')
-              {
-                result.push('<li>');
-                  result.push('<a tabindex="-1" onclick="open_print_version(\'');
-                    result.push(child.name)
-                  result.push('\')">');
-                  result.push(child.prompt)
-                  result.push('</a>');
-                result.push('</li>');
-              }
-            }
-          result.push('</ul>'); 
-        result.push('</li>')
+        // // print version start
+        result.push('<li class="list-group-item">');
+          result.push('<div class="form-group fake-list-group-anchor">');
+            result.push('<label for="print_case">Print case form</label>');
+            result.push('<div class="form-control-wrap">');
+              result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
+                result.push('<option value="" selected>Select one</option>');  
+                result.push('<option value="all">All</option>');  
+                for(var i = 0; i < p_metadata.children.length; i++)
+                {
+                  var child = p_metadata.children[i];
+                  if(child.type.toLowerCase() == 'form')
+                  {
+                    result.push('<option value="' + child.name + '">');
+                      result.push(child.prompt)
+                    result.push('</option>');
+                  }
+                }
+                // result.push('<option value="' + child.name + '" selected>');
+                //   result.push(child.prompt)
+                // result.push('</option>');
+              result.push('</select>');
+            result.push('</div>');
+          result.push('</div>');
+        result.push('</li>');
+
+        // result.push('<li class="dropdown">');
+        //   result.push('<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="print_blank">Print Version <span class="caret"></span></a>');
+        //   result.push('<ul class="dropdown-menu" role="menu" aria-labelledby="print_blank">');
+        //     result.push('<li><a onclick="open_core_summary(\'all\')">Core Elements Only</a></li>');
+        //     result.push('<li><a tabindex="-1" onclick="open_print_version(\'all\')">All</a></li>');
+        //     for(var i = 0; i < p_metadata.children.length; i++)
+        //     {
+        //       var child = p_metadata.children[i];
+        //       if(child.type.toLowerCase() == 'form')
+        //       {
+        //         result.push('<li>');
+        //           result.push('<a tabindex="-1" onclick="open_print_version(\'');
+        //             result.push(child.name)
+        //           result.push('\')">');
+        //           result.push(child.prompt)
+        //           result.push('</a>');
+        //         result.push('</li>');
+        //       }
+        //     }
+        //   result.push('</ul>'); 
+        // result.push('</li>')
         // print version end
         }
 
@@ -197,8 +235,11 @@ function navigation_render(p_metadata, p_level, p_ui)
    return result;
 }
 
-function selectNavGenerator(event) {
-  var p_metadata = g_metadata;
-  console.log(event.target.value);
-  console.log(g_metadata);
+// Helper func to assist in setting the new page url(hash)
+function updateUrlFromSelectValue(event, val) {
+  var currLocation = window.location;
+  var options = event.target.options;
+  var selected = options.selectedIndex;
+  
+  currLocation.hash = "/" + val;
 }

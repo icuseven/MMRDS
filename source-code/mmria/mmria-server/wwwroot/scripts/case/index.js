@@ -719,9 +719,8 @@ function load_profile()
         //replicate_db_and_log_out(p_user_name, p_password);
       }
 
-       document.getElementById('navbar').innerHTML = "<p>testtestTestTEST</p>";
+      document.getElementById('navbar').innerHTML = "<p>testtestTestTEST</p>";
       document.getElementById('form_content_id').innerHTML ="";
-
 
       var url = location.protocol + '//' + location.host + '/';
       window.location.href = url;
@@ -1313,7 +1312,16 @@ function delete_record(p_index)
 var save_interval_id = null;
 var save_queue = [];
 
-	
+function print_case_onchange()
+{
+  var section_id = document.getElementById("print_case_id").value;
+
+  if(section_id && section_id.length > 0)
+  {
+    open_print_version(section_id);
+  }
+  
+}
 
 function open_print_version(p_section)
 {

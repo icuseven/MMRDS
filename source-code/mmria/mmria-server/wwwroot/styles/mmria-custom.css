@@ -502,6 +502,7 @@ button  {
   min-height: calc(100% - 156px);
   padding-bottom: 1rem;
   position: relative;
+  width: calc(100% - 60px);
 }
 
 .app-header + .app-main,
@@ -518,7 +519,10 @@ button  {
 }
 
 .app-sidebar {
+  height: 100%;
   padding: 1rem;
+  position: sticky;
+  top: 0; /* required */
 }
 
 

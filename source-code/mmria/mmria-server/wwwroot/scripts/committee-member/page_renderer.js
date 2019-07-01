@@ -281,7 +281,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
 				result.push("</textarea>");
-
 				
 				//birth_certificate_infant_fetal_section/reviewer_note
 				result.push("<h3>Birth/Fetal Death Certificate- Infant/Fetal Section Reviewer's Notes</h3>");
@@ -300,7 +299,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.autopsy_report.reviewer_note);
 				result.push("</textarea>");
-
 				
 				//prenatal/reviewer_note
 				result.push("<h3>Prenatal Care Record Reviewer's Notes</h3>");
@@ -335,7 +333,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("</textarea>");
 					result.push("</p>");
 				}
-///medical_transport/transport_narrative_summary
+				///medical_transport/transport_narrative_summary
 				result.push("<h3>Medical Transport Reviewer's Notes</h3>");
 				for(var i = 0; i < g_data.medical_transport.length; i++)
 				{
@@ -354,7 +352,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(g_data.social_and_environmental_profile.reviewer_note);
 				result.push("</textarea>");
 
-
 				result.push("<h3>Mental Health Profile Reviewer's Notes</h3>");
 				result.push("<textarea cols=80 rows=7>");
 				result.push(g_data.mental_health_profile.reviewer_note);
@@ -371,8 +368,6 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 					result.push("</textarea>");
 					result.push("</p>");
 				}
-
-				
 			}
 
 			if(p_ui.url_state.path_array.length > 1)
@@ -408,28 +403,26 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 
 			if(i % 2)
 			{
-				result.push('		  <div class="result_wrapper_grey" path="');
+				result.push('<div class="result_wrapper_grey" path="');
 			}
 			else
 			{
-				result.push('		  <div class="result_wrapper" path="');
+				result.push('<div class="result_wrapper" path="');
 			}
-			result.push(item._id);
-			result.push('"><p class="result">');
-			result.push(item.home_record.last_name);
-			result.push(', ');
-			result.push(item.home_record.first_name);
-			result.push(' - ');
-			result.push(item.home_record.record_id);
-			result.push('	(');
-			result.push(item.home_record.state_of_death);
-			result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> </p>');
+				result.push(item._id);
+				result.push('"><p class="result">');
+				result.push(item.home_record.last_name);
+				result.push(', ');
+				result.push(item.home_record.first_name);
+				result.push(' - ');
+				result.push(item.home_record.record_id);
+				result.push('	(');
+				result.push(item.home_record.state_of_death);
+				result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> </p>');
 			result.push('</div>');
 			
 		}
-		result.push('		</div>');
-
-
+		result.push('</div>');
 		result.push("</section>");
 
 		for(var i = 0; i < p_metadata.children.length; i++)
@@ -475,7 +468,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			break;
      case 'button':
 	 		page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path)
-/*
+			/*
 			result.push("<input class='button' type='button' id='");
 			result.push(p_object_path);
 			result.push("' ");
@@ -491,7 +484,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			}
 
 			result.push(p_metadata.prompt);
-			result.push("' />");*/
+			result.push("' />");
+			*/
 			break;
 		case 'string':
 			result.push("<div class='string' id='");
@@ -542,11 +536,10 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			
-			
 			break;
 			   
-	case 'address':
-	case 'textarea':
+		case 'address':
+		case 'textarea':
 				result.push("<div  class='textarea' id='");
 				result.push(p_object_path);
 				result.push("'><span ");
@@ -575,7 +568,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				//page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
 				result.push("</textarea></div>");
            break;
-     case 'number':
+    case 'number':
 			result.push("<div class='number' id='");
 			result.push(p_object_path);
 			result.push("'><span ");
@@ -614,8 +607,8 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			//page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path);
 			result.push("</div>");
 			
-           break;
-     case 'boolean':
+      break;
+    case 'boolean':
 			result.push("<div class='boolean' id='");
 			result.push(p_object_path);
 			result.push("'> <input type='checkbox' name='");
@@ -651,12 +644,9 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				result.push(p_metadata.prompt);
 			}
 			result.push("</span></div>");
-
-			
-			
 			result.push("</div>");
 
-            break;
+      break;
     case 'list':
 			if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
 			{

@@ -179,12 +179,18 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(g_data.home_record.last_name);
                     p_result.push(", ");
                     p_result.push(g_data.home_record.first_name);
-                    if(g_data.home_record.record_id)
-                    {
-                        p_result.push("  - ");
-                        p_result.push(g_data.home_record.record_id);
-                    }
+                    // if(g_data.home_record.record_id)
+                    // {
+                    //     p_result.push("  - ");
+                    //     p_result.push(g_data.home_record.record_id);
+                    // }
                     p_result.push("</h2>");
+                }
+                if(g_data.home_record.record_id)
+                {
+                  p_result.push("<p class='construct__info'");
+                    p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
+                  p_result.push("</p>");
                 }
                 p_result.push("<p class='construct__subtitle'");
                     if(p_metadata.description && p_metadata.description.length > 0)
