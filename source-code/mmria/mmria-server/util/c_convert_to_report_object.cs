@@ -347,7 +347,7 @@ namespace mmria.server.util
 					"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
 				)
 				{
-					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race_of_mother");
+					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
 					if (val != null)
 					{
 						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);

@@ -105,6 +105,29 @@ namespace mmria.console
  */
 
 
+			// clean output space - begin
+			var location = Directory.GetCurrentDirectory();
+			var output_schema_path = Path.Combine(location, @"schema/GeneratedSchema");
+
+			var json_schema_path = $"{output_schema_path}/generated_schema.json";
+			if(System.IO.File.Exists(json_schema_path))
+			{
+				System.IO.File.Delete(json_schema_path);
+			}
+
+
+			var filename = "generated_from_schema";
+			
+			var output_path = Path.Combine(location, @"schema/GeneratedCode");
+
+			var cs_file_name = $"{output_path}/{filename}.cs";
+			if(System.IO.File.Exists(cs_file_name))
+			{
+				System.IO.File.Delete(cs_file_name);
+			}
+			// clean output space - end
+
+
 			var metadata_response = await ReadMetadataAsync();
 			Console.Write(metadata_response);
 
@@ -113,8 +136,6 @@ namespace mmria.console
 			var new_schema = await GetSchema(metadata);
 
 
-			var location = Directory.GetCurrentDirectory();
-			var output_schema_path = Path.Combine(location, @"schema/GeneratedSchema");
 			var new_schema_json = new_schema.ToJson();
 
 
@@ -122,40 +143,63 @@ namespace mmria.console
 
 
 
-			var json_schema_path = $"{output_schema_path}/generated_schema.json";
-			if(System.IO.File.Exists(json_schema_path))
-			{
-				System.IO.File.Delete(json_schema_path);
-			}
+
+
 			File.WriteAllText(json_schema_path, new_schema_json);
 
 
 			//var filename = "address";
 			//var filename = "multivalue-list-example";
-			var generate_code_file = true;
+			var generate_code_dll = true;
 
-			if(generate_code_file)
+
+
+
+			//var path = Path.Combine(location, @"schema/template");
+			//var schemaJson = File.ReadAllText($"{path}/{filename}.json");
+
+			var generatedFile = await GenerateFileAsync(filename, new_schema_json);
+
+
+			var replace_form_collection = System.Text.RegularExpressions.Regex.Replace
+			(
+				generatedFile,
+				@"ICollection<([\w_]+)(_form)>",
+				m => string.Format
+				(
+					"ICollection<{0}{1}>",
+					m.Groups[1].Value,
+					"_type"
+				)
+			);
+			
+			var replace_grid_collection =  System.Text.RegularExpressions.Regex.Replace
+			(
+				replace_form_collection,
+				@"ICollection<([\w_]+)_grid(\d+)>",
+				"ICollection<$1_row$2>"
+			);
+
+			var replace_grid_collection_2 =  System.Text.RegularExpressions.Regex.Replace
+			(
+				replace_grid_collection,
+				@"ICollection<([\w_]+)_grid>",
+				"ICollection<$1_row>"
+			);
+
+/*
+m => string.Format
+				(
+					"ICollection<{0}_row{1}>",
+					m.Groups[1].Value,
+					m.Groups[2].Value
+				),
+ */				
+
+			File.WriteAllText(cs_file_name, replace_grid_collection_2);
+
+			if(generate_code_dll)
 			{
-
-				var filename = "generated_from_schema";
-				
-				var output_path = Path.Combine(location, @"schema/GeneratedCode");
-
-				//var path = Path.Combine(location, @"schema/template");
-				//var schemaJson = File.ReadAllText($"{path}/{filename}.json");
-
-				var generatedFile = await GenerateFileAsync(filename, new_schema_json);
-
-				var cs_file_name = $"{output_path}/{filename}.cs";
-				if(System.IO.File.Exists(cs_file_name))
-				{
-					System.IO.File.Delete(cs_file_name);
-				}
-
-
-				File.WriteAllText(cs_file_name, generatedFile);
-
-
 
 				var dll_name = "my";
 				var dll_file_name = dll_name + ".dll";
@@ -168,10 +212,6 @@ namespace mmria.console
 
 
 				genlib.Execute(dll_name, cs_file_name, json_schema_path);
-
-
-
-
 
 			}
 
@@ -327,7 +367,6 @@ namespace mmria.console
 							break;
 						
 						case "grid":
-							//property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
 							property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
 							foreach(var child in p_node.children)
 							{
@@ -335,21 +374,21 @@ namespace mmria.console
 							}
 							var number = -1;
 							var key = p_node.name + "_row";
+							var suffix = "";
 							if(p_lookup.ContainsKey(key))
 							{
 								number = p_lookup.Count;
-								key = key + number.ToString();
+								suffix = number.ToString();
 							}
-							p_lookup.Add(key, property);
-							property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = p_lookup[key] };
-							if(number == -1)
-							{
-								p_parent.Properties.Add(p_node.name + "_grid", property_list);
-							}
-							else
-							{
-								p_parent.Properties.Add(p_node.name + "_grid" + number.ToString(), property_list);
-							}
+
+							var property_name = key + suffix;
+							p_lookup.Add(property_name, property);
+
+							property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = p_lookup[property_name] };
+
+							var grid_name = p_node.name + "_grid" + suffix;
+
+							p_parent.Properties.Add(grid_name, property_list);
 							
 							break;
 						case "app":
