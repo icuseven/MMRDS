@@ -55,6 +55,8 @@ let fdTemplates = {
             list: function (formName, value) { 
                 let listOptions = fdTemplates.formFields.controls.listOptions(value);
                 let listField;
+
+                /*
                 if (value.hasOwnProperty('is_multiselect')) {
                     listField = `
                                 <fieldset id="${formName}--${value.name}" class="resize-drag drag-drop yes-drop fd-path-object list-fieldset">
@@ -62,11 +64,20 @@ let fdTemplates = {
                                     ${listOptions}
                                 </fieldset>`;
                 } else {
+                    */
+
+                var list_display_size= '';
+                if(value.list_display_size)
+                {
+
+                    list_display_size = ' size=' + value.list_display_size;
+                }
+
                     listField = `
-                                <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">
+                                <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" ${list_display_size} >
                                     ${listOptions}
                                 </select>`;
-                }
+                //}
                 return listField;
             },
             listOptions: function (data) { 
@@ -83,6 +94,7 @@ let fdTemplates = {
                 }
 
                 let markup = '';
+                /*
                 if(data.is_multiselect) {
                     $.each(values, function (index, value) {
                         if (value.value === '') {
@@ -95,6 +107,9 @@ let fdTemplates = {
                                   </div>`;
                     })
                 } else {
+                    */
+
+
                     $.each(values, function (index, value) {
                         if (value.value === '') {
                             markup += `<option selected>- select -</option>`;
@@ -102,7 +117,7 @@ let fdTemplates = {
                             markup += `<option value="${value.value}">${value.value}</option>`;
                         }
                     });
-                }
+                //}
 
                 return markup;
             },
