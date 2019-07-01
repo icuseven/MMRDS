@@ -40,25 +40,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			{
 				p_result.push(p_metadata.prompt);
 			}
-			/*
-			p_result.push("</span><br/> <input  class='datetime' type='");
-			//p_result.push(p_metap_datadata.type.toLowerCase());
-			p_result.push("text");
-			p_result.push("'  name='");
-			p_result.push(p_metadata.name);
-			p_result.push("' value='");
-			p_result.push(p_data.toISOString().split("T")[0]);
-			p_result.push("'  onblur='g_set_data_object_from_path(\"");
-			p_result.push(p_object_path);
-			p_result.push("\",\"");
-			p_result.push(p_metadata_path);
-			p_result.push("\",this.value)'  /></div>");
-			https://eonasdan.github.io/bootstrap-datetimepicker/
 
-			http://xdsoft.net/jqplugins/datetimepicker/
-
-
-			*/
 			p_result.push("</label> ");
 			p_result.push("<div style='position:relative'>");
 			page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);

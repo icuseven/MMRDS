@@ -20,6 +20,8 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push(p_object_path);
     p_result.push("\",\"");
     p_result.push(p_metadata_path);
+    p_result.push("\",\"");
+    p_result.push(p_dictionary_path);
     p_result.push("\",this.value)'  ");
 
 

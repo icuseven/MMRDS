@@ -53,6 +53,8 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_object_path + "[" + i + "]");
         p_result.push("', '");
         p_result.push(p_metadata_path);
+        p_result.push("', '");
+        p_result.push(p_dictionary_path);
         p_result.push('\')" /></td></tr>');
     }
     p_result.push("<tr><td colspan=");

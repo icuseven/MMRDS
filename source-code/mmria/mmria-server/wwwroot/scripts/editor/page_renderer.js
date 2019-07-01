@@ -231,7 +231,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
 		if(path_to_onclick_map[p_metadata_path])
 		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
 		}
 		
 	}
@@ -299,30 +299,24 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 		if(path_to_onfocus_map[p_metadata_path])
 		{
-			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
 		}
 
 		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
 		if(path_to_onchange_map[p_metadata_path])
 		{
-			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
 		}
 		
 		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
 		if(path_to_onclick_map[p_metadata_path])
 		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
 		}
 		
-		page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+		page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path);
 	
 	}
-/*
-	p_result.push("' onblur='g_set_data_object_from_path(\"");
-	p_result.push(p_object_path);
-	p_result.push("\",\"");
-	p_result.push(p_metadata_path);
-	p_result.push("\",this.value)' /></div>");*/
 
 	p_result.push("/>");
 
@@ -330,7 +324,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 }
 
 
-function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path)
+function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path)
 {
 	var post_fix = null;
 
@@ -378,7 +372,7 @@ var path_to_validation_description = [];
 }
 
 
-function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path)
+function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path)
 {
 /*
 var path_to_int_map = [];
@@ -407,6 +401,8 @@ var path_to_validation_description = [];
 		code_array.push(p_object_path);
 		code_array.push("\",\"");
 		code_array.push(p_metadata_path);
+		code_array.push("\",\"");
+		code_array.push(p_dictionary_path);
 		code_array.push("\",p_control.value);\n}).call(");
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
 		code_array.push(", event.target);");
@@ -421,6 +417,8 @@ var path_to_validation_description = [];
 		p_result.push(p_object_path);
 		p_result.push("\",\"");
 		p_result.push(p_metadata_path);
+		p_result.push("\",\"");
+		p_result.push(p_dictionary_path);
 		if(p_metadata.type=="boolean")
 		{
 			p_result.push("\",this.checked)'");
@@ -465,6 +463,8 @@ var path_to_validation_description = [];
 		code_array.push(p_object_path);
 		code_array.push("\",\"");
 		code_array.push(p_metadata_path);
+		code_array.push("\",\"");
+		code_array.push(p_dictionary_path);
 		code_array.push("\",p_control.value);\n}).call(");
 		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
 		code_array.push(", event.target);");
@@ -479,6 +479,8 @@ var path_to_validation_description = [];
 		p_result.push(p_object_path);
 		p_result.push("\",\"");
 		p_result.push(p_metadata_path);
+		p_result.push("\",\"");
+		p_result.push(p_dictionary_path);
 		if(p_metadata.type=="boolean")
 		{
 			p_result.push("\",this.checked)'");
@@ -519,22 +521,22 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
 	{
-		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 
 	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
 	if(path_to_onchange_map[p_metadata_path])
 	{
-		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 	
 	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
 	if(path_to_onclick_map[p_metadata_path])
 	{
-		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 	
-	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path);
 
 
 
@@ -572,19 +574,19 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
 	{
-		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path)
+		page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 
 	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ochs";
 	if(path_to_onchange_map[p_metadata_path])
 	{
-		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path)
+		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 	
 	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
 	if(path_to_onclick_map[p_metadata_path])
 	{
-		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path)
+		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 	
 	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);

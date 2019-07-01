@@ -39,17 +39,7 @@ function time_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     {
         p_result.push(p_metadata.prompt);
     }
-    /*
-    p_result.push("</span><br/> <input  class='time' type='text' name='");
-    p_result.push(p_metadata.name);
-    p_result.push("' value='");
-    p_result.push(p_data.toISOString().split("T")[1].replace("Z",""));
-    p_result.push("' onblur='g_set_data_object_from_path(\"");
-    p_result.push(p_object_path);
-    p_result.push("\",\"");
-    p_result.push(p_metadata_path);
-    p_result.push("\",this.value)'   /></div>");
-    */
+
    p_result.push("</label> ");
     p_result.push("<div>");
     page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);

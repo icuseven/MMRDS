@@ -109,11 +109,29 @@ namespace mmria.console
 			var location = Directory.GetCurrentDirectory();
 			var output_schema_path = Path.Combine(location, @"schema/GeneratedSchema");
 
-			var json_schema_path = $"{output_schema_path}/generated_schema.json";
-			if(System.IO.File.Exists(json_schema_path))
+			var generated_schema_name_list = new string[]
 			{
-				System.IO.File.Delete(json_schema_path);
+				"generated_schema_0.json",
+				"generated_schema_1.json",
+				"generated_schema_2.json",
+				"generated_schema_3.json",
+				"generated_schema.json"
+			};
+
+			var json_schema_path = $"{output_schema_path}/generated_schema.json";
+
+			foreach(var file_name in generated_schema_name_list)
+			{
+				var temp_name = $"{output_schema_path}/{file_name}";
+				if(System.IO.File.Exists(temp_name))
+				{
+					System.IO.File.Delete(temp_name);
+				}
 			}
+
+
+			
+			
 
 
 			var filename = "generated_from_schema";
@@ -140,11 +158,6 @@ namespace mmria.console
 
 
 			//var modified_schema_json = Modify_json(new_schema_json);
-
-
-
-
-
 			File.WriteAllText(json_schema_path, new_schema_json);
 
 
@@ -153,13 +166,13 @@ namespace mmria.console
 			var generate_code_dll = true;
 
 
-
+			File.WriteAllText(json_schema_path, new_schema_json);
 
 			//var path = Path.Combine(location, @"schema/template");
 			//var schemaJson = File.ReadAllText($"{path}/{filename}.json");
 
 			var generatedFile = await GenerateFileAsync(filename, new_schema_json);
-
+			File.WriteAllText($"{output_path}/generatedFile_0.cs", generatedFile);
 
 			var replace_form_collection = System.Text.RegularExpressions.Regex.Replace
 			(
@@ -352,7 +365,7 @@ m => string.Format
 								}
 								p_lookup.Add(p_node.name + "_type", property);
 								property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = p_lookup[p_node.name + "_type"] };
-								//property_list.Properties.Add().Items.Add(property);
+								//property_list.Properties..Items.Allof(property);
 								p_parent.Properties.Add(p_node.name + "_form", property_list);
 							}
 							else
