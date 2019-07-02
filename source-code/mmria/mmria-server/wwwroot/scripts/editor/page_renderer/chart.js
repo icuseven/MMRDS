@@ -9,7 +9,19 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_result.push("' ");
 
 
-    p_result.push(">");
+	
+	
+	p_result.push(" style='");
+    //var key = p_dictionary_path.substring(1);
+
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
+    {
+        p_result.push(get_style_string(style_object.control.style));
+    }
+
+	p_result.push("'>");
+
     p_result.push("<span ");
     if(p_metadata.description && p_metadata.description.length > 0)
     {

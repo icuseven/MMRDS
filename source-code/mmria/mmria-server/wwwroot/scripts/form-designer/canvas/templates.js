@@ -127,6 +127,10 @@ let fdTemplates = {
             number: function (formName, value) { 
                 return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
+
+            chart: function (formName, value) { 
+                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ><p>chart</p><h3>${value.prompt}</h3></div>`;
+            },
             group: function (parentName, value) {
                 let newGroupName = `${parentName}--${value.name}`;
                 let groupFields = '';

@@ -398,33 +398,50 @@ formDesigner = {
       },
       display: function (formName) {
         let fields = formDesigner.dataHandler.getFormFields(formName);
-        let tpl = '';
+        let tpl = [];
         console.log(fields);
-        $.each(fields, function(index, value) {
-          if (value.type.toLowerCase() === 'group' || value.type.toLowerCase() === 'grid') {
-            tpl += fdTemplates.formFields.controls.group(formName, value);
-          } else if(value.type.toLowerCase() === 'hidden') {
-            // do nothing
-            return;
+        $.each
+        (
+          fields,
+          function(index, value) 
+          {
+            switch(value.type.toLowerCase())
+            {
+              case 'group':
+              case 'grid':
+                tpl.push(fdTemplates.formFields.controls.group(formName, value));
+                break;
+
+              case 'hidden':
+                // do nothing
+                return;
+                break;
+              // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
+              
+              case 'list':
+                  tpl.push(fdTemplates.formFields.prompt(formName, value));
+                  tpl.push(fdTemplates.formFields.controls.list(formName, value));
+                  break;
+              case 'textarea': 
+                tpl.push(fdTemplates.formFields.prompt(formName, value));
+                tpl.push(fdTemplates.formFields.controls.textarea(formName, value));
+                break;
+              case 'button':
+                tpl.push(fdTemplates.formFields.prompt(formName, value));
+                tpl.push(fdTemplates.formFields.controls.button(formName, value));
+                break;
+              case 'chart':
+                tpl.push(fdTemplates.formFields.controls.chart(formName, value));
+                break;
+              default:
+                  tpl.push(fdTemplates.formFields.prompt(formName, value));
+                  tpl.push(fdTemplates.formFields.controls.string(formName, value));
+                break;
+            
+            }
           }
-          else {
-          // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
-          tpl += fdTemplates.formFields.prompt(formName, value);
-          if (value.type.toLowerCase() === 'list') {
-            tpl += fdTemplates.formFields.controls.list(formName, value);
-          } else if (value.type.toLowerCase() === 'textarea') {
-            tpl += fdTemplates.formFields.controls.textarea(formName, value);
-          } else if (value.type.toLowerCase() === 'hidden') {
-            return; // do nothing
-          } else if (value.type.toLowerCase() === 'button') {
-            tpl += fdTemplates.formFields.controls.button(formName, value)
-          } else {
-            tpl += fdTemplates.formFields.controls.string(formName, value);
-          }
-          // tpl += `</div>`;
-          }
-        });
-        $('#fd-canvas').html(tpl);
+        );
+        $('#fd-canvas').html(tpl.join(""));
 
         // Must initialize Drag Select functionality for fields after they have been loaded to the DOM
         fdDragSelect = new DragSelect({
