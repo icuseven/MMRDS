@@ -46,27 +46,27 @@ function get_metadata()
 }
 
 
-function generate_schema(p_metadata, p_schema)
+function generate_schema(p_metadata, p_schema, p_version)
 {
-    // do something with the current node
-    //var result = [];
-
-
     switch(p_metadata.type.toLowerCase())
     {
         case "app":
             p_schema._id = {
                     "type": "string"
-            }
+            };
+
+            p_schema.version = {
+                    "type": "string",
+                    "enum": [ p_version ],
+                    "default" : p_version
+            };
 
         break;
 
     }
 
-
     if(p_metadata.children)
     {
-        // do something with the child nodes
         for(var i = 0; i < p_metadata.children.length; i++)
         {
             let object = null;
@@ -111,32 +111,67 @@ function generate_schema(p_metadata, p_schema)
                         object["x-enumNames"].push(child.values[j].value);
                     }
                 break;
-
             }
-            //Array.prototype.push.apply(result, print(child));
-            
         }
     }
+}
 
-/*
-    result.push("name: " + p_metadata.name + "<br/>prompt: " + p_metadata.prompt + "<br/>type: " + p_metadata.type);
+function Set_LookUp(p_parent, p_node)
+{
+//https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
+
+    /*
+    var schema = new NJsonSchema.JsonSchema();
     
+    schema.Type =  NJsonSchema.JsonObjectType.Object;
+    schema.Title = "mmria_case";
+    schema.Description = "Here is a case for your ...!";
+    
+    schema.SchemaVersion = "http://json-schema.org/draft-06/schema#";
+    */			
 
-    // before visiting all the child nodes
-    if(p_metadata.children)
+
+    var property = null;
+    //schema.Properties.Add("name", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
+    //schema.Properties.Add("prompt", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
+
+    try
     {
-        // do something with the child nodes
-        for(var i = 0; i < p_metadata.children.length; i++)
-        {
-            var child = p_metadata.children[i];
-            Array.prototype.push.apply(result, print(child));
-            
-        }
-    }
-*/
-    // after visiting all the child nodes
 
-   //return result;
+        switch(p_node.type.toLowerCase())
+        {						
+                case "list":
+                        if(p_node.is_multiselect && p_node.is_multiselect == true)
+                        {
+                            property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
+                            for(var value in p_node.values)
+                            {
+                                property.EnumerationNames.Add(value.value);
+                            }
+                        }
+                        else
+                        {
+                            property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String };
+                            p_parent.Add(p_node.name, property);
+
+                            for(var value in p_node.values)
+                            {
+                                property.EnumerationNames.Add(value.value);
+                            }
+                        }
+
+
+                        break;
+                        
+        }
+
+    }
+    catch(ex)
+    {
+        console.log("GetSchemaGetSchema(p_parent, p_node) Exception: {ex}");
+    }
+    //return p_parent;
+
 }
 
 
