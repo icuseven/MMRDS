@@ -8,27 +8,18 @@
 <title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
 <script src="./scripts/jquery-3.1.1.min.js"></script>
 <script src="./scripts/jquery-ui.min.js"></script>
-
+<script src="./scripts/editor/schema-generator.js"></script>
 
 <script>
 
 var g_metadata = null;
 
+var schema = null;
+
 function main()
 {
     get_metadata();
 }
-
-var schema = {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "mmria_case",
-  "type": "object",
-  "description": "Here is a case for your ...!",
-  "properties": {},
-  "definitions": {}
-}
-
-
 
 function get_metadata()
 {
@@ -36,7 +27,14 @@ function get_metadata()
 			url: 'http://db1.mmria.org/metadata/2016-06-12T13:49:24.759Z',
 	}).done(function(response) {
             g_metadata = response;
-            generate_schema(g_metadata, schema);
+            schema = get_initial_schema();
+
+            for(var child in g_metadata.lookup)
+			{
+                var child_node = g_metadata.lookup[child];
+                set_lookUp(schema.definitions, child_node);
+            }
+            generate_schema(g_metadata, schema.properties, "v1");
             console.log(schema);
             $("#output2").html
                 (
@@ -46,133 +44,6 @@ function get_metadata()
 }
 
 
-function generate_schema(p_metadata, p_schema, p_version)
-{
-    switch(p_metadata.type.toLowerCase())
-    {
-        case "app":
-            p_schema._id = {
-                    "type": "string"
-            };
-
-            p_schema.version = {
-                    "type": "string",
-                    "enum": [ p_version ],
-                    "default" : p_version
-            };
-
-        break;
-
-    }
-
-    if(p_metadata.children)
-    {
-        for(var i = 0; i < p_metadata.children.length; i++)
-        {
-            let object = null;
-
-            var child = p_metadata.children[i];
-            switch(child.type.toLowerCase())
-            {
-                case "group":
-                
-                case "form":
-                    
-                    object = p_schema[child.name.toLowerCase()] =  {
-                        "type": "object",
-                        "properties": {}
-                    };
-                    
-                    generate_schema(child, object.properties);
-                    
-                    break;
-                case "grid":
-                        object = p_schema[child.name.toLowerCase()] =  {
-                        "type": "array",
-                        "properties": {}
-                        };
-                    
-                    generate_schema(child, object.properties);
-
-                    break;
-                case "number":
-                    p_schema[child.name.toLowerCase()] = { "type" : "number"}
-                    break;                    
-                case "string":
-                    p_schema[child.name.toLowerCase()] = { "type" : "string"}
-                    break;
-                case "date":
-                    p_schema[child.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
-                    break;
-                case "list":
-                    object = p_schema[child.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
-                    for(var j in child.values)
-                    {
-                        object["x-enumNames"].push(child.values[j].value);
-                    }
-                break;
-            }
-        }
-    }
-}
-
-function Set_LookUp(p_parent, p_node)
-{
-//https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Schema_JsonSchema.htm
-
-    /*
-    var schema = new NJsonSchema.JsonSchema();
-    
-    schema.Type =  NJsonSchema.JsonObjectType.Object;
-    schema.Title = "mmria_case";
-    schema.Description = "Here is a case for your ...!";
-    
-    schema.SchemaVersion = "http://json-schema.org/draft-06/schema#";
-    */			
-
-
-    var property = null;
-    //schema.Properties.Add("name", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
-    //schema.Properties.Add("prompt", new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String});
-
-    try
-    {
-
-        switch(p_node.type.toLowerCase())
-        {						
-                case "list":
-                        if(p_node.is_multiselect && p_node.is_multiselect == true)
-                        {
-                            property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array};
-                            for(var value in p_node.values)
-                            {
-                                property.EnumerationNames.Add(value.value);
-                            }
-                        }
-                        else
-                        {
-                            property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.String };
-                            p_parent.Add(p_node.name, property);
-
-                            for(var value in p_node.values)
-                            {
-                                property.EnumerationNames.Add(value.value);
-                            }
-                        }
-
-
-                        break;
-                        
-        }
-
-    }
-    catch(ex)
-    {
-        console.log("GetSchemaGetSchema(p_parent, p_node) Exception: {ex}");
-    }
-    //return p_parent;
-
-}
 
 
   </script>

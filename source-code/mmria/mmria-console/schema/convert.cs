@@ -298,7 +298,6 @@ m => string.Format
 			
 
 			try
-
 			{
 				foreach(var child in p_app.lookup)
 				{
@@ -313,7 +312,6 @@ m => string.Format
 
 
 			try
-
 			{
 				foreach(var child in p_app.children)
 				{
