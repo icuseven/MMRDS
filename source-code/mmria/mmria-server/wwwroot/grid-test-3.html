@@ -35,16 +35,43 @@ function get_metadata()
                 set_lookUp(schema.definitions, child_node);
             }
             generate_schema(g_metadata, schema.properties, "v1");
-            console.log(schema);
+            //console.log(schema);
             $("#output2").html
                 (
                     JSON.stringify(schema)
                 );
+            get_cs_code();
 	});
 }
 
 
 
+function get_cs_code()
+{
+    var code_gen_request = { action:"generate", payload: schema };
+    $.ajax
+    ({
+            url: location.protocol + '//' + location.host + '/api/version_code_gen',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(code_gen_request),
+            type: "POST",
+            headers:{ Accept: 'text/plain; charset=utf-8'}
+    })
+    .done
+    (
+        function(response) 
+        {
+            $("#output3").value = response;
+        }
+    ).fail
+    (
+        function(xhr, ajaxOptions, thrownError) 
+        {
+            $("#output3").val(xhr.responseText);
+        }
+    );
+}
 
   </script>
 
@@ -58,6 +85,11 @@ function get_metadata()
     </div>
 
     <textarea id="output2" cols=80 rows=20>
+
+    </textarea>
+
+    <p>Code</p>
+    <textarea id="output3" cols=80 rows=20>
 
     </textarea>
 </body>
