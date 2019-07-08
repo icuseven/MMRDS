@@ -485,6 +485,18 @@ button  {
   vertical-align: middle;
 }
 
+.table-pagination {
+  font-size: 14px;
+}
+.table-pagination + .table,
+.table + .table-pagination {
+  margin-top: .5rem;
+}
+
+.table-btn-link {
+  padding: 0;
+}
+
 
 
 
