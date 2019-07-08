@@ -64,11 +64,11 @@ function generate_schema_phase2(p_schema_context)
     {
         
         case "app":
-            p_schema_context.schema._id = {
+            p_schema_context.schema.properties._id = {
                     "type": "string"
             };
 
-            p_schema_context.schema.version = {
+            p_schema_context.schema.properties.version = {
                     "type": "string",
                     "enum": [ p_schema_context.version ],
                     "default" : p_schema_context.version
@@ -143,17 +143,17 @@ function generate_schema(p_schema_context)
     switch(p_schema_context.metadata.type.toLowerCase())
     {
         case "app":
-            /*
-            p_schema_context.schema._id = {
+            
+            p_schema_context.schema.properties._id = {
                     "type": "string"
             };
 
-            p_schema_context.schema.version = {
+            p_schema_context.schema.properties.version = {
                     "type": "string",
                     "enum": [ p_schema_context.version ],
                     "default" : p_schema_context.version
             };
-            */
+           /* */
             //object = p_schema_context.schema[child.name.toLowerCase()] =  get_grid(child,  "/" + child.name.toLowerCase());
  
             if(p_schema_context.metadata.children)
@@ -283,81 +283,59 @@ function set_definitions(p_definition_context)
             }
             break;
         case "form":
+            var definition_name = get_definition_name
+            (
+                p_definition_context.metadata.name.toLowerCase(),
+                p_definition_context.definition_node
+            );
+
+            p_definition_context.mmria_path_to_definition_name[p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase()] = definition_name;
+
+            object = p_definition_context.definition_node[definition_name] = {
+                "type": "object",
+                "properties": {}
+            };
             
-            /*
-            if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
+            if(p_definition_context.metadata.children)
             {
-
-                object = p_schema_context.schema[child.name.toLowerCase()] =  {
-                    "type": "array",
-                    "properties": {},
-                    "items": {
-                        "allOf": [
-                          {
-                            "$ref": "#/" + p_schema_context.metadata.name.toLowerCase() + "/definitions/" + p_schema_context.metadata.name.toLowerCase() 
-                          }
-                        ]
-                    }
-                };
-
-                if(p_schema_context.metadata.children)
+                for(var i = 0; i < p_definition_context.metadata.children.length; i++)
                 {
-                    for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                    var child = p_definition_context.metadata.children[i];
+        
+                    if(child.type.toLowerCase() == "grid")
                     {
-                        var child = p_schema_context.metadata.children[i];
-            
-                        new_schema_context = get_schema_context(child, object, p_schema_context.version, p_schema_context.path + "/" + child.name.toLowerCase());
-                        generate_schema(new_schema_context);
+                        //break;
+                        var new_path = p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase();
+                        var new_grid_definition_context = get_definition_context(child, p_definition_context.definition_node, p_definition_context.mmria_path_to_definition_name, new_path);
+                        set_definitions(new_grid_definition_context);
+
+                        var grid_definition_name = new_grid_definition_context.mmria_path_to_definition_name[new_path + "/" + child.name.toLowerCase()];
+                        object.properties[child.name.toLowerCase()] =  {
+                            "type": "array",
+                            "items": {"$ref": "#/definitions/" + grid_definition_name }
+                        };
                     }
+                    else if(child.type.toLowerCase() == "list" && child.is_multiselect && child.is_multiselect == true)
+                    {
+                        //break;
+                        var new_list_path = p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase();
+                        var new_list_definition_context = get_definition_context(child, p_definition_context.definition_node, p_definition_context.mmria_path_to_definition_name, new_list_path);
+                        set_definitions(new_list_definition_context);
+
+                        var list_definition_name = new_list_definition_context.mmria_path_to_definition_name[new_list_path + "/" + child.name.toLowerCase()];
+                        object.properties[child.name.toLowerCase()] =  {
+                            "type": "array",
+                            "items": {"$ref": "#/definitions/" + list_definition_name }
+                        };
+                    }
+                    else
+                    {
+                        var new_form_schema_context = get_schema_context(child, object.properties, "", p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase());
+                        generate_schema(new_form_schema_context);
+                    }
+
                 }
             }
-            else
-            {
-                */
-
-                var definition_name = get_definition_name
-                (
-                    p_definition_context.metadata.name.toLowerCase(),
-                    p_definition_context.definition_node
-                );
-
-                p_definition_context.mmria_path_to_definition_name[p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase()] = definition_name;
-
-                object = p_definition_context.definition_node[definition_name] = {
-                    "type": "object",
-                    "properties": {}
-                };
-                
-                //generate_schema(child, object.properties, "", "/" + child.name.toLowerCase());
-                //generate_schema(new_schema_context);
-                if(p_definition_context.metadata.children)
-                {
-                    for(var i = 0; i < p_definition_context.metadata.children.length; i++)
-                    {
-                        var child = p_definition_context.metadata.children[i];
-            
-                        if(child.type.toLowerCase() == "grid")
-                        {
-                            //break;
-                            var new_path = p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase();
-                            var new_grid_definition_context = get_definition_context(child, p_definition_context.definition_node, p_definition_context.mmria_path_to_definition_name, new_path);
-                            set_definitions(new_grid_definition_context);
-
-                            var grid_definition_name = new_grid_definition_context.mmria_path_to_definition_name[new_path + "/" + child.name.toLowerCase()];
-                            object.properties[child.name.toLowerCase()] =  {
-                                "type": "array",
-                                "items": {"$ref": "#/definitions/" + grid_definition_name }
-                            };
-                        }
-                        else
-                        {
-                            var new_form_schema_context = get_schema_context(child, object.properties, "", p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase());
-                            generate_schema(new_form_schema_context);
-                        }
-
-                    }
-                }
-            //}
             break;
         case "grid":
             var definition_name = get_definition_name
@@ -399,11 +377,28 @@ function set_definitions(p_definition_context)
             //p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
             break;
         case "list":
-            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
-            for(var j in p_schema_context.metadata.values)
+
+            var definition_name = get_definition_name
+            (
+                p_definition_context.metadata.name.toLowerCase(),
+                p_definition_context.definition_node
+            );
+
+            p_definition_context.mmria_path_to_definition_name[p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase()] = definition_name;
+    
+            /*
+            if(p_definition_context.metadata.type.toLowerCase() == "list" && p_definition_context.metadata.is_multiselect && p_definition_context.metadata.is_multiselect == true)
             {
-                object["x-enumNames"].push(p_schema_context.metadata.values[j].value);
+                console.log("multiselect" + p_definition_context.metadata.name);
             }
+            else
+            {*/
+                object = p_definition_context.definition_node[definition_name] = { "type": "string", "x-enumNames": [] }
+                for(var j in p_definition_context.metadata.values)
+                {
+                    object["x-enumNames"].push(p_definition_context.metadata.values[j].value);
+                }
+            //}
         break;
     }
 
