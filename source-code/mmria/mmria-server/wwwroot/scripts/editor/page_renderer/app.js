@@ -458,24 +458,35 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     if(p_ui.url_state.path_array.length > 1)
     {
-        for(var i = 0; i < p_metadata.children.length; i++)
+        if(p_ui.url_state.path_array[1] == "field_search")
         {
-            var child = p_metadata.children[i];
-            if(child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name)
+            p_result.push("<section id='field_search_id'>")
+            p_result.push("Search results for: <em>" + p_ui.url_state.path_array[2] + "</em>");
+            p_result.push("</section>");
+        }
+        else
+        {
+            for(var i = 0; i < p_metadata.children.length; i++)
             {
-                if(p_data[child.name] || p_data[child.name] == 0)
+                var child = p_metadata.children[i];
+                if(child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name)
                 {
-                    // do nothing 
+                    if(p_data[child.name] || p_data[child.name] == 0)
+                    {
+                        // do nothing 
+                    }
+                    else
+                    {
+                        p_data[child.name] = create_default_object(child, {})[child.name];
+                    }
+    
+                    Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));				 		
+                    
+                    
                 }
-                else
-                {
-                    p_data[child.name] = create_default_object(child, {})[child.name];
-                }
-
-                Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path  + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));				 		
-                
             }
         }
+        
     }
 
     // TouF: Redundant, will not need

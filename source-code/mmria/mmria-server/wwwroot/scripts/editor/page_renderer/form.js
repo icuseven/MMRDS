@@ -163,7 +163,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
    }
    else
    {
-
        p_result.push("<section id='");
        p_result.push(p_metadata.name);
        p_result.push("_id' class='construct' ");
