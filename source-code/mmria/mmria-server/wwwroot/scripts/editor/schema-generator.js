@@ -47,7 +47,7 @@ function get_definition_name(p_name, p_definition_node)
         name_count+=1;
 
 
-        result + name_count.toString();
+        result = base_name + name_count.toString();
     }
 
     return result;
@@ -255,28 +255,6 @@ function set_definitions(p_definition_context)
 
     switch(p_definition_context.metadata.type.toLowerCase())
     {
-        /*
-        case "list":
-            if(p_definition_context.metadata.is_multiselect && p_definition_context.metadata.is_multiselect == true)
-            {
-
-                property = p_parent[p_node.name.toLowerCase()] = { "type": "array", "x-enumNames": [] }
-                for(var j in p_node.values)
-                {
-                    property["x-enumNames"].push(p_definition_context.metadata.values[j].value);
-                }
-            }
-            else
-            {
-
-                property = p_parent[p_definition_context.metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
-                for(var j in p_definition_context.metadata.values)
-                {
-                    property["x-enumNames"].push(p_definition_context.metadata.values[j].value);
-                }
-            }
-            break;
-            */
         case "app":
             if(p_definition_context.metadata.children)
             {
@@ -288,10 +266,8 @@ function set_definitions(p_definition_context)
                     set_definitions(new_definition_context);
                 }
             }
-
             break;
         case "group":
-            /*
             object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
                 "type": "object",
                 "properties": {}
@@ -304,7 +280,7 @@ function set_definitions(p_definition_context)
                     new_definition_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + child.name.toLowerCase());
                     generate_schema(new_definition_context);
                 }
-            }*/
+            }
             break;
         case "form":
             
@@ -360,8 +336,25 @@ function set_definitions(p_definition_context)
                     {
                         var child = p_definition_context.metadata.children[i];
             
-                        var new_form_schema_context = get_schema_context(child, object.properties, "", p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase());
-                        generate_schema(new_form_schema_context);
+                        if(child.type.toLowerCase() == "grid")
+                        {
+                            //break;
+                            var new_path = p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase();
+                            var new_grid_definition_context = get_definition_context(child, p_definition_context.definition_node, p_definition_context.mmria_path_to_definition_name, new_path);
+                            set_definitions(new_grid_definition_context);
+
+                            var grid_definition_name = new_grid_definition_context.mmria_path_to_definition_name[new_path + "/" + child.name.toLowerCase()];
+                            object.properties[child.name.toLowerCase()] =  {
+                                "type": "array",
+                                "items": {"$ref": "#/definitions/" + grid_definition_name }
+                            };
+                        }
+                        else
+                        {
+                            var new_form_schema_context = get_schema_context(child, object.properties, "", p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase());
+                            generate_schema(new_form_schema_context);
+                        }
+
                     }
                 }
             //}
