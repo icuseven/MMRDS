@@ -505,6 +505,12 @@ button  {
   width: calc(100% - 60px);
 }
 
+/* Direct descendant */
+.app-main > .row {
+  height: 100%;
+}
+
+/* Direct siblings */
 .app-header + .app-main,
 .app-main + .app-footer {
   margin-top: 1rem;
@@ -618,7 +624,7 @@ button  {
   opacity: 0;
   padding: 2rem;
   position: absolute;
-  top: 44%;
+  top: 40%;
   transform: translateX(-50%) translateY(-50%);
   transition: opacity 60ms ease;
   width: 90%;

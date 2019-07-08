@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="/styles/mmria-custom.css" />
 
   <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
+
+  @RenderSection("HeadScripts", false)
 </head>
 
 <body>
@@ -25,7 +27,9 @@
         aria-label="Main Content Area">
     <div class="row">
       <div class="col">
+
         @RenderBody()
+
       </div>
     </div>
   </main>
@@ -37,6 +41,8 @@
   <script src="/scripts/mmria-custom.js"></script>
 
   @await Html.PartialAsync("_Metrics")
+
+  @RenderSection("Scripts", false)
   
 </body>
 </html>
