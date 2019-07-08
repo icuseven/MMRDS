@@ -16,6 +16,8 @@ var g_metadata = null;
 
 var schema = null;
 
+var mmria_path_to_definition_name = null;
+
 function main()
 {
     get_metadata();
@@ -34,7 +36,18 @@ function get_metadata()
                 var child_node = g_metadata.lookup[child];
                 set_lookUp(schema.definitions, child_node);
             }
-            generate_schema(g_metadata, schema.properties, "v1");
+
+            var schema_context = get_schema_context(g_metadata, schema, "v1",  "");
+
+            var definition_context = get_definition_context(g_metadata, schema_context.schema.definitions, {}, "");
+            set_definitions(definition_context);
+
+            mmria_path_to_definition_name = definition_context.mmria_path_to_definition_name;
+
+            generate_schema_phase2(schema_context);
+
+            schema = schema_context.schema;
+
             //console.log(schema);
             $("#output2").html
                 (

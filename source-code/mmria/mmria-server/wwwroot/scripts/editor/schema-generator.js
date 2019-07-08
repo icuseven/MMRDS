@@ -11,104 +11,412 @@ function get_initial_schema()
   };
 }
 
-function generate_schema(p_metadata, p_schema, p_version, p_path)
+
+function get_schema_context(p_metadata, p_schema, p_version, p_path)
 {
-    switch(p_metadata.type.toLowerCase())
+    return {
+        metadata: p_metadata,
+        schema: p_schema,
+        version: p_version,
+        path: p_path
+    };
+}
+
+
+function get_definition_context(p_metadata, p_definition_node, p_mmria_path_to_definition_name, p_path)
+{
+    return {
+        metadata: p_metadata,
+        definition_node: p_definition_node,
+        path: p_path,
+        mmria_path_to_definition_name: p_mmria_path_to_definition_name
+
+    };
+}
+
+
+function get_definition_name(p_name, p_definition_node)
+{
+    let base_name = p_name.toLowerCase();
+
+    let result = base_name;
+
+    let name_count = 0;
+    while (result in p_definition_node)
     {
+        name_count+=1;
+
+
+        result + name_count.toString();
+    }
+
+    return result;
+}
+
+
+function generate_schema_phase2(p_schema_context)
+{
+
+    let object = null;
+    let new_schema_context = null;
+
+    switch(p_schema_context.metadata.type.toLowerCase())
+    {
+        
         case "app":
-            p_schema._id = {
+            p_schema_context.schema._id = {
                     "type": "string"
             };
 
-            p_schema.version = {
+            p_schema_context.schema.version = {
                     "type": "string",
-                    "enum": [ p_version ],
-                    "default" : p_version
+                    "enum": [ p_schema_context.version ],
+                    "default" : p_schema_context.version
             };
 
-        break;
-        case "number":
-                p_schema[p_metadata.name.toLowerCase()] = { "type" : "number"}
-                break;                    
-        case "string":
-            p_schema[p_metadata.name.toLowerCase()] = { "type" : "string"}
-            break;
-        case "date":
-            p_schema[p_metadata.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
-            break;
-        case "list":
-            object = p_schema[p_metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
-            for(var j in p_metadata.values)
+            //object = p_schema_context.schema[child.name.toLowerCase()] =  get_grid(child,  "/" + child.name.toLowerCase());
+ 
+            if(p_schema_context.metadata.children)
             {
-                object["x-enumNames"].push(p_metadata.values[j].value);
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+        
+                    new_schema_context = get_schema_context(child, p_schema_context.schema.properties, p_schema_context.version, "");
+                    generate_schema_phase2(new_schema_context);
+                }
             }
-        break;
-    }
 
-    if(p_metadata.children)
-    {
-        for(var i = 0; i < p_metadata.children.length; i++)
-        {
-            let object = null;
-
-            var child = p_metadata.children[i];
-            switch(child.type.toLowerCase())
+            break;
+        
+        case "group":
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                "type": "object",
+                "properties": {
+                }
+            };
+            if(p_schema_context.metadata.children)
             {
-                case "group":
-                
-                case "form":
-                    
-                    /*
-                    if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
-                    {
-                        property = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Object};
-                        foreach(var child in p_node.children)
-                        {
-                                await GetSchema(p_lookup, property, child);
-                        }
-                        p_lookup.Add(p_node.name + "_type", property);
-                        property_list = new NJsonSchema.JsonSchemaProperty(){ Type = NJsonSchema.JsonObjectType.Array, Item = p_lookup[p_node.name + "_type"] };
-                        //property_list.Properties..Items.Allof(property);
-                        p_parent.Properties.Add(p_node.name + "_form", property_list);
-                    }
-                    else
-                    {*/
-
-                        object = p_schema[child.name.toLowerCase()] =  {
-                            "type": "object",
-                            "properties": {}
-                        };
-                        
-                        generate_schema(child, object.properties, "", "/" + child.name.toLowerCase());
-                    //}
-                    break;
-                case "grid":
-                    var grid_type_name = child.name.toLowerCase() + "_row";
-                    object = p_schema[child.name.toLowerCase()] =  get_grid(child,  "/" + child.name.toLowerCase());
-                    
-                    //generate_schema(child, object.properties);
-
-                    break;
-                case "number":
-                    p_schema[child.name.toLowerCase()] = { "type" : "number"}
-                    break;                    
-                case "string":
-                    p_schema[child.name.toLowerCase()] = { "type" : "string"}
-                    break;
-                case "date":
-                    p_schema[child.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
-                    break;
-                case "list":
-                    object = p_schema[child.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
-                    for(var j in child.values)
-                    {
-                        object["x-enumNames"].push(child.values[j].value);
-                    }
-                break;
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+                    new_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
+                    generate_schema_phase2(new_schema_context);
+                }
             }
-        }
+            break;
+        case "form":
+            if(p_schema_context.metadata.type.toLowerCase() == "form" && (p_schema_context.metadata.cardinality == "*" ||  p_schema_context.metadata.cardinality == "+") )
+            {
+                var definition_name = mmria_path_to_definition_name[p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase()];
+
+                object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/" + definition_name }
+                };
+            }
+            else
+            {
+                var definition_name = mmria_path_to_definition_name[p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase()];
+                object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                    "type": "object",
+                    "$ref": "#/definitions/" + definition_name
+                };
+            }
+            break;
+        case "grid":
+            var definition_name = mmria_path_to_definition_name[p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase()];
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                "type": "object",
+                "$ref": "#/definitions/" + definition_name
+            };
     }
 }
+
+
+function generate_schema(p_schema_context)
+{
+
+    let object = null;
+    let new_schema_context = null;
+
+    switch(p_schema_context.metadata.type.toLowerCase())
+    {
+        case "app":
+            /*
+            p_schema_context.schema._id = {
+                    "type": "string"
+            };
+
+            p_schema_context.schema.version = {
+                    "type": "string",
+                    "enum": [ p_schema_context.version ],
+                    "default" : p_schema_context.version
+            };
+            */
+            //object = p_schema_context.schema[child.name.toLowerCase()] =  get_grid(child,  "/" + child.name.toLowerCase());
+ 
+            if(p_schema_context.metadata.children)
+            {
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+        
+                    new_schema_context = get_schema_context(child, p_schema_context.schema.properties, p_schema_context.version, "");
+                    generate_schema(new_schema_context);
+                }
+            }
+
+            break;
+        case "group":
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                "type": "object",
+                "properties": {
+                }
+            };
+            if(p_schema_context.metadata.children)
+            {
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+                    new_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
+                    generate_schema(new_schema_context);
+                }
+            }
+            break;
+        case "form":
+            //var definition_name = mmria_path_to_definition_name[p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase()];
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                "type": "object",
+                "properties": {
+                }
+            };
+            
+
+            if(p_schema_context.metadata.children)
+            {
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+        
+                    new_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
+                    generate_schema(new_schema_context);
+                }
+            }
+            
+            break;
+        case "grid":
+            //var definition_name = mmria_path_to_definition_name[p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase()];
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                "type": "object",
+                "properties": {
+                }
+            };
+            if(p_schema_context.metadata.children)
+            {
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+        
+                    let new_child_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
+                    generate_schema(new_child_schema_context);
+                }
+            }
+            break;        
+        case "number":
+            p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "number"}
+                break;                    
+        case "string":
+            p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "string"}
+            break;
+        case "date":
+        case "time":
+        case "datetime":            
+            p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
+            break;
+        case "list":
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
+            for(var j in p_schema_context.metadata.values)
+            {
+                object["x-enumNames"].push(p_schema_context.metadata.values[j].value);
+            }
+        break;
+    }
+
+ 
+}
+
+
+function set_definitions(p_definition_context)
+{
+
+    let object = null;
+    let new_definition_context = null;
+
+    switch(p_definition_context.metadata.type.toLowerCase())
+    {
+        /*
+        case "list":
+            if(p_definition_context.metadata.is_multiselect && p_definition_context.metadata.is_multiselect == true)
+            {
+
+                property = p_parent[p_node.name.toLowerCase()] = { "type": "array", "x-enumNames": [] }
+                for(var j in p_node.values)
+                {
+                    property["x-enumNames"].push(p_definition_context.metadata.values[j].value);
+                }
+            }
+            else
+            {
+
+                property = p_parent[p_definition_context.metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
+                for(var j in p_definition_context.metadata.values)
+                {
+                    property["x-enumNames"].push(p_definition_context.metadata.values[j].value);
+                }
+            }
+            break;
+            */
+        case "app":
+            if(p_definition_context.metadata.children)
+            {
+                for(var i = 0; i < p_definition_context.metadata.children.length; i++)
+                {
+                    var child = p_definition_context.metadata.children[i];
+        
+                    new_definition_context = get_definition_context(child, p_definition_context.definition_node, p_definition_context.mmria_path_to_definition_name, "");//p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase()
+                    set_definitions(new_definition_context);
+                }
+            }
+
+            break;
+        case "group":
+            /*
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] =  {
+                "type": "object",
+                "properties": {}
+            };
+            if(p_schema_context.metadata.children)
+            {
+                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                {
+                    var child = p_schema_context.metadata.children[i];
+                    new_definition_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + child.name.toLowerCase());
+                    generate_schema(new_definition_context);
+                }
+            }*/
+            break;
+        case "form":
+            
+            /*
+            if(p_node.type.ToLower() == "form" && p_node.cardinality == "*")
+            {
+
+                object = p_schema_context.schema[child.name.toLowerCase()] =  {
+                    "type": "array",
+                    "properties": {},
+                    "items": {
+                        "allOf": [
+                          {
+                            "$ref": "#/" + p_schema_context.metadata.name.toLowerCase() + "/definitions/" + p_schema_context.metadata.name.toLowerCase() 
+                          }
+                        ]
+                    }
+                };
+
+                if(p_schema_context.metadata.children)
+                {
+                    for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                    {
+                        var child = p_schema_context.metadata.children[i];
+            
+                        new_schema_context = get_schema_context(child, object, p_schema_context.version, p_schema_context.path + "/" + child.name.toLowerCase());
+                        generate_schema(new_schema_context);
+                    }
+                }
+            }
+            else
+            {
+                */
+
+                var definition_name = get_definition_name
+                (
+                    p_definition_context.metadata.name.toLowerCase(),
+                    p_definition_context.definition_node
+                );
+
+                p_definition_context.mmria_path_to_definition_name[p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase()] = definition_name;
+
+                object = p_definition_context.definition_node[definition_name] = {
+                    "type": "object",
+                    "properties": {}
+                };
+                
+                //generate_schema(child, object.properties, "", "/" + child.name.toLowerCase());
+                //generate_schema(new_schema_context);
+                if(p_definition_context.metadata.children)
+                {
+                    for(var i = 0; i < p_definition_context.metadata.children.length; i++)
+                    {
+                        var child = p_definition_context.metadata.children[i];
+            
+                        var new_form_schema_context = get_schema_context(child, object.properties, "", p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase());
+                        generate_schema(new_form_schema_context);
+                    }
+                }
+            //}
+            break;
+        case "grid":
+            var definition_name = get_definition_name
+            (
+                p_definition_context.metadata.name.toLowerCase(),
+                p_definition_context.definition_node
+            );
+
+            p_definition_context.mmria_path_to_definition_name[p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase()] = definition_name;
+
+            object = p_definition_context.definition_node[definition_name] = {
+                "type": "object",
+                "properties": {}
+            };
+
+
+            if(p_definition_context.metadata.children)
+            {
+                for(var i = 0; i < p_definition_context.metadata.children.length; i++)
+                {
+                    var child = p_definition_context.metadata.children[i];
+        
+                    var new_grid_schema_context = get_schema_context(child, object.properties, "", p_definition_context.path + "/" + p_definition_context.metadata.name.toLowerCase());
+                    generate_schema(new_grid_schema_context);
+                }
+            }
+
+            
+            break;
+        case "number":
+            //p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "number"}
+                break;                    
+        case "string":
+            //p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "string"}
+            break;
+        case "date":
+        case "time":
+        case "datetime":            
+            //p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
+            break;
+        case "list":
+            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
+            for(var j in p_schema_context.metadata.values)
+            {
+                object["x-enumNames"].push(p_schema_context.metadata.values[j].value);
+            }
+        break;
+    }
+
+ 
+}
+
 
 function set_lookUp(p_parent, p_node)
 {
@@ -163,15 +471,18 @@ function set_lookUp(p_parent, p_node)
 }
 
 
-function get_grid(p_metadata,p_path)
+function get_grid(p_schema_context)
 {
+    //p_metadata,p_path
     var definitions_node = {};
 
 
-    for(var child_index in p_metadata.children)
+    for(var child_index in p_schema_context.metadata.children)
     {
-        var child = p_metadata.children[child_index];
-        generate_schema(child, definitions_node, "",  "/" + p_metadata);
+        var child = p_schema_context.metadata.children[child_index];
+        let new_schema_context = get_schema_context(child, definitions_node, "",  "/" + p_schema_context.metadata);
+        //generate_schema(child, definitions_node, "",  "/" + p_schema_context.metadata);
+        generate_schema(new_schema_context);
     }
 
     var result = {
@@ -179,22 +490,22 @@ function get_grid(p_metadata,p_path)
       
         "definitions": definitions_node,
         "type": "object",
-        "title": p_metadata.prompt,
+        "title": p_schema_context.metadata.prompt,
         "properties": {}
     };
 
 
-    if(p_metadata.description && p_metadata.description.length > 0)
+    if(p_schema_context.metadata.description && p_schema_context.metadata.description.length > 0)
     {
-        result.description = p_metadata.description;
+        result.description = p_schema_context.metadata.description;
     }
 
-    result.properties[p_metadata.name.toLowerCase()] = { 
+    result.properties[p_schema_context.metadata.name.toLowerCase()] = { 
         "type": "array",
         "items": {
             "allOf": [
               {
-                "$ref": "#/" + p_metadata.name.toLowerCase() + "/definitions/" + p_metadata.name.toLowerCase() 
+                "$ref": "#/" + p_schema_context.metadata.name.toLowerCase() + "/definitions/" + p_schema_context.metadata.name.toLowerCase() 
               }
             ]
         }
@@ -202,3 +513,5 @@ function get_grid(p_metadata,p_path)
 
     return result;
 }
+
+
