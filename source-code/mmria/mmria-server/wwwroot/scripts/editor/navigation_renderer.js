@@ -93,7 +93,7 @@ function navigation_render(p_metadata, p_level, p_ui)
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="search_case_fields">Search for field(s)</label>');
               result.push('<div class="form-control-wrap">');
-                result.push('<input id="search_case_fields" class="form-control" type="text" />');
+                result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);"/>');
                 result.push('<span class="fancy-form-icon 24 fill-p cdc-icon-search-solid" aria-hidden="true"></span>');
               result.push('</div>');
             result.push('</div>');
@@ -102,10 +102,10 @@ function navigation_render(p_metadata, p_level, p_ui)
           // New, like the demo, add case selection functionality
           result.push('<li class="list-group-item">');
             result.push('<div class="form-group fake-list-group-anchor">');
-              result.push('<label for="select_case">Select case form</label>');
+              result.push('<label for="selected_form">Select case form</label>');
               result.push('<div class="form-control-wrap">');
-                result.push('<select id="select_case" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">');
-                  // result.push('<option value="">Home Record</option>');
+                result.push('<select id="selected_form" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">');
+                  result.push('<option value=""> </option>');
                   for(var i = 0; i < p_metadata.children.length; i++)
                   {
                     var child = p_metadata.children[i]; // Need to render new sub nav
@@ -235,8 +235,9 @@ function navigation_render(p_metadata, p_level, p_ui)
    return result;
 }
 
-// Helper func to assist in setting the new page url(hash)
-function updateUrlFromSelectValue(event, val) {
+
+function updateUrlFromSelectValue(event, val) 
+{
   var currLocation = window.location;
   var options = event.target.options;
   var selected = options.selectedIndex;

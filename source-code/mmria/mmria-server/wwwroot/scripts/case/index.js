@@ -1117,6 +1117,24 @@ function g_render()
       }
     }
   }
+  else if(g_ui.url_state.path_array.length >= 2 && g_ui.url_state.path_array[1] == "field_search")
+  {
+    for(var i = 0; i < section_list.length; i++)
+    {
+      var section = section_list[i];
+
+      if(section.id == "field_search_id")
+      {
+        section.style.display = "block";
+        //section.style.display = "grid";
+        //section.style["grid-template-columns"] = "1fr 1fr 1fr";
+      }
+      else
+      {
+          section.style.display = "none";
+      }
+    }
+  }
   else
   {
     if(g_ui.url_state.path_array.length > 2 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
@@ -1495,4 +1513,3 @@ function undo_click()
 
   g_render();
 }
-
