@@ -1302,7 +1302,7 @@ function delete_record(p_index)
 
       g_selected_delete_index = p_index;
       var id = g_ui.case_view_list[p_index].id;
-      $("tr[path='" + id + "']").css("background", "#BBBBBB");
+      $("tr[path='" + id + "']").css("background", "#ffd54f");
       
   }
 }

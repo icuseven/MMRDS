@@ -507,7 +507,7 @@ button  {
 
 /* Direct descendant */
 .app-main > .row {
-  height: 100%;
+  min-height: 100%;
 }
 
 /* Direct siblings */
@@ -596,6 +596,14 @@ button  {
 .fake-list-group-anchor label {
   font-size: 80%;
 }
+
+.content-intro {
+  border-bottom: 1px solid;
+  border-bottom-color: var(--neutral);
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+}
+
 
 
 
@@ -761,3 +769,4 @@ button  {
 .pointer-none {
   pointer-events: none !important;
 }
+
