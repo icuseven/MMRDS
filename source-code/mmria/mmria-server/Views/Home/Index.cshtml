@@ -158,7 +158,7 @@ else
             <div class="form-group">
               <label for="print_blank_version">Print blank version.</label>
               <select id="print_blank_version" class="form-control">
-                <option value="">(select form to print)</option>
+                <option value="">Select one</option>
                 <option value="All">All</option>
                 <option value="home_record">Home Record</option>
                 <option value="death_certificate">Death Certificate</option>
@@ -175,9 +175,7 @@ else
                 <option value="case_narrative">Case Narrative</option>
                 <option value="committee_review">Committee Decisions</option>
               </select>
-            </div>
-            <div class="form-controls">
-              <input class="btn" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="print blank version" />
+              <input class="btn mt-2" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="Print blank version" />
             </div>
           </li>
         </ul>
