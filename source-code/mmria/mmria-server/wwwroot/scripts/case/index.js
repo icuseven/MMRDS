@@ -23,7 +23,7 @@ var default_object = null;
 var g_change_stack = [];
 var g_default_ui_specification = null;
 var g_use_position_information = true;
-
+var g_look_up = {};
 
 
 
@@ -817,6 +817,13 @@ function get_metadata()
 			g_metadata = response;
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
+
+      for(var i in g_metadata.lookup)
+      {
+          var child = g_metadata.lookup[i];
+
+          g_look_up["lookup/" + child.name] = child.values;
+      }
 
       //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
 
