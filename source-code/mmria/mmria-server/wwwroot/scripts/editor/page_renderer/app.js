@@ -28,160 +28,161 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();'>Clear</button>");
     p_result.push("</div>");
 
-    /* Sort by feature */
     p_result.push("<div class='form-inline mb-2'>");
-    p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
-    p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
-    if (p_ui.case_view_request.sort == "by_date_created") {
-        p_result.push("<option selected>date_created</option>");
-    }
-    else {
-        p_result.push("<option>date_created</option>");
-    }
+        /* Sort by feature */
+        p_result.push("<div class='row no-gutters'>");
+            p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
+            p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
+            if (p_ui.case_view_request.sort == "by_date_created") {
+                p_result.push("<option selected>date_created</option>");
+            }
+            else {
+                p_result.push("<option>date_created</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_jurisdiction_id") {
-        p_result.push("<option selected>jurisdiction_id</option>");
-    }
-    else {
-        p_result.push("<option>jurisdiction_id</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_jurisdiction_id") {
+                p_result.push("<option selected>jurisdiction_id</option>");
+            }
+            else {
+                p_result.push("<option>jurisdiction_id</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_last_name") {
-        p_result.push("<option selected>last_name</option>");
-    }
-    else {
-        p_result.push("<option>last_name</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_last_name") {
+                p_result.push("<option selected>last_name</option>");
+            }
+            else {
+                p_result.push("<option>last_name</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_first_name") {
-        p_result.push("<option selected>first_name</option>");
-    }
-    else {
-        p_result.push("<option>first_name</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_first_name") {
+                p_result.push("<option selected>first_name</option>");
+            }
+            else {
+                p_result.push("<option>first_name</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_middle_name") {
-        p_result.push("<option selected>middle_name</option>");
-    }
-    else {
-        p_result.push("<option>middle_name</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_middle_name") {
+                p_result.push("<option selected>middle_name</option>");
+            }
+            else {
+                p_result.push("<option>middle_name</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_state_of_death") {
-        p_result.push("<option selected>state_of_death</option>");
-    }
-    else {
-        p_result.push("<option>state_of_death</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_state_of_death") {
+                p_result.push("<option selected>state_of_death</option>");
+            }
+            else {
+                p_result.push("<option>state_of_death</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_record_id") {
-        p_result.push("<option selected>record_id</option>");
-    }
-    else {
-        p_result.push("<option>record_id</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_record_id") {
+                p_result.push("<option selected>record_id</option>");
+            }
+            else {
+                p_result.push("<option>record_id</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_year_of_death") {
-        p_result.push("<option selected>year_of_death</option>");
-    }
-    else {
-        p_result.push("<option>year_of_death</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_year_of_death") {
+                p_result.push("<option selected>year_of_death</option>");
+            }
+            else {
+                p_result.push("<option>year_of_death</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_month_of_death") {
-        p_result.push("<option selected>month_of_death</option>");
-    }
-    else {
-        p_result.push("<option>month_of_death</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_month_of_death") {
+                p_result.push("<option selected>month_of_death</option>");
+            }
+            else {
+                p_result.push("<option>month_of_death</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_committee_review_date") {
-        p_result.push("<option selected>committee_review_date</option>");
-    }
-    else {
-        p_result.push("<option>committee_review_date</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_committee_review_date") {
+                p_result.push("<option selected>committee_review_date</option>");
+            }
+            else {
+                p_result.push("<option>committee_review_date</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_agency_case_id") {
-        p_result.push("<option selected>agency_case_id</option>");
-    }
-    else {
-        p_result.push("<option>agency_case_id</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_agency_case_id") {
+                p_result.push("<option selected>agency_case_id</option>");
+            }
+            else {
+                p_result.push("<option>agency_case_id</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_created_by") {
-        p_result.push("<option selected>created_by</option>");
-    }
-    else {
-        p_result.push("<option>created_by</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_created_by") {
+                p_result.push("<option selected>created_by</option>");
+            }
+            else {
+                p_result.push("<option>created_by</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_last_updated_by") {
-        p_result.push("<option selected>last_updated_by</option>");
-    }
-    else {
-        p_result.push("<option>last_updated_by</option>");
-    }
+            if (p_ui.case_view_request.sort == "by_last_updated_by") {
+                p_result.push("<option selected>last_updated_by</option>");
+            }
+            else {
+                p_result.push("<option>last_updated_by</option>");
+            }
 
-    if (p_ui.case_view_request.sort == "by_date_last_updated") {
-        p_result.push("<option selected>date_last_updated</option>");
-    }
-    else {
-        p_result.push("<option>date_last_updated</option>");
-    }
-    p_result.push("</select>");
+            if (p_ui.case_view_request.sort == "by_date_last_updated") {
+                p_result.push("<option selected>date_last_updated</option>");
+            }
+            else {
+                p_result.push("<option>date_last_updated</option>");
+            }
+            p_result.push("</select>");
+        p_result.push("</div>");
+        /* Records per page */
+        p_result.push("<div class='row no-gutters ml-2'>");
+            p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
+            p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
+            if (p_ui.case_view_request.take == 25) {
+                p_result.push("<option selected>25</option>");
+            }
+            else {
+                p_result.push("<option>25</option>");
+        
+            }
+            if (p_ui.case_view_request.take == 50) {
+                p_result.push("<option selected>50</option>");
+            }
+            else {
+                p_result.push("<option>50</option>");
+        
+            }
+            if (p_ui.case_view_request.take == 100) {
+                p_result.push("<option selected>100</option>");
+            }
+            else {
+                p_result.push("<option>100</option>");
+        
+            }
+            if (p_ui.case_view_request.take == 250) {
+                p_result.push("<option selected>250</option>");
+            }
+            else {
+                p_result.push("<option>250</option>");
+        
+            }
+            if (p_ui.case_view_request.take == 500) {
+                p_result.push("<option selected>500</option>");
+            }
+            else {
+                p_result.push("<option>500</option>");
+        
+            }
+            p_result.push("</select>");
+        p_result.push("</div>");
     p_result.push("</div>");
 
     /* Descending Order */
     p_result.push("<div class='form-inline mb-2'>");
-    p_result.push("<label for='sort_decending' class='mr-2'>Descending Order:</label>");
-    p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
-    if (p_ui.case_view_request.descending) {
-        p_result.push(" checked='true' ");
-    }
-    p_result.push(" />");
-    p_result.push("</div>");
-
-    /* Records per page */
-    p_result.push("<div class='form-inline mb-2'>");
-    p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
-    p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
-    if (p_ui.case_view_request.take == 25) {
-        p_result.push("<option selected>25</option>");
-    }
-    else {
-        p_result.push("<option>25</option>");
-
-    }
-    if (p_ui.case_view_request.take == 50) {
-        p_result.push("<option selected>50</option>");
-    }
-    else {
-        p_result.push("<option>50</option>");
-
-    }
-    if (p_ui.case_view_request.take == 100) {
-        p_result.push("<option selected>100</option>");
-    }
-    else {
-        p_result.push("<option>100</option>");
-
-    }
-    if (p_ui.case_view_request.take == 250) {
-        p_result.push("<option selected>250</option>");
-    }
-    else {
-        p_result.push("<option>250</option>");
-
-    }
-    if (p_ui.case_view_request.take == 500) {
-        p_result.push("<option selected>500</option>");
-    }
-    else {
-        p_result.push("<option>500</option>");
-
-    }
-    p_result.push("</select>");
+        p_result.push("<label for='sort_decending' class='mr-2'>Descending order:</label>");
+        p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
+        if (p_ui.case_view_request.descending) {
+            p_result.push(" checked='true' ");
+        }
+        p_result.push(" />");
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline mt-4'>");
