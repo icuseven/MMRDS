@@ -1303,28 +1303,24 @@ function delete_record(p_index)
   {
     var data = g_ui.case_view_list[p_index];
     g_selected_delete_index = null;
- 
+
     $.ajax({
       url: location.protocol + '//' + location.host + '/api/case?case_id=' + data.id,
-  }).done(function(case_response) {
-  
+    }).done(function(case_response) {
       delete_case(case_response._id, case_response._rev);
-
-  });
-
+    });
   }
   else
   {
-      if(g_selected_delete_index != null && g_selected_delete_index > -1)
-      {
-          var old_id = g_ui.case_view_list[g_selected_delete_index].id;
-          $("tr[path='" + old_id + "']").css("background", "");
-      }
+    if(g_selected_delete_index != null && g_selected_delete_index > -1)
+    {
+      var old_id = g_ui.case_view_list[g_selected_delete_index].id;
+      $("tr[path='" + old_id + "']").css("background", "");
+    }
 
-      g_selected_delete_index = p_index;
-      var id = g_ui.case_view_list[p_index].id;
-      $("tr[path='" + id + "']").css("background", "#ffd54f");
-      
+    g_selected_delete_index = p_index;
+    var id = g_ui.case_view_list[p_index].id;
+    $("tr[path='" + id + "']").css("background", "#ffd54f");
   }
 }
 
