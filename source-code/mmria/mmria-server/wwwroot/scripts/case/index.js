@@ -808,9 +808,12 @@ function get_metadata()
 {
   document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
-  	$.ajax({
+  $.ajax
+  ({
 			url: location.protocol + '//' + location.host + '/api/metadata',
-	}).done(function(response) {
+  })
+  .done(function(response) 
+  {
 			g_metadata = response;
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
@@ -822,7 +825,7 @@ function get_metadata()
 
       get_case_set();
       
-     g_ui.url_state = url_monitor.get_url_state(window.location.href);
+      g_ui.url_state = url_monitor.get_url_state(window.location.href);
       if(window.onhashchange)
       {
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });

@@ -1,15 +1,19 @@
 function search_text_change(p_form_control)
 {
     var search_text = p_form_control.value;
-    var form_dropdown = document.getElementById("selected_form");
-    var form_name_split = form_dropdown.value.split("/");
-    var record_index = form_name_split[0];
-    var form_name = form_name_split[1];
-
-    window.location.hash = "/" + record_index + "/field_search/" + search_text;
+    var record_index = g_ui.url_state.path_array[0];
+    
+    if(search_text != null && search_text.length > 3)
+    {
+        window.location.hash = "/" + record_index + "/field_search/" + search_text;
+    }
 
 
     /*
+
+    //var form_dropdown = document.getElementById("selected_form");
+    //var form_name_split = form_dropdown.value.split("/");
+    //var form_name = form_name_split[1];
     var form_container = document.getElementById("search_result_form_id");
     
 

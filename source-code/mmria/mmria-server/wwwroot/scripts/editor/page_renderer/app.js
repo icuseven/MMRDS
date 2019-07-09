@@ -741,8 +741,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     {
         if(p_ui.url_state.path_array[1] == "field_search")
         {
+            var search_text = p_ui.url_state.path_array[2].replace("%20", " ");
             p_result.push("<section id='field_search_id'>")
-            p_result.push("Search results for: <em>" + p_ui.url_state.path_array[2] + "</em>");
+
+            p_result.push("Search results for: <em>" + search_text + "</em><br/><br/>");
+
+            Array.prototype.push.apply(p_result, render_search_text(p_metadata, "", search_text));
+            //render_search_text_input_control(p_metadata, p_path, p_search_text, p_is_grid)
             p_result.push("</section>");
         }
         else
