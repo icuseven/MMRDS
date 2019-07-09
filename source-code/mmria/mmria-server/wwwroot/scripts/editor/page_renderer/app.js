@@ -12,7 +12,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<div class='form-inline mb-2'>");
     p_result.push("<label for='search_text_box' class='mr-2'> Search for:</label>");
     p_result.push("<input type='text' class='form-control mr-2' id='search_text_box' onchange='g_ui.case_view_request.search_key=this.value;' value='");
-    if (g_ui.case_view_request.search_key != null) {
+    if (g_ui.case_view_request.search_key != null) 
+    {
         p_result.push(p_ui.case_view_request.search_key.replace(/'/g, "&quot;"));
     }
     p_result.push("' />");
@@ -32,101 +33,129 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<div class='form-inline mb-2'>");
     p_result.push("<label for='search_sort_by' class='mr-2'>Sort by:</label>");
     p_result.push("<select id='search_sort_by' class='custom-select' onchange='g_ui.case_view_request.sort = \"by_\" + this.options[this.selectedIndex].value;'>");
-    if (p_ui.case_view_request.sort == "by_date_created") {
+    if (p_ui.case_view_request.sort == "by_date_created") 
+    {
         p_result.push("<option selected>date_created</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>date_created</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_jurisdiction_id") {
+    if (p_ui.case_view_request.sort == "by_jurisdiction_id") 
+    {
         p_result.push("<option selected>jurisdiction_id</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>jurisdiction_id</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_last_name") {
+    if (p_ui.case_view_request.sort == "by_last_name") 
+    {
         p_result.push("<option selected>last_name</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>last_name</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_first_name") {
+    if (p_ui.case_view_request.sort == "by_first_name") 
+    {
         p_result.push("<option selected>first_name</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>first_name</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_middle_name") {
+    if (p_ui.case_view_request.sort == "by_middle_name") 
+    {
         p_result.push("<option selected>middle_name</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>middle_name</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_state_of_death") {
+    if (p_ui.case_view_request.sort == "by_state_of_death") 
+    {
         p_result.push("<option selected>state_of_death</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>state_of_death</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_record_id") {
+    if (p_ui.case_view_request.sort == "by_record_id") 
+    {
         p_result.push("<option selected>record_id</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>record_id</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_year_of_death") {
+    if (p_ui.case_view_request.sort == "by_year_of_death") 
+    {
         p_result.push("<option selected>year_of_death</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>year_of_death</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_month_of_death") {
+    if (p_ui.case_view_request.sort == "by_month_of_death") 
+    {
         p_result.push("<option selected>month_of_death</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>month_of_death</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_committee_review_date") {
+    if (p_ui.case_view_request.sort == "by_committee_review_date") 
+    {
         p_result.push("<option selected>committee_review_date</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>committee_review_date</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_agency_case_id") {
+    if (p_ui.case_view_request.sort == "by_agency_case_id") 
+    {
         p_result.push("<option selected>agency_case_id</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>agency_case_id</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_created_by") {
+    if (p_ui.case_view_request.sort == "by_created_by") 
+    {
         p_result.push("<option selected>created_by</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>created_by</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_last_updated_by") {
+    if (p_ui.case_view_request.sort == "by_last_updated_by") 
+    {
         p_result.push("<option selected>last_updated_by</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>last_updated_by</option>");
     }
 
-    if (p_ui.case_view_request.sort == "by_date_last_updated") {
+    if (p_ui.case_view_request.sort == "by_date_last_updated") 
+    {
         p_result.push("<option selected>date_last_updated</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>date_last_updated</option>");
     }
     p_result.push("</select>");
@@ -136,7 +165,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<div class='form-inline mb-2'>");
     p_result.push("<label for='sort_decending' class='mr-2'>Descending Order:</label>");
     p_result.push("<input id='sort_decending' type='checkbox' onchange='g_ui.case_view_request.descending = this.checked;' ");
-    if (p_ui.case_view_request.descending) {
+    if (p_ui.case_view_request.descending) 
+    {
         p_result.push(" checked='true' ");
     }
     p_result.push(" />");
@@ -146,40 +176,49 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<div class='form-inline mb-2'>");
     p_result.push("<label for='search_records_per_page' class='mr-2'>Records per page:</label>");
     p_result.push("<select id='search_records_per_page' class='custom-select' onchange='g_ui.case_view_request.take = this.value;' >");
-    if (p_ui.case_view_request.take == 25) {
+    if (p_ui.case_view_request.take == 25) 
+    {
         p_result.push("<option selected>25</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>25</option>");
-
     }
-    if (p_ui.case_view_request.take == 50) {
+
+    if (p_ui.case_view_request.take == 50) 
+    {
         p_result.push("<option selected>50</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>50</option>");
-
     }
-    if (p_ui.case_view_request.take == 100) {
+
+    if (p_ui.case_view_request.take == 100) 
+    {
         p_result.push("<option selected>100</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>100</option>");
-
     }
-    if (p_ui.case_view_request.take == 250) {
+
+    if (p_ui.case_view_request.take == 250) 
+    {
         p_result.push("<option selected>250</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>250</option>");
-
     }
-    if (p_ui.case_view_request.take == 500) {
+
+    if (p_ui.case_view_request.take == 500) 
+    {
         p_result.push("<option selected>500</option>");
     }
-    else {
+    else 
+    {
         p_result.push("<option>500</option>");
-
     }
     p_result.push("</select>");
     p_result.push("</div>");
@@ -502,13 +541,16 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     */
     p_result.push("<tbody class='tbody'>");
-    for (var i = 0; i < p_ui.case_view_list.length; i++) {
+    for (var i = 0; i < p_ui.case_view_list.length; i++) 
+    {
         var item = p_ui.case_view_list[i];
 
-        if (i % 2) {
+        if (i % 2) 
+        {
             p_result.push('		  <tr class="tr" path="');
         }
-        else {
+        else 
+        {
             p_result.push('		  <tr class="tr" path="');
         }
         p_result.push(item.id);
@@ -524,14 +566,16 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(item.value.last_name); p_result.push(", ");
         p_result.push(item.value.first_name); p_result.push(" ");
         p_result.push(item.value.middle_name);
-        if (item.value.record_id) {
+        if (item.value.record_id)
+        {
             p_result.push(" - (");
             p_result.push(item.value.record_id);
             p_result.push(" )");
         }
 
 
-        if (item.value.agency_case_id) {
+        if (item.value.agency_case_id) 
+        {
             p_result.push("  ac_id: ");
             p_result.push(item.value.agency_case_id)
         }
@@ -602,7 +646,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push("</div>");
         p_result.push("<div class='col row no-gutters align-items-center justify-content-end'>");
             p_result.push("<p class='mb-0'>Select by page:</p>");
-            for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++)
+            for(var current_page = 1; (current_page - 1) * p_ui.case_view_request.take < p_ui.case_view_request.total_rows; current_page++) 
             {
                 p_result.push("<button type='button' class='table-btn-link btn btn-link' alt='select page " + current_page + "' onclick='g_ui.case_view_request.page=");
                     p_result.push(current_page);
@@ -694,19 +738,35 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     //     //p_result.push(" <input type='button' alt='search' value='next' />");
     p_result.push("</section>");
 
-    if (p_ui.url_state.path_array.length > 1) {
-        for (var i = 0; i < p_metadata.children.length; i++) {
-            var child = p_metadata.children[i];
-            if (child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name) {
-                if (p_data[child.name] || p_data[child.name] == 0) {
-                    // do nothing 
-                }
-                else {
-                    p_data[child.name] = create_default_object(child, {})[child.name];
-                }
+    if (p_ui.url_state.path_array.length > 1) 
+    {
+        if(p_ui.url_state.path_array[1] == "field_search")
+        {
+            p_result.push("<section id='field_search_id'>")
+            p_result.push("Search results for: <em>" + p_ui.url_state.path_array[2] + "</em>");
+            p_result.push("</section>");
+        }
+        else
+        {
 
-                Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
+            for (var i = 0; i < p_metadata.children.length; i++) 
+            {
+            
+                var child = p_metadata.children[i];
+                if (child.type.toLowerCase() == 'form' && p_ui.url_state.path_array[1] == child.name) 
+                {
+                    if (p_data[child.name] || p_data[child.name] == 0) 
+                    {
+                        // do nothing 
+                    }
+                    else 
+                    {
+                        p_data[child.name] = create_default_object(child, {})[child.name];
+                    }
 
+                    Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
+
+                }
             }
         }
     }
