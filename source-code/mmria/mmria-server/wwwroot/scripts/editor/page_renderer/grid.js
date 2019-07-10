@@ -25,10 +25,17 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push("'>");
     p_result.push(p_metadata.prompt);
     p_result.push("</legend>");
-    p_result.push("<div style='overflow: auto;'>");
+        p_result.push("<input type='button' style='width:90px'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
+    p_result.push(p_object_path);
+    p_result.push("\", \"");
+    p_result.push(p_metadata_path);
+    p_result.push("\", \"");
+    p_result.push(p_dictionary_path);    
+    p_result.push("\")' />");
+    p_result.push("<div style='width=100%;overflow: scroll;z-index:-1;'>");
     for(var i = 0; i < p_data.length; i++)
     {
-        p_result.push('<div>');
+        p_result.push('<div style="position:relative;width:100%;height:100%;">');
         for(var j = 0; j < p_metadata.children.length; j++)
         {
             var child = p_metadata.children[j];
@@ -41,7 +48,20 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             {
                 p_data[i][child.name] = create_default_object(child, {})[child.name];
             }
-            Array.prototype.push.apply(p_result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, p_dictionary_path + "/" + child.name, is_grid_context, p_post_html_render));
+            Array.prototype.push.apply
+            (
+                p_result,
+                page_render
+                (
+                    child,
+                    p_data[i][child.name],
+                    p_ui, p_metadata_path + ".children[" + j + "]",
+                    p_object_path + "[" + i + "]." + child.name,
+                    p_dictionary_path + "/" + child.name,
+                    is_grid_context,
+                    p_post_html_render
+                )
+            );
 
         }
         p_result.push('<br/><input type="button" style="width:120px" class="btn btn-primary" value="delete" id="delete_');
@@ -55,13 +75,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push('\')" /></div>');
     }
     p_result.push("<br/>");
-    p_result.push("<input type='button' style='width:90px'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
-    p_result.push(p_object_path);
-    p_result.push("\", \"");
-    p_result.push(p_metadata_path);
-    p_result.push("', '");
-    p_result.push(p_dictionary_path);    
-    p_result.push("\")' />");
+
     p_result.push("</div>");
     p_result.push("</fieldset>");
 }
