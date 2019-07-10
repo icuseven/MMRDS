@@ -3,32 +3,36 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     var is_grid_context = true;
 
     //p_result.push("<table style='grid-column:1/-1'  id='");
-    p_result.push("<table id='");
+    p_result.push("<fieldset id='");
     p_result.push(p_metadata_path);
-    p_result.push("' class='grid2'><tr><th colspan=");
-    p_result.push(p_metadata.children.length + 1)
-    p_result.push(">");
-    p_result.push(p_metadata.prompt);
-    p_result.push("</th></tr>");
+    p_result.push("'  class='grid2' style='");
 
-    p_result.push('<tr>');
-    for(var i = 0; i < p_metadata.children.length; i++)
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
     {
-        var child = p_metadata.children[i];
-        p_result.push('<th>');
-        p_result.push(child.prompt);
-        p_result.push('</th>')
-
+        p_result.push(get_only_size_and_position_string(style_object.control.style));
+        is_grid_context = style_object;
     }
-    p_result.push('<th>&nbsp;</th></tr>');
 
+    p_result.push("' >"); // close opening div
+    p_result.push("<legend style='");
+
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object && style_object.prompt)
+    {
+        p_result.push(get_only_font_style_string(style_object.prompt.style));
+    }
+    p_result.push("'>");
+    p_result.push(p_metadata.prompt);
+    p_result.push("</legend>");
+    p_result.push("<div style='overflow: auto;'>");
     for(var i = 0; i < p_data.length; i++)
     {
-        p_result.push('<tr>');
+        p_result.push('<div>');
         for(var j = 0; j < p_metadata.children.length; j++)
         {
             var child = p_metadata.children[j];
-            p_result.push("<td>");
+
             if(p_data[i][child.name] || p_data[child.name] == 0)
             {
                 // do nothing 
@@ -38,13 +42,13 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_data[i][child.name] = create_default_object(child, {})[child.name];
             }
             Array.prototype.push.apply(p_result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, p_dictionary_path + "/" + child.name, is_grid_context, p_post_html_render));
-            p_result.push("</td>");
-        }
-        p_result.push('<td>&nbsp;</td></tr>');
-    }
-    p_result.push("<tr><td colspan=");
-    p_result.push(p_metadata.children.length + 1);
-    p_result.push(" align=right>&nbsp;</td></tr>");
 
-    p_result.push("</table>");
+        }
+        
+        p_result.push('</div>');
+    }
+    p_result.push("<br/>");
+    
+    p_result.push("</div>");
+    p_result.push("</fieldset>");
 }
