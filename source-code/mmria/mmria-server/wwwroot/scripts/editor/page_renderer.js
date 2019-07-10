@@ -82,6 +82,36 @@ function get_style_string(p_style_string)
 }
 
 
+function get_grid_style_string(p_grid_style_string, p_style_string)
+{
+	var top_regex = /"top":(\d+\.?\d*),/;
+	var left_regex = /"left":(\d+\.?\d*),/;
+	var grid_top =  null;
+	var grid_left = null;
+	var other_top = null;
+	var other_left = null;
+
+
+	var new_top = null;
+	var new_left = null;
+
+	var match = top_regex.exec(p_grid_style_string);
+	grid_top = new Number(match[1]);
+	match = left_regex.exec(p_grid_style_string);
+	grid_left = new Number(match[1]);
+	match = top_regex.exec(p_style_string);
+	other_top = new Number(match[1]);
+	match = left_regex.exec(p_style_string);
+	other_left = new Number(match[1]);
+	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
+	var result = p_style_string.substring(1);
+
+	result = result.replace(/["']/g, "").replace("{","").replace("}","").replace(/,/g, ";");
+
+
+	return result;
+}
+
 
 function convert_dictionary_path_to_array_field(p_path)
 {

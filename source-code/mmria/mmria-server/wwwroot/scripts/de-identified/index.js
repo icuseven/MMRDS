@@ -20,7 +20,8 @@ var g_metadata_summary = [];
 var default_object = null;
 var g_change_stack = [];
 var g_default_ui_specification = null;
-var g_use_position_information = false;
+var g_use_position_information = true;
+var g_look_up = {};
 
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
@@ -417,9 +418,14 @@ function load_user_role_jurisdiction()
       $("#footer").hide();
       $("#root").removeClass("header");
 
-      get_metadata();
-
-      //load_profile();
+      if(g_use_position_information)
+      {
+        get_ui_specification()
+      }
+      else
+      {
+        get_metadata();
+      }
 
  
 
@@ -546,6 +552,16 @@ function get_case_set(p_call_back)
 
 }
 
+
+function get_ui_specification()
+{
+ 	$.ajax({
+			url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
+	}).done(function(response) {
+      g_default_ui_specification = response;
+      get_metadata();
+	});
+}
 
 function get_metadata()
 {
