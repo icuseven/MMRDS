@@ -5,7 +5,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     //p_result.push("<table style='grid-column:1/-1'  id='");
     p_result.push("<fieldset id='");
     p_result.push(p_metadata_path);
-    p_result.push("'  class='grid2' style='");
+    p_result.push("'  class='grid2' style='overflow: auto;");
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
@@ -25,7 +25,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push("'>");
     p_result.push(p_metadata.prompt);
     p_result.push("</legend>");
-    p_result.push("<div style='overflow: auto;'>");
+    p_result.push("<div style=''>");
     for(var i = 0; i < p_data.length; i++)
     {
         p_result.push('<div>');
@@ -41,7 +41,19 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             {
                 p_data[i][child.name] = create_default_object(child, {})[child.name];
             }
-            Array.prototype.push.apply(p_result, page_render(child, p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]", p_object_path + "[" + i + "]." + child.name, p_dictionary_path + "/" + child.name, is_grid_context, p_post_html_render));
+            Array.prototype.push.apply
+            (
+                p_result,
+                page_render
+                (
+                    child,
+                    p_data[i][child.name], p_ui, p_metadata_path + ".children[" + j + "]",
+                    p_object_path + "[" + i + "]." + child.name,
+                    p_dictionary_path + "/" + child.name,
+                    is_grid_context,
+                    p_post_html_render
+                )
+            );
 
         }
         
