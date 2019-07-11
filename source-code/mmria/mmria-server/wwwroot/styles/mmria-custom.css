@@ -647,6 +647,10 @@ button  {
   padding-bottom: 2rem;
 }
 
+.content-intro-title:only-child {
+  margin-bottom: 0;
+}
+
 
 
 
