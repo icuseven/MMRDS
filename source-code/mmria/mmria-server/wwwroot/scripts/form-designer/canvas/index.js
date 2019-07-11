@@ -433,6 +433,7 @@ formDesigner = {
               case 'chart':
                 tpl.push(fdTemplates.formFields.controls.chart(formName, value));
                 break;
+              case 'string':
               default:
                   tpl.push(fdTemplates.formFields.prompt(formName, value));
                   tpl.push(fdTemplates.formFields.controls.string(formName, value));

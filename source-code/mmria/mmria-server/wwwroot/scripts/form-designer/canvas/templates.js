@@ -1,18 +1,26 @@
 let fdTemplates = {
-    formListItem: function(value) {
+    formListItem: function(value) 
+    {
         return `<button id="${value.name}" type="button" class="btn btn-outline-primary btn-block form-list-item" onclick="javascript: formDesigner.canvasHandler.formFields.display(this.id);">${value.prompt}</button>`;
         //return `<div id="${value.name}" class="form-list-item" onclick="javascript: formDesigner.canvasHandler.formFields.display(this.id);">${value.prompt}</div>`;
     },
-    uiSpecification: {
-        options: function(value) {
-            if(uiSpecification.currentID == value._id) {
+    uiSpecification: 
+    {
+        options: function(value) 
+        {
+            if(uiSpecification.currentID == value._id) 
+            {
                 return `<option value="${value._id}" selected="selected">${value.name}</option>`;
-            } else {
+            } 
+            else 
+            {
                 return `<option value="${value._id}">${value.name}</option>`;
             }
         },
-        dashboard: {
-            info: function() {
+        dashboard: 
+        {
+            info: function() 
+            {
                 return `<span>
                         <strong>Current Specification: ${uiSpecification.currentObject.name}</strong> 
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#specModal">
@@ -23,7 +31,8 @@ let fdTemplates = {
                         </button>
                         </span>`;
             },
-            localRev: function() {
+            localRev: function() 
+            {
                 return `Local Revision # ${uiSpecification.localCount } 
                         <button type="button" class="btn btn-warning" onclick="javascript: formDesigner.fdObjectHandler.rollBackRevision()">
                             Undo
@@ -31,28 +40,38 @@ let fdTemplates = {
             }
         },
     },
-    formFields: {
-        prompt: function(formName, value) {
-            if (value.type.toLowerCase() === 'list' && value.hasOwnProperty('is_multiselect')) {
+    formFields: 
+    {
+        prompt: function(formName, value) 
+        {
+            if (value.type.toLowerCase() === 'list' && value.hasOwnProperty('is_multiselect')) 
+            {
                 return '';
-            } else if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') {
+            } 
+            else if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') 
+            {
                 return '';
             }
             return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt}</label>`;
         },
-        controls: {
-            string: function(formName, value) {
+        controls: 
+        {
+            string: function(formName, value) 
+            {
                 return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
-            textarea: function (formName, value) {
+            textarea: function (formName, value) 
+            {
                 return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80"></textarea>`;
             },
-            button: function (formName, value) {
+            button: function (formName, value) 
+            {
                 return `<button id="${formName}--${value.name}" type="button" class="btn btn-raised btn-primary form-field-item resize-drag drag-drop yes-drop item fd-path-object">
                             ${value.prompt}
                         </button>`
             },
-            list: function (formName, value) { 
+            list: function (formName, value) 
+            { 
                 let listOptions = fdTemplates.formFields.controls.listOptions(value);
                 let listField;
 
@@ -80,16 +99,25 @@ let fdTemplates = {
                 //}
                 return listField;
             },
-            listOptions: function (data) { 
+            listOptions: function (data) 
+            { 
                 let values;
-                if (data.path_reference !== undefined) {
+                if (data.path_reference !== undefined) 
+                {
 
                     let p = data.path_reference.split("/")[1];
-                    let apiOptionValues = $.grep(metaData.fullObject.lookup, function (e) {
-                        return e.name == p;
-                    });
+                    let apiOptionValues = $.grep
+                    (
+                        metaData.fullObject.lookup, 
+                        function (e) 
+                        {
+                            return e.name == p;
+                        }
+                    );
                     values = apiOptionValues[0].values;
-                } else {
+                } 
+                else 
+                {
                     values = data.values;
                 }
 
@@ -110,48 +138,74 @@ let fdTemplates = {
                     */
 
 
-                    $.each(values, function (index, value) {
-                        if (value.value === '') {
-                            markup += `<option selected>- select -</option>`;
-                        } else {
-                            markup += `<option value="${value.value}">${value.value}</option>`;
+                    $.each
+                    (
+                        values,
+                         function (index, value) 
+                        {
+                            if (value.value === '') 
+                            {
+                                markup += `<option selected>- select -</option>`;
+                            }
+                            else 
+                            {
+                                markup += `<option value="${value.value}">${value.value}</option>`;
+                            }
                         }
-                    });
+                    );
                 //}
 
                 return markup;
             },
-            date: function (formName, value) { 
+            date: function (formName, value) 
+            { 
                 return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
-            number: function (formName, value) { 
+            number: function (formName, value) 
+            { 
                 return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
 
-            chart: function (formName, value) { 
+            chart: function (formName, value) 
+            { 
                 return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ><p>chart</p><h3>${value.prompt}</h3></div>`;
             },
-            group: function (parentName, value) {
+            group: function (parentName, value) 
+            {
                 let newGroupName = `${parentName}--${value.name}`;
                 let groupFields = '';
-                $.each(value.children, function(index, value) {
-                    if(value.type.toLowerCase() === 'group') {
-                        newSubGroupName = `${newGroupName}--${value.name}`;
-                        groupFields += fdTemplates.formFields.controls.group(newSubGroupName, value);
+                $.each
+                (
+                    value.children, 
+                    function(index, value) 
+                    {
+                        if(value.type.toLowerCase() === 'group') 
+                        {
+                            newSubGroupName = `${newGroupName}--${value.name}`;
+                            groupFields += fdTemplates.formFields.controls.group(newSubGroupName, value);
+                        }
+                        // groupFields += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
+                        groupFields += fdTemplates.formFields.prompt(newGroupName, value);
+                        if(value.type.toLowerCase() === 'list') 
+                        {
+                            groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
+                        }
+                        else if (value.type.toLowerCase() === 'hidden') 
+                        {
+                            return; // hide do nothing
+                        }
+                        else if (value.type.toLowerCase() === 'button') 
+                        {
+                            groupFields += fdTemplates.formFields.controls.button(newGroupName, value)
+                        } 
+                        else 
+                        {
+                            groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
+                        }
+                        // groupFields += `</div>`;
                     }
-                    // groupFields += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
-                    groupFields += fdTemplates.formFields.prompt(newGroupName, value);
-                    if(value.type.toLowerCase() === 'list') {
-                        groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
-                    } else if (value.type.toLowerCase() === 'hidden') {
-                        return; // hide do nothing
-                    } else if (value.type.toLowerCase() === 'button') {
-                        groupFields += fdTemplates.formFields.controls.button(newGroupName, value)
-                    } else {
-                        groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
-                    }
-                    // groupFields += `</div>`;
-                })
+                )
+                
                 let group = `
                             <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
                                 <legend style="width:auto; padding: 8px">${value.prompt}</legend>
