@@ -122,6 +122,50 @@ namespace mmria.console.db
 				mmria.console.model.couchdb.cBulkDocument bulk_document =
 					Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.console.model.couchdb.cBulkDocument> (bulk_document_string, settings);
 
+				/*
+				foreach(var doc in bulk_document.docs)
+				{
+					
+					
+					if (doc.ContainsKey ("_rev")) 
+					{
+						doc.Remove("_rev");
+					}
+
+					string _id = "";
+
+					if (doc.ContainsKey ("_id")) 
+					{
+						_id = doc ["_id"].ToString();
+					}
+					else
+					{
+						continue;
+					}
+
+					if (_id.IndexOf ("_design/") > -1)
+					{
+						continue;
+					}
+
+					var home_record = doc["home_record"] as Newtonsoft.Json.Linq.JObject;
+
+					if(!home_record.ContainsKey("jurisdiction_id"))
+					{
+						home_record.Add("jurisdiction_id", "/");
+					}
+					else if(home_record["jurisdiction_id"] == null)
+					{
+						home_record["jurisdiction_id"] = "/";
+					}
+					else if(string.IsNullOrWhiteSpace(home_record["jurisdiction_id"].ToString()))
+					{
+						home_record["jurisdiction_id"] = "/";
+					}
+					
+				} 
+				*/
+
 				string post_result = await Post_Document_List (bulk_document);
 
 				Console.WriteLine (post_result);
