@@ -726,8 +726,6 @@ button  {
   width: 100%;
 }
 
-.construct__header {}
-
 .construct__title {
   font-weight: 700;
   margin-top: 0;
@@ -774,9 +772,9 @@ button  {
     border-color: #712177;
 }
 
-.construct-output [type="button"] {
+.construct-output .btn {
     height: 56px;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .construct-output fieldset {
@@ -805,6 +803,32 @@ button  {
     padding-right: 5px;
     padding-top: 15px;
 }
+
+.grid-control {
+  overflow: hidden;
+}
+
+.grid-control-items {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  width: 100%;
+}
+
+.grid-control-item {
+  height: inherit;
+  position: relative;
+  width: inherit;
+}
+
+.grid-control-item + .grid-control-item {
+  border-top: 1px solid;
+  border-top-color: var(--neutral);
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
 
 
 
