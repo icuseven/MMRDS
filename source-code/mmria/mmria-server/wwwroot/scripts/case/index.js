@@ -203,7 +203,6 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
 
-
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
@@ -224,7 +223,6 @@ function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
   eval(object_string).splice(index, 1);
 
-  
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
