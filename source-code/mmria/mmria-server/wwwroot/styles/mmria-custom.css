@@ -806,7 +806,7 @@ button  {
 
 .grid-control {
   overflow: hidden;
-  padding: 0;
+  padding: 0 !important;
 }
 
 .grid-control-items {
@@ -819,8 +819,12 @@ button  {
 
 .grid-control-item {
   height: 100%;
+  padding: 12px;
   position: relative;
   width: 100%;
+}
+.grid-control-item:nth-last-of-type(even) {
+  background-color: #f7f7f7;
 }
 
 .grid-control-item + .grid-control-item {
@@ -830,9 +834,10 @@ button  {
 }
 
 .grid-control-btn {
-  position: absolute;
+  box-shadow: 2px 3px 5px rgba(0,0,0,.25);
   bottom: 16px;
   left: 16px;
+  position: absolute;
 }
 
 .grid-control-action-btn {

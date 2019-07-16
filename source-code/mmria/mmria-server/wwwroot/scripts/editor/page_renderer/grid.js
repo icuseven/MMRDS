@@ -5,7 +5,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     //p_result.push("<table style='grid-column:1/-1'  id='");
     p_result.push("<fieldset id='");
         p_result.push(p_metadata_path);
-        p_result.push("'  class='grid2 grid-control' style='");
+        p_result.push("' class='grid2 grid-control' style='");
         var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
         if(style_object)
         {
@@ -27,7 +27,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("<div class='grid-control-items'>");
         for(var i = 0; i < p_data.length; i++)
         {
-            p_result.push('<div class="grid-control-item">');
+            p_result.push("<div class='grid-control-item'>");
             for(var j = 0; j < p_metadata.children.length; j++)
             {
                 var child = p_metadata.children[j];
@@ -56,31 +56,31 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 );
 
             }
-            p_result.push('<button type="button" class="grid-control-action-btn" id="delete_');
+            p_result.push("<button type='button' class='grid-control-action-btn' id='delete_");
             // p_result.push('<br/><input type="button" style="width:120px" class="btn btn-primary" value="delete" id="delete_');
                 p_result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
-                p_result.push('" onclick="g_delete_grid_item(\'');
+                p_result.push("' onclick='g_delete_grid_item(\'");
                 p_result.push(p_object_path + "[" + i + "]");
                 p_result.push("', '");
                 p_result.push(p_metadata_path);
                 p_result.push("', '");
                 p_result.push(p_dictionary_path);
-                p_result.push('\')">');
-                p_result.push('<span class="x24 cdc-icon-close"></span>');
-                p_result.push('<span class="sr-only">Close</span>');
-            p_result.push('</button>');
-            p_result.push('</div>');
+                p_result.push("\")'>");
+                p_result.push("<span class='x24 text-secondary cdc-icon-close'></span>");
+                p_result.push("<span class='sr-only'>Close</span>");
+            p_result.push("</button>");
+            p_result.push("</div>");
         }
         // p_result.push("<br/>");
         p_result.push("</div>");
-        p_result.push("<button type='button'class='grid-control-btn btn btn-primary' onclick='g_add_grid_item(\"");
+        p_result.push("<button type='button'class='grid-control-btn btn btn-primary d-flex align-items-center' onclick='g_add_grid_item(\"");
             // p_result.push("<input type='button' style='width:90px'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
             p_result.push(p_object_path);
             p_result.push("\", \"");
             p_result.push(p_metadata_path);
             p_result.push("\", \"");
             p_result.push(p_dictionary_path);    
-            p_result.push("\")'>Add Item");
+            p_result.push("\")'><span class='x24 cdc-icon-plus'></span> Add Item");
         p_result.push("</button>");
     p_result.push("</fieldset>");
 }
