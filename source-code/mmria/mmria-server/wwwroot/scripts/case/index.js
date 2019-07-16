@@ -202,7 +202,6 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   var new_line_item = create_default_object(metadata, {});
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
-
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
