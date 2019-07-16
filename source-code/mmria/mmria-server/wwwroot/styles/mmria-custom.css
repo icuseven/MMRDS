@@ -772,10 +772,10 @@ button  {
     border-color: #712177;
 }
 
-.construct-output .btn {
+/* .construct-output .btn {
     height: 56px;
-    /* width: 100%; */
-}
+    width: 100%;
+} */
 
 .construct-output fieldset {
     border: var(--border-width) solid;
@@ -806,6 +806,7 @@ button  {
 
 .grid-control {
   overflow: hidden;
+  padding: 0;
 }
 
 .grid-control-items {
@@ -817,17 +818,29 @@ button  {
 }
 
 .grid-control-item {
-  height: inherit;
+  height: 100%;
   position: relative;
-  width: inherit;
+  width: 100%;
 }
 
 .grid-control-item + .grid-control-item {
   border-top: 1px solid;
   border-top-color: var(--neutral);
-  margin-top: 16px;
   padding-top: 16px;
 }
+
+.grid-control-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+}
+
+.grid-control-action-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
 
 
 
