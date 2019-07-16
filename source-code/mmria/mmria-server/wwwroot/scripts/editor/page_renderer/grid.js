@@ -74,6 +74,10 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<span class='x24 text-secondary cdc-icon-close'></span>");
                 p_result.push("<span class='sr-only'>Close</span>");
             p_result.push("</button>");
+            p_result.push(" item ");
+            p_result.push(new Number(i + 1));
+            p_result.push(" of ");
+            p_result.push(p_data.length);
             p_result.push("</div>");
         }
         // p_result.push("<br/>");

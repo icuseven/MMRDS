@@ -205,7 +205,10 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
-    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+
+    var render_result = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+    var element = document.getElementById(p_metadata_path)
+    element.outerHTML = render_result;
     apply_tool_tips();
     if(post_html_call_back.length > 0)
     {
@@ -225,7 +228,10 @@ function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
-    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, false, post_html_call_back).join("");
+
+    var render_result = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, false, post_html_call_back).join("");
+    var element = document.getElementById(p_metadata_path)
+    element.outerHTML = render_result;
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));
