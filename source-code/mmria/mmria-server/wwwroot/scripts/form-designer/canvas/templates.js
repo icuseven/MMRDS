@@ -44,11 +44,13 @@ let fdTemplates = {
     {
         prompt: function(formName, value) 
         {
+            /*
             if (value.type.toLowerCase() === 'list' && value.hasOwnProperty('is_multiselect')) 
             {
                 return '';
             } 
-            else if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') 
+            else */
+            if (value.type.toLowerCase() === 'hidden' || value.type.toLowerCase() === 'button') 
             {
                 return '';
             }
