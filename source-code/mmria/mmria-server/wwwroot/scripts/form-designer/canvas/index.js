@@ -127,7 +127,8 @@ formDesigner = {
         
 
         // Add current element/path to fdObject
-        if(init === false) {
+        if(init === false) 
+        {
           formDesigner.fdObjectHandler.addPath(path, cssSytle, promptVcontrol);
         }
 
@@ -141,13 +142,20 @@ formDesigner = {
       // Take quicksnap for local revision
 
       // Set element positions via inline style
-      $.each(newElems, function (index, value) {
-        if(uiSpecification.currentObject.form_design[value.path] !== undefined) {
-          $(value.target).css(JSON.parse(uiSpecification.currentObject.form_design[value.path][value.promptVcontrol].style));
+      $.each
+      (
+        newElems,
+        function (index, value) 
+        {
+          if(uiSpecification.currentObject.form_design[value.path] !== undefined) 
+          {
+            $(value.target).css(JSON.parse(uiSpecification.currentObject.form_design[value.path][value.promptVcontrol].style));
+          }
+
+          $(value.target).css('transform','');
+          $(value.target).removeAttr('data-x data-y');
         }
-        $(value.target).css('transform','');
-        $(value.target).removeAttr('data-x data-y');
-      });     
+      );     
     },
     quickSnap: function() {
       uiSpecification.localCount++;

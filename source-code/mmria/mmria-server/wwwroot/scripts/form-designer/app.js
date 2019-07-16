@@ -30,17 +30,21 @@ getSpecById(specId);
  * @param {Float32Array} h
  * @param {string} promptVcontrol 
  */
-function createOrUpdateFormElements(activeForm, formElement, t, l, w, h, promptVcontrol) {
+function createOrUpdateFormElements(activeForm, formElement, t, l, w, h, promptVcontrol) 
+{
 	formElement = formElement.replace('__', '/');
 	var prop = activeForm + '/' + formElement;
-	if (prop in uiSpecification.form_design) {
+	if (prop in uiSpecification.form_design) 
+	{
 		uiSpecification.form_design[prop][promptVcontrol] = {
 			'x': t,
 			'y': l,
 			'height': h,
 			'width': w
 		}
-	} else {
+	} 
+	else 
+	{
 		uiSpecification.form_design[prop] = new element(t, l, w, h, promptVcontrol);
 	}
 }
