@@ -359,12 +359,16 @@ formDesigner = {
       $('#form-list-container').html(tpl);
     },
     setDimensions() {
+
+      $(".form-designer-wrapper").css("width", uiSpecification.currentObject.dimension.width + "px");
+      
+      /*
       let nw = uiSpecification.currentObject.dimension.width * 96;
       if(nw >= 816) {
         $(".form-designer-wrapper").css("width", '100%');
       } else {
         $(".form-designer-wrapper").css("width", nw + "px");
-      }
+      }*/
     },
     formFields: {
       widestInFormGroup: function() {
