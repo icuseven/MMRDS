@@ -27,14 +27,8 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
     }
     p_result.push(">");
     
-    if(p_is_grid_context && p_is_grid_context == true)
-    {
 
-    }
-    else
-    {
-        p_result.push(p_metadata.prompt);
-    }
+    p_result.push(p_metadata.prompt);
     
     p_result.push("</label>");
     page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);

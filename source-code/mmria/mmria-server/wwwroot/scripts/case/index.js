@@ -203,12 +203,10 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
 
-  var is_grid_context = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
-    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, is_grid_context, post_html_call_back).join("");
+    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
     apply_tool_tips();
     if(post_html_call_back.length > 0)
     {
@@ -224,12 +222,11 @@ function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
   var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
   eval(object_string).splice(index, 1);
-  var is_grid_context = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-  
+
   set_local_case(g_data, function ()
   {
     var post_html_call_back = [];
-    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, is_grid_context, post_html_call_back).join("");
+    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, false, post_html_call_back).join("");
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));

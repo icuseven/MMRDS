@@ -32,15 +32,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
     p_result.push(">");
 
-    
-    if(p_is_grid_context && p_is_grid_context == true)
-    {
-
-    }
-    else
-    {
-        p_result.push(p_metadata.prompt);
-    }
+    p_result.push(p_metadata.prompt);
 
     //p_result.push("<div style='position:relative'>");
     p_result.push("</label> ");
@@ -57,7 +49,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_post_html_render.push('	enableTime: false,');
     p_post_html_render.push('  onChange: function(selectedDates, p_value, instance)  ');
     p_post_html_render.push('  {');
-    p_post_html_render.push('                g_set_data_object_from_path("' + p_object_path + '", "' + p_metadata_path + '", "' + p_dictionary_path + ', p_value);');
+    p_post_html_render.push('                g_set_data_object_from_path("' + p_object_path + '", "' + p_metadata_path + '", "' + p_dictionary_path + '", p_value);');
     p_post_html_render.push('  }');
     p_post_html_render.push('});');
 
