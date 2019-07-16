@@ -34,14 +34,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_result.push(">");
     } 
     
-    if(p_is_grid_context && p_is_grid_context == true)
-    {
-
-    }
-    else
-    {
-        p_result.push(p_metadata.prompt);
-    }
+    p_result.push(p_metadata.prompt);
     p_result.push("</span>");
     p_result.push("</div>");
 

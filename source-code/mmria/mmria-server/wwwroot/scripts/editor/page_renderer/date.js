@@ -1,9 +1,5 @@
 function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
-    if(p_metadata.name == "date_of_screening")
-    {
-        console.log("break");
-    }
     p_result.push("<div class='date' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
@@ -11,7 +7,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push(" mpath='");
     p_result.push(p_metadata_path);
     p_result.push("' ");
-
 
     p_result.push(">");
     p_result.push("<label ");
@@ -21,7 +16,6 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push(p_metadata.description.replace(/'/g, "\\'"));
         p_result.push("'");
     }
-
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
@@ -34,10 +28,9 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     p_result.push(p_metadata.prompt);
 
-    //p_result.push("<div style='position:relative'>");
     p_result.push("</label> ");
     page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
-    //p_result.push("</div>");
+
     
     p_result.push("</div>");
 
@@ -52,6 +45,5 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_post_html_render.push('                g_set_data_object_from_path("' + p_object_path + '", "' + p_metadata_path + '", "' + p_dictionary_path + '", p_value);');
     p_post_html_render.push('  }');
     p_post_html_render.push('});');
-
 
 }

@@ -393,7 +393,7 @@ function window_on_hash_change(e)
       g_data = null;
 
       document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
-                                                            //page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_is_grid_context, p_row, p_column)
+
       document.getElementById('form_content_id').innerHTML = page_render(g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
       apply_tool_tips();
 
