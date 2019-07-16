@@ -24,7 +24,9 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
     p_result.push("'>");
     p_result.push(p_metadata.prompt);
-    p_result.push("</legend>");
+    p_result.push(" - ");
+    p_result.push(p_data.length)
+    p_result.push(" item(s) </legend>");
     p_result.push("<div style=''>");
     for(var i = 0; i < p_data.length; i++)
     {
