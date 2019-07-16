@@ -181,8 +181,8 @@ let fdTemplates = {
                     {
                         if(value.type.toLowerCase() === 'group') 
                         {
-                            let newSubGroupName = `${newGroupName}--${value.name}`;
-                            groupFields += fdTemplates.formFields.controls.group(newSubGroupName, value);
+                            //let newSubGroupName = `${newGroupName}--${value.name}`;
+                            groupFields += fdTemplates.formFields.controls.group(newGroupName, value);
                         }
                         // groupFields += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
                         groupFields += fdTemplates.formFields.prompt(newGroupName, value);
