@@ -74,7 +74,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     
                     p_result.push('</div>');
                 }
-
             }
             p_result.push('</div>');
         p_result.push("</section>");
