@@ -186,23 +186,29 @@ let fdTemplates = {
                             //let newSubGroupName = `${newGroupName}--${value.name}`;
                             groupFields += fdTemplates.formFields.controls.group(newGroupName, value);
                         }
-                        // groupFields += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
-                        groupFields += fdTemplates.formFields.prompt(newGroupName, value);
-                        if(value.type.toLowerCase() === 'list') 
+                        else
                         {
-                            groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
-                        }
-                        else if (value.type.toLowerCase() === 'hidden') 
-                        {
-                            return; // hide do nothing
-                        }
-                        else if (value.type.toLowerCase() === 'button') 
-                        {
-                            groupFields += fdTemplates.formFields.controls.button(newGroupName, value)
-                        } 
-                        else 
-                        {
-                            groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
+                            groupFields += fdTemplates.formFields.prompt(newGroupName, value);
+                            if(value.type.toLowerCase() === 'list') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
+                            }
+                            else if (value.type.toLowerCase() === 'hidden') 
+                            {
+                                return; // hide do nothing
+                            }
+                            else if (value.type.toLowerCase() === 'button') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.button(newGroupName, value)
+                            } 
+                            else if (value.type.toLowerCase() === 'date') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.date(newGroupName, value)
+                            } 
+                            else 
+                            {
+                                groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
+                            }
                         }
                         // groupFields += `</div>`;
                     }
