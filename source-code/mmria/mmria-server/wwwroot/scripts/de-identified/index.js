@@ -69,6 +69,7 @@ function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   });
 }
 
+/*
 function g_delete_record_item(p_object_path, p_metadata_path)
 {
   var metadata = eval(p_metadata_path);
@@ -88,7 +89,7 @@ function g_delete_record_item(p_object_path, p_metadata_path)
   
   });
 }
-
+*/
 
 var g_ui = {
   url_state: {

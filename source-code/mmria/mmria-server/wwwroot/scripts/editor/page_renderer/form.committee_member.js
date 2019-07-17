@@ -36,9 +36,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
                 p_result.push("</h3>");
             }
-                // p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
-                // p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
-                // p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
             p_result.push('<div class="search_wrapper">');
 
             for(var i = 0; i < p_data.length; i++)
@@ -55,7 +52,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push('<div class="p_result_wrapper"> <a href="#/');
                     }
                     p_result.push(p_ui.url_state.path_array.join("/"));
-                    //p_result.push(p_metadata.name);
                     p_result.push("/");
                     p_result.push(i);
                     p_result.push("\">");
@@ -63,13 +59,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(i + 1);
         
                     p_result.push('</a>');
-                    // p_result.push('</a>&nbsp;|&nbsp;');
-                    
-                        // p_result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
-                        // p_result.push("\">");
-                        // p_result.push('Delete Record ');
-                        // p_result.push(i + 1);
-                        // p_result.push('</a>');
+
                     
                     p_result.push('</div>');
                 }
