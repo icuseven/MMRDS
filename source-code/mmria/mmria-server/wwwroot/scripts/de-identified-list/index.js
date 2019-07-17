@@ -588,5 +588,3 @@ function update_plan_item_new_value_onblur(p_id, p_item_index, p_value)
 		plan_item.new_value = p_value;
 	}
 }
-
-
