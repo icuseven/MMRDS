@@ -70,7 +70,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push(p_metadata_path);
                 p_result.push("\", \"");
                 p_result.push(p_dictionary_path);
-                p_result.push("\")'>");
+                p_result.push("\", " + i + ")'>");
                 p_result.push("<span class='x24 text-secondary cdc-icon-close'></span>");
                 p_result.push("<span class='sr-only'>Close</span>");
             p_result.push("</button>");

@@ -29,67 +29,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
     return;
 }
 
-function g_add_grid_item(p_object_path, p_metadata_path)
-{
-  var metadata = eval(p_metadata_path);
-  var new_line_item = create_default_object(metadata, {});
-  eval(p_object_path).push(new_line_item[metadata.name][0]);
 
-
-
-  set_local_case(g_data, function ()
-  {
-    var post_html_call_back = [];
-    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
-    apply_tool_tips();
-    if(post_html_call_back.length > 0)
-    {
-      eval(post_html_call_back.join(""));
-    }
-
-  });
-}
-
-function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
-{
-  var metadata = eval(p_metadata_path);
-  var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
-  var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
-  eval(object_string).splice(index, 1);
-
-  
-  set_local_case(g_data, function ()
-  {
-    var post_html_call_back = [];
-    document.getElementById(p_metadata_path).innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, false, post_html_call_back).join("");
-    if(post_html_call_back.length > 0)
-    {
-      eval(post_html_call_back.join(""));
-    }
-  });
-}
-
-/*
-function g_delete_record_item(p_object_path, p_metadata_path)
-{
-  var metadata = eval(p_metadata_path);
-  var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
-  var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
-  eval(object_string).splice(index, 1);
-
-
-  set_local_case(g_data, function (){
-    
-    var post_html_call_back = [];
-    document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, "", false, post_html_call_back).join("");
-    if(post_html_call_back.length > 0)
-    {
-      eval(post_html_call_back.join(""));
-    }
-  
-  });
-}
-*/
 
 var g_ui = {
   url_state: {

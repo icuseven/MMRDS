@@ -54,7 +54,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			result.push(p_metadata_path);
 			result.push("', '");
 			result.push(p_dictionary_path);
-			result.push('\')" /></td></tr>');
+			result.push('\', ' + i + ')" /></td></tr>');
 		}
     	result.push("<tr><td colspan=");
 		result.push(p_metadata.children.length + 1);

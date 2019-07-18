@@ -218,25 +218,32 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   });
 }
 
-function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
+function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path, p_index)
 {
-  var metadata = eval(p_metadata_path);
-  var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
-  var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
-  eval(object_string).splice(index, 1);
+  var record_number = new Number(p_index) + new Number(1);
+  var index_check = prompt("Please confirm delete request of record " + record_number + " by entering the record number:", "-1");
 
-  set_local_case(g_data, function ()
+  if (index_check != null && record_number == new Number(index_check))
   {
-    var post_html_call_back = [];
 
-    var render_result = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, false, post_html_call_back).join("");
-    var element = document.getElementById(p_metadata_path)
-    element.outerHTML = render_result;
-    if(post_html_call_back.length > 0)
+    var metadata = eval(p_metadata_path);
+    var index = p_object_path.match(new RegExp("\\[\\d+\\]$"))[0].replace("[","").replace("]","");
+    var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+    eval(object_string).splice(index, 1);
+
+    set_local_case(g_data, function ()
     {
-      eval(post_html_call_back.join(""));
-    }
-  });
+      var post_html_call_back = [];
+
+      var render_result = page_render(metadata, eval(object_string), g_ui, p_metadata_path, object_string, p_dictionary_path, false, post_html_call_back).join("");
+      var element = document.getElementById(p_metadata_path)
+      element.outerHTML = render_result;
+      if(post_html_call_back.length > 0)
+      {
+        eval(post_html_call_back.join(""));
+      }
+    });
+  }
 }
 
 function g_delete_record_item(p_object_path, p_metadata_path, p_index)
