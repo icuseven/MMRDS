@@ -16,3 +16,13 @@
 .form-designer-btn .material-icons {
     vertical-align: bottom;
 }
+
+.form-designer-wrapper .form-designer-canvas label.form-field-item:hover,
+.form-designer-wrapper .form-designer-canvas label.resize-drag:hover {
+    border: none;
+    outline: 1px solid lightgray;
+}
+.form-designer-wrapper .form-designer-canvas label.form-field-item.ds-selected:hover,
+.form-designer-wrapper .form-designer-canvas label.resize-drag.ds-selected:hover {
+    outline: 3px solid black;
+}
