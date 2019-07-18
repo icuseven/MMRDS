@@ -313,6 +313,8 @@ var path_to_derived_validation = [];
 var path_to_validation_description = [];
 */
 
+
+/*
 	switch(p_event_name)
 	{
 		case "onfocus":
@@ -342,7 +344,7 @@ var path_to_validation_description = [];
 	p_result.push("='");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
 	p_result.push("'");
-	
+*/	
 }
 
 
@@ -358,6 +360,8 @@ var path_to_source_validation = [];
 var path_to_derived_validation = [];
 var path_to_validation_description = [];
 */
+
+/*
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ob";
 	if(path_to_onblur_map[p_metadata_path])
 	{
@@ -403,7 +407,7 @@ var path_to_validation_description = [];
 		}
 		
 	}
-	
+*/	
 }
 
 
@@ -419,7 +423,7 @@ var path_to_source_validation = [];
 var path_to_derived_validation = [];
 var path_to_validation_description = [];
 */
-
+/*
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
 	if(path_to_onchange_map[p_metadata_path])
 	{
@@ -465,7 +469,7 @@ var path_to_validation_description = [];
 		}
 		
 	}
-	
+*/	
 }
 
 function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
@@ -491,7 +495,7 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
         p_result.push("'");
     }
 
-
+/*
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
 	{
@@ -512,7 +516,7 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 	
 	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path);
 
-
+*/
 
 	p_result.push("/>");
 	
@@ -545,6 +549,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
         p_result.push("'");
     }
 
+	/*
 	var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 	if(path_to_onfocus_map[p_metadata_path])
 	{
@@ -564,7 +569,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	}
 	
 	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
-
+*/
 	p_result.push(" >");
 	p_result.push(p_data);
 	p_result.push("</textarea>");
