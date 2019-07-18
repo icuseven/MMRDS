@@ -506,6 +506,10 @@ button  {
   vertical-align: middle;
 }
 
+.td--25 {
+  width: 25%;
+}
+
 .table-pagination {
   font-size: 14px;
 }
