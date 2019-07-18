@@ -80,7 +80,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push('<table class="table">');
                 p_result.push('<thead class="thead">');
                     p_result.push('<tr class="tr bg-tertiary">');
-                        p_result.push('<th class="th h4" colspan="2">');
+                        p_result.push('<th class="th h4" colspan="1">');
                             p_result.push('List of Records');
                         p_result.push('</th>');
                     p_result.push('</tr>');
@@ -89,9 +89,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push('<tr class="tr">');
                         p_result.push('<th class="th">');
                             p_result.push('Record Number');
-                        p_result.push('</th>');
-                        p_result.push('<th class="th">');
-                            p_result.push('Actions');
                         p_result.push('</th>');
                     p_result.push('</tr>');
                 p_result.push('</thead>');
@@ -117,15 +114,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 p_result.push(i + 1);
                     
                                 p_result.push('</a></td>');
-                                
-                                p_result.push('<td class="td td--25"><button class="btn btn-primary" onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
-                                p_result.push("\">");
-                                p_result.push('Delete Record');
-                                // p_result.push('Delete Record ');
-                                // p_result.push(i + 1);
-                                p_result.push('</button>');
-                                
-                                p_result.push('</td>');
                             }
 
                         }
