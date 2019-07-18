@@ -739,6 +739,9 @@ button  {
   font-size: 21px;
   font-weight: 700;
 }
+.construct__subtitle span {
+  font-weight: 400;
+}
 
 .construct__body {
   border: var(--border-width) solid;
