@@ -228,14 +228,19 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	{
 				p_result.push(p_metadata.decimal_precision);
 	}
-	//result.push("'");
+	
+	
+	if(p_metadata.type=="button")
+	{
+		p_result.push(" btn btn-primary");
+	}
 	
 	p_result.push("' dpath='");
 	p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
 	
 	if(p_metadata.type=="button")
 	{
-		p_result.push("' type='button' class='btn btn-primary' name='");
+		p_result.push("' type='button' name='");
 		p_result.push(p_metadata.name);
 		p_result.push("' value='");
 		p_result.push(p_metadata.prompt.replace(/'/g, "\\'"));
