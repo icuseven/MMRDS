@@ -1065,7 +1065,20 @@ function save_case(p_data, p_call_back)
       }
 
 
-  }).fail(function(xhr, err) { console.log("save_case: failed", err); });
+  })
+  .fail
+  (
+    function(xhr, err) 
+    { 
+      console.log("server save_case: failed", err); 
+      if(xhr.status == 401)
+      {
+        let redirect_url = location.protocol + '//' + location.host;
+        window.location = redirect_url;
+      }
+      
+    }
+  );
 
 }
 

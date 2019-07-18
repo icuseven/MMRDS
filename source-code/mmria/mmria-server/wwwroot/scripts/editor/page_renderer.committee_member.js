@@ -193,7 +193,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<input ");
+	p_result.push("<input disabled='disabled' ");
 
     p_result.push(" style='");
     
