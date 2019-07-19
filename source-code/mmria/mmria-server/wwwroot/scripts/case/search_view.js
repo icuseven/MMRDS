@@ -155,22 +155,22 @@ function render_search_text_input_control(p_ctx)
 		var f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
 		if(path_to_onfocus_map[p_ctx.metadata_path])
 		{
-			page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path);
+			page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
 		}
 
 		f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
 		if(path_to_onchange_map[p_ctx.metadata_path])
 		{
-			page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path);
+			page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionmmria_pathary_path);
 		}
 		
 		f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
 		if(path_to_onclick_map[p_ctx.metadata_path])
 		{
-			page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path);
+			page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
 		}
 		
-		page_render_create_onblur_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path);
+		page_render_create_onblur_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
 
         result.push(" />"); 
 
