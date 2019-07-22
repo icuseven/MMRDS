@@ -181,7 +181,7 @@ let fdTemplates = {
                     value.children, 
                     function(index, value) 
                     {
-                        if(value.type.toLowerCase() === 'group') 
+                        if(value.type.toLowerCase() === 'group' || value.type.toLowerCase() == 'grid')
                         {
                             //let newSubGroupName = `${newGroupName}--${value.name}`;
                             groupFields += fdTemplates.formFields.controls.group(newGroupName, value);
