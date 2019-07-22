@@ -813,7 +813,7 @@ button  {
 
 .grid-control {
   overflow: hidden;
-  padding: 0 !important;
+  /* padding: 0 !important; */
 }
 
 .grid-control-items {
