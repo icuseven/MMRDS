@@ -3,6 +3,16 @@ function label_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_result.push("<div class='label' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     p_result.push("'");
+
+
+    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    if(style_object)
+    {
+        p_result.push(" style='");
+        p_result.push(get_style_string(style_object.prompt.style));
+        p_result.push("'");
+    }
+
     p_result.push(" mpath='");
     p_result.push(p_metadata_path);
     p_result.push("' ");

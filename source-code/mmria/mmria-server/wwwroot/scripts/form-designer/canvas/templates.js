@@ -167,7 +167,10 @@ let fdTemplates = {
             { 
                 return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
-
+            label: function (formName, value) 
+            { 
+                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" >${value.prompt}</div>`;
+            },
             chart: function (formName, value) 
             { 
                 return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ><p>chart</p><h3>${value.prompt}</h3></div>`;
@@ -204,6 +207,10 @@ let fdTemplates = {
                             else if (value.type.toLowerCase() === 'date') 
                             {
                                 groupFields += fdTemplates.formFields.controls.date(newGroupName, value)
+                            }
+                            else if (value.type.toLowerCase() === 'label') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.label(newGroupName, value)
                             } 
                             else 
                             {

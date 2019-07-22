@@ -141,7 +141,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         //{
-            p_result.push("<br/><label><input placeholder='Specify Other' class='list' type='text3' name='");
+            p_result.push("<label><input placeholder='Specify Other' class='list' type='text3' name='");
             p_result.push(p_metadata.name);
             p_result.push("' value='");
             p_result.push(p_data);

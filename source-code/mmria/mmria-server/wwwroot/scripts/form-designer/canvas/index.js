@@ -422,7 +422,9 @@ formDesigner = {
                 return;
                 break;
               // tpl += `<div class="form-group form-group-wrapper form-field-item resize-drag drag-drop yes-drop item">`;
-              
+              case 'label':
+                  tpl.push(fdTemplates.formFields.prompt(formName, value));
+                break;
               case 'list':
                   tpl.push(fdTemplates.formFields.prompt(formName, value));
                   tpl.push(fdTemplates.formFields.controls.list(formName, value));
