@@ -811,6 +811,10 @@ button  {
     padding-top: 15px;
 }
 
+.construct-output > :last-child {
+  margin-bottom: 24px;
+}
+
 .grid-control {
   overflow: hidden;
   /* padding: 0 !important; */
