@@ -143,6 +143,11 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);
         //$("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
       }
+      else if(metadata.type.toLowerCase() == "textarea")
+      {
+        var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
+        $("#" + convert_object_path_to_jquery_id(p_object_path))[0].outerHTML = new_html;
+      }
       else
       {
         var new_html = page_render(metadata, eval(p_object_path), g_ui, p_metadata_path, p_object_path, p_dictionary_path, false, post_html_call_back).join("");
