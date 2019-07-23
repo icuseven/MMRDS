@@ -583,8 +583,6 @@ function page_render_create_checkbox(p_result, p_metadata, p_data, p_metadata_pa
 function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
 
-	p_result.push("<textarea  class='");
-	p_result.push(p_metadata.type.toLowerCase());
 	//hack
 	if(p_metadata.name == "case_opening_overview")
 	{
@@ -592,11 +590,15 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	}
 	else
 	{
-		p_result.push("'<textarea'  rows=5 cols=40 name='");
+		p_result.push("'<textarea'  name='");
 	}
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
 
+
+	p_result.push(" class='");
+	p_result.push(p_metadata.type.toLowerCase());
+	p_result.push("' ");
 
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
