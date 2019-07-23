@@ -586,11 +586,11 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	//hack
 	if(p_metadata.name == "case_opening_overview")
 	{
-		p_result.push("'<textarea'  rows=30 cols=120 name='");
+		p_result.push("<textarea  rows=30 cols=120 name='");
 	}
 	else
 	{
-		p_result.push("'<textarea'  name='");
+		p_result.push("<textarea  name='");
 	}
 	p_result.push(p_metadata.name);
 	p_result.push("' ");
@@ -626,7 +626,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 		page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
 	}
 	
-	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
+	page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path);
 
 	p_result.push(" >");
 	p_result.push(p_data);
