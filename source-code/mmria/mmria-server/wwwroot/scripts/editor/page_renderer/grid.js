@@ -17,7 +17,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
         p_result.push("' >"); // close opening div
 
-        p_result.push("<legend style='");
+        p_result.push("<legend class='grid-control-legend' style='");
         
         var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
         if(style_object && style_object.prompt)
@@ -33,51 +33,53 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         for(var i = 0; i < p_data.length; i++)
         {
             p_result.push("<div class='grid-control-item'>");
-            for(var j = 0; j < p_metadata.children.length; j++)
-            {
-                var child = p_metadata.children[j];
+                for(var j = 0; j < p_metadata.children.length; j++)
+                {
+                    var child = p_metadata.children[j];
 
-                if(p_data[i][child.name] || p_data[child.name] == 0)
-                {
-                    // do nothing 
-                }
-                else
-                {
-                    p_data[i][child.name] = create_default_object(child, {})[child.name];
-                }
-                Array.prototype.push.apply
-                (
-                    p_result,
-                    page_render
+                    if(p_data[i][child.name] || p_data[child.name] == 0)
+                    {
+                        // do nothing 
+                    }
+                    else
+                    {
+                        p_data[i][child.name] = create_default_object(child, {})[child.name];
+                    }
+                    Array.prototype.push.apply
                     (
-                        child,
-                        p_data[i][child.name],
-                        p_ui, p_metadata_path + ".children[" + j + "]",
-                        p_object_path + "[" + i + "]." + child.name,
-                        p_dictionary_path + "/" + child.name,
-                        is_grid_context,
-                        p_post_html_render
-                    )
-                );
-
-            }
-            p_result.push("<button type='button' class='grid-control-action-btn' id='delete_");
-            // p_result.push('<br/><input type="button" style="width:120px" class="btn btn-primary" value="delete" id="delete_');
-                p_result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
-                p_result.push("' onclick='g_delete_grid_item(\"");
-                p_result.push(p_object_path + "[" + i + "]");
-                p_result.push("\", \"");
-                p_result.push(p_metadata_path);
-                p_result.push("\", \"");
-                p_result.push(p_dictionary_path);
-                p_result.push("\", " + i + ")'>");
-                p_result.push("<span class='x24 text-secondary cdc-icon-close'></span>");
-                p_result.push("<span class='sr-only'>Close</span>");
-            p_result.push("</button>");
-            p_result.push(" item ");
-            p_result.push(new Number(i + 1));
-            p_result.push(" of ");
-            p_result.push(p_data.length);
+                        p_result,
+                        page_render
+                        (
+                            child,
+                            p_data[i][child.name],
+                            p_ui, p_metadata_path + ".children[" + j + "]",
+                            p_object_path + "[" + i + "]." + child.name,
+                            p_dictionary_path + "/" + child.name,
+                            is_grid_context,
+                            p_post_html_render
+                        )
+                    );
+                }
+                p_result.push("<div class='grid-control-action-icn row no-gutters'>");
+                    p_result.push("<button type='button' class='grid-control-action-btn mr-1' title='delete' id='delete_");
+                        p_result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
+                        p_result.push("' onclick='g_delete_grid_item(\"");
+                        p_result.push(p_object_path + "[" + i + "]");
+                        p_result.push("\", \"");
+                        p_result.push(p_metadata_path);
+                        p_result.push("\", \"");
+                        p_result.push(p_dictionary_path);
+                        p_result.push("\", " + i + ")'>");
+                        p_result.push("<span class='x24 fill-p text-secondary cdc-icon-close'></span>");
+                        p_result.push("<span class='sr-only'>Close</span>");
+                    p_result.push("</button>");
+                    p_result.push("<span>");
+                        p_result.push(" item ");
+                        p_result.push(new Number(i + 1));
+                        p_result.push(" of ");
+                        p_result.push(p_data.length);
+                    p_result.push("</span>");
+                p_result.push("</div>");
             p_result.push("</div>");
         }
         // p_result.push("<br/>");
