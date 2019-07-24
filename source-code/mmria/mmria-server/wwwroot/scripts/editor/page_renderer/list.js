@@ -39,6 +39,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("</label>");
 
 
+        p_result.push("<div style='");
+        if(style_object && style_object.prompt)
+        {
+            p_result.push(get_only_size_and_position_string(style_object.control.style));
+        }
+
+        p_result.push("'>");
 
         if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
         {
@@ -70,14 +77,11 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         p_result.push(p_metadata.name);
 
-        if(style_object && style_object.control)
-        {
-            p_result.push("'  style='");
-            p_result.push(get_style_string(style_object.control.style));
-        }
+        p_result.push("' style='width:98%;height:49%;'");
 
 
-        p_result.push("'  onchange='g_set_data_object_from_path(\"");
+
+        p_result.push("  onchange='g_set_data_object_from_path(\"");
         p_result.push(p_object_path);
         p_result.push("\",\"");
         p_result.push(p_metadata_path);
@@ -137,11 +141,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push("</select>");
 
-
-
-        //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
-        //{
-            p_result.push("<label><input placeholder='Specify Other' class='list' type='text3' name='");
+            p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='list' type='text3' name='");
             p_result.push(p_metadata.name);
             p_result.push("' value='");
             p_result.push(p_data);
@@ -153,8 +153,8 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(p_dictionary_path);
             p_result.push("\",this.value)' />");
 
-	        p_result.push("</label> <br/> ");
-        //}
+	        p_result.push("</label> </div> ");
+
 
         }
         else
@@ -214,7 +214,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         //{
-            p_result.push("<br/><label><input placeholder='Specify Other' class='form-control1' type='text3' name='");
+            p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='form-control1' type='text3' name='");
             p_result.push(p_metadata.name);
             p_result.push("' value='");
             p_result.push(p_data);
@@ -226,7 +226,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(p_dictionary_path);
             p_result.push("\",this.value)' /> ");
             
-	        p_result.push("</label>");
+	        p_result.push("</label></div>");
             
         //}
 

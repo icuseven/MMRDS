@@ -94,10 +94,28 @@ let fdTemplates = {
                     list_display_size = ' size=' + value.list_display_size;
                 }
 
+
+                if(value.control_style && value.control_style.indexOf("editable") > -1)
+                {
+                    listField = `
+                                <div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" ${list_display_size}>
+                                <input value="editable list" style="width:98%;height:49%;"/><br/>
+                                <select style="width:98%;height:49%;">
+                                    ${listOptions}
+                                </select>
+                                </div>
+                                
+                                `;
+
+                }
+                else
+                {
                     listField = `
                                 <select id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" ${list_display_size} >
                                     ${listOptions}
                                 </select>`;
+
+                }
                 //}
                 return listField;
             },
