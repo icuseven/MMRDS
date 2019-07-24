@@ -99,10 +99,11 @@ let fdTemplates = {
                 {
                     listField = `
                                 <div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" ${list_display_size}>
-                                <input value="editable list" style="width:98%;height:49%;"/><br/>
                                 <select style="width:98%;height:49%;">
                                     ${listOptions}
                                 </select>
+                                <br/>
+                                <input value="editable list" style="width:98%;height:49%;"/>
                                 </div>
                                 
                                 `;
