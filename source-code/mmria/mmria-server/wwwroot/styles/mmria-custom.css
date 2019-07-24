@@ -796,9 +796,9 @@ button  {
 .construct-output legend {
     display: inline-block;
     font-size: 1.25rem !important;
-    padding-bottom: 6px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 2px;
     width: auto;
 
@@ -808,7 +808,7 @@ button  {
     position: absolute;
     z-index: 1;
     background: var(--white);
-    top: 6px;
+    top: 0;
     transform: translateY(-50%);
 }
 
@@ -878,6 +878,19 @@ button  {
   padding: 0;
 }
 
+.list-control-select {
+  height: 50%;
+  width: 100%;
+}
+
+.list-control-input {
+  height: 50%;
+  width: 100%;
+}
+
+.list-control-select + .list-control-input {
+  margin-top: 4px;
+}
 
 
 

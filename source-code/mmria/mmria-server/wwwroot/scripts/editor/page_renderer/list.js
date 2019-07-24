@@ -49,7 +49,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
         {
-            p_result.push("<select size=");
+            p_result.push("<select class='list-control-select 1' size=");
             p_result.push(p_metadata.list_display_size);
             p_result.push(" name='");
         }
@@ -58,7 +58,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             
             if(p_metadata.values.length > 6)
             {
-                p_result.push("<select size='6' name='");
+                p_result.push("<select class='list-control-select 2' size='6' name='");
             }
             else
             {
@@ -70,14 +70,15 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
         else
         {
-            p_result.push("<select size=");
+            p_result.push("<select class='list-control-select 3' size=");
             p_result.push(1);
             p_result.push(" name='");
         }
-
+        
         p_result.push(p_metadata.name);
-
-        p_result.push("' style='width:98%;height:49%;'");
+        
+        p_result.push("'");
+        // p_result.push("' style='width:98%;height:49%;'");
 
 
 
@@ -141,7 +142,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             p_result.push("</select>");
 
-            p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='list' type='text3' name='");
+            p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
+            p_result.push("<input id='"+p_metadata.name+"' class='list-control-input mt-1' placeholder='Specify Other' class='list' type='text3' name='");
+            // p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='list' type='text3' name='");
             p_result.push(p_metadata.name);
             p_result.push("' value='");
             p_result.push(p_data);
@@ -214,7 +217,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
         //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
         //{
-            p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='form-control1' type='text3' name='");
+            // p_result.push("<label>");
+            p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
+            p_result.push("<input placeholder='Specify Other' id='"+p_metadata.name+"' class='list-control-input mt-1' type='text3' name='");
             p_result.push(p_metadata.name);
             p_result.push("' value='");
             p_result.push(p_data);
@@ -225,8 +230,8 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("\",\"");
             p_result.push(p_dictionary_path);
             p_result.push("\",this.value)' /> ");
-            
-	        p_result.push("</label></div>");
+	        // p_result.push("</label>");
+	        p_result.push("</div>");
             
         //}
 
