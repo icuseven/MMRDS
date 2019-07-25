@@ -242,7 +242,7 @@ let fdTemplates = {
                 
                 let group = `
                             <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
-                                <legend style="width:auto; padding: 8px">${value.prompt}</legend>
+                                <legend>${value.prompt}</legend>
                                 ${groupFields}
                             </fieldset>`;
 

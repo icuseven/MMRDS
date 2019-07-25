@@ -11,7 +11,9 @@
 
 
 
-
+/*
+    These are custom overrides
+*/
 
 .form-designer-btn .material-icons {
     vertical-align: bottom;
@@ -25,4 +27,24 @@
 .form-designer-wrapper .form-designer-canvas label.form-field-item.ds-selected:hover,
 .form-designer-wrapper .form-designer-canvas label.resize-drag.ds-selected:hover {
     outline: 3px solid black;
+}
+
+/* Adding borders to legends */
+.form-designer-wrapper .form-designer-canvas fieldset legend {
+    display: inline-block;
+    font-size: 1.25rem !important;
+    margin: 0;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    width: auto;
+    border: 1px solid;
+    border-color: gray;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    background: var(--white);
+    top: 0;
+    transform: translateY(-50%);
 }
