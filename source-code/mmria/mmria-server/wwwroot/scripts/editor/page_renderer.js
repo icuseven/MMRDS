@@ -792,3 +792,53 @@ function get_only_font_style_string(p_specicification_style_string)
 
     return result.join(";");
 }
+
+function get_chart_size(p_style_string)
+{
+
+	var result = {
+		height: 240,
+		width: 480,
+		top: 10,
+		left:10
+	};
+
+	var top_regex = /"top":(\d+\.?\d*),/;
+	var left_regex = /"left":(\d+\.?\d*),/;
+
+	var width_regex = /"width":(\d+\.?\d*),/;
+	var height_regex = /"height":(\d+\.?\d*),/;
+
+
+	var outer_witdh =  null;
+	var outer_height = null;
+	var outer_top = null;
+	var outer_left = null;
+
+
+	var new_top = null;
+	var new_left = null;
+	var new_width = null;
+	var new_height = null;
+
+
+
+	var match = top_regex.exec(p_style_string);
+	outer_top = new Number(match[1]);
+
+	match = left_regex.exec(p_style_string);
+	outer_left = new Number(match[1]);
+
+	match = width_regex.exec(p_style_string);
+	outer_witdh = new Number(match[1]);
+
+	match = height_regex.exec(p_style_string);
+	outer_height = new Number(match[1]);
+
+	result.height = outer_height - 5;
+	result.width = outer_witdh - 5;
+
+	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
+
+	return result;
+}

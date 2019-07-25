@@ -2,25 +2,20 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 {
     p_result.push("<div  class='chart' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
-    
     p_result.push("' ");
     p_result.push(" mpath='");
     p_result.push(p_metadata_path);
     p_result.push("' ");
-
-
 	
-	
-	p_result.push(" style='");
-    //var key = p_dictionary_path.substring(1);
-
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
     {
-        p_result.push(get_style_string(style_object.control.style));
+		p_result.push(" style='");
+		p_result.push(get_style_string(style_object.control.style));
+		p_result.push("'>");
     }
 
-	p_result.push("'>");
+	p_result.push(">");
 
     p_result.push("<span ");
     if(p_metadata.description && p_metadata.description.length > 0)
@@ -35,15 +30,19 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     } 
     
     p_result.push(p_metadata.prompt);
-    p_result.push("</span>");
-    p_result.push("</div>");
+	p_result.push("</span>");
+	
+	p_result.push("</div>");
 
+	var chart_size = get_chart_size(style_object.control.style);
 
-    p_post_html_render.push("  c3.generate({");
-    p_post_html_render.push("  size: {");
-    p_post_html_render.push("  height: 240,");
-    p_post_html_render.push("  width: 480");
-    p_post_html_render.push("  },");
+	p_post_html_render.push("  c3.generate({");
+	p_post_html_render.push("  size: {");
+	p_post_html_render.push("  height: ");
+	p_post_html_render.push(chart_size.height);
+	p_post_html_render.push("px,  width: ");
+	p_post_html_render.push(chart_size.width);
+    p_post_html_render.push("px  },");
     p_post_html_render.push("  bindto: '#");
     p_post_html_render.push(convert_object_path_to_jquery_id(p_object_path));
     p_post_html_render.push("',");
