@@ -3,12 +3,27 @@
 
 
 
+.grid-control-action-icn 
+{
+    font-size: 14px;
+    font-weight: 700;
+    position: absolute;
+}
 
+.grid-control-action-btn 
+{
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
 
-
-
-
-
+.grid-control-btn 
+{
+    box-shadow: 2px 3px 5px rgba(0,0,0,.25);
+    bottom: 16px;
+    left: 16px;
+    position: absolute;
+}
 
 
 /*

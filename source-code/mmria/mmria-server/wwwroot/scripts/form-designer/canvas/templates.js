@@ -240,11 +240,36 @@ let fdTemplates = {
                     }
                 )
                 
-                let group = `
-                            <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
-                                <legend>${value.prompt}</legend>
-                                ${groupFields}
-                            </fieldset>`;
+                let group = null;
+
+                if(value.type.toLowerCase() == 'grid')
+                {
+                    group = `
+                    <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
+                        <legend>${value.prompt} - 4 item(s)</legend>
+                        <div style="overflow-y: scroll;height: 100%;">
+                            <div class="grid-control-action-icn row no-gutters" style="padding:32px 12px 16px;">
+                                <button type="button" class="grid-control-action-btn mr-1" title="delete">
+                                <span class="x24 fill-p text-secondary cdc-icon-close"></span><span class="sr-only">Close</span></button><span> item 1 of 4</span>
+                            </div> 
+                        
+                            ${groupFields}
+                        
+                        </div>
+                        <button type="button" class="grid-control-btn btn btn-primary d-flex align-items-center">
+
+                        <span class="x24 cdc-icon-plus"></span> Add Item</button>
+                        </fieldset>`;
+                }
+                else
+                {
+                    group = `
+                    <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
+                        <legend>${value.prompt}</legend>
+                        ${groupFields}
+                        </fieldset>`;
+
+                }
 
                 return group;
             }
