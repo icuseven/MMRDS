@@ -8,7 +8,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
  * @constructor
  * @param {Object} options - The options object.
  */
-function DragSelect(options) {
+function DragSelect(options) 
+{
     this.multiSelectKeyPressed;
     this.initialCursorPos = {
         x: 0,
@@ -37,7 +38,8 @@ function DragSelect(options) {
  */
 
 
-DragSelect.prototype._createBindings = function () {
+DragSelect.prototype._createBindings = function () 
+{
     this._startUp = this._startUp.bind(this);
     this._handleMove = this._handleMove.bind(this);
     this.reset = this.reset.bind(this);
@@ -48,7 +50,8 @@ DragSelect.prototype._createBindings = function () {
  */
 
 
-DragSelect.prototype._setupOptions = function (options) {
+DragSelect.prototype._setupOptions = function (options) 
+{
     this.selectedClass = options.selectedClass || 'ds-selected';
     this.hoverClass = options.hoverClass || 'ds-hover';
     this.selectorClass = options.selectorClass || 'ds-selector';
@@ -76,11 +79,13 @@ DragSelect.prototype._setupOptions = function (options) {
     this.area = options.area || document;
     this.customStyles = options.customStyles; // Area has to have a special position attribute for calculations
 
-    if (this.area !== document) {
+    if (this.area !== document) 
+    {
         var computedArea = getComputedStyle(this.area);
         var isPositioned = computedArea.position === 'absolute' || computedArea.position === 'relative' || computedArea.position === 'fixed';
 
-        if (!isPositioned) {
+        if (!isPositioned) 
+        {
             this.area.style.position = 'relative';
         }
     } // Selector
@@ -98,29 +103,36 @@ DragSelect.prototype._setupOptions = function (options) {
  */
 
 
-DragSelect.prototype._handleSelectables = function (selectables, remove, fromSelection) {
-    for (var index = 0; index < selectables.length; index++) {
+DragSelect.prototype._handleSelectables = function (selectables, remove, fromSelection) 
+{
+    for (var index = 0; index < selectables.length; index++) 
+    {
         var selectable = selectables[index];
         var indexOf = this.selectables.indexOf(selectable);
 
-        if (indexOf < 0 && !remove) {
+        if (indexOf < 0 && !remove) 
+        {
             // add
             this.addClass(selectable, this.selectableClass);
             selectable.addEventListener('click', this._onClick);
             this.selectables.push(selectable); // also add to current selection
 
-            if (fromSelection && this.selected.indexOf(selectable) < 0) {
+            if (fromSelection && this.selected.indexOf(selectable) < 0) 
+            {
                 this.addClass(selectable, this.selectedClass);
                 this.selected.push(selectable);
             }
-        } else if (indexOf > -1 && remove) {
+        } 
+        else if (indexOf > -1 && remove) 
+        {
             // remove
             this.removeClass(selectable, this.hoverClass);
             this.removeClass(selectable, this.selectableClass);
             selectable.removeEventListener('click', this._onClick);
             this.selectables.splice(indexOf, 1); // also remove from current selection
 
-            if (fromSelection && this.selected.indexOf(selectable) > -1) {
+            if (fromSelection && this.selected.indexOf(selectable) > -1) 
+            {
                 this.removeClass(selectable, this.selectedClass);
                 this.selected.splice(this.selected.indexOf(selectable), 1);
             }
@@ -139,29 +151,35 @@ DragSelect.prototype._handleSelectables = function (selectables, remove, fromSel
  */
 
 
-DragSelect.prototype._onClick = function (event) {
-    if (this.mouseInteraction) {
+DragSelect.prototype._onClick = function (event) 
+{
+    if (this.mouseInteraction) 
+    {
         return;
     } // fix firefox doubleclick issue
 
 
-    if (this.isRightClick(event)) {
+    if (this.isRightClick(event)) 
+    {
         return;
     }
 
     var node = event.target;
 
-    if (this.isMultiSelectKeyPressed(event)) {
+    if (this.isMultiSelectKeyPressed(event)) 
+    {
         this._prevSelected = this.selected.slice();
     } // #9
-    else {
+    else 
+    {
         this._prevSelected = [];
     } // #9
 
 
     this.checkIfInsideSelection(true); // reset selection if no multiselectionkeypressed
 
-    if (this.selectables.indexOf(node) > -1) {
+    if (this.selectables.indexOf(node) > -1) 
+    {
         this.toggle(node);
     }
 
@@ -738,7 +756,8 @@ DragSelect.prototype.stop = function () {
  */
 
 
-DragSelect.prototype.getSelection = function () {
+DragSelect.prototype.getSelection = function () 
+{
     return this.selected;
 };
 /**
@@ -752,8 +771,10 @@ DragSelect.prototype.getSelection = function () {
  */
 
 
-DragSelect.prototype.getCursorPos = function (event, _area, ignoreScroll) {
-    if (!event) {
+DragSelect.prototype.getCursorPos = function (event, _area, ignoreScroll) 
+{
+    if (!event) 
+    {
         return false;
     }
 
@@ -784,19 +805,23 @@ DragSelect.prototype.getCursorPos = function (event, _area, ignoreScroll) {
  */
 
 
-DragSelect.prototype.addSelection = function (_nodes, _callback, dontAddToSelectables) {
+DragSelect.prototype.addSelection = function (_nodes, _callback, dontAddToSelectables) 
+{
     var nodes = this.toArray(_nodes);
 
-    for (var index = 0, il = nodes.length; index < il; index++) {
+    for (var index = 0, il = nodes.length; index < il; index++) 
+    {
         var node = nodes[index];
         this.select(node);
     }
 
-    if (!dontAddToSelectables) {
+    if (!dontAddToSelectables) 
+    {
         this.addSelectables(nodes);
     }
 
-    if (_callback) {
+    if (_callback) 
+    {
         this.callback(this.selected, false);
     }
 
@@ -813,19 +838,23 @@ DragSelect.prototype.addSelection = function (_nodes, _callback, dontAddToSelect
  */
 
 
-DragSelect.prototype.removeSelection = function (_nodes, _callback, removeFromSelectables) {
+DragSelect.prototype.removeSelection = function (_nodes, _callback, removeFromSelectables) 
+{
     var nodes = this.toArray(_nodes);
 
-    for (var index = 0, il = nodes.length; index < il; index++) {
+    for (var index = 0, il = nodes.length; index < il; index++) 
+    {
         var node = nodes[index];
         this.unselect(node);
     }
 
-    if (removeFromSelectables) {
+    if (removeFromSelectables) 
+    {
         this.removeSelectables(nodes);
     }
 
-    if (_callback) {
+    if (_callback) 
+    {
         this.callback(this.selected, false);
     }
 
@@ -843,15 +872,20 @@ DragSelect.prototype.removeSelection = function (_nodes, _callback, removeFromSe
  */
 
 
-DragSelect.prototype.toggleSelection = function (_nodes, _callback, _special) {
+DragSelect.prototype.toggleSelection = function (_nodes, _callback, _special) 
+{
     var nodes = this.toArray(_nodes);
 
-    for (var index = 0, il = nodes.length; index < il; index++) {
+    for (var index = 0, il = nodes.length; index < il; index++) 
+    {
         var node = nodes[index];
 
-        if (this.selected.indexOf(node) < 0) {
+        if (this.selected.indexOf(node) < 0) 
+        {
             this.addSelection(node, _callback, _special);
-        } else {
+        } 
+        else 
+        {
             this.removeSelection(node, _callback, _special);
         }
     }
@@ -868,7 +902,8 @@ DragSelect.prototype.toggleSelection = function (_nodes, _callback, _special) {
  */
 
 
-DragSelect.prototype.setSelection = function (_nodes, runCallback, dontAddToSelectables) {
+DragSelect.prototype.setSelection = function (_nodes, runCallback, dontAddToSelectables) 
+{
     this.clearSelection();
     this.addSelection(_nodes, runCallback, dontAddToSelectables);
     return this.selected;
@@ -881,15 +916,18 @@ DragSelect.prototype.setSelection = function (_nodes, runCallback, dontAddToSele
  */
 
 
-DragSelect.prototype.clearSelection = function (runCallback) {
+DragSelect.prototype.clearSelection = function (runCallback) 
+{
     var selection = this.selected.slice();
 
-    for (var index = 0, il = selection.length; index < il; index++) {
+    for (var index = 0, il = selection.length; index < il; index++) 
+    {
         var node = selection[index];
         this.unselect(node);
     }
 
-    if (runCallback) {
+    if (runCallback) 
+    {
         this.callback(this.selected, false);
     }
 
@@ -905,7 +943,8 @@ DragSelect.prototype.clearSelection = function (runCallback) {
  */
 
 
-DragSelect.prototype.addSelectables = function (_nodes, addToSelection) {
+DragSelect.prototype.addSelectables = function (_nodes, addToSelection) 
+{
     var nodes = this.toArray(_nodes);
 
     this._handleSelectables(nodes, false, addToSelection);
@@ -919,7 +958,8 @@ DragSelect.prototype.addSelectables = function (_nodes, addToSelection) {
  */
 
 
-DragSelect.prototype.getSelectables = function () {
+DragSelect.prototype.getSelectables = function () 
+{
     return this.selectables;
 };
 /**
@@ -935,7 +975,8 @@ DragSelect.prototype.getSelectables = function () {
  */
 
 
-DragSelect.prototype.setSelectables = function (_nodes, removeFromSelection, addToSelection) {
+DragSelect.prototype.setSelectables = function (_nodes, removeFromSelection, addToSelection) 
+{
     this.removeSelectables(this.getSelectables(), removeFromSelection);
     return this.addSelectables(_nodes, addToSelection);
 };
@@ -948,7 +989,8 @@ DragSelect.prototype.setSelectables = function (_nodes, removeFromSelection, add
  */
 
 
-DragSelect.prototype.removeSelectables = function (_nodes, removeFromSelection) {
+DragSelect.prototype.removeSelectables = function (_nodes, removeFromSelection) 
+{
     var nodes = this.toArray(_nodes);
 
     this._handleSelectables(nodes, true, removeFromSelection);
@@ -967,17 +1009,22 @@ DragSelect.prototype.removeSelectables = function (_nodes, removeFromSelection) 
  */
 
 
-DragSelect.prototype.isRightClick = function (event) {
-    if (!event) {
+DragSelect.prototype.isRightClick = function (event) 
+{
+    if (!event) 
+    {
         return false;
     }
 
     var isRightMB = false;
 
-    if ('which' in event) {
+    if ('which' in event) 
+    {
         // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
         isRightMB = event.which === 3;
-    } else if ('button' in event) {
+    } 
+    else if ('button' in event) 
+    {
         // IE, Opera
         isRightMB = event.button === 2;
     }
@@ -995,19 +1042,23 @@ DragSelect.prototype.isRightClick = function (event) {
  */
 
 
-DragSelect.prototype.addClass = function (element, classname) {
-    if (element.classList) {
+DragSelect.prototype.addClass = function (element, classname) 
+{
+    if (element.classList) 
+    {
         return element.classList.add(classname);
     }
 
     var cn = element.getAttribute('class') || '';
 
-    if (cn.indexOf(classname) !== -1) {
+    if (cn.indexOf(classname) !== -1) 
+    {
         return element;
     } // test for existance
 
 
-    if (cn !== '') {
+    if (cn !== '') 
+    {
         classname = ' ' + classname;
     } // add a space if the element already has class
 
@@ -1026,8 +1077,10 @@ DragSelect.prototype.addClass = function (element, classname) {
  */
 
 
-DragSelect.prototype.removeClass = function (element, classname) {
-    if (element.classList) {
+DragSelect.prototype.removeClass = function (element, classname) 
+{
+    if (element.classList) 
+    {
         return element.classList.remove(classname);
     }
 
@@ -1047,16 +1100,21 @@ DragSelect.prototype.removeClass = function (element, classname) {
  */
 
 
-DragSelect.prototype.hasClass = function (element, classname) {
-    if (element.classList) {
+DragSelect.prototype.hasClass = function (element, classname) 
+{
+    if (element.classList) 
+    {
         return element.classList.contains(classname);
     }
 
     var cn = element.getAttribute('class') || '';
 
-    if (cn.indexOf(classname) > -1) {
+    if (cn.indexOf(classname) > -1) 
+    {
         return true;
-    } else {
+    }
+    else 
+    {
         return false;
     }
 };
@@ -1069,18 +1127,22 @@ DragSelect.prototype.hasClass = function (element, classname) {
  */
 
 
-DragSelect.prototype.toArray = function (nodes) {
-    if (!nodes) {
+DragSelect.prototype.toArray = function (nodes) 
+{
+    if (!nodes) 
+    {
         return false;
     }
 
-    if (!nodes.length && this.isElement(nodes)) {
+    if (!nodes.length && this.isElement(nodes)) 
+    {
         return [nodes];
     }
 
     var array = [];
 
-    for (var i = nodes.length - 1; i >= 0; i--) {
+    for (var i = nodes.length - 1; i >= 0; i--) 
+    {
         array[i] = nodes[i];
     }
 
@@ -1095,11 +1157,15 @@ DragSelect.prototype.toArray = function (nodes) {
  */
 
 
-DragSelect.prototype.isElement = function (node) {
-    try {
+DragSelect.prototype.isElement = function (node) 
+{
+    try 
+    {
         // Using W3 DOM2 (works for FF, Opera and Chrome), also checking for SVGs
         return node instanceof HTMLElement || node instanceof SVGElement;
-    } catch (e) {
+    } 
+    catch (e) 
+    {
         // Browsers not supporting W3 DOM2 don't have HTMLElement and
         // an exception is thrown and we end up here. Testing some
         // properties that all elements have. (works even on IE7)
@@ -1118,8 +1184,10 @@ DragSelect.prototype.isElement = function (node) {
  */
 
 
-DragSelect.prototype._getCursorPos = function (event, area) {
-    if (!event) {
+DragSelect.prototype._getCursorPos = function (event, area) 
+{
+    if (!event) 
+    {
         return {
             x: 0,
             y: 0
@@ -1127,7 +1195,8 @@ DragSelect.prototype._getCursorPos = function (event, area) {
     } // touchend has not touches. so we take the last toucb if a touchevent, we need to store the positions on the prototype
 
 
-    if (event.touches && event.type !== 'touchend') {
+    if (event.touches && event.type !== 'touchend') 
+    {
         DragSelect.prototype.lastTouch = event;
     } //if a touchevent, return the last touch rather than the regular event
     // we need .touches[0] from that event instead
@@ -1155,7 +1224,8 @@ DragSelect.prototype._getCursorPos = function (event, area) {
  */
 
 
-DragSelect.prototype.getInitialCursorPosition = function () {
+DragSelect.prototype.getInitialCursorPosition = function () 
+{
     return this.initialCursorPos;
 };
 /**
@@ -1165,7 +1235,8 @@ DragSelect.prototype.getInitialCursorPosition = function () {
  */
 
 
-DragSelect.prototype.getCurrentCursorPosition = function () {
+DragSelect.prototype.getCurrentCursorPosition = function () 
+{
     return this.newCursorPos;
 };
 /**
@@ -1175,7 +1246,8 @@ DragSelect.prototype.getCurrentCursorPosition = function () {
  */
 
 
-DragSelect.prototype.getPreviousCursorPosition = function () {
+DragSelect.prototype.getPreviousCursorPosition = function () 
+{
     return this.previousCursorPos;
 };
 /**
@@ -1188,7 +1260,8 @@ DragSelect.prototype.getPreviousCursorPosition = function () {
  */
 
 
-DragSelect.prototype.getCursorPositionDifference = function (usePreviousCursorDifference) {
+DragSelect.prototype.getCursorPositionDifference = function (usePreviousCursorDifference) 
+{
     var posA = this.getCurrentCursorPosition();
     var posB = usePreviousCursorDifference ? this.getPreviousCursorPosition() : this.getInitialCursorPosition();
     return {
@@ -1205,7 +1278,8 @@ DragSelect.prototype.getCursorPositionDifference = function (usePreviousCursorDi
  */
 
 
-DragSelect.prototype.getScroll = function (area) {
+DragSelect.prototype.getScroll = function (area) 
+{
     var body = {
         top: document.body.scrollTop > 0 ? document.body.scrollTop : document.documentElement.scrollTop,
         left: document.body.scrollLeft > 0 ? document.body.scrollLeft : document.documentElement.scrollLeft
@@ -1227,8 +1301,10 @@ DragSelect.prototype.getScroll = function (area) {
  */
 
 
-DragSelect.prototype.getAreaRect = function (area) {
-    if (area === document) {
+DragSelect.prototype.getAreaRect = function (area) 
+{
+    if (area === document) 
+    {
         var size = {
             y: area.documentElement.clientHeight > 0 ? area.documentElement.clientHeight : window.innerHeight,
             x: area.documentElement.clientWidth > 0 ? area.documentElement.clientWidth : window.innerWidth
@@ -1263,7 +1339,8 @@ DragSelect.prototype.getAreaRect = function (area) {
  */
 
 
-DragSelect.prototype.updatePos = function (node, pos) {
+DragSelect.prototype.updatePos = function (node, pos) 
+{
     node.style.left = pos.x + 'px';
     node.style.top = pos.y + 'px';
     node.style.width = pos.w + 'px';
@@ -1276,12 +1353,21 @@ DragSelect.prototype.updatePos = function (node, pos) {
 // Module exporting
 
 
-if (typeof module !== 'undefined' && module !== null) {
+if (typeof module !== 'undefined' && module !== null) 
+{
     module.exports = DragSelect; // AMD Modules
-} else if (typeof define !== 'undefined' && typeof define === 'function' && define) {
-    define(function () {
-        return DragSelect;
-    });
-} else {
+}
+else if (typeof define !== 'undefined' && typeof define === 'function' && define) 
+{
+    define
+    (
+        function () 
+        {
+            return DragSelect;
+        }
+    );
+} 
+else 
+{
     window.DragSelect = DragSelect;
 }
