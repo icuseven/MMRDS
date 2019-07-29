@@ -1,1 +1,0 @@
-<%@ taglib uri="//java.sun.com/jsp/jstl/core" prefix="c" %><h2><a href="./">Fetal Alcohol Spectrum Disorders</a></h2>

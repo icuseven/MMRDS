@@ -1,1 +1,0 @@
-siteCatalyst.setLevel2("Set your level 2 here"); 

@@ -1,6 +1,0 @@
-stateColDataCallback({ 
-   "0":  {"title":"Name", "value":"name"},
-   "1":  {"title":"ID", "value":"id"},
-   "2":  {"title":"Abbreviation", "value":"abbreviation"}
-});
-

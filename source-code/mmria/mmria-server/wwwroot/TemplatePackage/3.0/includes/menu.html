@@ -1,8 +1,0 @@
-	<div class="hidden-three hidden-four" id="mobile-menu">
-		<ul>
-			<li id="vp1-menu-button" class="border-bottom-white"><a href="#" id="menu-nav"><span class="sprite-16-menu"></span>MENU</a></li>
-			<li id="vp1-a2z-button" class="border-bottom-white"><a href="#" id="menu-az">CDC A-Z</a></li>
-			<li id="vp1-search-button" class="border-bottom-white"><a href="#" id="menu-search"><span class="sprite-16-search-white"></span>SEARCH</a></li>
-		</ul>
-	</div>
-<script>if (typeof page_timing !== 'undefined') { page_timing.menu_load = Date.now(); }</script>
