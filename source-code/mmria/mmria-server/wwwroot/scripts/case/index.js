@@ -1404,9 +1404,16 @@ function print_case_onchange()
 
   if(section_id && section_id.length > 0)
   {
-    open_print_version(section_id);
+    if(section_id == "core-summary")
+    {
+      open_core_summary("all");
+    }
+    else
+    {
+      open_print_version(section_id);
+    }
+    
   }
-  
 }
 
 function open_print_version(p_section)

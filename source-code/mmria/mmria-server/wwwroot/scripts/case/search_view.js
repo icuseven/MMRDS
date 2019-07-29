@@ -92,8 +92,20 @@ function render_search_text(p_ctx)
                 {
                     var child_data = p_ctx.data[i];
                     
-                    let new_context = get_seach_text_context(p_ctx.result, p_ctx.metadata, child_data, p_ctx.mmria_path + "/" + i + "/", p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text);
-                    render_search_text(new_context);
+                    //let new_context = get_seach_text_context(p_ctx.result, p_ctx.metadata, child_data, p_ctx.mmria_path + "/" + i + "/", p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text);
+                    //render_search_text(new_context);
+
+                    for(var j in p_ctx.metadata.children)
+                    {
+                        let child_metadata = p_ctx.metadata.children[j];
+
+                        
+                        let new_context = get_seach_text_context(p_ctx.result, child_metadata, child_data[child_metadata.name], p_ctx.mmria_path + "/" + p_ctx.metadata.name + "/" + child_metadata.name, p_ctx.metadata_path  + ".children[" + i + "]"  + ".children[" + j + "]", p_ctx.object_path + "." + child_metadata.name, p_ctx.search_text);
+                        render_search_text(new_context);
+                        //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
+                        
+                        
+                    }
                 
                 }
             //}

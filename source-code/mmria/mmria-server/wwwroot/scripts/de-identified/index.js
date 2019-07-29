@@ -985,6 +985,23 @@ var save_interval_id = null;
 var save_queue = [];
 
 	
+function print_case_onchange()
+{
+  var section_id = document.getElementById("print_case_id").value;
+
+  if(section_id && section_id.length > 0)
+  {
+    if(section_id == "core-summary")
+    {
+      open_core_summary("all");
+    }
+    else
+    {
+      open_print_version(section_id);
+    }
+    
+  }
+}
 
 function open_print_version(p_section)
 {
