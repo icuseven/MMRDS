@@ -35,7 +35,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_result.push(p_metadata.prompt);
 
 			p_result.push("</label> ");
-			p_result.push("<div style='position:relative'>");
+			p_result.push("<div>");
 			page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
 			
