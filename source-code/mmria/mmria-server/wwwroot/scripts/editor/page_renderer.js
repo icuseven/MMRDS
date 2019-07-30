@@ -195,18 +195,22 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 	p_result.push("<input ");
 
-    p_result.push(" style='");
-    
-/*
-	var key = p_dictionary_path.substring(1);
-    if
-    (
-        g_default_ui_specification && 
-        g_default_ui_specification.form_design[key]  &&
-        g_default_ui_specification.form_design[key].control &&
-        g_default_ui_specification.form_design[key].control.style
+
+	if
+	(
+		p_metadata.is_read_only && 	
+		(
+			p_metadata.is_read_only == true ||
+			p_metadata.is_read_only == "true"
+		)
 	)
-*/
+	{
+				p_result.push(" readonly='true' ");
+	}
+
+
+	p_result.push(" style='");
+	
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
 	if(style_object)
@@ -296,40 +300,6 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			
 		}
 		p_result.push("' ");
-
-		/*if
-		(
-			(
-				p_metadata.type.toLowerCase()=="datetime" ||
-				p_metadata.type.toLowerCase()=="time"
-			) &&
-			p_data &&
-			p_data != ""
-			
-		)
-		{
-			var test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+$/);
-			if
-			(
-				p_metadata.type.toLowerCase()=="time" &&
-				test
-			)
-			{
-				var temp_date = new Date(p_data);
-				p_result.push(p_data + "Z");
-			}
-			else
-			{
-				p_result.push(p_data);
-			}
-		}
-		else
-		{*/
-		//}
-			
-
-	
-
 
 		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
 		if(path_to_onfocus_map[p_metadata_path])
@@ -599,6 +569,18 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	p_result.push(" class='");
 	p_result.push(p_metadata.type.toLowerCase());
 	p_result.push("' ");
+
+	if
+	(
+		p_metadata.is_read_only && 	
+		(
+			p_metadata.is_read_only == true ||
+			p_metadata.is_read_only == "true"
+		)
+	)
+	{
+				p_result.push(" readonly='true' ");
+	}
 
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object)
