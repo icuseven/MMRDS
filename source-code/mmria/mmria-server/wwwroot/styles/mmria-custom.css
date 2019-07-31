@@ -416,7 +416,7 @@ button  {
   SITE-WIDE
 */
 .site {
-  height: 100%;
+  min-height: 100%; /* Helps auto height based on content flow */
 }
 
 
