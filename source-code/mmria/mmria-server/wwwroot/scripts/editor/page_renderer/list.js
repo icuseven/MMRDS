@@ -530,11 +530,8 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
                 value='${item.value}'
                 onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'
                 ${is_selected}
-                style='${get_style_string(item_style.control.style)}'
-             >  
                 
-             </input>`
-        ;
+             />`;
 
         if (item.description == null || item.description === '') 
         {
@@ -630,10 +627,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'
                 ${is_selected}
                 
-             >  
-                
-             </input>`
-        ;
+             />`;
 
         if (item.description == null || item.description === '') 
         {
