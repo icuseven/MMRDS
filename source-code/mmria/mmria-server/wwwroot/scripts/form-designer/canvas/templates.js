@@ -74,7 +74,7 @@ let fdTemplates = {
             },
             list: function (formName, value) 
             { 
-                let listOptions = fdTemplates.formFields.controls.listOptions(value);
+                let listOptions = fdTemplates.formFields.controls.listOptions(value, formName + "--" + value.name);
                 let listField;
 
                 /*
@@ -109,6 +109,25 @@ let fdTemplates = {
                                 `;
 
                 }
+                else if
+                (
+                    (value.is_multiselect && value.is_multiselect == true) ||
+                    value.control_style && 
+                    (
+                        value.control_style.indexOf("checkbox") > -1 ||
+                        value.control_style.indexOf("radio") > -1
+                    )
+                )
+                {
+
+                    listField = `
+                    <fieldset id="${formName}--${value.name}" class="resize-drag drag-drop yes-drop fd-path-object"> 
+                        <legend>${value.prompt}</legend>
+                            ${listOptions}
+                        </fieldset>`;
+
+
+                }
                 else
                 {
                     listField = `
@@ -120,7 +139,7 @@ let fdTemplates = {
                 //}
                 return listField;
             },
-            listOptions: function (data) 
+            listOptions: function (data, formName) 
             { 
                 let values;
                 if (data.path_reference !== undefined) 
@@ -143,26 +162,60 @@ let fdTemplates = {
                 }
 
                 let markup = '';
-                /*
-                if(data.is_multiselect) {
-                    $.each(values, function (index, value) {
-                        if (value.value === '') {
-                            return true;
-                        }
-                        markup += `
-                                  <div class="form-check form-check-inline" style="width:45%">
-                                    <input class="form-check-input" type="checkbox" id="${data.prompt}${index}" value="${value.value}">
-                                    <label class="form-check-label" for="${data.prompt}${index}">${value.value}</label>
-                                  </div>`;
-                    })
-                } else {
-                    */
-
-
+ 
+                if
+                (
+                    (data.control_style && data.control_style.indexOf("checkbox") > -1) ||
+                    (data.is_multiselect && data.is_multiselect == true)
+                )
+                {
                     $.each
                     (
                         values,
-                         function (index, value) 
+                            function (index, value) 
+                        {
+                            
+                            markup += `<input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="checkbox" ></input>`;
+                            if (value.description == null || value.description === '') 
+                            {
+                                
+                                markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.value}</label>`;
+                            }
+                            else 
+                            {
+                                markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.description}</label>`;
+                            }
+                        }
+                    );
+                }
+                else if(data.control_style && data.control_style.indexOf("radio") > -1)
+                {
+                    $.each
+                    (
+                        values,
+                            function (index, value) 
+                        {
+
+                            markup += `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.description}</label>`;
+                            markup += `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="radio" ></input>`;
+                            /*
+                            if (value.value === '') 
+                            {
+                                markup += `<option selected>- select -</option>`;
+                            }
+                            else 
+                            {
+                                markup += `<option value="${value.value}">${value.value}</option>`;
+                            }*/
+                        }
+                    );
+                }
+                else
+                {
+                    $.each
+                    (
+                        values,
+                            function (index, value) 
                         {
                             if (value.value === '') 
                             {
@@ -174,8 +227,8 @@ let fdTemplates = {
                             }
                         }
                     );
-                //}
-
+                }
+ 
                 return markup;
             },
             date: function (formName, value) 
