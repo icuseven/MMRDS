@@ -557,19 +557,39 @@ button  {
   margin-top: 1rem;
 }
 
-.app-content {
-  background-color: var(--white);
-  padding: 1rem;
-}
-.app-sidebar + .app-content {
-  padding-left: 35px;
-}
-
 .app-sidebar {
   height: 100%;
+  max-width: 276px;
   padding: 1rem;
   position: sticky;
   top: 0; /* required */
+
+  /* Mobile layout width */
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .app-sidebar {
+     /* The below width is used to calculate app-content's width */
+    width: 280px;
+  }
+}
+
+.app-content {
+  background-color: var(--white);
+  padding: 1rem;
+
+  /* Mobile layout width */
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .app-content {
+    /* The below width is calculated from app-sidebar's width */
+    width: calc(100% - 280px);
+  }
+}
+
+.app-sidebar + .app-content {
+  padding-left: 25px;
 }
 
 

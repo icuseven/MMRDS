@@ -83,20 +83,15 @@
 
   <main id="content" class="container-fluid app-main" role="main" aria-label="Main Content Area">
     <div class="row">
-      <aside class="col-md-3 col-xl-2 app-sidebar">
-        <nav role="navigation" aria-label="Left Navigation Menu">
-          <div class="nav-section-home d-sm-block">
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
-              <title>home</title>
-              <path d="M9.984 20.016h-4.969v-8.016h-3l9.984-9 9.984 9h-3v8.016h-4.969v-6h-4.031v6z"></path>
-            </svg><a href="/">Home</a>
-          </div>
-          <ul id="navbar" class="list-group tp-nav-main list-unstyled"></ul>
-        </nav>
-      </aside>
+      <aside class="app-sidebar">
 
-      <div class="col-md-9 col-xl-10 app-content">
+        @await Html.PartialAsync("_SideBarNav")
+
+      </aside>
+      <div class="app-content">
+
         @RenderBody()
+
       </div>
     </div>
   </main>
