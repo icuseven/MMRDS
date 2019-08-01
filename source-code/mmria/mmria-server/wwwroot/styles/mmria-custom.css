@@ -782,6 +782,7 @@ button  {
 */
 
 .construct-output {
+  color: var(--black);
   position: relative;
 }
 
