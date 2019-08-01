@@ -186,22 +186,22 @@ let fdTemplates = {
                             function (index, value) 
                         {
                             
-                            markup += `<input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="checkbox" ></input>`;
+                            //markup += `<input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="checkbox" ></input>`;
                             if (value.description == null || value.description === '') 
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">(blank)</label>`;
+                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" type="checkbox" /> (blank)</label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.value}</label>`;
+                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" type="checkbox" /> ${value.value}</label>`;
                                 }   
                                 //markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.value}</label>`;
                             }
                             else 
                             {
-                                markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.description}</label>`;
+                                markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" type="checkbox" /> ${value.description}</label>`;
                             }
                         }
                     );
@@ -214,22 +214,22 @@ let fdTemplates = {
                             function (index, value) 
                         {
 
-                            markup += `<input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" name="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="radio" ></input>`;
+                            //markup += `<input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" name="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="radio" ></input>`;
                             if (value.description == null || value.description === '') 
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">(blank)</label>`;
+                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" name="${formName}--${value.value.replace(/[\/ ]/g, "--")}" type="radio" ></input> (blank)</label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.value}</label>`;
+                                    markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" name="${formName}--${value.value.replace(/[\/ ]/g, "--")}" type="radio" ></input> ${value.value}</label>`;
                                 }
                                 
                             }
                             else 
                             {
-                                markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.description}</label>`;
+                                markup += `<label for="${formName}--${value.value.replace(/[\/ ]/g, "--")}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input id="${formName}--${value.value.replace(/[\/ ]/g, "--")}" name="${formName}--${value.value.replace(/[\/ ]/g, "--")}" type="radio" ></input> ${value.description}</label>`;
                             }
                         }
                     );

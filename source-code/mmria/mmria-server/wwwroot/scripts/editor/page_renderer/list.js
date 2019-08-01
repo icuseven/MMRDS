@@ -522,8 +522,8 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
             is_selected = " checked ";
         }
 
-        p_result.push
-        (
+        let input_html =
+        
             `<input 
                 id='${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
                 type='radio' 
@@ -534,23 +534,23 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
              >  
                 
              </input>`
-        );
+        ;
 
         if (item.description == null || item.description === '') 
         {
             if(item.value == null || item.value == '')
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">(blank)</label>`);
+                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${input_html} (blank)</label>`);
             }
             else 
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${item.value}</label>`);
+                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${input_html} ${item.value}</label>`);
             }
             
         }
         else 
         {
-            p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}" >${item.description}</label>`);
+            p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}" >${input_html} ${item.description}</label>`);
         }
     }
 
@@ -622,35 +622,34 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             is_selected = " checked ";
         }
 
-        p_result.push
-        (
+        let input_html = 
             `<input 
                 id='${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
                 type='checkbox' 
                 value='${item.value}'
                 onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'
                 ${is_selected}
-                style='${get_style_string(item_style.control.style)}'
+                
              >  
                 
              </input>`
-        );
+        ;
 
         if (item.description == null || item.description === '') 
         {
             if(item.value == null || item.value == '')
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">(blank)</label>`);
+                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${input_html} (blank)</label>`);
             }
             else 
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${item.value}</label>`);
+                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${input_html}  ${item.value}</label>`);
             }
             
         }
         else 
         {
-            p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}" >${item.description}</label>`);
+            p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}" >${input_html}  ${item.description}</label>`);
         }
     }
     
