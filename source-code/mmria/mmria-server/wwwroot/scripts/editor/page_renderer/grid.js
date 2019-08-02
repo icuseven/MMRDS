@@ -1,4 +1,4 @@
-function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
     var is_grid_context = true;
 
@@ -56,7 +56,8 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_object_path + "[" + i + "]." + child.name,
                             p_dictionary_path + "/" + child.name,
                             is_grid_context,
-                            p_post_html_render
+                            p_post_html_render,
+                            p_search_ctx
                         )
                     );
                 }

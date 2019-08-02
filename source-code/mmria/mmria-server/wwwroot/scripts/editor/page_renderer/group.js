@@ -1,4 +1,4 @@
-function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
     p_result.push("<fieldset id='");
     p_result.push(p_metadata.name);
@@ -39,7 +39,7 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
             p_data[child.name] = create_default_object(child, {})[child.name];
         }
 
-        Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render));
+        Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
 
     }
     p_result.push("</fieldset>");

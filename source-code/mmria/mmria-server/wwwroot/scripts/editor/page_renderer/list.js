@@ -1,10 +1,10 @@
 
-function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
 
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
-        Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render));
+        Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
         return;
     }
     else if
@@ -13,12 +13,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         (p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("checkbox") > -1)
     )
     {
-        Array.prototype.push.apply(p_result, list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render));
+        Array.prototype.push.apply(p_result, list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
         return;
     }
     else if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("radio") > -1) 
     {
-        Array.prototype.push.apply(p_result, list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render));
+        Array.prototype.push.apply(p_result, list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
         return;
     }
 
@@ -215,7 +215,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 }
 
 
-function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
@@ -458,7 +458,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
 }
 
-function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
@@ -556,7 +556,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
     p_result.push("</div>");
 }
 
-function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
+function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
     let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
