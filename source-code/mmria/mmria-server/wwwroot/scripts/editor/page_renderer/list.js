@@ -487,7 +487,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
     }
 
     p_result.push(" >"); // close opening div
-    p_result.push("<legend style='");
+    p_result.push("<legend ");
 
     if(style_object && style_object.prompt)
     {
@@ -558,7 +558,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
 
 function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
-    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
     p_result.push("<div class='list' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
@@ -582,9 +582,9 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     }
 
     p_result.push(">"); // close opening div
-    p_result.push("<legend style='");
+    p_result.push("<legend ");
 
-    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+    //var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     if(style_object && style_object.prompt)
     {
         p_result.push(" style='");
@@ -606,52 +606,70 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     
     for(var i in p_metadata.values)
     {
-        var item = p_metadata.values[i];
+        let item = p_metadata.values[i];
 
-        var item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "/");
+        let item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "/");
 
-        var item_style = g_default_ui_specification.form_design[item_key];
+        let item_style = g_default_ui_specification.form_design[item_key];
 
-        var is_selected = "";
+        let is_selected = "";
 
-        if (item.value == p_data)
+        if (p_data.indexOf(item.value) > -1)
         {
             is_selected = " checked ";
         }
 
-        let input_html = 
-            `<input 
-                id='${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
-                type='checkbox' 
-                value='${item.value}'
-                onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'
-                ${is_selected}
-                
-             />`;
+        let id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--");
 
         if (item.description == null || item.description === '') 
         {
             if(item.value == null || item.value == '')
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${input_html} (blank)</label>`);
+                p_result.push("<label style='" + get_style_string(item_style.prompt.style) + "' for='" + convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--") + "'>");
+                list_checkbox_input_render(p_result, id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected);
+                p_result.push(" (blank)</label>");
             }
             else 
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}">${input_html}  ${item.value}</label>`);
+                p_result.push("<label style='" + get_style_string(item_style.prompt.style) + "' for='" + convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--") + "'>");
+                list_checkbox_input_render(p_result, id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected);
+                p_result.push(" " + item.value + "</label>");
             }
             
         }
         else 
         {
-            p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--")}" >${input_html}  ${item.description}</label>`);
+            p_result.push("<label style='" + get_style_string(item_style.prompt.style) + "' for='" + convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/[\/ ]/g, "--") + "'>");
+            list_checkbox_input_render(p_result, id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected);
+            p_result.push(" " + item.description + "</label>");
         }
     }
-    
-
     p_result.push("</fieldset>");
 
     p_result.push("</div>");
     
 }
 
+function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected)
+{
 
+
+    p_result.push("<input id='");
+    p_result.push(p_id);
+    p_result.push("' type='checkbox' ");
+    p_result.push(" value='");
+    p_result.push(p_item.value);
+    p_result.push("' onclick=g_set_data_object_from_path(\'");
+    p_result.push(p_object_path);
+    p_result.push("\',\'");
+    p_result.push(p_metadata_path);
+    p_result.push("\',\'");
+    p_result.push(p_dictionary_path);
+    p_result.push("\',this.value) ");
+    p_result.push(p_is_selected);
+    p_result.push("></input>");
+
+
+
+
+}
