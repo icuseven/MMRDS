@@ -572,7 +572,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     p_result.push("<fieldset id='");
     p_result.push(p_metadata.name);
-    p_result.push("_id' class='checkbox-list' ");
+    p_result.push("_id' class='checkboxes' ");
 
     if(style_object)
     {
