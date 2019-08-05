@@ -88,53 +88,62 @@ formDesigner = {
       let path;
 
       // Loop through all elements of current form and prep
-      $.each(elems, function(index, value) {
-        parent = $(value).parent();
-        parentID = parent[0].id;
-        if (value.tagName === 'LABEL') {
-          targetID = $(value)[0].htmlFor;
-          target = `label[for='${targetID}']`;
-          promptVcontrol = 'prompt';
-          path = targetID.replace(/--/g, '/');
-        } else {
-          target = `#${value.id}`;
-          promptVcontrol = 'control';
-          path = value.id.replace(/--/g, '/');
-        }
-
-        let elemPos = $(target).position();;
-
-        if(parentID === 'temp-wrap' && unwrap) {
-          elemPos = $(target).offsetRelative('.form-designer-canvas');
-        }
-        let elemHeight = $(target).outerHeight();
-        let elemWidth = $(target).outerWidth();
-        let fontWeight = $(target).css('font-weight');
-        let fontSize = $(target).css('font-size');
-        let fontStyle = $(target).css('font-style');
-        let fontColor = $(target).css('color');
-        let cssSytle = {
-            position: 'absolute',
-            top: elemPos.top,
-            left: elemPos.left,
-            height: elemHeight,
-            width: elemWidth,
-            'font-weight': fontWeight,
-            'font-size': fontSize,
-            'font-style': fontStyle,
-            color: fontColor
-        };
-        
-
-        // Add current element/path to fdObject
-        if(init === false) 
+      $.each
+      (
+        elems,
+        function(index, value) 
         {
-          formDesigner.fdObjectHandler.addPath(path, cssSytle, promptVcontrol);
-        }
+          parent = $(value).parent();
+          parentID = parent[0].id;
+          if (value.tagName === 'LABEL') 
+          {
+            targetID = $(value)[0].htmlFor;
+            target = `label[for='${targetID}']`;
+            promptVcontrol = 'prompt';
+            path = targetID.replace(/--/g, '/');
+          } 
+          else 
+          {
+            target = `#${value.id}`;
+            promptVcontrol = 'control';
+            path = value.id.replace(/--/g, '/');
+          }
 
-        // Add current element/path to array for later inline style setting
-        newElems.push({target: target, style: cssSytle, promptVcontrol: promptVcontrol, path: path});
-      });
+          let elemPos = $(target).position();;
+
+          if(parentID === 'temp-wrap' && unwrap) 
+          {
+            elemPos = $(target).offsetRelative('.form-designer-canvas');
+          }
+
+          let elemHeight = $(target).outerHeight();
+          let elemWidth = $(target).outerWidth();
+          let fontWeight = $(target).css('font-weight');
+          let fontSize = $(target).css('font-size');
+          let fontStyle = $(target).css('font-style');
+          let fontColor = $(target).css('color');
+          let cssSytle = {
+              position: 'absolute',
+              top: elemPos.top,
+              left: elemPos.left,
+              height: elemHeight,
+              width: elemWidth,
+              'font-weight': fontWeight,
+              'font-size': fontSize,
+              'font-style': fontStyle,
+              color: fontColor
+          };
+          
+          // Add current element/path to fdObject
+          if(init === false) 
+          {
+            formDesigner.fdObjectHandler.addPath(path, cssSytle, promptVcontrol);
+          }
+
+          // Add current element/path to array for later inline style setting
+          newElems.push({target: target, style: cssSytle, promptVcontrol: promptVcontrol, path: path});
+        }
+      );
 
       // Update specification info (includes writing to modal).
       formDesigner.fdObjectHandler.mapToSpec();

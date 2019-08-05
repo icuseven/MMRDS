@@ -519,7 +519,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         }
         else
         {
-            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "/");//.replace(/\//g, "--")
+            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "--").replace(/--/g, '/');//.replace(/\//g, "--")
         }
         var item_style = g_default_ui_specification.form_design[item_key];
 
@@ -625,7 +625,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         }
         else
         {
-            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "/");
+            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "--").replace(/--/g, '/');
         }
         
         let item_style = g_default_ui_specification.form_design[item_key];
