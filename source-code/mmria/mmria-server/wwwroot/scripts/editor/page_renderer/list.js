@@ -519,7 +519,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         }
         else
         {
-            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/\//g, "__").replace(/ /g, "/");
+            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "/");//.replace(/\//g, "--")
         }
         var item_style = g_default_ui_specification.form_design[item_key];
 
@@ -531,7 +531,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         }
 
 
-        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "__").replace(/ /g, "--");
+        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--");
         let input_html = 
             `<input 
                 id='${object_id}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
@@ -638,7 +638,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         }
 
         //let object_id = ;
-        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "__").replace(/ /g, "--");
+        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--");
 
         if (item.description == null || item.description === '') 
         {

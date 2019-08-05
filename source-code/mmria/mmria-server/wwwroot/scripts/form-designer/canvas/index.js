@@ -273,6 +273,9 @@ formDesigner = {
     },
     modifySpec: function(name = null, height = null, width = null) 
     {
+      var ma = document.getElementById("fd-messages");
+      ma.innerHTML = "";
+
       if (name) 
       { 
         uiSpecification.currentObject.name = name; 
@@ -310,7 +313,7 @@ formDesigner = {
             formDesigner.uiSpecHandler.dashboard.infoDisplay(); // Rebuild infoDisplay to reflect changes
             formDesigner.canvasHandler.setDimensions();
 
-            var ma = document.getElementById("fd-messages");
+            
             ma.innerHTML = "save completed SUCCESSFULLY @ " + new Date().toISOString();
 
           }
