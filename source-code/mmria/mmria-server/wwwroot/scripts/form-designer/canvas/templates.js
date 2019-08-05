@@ -186,7 +186,7 @@ let fdTemplates = {
                             function (index, value) 
                         {
                          
-                            let control_id = formName + "--" + value.value.replace(/\//g, "__").replace(/ /g, "--");
+                            let control_id = formName + "--" + value.value.replace(/\//g, "__").replace(/ /g, "--").replace(/'/g, "-");
                             if (value.description == null || value.description === '') 
                             {
                                 if(value.value == null || value.value == '')
@@ -213,7 +213,7 @@ let fdTemplates = {
                             function (index, value) 
                         {
 
-                            let control_id = formName + "--" + value.value.replace(/\//g, "__").replace(/ /g, "--"); //.replace(/[\/ ]/g, "--");
+                            let control_id = formName + "--" + value.value.replace(/\//g, "__").replace(/ /g, "--").replace(/'/g, "-"); //.replace(/[\/ ]/g, "--");
                             if (value.description == null || value.description === '') 
                             {
                                 if(value.value == null || value.value == '')
