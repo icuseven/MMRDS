@@ -3,6 +3,28 @@
 
 
 
+
+
+
+.form-designer-wrapper {
+    border: 2px solid;
+    border-color: #009688;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, .1) 1px, transparent 1px);
+}
+
+.form-designer-alert {
+    background-color: rgba(255,255,255,.78);
+    /* background-color: #009688; */
+    border: 1px solid #009688;
+    border-radius: 4px;
+    /* color: var(--white); */
+    font-weight: 700;
+    padding: 12px;
+    position: absolute;
+}
+
 .grid-control-action-icn 
 {
     font-size: 14px;
@@ -62,4 +84,17 @@
     background: var(--white);
     top: 0;
     transform: translateY(-50%);
+}
+
+.fd-custom-input .bmd-form-group {
+    padding-top: 0;
+}
+
+.fd-custom-input input {
+    height: calc(2.4375rem + 2px);
+    padding: .375rem 1.75rem .375rem .75rem;
+    border: 1px solid lightgray;
+    line-height: 1.5;
+    border-radius: 3px;
+    outline: none;
 }

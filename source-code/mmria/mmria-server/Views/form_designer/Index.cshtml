@@ -77,25 +77,37 @@
                     <div id="local-rev-container">Local Revision # 0</div>
                     <div id="fd-canvas-controls" class="row">
                         <div class="col-sm">
-                            <p>
-                                <button type="button" class="btn btn-primary" title="Move/Drag Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.wrap()" id="btn-multiDrag"><i class="material-icons">open_with</i></button>
-                                <!-- <button type="button" class="btn btn-primary" title="Un-wrap Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.unwrap()"><i class="material-icons">speaker_notes_off</i></button> -->
-                                <button type="button" class="btn btn-primary" title="Elements Inline" onclick="javascript: formDesigner.canvasHandler.wysiwyg.inline()"><i class="material-icons">reorder</i></button>
-                                <button type="button" class="btn btn-primary" title="Font Color" onclick="javascript: formDesigner.canvasHandler.wysiwyg.color()"><i class="material-icons">color_lens</i></button>
-                                <button type="button" class="btn btn-primary" title="Italic" onclick="javascript: formDesigner.canvasHandler.wysiwyg.italic()" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="material-icons">format_italic</i></button>
-                                <button type="button" class="btn btn-primary" title="Bold" onclick="javascript: formDesigner.canvasHandler.wysiwyg.bold()" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="material-icons">format_bold</i></button>
-                                <button type="button" class="btn btn-primary" title="Increase Font Size" onclick="javascript: formDesigner.canvasHandler.wysiwyg.fontSize('increase')"><i class="material-icons">add_circle</i></button>
-                                <button type="button" class="btn btn-primary" title="Decrease Font Size" onclick="javascript: formDesigner.canvasHandler.wysiwyg.fontSize('decrease')"><i class="material-icons">indeterminate_check_box</i></button>
-                                <button type="button" class="btn btn-primary" title="Stack Labels & Controls" onclick="javascript: formDesigner.canvasHandler.wysiwyg.stackLabelControl(true)"><i class="material-icons">vertical_split</i></button>
-                                <button type="button" class="btn btn-primary" title="Inline Labes & Controls" onclick="javascript: formDesigner.canvasHandler.wysiwyg.stackLabelControl(false)"><i class="material-icons">horizontal_split</i></button>
+                            <p class="row no-gutters align-items-center">
+                                <span>
+                                    <button type="button" class="btn btn-primary" title="Move/Drag Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.wrap()" id="btn-multiDrag"><i class="material-icons">open_with</i></button>
+                                    <!-- <button type="button" class="btn btn-primary" title="Un-wrap Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.unwrap()"><i class="material-icons">speaker_notes_off</i></button> -->
+                                    <button type="button" class="btn btn-primary" title="Elements Inline" onclick="javascript: formDesigner.canvasHandler.wysiwyg.inline()"><i class="material-icons">reorder</i></button>
+                                    <button type="button" class="btn btn-primary" title="Font Color" onclick="javascript: formDesigner.canvasHandler.wysiwyg.color()"><i class="material-icons">color_lens</i></button>
+                                    <button type="button" class="btn btn-primary" title="Italic" onclick="javascript: formDesigner.canvasHandler.wysiwyg.italic()" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="material-icons">format_italic</i></button>
+                                    <button type="button" class="btn btn-primary" title="Bold" onclick="javascript: formDesigner.canvasHandler.wysiwyg.bold()" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="material-icons">format_bold</i></button>
+                                    <button type="button" class="btn btn-primary" title="Increase Font Size" onclick="javascript: formDesigner.canvasHandler.wysiwyg.fontSize('increase')"><i class="material-icons">add_circle</i></button>
+                                    <button type="button" class="btn btn-primary" title="Decrease Font Size" onclick="javascript: formDesigner.canvasHandler.wysiwyg.fontSize('decrease')"><i class="material-icons">indeterminate_check_box</i></button>
+                                    <button type="button" class="btn btn-primary" title="Stack Labels & Controls" onclick="javascript: formDesigner.canvasHandler.wysiwyg.stackLabelControl(true)"><i class="material-icons">vertical_split</i></button>
+                                    <button type="button" class="btn btn-primary" title="Inline Labes & Controls" onclick="javascript: formDesigner.canvasHandler.wysiwyg.stackLabelControl(false)"><i class="material-icons">horizontal_split</i></button>
+                                </span>
+                                <span class="form-inline fd-custom-input">
+                                    <label for="custom-commands" class="mr-1"><small>Custom commands:</small></label>
+                                    <input id="custom-commands" class="" type="text" placeholder="Ex: Align left, Align top" />
+                                </span>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div id="fd-canvas-wrapper" class="dropzone form-designer-wrapper">
-                    <div id="fd-canvas" class="resize-container form-designer-canvas">
-                        <p id="alert-select-spec">....please add and/or select a specification</p>
-                        <p id="alert-select-formtype">....please select a form type</p>
+                <div class="row no-guttersow">
+                    <div id="fd-canvas-wrapper" class="col-10 dropzone form-designer-wrapper">
+                        <div id="fd-canvas" class="resize-container form-designer-canvas">
+                            <p id="alert-select-spec" class="form-designer-alert">....please add and/or select a specification</p>
+                            <p id="alert-select-formtype" class="form-designer-alert">....please select a form type</p>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <label for="fd-messages">Messages</label>
+                        <textarea id="fd-messages" style="padding:10px;width:100%" rows="10"></textarea>
                     </div>
                 </div>
             </div>
