@@ -6,14 +6,6 @@
 
 
 
-.form-designer-wrapper {
-    border: 2px solid;
-    border-color: #009688;
-    background-image:
-        linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, .1) 1px, transparent 1px);
-}
-
 .form-designer-alert {
     background-color: rgba(255,255,255,.78);
     /* background-color: #009688; */
@@ -48,22 +40,48 @@
 }
 
 
+
+
+
+
+
+
+
+
+
 /*
     These are custom overrides
 */
 
+.form-designer-wrapper {
+    border: 2px solid;
+    border-color: #009688;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, .1) 1px, transparent 1px);
+}
+
 .form-designer-btn .material-icons {
     vertical-align: bottom;
+}
+
+.form-designer-wrapper .form-designer-canvas label.form-field-item {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .form-designer-wrapper .form-designer-canvas label.form-field-item:hover,
 .form-designer-wrapper .form-designer-canvas label.resize-drag:hover {
     border: none;
     outline: 1px solid lightgray;
+    padding-left: 0;
+    padding-right: 0;
 }
 .form-designer-wrapper .form-designer-canvas label.form-field-item.ds-selected:hover,
 .form-designer-wrapper .form-designer-canvas label.resize-drag.ds-selected:hover {
     outline: 3px solid black;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* Adding borders to legends */
@@ -88,6 +106,7 @@
 
 .fd-custom-input .bmd-form-group {
     padding-top: 0;
+    width: 100%;
 }
 
 .fd-custom-input input {
@@ -97,4 +116,5 @@
     line-height: 1.5;
     border-radius: 3px;
     outline: none;
+    width: 95%;
 }

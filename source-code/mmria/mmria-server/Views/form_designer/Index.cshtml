@@ -75,10 +75,10 @@
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSpecModal">Delete</button>
                     </span>
                     <div id="local-rev-container">Local Revision # 0</div>
-                    <div id="fd-canvas-controls" class="row">
+                    <div id="fd-canvas-controls" class="row mb-2">
                         <div class="col-sm">
-                            <p class="row no-gutters align-items-center">
-                                <span>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col">
                                     <button type="button" class="btn btn-primary" title="Move/Drag Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.wrap()" id="btn-multiDrag"><i class="material-icons">open_with</i></button>
                                     <!-- <button type="button" class="btn btn-primary" title="Un-wrap Elements" onclick="javascript: formDesigner.canvasHandler.wysiwyg.unwrap()"><i class="material-icons">speaker_notes_off</i></button> -->
                                     <button type="button" class="btn btn-primary" title="Elements Inline" onclick="javascript: formDesigner.canvasHandler.wysiwyg.inline()"><i class="material-icons">reorder</i></button>
@@ -89,12 +89,12 @@
                                     <button type="button" class="btn btn-primary" title="Decrease Font Size" onclick="javascript: formDesigner.canvasHandler.wysiwyg.fontSize('decrease')"><i class="material-icons">indeterminate_check_box</i></button>
                                     <button type="button" class="btn btn-primary" title="Stack Labels & Controls" onclick="javascript: formDesigner.canvasHandler.wysiwyg.stackLabelControl(true)"><i class="material-icons">vertical_split</i></button>
                                     <button type="button" class="btn btn-primary" title="Inline Labes & Controls" onclick="javascript: formDesigner.canvasHandler.wysiwyg.stackLabelControl(false)"><i class="material-icons">horizontal_split</i></button>
-                                </span>
-                                <span class="form-inline fd-custom-input">
-                                    <label for="custom-commands" class="mr-1"><small>Custom commands:</small></label>
-                                    <input id="custom-commands" class="" type="text" placeholder="Ex: Align left, Align top" />
-                                </span>
-                            </p>
+                                </div>
+                                <div class="col form-inline fd-custom-input">
+                                    <label for="custom-fd-commands" class="sr-only">Custom commands:</label>
+                                    <input id="custom-fd-commands" type="text" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
