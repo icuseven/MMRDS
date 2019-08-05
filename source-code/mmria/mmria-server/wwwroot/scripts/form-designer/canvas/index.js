@@ -234,18 +234,26 @@ formDesigner = {
 
       // Clear the spec name field
       $("#ui-spec-name-field").val('');
-      $.ajax({
+      $.ajax
+      (
+        {
         url: apiURL + endpointUISpecification,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(newSpec),
         type: "POST"
-      }).done(function(response) {
-        let response_obj = eval(response);
-        if (response_obj.ok) {
-          formDesigner.uiSpecHandler.newBuild();
         }
-      });
+      ).done
+      (
+        function(response) 
+        {
+          let response_obj = eval(response);
+          if (response_obj.ok) 
+          {
+            formDesigner.uiSpecHandler.newBuild();
+          }
+        }
+      );
     },
     deleteSpec: function() {
       $.ajax({
@@ -263,28 +271,60 @@ formDesigner = {
         }
       });
     },
-    modifySpec: function(name = null, height = null, width = null) {
-      if (name) { uiSpecification.currentObject.name = name; }
-      if (height) { uiSpecification.currentObject.dimension.height = height; }
-      if (width) { 
+    modifySpec: function(name = null, height = null, width = null) 
+    {
+      if (name) 
+      { 
+        uiSpecification.currentObject.name = name; 
+      }
+
+      if (height) 
+      {
+        uiSpecification.currentObject.dimension.height = height;
+      }
+
+      if (width) 
+      { 
         uiSpecification.currentObject.dimension.width = width;
       }
-      $.ajax({
-        url: apiURL + endpointUISpecification + uiSpecification.currentID,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(uiSpecification.currentObject),
-        type: "POST"
-      }).done(function(response) {
-        let response_obj = eval(response);
-        if (response_obj.ok) {
-          formDesigner.uiSpecHandler.newBuild();
-          let selector = { value: uiSpecification.currentID };
-          formDesigner.uiSpecHandler.setCurrent(selector); // Reset current spec in case user deleted current
-          formDesigner.uiSpecHandler.dashboard.infoDisplay(); // Rebuild infoDisplay to reflect changes
-          formDesigner.canvasHandler.setDimensions();
+
+      $.ajax
+      (
+        {
+          url: apiURL + endpointUISpecification + uiSpecification.currentID,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify(uiSpecification.currentObject),
+          type: "POST"
         }
-      });
+      ).done
+      (
+        function(response) 
+        {
+          let response_obj = eval(response);
+          if (response_obj.ok) 
+          {
+            formDesigner.uiSpecHandler.newBuild();
+            let selector = { value: uiSpecification.currentID };
+            formDesigner.uiSpecHandler.setCurrent(selector); // Reset current spec in case user deleted current
+            formDesigner.uiSpecHandler.dashboard.infoDisplay(); // Rebuild infoDisplay to reflect changes
+            formDesigner.canvasHandler.setDimensions();
+
+            var ma = document.getElementById("fd-messages");
+            ma.innerHTML = "save completed SUCCESSFULLY @ " + new Date().toISOString();
+
+          }
+        }
+      )
+      .fail
+      (
+        function (xhr, status, error) 
+        {
+          
+          var ma = document.getElementById("fd-messages");
+          ma.innerHTML = "save ERROR " + status + " @ " + new Date().toISOString() + "\n" + error;
+        }
+      );
     },
     getSpec: function(currentID) {
       $.get(apiURL + endpointUISpecification + currentID)
@@ -563,3 +603,12 @@ formDesigner = {
 formDesigner.dataHandler.newBuild();
 formDesigner.uiSpecHandler.newBuild();
 
+function execute_command_click()
+{
+  //custom-fd-commands
+  var message_area = document.getElementById("fd-messages");
+
+
+  message_area.innerHTML = "execute command clicked";
+
+}
