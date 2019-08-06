@@ -109,7 +109,7 @@
     width: 100%;
 }
 
-.fd-custom-input input {
+.custom-fd-control {
     height: calc(2.4375rem + 2px);
     padding: .375rem 1.75rem .375rem .75rem;
     border: 1px solid lightgray;
@@ -117,4 +117,20 @@
     border-radius: 3px;
     outline: none;
     width: 95%;
+}
+
+.custom-fd-btn {
+    background-color: #009688;
+    border-radius: 0 4px 4px 0;
+    color: var(--white);
+    height: 100%;
+    font-weight: 700;
+    margin-bottom: 0;
+    right: 0;
+    position: absolute;
+}
+.custom-fd-btn:focus,
+.custom-fd-btn:hover {
+    background-color: #009688;
+    color: var(--white);
 }
