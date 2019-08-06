@@ -802,24 +802,24 @@ function align_width_selection()
 
   var result = "";
 
-  var selected_item_list = document.getElementsByClassName("ds-selected");
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
 
   result += "\n number of items selected: " + selected_item_list.length;
 
   if(selected_item_list.length > 0)
   {
 
+    selected_item_list.sort(align_width_compare);
+
     var lowest_width = selected_item_list[0].offsetWidth;
 
-    for(var i = 0; i < selected_item_list.length; i++)
-    {
-      if(selected_item_list[i].offseWidth < lowest_width)
-      {
-        lowest_width = selected_item_list[i].offseWidth;
-      }
-    }
-
-    for(var i = 0; i < selected_item_list.length; i++)
+    for(var i = 1; i < selected_item_list.length; i++)
     {
       selected_item_list[i].style.width = lowest_width + "px";
     }
@@ -834,24 +834,25 @@ function align_height_selection()
 
   var result = "";
 
-  var selected_item_list = document.getElementsByClassName("ds-selected");
+
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
 
   result += "\n number of items selected: " + selected_item_list.length;
 
   if(selected_item_list.length > 0)
   {
 
+    selected_item_list.sort(align_height_compare);
+
     var lowest_height = selected_item_list[0].offsetHeight;
 
-    for(var i = 0; i < selected_item_list.length; i++)
-    {
-      if(selected_item_list[i].offseHeight < lowest_height)
-      {
-        lowest_height = selected_item_list[i].offseHeight;
-      }
-    }
-
-    for(var i = 0; i < selected_item_list.length; i++)
+    for(var i = 1; i < selected_item_list.length; i++)
     {
       selected_item_list[i].style.height = lowest_height + "px";
     }
@@ -955,6 +956,22 @@ function align_top_compare(a, b)
 {
   if (a.offsetTop > b.offsetTop) return 1;
   if (b.offsetTop > a.offsetTop) return -1;
+
+  return 0;
+}
+
+function align_height_compare(a, b)
+{
+  if (a.offsetHeight > b.offsetHeight) return 1;
+  if (b.offsetHeight > a.offsetHeight) return -1;
+
+  return 0;
+}
+
+function align_width_compare(a, b)
+{
+  if (a.offsetHeight > b.offsetHeight) return 1;
+  if (b.offsetHeight > a.offsetHeight) return -1;
 
   return 0;
 }
