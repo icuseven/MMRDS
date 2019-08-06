@@ -186,21 +186,21 @@ let fdTemplates = {
                             function (index, value) 
                         {
                          
-                            let control_id = formName + "--" + value.value.replace(/\//g, "__").replace(/ /g, "--").replace(/'/g, "-");
+                            let control_id = formName + "--" + value.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
                             if (value.description == null || value.description === '') 
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input type="checkbox" /> (blank)</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /> (blank)</label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input type="checkbox" /> ${value.value}</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /> ${value.value}</label>`;
                                 }   
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input type="checkbox" /> ${value.description}</label>`;
+                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /> ${value.description}</label>`;
                             }
                         }
                     );
@@ -213,21 +213,21 @@ let fdTemplates = {
                             function (index, value) 
                         {
 
-                            let control_id = formName + "--" + value.value.replace(/\//g, "__").replace(/ /g, "--").replace(/'/g, "-"); //.replace(/[\/ ]/g, "--");
+                            let control_id = formName + "--" + value.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-"); //.replace(/[\/ ]/g, "--");
                             if (value.description == null || value.description === '') 
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input name="${control_id}" type="radio" ></input> (blank)</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input> (blank)</label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input name="${control_id}" type="radio" ></input> ${value.value}</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input> ${value.value}</label>`;
                                 }
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object"><input name="${control_id}" type="radio" ></input> ${value.description}</label>`;
+                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input> ${value.description}</label>`;
                             }
                         }
                     );
