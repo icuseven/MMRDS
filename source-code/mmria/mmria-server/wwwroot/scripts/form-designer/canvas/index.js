@@ -617,10 +617,132 @@ formDesigner.uiSpecHandler.newBuild();
 
 function execute_command_click()
 {
-  //custom-fd-commands
+  //
   var message_area = document.getElementById("fd-messages");
+  var cmd_text = document.getElementById("custom-fd-commands").value;
+
+  var message = "execute command clicked\n\n" + cmd_text;
+  switch(cmd_text.toLowerCase())
+  {
+      case "ls":
+        message += "\n\nlist selection";
+
+        message += list_selection();
+        break;
+      case "al":
+          message += "\n\nalign left selection";
+
+          message += align_left_selection()
+
+          break;
+      case "at":
+          message += "\n\nalign top selection";
+
+          message += align_top_selection()
+          break;
+      
+  }
+
+  message_area.innerHTML = message;
+
+}
+
+function list_selection()
+{
+
+  var result = "";
+
+  var selected_item_list = document.getElementsByClassName("ds-selected");
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  for(var i = 0; i < selected_item_list.length; i++)
+  {
+    var item = selected_item_list[i];
+
+    if(item.localName)
+    switch(item.localName.toLowerCase())
+    {
+      case "label":
+      case "input":
+        var rect = item.getBoundingClientRect();
 
 
-  message_area.innerHTML = "execute command clicked";
+        result += "\n\t" + item.localName;
 
+        result += " left: " + item.offsetLeft
+        result += " top: " + item.offsetTop
+        result += " right: " + item.offsetRight
+        result += " bottom: " + item.offsetBottom
+        break;
+    }
+  }
+
+
+  return result;
+}
+
+
+
+function align_left_selection()
+{
+
+  var result = "";
+
+  var selected_item_list = document.getElementsByClassName("ds-selected");
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length > 0)
+  {
+
+    var lowest_left = selected_item_list[0].offsetLeft;
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      if(selected_item_list[i].offsetLeft < lowest_left)
+      {
+        lowest_left = selected_item_list[i].offsetLeft;
+      }
+    }
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      selected_item_list[i].style.left = lowest_left + "px";
+    }
+  }
+  
+  return result;
+}
+
+
+function align_top_selection()
+{
+
+  var result = "";
+
+  var selected_item_list = document.getElementsByClassName("ds-selected");
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length > 0)
+  {
+
+    var lowest_top = selected_item_list[0].offsetTop;
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      if(selected_item_list[i].offseTop < lowest_top)
+      {
+        lowest_top = selected_item_list[i].offseTop;
+      }
+    }
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      selected_item_list[i].style.top = lowest_top + "px";
+    }
+  }
+
+  return result;
 }
