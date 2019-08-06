@@ -619,10 +619,12 @@ function execute_command_click()
 {
   //
   var message_area = document.getElementById("fd-messages");
-  var cmd_text = document.getElementById("custom-fd-commands").value;
+  var cmd_text = document.getElementById("custom-fd-commands").value.split(' ');
 
   var message = "execute command clicked\n\n" + cmd_text;
-  switch(cmd_text.toLowerCase())
+
+  
+  switch(cmd_text[0].toLowerCase())
   {
       case "ls":
         message += "\n\nlist selection";
@@ -653,6 +655,34 @@ function execute_command_click()
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_height_selection()
           break;
+      case "ahs":
+          message += "\n\nalign height space of selection";
+          formDesigner.fdObjectHandler.quickSnap(true);
+          if(cmd_text.length > 1)
+          {
+            message += align_height_space_of_selection(cmd_text[1])
+          }
+          else
+          {
+            message += align_height_space_of_selection(25);
+          }
+          
+          break;
+      case "aws":
+          message += "\n\nalign height space of selection";
+          formDesigner.fdObjectHandler.quickSnap(true);
+          if(cmd_text.length > 1)
+          {
+            message += align_width_space_of_selection(cmd_text[1])
+          }
+          else
+          {
+            message += align_width_space_of_selection(25);
+          }
+          
+          break;
+
+          
   }
 
   message_area.innerHTML = message;
@@ -821,4 +851,88 @@ function align_height_selection()
   }
 
   return result;
+}
+
+
+function align_height_space_of_selection(p_pixels)
+{
+
+  var result = "";
+
+  var html_list = document.getElementsByClassName("ds-selected");
+
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+  
+  
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  
+  if(selected_item_list.length > 1)
+  {
+    selected_item_list.sort(align_top_compare);
+
+    for(var i = 1; i < selected_item_list.length; i++)
+    {
+      var previous_item = selected_item_list[i - 1];
+      selected_item_list[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_pixels))  + "px";
+    }
+  }
+
+  return result;
+}
+
+
+function align_width_space_of_selection(p_pixels)
+{
+
+  var result = "";
+
+  var html_list = document.getElementsByClassName("ds-selected");
+
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+  
+  
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  
+  if(selected_item_list.length > 1)
+  {
+    selected_item_list.sort(align_left_compare);
+
+    for(var i = 1; i < selected_item_list.length; i++)
+    {
+      var previous_item = selected_item_list[i - 1];
+      selected_item_list[i].style.left = (previous_item.offsetLeft + previous_item.offsetWidth + new Number(p_pixels))  + "px";
+    }
+  }
+
+  return result;
+}
+
+function align_left_compare(a, b)
+{
+  if (a.offsetLeft > b.offsetLeft) return 1;
+  if (b.offsetLeft > a.offsetLeft) return -1;
+
+  return 0;
+}
+
+function align_top_compare(a, b)
+{
+  if (a.offsetTop > b.offsetTop) return 1;
+  if (b.offsetTop > a.offsetTop) return -1;
+
+  return 0;
 }
