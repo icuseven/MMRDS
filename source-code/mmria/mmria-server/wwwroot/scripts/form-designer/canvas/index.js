@@ -632,22 +632,25 @@ function execute_command_click()
       case "al":
           message += "\n\nalign left selection";
 
+          formDesigner.fdObjectHandler.quickSnap(true);
           message += align_left_selection()
 
           break;
       case "at":
           message += "\n\nalign top selection";
 
+          formDesigner.fdObjectHandler.quickSnap(true);
           message += align_top_selection()
           break;
       case "aw":
           message += "\n\nalign width selection";
 
+          formDesigner.fdObjectHandler.quickSnap(true);
           message += align_width_selection()
           break;
       case "ah":
           message += "\n\nalign height selection";
-
+          formDesigner.fdObjectHandler.quickSnap(true);
           message += align_height_selection()
           break;
   }

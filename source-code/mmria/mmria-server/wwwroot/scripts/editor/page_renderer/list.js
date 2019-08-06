@@ -671,8 +671,6 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
 function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected)
 {
-
-
     p_result.push("<input id='");
     p_result.push(p_id);
     p_result.push("' type='checkbox' ");
@@ -687,8 +685,4 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push("\',this.value) ");
     p_result.push(p_is_selected);
     p_result.push("></input>");
-
-
-
-
 }
