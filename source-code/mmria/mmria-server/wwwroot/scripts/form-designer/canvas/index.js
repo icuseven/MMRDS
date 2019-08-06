@@ -660,7 +660,14 @@ function execute_command_click()
           formDesigner.fdObjectHandler.quickSnap(true);
           if(cmd_text.length > 1)
           {
-            message += align_height_space_of_selection(cmd_text[1])
+            if(cmd_text.length > 2)
+            {
+              message += align_height_space_of_selection(cmd_text[1], cmd_text[2])
+            }
+            else
+            {
+              message += align_height_space_of_selection(cmd_text[1])
+            }
           }
           else
           {
@@ -854,7 +861,7 @@ function align_height_selection()
 }
 
 
-function align_height_space_of_selection(p_pixels)
+function align_height_space_of_selection(p_pixels, p_field_pixels)
 {
 
   var result = "";
@@ -880,7 +887,21 @@ function align_height_space_of_selection(p_pixels)
     for(var i = 1; i < selected_item_list.length; i++)
     {
       var previous_item = selected_item_list[i - 1];
-      selected_item_list[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_pixels))  + "px";
+      if
+      (
+        previous_item.localName && 
+        previous_item.localName == "label" && 
+        p_field_pixels
+
+      )
+      {
+        selected_item_list[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_field_pixels))  + "px";
+      }
+      else
+      {
+        selected_item_list[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_pixels))  + "px";
+      }
+      
     }
   }
 
@@ -914,6 +935,7 @@ function align_width_space_of_selection(p_pixels)
     for(var i = 1; i < selected_item_list.length; i++)
     {
       var previous_item = selected_item_list[i - 1];
+
       selected_item_list[i].style.left = (previous_item.offsetLeft + previous_item.offsetWidth + new Number(p_pixels))  + "px";
     }
   }
