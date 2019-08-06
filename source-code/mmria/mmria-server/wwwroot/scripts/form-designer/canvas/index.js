@@ -640,7 +640,16 @@ function execute_command_click()
 
           message += align_top_selection()
           break;
-      
+      case "aw":
+          message += "\n\nalign width selection";
+
+          message += align_width_selection()
+          break;
+      case "ah":
+          message += "\n\nalign height selection";
+
+          message += align_height_selection()
+          break;
   }
 
   message_area.innerHTML = message;
@@ -741,6 +750,70 @@ function align_top_selection()
     for(var i = 0; i < selected_item_list.length; i++)
     {
       selected_item_list[i].style.top = lowest_top + "px";
+    }
+  }
+
+  return result;
+}
+
+
+function align_width_selection()
+{
+
+  var result = "";
+
+  var selected_item_list = document.getElementsByClassName("ds-selected");
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length > 0)
+  {
+
+    var lowest_width = selected_item_list[0].offsetWidth;
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      if(selected_item_list[i].offseWidth < lowest_width)
+      {
+        lowest_width = selected_item_list[i].offseWidth;
+      }
+    }
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      selected_item_list[i].style.width = lowest_width + "px";
+    }
+  }
+
+  return result;
+}
+
+
+function align_height_selection()
+{
+
+  var result = "";
+
+  var selected_item_list = document.getElementsByClassName("ds-selected");
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  if(selected_item_list.length > 0)
+  {
+
+    var lowest_height = selected_item_list[0].offsetHeight;
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      if(selected_item_list[i].offseHeight < lowest_height)
+      {
+        lowest_height = selected_item_list[i].offseHeight;
+      }
+    }
+
+    for(var i = 0; i < selected_item_list.length; i++)
+    {
+      selected_item_list[i].style.height = lowest_height + "px";
     }
   }
 
