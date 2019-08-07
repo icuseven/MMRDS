@@ -515,7 +515,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
 
         if(item.value == null | item.value == "")
         {
-            item_key = p_dictionary_path.substring(1);
+            item_key = p_dictionary_path.substring(1) + "/";
         }
         else
         {
@@ -621,7 +621,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
         if(item.value == null | item.value == "")
         {
-            item_key = p_dictionary_path.substring(1);
+            item_key = p_dictionary_path.substring(1) + "/";
         }
         else
         {
