@@ -75,7 +75,7 @@ let fdTemplates = {
             },
             textarea: function (formName, value) 
             {
-                return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80"></textarea>`;
+                return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80">This is a text area.</textarea>`;
             },
             button: function (formName, value) 
             {
