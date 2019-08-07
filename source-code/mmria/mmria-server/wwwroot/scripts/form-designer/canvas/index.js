@@ -676,7 +676,7 @@ function execute_command_click()
           
           break;
       case "aws":
-          message += "\n\nalign height space of selection";
+          message += "\n\nalign width space of selection";
           formDesigner.fdObjectHandler.quickSnap(true);
           if(cmd_text.length > 1)
           {
@@ -684,11 +684,21 @@ function execute_command_click()
           }
           else
           {
-            message += align_width_space_of_selection(25);
+            message += align_width_space_of_selection(15);
           }
           
           break;
 
+
+      case "stack":
+        message += "\n\nalign stack selected fields";
+        formDesigner.fdObjectHandler.quickSnap(true);
+        message += stack_selected_fields();
+
+        
+        break;          
+
+          
           
   }
 
@@ -975,3 +985,54 @@ function align_width_compare(a, b)
 
   return 0;
 }
+
+function stack_selected_fields(p_pixels)
+{
+
+  var result = "";
+
+  var html_list = document.getElementsByClassName("ds-selected");
+
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+  
+  
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  
+  if(selected_item_list.length > 1)
+  {
+    selected_item_list.sort(align_left_compare);
+
+    for(var i = 1; i < selected_item_list.length; i+=2)
+    {
+      var previous_item = selected_item_list[i - 1];
+      var current_item = selected_item_list[i];
+      if
+      (
+        previous_item.localName && 
+        previous_item.localName == "label" && 
+        current_item.localName &&
+        (
+          current_item.localName == "input" ||
+          current_item.localName == "textarea" ||
+          current_item.localName == "select"
+        )
+      )
+      {
+        //previous_item[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_field_pixels))  + "px";
+        current_item.style.top = (previous_item.offsetTop + previous_item.offsetHeight + 15)  + "px";
+        current_item.style.left = previous_item.offsetLeft + "px";
+      }      
+    }
+  }
+
+  return result;
+}
+
+
