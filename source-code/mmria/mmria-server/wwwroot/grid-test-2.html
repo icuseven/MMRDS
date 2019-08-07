@@ -17,104 +17,91 @@
 <!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
 
 
-<script src="./scripts/jquery-3.1.1.min.js"></script>
-<script src="./scripts/jquery-ui.min.js"></script>
-<script src="./scripts/jquery/moment.js"></script>
-<script src="./scripts/jquery/jquery.timepicker.js"></script>
-<script src="./scripts/jquery/jquery.numeric.min.js" type="text/javascript" ></script>
-<script src="./scripts/jquery/jquery.datetimepicker.js" type="text/javascript"></script>
+<!--script type=module src="./scripts/callbag/callbag-basics.min.js"></script-->
 
-<script src="./scripts/bootstrap/bootstrap.min.js"></script>
-<script src="./scripts/bootstrap/bootstrap-datetimepicker.min.js"></script>
-<script src="./scripts/bootstrap/jquery.bootstrap-touchspin.min.js"></script>
+<script type=module src="./scripts/module1.js"></script>
 
-<script src="./scripts/flatpickr/flatpickr.js"></script>
+<script>
+// src="./scripts/module1.js"
+//https://github.com/staltz/callbag-basics
+//https://codesandbox.io/s/p5jwlp0x07
+//https://github.com/callbag/callbag/wiki
+//https://github.com/callbag/callbag/blob/master/getting-started.md
 
+/*
+  import { forEach, fromEvent, map, pipe, merge, scan };// from "./scripts/callbag/callbag-basics.min.js";
+  import startWith from "callbag-start-with";
+  //console.clear()
+  console.log("Module is initialized!");
 
+  document.querySelector("#app").innerHTML = `
+    <input id="input"/>
+    <button id="button">Reverse</button>
+    <div id="output"/>
+  `;
 
-<script src="./scripts/pouchdb/pouchdb.min.js"></script>
-<script src="./scripts/pouchdb/pouchdb.authentication.min.js"></script>
-<script src="./scripts/esprima.js"></script>
-<script src="./scripts/escodegen.browser.js"></script>
-<script src="./scripts/mmria.js" type="text/javascript"></script>
+  const input = document.querySelector("#input");
+  const button = document.querySelector("#button");
 
-<script src="./scripts/d3/d3.min.js" type="text/javascript"></script>
-<script src="./scripts/d3/c3.min.js" type="text/javascript"></script>
+  //each event maps to a reducer
+  const setText = event => (prev, curr) => event.target.value;
+  const inputs = pipe(fromEvent(input, "input"), map(setText));
 
-<!-- script src="scripts/ajax.js" type="text/javascript"></script>
-<script src="react-test/meta_navigator.js" type="text/javascript"></script>
-<script src="react-test/meta_navigator.js" type="text/javascript"></script>
-<script src="scripts/editor/tree_node.js" type="text/javascript"></script>
-<script src="scripts/editor/editor.js" type="text/javascript"></script-->
-<script src="./scripts/metadata_summary.js" type="text/javascript"></script>
-<script src="./scripts/editor/navigation_renderer.js" type="text/javascript"></script>
-<script src="./scripts/editor/page_renderer.js" type="text/javascript"></script>
-<script src="./scripts/create_default_object.js" type="text/javascript"></script>
+  const reverse = prev =>
+    prev
+      .split("")
+      .reverse()
+      .join("");
+  const clicks = pipe(fromEvent(button, "click"), map(event => reverse));
 
-<script src="./scripts/profile.js" type="text/javascript"></script>
-<script src="./scripts/url_monitor.js" type="text/javascript"></script>
-<script src="./scripts/feed_back_utils.js" type="text/javascript"></script>
-<!--script src="./scripts/feed_back.js" type="text/javascript"></script-->
-<script src="./scripts/index_meta.js" type="text/javascript"> </script>
-<script src="./scripts/validator.js" type="text/javascript"> </script>
-</head>
-<body>
-<div classes="nav_wrapper" class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header"> 
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <img  class="navbar-brand" src="images/mmria-secondary.svg" height=75 width=100 style="padding: 1px 1px;" />
-          <!--a class="navbar-brand" href="#">MMRIA</a-->
-    </div>
+  const events = merge(clicks, inputs);
+  const source = pipe(events, startWith(() => "Type or Click"), scan((prev, fn) => fn(prev), ""));
 
-    <div  class="collapse navbar-collapse">
-          <div id="navbar">
-          <ul class="nav navbar-nav">
-            <!--li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li-->
+  const out = string =>
+    document.querySelector("#output").innerHTML = `<div>${string}</div>`;
 
-          </ul>
-          </div>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" id="profile_content_id">
-              <!--a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a>
-              <ul class="dropdown-menu" role="menu">
-                <li>
-                    <form id="profile_form"  role="form">
-                      <div class="form-group" ></div>
-                    </form>
-                </li>
-              </ul-->
-            </li>
-          </ul>
-    </div><!--/.nav-collapse -->
-  </div>
-  <div></div>
-</div>
-<div id='root'  class="container">
+  forEach(out)(source);
+*/
+</script>
+<script>
+
+function main()
+{
+  /*
+  document.querySelector("#app").innerHTML = `
+    <input id="input"/>
+    <button id="button">Reverse</button>
+    <div id="output"/>
+  `;
+
+  const input = document.querySelector("#input");
+  const button = document.querySelector("#button");
+
+  //each event maps to a reducer
+  const setText = event => (prev, curr) => event.target.value;
+  const inputs = pipe(fromEvent(input, "input"), map(setText));
+
+  const reverse = prev =>
+    prev
+      .split("")
+      .reverse()
+      .join("");
+  const clicks = pipe(fromEvent(button, "click"), map(event => reverse));
+
+  const events = merge(clicks, inputs);
+  const source = pipe(events, startWith(() => "Type or Click"), scan((prev, fn) => fn(prev), ""));
+
+  const out = string =>
+    document.querySelector("#output").innerHTML = `<div>${string}</div>`;
+
+  forEach(out)(source);  
+  */
+}
   
-	
-	<!--h1>App Element: MMRIA</h1-->
-  <div class="page-header" id="banner">
-    <div class="row">
-      <div class="col-lg-8 col-md-7 col-sm-6">
-            <!--h1>MMRIA</h1>
-            <p class="lead">Maternal mortality review information app.</p-->
-      </div>
-      
-    </div>
-  </div>
-  <div id='form_content_id'  class="text-primary"></div>
-  <div id='form_content_id1'  class="container"></div>
-	<div style="padding-bottom: 70px;text-align:right;clear:both;" class="navbar">
-    <%=version%>
-  </div>
-</div>
+</script>
+</head>
+<body onload="//main()">
+    <div id="app">bubba</div>
+
 </body>
 </html>
