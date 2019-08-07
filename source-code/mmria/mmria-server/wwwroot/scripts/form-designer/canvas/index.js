@@ -671,7 +671,7 @@ function execute_command_click()
           }
           else
           {
-            message += align_height_space_of_selection(25);
+            message += align_height_space_of_selection(15);
           }
           
           break;
