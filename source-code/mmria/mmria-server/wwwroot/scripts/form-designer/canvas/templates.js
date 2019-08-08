@@ -75,7 +75,7 @@ let fdTemplates = {
             },
             textarea: function (formName, value) 
             {
-                return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80">This is a text area.</textarea>`;
+                return `<textarea id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" row="7" cols="80">This is a text area.\nline 2\nline 3\nline 4</textarea>`;
             },
             button: function (formName, value) 
             {
@@ -306,6 +306,10 @@ let fdTemplates = {
                             {
                                 groupFields += fdTemplates.formFields.controls.label(newGroupName, value)
                             } 
+                            else if (value.type.toLowerCase() === 'textarea') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.textarea(newGroupName, value)
+                            }
                             else 
                             {
                                 groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
