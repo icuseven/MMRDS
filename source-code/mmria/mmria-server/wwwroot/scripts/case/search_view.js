@@ -30,9 +30,9 @@ function render_search_text(p_ctx)
     switch(p_ctx.metadata.type.toLocaleLowerCase())
     {
         case "app":
-            for(var i in p_ctx.metadata.children)
+            for(let i in p_ctx.metadata.children)
             {
-                var child = p_ctx.metadata.children[i];
+                let child = p_ctx.metadata.children[i];
                 if(p_ctx.data)
                 {
                     //p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name
@@ -46,9 +46,9 @@ function render_search_text(p_ctx)
         case "form":
             if(p_ctx.metadata.cardinality == "1" || p_ctx.metadata.cardinality == "?")
             {
-                for(var i in p_ctx.metadata.children)
+                for(let i in p_ctx.metadata.children)
                 {
-                    var child = p_ctx.metadata.children[i];
+                    let child = p_ctx.metadata.children[i];
 
                     if(p_ctx.data)
                     {
@@ -58,6 +58,27 @@ function render_search_text(p_ctx)
                     }
                     
                 }
+            }
+            else // multiform
+            {
+
+                for(let row in p_ctx.data)
+                {
+                    let row_data = p_ctx.data[row]
+                    for(let i in p_ctx.metadata.children)
+                    {
+                        let child = p_ctx.metadata.children[i];
+    
+                        if(row_data)
+                        {
+                            let new_context = get_seach_text_context(p_ctx.result, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                            render_search_text(new_context);
+                            //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
+                        }
+                        
+                    }
+                }
+
             }
 
             break;
@@ -69,9 +90,9 @@ function render_search_text(p_ctx)
             }
             else
             {*/
-                for(var i in p_ctx.metadata.children)
+                for(let i in p_ctx.metadata.children)
                 {
-                    var child = p_ctx.metadata.children[i];
+                    let child = p_ctx.metadata.children[i];
                     if(p_ctx.data)
                     {
                         let new_context = get_seach_text_context(p_ctx.result, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
@@ -88,19 +109,19 @@ function render_search_text(p_ctx)
             }
             else
             {*/
-                for(var i in p_ctx.data)
+                for(let i in p_ctx.data)
                 {
-                    var child_data = p_ctx.data[i];
+                    let row_item = p_ctx.data[i];
                     
                     //let new_context = get_seach_text_context(p_ctx.result, p_ctx.metadata, child_data, p_ctx.mmria_path + "/" + i + "/", p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path, p_ctx.search_text);
                     //render_search_text(new_context);
 
-                    for(var j in p_ctx.metadata.children)
+                    for(let j in p_ctx.metadata.children)
                     {
-                        let child_metadata = p_ctx.metadata.children[j];
+                        let child = p_ctx.metadata.children[j];
 
                         
-                        let new_context = get_seach_text_context(p_ctx.result, child_metadata, child_data[child_metadata.name], p_ctx.mmria_path + "/" + p_ctx.metadata.name + "/" + child_metadata.name, p_ctx.metadata_path  + ".children[" + i + "]"  + ".children[" + j + "]", p_ctx.object_path + "." + child_metadata.name, p_ctx.search_text);
+                        let new_context = get_seach_text_context(p_ctx.result, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "." + ".children[" + j + "]" + child.name, p_ctx.search_text);
                         render_search_text(new_context);
                         //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
                         
@@ -140,8 +161,11 @@ function render_search_text_input_control(p_ctx)
     var result = p_ctx.result;
 
     var style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
-    if(style_object)
+    if(style_object == null)
     {
+        console.log(p_ctx.mmria_path.substring(1));
+    }
+    
         result.push("<div id='");
         result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
         result.push("' metadata='");
@@ -191,7 +215,7 @@ function render_search_text_input_control(p_ctx)
         result.push(" />"); 
 
         result.push("</div><br/>");
-    }
+    
 
 
 }
