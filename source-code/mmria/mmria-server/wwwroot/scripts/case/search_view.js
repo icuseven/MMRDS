@@ -71,7 +71,7 @@ function render_search_text(p_ctx)
     
                         if(row_data)
                         {
-                            let new_context = get_seach_text_context(p_ctx.result, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                            let new_context = get_seach_text_context(p_ctx.result, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text);
                             render_search_text(new_context);
                             //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
                         }
@@ -165,7 +165,7 @@ function render_search_text_input_control(p_ctx)
     {
         console.log(p_ctx.mmria_path.substring(1));
     }
-    
+
         result.push("<div id='");
         result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
         result.push("' metadata='");
