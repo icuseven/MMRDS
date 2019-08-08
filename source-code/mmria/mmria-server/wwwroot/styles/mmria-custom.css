@@ -403,6 +403,10 @@ button  {
   outline: none;
 }
 
+ul {
+  padding-left: 20px;
+}
+
 
 
 
@@ -536,9 +540,9 @@ button  {
 */
 .app-main {
   background-color: var(--white);
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: 50%;
+  /* background-position: 50%; */
   min-height: 100%;
   min-height: calc(100% - 156px);
   padding-bottom: 1rem;
@@ -700,22 +704,29 @@ button  {
   border-radius: var(--radius);
   box-shadow: 1px 2px 6px rgba(0,0,0,.3);
   color: var(--white);
-  left: 50%;
+  /* left: 50%; */
   margin-bottom: 0;
   max-width: 490px;
   opacity: 0;
   padding: 2rem;
-  position: absolute;
-  top: 40%;
-  transform: translateX(-50%) translateY(-50%);
+  /* position: absolute; */
+  /* top: 40%; */
+  /* transform: translateX(-50%) translateY(-50%); */
   transition: opacity 60ms ease;
   width: 90%;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
 }
 .login.is-active {
   opacity: 1;
   transition:
     opacity 250ms ease
   ;
+}
+.row > .login {
+  height: 0%;
 }
 
 .login__title {
@@ -917,6 +928,11 @@ button  {
 
 .list-control-select + .list-control-input {
   margin-top: 4px;
+}
+
+.box {
+  background-color: rgba(255,255,255,.5);
+  padding: 40px;
 }
 
 
