@@ -1,5 +1,5 @@
 // offsetRelative (or, if you prefer, positionRelative)
-(function ($) {
+(function ($) {  
   $.fn.offsetRelative = function (top) {
     var $this = $(this);
     var $parent = $this.offsetParent();
@@ -614,6 +614,17 @@ formDesigner = {
 // Application initializations without user prompting
 formDesigner.dataHandler.newBuild();
 formDesigner.uiSpecHandler.newBuild();
+
+
+$('#custom-fd-commands').bind("enterKey",function(e){
+  execute_command_click();
+});
+$('#custom-fd-commands').keyup(function(e){
+   if(e.keyCode == 13)
+   {
+       $(this).trigger("enterKey");
+   }
+});
 
 function execute_command_click()
 {
