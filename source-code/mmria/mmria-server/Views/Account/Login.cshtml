@@ -24,32 +24,50 @@
         aria-label="Main Content Area"
         style="background-image: url('/img/Purple-Pattern-Light.png')">
     
-    @model ApplicationUser
-    @{
-      <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login"
-        method="POST">
-        <h3 class="login__title">Welcome to MMRIA</h3>
-        <p class="login__info">Please log in. Contact your jurisdiction administrator if there are issues accessing the application.</p>
-        <div class="form-group mb-2">
-          <label for="login_username" class="login__label">Username</label>
-          <div>
-            <input id="login_username" class="login__field form-control" name="username" type="text" />
-            <i class="login__icon"></i>
+    <div class="row">
+      @model ApplicationUser
+      @{
+        <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login"
+          method="POST">
+          <h3 class="login__title">Welcome to MMRIA</h3>
+          <p class="login__info">Please contact your jurisdiction administrator if you have issues accessing the application.</p>
+          <div class="form-group mb-2">
+            <label for="login_username" class="login__label">Username</label>
+            <div>
+              <input id="login_username" class="login__field form-control" name="username" type="text" />
+              <i class="login__icon"></i>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="login_password" class="login__label">Password</label>
-          <div>
-            <input id="login_password" class="login__field form-control" name="password" type="password" />
-            <i class="login__icon"></i>
+          <div class="form-group">
+            <label for="login_password" class="login__label">Password</label>
+            <div>
+              <input id="login_password" class="login__field form-control" name="password" type="password" />
+              <i class="login__icon"></i>
+            </div>
           </div>
-        </div>
-        <div class="form-controls">
-          <button name="submit" type="submit" class="login__btn">Login</button>
-        </div>
-        <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
-      </form>
-    }
+          <div class="form-controls">
+            <button name="submit" type="submit" class="login__btn">Login</button>
+          </div>
+          <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
+        </form>
+      }
+
+      <div class="box">
+        <p><strong>Conditions of Use</strong></p>
+        <ul>
+          <li>This warning banner provides privacy and security notices consistent with applicable federal laws, directives, and other federal guidance for accessing this Government system, which includes (1) this computer network, (2) all computers connected to this network, and (3) all devices and storage media attached to this network or to a computer on this network.</li>
+          <li>This system is provided for Government-authorized use only.</li>
+          <li>Unauthorized or improper use of this system is prohibited and may result in disciplinary action and/or civil and criminal penalties.</li>
+          <li>Personal use of social media and networking sites on this system is limited as to not interfere with official work duties and is subject to monitoring.</li>
+          <li>By using this system, you understand and consent to the following:
+            <ul>
+              <li>The Government may monitor, record, and audit your system usage, including usage of personal devices and email systems for official duties or to conduct HHS business. Therefore, you have no reasonable expectation of privacy regarding any communication or data transiting or stored on this system. At any time, and for any lawful Government purpose, the government may monitor, intercept, and search and seize any communication or data transiting or stored on this system.</li>
+              <li>Any communication or data transiting or stored on this system may be disclosed or used for any lawful Government purpose.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
 
   </main>
 
