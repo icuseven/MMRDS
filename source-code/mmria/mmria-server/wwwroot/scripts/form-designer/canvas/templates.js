@@ -86,7 +86,7 @@ let fdTemplates = {
                             ${value.prompt}
                         </button>`
             },
-            list: function (formName, value) 
+            list: function (formName, value, p_index) 
             { 
                 let listOptions = fdTemplates.formFields.controls.listOptions(value, formName + "--" + value.name);
                 let listField;
@@ -136,7 +136,7 @@ let fdTemplates = {
 
                     listField = `
                     <fieldset id="${formName}--${value.name}" class="resize-drag drag-drop yes-drop fd-path-object"> 
-                        <legend>${value.prompt}</legend>
+                        <legend data-order="${p_index}">${value.prompt}</legend>
                             ${listOptions}
                         </fieldset>`;
 
@@ -264,15 +264,15 @@ let fdTemplates = {
             { 
                 return `<input id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ></input>`;
             },
-            label: function (formName, value) 
+            label: function (formName, value, p_index) 
             { 
-                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" >${value.prompt}</div>`;
+                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" data-order="${p_index}" >${value.prompt}</div>`;
             },
-            chart: function (formName, value) 
+            chart: function (formName, value, p_index) 
             { 
-                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" ><p>chart</p><h3>${value.prompt}</h3></div>`;
+                return `<div id="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" type="text" data-order="${p_index}" ><p>chart</p><h3>${value.prompt}</h3></div>`;
             },
-            group: function (parentName, value) 
+            group: function (parentName, value, p_index) 
             {
                 let newGroupName = `${parentName}--${value.name}`;
                 let groupFields = '';
@@ -313,6 +313,10 @@ let fdTemplates = {
                             {
                                 groupFields += fdTemplates.formFields.controls.textarea(newGroupName, value, index)
                             }
+                            else if (value.type.toLowerCase() === 'chart') 
+                            {
+                                groupFields += fdTemplates.formFields.controls.chart(newGroupName, value, index)
+                            }
                             else 
                             {
                                 groupFields += fdTemplates.formFields.controls.string(newGroupName, value, index);
@@ -328,7 +332,7 @@ let fdTemplates = {
                 {
                     group = `
                     <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
-                        <legend>${value.prompt} - 4 item(s)</legend>
+                        <legend data-order="${p_index}">${value.prompt} - 4 item(s)</legend>
                         <div style="overflow-y: scroll;height: 100%;">
                             <div class="grid-control-action-icn row no-gutters" style="padding:32px 12px 16px;">
                                 <button type="button" class="grid-control-action-btn mr-1" title="delete">
@@ -347,7 +351,7 @@ let fdTemplates = {
                 {
                     group = `
                     <fieldset id="${newGroupName}" class="resize-drag drag-drop yes-drop fd-path-object"> 
-                        <legend>${value.prompt}</legend>
+                        <legend data-order="${p_index}">${value.prompt}</legend>
                         ${groupFields}
                         </fieldset>`;
 
