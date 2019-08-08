@@ -42,7 +42,7 @@ let fdTemplates = {
     },
     formFields: 
     {
-        prompt: function(formName, value) 
+        prompt: function(formName, value, p_index) 
         {
 
             if 
@@ -63,7 +63,7 @@ let fdTemplates = {
             }
             else
             {
-                return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object">${value.prompt}</label>`;
+                return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${p_index}">${value.prompt}</label>`;
             }
             
         },
@@ -244,11 +244,11 @@ let fdTemplates = {
                         {
                             if (value.value === '') 
                             {
-                                markup += `<option selected>- select -</option>`;
+                                markup += `<option selected data-order="${index}">- select -</option>`;
                             }
                             else 
                             {
-                                markup += `<option value="${value.value}">${value.value}</option>`;
+                                markup += `<option value="${value.value}" data-order="${index}">${value.value}</option>`;
                             }
                         }
                     );
@@ -284,14 +284,14 @@ let fdTemplates = {
                         if(value.type.toLowerCase() === 'group' || value.type.toLowerCase() == 'grid')
                         {
                             //let newSubGroupName = `${newGroupName}--${value.name}`;
-                            groupFields += fdTemplates.formFields.controls.group(newGroupName, value);
+                            groupFields += fdTemplates.formFields.controls.group(newGroupName, value, index);
                         }
                         else
                         {
-                            groupFields += fdTemplates.formFields.prompt(newGroupName, value);
+                            groupFields += fdTemplates.formFields.prompt(newGroupName, value, index);
                             if(value.type.toLowerCase() === 'list') 
                             {
-                                groupFields += fdTemplates.formFields.controls.list(newGroupName, value);
+                                groupFields += fdTemplates.formFields.controls.list(newGroupName, value, index);
                             }
                             else if (value.type.toLowerCase() === 'hidden') 
                             {
@@ -299,23 +299,23 @@ let fdTemplates = {
                             }
                             else if (value.type.toLowerCase() === 'button') 
                             {
-                                groupFields += fdTemplates.formFields.controls.button(newGroupName, value)
+                                groupFields += fdTemplates.formFields.controls.button(newGroupName, value, index)
                             } 
                             else if (value.type.toLowerCase() === 'date') 
                             {
-                                groupFields += fdTemplates.formFields.controls.date(newGroupName, value)
+                                groupFields += fdTemplates.formFields.controls.date(newGroupName, value, index)
                             }
                             else if (value.type.toLowerCase() === 'label') 
                             {
-                                groupFields += fdTemplates.formFields.controls.label(newGroupName, value)
+                                groupFields += fdTemplates.formFields.controls.label(newGroupName, value, index)
                             } 
                             else if (value.type.toLowerCase() === 'textarea') 
                             {
-                                groupFields += fdTemplates.formFields.controls.textarea(newGroupName, value)
+                                groupFields += fdTemplates.formFields.controls.textarea(newGroupName, value, index)
                             }
                             else 
                             {
-                                groupFields += fdTemplates.formFields.controls.string(newGroupName, value);
+                                groupFields += fdTemplates.formFields.controls.string(newGroupName, value, index);
                             }
                         }
                         // groupFields += `</div>`;
