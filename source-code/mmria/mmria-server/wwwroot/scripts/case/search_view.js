@@ -33,7 +33,7 @@ function render_search_text(p_ctx)
             for(let i in p_ctx.metadata.children)
             {
                 let child = p_ctx.metadata.children[i];
-                if(p_ctx.data)
+                if(p_ctx.data && child.type.toLocaleLowerCase() == "form")
                 {
                     //p_metadata_path + ".children[" + i + "]", p_object_path + "." + child.name
                     let new_context = get_seach_text_context(p_ctx.result, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
@@ -72,6 +72,7 @@ function render_search_text(p_ctx)
                         if(row_data)
                         {
                             let new_context = get_seach_text_context(p_ctx.result, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text);
+                            new_context.multiform_index = row;
                             render_search_text(new_context);
                             //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
                         }
