@@ -639,15 +639,20 @@ function execute_command_click()
   {
       case "ls":
         message += "\n\nlist selection";
-
         message += list_selection();
         break;
+      case "all":
+        message += "\n\nselect all";
+        message += select_all_canvas_child_nodes();
+        break;    
+      case "none":
+          message += "\n\nremove all selections";
+          message += remove_all_selections_on_canvas();
+          break;   
       case "al":
           message += "\n\nalign left selection";
-
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_left_selection()
-
           break;
       case "at":
           message += "\n\nalign top selection";
@@ -657,7 +662,6 @@ function execute_command_click()
           break;
       case "aw":
           message += "\n\nalign width selection";
-
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_width_selection()
           break;
@@ -767,6 +771,99 @@ function list_selection()
   return result;
 }
 
+
+function select_all_canvas_child_nodes()
+{
+
+  var canvas_element = document.querySelector(".form-designer-canvas");
+  var result = "";
+
+  let canvas_children = canvas_element.children;
+
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+
+  for(let i = 0; i < canvas_children.length; i++)
+  {
+    selected_item_list.push(canvas_children[i]);
+  }
+
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    html_list[i].classList.remove("ds-selected");
+  }
+
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  for(var i = 0; i < selected_item_list.length; i++)
+  {
+    let item = selected_item_list[i];
+    let rect = null;
+
+    if(item.localName)
+    {
+      item.classList.add("ds-selected");
+      switch(item.localName.toLowerCase())
+      {
+        case "label":
+            rect = item.getBoundingClientRect();
+            result += "\n\t" + item.localName;
+            result += ": [" + item.getAttribute("for") + "]";
+            result += " left: " + item.offsetLeft
+            result += " top: " + item.offsetTop
+            break;
+    
+
+        
+        case "input":
+        case "select":
+        case "textarea":
+        case "fieldset":
+          rect = item.getBoundingClientRect();
+          result += "\n\t" + item.localName;
+          result += ": [" + item.getAttribute("id") + "]";
+          result += " left: " + item.offsetLeft
+          result += " top: " + item.offsetTop
+
+          break;
+        default:
+          result += " missing: localname " + item.localName
+          break;
+
+      }
+    }
+    else
+    {
+      result += " missing: localname " + item;
+    }
+
+  }
+
+
+  return result;
+}
+
+
+
+
+function remove_all_selections_on_canvas()
+{
+
+  window.DragSelect.selected = [];
+
+  
+  var html_list = document.getElementsByClassName("ds-selected");
+
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    html_list[i].classList.remove("ds-selected");
+  }
+
+  return "\n unselected all items";
+}
 
 
 function align_left_selection()
