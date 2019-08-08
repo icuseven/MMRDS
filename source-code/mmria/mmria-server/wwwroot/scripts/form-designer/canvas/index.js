@@ -689,16 +689,20 @@ function execute_command_click()
           
           break;
 
-
+      case "st":
       case "stack":
-        message += "\n\nalign stack selected fields";
+        message += "\n\nstack selected fields";
         formDesigner.fdObjectHandler.quickSnap(true);
         message += stack_selected_fields();
-
-        
         break;          
 
-          
+      case "ro":
+      case "row":
+        message += "\n\nmake row of selected fields";
+        formDesigner.fdObjectHandler.quickSnap(true);
+        message += make_row_of_selected_fields();
+        break;   
+        
           
   }
 
@@ -711,28 +715,39 @@ function list_selection()
 
   var result = "";
 
-  var selected_item_list = document.getElementsByClassName("ds-selected");
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
 
   result += "\n number of items selected: " + selected_item_list.length;
 
   for(var i = 0; i < selected_item_list.length; i++)
   {
-    var item = selected_item_list[i];
+    let item = selected_item_list[i];
+    let rect = null;
 
     if(item.localName)
     switch(item.localName.toLowerCase())
     {
       case "label":
+          rect = item.getBoundingClientRect();
+          result += "\n\t" + item.localName;
+          result += ": [" + item.getAttribute("for") + "]";
+          result += " left: " + item.offsetLeft
+          result += " top: " + item.offsetTop
+          break;
+  
+
       case "input":
-        var rect = item.getBoundingClientRect();
-
-
+        rect = item.getBoundingClientRect();
         result += "\n\t" + item.localName;
-
+        result += ": [" + item.getAttribute("id") + "]";
         result += " left: " + item.offsetLeft
         result += " top: " + item.offsetTop
-        result += " right: " + item.offsetRight
-        result += " bottom: " + item.offsetBottom
+
         break;
     }
   }
@@ -748,24 +763,24 @@ function align_left_selection()
 
   var result = "";
 
-  var selected_item_list = document.getElementsByClassName("ds-selected");
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+
 
   result += "\n number of items selected: " + selected_item_list.length;
 
   if(selected_item_list.length > 0)
   {
 
+    selected_item_list.sort(align_left_compare);
+
     var lowest_left = selected_item_list[0].offsetLeft;
 
-    for(var i = 0; i < selected_item_list.length; i++)
-    {
-      if(selected_item_list[i].offsetLeft < lowest_left)
-      {
-        lowest_left = selected_item_list[i].offsetLeft;
-      }
-    }
-
-    for(var i = 0; i < selected_item_list.length; i++)
+    for(var i = 1; i < selected_item_list.length; i++)
     {
       selected_item_list[i].style.left = lowest_left + "px";
     }
@@ -780,24 +795,24 @@ function align_top_selection()
 
   var result = "";
 
-  var selected_item_list = document.getElementsByClassName("ds-selected");
+  var html_list = document.getElementsByClassName("ds-selected");
+  var selected_item_list = [];
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+
 
   result += "\n number of items selected: " + selected_item_list.length;
 
   if(selected_item_list.length > 0)
   {
 
+    selected_item_list.sort(align_top_compare);
+
     var lowest_top = selected_item_list[0].offsetTop;
 
-    for(var i = 0; i < selected_item_list.length; i++)
-    {
-      if(selected_item_list[i].offseTop < lowest_top)
-      {
-        lowest_top = selected_item_list[i].offseTop;
-      }
-    }
-
-    for(var i = 0; i < selected_item_list.length; i++)
+    for(var i = 1; i < selected_item_list.length; i++)
     {
       selected_item_list[i].style.top = lowest_top + "px";
     }
@@ -986,7 +1001,52 @@ function align_width_compare(a, b)
   return 0;
 }
 
-function stack_selected_fields(p_pixels)
+function prompt_and_control_compare(a, b)
+{
+
+
+  if(a.localName && b.localName)
+  {
+    let a_value;
+    let b_value;
+
+    
+    switch(a.localName.toLowerCase())
+    {
+      case "label":
+        a_value = a.getAttribute("for").toLowerCase() + "__1";
+        break;
+      case "input":
+      case "textarea":
+      case "select":
+        a_value = a.getAttribute("id").toLowerCase() + "__2";
+        break;
+    }
+
+    switch(b.localName.toLowerCase())
+    {
+      case "label":
+        b_value = b.getAttribute("for").toLowerCase() + "__1";
+        break;
+      case "input":
+      case "textarea":
+      case "select":        
+        b_value = b.getAttribute("id").toLowerCase() + "__2";
+        break;
+    }
+
+    if (a_value > b_value) return 1;
+    if (a_value > b_value) return -1;
+  
+    return 0;
+  }
+  else return 0;
+
+  
+}
+
+
+function stack_selected_fields()
 {
 
   var result = "";
@@ -1007,7 +1067,7 @@ function stack_selected_fields(p_pixels)
   
   if(selected_item_list.length > 1)
   {
-    selected_item_list.sort(align_left_compare);
+    selected_item_list.sort(prompt_and_control_compare);
 
     for(var i = 1; i < selected_item_list.length; i+=2)
     {
@@ -1035,4 +1095,53 @@ function stack_selected_fields(p_pixels)
   return result;
 }
 
+
+function make_row_of_selected_fields()
+{
+
+  var result = "";
+
+  var html_list = document.getElementsByClassName("ds-selected");
+
+  var selected_item_list = [];
+
+  for(var i = 0; i < html_list.length; i++)
+  {
+    selected_item_list.push(html_list[i]);
+  }
+  
+  
+
+  result += "\n number of items selected: " + selected_item_list.length;
+
+  
+  if(selected_item_list.length > 1)
+  {
+    selected_item_list.sort(prompt_and_control_compare);
+
+    for(var i = 1; i < selected_item_list.length; i+=2)
+    {
+      var previous_item = selected_item_list[i - 1];
+      var current_item = selected_item_list[i];
+      if
+      (
+        previous_item.localName && 
+        previous_item.localName == "label" && 
+        current_item.localName &&
+        (
+          current_item.localName == "input" ||
+          current_item.localName == "textarea" ||
+          current_item.localName == "select"
+        )
+      )
+      {
+        //previous_item[i].style.top = (previous_item.offsetTop + previous_item.offsetHeight + new Number(p_field_pixels))  + "px";
+        current_item.style.top = previous_item.offsetTop + "px";
+        current_item.style.left = (previous_item.offsetLeft + previous_item.offsetWidth + 15)  + "px";
+      }      
+    }
+  }
+
+  return result;
+}
 
