@@ -59,17 +59,15 @@
   var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
 </script>
 
+<h1 class="h2">Welcome to MMRIA</h1>
+
 @if (is_guest)
 {
-  <h1>Welcome to MMRIA</h1>
   <p>As a MMRIA user, you currently do not have any active role assigments.</p>
   <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
 }
 else
 {
-  <h2><span id="fancy_greeting">Hello</span>, @userName</h2>
-  <p>Please select an action.</p>
-
   <div class="grid mb-5">
     @if(is_abstractor)
     {
@@ -77,9 +75,9 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Abstractor</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/Case">view case data</a></li>
-            <li><a href="/export-queue">export data</a></li>
-            @*<li><a href="/recover-case">recover-case</a></li>*@
+            <li><a href="/Case">View case data</a></li>
+            <li><a href="/export-queue">Export data</a></li>
+            @*<li><a href="/recover-case">Recover-case</a></li>*@
           </ul>
         </div>
       </div>
@@ -91,7 +89,7 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Committee Member</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/de-identified">view de-identified case data</a></li>
+            <li><a href="/de-identified">View de-identified case data</a></li>
           </ul>
         </div>
       </div>
@@ -103,10 +101,10 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Form Designer</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/editor">open metadata editor</a></li>
-            <li><a href="/form-designer">open form designer</a></li>
-            <li><a href="/migrationplan">manage a migration plan</a></li>
-            <li><a href="/de-identified-list">manage de-identification list</a></li>
+            <li><a href="/editor">Open metadata editor</a></li>
+            <li><a href="/form-designer">Open form designer</a></li>
+            <li><a href="/migrationplan">Manage a migration plan</a></li>
+            <li><a href="/de-identified-list">Manage de-identification list</a></li>
           </ul>
         </div>
       </div>
@@ -118,7 +116,7 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Jurisdiction Admin</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/_users">manage users & jurisdictions</a></li>
+            <li><a href="/_users">Manage users & jurisdictions</a></li>
           </ul>
         </div>
       </div>
@@ -131,8 +129,8 @@ else
         <div class="card-header bg-secondary"><h4 class="h5">Installation Admin</h4></div>
         <div class="card-body">
           <ul>
-            <li><a href="/_users">manage users & jurisdictions</a></li>
-            <li><a href="/_config">view configuration</a></li>
+            <li><a href="/_users">Manage users & jurisdictions</a></li>
+            <li><a href="/_config">View configuration</a></li>
           </ul>
         </div>
       </div>
@@ -145,18 +143,18 @@ else
 
             @if(!is_installation_admin)
           {
-            <li><a href="/Account/Profile" >manage account profile</a></li>
+            <li><a href="/Account/Profile" >Manage account profile</a></li>
           }
           
           @if(is_abstractor || is_committee_member)
           {
-            <li><a href="/aggregate-report">view aggregate report</a></li>
+            <li><a href="/aggregate-report">View aggregate report</a></li>
           }
 
-          <li><a href="/metadata-listing" >show metadata listing</a></li>
+          <li><a href="/metadata-listing" >Show metadata listing</a></li>
           <li>
             <div class="form-group">
-              <label for="print_blank_version">Print blank version.</label>
+              <label for="print_blank_version">Print blank version</label>
               <select id="print_blank_version" class="form-control">
                 <option value="">Select one</option>
                 <option value="All">All</option>
@@ -175,7 +173,7 @@ else
                 <option value="case_narrative">Case Narrative</option>
                 <option value="committee_review">Committee Decisions</option>
               </select>
-              <input class="btn mt-2" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="Print blank version" />
+              <input class="btn btn-secondary mt-2" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="Print blank version" />
             </div>
           </li>
         </ul>

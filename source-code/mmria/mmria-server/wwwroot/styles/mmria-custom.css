@@ -551,9 +551,9 @@ ul {
 }
 
 /* Direct descendant */
-.app-main > .row {
+/* .app-main > .row {
   min-height: 100%;
-}
+} */
 
 /* Direct siblings */
 .app-header + .app-main,
@@ -717,7 +717,6 @@ ul {
 
   margin-left: auto;
   margin-right: auto;
-  margin-top: 3rem;
 }
 .login.is-active {
   opacity: 1;
@@ -725,8 +724,8 @@ ul {
     opacity 250ms ease
   ;
 }
-.row > .login {
-  height: 0%;
+.app-main .row > .login {
+  margin-top: 3rem;
 }
 
 .login__title {
@@ -933,6 +932,9 @@ ul {
 .box {
   background-color: rgba(255,255,255,.5);
   padding: 40px;
+}
+.login + .box {
+  margin-top: 3rem;
 }
 
 
