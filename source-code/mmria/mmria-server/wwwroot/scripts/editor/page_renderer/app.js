@@ -384,10 +384,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             p_result.push("Search results for: <em>" + search_text + "</em><br/><br/>");
 
 
-            //var search_text_context = get_seach_text_context(p_result, p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text);
+            var search_text_context = get_seach_text_context(p_result, p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text);
 
-            //render_search_text(search_text_context);
-
+            render_search_text(search_text_context);
+/*
             var search_ctx = { search_text: search_text, is_match: false };
             for (var i = 0; i < p_metadata.children.length; i++)
             {
@@ -401,7 +401,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 }
             }
             
-
+*/
             p_result.push("</section>");
         }
         else
