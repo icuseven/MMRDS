@@ -122,7 +122,7 @@ function render_search_text(p_ctx)
                         let child = p_ctx.metadata.children[j];
 
                         
-                        let new_context = get_seach_text_context(p_ctx.result, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "." + ".children[" + j + "]" + child.name, p_ctx.search_text);
+                        let new_context = get_seach_text_context(p_ctx.result, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text);
                         render_search_text(new_context);
                         //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
                         
