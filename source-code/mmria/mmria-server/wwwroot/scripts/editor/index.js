@@ -208,13 +208,14 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 
-
+  load_metadata();
+/*
 	profile.on_login_call_back = function (){
 			load_metadata();
     };
 
   	profile.initialize_profile();
-
+*/
 	  
 
 	$(document).keydown(function(evt){
@@ -230,14 +231,14 @@ $(function ()
 
 		if (evt.keyCode==76 && (evt.ctrlKey)){
 			evt.preventDefault();
-			profile.initialize_profile();
+			//profile.initialize_profile();
 		}
 
 	});
 
 	create_check_code_submit();
 
-	window.setInterval(profile.update_session_timer, 120000);
+	//window.setInterval(profile.update_session_timer, 120000);
 
 });
 
@@ -342,8 +343,8 @@ function perform_save(current_auth_session)
 
 					if(response.auth_session)
 					{
-						profile.auth_session = response.auth_session;
-						$mmria.addCookie("AuthSession", response.auth_session);
+						//profile.auth_session = response.auth_session;
+						//$mmria.addCookie("AuthSession", response.auth_session);
 					}
 					perform_validation_save(g_metadata);
 
@@ -441,7 +442,7 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 			type: "POST",
 			beforeSend: function (request)
 			{
-			  	request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+			  	//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 			  	request.setRequestHeader("If-Match", g_metadata._rev);
 				request.setRequestHeader("uid", g_uid);
 				request.setRequestHeader("roles", $mmria.getCookie("roles"));
@@ -498,7 +499,7 @@ function create_check_code_submit()
 									type: "POST",
 									beforeSend: function (request)
 									{
-										request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+										//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 										request.setRequestHeader("If-Match", g_metadata._rev);
 										request.setRequestHeader("uid", g_uid);
 										request.setRequestHeader("roles", $mmria.getCookie("roles"));
@@ -516,8 +517,8 @@ function create_check_code_submit()
 					
 										if(response_obj.auth_session)
 										{
-											profile.auth_session = response_obj.auth_session;
-											$mmria.addCookie("AuthSession", response_obj.auth_session);
+											//profile.auth_session = response_obj.auth_session;
+											//$mmria.addCookie("AuthSession", response_obj.auth_session);
 										}
 										
 										perform_validation_save(g_metadata);

@@ -1064,12 +1064,12 @@ function save_case(p_data, p_call_back)
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       data: JSON.stringify(p_data),
-      type: "POST",
+      type: "POST",/*
       beforeSend: function (request)
       {
         request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
       );
-      }
+      }*/
   }).done(function(case_response) {
 
       console.log("save_case: success");
