@@ -156,6 +156,8 @@ namespace mmria.server.util
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
+			this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
+			
 			this.popluate_pregnancy_deaths_by_age(ref report_object, source_object);
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
