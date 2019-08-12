@@ -1509,7 +1509,6 @@ function save_form_click()
 {
 
   save_case(g_data, create_save_message);
-
   
 }
 
@@ -1518,7 +1517,7 @@ function create_save_message()
 	var result = [];
 
 	result.push('<div class="alert alert-success alert-dismissible">');
-	result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	result.push('<button class="close" data-dismiss="alert" aria-label="close">&times;</button>');
 	result.push('<p>Case information has been saved</p>');
 	result.push('</div>');
 
