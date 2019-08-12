@@ -810,10 +810,10 @@ ul {
     border-color: #712177;
 }
 
-/* .construct-output .btn {
-    height: 56px;
-    width: 100%;
-} */
+.construct-output .btn {
+    max-height: 39.75px;
+    padding: 0.375rem 0.75rem;
+}
 
 .construct-output fieldset {
     border: var(--border-width) solid;
