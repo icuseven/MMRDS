@@ -1104,7 +1104,7 @@ function create_save_message()
 
 	result.push('<div class="alert alert-success alert-dismissible">');
 	result.push('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
-	result.push('<strong>Info!</strong>Case information has been saved');
+	result.push('<p>Case information has been saved</p>');
 	result.push('</div>');
 
 	document.getElementById("nav_status_area").innerHTML = result.join("");
