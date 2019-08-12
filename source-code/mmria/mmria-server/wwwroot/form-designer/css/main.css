@@ -151,6 +151,13 @@
     transform: translateY(-50%);
 }
 
+/* Buttons */
+.form-designer-wrapper .form-designer-canvas .form-field-item.btn,
+.form-designer-wrapper .form-designer-canvas .form-field-item.btn-primary {
+    max-height: 39.75px;
+    padding: 0.375rem 0.75rem;
+}
+
 .fd-custom-input .bmd-form-group {
     padding-top: 0;
     width: 100%;
