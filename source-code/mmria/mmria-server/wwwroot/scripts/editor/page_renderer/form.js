@@ -505,7 +505,7 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
                 p_result.push(">");
             }
 
-            p_result.push("Search results for: <em>" + p_search_ctx.search_text + "</em><br/><br/>");
+            p_result.push("Quick edit results for: <em>" + p_search_ctx.search_text + "</em><br/><br/>");
             //p_result.push(p_metadata.prompt);
         p_result.push("</p>");
     p_result.push("</div>");
