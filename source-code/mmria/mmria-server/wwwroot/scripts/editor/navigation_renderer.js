@@ -62,6 +62,7 @@ function navigation_render(p_metadata, p_level, p_ui)
             
         if(parseInt(p_ui.url_state.path_array[0]) >= 0)
         {
+          /* disable qick edit -- begin
           result.push('<li class="list-group-item">');
             result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="search_case_fields">Quick Edit</label>');
@@ -81,7 +82,7 @@ function navigation_render(p_metadata, p_level, p_ui)
               result.push('</div>');
             result.push('</div>');
           result.push('</li>');
-
+      / * disable qick edit -- end */
 
           result.push('<li class="list-group-item">');
             result.push('<div class="form-group fake-list-group-anchor">');
