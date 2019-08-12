@@ -530,8 +530,8 @@ function add_role(p_user_id, p_created_by)
 			"",
 			user.name,
 			"",
-			new Date(),
-			g_policy_values.default_days_in_effective_date_interval != null && parseInt(g_policy_values.default_days_in_effective_date_interval) >0? new Date(new Date().getTime() + parseInt(g_policy_values.default_days_in_effective_date_interval)*24*60*60*1000) : "",
+			new Date(new Date().setHours(0,0,0,0)),
+			g_policy_values.default_days_in_effective_date_interval != null && parseInt(g_policy_values.default_days_in_effective_date_interval) >0? new Date(new Date().getTime() + parseInt(g_policy_values.default_days_in_effective_date_interval)*24*60*60*1000).setHours(0,0,0,0) : "",
 			true,
 			p_created_by
 		);
