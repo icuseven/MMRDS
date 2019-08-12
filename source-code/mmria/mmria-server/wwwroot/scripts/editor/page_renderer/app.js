@@ -381,7 +381,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             var search_text = p_ui.url_state.path_array[2].replace(/%20/g, " ");
             p_result.push("<section id='field_search_id'>")
 
-            p_result.push("Search results for: <em>" + search_text + "</em><br/><br/>");
+            quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, { search_text: search_text });
+
+
+            
 
 
             var search_text_context = get_seach_text_context(p_result, p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text);
