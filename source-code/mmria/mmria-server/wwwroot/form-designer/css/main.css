@@ -44,16 +44,16 @@
     font-size: 11px;
     position: absolute;
 }
-[data-order="0"]:after  { content: "0";  }
-[data-order="1"]:after  { content: "1";  }
-[data-order="2"]:after  { content: "2";  }
-[data-order="3"]:after  { content: "3";  }
-[data-order="4"]:after  { content: "4";  }
-[data-order="5"]:after  { content: "5";  }
-[data-order="6"]:after  { content: "6";  }
-[data-order="7"]:after  { content: "7";  }
-[data-order="8"]:after  { content: "8";  }
-[data-order="9"]:after  { content: "9";  }
+[data-order="0"]:after  { content:  "0"; }
+[data-order="1"]:after  { content:  "1"; }
+[data-order="2"]:after  { content:  "2"; }
+[data-order="3"]:after  { content:  "3"; }
+[data-order="4"]:after  { content:  "4"; }
+[data-order="5"]:after  { content:  "5"; }
+[data-order="6"]:after  { content:  "6"; }
+[data-order="7"]:after  { content:  "7"; }
+[data-order="8"]:after  { content:  "8"; }
+[data-order="9"]:after  { content:  "9"; }
 [data-order="10"]:after { content: "10"; }
 [data-order="11"]:after { content: "11"; }
 [data-order="12"]:after { content: "12"; }
@@ -86,7 +86,6 @@
 [data-order="38"]:after { content: "38"; }
 [data-order="39"]:after { content: "39"; }
 [data-order="40"]:after { content: "40"; }
-
 
 
 
