@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace mmria.server
 {
+	[Authorize(Roles  = "abstractor")]
 	[Route("api/[controller]")]
 	public class syncController: ControllerBase 
 	{ 
@@ -16,46 +17,33 @@ namespace mmria.server
 		}
 
 		[HttpGet]
-		public string Get
-		(
-			string uid, 
-			string pwd
-		)
+		public string Get()
 		{
 			string result = null;
 
-			if
+			System.Threading.Tasks.Task.Run
 			(
-					!string.IsNullOrWhiteSpace(uid) &&
-					!string.IsNullOrWhiteSpace (pwd) &&
-					uid == "mmria" &&
-					pwd == "sync"
+				new Action (() =>
+				{
 
-			) 
-			{
-				System.Threading.Tasks.Task.Run
-				(
-					new Action (() =>
+					try 
 					{
+						
+						mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
+																			Program.config_couchdb_url,
+																			Program.config_timer_user_name,
+																			Program.config_timer_password
+																		);
 
-                        try 
-                        {
-                            
-						    mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
-																			 Program.config_couchdb_url,
-																			 Program.config_timer_user_name,
-																			 Program.config_timer_password
-																		 );
-
-                            sync_all.executeAsync (); 
-                        }
-                        catch (Exception ex) 
-                        {
-                            System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
-                        }
-					})
-				);
-			}
+						sync_all.executeAsync (); 
+					}
+					catch (Exception ex) 
+					{
+						System.Console.WriteLine ($"syncController. error sync_all.execute\n{ex}");
+					}
+				})
+			);
+			
 
 			return result;
 
