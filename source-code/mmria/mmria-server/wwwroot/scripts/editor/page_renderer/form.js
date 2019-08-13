@@ -156,9 +156,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                 p_result.push("</div>");
                 p_result.push("<div class='col col-4 text-right'>");
-                    p_result.push(" <div>");
-                        p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                        p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+                    p_result.push("<div>");
+                        p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                        p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
                         render_print_form_control(p_result, p_ui, p_metadata);
                     p_result.push("</div>");
                 p_result.push("</div>");
@@ -193,8 +193,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("</div>");
             
             p_result.push("<div class='construct__footer'>");
-            p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
-                p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
+            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
             p_result.push("</div>");
            
             p_result.push("</section>");
@@ -247,10 +247,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</p>");
 
             p_result.push("</div>");
-            p_result.push("<div class='col col-4 text-right'>");
-                p_result.push(" <div>");
-                    p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                    p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+            p_result.push("<div class='row no-gutters col col-4 justify-content-end'>");
+                p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
+                    p_result.push("<div class='row no-gutters justify-content-end'>");
+                        p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                        p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+                    p_result.push("</div>");
                     render_print_form_control(p_result, p_ui, p_metadata);
                 p_result.push("</div>");
             p_result.push("</div>");
@@ -376,8 +378,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("</div> <!-- end .construct-output -->");     
             p_result.push("</div> <!-- end .construct__body -->");     
             p_result.push("<div class='construct__footer'>");
-                p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
             p_result.push("</div> <!-- end .construct__footer -->"); 
         
         p_result.push("</section>");
@@ -425,8 +427,8 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
         p_result.push("</p>");
     p_result.push("</div>");
     p_result.push("<div class='col col-4 text-right'>");
-        p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
-        p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+        p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+        p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
     p_result.push("</div>");
 
     p_result.push("</div> <!-- end .construct__header -->");
@@ -439,10 +441,10 @@ function render_print_form_control(p_result, p_ui, p_metadata)
     if(parseInt(p_ui.url_state.path_array[0]) >= 0)
     {        
         // p_result.push('<div class="form-group fake-list-group-anchor">');
-        p_result.push('<div class="mt-2">');
+        p_result.push('<div>');
         p_result.push('<label for="print_case" class="sr-only">Print version</label>');
         p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
-            p_result.push('<option>Select a form to print</option>');
+            p_result.push('<option>Select to print a form</option>');
             p_result.push('<optgroup label="Current form">');
                 p_result.push('<option value="' + p_metadata.name + '">');
                 p_result.push('Print ' + p_metadata.prompt)

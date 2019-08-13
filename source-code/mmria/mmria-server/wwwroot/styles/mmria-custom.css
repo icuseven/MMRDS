@@ -769,6 +769,10 @@ ul {
   width: 100%;
 }
 
+.construct__header {
+  margin-bottom: 20px;
+}
+
 .construct__title {
   font-weight: 700;
   margin-top: 0;
@@ -777,9 +781,14 @@ ul {
 .construct__subtitle {
   font-size: 21px;
   font-weight: 700;
+  margin-bottom: 0;
 }
 .construct__subtitle span {
   font-weight: 400;
+}
+
+.construct__btn + .construct__btn {
+  margin-left: 5px;
 }
 
 .construct__body {
@@ -794,6 +803,10 @@ ul {
 
 .construct__body + .construct__footer {
   margin-top: 1rem;
+}
+
+.construct__controller {
+  flex-direction: column;
 }
 
 /*
