@@ -178,56 +178,11 @@ var $mmria = function()
         },
         save_current_record: function(p_call_back)
         {
-            if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
+            if(p_call_back)
             {
-                $.ajax({
-                  url: location.protocol + '//' + location.host + '/api/case',
-                  contentType: 'application/json; charset=utf-8',
-                  dataType: 'json',
-                  data: JSON.stringify(g_data),
-                  type: "POST",
-                  beforeSend: function (request)
-                  {
-                    request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-                  );
-                  }
-              }).done(function(case_response) {
-          
-                  console.log("$mmria.save_current_record: success");
-          
-                  g_change_stack = [];
-          
-                  if(g_data && g_data._id == case_response.id)
-                  {
-                    g_data._rev = case_response.rev;
-                    set_local_case(g_data);
-                    //console.log('set_value save finished');
-                  }
-          
-                  
-                  if(case_response.auth_session)
-                  {
-                    profile.auth_session = case_response.auth_session;
-                    $mmria.addCookie("AuthSession", case_response.auth_session);
-                    set_session_warning_interval();
-                  }
-          
-                  if(p_call_back)
-                  {
-                    p_call_back();
-                  }
-          
-          
-              }).fail(function(xhr, err) { console.log("$mmria.save_current_record: failed", err); });
-          
-            }
-            else
-            {
-              if(p_call_back)
-              {
                 p_call_back();
-              }
             }
+            
         },
         get_current_multiform_index: function ()
         {
