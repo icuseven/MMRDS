@@ -194,16 +194,16 @@ let fdTemplates = {
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="checkbox-control-info"> (blank)</span></label>`;
+                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> (blank)</span></label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="checkbox-control-info"> ${value.value}</span></label>`;
+                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.value}</span></label>`;
                                 }   
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="checkbox-control-info"> ${value.description}</span></label>`;
+                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.description}</span></label>`;
                             }
                         }
                     );
@@ -221,16 +221,16 @@ let fdTemplates = {
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="checkbox-control-info"> (blank)</span></label>`;
+                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info"> (blank)</span></label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="checkbox-control-info">  ${value.value}</span></label>`;
+                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.value}</span></label>`;
                                 }
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="checkbox-control-info">  ${value.description}</span></label>`;
+                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.description}</span></label>`;
                             }
                         }
                     );

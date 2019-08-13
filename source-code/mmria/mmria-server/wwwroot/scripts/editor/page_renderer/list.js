@@ -546,17 +546,17 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         {
             if(item.value == null || item.value == '')
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="checkbox-control-info"> (blank)</span></label>`);
+                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
             }
             else 
             {
-                p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="checkbox-control-info"> ${item.value}</span></label>`);
+                p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
             }
             
         }
         else 
         {
-            p_result.push(`<label style='${get_style_string(item_style.prompt.style)}' for="${object_id}" >${input_html}<span class="checkbox-control-info"> ${item.description}</span></label>`);
+            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.description}</span></label>`);
         }
     }
 
@@ -644,23 +644,23 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         {
             if(item.value == null || item.value == '')
             {
-                p_result.push("<label style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+                p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
                 list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected);
-                p_result.push("<span class='checkbox-control-info'> (blank)</span></label>");
+                p_result.push("<span class='choice-control-info'> (blank)</span></label>");
             }
             else 
             {
-                p_result.push("<label style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+                p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
                 list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected);
-                p_result.push("<span class='checkbox-control-info'> " + item.value + "</span></label>");
+                p_result.push("<span class='choice-control-info'> " + item.value + "</span></label>");
             }
             
         }
         else 
         {
-            p_result.push("<label style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
             list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected);
-            p_result.push("<span class='checkbox-control-info'> " + item.description + "</span></label>");
+            p_result.push("<span class='choice-control-info'> " + item.description + "</span></label>");
         }
     }
     p_result.push("</fieldset>");

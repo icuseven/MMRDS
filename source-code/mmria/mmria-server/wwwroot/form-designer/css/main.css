@@ -39,6 +39,13 @@
     position: absolute;
 }
 
+.choice-control {
+    display: flex;
+}
+.choice-control-info {
+    margin-left: 6px;
+}
+
 [data-order]:after {
     color: #009688;
     font-size: 11px;

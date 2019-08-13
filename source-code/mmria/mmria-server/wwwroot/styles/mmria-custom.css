@@ -526,6 +526,10 @@ ul {
   padding: 0;
 }
 
+.choice-control {
+  display: flex;
+}
+
 
 
 
