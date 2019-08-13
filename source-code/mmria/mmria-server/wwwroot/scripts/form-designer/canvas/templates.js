@@ -194,16 +194,16 @@ let fdTemplates = {
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /> (blank)</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="checkbox-control-info"> (blank)</span></label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /> ${value.value}</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="checkbox-control-info"> ${value.value}</span></label>`;
                                 }   
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /> ${value.description}</label>`;
+                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="checkbox-control-info"> ${value.description}</span></label>`;
                             }
                         }
                     );
@@ -221,16 +221,16 @@ let fdTemplates = {
                             {
                                 if(value.value == null || value.value == '')
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input> (blank)</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="checkbox-control-info"> (blank)</span></label>`;
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input> ${value.value}</label>`;
+                                    markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="checkbox-control-info">  ${value.value}</span></label>`;
                                 }
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input> ${value.description}</label>`;
+                                markup += `<label for="${control_id}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="checkbox-control-info">  ${value.description}</span></label>`;
                             }
                         }
                     );
