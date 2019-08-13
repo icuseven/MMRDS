@@ -819,6 +819,13 @@ ul {
     border-color: #712177;
 }
 
+/* When an input is read only */
+.construct-output input[readonly="true"],
+.construct-output textarea[readonly="true"],
+.construct-output select[readonly="true"] {
+    background-color: var(--neutral-light);
+}
+
 .construct-output textarea {
     line-height: 1.75;
 }
