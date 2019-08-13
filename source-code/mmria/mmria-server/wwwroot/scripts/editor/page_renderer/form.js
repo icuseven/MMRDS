@@ -12,7 +12,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("<header class='construct__header content-intro'>");
                 if(g_data)
                 {
-                    p_result.push("<div class='row no-gutters align-items-start'>");
+                    p_result.push("<div class='row no-gutters'>");
                     p_result.push("<h2 class='construct__title text-primary h1'>");
                     p_result.push(g_data.home_record.last_name);
                     p_result.push(", ");
@@ -122,7 +122,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(p_metadata.name);
             p_result.push("' class='construct'>");
             
-            p_result.push("<header class='construct__header row no-gutters align-items-start'>");
+            p_result.push("<header class='construct__header row no-gutters align-items'>");
                 p_result.push("<div class='col col-8'>");
                     if(g_data)
                     {
@@ -154,11 +154,13 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
                     p_result.push("</p>");
 
-                    render_print_form_control(p_result, p_ui, p_metadata);
                 p_result.push("</div>");
                 p_result.push("<div class='col col-4 text-right'>");
-                    p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                    p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+                    p_result.push(" <div>");
+                        p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                        p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+                        render_print_form_control(p_result, p_ui, p_metadata);
+                    p_result.push("</div>");
                 p_result.push("</div>");
 
             p_result.push("</header>");
@@ -208,7 +210,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
        //p_result.push(" display='grid' grid-template-columns='1fr 1fr 1fr' ");
 
        p_result.push(" style='' class='construct'>");
-       p_result.push("<div class='construct__header row no-gutters align-items-start'>");
+       p_result.push("<div class='construct__header row no-gutters'>");
             p_result.push("<div class='col col-8'>");
                 if(g_data)
                 {
@@ -244,11 +246,13 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push(p_metadata.prompt);
                 p_result.push("</p>");
 
-                render_print_form_control(p_result, p_ui, p_metadata);
             p_result.push("</div>");
             p_result.push("<div class='col col-4 text-right'>");
-                p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+                p_result.push(" <div>");
+                    p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                    p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
+                    render_print_form_control(p_result, p_ui, p_metadata);
+                p_result.push("</div>");
             p_result.push("</div>");
 
        p_result.push("</div> <!-- end .construct__header -->");
@@ -383,7 +387,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
 function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
-    p_result.push("<div class='construct__header row no-gutters align-items-start'>");
+    p_result.push("<div class='construct__header row no-gutters'>");
     p_result.push("<div class='col col-8'>");
         if(g_data)
         {
@@ -434,20 +438,29 @@ function render_print_form_control(p_result, p_ui, p_metadata)
 {
     if(parseInt(p_ui.url_state.path_array[0]) >= 0)
     {        
-        p_result.push('<div class="form-group fake-list-group-anchor">');
-        p_result.push('<label for="print_case">Print case form</label>');
-        p_result.push('<div class="form-control-wrap">');
+        // p_result.push('<div class="form-group fake-list-group-anchor">');
+        p_result.push('<div class="mt-2">');
+        p_result.push('<label for="print_case" class="sr-only">Print version</label>');
         p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
-        p_result.push('<option value="" selected>Select one</option>');  
-        p_result.push('<option value="core-summary">Core Elements Only</option>');
-        p_result.push('<option value="all">All</option>');  
+            p_result.push('<option>Select a form to print</option>');
+            p_result.push('<optgroup label="Current form">');
+                p_result.push('<option value="' + p_metadata.name + '">');
+                p_result.push('Print ' + p_metadata.prompt)
+                p_result.push('</option>');
+            p_result.push('</optgroup>');
+            p_result.push('<optgroup label="Other">');
+                p_result.push('<option value="core-summary">Print Core Elements Only</option>');
+                p_result.push('<option value="all">Print All</option>');  
+            p_result.push('</optgroup>');
+            // p_result.push('<option value="" selected>Select one</option>');  
+            // p_result.push('<option value="core-summary">Core Elements Only</option>');
+            // p_result.push('<option value="all">All</option>');  
 
-        p_result.push('<option value="' + p_metadata.name + '">');
-        p_result.push(p_metadata.prompt)
-        p_result.push('</option>');
-
+            // p_result.push('<option value="' + p_metadata.name + '">');
+            // p_result.push(p_metadata.prompt)
+            // p_result.push('</option>');
         p_result.push('</select>');
         p_result.push('</div>');
-        p_result.push('</div>');
+        // p_result.push('</div>');
     }
 }
