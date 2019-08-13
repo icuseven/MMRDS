@@ -659,56 +659,11 @@ function get_specific_case(p_id)
 function save_case(p_data, p_call_back)
 {
 
-  if(profile.user_roles && profile.user_roles.indexOf("abstractor") > -1)
-  {
-      $.ajax({
-        url: location.protocol + '//' + location.host + '/api/case',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(p_data),
-        type: "POST",
-        beforeSend: function (request)
-        {
-          request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-        );
-        }
-    }).done(function(case_response) {
 
-        console.log("save_case: success");
-
-        g_change_stack = [];
-
-        if(g_data && g_data._id == case_response.id)
-        {
-          g_data._rev = case_response.rev;
-          set_local_case(g_data);
-          //console.log('set_value save finished');
-        }
-
-        
-        if(case_response.auth_session)
-        {
-          profile.auth_session = case_response.auth_session;
-          $mmria.addCookie("AuthSession", case_response.auth_session);
-          set_session_warning_interval();
-        }
-
-        if(p_call_back)
-        {
-          p_call_back();
-        }
-
-
-    }).fail(function(xhr, err) { console.log("save_case: failed", err); });
-
-  }
-  else
-  {
     if(p_call_back)
     {
       p_call_back();
     }
-  }
   
 
 }
@@ -717,33 +672,7 @@ function save_case(p_data, p_call_back)
 function delete_case(p_id, p_rev)
 {
 
-  $.ajax({
-    url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id + '&rev=' + p_rev,
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    //data: JSON.stringify(p_data),
-    type: "DELETE",
-    beforeSend: function (request)
-    {
-      request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-    );
-    }
-}).done(function(case_response) {
-
-    console.log("delete_case: success");
-
-    try
-    {
-      localStorage.removeItem('case_' + p_id);
-    }
-    catch(ex)
-    {
-      // do nothing for now
-    }
-    get_case_set();
-
-}).fail(function(xhr, err) { console.log("delete_case: failed", err); });
-
+  
 }
 
 
