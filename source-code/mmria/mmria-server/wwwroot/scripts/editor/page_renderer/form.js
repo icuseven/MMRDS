@@ -42,37 +42,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push(p_metadata.prompt);
                 p_result.push("</p>");
             
-                // p_result.push("<h2 class='construct__title text-primary h1' ");
-                // if(p_metadata.description && p_metadata.description.length > 0)
-                // {
-                //     p_result.push("rel='tooltip' data-original-title='");
-                //     p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                //     p_result.push("'>");
-                // }
-                // else
-                // {
-                //     p_result.push(">");
-                // }
-                // p_result.push(p_metadata.prompt);
-                // p_result.push("</h2>");
-
-                // if(g_data)
-                // {
-                //     p_result.push("<h3>");
-                //     p_result.push(g_data.home_record.last_name);
-                //     p_result.push(", ");
-                //     p_result.push(g_data.home_record.first_name);
-                //     if(g_data.home_record.record_id)
-                //     {
-                //         p_result.push("  - ");
-                //         p_result.push(g_data.home_record.record_id);
-                //     }
-                //     p_result.push("</h3>");
-                // }
                 
                 p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
                 p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
                 p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
+
+                render_print_form_control(p_result, p_ui, p_metadata);
             p_result.push("</header> <!-- end .construct__header -->");
             
             // The 'Records' Table
@@ -129,41 +104,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             }
 
                         }
-                        // for(var i = 0; i < p_data.length; i++)
-                        // {
-                        //     var item = p_data[i];
-                        //     if(item)
-                        //     {
-                        //         if(i % 2)
-                        //         {
-                        //             p_result.push('<div class="p_result_wrapper_grey"> <a href="#/');
-                        //         }
-                        //         else
-                        //         {
-                        //             p_result.push('<div class="p_result_wrapper"> <a href="#/');
-                        //         }
-                        //         p_result.push(p_ui.url_state.path_array.join("/"));
-                        //         //p_result.push(p_metadata.name);
-                        //         p_result.push("/");
-                        //         p_result.push(i);
-                        //         p_result.push("\">");
-                        //         p_result.push('View Record ');
-                        //         p_result.push(i + 1);
-                    
-                        //         p_result.push('</a>&nbsp;|&nbsp;');
-                                
-                        //             p_result.push('<a onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
-                        //             p_result.push("\">");
-                        //             p_result.push('Delete Record ');
-                        //             p_result.push(i + 1);
-                        //             p_result.push('</a>');
-                                
-                        //         p_result.push('</div>');
-                        //     }
 
-                        // }
                     p_result.push('</tbody>');
                 p_result.push('</table>');
+
+
+
             p_result.push('</div>');
         p_result.push("</section> <!-- end.construct -->");
 
@@ -184,11 +130,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push(g_data.home_record.last_name);
                         p_result.push(", ");
                         p_result.push(g_data.home_record.first_name);
-                        // if(g_data.home_record.record_id)
-                        // {
-                        //     p_result.push("  - ");
-                        //     p_result.push(g_data.home_record.record_id);
-                        // }
                         p_result.push("</h2>");
                     }
                     if(g_data.home_record.record_id)
@@ -212,46 +153,14 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push(p_metadata.prompt);
                         p_result.push(' <span>(Record ' + (data_index + 1) + ')<span>');
                     p_result.push("</p>");
+
+                    render_print_form_control(p_result, p_ui, p_metadata);
                 p_result.push("</div>");
                 p_result.push("<div class='col col-4 text-right'>");
                     p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
                     p_result.push(" <input type='button' class='btn btn-primary' value='Save' onclick='save_form_click()' />");
                 p_result.push("</div>");
-                // p_result.push("<h2 class='construct__title h1 row no-gutters' ");
-                // if(p_metadata.description && p_metadata.description.length > 0)
-                // {
-                //     p_result.push("rel='tooltip' data-original-title='");
-                //     p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                //     p_result.push("'>");
-                // }
-                // else
-                // {
-                //     p_result.push(">");
-                // }
 
-                // p_result.push(p_metadata.prompt);
-                
-                //     p_result.push(" <input type='button' class='btn btn-primary' value='undo' onclick='undo_click()' />");
-                //     p_result.push(" <input type='button' class='btn btn-primary' value='save' onclick='save_form_click()' />");
-
-                // p_result.push("</h2><h4>");
-                // p_result.push(" record: ");
-                // p_result.push(data_index + 1);
-                // p_result.push("</h4>");
-                
-                // if(g_data)
-                // {
-                //     p_result.push("<h3>");
-                //     p_result.push(g_data.home_record.last_name);
-                //     p_result.push(", ");
-                //     p_result.push(g_data.home_record.first_name);
-                //     if(g_data.home_record.record_id)
-                //     {
-                //         p_result.push(" - ");
-                //         p_result.push(g_data.home_record.record_id);
-                //     }
-                //     p_result.push("</h3>");
-                // }
             p_result.push("</header>");
             
             p_result.push("<div class='construct__body'>");
@@ -334,6 +243,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                     p_result.push(p_metadata.prompt);
                 p_result.push("</p>");
+
+                render_print_form_control(p_result, p_ui, p_metadata);
             p_result.push("</div>");
             p_result.push("<div class='col col-4 text-right'>");
                 p_result.push(" <input type='button' class='btn btn-secondary' value='Undo' onclick='undo_click()' />");
@@ -516,4 +427,27 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
     p_result.push("</div> <!-- end .construct__header -->");
 
+}
+
+
+function render_print_form_control(p_result, p_ui, p_metadata)
+{
+    if(parseInt(p_ui.url_state.path_array[0]) >= 0)
+    {        
+        p_result.push('<div class="form-group fake-list-group-anchor">');
+        p_result.push('<label for="print_case">Print case form</label>');
+        p_result.push('<div class="form-control-wrap">');
+        p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
+        p_result.push('<option value="" selected>Select one</option>');  
+        p_result.push('<option value="core-summary">Core Elements Only</option>');
+        p_result.push('<option value="all">All</option>');  
+
+        p_result.push('<option value="' + p_metadata.name + '">');
+        p_result.push(p_metadata.prompt)
+        p_result.push('</option>');
+
+        p_result.push('</select>');
+        p_result.push('</div>');
+        p_result.push('</div>');
+    }
 }

@@ -117,35 +117,6 @@ function navigation_render(p_metadata, p_level, p_ui)
           result.push('</li>');
 
         }
-
-        if(parseInt(p_ui.url_state.path_array[0]) >= 0)
-        {        
-        // print version start
-        result.push('<li class="list-group-item">');
-          result.push('<div class="form-group fake-list-group-anchor">');
-            result.push('<label for="print_case">Print case form</label>');
-            result.push('<div class="form-control-wrap">');
-              result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
-                result.push('<option value="" selected>Select one</option>');  
-                result.push('<option value="core-summary">Core Elements Only</option>');
-                result.push('<option value="all">All</option>');  
-                for(var i = 0; i < p_metadata.children.length; i++)
-                {
-                  var child = p_metadata.children[i];
-                  if(child.type.toLowerCase() == 'form')
-                  {
-                    result.push('<option value="' + child.name + '">');
-                      result.push(child.prompt)
-                    result.push('</option>');
-                  }
-                }
-              result.push('</select>');
-            result.push('</div>');
-          result.push('</div>');
-        result.push('</li>');
-
-        }
-
         result.push('<li id="nav_status_area">&nbsp;</li>');
         break;
 
