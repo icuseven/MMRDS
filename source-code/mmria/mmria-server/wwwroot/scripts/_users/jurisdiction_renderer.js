@@ -109,10 +109,13 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
 						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
 					},*/
-			}).done(function(response) 
-			{
-
-
+			})
+			.done
+			(
+				function(response) 
+				{
+					if(response)
+					{
 						var response_obj = eval(response);
 						if(response_obj.ok)
 						{
@@ -132,8 +135,14 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 								}
 							}
 						}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("jurisdiction_tree sent", response);
-			});
+							//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+						console.log("jurisdiction_tree sent", response);
+					}
+					else
+					{
+						alert("You are not authorized to make this change.");
+					}
+				}
+			);
 	}
 }
