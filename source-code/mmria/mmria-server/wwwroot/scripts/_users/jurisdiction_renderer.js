@@ -72,12 +72,7 @@ function save_jurisdiction_tree_click(p_user_id)
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(g_jurisdiction_tree),
-					type: "POST",/*
-					beforeSend: function (request)
-					{
-						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
-						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-					},*/
+					type: "POST"
 			}).done(function(response) 
 			{
 
