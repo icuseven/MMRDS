@@ -233,6 +233,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 				p_result.push(p_metadata.decimal_precision);
 	}
 	
+
+	if(p_metadata.type=="date")
+	{
+		p_result.push(" date");
+	}
 	
 	if(p_metadata.type=="button")
 	{
