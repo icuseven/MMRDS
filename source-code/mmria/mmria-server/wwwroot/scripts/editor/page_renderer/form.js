@@ -439,30 +439,21 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
 function render_print_form_control(p_result, p_ui, p_metadata)
 {
     if(parseInt(p_ui.url_state.path_array[0]) >= 0)
-    {        
-        // p_result.push('<div class="form-group fake-list-group-anchor">');
+    {
         p_result.push('<div>');
-        p_result.push('<label for="print_case" class="sr-only">Print version</label>');
-        p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
-            p_result.push('<option>Select to print a form</option>');
-            p_result.push('<optgroup label="Current form">');
-                p_result.push('<option value="' + p_metadata.name + '">');
-                p_result.push('Print ' + p_metadata.prompt)
-                p_result.push('</option>');
-            p_result.push('</optgroup>');
-            p_result.push('<optgroup label="Other">');
-                p_result.push('<option value="core-summary">Print Core Elements Only</option>');
-                p_result.push('<option value="all">Print All</option>');  
-            p_result.push('</optgroup>');
-            // p_result.push('<option value="" selected>Select one</option>');  
-            // p_result.push('<option value="core-summary">Core Elements Only</option>');
-            // p_result.push('<option value="all">All</option>');  
-
-            // p_result.push('<option value="' + p_metadata.name + '">');
-            // p_result.push(p_metadata.prompt)
-            // p_result.push('</option>');
-        p_result.push('</select>');
+            p_result.push('<label for="print_case" class="sr-only">Print version</label>');
+            p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
+                p_result.push('<option>Select to print a form</option>');
+                p_result.push('<optgroup label="Current form">');
+                    p_result.push('<option value="' + p_metadata.name + '">');
+                    p_result.push('Print ' + p_metadata.prompt)
+                    p_result.push('</option>');
+                p_result.push('</optgroup>');
+                p_result.push('<optgroup label="Other">');
+                    p_result.push('<option value="core-summary">Print Core Elements Only</option>');
+                    p_result.push('<option value="all">Print All</option>');  
+                p_result.push('</optgroup>');
+            p_result.push('</select>');
         p_result.push('</div>');
-        // p_result.push('</div>');
     }
 }
