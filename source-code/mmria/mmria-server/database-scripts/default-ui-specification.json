@@ -4178,7 +4178,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/maternal_record_identification": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8,\"left\":17,\"height\":325,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10,\"left\":18,\"height\":325,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/maternal_record_identification/first_name": {
@@ -4223,7 +4223,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":390,\"left\":17,\"height\":2437,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":392,\"left\":18,\"height\":2437,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival": {
@@ -4508,7 +4508,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/name_and_location_facility": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":2892,\"left\":18,\"height\":1473,\"width\":1022,\"font-weight\":\"400\",\"font-size\":\"18px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":2894,\"left\":19,\"height\":1473,\"width\":1022,\"font-weight\":\"400\",\"font-size\":\"18px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/name_and_location_facility/facility_name": {
@@ -4699,7 +4699,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/internal_transfers": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":4401,\"left\":18,\"height\":457,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":4403,\"left\":19,\"height\":457,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/internal_transfers/date_and_time": {
@@ -4736,7 +4736,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/maternal_biometrics": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":4892,\"left\":21,\"height\":374,\"width\":496,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":4894,\"left\":22,\"height\":374,\"width\":496,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/maternal_biometrics/admission_weight": {
@@ -4781,7 +4781,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/physical_exam_and_evaluations": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5312,\"left\":17,\"height\":264,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5314,\"left\":18,\"height\":471,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/physical_exam_and_evaluations/date_and_time": {
@@ -4818,7 +4818,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/psychological_exam_and_assesments": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5630,\"left\":16,\"height\":254,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5807,\"left\":15,\"height\":471,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/psychological_exam_and_assesments/date_and_time": {
@@ -4855,7 +4855,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/labratory_tests": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5945,\"left\":18,\"height\":391,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":6312,\"left\":18,\"height\":391,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/labratory_tests/date_and_time": {
@@ -4908,7 +4908,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/pathology": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":6383,\"left\":17,\"height\":269,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":6737,\"left\":19,\"height\":471,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/pathology/date_and_time": {
@@ -4945,7 +4945,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/onset_of_labor": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":6712,\"left\":17,\"height\":797,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"18px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":7248,\"left\":17,\"height\":797,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"18px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor": {
@@ -5080,7 +5080,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/vital_signs": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":7589,\"left\":17,\"height\":393,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":8081,\"left\":18,\"height\":471,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/vital_signs/date_and_time": {
@@ -5133,7 +5133,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/highest_bp": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8022,\"left\":17,\"height\":188,\"width\":447,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":8591,\"left\":19,\"height\":188,\"width\":447,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/highest_bp/systolic_bp": {
@@ -5154,27 +5154,27 @@
 	  },
 	  "er_visit_and_hospital_medical_records/temperature_graph": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8280,\"left\":18,\"height\":246,\"width\":486.797,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":8849,\"left\":20,\"height\":246,\"width\":486.797,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/pulse_graph": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8278,\"left\":542.796875,\"height\":249,\"width\":485.641,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":8847,\"left\":544.796875,\"height\":249,\"width\":485.641,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/respiration_graph": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8573,\"left\":16.4375,\"height\":256,\"width\":488.219,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":9142,\"left\":18.4375,\"height\":256,\"width\":488.219,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/blood_pressure_graph": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8576,\"left\":543,\"height\":250,\"width\":488.047,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":9145,\"left\":545,\"height\":250,\"width\":488.047,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/birth_attendant": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":8872,\"left\":17,\"height\":250,\"width\":1009,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":9424,\"left\":21,\"height\":250,\"width\":1009,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/birth_attendant/title": {
@@ -5203,15 +5203,15 @@
 	  },
 	  "er_visit_and_hospital_medical_records/were_there_complications_of_anesthesia": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":9177,\"left\":13,\"height\":50,\"width\":361.641,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":9712,\"left\":20,\"height\":50,\"width\":361.641,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":9171,\"left\":377,\"height\":56,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":9706,\"left\":384,\"height\":56,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/anesthesia": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":9272,\"left\":18,\"height\":252,\"width\":1008,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":9790,\"left\":20,\"height\":471,\"width\":1008,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/anesthesia/date_time": {
@@ -5240,15 +5240,15 @@
 	  },
 	  "er_visit_and_hospital_medical_records/any_adverse_reactions": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":9583,\"left\":19,\"height\":50,\"width\":434.672,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10297,\"left\":19,\"height\":50,\"width\":434.672,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":9583,\"left\":447,\"height\":50,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10297,\"left\":447,\"height\":50,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/list_of_medications": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":9676,\"left\":17,\"height\":261,\"width\":1009,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10390,\"left\":17,\"height\":471,\"width\":1009,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/list_of_medications/date_and_time": {
@@ -5285,15 +5285,15 @@
 	  },
 	  "er_visit_and_hospital_medical_records/any_surgical_procedures": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":9985,\"left\":18,\"height\":50,\"width\":346.844,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10897,\"left\":15,\"height\":50,\"width\":346.844,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":9980,\"left\":320,\"height\":57,\"width\":138,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10892,\"left\":317,\"height\":57,\"width\":138,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/surgical_procedures": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":10080,\"left\":19,\"height\":402,\"width\":1022,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":10992,\"left\":16,\"height\":402,\"width\":1022,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/surgical_procedures/date_and_time": {
@@ -5338,23 +5338,23 @@
 	  },
 	  "er_visit_and_hospital_medical_records/any_blood_transfusions": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":10537,\"left\":18,\"height\":50,\"width\":458.766,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":11422,\"left\":16,\"height\":50,\"width\":458.766,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":10593,\"left\":18,\"height\":56,\"width\":299,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":11478,\"left\":16,\"height\":56,\"width\":299,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/patient_blood_type": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":10538,\"left\":509.203125,\"height\":46,\"width\":224.313,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":11423,\"left\":507.203125,\"height\":46,\"width\":224.313,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":10594,\"left\":509.203125,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":11479,\"left\":507.203125,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/blood_product_grid": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":10696,\"left\":17,\"height\":257,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":11586,\"left\":16,\"height\":402,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/blood_product_grid/date_and_time": {
@@ -5391,7 +5391,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/diagnostic_imaging_grid": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":11018,\"left\":18,\"height\":268,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":12023,\"left\":15,\"height\":402,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/diagnostic_imaging_grid/date_and_time": {
@@ -5428,7 +5428,7 @@
 	  },
 	  "er_visit_and_hospital_medical_records/referrals_and_consultations": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":11346,\"left\":18,\"height\":257,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":12462,\"left\":17,\"height\":402,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "er_visit_and_hospital_medical_records/referrals_and_consultations/date": {
@@ -5465,10 +5465,10 @@
 	  },
 	  "er_visit_and_hospital_medical_records/reviewer_note": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":11637,\"left\":18,\"height\":50,\"width\":604.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":12896.6875,\"left\":18,\"height\":73,\"width\":604.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":11688,\"left\":15,\"height\":339,\"width\":1028,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":12947.6875,\"left\":15,\"height\":339,\"width\":1028,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "other_medical_office_visits/visit": {
@@ -6429,7 +6429,7 @@
 	  },
 	  "social_and_environmental_profile/socio_economic_characteristics": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":27,\"left\":17,\"height\":683,\"width\":1024.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":7,\"left\":17,\"height\":682,\"width\":1024.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/socio_economic_characteristics/source_of_income": {
@@ -6514,89 +6514,89 @@
 	  },
 	  "social_and_environmental_profile/members_of_household": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":864.546875,\"left\":19,\"height\":258,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":721.546875,\"left\":19,\"height\":297,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/members_of_household/relationship": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":93,\"left\":25,\"height\":50,\"width\":88.0625,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":23,\"height\":50,\"width\":88.0625,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":93,\"left\":123.5,\"height\":50,\"width\":152,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":121.5,\"height\":50,\"width\":152,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/members_of_household/gender": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":93,\"left\":281.5,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":279.5,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":93,\"left\":349.3125,\"height\":50,\"width\":128,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":347.3125,\"height\":50,\"width\":128,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/members_of_household/age": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":93,\"left\":487.3125,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":485.3125,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":93,\"left\":525.78125,\"height\":50,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":523.78125,\"height\":50,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/members_of_household/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":180,\"left\":173.78125,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":155,\"left\":167.78125,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":174,\"left\":282,\"height\":59,\"width\":474,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":155,\"left\":281,\"height\":120,\"width\":647,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/previous_or_current_incarcerations": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":766,\"left\":19,\"height\":50,\"width\":285.219,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1056,\"left\":20,\"height\":50,\"width\":285.219,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":766,\"left\":301.65625,\"height\":50,\"width\":161,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1056,\"left\":302.65625,\"height\":50,\"width\":161,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/details_of_incarcerations": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1180.546875,\"left\":19,\"height\":232,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1135.546875,\"left\":19,\"height\":291,\"width\":1021.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/details_of_incarcerations/date": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":37,\"height\":46,\"width\":33.7969,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":51,\"height\":46,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":70,\"left\":80.796875,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":106,\"left\":51,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/details_of_incarcerations/duration": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":317.796875,\"height\":46,\"width\":60.4844,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":331.796875,\"height\":46,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":70,\"left\":388.28125,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":106,\"left\":332,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/details_of_incarcerations/reason": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":625.28125,\"height\":46,\"width\":55.125,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":639.28125,\"height\":46,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":76,\"left\":690.4375,\"height\":50,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":106,\"left\":639,\"height\":50,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/details_of_incarcerations/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":154,\"left\":206.4375,\"height\":46,\"width\":77.3594,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":217,\"left\":152.796875,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":156,\"left\":296,\"height\":53,\"width\":630,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":217,\"left\":265,\"height\":55,\"width\":630,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_access": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1479.546875,\"left\":18,\"height\":673,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1479.546875,\"left\":18,\"height\":818,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_access/barriers_to_health_care_access": {
@@ -6604,20 +6604,20 @@
 		  "style": "{\"position\":\"absolute\",\"top\":38.9375,\"left\":16,\"height\":50,\"width\":578.547,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":57,\"left\":13,\"height\":483,\"width\":984.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":57,\"left\":13,\"height\":483,\"width\":690.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_access/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":589,\"left\":11,\"height\":46,\"width\":77.3594,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":569,\"left\":13,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":584,\"left\":98.359375,\"height\":56,\"width\":377,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":619,\"left\":13.359375,\"height\":176,\"width\":689,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/communications": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":2202.546875,\"left\":18,\"height\":723,\"width\":1025.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":2362.546875,\"left\":18,\"height\":829,\"width\":1025.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/communications/barriers_to_communications": {
@@ -6625,20 +6625,20 @@
 		  "style": "{\"position\":\"absolute\",\"top\":41,\"left\":10,\"height\":50,\"width\":559.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":50,\"left\":13,\"height\":494,\"width\":628.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":50,\"left\":13,\"height\":494,\"width\":690.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/communications/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":577,\"left\":11,\"height\":50,\"width\":77.3594,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":587,\"left\":13,\"height\":50,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":620,\"left\":11,\"height\":56,\"width\":470,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":637,\"left\":13,\"height\":167,\"width\":689,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/social_or_emotional_stress": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":2989.546875,\"left\":17,\"height\":1206,\"width\":1025.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":3251.546875,\"left\":17,\"height\":1358,\"width\":1025.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress": {
@@ -6646,36 +6646,36 @@
 		  "style": "{\"position\":\"absolute\",\"top\":36,\"left\":9,\"height\":46,\"width\":474.625,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":41,\"left\":13,\"height\":901,\"width\":627.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":41,\"left\":13,\"height\":901,\"width\":691.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/social_or_emotional_stress/specify_other_evidence_stress": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":1007,\"left\":14,\"height\":46,\"width\":266.766,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":987,\"left\":15,\"height\":46,\"width\":266.766,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1002,\"left\":258.78125,\"height\":60,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1033,\"left\":16.78125,\"height\":50,\"width\":689,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/social_or_emotional_stress/explain_further": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":1107,\"left\":127.78125,\"height\":46,\"width\":121.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1114,\"left\":14,\"height\":50,\"width\":145.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1108,\"left\":259.28125,\"height\":50,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1166,\"left\":14.28125,\"height\":166,\"width\":692,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":4257,\"left\":18,\"height\":832,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":4664,\"left\":18,\"height\":820,\"width\":1023.27,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/no_prenatal_care": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":57,\"left\":14,\"height\":50,\"width\":164.844,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":44,\"left\":16,\"height\":50,\"width\":164.844,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":52,\"left\":155.28125,\"height\":56,\"width\":194,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":39,\"left\":157.28125,\"height\":56,\"width\":194,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments": {
@@ -6683,44 +6683,44 @@
 		  "style": "{\"position\":\"absolute\",\"top\":139.5625,\"left\":12.59375,\"height\":50,\"width\":588.219,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":152.546875,\"left\":10,\"height\":634,\"width\":566.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":133.546875,\"left\":10,\"height\":398,\"width\":566.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/specify_other_reason": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":359.796875,\"left\":607,\"height\":50,\"width\":277.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":300.796875,\"left\":605,\"height\":50,\"width\":277.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":410,\"left\":607,\"height\":50,\"width\":385.547,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":351,\"left\":605,\"height\":50,\"width\":385.547,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":485,\"left\":607,\"height\":46,\"width\":107.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":565,\"left\":14,\"height\":46,\"width\":107.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":531,\"left\":607,\"height\":50,\"width\":386,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":611,\"left\":14,\"height\":173,\"width\":563,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/had_military_service": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":5153,\"left\":17,\"height\":50,\"width\":290.938,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5520,\"left\":17,\"height\":50,\"width\":290.938,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5209,\"left\":17,\"height\":56,\"width\":163,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5576,\"left\":17,\"height\":56,\"width\":163,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/was_there_bereavement_support": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":5152,\"left\":333,\"height\":50,\"width\":433.891,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5519,\"left\":333,\"height\":50,\"width\":433.891,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5208,\"left\":333,\"height\":56,\"width\":99,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5575,\"left\":333,\"height\":56,\"width\":99,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/social_and_medical_referrals": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5313.265625,\"left\":17,\"height\":374,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5685.265625,\"left\":16,\"height\":361,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/social_and_medical_referrals/date": {
@@ -6773,7 +6773,7 @@
 	  },
 	  "social_and_environmental_profile/sources_of_social_services_information_for_this_record": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":5757.875,\"left\":18,\"height\":264.391,\"width\":1023,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":6089.875,\"left\":20,\"height\":474.391,\"width\":1023,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/sources_of_social_services_information_for_this_record/date": {
@@ -6802,47 +6802,47 @@
 	  },
 	  "social_and_environmental_profile/sources_of_social_services_information_for_this_record/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":69,\"left\":707.4375,\"height\":46,\"width\":118,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":197,\"left\":10.4375,\"height\":46,\"width\":118,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":124.96875,\"left\":707.4375,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":252.96875,\"left\":10.4375,\"height\":151,\"width\":974,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/documented_substance_use": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":6088,\"left\":19.96875,\"height\":50,\"width\":323.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":6595,\"left\":18.96875,\"height\":50,\"width\":323.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":6088,\"left\":337.578125,\"height\":50,\"width\":132.797,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":6595,\"left\":336.578125,\"height\":50,\"width\":132.797,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/if_yes_specify_substances": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":6186.0625,\"left\":15.375,\"height\":323,\"width\":1026,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":6676.0625,\"left\":20.375,\"height\":320,\"width\":1026,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/if_yes_specify_substances/substance": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":71,\"left\":20,\"height\":50,\"width\":244.75,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":76,\"left\":17,\"height\":50,\"width\":244.75,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":121,\"left\":20,\"height\":125,\"width\":299,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":126,\"left\":17,\"height\":112,\"width\":299,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/if_yes_specify_substances/timing_of_substance_use": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":71,\"left\":339.4375,\"height\":49.9844,\"width\":281.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":76,\"left\":336.4375,\"height\":49.9844,\"width\":281.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":121,\"left\":339.4375,\"height\":56,\"width\":165,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":126,\"left\":336.4375,\"height\":56,\"width\":165,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/reviewer_note": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":6564.46875,\"left\":18.1875,\"height\":50,\"width\":568.547,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":7036.46875,\"left\":18,\"height\":50,\"width\":480.547,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":6617.46875,\"left\":17.1875,\"height\":386.797,\"width\":1025.19,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":7089.46875,\"left\":17.1875,\"height\":386.797,\"width\":1028.19,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "mental_health_profile/were_there_documented_preexisting_mental_health_conditions": {
@@ -7150,10 +7150,10 @@
 	  },
 	  "case_narrative/case_opening_overview": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":3556.59375,\"left\":5.28125,\"height\":61.9844,\"width\":949.594,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5101.578125,\"left\":5,\"height\":54,\"width\":1039.58,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":3628.578125,\"left\":5.28125,\"height\":292.797,\"width\":1001,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":5169,\"left\":2,\"height\":763.797,\"width\":1042,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/date_of_review": {
@@ -7182,7 +7182,7 @@
 	  },
 	  "committee_review/does_committee_agree_with_cod_on_death_certificate": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":245,\"left\":19,\"height\":50,\"width\":672.313,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":245,\"left\":19,\"height\":50,\"width\":672.297,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
 		  "style": "{\"position\":\"absolute\",\"top\":242,\"left\":691,\"height\":51,\"width\":222,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
@@ -7198,63 +7198,63 @@
 	  },
 	  "committee_review/committee_determination_of_causes_of_death": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":600,\"left\":17,\"height\":159,\"width\":898,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":600,\"left\":17,\"height\":259,\"width\":898,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "committee_review/committee_determination_of_causes_of_death/type": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":28,\"left\":142,\"height\":51,\"width\":140.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":75,\"left\":30,\"height\":50,\"width\":140.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":81,\"left\":141,\"height\":56,\"width\":151,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":29,\"height\":50,\"width\":151,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/committee_determination_of_causes_of_death/cause_descriptive": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":28,\"left\":307.4375,\"height\":50,\"width\":222.469,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":195.4375,\"height\":50,\"width\":222.469,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":81,\"left\":306.4375,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":194.4375,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/committee_determination_of_causes_of_death/comments": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":28,\"left\":544.4375,\"height\":50,\"width\":221.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":432.4375,\"height\":50,\"width\":221.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":81,\"left\":543.4375,\"height\":56,\"width\":304,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":431.4375,\"height\":56,\"width\":429,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/pmss_mm": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":830,\"left\":15,\"height\":50,\"width\":898.922,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":884,\"left\":17,\"height\":50,\"width\":898.922,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":882,\"left\":15,\"height\":50,\"width\":903,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":936,\"left\":17,\"height\":50,\"width\":903,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/pmss_mm_secondary": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":965,\"left\":16,\"height\":50,\"width\":898.172,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1019,\"left\":18,\"height\":50,\"width\":898.172,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1021,\"left\":16,\"height\":56,\"width\":903,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1075,\"left\":18,\"height\":56,\"width\":903,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/did_obesity_contribute_to_the_death": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":1116,\"left\":15,\"height\":50,\"width\":325.469,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1170,\"left\":17,\"height\":50,\"width\":325.469,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1177,\"left\":15,\"height\":55,\"width\":275,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1231,\"left\":17,\"height\":55,\"width\":275,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/did_mental_health_conditions_contribute_to_the_death": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":1116,\"left\":320.90625,\"height\":50,\"width\":439,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1170,\"left\":322.90625,\"height\":50,\"width\":439,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":1176,\"left\":320.90625,\"height\":56,\"width\":399,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1230,\"left\":322.90625,\"height\":56,\"width\":399,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/did_substance_use_disorder_contribute_to_the_death": {
@@ -7299,7 +7299,7 @@
 	  },
 	  "committee_review/if_homicide_relationship_of_perpetrator": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":1576,\"left\":17,\"height\":46,\"width\":613.563,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":1576,\"left\":17,\"height\":46,\"width\":613.547,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
 		  "style": "{\"position\":\"absolute\",\"top\":1632,\"left\":17,\"height\":56,\"width\":617,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
@@ -7339,36 +7339,36 @@
 	  },
 	  "committee_review/critical_factors_worksheet": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":2081,\"left\":17,\"height\":175,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":2081,\"left\":17,\"height\":293,\"width\":1025,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "committee_review/critical_factors_worksheet/category": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":40,\"left\":134,\"height\":50,\"width\":130.922,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":82,\"left\":23,\"height\":50,\"width\":130.922,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":96,\"left\":133,\"height\":56,\"width\":132,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":138,\"left\":22,\"height\":56,\"width\":132,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/critical_factors_worksheet/class": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":40,\"left\":279.4375,\"height\":46,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":82,\"left\":168.4375,\"height\":46,\"width\":100,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":96,\"left\":279.4375,\"height\":56,\"width\":406,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":138,\"left\":168.4375,\"height\":56,\"width\":406,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/critical_factors_worksheet/description": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":40,\"left\":714.875,\"height\":50,\"width\":101.016,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":82,\"left\":587.875,\"height\":50,\"width\":117.016,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":96,\"left\":713.875,\"height\":56,\"width\":254,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":139,\"left\":583.875,\"height\":55,\"width\":392,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/recommendations_of_committee": {
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":2317,\"left\":18,\"height\":258,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":2406,\"left\":20,\"height\":530,\"width\":1024,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "committee_review/recommendations_of_committee/committee_recommendations": {
@@ -7376,23 +7376,23 @@
 		  "style": "{\"position\":\"absolute\",\"top\":74,\"left\":18,\"height\":50,\"width\":155.391,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":18,\"height\":56,\"width\":445,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":18,\"height\":172,\"width\":961,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/recommendations_of_committee/prevention": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":72,\"left\":479,\"height\":50,\"width\":219.969,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":330,\"left\":29,\"height\":50,\"width\":219.969,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":479,\"height\":56,\"width\":222,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":385,\"left\":29,\"height\":56,\"width\":222,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "committee_review/recommendations_of_committee/impact_level": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":73,\"left\":738.40625,\"height\":50,\"width\":129.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":331,\"left\":288.40625,\"height\":50,\"width\":129.5,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
 		"control": {
-		  "style": "{\"position\":\"absolute\",\"top\":127,\"left\":735.40625,\"height\":56,\"width\":193,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":385,\"left\":285.40625,\"height\":56,\"width\":193,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
 	  "autopsy_report/relevant_maternal_death_findings/gross_findings/finding": {
@@ -8617,32 +8617,32 @@
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":53,\"left\":15,\"height\":50,\"width\":136.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":31,\"left\":12,\"height\":50,\"width\":136.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Lack/of/Childcare": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":108,\"left\":15,\"height\":50,\"width\":188.047,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":66,\"left\":12,\"height\":50,\"width\":188.047,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Appointment/Conflict": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":163,\"left\":15,\"height\":50,\"width\":235.047,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":101,\"left\":12,\"height\":50,\"width\":235.047,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/No/Transportation": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":218,\"left\":15,\"height\":50,\"width\":246.922,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":136,\"left\":12,\"height\":50,\"width\":246.922,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Busy/Elsewhere": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":273,\"left\":15,\"height\":50,\"width\":212.172,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":171,\"left\":12,\"height\":50,\"width\":212.172,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Forgot": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":328,\"left\":15,\"height\":50,\"width\":191.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":206,\"left\":12,\"height\":50,\"width\":191.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father/American/Indian__Alaska/Native": {
@@ -8667,22 +8667,22 @@
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Don-t/Like/Prenatal/Care/Provider": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":383,\"left\":15,\"height\":50,\"width\":336.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":241,\"left\":12,\"height\":50,\"width\":336.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Other": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":438,\"left\":15,\"height\":50,\"width\":171.469,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":276,\"left\":12,\"height\":50,\"width\":171.469,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/None": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":493,\"left\":15,\"height\":50,\"width\":153.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":311,\"left\":12,\"height\":50,\"width\":153.688,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
 	  "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments/Unknown": {
 		"prompt": {
-		  "style": "{\"position\":\"absolute\",\"top\":548,\"left\":15,\"height\":50,\"width\":223,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
+		  "style": "{\"position\":\"absolute\",\"top\":346,\"left\":12,\"height\":50,\"width\":223,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  }
 	}
