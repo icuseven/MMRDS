@@ -162,8 +162,9 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
           $("#" + convert_object_path_to_jquery_id(p_object_path) + " .time" ).datetimepicker({format: 'LT',  });
           break;
+          /*
           case 'date':
-          flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " .date", {
+          flatpickr("#" + convert_object_path_to_jquery_id(p_object_path) + " input.date", {
             utc: true,
             enableTime: false,
             defaultDate: value,
@@ -173,7 +174,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           });
 
           break;
-
+*/
           case 'datetime':
             $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker(
               {
