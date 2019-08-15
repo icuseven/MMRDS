@@ -751,7 +751,11 @@ death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic
 death_certificate/Race/race = Other
 
 */
-			if (is_non_hispanic("Other", p_source_object))
+			if 
+			(
+				is_non_hispanic("Other", p_source_object) ||
+				is_non_hispanic("Other Race", p_source_object) 
+			)
 			{
 				result.Add (ethnicity_enum.other);
 			}
