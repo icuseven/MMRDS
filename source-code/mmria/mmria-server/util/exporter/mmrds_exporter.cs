@@ -446,8 +446,12 @@ namespace mmria.server.util
 											-1,
 											-1
 										);
+
+										val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
 									}
-									else if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+
+
+									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
 									{
 										row[convert_path_to_field_name(path)] = val;
 									}
@@ -527,23 +531,25 @@ namespace mmria.server.util
 													grid_row[path_to_int_map[node].ToString("X")] = val;
 												}
 											}
-											else if
-											(
-												path_to_node_map[path].type.ToLower() == "textarea" &&
-												val.ToString().Length > max_qualitative_length
-											)
-											{
-												WriteQualitativeData
-												(
-													case_doc["_id"].ToString(),
-													path,
-													val,
-													i,
-													-1
-												);
-											}
 											else
 											{
+												if
+												(
+													path_to_node_map[path].type.ToLower() == "textarea" &&
+													val.ToString().Length > max_qualitative_length
+												)
+												{
+													WriteQualitativeData
+													(
+														case_doc["_id"].ToString(),
+														path,
+														val,
+														i,
+														-1
+													);
+													val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
+												}
+
 												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
 												{
 													grid_row[convert_path_to_field_name(node)] = val;
@@ -715,8 +721,11 @@ namespace mmria.server.util
 													-1,
 													i
 												);
+
+												val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
 											}
-											else if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+
+											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
 											{
 												form_row[convert_path_to_field_name(path)] = val;
 											}
@@ -969,23 +978,25 @@ namespace mmria.server.util
 												}
 												
 											}
-											else if
-											(
-												path_to_node_map[path].type.ToLower() == "textarea" &&
-												val.ToString().Length > max_qualitative_length
-											)
-											{
-												WriteQualitativeData
-												(
-													case_doc["_id"].ToString(),
-													path,
-													val,
-													i,
-													parent_record_index
-												);
-											}
 											else
 											{
+												if
+												(
+													path_to_node_map[path].type.ToLower() == "textarea" &&
+													val.ToString().Length > max_qualitative_length
+												)
+												{
+													WriteQualitativeData
+													(
+														case_doc["_id"].ToString(),
+														path,
+														val,
+														i,
+														parent_record_index
+													);
+													val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
+												}
+
 												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
 												{
 													grid_row[convert_path_to_field_name(node)] = val;
