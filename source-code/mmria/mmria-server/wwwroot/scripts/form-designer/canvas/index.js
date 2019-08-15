@@ -665,11 +665,21 @@ function execute_command_click()
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_width_selection()
           break;
+      case "aw+":
+        message += "\n\nalign width selection";
+        formDesigner.fdObjectHandler.quickSnap(true);
+        message += align_width_selection(true);
+        break;          
       case "ah":
           message += "\n\nalign height selection";
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_height_selection()
           break;
+      case "ah+":
+        message += "\n\nalign height selection";
+        formDesigner.fdObjectHandler.quickSnap(true);
+        message += align_height_selection(true);
+        break;          
       case "ahs":
           message += "\n\nalign height space of selection";
           formDesigner.fdObjectHandler.quickSnap(true);
@@ -930,7 +940,7 @@ function align_top_selection()
 }
 
 
-function align_width_selection()
+function align_width_selection(p_is_max_width)
 {
 
   var result = "";
@@ -950,6 +960,11 @@ function align_width_selection()
 
     selected_item_list.sort(align_width_compare);
 
+    if(p_is_max_width)
+    {
+      selected_item_list.reverse();
+    }
+
     var lowest_width = selected_item_list[0].offsetWidth;
 
     for(var i = 1; i < selected_item_list.length; i++)
@@ -962,7 +977,7 @@ function align_width_selection()
 }
 
 
-function align_height_selection()
+function align_height_selection(p_is_max_height)
 {
 
   var result = "";
@@ -982,6 +997,11 @@ function align_height_selection()
   {
 
     selected_item_list.sort(align_height_compare);
+
+    if(p_is_max_height)
+    {
+      selected_item_list.reverse();
+    }
 
     var lowest_height = selected_item_list[0].offsetHeight;
 

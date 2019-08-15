@@ -175,7 +175,7 @@ namespace mmria.server.util.email
 				smtp_client.EnableSsl = p_is_using_ssl;
 
 
-				smtp_client.Send(message);
+				//smtp_client.Send(message);
 
 				return true;
 
