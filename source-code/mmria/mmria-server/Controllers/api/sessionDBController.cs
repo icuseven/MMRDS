@@ -112,7 +112,7 @@ namespace mmria.server
 		}
 
 
-		[AllowAnonymous] 
+		[Authorize(Roles  = "abstractor")]
 		[HttpPut]
         [HttpPost]
 		public async System.Threading.Tasks.Task<IEnumerable<login_response>> Post
