@@ -434,7 +434,10 @@ namespace mmria.server.util
 								{
 									if
 									(
-										path_to_node_map[path].type.ToLower() == "textarea" &&
+										(
+											path_to_node_map[path].type.ToLower() == "textarea" ||
+											path_to_node_map[path].type.ToLower() == "string"
+										) &&
 										val.ToString().Length > max_qualitative_length
 									)
 									{
@@ -535,7 +538,10 @@ namespace mmria.server.util
 											{
 												if
 												(
-													path_to_node_map[path].type.ToLower() == "textarea" &&
+													(
+														path_to_node_map[path].type.ToLower() == "textarea" ||
+														path_to_node_map[path].type.ToLower() == "string"
+													) &&
 													val.ToString().Length > max_qualitative_length
 												)
 												{
@@ -709,7 +715,10 @@ namespace mmria.server.util
 										{
 											if
 											(
-												path_to_node_map[path].type.ToLower() == "textarea" &&
+												(
+													path_to_node_map[path].type.ToLower() == "textarea" ||
+													path_to_node_map[path].type.ToLower() == "string"
+												) &&
 												val.ToString().Length > max_qualitative_length
 											)
 											{
@@ -982,7 +991,10 @@ namespace mmria.server.util
 											{
 												if
 												(
-													path_to_node_map[path].type.ToLower() == "textarea" &&
+													(
+														path_to_node_map[path].type.ToLower() == "textarea" ||
+														path_to_node_map[path].type.ToLower() == "string"
+													)  &&
 													val.ToString().Length > max_qualitative_length
 												)
 												{
