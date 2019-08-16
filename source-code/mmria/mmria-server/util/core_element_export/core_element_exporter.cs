@@ -19,10 +19,6 @@ namespace mmria.server.util
 		private string item_id = null;
 		private bool is_offline_mode;
 
-		private System.IO.StreamWriter qualitativeStreamWriter = null;
-		private int qualitativeStreamCount = 0;
-		private const int max_qualitative_length = 31000;
-
 		private string juris_user_name = null;
 
 		private mmria.server.model.actor.ScheduleInfoMessage Configuration;
@@ -124,9 +120,6 @@ namespace mmria.server.util
 			{
 				System.IO.Directory.CreateDirectory(export_directory);
 			}
-
-			this.qualitativeStreamWriter = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
-
 
 			 
 			string URL = this.database_url + "/mmrds/_all_docs";
@@ -388,28 +381,6 @@ namespace mmria.server.util
 								}
 								else
 								{
-
-									if
-									(
-										(
-											path_to_node_map[path].type.ToLower() == "textarea" ||
-											path_to_node_map[path].type.ToLower() == "string"
-										) &&
-										val.ToString().Length > max_qualitative_length
-									)
-									{
-										WriteQualitativeData
-										(
-											mmria_case_id,
-											path,
-											val,
-											-1,
-											-1
-										);
-
-										val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
-									}
-
 									row [convert_path_to_field_name (path)] = val;
 								}
 								
@@ -504,10 +475,6 @@ namespace mmria.server.util
 			}
 
 			mapping_document.WriteToStream();
-
-			this.qualitativeStreamWriter.Flush();
-			this.qualitativeStreamWriter.Close();
-			this.qualitativeStreamWriter = null;
 
 
 			mmria.server.util.cFolderCompressor folder_compressor = new mmria.server.util.cFolderCompressor();
@@ -626,27 +593,6 @@ namespace mmria.server.util
 											}
 											else
 											{
-												if
-												(
-													(
-														path_to_node_map[path].type.ToLower() == "textarea" ||
-														path_to_node_map[path].type.ToLower() == "string"
-													) &&
-													val.ToString().Length > max_qualitative_length
-												)
-												{
-													WriteQualitativeData
-													(
-														mmria_case_id,
-														path,
-														val,
-														i,
-														parent_record_index
-													);
-
-													val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
-												}
-
 												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
 												{
 													grid_row[convert_path_to_field_name(node)] = val;
@@ -1099,19 +1045,6 @@ namespace mmria.server.util
 
 			return result;
 
-		}
-
-		private void WriteQualitativeData(string p_record_id, string p_mmria_path, string p_data, int p_index, int p_parent_index)
-		{
-			if(this.qualitativeStreamCount == 0)
-			{
-				this.qualitativeStreamWriter.WriteLine($"*** ******* id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}\n\n{p_data}");
-			}
-			else
-			{
-				this.qualitativeStreamWriter.WriteLine($"\n*** ******* id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}\n\n{p_data}");
-			}
-			this.qualitativeStreamCount+=1;
 		}
 
 		private List<string> get_core_element_list()
