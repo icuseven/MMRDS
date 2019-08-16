@@ -130,7 +130,7 @@ namespace mmria.server.util
 			}
 
 
-			this.qualitativeStreamWriter = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "qualitative-data.txt"), true);
+			this.qualitativeStreamWriter = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
 
 
 			string URL = this.database_url + "/mmrds/_all_docs";
