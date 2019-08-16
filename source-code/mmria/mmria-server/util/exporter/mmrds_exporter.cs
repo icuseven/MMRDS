@@ -443,7 +443,7 @@ namespace mmria.server.util
 									{
 										WriteQualitativeData
 										(
-											case_doc["_id"].ToString(),
+											mmria_case_id,
 											path,
 											val,
 											-1,
@@ -547,7 +547,7 @@ namespace mmria.server.util
 												{
 													WriteQualitativeData
 													(
-														case_doc["_id"].ToString(),
+														mmria_case_id,
 														path,
 														val,
 														i,
@@ -724,11 +724,11 @@ namespace mmria.server.util
 											{
 												WriteQualitativeData
 												(
-													case_doc["_id"].ToString(),
+													mmria_case_id,
 													path,
 													val,
-													-1,
-													i
+													i,
+													-1
 												);
 
 												val = "Over the qualitative limit. check the qualitative-data.txt file for details.";
@@ -1000,7 +1000,7 @@ namespace mmria.server.util
 												{
 													WriteQualitativeData
 													(
-														case_doc["_id"].ToString(),
+														mmria_case_id,
 														path,
 														val,
 														i,
