@@ -652,21 +652,32 @@ function execute_command_click()
       case "al":
           message += "\n\nalign left selection";
           formDesigner.fdObjectHandler.quickSnap(true);
-          message += align_left_selection()
+          message += align_left_selection();
           break;
+      case "al+":
+        message += "\n\nalign left+ selection";
+        formDesigner.fdObjectHandler.quickSnap(true);
+        message += align_left_selection(true);
+        break;          
       case "at":
           message += "\n\nalign top selection";
 
           formDesigner.fdObjectHandler.quickSnap(true);
-          message += align_top_selection()
+          message += align_top_selection();
           break;
+      case "at+":
+        message += "\n\nalign top+ selection";
+
+        formDesigner.fdObjectHandler.quickSnap(true);
+        message += align_top_selection(true);
+        break;          
       case "aw":
           message += "\n\nalign width selection";
           formDesigner.fdObjectHandler.quickSnap(true);
           message += align_width_selection()
           break;
       case "aw+":
-        message += "\n\nalign width selection";
+        message += "\n\nalign width+ selection";
         formDesigner.fdObjectHandler.quickSnap(true);
         message += align_width_selection(true);
         break;          
@@ -676,7 +687,7 @@ function execute_command_click()
           message += align_height_selection()
           break;
       case "ah+":
-        message += "\n\nalign height selection";
+        message += "\n\nalign height+ selection";
         formDesigner.fdObjectHandler.quickSnap(true);
         message += align_height_selection(true);
         break;          
@@ -876,7 +887,7 @@ function remove_all_selections_on_canvas()
 }
 
 
-function align_left_selection()
+function align_left_selection(p_is_max_left)
 {
 
   var result = "";
@@ -896,6 +907,11 @@ function align_left_selection()
 
     selected_item_list.sort(align_left_compare);
 
+    if(p_is_max_left)
+    {
+      selected_item_list.reverse();
+    }
+
     var lowest_left = selected_item_list[0].offsetLeft;
 
     for(var i = 1; i < selected_item_list.length; i++)
@@ -908,7 +924,7 @@ function align_left_selection()
 }
 
 
-function align_top_selection()
+function align_top_selection(p_is_max_top)
 {
 
   var result = "";
@@ -927,6 +943,11 @@ function align_top_selection()
   {
 
     selected_item_list.sort(align_top_compare);
+
+    if(p_is_max_top)
+    {
+      selected_item_list.reverse();
+    }
 
     var lowest_top = selected_item_list[0].offsetTop;
 
@@ -1123,8 +1144,8 @@ function align_height_compare(a, b)
 
 function align_width_compare(a, b)
 {
-  if (a.offsetHeight > b.offsetHeight) return 1;
-  if (b.offsetHeight > a.offsetHeight) return -1;
+  if (a.offsetWidth > b.offsetWidth) return 1;
+  if (b.offsetWidth > a.offsetWidth) return -1;
 
   return 0;
 }
