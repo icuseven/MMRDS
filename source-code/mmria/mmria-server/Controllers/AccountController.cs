@@ -235,7 +235,7 @@ namespace mmria.server.Controllers
                 //request.UseDefaultCredentials = true;
 
                 request.PreAuthenticate = false;
-                //request.Credentials = new System.Net.NetworkCredential("mmrds", "mmrds");
+
                 request.Method = "POST";
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = post_byte_array.Length;
