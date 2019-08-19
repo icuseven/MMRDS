@@ -158,6 +158,12 @@
     transform: translateY(-50%);
 }
 
+/* Adding min-height to input and select controls */
+.form-designer-wrapper .form-designer-canvas input.form-field-item,
+.form-designer-wrapper .form-designer-canvas select.form-field-item {
+    min-height: 54px;
+}
+
 /* Buttons */
 .form-designer-wrapper .form-designer-canvas .form-field-item.btn,
 .form-designer-wrapper .form-designer-canvas .form-field-item.btn-primary {
