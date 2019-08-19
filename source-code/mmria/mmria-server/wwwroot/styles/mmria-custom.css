@@ -777,6 +777,8 @@ ul {
   border-bottom: var(--border-width) solid;
   border-bottom-color: var(--neutral);
   margin-bottom: -1px;
+  margin-left: -1px;
+  margin-right: -1px;
   padding-bottom: 20px;
   padding-top: 20px;
   position: sticky;
