@@ -124,10 +124,6 @@
     padding-right: 0;
 }
 
-.form-designer-wrapper .form-designer-canvas .form-field-item {
-    padding: 10px;
-}
-
 .form-designer-wrapper .form-designer-canvas label.form-field-item:hover,
 .form-designer-wrapper .form-designer-canvas label.resize-drag:hover {
     border: none;

@@ -252,7 +252,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("</div>");
             p_result.push("<div class='row no-gutters col col-4 justify-content-end'>");
                 p_result.push("<div class='construct__controller row no-gutters justify-content-between'>");
-                    p_result.push("<div class='row no-gutters justify-content-end'>");
+                    p_result.push("<div class='row no-gutters justify-content-end mb-1'>");
                         p_result.push("<input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
                         p_result.push("<input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
                     p_result.push("</div>");
