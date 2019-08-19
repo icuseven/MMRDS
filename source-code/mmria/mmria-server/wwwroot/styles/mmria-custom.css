@@ -844,6 +844,12 @@ ul {
 }
 
 /* When an input is read only */
+.construct-output input,
+.construct-output select {
+    min-height: 54px;
+}
+
+/* When an input is read only */
 .construct-output input[readonly="true"],
 .construct-output textarea[readonly="true"],
 .construct-output select[readonly="true"] {
