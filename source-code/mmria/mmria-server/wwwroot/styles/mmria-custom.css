@@ -908,8 +908,8 @@ ul {
   margin-bottom: 24px;
 }
 
-.construct-output #case_narrative_id .textarea label,
-.construct-output #case_narrative_id .textarea textarea {
+#g_data_case_narrative_case_opening_overview label,
+#g_data_case_narrative_case_opening_overview textarea {
   left: auto;
   position: relative !important;
   top: auto;
