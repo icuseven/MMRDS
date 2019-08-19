@@ -897,22 +897,26 @@ ul {
     margin-bottom: 10px;
     margin-right: 10px;
     padding-bottom: 15px;
-    /* padding-left: 15px; */
-    /* padding-right: 15px; */
     padding-top: 15px;
 
     /* Lets remove all left and right padding to help with wrapping */
     padding-left: 0;
-    padding-right: ;
+    padding-right: 0;
 }
 
 .construct-output > :last-child {
   margin-bottom: 24px;
 }
 
+.construct-output #case_narrative_id .textarea label,
+.construct-output #case_narrative_id .textarea textarea {
+  left: auto;
+  position: relative !important;
+  top: auto;
+}
+
 .grid-control {
   overflow: hidden;
-  /* padding: 0 !important; */
 }
 
 .grid-control-items {
@@ -936,12 +940,6 @@ ul {
 .grid-control-item:nth-last-of-type(even) {
   background-color: #f7f7f7;
 }
-
-/* .grid-control-item + .grid-control-item {
-  border-top: 1px solid;
-  border-top-color: var(--neutral);
-  padding-top: 16px;
-} */
 
 .grid-control-action-icn {
   font-size: 14px;
