@@ -13,41 +13,44 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 if(g_data)
                 {
                     p_result.push("<div class='row no-gutters'>");
-                    p_result.push("<h2 class='construct__title text-primary h1'>");
-                    p_result.push(g_data.home_record.last_name);
-                    p_result.push(", ");
-                    p_result.push(g_data.home_record.first_name);
-                    p_result.push("</h2>");
+                        p_result.push("<div class='col col-8'>");
+                            p_result.push("<h2 class='construct__title text-primary h1'>");
+                            p_result.push(g_data.home_record.last_name);
+                            p_result.push(", ");
+                            p_result.push(g_data.home_record.first_name);
+                            p_result.push("</h2>");
+                            if(g_data.home_record.record_id)
+                            {
+                                p_result.push("<p class='construct__info'>");
+                                p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
+                                p_result.push("</p>");
+                            }
+
+                            p_result.push("<p class='construct__subtitle' ");
+                            if(p_metadata.description && p_metadata.description.length > 0)
+                            {
+                                p_result.push("rel='tooltip' data-original-title='");
+                                p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+                                p_result.push("'>");
+                            }
+                            else
+                            {
+                                p_result.push(">");
+                            }
+                            p_result.push(p_metadata.prompt);
+                            p_result.push("</p>");
+                        
+                            
+                            p_result.push('<input path="" type="button" class="btn btn-primary mt-2" value="Add New ');
+                            p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
+                            p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
+                        p_result.push("</div>");
+                        p_result.push("<div class='col col-4 row no-gutters align-items-end'>");
+                            render_print_form_control(p_result, p_ui, p_metadata);
+                        p_result.push("</div>");
                     p_result.push("</div>");
                 }
 
-                if(g_data.home_record.record_id)
-                {
-                  p_result.push("<p class='construct__info'>");
-                    p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
-                  p_result.push("</p>");
-                }
-
-                p_result.push("<p class='construct__subtitle' ");
-                if(p_metadata.description && p_metadata.description.length > 0)
-                {
-                    p_result.push("rel='tooltip' data-original-title='");
-                    p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                    p_result.push("'>");
-                }
-                else
-                {
-                    p_result.push(">");
-                }
-                p_result.push(p_metadata.prompt);
-                p_result.push("</p>");
-            
-                
-                p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
-                p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
-                p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
-
-                render_print_form_control(p_result, p_ui, p_metadata);
             p_result.push("</header> <!-- end .construct__header -->");
             
             // The 'Records' Table
@@ -93,7 +96,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     
                                 p_result.push('</a></td>');
                                 
-                                p_result.push('<td class="td td--25"><button class="btn btn-primary" onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
+                                p_result.push('<td class="td td--25"><button class="btn btn-primary mt-2" onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
                                 p_result.push("\">");
                                 p_result.push('Delete Record');
                                 // p_result.push('Delete Record ');
@@ -440,7 +443,7 @@ function render_print_form_control(p_result, p_ui, p_metadata)
 {
     if(parseInt(p_ui.url_state.path_array[0]) >= 0)
     {
-        p_result.push('<div>');
+        // p_result.push('<div>');
             p_result.push('<label for="print_case" class="sr-only">Print version</label>');
             p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
                 p_result.push('<option>Select to print a form</option>');
@@ -454,6 +457,6 @@ function render_print_form_control(p_result, p_ui, p_metadata)
                     p_result.push('<option value="all">Print All</option>');  
                 p_result.push('</optgroup>');
             p_result.push('</select>');
-        p_result.push('</div>');
+        // p_result.push('</div>');
     }
 }
