@@ -910,9 +910,9 @@ ul {
 
 #g_data_case_narrative_case_opening_overview label,
 #g_data_case_narrative_case_opening_overview textarea {
-  left: auto;
+  left: auto !important;
   position: relative !important;
-  top: auto;
+  top: auto !important;
 }
 
 .grid-control {
