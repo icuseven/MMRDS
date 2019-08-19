@@ -13,20 +13,20 @@ namespace mmria.server
 		System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> headers;
 		string url;
 		string pay_load;
-		string user_id;
-		string password;
+		string name;
+		string value;
 
 		string content_type;
 
-		public cURL (string p_method, string p_headers, string p_url, string p_pay_load, string p_username = null,
-		string p_password = null, string p_content_type = "application/json")
+		public cURL (string p_method, string p_headers, string p_url, string p_pay_load, string p_name = null,
+		string p_value = null, string p_content_type = "application/json")
 		{
 			this.headers = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string,string>> ();
 
 			this.content_type = p_content_type;
 
-			this.user_id = p_username;
-			this.password = p_password;
+			this.name = p_name;
+			this.value = p_value;
 			this.AllowRedirect = true;
 
 			switch (p_method.ToUpper ()) 
@@ -85,9 +85,9 @@ namespace mmria.server
 			httpWebRequest.Method = this.method;
 			httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
 
-			if (!string.IsNullOrWhiteSpace(this.user_id) && !string.IsNullOrWhiteSpace(this.password))
+			if (!string.IsNullOrWhiteSpace(this.name) && !string.IsNullOrWhiteSpace(this.value))
 			{
-				string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(this.user_id + ":" + this.password));
+				string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(this.name + ":" + this.value));
 				httpWebRequest.Headers.Add("Authorization", "Basic " + encoded);
 			}
 
@@ -137,9 +137,9 @@ namespace mmria.server
             httpWebRequest.Method = this.method;
             httpWebRequest.AllowAutoRedirect = this.AllowRedirect;
 
-            if (!string.IsNullOrWhiteSpace (this.user_id) && !string.IsNullOrWhiteSpace (this.password))
+            if (!string.IsNullOrWhiteSpace (this.name) && !string.IsNullOrWhiteSpace (this.value))
 			{
-                string encoded = System.Convert.ToBase64String (System.Text.Encoding.GetEncoding ("ISO-8859-1").GetBytes (this.user_id + ":" + this.password));
+                string encoded = System.Convert.ToBase64String (System.Text.Encoding.GetEncoding ("ISO-8859-1").GetBytes (this.name + ":" + this.value));
                 httpWebRequest.Headers.Add ("Authorization", "Basic " + encoded);
             }
 
@@ -177,12 +177,11 @@ namespace mmria.server
         }
 
 
-		public cURL add_authentication_header(string p_username,
-		string p_password)
+		public cURL add_authentication_header(string p_name, string p_value)
 		{
 
-			this.user_id = p_username;
-			this.password = p_password;
+			this.name = p_name;
+			this.value = p_value;
 
 			return this;
 		}
