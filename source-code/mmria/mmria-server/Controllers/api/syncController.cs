@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
 {
-	[Authorize(Roles  = "abstractor")]
+	[Authorize(Roles  = "installation_admin")]
 	[Route("api/[controller]")]
 	public class syncController: ControllerBase 
 	{ 
