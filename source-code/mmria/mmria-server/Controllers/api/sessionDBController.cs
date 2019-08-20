@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 
 namespace mmria.server
 {
+	[Authorize(Roles  = "jurisdiction_admin")]
 	[Route("api/[controller]")]
 	public class sessionDBController: ControllerBase 
 	{
