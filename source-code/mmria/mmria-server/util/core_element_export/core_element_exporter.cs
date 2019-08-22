@@ -162,7 +162,7 @@ namespace mmria.server.util
 
 			System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
-			this.Core_Element_Paths = get_core_element_list(metadata);
+			get_core_element_list(metadata);
 
 			generate_path_map
 			(	metadata, "", core_file_name, "",
@@ -1126,10 +1126,15 @@ namespace mmria.server.util
 			{
 				case "group":
 				case "grid":
-				case "form":
 					foreach(var child in p_node.children)
 					{
 						get_core_element_list(ref p_list, child,  p_path + "/" + p_node.name);
+					}
+					break;
+				case "form":
+					foreach(var child in p_node.children)
+					{
+						get_core_element_list(ref p_list, child,  p_node.name);
 					}
 					break;
 				case "app":
@@ -1149,9 +1154,9 @@ namespace mmria.server.util
 			}
 		}
 
-		private List<string> get_core_element_list(mmria.common.metadata.app p_metadata)
+		private void get_core_element_list(mmria.common.metadata.app p_metadata)
 		{
-			var result = new List<string> {
+			this.Core_Element_Paths = new List<string> {
 					"date_created",
 					"created_by",
 					"date_last_updated",
@@ -1160,10 +1165,8 @@ namespace mmria.server.util
 
 			foreach(var child in p_metadata.children)
 			{
-				get_core_element_list(ref result, child,  "");
+				get_core_element_list(ref this.Core_Element_Paths, child,  "");
 			}
-
-			return result;
 		}
 
 
