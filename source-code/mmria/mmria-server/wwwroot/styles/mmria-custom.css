@@ -496,7 +496,6 @@ ul {
   overflow: hidden;
 }
 
-.thead:first-of-type .tr {}
 .thead .tr {
   background-color: #f1f1f1;
 }
@@ -504,8 +503,12 @@ ul {
   background-color: var(--white);
 }
 
-.thead .th,
-.tbody .td {
+.th {
+  border-bottom: none;
+  border-top: none;
+}
+
+.th, .td {
   border: var(--border-width) solid;
   border-color: var(--neutral);
   padding: 10px 12px;
