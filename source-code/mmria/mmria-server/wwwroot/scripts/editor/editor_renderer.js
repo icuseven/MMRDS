@@ -201,6 +201,10 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push('<input type="button" value="c"  onclick="editor_set_copy_clip_board(this,\'' + p_path + '\')" /> ');
 		result.push('<input type="button" value="d" onclick="editor_delete_node(this,\'' + p_path + '\')"/> ');
 		result.push(p_metadata.name);
+		if(p_metadata.list_item_data_type == null)
+		{
+			p_metadata.list_item_data_type = "number";
+		}
 		Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 		result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
 		result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
@@ -224,9 +228,29 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(child.value.length + 5);
 			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
 			result.push(p_path  + "/" + "values/" + i + "/value");
+			result.push('" /> display: <input type="text" value="');
+			result.push(child.display);
+			result.push('" size=');
+			if(child.display)
+			{
+				if(child.display.length == 0)
+				{
+					result.push(20);
+				}
+				else
+				{
+					result.push(child.display.length + 5);
+				}
+			}
+			else
+			{
+				result.push(20);
+			}
+			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
+			result.push(p_path  + "/" + "values/" + i + "/display");
 			result.push('" /> description: <input type="text" value="');
 			result.push(child.description);
-			result.push('" size=');
+			result.push('" size=');			
 			if(child.description.length == 0)
 			{
 				result.push(20);
@@ -315,6 +339,41 @@ function attribute_renderer(p_metadata, p_path)
 			case 'children':
 			case 'values':
 
+				break;
+			case 'list_item_data_type':
+					result.push('<li>list_item_data_type: ');
+					result.push('<select onChange="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> ');
+
+					result.push('<option>select item datatype</option>');
+	
+
+					if
+					(
+						p_metadata[prop].toLowerCase() == "number"
+					)
+					{
+						result.push('<option selected>number</option>');
+					}
+					else
+					{
+						result.push('<option>number</option>');
+					}
+
+					if
+					(
+						p_metadata[prop].toLowerCase() == "string"
+					)
+					{
+						result.push('<option selected>string</option>');
+					}
+					else
+					{
+						result.push('<option>string</option>');
+					}
+				
+					result.push('</select>');
 				break;
 			case 'type':
 				if(p_metadata.type.toLowerCase() == "app")
@@ -835,6 +894,15 @@ function render_attribute_add_control(p_path, node_type)
 		if(node_type.toLowerCase()== "number")
 		{
 			result.push('<option>decimal_precision</option>');
+		}
+
+		if
+		(
+			node_type.toLowerCase()== "string" ||
+			node_type.toLowerCase()== "textarea"
+		)
+		{
+			result.push('<option>max_length</option>');
 		}
 
 		if(is_list)
@@ -1457,6 +1525,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "onblur":
 			case "onclick":
 			case "pre_fill":
+			case "max_length":
 			case "max_value":
 			case "min_value":
 			case "control_style":
