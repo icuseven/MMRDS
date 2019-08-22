@@ -14,12 +14,11 @@
 <link href="./styles/bootstrap/jquery.bootstrap-touchspin.min.css" type="text/css" rel="stylesheet"/>
 <link href="./styles/flatpickr/flatpickr.min.css" type="text/css" rel="stylesheet" />
 <link href="./styles/d3/c3.min.css" type="text/css" rel="stylesheet" />
-<!--LINK href="./styles/styles.css" type="text/css" rel="stylesheet" /-->
 
+<!--script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 
-<!--script type=module src="./scripts/callbag/callbag-basics.min.js"></script-->
-
-<script type=module src="./scripts/module1.js"></script>
+<script type=module src="./scripts/module1.js"></script-->
 
 <script>
 // src="./scripts/module1.js"
@@ -65,9 +64,19 @@
 </script>
 <script>
 
-function main()
-{
   /*
+    ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('app2')
+);
+
+*/
+
+
+
+
+function main()
+{  /*
   document.querySelector("#app").innerHTML = `
     <input id="input"/>
     <button id="button">Reverse</button>
@@ -96,6 +105,10 @@ function main()
 
   forEach(out)(source);  
   */
+
+  ReactDOM.render(React.createElement('div', null, 'Hello from Kode'), document.getElementById('app'));
+
+
 }
   
 </script>
@@ -103,5 +116,6 @@ function main()
 <body onload="//main()">
     <div id="app">bubba</div>
 
+    <div id="app2">bubba</div>
 </body>
 </html>
