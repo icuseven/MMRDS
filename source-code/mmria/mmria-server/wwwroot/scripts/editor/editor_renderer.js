@@ -213,7 +213,24 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+		
+		
+		if(p_metadata.name.indexOf("pmss_mm") > -1)
+		{
+			result.push(' <input type="button" value="upgrade to pmss/display" onclick="editor_upgrade_pmss_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+		}
+		else if
+		(
+			p_metadata.name == "state" ||
+			p_metadata.name == "country"
+		)
+		{
+			result.push(' <input type="button" value="upgrade to string/display" onclick="editor_upgrade_string_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+		}
+		else
+		{
+			result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+		}
 		result.push(' <ul>');
 
 
@@ -1647,10 +1664,100 @@ function editor_upgrade_numeric_and_display(p_path)
 	var item_path = get_eval_string(p_path);
 	var value_list = eval(item_path);
 
+	let current_index = 0;
 	for(let i = 0; i < value_list.length; i++)
 	{
-		value_list[i].display = value_list[i].value;
-		value_list[i].value = i;
+		if(value_list[i].value == null || value_list[i].value == "")
+		{
+			value_list[i].display = value_list[i].value;
+			value_list[i].value = -9;
+		}
+		else
+		switch(value_list[i].value.toLowerCase())
+		{
+			case "(blank)":
+				value_list[i].display = value_list[i].value;
+				value_list[i].value = -9;
+				break;
+			case "not specified":
+				value_list[i].display = value_list[i].value;
+				value_list[i].value = -8;
+				break;
+			case "unknown":
+					value_list[i].display = value_list[i].value;
+					value_list[i].value = -7;
+					break;				
+			default:
+				value_list[i].display = value_list[i].value;
+				value_list[i].value = current_index;
+				current_index+=1;
+				break;
+		}
+
+	}
+
+	var path_index = p_path.lastIndexOf("/");
+	var parent_path = p_path.slice(0, path_index);
+
+	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
+
+	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
+}
+
+
+function editor_upgrade_string_and_display(p_path)
+{
+	var item_path = get_eval_string(p_path);
+	var value_list = eval(item_path);
+
+	for(let i = 0; i < value_list.length; i++)
+	{
+		if(value_list[i].value == null || value_list[i].value == "")
+		{
+			value_list[i].display = "";
+			value_list[i].value = -9;
+		}
+		else
+		{
+			let name_value = value_list[i].value.split("-");
+			value_list[i].value = name_value[0].trim();
+			value_list[i].display = name_value[1].trim();
+		}
+	}
+
+	var path_index = p_path.lastIndexOf("/");
+	var parent_path = p_path.slice(0, path_index);
+
+	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
+
+	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
+}
+
+
+function editor_upgrade_pmss_and_display(p_path)
+{
+	var item_path = get_eval_string(p_path);
+	var value_list = eval(item_path);
+
+	for(let i = 0; i < value_list.length; i++)
+	{
+		if(value_list[i].value == null || value_list[i].value == "")
+		{
+			value_list[i].display = "";
+			value_list[i].value = -9;
+		}
+		else
+		{
+			let split_index = value_list[i].value.indexOf(' ');
+
+			value_list[i].display = value_list[i].value;
+			value_list[i].value = value_list[i].value.substring(0, split_index).trim();
+			
+		}
 	}
 
 	var path_index = p_path.lastIndexOf("/");
