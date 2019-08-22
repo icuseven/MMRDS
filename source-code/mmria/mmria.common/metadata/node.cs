@@ -6,6 +6,7 @@ namespace mmria.common.metadata
 		public string prompt { get; set; }
 		public string name { get; set; }
 		public string type { get; set; }
+		public string list_item_data_type { get; set; }
 		public string cardinality { get; set; } 
 		public value_node[] values  { get; set; } 
 		public node[] children { get; set; } 
@@ -51,6 +52,8 @@ namespace mmria.common.metadata
 
 		public string max_value { get; set; } 
 		public string min_value { get; set; } 
+
+		public string max_length { get; set; } 
 
 
 		public string grid_template { get; set; } 
