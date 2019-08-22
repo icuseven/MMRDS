@@ -9,7 +9,7 @@ namespace mmria.common.metadata
 		public string prompt { get; set; } = "mmria app (ned)";
 		public string type { get; set; } = "app";
 
-		public string version { get; set; };
+		public string version { get; set; }
 		public string date_created { get; set; } 
 		public string created_by { get; set; } 
 		public string date_last_updated { get; set; } 
