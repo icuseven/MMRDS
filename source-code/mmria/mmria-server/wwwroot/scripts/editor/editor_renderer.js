@@ -213,7 +213,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		
+		result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
 		result.push(' <ul>');
 
 
@@ -1629,7 +1629,7 @@ function editor_delete_attribute(e, p_path)
 function editor_add_value(p_path)
 {
 	var item_path = get_eval_string(p_path);
-	eval(item_path).push({ value: "new value", description:""});
+	eval(item_path).push({ value: "new value", description:"", "display": "" });
 
 	var path_index = p_path.lastIndexOf("/");
 	var parent_path = p_path.slice(0, path_index);
@@ -1640,6 +1640,27 @@ function editor_add_value(p_path)
 	node_to_render.innerHTML = node.join("");
 	window.dispatchEvent(metadata_changed_event);
 
+}
+
+function editor_upgrade_numeric_and_display(p_path)
+{
+	var item_path = get_eval_string(p_path);
+	var value_list = eval(item_path);
+
+	for(let i = 0; i < value_list.length; i++)
+	{
+		value_list[i].display = value_list[i].value;
+		value_list[i].value = i;
+	}
+
+	var path_index = p_path.lastIndexOf("/");
+	var parent_path = p_path.slice(0, path_index);
+
+	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
+
+	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
 }
 
 function editor_delete_value(e, p_path)
