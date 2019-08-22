@@ -111,12 +111,13 @@ return {
 			"y_type":""
 		}
 	},
-	create_value_list: function(p_name, p_prompt, p_type)
+	create_value_list: function(p_name, p_prompt, p_type, p_list_item_data_type)
 	{
 		return {
 			"name": p_name,
 			"prompt": p_prompt,
 			"type": p_type,
+			"list_item_data_type": p_list_item_data_type,
 			"values": []
 		}
 	},
@@ -276,7 +277,7 @@ function convert_value_to_object(p_metadata)
 			var child = p_metadata.values[i];
 			if (typeof child === 'string' || child instanceof String)
 			{
-				p_metadata.values[i] = { "value": child, "description": ""};
+				p_metadata.values[i] = { "value": child, "description": "", "display": "" };
 			}
 		}
 	}
