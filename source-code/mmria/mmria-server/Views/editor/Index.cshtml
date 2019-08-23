@@ -58,24 +58,16 @@
 <div classes="nav_wrapper" class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header"> 
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!--img  class="navbar-brand" src="../images/mmria-secondary.svg" height=75 width=100 style="padding: 1px 1px;" /-->
           <a class="navbar-brand" href="/Home">Maternal Mortality Review Information Application (MMRIA)</a>
     </div>
 
     <div  class="collapse navbar-collapse">
           <div id="navbar">
           <ul class="nav navbar-nav">
-            <li class="active">&nbsp;<input type="button" onclick="open_preview_window()" value="show or reconnect to preview" /></li>
-		
-		
             <li><input type="button" onclick="metadata_save()" value="save metadata" /></li>
+            <li>&nbsp;</li>
             <li>
+                Upload Validation Check Code<br/>
                 <form id="check_code_form" action="/api/metadata/PutCheckCode" method="post" enctype="multipart/form-data" target="upload_target"  >
                 <input id="check_code_json" type="file" accept="text/js, text/json"><input type="button"  onclick="$('#check_code_form').submit()" value="save checkcode" />
               </form>
