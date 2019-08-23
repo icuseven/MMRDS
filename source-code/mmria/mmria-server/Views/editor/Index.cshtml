@@ -2,23 +2,9 @@
 
 @using System.Security.Claims;
 @{
-  var userName = "";
-  if (!User.Identities.Any(u => u.IsAuthenticated))
-  {
-      <h1>Hello Editor World</h1>
-  }
-  else
-  {
-    userName = User.Identities.First(
+  var userName = User.Identities.First(
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-
-      <h1>Hello @userName</h1>
-
-        <h2>@User.Identities.First(
-        u => u.IsAuthenticated && 
-        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Role).Value</h2>
-  }
 }
 <!DOCTYPE html>
 <html lang="en">

@@ -39,6 +39,9 @@ namespace mmria.common.metadata
 		public string x_start { get; set; } 
 
 		public string path_reference { get; set; } 
+		public string mirror_reference { get; set; }
+
+		public string pre_populate_reference { get; set; }
 
 
 		public string description { get; set; }

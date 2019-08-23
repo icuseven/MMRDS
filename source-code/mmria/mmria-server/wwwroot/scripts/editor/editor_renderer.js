@@ -973,6 +973,8 @@ function render_attribute_add_control(p_path, node_type)
 	result.push('<option>onchange</option>');
 	result.push('<option>onblur</option>');
 	result.push('<option>onclick</option>');
+	result.push('<option>mirror_reference</option>');
+	result.push('<option>pre_populate_reference</option>');
 
 	if(!is_collection_node)
 	{
@@ -1441,7 +1443,7 @@ function editor_add_to_children(e, p_ui)
 			case "textarea":
 			case "boolean":
 			case "label":
-			case "button":	
+			case "button":
 					eval(item_path).push(md.create_value("new_" + element_value, "new " + element_value + " prompt", element_value));
 
 					var node = editor_render(eval(parent_eval_path), parent_path, g_ui);
@@ -1545,8 +1547,10 @@ function editor_add_to_attributes(e, p_ui)
 			case "max_length":
 			case "max_value":
 			case "min_value":
+			case "mirror_reference":
 			case "control_style":
 			case "path_reference":
+			case "pre_populate_reference":
 			case "x_start":
 			case "grid_template":
 			case "grid_template_areas":
