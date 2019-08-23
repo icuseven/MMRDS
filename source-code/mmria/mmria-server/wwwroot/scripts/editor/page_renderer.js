@@ -26,7 +26,21 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			page_render_create_input(result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 			break;
 		case 'string':
-			string_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let string_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					string_data = mirror_object;
+				}
+			}		
+			string_render(result, p_metadata, string_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 				
 		case 'address':
@@ -49,7 +63,21 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			textarea_render(result, p_metadata, textarea_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'number':
-			number_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let number_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					number_data = mirror_object;
+				}
+			}			
+			number_render(result, p_metadata, number_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'boolean':
 			boolean_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
@@ -58,13 +86,55 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			list_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'date':
-			date_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let date_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					date_data = mirror_object;
+				}
+			}			
+			date_render(result, p_metadata, date_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;	
 		case 'datetime':
-			datetime_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let datetime_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					datetime_data = mirror_object;
+				}
+			}			
+			datetime_render(result, p_metadata, datetime_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'time':
-			time_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let time_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					time_data = mirror_object;
+				}
+			}			
+			time_render(result, p_metadata, time_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'chart':
 			chart_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
@@ -73,7 +143,21 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			hidden_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'jurisdiction':
-			user_jurisdiction_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let juristdiction_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					jurisdiction_data = mirror_object;
+				}
+			}
+			user_jurisdiction_render(result, p_metadata, jurisdiction_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;						
 		default:
 			console.log("page_render not processed", p_metadata);
@@ -216,7 +300,11 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_metadata.is_read_only && 	
 		(
 			p_metadata.is_read_only == true ||
-			p_metadata.is_read_only == "true"
+			p_metadata.is_read_only == "true" ||
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
 		)
 	)
 	{
@@ -321,26 +409,34 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 		p_result.push("' ");
 
-		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
-		if(path_to_onfocus_map[p_metadata_path])
+		if
+		(
+			!(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+		)
 		{
-			page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
-		}
+			var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_of";
+			if(path_to_onfocus_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onfocus", p_metadata.onfocus, p_metadata_path, p_object_path, p_dictionary_path)
+			}
 
-		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-		if(path_to_onchange_map[p_metadata_path])
-		{
-			page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
+			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+			if(path_to_onchange_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
+			}
+			
+			f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+			if(path_to_onclick_map[p_metadata_path])
+			{
+				page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
+			}
+			
+			page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path);
 		}
-		
-		f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
-		if(path_to_onclick_map[p_metadata_path])
-		{
-			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
-		}
-		
-		page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path);
-	
 	}
 
 	p_result.push("/>");
