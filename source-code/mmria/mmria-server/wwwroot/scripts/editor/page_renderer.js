@@ -31,7 +31,22 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				
 		case 'address':
 		case 'textarea':
-			textarea_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			
+			let textarea_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					textarea_data = mirror_object;
+				}
+			}
+			textarea_render(result, p_metadata, textarea_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'number':
 			number_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
@@ -828,4 +843,9 @@ function get_chart_size(p_style_string)
 	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
 
 	return result;
+}
+
+function get_data_object_for_mirror(p_mirror_reference)
+{
+	return eval("g_data." + p_mirror_reference.replace(/\//g, "."));
 }
