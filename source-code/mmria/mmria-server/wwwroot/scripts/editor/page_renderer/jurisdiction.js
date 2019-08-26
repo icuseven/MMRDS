@@ -1,6 +1,6 @@
 function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render)
 {
-    p_result.push("<div class='form-control1' id='" + convert_object_path_to_jquery_id(p_object_path) + "'");
+    p_result.push("<div class='form-control-outer' id='" + convert_object_path_to_jquery_id(p_object_path) + "'");
     p_result.push(" mpath='" + p_metadata_path + "' >");
 
 

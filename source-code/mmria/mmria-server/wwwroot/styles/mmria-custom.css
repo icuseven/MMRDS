@@ -985,6 +985,12 @@ ul {
   margin-top: 3rem;
 }
 
+/* Outer wrapper to control form highlighting */
+
+.form-control-outer {
+  position: relative;
+}
+
 
 
 
