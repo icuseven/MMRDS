@@ -80,10 +80,38 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			number_render(result, p_metadata, number_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'boolean':
-			boolean_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let boolean_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					boolean_data = mirror_object;
+				}
+			}				
+			boolean_render(result, p_metadata, boolean_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'list':
-			list_render(result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
+			let list_data = p_data;
+			if
+			(
+				p_metadata.mirror_reference &&
+				p_metadata.mirror_reference.length > 0
+			)
+			{
+				let mirror_object = get_data_object_for_mirror(p_metadata.mirror_reference);
+
+				if(mirror_object)
+				{
+					list_data = mirror_object;
+				}
+			}				
+			list_render(result, p_metadata, list_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx);
 			break;
 		case 'date':
 			let date_data = p_data;
