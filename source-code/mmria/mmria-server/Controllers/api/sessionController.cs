@@ -328,8 +328,8 @@ namespace mmria.server
 
     public struct Post_Request_Struct
     {
-        public string userid;
-        public string password;
+        public string name;
+        public string value;
     }
 }
 

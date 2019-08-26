@@ -326,13 +326,7 @@ function perform_save(current_auth_session)
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			data: JSON.stringify(g_metadata),
-			type: "POST",
-			beforeSend: function (request)
-			{
-				request.setRequestHeader("AuthSession", current_auth_session);
-				request.setRequestHeader("uid", g_uid);
-				request.setRequestHeader("roles", $mmria.getCookie("roles"));
-			}//,
+			type: "POST"
 	}).done(function(response) 
 	{
 				//var response_obj = JSON.parse(response);
@@ -445,12 +439,24 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 			{
 			  	//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 			  	request.setRequestHeader("If-Match", g_metadata._rev);
-				request.setRequestHeader("uid", g_uid);
-				request.setRequestHeader("roles", $mmria.getCookie("roles"));
 			}
 	}).done(function(response) 
 	{
-		console.log("perform_validation_save: complete");
+
+		if(response && response.ok == null)
+		{
+			response = JSON.parse(response);
+		}
+		
+		if(response.ok)
+		{
+			g_metadata._rev = response.rev; 
+			
+			document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
+			console.log("perform_validation_save: complete");
+		}
+
+		
 	}).fail(function(x) {
     console.log(x);
   });

@@ -320,7 +320,8 @@ namespace mmria.server.util
 					if (
 						path_to_node_map[path].type.ToLower() == "app" ||
 						path_to_node_map[path].type.ToLower() == "form" ||
-						path_to_node_map[path].type.ToLower() == "group"
+						path_to_node_map[path].type.ToLower() == "group" ||
+						path_to_node_map[path].mirror_reference != null
 
 					  )
 					{
@@ -1451,13 +1452,16 @@ namespace mmria.server.util
 
 		private void WriteQualitativeData(string p_record_id, string p_mmria_path, string p_data, int p_index, int p_parent_index)
 		{
+			const string record_split = "=== ======= ";
+			const string header_split = "*** ******* ";
+
 			if(this.qualitativeStreamCount == 0)
 			{
-				this.qualitativeStreamWriter.WriteLine($"*** ******* id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}\n\n{p_data}");
+				this.qualitativeStreamWriter.WriteLine($"{record_split}id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}{header_split}\n\n{p_data}");
 			}
 			else
 			{
-				this.qualitativeStreamWriter.WriteLine($"\n*** ******* id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}\n\n{p_data}");
+				this.qualitativeStreamWriter.WriteLine($"\n{record_split}id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}{header_split}\n\n{p_data}");
 			}
 			this.qualitativeStreamCount+=1;
 		}
