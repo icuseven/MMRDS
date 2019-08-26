@@ -2,6 +2,140 @@
 function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
 {
 
+    // data migration - start
+
+    let data_migration_list = p_metadata.values;
+
+    if(p_metadata.path_reference && p_metadata.path_reference != "")
+    {
+        data_migration_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+        if(data_migration_list == null)	
+        {
+            data_migration_list = p_metadata.values;
+        }
+    }
+
+    if(Array.isArray(p_data))
+    {
+
+        for(let item_index = 0; item_index < p_data.length; item_index++)
+        {
+            let array_item = p_data[item_index];
+
+            let is_found = false;
+            for(let i = 0; i < data_migration_list.length; i++)
+            {
+                let item = data_migration_list[i];
+
+                if(item.value == array_item)
+                {
+                    is_found = true;
+                    break;
+                }
+            }
+
+            if(!is_found)
+            {
+                for(let i = 0; i < data_migration_list.length; i++)
+                {
+                    let item = data_migration_list[i];
+        
+                    if(item.value == -9 && array_item == null || array_item == "")
+                    {
+                        p_data[item_index] = item.value;
+                        break;
+                    }
+                    if(item.display && item.display == array_item)
+                    {
+                        p_data[item_index] = item.value;
+                        break;
+                    }
+                }   
+            }
+        }
+    }
+    else
+    {
+        let is_found = false;
+        for(let i = 0; i < data_migration_list.length; i++)
+        {
+            let item = data_migration_list[i];
+
+            if(item.value == p_data)
+            {
+                is_found = true;
+                break;
+            }
+        }
+
+        if(!is_found)
+        {
+
+            if(p_metadata.name.indexOf("pmss") > -1)
+            {
+                for(let i = 0; i < data_migration_list.length; i++)
+                {
+                    let item = data_migration_list[i];
+
+                    if(item.value == -9 && p_data == null || p_data == "")
+                    {
+                        p_data = item.value;
+                        break;
+                    }
+                    else if(item.display && item.display == p_data)
+                    {
+                        p_data = item.value;
+                        break;
+                    }
+                }   
+
+            }
+            else if(p_metadata.list_item_data_type == "string")
+            {
+                for(let i = 0; i < data_migration_list.length; i++)
+                {
+                    let item = data_migration_list[i];
+
+                    let name_value = p_data.split("-");
+                    let value = name_value[0].trim();
+                    let display = name_value[1].trim();                    
+        
+                    if(item.value == -9 && p_data == null || p_data == "")
+                    {
+                        p_data = item.value;
+                        break;
+                    }
+                    else if(display && display == item.display)
+                    {
+                        p_data = item.value;
+                        break;
+                    }
+                }   
+
+            }
+            else
+            {
+                for(let i = 0; i < data_migration_list.length; i++)
+                {
+                    let item = data_migration_list[i];
+        
+                    if(item.value == -9 && p_data == null || p_data == "")
+                    {
+                        p_data = item.value;
+                        break;
+                    }
+                    else if(item.display && item.display == p_data)
+                    {
+                        p_data = item.value;
+                        break;
+                    }
+                }   
+            }
+        }
+    }
+    // data migration - end
+
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
         Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
