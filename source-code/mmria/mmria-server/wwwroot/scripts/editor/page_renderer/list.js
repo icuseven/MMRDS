@@ -98,19 +98,30 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     let item = data_migration_list[i];
 
                     let name_value = p_data.split("-");
-                    let value = name_value[0].trim();
-                    let display = name_value[1].trim();                    
-        
-                    if(item.value == -9 && p_data == null || p_data == "")
+                    if(name_value.lenght > 1)
+                    {
+                        
+                        let value = name_value[0].trim();
+                        let display = name_value[1].trim();                    
+            
+                        
+                        if(item.value == -9 && p_data == null || p_data == "")
+                        {
+                            p_data = item.value;
+                            break;
+                        }
+                        else if(display && display == item.display)
+                        {
+                            p_data = item.value;
+                            break;
+                        }
+                    }
+                    else if(item.value == -9 && p_data == null || p_data == "")
                     {
                         p_data = item.value;
                         break;
                     }
-                    else if(display && display == item.display)
-                    {
-                        p_data = item.value;
-                        break;
-                    }
+
                 }   
 
             }
