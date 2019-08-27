@@ -30,7 +30,7 @@ namespace mmria.server.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var days_til_password_expires = -1;
+            var days_til_expiration = -1;
 
 			var password_days_before_expires = Program.config_password_days_before_expires;
 
@@ -69,7 +69,7 @@ namespace mmria.server.Controllers
 
 					if(date_of_last_password_change != DateTime.MinValue)
 					{
-						days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
+						days_til_expiration = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
 					}
 						
 					
@@ -81,7 +81,7 @@ namespace mmria.server.Controllers
 			}
 
 			ViewBag.sams_is_enabled = _config["sams:is_enabled"];
-            ViewBag.days_til_password_expires = days_til_password_expires;
+            ViewBag.days_til_password_expires = days_til_expiration;
 			ViewBag.config_password_days_before_expires = password_days_before_expires;
 
 

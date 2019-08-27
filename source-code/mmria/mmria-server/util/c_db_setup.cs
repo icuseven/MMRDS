@@ -339,7 +339,8 @@ namespace mmria.server.util
 
                     var default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
                     var default_ui_specification_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/default_ui_specification", default_ui_specification_json, Program.config_timer_user_name, Program.config_timer_password);
-                    var default_ui_specification_result_string = await default_ui_specification_curl.executeAsync ();
+                    //var default_ui_specification_result_string = 
+                    await default_ui_specification_curl.executeAsync ();
 
 
 
