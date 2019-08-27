@@ -2,6 +2,110 @@ function export_queue_render(p_queue_data)
 {
 	var result = [];
 
+
+result.push("1.  Would you like to export all data or only core data? ");
+
+result.push("<input type='radio' name='one' value='all' onclick='one_click(this.value)'");
+if(answer_summary[0] == 'all')
+{
+result.push(" checked='true' /> all ");
+}
+else
+{
+	result.push(" /> all ");
+}
+result.push("<input type='radio' name='one' value='core'onclick=' one_click(this.value)'");
+if(answer_summary[0] == 'core')
+{
+result.push(" checked='true' /> core ");
+}
+else
+{
+	result.push(" /> core ");
+}
+result.push("<br/>");
+
+
+result.push("2. What file format would you like? ");
+result.push("<input type='radio' name='two' value='csv'  two_click(this.value)' ");
+if(answer_summary[1] == 'csv')
+{
+result.push(" checked='true' /> csv ");
+}
+else
+{
+	result.push(" /> csv ");
+}
+result.push("<input type='radio' name='two' value='json' two_click(this.value)' ");
+if(answer_summary[1] == 'json')
+{
+result.push(" checked='true' /> json ");
+}
+else
+{
+	result.push(" /> json ");
+}
+result.push("<input type='radio' name='two' value='url'  onclick='two_click(this.value)'");
+if(answer_summary[1] == 'url')
+{
+result.push(" checked='true' /> url ");
+}
+else
+{
+	result.push(" /> url ");
+}
+result.push("<input type='text' value='");
+result.push(answer_summary[3])
+result.push("' />");
+
+result.push("<br/>");
+result.push("3. What fields do you want to de-identify? ");
+result.push("<input type='radio' name='three' value='none' ");
+if(answer_summary[2] == 'none')
+{
+result.push(" checked='true' /> none ");
+}
+else
+{
+	result.push(" /> none ");
+}
+result.push("<input type='radio' name='three' value='standard' ");
+if(answer_summary[2] == 'standard')
+{
+result.push(" checked='true' /> standard ");
+}
+else
+{
+	result.push(" /> standard ");
+}
+result.push("<input type='radio' name='three' value='custom' ");
+if(answer_summary[2] == 'custom')
+{
+result.push(" checked='true' /> custom ");
+}
+else
+{
+	result.push(" /> custom ");
+}
+result.push("<a onclick='custom_field_click()'>[ select custom fields ]</a> <br/>");
+
+result.push("<br/>");
+
+result.push("<br/>");
+result.push("<div id='answer_summary'>");
+result.push("You choose to: ");
+result.push("You selected to export " + answer_summary[0] + " data.");
+result.push("You selected export format of " + answer_summary[1]);
+result.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
+result.push("<br/>");
+result.push("</div>");
+//result.push("<input type='button' value='confirm' /> | ");
+result.push("<input type='button' value='execute' />");
+
+
+
+
+
 	result.push('<div class="content-intro">');
 		result.push('<h1 class="h2 mb-0">Submit Export Data Request</h1>');
 	result.push('</div> <!-- end .content-intro -->');
@@ -16,6 +120,9 @@ function export_queue_render(p_queue_data)
 	result.push('<p>Details of the data dictionary format can be found here: <a target="_data_dictionary" href="/data-dictionary">data-dictionary-format</a></p>');
 	
 	result.push('<hr />');
+
+
+	
 
 	result.push('<p>Click on Export All Data to CSV format to produce a zip file that contains 59 case data files plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</p>');
 	result.push('<p class="mb-0"><strong>Contains a total of 60 files:</strong></p>');
