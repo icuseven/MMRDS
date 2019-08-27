@@ -674,9 +674,22 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
     p_result.push(p_metadata.prompt);
     p_result.push("</legend>");
 
-    for(var i in p_metadata.values)
+
+    let data_value_list = p_metadata.values;
+
+    if(p_metadata.path_reference && p_metadata.path_reference != "")
     {
-        var item = p_metadata.values[i];
+        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+        if(data_value_list == null)	
+        {
+            data_value_list = p_metadata.values;
+        }
+    }
+
+    for(let i = 0; i < data_value_list.length; i++)
+    {
+        var item = data_value_list[i];
 
         let item_key = null;
 
@@ -786,10 +799,21 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push(p_metadata.prompt);
     p_result.push("</legend>");
 
-    
-    for(var i in p_metadata.values)
+    let data_value_list = p_metadata.values;
+
+    if(p_metadata.path_reference && p_metadata.path_reference != "")
     {
-        let item = p_metadata.values[i];
+        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+
+        if(data_value_list == null)	
+        {
+            data_value_list = p_metadata.values;
+        }
+    }
+
+    for(let i = 0; i < data_value_list.length; i++)
+    {
+        var item = data_value_list[i];
 
         let item_key = null;
 
