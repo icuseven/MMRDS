@@ -190,7 +190,7 @@ let fdTemplates = {
                         {
                          
                             let control_id = formName + "--" + value.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
-                            if (value.description == null || value.description === '') 
+                            if (value.description == null || value.display === '') 
                             {
                                 if(value.value == null || value.value == '')
                                 {
@@ -198,12 +198,12 @@ let fdTemplates = {
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.value}</span></label>`;
+                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.display}</span></label>`;
                                 }   
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.description}</span></label>`;
+                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.display}</span></label>`;
                             }
                         }
                     );
@@ -217,7 +217,7 @@ let fdTemplates = {
                         {
 
                             let control_id = formName + "--" + value.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-"); //.replace(/[\/ ]/g, "--");
-                            if (value.description == null || value.description === '') 
+                            if (value.display == null || value.display === '') 
                             {
                                 if(value.value == null || value.value == '')
                                 {
@@ -225,12 +225,12 @@ let fdTemplates = {
                                 }
                                 else 
                                 {
-                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.value}</span></label>`;
+                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.display}</span></label>`;
                                 }
                             }
                             else 
                             {
-                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.description}</span></label>`;
+                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.display}</span></label>`;
                             }
                         }
                     );
@@ -248,7 +248,7 @@ let fdTemplates = {
                             }
                             else 
                             {
-                                markup += `<option value="${value.value}" data-order="${index}">${value.value}</option>`;
+                                markup += `<option value="${value.value}" data-order="${index}">${value.display}</option>`;
                             }
                         }
                     );
