@@ -630,120 +630,135 @@ function execute_command_click()
 {
   //
   var message_area = document.getElementById("fd-messages");
-  var cmd_text = document.getElementById("custom-fd-commands").value.split(' ');
+  var cmd_test = document.getElementById("custom-fd-commands").value;
 
-  var message = "execute command clicked\n\n" + cmd_text;
+  var valid_command_regex = /^[a-z]{2,4}( -?\d+)?( -?\d+)?$/
 
-  
-  switch(cmd_text[0].toLowerCase())
+  if(valid_command_regex.test(cmd_test.trim()))
   {
-      case "ls":
-        message += "\n\nlist selection";
-        message += list_selection();
-        break;
-      case "all":
-        message += "\n\nselect all";
-        message += select_all_canvas_child_nodes();
-        break;    
-      case "none":
-          message += "\n\nremove all selections";
-          message += remove_all_selections_on_canvas();
-          break;   
-      case "al":
-          message += "\n\nalign left selection";
-          formDesigner.fdObjectHandler.quickSnap(true);
-          message += align_left_selection();
+
+    var cmd_text = cmd_test.trim().split(' ');
+    var message = "execute command clicked\n\n" + cmd_text;
+
+    
+    switch(cmd_text[0].toLowerCase())
+    {
+        case "ls":
+          message += "\n\nlist selection";
+          message += list_selection();
           break;
-      case "al+":
-        message += "\n\nalign left+ selection";
-        formDesigner.fdObjectHandler.quickSnap(true);
-        message += align_left_selection(true);
-        break;          
-      case "at":
-          message += "\n\nalign top selection";
+        case "all":
+          message += "\n\nselect all";
+          message += select_all_canvas_child_nodes();
+          break;    
+        case "none":
+            message += "\n\nremove all selections";
+            message += remove_all_selections_on_canvas();
+            break;   
+        case "al":
+            message += "\n\nalign left selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            message += align_left_selection();
+            break;
+        case "al+":
+          message += "\n\nalign left+ selection";
+          formDesigner.fdObjectHandler.quickSnap(true);
+          message += align_left_selection(true);
+          break;          
+        case "at":
+            message += "\n\nalign top selection";
+
+            formDesigner.fdObjectHandler.quickSnap(true);
+            message += align_top_selection();
+            break;
+        case "at+":
+          message += "\n\nalign top+ selection";
 
           formDesigner.fdObjectHandler.quickSnap(true);
-          message += align_top_selection();
-          break;
-      case "at+":
-        message += "\n\nalign top+ selection";
-
-        formDesigner.fdObjectHandler.quickSnap(true);
-        message += align_top_selection(true);
-        break;          
-      case "aw":
-          message += "\n\nalign width selection";
+          message += align_top_selection(true);
+          break;          
+        case "aw":
+            message += "\n\nalign width selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            message += align_width_selection()
+            break;
+        case "aw+":
+          message += "\n\nalign width+ selection";
           formDesigner.fdObjectHandler.quickSnap(true);
-          message += align_width_selection()
-          break;
-      case "aw+":
-        message += "\n\nalign width+ selection";
-        formDesigner.fdObjectHandler.quickSnap(true);
-        message += align_width_selection(true);
-        break;          
-      case "ah":
-          message += "\n\nalign height selection";
+          message += align_width_selection(true);
+          break;          
+        case "ah":
+            message += "\n\nalign height selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            message += align_height_selection()
+            break;
+        case "ah+":
+          message += "\n\nalign height+ selection";
           formDesigner.fdObjectHandler.quickSnap(true);
-          message += align_height_selection()
-          break;
-      case "ah+":
-        message += "\n\nalign height+ selection";
-        formDesigner.fdObjectHandler.quickSnap(true);
-        message += align_height_selection(true);
-        break;          
-      case "ahs":
-          message += "\n\nalign height space of selection";
-          formDesigner.fdObjectHandler.quickSnap(true);
-          if(cmd_text.length > 1)
-          {
-            if(cmd_text.length > 2)
+          message += align_height_selection(true);
+          break;          
+        case "ahs":
+            message += "\n\nalign height space of selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            if(cmd_text.length > 1)
             {
-              message += align_height_space_of_selection(cmd_text[1], cmd_text[2])
+              if(cmd_text.length > 2)
+              {
+                message += align_height_space_of_selection(cmd_text[1], cmd_text[2])
+              }
+              else
+              {
+                message += align_height_space_of_selection(cmd_text[1])
+              }
             }
             else
             {
-              message += align_height_space_of_selection(cmd_text[1])
+              message += align_height_space_of_selection(15);
             }
-          }
-          else
-          {
-            message += align_height_space_of_selection(15);
-          }
-          
-          break;
-      case "aws":
-          message += "\n\nalign width space of selection";
+            
+            break;
+        case "aws":
+            message += "\n\nalign width space of selection";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            if(cmd_text.length > 1)
+            {
+              message += align_width_space_of_selection(cmd_text[1])
+            }
+            else
+            {
+              message += align_width_space_of_selection(15);
+            }
+            
+            break;
+
+        case "st":
+        case "stack":
+          message += "\n\nstack selected fields";
           formDesigner.fdObjectHandler.quickSnap(true);
-          if(cmd_text.length > 1)
-          {
-            message += align_width_space_of_selection(cmd_text[1])
-          }
-          else
-          {
-            message += align_width_space_of_selection(15);
-          }
-          
-          break;
+          message += stack_selected_fields();
+          break;          
 
-      case "st":
-      case "stack":
-        message += "\n\nstack selected fields";
-        formDesigner.fdObjectHandler.quickSnap(true);
-        message += stack_selected_fields();
-        break;          
-
-      case "ro":
-      case "row":
-        message += "\n\nmake row of selected fields";
-        formDesigner.fdObjectHandler.quickSnap(true);
-        message += make_row_of_selected_fields();
-        break;   
-        
+        case "ro":
+        case "row":
+          message += "\n\nmake row of selected fields";
+          formDesigner.fdObjectHandler.quickSnap(true);
+          message += make_row_of_selected_fields();
+          break;  
+        case "sac" :
+            message += "\n\nselect all container child nodes";
+            formDesigner.fdObjectHandler.quickSnap(true);
+            message += select_container_child_nodes();
+        break;
           
+            
+    }
+
+    message_area.innerHTML = message;
   }
-
-  message_area.innerHTML = message;
-
+  else
+  {
+    message_area.innerHTML = "invalid command";
+  }
 }
 
 function list_selection()
@@ -865,6 +880,36 @@ function select_all_canvas_child_nodes()
 
   return result;
 }
+
+function select_container_child_nodes()
+{
+
+  var canvas_element = document.getElementsByClassName("ds-selected")[0];
+  var result = "";
+
+  let canvas_children = canvas_element.children;
+
+  //var html_list = document.getElementsByClassName("ds-selected");
+  //var selected_item_list = [];
+
+  for(let i = 0; i < canvas_element.children.length; i++)
+  {
+    if(canvas_children[i].localName != "legend")
+    {
+      canvas_children[i].classList.add("ds-selected");
+    }
+    
+  }
+
+
+  canvas_element.classList.remove("ds-selected");
+
+  result += "\n number of items selected: " + canvas_element.children.length;
+
+
+  return result;
+}
+
 
 
 
