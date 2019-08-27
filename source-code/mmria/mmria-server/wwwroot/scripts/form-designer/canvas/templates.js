@@ -190,16 +190,9 @@ let fdTemplates = {
                         {
                          
                             let control_id = formName + "--" + value.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
-                            if (value.description == null || value.display === '') 
+                            if(value.display == '')
                             {
-                                if(value.value == null || value.value == '')
-                                {
-                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> (blank)</span></label>`;
-                                }
-                                else 
-                                {
-                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> ${value.display}</span></label>`;
-                                }   
+                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input type="checkbox" /><span class="choice-control-info"> (blank)</span></label>`;
                             }
                             else 
                             {
@@ -217,16 +210,10 @@ let fdTemplates = {
                         {
 
                             let control_id = formName + "--" + value.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-"); //.replace(/[\/ ]/g, "--");
-                            if (value.display == null || value.display === '') 
+
+                            if(value.display == '')
                             {
-                                if(value.value == null || value.value == '')
-                                {
-                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info"> (blank)</span></label>`;
-                                }
-                                else 
-                                {
-                                    markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info">  ${value.display}</span></label>`;
-                                }
+                                markup += `<label for="${control_id}" class="choice-control form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${index}"><input name="${control_id}" type="radio" ></input><span class="choice-control-info"> (blank)</span></label>`;
                             }
                             else 
                             {
