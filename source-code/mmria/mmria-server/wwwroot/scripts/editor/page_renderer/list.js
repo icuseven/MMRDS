@@ -749,7 +749,9 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
             is_selected = " checked ";
         }
 
+        
         var is_read_only = "";
+        let onclick_text = "";
         if
         (
             (
@@ -760,7 +762,11 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         )
         {
             is_read_only= " readonly=true ";
+            onclick_text `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`
         }
+        
+        
+        
         
 
         let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
@@ -769,7 +775,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
                 id='${object_id}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
                 type='radio' 
                 value='${item.value}'
-                onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'
+                ${onclick_text}
                 ${is_selected}
                 ${is_read_only}
                 
@@ -934,7 +940,7 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push(" value='");
     p_result.push(p_item.value);
     p_result.push(" ' ");
-    
+
     if(p_is_read_only && p_is_read_only != "")
     {
         p_result.push(" onclick=g_set_data_object_from_path(\'");
