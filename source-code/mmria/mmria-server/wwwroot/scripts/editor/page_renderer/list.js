@@ -933,13 +933,19 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push("' type='checkbox' ");
     p_result.push(" value='");
     p_result.push(p_item.value);
-    p_result.push("' onclick=g_set_data_object_from_path(\'");
-    p_result.push(p_object_path);
-    p_result.push("\',\'");
-    p_result.push(p_metadata_path);
-    p_result.push("\',\'");
-    p_result.push(p_dictionary_path);
-    p_result.push("\',this.value) ");
+    p_result.push(" ' ");
+    
+    if(p_is_read_only && p_is_read_only != "")
+    {
+        p_result.push(" onclick=g_set_data_object_from_path(\'");
+        p_result.push(p_object_path);
+        p_result.push("\',\'");
+        p_result.push(p_metadata_path);
+        p_result.push("\',\'");
+        p_result.push(p_dictionary_path);
+        p_result.push("\',this.value) ");
+    }
+
     p_result.push(p_is_selected);
     p_result.push(p_is_read_only);
     p_result.push("></input>");
