@@ -242,7 +242,14 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
 
 
-    if(p_metadata.mirror_reference)
+    if
+    (
+        (
+            p_metadata.is_read_only != null &&
+            p_metadata.is_read_only == true
+        ) ||
+        p_metadata.mirror_reference
+    )
     {
         p_result.push(" readonly=true ");
     }
@@ -450,7 +457,14 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push("'");
     // p_result.push("' style='width:98%;height:49%;'");
 
-    if(p_metadata.mirror_reference)
+    if
+    (
+        (
+            p_metadata.is_read_only != null &&
+            p_metadata.is_read_only == true
+        ) ||
+        p_metadata.mirror_reference
+    )
     {
         p_result.push(" readonly=true ");
     }
@@ -526,7 +540,14 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         p_result.push(p_data);
         p_result.push("' ");
 
-        if(p_metadata.mirror_reference)
+        if
+        (
+            (
+                p_metadata.is_read_only != null &&
+                p_metadata.is_read_only == true
+            ) ||
+            p_metadata.mirror_reference
+        )
         {
             p_result.push(" readonly=true ");
         }
@@ -609,7 +630,14 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         p_result.push(p_data);
         p_result.push("' ");
 
-        if(p_metadata.mirror_reference)
+        if
+        (
+            (
+                p_metadata.is_read_only != null &&
+                p_metadata.is_read_only == true
+            ) ||
+            p_metadata.mirror_reference
+        )
         {
             p_result.push(" readonly=true ");
         }
@@ -722,7 +750,14 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         }
 
         var is_read_only = "";
-        if(p_metadata.mirror_reference)
+        if
+        (
+            (
+                p_metadata.is_read_only != null &&
+                p_metadata.is_read_only == true
+            ) ||
+            p_metadata.mirror_reference
+        )
         {
             is_read_only= " readonly=true ";
         }
@@ -847,7 +882,14 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         }
 
         var is_read_only = "";
-        if(p_metadata.mirror_reference)
+        if
+        (
+            (
+                p_metadata.is_read_only != null &&
+                p_metadata.is_read_only == true
+            ) ||
+            p_metadata.mirror_reference
+        )
         {
             is_read_only= " readonly=true ";
         }
