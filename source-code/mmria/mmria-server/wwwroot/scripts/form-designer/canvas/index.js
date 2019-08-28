@@ -632,7 +632,7 @@ function execute_command_click()
   var message_area = document.getElementById("fd-messages");
   var cmd_test = document.getElementById("custom-fd-commands").value;
 
-  var valid_command_regex = /^[a-z]{2,4}( -?\d+)?( -?\d+)?$/
+  var valid_command_regex = /^[a-z]{2,5}( -?\d+)?( -?\d+)?$/
 
   if(valid_command_regex.test(cmd_test.trim()))
   {
