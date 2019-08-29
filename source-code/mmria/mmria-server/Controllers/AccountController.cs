@@ -43,8 +43,8 @@ namespace mmria.server.Controllers
 
         public List<ApplicationUser> Users => new List<ApplicationUser>() 
         {
-            new ApplicationUser { UserName = "user1", Password = "password" },
-            new ApplicationUser{ UserName = "user2", Password = "password" }
+            new ApplicationUser { UserName = "user1", Value = "password" },
+            new ApplicationUser{ UserName = "user2", Value = "password" }
         };
 
 
@@ -122,7 +122,7 @@ namespace mmria.server.Controllers
             if(
                 user == null ||
                 string.IsNullOrWhiteSpace(user.UserName) ||
-                string.IsNullOrWhiteSpace(user.Password)
+                string.IsNullOrWhiteSpace(user.Value)
             ) 
             {
                 return BadRequest(badUserNameOrPasswordMessage);
@@ -227,7 +227,7 @@ namespace mmria.server.Controllers
                 }
                 
 
-                string post_data = string.Format ("name={0}&password={1}", user.UserName, user.Password);
+                string post_data = string.Format ("name={0}&password={1}", user.UserName, user.Value);
                 byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
                 string request_string = Program.config_couchdb_url + "/_session";

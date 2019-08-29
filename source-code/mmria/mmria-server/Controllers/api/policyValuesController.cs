@@ -24,9 +24,9 @@ namespace mmria.server
         {
             var result = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
 
-                result.Add("password_minimum_length", configuration["password_settings:minimum_length"]);
-                result.Add("password_days_before_expires", configuration["password_settings:days_before_expires"]);
-                result.Add("password_days_before_user_is_notified_of_expiration", configuration["password_settings:days_before_user_is_notified_of_expiration"]);
+                result.Add("minimum_length", configuration["password_settings:minimum_length"]);
+                result.Add("days_before_expires", configuration["password_settings:days_before_expires"]);
+                result.Add("days_before_user_is_notified_of_expiration", configuration["password_settings:days_before_user_is_notified_of_expiration"]);
                 result.Add("default_days_in_effective_date_interval", configuration["authentication_settings:default_days_in_effective_date_interval"]);
                 result.Add("unsuccessful_login_attempts_number_before_lockout", configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
                 result.Add("unsuccessful_login_attempts_within_number_of_minutes", configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);

@@ -191,20 +191,20 @@ render: function ()
 login: function ()
 {
 	var email_text = $("#profile_form input[name='email']").val();
-	var password_text = $("#profile_form input[name='password']").val();
+	var value_text = $("#profile_form input[name='password']").val();
 
 	if
 	(
 		email_text.length > 0 &&
-		password_text.length > 0
+		value_text.length > 0
 	)
 	{
 		var ctx = this;
 		profile.user_name = email_text;
-		profile.password = password_text;
+		profile.password = value_text;
 
 		var url =  location.protocol + '//' + location.host + "/api/session";
-		var post_data = { "userid" : email_text , "password": password_text};
+		var post_data = { "userid" : email_text , "password": value_text};
 		$.ajax({
 			"url": url,
 			data: post_data

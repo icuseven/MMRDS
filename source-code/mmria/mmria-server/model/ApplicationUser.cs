@@ -1,12 +1,12 @@
 public class ApplicationUser 
 {
     public string UserName { get; set; }
-    public string Password { get; set; }
+    public string Value { get; set; }
 
     public ApplicationUser() { }
-    public ApplicationUser(string username, string password) 
+    public ApplicationUser(string username, string value) 
     {
         this.UserName = username;
-        this.Password = password;
+        this.Value = value;
     }
 }

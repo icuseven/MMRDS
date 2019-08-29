@@ -285,7 +285,7 @@ function add_new_user_click()
 		}
 		else
 		{
-			create_status_warning("invalid password.<br/>be sure that verify and password match,<br/> minimum length is: " + g_policy_values.password_minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", "new_user");
+			create_status_warning("invalid password.<br/>be sure that verify and password match,<br/> minimum length is: " + g_policy_values.minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", "new_user");
 			
 		}
 
@@ -383,7 +383,7 @@ function change_password_user_click(p_user_id)
 	else
 	{
 
-		create_status_warning("invalid password.<br/>be sure that verify and password match,<br/>  minimum length is: " + g_policy_values.password_minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", convert_to_jquery_id(user._id));
+		create_status_warning("invalid password.<br/>be sure that verify and password match,<br/>  minimum length is: " + g_policy_values.minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", convert_to_jquery_id(user._id));
 		//create_status_warning("invalid password and confirm", convert_to_jquery_id(user._id));
 		console.log("got nothing.");
 	}
@@ -428,7 +428,7 @@ function is_valid_password(p_value)
 
 	if(
 		p_value &&
-		p_value.length >= g_policy_values.password_minimum_length &&
+		p_value.length >= g_policy_values.minimum_length &&
 		p_value.match(valid_character_re)
 	)
 	{
