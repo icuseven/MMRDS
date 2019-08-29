@@ -53,6 +53,8 @@ namespace mmria.common.metadata
 		public System.Dynamic.ExpandoObject  onblur { get; set; } 
 		public System.Dynamic.ExpandoObject  onclick { get; set; } 
 
+
+		public string[] tags { get; set; }
 		public string max_value { get; set; } 
 		public string min_value { get; set; } 
 

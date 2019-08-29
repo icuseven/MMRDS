@@ -54,15 +54,15 @@ function load_user_role_jurisdiction()
 
       var role_list_html = [];
 	  role_list_html.push("<p>[ " + g_uid + " ] ");
-      if(g_sams_is_enabled.toLowerCase() != "true" && g_config_password_days_before_expires > 0)
+      if(g_sams_is_enabled.toLowerCase() != "true" && g_config_days_before_expires > 0)
       {
-        if(g_days_til_password_expires >= 0)
+        if(g_days_til_expires >= 0)
         {
-          role_list_html.push("Your password will expire in " + g_days_til_password_expires + " day(s).");
+          role_list_html.push("Your password will expire in " + g_days_til_expires + " day(s).");
         }
         else
         {
-          role_list_html.push("Your password expired " + (-1 * g_days_til_password_expires) + " day(s) ago.");
+          role_list_html.push("Your password expired " + (-1 * g_days_til_expires) + " day(s) ago.");
         }
       }
       role_list_html.push("</p>");
@@ -182,7 +182,7 @@ function change_password_user_click()
 
 		var user_message = {
 			UserName: g_uid,
-			Password: new_user_password
+			Value: new_user_password
 		}
 
 		$.ajax({
@@ -207,7 +207,7 @@ function change_password_user_click()
 	else
 	{
 
-		document.getElementById('message_area').innerHTML = "invalid password.<br/>be sure that verify and password match,<br/>  minimum length is: " + g_policy_values.password_minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]";
+		document.getElementById('message_area').innerHTML = "invalid password.<br/>be sure that verify and password match,<br/>  minimum length is: " + g_policy_values.minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]";
 		//create_status_warning("invalid password and confirm", convert_to_jquery_id(user._id));
 		//console.log("got nothing.");
 	}
@@ -241,7 +241,7 @@ function is_valid_password(p_value)
 
 	if(
 		p_value &&
-		p_value.length >= g_policy_values.password_minimum_length &&
+		p_value.length >= g_policy_values.minimum_length &&
 		p_value.match(valid_character_re)
 	)
 	{

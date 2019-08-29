@@ -128,7 +128,7 @@ namespace mmria.server
 					return null;
 				}
 
-				user_object.password = user.Password;
+				user_object.password = user.Value;
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

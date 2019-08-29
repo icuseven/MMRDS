@@ -214,7 +214,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
 		
-		
+		/*
 		if(p_metadata.name.indexOf("pmss_mm") > -1)
 		{
 			result.push(' <input type="button" value="upgrade to pmss/display" onclick="editor_upgrade_pmss_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
@@ -231,6 +231,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		{
 			result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
 		}
+		*/
 		result.push(' <ul>');
 
 
@@ -348,11 +349,25 @@ var valid_types = [
 function attribute_renderer(p_metadata, p_path)
 {
 	var result = [];
+
+	if(p_metadata.type.toLowerCase() != 'app' && p_metadata.tags == null)
+	{
+		p_metadata.tags = [];
+	}
+
 	for(var prop in p_metadata)
 	{
 		var name_check = prop.toLowerCase();
 		switch(name_check)
 		{
+
+			case 'tags':
+					result.push('<li>tags: <input type="text" value="');
+					result.push(p_metadata[prop].join(' '));
+					result.push('" onBlur="editor_set_value(this, g_ui)" path="');
+					result.push(p_path + "/" + prop);
+					result.push('" /> </li>');
+				break;
 			case 'children':
 			case 'values':
 
@@ -1013,6 +1028,22 @@ function editor_set_value(e, p_ui)
 
 	switch(attribute_name.toLowerCase())
 	{
+
+		case 'tags':
+			let tag_array = e.value.split(' ');
+			let new_value = [];
+
+			for(let i = 0; i < tag_array.length; i++)
+			{
+				if(tag_array[i])
+				{
+					new_value[i] = '"' + tag_array[i].trim().replace(/"/g, '\\"').replace(/\n/g, "\\n").replace(/,/g,"").toUpperCase() + '"';
+				}
+			}
+
+			eval(item_path + ' = [' + new_value.join(', ') + '] ');
+			window.dispatchEvent(metadata_changed_event);
+		break;
 		case 'name':
 			if(eval(item_path) != e.value)
 			{
