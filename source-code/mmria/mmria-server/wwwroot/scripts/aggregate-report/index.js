@@ -61,10 +61,31 @@ function load_data(p_uid, p_pwd)
 
 function generate_report_click()
 {
+
+  let valid_response_regx = /^(All|\d+)$/;
+
+  let year_of_death = document.getElementById('year_of_death').value;
+  let month_of_case_review = document.getElementById('month_of_case_review').value;
+  let year_of_case_review = document.getElementById('year_of_case_review').value;
+
+  if
+  (
+    !
+    (
+      valid_response_regx.test(year_of_death) &&
+      valid_response_regx.test(month_of_case_review) &&
+      valid_response_regx.test(year_of_case_review)
+    )
+  )
+  {
+    alert("invalid parameters");
+    return;
+  }
+
 	var filter = {
-		year_of_death: document.getElementById('year_of_death').value,
-		month_of_case_review: document.getElementById('month_of_case_review').value,
-		year_of_case_review: document.getElementById('year_of_case_review').value
+		year_of_death: year_of_death,
+		month_of_case_review: month_of_case_review,
+		year_of_case_review: year_of_case_review
 	};
 
 	if(g_data)

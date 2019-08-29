@@ -52,15 +52,15 @@ function load_user_role_jurisdiction()
 
       //role_list_html.push("<p>[ " + g_uid + " ] ");
       role_list_html.push("<p>");
-        if(g_sams_is_enabled.toLowerCase() != "true" && g_config_password_days_before_expires > 0)
+        if(g_sams_is_enabled.toLowerCase() != "true" && g_config_days_before_expires > 0)
         {
-          if(g_days_til_password_expires >= 0)
+          if(g_days_til_expires >= 0)
           {
-            role_list_html.push("Your password will expire in " + g_days_til_password_expires + " day(s).");
+            role_list_html.push("Your password will expire in " + g_days_til_expires + " day(s).");
           }
           else
           {
-            role_list_html.push("Your password expired " + (-1 * g_days_til_password_expires) + " day(s) ago.");
+            role_list_html.push("Your password expired " + (-1 * g_days_til_expires) + " day(s) ago.");
           }
         }
       role_list_html.push("</p>");

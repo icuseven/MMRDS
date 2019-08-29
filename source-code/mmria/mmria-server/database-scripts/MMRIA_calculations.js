@@ -1,5 +1,6 @@
 // FUNCTION TO RECODE RACE TO OMB STANDARD
-function $calculate_omb_recode(p_value_list) {
+function $calculate_omb_recode(p_value_list) 
+{
     // p_value_list is an array
     var result = null;
     var asian_list = [
@@ -17,65 +18,78 @@ function $calculate_omb_recode(p_value_list) {
             'Samoan',
             'Other Pacific Islander'
         ];
-    if (p_value_list.length == 0) {
-    } else if (p_value_list.length == 1) {
-        if ($global.get_intersection(p_value_list, asian_list).length > 0) {
+    if (p_value_list.length == 0) 
+    {
+    } 
+    else if (p_value_list.length == 1) 
+    {
+        if ($global.get_intersection(p_value_list, asian_list).length > 0) 
+        {
             result = 'Asian';
-        } else if ($global.get_intersection(p_value_list, islander_list).length > 0) {
+        } 
+        else if ($global.get_intersection(p_value_list, islander_list).length > 0) 
+        {
             result = 'Pacific Islander';
-        } else {
+        } 
+        else 
+        {
             result = p_value_list[0];
         }
-    } else
-        // more than 1 item has been selected.
-        {
-            if (p_value_list.includes('Race Not Specified')) {
-                result = 'Race Not Specified';
-            } else {
-                /* Description of recode process
-			
-			total unique = non list items + is_asian + is_islander
-			
-			non list items   is_asian   is_islander = total unique
-			2 - 1 - 1 = 0      	   1          1              2
-			2 - 1 - 0 = 1      	   1          0              2
-			2 - 0 - 1 = 1      	   0          1              2
-			2 - 0 - 0 = 2      	   0          0              2
-			2 - 0 - 2 = 0      	   0          1              1
-			2 - 2 - 0 = 0      	   1          0              1
-			3 - 0 - 0 = 3      	   0          0              3
-			3 - 1 - 1 = 1     	   1          1              3
-			3 - 2 - 0 = 1      	   1          0              2
-			*/
-                var asian_intersection_count = $global.get_intersection(p_value_list, asian_list).length;
-                var is_asian = 0;
-                var islander_intersection_count = $global.get_intersection(p_value_list, islander_list).length;
-                var is_islander = 0;
-                if (asian_intersection_count > 0)
-                    is_asian = 1;
-                if (islander_intersection_count > 0)
-                    is_islander = 1;
-                var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander_intersection_count;
-                var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
-                switch (total_unique_items) {
-                case 1:
-                    if (is_asian == 1) {
-                        result = 'Asian';
-                    } else if (is_islander == 1) {
-                        result = 'Pacific Islander';
-                    } else {
-                        console.log('This should never happen bug');
-                    }
-                    break;
-                case 2:
-                    result = 'Bi-Racial';
-                    break;
-                default:
-                    result = 'Multi-Racial';
-                    break;
+    }
+    else // more than 1 item has been selected.
+    {
+        if (p_value_list.includes('Race Not Specified')) {
+            result = 'Race Not Specified';
+        } else {
+            /* Description of recode process
+        
+        total unique = non list items + is_asian + is_islander
+        
+        non list items   is_asian   is_islander = total unique
+        2 - 1 - 1 = 0      	   1          1              2
+        2 - 1 - 0 = 1      	   1          0              2
+        2 - 0 - 1 = 1      	   0          1              2
+        2 - 0 - 0 = 2      	   0          0              2
+        2 - 0 - 2 = 0      	   0          1              1
+        2 - 2 - 0 = 0      	   1          0              1
+        3 - 0 - 0 = 3      	   0          0              3
+        3 - 1 - 1 = 1     	   1          1              3
+        3 - 2 - 0 = 1      	   1          0              2
+        */
+            var asian_intersection_count = $global.get_intersection(p_value_list, asian_list).length;
+            var is_asian = 0;
+            var islander_intersection_count = $global.get_intersection(p_value_list, islander_list).length;
+            var is_islander = 0;
+            if (asian_intersection_count > 0)
+                is_asian = 1;
+            if (islander_intersection_count > 0)
+                is_islander = 1;
+            var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander_intersection_count;
+            var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
+            switch (total_unique_items) {
+            case 1:
+                if (is_asian == 1) 
+                {
+                    result = 'Asian';
+                } 
+                else if (is_islander == 1) 
+                {
+                    result = 'Pacific Islander';
+                } 
+                else 
+                {
+                    console.log('This should never happen bug');
                 }
+                break;
+            case 2:
+                result = 'Bi-Racial';
+                break;
+            default:
+                result = 'Multi-Racial';
+                break;
             }
         }
+    }
     return result;
 }
 // CALCULATE INTERSECTION FOR OMB RACE RECODE
