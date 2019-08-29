@@ -63,6 +63,8 @@ namespace mmria.server.model.actor.quartz
 				IDictionary<string,object> doc_item = enumerable_item ["doc"] as IDictionary<string,object>;
 		
 				if (
+
+					doc_item != null &&
 					doc_item ["status"] != null &&
 					doc_item ["status"].ToString ().StartsWith("In Queue...", StringComparison.OrdinalIgnoreCase))
 				{

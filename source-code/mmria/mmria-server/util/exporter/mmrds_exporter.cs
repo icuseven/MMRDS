@@ -1419,10 +1419,11 @@ namespace mmria.server.util
 					else if (number_regex.IsMatch(path[i]))
 					{
 						IList<object> temp_list = index as IList<object>;
+						/*
 						if (!(temp_list.Count > int.Parse(path[i])))
 						{
 
-						}
+						} */
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
 					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)

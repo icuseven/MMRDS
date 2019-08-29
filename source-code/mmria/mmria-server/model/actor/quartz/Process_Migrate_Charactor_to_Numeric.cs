@@ -211,7 +211,7 @@ namespace mmria.server.model.actor.quartz
 						{
 							var item = data_migration_list[i];
 
-							var name_value = (p_data as string).Split("-");
+							var name_value = (p_data != null)? (p_data as string).Split("-"): new string[]{};
 
 							if(name_value.Length > 1)
 							{
@@ -274,6 +274,8 @@ namespace mmria.server.model.actor.quartz
 			{
 				case "group":
 					object_dictionary = p_value as IDictionary<string,object>;
+					
+					if(object_dictionary != null)
 					foreach(var child in p_metadata.children)
 					{
 						if(object_dictionary.ContainsKey(child.name))
@@ -292,9 +294,12 @@ namespace mmria.server.model.actor.quartz
 				break;				
 				case "grid":
 					var object_array = p_value as IList<object>;
+
+					if(object_array != null)
 					foreach(var object_item in object_array)
 					{
 						object_dictionary = object_item as IDictionary<string,object>;
+						if(object_dictionary != null)
 						foreach(var child in p_metadata.children)
 						{
 							if(object_dictionary.ContainsKey(child.name))
@@ -320,9 +325,12 @@ namespace mmria.server.model.actor.quartz
 					)
 					{
 						var form_array = p_value as IList<object>;
+						if(form_array != null)
 						foreach(var form in form_array)
 						{
 							object_dictionary = form as IDictionary<string,object>;
+							
+							if(object_dictionary != null)
 							foreach(var child in p_metadata.children)
 							{
 								if(object_dictionary.ContainsKey(child.name))
@@ -344,6 +352,8 @@ namespace mmria.server.model.actor.quartz
 					else
 					{
 						object_dictionary = p_value as IDictionary<string,object>;
+
+						if(object_dictionary != null)
 						foreach(var child in p_metadata.children)
 						{
 							if(object_dictionary.ContainsKey(child.name))

@@ -953,6 +953,7 @@ namespace mmria.server.util
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];

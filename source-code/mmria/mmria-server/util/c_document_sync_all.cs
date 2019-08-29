@@ -114,6 +114,8 @@ namespace mmria.server.util
             {
     			IDictionary<string,object> all_docs_dictionary = all_docs as IDictionary<string,object>;
     			List<object> row_list = all_docs_dictionary ["rows"] as List<object>;
+				
+				if(row_list != null)
     			foreach (object row_item in row_list) 
                 {
 

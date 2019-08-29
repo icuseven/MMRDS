@@ -181,7 +181,7 @@ result.push("<input type='button' value='confirm' />");
 			for(var i = 0; i < p_queue_data.length; i++)
 			{
 				var item = p_queue_data[i];
-				console.log(item);
+				//console.log(item);
 
 				// if(i % 2 == 0)
 				// {
@@ -203,15 +203,15 @@ result.push("<input type='button' value='confirm' />");
 
 					if(item.status == "Confirmation Required")
 					{
-						result.push(`<td class="td"><input type='button' value='Confirm' onclick='confirm_export_item(\"" ${item._id} "\")' /> | <input type='button' value='Cancel' onclick='cancel_export_item(\"" ${item._id} "\")' /></td>`);
+						result.push(`<td class="td"><input type='button' value='Confirm' onclick='confirm_export_item("${item._id}")' /> | <input type='button' value='Cancel' onclick='cancel_export_item("${item._id}")' /></td>`);
 					}
 					else if(item.status == "Download")
 					{
-						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item(\"" ${item._id} "\")' /></td>`);
+						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /></td>`);
 					}
 					else if(item.status == "Downloaded")
 					{
-						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item(\"" ${item._id} "\")' /> | <input type='button' value='Delete' onclick='delete_export_item(\"" + ${item._id} "\")' /></td>`);
+						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /> | <input type='button' value='Delete' onclick='delete_export_item("${item._id}")' /></td>`);
 					}
 					else 
 					{

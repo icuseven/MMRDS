@@ -197,14 +197,29 @@ function confirm_export_item(p_id)
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
 				data: JSON.stringify(item),
-				type: "POST",
+				type: "POST"
+				/*,
+
 				beforeSend: function (request)
 				{
 					request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-				}//,
+				}/*/
 		}).done(function(response) {
+
+			render();
+
+			if(update_queue_interval_id == null)
+			{ 
+				update_queue_interval_id = window.setInterval(update_queue_task, 10000);
+				update_queue_interval_count = 1;
+			}
+			else
+			{
+				update_queue_interval_count += 1;
+			}
+		
 				//g_metadata = response;
-				load_data(g_uid, $mmria.getCookie("pwd"));
+				//load_data(g_uid, $mmria.getCookie("pwd"));
 		});
 	}
 	
@@ -231,6 +246,24 @@ function download_export_item(p_id)
 		var download_url = location.protocol + '//' + location.host + '/api/zip/' + p_id;
 		window.open(download_url, "_zip");
 		load_data(g_uid, $mmria.getCookie("pwd"));
+
+		if
+		(
+			update_queue_interval_id != null && 
+			update_queue_interval_count > 0
+		)
+		{
+			update_queue_interval_count-= 1;
+
+			if(update_queue_interval_count == 0)
+			{
+				clearInterval(update_queue_interval_id);
+				update_queue_interval_id = null;
+			}
+			
+		}
+
+		render();
 	}
 }
 
@@ -264,7 +297,8 @@ function delete_export_item(p_id)
 
 
 
-var update_queue_interval_id = null;
+let update_queue_interval_id = null;
+let update_queue_interval_count = 0;
 
 function update_queue_task()
 {

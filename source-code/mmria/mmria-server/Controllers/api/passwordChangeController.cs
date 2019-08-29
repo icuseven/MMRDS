@@ -32,14 +32,14 @@ namespace mmria.server
 		[HttpGet]
         public async System.Threading.Tasks.Task<int> Get() 
 		{ 
-			var days_til_password_expires = -1;
+			var days_til_expires = -1;
 
-			var password_days_before_expires = Program.config_password_days_before_expires;
+			var days_before_expires = Program.config_password_days_before_expires;
 
 			DateTime grace_period_date = DateTime.Now;
 
 
-			if(password_days_before_expires > 0)
+			if(days_before_expires > 0)
 			{
 				try
 				{
@@ -61,24 +61,24 @@ namespace mmria.server
 
 					session_event_response.rows.Sort(new mmria.common.model.couchdb.Compare_Session_Event_By_DateCreated<mmria.common.model.couchdb.session_event>());
 
-					var date_of_last_password_change = DateTime.MinValue;
+					var date_of_last_change = DateTime.MinValue;
 			
 					foreach(var session_event in session_event_response.rows)
 					{
 						if(session_event.value.action_result == mmria.common.model.couchdb.session_event.session_event_action_enum.password_changed)
 						{
-							date_of_last_password_change = session_event.value.date_created;
+							date_of_last_change = session_event.value.date_created;
 							break;
 						}
 					}
 
-					if(date_of_last_password_change != DateTime.MinValue)
+					if(date_of_last_change != DateTime.MinValue)
 					{
-						days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
+						days_til_expires = days_before_expires - (int)(DateTime.Now - date_of_last_change).TotalDays;
 					}
 					else if(session_event_response.rows.Count > 0)
                     {
-                        days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
+                        days_til_expires = days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
                     }
 						
 					
@@ -91,7 +91,7 @@ namespace mmria.server
 
 			
 
-			return days_til_password_expires;
+			return days_til_expires;
 		}
 
 
