@@ -475,6 +475,17 @@ ul {
   color: inherit;
 }
 
+.anti-btn {
+  border: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}
+
+.smooth-list {
+  padding-left: 0;
+}
+
 .form-control-wrap {
   position: relative;
 }
@@ -985,11 +996,13 @@ ul {
   margin-top: 3rem;
 }
 
-/* Outer wrapper to control form highlighting */
-
-.form-control-outer {
+/*
+  Outer wrapper to control form highlighting
+  - commenting out for now but leaving for future reference
+  */
+/* .form-control-outer {
   position: relative;
-}
+} */
 
 
 
