@@ -29,7 +29,7 @@ namespace mmria.server
                 } 
 
 
-				var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await request_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);

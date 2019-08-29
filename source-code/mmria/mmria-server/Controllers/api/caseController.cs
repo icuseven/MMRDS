@@ -40,7 +40,7 @@ namespace mmria.server
                 {
                     request_string = Program.config_couchdb_url + "/mmrds/" + case_id;
 
-					var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+					var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 					string responseFromServer = await case_curl.executeAsync();
 
 					var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
@@ -114,7 +114,7 @@ namespace mmria.server
 				// begin - check if doc exists
 				try 
 				{
-					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, Program.config_timer_user_name, Program.config_timer_password);
+					var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + id_val, null, Program.config_timer_user_name, Program.config_timer_value);
 					string check_document_json = await check_document_curl.executeAsync ();
 					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
 					IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
@@ -137,7 +137,7 @@ namespace mmria.server
 
 
 				string metadata_url = Program.config_couchdb_url + "/mmrds/"  + id_val;
-				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
                 try
                 {
@@ -192,8 +192,8 @@ namespace mmria.server
                     return null;
                 }
 
-                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
-				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_password);
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_value);
 
 				string document_json = null;
 				// check if doc exists

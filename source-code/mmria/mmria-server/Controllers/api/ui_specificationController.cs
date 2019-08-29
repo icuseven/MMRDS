@@ -29,7 +29,7 @@ namespace mmria.server
 			{
 				string ui_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
 
-				var curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				var curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await curl.executeAsync();
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
@@ -78,7 +78,7 @@ namespace mmria.server
 			{
 				string ui_specification_url = Program.config_couchdb_url + $"/metadata/" + id;
 				
-				var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await ui_specification_curl.executeAsync();
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
@@ -132,7 +132,7 @@ namespace mmria.server
 				string ui_specification_url = Program.config_couchdb_url + "/metadata/" + ui_specification._id;
 
 
-				cURL document_curl = new cURL ("PUT", null, ui_specification_url, ui_specification_json, Program.config_timer_user_name, Program.config_timer_password);
+				cURL document_curl = new cURL ("PUT", null, ui_specification_url, ui_specification_json, Program.config_timer_user_name, Program.config_timer_value);
 
 
                 try
@@ -193,7 +193,7 @@ namespace mmria.server
 				}
 
 
-                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 
 
                 string responseFromServer = await delete_report_curl.executeAsync ();;

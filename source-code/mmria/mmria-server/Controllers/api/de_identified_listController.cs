@@ -84,7 +84,7 @@ namespace mmria.server
 
 				string metadata_url = Program.config_couchdb_url + "/metadata/de-identified-list";
 
-				var de_identified_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_password,"text/*");
+				var de_identified_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_value,"text/*");
 
 				string responseFromServer = await de_identified_curl.executeAsync ();
 

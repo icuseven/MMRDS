@@ -99,7 +99,7 @@ namespace mmria.server
 
 				string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
-				var validator_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_password,"text/*");
+				var validator_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_value,"text/*");
 
 /*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));

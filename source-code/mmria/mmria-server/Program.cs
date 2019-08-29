@@ -98,7 +98,7 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
         public static string config_web_site_url;
         //public static string config_file_root_folder;
         public static string config_timer_user_name;
-        public static string config_timer_password;
+        public static string config_timer_value;
         public static string config_cron_schedule;
         public static string config_export_directory;
 

@@ -89,7 +89,7 @@ namespace mmria.server.model.actor
 
                     try 
                     {
-                        var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                        var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                         string check_document_json = check_document_curl.execute();
                         var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (check_document_json);
 
@@ -109,7 +109,7 @@ namespace mmria.server.model.actor
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(session_message, settings);
 
-                    cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_password);
+                    cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
                     try
                     {

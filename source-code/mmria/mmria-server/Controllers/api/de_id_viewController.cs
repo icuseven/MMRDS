@@ -154,7 +154,7 @@ by_state_of_death
 
                 string request_string = request_builder.ToString();
 
-                var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await request_curl.executeAsync();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
@@ -376,7 +376,7 @@ by_state_of_death
 
                 string request_string = request_builder.ToString();
 
-                var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = await request_curl.executeAsync();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);

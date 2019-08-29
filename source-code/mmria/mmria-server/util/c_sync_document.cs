@@ -52,7 +52,7 @@ namespace mmria.server.util
 
 			string result = null;
 
-			var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+			var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
 			string temp_document_json = null;
 
 			try
@@ -102,7 +102,7 @@ namespace mmria.server.util
 				de_identfied_url.Append(de_identified_revision);	
 			}
 
-			var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_password);
+			var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_value);
 			try
 			{
 				string de_id_result = await de_identfied_curl.executeAsync();
@@ -144,7 +144,7 @@ namespace mmria.server.util
 					aggregate_url.Append(aggregate_revision);	
 				}
 
-				var aggregate_curl = new cURL(this.method, null, aggregate_url.ToString(), aggregate_json,  Program.config_timer_user_name, Program.config_timer_password);
+				var aggregate_curl = new cURL(this.method, null, aggregate_url.ToString(), aggregate_json,  Program.config_timer_user_name, Program.config_timer_value);
 
 				string aggregate_result = await aggregate_curl.executeAsync();
 				System.Console.WriteLine("c_sync_document aggregate_id");

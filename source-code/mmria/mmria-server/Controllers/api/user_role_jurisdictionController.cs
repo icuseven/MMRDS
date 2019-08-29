@@ -27,7 +27,7 @@ namespace mmria.server
 				{
 					jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/_all_docs?include_docs=true";
 
-					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_password);
+					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_value);
 					string responseFromServer = await case_curl.executeAsync();
 
 					//var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction[]> (responseFromServer);
@@ -56,7 +56,7 @@ namespace mmria.server
 				else
 				{
 					jurisdiction_url = Program.config_couchdb_url + $"/jurisdiction/" + p_urj_id;	
-					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_password);
+					var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_value);
 					string responseFromServer = await case_curl.executeAsync();
 
 					var user_role_jurisdiction = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (responseFromServer);
@@ -113,7 +113,7 @@ namespace mmria.server
 				string jurisdiction_tree_url = Program.config_couchdb_url + "/jurisdiction/" + user_role_jurisdiction._id;
 
 
-				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, user_role_jurisdiction_json, Program.config_timer_user_name, Program.config_timer_password);
+				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, user_role_jurisdiction_json, Program.config_timer_user_name, Program.config_timer_value);
 
 
                 try
@@ -158,8 +158,8 @@ namespace mmria.server
                     return null;
                 }
 
-                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
-				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/jurisdiction/" + _id, null, Program.config_timer_user_name, Program.config_timer_password);
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+				var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/jurisdiction/" + _id, null, Program.config_timer_user_name, Program.config_timer_value);
 					// check if doc exists
 
 				try 

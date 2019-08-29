@@ -179,7 +179,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
             string result = null;
 
-            var document_curl = new cURL ("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+            var document_curl = new cURL ("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
             string document_json = null;
 
             try 

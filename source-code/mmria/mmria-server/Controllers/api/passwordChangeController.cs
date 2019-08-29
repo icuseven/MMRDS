@@ -50,7 +50,7 @@ namespace mmria.server
 					//var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_date_created_user_id?startkey=[" + "{}" + $",\"{user.UserName}\"]&decending=true&limit={unsuccessful_login_attempts_number_before_lockout}";
 					var session_event_request_url = $"{Program.config_couchdb_url}/session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
 
-					var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_password);
+					var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
 					string response_from_server = await session_event_curl.executeAsync ();
 
 					//var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -115,7 +115,7 @@ namespace mmria.server
 			try
 			{
 				string user_db_url = Program.config_couchdb_url + "/_users/org.couchdb.user:" + userName;
-				var user_curl = new cURL("GET", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				var user_curl = new cURL("GET", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 				var responseFromServer = await user_curl.executeAsync();
 				var user_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
 
@@ -134,7 +134,7 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user_object, settings);
 
-				user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 				responseFromServer = await user_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 

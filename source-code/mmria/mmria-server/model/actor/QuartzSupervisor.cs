@@ -71,7 +71,7 @@ namespace mmria.server.model.actor
 							Program.config_cron_schedule,
 							Program.config_couchdb_url,
 							Program.config_timer_user_name,
-							Program.config_timer_password,
+							Program.config_timer_value,
 							Program.config_export_directory
 						);
 

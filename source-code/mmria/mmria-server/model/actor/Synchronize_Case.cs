@@ -63,7 +63,7 @@ namespace mmria.server.model.actor
                     mmria.server.util.c_document_sync_all sync_all = new mmria.server.util.c_document_sync_all (
                                                                             Program.config_couchdb_url,
                                                                             Program.config_timer_user_name,
-                                                                            Program.config_timer_password
+                                                                            Program.config_timer_value
                                                                         );
 
                     sync_all.executeAsync ().Wait();

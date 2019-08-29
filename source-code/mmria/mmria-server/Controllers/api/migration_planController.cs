@@ -49,7 +49,7 @@ namespace mmria.server
 					request_string = this.get_couch_db_url() + "/metadata/" + id;
 				}
 
-				var migration_plan_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+				var migration_plan_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 				var responseFromServer = await migration_plan_curl.executeAsync();
 
 				if(!string.IsNullOrWhiteSpace(id))
@@ -122,7 +122,7 @@ namespace mmria.server
 
 				string migration_plan_db_url = this.get_couch_db_url() + "/metadata/"  + migration_plan._id;
 
-				var migration_plan_curl = new cURL("PUT", null, migration_plan_db_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				var migration_plan_curl = new cURL("PUT", null, migration_plan_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 				var responseFromServer = await migration_plan_curl.executeAsync();
 				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
@@ -158,7 +158,7 @@ namespace mmria.server
                     return null;
                 }
 
-                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 
                 string responseFromServer = await delete_report_curl.executeAsync ();;
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);

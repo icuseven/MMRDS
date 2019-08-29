@@ -76,7 +76,7 @@ namespace mmria.server
 
                     string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
-					var put_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_password, "text/*");
+					var put_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_value, "text/*");
                     if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
                     {
                         string If_Match = this.Request.Headers["If-Match"];

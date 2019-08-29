@@ -156,7 +156,7 @@ namespace mmria.server
 */
 			try
 			{
-                string post_data = string.Format ("name={0}&password={1}", Program.config_timer_user_name, Program.config_timer_password);
+                string post_data = string.Format ("name={0}&password={1}", Program.config_timer_user_name, Program.config_timer_value);
 				byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
 

@@ -87,7 +87,7 @@ namespace mmria.server
                     }
                 }
 
-				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_password);
+				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
 				string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
 
                 var session_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.session>>(response_from_server);
@@ -239,7 +239,7 @@ namespace mmria.server
 				{
 					
 
-					var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+					var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
 					string check_document_json = await check_document_curl.executeAsync ();
 					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<session> (check_document_json);
 
@@ -265,7 +265,7 @@ namespace mmria.server
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 				var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Post_Request, settings);
 
-				cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_password);
+				cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
 				try
 				{

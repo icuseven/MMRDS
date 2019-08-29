@@ -44,13 +44,13 @@ namespace mmria.server.model.actor.quartz
 
 
 				string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z";
-				cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_password);
+				cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
 				mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
 				this.lookup = get_look_up(metadata);
 
 				string url = Program.config_couchdb_url + "/mmrds/_all_docs?include_docs=true";
-				var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_password);
+				var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_value);
 				string responseFromServer = case_curl.execute();
 				
 				var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
@@ -83,7 +83,7 @@ namespace mmria.server.model.actor.quartz
 						var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item.doc, settings);
 
 						string put_url = Program.config_couchdb_url + "/mmrds/"  + case_item.id;
-						cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_password);
+						cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
 						try
 						{

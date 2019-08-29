@@ -74,7 +74,7 @@ namespace mmria.server
             Program.config_web_site_url = Configuration["mmria_settings:web_site_url"];
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
             Program.config_timer_user_name = Configuration["mmria_settings:timer_user_name"];
-            Program.config_timer_password = Configuration["mmria_settings:timer_password"];
+            Program.config_timer_value = Configuration["mmria_settings:timer_password"];
             Program.config_cron_schedule = Configuration["mmria_settings:cron_schedule"];
             Program.config_export_directory = Configuration["mmria_settings:export_directory"];
 
@@ -116,7 +116,7 @@ namespace mmria.server
                 Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
                 //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
                 Program.config_timer_user_name = System.Environment.GetEnvironmentVariable ("timer_user_name");
-                Program.config_timer_password = System.Environment.GetEnvironmentVariable ("timer_password");
+                Program.config_timer_value = System.Environment.GetEnvironmentVariable ("timer_password");
                 Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
                 Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
 
@@ -511,7 +511,7 @@ namespace mmria.server
                                 var sid = context.Request.Cookies["sid"];
 
                                 string request_string = Program.config_couchdb_url + $"/session/{sid}";
-                                var curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_password);
+                                var curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                                 string session_json = curl.execute();
                                 var session = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (session_json);
 

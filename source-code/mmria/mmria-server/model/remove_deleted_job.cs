@@ -21,7 +21,7 @@ namespace mmria.server.model
 		{
 				this.couch_db_url = Program.config_couchdb_url;
 				this.user_name = Program.config_timer_user_name;
-				this.password = Program.config_timer_password;
+				this.password = Program.config_timer_value;
 				Configuration = configuration;
 		}
 
@@ -113,7 +113,7 @@ namespace mmria.server.model
 						{
 		
 							string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
-							var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+							var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_value);
 							string document_json = null;
 		
 							try

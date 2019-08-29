@@ -100,7 +100,7 @@ namespace mmria.server.model.actor.quartz
                             {
             
                                 string document_url = Program.config_couchdb_url + "/mmrds/" + kvp.Key;
-                                var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_password);
+                                var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_value);
                                 string document_json = null;
             
                                 try

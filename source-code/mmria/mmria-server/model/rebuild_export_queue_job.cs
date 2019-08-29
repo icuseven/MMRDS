@@ -22,7 +22,7 @@ namespace mmria.server.model
 		{
 				this.couch_db_url = Program.config_couchdb_url;
 				this.user_name = Program.config_timer_user_name;
-				this.password = Program.config_timer_password;
+				this.password = Program.config_timer_value;
                 Configuration = configuration;
 		}
 
