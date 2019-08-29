@@ -26,7 +26,7 @@ else
 result.push("<br/>");
 
 
-result.push("2. What file format would you like? ");
+ result.push("2. Would you like to encrypt the file? ");
 result.push("<input type='radio' name='two' value='csv'  two_click(this.value)' ");
 if(answer_summary[1] == 'csv')
 {
@@ -91,6 +91,21 @@ result.push("<a onclick='custom_field_click()'>[ select custom fields ]</a> <br/
 
 result.push("<br/>");
 
+
+result.push("4. What filters do you want to apply? (Add filter to export by day, month, year of death)");
+result.push("<ul>");
+
+result.push("<li>1. Filter by date, year of death, etc (already have this in MMRIA)</li>");
+result.push("<li>2. Filter by Status (reviewed)</li>");
+result.push("<li>3. Filter by Case</li>");
+result.push("<li>* Add filter to exclude PII tagged fields</li>");
+result.push("<li>* Add filter to include PII tagged fields and any data in the field</li>");
+result.push("</ul>");
+
+
+result.push("5. What export name do you want to add? <input type='text' value=''/><br/>");
+result.push("6. What export name do you want to add? <input type='text' value=''/>");
+
 result.push("<br/>");
 result.push("<div id='answer_summary'>");
 result.push("You choose to: ");
@@ -100,7 +115,7 @@ result.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
 result.push("<br/>");
 result.push("</div>");
 //result.push("<input type='button' value='confirm' /> | ");
-result.push("<input type='button' value='execute' />");
+result.push("<input type='button' value='confirm' />");
 
 
 
