@@ -26,35 +26,26 @@ else
 result.push("<br/>");
 
 
- result.push("2. Would you like to encrypt the file? ");
-result.push("<input type='radio' name='two' value='csv'  two_click(this.value)' ");
-if(answer_summary[1] == 'csv')
+ result.push("2. Are you sending this file to CDC? ");
+result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
+if(answer_summary[1] == 'no')
 {
-result.push(" checked='true' /> csv ");
+result.push(" checked='true' /> no ");
 }
 else
 {
-	result.push(" /> csv ");
+	result.push(" /> no ");
 }
-result.push("<input type='radio' name='two' value='json' two_click(this.value)' ");
-if(answer_summary[1] == 'json')
+result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
+if(answer_summary[1] == 'yes')
 {
-result.push(" checked='true' /> json ");
+result.push(" checked='true' /> yes ");
 }
 else
 {
-	result.push(" /> json ");
+	result.push(" /> yes ");
 }
-result.push("<input type='radio' name='two' value='url'  onclick='two_click(this.value)'");
-if(answer_summary[1] == 'url')
-{
-result.push(" checked='true' /> url ");
-}
-else
-{
-	result.push(" /> url ");
-}
-result.push("<input type='text' value='");
+result.push(" encryption key: <input type='text' value='");
 result.push(answer_summary[3])
 result.push("' />");
 
@@ -95,16 +86,17 @@ result.push("<br/>");
 result.push("4. What filters do you want to apply? (Add filter to export by day, month, year of death)");
 result.push("<ul>");
 
-result.push("<li>1. Filter by date, year of death, etc (already have this in MMRIA)</li>");
-result.push("<li>2. Filter by Status (reviewed)</li>");
-result.push("<li>3. Filter by Case</li>");
-result.push("<li>* Add filter to exclude PII tagged fields</li>");
-result.push("<li>* Add filter to include PII tagged fields and any data in the field</li>");
+result.push("<li>Date of death: <ul><li>year  <select><option>Any</option></select></li><li>month year <select><option>Any</option></select></li><li> day year <select><option>Any</option></select></li></ul></li>");
+result.push("<li>Case Status year <select><option>Any</option></select></li>");
+result.push("<li>Case jurisdiction year <select><option>All</option></select></li>");
+result.push("<li>Filter by Case</li>");
+result.push("<li><input type='checkbox' value=''/> exclude PII tagged fields </li>");
+result.push("<li><input type='checkbox' value=''/> include PII tagged fields and any data in the field </li>");
 result.push("</ul>");
 
 
-result.push("5. What export name do you want to add? <input type='text' value=''/><br/>");
-result.push("6. What export name do you want to add? <input type='text' value=''/>");
+result.push("5. What export/grantee name do you want to add to each case? <input type='text' value=''/><br/>");
+
 
 result.push("<br/>");
 result.push("<div id='answer_summary'>");

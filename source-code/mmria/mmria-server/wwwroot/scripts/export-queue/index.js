@@ -7,7 +7,7 @@ var g_delete_node_clip_board = null;
 
 var g_ui = { is_collapsed : [] };
 
-var answer_summary = [ 'all', 'csv', 'none', 'https://domain.com' ];
+var answer_summary = [ 'all', 'csv', 'none', location.host ];
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
