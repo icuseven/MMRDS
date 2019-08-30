@@ -14,7 +14,7 @@ namespace mmria.server.util
 		private string user_name = null;
 
 		private string juris_user_name = null;
-		private string password = null;
+		private string value_string = null;
 		private string database_path = null;
 		private string database_url = null;
 		private string item_file_name = null;
@@ -63,7 +63,7 @@ namespace mmria.server.util
 					}
 					else if (arg.ToLower().StartsWith("password"))
 					{
-						this.password = val;
+						this.value_string = val;
 					}
 					else if (arg.ToLower().StartsWith("database_url"))
 					{
@@ -115,7 +115,7 @@ namespace mmria.server.util
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(this.password))
+			if (string.IsNullOrWhiteSpace(this.value_string))
 			{
 				System.Console.WriteLine("missing password");
 				System.Console.WriteLine(" form password:[password]");
@@ -137,11 +137,11 @@ namespace mmria.server.util
 
 			string URL = this.database_url + "/mmrds/_all_docs";
 			string urlParameters = "?include_docs=true";
-			cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.password);
+			cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
 			string metadata_url = this.database_url + "/metadata/2016-06-12T13:49:24.759Z";
-			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.password);
+			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
 
@@ -230,7 +230,7 @@ namespace mmria.server.util
 			);
 
 
-			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.password);
+			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
 			HashSet<string> de_identified_set = new HashSet<string>();
 			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
@@ -278,7 +278,7 @@ namespace mmria.server.util
 
 				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
-				if (case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
+				if (case_doc == null || case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
 				{
 					continue;
 				}
@@ -884,7 +884,7 @@ namespace mmria.server.util
 			);
 
 
-			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + this.item_id, null, this.user_name, this.password);
+			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + this.item_id, null, this.user_name, this.value_string);
 			string responseFromServer = get_item_curl.execute ();
 			export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item> (responseFromServer); 
 
@@ -894,7 +894,7 @@ namespace mmria.server.util
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 			string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings); 
-			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, this.user_name, this.password);
+			var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
 			responseFromServer = set_item_curl.execute ();
 
 

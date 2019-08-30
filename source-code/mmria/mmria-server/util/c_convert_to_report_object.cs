@@ -352,8 +352,12 @@ namespace mmria.server.util
 					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
 					if (val != null)
 					{
+						
 						HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
-						foreach(string item in val as IList<object>) ethnicity_set.Add(item);
+						var val_list = val as IList<object>;
+
+						if(val_list != null)
+						foreach(string item in val_list) ethnicity_set.Add(item);
 							
 						if (ethnicity_set.Intersect (bc_ethinicity).Count() > 0)
 						{
@@ -378,6 +382,9 @@ namespace mmria.server.util
 						if (val != null)
 						{
 							HashSet<string> ethnicity_set = new HashSet<string> (StringComparer.InvariantCultureIgnoreCase);
+							var val_list = val as IList<object>;
+						
+							if(val_list != null)
 							foreach(string item in val as IList<object>) ethnicity_set.Add(item);
 							if (ethnicity_set.Intersect (bc_ethinicity).Count() > 0)
 							{
