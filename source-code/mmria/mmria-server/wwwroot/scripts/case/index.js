@@ -1404,7 +1404,7 @@ var save_queue = [];
 
 function print_case_onchange()
 {
-  var section_id = document.getElementById("print_case_id").value;
+  var section_id = escape(document.getElementById("print_case_id").value);
 
   if(section_id && section_id.length > 0)
   {

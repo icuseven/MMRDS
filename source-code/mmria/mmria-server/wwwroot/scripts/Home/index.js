@@ -135,7 +135,7 @@ function load_user_role_jurisdiction()
                 }
                 else
                 {
-                  role_list_html.push("<td class='td'>" + value.is_active + "</td>");
+                  role_list_html.push("<td class='td'>" + escape(value.is_active) + "</td>");
                 }
                 
                 role_list_html.push("<td class='td'>" + escape(effective_start_date) + "</td>");
