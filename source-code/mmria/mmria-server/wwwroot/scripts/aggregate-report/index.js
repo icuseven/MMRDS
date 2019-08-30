@@ -18,6 +18,47 @@ var g_ui = {
 };
 
 
+var year_options = [
+'All',
+2020,
+2019,
+2018,
+2017,
+2016,
+2015,
+2014,
+2013,
+2012,
+2011,
+2010,
+2009,
+2008,
+2007,
+2006,
+2005,
+2004,
+2003,
+2002,
+2001,
+2000,
+1999
+];
+
+var month_options = [
+'All',
+01,
+02,
+03,
+04,
+05,
+06,
+07,
+08,
+09,
+10,
+11,
+12
+];
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
@@ -64,23 +105,34 @@ function generate_report_click()
 
   let valid_response_regx = /^(All|\d+)$/;
 
-  let year_of_death = document.getElementById('year_of_death').value;
-  let month_of_case_review = document.getElementById('month_of_case_review').value;
-  let year_of_case_review = document.getElementById('year_of_case_review').value;
+
+  let year_of_death_index = year_options.indexOf(document.getElementById('year_of_death').value);
+  let month_of_case_review_index = month_options.indexOf(document.getElementById('month_of_case_review').value);
+  let year_of_case_review_index = year_options.indexOf(document.getElementById('year_of_case_review').value);
+
 
   if
   (
     !
     (
-      valid_response_regx.test(year_of_death) &&
-      valid_response_regx.test(month_of_case_review) &&
-      valid_response_regx.test(year_of_case_review)
+      year_of_death_index > -1 &&
+      month_of_case_review_index > -1 &&
+      year_of_case_review_index > -1 &&
+      valid_response_regx.test(year_options[year_of_death_index]) &&
+      valid_response_regx.test(month_options[month_of_case_review_index]) &&
+      valid_response_regx.test(year_options[year_of_case_review_index])
     )
   )
   {
     alert("invalid parameters");
     return;
   }
+
+
+  let year_of_death = year_options[year_of_death_index];
+  let month_of_case_review = month_options[month_of_case_review_index];
+  let year_of_case_review = year_options[year_of_case_review_index];
+
 
 	var filter = {
 		year_of_death: year_of_death,

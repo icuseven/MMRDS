@@ -7,7 +7,29 @@ var g_delete_node_clip_board = null;
 
 var g_ui = { is_collapsed : [] };
 
-var answer_summary = [ 'all', 'csv', 'none', location.host ];
+var answer_summary = {
+	all_or_core: 'all',
+	grantee_name: location.host,
+	is_encrypted: 'no',
+	encryption_key: '',
+	is_for_cdc: 'no',
+	de_identified_selection_type: 'none',
+	de_identified_field_set: {},
+	filter:
+	{
+		date_of_death:
+		{
+			year:[],
+			month:[],
+			day:[],
+		},
+		case_status: [],
+		case_jurisdiction:''
+	}
+
+};
+
+[ 'all', 'csv', 'none', location.host ];
 
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
