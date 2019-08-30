@@ -43,7 +43,11 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
+      url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
+      headers: {          
+        Accept: "text/plain; charset=utf-8",         
+        "Content-Type": "text/plain; charset=utf-8"   
+      } 
 	}).done(function(response) {
 
       g_jurisdiction_list = []
@@ -123,8 +127,8 @@ function load_user_role_jurisdiction()
                   role_list_html.push("<tr class='tr'>");
                 }
                 
-                role_list_html.push("<td class='td'>" + value.role_name + "</td>");
-                role_list_html.push("<td class='td'>" + value.jurisdiction_id + "</td>");
+                role_list_html.push("<td class='td'>" + escape(value.role_name) + "</td>");
+                role_list_html.push("<td class='td'>" + escape(value.jurisdiction_id) + "</td>");
                 if(diffDays < 0)
                 {
                   role_list_html.push("<td class='td'>false</td>");
@@ -134,10 +138,10 @@ function load_user_role_jurisdiction()
                   role_list_html.push("<td class='td'>" + value.is_active + "</td>");
                 }
                 
-                role_list_html.push("<td class='td'>" + effective_start_date + "</td>");
-                role_list_html.push("<td class='td'>" + effective_end_date + "</td>");
+                role_list_html.push("<td class='td'>" + escape(effective_start_date) + "</td>");
+                role_list_html.push("<td class='td'>" + escape(effective_end_date) + "</td>");
                 role_list_html.push("<td class='td'>" + diffDays + "</td>");
-                role_list_html.push("<td class='td'>" + value.last_updated_by + "</td>");
+                role_list_html.push("<td class='td'>" + escape(value.last_updated_by) + "</td>");
                 role_list_html.push("</tr>");
               }
             }
