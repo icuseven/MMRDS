@@ -3,6 +3,12 @@ function export_queue_render(p_queue_data)
 	var result = [];
 
 
+	result.push('<div class="content-intro">');
+		result.push('<h1 class="h2 mb-0">Submit Export Data Request</h1>');
+	result.push('</div> <!-- end .content-intro -->');
+
+
+	result.push("<h3>Make your export choices:</h3>")
 result.push("1.  Would you like to export all data or only core data? ");
 
 result.push("<input type='radio' name='one' value='all' onclick='one_click(this.value)'");
@@ -25,8 +31,9 @@ else
 }
 result.push("<br/>");
 
+result.push("2. What export/grantee name do you want to add to each case? <input type='text' value=''/><br/>");
 
- result.push("2. Are you sending this file to CDC? ");
+result.push("3. Would you like to password protect the file? ");
 result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
 if(answer_summary[1] == 'no')
 {
@@ -50,7 +57,31 @@ result.push(answer_summary[3])
 result.push("' />");
 
 result.push("<br/>");
-result.push("3. What fields do you want to de-identify? ");
+
+
+ result.push("4. Are you sending this file to CDC? ");
+result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
+if(answer_summary[1] == 'no')
+{
+result.push(" checked='true' /> no ");
+}
+else
+{
+	result.push(" /> no ");
+}
+result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
+if(answer_summary[1] == 'yes')
+{
+result.push(" checked='true' /> yes ");
+}
+else
+{
+	result.push(" /> yes ");
+}
+result.push("<- if yes your file will be password encrypted using a CDC keyion key.");
+
+result.push("<br/>");
+result.push("5. What fields do you want to de-identify? ");
 result.push("<input type='radio' name='three' value='none' ");
 if(answer_summary[2] == 'none')
 {
@@ -83,7 +114,7 @@ result.push("<a onclick='custom_field_click()'>[ select custom fields ]</a> <br/
 result.push("<br/>");
 
 
-result.push("4. What filters do you want to apply? (Add filter to export by day, month, year of death)");
+result.push("6. What filters do you want to apply? (Add filter to export by day, month, year of death)");
 result.push("<ul>");
 
 result.push("<li>Date of death: <ul><li>year  <select><option>Any</option></select></li><li>month year <select><option>Any</option></select></li><li> day year <select><option>Any</option></select></li></ul></li>");
@@ -95,10 +126,11 @@ result.push("<li><input type='checkbox' value=''/> include PII tagged fields and
 result.push("</ul>");
 
 
-result.push("5. What export/grantee name do you want to add to each case? <input type='text' value=''/><br/>");
+
 
 
 result.push("<br/>");
+result.push("<hr/><h3>Summary of your choices:</h3>");
 result.push("<div id='answer_summary'>");
 result.push("You choose to: ");
 result.push("You selected to export " + answer_summary[0] + " data.");
@@ -107,15 +139,12 @@ result.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
 result.push("<br/>");
 result.push("</div>");
 //result.push("<input type='button' value='confirm' /> | ");
-result.push("<input type='button' value='confirm' />");
+result.push("<input type='button' value='confirm and start export' />");
 
 
+result.push("<hr/>");
 
 
-
-	result.push('<div class="content-intro">');
-		result.push('<h1 class="h2 mb-0">Submit Export Data Request</h1>');
-	result.push('</div> <!-- end .content-intro -->');
 
 	result.push('<p>Click on Export Core Data to CSV format to produce a zip file that contains your core data export plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</p>');
 	result.push('<p class="mb-0"><strong>Contains 2 Files:</strong></p>');

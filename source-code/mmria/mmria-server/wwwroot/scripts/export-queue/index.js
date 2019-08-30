@@ -14,7 +14,8 @@ $(function ()
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
 	load_data(g_uid);
-	update_queue_interval_id = window.setInterval(update_queue_task, 10000);
+	update_queue_task();
+	//update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
 
@@ -262,7 +263,7 @@ function download_export_item(p_id)
 			}
 			
 		}
-
+		window.setTimeout(update_queue_task, 2000);
 		render();
 	}
 }
@@ -302,9 +303,13 @@ let update_queue_interval_count = 0;
 
 function update_queue_task()
 {
-
-	
 	var temp = [];
+
+	if(g_data == null)
+	{
+		return;
+	}
+
 	for(var i = 0; i < g_data.length; i++)
 	{
 		if(g_data[i].status == "Confirmation Required")
