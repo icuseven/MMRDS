@@ -766,7 +766,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         }
         else
         {
-            onclick_text `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`
+            onclick_text = `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`;
         }
         
         
