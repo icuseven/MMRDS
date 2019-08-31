@@ -1,4 +1,4 @@
-function get_seach_text_context(p_result, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text)
+function get_seach_text_context(p_result, p_metadata, p_data, p_path, p_metadata_path, p_object_path, p_search_text, p_form_index, p_grid_index)
 {
     var result = {
         result : p_result,
@@ -8,7 +8,10 @@ function get_seach_text_context(p_result, p_metadata, p_data, p_path, p_metadata
         mmria_path:p_path,
         metadata_path:p_metadata_path,
         object_path:p_object_path,
-        search_text:p_search_text
+        search_text:p_search_text,
+        form_index: p_form_index,
+        grid_index: p_grid_index
+
     };
 
     return result;
@@ -62,7 +65,7 @@ function render_search_text(p_ctx)
             else // multiform
             {
 
-                for(let row in p_ctx.data)
+                for(let row = 0; row < p_ctx.data.length; row++)
                 {
                     let row_data = p_ctx.data[row]
                     for(let i in p_ctx.metadata.children)
@@ -71,7 +74,7 @@ function render_search_text(p_ctx)
     
                         if(row_data)
                         {
-                            let new_context = get_seach_text_context(p_ctx.result, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text);
+                            let new_context = get_seach_text_context(p_ctx.result, child, row_data[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "[" + row + "]." + child.name, p_ctx.search_text, row);
                             new_context.multiform_index = row;
                             render_search_text(new_context);
                             //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
@@ -96,7 +99,7 @@ function render_search_text(p_ctx)
                     let child = p_ctx.metadata.children[i];
                     if(p_ctx.data)
                     {
-                        let new_context = get_seach_text_context(p_ctx.result, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text);
+                        let new_context = get_seach_text_context(p_ctx.result, child, p_ctx.data[child.name], p_ctx.mmria_path+ "/" + child.name, p_ctx.metadata_path  + ".children[" + i + "]", p_ctx.object_path + "." + child.name, p_ctx.search_text, p_ctx.form_index, p_ctx.grid_index);
                         render_search_text(new_context);
                     }
                 }
@@ -110,7 +113,7 @@ function render_search_text(p_ctx)
             }
             else
             {*/
-                for(let i in p_ctx.data)
+                for(let i = 0; i < p_ctx.data.length; i++)
                 {
                     let row_item = p_ctx.data[i];
                     
@@ -122,7 +125,7 @@ function render_search_text(p_ctx)
                         let child = p_ctx.metadata.children[j];
 
                         
-                        let new_context = get_seach_text_context(p_ctx.result, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text);
+                        let new_context = get_seach_text_context(p_ctx.result, child, row_item[child.name], p_ctx.mmria_path + "/" + child.name, p_ctx.metadata_path  + ".children[" +j + "]", p_ctx.object_path + "[" + i + "]." + child.name, p_ctx.search_text, p_ctx.form_index, i);
                         render_search_text(new_context);
                         //Array.prototype.push.apply(result, render_search_text(child, ctx.mmria_path+ "/" + child.name, p_search_text));
                         
@@ -296,7 +299,6 @@ function render_search_text_group_control(p_ctx)
 
 function render_search_text_grid_control(p_ctx)
 {   
-    var is_grid_context = null;
     p_ctx.result.push("<fieldset id='");
     
     p_ctx.result.push(p_ctx.metadata_path);
@@ -383,15 +385,27 @@ function render_search_text_select_control(p_ctx)
             }
             
 
-
-            p_ctx.result.push("  onchange='g_set_data_object_from_path(\"");
-            p_ctx.result.push(p_ctx.object_path);
-            p_ctx.result.push("\",\"");
-            p_ctx.result.push(p_ctx.metadata_path);
-            p_ctx.result.push("\",\"");
-            p_ctx.result.push(p_ctx.dictionary_path);
-            p_ctx.result.push("\",this.value)'  ");
-
+            if
+            (
+                (
+                    p_ctx.metadata.is_read_only != null &&
+                    p_ctx.metadata.is_read_only == true
+                ) ||
+                p_ctx.metadata.mirror_reference
+            )
+            {
+                p_ctx.result.push(" readonly=true ");
+            }
+            else
+            {
+                p_ctx.result.push("  onchange='g_set_data_object_from_path(\"");
+                p_ctx.result.push(p_ctx.object_path);
+                p_ctx.result.push("\",\"");
+                p_ctx.result.push(p_ctx.metadata_path);
+                p_ctx.result.push("\",\"");
+                p_ctx.result.push(p_ctx.dictionary_path);
+                p_ctx.result.push("\",this.value)'  ");
+            }
 
             if(p_ctx.metadata.list_display_size != null)
             {
@@ -401,72 +415,52 @@ function render_search_text_select_control(p_ctx)
             
             p_ctx.result.push("' >"); 
 
-            if(p_ctx.metadata.path_reference && p_ctx.metadata.path_reference.length > 0)
-            {
-                for(var i in g_look_up[p_ctx.metadata.path_reference])
-                {
-                    var child = g_look_up[p_ctx.metadata.path_reference][i];
-                    p_ctx.result.push("<option ");
-                    if(child.display)
-                    {
-                        if(p_ctx.data == child.value)
-                        {
-                            p_ctx.result.push("selected ");
-                        }
-                        p_ctx.result.push(" value='");
-                        p_ctx.result.push(child.value);
-                        p_ctx.result.push("'>");
-                        p_ctx.result.push(child.display);
-                    }
-                    else if(child.value == -9)
-                    {
-                        if(p_ctx.data == child.value)
-                        {
-                            p_ctx.result.push("selected ");
-                        }
-                        p_ctx.result.push(" value='");
-                        p_ctx.result.push(child.value);
-                        p_ctx.result.push("'>");
-                        p_ctx.result.push("(blank)");
-                    }
-                    else
-                    {
-                        if(p_ctx.data == child.value)
-                        {
-                            p_ctx.result.push("selected ");
-                        }
-                        p_ctx.result.push(" value='");
-                        p_ctx.result.push(child.value);
-                        p_ctx.result.push("'>");
-                        p_ctx.result.push(child.value);
-                    }
-                    p_ctx.result.push("</option>");
 
+            let data_value_list = p_ctx.metadata.values;
+
+            if(p_ctx.metadata.path_reference && p_ctx.metadata.path_reference != "")
+            {
+                data_value_list = eval(convert_dictionary_path_to_lookup_object(p_ctx.metadata.path_reference));
+        
+                if(data_value_list == null)	
+                {
+                    data_value_list = p_ctx.metadata.values;
                 }
             }
-            else
+
+
+
+            for(let i = 0; i < data_value_list.length; i++)
             {
-
-                for(var i in p_ctx.metadata.values)
+                var child = data_value_list[i];
+                p_ctx.result.push("<option ");
+                if(p_ctx.data == child.value)
                 {
-                    var child = p_ctx.metadata.values[i];
-                    p_ctx.result.push("<option>");
-                    if(child.display)
-                    {
-                        p_ctx.result.push(child.display);
-                    }
-                    else if(child.value == -9)
-                    {
-                        p_ctx.result.push("(blank)");
-                    }
-                    else
-                    {
-                        p_ctx.result.push(child.value);
-                    }
-                    p_ctx.result.push("</option>");
-
+                    p_ctx.result.push("selected ");
                 }
+                p_ctx.result.push(" value='");
+                p_ctx.result.push(child.value);
+                p_ctx.result.push("'>");
+
+
+                if(child.display)
+                {
+
+                    p_ctx.result.push(child.display);
+                }
+                else if(child.value == -9)
+                {
+                    p_ctx.result.push("(blank)");
+                }
+                else
+                {
+                    p_ctx.result.push(child.value);
+                }
+                p_ctx.result.push("</option>");
+
             }
+            
+   
 
             p_ctx.result.push("</select>");
             p_ctx.result.push("</div><br/>");
