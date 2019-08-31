@@ -762,9 +762,12 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
         )
         {
             is_read_only= " readonly=true ";
+            
+        }
+        else
+        {
             onclick_text `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`
         }
-        
         
         
         
@@ -941,7 +944,7 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push(p_item.value);
     p_result.push(" ' ");
 
-    if(p_is_read_only && p_is_read_only != "")
+    if(p_is_read_only == null || p_is_read_only == "")
     {
         p_result.push(" onclick=g_set_data_object_from_path(\'");
         p_result.push(p_object_path);
