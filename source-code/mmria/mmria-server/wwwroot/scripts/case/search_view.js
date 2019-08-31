@@ -407,7 +407,7 @@ function render_search_text_select_control(p_ctx)
                 {
                     var child = g_look_up[p_ctx.metadata.path_reference][i];
                     p_ctx.result.push("<option ");
-                    if(child.description == null || child.description == "")
+                    if(child.display)
                     {
                         if(p_ctx.data == child.value)
                         {
@@ -416,7 +416,18 @@ function render_search_text_select_control(p_ctx)
                         p_ctx.result.push(" value='");
                         p_ctx.result.push(child.value);
                         p_ctx.result.push("'>");
+                        p_ctx.result.push(child.display);
+                    }
+                    else if(child.value == -9)
+                    {
+                        if(p_ctx.data == child.value)
+                        {
+                            p_ctx.result.push("selected ");
+                        }
+                        p_ctx.result.push(" value='");
                         p_ctx.result.push(child.value);
+                        p_ctx.result.push("'>");
+                        p_ctx.result.push("(blank)");
                     }
                     else
                     {
@@ -427,7 +438,7 @@ function render_search_text_select_control(p_ctx)
                         p_ctx.result.push(" value='");
                         p_ctx.result.push(child.value);
                         p_ctx.result.push("'>");
-                        p_ctx.result.push(child.description);
+                        p_ctx.result.push(child.value);
                     }
                     p_ctx.result.push("</option>");
 
@@ -440,13 +451,17 @@ function render_search_text_select_control(p_ctx)
                 {
                     var child = p_ctx.metadata.values[i];
                     p_ctx.result.push("<option>");
-                    if(child.description == null || child.description == "")
+                    if(child.display)
                     {
-                        p_ctx.result.push(child.value);
+                        p_ctx.result.push(child.display);
+                    }
+                    else if(child.value == -9)
+                    {
+                        p_ctx.result.push("(blank)");
                     }
                     else
                     {
-                        p_ctx.result.push(child.description);
+                        p_ctx.result.push(child.value);
                     }
                     p_ctx.result.push("</option>");
 
