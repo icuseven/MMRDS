@@ -288,9 +288,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("<option value='");
                     p_result.push(item.value.replace(/'/g, "&#39;"));
                     p_result.push("' selected>");
-                    if(item.display || item.value == -9)
+                    if(item.display)
                     {
                         p_result.push(item.display);
+                    }
+                    else if(item.value == -9)
+                    {
+                        p_result.push("(blank)");
                     }
                     else
                     {
@@ -303,9 +307,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("<option value='");
                     p_result.push(item.value.replace(/'/g, "&#39;"));
                     p_result.push("' >");
-                    if(item.display || item.value == -9)
+                    if(item.displa)
                     {
                         p_result.push(item.display);
+                    }
+                    else if(item.value == -9)
+                    {
+                        p_result.push("(blank)");
                     }
                     else
                     {
@@ -343,9 +351,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected>");
-                if(item.display || item.value == -9)
+                if(item.display)
                 {
                     p_result.push(item.display);
+                }
+                else if(item.value == -9)
+                {
+                    p_result.push("(blank)");
                 }
                 else
                 {
@@ -358,9 +370,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' >");
-                if(item.display || item.value == -9)
+                if(item.display)
                 {
                     p_result.push(item.display);
+                }
+                else if(item.value == -9)
+                {
+                    p_result.push("(blank)");
                 }
                 else
                 {
@@ -504,9 +520,13 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                     p_result.push("<option value='");
                     p_result.push(item.value.replace(/'/g, "&#39;"));
                     p_result.push("' selected>");
-                    if(item.display || item.value == -9)
+                    if(item.display)
                     {
                         p_result.push(item.display);
+                    }
+                    else if(item.value == -9)
+                    {
+                        p_result.push("(blank)");
                     }
                     else
                     {
@@ -519,9 +539,13 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                     p_result.push("<option value='");
                     p_result.push(item.value.replace(/'/g, "&#39;"));
                     p_result.push("' >");
-                    if(item.display || item.value == -9)
+                    if(item.display)
                     {
                         p_result.push(item.display);
+                    }
+                    else if(item.value == -9)
+                    {
+                        p_result.push("(blank)");
                     }
                     else
                     {
@@ -591,9 +615,13 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' selected>");
-                if(item.display || item.value == -9)
+                if(item.display)
                 {
                     p_result.push(item.display);
+                }
+                else  if(item.value == -9)
+                {
+                    p_result.push("(blank)");
                 }
                 else
                 {
@@ -606,9 +634,13 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 p_result.push("<option value='");
                 p_result.push(item.value.replace(/'/g, "&#39;"));
                 p_result.push("' >");
-                if(item.display || item.value == -9)
+                if(item.display)
                 {
                     p_result.push(item.display);
+                }
+                else if(item.value == -9)
+                {
+                    p_result.push("(blank)");
                 }
                 else
                 {
