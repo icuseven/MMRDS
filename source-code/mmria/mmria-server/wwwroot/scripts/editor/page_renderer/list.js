@@ -942,7 +942,7 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push("' type='checkbox' ");
     p_result.push(" value='");
     p_result.push(p_item.value);
-    p_result.push(" ' ");
+    p_result.push("' ");
 
     if(p_is_read_only == null || p_is_read_only == "")
     {
