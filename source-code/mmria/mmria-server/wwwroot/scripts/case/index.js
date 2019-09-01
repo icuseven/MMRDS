@@ -137,7 +137,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 
       if(is_search_result)
       {
-        let new_context = get_seach_text_context([], metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text);
+        let new_context = get_seach_text_context([], [], metadata, eval(p_object_path), p_dictionary_path, p_metadata_path, p_object_path, search_text);
         render_search_text(new_context);
         var new_html = new_context.result.join("");
         $("#" + convert_object_path_to_jquery_id(p_object_path)).replaceWith(new_html);

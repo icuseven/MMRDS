@@ -387,9 +387,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             
 
 
-            var search_text_context = get_seach_text_context(p_result, p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text);
+            var search_text_context = get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data, p_dictionary_path, p_metadata_path, p_object_path, search_text);
 
             render_search_text(search_text_context);
+
+
+            Array.prototype.push.apply(p_post_html_render, search_text_context.post_html_render);
 /*
             var search_ctx = { search_text: search_text, is_match: false };
             for (var i = 0; i < p_metadata.children.length; i++)
