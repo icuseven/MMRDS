@@ -242,7 +242,7 @@ function render_search_text_input_control(p_ctx)
         switch (p_ctx.metadata.type.toLocaleLowerCase())
         {
             case "date":
-                p_ctx.post_html_render.push(' flatpickr("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date ", {');
+                p_ctx.post_html_render.push(' flatpickr("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date", {');
                 p_ctx.post_html_render.push('	utc: true,');
                 p_ctx.post_html_render.push('	defaultDate: "');
                 p_ctx.post_html_render.push(p_ctx.data);
