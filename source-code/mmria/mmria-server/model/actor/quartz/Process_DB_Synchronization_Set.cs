@@ -206,7 +206,7 @@ namespace mmria.server.model.actor.quartz
 			{
 				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
 			}
-			var curl = new cURL ("GET", null, url, null, p_scheduleInfo.user_name, p_scheduleInfo.password);
+			var curl = new cURL ("GET", null, url, null, p_scheduleInfo.user_name, p_scheduleInfo.user_value);
 			string res = curl.execute();
 			
 			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);

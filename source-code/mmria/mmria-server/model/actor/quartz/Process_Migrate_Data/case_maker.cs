@@ -462,7 +462,7 @@ namespace mmria
 					System.Console.WriteLine("break");
 				}
 
-
+				if(index != null)
 				for (int i = 0; i < path.Length; i++)
 				{
 					if (i == path.Length - 1)

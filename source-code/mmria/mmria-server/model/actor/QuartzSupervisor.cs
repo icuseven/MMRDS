@@ -13,7 +13,7 @@ namespace mmria.server.model.actor
             string p_cron_schedule, 
             string p_couch_db_url,
             string p_user_name,
-            string p_password,
+            string p_user_value,
             string p_export_directory,
             string p_jurisdiction_user_name = null
          )
@@ -21,7 +21,7 @@ namespace mmria.server.model.actor
             cron_schedule = p_cron_schedule;
             couch_db_url = p_couch_db_url;
             user_name = p_user_name;
-            password = p_password;
+            user_value = p_user_value;
             export_directory = p_export_directory;
             jurisdiction_user_name = p_jurisdiction_user_name;
         }
@@ -31,7 +31,7 @@ namespace mmria.server.model.actor
         public string user_name { get; private set; }
 
         public string jurisdiction_user_name { get; private set; }
-        public string password { get; private set; }
+        public string user_value { get; private set; }
         public string export_directory { get; private set; }
     }
 

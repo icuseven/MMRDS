@@ -334,14 +334,14 @@ namespace mmria.server.util
                     Log.Information($"{await mmria_check_code_curl.executeAsync ()}");
 
 
-                    var migration_plan_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/migration_plan_sortable.json")).ReadToEndAsync (); ;
+                    string migration_plan_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/migration_plan_sortable.json")).ReadToEndAsync (); ;
                     var migration_plan_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/sortable", migration_plan_sortable, Program.config_timer_user_name, Program.config_timer_value);
 
-                    var default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
+                    string default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
                     var default_ui_specification_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/default_ui_specification", default_ui_specification_json, Program.config_timer_user_name, Program.config_timer_value);
                     //var default_ui_specification_result_string = 
-                    await default_ui_specification_curl.executeAsync ();
-                    default_ui_specification_curl = null;
+                    string default_ui_specification_curl_result = await default_ui_specification_curl.executeAsync ();
+                    default_ui_specification_curl_result = null;
 
 
 
@@ -374,10 +374,12 @@ namespace mmria.server.util
                     try 
                     {
 
-                        var migration_plan = await System.IO.File.OpenText (file_path).ReadToEndAsync (); ;
+                        string migration_plan = await System.IO.File.OpenText (file_path).ReadToEndAsync (); ;
                         var migration_plan_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/" + file_info.Name.Replace(".json",""), migration_plan, Program.config_timer_user_name, Program.config_timer_value);
-                        await migration_plan_curl.executeAsync ();
-                        migration_plan_curl = null;
+                        string migration_plan_curl_result = await migration_plan_curl.executeAsync ();
+                        migration_plan_curl_result = null;
+                        
+
                     }
                     catch (Exception ex) 
                     {
@@ -401,8 +403,9 @@ namespace mmria.server.util
                 {
                     string de_identified_list_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEndAsync (); ;
                     var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_value);
-                    Log.Information($"PUT /metadata/de-identified-list\n{await de_identified_list_json_curl.executeAsync ()}");
-                    de_identified_list_json_curl = null;
+                    string de_identified_list_json_curl_result = await de_identified_list_json_curl.executeAsync ();
+                    Log.Information($"PUT /metadata/de-identified-list\n{de_identified_list_json_curl_result}");
+                    de_identified_list_json_curl_result = null;
 
                 }
                 catch (Exception ex) 

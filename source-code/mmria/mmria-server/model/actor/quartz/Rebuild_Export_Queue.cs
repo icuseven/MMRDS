@@ -57,9 +57,9 @@ namespace mmria.server.model.actor.quartz
                     }
 
 
-                    if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", scheduleInfo.user_name, scheduleInfo.password)) 
+                    if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", scheduleInfo.user_name, scheduleInfo.user_value)) 
                     {
-                        var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, scheduleInfo.user_name, scheduleInfo.password);
+                        var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         System.Console.WriteLine (delete_queue_curl.execute ());
                     }
 
@@ -67,9 +67,9 @@ namespace mmria.server.model.actor.quartz
                     try 
                     {
                         System.Console.WriteLine ("Creating export_queue db.");
-                        var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, scheduleInfo.user_name, scheduleInfo.password);
+                        var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         System.Console.WriteLine (export_queue_curl.execute ());
-                        new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", scheduleInfo.user_name, scheduleInfo.password).execute ();
+                        new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", scheduleInfo.user_name, scheduleInfo.user_value).execute ();
 
                     }
                     catch (Exception ex) 
