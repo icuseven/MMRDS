@@ -520,7 +520,7 @@ namespace mmria.server.util
 							{
 								continue;
 							}
-							
+
 							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
 							grid_row["_id"] = mmria_case_id;
 							grid_row["_record_index"] = i;
@@ -1403,18 +1403,12 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				
-				if(index == null)
-				{
-					result = null;
-					return result;
-				}
-
+				/*
 				if (p_path.Contains("pmss_mm"))
 				{
 					System.Console.WriteLine("break");
 				}
-
+ 				*/				
 
 				for (int i = 0; i < path.Length; i++)
 				{
@@ -1440,7 +1434,7 @@ namespace mmria.server.util
 						} */
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if(index is IDictionary<string, object> && index.ContainsKey(path[i]))
+					else if(index != null && index is IDictionary<string, object> && index.ContainsKey(path[i]))
 					{
 						
 						switch(index[path[i]])

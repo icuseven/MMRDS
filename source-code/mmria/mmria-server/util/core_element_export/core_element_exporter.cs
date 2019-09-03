@@ -1052,47 +1052,67 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				if(index == null)
-				{
-					result = null;
-					return result;
-				}
-
-
+				if(index != null)
 				for (int i = 0; i < path.Length; i++)
 				{
-					if (i == path.Length - 1)
+					switch(index)
 					{
-						if (index != null && index is IDictionary<string, object>)
+
+						case IDictionary<string, object> val:
+						if (i == path.Length - 1)
 						{
-							result = ((IDictionary<string, object>)index)[path[i]];
+							if (val != null && val.ContainsKey(path[i]))
+							{
+
+								result = ((IDictionary<string, object>)val)[path[i]];
+							}
+							else
+							{
+								result = index;
+							}
+
 						}
-						else
+						else if (val != null && val.ContainsKey(path[i]))
 						{
-							result = index;
+
+							if (val[path[i]]is List<object>)
+							{
+								index = val[path[i]] as List<object>;
+							}
+							else if (val[path[i]] is IList<object>)
+							{
+								index = val[path[i]] as IList<object>;
+							}
+							else if (val[path[i]]is IDictionary<string, object>)
+							{
+								index = val[path[i]] as IDictionary<string, object>;
+							}
+							else
+							{
+								//System.Console.WriteLine("This should not happen. {0}", p_path);
+							}
 						}
 
+						break;
+
+						case IList<object> val:
+						if(number_regex.IsMatch(path[i]))
+						{
+							
+							int item_index = int.Parse(path[i]);
+							if(val.Count > item_index)
+							{
+								index = val[item_index] as IDictionary<string, object>;
+							}
+							
+						}
+						else 
+						{
+							//System.Console.WriteLine("This should not happen. {0}", p_path);
+						}
+						break;
 					}
-					else if (number_regex.IsMatch(path[i]))
-					{
-						index = index[int.Parse(path[i])] as IDictionary<string, object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]]is List<object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as List<object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
-					}
-					else
-					{
-						//System.Console.WriteLine("This should not happen. {0}", p_path);
-					}
+					
 				}
 			}
 			catch (Exception ex)

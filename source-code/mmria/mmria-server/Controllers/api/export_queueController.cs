@@ -59,7 +59,7 @@ namespace mmria.server
 
 				if(response_result != null && response_result.ContainsKey("rows"))
 				{
-					enumerable_rows = response_result["rows"] as IList<object>
+					enumerable_rows = response_result["rows"] as IList<object>;
 				}
 
 
