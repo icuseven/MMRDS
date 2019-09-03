@@ -3,146 +3,146 @@ function export_queue_render(p_queue_data)
 	var result = [];
 
 
-	result.push('<div class="content-intro">');
-		result.push('<h1 class="h2 mb-0">Submit Export Data Request</h1>');
-	result.push('</div> <!-- end .content-intro -->');
+	// result.push('<div class="content-intro">');
+	// 	result.push('<h1 class="h2 mb-0">Submit Export Data Request</h1>');
+	// result.push('</div> <!-- end .content-intro -->');
 
 
 	result.push("<h3>Make your export choices:</h3>")
-result.push("1.  Would you like to export all data or only core data? ");
+	result.push("1.  Would you like to export all data or only core data? ");
 
-result.push("<input type='radio' name='one' value='all' onclick='one_click(this.value)'");
-if(answer_summary[0] == 'all')
-{
-result.push(" checked='true' /> all ");
-}
-else
-{
-	result.push(" /> all ");
-}
-result.push("<input type='radio' name='one' value='core'onclick=' one_click(this.value)'");
-if(answer_summary[0] == 'core')
-{
-result.push(" checked='true' /> core ");
-}
-else
-{
-	result.push(" /> core ");
-}
-result.push("<br/>");
+	result.push("<input type='radio' name='one' value='all' onclick='one_click(this.value)'");
+	if(answer_summary[0] == 'all')
+	{
+	result.push(" checked='true' /> all ");
+	}
+	else
+	{
+		result.push(" /> all ");
+	}
+	result.push("<input type='radio' name='one' value='core'onclick=' one_click(this.value)'");
+	if(answer_summary[0] == 'core')
+	{
+	result.push(" checked='true' /> core ");
+	}
+	else
+	{
+		result.push(" /> core ");
+	}
+	result.push("<br/>");
 
-result.push("2. What export/grantee name do you want to add to each case? <input type='text' value=''/><br/>");
+	result.push("2. What export/grantee name do you want to add to each case? <input type='text' value=''/><br/>");
 
-result.push("3. Would you like to password protect the file? ");
-result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
-if(answer_summary[1] == 'no')
-{
-result.push(" checked='true' /> no ");
-}
-else
-{
-	result.push(" /> no ");
-}
-result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
-if(answer_summary[1] == 'yes')
-{
-result.push(" checked='true' /> yes ");
-}
-else
-{
-	result.push(" /> yes ");
-}
-result.push(" encryption key: <input type='text' value='");
-result.push(answer_summary[3])
-result.push("' />");
+	result.push("3. Would you like to password protect the file? ");
+	result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
+	if(answer_summary[1] == 'no')
+	{
+	result.push(" checked='true' /> no ");
+	}
+	else
+	{
+		result.push(" /> no ");
+	}
+	result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
+	if(answer_summary[1] == 'yes')
+	{
+	result.push(" checked='true' /> yes ");
+	}
+	else
+	{
+		result.push(" /> yes ");
+	}
+	result.push(" encryption key: <input type='text' value='");
+	result.push(answer_summary[3])
+	result.push("' />");
 
-result.push("<br/>");
-
-
- result.push("4. Are you sending this file to CDC? ");
-result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
-if(answer_summary[1] == 'no')
-{
-result.push(" checked='true' /> no ");
-}
-else
-{
-	result.push(" /> no ");
-}
-result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
-if(answer_summary[1] == 'yes')
-{
-result.push(" checked='true' /> yes ");
-}
-else
-{
-	result.push(" /> yes ");
-}
-result.push("<- if yes your file will be password encrypted using a CDC keyion key.");
-
-result.push("<br/>");
-result.push("5. What fields do you want to de-identify? ");
-result.push("<input type='radio' name='three' value='none' ");
-if(answer_summary[2] == 'none')
-{
-result.push(" checked='true' /> none ");
-}
-else
-{
-	result.push(" /> none ");
-}
-result.push("<input type='radio' name='three' value='standard' ");
-if(answer_summary[2] == 'standard')
-{
-result.push(" checked='true' /> standard ");
-}
-else
-{
-	result.push(" /> standard ");
-}
-result.push("<input type='radio' name='three' value='custom' ");
-if(answer_summary[2] == 'custom')
-{
-result.push(" checked='true' /> custom ");
-}
-else
-{
-	result.push(" /> custom ");
-}
-result.push("<a onclick='custom_field_click()'>[ select custom fields ]</a> <br/>");
-
-result.push("<br/>");
+	result.push("<br/>");
 
 
-result.push("6. What filters do you want to apply? (Add filter to export by day, month, year of death)");
-result.push("<ul>");
+	result.push("4. Are you sending this file to CDC? ");
+	result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
+	if(answer_summary[1] == 'no')
+	{
+	result.push(" checked='true' /> no ");
+	}
+	else
+	{
+		result.push(" /> no ");
+	}
+	result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
+	if(answer_summary[1] == 'yes')
+	{
+	result.push(" checked='true' /> yes ");
+	}
+	else
+	{
+		result.push(" /> yes ");
+	}
+	result.push("<- if yes your file will be password encrypted using a CDC keyion key.");
 
-result.push("<li>Date of death: <ul><li>year  <select><option>Any</option></select></li><li>month year <select><option>Any</option></select></li><li> day year <select><option>Any</option></select></li></ul></li>");
-result.push("<li>Case Status year <select><option>Any</option></select></li>");
-result.push("<li>Case jurisdiction year <select><option>All</option></select></li>");
-result.push("<li>Filter by Case</li>");
-result.push("<li><input type='checkbox' value=''/> exclude PII tagged fields </li>");
-result.push("<li><input type='checkbox' value=''/> include PII tagged fields and any data in the field </li>");
-result.push("</ul>");
+	result.push("<br/>");
+	result.push("5. What fields do you want to de-identify? ");
+	result.push("<input type='radio' name='three' value='none' ");
+	if(answer_summary[2] == 'none')
+	{
+	result.push(" checked='true' /> none ");
+	}
+	else
+	{
+		result.push(" /> none ");
+	}
+	result.push("<input type='radio' name='three' value='standard' ");
+	if(answer_summary[2] == 'standard')
+	{
+	result.push(" checked='true' /> standard ");
+	}
+	else
+	{
+		result.push(" /> standard ");
+	}
+	result.push("<input type='radio' name='three' value='custom' ");
+	if(answer_summary[2] == 'custom')
+	{
+	result.push(" checked='true' /> custom ");
+	}
+	else
+	{
+		result.push(" /> custom ");
+	}
+	result.push("<a onclick='custom_field_click()'>[ select custom fields ]</a> <br/>");
+
+	result.push("<br/>");
 
 
+	result.push("6. What filters do you want to apply? (Add filter to export by day, month, year of death)");
+	result.push("<ul>");
+
+	result.push("<li>Date of death: <ul><li>year  <select><option>Any</option></select></li><li>month year <select><option>Any</option></select></li><li> day year <select><option>Any</option></select></li></ul></li>");
+	result.push("<li>Case Status year <select><option>Any</option></select></li>");
+	result.push("<li>Case jurisdiction year <select><option>All</option></select></li>");
+	result.push("<li>Filter by Case</li>");
+	result.push("<li><input type='checkbox' value=''/> exclude PII tagged fields </li>");
+	result.push("<li><input type='checkbox' value=''/> include PII tagged fields and any data in the field </li>");
+	result.push("</ul>");
 
 
 
-result.push("<br/>");
-result.push("<hr/><h3>Summary of your choices:</h3>");
-result.push("<div id='answer_summary'>");
-result.push("You choose to: ");
-result.push("You selected to export " + answer_summary[0] + " data.");
-result.push("You selected export format of " + answer_summary[1]);
-result.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
-result.push("<br/>");
-result.push("</div>");
-//result.push("<input type='button' value='confirm' /> | ");
-result.push("<input type='button' value='confirm and start export' />");
 
 
-result.push("<hr/>");
+	result.push("<br/>");
+	result.push("<hr/><h3>Summary of your choices:</h3>");
+	result.push("<div id='answer_summary'>");
+	result.push("You choose to: ");
+	result.push("You selected to export " + answer_summary[0] + " data.");
+	result.push("You selected export format of " + answer_summary[1]);
+	result.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
+	result.push("<br/>");
+	result.push("</div>");
+	//result.push("<input type='button' value='confirm' /> | ");
+	result.push("<input type='button' value='confirm and start export' />");
+
+
+	result.push("<hr/>");
 
 
 
