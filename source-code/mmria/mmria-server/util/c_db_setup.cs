@@ -487,7 +487,7 @@ namespace mmria.server.util
                 var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
                 IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
 
-                if (result_dictionary.ContainsKey ("_rev")) 
+                if (result_dictionary!= null && result_dictionary.ContainsKey ("_rev")) 
                 {
                     pay_load__dictionary["_rev"] = result_dictionary ["_rev"];
                     //System.Console.WriteLine ("json\n{0}", object_string);

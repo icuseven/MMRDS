@@ -971,6 +971,11 @@ namespace mmria.server.util
 						for (int i = 0; i < object_data.Count; i++)
 						{
 							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+							
+							if(grid_item_row == null)
+							{
+								continue;
+							}
 
 							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
 							grid_row["_id"] = mmria_case_id;
@@ -1144,6 +1149,7 @@ namespace mmria.server.util
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];
@@ -1414,7 +1420,7 @@ namespace mmria.server.util
 				{
 					if (i == path.Length - 1)
 					{
-						if (index is IDictionary<string, object>)
+						if (index is IDictionary<string, object> && index.ContainsKey(path[i]))
 						{
 							result = ((IDictionary<string, object>)index)[path[i]];
 						}

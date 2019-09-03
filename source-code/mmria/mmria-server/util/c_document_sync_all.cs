@@ -132,14 +132,20 @@ namespace mmria.server.util
                     try
                     {
         				IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>;
-        				IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
-        				string document_id = doc_dictionary ["_id"].ToString ();
-        				if (document_id.IndexOf ("_design/") < 0)
-        				{
-        					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
-        					mmria.server.util.c_sync_document sync_document = new c_sync_document (document_id, document_json);
-        					await sync_document.executeAsync ();
-                        }
+						if(row_dictionary != null)
+						{
+							IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
+							if(row_dictionary != null && doc_dictionary != null)
+							{
+								string document_id = doc_dictionary ["_id"].ToString ();
+								if (document_id.IndexOf ("_design/") < 0)
+								{
+									string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
+									mmria.server.util.c_sync_document sync_document = new c_sync_document (document_id, document_json);
+									await sync_document.executeAsync ();
+								}
+							}
+						}
     				}
                     catch (Exception document_ex)
                     {

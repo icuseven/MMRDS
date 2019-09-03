@@ -86,9 +86,17 @@ namespace mmria.server.model.actor.quartz
                 //Getting the Web Response.
                 System.Net.HttpWebResponse response = request.GetResponse() as System.Net.HttpWebResponse;
                 //Returns TRUE if the Status code == 200
-                response_result = response.StatusCode;
-                response.Close();
-                return (response_result == System.Net.HttpStatusCode.OK);
+                if(response != null)
+                {
+                    response_result = response.StatusCode;
+                    response.Close();
+                    return (response_result == System.Net.HttpStatusCode.OK);
+                }
+                else
+                {
+                    return false;
+                }
+                
             }
             catch (Exception ex) 
             {

@@ -149,8 +149,12 @@ namespace mmria.console.db
 			{
 
 				IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row) ["doc"] as IDictionary<string, object>;
-				case_doc.Remove("_rev");
-				result.docs.Add (case_doc);
+
+				if(case_doc != null)
+				{
+					case_doc.Remove("_rev");
+					result.docs.Add (case_doc);
+				}
 			}
 
 			return result;

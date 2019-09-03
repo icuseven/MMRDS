@@ -27,7 +27,11 @@ namespace mmria.server.util
 
 
 			IDictionary<string, object> expando_object = case_item_object as IDictionary<string, object>;
-			expando_object.Remove("_rev");
+
+			if(expando_object != null)
+			{
+				expando_object.Remove("_rev");
+			}
 
 			foreach (string path in de_identified_set) 
 			{

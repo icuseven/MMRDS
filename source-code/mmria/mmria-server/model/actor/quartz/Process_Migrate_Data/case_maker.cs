@@ -75,7 +75,8 @@ namespace mmria
 							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
 							Dictionary<string, object> temp = new Dictionary<string, object>();
 							create_default_object(node, temp);
-							((IList<object>)index).Add(((IList<object>)temp[path[i - 1]])[0]);
+							//((IList<object>)index).Add(((IList<object>)temp[path[i - 1]])[0]);
+							temp_list.Add(((IList<object>)temp[path[i - 1]])[0]);
 							/*
 							if (node.type.ToLower() == "grid")
 							{

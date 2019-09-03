@@ -166,7 +166,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 
             var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (p_document);
             IDictionary<string, object> expando_object = request_result as IDictionary<string, object>;
-            expando_object ["_rev"] = p_revision_id;
+
+            if(expando_object != null)
+            {
+                expando_object ["_rev"] = p_revision_id;
+            }
+            
 
             result = Newtonsoft.Json.JsonConvert.SerializeObject (expando_object);
 

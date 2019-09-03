@@ -262,6 +262,8 @@ namespace mmria.server.util
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if 
 				(
+					case_doc == null ||
+					!case_doc.ContainsKey("_id") ||
 					case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
 
 				)
@@ -273,22 +275,24 @@ namespace mmria.server.util
 
 				var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
-				if(!home_record.ContainsKey("jurisdiction_id"))
+				if(home_record!= null)
 				{
-					home_record.Add("jurisdiction_id", "/");
-				}
-
-				foreach(var jurisdiction_item in jurisdiction_hashset)
-				{
-					var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-					if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+					if(!home_record.ContainsKey("jurisdiction_id"))
 					{
-						is_jurisdiction_ok = true;
-						break;
+						home_record.Add("jurisdiction_id", "/");
 					}
-					
+
+					foreach(var jurisdiction_item in jurisdiction_hashset)
+					{
+						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+						if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+						{
+							is_jurisdiction_ok = true;
+							break;
+						}
+					}
 				}
 
 				if(!is_jurisdiction_ok)
@@ -854,6 +858,7 @@ namespace mmria.server.util
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];
