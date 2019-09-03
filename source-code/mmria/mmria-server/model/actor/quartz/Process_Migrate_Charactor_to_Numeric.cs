@@ -61,39 +61,39 @@ namespace mmria.server.model.actor.quartz
 
 					IDictionary<string, object> doc = case_item.doc as IDictionary<string, object>;
 
-					foreach(var child in metadata.children)
+					if(doc != null)
 					{
-						//var object_dictionary = case_item[child.name];
-						if(doc.ContainsKey(child.name))
+						foreach(var child in metadata.children)
 						{
-							process_node(ref case_has_changed, child, doc[child.name]);
+							//var object_dictionary = case_item[child.name];
+							if(doc.ContainsKey(child.name))
+							{
+								process_node(ref case_has_changed, child, doc[child.name]);
+							}
 						}
-						
-					}
-					
 
-					if(case_has_changed)
-					{
-						set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item.doc);
-						set_value("last_updated_by", "migration_plan", case_item.doc);
-
-
-						Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-						settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-						var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item.doc, settings);
-
-						string put_url = Program.config_couchdb_url + "/mmrds/"  + case_item.id;
-						cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
-
-						try
+						if(case_has_changed)
 						{
-							responseFromServer = document_curl.execute();
-							var	result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-						}
-						catch(Exception ex)
-						{
-							//Console.Write("auth_session_token: {0}", auth_session_token);
-							Console.WriteLine(ex);
+							set_value("date_last_updated", DateTime.UtcNow.ToString("o"), case_item.doc);
+							set_value("last_updated_by", "migration_plan", case_item.doc);
+
+							Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+							settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+							var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item.doc, settings);
+
+							string put_url = Program.config_couchdb_url + "/mmrds/"  + case_item.id;
+							cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+
+							try
+							{
+								responseFromServer = document_curl.execute();
+								var	result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+							}
+							catch(Exception ex)
+							{
+								//Console.Write("auth_session_token: {0}", auth_session_token);
+								Console.WriteLine(ex);
+							}
 						}
 					}
 				}
@@ -211,7 +211,16 @@ namespace mmria.server.model.actor.quartz
 						{
 							var item = data_migration_list[i];
 
-							var name_value = (p_data != null)? (p_data as string).Split("-"): new string[]{};
+							string[] name_value =  null;
+							
+							if(p_data != null)
+							 {
+								name_value = (p_data as string).Split("-");
+							 }
+							 else
+							 {
+								name_value = new string[]{};
+							 }
 
 							if(name_value.Length > 1)
 							{

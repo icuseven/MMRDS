@@ -525,7 +525,7 @@ namespace mmria
 					{
 						continue;
 					}
-					else 
+					else if(result != null)
 					{
 						switch (result.type.ToLower())
 						{
