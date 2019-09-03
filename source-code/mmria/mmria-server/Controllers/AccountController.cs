@@ -428,7 +428,7 @@ namespace mmria.server.Controllers
 
         public async Task<IActionResult> Profile()
         {
-            var days_til_password_expires = -1;
+            var days_til_value_expires = -1;
 
 			var password_days_before_expires = Program.config_password_days_before_expires;
 
@@ -467,11 +467,11 @@ namespace mmria.server.Controllers
 
 					if(date_of_last_password_change != DateTime.MinValue)
 					{
-						days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
+						days_til_value_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
 					}
                     else if(session_event_response.rows.Count > 0)
                     {
-                        days_til_password_expires = password_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
+                        days_til_value_expires = password_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
                     }
 
 						
@@ -483,7 +483,7 @@ namespace mmria.server.Controllers
 				}
 			}
             
-            ViewBag.days_til_password_expires = days_til_password_expires;
+            ViewBag.days_til_password_expires = days_til_value_expires;
             ViewBag.config_password_days_before_expires = password_days_before_expires;
             ViewBag.sams_is_enabled = _configuration["sams:is_enabled"];
 

@@ -1321,7 +1321,7 @@ namespace mmria.server.util
 			if (p_metadata.children != null)
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
-
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];
@@ -1433,12 +1433,16 @@ namespace mmria.server.util
 					else if (number_regex.IsMatch(path[i]))
 					{
 						IList<object> temp_list = index as IList<object>;
-						/*
-						if (!(temp_list.Count > int.Parse(path[i])))
+						
+						if 
+						(
+							temp_list != null &&
+							!(temp_list.Count > int.Parse(path[i]))
+						)
 						{
+							index = temp_list[int.Parse(path[i])] as IDictionary<string, object>;
+						}
 
-						} */
-						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
 					else if(index != null && index is IDictionary<string, object> && index.ContainsKey(path[i]))
 					{
