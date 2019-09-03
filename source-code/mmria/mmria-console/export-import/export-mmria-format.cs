@@ -134,7 +134,11 @@ namespace mmria.console
 			}
 
 
-			auth_session = login_result_dictionary ["auth_session"].ToString();
+			if(login_result_dictionary != null && login_result_dictionary.ContainsKey("auth_session"))
+			{
+				auth_session = login_result_dictionary ["auth_session"].ToString();
+			}
+			
 
 /*var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
     get_query_string : function(){

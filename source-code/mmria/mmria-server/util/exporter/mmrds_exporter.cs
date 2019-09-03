@@ -1422,7 +1422,7 @@ namespace mmria.server.util
 					{
 						if (index is IDictionary<string, object> && index.ContainsKey(path[i]))
 						{
-							result = ((IDictionary<string, object>)index)[path[i]];
+							result = index[path[i]];
 						}
 						else
 						{

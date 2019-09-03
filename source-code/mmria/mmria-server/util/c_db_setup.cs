@@ -445,9 +445,16 @@ namespace mmria.server.util
                     //Getting the Web Response.
                     System.Net.HttpWebResponse response = await request.GetResponseAsync() as System.Net.HttpWebResponse;
                     //Returns TRUE if the Status code == 200
-                    response_result = response.StatusCode;
-                    response.Close();
-                    return (response_result == System.Net.HttpStatusCode.OK);
+                    if(response != null)
+                    {
+                        response_result = response.StatusCode;
+                        response.Close();
+                        return (response_result == System.Net.HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 return  false;
             }

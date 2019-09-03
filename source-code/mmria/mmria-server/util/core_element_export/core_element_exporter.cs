@@ -1110,7 +1110,7 @@ namespace mmria.server.util
 						{
 							
 							int item_index = int.Parse(path[i]);
-							if(val.Count > item_index)
+							if(val != null && val.Count > item_index)
 							{
 								index = val[item_index] as IDictionary<string, object>;
 							}

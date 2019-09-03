@@ -87,20 +87,21 @@ namespace mmria
 								((IList<object>)index).Add(temp[path[i - 1]]);
 							}*/
 
+							index = temp_list[int.Parse(path[i])] as IDictionary<string, object>;
 						}
 
-						index = index[int.Parse(path[i])] as IDictionary<string, object>;
+						//index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if (index[path[i]] is IList<object>)
+					else if (index != null && index[path[i]] is IList<object>)
 					{
 						index = index[path[i]] as IList<object>;
 					}
-					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
+					else if (index != null && index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
 					{
 						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 					}
 
-					else if (index[path[i]] is IDictionary<string, object>)
+					else if (index != null && index[path[i]] is IDictionary<string, object>)
 					{
 						index = index[path[i]] as IDictionary<string, object>;
 					}

@@ -215,7 +215,7 @@ namespace mmria.server.model.actor.quartz
 							
 							if(p_data != null)
 							 {
-								name_value = (p_data as string).Split("-");
+								name_value = p_data.ToString().Split("-");
 							 }
 							 else
 							 {
