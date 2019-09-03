@@ -1420,7 +1420,7 @@ namespace mmria.server.util
 				{
 					if (i == path.Length - 1)
 					{
-						if (index is IDictionary<string, object> && index.ContainsKey(path[i]))
+						if (index != null && index is IDictionary<string, object> && index.ContainsKey(path[i]))
 						{
 							result = index[path[i]];
 						}

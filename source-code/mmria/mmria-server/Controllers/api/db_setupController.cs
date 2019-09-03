@@ -52,14 +52,14 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
 		public async Task<IDictionary<string, string>> Get
 		(
 			string p_target_db_user_name, 
-			string p_target_db_password
+			string p_target_db_user_value
 
 		)
 		{
 
 			Dictionary<string,string> result = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-            //var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_password);
-            if(!await url_endpoint_exists (Program.config_couchdb_url, p_target_db_user_name, p_target_db_password))
+            //var curl = new cURL ("GET", null, p_source_db + "/mmrds/_all_docs?include_docs=true", null, p_user_name, p_user_value);
+            if(!await url_endpoint_exists (Program.config_couchdb_url, p_target_db_user_name, p_target_db_user_value))
             {
                 result.Add ("End point url NOT available:", Program.config_couchdb_url);
                 return result;
@@ -74,9 +74,9 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                     current_directory = System.IO.Directory.GetCurrentDirectory();
                 }
 
-                if (await url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_password)) 
+                if (await url_endpoint_exists (Program.config_couchdb_url + "/metadata", p_target_db_user_name, p_target_db_user_value)) 
                 {
-                    var metadata_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/metadata", null, p_target_db_user_name, p_target_db_password);
+                    var metadata_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/metadata", null, p_target_db_user_name, p_target_db_user_value);
                     Log.Information($"metadata_curl\n{await metadata_curl.executeAsync ()}");
                 }
 
@@ -91,12 +91,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 
 
 
-                if (!await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_password)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + "/mmrds", p_target_db_user_name, p_target_db_user_value)) 
                 {
-                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, p_target_db_user_name, p_target_db_password);
+                    var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds", null, p_target_db_user_name, p_target_db_user_value);
                     Log.Information($"mmrds_curl\n{ await mmrds_curl.executeAsync ()}");
 
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_password).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", p_target_db_user_name, p_target_db_user_value).executeAsync ();
                     Log.Information($"mmrds/_security completed successfully");
                 }
 
@@ -104,11 +104,11 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 {
 					string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")).ReadToEnd ();
 
-                    await sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_password);
+                    await sync_document (case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable", p_target_db_user_name, p_target_db_user_value);
 
 
 					string case_store_design_auth = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")).ReadToEnd ();
-                    await sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_password);
+                    await sync_document (case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth", p_target_db_user_name, p_target_db_user_value);
                 }
                 catch (Exception ex) 
                 {
@@ -116,12 +116,12 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 }
                 
 
-                if (!await url_endpoint_exists (Program.config_couchdb_url + "/export_queue", p_target_db_user_name, p_target_db_password)) 
+                if (!await url_endpoint_exists (Program.config_couchdb_url + "/export_queue", p_target_db_user_name, p_target_db_user_value)) 
                 {
                     System.Console.WriteLine ("Creating export_queue db.");
-                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, p_target_db_user_name, p_target_db_password);
+                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, p_target_db_user_name, p_target_db_user_value);
                     System.Console.WriteLine (await export_queue_curl.executeAsync ());
-                    await new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_password).executeAsync ();
+                    await new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", p_target_db_user_name, p_target_db_user_value).executeAsync ();
                 }
             }
             catch(Exception ex) 
@@ -133,11 +133,11 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
         } 
 
 
-        private async Task<bool> url_endpoint_exists(string p_target_db_url, string p_user_name, string p_password)
+        private async Task<bool> url_endpoint_exists(string p_target_db_url, string p_user_name, string p_user_value)
         {
             bool result = false;
 
-            var curl = new cURL ("HEAD", null, p_target_db_url, null, p_user_name, p_password);	 
+            var curl = new cURL ("HEAD", null, p_target_db_url, null, p_user_name, p_user_value);	 
             try
             {
                 await curl.executeAsync();
@@ -211,7 +211,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
             return result;
         }
 
-        private async Task<bool> sync_document(string p_document_json, string p_target_db_url, string p_user_name, string p_password)
+        private async Task<bool> sync_document(string p_document_json, string p_target_db_url, string p_user_name, string p_user_value)
         {
 
             bool result = false;
@@ -228,7 +228,7 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 storage_document_json = p_document_json;
             }
 
-            var curl = new cURL ("PUT", null, p_target_db_url, storage_document_json, p_user_name, p_password);
+            var curl = new cURL ("PUT", null, p_target_db_url, storage_document_json, p_user_name, p_user_value);
             try 
             {
                 string curl_result = await curl.executeAsync ();

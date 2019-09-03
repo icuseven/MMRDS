@@ -14,7 +14,7 @@ namespace mmria.server.model
     {
 		string couch_db_url = null;
 		string user_name = null;
-		string password = null;
+		string user_value = null;
         private IConfiguration Configuration = null;
         
 
@@ -22,7 +22,7 @@ namespace mmria.server.model
 		{
 				this.couch_db_url = Program.config_couchdb_url;
 				this.user_name = Program.config_timer_user_name;
-				this.password = Program.config_timer_value;
+				this.user_value = Program.config_timer_value;
                 Configuration = configuration;
 		}
 
@@ -62,9 +62,9 @@ namespace mmria.server.model
             }
 
 
-            if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", this.user_name, this.password)) 
+            if (url_endpoint_exists (Program.config_couchdb_url + "/export_queue", this.user_name, this.user_value)) 
             {
-                var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.password);
+                var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.user_value);
                 System.Console.WriteLine (delete_queue_curl.execute ());
             }
 
@@ -72,9 +72,9 @@ namespace mmria.server.model
             try 
             {
                 System.Console.WriteLine ("Creating export_queue db.");
-                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.password);
+                var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue", null, this.user_name, this.user_value);
                 System.Console.WriteLine (export_queue_curl.execute ());
-                new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.password).execute ();
+                new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.user_value).execute ();
 
             }
             catch (Exception ex) 
@@ -96,11 +96,11 @@ namespace mmria.server.model
             return Task.CompletedTask;
 		}
 
-        private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
+        private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_user_value, string p_method = "HEAD")
         {
             bool result = false;
 
-            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);
+            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_user_value);
             try 
             {
                 curl.execute ();
