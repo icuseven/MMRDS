@@ -58,7 +58,11 @@ namespace mmria.server
 				{
 
 					IDictionary<string,object> doc_item = enumerable_item["doc"] as IDictionary<string,object>;
-			
+
+					if(doc_item == null)
+					{
+						continue;
+					}
 
 					export_queue_item item = new export_queue_item();
 					try

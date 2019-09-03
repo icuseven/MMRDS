@@ -56,7 +56,12 @@ namespace mmria.server.model.actor.quartz
 			string responseFromServer = get_curl.execute ();
 
 			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
-			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
+			IList<object> enumerable_rows = null;
+			
+			if(response_result != null && response_result.ContainsKey("rows"))
+			{
+				enumerable_rows = response_result ["rows"] as IList<object>;
+			}
 
 			if(enumerable_rows != null)
 			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)
@@ -212,7 +217,13 @@ namespace mmria.server.model.actor.quartz
 			string responseFromServer = get_curl.execute ();
 
 			IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer) as IDictionary<string,object>; 
-			IList<object> enumerable_rows = response_result ["rows"] as IList<object>;
+			IList<object> enumerable_rows = null;
+			
+			if(response_result != null && response_result.ContainsKey("rows"))
+			{
+				enumerable_rows = response_result ["rows"] as IList<object>;
+			}
+			
 
 			if(enumerable_rows != null)
 			foreach (IDictionary<string,object> enumerable_item in enumerable_rows)

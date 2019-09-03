@@ -288,22 +288,25 @@ namespace mmria.server.util
 
 				var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
-				if(!home_record.ContainsKey("jurisdiction_id"))
+				if(home_record != null)
 				{
-					home_record.Add("jurisdiction_id", "/");
-				}
-
-				foreach(var jurisdiction_item in jurisdiction_hashset)
-				{
-					var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-					if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+					if(!home_record.ContainsKey("jurisdiction_id"))
 					{
-						is_jurisdiction_ok = true;
-						break;
+						home_record.Add("jurisdiction_id", "/");
 					}
-					
+
+					foreach(var jurisdiction_item in jurisdiction_hashset)
+					{
+						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+						if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+						{
+							is_jurisdiction_ok = true;
+							break;
+						}
+						
+					}
 				}
 
 				if(!is_jurisdiction_ok)
@@ -1426,13 +1429,28 @@ namespace mmria.server.util
 						} */
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
+					else if(index is IDictionary<string, object> && index.ContainsKey(path[i]))
 					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
+						
+						switch(index[path[i]])
+						{
+							case IList<object> val:
+								index = val;
+							break;
+							case IDictionary<string, object> val:
+								index = val;
+							break;
+						}
+/*
+						if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
+						{
+							index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
+						}
+						else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
+						{
+							index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
+						}
+ */						
 					}
 					else
 					{

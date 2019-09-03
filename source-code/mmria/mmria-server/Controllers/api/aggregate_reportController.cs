@@ -57,10 +57,14 @@ namespace mmria.server
 				foreach (object row_item in row_list)
 				{
 					IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>; 
-					KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
-					if(convert_result.Key)
+
+					if(row_dictionary != null && row_dictionary.ContainsKey("doc"))
 					{
-						result.Add(convert_result.Value);
+						KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
+						if(convert_result.Key)
+						{
+							result.Add(convert_result.Value);
+						}
 					}
 	
 				}

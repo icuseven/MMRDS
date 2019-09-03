@@ -385,7 +385,7 @@ namespace mmria.server.util
 							var val_list = val as IList<object>;
 						
 							if(val_list != null)
-							foreach(string item in val as IList<object>) ethnicity_set.Add(item);
+							foreach(string item in val_list) ethnicity_set.Add(item);
 							if (ethnicity_set.Intersect (bc_ethinicity).Count() > 0)
 							{
 								result = true;

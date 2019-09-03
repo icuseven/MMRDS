@@ -457,11 +457,6 @@ namespace mmria
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				if (path[1] == "abnormal_conditions_of_newborn")
-				{
-					System.Console.WriteLine("break");
-				}
-
 				if(index != null)
 				for (int i = 0; i < path.Length; i++)
 				{
@@ -469,22 +464,32 @@ namespace mmria
 					{
 						result = index[path[i]];
 					}
-					else if (number_regex.IsMatch(path[i]))
+					else if (index is IList<object> && number_regex.IsMatch(path[i]))
 					{
 						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if (index[path[i]] is IList<object>)
+					else if (index is IDictionary<string, object> && index.ContainsKey(path[i]))
 					{
-						index = index[path[i]] as IList<object>;
+						switch(index[path[i]])
+						{
+							 case IList<object> val:
+							 	index = val;
+							 break;
+
+							 case IDictionary<string, object> val:
+									index = val;
+							 break;
+						}
+
 					}
 					else if (index[path[i]] is IDictionary<string, object> && !index.ContainsKey(path[i]))
 					{
 						System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 					}
-					else if (index[path[i]] is IDictionary<string, object>)
+					/*else if (index[path[i]] is IDictionary<string, object>)
 					{
 						index = index[path[i]] as IDictionary<string, object>;
-					}
+					} */
 					else
 					{
 						System.Console.WriteLine("This should not happen. {0}", p_path);
