@@ -11,7 +11,7 @@ namespace mmria.console.db
 	{
 		private string auth_token = null;
 		private string user_name = null;
-		private string password = null;
+		private string user_value = null;
 		private string backup_file_path = null;
 		private string database_url = null;
 		private string mmria_url = null;
@@ -48,7 +48,7 @@ namespace mmria.console.db
 					}
 					else if (arg.ToLower ().StartsWith ("password")) 
 					{
-						this.password = val;
+						this.user_value = val;
 					}
 					else if (arg.ToLower ().StartsWith ("database_url"))
 					{
@@ -93,7 +93,7 @@ namespace mmria.console.db
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace (this.password)) 
+			if (string.IsNullOrWhiteSpace (this.user_value)) 
 			{
 				System.Console.WriteLine ("missing password");
 				System.Console.WriteLine (" form password:[password]");
@@ -139,7 +139,7 @@ namespace mmria.console.db
 			mmria.console.model.couchdb.cBulkDocument result = new model.couchdb.cBulkDocument ();
 
 			string URL = string.Format("{0}/_all_docs?include_docs=true", this.database_url);
-			cURL document_curl = new cURL ("GET", null, URL, null, this.user_name, this.password);
+			cURL document_curl = new cURL ("GET", null, URL, null, this.user_name, this.user_value);
 			var curl_result = await document_curl.executeAsync();
 
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);

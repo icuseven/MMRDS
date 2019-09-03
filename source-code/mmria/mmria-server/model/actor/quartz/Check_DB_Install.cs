@@ -75,6 +75,12 @@ namespace mmria.server.model.actor.quartz
                 //Creating the HttpWebRequest
                 System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
                 //Setting the Request method HEAD, you can also use GET too.
+
+                if(request == null)
+                {
+                    return false;
+                }
+                
                 request.Method = p_method;
 
                 if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
