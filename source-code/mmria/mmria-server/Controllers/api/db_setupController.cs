@@ -188,7 +188,11 @@ curl -vX POST http://uid:pwd@target_db_url/_replicate \
                 document_json = await document_curl.executeAsync ();
                 var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
                 IDictionary<string, object> updater = request_result as IDictionary<string, object>;
-                result = updater ["_rev"].ToString ();
+                if(updater != null && updater.ContainsKey("_rev"))
+                {
+                    result = updater ["_rev"].ToString ();
+                }
+                
             }
             catch (Exception ex) 
             {

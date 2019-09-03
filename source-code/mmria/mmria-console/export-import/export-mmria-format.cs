@@ -122,7 +122,12 @@ namespace mmria.console
 			string auth_session = null;
 
 			//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-			if (!login_result_dictionary.ContainsKey ("ok") && login_result_dictionary["ok"].ToString().ToLower() != "true") 
+			if 
+			(
+				login_result_dictionary != null &&
+				!login_result_dictionary.ContainsKey ("ok") &&
+				login_result_dictionary["ok"].ToString().ToLower() != "true"
+			) 
 			{
 				System.Console.WriteLine($"Unable to login to {this.mmria_url}:\n{login_result_dictionary}");
 				return;

@@ -431,20 +431,25 @@ namespace mmria.server.util
                 //Creating the HttpWebRequest
                 System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
                 //Setting the Request method HEAD, you can also use GET too.
-                request.Method = p_method;
 
-                if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                if(request != null)
                 {
-                    string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
-                    request.Headers.Add("Authorization", "Basic " + encoded);
-                }
+                    request.Method = p_method;
 
-                //Getting the Web Response.
-                System.Net.HttpWebResponse response = await request.GetResponseAsync() as System.Net.HttpWebResponse;
-                //Returns TRUE if the Status code == 200
-                response_result = response.StatusCode;
-                response.Close();
-                return (response_result == System.Net.HttpStatusCode.OK);
+                    if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                    {
+                        string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
+                        request.Headers.Add("Authorization", "Basic " + encoded);
+                    }
+
+                    //Getting the Web Response.
+                    System.Net.HttpWebResponse response = await request.GetResponseAsync() as System.Net.HttpWebResponse;
+                    //Returns TRUE if the Status code == 200
+                    response_result = response.StatusCode;
+                    response.Close();
+                    return (response_result == System.Net.HttpStatusCode.OK);
+                }
+                return  false;
             }
             catch (Exception ex) 
             {

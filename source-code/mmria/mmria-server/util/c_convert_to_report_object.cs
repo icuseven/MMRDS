@@ -200,6 +200,12 @@ namespace mmria.server.util
 							
 							IDictionary<string, object> dictionary_object = index as IDictionary<string, object>;
 
+							if(dictionary_object == null)
+							{
+								result = null;
+								return result;
+							}
+
 							object val = null;
 
 							if(dictionary_object.ContainsKey(path[i]))
@@ -251,12 +257,19 @@ namespace mmria.server.util
 
 							IDictionary<string, object> dictionary_object = index as IDictionary<string, object>;
 
+							if(dictionary_object == null)
+							{
+								result = null;
+								return result;
+							}
+
 							object val = null;
 
 							if(dictionary_object.ContainsKey(path[i]))
 							{
 								val = dictionary_object[path[i]]; 
 							}
+
 
 							if(val != null)
 							{

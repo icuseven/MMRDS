@@ -119,7 +119,11 @@ namespace mmria.server
 					var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
 					IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
 
-					if(!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, check_document_expando_object))
+					if
+					(
+						result_dictionary != null && 
+						!mmria.server.util.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.util.ResourceRightEnum.WriteCase, check_document_expando_object)
+					)
 					{
 						Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
 						return result;

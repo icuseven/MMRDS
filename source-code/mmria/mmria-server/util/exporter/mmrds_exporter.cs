@@ -516,6 +516,11 @@ namespace mmria.server.util
 						{
 							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
 
+							if(grid_item_row == null)
+							{
+								continue;
+							}
+							
 							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
 							grid_row["_id"] = mmria_case_id;
 							grid_row["_record_index"] = i;
@@ -1399,6 +1404,12 @@ namespace mmria.server.util
 				dynamic index = p_object;
 
 				
+				if(index == null)
+				{
+					result = null;
+					return result;
+				}
+
 				if (p_path.Contains("pmss_mm"))
 				{
 					System.Console.WriteLine("break");

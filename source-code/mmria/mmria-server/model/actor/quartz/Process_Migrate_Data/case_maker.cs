@@ -70,7 +70,7 @@ namespace mmria
 					if (number_regex.IsMatch(path[i]))
 					{
 						IList<object> temp_list = index as IList<object>;
-						if (!(temp_list.Count > int.Parse(path[i])))
+						if (temp_list!= null && !(temp_list.Count > int.Parse(path[i])))
 						{
 							var node = get_metadata_node(p_metadata, string.Join("/", built_path.ToArray()));
 							Dictionary<string, object> temp = new Dictionary<string, object>();
