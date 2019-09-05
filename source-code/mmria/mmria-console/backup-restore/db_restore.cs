@@ -10,7 +10,7 @@ namespace mmria.console.db
 	{
 		private string auth_token = null;
 		private string user_name = null;
-		private string password = null;
+		private string user_value = null;
 		private string backup_file_path = null;
 		private string database_url = null;
 		private bool is_offline_mode = false;
@@ -48,7 +48,7 @@ namespace mmria.console.db
 					}
 					else if (arg.ToLower().StartsWith("password"))
 					{
-						this.password = val;
+						this.user_value = val;
 					}
 					else if (arg.ToLower().StartsWith("backup_file_path"))
 					{
@@ -106,7 +106,7 @@ namespace mmria.console.db
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(this.password))
+			if (string.IsNullOrWhiteSpace(this.user_value))
 			{
 				System.Console.WriteLine("missing password");
 				System.Console.WriteLine(" form password:[password]");
@@ -186,7 +186,7 @@ namespace mmria.console.db
 			string result = null;
 			string bulk_document_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_bulk_document);
 			string URL = string.Format ("{0}/_bulk_docs", this.database_url);
-			cURL document_curl = new cURL ("POST", null, URL, bulk_document_string, this.user_name, this.password);
+			cURL document_curl = new cURL ("POST", null, URL, bulk_document_string, this.user_name, this.user_value);
 			try
 			{
 				result = await document_curl.executeAsync ();

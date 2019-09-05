@@ -311,9 +311,9 @@ namespace mmria.server.util
 					}
 					else if(index is IDictionary<string, object>)
 					{
-						if(index != null && index.ContainsKey(path[i]))
+						if(index != null && ((IDictionary<string, object>)index).ContainsKey(path[i]))
 						{
-							index = index[path[i]];
+							index = ((IDictionary<string, object>)index)[path[i]];
 						}
 					
 					}
@@ -321,7 +321,7 @@ namespace mmria.server.util
 					{
 						index = index[path[i]] as IList<object>;
 					}
-					else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !index.ContainsKey(path[i]))
+					else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
 					{
 						//System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 					}
