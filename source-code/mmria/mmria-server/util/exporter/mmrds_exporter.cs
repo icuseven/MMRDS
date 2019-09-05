@@ -278,7 +278,13 @@ namespace mmria.server.util
 
 				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
-				if (case_doc == null || case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase))
+				if 
+				(
+					case_doc == null || 
+					!case_doc.ContainsKey("_id") ||
+					case_doc["_id"] == null ||
+					case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
+				)
 				{
 					continue;
 				}
@@ -288,22 +294,25 @@ namespace mmria.server.util
 
 				var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
-				if(!home_record.ContainsKey("jurisdiction_id"))
+				if(home_record != null)
 				{
-					home_record.Add("jurisdiction_id", "/");
-				}
-
-				foreach(var jurisdiction_item in jurisdiction_hashset)
-				{
-					var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-					if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+					if(!home_record.ContainsKey("jurisdiction_id"))
 					{
-						is_jurisdiction_ok = true;
-						break;
+						home_record.Add("jurisdiction_id", "/");
 					}
-					
+
+					foreach(var jurisdiction_item in jurisdiction_hashset)
+					{
+						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+						if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+						{
+							is_jurisdiction_ok = true;
+							break;
+						}
+						
+					}
 				}
 
 				if(!is_jurisdiction_ok)
@@ -512,6 +521,11 @@ namespace mmria.server.util
 						for (int i = 0; i < object_data.Count; i++)
 						{
 							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+
+							if(grid_item_row == null)
+							{
+								continue;
+							}
 
 							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
 							grid_row["_id"] = mmria_case_id;
@@ -960,78 +974,83 @@ namespace mmria.server.util
 					List<object> object_data = raw_data as List<object>;
 
 					if (object_data != null)
-						for (int i = 0; i < object_data.Count; i++)
+					for (int i = 0; i < object_data.Count; i++)
+					{
+						IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+						
+						if(grid_item_row == null)
 						{
-							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+							continue;
+						}
 
-							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
-							grid_row["_id"] = mmria_case_id;
-							grid_row["_record_index"] = i;
-							grid_row["_parent_record_index"] = parent_record_index;
-							foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
+						System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+						grid_row["_id"] = mmria_case_id;
+						grid_row["_record_index"] = i;
+						grid_row["_parent_record_index"] = parent_record_index;
+						foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
+						{
+							foreach (string node in grid_field_set)
 							{
-								foreach (string node in grid_field_set)
+								try
 								{
-									try
+									dynamic val = grid_item_row[path_to_node_map[kvp.Key].name];
+									if (val != null)
 									{
-										dynamic val = grid_item_row[path_to_node_map[node].name];
-										if (val != null)
+										if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 										{
-											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
+											if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
 											{
-												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
-												{
-													grid_row[convert_path_to_field_name(node)] = val;
-												}
-												else
-												{
-
-													grid_row[path_to_int_map[node].ToString("X")] = val;
-												}
-												
+												grid_row[convert_path_to_field_name(node)] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
 											}
 											else
 											{
-												if
+
+												grid_row[path_to_int_map[node].ToString("X")] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+											}
+											
+										}
+										else
+										{
+											if
+											(
 												(
-													(
-														path_to_node_map[path].type.ToLower() == "textarea" ||
-														path_to_node_map[path].type.ToLower() == "string"
-													)  &&
-													val.ToString().Length > max_qualitative_length
-												)
-												{
-													WriteQualitativeData
-													(
-														mmria_case_id,
-														path,
-														val,
-														i,
-														parent_record_index
-													);
-													val = over_limit_message;
-												}
+													path_to_node_map[path].type.ToLower() == "textarea" ||
+													path_to_node_map[path].type.ToLower() == "string"
+												)  &&
+												val.ToString().Length > max_qualitative_length
+											)
+											{
+												WriteQualitativeData
+												(
+													mmria_case_id,
+													path,
+													val,
+													i,
+													parent_record_index
+												);
+												val = over_limit_message;
+											}
 
-												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
-												{
-													grid_row[convert_path_to_field_name(node)] = val;
-												}
-												else
-												{
+											if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+											{
+												grid_row[convert_path_to_field_name(node)] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+											}
+											else
+											{
 
-													grid_row[path_to_int_map[node].ToString("X")] = val;
-												}
+												grid_row[path_to_int_map[node].ToString("X")] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
 											}
 										}
 									}
-									catch (Exception ex)
-									{
+								}
+								catch (Exception ex)
+								{
 
-									}
 								}
 							}
-							path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
 						}
+						path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+					}
 				}
 			}
 
@@ -1136,6 +1155,7 @@ namespace mmria.server.util
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];
@@ -1307,7 +1327,7 @@ namespace mmria.server.util
 			if (p_metadata.children != null)
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
-
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];
@@ -1396,17 +1416,17 @@ namespace mmria.server.util
 				dynamic index = p_object;
 
 				
-				if (p_path.Contains("pmss_mm"))
+				if (p_path.Contains("birth_order"))
 				{
 					System.Console.WriteLine("break");
 				}
-
+ 				
 
 				for (int i = 0; i < path.Length; i++)
 				{
 					if (i == path.Length - 1)
 					{
-						if (index is IDictionary<string, object>)
+						if (index != null && index is IDictionary<string, object> && ((IDictionary<string, object>)index).ContainsKey(path[i]))
 						{
 							result = ((IDictionary<string, object>)index)[path[i]];
 						}
@@ -1418,21 +1438,44 @@ namespace mmria.server.util
 					}
 					else if (number_regex.IsMatch(path[i]))
 					{
+						int temp_index = int.Parse(path[i]);
 						IList<object> temp_list = index as IList<object>;
-						/*
-						if (!(temp_list.Count > int.Parse(path[i])))
+						
+						if 
+						(
+							temp_list != null &&
+							(temp_list.Count > temp_index)
+						)
 						{
+							index = temp_list[temp_index] as IDictionary<string, object>;
+						}
 
-						} */
-						index = index[int.Parse(path[i])] as IDictionary<string, object>;
 					}
-					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
+					else if(index != null && index is IDictionary<string, object> && ((IDictionary<string, object>)index).ContainsKey(path[i]))
 					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
+						
+						switch(((IDictionary<string, object>)index)[path[i]])
+						{
+							case IList<object> val:
+								index = val;
+							break;
+							case IDictionary<string, object> val:
+								index = val;
+							break;
+							default:
+								index = value_string;
+							break;
+						}
+/*
+						if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
+						{
+							index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
+						}
+						else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
+						{
+							index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
+						}
+ */						
 					}
 					else
 					{

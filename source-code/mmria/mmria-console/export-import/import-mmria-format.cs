@@ -144,6 +144,11 @@ namespace mmria.console
 				var case_data = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(case_json_string);
 				IDictionary<string, object> case_data_dictionary = case_data as IDictionary<string, object>;
 
+				if(case_data_dictionary == null)
+				{
+					continue;
+				}
+
 				if (case_data_dictionary.ContainsKey ("_id")) 
 				{
 					global_record_id = case_data_dictionary ["_id"].ToString();

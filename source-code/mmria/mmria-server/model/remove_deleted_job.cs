@@ -14,14 +14,14 @@ namespace mmria.server.model
     {
 		string couch_db_url = null;
 		string user_name = null;
-		string password = null;
+		string user_value = null;
 		private IConfiguration Configuration = null;
 
 		public remove_deleted_job(IConfiguration configuration)
 		{
 				this.couch_db_url = Program.config_couchdb_url;
 				this.user_name = Program.config_timer_user_name;
-				this.password = Program.config_timer_value;
+				this.user_value = Program.config_timer_value;
 				Configuration = configuration;
 		}
 
@@ -174,7 +174,7 @@ namespace mmria.server.model
 			{
 				url = Program.config_couchdb_url + "/mmrds/_changes?since=" + p_last_sequence;
 			}
-			var curl = new cURL ("GET", null, url, null, this.user_name, this.password);
+			var curl = new cURL ("GET", null, url, null, this.user_name, this.user_value);
 			string res = curl.execute();
 			
 			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);

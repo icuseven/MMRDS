@@ -51,16 +51,26 @@ namespace mmria.server
 				System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(all_docs_result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 				IDictionary<string,object> all_docs_dictionary = expando_result as IDictionary<string,object>;
-				List<object> row_list = all_docs_dictionary ["rows"] as List<object> ;
+				List<object> row_list = null;
+
+				if(all_docs_dictionary != null && all_docs_dictionary.ContainsKey("rows"))
+				{
+					row_list = all_docs_dictionary ["rows"] as List<object> ;
+				}
+				
 
 				if(row_list != null)
 				foreach (object row_item in row_list)
 				{
 					IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>; 
-					KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
-					if(convert_result.Key)
+
+					if(row_dictionary != null && row_dictionary.ContainsKey("doc"))
 					{
-						result.Add(convert_result.Value);
+						KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
+						if(convert_result.Key)
+						{
+							result.Add(convert_result.Value);
+						}
 					}
 	
 				}

@@ -639,11 +639,7 @@ function load_jurisdiction_tree()
 
 	$.ajax
 	({
-			url: metadata_url,
-			beforeSend: function (request)
-			{
-				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-			}
+			url: metadata_url
 	}).done(function(response) 
 	{
 
@@ -1073,12 +1069,7 @@ function save_case(p_data, p_call_back)
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       data: JSON.stringify(p_data),
-      type: "POST",/*
-      beforeSend: function (request)
-      {
-        request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-      );
-      }*/
+      type: "POST"
   }).done(function(case_response) {
 
       console.log("save_case: success");
@@ -1132,12 +1123,8 @@ function delete_case(p_id, p_rev)
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     //data: JSON.stringify(p_data),
-    type: "DELETE",
-    beforeSend: function (request)
-    {
-      request.setRequestHeader("AuthSession", profile.get_auth_session_cookie()
-    );
-    }
+    type: "DELETE"
+    
 }).done(function(case_response) {
 
     console.log("delete_case: success");

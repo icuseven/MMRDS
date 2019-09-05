@@ -200,6 +200,12 @@ namespace mmria.server.util
 							
 							IDictionary<string, object> dictionary_object = index as IDictionary<string, object>;
 
+							if(dictionary_object == null)
+							{
+								result = null;
+								return result;
+							}
+
 							object val = null;
 
 							if(dictionary_object.ContainsKey(path[i]))
@@ -251,12 +257,19 @@ namespace mmria.server.util
 
 							IDictionary<string, object> dictionary_object = index as IDictionary<string, object>;
 
+							if(dictionary_object == null)
+							{
+								result = null;
+								return result;
+							}
+
 							object val = null;
 
 							if(dictionary_object.ContainsKey(path[i]))
 							{
 								val = dictionary_object[path[i]]; 
 							}
+
 
 							if(val != null)
 							{
@@ -298,18 +311,21 @@ namespace mmria.server.util
 					}
 					else if(index is IDictionary<string, object>)
 					{
-						index = ((IDictionary<string, object>)index)[path[i]];
+						if(index != null && ((IDictionary<string, object>)index).ContainsKey(path[i]))
+						{
+							index = ((IDictionary<string, object>)index)[path[i]];
+						}
 					
 					}
-					else if (index[path[i]].GetType() == typeof(IList<object>))
+					else if (index != null && index[path[i]].GetType() == typeof(IList<object>))
 					{
 						index = index[path[i]] as IList<object>;
 					}
-					else if (index[path[i]].GetType() == typeof(IDictionary<string, object>) && !index.ContainsKey(path[i]))
+					else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>) && !((IDictionary<string, object>)index).ContainsKey(path[i]))
 					{
 						//System.Console.WriteLine("Index not found. This should not happen. {0}", p_path);
 					}
-					else if (index[path[i]].GetType() == typeof(IDictionary<string, object>))
+					else if (index != null && index[path[i]].GetType() == typeof(IDictionary<string, object>))
 					{
 						index = index[path[i]] as IDictionary<string, object>;
 					}
@@ -385,7 +401,7 @@ namespace mmria.server.util
 							var val_list = val as IList<object>;
 						
 							if(val_list != null)
-							foreach(string item in val as IList<object>) ethnicity_set.Add(item);
+							foreach(string item in val_list) ethnicity_set.Add(item);
 							if (ethnicity_set.Intersect (bc_ethinicity).Count() > 0)
 							{
 								result = true;

@@ -52,13 +52,27 @@ namespace mmria.server
 				string responseFromServer = await export_queue_curl.executeAsync();
 
 				IDictionary<string,object> response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer) as IDictionary<string,object>; 
-				IList<object> enumerable_rows = response_result["rows"] as IList<object>;
 
+
+				IList<object> enumerable_rows = null;
+
+
+				if(response_result != null && response_result.ContainsKey("rows"))
+				{
+					enumerable_rows = response_result["rows"] as IList<object>;
+				}
+
+
+				if(enumerable_rows != null)
 				foreach(IDictionary<string,object> enumerable_item in enumerable_rows)
 				{
 
 					IDictionary<string,object> doc_item = enumerable_item["doc"] as IDictionary<string,object>;
-			
+
+					if(doc_item == null)
+					{
+						continue;
+					}
 
 					export_queue_item item = new export_queue_item();
 					try

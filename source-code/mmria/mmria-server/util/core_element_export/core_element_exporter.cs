@@ -262,6 +262,8 @@ namespace mmria.server.util
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if 
 				(
+					case_doc == null ||
+					!case_doc.ContainsKey("_id") ||
 					case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
 
 				)
@@ -273,22 +275,24 @@ namespace mmria.server.util
 
 				var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
-				if(!home_record.ContainsKey("jurisdiction_id"))
+				if(home_record!= null)
 				{
-					home_record.Add("jurisdiction_id", "/");
-				}
-
-				foreach(var jurisdiction_item in jurisdiction_hashset)
-				{
-					var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-					if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+					if(!home_record.ContainsKey("jurisdiction_id"))
 					{
-						is_jurisdiction_ok = true;
-						break;
+						home_record.Add("jurisdiction_id", "/");
 					}
-					
+
+					foreach(var jurisdiction_item in jurisdiction_hashset)
+					{
+						var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+						if(regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.util.ResourceRightEnum.ReadCase)
+						{
+							is_jurisdiction_ok = true;
+							break;
+						}
+					}
 				}
 
 				if(!is_jurisdiction_ok)
@@ -607,6 +611,11 @@ namespace mmria.server.util
 						{
 							IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
 
+							if(grid_item_row == null)
+							{
+								continue;
+							}
+
 							System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
 							grid_row["_id"] = mmria_case_id;
 							grid_row["_record_index"] = i;
@@ -854,6 +863,7 @@ namespace mmria.server.util
 			{
 				IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
+				if(children != null)
 				for (var i = 0; i < children.Count; i++)
 				{
 					var child = children[i];
@@ -1052,48 +1062,67 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				/*
-				if (p_path == "committee_review/pmss_mm")
-				{
-					System.Console.WriteLine("break");
-				}
-				 */
-
-
+				if(index != null)
 				for (int i = 0; i < path.Length; i++)
 				{
-					if (i == path.Length - 1)
+					switch(index)
 					{
-						if (index != null && index is IDictionary<string, object>)
+
+						case IDictionary<string, object> val:
+						if (i == path.Length - 1)
 						{
-							result = ((IDictionary<string, object>)index)[path[i]];
+							if (val != null && val.ContainsKey(path[i]))
+							{
+
+								result = ((IDictionary<string, object>)val)[path[i]];
+							}
+							else
+							{
+								result = index;
+							}
+
 						}
-						else
+						else if (val != null && val.ContainsKey(path[i]))
 						{
-							result = index;
+
+							if (val[path[i]]is List<object>)
+							{
+								index = val[path[i]] as List<object>;
+							}
+							else if (val[path[i]] is IList<object>)
+							{
+								index = val[path[i]] as IList<object>;
+							}
+							else if (val[path[i]]is IDictionary<string, object>)
+							{
+								index = val[path[i]] as IDictionary<string, object>;
+							}
+							else
+							{
+								//System.Console.WriteLine("This should not happen. {0}", p_path);
+							}
 						}
 
+						break;
+
+						case IList<object> val:
+						if(number_regex.IsMatch(path[i]))
+						{
+							
+							int item_index = int.Parse(path[i]);
+							if(val != null && val.Count > item_index)
+							{
+								index = val[item_index] as IDictionary<string, object>;
+							}
+							
+						}
+						else 
+						{
+							//System.Console.WriteLine("This should not happen. {0}", p_path);
+						}
+						break;
 					}
-					else if (number_regex.IsMatch(path[i]))
-					{
-						index = index[int.Parse(path[i])] as IDictionary<string, object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]]is List<object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as List<object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]] is IList<object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IList<object>;
-					}
-					else if (((IDictionary<string, object>)index)[path[i]]is IDictionary<string, object>)
-					{
-						index = ((IDictionary<string, object>)index)[path[i]] as IDictionary<string, object>;
-					}
-					else
-					{
-						//System.Console.WriteLine("This should not happen. {0}", p_path);
-					}
+					
 				}
 			}
 			catch (Exception ex)

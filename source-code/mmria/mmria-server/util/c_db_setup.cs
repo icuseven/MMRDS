@@ -431,20 +431,32 @@ namespace mmria.server.util
                 //Creating the HttpWebRequest
                 System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
                 //Setting the Request method HEAD, you can also use GET too.
-                request.Method = p_method;
 
-                if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                if(request != null)
                 {
-                    string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
-                    request.Headers.Add("Authorization", "Basic " + encoded);
-                }
+                    request.Method = p_method;
 
-                //Getting the Web Response.
-                System.Net.HttpWebResponse response = await request.GetResponseAsync() as System.Net.HttpWebResponse;
-                //Returns TRUE if the Status code == 200
-                response_result = response.StatusCode;
-                response.Close();
-                return (response_result == System.Net.HttpStatusCode.OK);
+                    if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                    {
+                        string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
+                        request.Headers.Add("Authorization", "Basic " + encoded);
+                    }
+
+                    //Getting the Web Response.
+                    System.Net.HttpWebResponse response = await request.GetResponseAsync() as System.Net.HttpWebResponse;
+                    //Returns TRUE if the Status code == 200
+                    if(response != null)
+                    {
+                        response_result = response.StatusCode;
+                        response.Close();
+                        return (response_result == System.Net.HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                return  false;
             }
             catch (Exception ex) 
             {
@@ -482,7 +494,7 @@ namespace mmria.server.util
                 var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
                 IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
 
-                if (result_dictionary.ContainsKey ("_rev")) 
+                if (result_dictionary!= null && result_dictionary.ContainsKey ("_rev")) 
                 {
                     pay_load__dictionary["_rev"] = result_dictionary ["_rev"];
                     //System.Console.WriteLine ("json\n{0}", object_string);

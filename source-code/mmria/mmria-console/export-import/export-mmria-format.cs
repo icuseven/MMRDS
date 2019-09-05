@@ -122,14 +122,23 @@ namespace mmria.console
 			string auth_session = null;
 
 			//{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-			if (!login_result_dictionary.ContainsKey ("ok") && login_result_dictionary["ok"].ToString().ToLower() != "true") 
+			if 
+			(
+				login_result_dictionary != null &&
+				!login_result_dictionary.ContainsKey ("ok") &&
+				login_result_dictionary["ok"].ToString().ToLower() != "true"
+			) 
 			{
 				System.Console.WriteLine($"Unable to login to {this.mmria_url}:\n{login_result_dictionary}");
 				return;
 			}
 
 
-			auth_session = login_result_dictionary ["auth_session"].ToString();
+			if(login_result_dictionary != null && login_result_dictionary.ContainsKey("auth_session"))
+			{
+				auth_session = login_result_dictionary ["auth_session"].ToString();
+			}
+			
 
 /*var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_ui.case_view_request.get_query_string();
     get_query_string : function(){
