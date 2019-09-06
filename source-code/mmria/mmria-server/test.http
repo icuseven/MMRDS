@@ -11,3 +11,53 @@ GET http://localhost:5984/_utils HTTP/1.0
 ###
 
 GET http://localhost:12345/api/metadata/GetCheckCode HTTP/1.1
+
+###
+
+POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
+content-type: application/json
+
+{
+     "WaitForResponse":  "true",
+     "Arguments":  [
+                       "InsertNewRecord",
+                       0,
+                       "Maternal Mortality Review Information App",
+                       "CSharp",
+                       "https://github.com/icuseven/MMRDS.git source-code/mmria",
+                       "19.08.20 v(74aac94a)",
+                       "Dev",
+                       "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)",
+                       "http://webinspect-mmria.services-dev.cdc.gov"
+                   ],
+     "ExeFile":  "LogTFSRelease",
+     "Type":  "Standard"
+}
+
+### kick off fortify build
+### "parameters": "{\"Build_Configuration\" : \"QA\", \"Code_Location\" : \"DPH_SHI/Release 4.4\", \"IIS_Application_Name\" : \"SHIAdmin\", \"Solution_File_Name\" : \"SHIAdmin v4.4.sln\"}"
+POST http://tfs.cdc.gov/tfs/NCCDPHP_Apps_Dev/MMRIA/_apis/build/builds?api-version=2.0 HTTP/1.1
+Authorization: basic aXN1NzpFYyUyMHBhYTUlMjBAJTQwJTIwbjB3JTIwMDQ=
+content-type: application/json
+
+{
+    "definition": {"id": 1058}
+    "parameters": "{\"Build_Configuration\" : \"QA\", \"Code_Location\" : \"DPH_SHI/Release 4.4\", \"IIS_Application_Name\" : \"SHIAdmin\", \"Solution_File_Name\" : \"SHIAdmin v4.4.sln\"}"
+}
+
+
+###JsonData = 
+###{
+    ###"definition": {"id": 1058},
+    ###"parameters": "{\"Application_Password\" : \"[Your apps Password]\", \"Application_Username\" : \"[Your apps Username]\", \"Authentication_Type\" : \"Forms\", \"Macro_Name\" : \"User webinspect\", \"RecordNumber\" : \"[The Record Number for the first API call]\", \"SSC_Application_Name\" : \"[The name of the application in SSC]\", \"SSC_Application_Version\" : \"[The version of the application in SSC]\", \"Starting_URL\" : \"[Your apps UL]\"}"
+###}
+
+### https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.1
+POST http://tfs.cdc.gov/tfs/NCCDPHP_Apps_Dev/MMRIA/_apis/build/builds?api-version=2.0 HTTP/1.1
+Authorization: 
+content-type: application/json
+
+{
+    "definition": {"id": 1058},
+    "parameters": "{\"Application_Password\" : \"W3b insp3ct\", \"Application_Username\" : \"webinspect\", \"Authentication_Type\" : \"Forms\", \"Macro_Name\" : \"User webinspect\", \"RecordNumber\" : \"3459\", \"SSC_Application_Name\" : \"NCCD_Maternal Mortality Review Information App\", \"SSC_Application_Version\" : \"CSharp\", \"Starting_URL\" : \"https://webinspect-mmria.services-dev.cdc.gov\"}"
+}

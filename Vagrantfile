@@ -30,7 +30,7 @@ Vagrant.configure(Configuration_Version) do |config|
 			#"--paravirtprovider", "kvm", # for linux guest
 			"--hwvirtex", "on",
 			"--accelerate3d", "on",
-                        "--monitorcount", "2",
+                        "--monitorcount", "3",
                         "--vram", "256"
                       ]
 			
