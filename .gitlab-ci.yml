@@ -1,0 +1,39 @@
+# This is a simple gitlab continuous integration example project (compatible with the shared runner provided on gitlab.com)
+# using the official debian linux based dotnet docker image to build a .NET Core project.
+#
+# MyProject.sln
+#   MyProject\
+#      MyProject.csproj (console application)
+#   MyProject.Test\
+#      MyProject.Test.csproj (test library)
+#
+# Please find the full example project here:
+# https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore
+
+# see https://hub.docker.com/r/microsoft/dotnet/
+
+#https://github.com/t081as/gitlab-ci-example-dotnetcore
+#https://gitlab.com/jelleverheyen/dotnet-ci-example/blob/master/.gitlab-ci.yml
+
+image: microsoft/dotnet:latest
+
+
+stages:
+    - build
+
+
+variables:
+    test: "Example.Test"
+
+before_script:
+    - "cd source-code/mmria/mmria-server"
+    - "dotnet restore mmria-server.csproj"
+
+build:
+    stage: build
+    script:
+        - "dotnet build  mmria-server.csproj /p:Configuration=Release /t:Clean"
+
+
+
+
