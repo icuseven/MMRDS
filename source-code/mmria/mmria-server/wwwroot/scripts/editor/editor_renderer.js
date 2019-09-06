@@ -213,7 +213,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		
+		result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
 		/*
 		if(p_metadata.name.indexOf("pmss_mm") > -1)
 		{
@@ -1702,31 +1702,18 @@ function editor_upgrade_numeric_and_display(p_path)
 	let current_index = 0;
 	for(let i = 0; i < value_list.length; i++)
 	{
-		if(value_list[i].value == null || value_list[i].value == "")
+
+		if(value_list[i].value == -9)
 		{
-			value_list[i].display = value_list[i].value;
-			value_list[i].value = -9;
+			value_list[i].value = 999;
 		}
-		else
-		switch(value_list[i].value.toLowerCase())
+		else if(value_list[i].value == -8)
+		{					
+			value_list[i].value = 888;
+		}
+		else if(value_list[i].value == -7)
 		{
-			case "(blank)":
-				value_list[i].display = value_list[i].value;
-				value_list[i].value = -9;
-				break;
-			case "not specified":
-				value_list[i].display = value_list[i].value;
-				value_list[i].value = -8;
-				break;
-			case "unknown":
-					value_list[i].display = value_list[i].value;
-					value_list[i].value = -7;
-					break;				
-			default:
-				value_list[i].display = value_list[i].value;
-				value_list[i].value = current_index;
-				current_index+=1;
-				break;
+			value_list[i].value = 777;
 		}
 
 	}
