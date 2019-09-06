@@ -213,7 +213,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+		//result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
 		/*
 		if(p_metadata.name.indexOf("pmss_mm") > -1)
 		{

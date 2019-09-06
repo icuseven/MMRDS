@@ -169,7 +169,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("</header>");
             
             p_result.push("<div class='construct__body'>");
-                p_result.push("<div class='construct-output'>");
+            let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
+            p_result.push(`<div class='construct-output' style='height:${height_attribute}'>`);
                     for(var i = 0; form_item && i < p_metadata.children.length; i++)
                     {
                         var child = p_metadata.children[i];
@@ -262,7 +263,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
        p_result.push("</div> <!-- end .construct__header -->");
        p_result.push("<div class='construct__body'>");
-       p_result.push("<div class='construct-output'>");
+       let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
+       p_result.push(`<div class='construct-output' style='height:${height_attribute}'>`);
        if(g_data && p_metadata.name == "case_narrative")
        {
            //death_certificate/reviewer_note
