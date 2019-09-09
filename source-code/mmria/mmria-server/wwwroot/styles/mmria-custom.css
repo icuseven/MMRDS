@@ -621,6 +621,12 @@ ul {
   padding-left: 25px;
 }
 
+.fancy-sidebar {
+  height: 100%;
+  position: sticky;
+  top: 12px;
+}
+
 
 
 
