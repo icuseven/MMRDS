@@ -120,10 +120,25 @@ function dictionary_render_row(p_metadata, p_path)
 
 	if(p_metadata.values)
 	{
+
+
 		result.push('<td valign="center"><table><tr style="background-color:#FF7777;color:#FFFFFF"><th>value</th><th>description</th></tr>');
-		for(var i = 0; i < p_metadata.values.length; i++)
+
+		let value_list = p_metadata.values;
+
+		if(p_metadata.path_reference && p_metadata.path_reference != "")
 		{
-			var child = p_metadata.values[i];
+			value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+	
+			if(value_list == null)	
+			{
+				value_list = p_metadata.values;
+			}
+		}
+
+		for(var i = 0; i < value_list.length; i++)
+		{
+			var child = value_list[i];
 			if(i % 2)
 			{
 				result.push("<tr style='background-color:#BBBBBB'><td>");
@@ -142,13 +157,13 @@ function dictionary_render_row(p_metadata, p_path)
 			}
 			
 			result.push("</td><td>")
-			if(child.description == "")
+			if(child.display == "")
 			{
 				result.push("(blank)");
 			}
 			else
 			{
-				result.push(child.description);
+				result.push(child.display);
 			}
 			result.push('</td></tr>');
 		}
@@ -182,4 +197,31 @@ function dictionary_render_row(p_metadata, p_path)
 
 	return result;
 
+}
+
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = null;
+	var temp_result = []
+	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	var lookup_list = eval(temp_result[0]);
+
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
 }

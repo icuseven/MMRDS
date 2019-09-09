@@ -973,3 +973,75 @@ function get_data_object_for_mirror(p_mirror_reference)
 {
 	return eval("g_data." + p_mirror_reference.replace(/\//g, "."));
 }
+
+
+function get_form_height_attribute_height(p_metadata, p_dictionary_path)
+{
+
+	
+
+	let result = null;
+	let height = null;
+	let top = null;
+	
+	let child = p_metadata.children[p_metadata.children.length -1];
+	let dictionary_path = p_dictionary_path + "/" + child.name;
+
+	let style_object = g_default_ui_specification.form_design[dictionary_path.substring(1)];
+
+	let specicification_style_string = style_object.control.style;
+
+    let properly_formated_style = specicification_style_string;
+    properly_formated_style = properly_formated_style.replace(/[{}]/g, ""); 
+    properly_formated_style = properly_formated_style.replace(/['"]+/g, '');
+    properly_formated_style = properly_formated_style.replace(/[,]+/g, ';');
+    properly_formated_style = properly_formated_style.replace(/(\d+); (\d+); (\d+)/g, '$1, $2, $3');
+    //"position:absolute;top:4;left:13;height:46px;width:146.188px;font-weight:400;font-size:16px;font-style:normal;color:rgb(33; 37; 41)"
+	let items = properly_formated_style.split(";")
+	let height_is_found = false;
+	let top_is_found = false;
+	
+    for(let i = 0; i < items.length && (!height_is_found || !top_is_found); i++)
+    {
+		let value = null;
+        let pair = items[i].split(":");
+        switch(pair[0].toLocaleLowerCase())
+        {
+            case "height":
+                value = pair[1].trim();
+                if(/px$/.test(value))
+                {
+                    height = value.substring(0, str.length - 2);
+                }
+                else
+                {
+                    height = pair[1];
+				}
+				height_is_found = true;
+				break;
+			case "top":
+				value = pair[1].trim();
+				if(/px$/.test(value))
+				{
+					top = value.substring(0, str.length - 2);
+				}
+				else
+				{
+					top = pair[1];
+				}
+				top_is_found = true;
+				break;
+			defalut:
+                break;
+        }
+    }
+
+	if(height_is_found && top_is_found)
+	{
+		result = new Number(top) + new Number(height);
+
+		result = result + "px";
+	}
+
+    return result;
+}
