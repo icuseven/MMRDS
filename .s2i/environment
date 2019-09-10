@@ -1,1 +1,1 @@
-DOTNET_STARTUP_PROJECT=mmria-server.csproj
+DOTNET_STARTUP_PROJECT=source-code/mmria/mmria-server.csproj
