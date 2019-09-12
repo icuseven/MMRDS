@@ -1,8 +1,9 @@
 #!/bin/bash
 
+USER 0
 
-sudo yum update
-sudo yum install -y git 
+yum update
+yum install -y git 
 
 echo "---> Building application from source..."
 
@@ -21,7 +22,7 @@ echo "---> $current_build..."
 volumes='ls /Volumes/'
 echo $volumes
 
-
+USER 1001
 
 
 # cp /vagrant/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml /workspace/_Footer.cshtml.bk && \
