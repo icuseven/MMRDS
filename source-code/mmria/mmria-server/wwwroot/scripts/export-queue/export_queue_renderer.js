@@ -119,11 +119,11 @@ function export_queue_render(p_queue_data)
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="password-protect" id="password-protect-no" class="mr-1" data-summary-type="is_encrypted" type="radio" value="no" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
-								<label for="password-protect-no" class="mb-0"></label>
+								<label for="password-protect-no" class="mb-0">No</label>
 							</li>
 							<li>
 								<input name="password-protect" id="password-protect-yes" class="mr-1" data-summary-type="is_encrypted" type="radio" value="yes" onchange="renderSummaryString(event, updateAnswerSummary)" />
-								<label for="password-protect-yes" class="mb-0"></label>
+								<label for="password-protect-yes" class="mb-0">Yes</label>
 								<div class="mt-2">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
 									<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
