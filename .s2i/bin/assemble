@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-yum update
-yum install -y git 
+sudo yum update
+sudo yum install -y git 
 
 echo "---> Building application from source..."
 
