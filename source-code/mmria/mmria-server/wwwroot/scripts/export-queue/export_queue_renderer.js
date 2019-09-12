@@ -1,27 +1,21 @@
 function renderSummaryString(event, callback) {
-	console.log('First start');
 	let el = event.target;
 	let val = el.value;
 	let summary = el.dataset.summaryType;
 	let tar = document.querySelector(`#${summary}`);
-	console.log(el.dataset);
 
 	if (answer_summary[summary] != summary) {
 		answer_summary[summary] = val;
 		callback(val, summary);
-		tar.innerText = val;
+		tar.innerText = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();;
 	}
-
-	console.log('First end');
 }
 
 function updateAnswerSummary(val, type) {
-	console.log('Second start');
 	// if data-type changed`
 	if (answer_summary[type] != type) {
 		answer_summary[type] = val;
 	}
-	console.log('Second end');
 }
 
 class DropDown {
@@ -76,20 +70,20 @@ function export_queue_render(p_queue_data)
 					<div class="card-body bg-gray-l3">
 					<ul>
 						<li>
-							Export <span id="all_or_core">${answer_summary.all_or_core == 'all' ? 'All' : 'Core'}</span> data
+							Export <span id="all_or_core">${answer_summary.all_or_core.charAt(0).toUpperCase() + answer_summary.all_or_core.slice(1)}</span> data
 						</li>
 						<li>
-							Export/Grantee name: <code>${answer_summary.grantee_name}</code>
+							Export/Grantee name: ${answer_summary.grantee_name}
 						</li>
 						<!-- <li>You have selected to export in JSON format</li> -->
 						<li>
-							Password protected: <span id="is_encrypted">${answer_summary.is_encrypted == 'no' ? 'No' : 'Yes'}</span>
+							Password protected: <span id="is_encrypted">${answer_summary.is_encrypted.charAt(0).toUpperCase() + answer_summary.is_encrypted.slice(1)}</span>
 						</li>
 						<li>
-							Send file to CDC: <span id="is_for_cdc">${answer_summary.is_for_cdc == 'no' ? 'No' : 'Yes'}</span>
+							Send file to CDC: <span id="is_for_cdc">${answer_summary.is_for_cdc.charAt(0).toUpperCase() + answer_summary.is_for_cdc.slice(1)}</span>
 						</li>
 						<li>
-							De-identify fields: <span id="de_identified_selection_type">${answer_summary.de_identified_selection_type}</span>
+							De-identify fields: <span id="de_identified_selection_type">${answer_summary.de_identified_selection_type.charAt(0).toUpperCase() + answer_summary.de_identified_selection_type.slice(1)}</span>
 						</li>
 					</ul>
 					</div>
@@ -125,11 +119,11 @@ function export_queue_render(p_queue_data)
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="password-protect" id="password-protect-no" class="mr-1" data-summary-type="is_encrypted" type="radio" value="no" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
-								<label for="password-protect-no" class="mb-0">No</label>
+								<label for="password-protect-no" class="mb-0"></label>
 							</li>
 							<li>
 								<input name="password-protect" id="password-protect-yes" class="mr-1" data-summary-type="is_encrypted" type="radio" value="yes" onchange="renderSummaryString(event, updateAnswerSummary)" />
-								<label for="password-protect-yes" class="mb-0">Yes</label>
+								<label for="password-protect-yes" class="mb-0"></label>
 								<div class="mt-2">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
 									<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
@@ -209,9 +203,15 @@ function export_queue_render(p_queue_data)
 							</li>
 							<li class="form-group">
 							<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction year</label>
-							<select id="case-jurisdiction-year" class="form-control w-auto">
-								${ new DropDown("y").buildDropdown() }
+							<select id="case-jurisdiction-year" class="form-control mb-3 w-auto" multiple>
+								<option>/2017</option>
+								<option>/2018</option>
+								<option>/2019</option>
+								<option>/north_ga</option>
+								<option>/south_ga</option>
+								<option>/sc</option>
 							</select>
+							<p class="font-weight-normal"><small>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
 							<!-- TODO: Remove completely once we narrow down direction more -->
 							<!--<li class="form-group">
