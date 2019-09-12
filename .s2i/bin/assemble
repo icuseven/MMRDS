@@ -1,6 +1,11 @@
 #!/bin/bash
 
+
+yum update
+yum install -y git 
+
 echo "---> Building application from source..."
+
 
 current_build=$(git rev-parse --short HEAD)
 
@@ -9,10 +14,14 @@ current_month=$(date +%m)
 current_day=$(date +%d)
 
 
+
+
 echo "---> $current_build..."
 
-GIT_COMMIT_SHORT_SHA=$(git rev-parse --short HEAD)
-echo "GIT_COMMIT_SHORT_SHA: $GIT_COMMIT_SHORT_SHA"
+volumes='ls /Volumes/'
+echo $volumes
+
+
 
 
 # cp /vagrant/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml /workspace/_Footer.cshtml.bk && \
