@@ -58,7 +58,7 @@ echo $volumes
 
 dotnet publish /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj -f netcoreapp2.1 -r rhel.7-x64 --self-contained true
 
-mv -R /tmp/src/source-code/mmria/mmria-server/bin/Debug/netcoreapp2.1/rhel.7-x64/publish/* /opt/app-root
+mv /tmp/src/source-code/mmria/mmria-server/bin/Debug/netcoreapp2.1/rhel.7-x64/publish/* /opt/app-root
 
 
 
