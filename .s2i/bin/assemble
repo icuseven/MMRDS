@@ -4,6 +4,27 @@ set -e
 # Include filenames beginning with a '.' when installing the application source code.
 shopt -s dotglob
 
+
+echo "---> Version Setup - Begin ..."
+
+
+#current_build=$(git rev-parse --short HEAD)
+
+current_year=$(date +%y)
+current_month=$(date +%m)
+current_day=$(date +%d)
+
+curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
+
+current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')
+
+echo "---> $current_year.$current_month.$current_day v($current_build)"
+
+sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml  > /tmp/src/source-code/mmria/mmria-server/Views/Shared_Footer.cshtml
+
+
+echo "---> Version Setup - End ..."
+
 if [ -n "${DOTNET_VERBOSITY}" ]; then
   echo "---> Environment:"
   env | sort
