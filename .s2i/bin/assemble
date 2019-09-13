@@ -24,10 +24,10 @@ current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print s
 
 echo "---> $current_year.$current_month.$current_day v($current_build)"
 
-ls > commit_temp.txt
+ls -la > commit_temp.txt
 
 
-volumes=$(cat commit_temp.txt)
+volumes=$(cat commit_temp.txt | grep -E ".")
 
 echo $volumes
 
