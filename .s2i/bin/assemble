@@ -51,6 +51,10 @@ volumes=$(cat commit_temp.txt | grep -E ".")
 
 echo $volumes
 
+dotnet build /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj
+
+#dotnet publish /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj -f netcoreapp2.1 -r rhel.7-x64 --self-contained true
+
 
 
  #sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' /workspace/_Footer.cshtml.bk  > /workspace/_Footer.cshtml && \
