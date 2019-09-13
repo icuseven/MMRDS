@@ -20,11 +20,15 @@ current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print s
 
 echo "---> $current_year.$current_month.$current_day v($current_build)"
 
-sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml  > /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml
+sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml  > /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml.bk
 
-#footer=$(cat /tmp/src/source-code/mmria/mmria-server/Views/Shared_Footer.cshtml | grep -E ".")
+rm -rf /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml
 
-echo "footer\n\n$footer"
+mv /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml.bk /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml
+
+footer=$(cat /tmp/src/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml | grep -E ".")
+
+echo "$footer"
 
 echo "---> Version Setup - End ..."
 
