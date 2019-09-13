@@ -28,6 +28,9 @@ pwd > commit_temp.txt
 
 present_dir=$(cat commit_temp.txt | grep -E ".")
 
+echo $present_dir
+
+
 ls -la > commit_temp.txt
 
 volumes=$(cat commit_temp.txt | grep -E ".")
