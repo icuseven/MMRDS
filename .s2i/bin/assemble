@@ -1,12 +1,12 @@
 #!/bin/bash
 
-yum update
-yum install -y git 
+#yum update
+#yum install -y git 
 
 echo "---> Building application from source..."
 
 
-current_build=$(git rev-parse --short HEAD)
+#current_build=$(git rev-parse --short HEAD)
 
 current_year=$(date +%y)
 current_month=$(date +%m)
@@ -15,11 +15,15 @@ current_day=$(date +%d)
 
 
 #/tmp/scripts/assemble
-echo "---> $current_year.$current_month.$current_day."
 
-ls > ls.txt
 
-cat ls.txt
+
+curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
+
+current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 40)}')
+
+echo "---> $current_year.$current_month.$current_day v($current_build)"
+
 
 #volumes='ls /Volumes/'
 #echo $volumes
