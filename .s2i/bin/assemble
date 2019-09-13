@@ -1,7 +1,5 @@
 #!/bin/bash
 
-USER 0
-
 yum update
 yum install -y git 
 
@@ -16,13 +14,17 @@ current_day=$(date +%d)
 
 
 
+#/tmp/scripts/assemble
+echo "---> $current_year.$current_month.$current_day."
 
-echo "---> $current_build..."
+ls > ls.txt
 
-volumes='ls /Volumes/'
-echo $volumes
+cat ls.txt
 
-USER 1001
+#volumes='ls /Volumes/'
+#echo $volumes
+
+ #sed -e 's/<\%=version\%>/'$current_year'.'$current_month'.'$current_day' v('$current_build')/g' /workspace/_Footer.cshtml.bk  > /workspace/_Footer.cshtml && \
 
 
 # cp /vagrant/source-code/mmria/mmria-server/Views/Shared/_Footer.cshtml /workspace/_Footer.cshtml.bk && \
