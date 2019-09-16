@@ -205,7 +205,7 @@ function export_queue_render(p_queue_data)
 													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Something incredible is waiting to be known billions and billions of light years away</span></label>
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 													<button type="button" class="btn btn-primary">Save changes</button>
 												</div>
 											</div>
