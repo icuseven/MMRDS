@@ -71,6 +71,11 @@ function export_queue_render(p_queue_data)
 					<ul>
 						<li>
 							Export <span id="all_or_core">${answer_summary.all_or_core.charAt(0).toUpperCase() + answer_summary.all_or_core.slice(1)}</span> data
+							<ul>
+								<li>
+									Exporting ${answer_summary.all_or_core} data plus a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
+								</li>
+							</ul>
 						</li>
 						<li>
 							Export/Grantee name: ${answer_summary.grantee_name}
@@ -91,16 +96,16 @@ function export_queue_render(p_queue_data)
 								<li>
 									Date of Death:
 									<ul>
-										<li>Year: All</li>									
-										<li>Month: All</li>
-										<li>Day: All</li>
+										<li>Year: ${answer_summary.filter.date_of_death.year == '' ? 'All' : answer_summary.filter.year}</li>									
+										<li>Month: ${answer_summary.filter.date_of_death.month == '' ? 'All' : answer_summary.filter.month}</li>
+										<li>Day: ${answer_summary.filter.date_of_death.day == '' ? 'All' : answer_summary.filter.day}</li>
 									</ul>
 								</li>
 								<li>
-									Case status: YYYY
+									Case status: ${answer_summary.filter.case_status == '' ? 'All' : answer_summary.filter.case_status}
 								</li>
 								<li>
-									Case jurisdiction: /all
+									Case jurisdiction: ${answer_summary.filter.case_jurisdiction == '' ? 'All' : answer_summary.filter.case_jurisdiction}
 								</li>
 							</ul>
 						</li>
@@ -182,7 +187,30 @@ function export_queue_render(p_queue_data)
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 								<div class="mt-2">
-									<button class="btn btn-tertiary">Select custom fields</button>
+									<button type="button" class="btn btn-tertiary" data-toggle="modal" data-target="#custom-fields">
+										Select custom fields
+									</button>
+									<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLongTitle">Custom fields to de-identify</h5>
+													<button type="button" class="close p-0 bg-transparent" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true" class="x24 fill-p cdc-icon-close"></span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Jean-François Champollion across the centuries</span></label>
+													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Consciousness paroxysm of global death Vangelis prime number?</span></label>
+													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Something incredible is waiting to be known billions and billions of light years away</span></label>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-primary">Save changes</button>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</li>
 						</ul>
