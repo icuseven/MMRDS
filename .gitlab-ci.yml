@@ -36,7 +36,7 @@ build:
     script:
 #        - "dotnet build  mmria-server.csproj /p:Configuration=Release /t:Clean"
 #        - "curl -X POST -k https://ecpaas-dev.cdc.gov/apis/build.openshift.io/v1/namespaces/mmria/buildconfigs/mmria-s2i/webhooks/52dee2e0318578c7/generic"
-        - echo "---> Version Setup - Begin ..."
+        - "echo \"---> Version Setup - Begin ...\""
         - "current_build=$(git rev-parse --short HEAD)
         - "current_year=$(date +%y)
         - "current_month=$(date +%m)
