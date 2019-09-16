@@ -47,6 +47,12 @@ build:
         - version_text="$current_year.$current_month.$current_day v($current_build)"
         - echo "$version_text"
         - echo "---> Version Setup - End ..."
+        
+#curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:3000/data
+        - curl -d '{ "WaitForResponse":  "true", "Arguments":  [ \
+"InsertNewRecord", 0, "Maternal Mortality Review Information App", "CSharp", "https://github.com/icuseven/MMRDS.git source-code/mmria", \
+"$version_text", "Dev", "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)", "http://webinspect-mmria.services-dev.cdc.gov" ], \
+"ExeFile":  "LogTFSRelease", "Type":  "Standard" }' -H "Content-Type: application/json" -X POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE
 
 #POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
 #content-type: application/json
