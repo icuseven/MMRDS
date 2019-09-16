@@ -46,23 +46,23 @@ build:
 #        - "echo "---> $current_year.$current_month.$current_day v($current_build)"
 #        - "echo "---> Version Setup - End ..."
 
-POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
-content-type: application/json
+#POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
+#content-type: application/json
 
-{
-     "WaitForResponse":  "true",
-     "Arguments":  [
-                       "InsertNewRecord",
-                       0,
-                       "Maternal Mortality Review Information App",
-                       "CSharp",
-                       "https://github.com/icuseven/MMRDS.git source-code/mmria",
-                       "19.08.20 v(74aac94a)",
-                       "Dev",
-                       "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)",
-                       "http://webinspect-mmria.services-dev.cdc.gov"
-                   ],
-     "ExeFile":  "LogTFSRelease",
-     "Type":  "Standard"
-}
+#{
+#     "WaitForResponse":  "true",
+ #    "Arguments":  [
+  #                     "InsertNewRecord",
+#                       0,
+#                       "Maternal Mortality Review Information App",
+#                       "CSharp",
+#                       "https://github.com/icuseven/MMRDS.git source-code/mmria",
+#                       "19.08.20 v(74aac94a)",
+#                       "Dev",
+#                       "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)",
+#                       "http://webinspect-mmria.services-dev.cdc.gov"
+#                   ],
+#     "ExeFile":  "LogTFSRelease",
+#     "Type":  "Standard"
+#}
 
