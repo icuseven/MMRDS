@@ -17,7 +17,7 @@
 #https://git.cdc.gov/help/ci/quick_start/README
 
 
-image: ubuntu:latest
+image: ubuntu:18.04
 
 
 stages:
@@ -37,32 +37,37 @@ build:
 #        - "dotnet build  mmria-server.csproj /p:Configuration=Release /t:Clean"
 #        - "curl -X POST -k https://ecpaas-dev.cdc.gov/apis/build.openshift.io/v1/namespaces/mmria/buildconfigs/mmria-s2i/webhooks/52dee2e0318578c7/generic"
         - echo "---> Version Setup - Begin ..."
-        - "current_build=$(git rev-parse --short HEAD)
-        - "current_year=$(date +%y)
-        - "current_month=$(date +%m)
-        - "current_day=$(date +%d)
-        - "curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
-        #- "current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')
-#        - "echo "---> $current_year.$current_month.$current_day v($current_build)"
-#        - "echo "---> Version Setup - End ..."
+        - apt-get update && apt-get install -y curl
+        - current_year=$(date +%y)
+        - current_month=$(date +%m)
+        - current_day=$(date +%d)
+        - curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
+        - current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')
+        - echo "---> $current_year.$current_month.$current_day v($current_build)"
+        - version_text="$current_year.$current_month.$current_day v($current_build)"
+        - echo "$version_text"
+        - echo "---> Version Setup - End ..."
+        #- curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:3000/data
+        #- curl -d '{"WaitForResponse":"true","Arguments":["InsertNewRecord", 0, "Maternal Mortality Review Information App", "CSharp", "https://github.com/icuseven/MMRDS.git source-code/mmria", "$version_text", "Dev", "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)", "http://webinspect-mmria.services-dev.cdc.gov" ], "ExeFile":"LogTFSRelease", "Type":"Standard" }' -H "Content-Type: application/json" -X POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE
 
-POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
-content-type: application/json
 
-{
-     "WaitForResponse":  "true",
-     "Arguments":  [
-                       "InsertNewRecord",
-                       0,
-                       "Maternal Mortality Review Information App",
-                       "CSharp",
-                       "https://github.com/icuseven/MMRDS.git source-code/mmria",
-                       "19.08.20 v(74aac94a)",
-                       "Dev",
-                       "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)",
-                       "http://webinspect-mmria.services-dev.cdc.gov"
-                   ],
-     "ExeFile":  "LogTFSRelease",
-     "Type":  "Standard"
-}
+#POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
+#content-type: application/json
+
+#{
+#     "WaitForResponse":  "true",
+ #    "Arguments":  [
+  #                     "InsertNewRecord",
+#                       0,
+#                       "Maternal Mortality Review Information App",
+#                       "CSharp",
+#                       "https://github.com/icuseven/MMRDS.git source-code/mmria",
+#                       "19.08.20 v(74aac94a)",
+#                       "Dev",
+#                       "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)",
+#                       "http://webinspect-mmria.services-dev.cdc.gov"
+#                   ],
+#     "ExeFile":  "LogTFSRelease",
+#     "Type":  "Standard"
+#}
 
