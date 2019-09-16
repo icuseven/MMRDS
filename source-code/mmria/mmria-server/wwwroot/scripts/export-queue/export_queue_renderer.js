@@ -1,59 +1,110 @@
+function renderSummaryString(event, callback) {
+	let el = event.target;
+	let val = el.value;
+	let summary = el.dataset.summaryType;
+	let tar = document.querySelector(`#${summary}`);
+
+	if (answer_summary[summary] != summary) {
+		answer_summary[summary] = val;
+		callback(val, summary);
+		tar.innerText = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();;
+	}
+}
+
+function updateAnswerSummary(val, type) {
+	// if data-type changed`
+	if (answer_summary[type] != type) {
+		answer_summary[type] = val;
+	}
+}
+
+class DropDown {
+	constructor(type) {
+		this.type = type;
+		this.iterator = 1;
+		this.condition = 1;
+		this.opts = '<option value=""></option>'; // options should be empty my default
+	}
+
+	buildDropdown() {
+		// based on case type, we change iterator and/or condition
+		switch (this.type) {
+			case "y":
+				this.iterator = new Date().getFullYear() - 119;
+				this.condition = new Date().getFullYear();
+				break;
+			case "m":
+				this.condition = 12;
+				break;
+			case "d":
+				this.condition = 31;
+				break;
+		}
+
+		// iterate through iterator and condition to build the options
+		for (let i = this.iterator; i <= this.condition; i++) {
+			this.opts += `<option value='${i}'>`;
+			this.opts += i;
+			this.opts += "</option>";
+		}
+		return this.opts;
+	}
+}
+
+
+
+
+
+
 function export_queue_render(p_queue_data)
 {
 	var result = [];
-
-	const renderNumericDropdowns = (type) => {
-		let iterator = 1;
-		let comparer= 1;
-		let opts = ''; // init with empty str so we can add onto it later
-		opts += `<option value=""></option>`; // always start with an empty value becuase, standards
-
-		// based on case type, we change iterator and/or comparer
-		switch (type) {
-			case "year":
-			case "y":
-				iterator = new Date().getFullYear() - 119;
-				comparer = new Date().getFullYear();
-				break;
-			case "month":
-			case "m":
-				comparer = 12;
-				break;
-			case "day":
-			case "d":
-				comparer = 31;
-				break;
-		}
-
-		// iterate through iterator and comparer to build the options
-		for (let i = iterator; i <= comparer; i++) {
-			opts += `<option value='${i}'>`;
-			opts += i;
-			opts += "</option>";
-		}
-
-		return opts;
-	}
-
-	const buildRevealer = (val) => {
-		setTimeout(() => {
-			console.log(val);
-		}, 1000)
-	}
 
 	result.push(`
 		<div class="row">
 			<div class="col-3 fancy-sidebar">
 				<div class="card">
 					<div class="card-header bg-gray-l3">
-						<h2 class="h5 font-weight-bold">Summary of your Export choices</h2>
+					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
 					</div>
 					<div class="card-body bg-gray-l3">
-						<ul>
-							<li>You have selected to export undefined data</li>
-							<li>You have selected export format of undefined</li>
-							<li>You have selected to de-identifiey undefined fields</li>
-						</ul>
+					<ul>
+						<li>
+							Export <span id="all_or_core">${answer_summary.all_or_core.charAt(0).toUpperCase() + answer_summary.all_or_core.slice(1)}</span> data
+						</li>
+						<li>
+							Export/Grantee name: ${answer_summary.grantee_name}
+						</li>
+						<!-- <li>You have selected to export in JSON format</li> -->
+						<li>
+							Password protected: <span id="is_encrypted">${answer_summary.is_encrypted.charAt(0).toUpperCase() + answer_summary.is_encrypted.slice(1)}</span>
+						</li>
+						<li>
+							Send file to CDC: <span id="is_for_cdc">${answer_summary.is_for_cdc.charAt(0).toUpperCase() + answer_summary.is_for_cdc.slice(1)}</span>
+						</li>
+						<li>
+							De-identify fields: <span id="de_identified _selection_type">${answer_summary.de_identified_selection_type.charAt(0).toUpperCase() + answer_summary.de_identified_selection_type.slice(1)}</span>
+						</li>
+						<li>
+							Filter by:
+							<ul>
+								<li>
+									Date of Death:
+									<ul>
+										<li>Year: All</li>									
+										<li>Month: All</li>
+										<li>Day: All</li>
+									</ul>
+								</li>
+								<li>
+									Case status: YYYY
+								</li>
+								<li>
+									Case jurisdiction: /all
+								</li>
+							</ul>
+						</li>
+					</ul>
 					</div>
 					<div class="card-footer bg-gray-l3">
 						<button class="btn btn-secondary w-100">Confirm & Start Export</button>
@@ -67,35 +118,35 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Export all data or only core data?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="export-type" id="export-all-data" type="radio" value="all" ${buildRevealer(this.value)} /> 
-								<label for="export-all-data" class="mb-0">All</label>
+								<input name="export-type" id="all-data" class="mr-1" data-summary-type="all_or_core" type="radio" value="all" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<label for="all-data" class="mb-0">All</label>
 							</li>
 							<li>
-								<input name="export-type" id="export-core-data" type="radio" value="core" /> 
-								<label for="export-core-data" class="mb-0">Core</label>
+								<input name="export-type" id="core-data" class="mr-1" data-summary-type="all_or_core" type="radio" value="core" onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<label for="core-data" class="mb-0">Core</label>
 							</li>
 						</ul>
 					</li>
 
 					<li class="form-group">
 						<label for="grantee-name" class="mb-2">What export or grantee name do you want to add to each case?</label>
-						<input id="grantee-name" class="form-control w-auto" type="text" value="" />
+						<input id="grantee-name" class="form-control w-auto" type="text" value="${answer_summary.grantee_name}" disabled readonly="true" />
 					</li>
 
 					<li class="form-group">
 						<p class="mb-2">Would you like to password protect the file?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="password-protect" id="password-protect-no" type="radio" value="no" /> 
+								<input name="password-protect" id="password-protect-no" class="mr-1" data-summary-type="is_encrypted" type="radio" value="no" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
 								<label for="password-protect-no" class="mb-0">No</label>
 							</li>
 							<li>
-								<input name="password-protect" id="password-protect-yes" type="radio" value="yes" /> 
+								<input name="password-protect" id="password-protect-yes" class="mr-1" data-summary-type="is_encrypted" type="radio" value="yes" onchange="renderSummaryString(event, updateAnswerSummary)" />
 								<label for="password-protect-yes" class="mb-0">Yes</label>
 								<div class="mt-2">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
 									<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
-									<input id="encryption-key" class="form-control w-auto" type="text" value="" />
+									<input id="encryption-key" class="form-control w-auto" type="text" value="${answer_summary.encryption_key}" />
 								</div>
 							</li>
 						</ul>
@@ -105,29 +156,29 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Are you sending this file to CDC?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="cdc" id="cdc-no" type="radio" value="no" /> 
+								<input name="cdc" id="cdc-no" class="mr-1" data-summary-type="is_for_cdc" type="radio" value="no" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
 								<label for="cdc-no" class="mb-0">No</label>
 							</li>
 							<li>
-								<input name="cdc" id="cdc-yes" type="radio" value="yes" /> 
+								<input name="cdc" id="cdc-yes" class="mr-1" data-summary-type="is_for_cdc" type="radio" value="yes" onchange="renderSummaryString(event, updateAnswerSummary)" />
 								<label for="cdc-yes" class="mb-0">Yes <small><em>(If Yes, your file will be password encrypted using a CDC keyion key)</em></small></label>
 							</li>
 						</ul>
 					</li>
-					
+						
 					<li class="form-group">
 						<p class="mb-2">What fields do you want to de-identify?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="de-identify" id="de-identify-none" type="radio" value="none" /> 
+								<input name="de-identify" id="de-identify-none" class="mr-1" data-summary-type="de_identified_selection_type" type="radio" value="none" checked onchange="renderSummaryString(event, updateAnswerSummary)" /> 
 								<label for="de-identify-none" class="mb-0">None</label>
 							</li>
 							<li>
-								<input name="de-identify" id="de-identify-standard" type="radio" value="standard" /> 
+								<input name="de-identify" id="de-identify-standard" class="mr-1" data-summary-type="de_identified_selection_type" type="radio" value="standard" onchange="renderSummaryString(event, updateAnswerSummary)" />
 								<label for="de-identify-standard" class="mb-0">Standard</label>
 							</li>
 							<li>
-								<input name="de-identify" id="de-identify-custom" type="radio" value="custom" /> 
+								<input name="de-identify" id="de-identify-custom" class="mr-1" data-summary-type="de_identified_selection_type" type="radio" value="custom" onchange="renderSummaryString(event, updateAnswerSummary)" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 								<div class="mt-2">
@@ -137,60 +188,67 @@ function export_queue_render(p_queue_data)
 						</ul>
 					</li>
 
-					<li class="form-group">
-						<p class="mb-2">What filters do you want to apply? (Add filter to export by day, month, year of death)</p>
-						<ul class="font-weight-bold list-unstyled">
+						<li class="form-group">
+							<p class="mb-2">What filters do you want to apply? (Add filter to export by day, month, year of death)</p>
+							<ul class="font-weight-bold list-unstyled">
 							<li class="form-group">
-								<p class="mb-2 font-weight-bold">Date of death:</p>
-								<ul class="font-weight-normal row list-unstyled pl-3">
-									<li class="mr-2">
-										<label for="dod-year" class="mb-2">Year</label>
-										<select id="dod-year" class="form-control w-auto">
-											${renderNumericDropdowns("y")}
-										</select>
-									</li>
-									<li class="mr-2">
-										<label for="dod-month" class="mb-2">Month</label>
-										<select id="dod-month" class="form-control w-auto">
-											${renderNumericDropdowns("m")}
-										</select>
-									</li>
-									<li class="mr-2">
-										<label for="dod-day" class="mb-2">Day</label>
-										<select id="dod-day" class="form-control w-auto">
-											${renderNumericDropdowns("d")}
-										</select>
-									</li>
-								</ul>
+							<p class="mb-2 font-weight-bold">Date of death:</p>
+							<ul class="font-weight-normal row list-unstyled pl-3">
+							<li class="mr-2">
+							<label for="dod-year" class="mb-2">Year</label>
+							<select id="dod-year" class="form-control w-auto">
+								${ new DropDown('y').buildDropdown() }
+							</select>
+							</li>
+							<li class="mr-2">
+							<label for="dod-month" class="mb-2">Month</label>
+							<select id="dod-month" class="form-control w-auto">
+								${ new DropDown("m").buildDropdown() }
+							</select>
+							</li>
+							<li class="mr-2">
+							<label for="dod-day" class="mb-2">Day</label>
+							<select id="dod-day" class="form-control w-auto">
+								${ new DropDown("d").buildDropdown() }
+							</select>
+							</li>
+							</ul>
 							</li>
 							<li class="form-group">
-								<label for="case-status-year" class="mb-2">Case status year</label>
-								<select id="case-status-year" class="form-control w-auto">
-									${renderNumericDropdowns("y")}
-								</select>
+							<label for="case-status-year" class="mb-2">Case status year</label>
+							<select id="case-status-year" class="form-control w-auto">
+								${ new DropDown("y").buildDropdown() }
+							</select>
 							</li>
 							<li class="form-group">
-								<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction year</label>
-								<select id="case-jurisdiction-year" class="form-control w-auto">
-									${renderNumericDropdowns("y")}
-								</select>
+							<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction</label>
+							<select id="case-jurisdiction-year" class="form-control mb-3 w-auto" multiple>
+								<option>/2017</option>
+								<option>/2018</option>
+								<option>/2019</option>
+								<option>/north_ga</option>
+								<option>/south_ga</option>
+								<option>/sc</option>
+							</select>
+							<p class="font-weight-normal"><small>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
+							<!-- TODO: Remove completely once we narrow down direction more -->
+							<!--<li class="form-group">
+							<label class="mb-2">Filter by Case</label>
+							<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
+							</li>-->
 							<li class="form-group">
-								<label class="mb-2">Filter by Case</label>
-								<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
+							<p class="mb-2 font-weight-bold">Personally Identifiable Information (PII):</p>
+							<ul class="font-weight-normal list-unstyled">
+							<li>
+							<input name="pii" id="pii-exclude" class="mr-1" type="checkbox" value="exclude" />
+							<label for="pii-exclude" class="mb-0">Exclude PII tagged fields</label>
 							</li>
-							<li class="form-group">
-								<p class="mb-2 font-weight-bold">Personally Identifiable Information (PII):</p>
-								<ul class="font-weight-normal list-unstyled">
-									<li>
-										<input name="pii" id="pii-exclude" type="checkbox" value="exclude" /> 
-										<label for="pii-exclude" class="mb-0">Exclude PII tagged fields</label>
-									</li>
-									<li>
-										<input name="pii" id="pii-include" type="checkbox" value="include" /> 
-										<label for="pii-include" class="mb-0">Include PII tagged fields and any data in the field</label>
-									</li>
-								</ul>
+							<li>
+							<input name="pii" id="pii-include" class="mr-1" type="checkbox" value="include" />
+							<label for="pii-include" class="mb-0">Include PII tagged fields and any data in the field</label>
+							</li>
+							</ul>
 							</li>
 						</ul>
 					</li>

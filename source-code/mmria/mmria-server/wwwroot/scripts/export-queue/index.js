@@ -374,10 +374,4 @@ function update_queue_task()
 			//document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
 
 	});
-
-
-
-
-	
-
 }
