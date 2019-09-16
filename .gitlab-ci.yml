@@ -37,14 +37,13 @@ build:
 #        - "dotnet build  mmria-server.csproj /p:Configuration=Release /t:Clean"
 #        - "curl -X POST -k https://ecpaas-dev.cdc.gov/apis/build.openshift.io/v1/namespaces/mmria/buildconfigs/mmria-s2i/webhooks/52dee2e0318578c7/generic"
         - "echo \"---> Version Setup - Begin ...\""
-        - "current_build=$(git rev-parse --short HEAD)
-        - "current_year=$(date +%y)
-        - "current_month=$(date +%m)
-        - "current_day=$(date +%d)
-        - "curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
-        #- "current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')
-#        - "echo "---> $current_year.$current_month.$current_day v($current_build)"
-#        - "echo "---> Version Setup - End ..."
+        - "current_build=$(git rev-parse --short HEAD)"
+        - "current_year=$(date +%y)"
+        - "current_month=$(date +%m)"
+        - "current_day=$(date +%d)"
+        #- "current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')"
+#        - "echo "---> $current_year.$current_month.$current_day v($current_build)\""
+#        - "echo "---> Version Setup - End ..."""
 
 #POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
 #content-type: application/json
