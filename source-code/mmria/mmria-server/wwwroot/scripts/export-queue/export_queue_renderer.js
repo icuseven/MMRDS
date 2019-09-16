@@ -83,7 +83,26 @@ function export_queue_render(p_queue_data)
 							Send file to CDC: <span id="is_for_cdc">${answer_summary.is_for_cdc.charAt(0).toUpperCase() + answer_summary.is_for_cdc.slice(1)}</span>
 						</li>
 						<li>
-							De-identify fields: <span id="de_identified_selection_type">${answer_summary.de_identified_selection_type.charAt(0).toUpperCase() + answer_summary.de_identified_selection_type.slice(1)}</span>
+							De-identify fields: <span id="de_identified _selection_type">${answer_summary.de_identified_selection_type.charAt(0).toUpperCase() + answer_summary.de_identified_selection_type.slice(1)}</span>
+						</li>
+						<li>
+							Filter by:
+							<ul>
+								<li>
+									Date of Death:
+									<ul>
+										<li>Year: All</li>									
+										<li>Month: All</li>
+										<li>Day: All</li>
+									</ul>
+								</li>
+								<li>
+									Case status: YYYY
+								</li>
+								<li>
+									Case jurisdiction: /all
+								</li>
+							</ul>
 						</li>
 					</ul>
 					</div>
@@ -202,7 +221,7 @@ function export_queue_render(p_queue_data)
 							</select>
 							</li>
 							<li class="form-group">
-							<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction year</label>
+							<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction</label>
 							<select id="case-jurisdiction-year" class="form-control mb-3 w-auto" multiple>
 								<option>/2017</option>
 								<option>/2018</option>
