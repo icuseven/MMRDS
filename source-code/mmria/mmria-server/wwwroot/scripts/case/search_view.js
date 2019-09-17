@@ -156,7 +156,7 @@ function render_search_text_input_control(p_ctx)
         result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         result.push("</p>");
 
-        result.push("<label class='row no-gutters align-items-center' for='");
+        result.push("<label class='row no-gutters align-items-center w-auto' for='");
         result.push(p_ctx.mmria_path.replace(/\//g, "--"));
         result.push("' style='");
         if
