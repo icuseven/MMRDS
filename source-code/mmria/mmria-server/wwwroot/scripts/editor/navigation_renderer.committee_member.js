@@ -137,8 +137,5 @@ function updateUrlFromSelectValue(event, val)
   currLocation.hash = "/" + val;
 
   // scroll to top of page regardless of form change
-  window.scroll({
-    top: 0,
-    behavior: 'smooth'
-  });
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
