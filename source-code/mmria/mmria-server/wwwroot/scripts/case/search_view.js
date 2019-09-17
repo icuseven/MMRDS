@@ -161,7 +161,7 @@ function render_search_text_input_control(p_ctx)
         result.push(p_ctx.mmria_path.replace(/\//g, "--"));
         // Remove style string on quick edit, no need
         result.push("' ");
-        result.push("style='" + get_only_size_and_font_style_string(style_object.prompt.style) + "'");
+        // result.push("style='" + get_only_size_and_font_style_string(style_object.prompt.style) + "'");
         // result.push("' style='");
         // if
         // (
@@ -296,7 +296,7 @@ function render_search_text_textarea_control(p_ctx)
         p_ctx.result.push("<label for='");
         p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
         p_ctx.result.push("' ");
-        p_ctx.result.push("style='" + get_only_size_and_font_style_string(style_object.prompt.style) + "'");
+        // p_ctx.result.push("style='" + get_only_size_and_font_style_string(style_object.prompt.style) + "'");
         p_ctx.result.push(">");
         p_ctx.result.push(p_ctx.metadata.prompt);
         p_ctx.result.push("</label><br/>");
@@ -434,11 +434,13 @@ function render_search_text_select_control(p_ctx)
         p_ctx.result.push("</p>");
             
         p_ctx.result.push("<label for='");
-        p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        p_ctx.result.push("' style='");
+            p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
+        p_ctx.result.push("' ");
+        p_ctx.result.push("style='");
                 //if(style_object.prompt)
                 //result.push(get_style_string(style_object.prompt.style)); 
-                p_ctx.result.push("'>");
+                // p_ctx.result.push("' ");
+                p_ctx.result.push(">");
                 p_ctx.result.push(p_ctx.metadata.prompt);
                 p_ctx.result.push("</label>");
             
