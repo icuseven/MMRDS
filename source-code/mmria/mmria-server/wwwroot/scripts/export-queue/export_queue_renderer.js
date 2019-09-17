@@ -1,3 +1,4 @@
+// Updates the DOM element containing summary infox
 function renderSummaryString(event, callback) {
 	let el = event.target;
 	let val = el.value;
@@ -11,6 +12,7 @@ function renderSummaryString(event, callback) {
 	}
 }
 
+// Updates the 'answer_summary' object created by James H.
 function updateAnswerSummary(val, type) {
 	// if data-type changed`
 	if (answer_summary[type] != type) {
@@ -18,7 +20,8 @@ function updateAnswerSummary(val, type) {
 	}
 }
 
-class DropDown {
+// Class to dynamically create a new 'numeric' dropdown
+class NumericDropdown {
 	constructor(type) {
 		this.type = type;
 		this.iterator = 1;
@@ -26,7 +29,7 @@ class DropDown {
 		this.opts = '<option value=""></option>'; // options should be empty my default
 	}
 
-	buildDropdown() {
+	buildNumericDropdown() {
 		// based on case type, we change iterator and/or condition
 		switch (this.type) {
 			case "y":
@@ -73,7 +76,7 @@ function export_queue_render(p_queue_data)
 							Export <span id="all_or_core">${answer_summary.all_or_core.charAt(0).toUpperCase() + answer_summary.all_or_core.slice(1)}</span> data
 							<ul>
 								<li>
-									Exporting ${answer_summary.all_or_core} data plus a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
+									Exporting ${answer_summary.all_or_core} data and a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
 								</li>
 							</ul>
 						</li>
@@ -205,7 +208,7 @@ function export_queue_render(p_queue_data)
 													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Something incredible is waiting to be known billions and billions of light years away</span></label>
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 													<button type="button" class="btn btn-primary">Save changes</button>
 												</div>
 											</div>
@@ -225,19 +228,19 @@ function export_queue_render(p_queue_data)
 							<li class="mr-2">
 							<label for="dod-year" class="mb-2">Year</label>
 							<select id="dod-year" class="form-control w-auto">
-								${ new DropDown('y').buildDropdown() }
+								${ new NumericDropdown('y').buildNumericDropdown() }
 							</select>
 							</li>
 							<li class="mr-2">
 							<label for="dod-month" class="mb-2">Month</label>
 							<select id="dod-month" class="form-control w-auto">
-								${ new DropDown("m").buildDropdown() }
+								${ new NumericDropdown("m").buildNumericDropdown() }
 							</select>
 							</li>
 							<li class="mr-2">
 							<label for="dod-day" class="mb-2">Day</label>
 							<select id="dod-day" class="form-control w-auto">
-								${ new DropDown("d").buildDropdown() }
+								${ new NumericDropdown("d").buildNumericDropdown() }
 							</select>
 							</li>
 							</ul>
@@ -245,7 +248,7 @@ function export_queue_render(p_queue_data)
 							<li class="form-group">
 							<label for="case-status-year" class="mb-2">Case status year</label>
 							<select id="case-status-year" class="form-control w-auto">
-								${ new DropDown("y").buildDropdown() }
+								${ new NumericDropdown("y").buildNumericDropdown() }
 							</select>
 							</li>
 							<li class="form-group">

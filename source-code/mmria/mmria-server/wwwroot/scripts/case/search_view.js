@@ -149,6 +149,7 @@ function render_search_text_input_control(p_ctx)
 
         result.push("<div id='");
         result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
+        result.push("' class='form-group' ");
         result.push("' metadata='");
         result.push(p_ctx.mmria_path);
         result.push("'>");
@@ -158,21 +159,25 @@ function render_search_text_input_control(p_ctx)
 
         result.push("<label for='");
         result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        result.push("' style='");
-        if
-        (
-            style_object &&
-            style_object.prompt &&
-            style_object.prompt.style
-        )
-        result.push(style_string); 
-        result.push("'>");
+        // Remove style string on quick edit, no need
+        result.push("' ");
+        result.push("style='" + get_only_size_and_font_style_string(style_object.prompt.style) + "'");
+        // result.push("' style='");
+        // if
+        // (
+            //     style_object &&
+            //     style_object.prompt &&
+            //     style_object.prompt.style
+            // )
+            // result.push(style_string); 
+        // result.push("'>");
+        result.push(">");
         result.push(p_ctx.metadata.prompt);
         result.push("</label>");
             
         result.push("<input id='");
         result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        result.push("' type='text' style='");
+        result.push("' class='form-control' type='text' style='");
 
         if
         (
@@ -235,7 +240,7 @@ function render_search_text_input_control(p_ctx)
         }
         result.push(" />"); 
 
-        result.push("</div><br/>");
+        result.push("</div><br/>"); // remove become now redundant
     
         // post html start
         
@@ -290,9 +295,9 @@ function render_search_text_textarea_control(p_ctx)
 
         p_ctx.result.push("<label for='");
         p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        p_ctx.result.push("' style='");
-        p_ctx.result.push(get_only_size_and_font_style_string(style_object.prompt.style)); 
-        p_ctx.result.push("'>");
+        p_ctx.result.push("' ");
+        p_ctx.result.push("style='" + get_only_size_and_font_style_string(style_object.prompt.style) + "'");
+        p_ctx.result.push(">");
         p_ctx.result.push(p_ctx.metadata.prompt);
         p_ctx.result.push("</label><br/>");
 
