@@ -135,4 +135,10 @@ function updateUrlFromSelectValue(event, val)
   var selected = options.selectedIndex;
   
   currLocation.hash = "/" + val;
+
+  // scroll to top of page regardless of form change
+  window.scroll({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
