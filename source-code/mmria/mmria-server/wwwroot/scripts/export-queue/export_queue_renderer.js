@@ -1,4 +1,4 @@
-// Updates the summary DOM element
+// Updates the DOM element containing summary infox
 function renderSummaryString(event, callback) {
 	let el = event.target;
 	let val = el.value;
