@@ -830,7 +830,8 @@ ul {
   /* border-radius: var(--radius); */
   min-height: 100vh;
   min-height: calc(100vh - 156px);
-  overflow-y: scroll;
+  overflow-y: auto;
+  /* overflow-y: scroll; */
   padding: 1rem;
 }
 

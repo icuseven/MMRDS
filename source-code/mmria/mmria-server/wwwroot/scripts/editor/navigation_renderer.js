@@ -65,27 +65,6 @@ function navigation_render(p_metadata, p_level, p_ui)
 
           result.push('<li class="list-group-item">');
             result.push('<div class="form-group fake-list-group-anchor">');
-              result.push('<label for="search_case_fields">Quick Edit</label>');
-              result.push('<div class="form-control-wrap">');
-                if(p_ui.url_state.selected_id == "field_search")
-                {
-                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);" value="' + p_ui.url_state.path_array[2].replace(/%20/g, " ") + '" />');
-                }
-                else
-                {
-                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);"/>');
-                }
-                
-
-
-                result.push('<span class="fancy-form-icon 24 fill-p cdc-icon-search-solid" aria-hidden="true"></span>');
-              result.push('</div>');
-            result.push('</div>');
-          result.push('</li>');
-
-
-          result.push('<li class="list-group-item">');
-            result.push('<div class="form-group fake-list-group-anchor">');
               result.push('<label for="selected_form">Select case form</label>');
               result.push('<div class="form-control-wrap">');
                 result.push('<select id="selected_form" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">');
@@ -112,6 +91,26 @@ function navigation_render(p_metadata, p_level, p_ui)
                   }
                 result.push("</ul>");
                 result.push('</select>');
+              result.push('</div>');
+            result.push('</div>');
+          result.push('</li>');
+
+          result.push('<li class="list-group-item">');
+            result.push('<div class="form-group fake-list-group-anchor">');
+              result.push('<label for="search_case_fields">Quick Edit</label>');
+              result.push('<div class="form-control-wrap">');
+                if(p_ui.url_state.selected_id == "field_search")
+                {
+                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);" value="' + p_ui.url_state.path_array[2].replace(/%20/g, " ") + '" />');
+                }
+                else
+                {
+                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);"/>');
+                }
+                
+
+
+                result.push('<span class="fancy-form-icon 24 fill-p cdc-icon-search-solid" aria-hidden="true"></span>');
               result.push('</div>');
             result.push('</div>');
           result.push('</li>');
