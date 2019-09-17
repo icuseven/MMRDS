@@ -792,18 +792,18 @@ ul {
 }
 
 .construct__header {
-  background-color: var(--white);
-  border: none;
+  background-color: rgba(255,255,255,.95);
+  /* border: none;
   border-bottom: var(--border-width) solid;
-  border-bottom-color: var(--neutral);
-  margin-bottom: -1px;
-  margin-left: -1px;
-  margin-right: -1px;
+  border-bottom-color: var(--neutral); */
+  /* margin-bottom: -1px; */
+  /* margin-left: -1px; */
+  /* margin-right: -1px; */
   padding-bottom: 20px;
   padding-top: 20px;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1080; /* not sure why but this makes tooltips appear behind it when sticky */
 }
 
 .construct__title {
@@ -925,9 +925,9 @@ ul {
     padding-right: 0;
 }
 
-.construct-output > :last-child {
+/* .construct-output > :last-child {
   margin-bottom: 24px;
-}
+} */
 
 .construct-output #g_data_case_narrative_case_opening_overview label,
 .construct-output #g_data_case_narrative_case_opening_overview textarea {
