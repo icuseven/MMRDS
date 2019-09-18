@@ -1,3 +1,12 @@
+// Grabs first letter and captilizes
+function capitalizeFirstLetter(str) {
+	// if str exists
+	if (str) {
+		// Grab first letter and upperCase it then lowerCase the rest and return
+		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+	}
+}
+
 // Updates the DOM element containing summary infox
 function renderSummaryString(event, callback) {
 	let el = event.target;
@@ -8,13 +17,13 @@ function renderSummaryString(event, callback) {
 	if (answer_summary[summary] != summary) {
 		answer_summary[summary] = val;
 		callback(val, summary);
-		tar.innerText = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();;
+		tar.innerText = capitalizeFirstLetter(val);
 	}
 }
 
 // Updates the 'answer_summary' object created by James H.
 function updateAnswerSummary(val, type) {
-	// if data-type changed`
+	// if type has changed`
 	if (answer_summary[type] != type) {
 		answer_summary[type] = val;
 	}
@@ -26,7 +35,7 @@ class NumericDropdown {
 		this.type = type;
 		this.iterator = 1;
 		this.condition = 1;
-		this.opts = '<option value=""></option>'; // options should be empty my default
+		this.opts = '<option value="">All</option>'; // options should be 'All' by default
 	}
 
 	buildNumericDropdown() {
@@ -59,6 +68,10 @@ class NumericDropdown {
 
 
 
+
+
+
+
 function export_queue_render(p_queue_data)
 {
 	var result = [];
@@ -73,10 +86,10 @@ function export_queue_render(p_queue_data)
 					<div class="card-body bg-gray-l3">
 					<ul>
 						<li>
-							Export <span id="all_or_core">${answer_summary.all_or_core.charAt(0).toUpperCase() + answer_summary.all_or_core.slice(1)}</span> data
+							Export <span id="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
 							<ul>
 								<li>
-									Exporting ${answer_summary.all_or_core} data and a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
+									Exporting ${capitalizeFirstLetter(answer_summary.all_or_core)} data and a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
 								</li>
 							</ul>
 						</li>
@@ -85,13 +98,13 @@ function export_queue_render(p_queue_data)
 						</li>
 						<!-- <li>You have selected to export in JSON format</li> -->
 						<li>
-							Password protected: <span id="is_encrypted">${answer_summary.is_encrypted.charAt(0).toUpperCase() + answer_summary.is_encrypted.slice(1)}</span>
+							Password protected: <span id="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
 						</li>
 						<li>
-							Send file to CDC: <span id="is_for_cdc">${answer_summary.is_for_cdc.charAt(0).toUpperCase() + answer_summary.is_for_cdc.slice(1)}</span>
+							Send file to CDC: <span id="is_for_cdc">${capitalizeFirstLetter(answer_summary.is_for_cdc)}</span>
 						</li>
 						<li>
-							De-identify fields: <span id="de_identified _selection_type">${answer_summary.de_identified_selection_type.charAt(0).toUpperCase() + answer_summary.de_identified_selection_type.slice(1)}</span>
+							De-identify fields: <span id="de_identified _selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
 						</li>
 						<li>
 							Filter by:
@@ -99,16 +112,16 @@ function export_queue_render(p_queue_data)
 								<li>
 									Date of Death:
 									<ul>
-										<li>Year: ${answer_summary.filter.date_of_death.year == '' ? 'All' : answer_summary.filter.year}</li>									
-										<li>Month: ${answer_summary.filter.date_of_death.month == '' ? 'All' : answer_summary.filter.month}</li>
-										<li>Day: ${answer_summary.filter.date_of_death.day == '' ? 'All' : answer_summary.filter.day}</li>
+										<li>Year: ${capitalizeFirstLetter(answer_summary.filter.date_of_death.year[0])}</li>									
+										<li>Month: ${capitalizeFirstLetter(answer_summary.filter.date_of_death.month[0])}</li>
+										<li>Day: ${capitalizeFirstLetter(answer_summary.filter.date_of_death.day[0])}</li>
 									</ul>
 								</li>
 								<li>
-									Case status: ${answer_summary.filter.case_status == '' ? 'All' : answer_summary.filter.case_status}
+									Case status: ${capitalizeFirstLetter(answer_summary.filter.case_status[0])}
 								</li>
 								<li>
-									Case jurisdiction: ${answer_summary.filter.case_jurisdiction == '' ? 'All' : answer_summary.filter.case_jurisdiction}
+									Case jurisdiction: ${capitalizeFirstLetter(answer_summary.filter.case_jurisdiction)}
 								</li>
 							</ul>
 						</li>
@@ -246,9 +259,14 @@ function export_queue_render(p_queue_data)
 							</ul>
 							</li>
 							<li class="form-group">
-							<label for="case-status-year" class="mb-2">Case status year</label>
-							<select id="case-status-year" class="form-control w-auto">
-								${ new NumericDropdown("y").buildNumericDropdown() }
+							<label for="case-status" class="mb-2">Case status</label>
+							<select id="case-status" class="form-control w-auto">
+								<option value="-9">All</option>
+								<option value="0">Not Started</option>
+								<option value="1">In Progress</option>
+								<option value="2">Completed</option>
+								<option value="3">Not Available</option>
+								<option value="4">Not Applicable</option>
 							</select>
 							</li>
 							<li class="form-group">
