@@ -9,6 +9,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Quartz;
 using Quartz.Impl;
 using System.Diagnostics;
@@ -101,6 +102,7 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
                 configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true)
+                .AddUserSecrets<Startup>()
                 .Build();
 
 
