@@ -1038,7 +1038,7 @@ function get_form_height_attribute_height(p_metadata, p_dictionary_path)
 
 	if(height_is_found && top_is_found)
 	{
-		result = new Number(top) + new Number(height);
+		result = new Number(top) + new Number(height) + 35;
 
 		result = result + "px";
 	}
