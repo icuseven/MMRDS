@@ -32,7 +32,7 @@ var answer_summary = {
 		case_status: [
 			'all'
 		],
-		case_jurisdiction: ''
+		case_jurisdiction: 'all'
 	}
 
 };
