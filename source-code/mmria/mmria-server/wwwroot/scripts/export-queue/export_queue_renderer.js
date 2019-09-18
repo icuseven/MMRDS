@@ -12,15 +12,6 @@ function setAnswerSummary(event) {
 	return new Promise((resolve, reject) => {
 		const prop = event.target.dataset.prop;
 		const val = event.target.value;
-		const html = event.target.nodeName;
-
-		console.log('prop:', prop);
-		console.log('val:', val);
-		
-		if (html.toLowerCase() === 'select') {
-			console.log(event);
-		}
-		
 		// if it has changed
 		if (answer_summary[prop] !== val) {
 			// set it to new value
@@ -42,6 +33,16 @@ function updateSummarySection(event) {
 	});
 }
 
+// Function returned after promise to update/set answer_summary to new value
+function toggleElementDisplay(event, str) {
+	const prop = event.target.dataset.prop;
+	const tars = document.querySelectorAll(`[data-show='${prop}']`);
+
+	tars.forEach((i) => {
+		i.style.display = str;
+	});
+}
+
 // Class to dynamically create a new 'numeric' dropdown
 class NumericDropdown {
 	constructor(type) {
@@ -55,13 +56,16 @@ class NumericDropdown {
 		// based on case type, we change iterator and/or condition
 		switch (this.type) {
 			case "y":
+			case "year":
 				this.iterator = new Date().getFullYear() - 119;
 				this.condition = new Date().getFullYear();
 				break;
 			case "m":
+			case "month":
 				this.condition = 12;
 				break;
 			case "d":
+			case "day":
 				this.condition = 31;
 				break;
 		}
@@ -109,6 +113,11 @@ function export_queue_render(p_queue_data)
 						</li>
 						<li>
 							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
+							<ul data-show="de_identified_selection_type" style="display: none">
+								<li>
+									<button class="btn btn-link p-0" data-toggle="modal" data-target="#custom-fields">View selection</button>
+								</li>
+							</ul>
 						</li>
 						<li>
 							Filter by:
@@ -195,42 +204,40 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">What fields do you want to de-identify?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="de-identify" id="de-identify-none" class="mr-1" data-prop="de_identified_selection_type" type="radio" value="none" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" /> 
+								<input name="de-identify"
+											 id="de-identify-none"
+											 class="mr-1"
+											 data-prop="de_identified_selection_type"
+											 type="radio"
+											 value="none"
+											 checked
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'none'))" /> 
 								<label for="de-identify-none" class="mb-0">None</label>
 							</li>
 							<li>
-								<input name="de-identify" id="de-identify-standard" class="mr-1" data-prop="de_identified_selection_type" type="radio" value="standard" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="de-identify"
+											 id="de-identify-standard"
+											 class="mr-1"
+											 data-prop="de_identified_selection_type"
+											 type="radio"
+											 value="standard"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'none'))" />
 								<label for="de-identify-standard" class="mb-0">Standard</label>
 							</li>
 							<li>
-								<input name="de-identify" id="de-identify-custom" class="mr-1" data-prop="de_identified_selection_type" type="radio" value="custom" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="de-identify"
+											 id="de-identify-custom"
+											 class="mr-1"
+											 data-prop="de_identified_selection_type"
+											 type="radio"
+											 value="custom"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 								<div class="mt-2">
-									<button type="button" class="btn btn-tertiary" data-toggle="modal" data-target="#custom-fields">
+									<button type="button" class="btn btn-tertiary" data-show="de_identified_selection_type" data-toggle="modal" data-target="#custom-fields" style="display: none;">
 										Select custom fields
 									</button>
-									<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLongTitle">Custom fields to de-identify</h5>
-													<button type="button" class="close p-0 bg-transparent" data-dismiss="modal" aria-label="Close">
-														<span aria-hidden="true" class="x24 fill-p cdc-icon-close"></span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Jean-François Champollion across the centuries</span></label>
-													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Consciousness paroxysm of global death Vangelis prime number?</span></label>
-													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Something incredible is waiting to be known billions and billions of light years away</span></label>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-													<button type="button" class="btn btn-primary">Save changes</button>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 							</li>
 						</ul>
@@ -244,19 +251,28 @@ function export_queue_render(p_queue_data)
 								<ul class="font-weight-normal row list-unstyled pl-3">
 									<li class="mr-2">
 										<label for="dod-year" class="mb-2">Year</label>
-										<select id="dod-year" class="form-control w-auto" data-prop="filter.date_of_death.year" onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+										<select id="dod-year"
+														class="form-control w-auto"
+														data-prop="filter.date_of_death.year"
+														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 											${ new NumericDropdown('y').buildNumericDropdown() }
 										</select>
 									</li>
 									<li class="mr-2">
 										<label for="dod-month" class="mb-2">Month</label>
-										<select id="dod-month" class="form-control w-auto" data-prop="filter.date_of_death.month" onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+										<select id="dod-month"
+														class="form-control w-auto"
+														data-prop="filter.date_of_death.month"
+														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 											${ new NumericDropdown("m").buildNumericDropdown() }
 										</select>
 									</li>
 									<li class="mr-2">
 										<label for="dod-day" class="mb-2">Day</label>
-										<select id="dod-day" class="form-control w-auto" data-prop="filter.date_of_death.day" onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+										<select id="dod-day"
+														class="form-control w-auto"
+														data-prop="filter.date_of_death.day"
+														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 											${ new NumericDropdown("d").buildNumericDropdown() }
 										</select>
 									</li>
@@ -311,6 +327,31 @@ function export_queue_render(p_queue_data)
 						</ul>
 					</li>
 				</ol>
+			</div>
+		</div>
+
+		<!-- One modal approach -->
+		<!-- TODO: hook up dynamic HTML -->
+		<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">De-identify custom fields</h5>
+						<button type="button" class="close p-0 bg-transparent" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="x24 fill-p cdc-icon-close"></span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_created</span></label>
+						<label for="custom-2" class="row no-gutters align-items-baseline"><input id="custom-2" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">created_by</span></label>
+						<label for="custom-3" class="row no-gutters align-items-baseline"><input id="custom-3" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_last_updated</span></label>
+						<label for="custom-4" class="row no-gutters align-items-baseline"><input id="custom-4" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">last_updated_by</span></label>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	`);
