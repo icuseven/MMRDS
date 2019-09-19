@@ -53,7 +53,7 @@ build:
         - echo "    \"ApplicationData\":{ "  >> build-call.txt
         - echo "        \"ReleaseId\":0, " >> build-call.txt
         - echo "        \"ApplicationName\":\"MMRIA\", " >> build-call.txt
-        - echo "        \"ReleaseName\":"$current_build\", " >> build-call.txt
+        - echo "        \"ReleaseName\":\"$current_build\", " >> build-call.txt
         - echo "        \"CodeLocation\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
         - echo "        \"CommitOrChangesetNumber\":\"$full_commit_number\", " >> build-call.txt
         - echo "        \"EnvironmentDeployed\":\"ECPAAS\", " >> build-call.txt
