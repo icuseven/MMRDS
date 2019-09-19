@@ -50,7 +50,7 @@ build:
         - echo "---> Version Setup - End ..."
         
         - echo "{" > build-call.txt
-        - echo "    \"ApplicationData\":{ '  >> build-call.txt
+        - echo "    \"ApplicationData\":{ "  >> build-call.txt
         - echo "        \"ReleaseId\":0, " >> build-call.txt
         - echo "        \"ApplicationName\":\"MMRIA\", " >> build-call.txt
         - echo "        \"ReleaseName\":"$current_build\", " >> build-call.txt
