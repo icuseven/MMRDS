@@ -158,9 +158,9 @@ function generate_schema(p_schema_context)
  
             if(p_schema_context.metadata.children)
             {
-                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                for(let i = 0; i < p_schema_context.metadata.children.length; i++)
                 {
-                    var child = p_schema_context.metadata.children[i];
+                    let child = p_schema_context.metadata.children[i];
         
                     new_schema_context = get_schema_context(child, p_schema_context.schema.properties, p_schema_context.version, "");
                     generate_schema(new_schema_context);
@@ -176,9 +176,9 @@ function generate_schema(p_schema_context)
             };
             if(p_schema_context.metadata.children)
             {
-                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                for(let i = 0; i < p_schema_context.metadata.children.length; i++)
                 {
-                    var child = p_schema_context.metadata.children[i];
+                    let child = p_schema_context.metadata.children[i];
                     new_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
                     generate_schema(new_schema_context);
                 }
@@ -195,9 +195,9 @@ function generate_schema(p_schema_context)
 
             if(p_schema_context.metadata.children)
             {
-                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                for(let i = 0; i < p_schema_context.metadata.children.length; i++)
                 {
-                    var child = p_schema_context.metadata.children[i];
+                    let child = p_schema_context.metadata.children[i];
         
                     new_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
                     generate_schema(new_schema_context);
@@ -214,9 +214,9 @@ function generate_schema(p_schema_context)
             };
             if(p_schema_context.metadata.children)
             {
-                for(var i = 0; i < p_schema_context.metadata.children.length; i++)
+                for(let i = 0; i < p_schema_context.metadata.children.length; i++)
                 {
-                    var child = p_schema_context.metadata.children[i];
+                    let child = p_schema_context.metadata.children[i];
         
                     let new_child_schema_context = get_schema_context(child, object.properties, p_schema_context.version, p_schema_context.path + "/" + p_schema_context.metadata.name.toLowerCase());
                     generate_schema(new_child_schema_context);
@@ -235,10 +235,41 @@ function generate_schema(p_schema_context)
             p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type" : "string", "format": "date-time" }
             break;
         case "list":
-            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
-            for(var j in p_schema_context.metadata.values)
+
+            let list_item_data_type = "string";
+
+            if
+            (
+                p_schema_context.metadata.list_item_data_type != null &&
+                p_schema_context.metadata.list_item_data_type != ""
+            )
             {
-                object["x-enumNames"].push(p_schema_context.metadata.values[j].value);
+                list_item_data_type = p_schema_context.metadata.list_item_data_type;
+            }
+
+            switch(list_item_data_type.toLowerCase())
+            {
+                default:
+                    object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+                    break;
+            }
+
+            let data_value_list = p_schema_context.metadata.values;
+
+            if(p_schema_context.metadata.path_reference && p_schema_context.metadata.path_reference != "")
+            {
+                data_value_list = eval(convert_dictionary_path_to_lookup_object(p_schema_context.metadata.path_reference));
+        
+                if(data_value_list == null)	
+                {
+                    data_value_list = p_schema_context.metadata.values;
+                }
+            }
+
+            for(let j = 0; j < data_value_list.length; j++ )
+            {
+                object["x-enumNames"].push(data_value_list[j].display);
+                object["enum"].push(data_value_list[j].value);
             }
         break;
     }
