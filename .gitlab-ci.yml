@@ -69,7 +69,7 @@ build:
         - echo "                \"SolutionFileName\":\"\", " >> build-call.txt
         - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
         - echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
-        - echo "                \"Technology\":\"CSharp\" " >> build-call.txt
+        - echo "                \"Technology\":\"DotNet\" " >> build-call.txt
         - echo "            } " >> build-call.txt
         - echo "        } " >> build-call.txt
         # - echo "        ,{ " >> build-call.txt
