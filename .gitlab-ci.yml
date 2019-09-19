@@ -53,7 +53,7 @@ build:
         - echo "    \"ApplicationData\":{ "  >> build-call.txt
         - echo "        \"ReleaseId\":0, " >> build-call.txt
         - echo "        \"ApplicationName\":\"MMRIA\", " >> build-call.txt
-        - echo "        \"ReleaseName\":\"$current_build\", " >> build-call.txt
+        - echo "        \"ReleaseName\":\"$version_text\", " >> build-call.txt
         - echo "        \"CodeLocation\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
         - echo "        \"CommitOrChangesetNumber\":\"$full_commit_number\", " >> build-call.txt
         - echo "        \"EnvironmentDeployed\":\"ECPAAS\", " >> build-call.txt
@@ -66,7 +66,7 @@ build:
         - echo "            \"ScanParameters\":{ " >> build-call.txt
         - echo "                \"BuildConfiguration\":\"release\", " >> build-call.txt
         - echo "                \"CodeRepoType\":\"GIT\", " >> build-call.txt
-        - echo "                \"SolutionFileName\":\"mmria-server.csproj\", " >> build-call.txt
+        - echo "                \"SolutionFileName\":\"source-code/mmria/mmria-server/mmria-server.csproj\", " >> build-call.txt
         - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
         - echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
         - echo "                \"Technology\":\"DotNet\" " >> build-call.txt
