@@ -17,7 +17,7 @@
 #https://git.cdc.gov/help/ci/quick_start/README
 
 
-image: microsoft/dotnet:latest
+image: ubuntu:18.04
 
 
 stages:
@@ -28,14 +28,65 @@ variables:
     test: "Example.Test"
 
 before_script:
-    - "cd source-code/mmria/mmria-server"
-    - "dotnet restore mmria-server.csproj"
+    #- "cd source-code/mmria/mmria-server"
+    #- "dotnet restore mmria-server.csproj"
 
 build:
     stage: build
     script:
-        - "dotnet build  mmria-server.csproj /p:Configuration=Release /t:Clean"
-
-
-
-
+#        - "dotnet build  mmria-server.csproj /p:Configuration=Release /t:Clean"
+#        - "curl -X POST -k https://ecpaas-dev.cdc.gov/apis/build.openshift.io/v1/namespaces/mmria/buildconfigs/mmria-s2i/webhooks/52dee2e0318578c7/generic"
+        - echo "---> Version Setup - Begin ..."
+        - apt-get update && apt-get install -y curl
+        - current_year=$(date +%y)
+        - current_month=$(date +%m)
+        - current_day=$(date +%d)
+        - curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
+        - current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')
+        - full_commit_number=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 40)}')
+        - echo "---> $current_year.$current_month.$current_day v($current_build)"
+        - version_text="$current_year.$current_month.$current_day v($current_build)"
+        - echo "$version_text"
+        - echo "---> Version Setup - End ..."
+        
+        - echo "{" > build-call.txt
+        - echo "    \"ApplicationData\":{ '  >> build-call.txt
+        - echo "        \"ReleaseId\":0, " >> build-call.txt
+        - echo "        \"ApplicationName\":\"MMRIA\", " >> build-call.txt
+        - echo "        \"ReleaseName\":"$current_build\", " >> build-call.txt
+        - echo "        \"CodeLocation\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
+        - echo "        \"CommitOrChangesetNumber\":\"$full_commit_number\", " >> build-call.txt
+        - echo "        \"EnvironmentDeployed\":\"ECPAAS\", " >> build-call.txt
+        - echo "        \"UserDeployed\":\"Haines III, James E. (CDC DDNID NCCDPHP OD) (CTR)\", " >> build-call.txt
+        - echo "        \"ApplicationURL\":\"http://test-mmria.services-dev.cdc.gov\" " >> build-call.txt
+        - echo "    }, " >> build-call.txt
+        - echo "    \"ScansToRun\":[ " >> build-call.txt
+        - echo "        { " >> build-call.txt
+        - echo "            \"ScanName\":\"Fortify\", " >> build-call.txt
+        - echo "            \"ScanParameters\":{ " >> build-call.txt
+        - echo "                \"BuildConfiguration\":\"\", " >> build-call.txt
+        - echo "                \"CodeRepoType\":\"GIT\", " >> build-call.txt
+        - echo "                \"SolutionFileName\":\"\", " >> build-call.txt
+        - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
+        - echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
+        - echo "                \"Technology\":\"CSharp\" " >> build-call.txt
+        - echo "            } " >> build-call.txt
+        - echo "        } " >> build-call.txt
+        # - echo "        ,{ " >> build-call.txt
+        # - echo "            \"ScanName\":\"WebInspect\", " >> build-call.txt
+        # - echo "            \"ScanParameters\":{ " >> build-call.txt
+        # - echo "                \"ApplicationPassword\":\"testPass\", " >> build-call.txt
+        # - echo "                \"ApplicationUsername\":\"testUser\", " >> build-call.txt
+        # - echo "                \"AuthenticationType\":\"None\", " >> build-call.txt
+        # - echo "                \"MacroName\":\"testMacro\", " >> build-call.txt
+        # - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
+        # - echo "                \"SSCApplicationVersion\":\"Javascript\", " >> build-call.txt
+        # - echo "                \"StartingURL\":\"https://server.cdc.gov/application\" " >> build-call.txt
+        # - echo "            } " >> build-call.txt
+        # - echo "        } " >> build-call.txt
+        - echo "         " >> build-call.txt
+        - echo "    ]} " >> build-call.txt
+        - written_file=$(cat build-call.txt | grep -E ".")
+        - echo " printing written_file"
+        - echo " $written_file"
+        - 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
