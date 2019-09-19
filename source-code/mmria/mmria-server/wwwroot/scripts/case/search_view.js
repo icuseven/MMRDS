@@ -242,7 +242,8 @@ function render_search_text_input_control(p_ctx)
         switch (p_ctx.metadata.type.toLocaleLowerCase())
         {
             case "date":
-                p_ctx.post_html_render.push(' flatpickr("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date", {');
+                
+                p_ctx.post_html_render.push(' flatpickr(#"' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date", {');
                 p_ctx.post_html_render.push('	utc: true,');
                 p_ctx.post_html_render.push('	defaultDate: "');
                 p_ctx.post_html_render.push(p_ctx.data);
@@ -254,6 +255,7 @@ function render_search_text_input_control(p_ctx)
                 p_ctx.post_html_render.push('              g_set_data_object_from_path("' + p_ctx.object_path + '", "' + p_ctx.metadata_path + '", "' + p_ctx.mmria_path + '", p_value);');
                 p_ctx.post_html_render.push('  }');
                 p_ctx.post_html_render.push('});');
+                
                 break;
             case "datetime":
                 p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.datetime").datetimepicker({');

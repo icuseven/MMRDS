@@ -23,7 +23,8 @@ function main()
 function get_metadata()
 {
   	$.ajax({
-			url: 'http://db1.mmria.org/metadata/2016-06-12T13:49:24.759Z',
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + '/api/metadata'
 	}).done(function(response) {
             g_metadata = response;
             schema = get_initial_schema();
@@ -81,6 +82,32 @@ function get_cs_code()
             $("#output3").val(xhr.responseText);
         }
     );
+}
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = null;
+	var temp_result = []
+	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	var lookup_list = eval(temp_result[0]);
+
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
 }
 
   </script>
