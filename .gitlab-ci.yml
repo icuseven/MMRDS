@@ -52,8 +52,8 @@ build:
         - echo "{" > build-call.txt
         - echo "    \"ApplicationData\":{ '  >> build-call.txt
         - echo "        \"ReleaseId\":0, " >> build-call.txt
-        - echo "        \"ApplicationName\":\"Test_App\", " >> build-call.txt
-        - echo "        \"ReleaseName\":"Release 1\", " >> build-call.txt
+        - echo "        \"ApplicationName\":\"MMRIA\", " >> build-call.txt
+        - echo "        \"ReleaseName\":"$current_build\", " >> build-call.txt
         - echo "        \"CodeLocation\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
         - echo "        \"CommitOrChangesetNumber\":\"$full_commit_number\", " >> build-call.txt
         - echo "        \"EnvironmentDeployed\":\"ECPAAS\", " >> build-call.txt
@@ -79,11 +79,14 @@ build:
         # - echo "                \"ApplicationUsername\":\"testUser\", " >> build-call.txt
         # - echo "                \"AuthenticationType\":\"None\", " >> build-call.txt
         # - echo "                \"MacroName\":\"testMacro\", " >> build-call.txt
-        # - echo "                \"SSCApplicationName\":\"NCCD_DPRP_Data_Portal/User_UI (Public)\", " >> build-call.txt
+        # - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
         # - echo "                \"SSCApplicationVersion\":\"Javascript\", " >> build-call.txt
         # - echo "                \"StartingURL\":\"https://server.cdc.gov/application\" " >> build-call.txt
         # - echo "            } " >> build-call.txt
         # - echo "        } " >> build-call.txt
         - echo "         " >> build-call.txt
         - echo "    ]} " >> build-call.txt
+        - written_file=$(cat build-call.txt | grep -E ".")
+        - echo " printing written_file"
+        - echo " $written_file"
         - 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
