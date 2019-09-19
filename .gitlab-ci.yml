@@ -86,4 +86,4 @@ build:
         # - echo "        } " >> build-call.txt
         - echo "         " >> build-call.txt
         - echo "    ]} " >> build-call.txt
-        - 'curl --data="@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
+        - 'curl --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
