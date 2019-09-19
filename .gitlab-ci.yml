@@ -43,31 +43,49 @@ build:
         - current_day=$(date +%d)
         - curl https://github.com/icuseven/MMRDS/commits/master | grep -E "commit/([0-9abcdef]{40})"  > commit_temp.txt
         - current_build=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 7)}')
+        - full_commit_number=$(cat commit_temp.txt | head -n1 | cut -d "/" -f7  | awk '{print substr ($0, 0, 40)}')
         - echo "---> $current_year.$current_month.$current_day v($current_build)"
         - version_text="$current_year.$current_month.$current_day v($current_build)"
         - echo "$version_text"
         - echo "---> Version Setup - End ..."
-        #- curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:3000/data
-        #- curl -d '{"WaitForResponse":"true","Arguments":["InsertNewRecord", 0, "Maternal Mortality Review Information App", "CSharp", "https://github.com/icuseven/MMRDS.git source-code/mmria", "$version_text", "Dev", "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)", "http://webinspect-mmria.services-dev.cdc.gov" ], "ExeFile":"LogTFSRelease", "Type":"Standard" }' -H "Content-Type: application/json" -X POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE
-
-
-#POST https://aidv-nccd-bdep.cdc.gov/APIFile/RunEXE HTTP/1.1
-#content-type: application/json
-
-#{
-#     "WaitForResponse":  "true",
- #    "Arguments":  [
-  #                     "InsertNewRecord",
-#                       0,
-#                       "Maternal Mortality Review Information App",
-#                       "CSharp",
-#                       "https://github.com/icuseven/MMRDS.git source-code/mmria",
-#                       "19.08.20 v(74aac94a)",
-#                       "Dev",
-#                       "Haines III, James E.(CDC DDNID NCCDPHP OD) (CTR)",
-#                       "http://webinspect-mmria.services-dev.cdc.gov"
-#                   ],
-#     "ExeFile":  "LogTFSRelease",
-#     "Type":  "Standard"
-#}
-
+        - 'curl -H "Content-Type: application/json" -X POST \'
+        -  -d ' \  
+        -  '{ \'
+        -  '    "ApplicationData":{ \'
+        -  '        "ReleaseId":0, \'
+        -  '        "ApplicationName":"Test_App", \'
+        -  '        "ReleaseName":"Release 1", \'
+        -  '        "CodeLocation":"https://github.com/icuseven/MMRDS.git", \'
+        -  '        "CommitOrChangesetNumber":"$full_commit_number", \'
+        -  '        "EnvironmentDeployed":"Dev", \'
+        -  '        "UserDeployed":"Haines III, James E. (CDC DDNID NCCDPHP OD) (CTR)", \'
+        -  '        "ApplicationURL":"http://test-mmria.services-dev.cdc.gov" \'
+        -  '    }, \'
+        -  '    "ScansToRun":[ \'
+        -  '        { \'
+        -  '            "ScanName":"Fortify", \'
+        -  '            "ScanParameters":{ \'
+        -  '                "BuildConfiguration":"", \'
+        -  '                "CodeRepoType":"GIT", \'
+        -  '                "SolutionFileName":"", \'
+        -  '                "SSCApplicationName":"NCCD_Maternal Mortality Review Information App", \'
+        -  '                "SSCApplicationVersion":"CSharp", \'
+        -  '                "Technology":"CSharp" \'
+        -  '            } \'
+        -  '        } \'
+        # -  '        ,{ \'
+        # -  '            "ScanName":"WebInspect", \'
+        # -  '            "ScanParameters":{ \'
+        # -  '                "ApplicationPassword":"testPass", \'
+        # -  '                "ApplicationUsername":"testUser", \'
+        # -  '                "AuthenticationType":"None", \'
+        # -  '                "MacroName":"testMacro", \'
+        # -  '                "SSCApplicationName":"NCCD_DPRP_Data_Portal/User_UI (Public)", \'
+        # -  '                "SSCApplicationVersion":"Javascript", \'
+        # -  '                "StartingURL":"https://server.cdc.gov/application" \'
+        # -  '            } \'
+        # -  '        } \'
+        -  '         \'
+        -  '    ]} \'
+        -  \'
+        -  https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds
