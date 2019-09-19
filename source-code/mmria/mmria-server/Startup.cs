@@ -120,6 +120,8 @@ namespace mmria.server
                 Program.config_cron_schedule = System.Environment.GetEnvironmentVariable ("cron_schedule");
                 Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
 
+                Configuration["mmria_settings:export_directory"] = Program.config_export_directory;
+
 
                 //
 
