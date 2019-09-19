@@ -19,12 +19,20 @@ var answer_summary = {
 	{
 		date_of_death:
 		{
-			year:[],
-			month:[],
-			day:[],
+			year:[
+				'all'
+			],
+			month:[
+				'all'
+			],
+			day:[
+				'all'
+			],
 		},
-		case_status: [],
-		case_jurisdiction:''
+		case_status: [
+			'all'
+		],
+		case_jurisdiction: 'all'
 	}
 
 };
@@ -119,7 +127,6 @@ function load_metadata()
 			create_print_version();
 	});
 }
-
 
 
 

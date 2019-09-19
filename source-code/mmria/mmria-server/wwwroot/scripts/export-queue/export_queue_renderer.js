@@ -1,23 +1,46 @@
-// Updates the DOM element containing summary infox
-function renderSummaryString(event, callback) {
-	let el = event.target;
-	let val = el.value;
-	let summary = el.dataset.summaryType;
-	let tar = document.querySelector(`#${summary}`);
-
-	if (answer_summary[summary] != summary) {
-		answer_summary[summary] = val;
-		callback(val, summary);
-		tar.innerText = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();;
+// Grabs first letter and captilizes
+function capitalizeFirstLetter(str) {
+	// if str exists
+	if (str) {
+		// Grab first letter and upperCase it then lowerCase the rest and return
+		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 	}
 }
 
-// Updates the 'answer_summary' object created by James H.
-function updateAnswerSummary(val, type) {
-	// if data-type changed`
-	if (answer_summary[type] != type) {
-		answer_summary[type] = val;
-	}
+// Promise that sets and updates answer_summary json obj
+function setAnswerSummary(event) {
+	return new Promise((resolve, reject) => {
+		const prop = event.target.dataset.prop;
+		const val = event.target.value;
+		// if it has changed
+		if (answer_summary[prop] !== val) {
+			// set it to new value
+			answer_summary[prop] = val;
+			resolve();
+		} else {
+			reject('Same value, summary not updated');
+		}
+	});
+}
+
+// Function returned after promise to update/set answer_summary to new value
+function updateSummarySection(event) {
+	const prop = event.target.dataset.prop;
+	const val = event.target.value;
+	const tars = document.querySelectorAll(`#answer-summary-card [data-prop='${prop}']`);
+	tars.forEach((i) => {
+		i.innerText = capitalizeFirstLetter(val);
+	});
+}
+
+// Function returned after promise to update/set answer_summary to new value
+function toggleElementDisplay(event, str) {
+	const prop = event.target.dataset.prop;
+	const tars = document.querySelectorAll(`[data-show='${prop}']`);
+
+	tars.forEach((i) => {
+		i.style.display = str;
+	});
 }
 
 // Class to dynamically create a new 'numeric' dropdown
@@ -26,20 +49,23 @@ class NumericDropdown {
 		this.type = type;
 		this.iterator = 1;
 		this.condition = 1;
-		this.opts = '<option value=""></option>'; // options should be empty my default
+		this.opts = '<option value="all">All</option>'; // options should be 'All' by default
 	}
 
 	buildNumericDropdown() {
 		// based on case type, we change iterator and/or condition
 		switch (this.type) {
 			case "y":
+			case "year":
 				this.iterator = new Date().getFullYear() - 119;
 				this.condition = new Date().getFullYear();
 				break;
 			case "m":
+			case "month":
 				this.condition = 12;
 				break;
 			case "d":
+			case "day":
 				this.condition = 31;
 				break;
 		}
@@ -54,11 +80,6 @@ class NumericDropdown {
 	}
 }
 
-
-
-
-
-
 function export_queue_render(p_queue_data)
 {
 	var result = [];
@@ -66,17 +87,17 @@ function export_queue_render(p_queue_data)
 	result.push(`
 		<div class="row">
 			<div class="col-3 fancy-sidebar">
-				<div class="card">
+				<div id="answer-summary-card" class="card">
 					<div class="card-header bg-gray-l3">
 					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
 					</div>
 					<div class="card-body bg-gray-l3">
 					<ul>
 						<li>
-							Export <span id="all_or_core">${answer_summary.all_or_core.charAt(0).toUpperCase() + answer_summary.all_or_core.slice(1)}</span> data
+							Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
 							<ul>
 								<li>
-									Exporting ${answer_summary.all_or_core} data and a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
+									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
 								</li>
 							</ul>
 						</li>
@@ -85,13 +106,18 @@ function export_queue_render(p_queue_data)
 						</li>
 						<!-- <li>You have selected to export in JSON format</li> -->
 						<li>
-							Password protected: <span id="is_encrypted">${answer_summary.is_encrypted.charAt(0).toUpperCase() + answer_summary.is_encrypted.slice(1)}</span>
+							Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
 						</li>
 						<li>
-							Send file to CDC: <span id="is_for_cdc">${answer_summary.is_for_cdc.charAt(0).toUpperCase() + answer_summary.is_for_cdc.slice(1)}</span>
+							Send file to CDC: <span data-prop="is_for_cdc">${capitalizeFirstLetter(answer_summary.is_for_cdc)}</span>
 						</li>
 						<li>
-							De-identify fields: <span id="de_identified _selection_type">${answer_summary.de_identified_selection_type.charAt(0).toUpperCase() + answer_summary.de_identified_selection_type.slice(1)}</span>
+							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
+							<ul data-show="de_identified_selection_type" style="display: none">
+								<li>
+									<button class="btn btn-link p-0" data-toggle="modal" data-target="#custom-fields">View selection</button>
+								</li>
+							</ul>
 						</li>
 						<li>
 							Filter by:
@@ -99,16 +125,16 @@ function export_queue_render(p_queue_data)
 								<li>
 									Date of Death:
 									<ul>
-										<li>Year: ${answer_summary.filter.date_of_death.year == '' ? 'All' : answer_summary.filter.year}</li>									
-										<li>Month: ${answer_summary.filter.date_of_death.month == '' ? 'All' : answer_summary.filter.month}</li>
-										<li>Day: ${answer_summary.filter.date_of_death.day == '' ? 'All' : answer_summary.filter.day}</li>
+										<li>Year: <span data-prop="filter.date_of_death.year">${capitalizeFirstLetter(answer_summary.filter.date_of_death.year[0])}</span></li>
+										<li>Month: <span data-prop="filter.date_of_death.month">${capitalizeFirstLetter(answer_summary.filter.date_of_death.month[0])}</span></li>
+										<li>Day: <span data-prop="filter.date_of_death.day">${capitalizeFirstLetter(answer_summary.filter.date_of_death.day[0])}</span></li>
 									</ul>
 								</li>
 								<li>
-									Case status: ${answer_summary.filter.case_status == '' ? 'All' : answer_summary.filter.case_status}
+									Case status: ${capitalizeFirstLetter(answer_summary.filter.case_status[0])}
 								</li>
 								<li>
-									Case jurisdiction: ${answer_summary.filter.case_jurisdiction == '' ? 'All' : answer_summary.filter.case_jurisdiction}
+									Case jurisdiction: ${capitalizeFirstLetter(answer_summary.filter.case_jurisdiction)}
 								</li>
 							</ul>
 						</li>
@@ -126,11 +152,11 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Export all data or only core data?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="export-type" id="all-data" class="mr-1" data-summary-type="all_or_core" type="radio" value="all" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="export-type" id="all-data" class="mr-1" data-prop="all_or_core" type="radio" value="all" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="all-data" class="mb-0">All</label>
 							</li>
 							<li>
-								<input name="export-type" id="core-data" class="mr-1" data-summary-type="all_or_core" type="radio" value="core" onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="export-type" id="core-data" class="mr-1" data-prop="all_or_core" type="radio" value="core" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="core-data" class="mb-0">Core</label>
 							</li>
 						</ul>
@@ -145,11 +171,11 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Would you like to password protect the file?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="password-protect" id="password-protect-no" class="mr-1" data-summary-type="is_encrypted" type="radio" value="no" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="password-protect" id="password-protect-no" class="mr-1" data-prop="is_encrypted" type="radio" value="no" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="password-protect-no" class="mb-0">No</label>
 							</li>
 							<li>
-								<input name="password-protect" id="password-protect-yes" class="mr-1" data-summary-type="is_encrypted" type="radio" value="yes" onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="password-protect" id="password-protect-yes" class="mr-1" data-prop="is_encrypted" type="radio" value="yes" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="password-protect-yes" class="mb-0">Yes</label>
 								<div class="mt-2">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
@@ -164,11 +190,11 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Are you sending this file to CDC?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="cdc" id="cdc-no" class="mr-1" data-summary-type="is_for_cdc" type="radio" value="no" checked onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="cdc" id="cdc-no" class="mr-1" data-prop="is_for_cdc" type="radio" value="no" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="cdc-no" class="mb-0">No</label>
 							</li>
 							<li>
-								<input name="cdc" id="cdc-yes" class="mr-1" data-summary-type="is_for_cdc" type="radio" value="yes" onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="cdc" id="cdc-yes" class="mr-1" data-prop="is_for_cdc" type="radio" value="yes" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="cdc-yes" class="mb-0">Yes <small><em>(If Yes, your file will be password encrypted using a CDC keyion key)</em></small></label>
 							</li>
 						</ul>
@@ -178,112 +204,154 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">What fields do you want to de-identify?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="de-identify" id="de-identify-none" class="mr-1" data-summary-type="de_identified_selection_type" type="radio" value="none" checked onchange="renderSummaryString(event, updateAnswerSummary)" /> 
+								<input name="de-identify"
+											 id="de-identify-none"
+											 class="mr-1"
+											 data-prop="de_identified_selection_type"
+											 type="radio"
+											 value="none"
+											 checked
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'none'))" /> 
 								<label for="de-identify-none" class="mb-0">None</label>
 							</li>
 							<li>
-								<input name="de-identify" id="de-identify-standard" class="mr-1" data-summary-type="de_identified_selection_type" type="radio" value="standard" onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="de-identify"
+											 id="de-identify-standard"
+											 class="mr-1"
+											 data-prop="de_identified_selection_type"
+											 type="radio"
+											 value="standard"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'none'))" />
 								<label for="de-identify-standard" class="mb-0">Standard</label>
 							</li>
 							<li>
-								<input name="de-identify" id="de-identify-custom" class="mr-1" data-summary-type="de_identified_selection_type" type="radio" value="custom" onchange="renderSummaryString(event, updateAnswerSummary)" />
+								<input name="de-identify"
+											 id="de-identify-custom"
+											 class="mr-1"
+											 data-prop="de_identified_selection_type"
+											 type="radio"
+											 value="custom"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 								<div class="mt-2">
-									<button type="button" class="btn btn-tertiary" data-toggle="modal" data-target="#custom-fields">
+									<button type="button" class="btn btn-tertiary" data-show="de_identified_selection_type" data-toggle="modal" data-target="#custom-fields" style="display: none;">
 										Select custom fields
 									</button>
-									<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLongTitle">Custom fields to de-identify</h5>
-													<button type="button" class="close p-0 bg-transparent" data-dismiss="modal" aria-label="Close">
-														<span aria-hidden="true" class="x24 fill-p cdc-icon-close"></span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Jean-François Champollion across the centuries</span></label>
-													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Consciousness paroxysm of global death Vangelis prime number?</span></label>
-													<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Something incredible is waiting to be known billions and billions of light years away</span></label>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-													<button type="button" class="btn btn-primary">Save changes</button>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 							</li>
 						</ul>
 					</li>
 
-						<li class="form-group">
-							<p class="mb-2">What filters do you want to apply? (Add filter to export by day, month, year of death)</p>
-							<ul class="font-weight-bold list-unstyled">
+					<li class="form-group">
+						<p class="mb-2">What filters do you want to apply? (Add filter to export by day, month, year of death)</p>
+						<ul class="font-weight-bold list-unstyled">
 							<li class="form-group">
-							<p class="mb-2 font-weight-bold">Date of death:</p>
-							<ul class="font-weight-normal row list-unstyled pl-3">
-							<li class="mr-2">
-							<label for="dod-year" class="mb-2">Year</label>
-							<select id="dod-year" class="form-control w-auto">
-								${ new NumericDropdown('y').buildNumericDropdown() }
-							</select>
+								<p class="mb-2 font-weight-bold">Date of death:</p>
+								<ul class="font-weight-normal row list-unstyled pl-3">
+									<li class="mr-2">
+										<label for="dod-year" class="mb-2">Year</label>
+										<select id="dod-year"
+														class="form-control w-auto"
+														data-prop="filter.date_of_death.year"
+														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+											${ new NumericDropdown('y').buildNumericDropdown() }
+										</select>
+									</li>
+									<li class="mr-2">
+										<label for="dod-month" class="mb-2">Month</label>
+										<select id="dod-month"
+														class="form-control w-auto"
+														data-prop="filter.date_of_death.month"
+														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+											${ new NumericDropdown("m").buildNumericDropdown() }
+										</select>
+									</li>
+									<li class="mr-2">
+										<label for="dod-day" class="mb-2">Day</label>
+										<select id="dod-day"
+														class="form-control w-auto"
+														data-prop="filter.date_of_death.day"
+														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+											${ new NumericDropdown("d").buildNumericDropdown() }
+										</select>
+									</li>
+								</ul>
 							</li>
-							<li class="mr-2">
-							<label for="dod-month" class="mb-2">Month</label>
-							<select id="dod-month" class="form-control w-auto">
-								${ new NumericDropdown("m").buildNumericDropdown() }
-							</select>
-							</li>
-							<li class="mr-2">
-							<label for="dod-day" class="mb-2">Day</label>
-							<select id="dod-day" class="form-control w-auto">
-								${ new NumericDropdown("d").buildNumericDropdown() }
-							</select>
-							</li>
-							</ul>
-							</li>
+
 							<li class="form-group">
-							<label for="case-status-year" class="mb-2">Case status year</label>
-							<select id="case-status-year" class="form-control w-auto">
-								${ new NumericDropdown("y").buildNumericDropdown() }
-							</select>
+								<label for="case-status" class="mb-2">Case status</label>
+								<select id="case-status" class="form-control w-auto">
+									<option value="-9">All</option>
+									<option value="0">Not Started</option>
+									<option value="1">In Progress</option>
+									<option value="2">Completed</option>
+									<option value="3">Not Available</option>
+									<option value="4">Not Applicable</option>
+								</select>
 							</li>
+
 							<li class="form-group">
-							<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction</label>
-							<select id="case-jurisdiction-year" class="form-control mb-3 w-auto" multiple>
-								<option>/2017</option>
-								<option>/2018</option>
-								<option>/2019</option>
-								<option>/north_ga</option>
-								<option>/south_ga</option>
-								<option>/sc</option>
-							</select>
-							<p class="font-weight-normal"><small>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
+								<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction</label>
+								<select id="case-jurisdiction-year" class="form-control mb-3 w-auto" multiple>
+									<option>All</option>
+									<option>/2017</option>
+									<option>/2018</option>
+									<option>/2019</option>
+									<option>/north_ga</option>
+									<option>/south_ga</option>
+									<option>/sc</option>
+								</select>
+								<p class="font-weight-normal"><small>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
+
 							<!-- TODO: Remove completely once we narrow down direction more -->
 							<!--<li class="form-group">
-							<label class="mb-2">Filter by Case</label>
-							<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
+								<label class="mb-2">Filter by Case</label>
+								<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
 							</li>-->
+
 							<li class="form-group">
-							<p class="mb-2 font-weight-bold">Personally Identifiable Information (PII):</p>
-							<ul class="font-weight-normal list-unstyled">
-							<li>
-							<input name="pii" id="pii-exclude" class="mr-1" type="checkbox" value="exclude" />
-							<label for="pii-exclude" class="mb-0">Exclude PII tagged fields</label>
-							</li>
-							<li>
-							<input name="pii" id="pii-include" class="mr-1" type="checkbox" value="include" />
-							<label for="pii-include" class="mb-0">Include PII tagged fields and any data in the field</label>
-							</li>
-							</ul>
+								<p class="mb-2 font-weight-bold">Personally Identifiable Information (PII):</p>
+								<ul class="font-weight-normal list-unstyled">
+									<li>
+									<input name="pii" id="pii-exclude" class="mr-1" type="checkbox" value="exclude" />
+									<label for="pii-exclude" class="mb-0">Exclude PII tagged fields</label>
+									</li>
+									<li>
+									<input name="pii" id="pii-include" class="mr-1" type="checkbox" value="include" />
+									<label for="pii-include" class="mb-0">Include PII tagged fields and any data in the field</label>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
 				</ol>
+			</div>
+		</div>
+
+		<!-- One modal approach -->
+		<!-- TODO: hook up dynamic HTML -->
+		<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">De-identify custom fields</h5>
+						<button type="button" class="close p-0 bg-transparent" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="x24 fill-p cdc-icon-close"></span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_created</span></label>
+						<label for="custom-2" class="row no-gutters align-items-baseline"><input id="custom-2" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">created_by</span></label>
+						<label for="custom-3" class="row no-gutters align-items-baseline"><input id="custom-3" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_last_updated</span></label>
+						<label for="custom-4" class="row no-gutters align-items-baseline"><input id="custom-4" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">last_updated_by</span></label>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	`);
