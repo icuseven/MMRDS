@@ -48,44 +48,42 @@ build:
         - version_text="$current_year.$current_month.$current_day v($current_build)"
         - echo "$version_text"
         - echo "---> Version Setup - End ..."
-        - 'curl -H "Content-Type: application/json" -X POST \'
-        -  -d ' \  
-        -  '{ \'
-        -  '    "ApplicationData":{ \'
-        -  '        "ReleaseId":0, \'
-        -  '        "ApplicationName":"Test_App", \'
-        -  '        "ReleaseName":"Release 1", \'
-        -  '        "CodeLocation":"https://github.com/icuseven/MMRDS.git", \'
-        -  '        "CommitOrChangesetNumber":"$full_commit_number", \'
-        -  '        "EnvironmentDeployed":"Dev", \'
-        -  '        "UserDeployed":"Haines III, James E. (CDC DDNID NCCDPHP OD) (CTR)", \'
-        -  '        "ApplicationURL":"http://test-mmria.services-dev.cdc.gov" \'
-        -  '    }, \'
-        -  '    "ScansToRun":[ \'
-        -  '        { \'
-        -  '            "ScanName":"Fortify", \'
-        -  '            "ScanParameters":{ \'
-        -  '                "BuildConfiguration":"", \'
-        -  '                "CodeRepoType":"GIT", \'
-        -  '                "SolutionFileName":"", \'
-        -  '                "SSCApplicationName":"NCCD_Maternal Mortality Review Information App", \'
-        -  '                "SSCApplicationVersion":"CSharp", \'
-        -  '                "Technology":"CSharp" \'
-        -  '            } \'
-        -  '        } \'
-        # -  '        ,{ \'
-        # -  '            "ScanName":"WebInspect", \'
-        # -  '            "ScanParameters":{ \'
-        # -  '                "ApplicationPassword":"testPass", \'
-        # -  '                "ApplicationUsername":"testUser", \'
-        # -  '                "AuthenticationType":"None", \'
-        # -  '                "MacroName":"testMacro", \'
-        # -  '                "SSCApplicationName":"NCCD_DPRP_Data_Portal/User_UI (Public)", \'
-        # -  '                "SSCApplicationVersion":"Javascript", \'
-        # -  '                "StartingURL":"https://server.cdc.gov/application" \'
-        # -  '            } \'
-        # -  '        } \'
-        -  '         \'
-        -  '    ]} \'
-        -  \'
-        -  https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds
+        
+        - echo "{" > build-call.txt
+        - echo "    \"ApplicationData\":{ '  >> build-call.txt
+        - echo "        \"ReleaseId\":0, " >> build-call.txt
+        - echo "        \"ApplicationName\":\"Test_App\", " >> build-call.txt
+        - echo "        \"ReleaseName\":"Release 1\", " >> build-call.txt
+        - echo "        \"CodeLocation\":\"https://github.com/icuseven/MMRDS.git\", " >> build-call.txt
+        - echo "        \"CommitOrChangesetNumber\":\"$full_commit_number\", " >> build-call.txt
+        - echo "        \"EnvironmentDeployed\":\"ECPAAS\", " >> build-call.txt
+        - echo "        \"UserDeployed\":\"Haines III, James E. (CDC DDNID NCCDPHP OD) (CTR)\", " >> build-call.txt
+        - echo "        \"ApplicationURL\":\"http://test-mmria.services-dev.cdc.gov\" " >> build-call.txt
+        - echo "    }, " >> build-call.txt
+        - echo "    \"ScansToRun\":[ " >> build-call.txt
+        - echo "        { " >> build-call.txt
+        - echo "            \"ScanName\":\"Fortify\", " >> build-call.txt
+        - echo "            \"ScanParameters\":{ " >> build-call.txt
+        - echo "                \"BuildConfiguration\":\"\", " >> build-call.txt
+        - echo "                \"CodeRepoType\":\"GIT\", " >> build-call.txt
+        - echo "                \"SolutionFileName\":\"\", " >> build-call.txt
+        - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
+        - echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
+        - echo "                \"Technology\":\"CSharp\" " >> build-call.txt
+        - echo "            } " >> build-call.txt
+        - echo "        } " >> build-call.txt
+        # - echo "        ,{ " >> build-call.txt
+        # - echo "            \"ScanName\":\"WebInspect\", " >> build-call.txt
+        # - echo "            \"ScanParameters\":{ " >> build-call.txt
+        # - echo "                \"ApplicationPassword\":\"testPass\", " >> build-call.txt
+        # - echo "                \"ApplicationUsername\":\"testUser\", " >> build-call.txt
+        # - echo "                \"AuthenticationType\":\"None\", " >> build-call.txt
+        # - echo "                \"MacroName\":\"testMacro\", " >> build-call.txt
+        # - echo "                \"SSCApplicationName\":\"NCCD_DPRP_Data_Portal/User_UI (Public)\", " >> build-call.txt
+        # - echo "                \"SSCApplicationVersion\":\"Javascript\", " >> build-call.txt
+        # - echo "                \"StartingURL\":\"https://server.cdc.gov/application\" " >> build-call.txt
+        # - echo "            } " >> build-call.txt
+        # - echo "        } " >> build-call.txt
+        - echo "         " >> build-call.txt
+        - echo "    ]} " >> build-call.txt
+        - 'curl --data="@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
