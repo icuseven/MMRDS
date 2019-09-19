@@ -22,7 +22,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                 if(g_data.home_record.record_id)
                 {
-                  p_result.push("<p class='construct__info'>");
+                  p_result.push("<p class='construct__info mb-1'>");
                     p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
                   p_result.push("</p>");
                 }
@@ -143,7 +143,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     }
                     if(g_data.home_record.record_id)
                     {
-                        p_result.push("<p class='construct__info'>");
+                        p_result.push("<p class='construct__info mb-1'>");
                             p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
                         p_result.push("</p>");
                     }
@@ -225,7 +225,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
                 if(g_data.home_record.record_id)
                 {
-                  p_result.push("<p class='construct__info'>");
+                  p_result.push("<p class='construct__info mb-1'>");
                     p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
                   p_result.push("</p>");
                 }

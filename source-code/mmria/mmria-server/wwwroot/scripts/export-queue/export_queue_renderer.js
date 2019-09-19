@@ -78,7 +78,7 @@ function setAnswerSummary(event) {
 						break;
 				}
 			}
-			// console.log(answer_summary);
+			console.log('Updating... ', answer_summary);
 			resolve();
 		}
 		else
@@ -96,8 +96,6 @@ function updateSummarySection(event)
 	const val = tar.value;
 	const el = document.querySelectorAll(`#answer-summary-card [data-prop='${prop}']`);
 	let path;
-
-	console.log(prop);
 
 		// if prop doesn't have path
 	if (prop.indexOf('/') < 0) 
@@ -214,7 +212,7 @@ function export_queue_render(p_queue_data)
 
 	result.push(`
 		<div class="row">
-			<div class="col-3 fancy-sidebar">
+			<div class="col-4 fancy-sidebar">
 				<div id="answer-summary-card" class="card">
 					<div class="card-header bg-gray-l3">
 					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
@@ -280,7 +278,7 @@ function export_queue_render(p_queue_data)
 				</div>
 			</div>
 
-			<div class="col-9">
+			<div class="col-8">
 				<ol class="font-weight-bold">
 					<li class="form-group">
 						<p class="mb-2">Export all data or only core data?</p>
@@ -414,15 +412,8 @@ function export_queue_render(p_queue_data)
 											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
-								<div class="mt-2">
-									<button type="button"
-													class="btn btn-tertiary"
-													data-show="de_identified_selection_type"
-													data-toggle="modal"
-													data-target="#custom-fields"
-													style="display: none;">
-										Select custom fields
-									</button>
+								<div class="mt-2" data-show="de_identified_selection_type" style="display:none">
+									<button class="btn btn-tertiary" data-toggle="modal" data-target="#custom-fields">Select custom selection</button>
 								</div>
 							</li>
 						</ul>
