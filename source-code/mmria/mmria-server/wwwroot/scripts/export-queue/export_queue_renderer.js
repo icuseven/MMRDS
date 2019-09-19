@@ -10,127 +10,168 @@ function capitalizeFirstLetter(str) {
 // Promise that sets and updates answer_summary json obj
 function setAnswerSummary(event) {
 	return new Promise((resolve, reject) => {
-		const val = event.target.value;
-		const prop = event.target.dataset.prop;
-		let path;
-		let beta;
-		let alpha;
-		let gamma;
+		const target= event.target;
+		const val = target.value;
+		const prop = target.dataset.prop;
+		let path; // variable to split props into
 		
-		if (prop) {
-			if (prop.indexOf('/') < 0) {
+		if (prop) 
+		{
+			if (prop.indexOf('/') < 0) 
+			{
 				answer_summary[prop] = val;
-				console.log(answer_summary);
-			} else {
+			}
+			else 
+			{
 				path = prop.split('/');
-				if (path.length === 2) {
-					beta = path[0];
-					alpha = path[1];
-					answer_summary[beta][alpha][0] = val;
-					console.log(answer_summary);
-				} else if (path.length === 3) {
-					beta = path[0];
-					alpha = path[1];
-					gamma = path[2];
-					answer_summary[beta][alpha][gamma][0] = val;
-					console.log(answer_summary);
+				switch(path[1])
+				{
+					case 'date_of_death':
+						switch(path[2]) 
+						{
+							case 'year':
+								answer_summary['filter']['date_of_death']['year'][0] = val;
+								break;
+							case 'month':
+								answer_summary['filter']['date_of_death']['month'][0] = val;
+								break;
+							case 'day':
+								answer_summary['filter']['date_of_death']['day'][0] = val;
+								break;
+						}
+						break;
+					case 'case_status':
+						let case_opts = target.options;
+						let statuses = [];
+						for (let i = 0; i< case_opts.length; i++) {
+							if (case_opts[i].selected) {
+								// push each selected option into statuses arr
+								statuses.push(case_opts[i].value);
+								
+								// // Below we push obj into temp 'statuses' array for later manipulation
+								// let s = {};
+								// s['value'] = case_opts[i].value;
+								// s['text'] = case_opts[i].text;
+								// statuses.push(status);
+							}
+						}
+						// set answer_summary to new statuses
+						answer_summary['filter']['case_status'] = statuses;
+						break;
+					case 'case_jurisdiction':
+							let jurisdiction_opts = target.options;
+							let jurisdictions = [];
+							for (let i = 0; i< jurisdiction_opts.length; i++) {
+								if (jurisdiction_opts[i].selected) {
+									// push each selected option into jurisdictions arr
+									jurisdictions.push(jurisdiction_opts[i].value);
+									
+									// let j = {};
+									// // Below we push obj into temp 'jurisdictions' array for later manipulation
+									// j['value'] = jurisdiction_opts[i].value;
+									// j['text'] = jurisdiction_opts[i].text;
+									// jurisdictions.push(j);
+								}
+							}
+							// set answer_summary to new jurisdictions
+							answer_summary['filter']['case_jurisdiction'] = jurisdictions;
+						break;
 				}
 			}
+			console.log('Updating... ', answer_summary);
 			resolve();
-		} else {
+		}
+		else
+		{
 			reject('Error');
 		}
-
-		// // ugly but we have to nest because obj has too complex many vary layers
-		// if (typeof answer === 'object') {
-		// 	answer = answer_summary[prop][filter];
-
-		// 	if (typeof answer === 'object') {
-		// 		answer = answer_summary[prop][filter][filterType][0];
-		// 	}
-		// }
-		
-		// if it has changed
-		// if (answer_summary[prop] !== val) {
-		// 	// set it to new value
-		// 	answer_summary[prop] = val;
-		// 	resolve();
-		// 	console.log(answer_summary);
-		// } else {
-		// 	reject('Same value, summary not updated');
-		// }
-
-		// if (prop) {
-			// switch(prop) {
-			// 	case 'filter':
-			// 		if (filter && filterType) {
-			// 			if (answer_summary[prop][filter][filterType][0] !== val) {
-			// 				// set it to new value
-			// 				answer_summary[prop][filter][filterType][0] = val;
-			// 				resolve();
-			// 				console.log(answer_summary);
-			// 			} else {
-			// 				reject('Same value, summary not updated');
-			// 			}
-			// 		} else if (filter) {
-			// 			if (answer_summary[prop][filter][0] !== val) {
-			// 				// set it to new value
-			// 				answer_summary[prop][filter][0] = val;
-			// 				resolve();
-			// 				console.log(answer_summary);
-			// 			} else {
-			// 				reject('Same value, summary not updated');
-			// 			}
-			// 		}
-			// 		break;
-			// 	default:
-			// 		// if it has changed
-			// 		if (answer_summary[prop] !== val) {
-			// 			// set it to new value
-			// 			answer_summary[prop] = val;
-			// 			resolve();
-			// 			console.log(answer_summary);
-			// 		} else {
-			// 			reject('Same value, summary not updated');
-			// 		}
-			// 		break;
-			// }
-		// }
 	});
 }
 
 // Function returned after promise to update/set answer_summary to new value
-function updateSummarySection(event) {
-	const prop = event.target.dataset.prop;
-	const val = event.target.value;
-	const tars = document.querySelectorAll(`#answer-summary-card [data-prop='${prop}']`);
-	tars.forEach((i) => {
-		i.innerText = capitalizeFirstLetter(val);
-	});
+function updateSummarySection(event)
+{
+	const tar = event.target;
+	const prop = tar.dataset.prop;
+	const val = tar.value;
+	const el = document.querySelectorAll(`#answer-summary-card [data-prop='${prop}']`);
+	let path;
+
+		// if prop doesn't have path
+	if (prop.indexOf('/') < 0) 
+	{
+		el.forEach((i) =>
+		{
+			i.innerText = capitalizeFirstLetter(val);
+		});
+	}
+	else
+	{
+		path = prop.split('/');
+		switch(path[1]) {
+			case 'case_status':
+				const cs_opts = tar.options;
+				let cs_html = '';
+				for (let i = 0; i < cs_opts.length; i++) {
+					if (cs_opts[i].selected) {
+						cs_html += '<li>';
+						cs_html += cs_opts[i].text;
+						cs_html += '</li>';
+					}
+				}
+				el[0].innerHTML = cs_html;
+				break;
+
+			case 'case_jurisdiction':
+				const cj_opts = tar.options;
+				let cj_html = '';
+				for (let i = 0; i < cj_opts.length; i++) {
+					if (cj_opts[i].selected) {
+						cj_html += '<li>';
+						cj_html += cj_opts[i].text;
+						cj_html += '</li>';
+					}
+				}
+				el[0].innerHTML = cj_html;
+				break;
+			default:
+				el.forEach((i) =>
+				{
+					i.innerText = capitalizeFirstLetter(val);
+				});
+				break;
+		}
+	}
 }
 
 // Function returned after promise to update/set answer_summary to new value
-function toggleElementDisplay(event, str) {
+function toggleElementDisplay(event, str)
+{
 	const prop = event.target.dataset.prop;
 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
 
-	tars.forEach((i) => {
+	tars.forEach((i) =>
+	{
 		i.style.display = str;
 	});
 }
 
 // Class to dynamically create a new 'numeric' dropdown
-class NumericDropdown {
-	constructor(type) {
+class NumericDropdown
+{
+	constructor(type)
+	{
 		this.type = type;
 		this.iterator = 1;
 		this.condition = 1;
 		this.opts = '<option value="all">All</option>'; // options should be 'All' by default
 	}
 
-	buildNumericDropdown() {
+	buildNumericDropdown()
+	{
 		// based on case type, we change iterator and/or condition
-		switch (this.type) {
+		switch (this.type)
+		{
 			case "y":
 			case "year":
 				this.iterator = new Date().getFullYear() - 119;
@@ -147,7 +188,8 @@ class NumericDropdown {
 		}
 
 		// iterate through iterator and condition to build the options
-		for (let i = this.iterator; i <= this.condition; i++) {
+		for (let i = this.iterator; i <= this.condition; i++)
+		{
 			this.opts += `<option value='${i}'>`;
 			this.opts += i;
 			this.opts += "</option>";
@@ -156,13 +198,21 @@ class NumericDropdown {
 	}
 }
 
+
+
+
+
+
+
+
+
 function export_queue_render(p_queue_data)
 {
 	var result = [];
 
 	result.push(`
 		<div class="row">
-			<div class="col-3 fancy-sidebar">
+			<div class="col-4 fancy-sidebar">
 				<div id="answer-summary-card" class="card">
 					<div class="card-header bg-gray-l3">
 					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
@@ -207,10 +257,16 @@ function export_queue_render(p_queue_data)
 									</ul>
 								</li>
 								<li>
-									Case status: ${capitalizeFirstLetter(answer_summary.filter.case_status[0])}
+									Case status(s):
+									<ul data-prop="filter/case_status">
+										<li>${capitalizeFirstLetter(answer_summary.filter.case_status[0])}</span></li>
+									</ul>
 								</li>
 								<li>
-									Case jurisdiction: ${capitalizeFirstLetter(answer_summary.filter.case_jurisdiction)}
+									Case jurisdiction(s):
+									<ul data-prop="filter/case_jurisdiction">
+										<li>${capitalizeFirstLetter(answer_summary.filter.case_jurisdiction[0])}</span></li>
+									</ul>
 								</li>
 							</ul>
 						</li>
@@ -222,7 +278,7 @@ function export_queue_render(p_queue_data)
 				</div>
 			</div>
 
-			<div class="col-9">
+			<div class="col-8">
 				<ol class="font-weight-bold">
 					<li class="form-group">
 						<p class="mb-2">Export all data or only core data?</p>
@@ -356,15 +412,8 @@ function export_queue_render(p_queue_data)
 											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
-								<div class="mt-2">
-									<button type="button"
-													class="btn btn-tertiary"
-													data-show="de_identified_selection_type"
-													data-toggle="modal"
-													data-target="#custom-fields"
-													style="display: none;">
-										Select custom fields
-									</button>
+								<div class="mt-2" data-show="de_identified_selection_type" style="display:none">
+									<button class="btn btn-tertiary" data-toggle="modal" data-target="#custom-fields">Select custom selection</button>
 								</div>
 							</li>
 						</ul>
@@ -409,9 +458,12 @@ function export_queue_render(p_queue_data)
 							<li class="form-group">
 								<label for="case-status" class="mb-2">Case status</label>
 								<select id="case-status"
-												class="form-control w-auto"
+												class="form-control mb-3"
+												multiple
 												data-prop="filter/case_status"
-												onchange="setAnswerSummary(event).then(updateSummarySection(event))">
+												onchange="setAnswerSummary(event).then(updateSummarySection(event))"
+												style="width: 300px">
+									<!-- TODO: These opts need to be wired up dynamically -->
 									<option value="-9">All</option>
 									<option value="0">Not Started</option>
 									<option value="1">In Progress</option>
@@ -419,20 +471,29 @@ function export_queue_render(p_queue_data)
 									<option value="3">Not Available</option>
 									<option value="4">Not Applicable</option>
 								</select>
+								<p class="font-weight-normal"><small>Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
 
 							<li class="form-group">
-								<label for="case-jurisdiction-year" class="mb-2">Case Jurisdiction</label>
-								<select id="case-jurisdiction-year" class="form-control mb-3 w-auto" multiple>
-									<option>All</option>
-									<option>/2017</option>
-									<option>/2018</option>
-									<option>/2019</option>
-									<option>/north_ga</option>
-									<option>/south_ga</option>
-									<option>/sc</option>
-								</select>
-								<p class="font-weight-normal"><small>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
+								<label for="case-jurisdiction" class="mb-2">Case Jurisdiction</label>
+								<select id="case-jurisdiction"
+												class="form-control mb-3"
+												multiple
+												data-prop="filter/case_jurisdiction"
+												onchange="setAnswerSummary(event).then(updateSummarySection(event))"
+												style="width: 300px">
+									<!-- TODO: These opts need to be wired up dynamically -->
+									<option value="/all">/all</option>
+									<option value="/2017">/2017</option>
+									<option value="/2018">/2018</option>
+									<option value="/2019">/2019</option>
+									<option value="/north_ga">/north_ga</option>
+									<option value="/south_ga">/south_ga</option>
+									<option value="/ga">/ga</option>
+									<option value="/nc">/nc</option>
+									<option value="/sc">/sc</option>
+									</select>
+								<p class="font-weight-normal"><small>Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
 
 							<!-- TODO: Remove completely once we narrow down direction more -->
