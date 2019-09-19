@@ -417,7 +417,29 @@ function render_search_text_grid_control(p_ctx)
 }
 
 function render_search_text_select_control(p_ctx)
-{   
+{  
+    
+    if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("editable") > -1)
+    {
+        Array.prototype.push.apply(p_ctx.result, list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        return;
+    }
+    else if
+    (
+        (p_ctx.metadata.is_multiselect && p_ctx.metadata.is_multiselect == true) ||
+        (p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("checkbox") > -1)
+    )
+    {
+        Array.prototype.push.apply(p_ctx.result, list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        return;
+    }
+    else if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("radio") > -1) 
+    {
+        Array.prototype.push.apply(p_ctx.result, list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
+        return;
+    }
+
+
     let style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
     if(style_object)
     {
