@@ -10,16 +10,92 @@ function capitalizeFirstLetter(str) {
 // Promise that sets and updates answer_summary json obj
 function setAnswerSummary(event) {
 	return new Promise((resolve, reject) => {
-		const prop = event.target.dataset.prop;
 		const val = event.target.value;
-		// if it has changed
-		if (answer_summary[prop] !== val) {
-			// set it to new value
-			answer_summary[prop] = val;
+		const prop = event.target.dataset.prop;
+		let path;
+		let beta;
+		let alpha;
+		let gamma;
+		
+		if (prop) {
+			if (prop.indexOf('/') < 0) {
+				answer_summary[prop] = val;
+				console.log(answer_summary);
+			} else {
+				path = prop.split('/');
+				if (path.length === 2) {
+					beta = path[0];
+					alpha = path[1];
+					answer_summary[beta][alpha][0] = val;
+					console.log(answer_summary);
+				} else if (path.length === 3) {
+					beta = path[0];
+					alpha = path[1];
+					gamma = path[2];
+					answer_summary[beta][alpha][gamma][0] = val;
+					console.log(answer_summary);
+				}
+			}
 			resolve();
 		} else {
-			reject('Same value, summary not updated');
+			reject('Error');
 		}
+
+		// // ugly but we have to nest because obj has too complex many vary layers
+		// if (typeof answer === 'object') {
+		// 	answer = answer_summary[prop][filter];
+
+		// 	if (typeof answer === 'object') {
+		// 		answer = answer_summary[prop][filter][filterType][0];
+		// 	}
+		// }
+		
+		// if it has changed
+		// if (answer_summary[prop] !== val) {
+		// 	// set it to new value
+		// 	answer_summary[prop] = val;
+		// 	resolve();
+		// 	console.log(answer_summary);
+		// } else {
+		// 	reject('Same value, summary not updated');
+		// }
+
+		// if (prop) {
+			// switch(prop) {
+			// 	case 'filter':
+			// 		if (filter && filterType) {
+			// 			if (answer_summary[prop][filter][filterType][0] !== val) {
+			// 				// set it to new value
+			// 				answer_summary[prop][filter][filterType][0] = val;
+			// 				resolve();
+			// 				console.log(answer_summary);
+			// 			} else {
+			// 				reject('Same value, summary not updated');
+			// 			}
+			// 		} else if (filter) {
+			// 			if (answer_summary[prop][filter][0] !== val) {
+			// 				// set it to new value
+			// 				answer_summary[prop][filter][0] = val;
+			// 				resolve();
+			// 				console.log(answer_summary);
+			// 			} else {
+			// 				reject('Same value, summary not updated');
+			// 			}
+			// 		}
+			// 		break;
+			// 	default:
+			// 		// if it has changed
+			// 		if (answer_summary[prop] !== val) {
+			// 			// set it to new value
+			// 			answer_summary[prop] = val;
+			// 			resolve();
+			// 			console.log(answer_summary);
+			// 		} else {
+			// 			reject('Same value, summary not updated');
+			// 		}
+			// 		break;
+			// }
+		// }
 	});
 }
 
@@ -125,9 +201,9 @@ function export_queue_render(p_queue_data)
 								<li>
 									Date of Death:
 									<ul>
-										<li>Year: <span data-prop="filter.date_of_death.year">${capitalizeFirstLetter(answer_summary.filter.date_of_death.year[0])}</span></li>
-										<li>Month: <span data-prop="filter.date_of_death.month">${capitalizeFirstLetter(answer_summary.filter.date_of_death.month[0])}</span></li>
-										<li>Day: <span data-prop="filter.date_of_death.day">${capitalizeFirstLetter(answer_summary.filter.date_of_death.day[0])}</span></li>
+										<li>Year: <span data-prop="filter/date_of_death/year">${capitalizeFirstLetter(answer_summary.filter.date_of_death.year[0])}</span></li>
+										<li>Month: <span data-prop="filter/date_of_death/month">${capitalizeFirstLetter(answer_summary.filter.date_of_death.month[0])}</span></li>
+										<li>Day: <span data-prop="filter/date_of_death/day">${capitalizeFirstLetter(answer_summary.filter.date_of_death.day[0])}</span></li>
 									</ul>
 								</li>
 								<li>
@@ -152,11 +228,23 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Export all data or only core data?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="export-type" id="all-data" class="mr-1" data-prop="all_or_core" type="radio" value="all" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="export-type"
+											 id="all-data"
+											 class="mr-1"
+											 data-prop="all_or_core"
+											 type="radio"
+											 value="all"
+											 checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="all-data" class="mb-0">All</label>
 							</li>
 							<li>
-								<input name="export-type" id="core-data" class="mr-1" data-prop="all_or_core" type="radio" value="core" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="export-type"
+											 id="core-data"
+											 class="mr-1"
+											 data-prop="all_or_core"
+											 type="radio"
+											 value="core"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="core-data" class="mb-0">Core</label>
 							</li>
 						</ul>
@@ -164,23 +252,44 @@ function export_queue_render(p_queue_data)
 
 					<li class="form-group">
 						<label for="grantee-name" class="mb-2">What export or grantee name do you want to add to each case?</label>
-						<input id="grantee-name" class="form-control w-auto" type="text" value="${answer_summary.grantee_name}" disabled readonly="true" />
+						<input id="grantee-name"
+									 class="form-control w-auto"
+									 type="text"
+									 value="${answer_summary.grantee_name}"
+									 disabled
+									 readonly="true" />
 					</li>
 
 					<li class="form-group">
 						<p class="mb-2">Would you like to password protect the file?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="password-protect" id="password-protect-no" class="mr-1" data-prop="is_encrypted" type="radio" value="no" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="password-protect"
+											 id="password-protect-no"
+											 class="mr-1"
+											 data-prop="is_encrypted"
+											 type="radio"
+											 value="no"
+											 checked
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="password-protect-no" class="mb-0">No</label>
 							</li>
 							<li>
-								<input name="password-protect" id="password-protect-yes" class="mr-1" data-prop="is_encrypted" type="radio" value="yes" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="password-protect"
+											 id="password-protect-yes"
+											 class="mr-1"
+											 data-prop="is_encrypted"
+											 type="radio"
+											 value="yes"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="password-protect-yes" class="mb-0">Yes</label>
 								<div class="mt-2">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
 									<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
-									<input id="encryption-key" class="form-control w-auto" type="text" value="${answer_summary.encryption_key}" />
+									<input id="encryption-key"
+												 class="form-control w-auto"
+												 type="text"
+												 value="${answer_summary.encryption_key}" />
 								</div>
 							</li>
 						</ul>
@@ -190,11 +299,24 @@ function export_queue_render(p_queue_data)
 						<p class="mb-2">Are you sending this file to CDC?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
-								<input name="cdc" id="cdc-no" class="mr-1" data-prop="is_for_cdc" type="radio" value="no" checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="cdc"
+											 id="cdc-no"
+											 class="mr-1"
+											 data-prop="is_for_cdc"
+											 type="radio"
+											 value="no"
+											 checked
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="cdc-no" class="mb-0">No</label>
 							</li>
 							<li>
-								<input name="cdc" id="cdc-yes" class="mr-1" data-prop="is_for_cdc" type="radio" value="yes" onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+								<input name="cdc"
+											 id="cdc-yes"
+											 class="mr-1"
+											 data-prop="is_for_cdc"
+											 type="radio"
+											 value="yes"
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
 								<label for="cdc-yes" class="mb-0">Yes <small><em>(If Yes, your file will be password encrypted using a CDC keyion key)</em></small></label>
 							</li>
 						</ul>
@@ -235,7 +357,12 @@ function export_queue_render(p_queue_data)
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 								<div class="mt-2">
-									<button type="button" class="btn btn-tertiary" data-show="de_identified_selection_type" data-toggle="modal" data-target="#custom-fields" style="display: none;">
+									<button type="button"
+													class="btn btn-tertiary"
+													data-show="de_identified_selection_type"
+													data-toggle="modal"
+													data-target="#custom-fields"
+													style="display: none;">
 										Select custom fields
 									</button>
 								</div>
@@ -253,7 +380,7 @@ function export_queue_render(p_queue_data)
 										<label for="dod-year" class="mb-2">Year</label>
 										<select id="dod-year"
 														class="form-control w-auto"
-														data-prop="filter.date_of_death.year"
+														data-prop="filter/date_of_death/year"
 														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 											${ new NumericDropdown('y').buildNumericDropdown() }
 										</select>
@@ -262,7 +389,7 @@ function export_queue_render(p_queue_data)
 										<label for="dod-month" class="mb-2">Month</label>
 										<select id="dod-month"
 														class="form-control w-auto"
-														data-prop="filter.date_of_death.month"
+														data-prop="filter/date_of_death/month"
 														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 											${ new NumericDropdown("m").buildNumericDropdown() }
 										</select>
@@ -271,7 +398,7 @@ function export_queue_render(p_queue_data)
 										<label for="dod-day" class="mb-2">Day</label>
 										<select id="dod-day"
 														class="form-control w-auto"
-														data-prop="filter.date_of_death.day"
+														data-prop="filter/date_of_death/day"
 														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 											${ new NumericDropdown("d").buildNumericDropdown() }
 										</select>
@@ -281,7 +408,10 @@ function export_queue_render(p_queue_data)
 
 							<li class="form-group">
 								<label for="case-status" class="mb-2">Case status</label>
-								<select id="case-status" class="form-control w-auto">
+								<select id="case-status"
+												class="form-control w-auto"
+												data-prop="filter/case_status"
+												onchange="setAnswerSummary(event).then(updateSummarySection(event))">
 									<option value="-9">All</option>
 									<option value="0">Not Started</option>
 									<option value="1">In Progress</option>
@@ -310,20 +440,6 @@ function export_queue_render(p_queue_data)
 								<label class="mb-2">Filter by Case</label>
 								<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
 							</li>-->
-
-							<li class="form-group">
-								<p class="mb-2 font-weight-bold">Personally Identifiable Information (PII):</p>
-								<ul class="font-weight-normal list-unstyled">
-									<li>
-									<input name="pii" id="pii-exclude" class="mr-1" type="checkbox" value="exclude" />
-									<label for="pii-exclude" class="mb-0">Exclude PII tagged fields</label>
-									</li>
-									<li>
-									<input name="pii" id="pii-include" class="mr-1" type="checkbox" value="include" />
-									<label for="pii-include" class="mb-0">Include PII tagged fields and any data in the field</label>
-									</li>
-								</ul>
-							</li>
 						</ul>
 					</li>
 				</ol>
@@ -342,6 +458,8 @@ function export_queue_render(p_queue_data)
 						</button>
 					</div>
 					<div class="modal-body">
+						<label for="custom-a" class="row no-gutters align-items-baseline"><input id="custom-a" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Exclude PII tagged fields</span></label>
+						<label for="custom-b" class="row no-gutters align-items-baseline"><input id="custom-b" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Include PII tagged fields and any data in the field</span></label>
 						<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_created</span></label>
 						<label for="custom-2" class="row no-gutters align-items-baseline"><input id="custom-2" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">created_by</span></label>
 						<label for="custom-3" class="row no-gutters align-items-baseline"><input id="custom-3" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_last_updated</span></label>

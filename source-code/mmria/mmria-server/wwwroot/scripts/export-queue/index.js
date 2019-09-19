@@ -19,13 +19,13 @@ var answer_summary = {
 	{
 		date_of_death:
 		{
-			year:[
+			year: [
 				'all'
 			],
-			month:[
+			month: [
 				'all'
 			],
-			day:[
+			day: [
 				'all'
 			],
 		},
