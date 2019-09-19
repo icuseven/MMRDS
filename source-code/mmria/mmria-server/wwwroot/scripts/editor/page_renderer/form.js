@@ -447,7 +447,7 @@ function render_print_form_control(p_result, p_ui, p_metadata)
     {
         // p_result.push('<div>');
             p_result.push('<label for="print_case" class="sr-only">Print version</label>');
-            p_result.push('<select id="print_case_id" class="form-control" onChange="print_case_onchange()">');
+            p_result.push('<select id="print_case_id" class="form-control mt-2" onChange="print_case_onchange()">');
                 p_result.push('<option>Select to print a form</option>');
                 p_result.push('<optgroup label="Current form">');
                     p_result.push('<option value="' + p_metadata.name + '">');
