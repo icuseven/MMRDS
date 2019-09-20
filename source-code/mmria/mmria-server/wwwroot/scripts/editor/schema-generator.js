@@ -260,16 +260,13 @@ function generate_schema(p_schema_context)
                     p_schema_context.metadata.is_multiselect == "true"
                 )
                 {
-                    /*
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-*/
-                    object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
-
                     let data_value_list = p_schema_context.metadata.values;
 
-                    if(p_schema_context.metadata.path_reference && p_schema_context.metadata.path_reference != "")
+                    if
+                    (
+                        p_schema_context.metadata.path_reference &&
+                        p_schema_context.metadata.path_reference != ""
+                    )
                     {
                         data_value_list = eval(convert_dictionary_path_to_lookup_object(p_schema_context.metadata.path_reference));
                 
@@ -277,18 +274,49 @@ function generate_schema(p_schema_context)
                         {
                             data_value_list = p_schema_context.metadata.values;
                         }
+
+                        
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
+
+                        for(let j = 0; j < data_value_list.length; j++ )
+                        {
+                            object["items"]["x-enumNames"].push(data_value_list[j].display);
+                            object["items"]["enum"].push(data_value_list[j].value);
+                        }
+
+                        /*
+                        else
+                        {
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array",  "items": { "allOf": [{ "$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
+                            
+                            
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
+
+                            for(let j = 0; j < data_value_list.length; j++ )
+                            {
+                                object["items"]["x-enumNames"].push(data_value_list[j].display);
+                                object["items"]["enum"].push(data_value_list[j].value);
+                            }
+                            
+                        }*/
+
+                    }
+                    else
+                    {
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
+
+                        for(let j = 0; j < p_schema_context.metadata.values.length; j++ )
+                        {
+                            object["items"]["x-enumNames"].push(p_schema_context.metadata.values[j].display);
+                            object["items"]["enum"].push(p_schema_context.metadata.values[j].value);
+                        }
                     }
 
-                    for(let j = 0; j < data_value_list.length; j++ )
-                    {
-                        object["items"]["x-enumNames"].push(data_value_list[j].display);
-                        object["items"]["enum"].push(data_value_list[j].value);
-                    }
                 }
                 else
                 {
 
-                    object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+                    
 
                     if(p_schema_context.metadata.path_reference && p_schema_context.metadata.path_reference != "")
                     {
@@ -297,14 +325,47 @@ function generate_schema(p_schema_context)
                         if(data_value_list == null)	
                         {
                             data_value_list = p_schema_context.metadata.values;
+
+                        }
+
+
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+                            
+                        for(let j = 0; j < data_value_list.length; j++ )
+                        {
+                            object["x-enumNames"].push(data_value_list[j].display);
+                            object["enum"].push(data_value_list[j].value);
+                        }
+
+                        /*
+                        else
+                        {
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = {  "type": list_item_data_type, "items": { "oneOf": [{"$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
+
+                            
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+
+                            for(let j = 0; j < data_value_list.length; j++ )
+                            {
+                                object["x-enumNames"].push(data_value_list[j].display);
+                                object["enum"].push(data_value_list[j].value);
+                            }
+                            
+                        }*/
+
+                    }
+                    else
+                    {
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+
+                        for(let j = 0; j < p_schema_context.metadata.values.length; j++ )
+                        {
+                            object["x-enumNames"].push(p_schema_context.metadata.values[j].display);
+                            object["enum"].push(p_schema_context.metadata.values[j].value);
                         }
                     }
 
-                    for(let j = 0; j < data_value_list.length; j++ )
-                    {
-                        object["x-enumNames"].push(data_value_list[j].display);
-                        object["enum"].push(data_value_list[j].value);
-                    }
+
                 }
                 break;
             }
@@ -465,10 +526,14 @@ function set_definitions(p_definition_context)
             }
             else
             {*/
-                object = p_definition_context.definition_node[definition_name] = { "type": "string", "x-enumNames": [] }
+                //object = p_definition_context.definition_node[definition_name] = { "type": "string", "x-enumNames": [], "enum": [] }
+
+                let list_item_data_type = p_definition_context.metadata.list_item_data_type;
+                object = p_definition_context.definition_node[definition_name] = { "type": list_item_data_type, "items": { "type": list_item_data_type, "x-enumNames": [], "enum": [] } }
                 for(var j in p_definition_context.metadata.values)
                 {
-                    object["x-enumNames"].push(p_definition_context.metadata.values[j].value);
+                    object["items"]["x-enumNames"].push(p_definition_context.metadata.values[j].display);
+                    object["items"]["enum"].push(p_definition_context.metadata.values[j].value);
                 }
             //}
         break;
@@ -504,20 +569,23 @@ function set_lookUp(p_parent, p_node)
             case "list":
                 if(p_node.is_multiselect && p_node.is_multiselect == true)
                 {
-
-                    property = p_parent[p_node.name.toLowerCase()] = { "type": "array", "x-enumNames": [] }
+                    //"allOf": [ {
+                    let list_item_data_type = p_node.list_item_data_type;
+                    property = p_parent[p_node.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum": [] } }
                     for(var j in p_node.values)
                     {
-                        property["x-enumNames"].push(p_node.values[j].value);
+                        property["items"]["x-enumNames"].push(p_node.values[j].display);
+                        property["items"]["enum"].push(p_node.values[j].value);
                     }
                 }
                 else
                 {
 
-                    property = p_parent[p_node.name.toLowerCase()] = { "type": "string", "x-enumNames": [] }
+                    property = p_parent[p_node.name.toLowerCase()] = { "type": "string", "x-enumNames": [], "enum": [] }
                     for(var j in p_node.values)
                     {
-                        property["x-enumNames"].push(p_node.values[j].value);
+                        property["x-enumNames"].push(p_node.values[j].display);
+                        property["enum"].push(p_node.values[j].value);
                     }
                 }
                 break;
