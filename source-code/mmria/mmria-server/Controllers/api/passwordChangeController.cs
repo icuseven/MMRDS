@@ -34,7 +34,7 @@ namespace mmria.server
 		{ 
 			var days_til_expires = -1;
 
-			var days_before_expires = Program.config_password_days_before_expires;
+			var days_before_expires = Program.config_pass_word_days_before_expires;
 
 			DateTime grace_period_date = DateTime.Now;
 

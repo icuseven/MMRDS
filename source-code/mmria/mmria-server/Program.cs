@@ -109,9 +109,9 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?vie
 
         public static bool is_db_check_enabled = false;
 
-        public static int config_password_minimum_length;
-        public static int config_password_days_before_expires;
-        public static int config_password_days_before_user_is_notified_of_expiration;
+        public static int config_pass_word_minimum_length = 8;
+        public static int config_pass_word_days_before_expires = 0;
+        public static int config_pass_word_days_before_user_is_notified_of_expiration = 0;
         public static bool config_EMAIL_USE_AUTHENTICATION = true;
         public static bool config_EMAIL_USE_SSL = true;
         public static string config_SMTP_HOST = null;

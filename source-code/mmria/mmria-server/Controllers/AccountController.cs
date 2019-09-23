@@ -137,7 +137,7 @@ namespace mmria.server.Controllers
                 var unsuccessful_login_attempts_number_before_lockout = Program.config_unsuccessful_login_attempts_number_before_lockout;
                 var unsuccessful_login_attempts_within_number_of_minutes = Program.config_unsuccessful_login_attempts_within_number_of_minutes;
                 var unsuccessful_login_attempts_lockout_number_of_minutes = Program.config_unsuccessful_login_attempts_lockout_number_of_minutes;
-                var password_days_before_expires = Program.config_password_days_before_expires;
+                var password_days_before_expires = Program.config_pass_word_days_before_expires;
 
 
                 var is_locked_out = false;
@@ -430,7 +430,7 @@ namespace mmria.server.Controllers
         {
             var days_til_value_expires = -1;
 
-			var password_days_before_expires = Program.config_password_days_before_expires;
+			var password_days_before_expires = Program.config_pass_word_days_before_expires;
 
 			if(password_days_before_expires > 0)
 			{

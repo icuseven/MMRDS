@@ -32,7 +32,7 @@ namespace mmria.server.Controllers
 
             var days_til_expiration = -1;
 
-			var password_days_before_expires = Program.config_password_days_before_expires;
+			var password_days_before_expires = Program.config_pass_word_days_before_expires;
 
 			if(password_days_before_expires > 0)
 			{
