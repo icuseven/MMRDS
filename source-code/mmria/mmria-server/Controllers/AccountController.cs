@@ -118,14 +118,14 @@ namespace mmria.server.Controllers
                 return RedirectToAction("SignIn");
             }
 
-            const string badUserNameOrPasswordMessage = "Username or password is incorrect.";
+            const string badUserNameOrValueMessage = "Username or password is incorrect.";
             if(
                 user == null ||
                 string.IsNullOrWhiteSpace(user.UserName) ||
                 string.IsNullOrWhiteSpace(user.Value)
             ) 
             {
-                return BadRequest(badUserNameOrPasswordMessage);
+                return BadRequest(badUserNameOrValueMessage);
             }
 
 
