@@ -534,8 +534,20 @@ namespace mmria.server.util
 
                 if (result_dictionary!= null && result_dictionary.ContainsKey ("_rev")) 
                 {
-                    pay_load__dictionary["_rev"] = result_dictionary ["_rev"];
-                    //System.Console.WriteLine ("json\n{0}", object_string);
+                    if(pay_load__dictionary != null)
+                    {
+                        if(pay_load__dictionary.ContainsKey("_rev"))
+                        {
+                            pay_load__dictionary["_rev"] = result_dictionary ["_rev"];
+                        }
+                        /*
+                        else
+                        {
+                            pay_load__dictionary["_rev"] = result_dictionary ["_rev"];
+                        }
+                         */
+                        //System.Console.WriteLine ("json\n{0}", object_string);
+                    }
                 }
 
 

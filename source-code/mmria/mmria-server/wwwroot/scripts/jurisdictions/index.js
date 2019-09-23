@@ -26,20 +26,6 @@ var $$ = {
     {
         return false;
     }
-  },
-  add_new_jurisdiction: function(p_name, p_password)
-  {
-	  return {
-		"_id": "org.couchdb.jurisdiction:" + p_name,
-		"password": p_password,
-		"password_scheme": "pbkdf2",
-		"iterations": 10,
-		"name": p_name,
-		"roles": [  ],
-		"type": "jurisdiction",
-		"derived_key": "a1bb5c132df5b7df7654bbfa0e93f9e304e40cfe",
-		"salt": "510427706d0deb511649021277b2c05d"
-		};
   }
 };
 

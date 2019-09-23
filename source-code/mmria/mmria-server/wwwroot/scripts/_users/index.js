@@ -34,7 +34,6 @@ var $$ = {
 	  return {
 		"_id": "org.couchdb.user:" + p_name,
 		"password": p_password,
-		"password_scheme": "pbkdf2",
 		"iterations": 10,
 		"name": p_name,
 		"roles": [  ],
