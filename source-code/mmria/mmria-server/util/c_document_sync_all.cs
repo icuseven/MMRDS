@@ -65,9 +65,13 @@ namespace mmria.server.util
 					current_directory = System.IO.Directory.GetCurrentDirectory();
 				}
 
-                string result = await System.IO.File.OpenText (System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")).ReadToEndAsync ();
-                var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id/_design/sortable", result, this.user_name, this.user_value);
-                await create_de_id_curl.executeAsync ();
+				using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")))
+				{
+					string result = await sr.ReadToEndAsync ();
+					var create_de_id_curl = new cURL ("PUT", null, this.couchdb_url + "/de_id/_design/sortable", result, this.user_name, this.user_value);
+					await create_de_id_curl.executeAsync ();					
+				}
+
  
             } 
             catch (Exception ex) 

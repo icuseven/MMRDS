@@ -117,15 +117,24 @@ namespace mmria.server.util
 
                     try 
                     {
-                        string case_design_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")).ReadToEnd ();
-                        var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
-                        await case_design_sortable_curl.executeAsync ();
+                        using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_design_sortable.json")))
+                        {
+
+                            string case_design_sortable = sr.ReadToEnd ();
+                            var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                            await case_design_sortable_curl.executeAsync ();
+                        }
+
 
                         //await EnsureUpdate(case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable");
 
-                        string case_store_design_auth = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")).ReadToEndAsync ();
-                        var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
-                        await case_store_design_auth_curl.executeAsync ();
+                        using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
+                        {
+                            string case_store_design_auth = await sr.ReadToEndAsync ();
+                            var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                            await case_store_design_auth_curl.executeAsync ();    
+                        }
+                        
 
                         //await EnsureUpdate(case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth");
 
@@ -152,23 +161,22 @@ namespace mmria.server.util
                     try 
                     {
                         
-                        /*
-                        string session_design_profile_sortable = System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/session_design_profile_sortable.json")).ReadToEnd ();
-                        var session_design_profile_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/profile_sortable", session_design_profile_sortable, Program.config_timer_user_name, Program.config_timer_password);
-                        await session_design_profile_sortable_curl.executeAsync ();
-                        */
-                        //await EnsureUpdate(case_design_sortable, Program.config_couchdb_url + "/mmrds/_design/sortable");
 
-                        string session_design_session_event_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_event_sortable.json")).ReadToEndAsync ();
-                        var session_design_session_event_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_event_sortable", session_design_session_event_sortable, Program.config_timer_user_name, Program.config_timer_value);
-                        await session_design_session_event_sortable_curl.executeAsync ();
+                        using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_event_sortable.json")))
+                        {
+                            string session_design_session_event_sortable = await sr.ReadToEndAsync ();
+                            var session_design_session_event_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_event_sortable", session_design_session_event_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                            await session_design_session_event_sortable_curl.executeAsync ();                            
+                        }
+                        
 
-
-                        string session_design_session_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_sortable.json")).ReadToEndAsync ();
-                        var session_design_session_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_sortable", session_design_session_sortable, Program.config_timer_user_name, Program.config_timer_value);
-                        await session_design_session_sortable_curl.executeAsync ();
-
-                        //await EnsureUpdate(case_store_design_auth, Program.config_couchdb_url + "/mmrds/_design/auth");
+                        using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/session_design_session_sortable.json")))
+                        {
+                            string session_design_session_sortable = await sr.ReadToEndAsync ();
+                            var session_design_session_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/session/_design/session_sortable", session_design_session_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                            await session_design_session_sortable_curl.executeAsync ();    
+                        }
+                        
 
                     }
                     catch (Exception ex) 
@@ -261,15 +269,21 @@ namespace mmria.server.util
                     await new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
                     Log.Information ("jurisdiction/_security completed successfully");
 
-                    string jurisdiction_design_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")).ReadToEndAsync ();
-                    var jurisdiction_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", jurisdiction_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
-                    await jurisdiction_design_sortable_curl.executeAsync ();
-                    Log.Information ("jurisdiction_design_sortable_curl completed successfully");
-
-                    string jurisdiction_store_design_auth = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")).ReadToEndAsync ();
-                    var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
-                    await jurisdiction_store_design_auth_curl.executeAsync ();
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_sortable.json")))
+                    {
+                        string jurisdiction_design_sortable = await sr.ReadToEndAsync ();
+                        var jurisdiction_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/sortable", jurisdiction_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                        await jurisdiction_design_sortable_curl.executeAsync ();
+                        Log.Information ("jurisdiction_design_sortable_curl completed successfully");
+                    }
                     
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/jurisdiction_design_auth.json")))
+                    {
+                        string jurisdiction_store_design_auth = await sr.ReadToEndAsync ();
+                        var jurisdiction_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/jurisdiction/_design/auth", jurisdiction_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                        await jurisdiction_store_design_auth_curl.executeAsync ();
+                    }
+
                     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     string jurisdiction_tree_json = Newtonsoft.Json.JsonConvert.SerializeObject(new mmria.common.model.couchdb.jurisdiction_tree(), settings);
@@ -310,40 +324,60 @@ namespace mmria.server.util
                     await new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ();
                     Log.Information ("metadata/_security completed successfully");
 
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")))
+                    {
+                        string metadata_design_auth = await sr.ReadToEndAsync ();
+                        var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                        await metadata_design_auth_curl.executeAsync ();                        
+                    }
 
-                    string metadata_design_auth = await System.IO.File.OpenText (System.IO.Path.Combine(current_directory, "database-scripts/metadata_design_auth.json")).ReadToEndAsync ();
-                    var metadata_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/auth", metadata_design_auth, Program.config_timer_user_name, Program.config_timer_value);
-                    await metadata_design_auth_curl.executeAsync ();
 
-                    string metadata_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")).ReadToEndAsync (); ;
-                    var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_value);
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/metadata.json")))
+                    {
+                        string metadata_json = await sr.ReadToEndAsync (); ;
+                        var metadata_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z", metadata_json, Program.config_timer_user_name, Program.config_timer_value);
+                        
+                        var metadata_result_string = await metadata_json_curl.executeAsync ();
+                        var metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);    
                     
-                    var metadata_result_string = await metadata_json_curl.executeAsync ();
-                    var metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
+                    
 
-                    string metadata_attachment = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/MMRIA_calculations.js")).ReadToEndAsync (); ;
-                    var metadata_attachement_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_value);
-                    metadata_attachement_curl.AddHeader("If-Match",  metadata_result.rev);
+                        using (var  sr1 = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/MMRIA_calculations.js")))
+                        {
+                            string metadata_attachment = await sr1.ReadToEndAsync (); ;
+                            var metadata_attachement_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_value);
+                            metadata_attachement_curl.AddHeader("If-Match",  metadata_result.rev);
 
-                    metadata_result_string = await metadata_attachement_curl.executeAsync ();
-                    metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
+                            metadata_result_string = await metadata_attachement_curl.executeAsync ();
+                            metadata_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(metadata_result_string);
+        
+                        }
 
-                    metadata_attachment = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/validator.js")).ReadToEndAsync (); ;
-                    var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_value);
-                    mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
-                    Log.Information($"{await mmria_check_code_curl.executeAsync ()}");
+                        using (var  sr1 = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/validator.js")))
+                        {
+                            var metadata_attachment = await sr1.ReadToEndAsync (); 
+                            var mmria_check_code_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js", metadata_attachment, Program.config_timer_user_name, Program.config_timer_value);
+                            mmria_check_code_curl.AddHeader("If-Match",  metadata_result.rev);
+                            Log.Information($"{await mmria_check_code_curl.executeAsync ()}");
 
+                        }
+                    }
+                    
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/migration_plan_sortable.json")))
+                    {
+                        string migration_plan_sortable = await sr.ReadToEndAsync ();
+                        var migration_plan_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/sortable", migration_plan_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                    }
 
-                    string migration_plan_sortable = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/migration_plan_sortable.json")).ReadToEndAsync (); ;
-                    var migration_plan_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/_design/sortable", migration_plan_sortable, Program.config_timer_user_name, Program.config_timer_value);
-
-                    string default_ui_specification_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")).ReadToEndAsync (); ;
-                    var default_ui_specification_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/default_ui_specification", default_ui_specification_json, Program.config_timer_user_name, Program.config_timer_value);
-                    //var default_ui_specification_result_string = 
-                    string default_ui_specification_curl_result = await default_ui_specification_curl.executeAsync ();
-                    default_ui_specification_curl_result = null;
-
-
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/default-ui-specification.json")))
+                    {
+                        string default_ui_specification_json = await sr.ReadToEndAsync ();
+                        var default_ui_specification_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/default_ui_specification", default_ui_specification_json, Program.config_timer_user_name, Program.config_timer_value);
+                        //var default_ui_specification_result_string = 
+                        string default_ui_specification_curl_result = await default_ui_specification_curl.executeAsync ();
+                        default_ui_specification_curl_result = null;
+                    }
+                
 
 
 
@@ -374,10 +408,15 @@ namespace mmria.server.util
                     try 
                     {
 
-                        string migration_plan = await System.IO.File.OpenText (file_path).ReadToEndAsync (); ;
-                        var migration_plan_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/" + file_info.Name.Replace(".json",""), migration_plan, Program.config_timer_user_name, Program.config_timer_value);
-                        string migration_plan_curl_result = await migration_plan_curl.executeAsync ();
-                        migration_plan_curl_result = null;
+
+                        using (var  sr = new System.IO.StreamReader(file_path))
+                        {
+                            string migration_plan = await sr.ReadToEndAsync (); ;
+                            var migration_plan_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/" + file_info.Name.Replace(".json",""), migration_plan, Program.config_timer_user_name, Program.config_timer_value);
+                            string migration_plan_curl_result = await migration_plan_curl.executeAsync ();
+                            migration_plan_curl_result = null;
+                            
+                        }
                         
 
                     }
@@ -389,11 +428,6 @@ namespace mmria.server.util
                 }
             }
 
-
-
-
-
-
             if
             (
                 !await url_endpoint_exists (Program.config_couchdb_url + "/metadata/de-identified-list", Program.config_timer_user_name, Program.config_timer_value)
@@ -401,11 +435,15 @@ namespace mmria.server.util
             {
                 try 
                 {
-                    string de_identified_list_json = await System.IO.File.OpenText (System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")).ReadToEndAsync (); ;
-                    var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_value);
-                    string de_identified_list_json_curl_result = await de_identified_list_json_curl.executeAsync ();
-                    Log.Information($"PUT /metadata/de-identified-list\n{de_identified_list_json_curl_result}");
-                    de_identified_list_json_curl_result = null;
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/de-identified-list.json")))
+                    {
+                        string de_identified_list_json = await sr.ReadToEndAsync ();
+                        var de_identified_list_json_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/metadata/de-identified-list", de_identified_list_json, Program.config_timer_user_name, Program.config_timer_value);
+                        string de_identified_list_json_curl_result = await de_identified_list_json_curl.executeAsync ();
+                        Log.Information($"PUT /metadata/de-identified-list\n{de_identified_list_json_curl_result}");
+                        de_identified_list_json_curl_result = null;    
+                    }
+                    
 
                 }
                 catch (Exception ex) 
