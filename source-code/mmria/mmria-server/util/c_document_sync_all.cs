@@ -12,11 +12,11 @@ namespace mmria.server.util
 		private string user_name;
 		private string user_value;
 
-		public c_document_sync_all (string p_couchdb_url, string p_user_name, string p_password)
+		public c_document_sync_all (string p_couchdb_url, string p_user_name, string p_value)
 		{
 			this.couchdb_url = p_couchdb_url;
 			this.user_name = p_user_name;
-			this.user_value = p_password;
+			this.user_value = p_value;
 		}
 
 

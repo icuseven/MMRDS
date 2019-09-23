@@ -93,11 +93,11 @@ namespace mmria.server.model.actor.quartz
 
         }
 
-                private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
+                private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_value, string p_method = "HEAD")
         {
             bool result = false;
 
-            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_password);
+            var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_value);
             try 
             {
                 curl.execute ();

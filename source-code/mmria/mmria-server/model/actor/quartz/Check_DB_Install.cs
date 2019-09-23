@@ -66,7 +66,7 @@ namespace mmria.server.model.actor.quartz
         }
 
 
-		bool url_endpoint_exists (string p_target_server, string p_user_name, string p_password, string p_method = "HEAD")
+		bool url_endpoint_exists (string p_target_server, string p_user_name, string p_value, string p_method = "HEAD")
         {
             System.Net.HttpStatusCode response_result;
 
@@ -83,9 +83,9 @@ namespace mmria.server.model.actor.quartz
                 
                 request.Method = p_method;
 
-                if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_password))
+                if (!string.IsNullOrWhiteSpace(p_user_name) && !string.IsNullOrWhiteSpace(p_value))
                 {
-                    string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_password));
+                    string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(p_user_name + ":" + p_value));
                     request.Headers.Add("Authorization", "Basic " + encoded);
                 }
 
