@@ -31,9 +31,9 @@ namespace mmria.server.Controllers
             app_config.timer_user_name = configuration["mmria_settings:timer_user_name"];
             app_config.timer_password = configuration["mmria_settings:timer_password"];
             app_config.cron_schedule = configuration["mmria_settings:cron_schedule"];
-            app_config.password_minimum_length = int.Parse(configuration["password_settings:minimum_length"]);
-            app_config.password_days_before_expires = int.Parse(configuration["password_settings:days_before_expires"]);
-            app_config.password_days_before_user_is_notified_of_expiration = int.Parse(configuration["password_settings:days_before_user_is_notified_of_expiration"]);
+            app_config.pass_word_minimum_length = int.Parse(configuration["password_settings:minimum_length"]);
+            app_config.pass_word_days_before_expires = int.Parse(configuration["password_settings:days_before_expires"]);
+            app_config.pass_word_days_before_user_is_notified_of_expiration = int.Parse(configuration["password_settings:days_before_user_is_notified_of_expiration"]);
             app_config.EMAIL_USE_AUTHENTICATION = bool.Parse(configuration["smtp:use_authentication"]);
             app_config.EMAIL_USE_SSL = bool.Parse(configuration["smtp:use_ssl"]);
             app_config.SMTP_HOST = configuration["smtp:host"];
@@ -59,9 +59,9 @@ namespace mmria.server.Controllers
             configuration["mmria_settings:timer_user_name"] = app_config.timer_user_name;
             configuration["mmria_settings:timer_password"] = app_config.timer_password;
             configuration["mmria_settings:cron_schedule"] = app_config.cron_schedule;
-            configuration["password_settings:minimum_length"] = app_config.password_minimum_length.Value.ToString();
-            configuration["password_settings:days_before_expires"] = app_config.password_days_before_expires.Value.ToString();
-            configuration["password_settings:days_before_user_is_notified_of_expiration"] = app_config.password_days_before_user_is_notified_of_expiration.Value.ToString();
+            configuration["password_settings:minimum_length"] = app_config.pass_word_minimum_length.Value.ToString();
+            configuration["password_settings:days_before_expires"] = app_config.pass_word_days_before_expires.Value.ToString();
+            configuration["password_settings:days_before_user_is_notified_of_expiration"] = app_config.pass_word_days_before_user_is_notified_of_expiration.Value.ToString();
             configuration["smtp:use_authentication"] = app_config.EMAIL_USE_AUTHENTICATION.Value.ToString();
             configuration["smtp:use_ssl"] = app_config.EMAIL_USE_SSL.Value.ToString();
             configuration["smtp:host"] = app_config.SMTP_HOST;

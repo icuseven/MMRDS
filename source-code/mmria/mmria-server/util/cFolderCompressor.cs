@@ -15,22 +15,23 @@ namespace mmria.server.util
 		public void Compress(string outPathname, string password, string folderName) 
 		{
 
-			FileStream fsOut = File.Create(outPathname);
-			ZipOutputStream zipStream = new ZipOutputStream(fsOut);
+			using(FileStream fsOut = File.Create(outPathname))
+			using(ZipOutputStream zipStream = new ZipOutputStream(fsOut))
+			{
+				zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
 
-			zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
+				zipStream.Password = password;	// optional. Null is the same as not setting. Required if using AES.
 
-			zipStream.Password = password;	// optional. Null is the same as not setting. Required if using AES.
+				// This setting will strip the leading part of the folder path in the entries, to
+				// make the entries relative to the starting folder.
+				// To include the full path for each entry up to the drive root, assign folderOffset = 0.
+				int folderOffset = folderName.Length + (folderName.EndsWith("\\") ? 0 : 1);
 
-			// This setting will strip the leading part of the folder path in the entries, to
-			// make the entries relative to the starting folder.
-			// To include the full path for each entry up to the drive root, assign folderOffset = 0.
-			int folderOffset = folderName.Length + (folderName.EndsWith("\\") ? 0 : 1);
+				CompressFolder(folderName, zipStream, folderOffset);
 
-			CompressFolder(folderName, zipStream, folderOffset);
-
-			zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
-			zipStream.Close();
+				zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
+				zipStream.Close();
+			}
 		}
 
 		// Recurses down the folder structure

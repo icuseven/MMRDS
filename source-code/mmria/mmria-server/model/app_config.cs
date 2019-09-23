@@ -19,9 +19,9 @@ namespace mmria.server.model
             public string timer_user_name {get; set;} = null;
             public string timer_password {get; set;} = null;
             public string cron_schedule {get; set;} = "0 */1 * * * ?";
-            public int? password_minimum_length {get; set;} =  8;
-            public int? password_days_before_expires {get; set;} = 0;
-            public int? password_days_before_user_is_notified_of_expiration {get; set;} = 0;
+            public int? pass_word_minimum_length {get; set;} =  8;
+            public int? pass_word_days_before_expires {get; set;} = 0;
+            public int? pass_word_days_before_user_is_notified_of_expiration {get; set;} = 0;
             public bool? EMAIL_USE_AUTHENTICATION {get; set;} = false;
             public bool? EMAIL_USE_SSL {get; set;} = false;
 
