@@ -1496,16 +1496,16 @@ namespace mmria.server.util
 
 		private void WriteQualitativeData(string p_record_id, string p_mmria_path, string p_data, int p_index, int p_parent_index)
 		{
-			const string record_split = "=== ======= ";
-			const string header_split = "*** ******* ";
+			const string record_split = "************************************************************";
+			const string header_split = "\n\n";
 
 			if(this.qualitativeStreamCount == 0)
 			{
-				this.qualitativeStreamWriter.WriteLine($"{record_split}id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}{header_split}\n\n{p_data}");
+				this.qualitativeStreamWriter.WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
 			}
 			else
 			{
-				this.qualitativeStreamWriter.WriteLine($"\n{record_split}id={p_record_id}&path={p_mmria_path}&record_index={p_index}&parent_index={p_parent_index}{header_split}\n\n{p_data}");
+				this.qualitativeStreamWriter.WriteLine($"\n{record_split}id={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
 			}
 			this.qualitativeStreamCount+=1;
 		}

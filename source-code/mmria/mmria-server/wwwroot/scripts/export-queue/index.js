@@ -6,6 +6,34 @@ var g_delete_attribute_clip_board = null;
 var g_delete_node_clip_board = null;
 
 var g_ui = { is_collapsed : [] };
+var g_filter = 	{
+	date_of_death:
+	{
+		year: [
+			'all'
+		],
+		month: [
+			'all'
+		],
+		day: [
+			'all'
+		],
+	},
+	date_range: [
+		{
+			from: 'all',
+			to:	'all'
+		}
+	],
+	case_status: [
+		'all'
+	],
+	case_jurisdiction: [
+		'/all'
+	]
+};
+
+
 
 var answer_summary = {
 	all_or_core: 'all',
@@ -15,34 +43,7 @@ var answer_summary = {
 	is_for_cdc: 'no',
 	de_identified_selection_type: 'none',
 	de_identified_field_set: {},
-	filter:
-	{
-		date_of_death:
-		{
-			year: [
-				'all'
-			],
-			month: [
-				'all'
-			],
-			day: [
-				'all'
-			],
-		},
-		date_range: [
-			{
-				from: 'all',
-				to:	'all'
-			}
-		],
-		case_status: [
-			'all'
-		],
-		case_jurisdiction: [
-			'/all'
-		]
-	}
-
+	case_set: [],
 };
 
 [ 'all', 'csv', 'none', location.host ];
@@ -388,5 +389,89 @@ function update_queue_task()
 
 			//document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
 
+	});
+}
+
+
+// Promise that sets and updates answer_summary json obj
+function setAnswerSummary(event) {
+	return new Promise((resolve, reject) => {
+		const target = event.target,
+					val = target.value,
+					prop = target.dataset.prop;
+			let path; // variable to split props into
+
+		console.log(target, val, prop);
+		
+		if (prop) 
+		{
+			if (prop.indexOf('/') < 0) 
+			{
+				answer_summary[prop] = val;
+			}
+			else 
+			{
+				path = prop.split('/');
+				switch(path[1])
+				{
+					case 'date_of_death':
+						switch(path[2]) 
+						{
+							case 'year':
+								answer_summary['filter']['date_of_death']['year'][0] = val;
+								break;
+							case 'month':
+								answer_summary['filter']['date_of_death']['month'][0] = val;
+								break;
+							case 'day':
+								answer_summary['filter']['date_of_death']['day'][0] = val;
+								break;
+						}
+						break;
+					case 'case_status':
+						let case_opts = target.options;
+						let statuses = [];
+						for (let i = 0; i< case_opts.length; i++) {
+							if (case_opts[i].selected) {
+								// push each selected option into statuses arr
+								statuses.push(case_opts[i].value);
+								
+								// // Below we push obj into temp 'statuses' array for later manipulation
+								// let s = {};
+								// s['value'] = case_opts[i].value;
+								// s['text'] = case_opts[i].text;
+								// statuses.push(status);
+							}
+						}
+						// set answer_summary to new statuses
+						answer_summary['filter']['case_status'] = statuses;
+						break;
+					case 'case_jurisdiction':
+							let jurisdiction_opts = target.options;
+							let jurisdictions = [];
+							for (let i = 0; i< jurisdiction_opts.length; i++) {
+								if (jurisdiction_opts[i].selected) {
+									// push each selected option into jurisdictions arr
+									jurisdictions.push(jurisdiction_opts[i].value);
+									
+									// let j = {};
+									// // Below we push obj into temp 'jurisdictions' array for later manipulation
+									// j['value'] = jurisdiction_opts[i].value;
+									// j['text'] = jurisdiction_opts[i].text;
+									// jurisdictions.push(j);
+								}
+							}
+							// set answer_summary to new jurisdictions
+							answer_summary['filter']['case_jurisdiction'] = jurisdictions;
+						break;
+				}
+			}
+			console.log('Updating... ', answer_summary);
+			resolve();
+		}
+		else
+		{
+			reject('Error');
+		}
 	});
 }

@@ -1,204 +1,3 @@
-// Grabs first letter and captilizes
-function capitalizeFirstLetter(str) {
-	// if str exists
-	if (str) {
-		// Grab first letter and upperCase it then lowerCase the rest and return
-		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-	}
-}
-
-// Promise that sets and updates answer_summary json obj
-function setAnswerSummary(event) {
-	return new Promise((resolve, reject) => {
-		const target = event.target,
-					val = target.value,
-					prop = target.dataset.prop;
-			let path; // variable to split props into
-
-		console.log(target, val, prop);
-		
-		if (prop) 
-		{
-			if (prop.indexOf('/') < 0) 
-			{
-				answer_summary[prop] = val;
-			}
-			else 
-			{
-				path = prop.split('/');
-				switch(path[1])
-				{
-					case 'date_of_death':
-						switch(path[2]) 
-						{
-							case 'year':
-								answer_summary['filter']['date_of_death']['year'][0] = val;
-								break;
-							case 'month':
-								answer_summary['filter']['date_of_death']['month'][0] = val;
-								break;
-							case 'day':
-								answer_summary['filter']['date_of_death']['day'][0] = val;
-								break;
-						}
-						break;
-					case 'case_status':
-						let case_opts = target.options;
-						let statuses = [];
-						for (let i = 0; i< case_opts.length; i++) {
-							if (case_opts[i].selected) {
-								// push each selected option into statuses arr
-								statuses.push(case_opts[i].value);
-								
-								// // Below we push obj into temp 'statuses' array for later manipulation
-								// let s = {};
-								// s['value'] = case_opts[i].value;
-								// s['text'] = case_opts[i].text;
-								// statuses.push(status);
-							}
-						}
-						// set answer_summary to new statuses
-						answer_summary['filter']['case_status'] = statuses;
-						break;
-					case 'case_jurisdiction':
-							let jurisdiction_opts = target.options;
-							let jurisdictions = [];
-							for (let i = 0; i< jurisdiction_opts.length; i++) {
-								if (jurisdiction_opts[i].selected) {
-									// push each selected option into jurisdictions arr
-									jurisdictions.push(jurisdiction_opts[i].value);
-									
-									// let j = {};
-									// // Below we push obj into temp 'jurisdictions' array for later manipulation
-									// j['value'] = jurisdiction_opts[i].value;
-									// j['text'] = jurisdiction_opts[i].text;
-									// jurisdictions.push(j);
-								}
-							}
-							// set answer_summary to new jurisdictions
-							answer_summary['filter']['case_jurisdiction'] = jurisdictions;
-						break;
-				}
-			}
-			console.log('Updating... ', answer_summary);
-			resolve();
-		}
-		else
-		{
-			reject('Error');
-		}
-	});
-}
-
-// Function returned after promise to update/set answer_summary to new value
-function updateSummarySection(event)
-{
-	const tar = event.target;
-	const prop = tar.dataset.prop;
-	const val = tar.value;
-	const el = document.querySelectorAll(`#answer-summary-card [data-prop='${prop}']`);
-	let path;
-
-		// if prop doesn't have path
-	if (prop.indexOf('/') < 0) 
-	{
-		el.forEach((i) =>
-		{
-			i.innerText = capitalizeFirstLetter(val);
-		});
-	}
-	else
-	{
-		path = prop.split('/');
-		switch(path[1]) {
-			case 'case_status':
-				const cs_opts = tar.options;
-				let cs_html = '';
-				for (let i = 0; i < cs_opts.length; i++) {
-					if (cs_opts[i].selected) {
-						cs_html += '<li>';
-						cs_html += cs_opts[i].text;
-						cs_html += '</li>';
-					}
-				}
-				el[0].innerHTML = cs_html;
-				break;
-
-			case 'case_jurisdiction':
-				const cj_opts = tar.options;
-				let cj_html = '';
-				for (let i = 0; i < cj_opts.length; i++) {
-					if (cj_opts[i].selected) {
-						cj_html += '<li>';
-						cj_html += cj_opts[i].text;
-						cj_html += '</li>';
-					}
-				}
-				el[0].innerHTML = cj_html;
-				break;
-			default:
-				el.forEach((i) =>
-				{
-					i.innerText = capitalizeFirstLetter(val);
-				});
-				break;
-		}
-	}
-}
-
-// Function returned after promise to update/set answer_summary to new value
-function handleElementDisplay(event, str)
-{
-	const prop = event.target.dataset.prop;
-	const tars = document.querySelectorAll(`[data-show='${prop}']`);
-
-	tars.forEach((i) =>
-	{
-		i.style.display = str;
-	});
-}
-
-// Class to dynamically create a new 'numeric' dropdown
-class NumericDropdown
-{
-	constructor(type)
-	{
-		this.type = type;
-		this.iterator = 1;
-		this.condition = 1;
-		this.opts = '<option value="all" selected>All</option>'; // options should be 'All' by default
-	}
-
-	buildNumericDropdown()
-	{
-		// based on case type, we change iterator and/or condition
-		switch (this.type)
-		{
-			case "y":
-			case "year":
-				this.iterator = new Date().getFullYear() - 119;
-				this.condition = new Date().getFullYear();
-				break;
-			case "m":
-			case "month":
-				this.condition = 12;
-				break;
-			case "d":
-			case "day":
-				this.condition = 31;
-				break;
-		}
-
-		// iterate through iterator and condition to build the options
-		for (let i = this.iterator; i <= this.condition; i++)
-		{
-			this.opts += `<option value='${i}'>`;
-			this.opts += i;
-			this.opts += "</option>";
-		}
-		return this.opts;
-	}
-}
 
 function export_queue_render(p_queue_data)
 {
@@ -206,83 +5,7 @@ function export_queue_render(p_queue_data)
 
 	result.push(`
 		<div class="row">
-			<div class="col-4 fancy-sidebar">
-				<div id="answer-summary-card" class="card">
-					<div class="card-header bg-gray-l3">
-					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
-					</div>
-					<div class="card-body bg-gray-l3">
-					<ul>
-						<li>
-							Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
-							<ul>
-								<li>
-									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
-								</li>
-							</ul>
-						</li>
-						<li>
-							Export/Grantee name: ${answer_summary.grantee_name}
-						</li>
-						<!-- <li>You have selected to export in JSON format</li> -->
-						<li>
-							Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
-						</li>
-						<li>
-							Send file to CDC: <span data-prop="is_for_cdc">${capitalizeFirstLetter(answer_summary.is_for_cdc)}</span>
-						</li>
-						<li>
-							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
-							<ul data-show="de_identified_selection_type" style="display: none">
-								<li>
-									<button class="btn btn-link p-0" data-toggle="modal" data-target="#custom-fields">View selection</button>
-								</li>
-							</ul>
-						</li>
-						<li>
-							Filter by:
-							<ul>
-								<li>
-									Date of Death:
-									<ul>
-										<li>
-											From: <span data-prop="filter/date_range/from">${capitalizeFirstLetter(answer_summary.filter.date_range[0].from)}</span>
-											,
-											To: <span data-prop="filter/date_range/to">${capitalizeFirstLetter(answer_summary.filter.date_range[0].to)}</span>
-										</li>
-									</ul>
-								</li>
-								<!--
-								<li>
-									Date of Death:
-									<ul>
-										<li>Year: <span data-prop="filter/date_of_death/year">${capitalizeFirstLetter(answer_summary.filter.date_of_death.year[0])}</span></li>
-										<li>Month: <span data-prop="filter/date_of_death/month">${capitalizeFirstLetter(answer_summary.filter.date_of_death.month[0])}</span></li>
-										<li>Day: <span data-prop="filter/date_of_death/day">${capitalizeFirstLetter(answer_summary.filter.date_of_death.day[0])}</span></li>
-									</ul>
-								</li>
-								-->
-								<li>
-									Case status(s):
-									<ul data-prop="filter/case_status">
-										<li>${capitalizeFirstLetter(answer_summary.filter.case_status[0])}</span></li>
-									</ul>
-								</li>
-								<li>
-									Case jurisdiction(s):
-									<ul data-prop="filter/case_jurisdiction">
-										<li>${capitalizeFirstLetter(answer_summary.filter.case_jurisdiction[0])}</span></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-					</div>
-					<div class="card-footer bg-gray-l3">
-						<button class="btn btn-secondary w-100">Confirm & Start Export</button>
-					</div>
-				</div>
-			</div>
+			${export_queue_comfirm_render(p_queue_data)}
 
 			<div class="col-8">
 				<ol class="font-weight-bold">
@@ -453,94 +176,16 @@ function export_queue_render(p_queue_data)
 													 onchange="setAnswerSummary(event)" />
 									</div>
 									<div class="form-inline mb-0">
-										<button type="submit" class="btn btn-secondary">Add</button>
+										<button type="button" class="btn btn-secondary" onclick="date_search_button_click()">search</button>
 									</div>
 								</form>
-								<ol class="font-weight-normal pl-3">
-									<li>From: 2017/02/21, To: 2019/09/24 <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
-									<li>From: 2001/11/01, To: 2019/08/01 <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
-								</ol>
 							</li>
 
-							<!--
 							<li class="mb-4">
-								<p class="mb-2 font-weight-bold">Date of death:</p>
-								<ul class="font-weight-normal row list-unstyled pl-3">
-									<li class="mr-2">
-										<label for="dod-year" class="mb-2">Year</label>
-										<select id="dod-year"
-														class="form-control w-auto"
-														data-prop="filter/date_of_death/year"
-														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
-											${ new NumericDropdown('y').buildNumericDropdown() }
-										</select>
-									</li>
-									<li class="mr-2">
-										<label for="dod-month" class="mb-2">Month</label>
-										<select id="dod-month"
-														class="form-control w-auto"
-														data-prop="filter/date_of_death/month"
-														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
-											${ new NumericDropdown("m").buildNumericDropdown() }
-										</select>
-									</li>
-									<li class="mr-2">
-										<label for="dod-day" class="mb-2">Day</label>
-										<select id="dod-day"
-														class="form-control w-auto"
-														data-prop="filter/date_of_death/day"
-														onchange="setAnswerSummary(event).then(updateSummarySection(event))">
-											${ new NumericDropdown("d").buildNumericDropdown() }
-										</select>
-									</li>
+								<ul id="search_result_list" sytle="overflow-y:scroll;height:300px">
+									
 								</ul>
 							</li>
-							-->
-
-							<li class="mb-4">
-								<label for="case-status" class="mb-3">Case status <small class="d-block mt-1">Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></label>
-								<select id="case-status"
-												class="form-control mb-3"
-												multiple
-												data-prop="filter/case_status"
-												onchange="setAnswerSummary(event).then(updateSummarySection(event))"
-												style="width: 300px">
-									<!-- TODO: These opts need to be wired up dynamically -->
-									<option value="-9" selected>All</option>
-									<option value="0">Not Started</option>
-									<option value="1">In Progress</option>
-									<option value="2">Completed</option>
-									<option value="3">Not Available</option>
-									<option value="4">Not Applicable</option>
-								</select>
-							</li>
-
-							<li class="mb-4">
-								<label for="case-jurisdiction" class="mb-3">Case Jurisdiction <small class="d-block mt-1">Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></label>
-								<select id="case-jurisdiction"
-												class="form-control mb-3"
-												multiple
-												data-prop="filter/case_jurisdiction"
-												onchange="setAnswerSummary(event).then(updateSummarySection(event))"
-												style="width: 300px">
-									<!-- TODO: These opts need to be wired up dynamically -->
-									<option value="/all" selected>/all</option>
-									<option value="/2017">/2017</option>
-									<option value="/2018">/2018</option>
-									<option value="/2019">/2019</option>
-									<option value="/north_ga">/north_ga</option>
-									<option value="/south_ga">/south_ga</option>
-									<option value="/ga">/ga</option>
-									<option value="/nc">/nc</option>
-									<option value="/sc">/sc</option>
-									</select>
-							</li>
-
-							<!-- TODO: Remove completely once we narrow down direction more -->
-							<!--<li class="mb-4">
-								<label class="mb-2">Filter by Case</label>
-								<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
-							</li>-->
 						</ul>
 					</li>
 				</ol>
@@ -679,3 +324,315 @@ function export_queue_render(p_queue_data)
 
 	return result;
 }
+
+
+
+function export_queue_comfirm_render(p_queue_data)
+{
+	var result = `
+	<div class="col-4 fancy-sidebar">
+	<div id="answer-summary-card" class="card">
+		<div class="card-header bg-gray-l3">
+		<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
+		</div>
+		<div class="card-body bg-gray-l3">
+		<ul>
+			<li>
+				Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
+				<ul>
+					<li>
+						Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				Export/Grantee name: ${answer_summary.grantee_name}
+			</li>
+			<!-- <li>You have selected to export in JSON format</li> -->
+			<li>
+				Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
+			</li>
+			<li>
+				Send file to CDC: <span data-prop="is_for_cdc">${capitalizeFirstLetter(answer_summary.is_for_cdc)}</span>
+			</li>
+			<li>
+				De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
+				<ul data-show="de_identified_selection_type" style="display: none">
+					<li>
+						<button class="btn btn-link p-0" data-toggle="modal" data-target="#custom-fields">View selection</button>
+					</li>
+				</ul>
+			</li>
+			<li>
+				Filter by:
+				<ul>
+					<li>
+						Date of Death:
+						<ul>
+							<li>
+								From: <span data-prop="filter/date_range/from">${capitalizeFirstLetter(g_filter.date_range[0].from)}</span>
+								,
+								To: <span data-prop="filter/date_range/to">${capitalizeFirstLetter(g_filter.date_range[0].to)}</span>
+							</li>
+						</ul>
+					</li>
+					<!--
+					<li>
+						Date of Death:
+						<ul>
+							<li>Year: <span data-prop="filter/date_of_death/year">${capitalizeFirstLetter(g_filter.date_of_death.year[0])}</span></li>
+							<li>Month: <span data-prop="filter/date_of_death/month">${capitalizeFirstLetter(g_filter.date_of_death.month[0])}</span></li>
+							<li>Day: <span data-prop="filter/date_of_death/day">${capitalizeFirstLetter(g_filter.date_of_death.day[0])}</span></li>
+						</ul>
+					</li>
+					-->
+					<li>
+						Case status(s):
+						<ul data-prop="filter/case_status">
+							<li>${capitalizeFirstLetter(g_filter.case_status[0])}</span></li>
+						</ul>
+					</li>
+					<li>
+						Case jurisdiction(s):
+						<ul data-prop="filter/case_jurisdiction">
+							<li>${capitalizeFirstLetter(g_filter.case_jurisdiction[0])}</span></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		</div>
+		<div class="card-footer bg-gray-l3">
+			<button class="btn btn-secondary w-100">Confirm & Start Export</button>
+		</div>
+	</div>
+</div>`;
+
+	return result;
+
+
+
+
+}
+
+
+// Grabs first letter and captilizes
+function capitalizeFirstLetter(str) {
+	// if str exists
+	if (str) {
+		// Grab first letter and upperCase it then lowerCase the rest and return
+		return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+	}
+}
+
+
+
+// Function returned after promise to update/set answer_summary to new value
+function updateSummarySection(event)
+{
+	const tar = event.target;
+	const prop = tar.dataset.prop;
+	const val = tar.value;
+	const el = document.querySelectorAll(`#answer-summary-card [data-prop='${prop}']`);
+	let path;
+
+		// if prop doesn't have path
+	if (prop.indexOf('/') < 0) 
+	{
+		el.forEach((i) =>
+		{
+			i.innerText = capitalizeFirstLetter(val);
+		});
+	}
+	else
+	{
+		path = prop.split('/');
+		switch(path[1]) {
+			case 'case_status':
+				const cs_opts = tar.options;
+				let cs_html = '';
+				for (let i = 0; i < cs_opts.length; i++) {
+					if (cs_opts[i].selected) {
+						cs_html += '<li>';
+						cs_html += cs_opts[i].text;
+						cs_html += '</li>';
+					}
+				}
+				el[0].innerHTML = cs_html;
+				break;
+
+			case 'case_jurisdiction':
+				const cj_opts = tar.options;
+				let cj_html = '';
+				for (let i = 0; i < cj_opts.length; i++) {
+					if (cj_opts[i].selected) {
+						cj_html += '<li>';
+						cj_html += cj_opts[i].text;
+						cj_html += '</li>';
+					}
+				}
+				el[0].innerHTML = cj_html;
+				break;
+			default:
+				el.forEach((i) =>
+				{
+					i.innerText = capitalizeFirstLetter(val);
+				});
+				break;
+		}
+	}
+}
+
+// Function returned after promise to update/set answer_summary to new value
+function handleElementDisplay(event, str)
+{
+	const prop = event.target.dataset.prop;
+	const tars = document.querySelectorAll(`[data-show='${prop}']`);
+
+	tars.forEach((i) =>
+	{
+		i.style.display = str;
+	});
+}
+
+// Class to dynamically create a new 'numeric' dropdown
+class NumericDropdown
+{
+	constructor(type)
+	{
+		this.type = type;
+		this.iterator = 1;
+		this.condition = 1;
+		this.opts = '<option value="all" selected>All</option>'; // options should be 'All' by default
+	}
+
+	buildNumericDropdown()
+	{
+		// based on case type, we change iterator and/or condition
+		switch (this.type)
+		{
+			case "y":
+			case "year":
+				this.iterator = new Date().getFullYear() - 119;
+				this.condition = new Date().getFullYear();
+				break;
+			case "m":
+			case "month":
+				this.condition = 12;
+				break;
+			case "d":
+			case "day":
+				this.condition = 31;
+				break;
+		}
+
+		// iterate through iterator and condition to build the options
+		for (let i = this.iterator; i <= this.condition; i++)
+		{
+			this.opts += `<option value='${i}'>`;
+			this.opts += i;
+			this.opts += "</option>";
+		}
+		return this.opts;
+	}
+}
+
+function date_search_button_click()
+{
+
+	get_case_set();
+
+
+
+}
+
+function result_checkbox_click(p_checkbox)
+{
+	let value = p_checkbox.value;
+
+	if(p_checkbox.checked)
+	{
+
+		if(answer_summary.case_set.indexOf(value) < 0)
+		{
+			answer_summary.case_set.push(value)
+		}
+	}
+	else
+	{
+		let index = answer_summary.case_set.indexOf(value);
+		if(index > -1)
+		{
+			answer_summary.case_set.splice(index,1)
+		}
+	}
+}
+
+var g_case_view_request = {
+    total_rows: 0,
+    page :1,
+    skip : 0,
+    take : 100,
+    sort : "by_date_last_updated",
+    search_key : null,
+    descending : true,
+    get_query_string : function(){
+      var result = [];
+      result.push("?skip=" + (this.page - 1) * this.take);
+      result.push("take=" + this.take);
+      result.push("sort=" + this.sort);
+  
+      if(this.search_key)
+      {
+        result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
+      }
+  
+      result.push("descending=" + this.descending);
+  
+      return result.join("&");
+    }
+  };
+
+
+function get_case_set()
+{
+
+	var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_case_view_request.get_query_string();
+
+	$.ajax
+	(
+		{
+			url: case_view_url,
+		}
+	)
+	.done
+	(
+		function(case_view_response) 
+		{
+			let el = document.getElementById('search_result_list');
+			let html = [];
+			html.push("<li><input type='checkbox' /> select all</li>");
+			for(let i = 0; i < case_view_response.rows.length; i++)
+			{
+
+
+				let item = case_view_response.rows[i];
+				let value_list = item.value;
+
+				let checked = "";
+
+				let index = answer_summary.case_set.indexOf(item.id);
+				if(index > -1)
+				{
+					checked = "checked=true"
+				}
+
+
+				html.push(`<li>${value_list.jurisdiction_id} <input value=${item.id} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+			}
+
+			el.innerHTML = html.join("");
+		
+		}
+	)
+};
