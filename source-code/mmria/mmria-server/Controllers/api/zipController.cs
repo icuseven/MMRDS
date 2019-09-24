@@ -10,6 +10,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 
 
+
 namespace mmria.server
 {
 	[Authorize(Roles  = "abstractor")]
@@ -25,10 +26,10 @@ namespace mmria.server
         
 
 		[HttpGet("{id}")]
-        public async System.Threading.Tasks.Task<FileStreamResult> Get (string id)
+        public async System.Threading.Tasks.Task<FileResult> Get (string id)
 		{
-			HttpResponseMessage result = new HttpResponseMessage (System.Net.HttpStatusCode.NoContent);
-			FileStream stream = null;
+			//HttpResponseMessage result = new HttpResponseMessage (System.Net.HttpStatusCode.NoContent);
+			//FileStream stream = null;
 			string file_name = null;
 
 			var get_item_curl = new cURL ("GET", null, Program.config_couchdb_url + "/export_queue/" + id, null, Program.config_timer_user_name, Program.config_timer_value);
@@ -38,10 +39,36 @@ namespace mmria.server
 			file_name = export_queue_item.file_name;
 
 			var path = System.IO.Path.Combine (Configuration["mmria_settings:export_directory"], export_queue_item.file_name);
-			result = new HttpResponseMessage (System.Net.HttpStatusCode.OK);
-			stream = new FileStream (path, FileMode.Open, FileAccess.Read);
-			result.Content = new StreamContent (stream);
-			result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue ("application/octet-stream");
+			//result = new HttpResponseMessage (System.Net.HttpStatusCode.OK);
+
+			//HttpResponseMessage result = new HttpResponseMessage (System.Net.HttpStatusCode.OK);
+
+/*
+			using(FileStream stream = new FileStream (path, FileMode.Open, FileAccess.Read))
+			{
+
+
+				using (var br = new BinaryReader(stream))
+				{
+    				result.Content = new ByteArrayContent(br.ReadBytes((int)stream.Length));
+				}
+
+				export_queue_item.status = "Downloaded";
+
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (export_queue_item, settings); 
+				var set_item_curl = new cURL ("PUT", null, Program.config_couchdb_url + "/export_queue/" + export_queue_item._id, object_string, Program.config_timer_user_name, Program.config_timer_value);
+				responseFromServer = await set_item_curl.executeAsync ();
+				
+				//var res = File(stream, "application/octet-stream", file_name);
+
+
+				//return await res.ExecuteResultAsync(this.Response.HttpContext); 
+
+				//return File(stream, "application/octet-stream", file_name);
+			}
+ */
 
 			export_queue_item.status = "Downloaded";
 
@@ -52,8 +79,29 @@ namespace mmria.server
 			responseFromServer = await set_item_curl.executeAsync ();
 			
 
-			
-		    return File(stream, "application/octet-stream", file_name);
+
+			byte[] fileBytes = GetFile(path);
+    		return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_name);
+
+
+		}
+
+
+		byte[] GetFile(string s)
+		{
+			byte[] data;
+			int br;
+			int fs_length;
+
+			using(FileStream fs = new FileStream (s, FileMode.Open, FileAccess.Read))
+			{
+				fs_length = (int) fs.Length;
+				data = new byte[fs.Length];
+				br = fs.Read(data, 0, data.Length);
+			}
+			if (br != (int) fs_length)
+				throw new System.IO.IOException(s);
+			return data;
 		}
 
 	}
