@@ -79,7 +79,10 @@ namespace mmria.server
 					var put_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_value, "text/*");
                     if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
                     {
-                        string If_Match = this.Request.Headers["If-Match"];
+
+						System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
+						string If_Match = rgx.Replace(this.Request.Headers["If-Match"], "");
+                         
                         put_curl.AddHeader("If-Match",  If_Match);
                     }
 
