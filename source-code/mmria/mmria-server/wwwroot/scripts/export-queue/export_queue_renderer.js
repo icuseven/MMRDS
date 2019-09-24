@@ -347,7 +347,6 @@ function export_queue_render(p_queue_data)
 								<label for="password-protect-yes" class="mb-0">Yes</label>
 								<div class="mt-2" data-show="is_encrypted" style="display:none">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
-									<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 									<input id="encryption-key"
 												class="form-control w-auto"
 												type="text"
@@ -458,10 +457,8 @@ function export_queue_render(p_queue_data)
 									</div>
 								</form>
 								<ol class="font-weight-normal pl-3">
-									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
-									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
-									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
-									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
+									<li>From: 2017/02/21, To: 2019/09/24 <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
+									<li>From: 2001/11/01, To: 2019/08/01 <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
 								</ol>
 							</li>
 
