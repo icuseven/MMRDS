@@ -143,10 +143,10 @@ namespace mmria.server
                 httpWebRequest.Headers.Add ("Authorization", "Basic " + encoded);
             }
 
-
+			System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
             foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) 
 			{
-                httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
+                httpWebRequest.Headers.Add (rgx.Replace(kvp.Key, ""), rgx.Replace(kvp.Value, ""));
             }
 
             if (this.pay_load != null) 
