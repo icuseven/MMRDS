@@ -29,6 +29,12 @@ var answer_summary = {
 				'all'
 			],
 		},
+		date_range: [
+			{
+				from: 'all',
+				to:	'all'
+			}
+		],
 		case_status: [
 			'all'
 		],
@@ -93,7 +99,7 @@ function render()
 
 	g_data.sort(function(a, b){return b.date_created-a.date_created});
 	document.getElementById('form_content_id').innerHTML = export_queue_render(g_data).join("");
-	render_answer_summary();
+	// render_answer_summary();
 }
 
 function create_queue_item(p_export_type)
@@ -132,37 +138,37 @@ function load_metadata()
 
 
 
-function one_click(p_value)
-{
-	answer_summary[0] = p_value
-	render_answer_summary();
-}
+// function one_click(p_value)
+// {
+// 	answer_summary[0] = p_value
+// 	render_answer_summary();
+// }
 
-function two_click(p_value)
-{
-	answer_summary[1] = p_value
-	render_answer_summary();
-}
+// function two_click(p_value)
+// {
+// 	answer_summary[1] = p_value
+// 	render_answer_summary();
+// }
 
-function two_blur(p_value)
-{
-	answer_summary[3] = p_value
-	render_answer_summary();
-}
+// function two_blur(p_value)
+// {
+// 	answer_summary[3] = p_value
+// 	render_answer_summary();
+// }
 
-function render_answer_summary()
-{
+// function render_answer_summary()
+// {
 
-	var html = [];
+// 	var html = [];
 
-	//html.push("<div id='answer_summary'>");
-	html.push("You selected to export " + answer_summary[0] + " data.");
-	html.push("You selected export format of " + answer_summary[1]);
-	html.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
+// 	//html.push("<div id='answer_summary'>");
+// 	html.push("You selected to export " + answer_summary[0] + " data.");
+// 	html.push("You selected export format of " + answer_summary[1]);
+// 	html.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
 
-	//html.push("</div>");
-	document.getElementById('answer_summary').innerHTML = html.join("<br/>");
-}
+// 	//html.push("</div>");
+// 	document.getElementById('answer_summary').innerHTML = html.join("<br/>");
+// }
 
 function custom_field_click()
 {

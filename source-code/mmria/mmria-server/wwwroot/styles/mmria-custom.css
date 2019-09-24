@@ -476,6 +476,7 @@ ul {
 }
 
 .anti-btn {
+  background-color: transparent;
   border: none;
   margin: 0;
   outline: none;

@@ -10,10 +10,12 @@ function capitalizeFirstLetter(str) {
 // Promise that sets and updates answer_summary json obj
 function setAnswerSummary(event) {
 	return new Promise((resolve, reject) => {
-		const target= event.target;
-		const val = target.value;
-		const prop = target.dataset.prop;
-		let path; // variable to split props into
+		const target = event.target,
+					val = target.value,
+					prop = target.dataset.prop;
+			let path; // variable to split props into
+
+		console.log(target, val, prop);
 		
 		if (prop) 
 		{
@@ -145,7 +147,7 @@ function updateSummarySection(event)
 }
 
 // Function returned after promise to update/set answer_summary to new value
-function toggleElementDisplay(event, str)
+function handleElementDisplay(event, str)
 {
 	const prop = event.target.dataset.prop;
 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
@@ -164,7 +166,7 @@ class NumericDropdown
 		this.type = type;
 		this.iterator = 1;
 		this.condition = 1;
-		this.opts = '<option value="all">All</option>'; // options should be 'All' by default
+		this.opts = '<option value="all" selected>All</option>'; // options should be 'All' by default
 	}
 
 	buildNumericDropdown()
@@ -198,14 +200,6 @@ class NumericDropdown
 	}
 }
 
-
-
-
-
-
-
-
-
 function export_queue_render(p_queue_data)
 {
 	var result = [];
@@ -223,7 +217,7 @@ function export_queue_render(p_queue_data)
 							Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
 							<ul>
 								<li>
-									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.
+									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
 								</li>
 							</ul>
 						</li>
@@ -251,11 +245,23 @@ function export_queue_render(p_queue_data)
 								<li>
 									Date of Death:
 									<ul>
+										<li>
+											From: <span data-prop="filter/date_range/from">${capitalizeFirstLetter(answer_summary.filter.date_range[0].from)}</span>
+											,
+											To: <span data-prop="filter/date_range/to">${capitalizeFirstLetter(answer_summary.filter.date_range[0].to)}</span>
+										</li>
+									</ul>
+								</li>
+								<!--
+								<li>
+									Date of Death:
+									<ul>
 										<li>Year: <span data-prop="filter/date_of_death/year">${capitalizeFirstLetter(answer_summary.filter.date_of_death.year[0])}</span></li>
 										<li>Month: <span data-prop="filter/date_of_death/month">${capitalizeFirstLetter(answer_summary.filter.date_of_death.month[0])}</span></li>
 										<li>Day: <span data-prop="filter/date_of_death/day">${capitalizeFirstLetter(answer_summary.filter.date_of_death.day[0])}</span></li>
 									</ul>
 								</li>
+								-->
 								<li>
 									Case status(s):
 									<ul data-prop="filter/case_status">
@@ -280,8 +286,8 @@ function export_queue_render(p_queue_data)
 
 			<div class="col-8">
 				<ol class="font-weight-bold">
-					<li class="form-group">
-						<p class="mb-2">Export all data or only core data?</p>
+					<li class="mb-4">
+						<p class="mb-3">Export all data or only core data? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="export-type"
@@ -306,8 +312,8 @@ function export_queue_render(p_queue_data)
 						</ul>
 					</li>
 
-					<li class="form-group">
-						<label for="grantee-name" class="mb-2">What export or grantee name do you want to add to each case?</label>
+					<li class="mb-4">
+						<label for="grantee-name" class="mb-3">What export or grantee name do you want to add to each case?</label>
 						<input id="grantee-name"
 									 class="form-control w-auto"
 									 type="text"
@@ -316,8 +322,8 @@ function export_queue_render(p_queue_data)
 									 readonly="true" />
 					</li>
 
-					<li class="form-group">
-						<p class="mb-2">Would you like to password protect the file?</p>
+					<li class="mb-4">
+						<p class="mb-3">Would you like to password protect the file?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="password-protect"
@@ -327,7 +333,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="no"
 											 checked
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'none'))" />
 								<label for="password-protect-no" class="mb-0">No</label>
 							</li>
 							<li>
@@ -337,22 +343,22 @@ function export_queue_render(p_queue_data)
 											 data-prop="is_encrypted"
 											 type="radio"
 											 value="yes"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))" />
 								<label for="password-protect-yes" class="mb-0">Yes</label>
-								<div class="mt-2">
+								<div class="mt-2" data-show="is_encrypted" style="display:none">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
 									<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 									<input id="encryption-key"
-												 class="form-control w-auto"
-												 type="text"
-												 value="${answer_summary.encryption_key}" />
+												class="form-control w-auto"
+												type="text"
+												value="${answer_summary.encryption_key}" />
 								</div>
 							</li>
 						</ul>
 					</li>
 
-					<li class="form-group">
-						<p class="mb-2">Are you sending this file to CDC?</p>
+					<li class="mb-4">
+						<p class="mb-3">Are you sending this file to CDC? <small class="d-block mt-1">If Yes, your file will be password encrypted using a CDC keyion key.</small></p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="cdc"
@@ -373,13 +379,13 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="yes"
 											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
-								<label for="cdc-yes" class="mb-0">Yes <small><em>(If Yes, your file will be password encrypted using a CDC keyion key)</em></small></label>
+								<label for="cdc-yes" class="mb-0">Yes</label>
 							</li>
 						</ul>
 					</li>
 						
-					<li class="form-group">
-						<p class="mb-2">What fields do you want to de-identify?</p>
+					<li class="mb-4">
+						<p class="mb-3">What fields do you want to de-identify?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="de-identify"
@@ -389,7 +395,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="none"
 											 checked
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'none'))" /> 
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'none'))" /> 
 								<label for="de-identify-none" class="mb-0">None</label>
 							</li>
 							<li>
@@ -399,7 +405,7 @@ function export_queue_render(p_queue_data)
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="standard"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'none'))" />
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'none'))" />
 								<label for="de-identify-standard" class="mb-0">Standard</label>
 							</li>
 							<li>
@@ -409,20 +415,58 @@ function export_queue_render(p_queue_data)
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="custom"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(toggleElementDisplay(event, 'block'))" />
+											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
 								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
 								<div class="mt-2" data-show="de_identified_selection_type" style="display:none">
-									<button class="btn btn-tertiary" data-toggle="modal" data-target="#custom-fields">Select custom selection</button>
+									<button class="btn btn-secondary" data-toggle="modal" data-target="#custom-fields">Select custom selection</button>
 								</div>
 							</li>
 						</ul>
 					</li>
 
-					<li class="form-group">
-						<p class="mb-2">What filters do you want to apply? (Add filter to export by day, month, year of death)</p>
+					<li class="mb-4">
+						<p class="mb-3">What filters do you want to apply?</p>
 						<ul class="font-weight-bold list-unstyled">
-							<li class="form-group">
+							<li class="mb-4">
+								<p class="mb-3 font-weight-bold">Date of death <small class="d-block mt-1">You can also add multiple date ranges</small></p>
+								<form class="row no-gutters mb-3">
+									<div class="form-inline mr-2 mb-0">
+										<label for="date-from" class="mr-2">From:</label>
+										<input id="date-from"
+													 class="form-control w-auto"
+													 type="text"
+													 value="All"
+													 data-provide="datepicker"
+													 data-date-format="yyyy/mm/dd"
+													 data-prop="filter/date_range/from"
+													 onchange="setAnswerSummary(event)" />
+									</div>
+									<div class="form-inline mr-2 mb-0">
+										<label for="date-to" class="mr-2">To:</label>
+										<input id="date-to"
+													 class="form-control w-auto"
+													 type="text"
+													 value="All"
+													 data-provide="datepicker"
+													 data-date-format="yyyy/mm/dd"
+													 data-prop="filter/date_range/to"
+													 onchange="setAnswerSummary(event)" />
+									</div>
+									<div class="form-inline mb-0">
+										<button type="submit" class="btn btn-secondary">Add</button>
+									</div>
+								</form>
+								<ol class="font-weight-normal pl-3">
+									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
+									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
+									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
+									<li>Hello darkness my old friend! <button class="anti-btn"><span class="sr-only">Delete date range</span><span class="x18 fill-p cdc-icon-times"></span></button></li>
+								</ol>
+							</li>
+
+							<!--
+							<li class="mb-4">
 								<p class="mb-2 font-weight-bold">Date of death:</p>
 								<ul class="font-weight-normal row list-unstyled pl-3">
 									<li class="mr-2">
@@ -454,9 +498,10 @@ function export_queue_render(p_queue_data)
 									</li>
 								</ul>
 							</li>
+							-->
 
-							<li class="form-group">
-								<label for="case-status" class="mb-2">Case status</label>
+							<li class="mb-4">
+								<label for="case-status" class="mb-3">Case status <small class="d-block mt-1">Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></label>
 								<select id="case-status"
 												class="form-control mb-3"
 												multiple
@@ -464,18 +509,17 @@ function export_queue_render(p_queue_data)
 												onchange="setAnswerSummary(event).then(updateSummarySection(event))"
 												style="width: 300px">
 									<!-- TODO: These opts need to be wired up dynamically -->
-									<option value="-9">All</option>
+									<option value="-9" selected>All</option>
 									<option value="0">Not Started</option>
 									<option value="1">In Progress</option>
 									<option value="2">Completed</option>
 									<option value="3">Not Available</option>
 									<option value="4">Not Applicable</option>
 								</select>
-								<p class="font-weight-normal"><small>Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
 
-							<li class="form-group">
-								<label for="case-jurisdiction" class="mb-2">Case Jurisdiction</label>
+							<li class="mb-4">
+								<label for="case-jurisdiction" class="mb-3">Case Jurisdiction <small class="d-block mt-1">Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></label>
 								<select id="case-jurisdiction"
 												class="form-control mb-3"
 												multiple
@@ -483,7 +527,7 @@ function export_queue_render(p_queue_data)
 												onchange="setAnswerSummary(event).then(updateSummarySection(event))"
 												style="width: 300px">
 									<!-- TODO: These opts need to be wired up dynamically -->
-									<option value="/all">/all</option>
+									<option value="/all" selected>/all</option>
 									<option value="/2017">/2017</option>
 									<option value="/2018">/2018</option>
 									<option value="/2019">/2019</option>
@@ -493,11 +537,10 @@ function export_queue_render(p_queue_data)
 									<option value="/nc">/nc</option>
 									<option value="/sc">/sc</option>
 									</select>
-								<p class="font-weight-normal"><small>Click and drag or hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small></p>
 							</li>
 
 							<!-- TODO: Remove completely once we narrow down direction more -->
-							<!--<li class="form-group">
+							<!--<li class="mb-4">
 								<label class="mb-2">Filter by Case</label>
 								<p class="font-weight-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor tempus purus, mattis pretium nunc condimentum et. Vestibulum id sapien elementum eros consequat convallis quis ut augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed semper dui dolor, vitae varius ipsum consequat vel. Quisque nec ex nec mauris blandit sollicitudin eu quis orci. Etiam scelerisque dui et neque gravida, eu molestie sem bibendum. Donec non arcu est. Nulla luctus quam vel condimentum fermentum. Donec eu accumsan tellus.</p>
 							</li>-->
@@ -535,146 +578,9 @@ function export_queue_render(p_queue_data)
 		</div>
 	`);
 
-	result.push("<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
-
-
-	result.push("<h3>Make your export choices:</h3>")
-	result.push("1.  Would you like to export all data or only core data? ");
-
-	result.push("<input type='radio' name='one' value='all' onclick='one_click(this.value)'");
-	if(answer_summary[0] == 'all')
-	{
-	result.push(" checked='true' /> all ");
-	}
-	else
-	{
-		result.push(" /> all ");
-	}
-	result.push("<input type='radio' name='one' value='core'onclick=' one_click(this.value)'");
-	if(answer_summary[0] == 'core')
-	{
-	result.push(" checked='true' /> core ");
-	}
-	else
-	{
-		result.push(" /> core ");
-	}
-	result.push("<br/>");
-
-	result.push("2. What export/grantee name do you want to add to each case? <input type='text' value=''/><br/>");
-
-	result.push("3. Would you like to password protect the file? ");
-	result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
-	if(answer_summary[1] == 'no')
-	{
-	result.push(" checked='true' /> no ");
-	}
-	else
-	{
-		result.push(" /> no ");
-	}
-	result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
-	if(answer_summary[1] == 'yes')
-	{
-	result.push(" checked='true' /> yes ");
-	}
-	else
-	{
-		result.push(" /> yes ");
-	}
-	result.push(" encryption key: <input type='text' value='");
-	result.push(answer_summary[3])
-	result.push("' />");
-
-	result.push("<br/>");
-
-
-	result.push("4. Are you sending this file to CDC? ");
-	result.push("<input type='radio' name='two' value='no'  two_click(this.value)' ");
-	if(answer_summary[1] == 'no')
-	{
-	result.push(" checked='true' /> no ");
-	}
-	else
-	{
-		result.push(" /> no ");
-	}
-	result.push("<input type='radio' name='two' value='yes' two_click(this.value)' ");
-	if(answer_summary[1] == 'yes')
-	{
-	result.push(" checked='true' /> yes ");
-	}
-	else
-	{
-		result.push(" /> yes ");
-	}
-	result.push("<- if yes your file will be password encrypted using a CDC keyion key.");
-
-	result.push("<br/>");
-	result.push("5. What fields do you want to de-identify? ");
-	result.push("<input type='radio' name='three' value='none' ");
-	if(answer_summary[2] == 'none')
-	{
-	result.push(" checked='true' /> none ");
-	}
-	else
-	{
-		result.push(" /> none ");
-	}
-	result.push("<input type='radio' name='three' value='standard' ");
-	if(answer_summary[2] == 'standard')
-	{
-	result.push(" checked='true' /> standard ");
-	}
-	else
-	{
-		result.push(" /> standard ");
-	}
-	result.push("<input type='radio' name='three' value='custom' ");
-	if(answer_summary[2] == 'custom')
-	{
-	result.push(" checked='true' /> custom ");
-	}
-	else
-	{
-		result.push(" /> custom ");
-	}
-	result.push("<a onclick='custom_field_click()'>[ select custom fields ]</a> <br/>");
-
-	result.push("<br/>");
-
-
-	result.push("6. What filters do you want to apply? (Add filter to export by day, month, year of death)");
-	result.push("<ul>");
-
-	result.push("<li>Date of death: <ul><li>year  <select><option>Any</option></select></li><li>month year <select><option>Any</option></select></li><li> day year <select><option>Any</option></select></li></ul></li>");
-	result.push("<li>Case Status year <select><option>Any</option></select></li>");
-	result.push("<li>Case jurisdiction year <select><option>All</option></select></li>");
-	result.push("<li>Filter by Case</li>");
-	result.push("<li><input type='checkbox' value=''/> exclude PII tagged fields </li>");
-	result.push("<li><input type='checkbox' value=''/> include PII tagged fields and any data in the field </li>");
-	result.push("</ul>");
-
-
-
-
-
-	result.push("<br/>");
-	result.push("<hr/><h3>Summary of your choices:</h3>");
-	result.push("<div id='answer_summary'>");
-	result.push("You choose to: ");
-	result.push("You selected to export " + answer_summary[0] + " data.");
-	result.push("You selected export format of " + answer_summary[1]);
-	result.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
-	result.push("<br/>");
-	result.push("</div>");
-	//result.push("<input type='button' value='confirm' /> | ");
-	result.push("<input type='button' value='confirm and start export' />");
-
+	result.push("<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
 
 	result.push("<hr/>");
-
-
 
 	result.push('<p>Click on Export Core Data to CSV format to produce a zip file that contains your core data export plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</p>');
 	result.push('<p class="mb-0"><strong>Contains 2 Files:</strong></p>');
