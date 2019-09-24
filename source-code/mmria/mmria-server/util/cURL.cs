@@ -146,7 +146,13 @@ namespace mmria.server
 			System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
             foreach (System.Collections.Generic.KeyValuePair<string, string> kvp in this.headers) 
 			{
-                httpWebRequest.Headers.Add (rgx.Replace(kvp.Key, ""), rgx.Replace(kvp.Value, ""));
+				var key = rgx.Replace(kvp.Key, "");
+				var val = rgx.Replace(kvp.Value, "");
+				if(!string.IsNullOrWhiteSpace(key))
+				{
+					httpWebRequest.Headers.Add (key, val);
+				}
+                
             }
 
             if (this.pay_load != null) 
