@@ -4,6 +4,20 @@ set -e
 # Include filenames beginning with a '.' when installing the application source code.
 shopt -s dotglob
 
+echo "---> Remove unneeded files - Begin ..."
+
+rm -rf /tmp/src/Vagrantfile
+rm -rf /tmp/src/provision-script-set
+rm -rf /tmp/src/provision-script-set
+rm -rf /tmp/src/source-code/scratch
+rm -rf /tmp/src/source-code/mmria/install-setup
+rm -rf /tmp/src/source-code/mmria/mmria-console
+rm -rf /tmp/src/source-code/mmria/mmria-identity
+rm -rf /tmp/src/source-code/mmria/test
+rm -rf /tmp/src/source-code/mmria/mmria.sln
+
+echo "---> Remove unneeded files - End ..."
+
 
 echo "---> Version Setup - Begin ..."
 
