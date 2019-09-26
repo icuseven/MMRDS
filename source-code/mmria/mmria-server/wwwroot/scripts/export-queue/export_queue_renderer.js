@@ -36,7 +36,7 @@ function export_queue_render(p_queue_data)
 					</li>
 
 					<li class="mb-4">
-						<label for="grantee-name" class="mb-3">What export or grantee name do you want to add to each case?</label>
+						<label for="grantee-name" class="mb-3">The grantee name that will be added to exported case is:</label>
 						<input id="grantee-name"
 									 class="form-control w-auto"
 									 type="text"
@@ -79,33 +79,6 @@ function export_queue_render(p_queue_data)
 						</ul>
 					</li>
 
-					<li class="mb-4">
-						<p class="mb-3">Are you sending this file to CDC? <small class="d-block mt-1">If Yes, your file will be password encrypted using a CDC keyion key.</small></p>
-						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
-							<li>
-								<input name="cdc"
-											 id="cdc-no"
-											 class="mr-1"
-											 data-prop="is_for_cdc"
-											 type="radio"
-											 value="no"
-											 checked
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
-								<label for="cdc-no" class="mb-0">No</label>
-							</li>
-							<li>
-								<input name="cdc"
-											 id="cdc-yes"
-											 class="mr-1"
-											 data-prop="is_for_cdc"
-											 type="radio"
-											 value="yes"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
-								<label for="cdc-yes" class="mb-0">Yes</label>
-							</li>
-						</ul>
-					</li>
-						
 					<li class="mb-4">
 						<p class="mb-3">What fields do you want to de-identify?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">

@@ -266,7 +266,7 @@ function render_search_text_input_control(p_ctx)
         case "date":
             p_ctx.post_html_render.push(` flatpickr
             (
-                "#${convert_object_path_to_jquery_id(p_ctx.object_path)} input", 
+                "#${convert_object_path_to_jquery_id(p_ctx.object_path)}_input", 
                 {
                     utc: true,
                     defaultDate:"${p_ctx.data}",
