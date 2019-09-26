@@ -144,7 +144,7 @@ function render_search_text_input_control(p_ctx)
 
     result.push("<div id='");
     result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-    result.push("' class='form-group mb-4' metadata='");
+    result.push("' class='form-group mb-5' metadata='");
     result.push(p_ctx.mmria_path);
     result.push("'>");
     result.push("<p>");
@@ -302,7 +302,7 @@ function render_search_text_textarea_control(p_ctx)
     {
         p_ctx.result.push("<div metadata='");
         p_ctx.result.push(p_ctx.mmria_path);
-        p_ctx.result.push("' class='form-group mb-4'>");
+        p_ctx.result.push("' class='form-group mb-5'>");
         p_ctx.result.push("<p>");
         p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         p_ctx.result.push("</p>");
@@ -456,7 +456,7 @@ function render_search_text_select_control(p_ctx)
     {
         p_ctx.result.push("<div metadata='");
         p_ctx.result.push(p_ctx.mmria_path_path);
-        p_ctx.result.push("' class='form-group mb-4'>");
+        p_ctx.result.push("' class='form-group mb-5'>");
         p_ctx.result.push("<p>");
         p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         p_ctx.result.push("</p>");
@@ -920,7 +920,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
 {
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-    p_result.push("<div class='list' id='");
+    p_result.push("<div class='list form-group mb-5' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
     p_result.push("' ");
@@ -1088,7 +1088,7 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
 {
     let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-    p_result.push("<div class='list' id='");
+    p_result.push("<div class='list form-group mb-5' id='");
     p_result.push(convert_object_path_to_jquery_id(p_object_path));
     
     p_result.push("' ");

@@ -544,6 +544,7 @@ ul {
 }
 
 .choice-control {
+  align-items: baseline;
   display: flex;
 }
 
