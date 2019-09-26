@@ -192,8 +192,8 @@ function render_search_text_input_control(p_ctx)
     result.push("</label class='row no-gutters w-auto h-auto'>");
         
     result.push("<input id='");
-    result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-    result.push("' class='form-control' type='text' style='");
+    result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
+    result.push("_input' class='form-control' type='text' style='");
 
     if
     (
@@ -262,29 +262,33 @@ function render_search_text_input_control(p_ctx)
     
     switch (p_ctx.metadata.type.toLocaleLowerCase())
     {
+        
         case "date":
-            p_ctx.post_html_render.push(' flatpickr("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date", {');
-            p_ctx.post_html_render.push('	utc: true,');
-            p_ctx.post_html_render.push('	defaultDate: "');
-            p_ctx.post_html_render.push(p_ctx.data);
-            p_ctx.post_html_render.push('",');
-            p_ctx.post_html_render.push('	enableTime: false,');
-            p_ctx.post_html_render.push('  onClose: function(selectedDates, p_value, instance)  ');
-            p_ctx.post_html_render.push('  {');
-            p_ctx.post_html_render.push('              let elem = document.querySelector("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date "); elem.value = p_value;');
-            p_ctx.post_html_render.push('              g_set_data_object_from_path("' + p_ctx.object_path + '", "' + p_ctx.metadata_path + '", "' + p_ctx.mmria_path + '", p_value);');
-            p_ctx.post_html_render.push('  }');
-            p_ctx.post_html_render.push('});');
+            p_ctx.post_html_render.push(` flatpickr
+            (
+                "#${convert_object_path_to_jquery_id(p_ctx.object_path)} input", 
+                {
+                    utc: true,
+                    defaultDate:"${p_ctx.data}",
+                    enableTime: false,
+                    onClose: function(selectedDates, p_value, instance)
+                    {
+                            let elem = document.querySelector("#${convert_object_path_to_jquery_id(p_ctx.object_path)} input");
+                            elem.value = p_value;
+                            g_set_data_object_from_path("${p_ctx.object_path}", "${p_ctx.metadata_path}", "${p_ctx.mmria_path}", p_value);
+                    }
+                }
+            );`);
             break;
         case "datetime":
-            p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.datetime").datetimepicker({');
+            p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
             p_ctx.post_html_render.push(' format: "Y-MM-D H:mm:ss", ');
             p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
             p_ctx.post_html_render.push(' icons: { time: "x24 fill-p cdc-icon-clock_01", date: "x24 fill-p cdc-icon-calendar_01", up: "x28 fill-p cdc-icon-arrow-alt-circle-up-solid", down: "x28 fill-p cdc-icon-arrow-alt-circle-down-solid" }');
             p_ctx.post_html_render.push('});');
             break;
         case "time":
-            p_ctx.post_html_render.push(' $("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' .time" ).datetimepicker({format: "LT",  });');
+            p_ctx.post_html_render.push(' $("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input " ).datetimepicker({format: "LT",  });');
             break;
     }
     
@@ -422,7 +426,6 @@ function render_search_text_grid_control(p_ctx)
     p_ctx.result.push("</button>");
     p_ctx.result.push("</fieldset>");    
 
-    return result;
 }
 
 function render_search_text_select_control(p_ctx)
@@ -927,6 +930,29 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
 
     p_result.push(">");
 
+
+    p_result.push("<p>")
+    let path_items = p_dictionary_path.split("/");
+    for(let i = 1; i < path_items.length; i++)
+    {
+        let item = path_items[i];
+        if(i == 1)
+        {
+
+
+            let array = window.location.href.split("/field_search/");
+            //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+            let link_url = array[0] + "/" + item;
+            p_result.push(`<a href='${link_url}'>${item}</a>`);
+        }
+        else
+        {
+            p_result.push(" > ");
+            p_result.push(item);
+        }
+    }
+    p_result.push("</p>")
+
     p_result.push("<fieldset id='");
     p_result.push(p_metadata.name);
     p_result.push("_id' class='radio-list' ");
@@ -937,7 +963,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
     if(style_object)
     {
         p_result.push(" style='");
-        p_result.push(get_only_size_and_font_style_string(style_object.control.style));
+        p_result.push(get_only_size_and_font_style_string(style_object.control.style).replace('absolute', 'relative'));
         p_result.push("' ");
     }
 
@@ -947,7 +973,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
     if(style_object && style_object.prompt)
     {
         p_result.push(" style='");
-        p_result.push(get_only_font_style_string(style_object.prompt.style));
+        p_result.push(get_only_font_style_string(style_object.prompt.style).replace('absolute', 'relative'));
         p_result.push("'");
     }
 
@@ -961,6 +987,9 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
     p_result.push(">");
     p_result.push(p_metadata.prompt);
     p_result.push("</legend>");
+
+
+    
 
 
     let data_value_list = p_metadata.values;
@@ -1036,17 +1065,17 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
         if (item.display) 
         {
             
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
+            p_result.push(`<label class="choice-control" style='${get_only_font_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
             
             
         }
         else if(item.value == -9)
         {
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
+            p_result.push(`<label class="choice-control" style='${get_only_font_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
         }
         else 
         {
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
+            p_result.push(`<label class="choice-control" style='${get_only_font_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
         }
     }
 
@@ -1157,7 +1186,7 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         if (item.display) 
         {
             
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
             render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
             p_result.push("<span class='choice-control-info'> " + item.display + "</span></label>");
         
@@ -1165,13 +1194,13 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         }
         else if(item.value == -9)
         {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
             render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
             p_result.push("<span class='choice-control-info'> (blank)</span></label>");
         }
         else 
         {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
+            p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
             render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
             p_result.push("<span class='choice-control-info'> " + item.value + "</span></label>");
         }
