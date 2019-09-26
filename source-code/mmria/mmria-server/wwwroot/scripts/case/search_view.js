@@ -148,7 +148,33 @@ function render_search_text_input_control(p_ctx)
     result.push(p_ctx.mmria_path);
     result.push("'>");
     result.push("<p>");
-    result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+
+
+    //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+    let path_items = p_ctx.mmria_path.split("/");
+    for(let i = 1; i < path_items.length; i++)
+    {
+        let item = path_items[i];
+        if(i == 1)
+        {
+
+
+            let array = window.location.href.split("/field_search/");
+            //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+            let link_url = array[0] + "/" + item;
+            result.push(`<a href='${link_url}'>${item}</a>`);
+        }
+        else
+        {
+            result.push(" > ");
+            result.push(item);
+        }
+        
+    }
+    
+
+
+
     result.push("</p>");
 
     result.push("<label class='row no-gutters w-auto h-auto' for='");
