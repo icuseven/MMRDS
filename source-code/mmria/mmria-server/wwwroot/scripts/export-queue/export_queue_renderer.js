@@ -36,7 +36,7 @@ function export_queue_render(p_queue_data)
 					</li>
 
 					<li class="mb-4">
-						<label for="grantee-name" class="mb-3">The grantee name that will be added to exported case is:</label>
+						<label for="grantee-name" class="mb-3">The grantee name that will be added to each exported case is:</label>
 						<input id="grantee-name"
 									 class="form-control w-auto"
 									 type="text"
@@ -154,11 +154,19 @@ function export_queue_render(p_queue_data)
 								</form>
 							</li>
 
-							<li class="mb-4">
-								<ul id="search_result_list" sytle="overflow-y:scroll;height:300px">
+							<li class="mb-4" style="overflow-y:scroll;height:300px;">
+								<h4>search results</h4>
+								<ul id="search_result_list">
 									
 								</ul>
 							</li>
+							<li class="mb-4" style="overflow-y:scroll;height:300px;">
+								<h4>selected cases</h4>
+								<ul id="selected_case_list" sytle="overflow-y:scroll;height:300px">
+								${render_selected_case_list()}
+								</ul>
+							</li>
+
 						</ul>
 					</li>
 				</ol>
@@ -539,6 +547,8 @@ function result_checkbox_click(p_checkbox)
 			answer_summary.case_set.splice(index,1)
 		}
 	}
+
+	render_selected_case_list2();
 }
 
 var g_case_view_request = {
@@ -592,6 +602,8 @@ function get_case_set()
 				let item = case_view_response.rows[i];
 				let value_list = item.value;
 
+				selected_dictionary[item.id] = value_list;
+
 				let checked = "";
 
 				let index = answer_summary.case_set.indexOf(item.id);
@@ -600,6 +612,7 @@ function get_case_set()
 					checked = "checked=true"
 				}
 
+				
 
 				html.push(`<li>${value_list.jurisdiction_id} <input value=${item.id} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 			}
@@ -609,3 +622,40 @@ function get_case_set()
 		}
 	)
 };
+
+
+function render_selected_case_list()
+{
+	let result = [];
+	result.push("<li><input type='checkbox' /> select all</li>");
+	for(let i = 0; i < answer_summary.case_set.length; i++)
+	{
+		let item_id = answer_summary.case_set[i];
+		let value_list = selected_dictionary[item_id];
+
+		result.push(`<li>${value_list.jurisdiction_id} <input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+	}
+
+	return result.join("");
+}
+
+
+function render_selected_case_list2()
+{
+	let el = document.getElementById('selected_case_list');
+	let html = [];
+	html.push("<li><input type='checkbox' /> select all</li>");
+	for(let i = 0; i < answer_summary.case_set.length; i++)
+	{
+
+
+		let item_id = answer_summary.case_set[i];
+
+
+		let value_list = selected_dictionary[item_id];
+
+		html.push(`<li>${value_list.jurisdiction_id} <input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+	}
+
+	el.innerHTML = html.join("");
+}

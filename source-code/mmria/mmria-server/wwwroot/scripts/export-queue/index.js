@@ -33,7 +33,7 @@ var g_filter = 	{
 	]
 };
 
-
+var selected_dictionary = {};
 
 var answer_summary = {
 	all_or_core: 'all',
