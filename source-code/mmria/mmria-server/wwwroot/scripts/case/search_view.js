@@ -78,9 +78,7 @@ function render_search_text(p_ctx)
                         
                     }
                 }
-
             }
-
             break;
         case "group":
             for(let i = 0; i < p_ctx.metadata.children.length; i++)
@@ -92,7 +90,7 @@ function render_search_text(p_ctx)
                     render_search_text(new_context);
                 }
             }
-        break;
+            break;
         case "grid":
             for(let i = 0; i < p_ctx.data.length; i++)
             {
@@ -135,10 +133,7 @@ function render_search_text(p_ctx)
 function render_search_text_input_control(p_ctx)
 {   
     let result = p_ctx.result;
-
     let style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
-    
-
     let style_string = get_only_size_and_font_style_string(style_object.prompt.style);
     let control_string = get_only_size_and_font_style_string(style_object.control.style);
     /*
@@ -147,136 +142,128 @@ function render_search_text_input_control(p_ctx)
         console.log(p_ctx.mmria_path.substring(1));
     }*/
 
-        result.push("<div id='");
-        result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
-        result.push("' class='form-group' metadata='");
-        result.push(p_ctx.mmria_path);
-        result.push("'>");
-        result.push("<p>");
-        result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
-        result.push("</p>");
+    result.push("<div id='");
+    result.push(convert_object_path_to_jquery_id(p_ctx.object_path));
+    result.push("' class='form-group mb-4' metadata='");
+    result.push(p_ctx.mmria_path);
+    result.push("'>");
+    result.push("<p>");
+    result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+    result.push("</p>");
 
-        result.push("<label class='row no-gutters align-items-center w-auto' for='");
-        result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        result.push("' style='");
-        if
+    result.push("<label class='row no-gutters w-auto h-auto' for='");
+    result.push(p_ctx.mmria_path.replace(/\//g, "--"));
+    result.push("' style='");
+    if
+    (
+        style_object &&
+        style_object.prompt &&
+        style_object.prompt.style
+    )
+    result.push(style_string); 
+    result.push("'>");
+    result.push(p_ctx.metadata.prompt);
+    result.push("</label class='row no-gutters w-auto h-auto'>");
+        
+    result.push("<input id='");
+    result.push(p_ctx.mmria_path.replace(/\//g, "--"));
+    result.push("' class='form-control' type='text' style='");
+
+    if
+    (
+        style_object &&
+        style_object.control &&
+        style_object.control.style
+    )
+    result.push(control_string);
+    result.push("' value='"); 
+    result.push(p_ctx.data); 
+    result.push("' "); 
+
+    switch (p_ctx.metadata.type.toLocaleLowerCase())
+    {
+        case "date":
+            result.push(" class='date' ");
+            break;
+        case "datetime":
+            result.push(" class='datetime' ");
+            break;
+        case "time":
+            result.push(" class='time' ");
+            break;
+
+    }
+
+    if
+    (
         (
-            style_object &&
-            style_object.prompt &&
-            style_object.prompt.style
-        )
-        result.push(style_string); 
-        result.push("'>");
-        result.push(p_ctx.metadata.prompt);
-        result.push("</label>");
-            
-        result.push("<input id='");
-        result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        result.push("' type='text' style='padding: 0.375rem 0.75rem; border-radius: 0.25rem; display: block; width: 100%; height: calc(2.25rem + 2px); padding: 0.375rem 0.75rem; font-size: 1rem; line-height: 1.5; color: #495057; background-color: #fff; background-clip: padding-box; border: 1px solid #ced4da; border-radius: 0.25rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; ");
+            p_ctx.metadata.is_read_only != null &&
+            p_ctx.metadata.is_read_only == true
+        ) ||
+        p_ctx.metadata.mirror_reference
+    )
+    {
+        result.push(" readonly=true ");
+    }
+    else
+    {
 
-        if
-        (
-            style_object &&
-            style_object.control &&
-            style_object.control.style
-        )
-        result.push(control_string);
-        result.push("' value='"); 
-        result.push(p_ctx.data); 
-        result.push("' "); 
-
-        switch (p_ctx.metadata.type.toLocaleLowerCase())
+        let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
+        if(path_to_onfocus_map[p_ctx.metadata_path])
         {
-            case "date":
-                result.push(" class='date' ");
-                break;
-            case "datetime":
-                result.push(" class='datetime' ");
-                break;
-            case "time":
-                result.push(" class='time' ");
-                break;
-
+            page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
 
-        if
-        (
-            (
-                p_ctx.metadata.is_read_only != null &&
-                p_ctx.metadata.is_read_only == true
-            ) ||
-            p_ctx.metadata.mirror_reference
-        )
+        f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
+        if(path_to_onchange_map[p_ctx.metadata_path])
         {
-            result.push(" readonly=true ");
+            page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
-        else
+        
+        f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
+        if(path_to_onclick_map[p_ctx.metadata_path])
         {
-
-            let f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_of";
-            if(path_to_onfocus_map[p_ctx.metadata_path])
-            {
-                page_render_create_event(result, "onfocus", p_ctx.metadata.onfocus, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-            }
-
-            f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_och";
-            if(path_to_onchange_map[p_ctx.metadata_path])
-            {
-                page_render_create_event(result, "onchange", p_ctx.metadata.onchange, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-            }
-            
-            f_name = "x" + path_to_int_map[p_ctx.metadata_path].toString(16) + "_ocl";
-            if(path_to_onclick_map[p_ctx.metadata_path])
-            {
-                page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
-            }
-            
-            page_render_create_onblur_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+            page_render_create_event(result, "onclick", p_ctx.metadata.onclick, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
-        result.push(" />"); 
+        
+        page_render_create_onblur_event(result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
+    }
+    result.push(" />"); 
 
-        result.push("</div>");
+    result.push("</div>");
+
+    // post html start
     
-        // post html start
-        
-        switch (p_ctx.metadata.type.toLocaleLowerCase())
-        {
-            case "date":
-                
-                p_ctx.post_html_render.push(' flatpickr(#"' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date", {');
-                p_ctx.post_html_render.push('	utc: true,');
-                p_ctx.post_html_render.push('	defaultDate: "');
-                p_ctx.post_html_render.push(p_ctx.data);
-                p_ctx.post_html_render.push('",');
-                p_ctx.post_html_render.push('	enableTime: false,');
-                p_ctx.post_html_render.push('  onClose: function(selectedDates, p_value, instance)  ');
-                p_ctx.post_html_render.push('  {');
-                p_ctx.post_html_render.push('              let elem = document.querySelector("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date "); elem.value = p_value;');
-                p_ctx.post_html_render.push('              g_set_data_object_from_path("' + p_ctx.object_path + '", "' + p_ctx.metadata_path + '", "' + p_ctx.mmria_path + '", p_value);');
-                p_ctx.post_html_render.push('  }');
-                p_ctx.post_html_render.push('});');
-                
-                break;
-            case "datetime":
-                p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.datetime").datetimepicker({');
-                p_ctx.post_html_render.push(' format: "Y-MM-D H:mm:ss", ');
-                p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
-                p_ctx.post_html_render.push(' icons: { time: "x24 fill-p cdc-icon-clock_01", date: "x24 fill-p cdc-icon-calendar_01", up: "x28 fill-p cdc-icon-arrow-alt-circle-up-solid", down: "x28 fill-p cdc-icon-arrow-alt-circle-down-solid" }');
-                p_ctx.post_html_render.push('});');
-                break;
-            case "time":
-                p_ctx.post_html_render.push(' $("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' .time" ).datetimepicker({format: "LT",  });');
-                break;
-
-        }
-        
-        // post html end
-
-
+    switch (p_ctx.metadata.type.toLocaleLowerCase())
+    {
+        case "date":
+            p_ctx.post_html_render.push(' flatpickr("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date", {');
+            p_ctx.post_html_render.push('	utc: true,');
+            p_ctx.post_html_render.push('	defaultDate: "');
+            p_ctx.post_html_render.push(p_ctx.data);
+            p_ctx.post_html_render.push('",');
+            p_ctx.post_html_render.push('	enableTime: false,');
+            p_ctx.post_html_render.push('  onClose: function(selectedDates, p_value, instance)  ');
+            p_ctx.post_html_render.push('  {');
+            p_ctx.post_html_render.push('              let elem = document.querySelector("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.date "); elem.value = p_value;');
+            p_ctx.post_html_render.push('              g_set_data_object_from_path("' + p_ctx.object_path + '", "' + p_ctx.metadata_path + '", "' + p_ctx.mmria_path + '", p_value);');
+            p_ctx.post_html_render.push('  }');
+            p_ctx.post_html_render.push('});');
+            break;
+        case "datetime":
+            p_ctx.post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input.datetime").datetimepicker({');
+            p_ctx.post_html_render.push(' format: "Y-MM-D H:mm:ss", ');
+            p_ctx.post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
+            p_ctx.post_html_render.push(' icons: { time: "x24 fill-p cdc-icon-clock_01", date: "x24 fill-p cdc-icon-calendar_01", up: "x28 fill-p cdc-icon-arrow-alt-circle-up-solid", down: "x28 fill-p cdc-icon-arrow-alt-circle-down-solid" }');
+            p_ctx.post_html_render.push('});');
+            break;
+        case "time":
+            p_ctx.post_html_render.push(' $("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' .time" ).datetimepicker({format: "LT",  });');
+            break;
+    }
+    
+    // post html end
 }
-
-
-
 
 function render_search_text_textarea_control(p_ctx)
 {   
@@ -285,12 +272,12 @@ function render_search_text_textarea_control(p_ctx)
     {
         p_ctx.result.push("<div metadata='");
         p_ctx.result.push(p_ctx.mmria_path);
-        p_ctx.result.push("'>");
+        p_ctx.result.push("' class='form-group mb-4'>");
         p_ctx.result.push("<p>");
         p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         p_ctx.result.push("</p>");
 
-        p_ctx.result.push("<label for='");
+        p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
         p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
         p_ctx.result.push("' style='");
         p_ctx.result.push(get_only_size_and_font_style_string(style_object.prompt.style)); 
@@ -298,10 +285,9 @@ function render_search_text_textarea_control(p_ctx)
         p_ctx.result.push(p_ctx.metadata.prompt);
         p_ctx.result.push("</label>");
 
-
         p_ctx.result.push("<textarea id='");
         p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
-        p_ctx.result.push("' type='text' style='");
+        p_ctx.result.push("' class='form-control' style='");
         
         p_ctx.result.push(get_only_size_and_font_style_string(style_object.control.style));
         p_ctx.result.push("' "); 
@@ -340,15 +326,12 @@ function render_search_text_textarea_control(p_ctx)
             page_render_create_onblur_event(p_ctx.result, p_ctx.metadata, p_ctx.metadata_path, p_ctx.object_path, p_ctx.mmria_path);
         }
 
-
         p_ctx.result.push(">");
         p_ctx.result.push(p_ctx.data);
         p_ctx.result.push("</textarea>");
         p_ctx.result.push("</div>");
     }
-
 }
-
 
 function render_search_text_group_control(p_ctx)
 {   
@@ -359,7 +342,6 @@ function render_search_text_group_control(p_ctx)
         let child = p_search_text_context.metadata.children[i];
         Array.prototype.push.apply(result, render_search_text(child, p_ctx.mmria_path+ "/" + child.name, p_search_text));
     }
-
 
     return result;
 }
@@ -414,45 +396,22 @@ function render_search_text_grid_control(p_ctx)
     p_ctx.result.push("</button>");
     p_ctx.result.push("</fieldset>");    
 
-
     return result;
 }
 
 function render_search_text_select_control(p_ctx)
-{  
-    
-    if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("editable") > -1)
-    {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_editable_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
-        return;
-    }
-    else if
-    (
-        (p_ctx.metadata.is_multiselect && p_ctx.metadata.is_multiselect == true) ||
-        (p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("checkbox") > -1)
-    )
-    {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_checkbox_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
-        return;
-    }
-    else if(p_ctx.metadata.control_style && p_ctx.metadata.control_style.toLowerCase().indexOf("radio") > -1) 
-    {
-        Array.prototype.push.apply(p_ctx.result, render_search_text_list_radio_render(p_ctx.result, p_ctx.metadata, p_ctx.data, p_ctx.ui, p_ctx.metadata_path, p_ctx.object_path, p_ctx.dictionary_path, p_ctx.is_grid_context, p_ctx.post_html_render, p_ctx.search_ctx));
-        return;
-    }
-
-
+{   
     let style_object = g_default_ui_specification.form_design[p_ctx.mmria_path.substring(1)];
     if(style_object)
     {
         p_ctx.result.push("<div metadata='");
         p_ctx.result.push(p_ctx.mmria_path_path);
-        p_ctx.result.push("'>");
+        p_ctx.result.push("' class='form-group mb-4'>");
         p_ctx.result.push("<p>");
         p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         p_ctx.result.push("</p>");
             
-        p_ctx.result.push("<label for='");
+        p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
         p_ctx.result.push(p_ctx.mmria_path.replace(/\//g, "--"));
         p_ctx.result.push("' style='");
                 //if(style_object.prompt)
@@ -463,7 +422,7 @@ function render_search_text_select_control(p_ctx)
             
                 p_ctx.result.push("<select id='");
                 p_ctx.result.push(p_ctx.mmria_path);
-                p_ctx.result.push("' type='text' ");
+                p_ctx.result.push("' class='custom-select' ");
 
             if(style_object.control)
             {
@@ -471,7 +430,6 @@ function render_search_text_select_control(p_ctx)
                 p_ctx.result.push(get_only_size_and_font_style_string(style_object.control.style));
                 p_ctx.result.push("' "); 
             }
-            
 
             if
             (
@@ -516,8 +474,6 @@ function render_search_text_select_control(p_ctx)
                 }
             }
 
-
-
             for(let i = 0; i < data_value_list.length; i++)
             {
                 let child = data_value_list[i];
@@ -548,8 +504,6 @@ function render_search_text_select_control(p_ctx)
 
             }
             
-   
-
             p_ctx.result.push("</select>");
             p_ctx.result.push("</div>");
     }
@@ -602,607 +556,7 @@ function get_only_size_and_font_style_string(p_specicification_style_string)
                 result.push(pair.join(":"));
                 break;
         }
-
     }
 
     return result.join(";");
-}
-
-
-function render_search_text_list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
-{
-
-    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-
-    p_result.push("<div class='list' id='");
-    p_result.push(convert_object_path_to_jquery_id(p_object_path));
-    
-    p_result.push("' ");
-    p_result.push(" mpath='");
-    p_result.push(p_metadata_path);
-    p_result.push("' ");
-
-    p_result.push(">");
-    p_result.push("<label for='");
-    p_result.push(p_object_path.replace(/\//g, "--"));
-    p_result.push("' style='");
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(get_style_string(style_object.prompt.style));
-    }
-    p_result.push("' ");
-
-    if(p_metadata.description && p_metadata.description.length > 0)
-    {
-        p_result.push("rel='tooltip'  data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-        p_result.push("'>");
-    }
-    else
-    {
-        p_result.push(">");
-    }
-    
-
-    p_result.push(p_metadata.prompt);
-    p_result.push("</label>");
-
-
-    p_result.push("<div style='");
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(get_only_size_and_position_string(style_object.control.style));
-    }
-
-    p_result.push("'>");
-
-    if(p_metadata.list_display_size && p_metadata.list_display_size!= "")
-    {
-        p_result.push("<select class='list-control-select 1' size=");
-        p_result.push(p_metadata.list_display_size);
-        p_result.push(" name='");
-    }
-    else if(p_metadata.is_multiselect && p_metadata.is_multiselect == true)
-    {
-        
-        if(p_metadata.values.length > 6)
-        {
-            p_result.push("<select class='list-control-select 2' size='6' name='");
-        }
-        else
-        {
-            p_result.push(" <select size=");
-            p_result.push(p_metadata.values.length);
-            p_result.push(" name='");
-        }
-        
-    }
-    else
-    {
-        p_result.push("<select class='list-control-select 3' size=");
-        p_result.push(1);
-        p_result.push(" name='");
-    }
-    
-    p_result.push(p_metadata.name);
-    
-    p_result.push("'");
-    // p_result.push("' style='width:98%;height:49%;'");
-
-    if
-    (
-        (
-            p_metadata.is_read_only != null &&
-            p_metadata.is_read_only == true
-        ) ||
-        p_metadata.mirror_reference
-    )
-    {
-        p_result.push(" readonly=true ");
-    }
-    else
-    {
-
-        p_result.push("  onblur='g_set_data_object_from_path(\"");
-        p_result.push(p_object_path);
-        p_result.push("\",\"");
-        p_result.push(p_metadata_path);
-        p_result.push("\",\"");
-        p_result.push(p_dictionary_path);
-        p_result.push("\",this.value)'  ");
-    }
-
-    if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
-    {
-        p_result.push(" multiple>");
-
-        var metadata_value_list = p_metadata.values;
-
-        if(p_metadata.path_reference && p_metadata.path_reference != "")
-        {
-            metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-            if(metadata_value_list == null)	
-            {
-                metadata_value_list = p_metadata.values;
-            }
-        }
-
-        for(var i = 0; i < metadata_value_list.length; i++)
-        {
-            var item = metadata_value_list.values[i];
-            if(p_data.indexOf(item.value) > -1)
-            {
-                    p_result.push("<option value='");
-                    p_result.push(item.value.replace(/'/g, "&#39;"));
-                    p_result.push("' selected>");
-                    if(item.display)
-                    {
-                        p_result.push(item.display);
-                    }
-                    else if(item.value == -9)
-                    {
-                        p_result.push("(blank)");
-                    }
-                    else
-                    {
-                        p_result.push(item.value);
-                    }
-                    p_result.push("</option>");
-            }
-            else
-            {
-                    p_result.push("<option value='");
-                    p_result.push(item.value.replace(/'/g, "&#39;"));
-                    p_result.push("' >");
-                    if(item.display)
-                    {
-                        p_result.push(item.display);
-                    }
-                    else if(item.value == -9)
-                    {
-                        p_result.push("(blank)");
-                    }
-                    else
-                    {
-                        p_result.push(item.value);
-                    }
-                    p_result.push("</option>");
-            }
-        }
-        p_result.push("</select>");
-
-        p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
-        p_result.push("<input id='"+p_metadata.name+"' class='list-control-input mt-1' placeholder='Specify Other' class='list' type='text3' name='");
-        // p_result.push("<br/><label><input style='width:98%;height:49%;' placeholder='Specify Other' class='list' type='text3' name='");
-        p_result.push(p_metadata.name);
-        p_result.push("' value='");
-        p_result.push(p_data);
-        p_result.push("' ");
-
-        if
-        (
-            (
-                p_metadata.is_read_only != null &&
-                p_metadata.is_read_only == true
-            ) ||
-            p_metadata.mirror_reference
-        )
-        {
-            p_result.push(" readonly=true ");
-        }
-        else
-        {
-            p_result.push(" onblur='g_set_data_object_from_path(\"");
-            p_result.push(p_object_path);
-            p_result.push("\",\"");
-            p_result.push(p_metadata_path);
-            p_result.push("\",\"");
-            p_result.push(p_dictionary_path);
-            p_result.push("\",this.value)' />");
-        }
-        p_result.push("</label> </div> ");
-
-
-    }
-    else
-    {
-        p_result.push(">");
-
-
-
-        var metadata_value_list = p_metadata.values;
-
-        if(p_metadata.path_reference && p_metadata.path_reference != "")
-        {
-            metadata_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-            if(metadata_value_list == null)	
-            {
-                metadata_value_list = p_metadata.values;
-            }
-        }
-
-        for(var i = 0; i < metadata_value_list.length; i++)
-        {
-            var item = metadata_value_list[i];
-            if(p_data == item.value)
-            {
-                p_result.push("<option value='");
-                p_result.push(item.value.replace(/'/g, "&#39;"));
-                p_result.push("' selected>");
-                if(item.display)
-                {
-                    p_result.push(item.display);
-                }
-                else  if(item.value == -9)
-                {
-                    p_result.push("(blank)");
-                }
-                else
-                {
-                    p_result.push(item.value);
-                }
-                p_result.push("</option>");
-            }
-            else
-            {
-                p_result.push("<option value='");
-                p_result.push(item.value.replace(/'/g, "&#39;"));
-                p_result.push("' >");
-                if(item.display)
-                {
-                    p_result.push(item.display);
-                }
-                else if(item.value == -9)
-                {
-                    p_result.push("(blank)");
-                }
-                else
-                {
-                    p_result.push(item.value);
-                }
-                p_result.push("</option>");
-            }
-        }
-        p_result.push("</select> ");
-        
-
-    //if(p_metadata.list_display_size && p_metadata.list_display_size!="")
-    //{
-        // p_result.push("<label>");
-        p_result.push("<label for='"+p_metadata.name+"' class='sr-only'>"+p_metadata.name+"</label>");
-        p_result.push("<input placeholder='Specify Other' id='"+p_metadata.name+"' class='list-control-input mt-1' type='text3' name='");
-        p_result.push(p_metadata.name);
-        p_result.push("' value='");
-        p_result.push(p_data);
-        p_result.push("' ");
-
-        if
-        (
-            (
-                p_metadata.is_read_only != null &&
-                p_metadata.is_read_only == true
-            ) ||
-            p_metadata.mirror_reference
-        )
-        {
-            p_result.push(" readonly=true ");
-        }
-        else
-        {
-            p_result.push(" onblur='g_set_data_object_from_path(\"");
-            p_result.push(p_object_path);
-            p_result.push("\",\"");
-            p_result.push(p_metadata_path);
-            p_result.push("\",\"");
-            p_result.push(p_dictionary_path);
-            p_result.push("\",this.value)' /> ");
-            // p_result.push("</label>");
-        }
-        p_result.push("</div>");
-        
-    //}
-
-
-    }
-
-    p_result.push("</div>");
-    
-
-}
-
-
-function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
-{
-    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-
-    p_result.push("<div class='list' id='");
-    p_result.push(convert_object_path_to_jquery_id(p_object_path));
-    
-    p_result.push("' ");
-    p_result.push(" mpath='");
-    p_result.push(p_metadata_path);
-    p_result.push("' ");
-
-    p_result.push(">");
-
-    p_result.push("<fieldset id='");
-    p_result.push(p_metadata.name);
-    p_result.push("_id' class='radio-list' ");
-
-    //var key = p_dictionary_path.substring(1);
-
-    var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-    if(style_object)
-    {
-        p_result.push(" style='");
-        p_result.push(get_only_size_and_position_string(style_object.control.style));
-        p_result.push("' ");
-    }
-
-    p_result.push(" >"); // close opening div
-    p_result.push("<legend ");
-
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(" style='");
-        p_result.push(get_only_font_style_string(style_object.prompt.style));
-        p_result.push("'");
-    }
-
-    if(p_metadata.description && p_metadata.description.length > 0)
-    {
-        p_result.push(" rel='tooltip'  data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
-        p_result.push("' ");
-    }
-
-    p_result.push(">");
-    p_result.push(p_metadata.prompt);
-    p_result.push("</legend>");
-
-
-    let data_value_list = p_metadata.values;
-
-    if(p_metadata.path_reference && p_metadata.path_reference != "")
-    {
-        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-        if(data_value_list == null)	
-        {
-            data_value_list = p_metadata.values;
-        }
-    }
-
-    for(let i = 0; i < data_value_list.length; i++)
-    {
-        var item = data_value_list[i];
-
-        let item_key = null;
-
-        if(item.value == null | item.value == "")
-        {
-            item_key = p_dictionary_path.substring(1) + "/";
-        }
-        else
-        {
-            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "--").replace(/--/g, '/').replace(/'/g, "-");//.replace(/\//g, "--")
-        }
-        var item_style = g_default_ui_specification.form_design[item_key];
-
-        var is_selected = "";
-
-        if (item.value == p_data)
-        {
-            is_selected = " checked ";
-        }
-
-        
-        var is_read_only = "";
-        let onclick_text = "";
-        if
-        (
-            (
-                p_metadata.is_read_only != null &&
-                p_metadata.is_read_only == true
-            ) ||
-            p_metadata.mirror_reference
-        )
-        {
-            is_read_only= " readonly=true ";
-            
-        }
-        else
-        {
-            onclick_text = `onclick='g_set_data_object_from_path("${p_object_path}","${p_metadata_path}","${p_dictionary_path}",this.value)'`;
-        }
-        
-        
-        
-
-        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
-        let input_html = 
-            `<input 
-                id='${object_id}' name='${convert_object_path_to_jquery_id(p_object_path)}' 
-                type='radio' 
-                value='${item.value}'
-                ${onclick_text}
-                ${is_selected}
-                ${is_read_only}
-                
-             />`;
-
-        if (item.display) 
-        {
-            
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> ${item.display}</span></label>`);
-            
-            
-        }
-        else if(item.value == -9)
-        {
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
-        }
-        else 
-        {
-            p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}" >${input_html}<span class="choice-control-info"> ${item.value}</span></label>`);
-        }
-    }
-
-    p_result.push("</fieldset>");
-
-    p_result.push("</div>");
-}
-
-function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx)
-{
-    let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-
-    p_result.push("<div class='list' id='");
-    p_result.push(convert_object_path_to_jquery_id(p_object_path));
-    
-    p_result.push("' ");
-    p_result.push(" mpath='");
-    p_result.push(p_metadata_path);
-    p_result.push("' ");
-
-    p_result.push(">");
-
-    p_result.push("<fieldset id='");
-    p_result.push(p_metadata.name);
-    p_result.push("_id' class='checkbox' ");
-
-    if(style_object)
-    {
-        p_result.push(" style='");
-        p_result.push(get_only_size_and_position_string(style_object.control.style));
-        p_result.push("' ");
-    }
-
-    p_result.push(">"); // close opening div
-    p_result.push("<legend ");
-
-    //var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(" style='");
-        p_result.push(get_only_font_style_string(style_object.prompt.style));
-        p_result.push("'");
-    }
-
-    if(p_metadata.description && p_metadata.description.length > 0)
-    {
-        p_result.push(" rel='tooltip'  data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
-        p_result.push("' ");
-    }
-
-    p_result.push(">");
-    p_result.push(p_metadata.prompt);
-    p_result.push("</legend>");
-
-    let data_value_list = p_metadata.values;
-
-    if(p_metadata.path_reference && p_metadata.path_reference != "")
-    {
-        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-
-        if(data_value_list == null)	
-        {
-            data_value_list = p_metadata.values;
-        }
-    }
-
-    for(let i = 0; i < data_value_list.length; i++)
-    {
-        var item = data_value_list[i];
-
-        let item_key = null;
-
-        if(item.value == null | item.value == "")
-        {
-            item_key = p_dictionary_path.substring(1) + "/";
-        }
-        else
-        {
-            item_key = p_dictionary_path.substring(1) + "/" + item.value.replace(/ /g, "--").replace(/--/g, '/').replace(/'/g, "-");
-        }
-        
-        let item_style = g_default_ui_specification.form_design[item_key];
-
-        let is_selected = "";
-
-        if (p_data.indexOf(item.value) > -1)
-        {
-            is_selected = " checked ";
-        }
-
-        var is_read_only = "";
-        if
-        (
-            (
-                p_metadata.is_read_only != null &&
-                p_metadata.is_read_only == true
-            ) ||
-            p_metadata.mirror_reference
-        )
-        {
-            is_read_only= " readonly=true ";
-        }
-
-        //let object_id = ;
-        let object_id = convert_object_path_to_jquery_id(p_object_path) + item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
-
-        if (item.display) 
-        {
-            
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
-            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
-            p_result.push("<span class='choice-control-info'> " + item.display + "</span></label>");
-        
-            
-        }
-        else if(item.value == -9)
-        {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
-            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
-            p_result.push("<span class='choice-control-info'> (blank)</span></label>");
-        }
-        else 
-        {
-            p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
-            render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
-            p_result.push("<span class='choice-control-info'> " + item.value + "</span></label>");
-        }
-    }
-    p_result.push("</fieldset>");
-
-    p_result.push("</div>");
-    
-}
-
-function render_search_text_list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_metadata_path, p_dictionary_path, p_is_selected, p_is_read_only)
-{
-    p_result.push("<input id='");
-    p_result.push(p_id);
-    p_result.push("' type='checkbox' ");
-    p_result.push(" value='");
-    p_result.push(p_item.value);
-    p_result.push("' ");
-
-    if(p_is_read_only == null || p_is_read_only == "")
-    {
-        p_result.push(" onclick=g_set_data_object_from_path(\'");
-        p_result.push(p_object_path);
-        p_result.push("\',\'");
-        p_result.push(p_metadata_path);
-        p_result.push("\',\'");
-        p_result.push(p_dictionary_path);
-        p_result.push("\',this.value) ");
-    }
-
-    p_result.push(p_is_selected);
-    p_result.push(p_is_read_only);
-    p_result.push("></input>");
 }
