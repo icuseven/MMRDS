@@ -5,8 +5,6 @@ function export_queue_render(p_queue_data)
 
 	result.push(`
 		<div class="row">
-			${export_queue_comfirm_render(p_queue_data)}
-
 			<div class="col-8">
 				<ol class="font-weight-bold">
 					<li class="mb-4">
@@ -199,6 +197,9 @@ function export_queue_render(p_queue_data)
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			${export_queue_comfirm_render(p_queue_data)}		
+		</div>			
 	`);
 
 	result.push("<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
