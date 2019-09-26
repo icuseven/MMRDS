@@ -8,7 +8,16 @@ function export_queue_render(p_queue_data)
 			<div class="col-8">
 				<ol class="font-weight-bold">
 					<li class="mb-4">
-						<p class="mb-3">Export all data or only core data? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
+						<label for="grantee-name" class="mb-3">The grantee name that will be added to each exported case is:</label>
+						<input id="grantee-name"
+							 class="form-control w-auto"
+							 type="text"
+							 value="${answer_summary.grantee_name}"
+							 disabled
+							 readonly="true" />
+					</li>				
+					<li class="mb-4">
+						<p class="mb-3">Do you want to export <u>all data</u> or only <u>core data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
 							<li>
 								<input name="export-type"
@@ -33,15 +42,7 @@ function export_queue_render(p_queue_data)
 						</ul>
 					</li>
 
-					<li class="mb-4">
-						<label for="grantee-name" class="mb-3">The grantee name that will be added to each exported case is:</label>
-						<input id="grantee-name"
-									 class="form-control w-auto"
-									 type="text"
-									 value="${answer_summary.grantee_name}"
-									 disabled
-									 readonly="true" />
-					</li>
+
 
 					<li class="mb-4">
 						<p class="mb-3">Would you like to password protect the file?</p>
