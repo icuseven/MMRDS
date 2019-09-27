@@ -120,7 +120,7 @@ function export_queue_render(p_queue_data)
 					</li>
 
 					<li class="mb-4">
-						<p class="mb-3">What filters do you want to apply?</p>
+						<p class="mb-3">Please select which cases you want to include in the export?</p>
 						<ul class="font-weight-bold list-unstyled">
 							<li class="mb-4">
 								<p class="mb-3 font-weight-bold">Date of death <small class="d-block mt-1">You can also add multiple date ranges</small></p>
@@ -160,7 +160,7 @@ function export_queue_render(p_queue_data)
 								</ul>
 							</li>
 							<li class="mb-4" style="overflow-y:scroll;height:300px;">
-								<h4>selected cases</h4>
+								<h4>Cases to be included in export:</h4>
 								<ul id="selected_case_list" sytle="overflow-y:scroll;height:300px">
 								${render_selected_case_list()}
 								</ul>
@@ -596,7 +596,7 @@ function get_case_set()
 		{
 			let el = document.getElementById('search_result_list');
 			let html = [];
-			html.push("<li><input type='checkbox' /> select all</li>");
+			//html.push("<li><input type='checkbox' /> select all</li>");
 			for(let i = 0; i < case_view_response.rows.length; i++)
 			{
 
@@ -616,7 +616,7 @@ function get_case_set()
 
 				
 
-				html.push(`<li>${value_list.jurisdiction_id} <input value=${item.id} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+				html.push(`<li><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
 			}
 
 			el.innerHTML = html.join("");
@@ -629,13 +629,13 @@ function get_case_set()
 function render_selected_case_list()
 {
 	let result = [];
-	result.push("<li><input type='checkbox' /> select all</li>");
+	//result.push("<li><input type='checkbox' /> select all</li>");
 	for(let i = 0; i < answer_summary.case_set.length; i++)
 	{
 		let item_id = answer_summary.case_set[i];
 		let value_list = selected_dictionary[item_id];
 
-		result.push(`<li>${value_list.jurisdiction_id} <input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+		result.push(`<li><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 	}
 
 	return result.join("");
@@ -646,7 +646,7 @@ function render_selected_case_list2()
 {
 	let el = document.getElementById('selected_case_list');
 	let html = [];
-	html.push("<li><input type='checkbox' /> select all</li>");
+	//html.push("<li><input type='checkbox' /> select all</li>");
 	for(let i = 0; i < answer_summary.case_set.length; i++)
 	{
 
@@ -656,7 +656,7 @@ function render_selected_case_list2()
 
 		let value_list = selected_dictionary[item_id];
 
-		html.push(`<li>${value_list.jurisdiction_id} <input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+		html.push(`<li><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 	}
 
 	el.innerHTML = html.join("");
