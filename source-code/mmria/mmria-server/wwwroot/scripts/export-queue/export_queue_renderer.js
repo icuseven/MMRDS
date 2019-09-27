@@ -6,7 +6,7 @@ function export_queue_render(p_queue_data)
 	result.push(`
 		<div class="row">
 			<div class="col-8">
-				<ol class="font-weight-bold">
+				<ol class="font-weight-bold pl-3">
 					<li class="mb-4">
 						<label for="grantee-name" class="mb-3">The grantee name that will be added to each exported case is:</label>
 						<input id="grantee-name"
@@ -123,7 +123,31 @@ function export_queue_render(p_queue_data)
 						<p class="mb-3">Please select which cases you want to include in the export?</p>
 						<ul class="font-weight-bold list-unstyled">
 							<li class="mb-4">
-								<p class="mb-3 font-weight-bold">Date of death <small class="d-block mt-1">You can also add multiple date ranges</small></p>
+								<div class="form-inline mb-2">
+									<label for="filter_search_text" class="mr-2"> Search for:</label>
+									<input type="text" class="form-control mr-2" id="filter_search_text" onchange="fooBar();" value=""><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
+								</div>
+
+								<div class="form-inline mb-2">
+									<label for="filter_sort_by" class="mr-2">Sort by:</label>
+									<select id="filter_sort_by" class="custom-select" onchange="fooBar();"><option selected="">date_created</option><option>jurisdiction_id</option><option>last_name</option><option>first_name</option><option>middle_name</option><option>state_of_death</option><option>record_id</option><option>year_of_death</option><option>month_of_death</option><option>committee_review_date</option><option>agency_case_id</option><option>created_by</option><option>last_updated_by</option><option>date_last_updated</option></select>
+								</div>
+
+								<div class="form-inline mb-2">
+									<label for="filter_records_perPage" class="mr-2">Records per page:</label>
+									<select id="filter_records_perPage" class="custom-select" onchange="fooBar();"><option>25</option><option>50</option><option selected="">100</option><option>250</option><option>500</option></select>
+								</div>
+
+								<div class="form-inline mb-2">
+									<label for="filter_decending" class="mr-2">Descending order:</label>
+									<input id="filter_decending" type="checkbox" onchange="fooBar();" checked="true">
+								</div>
+
+								<div class="form-inline mt-4">
+									<button type="button" class="btn btn-secondary" alt="search" onclick="date_search_button_click()">Apply Filters</button>
+								</div>
+
+								<!-- <p class="mb-3 font-weight-bold">Date of death <small class="d-block mt-1">You can also add multiple date ranges</small></p>
 								<form class="row no-gutters mb-3">
 									<div class="form-inline mr-2 mb-0">
 										<label for="date-from" class="mr-2">From:</label>
@@ -150,19 +174,32 @@ function export_queue_render(p_queue_data)
 									<div class="form-inline mb-0">
 										<button type="button" class="btn btn-secondary" onclick="date_search_button_click()">search</button>
 									</div>
-								</form>
+								</form> -->
 							</li>
 
-							<li class="mb-4" style="overflow-y:scroll;height:300px;">
-								<h4>search results</h4>
-								<ul id="search_result_list">
-									
-								</ul>
+							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
+								<nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
+									<h3 class="h5 m-0 mr-2">Filtered cases:</h3>
+									<ul class="row no-gutters list-unstyled pl-0">
+										<li class="m-0 mr-2">
+											<button class="link" onclick="fooBar();">Select all</button>
+										</li>
+									</ul>
+								</nav>
+								<ul id="search_result_list" class="zebra-list list-unstyled"></ul>
 							</li>
-							<li class="mb-4" style="overflow-y:scroll;height:300px;">
-								<h4>Cases to be included in export:</h4>
-								<ul id="selected_case_list" sytle="overflow-y:scroll;height:300px">
-								${render_selected_case_list()}
+
+							<li class="" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
+								<nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
+									<h3 class="h5 m-0 mr-2">Cases to be included in export:</h3>
+									<ul class="row no-gutters list-unstyled pl-0">
+										<li class="m-0 mr-2">
+											<button class="link" onclick="fooBar();">Remove all</button>
+										</li>
+									</ul>
+								</nav>
+								<ul id="selected_case_list" class="zebra-list list-unstyled">
+									${render_selected_case_list()}
 								</ul>
 							</li>
 

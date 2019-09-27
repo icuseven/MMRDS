@@ -474,6 +474,12 @@ ul {
 .link:hover {
   color: inherit;
 }
+/* links that are buttons, yar! */
+button.link {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
 
 .anti-btn {
   background-color: transparent;
@@ -485,6 +491,17 @@ ul {
 
 .smooth-list {
   padding-left: 0;
+}
+
+.zebra-list li {
+  margin-bottom: 0;
+  padding: 0.5rem;
+}
+.zebra-list li:nth-of-type(odd) {
+  background-color: var(--white);
+}
+.zebra-list li:nth-of-type(even) {
+  background-color: var(--neutral-light);
 }
 
 .form-control-wrap {
