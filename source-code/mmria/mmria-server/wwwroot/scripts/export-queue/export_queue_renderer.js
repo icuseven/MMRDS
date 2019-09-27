@@ -42,8 +42,6 @@ function export_queue_render(p_queue_data)
 						</ul>
 					</li>
 
-
-
 					<li class="mb-4">
 						<p class="mb-3">Would you like to password protect the file?</p>
 						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
@@ -235,6 +233,7 @@ function export_queue_render(p_queue_data)
 				</div>
 			</div>
 		</div>
+		
 		<div class="row">
 			${export_queue_comfirm_render(p_queue_data)}		
 		</div>			
