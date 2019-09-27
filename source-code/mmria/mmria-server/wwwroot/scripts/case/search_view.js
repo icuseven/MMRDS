@@ -22,10 +22,13 @@ function search_text_change(p_form_control)
 {
     let search_text = p_form_control.value;
     let record_index = g_ui.url_state.path_array[0];
-    
+
     if(search_text != null && search_text.length > 3)
     {
         window.location.hash = "/" + record_index + "/field_search/" + search_text;
+
+        // when searching, scroll back to top
+        window.scrollTo(0,0);
     }
 }
 
