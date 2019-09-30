@@ -90,9 +90,10 @@ build:
         - written_file=$(cat build-call.txt | grep -E ".")
         - echo " printing written_file"
         - echo " $written_file"
-        - 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
-        - sleep 2m
+        #- 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
+        - sleep 1m
         - 'curl -k -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://jenkins-ahb-cicd.services-dev.cdc.gov/job/ahb-cicd/job/ahb-cicd-mmria-twistlock-pipeline/buildWithParameters?token=$twistlock_token&imagename=mmria-s2i&tag=latest >> twist_lock.txt'
-        - twist_lock_call_result=$(cat twist_lock.txt | grep -E ".")
-        - echo " printing twist_lock.txt"
-        - echo " $twist_lock_call_result"
+        #- twist_lock_call_result=$(cat twist_lock.txt | grep -E ".")
+        #- echo " printing twist_lock.txt"
+        #- echo " $twist_lock_call_result"
+        - echo "twist token = $twistlock_token"
