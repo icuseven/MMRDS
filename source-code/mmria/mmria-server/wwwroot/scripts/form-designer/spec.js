@@ -49,10 +49,10 @@ function deleteSpec() {
     data: '',
     type: "DELETE"
   }).done(function (response) {
-    console.log(response);
+    //console.log(response);
       var response_obj = eval(response);
       if (response_obj.ok) {
-        console.log(response_obj);
+        //console.log(response_obj);
         grapSpecList();
       }
   });
@@ -110,7 +110,7 @@ function setModifySpecId(id) {
 function grapSpecList() {
   $.get(urlList, function(data, status) {
     let inHTML = "";
-    console.log(data);
+    //console.log(data);
     $.each(data, function(index, value) {
       inHTML += tplSpecTableRow(index, value);
     });

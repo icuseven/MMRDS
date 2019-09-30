@@ -637,7 +637,7 @@ function execute_command_click()
   if(valid_command_regex.test(cmd_test.trim()))
   {
 
-    var cmd_text = cmd_test.trim().split(' ');
+    var cmd_text = escape(cmd_test.trim()).split(' ');
     var message = "execute command clicked\n\n" + cmd_text;
 
     
