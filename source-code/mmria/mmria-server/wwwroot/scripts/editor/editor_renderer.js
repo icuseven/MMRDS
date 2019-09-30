@@ -176,6 +176,38 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			Array.prototype.push.apply(result, render_attribute_add_control(p_path, p_metadata.type));
 			result.push(' <input type="button" value="ps" onclick="editor_paste_to_children(\'' + p_path + '\', true)" /> ');
 			result.push(' <input type="button" value="kp" onclick="editor_cut_to_children(\'' + p_path + '\', true)" /> ');
+
+			if
+			(
+				(
+					p_metadata.type.toLowerCase() == 'string' ||
+					p_metadata.type.toLowerCase() == 'hidden'
+				) 
+				&&
+				(
+					p_metadata.max_length == null ||
+					p_metadata.max_length == ""
+				)
+				
+			)
+			{
+				result.push(' <input type="button" value="upgrade to 500 limit" onclick="editor_add_500Limit(\'' + p_path + '\')" style="background-color:aqua;" /> ');
+			}
+
+
+			if
+			(
+
+				p_metadata.type.toLowerCase() == 'textarea' &&
+				(
+					p_metadata.max_length == null ||
+					p_metadata.max_length == ""
+				)
+			)
+			{
+				result.push(' <input type="button" value="upgrade to 32K limit" onclick="editor_add_30K(\'' + p_path + '\')" style="background-color:cadetblue;" /> ');
+			}
+			
 			result.push(p_object_path);
 			result.push(' <ul tag="attribute_list" ');
 			if(p_ui.is_collapsed[p_path])
@@ -189,6 +221,9 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 			result.push('</ul></li>');
 
+
+			
+			
            break;
 	case 'yes_no':
 	case 'race':
@@ -213,7 +248,24 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+
+		
+		let is_conversion_needed = false;
+		for(let list_iterator = 0; list_iterator < p_metadata.values.length; list_iterator++)
+		{
+			let list_item = p_metadata.values[list_iterator];
+			if(list_item.value < 0)
+			{
+				is_conversion_needed = true;
+				break;	
+			}
+		}
+
+		if(is_conversion_needed)
+		{
+			result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" style="    background-color: blanchedalmond;" /> ');
+		}
+		
 		/*
 		if(p_metadata.name.indexOf("pmss_mm") > -1)
 		{
@@ -1729,36 +1781,48 @@ function editor_upgrade_numeric_and_display(p_path)
 }
 
 
-function editor_upgrade_string_and_display(p_path)
+function editor_add_30K(p_path)
 {
-	var item_path = get_eval_string(p_path);
-	var value_list = eval(item_path);
+	let item_path = get_eval_string(p_path);
+	let item = eval(item_path);
 
-	for(let i = 0; i < value_list.length; i++)
+	if(item.max_length == null)
 	{
-		if(value_list[i].value == null || value_list[i].value == "")
-		{
-			value_list[i].display = "";
-			value_list[i].value = -9;
-		}
-		else
-		{
-			let name_value = value_list[i].value.split("-");
-			value_list[i].value = name_value[0].trim();
-			value_list[i].display = name_value[1].trim();
-		}
+		item.max_length = "31000";
+	}
+	else if(item.max_length == "")
+	{
+		item.max_length = "31000";
 	}
 
-	var path_index = p_path.lastIndexOf("/");
-	var parent_path = p_path.slice(0, path_index);
 
-	var node = editor_render(eval(get_eval_string(parent_path)), parent_path, g_ui);
+	let node = editor_render(eval(get_eval_string(p_path)), p_path, g_ui);
 
-	var node_to_render = document.querySelector("li[path='" + parent_path + "']");
+	let node_to_render = document.querySelector("li[path='" + p_path + "']");
 	node_to_render.innerHTML = node.join("");
 	window.dispatchEvent(metadata_changed_event);
 }
 
+function editor_add_500Limit(p_path)
+{
+	let item_path = get_eval_string(p_path);
+	let item = eval(item_path);
+
+	if(item.max_length == null)
+	{
+		item.max_length = "500";
+	}
+	else if(item.max_length == "")
+	{
+		item.max_length = "500";
+	}
+
+	let node = editor_render(eval(get_eval_string(p_path)), p_path, g_ui);
+
+	let node_to_render = document.querySelector("li[path='" + p_path + "']");
+	node_to_render.innerHTML = node.join("");
+	window.dispatchEvent(metadata_changed_event);
+}
 
 function editor_upgrade_pmss_and_display(p_path)
 {
