@@ -122,7 +122,7 @@ namespace mmria.console.db
 				mmria.console.model.couchdb.cBulkDocument bulk_document =
 					Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.console.model.couchdb.cBulkDocument> (bulk_document_string, settings);
 
-				/*
+				
 				foreach(var doc in bulk_document.docs)
 				{
 					
@@ -164,7 +164,7 @@ namespace mmria.console.db
 					}
 					
 				} 
-				*/
+				/**/
 
 				string post_result = await Post_Document_List (bulk_document);
 
