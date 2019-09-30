@@ -91,5 +91,5 @@ build:
         - echo " printing written_file"
         - echo " $written_file"
         - 'curl -k --data "@build-call.txt" -H "Content-Type: application/json" -X POST https://nccdgisdev.cdc.gov/TeamAutomation/RunBuilds'
-        - sleep 3m
-        - https://jenkins-ahb-cicd.services-dev.cdc.gov/job/ahb-cicd/job/ahb-cicd-mmria-twistlock-pipeline/buildWithParameters?token=${twistlock_token}&imagename=mmria-s2i&tag=latest
+        - sleep 2m
+        - curl https://jenkins-ahb-cicd.services-dev.cdc.gov/job/ahb-cicd/job/ahb-cicd-mmria-twistlock-pipeline/buildWithParameters?token=${twistlock_token}&imagename=mmria-s2i&tag=latest
