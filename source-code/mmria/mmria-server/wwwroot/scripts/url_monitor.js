@@ -16,19 +16,19 @@ get_url_state: function(url)
     if(path_array.length > 0)
     {
       form = path_array[0];
-      console.log("selected form: " + form);
+      //console.log("selected form: " + form);
     }
 
     if(path_array.length > 1)
     {
       selected_id = path_array[1];
-      console.log("selected id: " + selected_id);
+      //console.log("selected id: " + selected_id);
     }
 
     if(path_array.length > 2)
     {
       selected_child_id = path_array[2];
-      console.log("selected child id: " + selected_child_id);
+      //console.log("selected child id: " + selected_child_id);
     }
 
     result = {
