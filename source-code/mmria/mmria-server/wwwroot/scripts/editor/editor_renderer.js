@@ -213,7 +213,7 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 		Array.prototype.push.apply(result, attribute_renderer(p_metadata, p_path));
 		result.push('<li>values:');
 		result.push(' <input type="button" value="add" onclick="editor_add_value(\'' + p_path + "/" + "values" + '\')" /> ');
-		//result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
+		result.push(' <input type="button" value="upgrade to numeric/display" onclick="editor_upgrade_numeric_and_display(\'' + p_path + "/" + "values" + '\')" /> ');
 		/*
 		if(p_metadata.name.indexOf("pmss_mm") > -1)
 		{
@@ -1705,15 +1705,15 @@ function editor_upgrade_numeric_and_display(p_path)
 
 		if(value_list[i].value == -9)
 		{
-			value_list[i].value = 999;
+			value_list[i].value = 9999;
 		}
 		else if(value_list[i].value == -8)
 		{					
-			value_list[i].value = 888;
+			value_list[i].value = 8888;
 		}
 		else if(value_list[i].value == -7)
 		{
-			value_list[i].value = 777;
+			value_list[i].value = 7777;
 		}
 
 	}

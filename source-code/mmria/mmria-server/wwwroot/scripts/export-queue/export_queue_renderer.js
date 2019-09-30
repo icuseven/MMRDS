@@ -633,6 +633,9 @@ function get_case_set()
 			let el = document.getElementById('search_result_list');
 			let html = [];
 			//html.push("<li><input type='checkbox' /> select all</li>");
+
+			g_case_view_request.respone_rows = case_view_response.rows;
+			
 			for(let i = 0; i < case_view_response.rows.length; i++)
 			{
 
