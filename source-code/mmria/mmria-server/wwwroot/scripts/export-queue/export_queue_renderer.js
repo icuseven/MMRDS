@@ -125,8 +125,8 @@ function export_queue_render(p_queue_data)
 										<label class="form-check-label" for="exclude_pii">Exclude PII tagged fields</label>
 									</div>
 									<div class="form-group form-check mb-0">
-										<input type="checkbox" class="form-check-input" id="exclude_pii">
-										<label class="form-check-label" for="exclude_pii">Include PII tagged fields and any data in the field</label>
+										<input type="checkbox" class="form-check-input" id="include_pii">
+										<label class="form-check-label" for="include_pii">Include PII tagged fields and any data in the field</label>
 									</div>
 									
 									<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
