@@ -192,6 +192,16 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
               });
           break;
 
+
+          case 'date':
+            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker(
+              {
+                format:"Y-MM-DD",  
+                defaultDate: value,
+                icons: { time: "x24 fill-p cdc-icon-clock_01", date: "x24 fill-p cdc-icon-calendar_01", up: "x28 fill-p cdc-icon-arrow-alt-circle-up-solid", down: "x28 fill-p cdc-icon-arrow-alt-circle-down-solid" } 
+              });
+          break;          
+
           case 'number':
 
               //$("#" + convert_object_path_to_jquery_id(p_object_path) + " input.number").numeric();
