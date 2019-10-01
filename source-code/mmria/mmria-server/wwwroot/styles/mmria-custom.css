@@ -525,10 +525,14 @@ button.link {
   overflow: hidden;
 }
 
-.thead .tr {
+.table--plain {
+  border-radius: 0;
+}
+
+.thead > .tr {
   background-color: #f1f1f1;
 }
-.tbody .tr {
+.tbody > .tr {
   background-color: var(--white);
 }
 
@@ -537,14 +541,15 @@ button.link {
   border-top: none;
 }
 
-.th, .td {
+.table .th,
+.table .td {
   border: var(--border-width) solid;
   border-color: var(--neutral);
   padding: 10px 12px;
   vertical-align: middle;
 }
 
-.td--25 {
+.table .tbody .td--25 {
   width: 25%;
 }
 
