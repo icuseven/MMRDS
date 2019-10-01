@@ -94,6 +94,7 @@ build:
         - sleep 30s
         - twist_lock_url="https://jenkins-ahb-cicd.services-dev.cdc.gov/job/ahb-cicd/job/ahb-cicd-mmria-twistlock-pipeline/buildWithParameters?token=$twistlock_token&imagename=mmria-s2i&tag=latest"
         - 'curl -k -H "Accept: application/json" -H "Content-Type: application/json" -X GET $twist_lock_url > twist_lock.txt'
-        - twist_lock_call_result=$(cat twist_lock.txt | grep -E ".")
-        - echo " printing twist_lock.txt"
-        - echo " $twist_lock_call_result"
+        - cat twist_lock.txt
+        #- twist_lock_call_result=$(cat twist_lock.txt | grep -E ".")
+        #- echo " printing twist_lock.txt"
+        #- echo " $twist_lock_call_result"
