@@ -16,7 +16,7 @@ $(function ()
 	});
   load_policy_values();
 
-  document.getElementById("password_div").innerHTML = render_password().join("");
+  document.getElementById("password_div").innerHTML = render_pass_word().join("");
   
 });
 
@@ -149,7 +149,7 @@ function load_user_role_jurisdiction()
 
 }
 
-function render_password()
+function render_pass_word()
 {
   var result = [];
 	if(g_sams_is_enabled != "True")

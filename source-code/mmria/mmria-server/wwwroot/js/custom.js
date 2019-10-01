@@ -25,7 +25,7 @@
     // About section scroll
     $(".overlay-detail a").on('click', function(event) {
         event.preventDefault();
-        var hash = this.hash;
+        var hash = escape(this.hash);
         $('html, body').animate({
             scrollTop: $(hash).offset().top
         }, 900, function(){

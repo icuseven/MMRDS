@@ -37,7 +37,7 @@ function main()
 			}
 			else
 			{
-				document.getElementById("serverResponse").innerHTML = 'Server Reply:: ' + messageEvent.data;
+				document.getElementById("serverResponse").innerHTML = 'Server Reply:: ' + escape(messageEvent.data);
 			}
 		};
 
