@@ -1002,6 +1002,7 @@ function render_attribute_add_control(p_path, node_type)
 	else if(node_type.toLowerCase()== "grid" || node_type.toLowerCase()== "group")
 	{
 		result.push('<option>is_core_summary</option>');
+		result.push('<option>is_read_only</option>');
 	}
 
 
