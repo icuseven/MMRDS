@@ -5,7 +5,7 @@ function export_queue_render(p_queue_data)
 
 	result.push(`
 		<div class="row">
-			<div class="col-8">
+			<div class="col">
 				<ol class="font-weight-bold pl-3">
 					<li class="mb-4">
 						<label for="grantee-name" class="mb-3">The grantee name that will be added to each exported case is:</label>
@@ -109,9 +109,170 @@ function export_queue_render(p_queue_data)
 											 value="custom"
 											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
-								<!-- TODO: Add logic to show dynamically input if user selects corresponding control -->
-								<div class="mt-2" data-show="de_identified_selection_type" style="display:none">
-									<button class="btn btn-secondary" data-toggle="modal" data-target="#custom-fields">Select custom selection</button>
+								<div class="p-3 mt-2 bg-gray-12" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
+									<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
+									<div class="form-inline mb-2">
+										<label for="de_identify_search_text" class="mr-2"> Search for:</label>
+										<input type="text"
+														class="form-control mr-2"
+														id="de_identify_search_text"
+														onchange="fooBar();"
+														value="">
+										<button type="button" class="btn btn-tertiary" alt="clear search">Search</button>
+									</div>
+									<div class="form-group form-check mb-1">
+										<input type="checkbox" class="form-check-input" id="exclude_pii">
+										<label class="form-check-label" for="exclude_pii">Exclude PII tagged fields</label>
+									</div>
+									<div class="form-group form-check mb-0">
+										<input type="checkbox" class="form-check-input" id="exclude_pii">
+										<label class="form-check-label" for="exclude_pii">Include PII tagged fields and any data in the field</label>
+									</div>
+									
+									<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+										<table class="table table--plain mb-0">
+											<thead class="thead">
+												<tr class="tr bg-tertiary">
+													<th class="th" colspan="2">Fields to de-identify</th>
+												</tr>
+											</thead>
+											<tbody class="tbody">
+												<tr class="tr">
+													<td class="td text-center" style="width: 44px;">
+														<label for="date_created" class="mb-0"><input id="date_created" type="checkbox" checked /></label>
+													</td>
+													<td class="td">
+														<table class="table table--plain mb-0">
+															<thead class="thead">
+																<tr class="tr">
+																	<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
+																</tr>
+															</thead>
+															<thead class="thead">
+																<tr class="tr bg-white">
+																	<th class="th">Name</th>
+																	<th class="th">Type</th>
+																	<th class="th">Prompt</th>
+																	<th class="th">Values</th>
+																</tr>
+															</thead>
+															<tbody class="tbody">
+																<tr class="tr bg-white">
+																	<td class="td">date_created</td>
+																	<td class="td">date</td>
+																	<td class="td">date_created</td>
+																	<td class="td"></td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+												<tr class="tr">
+													<td class="td text-center" style="width: 44px;">
+														<label for="date_created" class="mb-0"><input id="date_created" type="checkbox" /></label>
+													</td>
+													<td class="td">
+														<table class="table table--plain mb-0">
+															<thead class="thead">
+																<tr class="tr">
+																	<th class="th" colspan="4">Path: <span class="font-weight-normal">home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section</span></th>
+																</tr>
+															</thead>
+															<thead class="thead">
+																<tr class="tr bg-white">
+																	<th class="th">Name</th>
+																	<th class="th">Type</th>
+																	<th class="th">Prompt</th>
+																	<th class="th">Values</th>
+																</tr>
+															</thead>
+															<tbody class="tbody">
+																<tr class="tr bg-white">
+																	<td class="td">birth_certificate_infant_or_fetal_death_section</td>
+																	<td class="td">list</td>
+																	<td class="td">Birth/Fetal Death Certificate- Infant/Fetal Section</td>
+																	<td class="td">
+																		<table class="table table--plain mb-0">
+																			<thead class="thead">
+																				<tr class="tr bg-white">
+																					<th class="th">Value</th>
+																					<th class="th">Description</th>
+																				</tr>
+																			</thead>
+																			<tbody class="tbody">
+																				<tr class="tr bg-white">
+																					<td class="td">9999</td>
+																					<td class="td">(blank)</td>
+																				</tr>
+																				<tr class="tr bg-white">
+																					<td class="td">1</td>
+																					<td class="td">In Progress</td>
+																				</tr>
+																				<tr class="tr bg-white">
+																					<td class="td">2</td>
+																					<td class="td">Completed</td>
+																				</tr>
+																				<tr class="tr bg-white">
+																					<td class="td">3</td>
+																					<td class="td">Not Available</td>
+																				</tr>
+																				<tr class="tr bg-white">
+																					<td class="td">4</td>
+																					<td class="td">Not Applicable</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+										<table class="table table--plain mb-0">
+											<thead class="thead">
+												<tr class="tr bg-tertiary">
+													<th class="th" colspan="2">Fields that have been de-identified</th>
+												</tr>
+											</thead>
+											<tbody class="tbody">
+												<tr class="tr">
+													<td class="td text-center" style="width: 44px;">
+														<label for="date_created" class="mb-0"><input id="date_created" type="checkbox" checked /></label>
+													</td>
+													<td class="td">
+														<table class="table table--plain mb-0">
+															<thead class="thead">
+																<tr class="tr">
+																	<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
+																</tr>
+															</thead>
+															<thead class="thead">
+																<tr class="tr bg-white">
+																	<th class="th">Name</th>
+																	<th class="th">Type</th>
+																	<th class="th">Prompt</th>
+																	<th class="th">Values</th>
+																</tr>
+															</thead>
+															<tbody class="tbody">
+																<tr class="tr bg-white">
+																	<td class="td">date_created</td>
+																	<td class="td">date</td>
+																	<td class="td">date_created</td>
+																	<td class="td"></td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -122,22 +283,22 @@ function export_queue_render(p_queue_data)
 						<ul class="font-weight-bold list-unstyled">
 							<li class="mb-4">
 								<div class="form-inline mb-2">
-									<label for="filter_search_text" class="mr-2"> Search for:</label>
+									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
 									<input type="text" class="form-control mr-2" id="filter_search_text" onchange="fooBar();" value=""><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
 								</div>
 
 								<div class="form-inline mb-2">
-									<label for="filter_sort_by" class="mr-2">Sort by:</label>
+									<label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
 									<select id="filter_sort_by" class="custom-select" onchange="fooBar();"><option selected="">date_created</option><option>jurisdiction_id</option><option>last_name</option><option>first_name</option><option>middle_name</option><option>state_of_death</option><option>record_id</option><option>year_of_death</option><option>month_of_death</option><option>committee_review_date</option><option>agency_case_id</option><option>created_by</option><option>last_updated_by</option><option>date_last_updated</option></select>
 								</div>
 
 								<div class="form-inline mb-2">
-									<label for="filter_records_perPage" class="mr-2">Records per page:</label>
+									<label for="filter_records_perPage" class="font-weight-normal mr-2">Records per page:</label>
 									<select id="filter_records_perPage" class="custom-select" onchange="fooBar();"><option>25</option><option>50</option><option selected="">100</option><option>250</option><option>500</option></select>
 								</div>
 
 								<div class="form-inline mb-2">
-									<label for="filter_decending" class="mr-2">Descending order:</label>
+									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
 									<input id="filter_decending" type="checkbox" onchange="fooBar();" checked="true">
 								</div>
 
