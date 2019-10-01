@@ -7,6 +7,8 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     
         p_result.push(p_metadata_path);
         p_result.push("' ");
+
+        
         p_result.push(" mpath='" + p_metadata_path + "'");
         p_result.push(" class='grid2 grid-control' style='");
         var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
@@ -62,6 +64,8 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     );
                 }
                 p_result.push("<div class='grid-control-action-icn row no-gutters'>");
+                if(p_metadata.is_read_only == null && p_metadata.is_read_only != true)
+                {
                     p_result.push("<button type='button' class='grid-control-action-btn mr-1' title='delete' id='delete_");
                         p_result.push(p_object_path.replace(/\./g,"_") + "[" + i + "]");
                         p_result.push("' onclick='g_delete_grid_item(\"");
@@ -74,6 +78,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push("<span class='x24 fill-p text-secondary cdc-icon-close'></span>");
                         p_result.push("<span class='sr-only'>Close</span>");
                     p_result.push("</button>");
+                }
                     p_result.push("<span>");
                         p_result.push(" item ");
                         p_result.push(new Number(i + 1));
@@ -85,14 +90,17 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
         // p_result.push("<br/>");
         p_result.push("</div>");
-        p_result.push("<button type='button'class='grid-control-btn btn btn-primary d-flex align-items-center' onclick='g_add_grid_item(\"");
-            // p_result.push("<input type='button' style='width:90px'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
-            p_result.push(p_object_path);
-            p_result.push("\", \"");
-            p_result.push(p_metadata_path);
-            p_result.push("\", \"");
-            p_result.push(p_dictionary_path);    
-            p_result.push("\")'><span class='x24 cdc-icon-plus'></span> Add Item");
-        p_result.push("</button>");
+        if(p_metadata.is_read_only == null && p_metadata.is_read_only != true)
+        {
+            p_result.push("<button type='button'class='grid-control-btn btn btn-primary d-flex align-items-center' onclick='g_add_grid_item(\"");
+                // p_result.push("<input type='button' style='width:90px'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
+                p_result.push(p_object_path);
+                p_result.push("\", \"");
+                p_result.push(p_metadata_path);
+                p_result.push("\", \"");
+                p_result.push(p_dictionary_path);    
+                p_result.push("\")'><span class='x24 cdc-icon-plus'></span> Add Item");
+            p_result.push("</button>");
+        }
     p_result.push("</fieldset>");
 }
