@@ -390,7 +390,39 @@ function export_queue_render(p_queue_data)
 							</li>
 
 							<li class="" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
-								<nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
+								<table class="table table--plain mb-0">
+									<thead class="thead">
+										<tr class="tr bg-tertiary">
+											<th class="th" colspan="14">
+												<span class="row no-gutters justify-content-between">
+													<span>Cases to be included in export:</span>
+													<button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button>
+												</span>
+											</th>
+										</tr>
+									</thead>
+									<thead class="thead">
+										<tr class="tr">
+											<th class="th" width="38"></th>
+											<th class="th">Date created</th>
+											<th class="th">Jurisdiction ID</th>
+											<th class="th">Name</th>
+											<th class="th">State of death</th>
+											<th class="th">Record ID</th>
+											<th class="th">Date of death</th>
+											<th class="th">Committee review date</th>
+											<th class="th">Agency case ID</th>
+											<th class="th">Created by</th>
+											<th class="th">Last updated by</th>
+											<th class="th">Date last updated</th>
+										</tr>
+									</thead>
+									<tbody id="selected_case_list" class="tbody">
+										<!-- items get dynamically generated -->
+										${render_selected_case_list()}
+									</tbody>
+								</table>
+								<!-- <nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
 									<h3 class="h5 m-0 mr-2">Cases to be included in export:</h3>
 									<ul class="row no-gutters list-unstyled pl-0">
 										<li class="m-0 mr-2">
@@ -400,7 +432,7 @@ function export_queue_render(p_queue_data)
 								</nav>
 								<ul id="selected_case_list" class="zebra-list list-unstyled">
 									${render_selected_case_list()}
-								</ul>
+								</ul> -->
 							</li>
 
 						</ul>
@@ -941,6 +973,7 @@ function render_selected_case_list2()
 
 		let value_list = selected_dictionary[item_id];
 
+		// Items generated after user ADDS applied filters
 		html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 	}
 
