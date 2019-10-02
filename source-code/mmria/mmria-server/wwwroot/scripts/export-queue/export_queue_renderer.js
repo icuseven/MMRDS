@@ -350,7 +350,22 @@ function export_queue_render(p_queue_data)
 							</li>
 
 							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
-								<table class="table table--plain mb-0">
+								<div class="table-pagination row align-items-center no-gutters pl-2 pr-2 pt-1 pb-1">
+									<div class="col">
+										<div class="row no-gutters">
+											<p class="mb-0">Total Records: <strong>3</strong></p>
+											<p class="mb-0 ml-2 mr-2">|</p>
+											<p class="mb-0">Viewing Page(s): <strong>1</strong> of <strong>1</strong></p>
+										</div>
+									</div>
+									<div class="col row no-gutters align-items-center justify-content-end">
+										<p class="mb-0">Select by page:</p>
+										<button type="button" class="table-btn-link btn btn-link" alt="select page 1" onclick="g_ui.case_view_request.page=1;get_case_set();">1</button>
+										<button type="button" class="table-btn-link btn btn-link" alt="select page 2" onclick="g_ui.case_view_request.page=2;get_case_set();">2</button>
+										<button type="button" class="table-btn-link btn btn-link" alt="select page 3" onclick="g_ui.case_view_request.page=3;get_case_set();">3</button>
+									</div>
+								</div>
+								<table class="table table--plain m-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14">
