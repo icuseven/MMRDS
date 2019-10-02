@@ -163,7 +163,7 @@ function export_queue_render(p_queue_data)
 																</tr>
 															</thead>
 															<tbody class="tbody">
-																<tr class="tr bg-white">
+																<tr class="tr">
 																	<td class="td">date_created</td>
 																	<td class="td">date</td>
 																	<td class="td">date_created</td>
@@ -194,36 +194,36 @@ function export_queue_render(p_queue_data)
 																</tr>
 															</thead>
 															<tbody class="tbody">
-																<tr class="tr bg-white">
+																<tr class="tr">
 																	<td class="td">birth_certificate_infant_or_fetal_death_section</td>
 																	<td class="td">list</td>
 																	<td class="td">Birth/Fetal Death Certificate- Infant/Fetal Section</td>
 																	<td class="td">
 																		<table class="table table--plain mb-0">
 																			<thead class="thead">
-																				<tr class="tr bg-white">
+																				<tr class="tr">
 																					<th class="th">Value</th>
 																					<th class="th">Description</th>
 																				</tr>
 																			</thead>
 																			<tbody class="tbody">
-																				<tr class="tr bg-white">
+																				<tr class="tr">
 																					<td class="td">9999</td>
 																					<td class="td">(blank)</td>
 																				</tr>
-																				<tr class="tr bg-white">
+																				<tr class="tr">
 																					<td class="td">1</td>
 																					<td class="td">In Progress</td>
 																				</tr>
-																				<tr class="tr bg-white">
+																				<tr class="tr">
 																					<td class="td">2</td>
 																					<td class="td">Completed</td>
 																				</tr>
-																				<tr class="tr bg-white">
+																				<tr class="tr">
 																					<td class="td">3</td>
 																					<td class="td">Not Available</td>
 																				</tr>
-																				<tr class="tr bg-white">
+																				<tr class="tr">
 																					<td class="td">4</td>
 																					<td class="td">Not Applicable</td>
 																				</tr>
@@ -273,7 +273,7 @@ function export_queue_render(p_queue_data)
 																</tr>
 															</thead>
 															<tbody class="tbody">
-																<tr class="tr bg-white">
+																<tr class="tr">
 																	<td class="td">date_created</td>
 																	<td class="td">date</td>
 																	<td class="td">date_created</td>
