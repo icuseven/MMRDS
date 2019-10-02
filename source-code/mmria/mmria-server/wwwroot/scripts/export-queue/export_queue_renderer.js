@@ -109,7 +109,7 @@ function export_queue_render(p_queue_data)
 											 value="custom"
 											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
-								<div class="p-3 mt-2 bg-gray-12" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
+								<div class="p-3 mt-2 bg-gray-l3" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
 									<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
 									<div class="form-inline mb-2">
 										<label for="de_identify_search_text" class="mr-2"> Search for:</label>
@@ -133,13 +133,19 @@ function export_queue_render(p_queue_data)
 										<table class="table table--plain mb-0">
 											<thead class="thead">
 												<tr class="tr bg-tertiary">
-													<th class="th" colspan="2">Fields to de-identify</th>
+													<th class="th" colspan="2">
+														<span class="row no-gutters justify-content-between">
+															<span>Fields to de-identify</span>
+															<button class="anti-btn" onclick="fooBarSelectAll()">Select All</button>
+														</span>
+													</th>
 												</tr>
 											</thead>
 											<tbody class="tbody">
 												<tr class="tr">
-													<td class="td text-center" style="width: 44px;">
-														<label for="date_created" class="mb-0"><input id="date_created" type="checkbox" checked /></label>
+													<td class="td text-center" width="38">
+														<input id="unique_id_1" type="checkbox" checked />
+														<label for="unique_id_1" class="sr-only">unique_id_1</label>
 													</td>
 													<td class="td">
 														<table class="table table--plain mb-0">
@@ -168,8 +174,9 @@ function export_queue_render(p_queue_data)
 													</td>
 												</tr>
 												<tr class="tr">
-													<td class="td text-center" style="width: 44px;">
-														<label for="date_created" class="mb-0"><input id="date_created" type="checkbox" /></label>
+													<td class="td text-center" width="38">
+														<input id="unique_id_2" type="checkbox" />
+														<label for="unique_id_2" class="sr-only">unique_id_2</label>
 													</td>
 													<td class="td">
 														<table class="table table--plain mb-0">
@@ -236,13 +243,19 @@ function export_queue_render(p_queue_data)
 										<table class="table table--plain mb-0">
 											<thead class="thead">
 												<tr class="tr bg-tertiary">
-													<th class="th" colspan="2">Fields that have been de-identified</th>
+													<th class="th" colspan="2">
+														<span class="row no-gutters justify-content-between">
+															<span>Fields that have been de-identified</span>
+															<button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button>
+														</span>
+													</th>
 												</tr>
 											</thead>
 											<tbody class="tbody">
 												<tr class="tr">
-													<td class="td text-center" style="width: 44px;">
-														<label for="date_created" class="mb-0"><input id="date_created" type="checkbox" checked /></label>
+													<td class="td text-center" width="38">
+														<input id="unique_id_1" type="checkbox" checked />
+														<label for="unique_id_1" class="sr-only"></label>
 													</td>
 													<td class="td">
 														<table class="table table--plain mb-0">
@@ -337,15 +350,43 @@ function export_queue_render(p_queue_data)
 							</li>
 
 							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
-								<nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
-									<h3 class="h5 m-0 mr-2">Filtered cases:</h3>
-									<ul class="row no-gutters list-unstyled pl-0">
-										<li class="m-0 mr-2">
-											<button class="link" onclick="fooBar();">Select all</button>
-										</li>
-									</ul>
-								</nav>
-								<ul id="search_result_list" class="zebra-list list-unstyled"></ul>
+								<table class="table table--plain mb-0">
+									<thead class="thead">
+										<tr class="tr bg-tertiary">
+											<th class="th" colspan="14">
+												<span class="row no-gutters justify-content-between">
+													<span>Filtered Cases</span>
+													<button class="anti-btn" onclick="fooBarSelectAll()">Select All</button>
+												</span>
+											</th>
+										</tr>
+									</thead>
+									<thead class="thead">
+										<tr class="tr">
+											<th class="th" width="38"></th>
+											<th class="th">Date created</th>
+											<th class="th">Jurisdiction ID</th>
+											<th class="th">Name</th>
+											<th class="th">State of death</th>
+											<th class="th">Record ID</th>
+											<th class="th">Date of death</th>
+											<th class="th">Committee review date</th>
+											<th class="th">Agency case ID</th>
+											<th class="th">Created by</th>
+											<th class="th">Last updated by</th>
+											<th class="th">Date last updated</th>
+										</tr>
+									</thead>
+									<tbody id="search_result_list" class="tbody">
+										<!-- items get dynamically generated -->
+									</tbody>
+								</table>
+								<!-- <ul class="row no-gutters list-unstyled pl-0">
+									<li class="m-0 mr-2">
+										<button class="link" onclick="fooBar();">Select all</button>
+									</li>
+								</ul> -->
+								<!-- <ul id="search_result_list" class="zebra-list list-unstyled"></ul> -->
 							</li>
 
 							<li class="" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
@@ -814,9 +855,53 @@ function get_case_set()
 					checked = "checked=true"
 				}
 
-				
-
-				html.push(`<li><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
+				// Items generated after user applies filters
+				html.push(`
+					<tr class="tr">
+						<td class="td" data-type="date_created" width="38" align="center">
+							<input id=${escape(item.id)}
+										 type="checkbox"
+										 value=${escape(item.id)}
+										 type="checkbox"
+										 onclick="result_checkbox_click(this)" ${checked} />
+							<label for="" class="sr-only">${escape(item.id)}</label>
+						</td>
+						<td class="td" data-type="date_created">
+							yyyy/mm/dd
+						</td>
+						<td class="td" data-type="jurisdiction_id">
+							${escape(value_list.jurisdiction_id)}
+						</td>
+						<td class="td" data-type="name">
+							${escape(value_list.last_name)},${escape(value_list.first_name)}
+						</td>
+						<td class="td" data-type="state_of_death">
+							Lorem Ipsum
+						</td>
+						<td class="td" data-type="record_id">
+							${escape(value_list.record_id)}
+						</td>
+						<td class="td" data-type="date_of_death">
+							yyyy/mm/dd
+						</td>
+						<td class="td" data-type="committee_review_date">
+							yyyy/mm/dd
+						</td>
+						<td class="td" data-type="agency_case_id">
+							${escape(value_list.agency_case_id)}
+						</td>
+						<td class="td" data-type="created_by">
+							Lorem Ipsum
+						</td>
+						<td class="td" data-type="last_updated_by">
+							yyyy/mm/dd
+						</td>
+						<td class="td" data-type="date_last_updated">
+							${escape(value_list.date_last_updated)}
+						</td>
+					</tr>
+				`);
+				// html.push(`<li class="foo"><input value=${escape(item.id)} type="checkbox" onclick="result_checkbox_click(this)" ${checked} /> ${escape(value_list.jurisdiction_id)} ${escape(value_list.last_name)},${escape(value_list.first_name)} ${escape(value_list.date_of_death_year)}/${escape(value_list.date_of_death_month)} ${escape(value_list.date_last_updated)} ${escape(value_list.last_updated_by)} agency_id:${escape(value_list.agency_case_id)} rc_id:${escape(value_list.record_id)}</li>`);
 			}
 
 			el.innerHTML = html.join("");
@@ -835,7 +920,7 @@ function render_selected_case_list()
 		let item_id = answer_summary.case_set[i];
 		let value_list = selected_dictionary[item_id];
 
-		result.push(`<li><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+		result.push(`<li class="bar"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 	}
 
 	return result.join("");
@@ -856,7 +941,7 @@ function render_selected_case_list2()
 
 		let value_list = selected_dictionary[item_id];
 
-		html.push(`<li><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+		html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 	}
 
 	el.innerHTML = html.join("");
