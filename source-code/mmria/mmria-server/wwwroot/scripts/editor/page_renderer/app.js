@@ -326,16 +326,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(item.value.date_last_updated);
         p_result.push("</td>");
 
-        p_result.push("<td class='td'>");
-        p_result.push("&nbsp;");
-
-        // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
-
-        // p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
-        p_result.push("<button type='button' id='id_for_record_" + i + "' class='btn btn-primary' onclick='delete_record(" + i + ")'>Click twice to delete</button>");
-        // p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
-
-
+        p_result.push("<td class='td' width='200'>");
+            // p_result.push("&nbsp;");
+            // p_result.push(" <input type='button' value='delete' onclick='delete_record(" + i + ")'/> ");
+            // p_result.push("<label for='id_for_record_" + i + "'>press twice to delete =></label>");
+            p_result.push("<button type='button' id='id_for_record_" + i + "' class='btn btn-primary' onclick='delete_record(" + i + ")'>Click twice to delete</button>");
+            // p_result.push("<input type='button3' id='id_for_record_" + i + "' class='btn btn-primary' value='delete' onclick='delete_record(" + i + ")'/>");
         p_result.push("</td>");
 
 
