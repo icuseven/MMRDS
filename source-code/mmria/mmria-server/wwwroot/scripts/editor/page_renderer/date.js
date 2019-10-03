@@ -34,9 +34,9 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     
     p_result.push("</div>");
 
-    p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input").datetimepicker({');
+    p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
     p_post_html_render.push(' format: "Y-MM-DD", ');
-    p_post_html_render.push(' defaultDate: "' + p_ctx.data + '",');
+    p_post_html_render.push(' defaultDate: "' + p_data + '",');
     p_post_html_render.push(`
         icons: {
             time: "x24 fill-p cdc-icon-clock_01",

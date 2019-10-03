@@ -1136,7 +1136,7 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
     if(style_object)
     {
         p_result.push(" style='");
-        p_result.push(get_only_size_and_position_string(style_object.control.style).replace('absolute','relative'));
+        p_result.push(get_only_font_style_string(style_object.control.style).replace('absolute','relative'));
         p_result.push("' ");
     }
 
