@@ -188,7 +188,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
               {
                 format:"Y-MM-D H:mm:ss",  
                 defaultDate: value,
-                icons: { time: "x24 fill-p cdc-icon-clock_01", date: "x24 fill-p cdc-icon-calendar_01", up: "x28 fill-p cdc-icon-arrow-alt-circle-up-solid", down: "x28 fill-p cdc-icon-arrow-alt-circle-down-solid" } 
+                icons: {
+                  time: "x24 fill-p cdc-icon-clock_01",
+                  date: "x24 fill-p cdc-icon-calendar_01",
+                  up: "x24 fill-p cdc-icon-chevron-circle-up",
+                  down: "x24 fill-p cdc-icon-chevron-circle-down",
+                  previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+                  next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+                } 
               });
           break;
 
@@ -198,7 +205,14 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
               {
                 format:"Y-MM-DD",  
                 defaultDate: value,
-                icons: { time: "x24 fill-p cdc-icon-clock_01", date: "x24 fill-p cdc-icon-calendar_01", up: "x28 fill-p cdc-icon-arrow-alt-circle-up-solid", down: "x28 fill-p cdc-icon-arrow-alt-circle-down-solid" } 
+                icons: {
+                  time: "x24 fill-p cdc-icon-clock_01",
+                  date: "x24 fill-p cdc-icon-calendar_01",
+                  up: "x24 fill-p cdc-icon-chevron-circle-up",
+                  down: "x24 fill-p cdc-icon-chevron-circle-down",
+                  previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+                  next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+                }
               });
           break;          
 
