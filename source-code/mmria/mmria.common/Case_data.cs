@@ -4,24 +4,6 @@ using System.Collections.Generic;
 namespace mmria.common.data.api
 {
 	
-
-    public class Answer_Summary 
-    {
-        public Answer_Summary()
-        {
-            de_identified_field_set= new HashSet<string>();
-            case_set = new List<string>();
-        }
-        public string all_or_core {get; set;}
-        public string grantee_name {get; set;}
-        public string is_encrypted {get; set;}
-        public string encryption_key {get; set;}
-        public string is_for_cdc {get; set;}
-        public string de_identified_selection_type {get; set;}
-        public HashSet<string> de_identified_field_set {get; set;}
-        public List<string> case_set {get; set;}
-    }
-
 	public class Set_Queue_Request
 	{
 		public string security_token { get; set; }
