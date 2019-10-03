@@ -1039,9 +1039,15 @@ button.link {
   border-bottom-color: #f0f0f0 !important;
 }
 
+
+
+
+/*
+  Helper classes to assist in making things aspect ratio
+*/
 .ratio-16-9 {
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 56.25%; /* (9/16) * 100 */
   height: 0;
   overflow: hidden;
 }
