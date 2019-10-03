@@ -1,4 +1,5 @@
 var g_metadata = null;
+var g_look_up = {}
 var g_data = null;
 var g_copy_clip_board = null;
 var g_delete_value_clip_board = null;
@@ -85,6 +86,7 @@ function load_data(p_uid)
 
 			render();
 
+			get_metadata();
 			//document.getElementById('generate_report_button').disabled = false;
 			//process_rows();
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
@@ -139,22 +141,6 @@ function create_queue_item
 	
 
 }
-
-function load_metadata()
-{
-	var metadata_url = location.protocol + '//' + location.host + '/api/metadata';
-
-	$.ajax({
-			url: metadata_url
-	}).done(function(response) {
-			g_metadata = response;
-			g_data = create_default_object(g_metadata, {});
-			g_ui.url_state = url_monitor.get_url_state(window.location.href);
-
-			create_print_version();
-	});
-}
-
 
 function custom_field_click()
 {
@@ -529,5 +515,26 @@ function setAnswerSummary(event) {
 		{
 			reject('Error');
 		}
+	});
+}
+
+
+function get_metadata()
+{
+  $.ajax
+  ({
+			url: location.protocol + '//' + location.host + '/api/metadata',
+  })
+  .done(function(response) 
+  {
+		g_metadata = response;
+
+		for(var i in g_metadata.lookup)
+		{
+			var child = g_metadata.lookup[i];
+
+			g_look_up["lookup/" + child.name] = child.values;
+		}
+
 	});
 }

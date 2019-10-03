@@ -116,7 +116,7 @@ function export_queue_render(p_queue_data)
 										<input type="text"
 														class="form-control mr-2"
 														id="de_identify_search_text"
-														onchange="fooBar();"
+														
 														value="">
 										<button type="button" class="btn btn-tertiary" alt="clear search">Search</button>
 									</div>
@@ -297,26 +297,26 @@ function export_queue_render(p_queue_data)
 							<li class="mb-4">
 								<div class="form-inline mb-2">
 									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
-									<input type="text" class="form-control mr-2" id="filter_search_text" onchange="fooBar();" value=""><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
+									<input type="text" class="form-control mr-2" id="filter_search_text"  value=""><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
 								</div>
 
 								<div class="form-inline mb-2">
 									<label for="filter_sort_by" class="font-weight-normal mr-2">Sort by:</label>
-									<select id="filter_sort_by" class="custom-select" onchange="fooBar();"><option selected="">date_created</option><option>jurisdiction_id</option><option>last_name</option><option>first_name</option><option>middle_name</option><option>state_of_death</option><option>record_id</option><option>year_of_death</option><option>month_of_death</option><option>committee_review_date</option><option>agency_case_id</option><option>created_by</option><option>last_updated_by</option><option>date_last_updated</option></select>
+									<select id="filter_sort_by" class="custom-select" ><option selected="">date_created</option><option>jurisdiction_id</option><option>last_name</option><option>first_name</option><option>middle_name</option><option>state_of_death</option><option>record_id</option><option>year_of_death</option><option>month_of_death</option><option>committee_review_date</option><option>agency_case_id</option><option>created_by</option><option>last_updated_by</option><option>date_last_updated</option></select>
 								</div>
 
 								<div class="form-inline mb-2">
 									<label for="filter_records_perPage" class="font-weight-normal mr-2">Records per page:</label>
-									<select id="filter_records_perPage" class="custom-select" onchange="fooBar();"><option>25</option><option>50</option><option selected="">100</option><option>250</option><option>500</option></select>
+									<select id="filter_records_perPage" class="custom-select" ><option>25</option><option>50</option><option selected="">100</option><option>250</option><option>500</option></select>
 								</div>
 
 								<div class="form-inline mb-2">
 									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
-									<input id="filter_decending" type="checkbox" onchange="fooBar();" checked="true">
+									<input id="filter_decending" type="checkbox"  checked="true">
 								</div>
 
 								<div class="form-inline mt-4">
-									<button type="button" class="btn btn-secondary" alt="search" onclick="date_search_button_click()">Apply Filters</button>
+									<button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button>
 								</div>
 
 								<!-- <p class="mb-3 font-weight-bold">Date of death <small class="d-block mt-1">You can also add multiple date ranges</small></p>
@@ -344,7 +344,7 @@ function export_queue_render(p_queue_data)
 													 onchange="setAnswerSummary(event)" />
 									</div>
 									<div class="form-inline mb-0">
-										<button type="button" class="btn btn-secondary" onclick="date_search_button_click()">search</button>
+										<button type="button" class="btn btn-secondary" onclick="apply_filter_button_click()">search</button>
 									</div>
 								</form> -->
 							</li>
@@ -379,17 +379,14 @@ function export_queue_render(p_queue_data)
 									<thead class="thead">
 										<tr class="tr">
 											<th class="th" width="38"></th>
-											<th class="th">Date created</th>
-											<th class="th">Jurisdiction ID</th>
-											<th class="th">Name</th>
-											<th class="th">State of death</th>
+											<th class="th">Date last updated <br/>Last updated by</th>
+											<th class="th">Name [Jurisdiction ID]</th>
 											<th class="th">Record ID</th>
 											<th class="th">Date of death</th>
 											<th class="th">Committee review date</th>
 											<th class="th">Agency case ID</th>
-											<th class="th">Created by</th>
-											<th class="th">Last updated by</th>
-											<th class="th">Date last updated</th>
+											<th class="th">Date created<br/>Created by</th>
+											
 										</tr>
 									</thead>
 									<tbody id="search_result_list" class="tbody">
@@ -398,7 +395,7 @@ function export_queue_render(p_queue_data)
 								</table>
 								<!-- <ul class="row no-gutters list-unstyled pl-0">
 									<li class="m-0 mr-2">
-										<button class="link" onclick="fooBar();">Select all</button>
+										<button class="link" >Select all</button>
 									</li>
 								</ul> -->
 								<!-- <ul id="search_result_list" class="zebra-list list-unstyled"></ul> -->
@@ -419,17 +416,13 @@ function export_queue_render(p_queue_data)
 									<thead class="thead">
 										<tr class="tr">
 											<th class="th" width="38"></th>
-											<th class="th">Date created</th>
-											<th class="th">Jurisdiction ID</th>
-											<th class="th">Name</th>
-											<th class="th">State of death</th>
+											<th class="th">Date last updated <br/>Last updated by</th>
+											<th class="th">Name [Jurisdiction ID]</th>
 											<th class="th">Record ID</th>
 											<th class="th">Date of death</th>
 											<th class="th">Committee review date</th>
 											<th class="th">Agency case ID</th>
-											<th class="th">Created by</th>
-											<th class="th">Last updated by</th>
-											<th class="th">Date last updated</th>
+											<th class="th">Date created<br/>Created by</th>
 										</tr>
 									</thead>
 									<tbody id="selected_case_list" class="tbody">
@@ -441,7 +434,7 @@ function export_queue_render(p_queue_data)
 									<h3 class="h5 m-0 mr-2">Cases to be included in export:</h3>
 									<ul class="row no-gutters list-unstyled pl-0">
 										<li class="m-0 mr-2">
-											<button class="link" onclick="fooBar();">Remove all</button>
+											<button class="link" >Remove all</button>
 										</li>
 									</ul>
 								</nav>
@@ -805,8 +798,25 @@ class NumericDropdown
 	}
 }
 
-function date_search_button_click()
+function apply_filter_button_click()
 {
+
+var filter_search_text = document.getElementById("filter_search_text");
+var filter_sort_by = document.getElementById("filter_sort_by");
+var filter_records_perPage = document.getElementById("filter_records_perPage");
+var filter_decending = document.getElementById("filter_decending");
+
+/*
+g_case_view_request.total_rows = 0,
+g_case_view_request.page = 1,
+g_case_view_request.skip = 0,
+*/
+
+g_case_view_request.take = filter_records_perPage.value;
+g_case_view_request.sort = filter_sort_by.value;
+g_case_view_request.search_key = filter_search_text.value;
+g_case_view_request.descending = filter_decending.checked;
+	
 
 	get_case_set();
 
@@ -913,38 +923,27 @@ function get_case_set()
 										 onclick="result_checkbox_click(this)" ${checked} />
 							<label for="" class="sr-only">${escape(item.id)}</label>
 						</td>
-						<td class="td" data-type="date_created">
-							yyyy/mm/dd
+						<td class="td" data-type="date_last_updated">
+							${escape(value_list.date_last_updated).replace(/%20/g," ").replace(/%3A/g,"-")} <br/> ${escape(value_list.last_updated_by)}
 						</td>
 						<td class="td" data-type="jurisdiction_id">
-							${escape(value_list.jurisdiction_id)}
-						</td>
-						<td class="td" data-type="name">
-							${escape(value_list.last_name)},${escape(value_list.first_name)}
-						</td>
-						<td class="td" data-type="state_of_death">
-							Lorem Ipsum
+							${escape(value_list.last_name).replace(/%20/g," ").replace(/%3A/g,"-")}, ${escape(value_list.first_name).replace(/%20/g," ").replace(/%3A/g,"-")} ${escape(value_list.middle_name).replace(/%20/g," ").replace(/%3A/g,"-")} [${escape(value_list.jurisdiction_id)}]  
 						</td>
 						<td class="td" data-type="record_id">
-							${escape(value_list.record_id)}
+							${escape(value_list.record_id).replace(/%20/g," ").replace(/%3A/g,"-")}
 						</td>
 						<td class="td" data-type="date_of_death">
-							yyyy/mm/dd
+						${(value_list.date_of_death_year != null)? escape(value_list.date_of_death_year): "" }-${(value_list.date_of_death_month != null)? escape(value_list.date_of_death_month) : ""}
 						</td>
 						<td class="td" data-type="committee_review_date">
-							yyyy/mm/dd
+						${(value_list.committee_review_date!=null)? escape(value_list.committee_review_date): "N/A"}
 						</td>
 						<td class="td" data-type="agency_case_id">
-							${escape(value_list.agency_case_id)}
-						</td>
-						<td class="td" data-type="created_by">
-							Lorem Ipsum
-						</td>
-						<td class="td" data-type="last_updated_by">
-							yyyy/mm/dd
+							${escape(value_list.agency_case_id).replace(/%20/g," ").replace(/%3A/g,"-")}
 						</td>
 						<td class="td" data-type="date_last_updated">
-							${escape(value_list.date_last_updated)}
+							${escape(value_list.date_last_updated).replace(/%20/g," ").replace(/%3A/g,"-")}<br/>
+							${escape(value_list.created_by).replace(/%20/g," ").replace(/%3A/g,"-")}
 						</td>
 					</tr>
 				`);
@@ -989,7 +988,52 @@ function render_selected_case_list2()
 		let value_list = selected_dictionary[item_id];
 
 		// Items generated after user ADDS applied filters
-		html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+		//html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+
+		let checked = "";
+
+		let index = answer_summary.case_set.indexOf(item_id);
+		if(index > -1)
+		{
+			checked = "checked=true"
+		}
+
+		// Items generated after user applies filters
+		html.push(`
+			<tr class="tr">
+				<td class="td" data-type="date_created" width="38" align="center">
+					<input id=${escape(item_id)}
+								 type="checkbox"
+								 value=${escape(item_id)}
+								 type="checkbox"
+								 onclick="result_checkbox_click(this)" ${checked} />
+					<label for="" class="sr-only">${escape(item_id)}</label>
+				</td>
+				<td class="td" data-type="date_last_updated">
+					${escape(value_list.date_last_updated).replace(/%20/g," ").replace(/%3A/g,"-")} <br/> ${escape(value_list.last_updated_by)}
+				</td>
+				<td class="td" data-type="jurisdiction_id">
+					${escape(value_list.last_name).replace(/%20/g," ").replace(/%3A/g,"-")}, ${escape(value_list.first_name).replace(/%20/g," ").replace(/%3A/g,"-")} ${escape(value_list.middle_name).replace(/%20/g," ").replace(/%3A/g,"-")} [${escape(value_list.jurisdiction_id)}]  
+				</td>
+				<td class="td" data-type="record_id">
+					${escape(value_list.record_id).replace(/%20/g," ").replace(/%3A/g,"-")}
+				</td>
+				<td class="td" data-type="date_of_death">
+				${(value_list.date_of_death_year != null)? escape(value_list.date_of_death_year): "" }-${(value_list.date_of_death_month != null)? escape(value_list.date_of_death_month) : ""}
+				</td>
+				<td class="td" data-type="committee_review_date">
+				${(value_list.committee_review_date!=null)? escape(value_list.committee_review_date): "N/A"}
+				</td>
+				<td class="td" data-type="agency_case_id">
+					${escape(value_list.agency_case_id).replace(/%20/g," ").replace(/%3A/g,"-")}
+				</td>
+				<td class="td" data-type="date_last_updated">
+					${escape(value_list.date_last_updated).replace(/%20/g," ").replace(/%3A/g,"-")}<br/>
+					${escape(value_list.created_by).replace(/%20/g," ").replace(/%3A/g,"-")}
+				</td>
+			</tr>
+		`);
+
 	}
 
 	el.innerHTML = html.join("");
