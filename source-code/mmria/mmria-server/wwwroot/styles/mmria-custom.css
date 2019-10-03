@@ -1035,6 +1035,9 @@ button.link {
   position: relative;
 } */
 
+.bootstrap-datetimepicker-widget:after {
+  border-bottom-color: #f0f0f0 !important;
+}
 
 
 
