@@ -138,7 +138,7 @@ namespace mmria.server.model.actor.quartz
                     {
 					
     					mmria.server.util.core_element_exporter core_element_exporter = new mmria.server.util.core_element_exporter(scheduleInfoMessage);
-    					core_element_exporter.Execute(args.ToArray());
+    					core_element_exporter.Execute(item_to_process);
                     }
                     catch(Exception ex)
                     {
@@ -164,7 +164,7 @@ namespace mmria.server.model.actor.quartz
                     try
                     {
     					mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter(scheduleInfoMessage);
-    					mmrds_exporter.Execute(args.ToArray());
+    					mmrds_exporter.Execute(item_to_process);
                     }
                     catch(Exception ex)
                     {
@@ -191,7 +191,7 @@ namespace mmria.server.model.actor.quartz
 					try
 					{
 						mmria.server.util.mmrds_exporter mmrds_exporter = new mmria.server.util.mmrds_exporter (scheduleInfoMessage);
-						mmrds_exporter.Execute (args.ToArray ());
+						mmrds_exporter.Execute (item_to_process);
 					}
 					catch(Exception ex)
 					{

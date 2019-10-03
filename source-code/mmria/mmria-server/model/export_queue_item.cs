@@ -5,10 +5,11 @@ namespace mmria.server
 {
 	public class export_queue_item
 	{
+		
 		public export_queue_item ()
 		{
-			de_identified_field_set= new HashSet<string>();
-            case_set = new List<string>();
+			//de_identified_field_set= new HashSet<string>();
+            //case_set = new List<string>();
 		}
 
 		public string _id {get; set;}
@@ -26,10 +27,10 @@ namespace mmria.server
         public string grantee_name {get; set;}
         public string is_encrypted {get; set;}
         public string encryption_key {get; set;}
-        public string is_for_cdc {get; set;}
+        //public string is_for_cdc {get; set;}
         public string de_identified_selection_type {get; set;}
-        public HashSet<string> de_identified_field_set {get; set;}
-        public List<string> case_set {get; set;}
+        public string[] de_identified_field_set {get; set;}
+        public string[] case_set {get; set;}
 
 
 	}

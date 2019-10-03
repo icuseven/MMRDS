@@ -42,7 +42,7 @@ var answer_summary = {
 	encryption_key: '',
 	is_for_cdc: 'no',
 	de_identified_selection_type: 'none',
-	de_identified_field_set: {},
+	de_identified_field_set: [],
 	case_set: [],
 };
 
@@ -103,7 +103,17 @@ function render()
 	// render_answer_summary();
 }
 
-function create_queue_item(p_export_type)
+function create_queue_item
+(
+	p_export_type,
+	p_all_or_core,
+	p_grantee_name,
+	p_is_encrypted,
+	p_encryption_key,
+	p_de_identified_selection_type,
+	p_de_identified_field_set,
+	p_case_set
+)
 {
 	var new_date = new Date().toISOString();
 	var result = {
@@ -114,7 +124,15 @@ function create_queue_item(p_export_type)
 			last_updated_by: g_uid,
 			file_name: new_date.replace(/:/g, "-") + ".zip",
 			export_type: p_export_type,
-			status: "Confirmation Required"	
+			status: "Confirmation Required",
+			all_or_core: p_all_or_core,
+			grantee_name: p_grantee_name,
+			is_encrypted: p_is_encrypted,
+			encryption_key: p_encryption_key,
+			de_identified_selection_type: p_de_identified_selection_type,
+			de_identified_field_set: p_de_identified_field_set,
+			case_set: p_case_set,
+
 	}
 	
 	return result;
@@ -138,39 +156,6 @@ function load_metadata()
 }
 
 
-
-// function one_click(p_value)
-// {
-// 	answer_summary[0] = p_value
-// 	render_answer_summary();
-// }
-
-// function two_click(p_value)
-// {
-// 	answer_summary[1] = p_value
-// 	render_answer_summary();
-// }
-
-// function two_blur(p_value)
-// {
-// 	answer_summary[3] = p_value
-// 	render_answer_summary();
-// }
-
-// function render_answer_summary()
-// {
-
-// 	var html = [];
-
-// 	//html.push("<div id='answer_summary'>");
-// 	html.push("You selected to export " + answer_summary[0] + " data.");
-// 	html.push("You selected export format of " + answer_summary[1]);
-// 	html.push("You selected to de-identifiey " +  answer_summary[2] + " fields");
-
-// 	//html.push("</div>");
-// 	document.getElementById('answer_summary').innerHTML = html.join("<br/>");
-// }
-
 function custom_field_click()
 {
 	alert("you clicked to open the custom field interface. ")
@@ -178,13 +163,39 @@ function custom_field_click()
 
 function add_new_core_export_item()
 {
-	g_data.push(create_queue_item('Core CSV'));
+	g_data.push
+	(
+		create_queue_item
+		(
+			'Core CSV',
+			answer_summary.all_or_core,
+			answer_summary.grantee_name,
+			answer_summary.is_encrypted,
+			answer_summary.encryption_key,
+			answer_summary.de_identified_selection_type,
+			answer_summary.de_identified_field_set,
+			answer_summary.case_set
+		)
+	);
 	render();
 }
 
 function add_new_all_export_item()
 {
-	g_data.push(create_queue_item('All CSV'));
+	g_data.push
+	(
+		create_queue_item
+		(
+			'All CSV',
+			answer_summary.all_or_core,
+			answer_summary.grantee_name,
+			answer_summary.is_encrypted,
+			answer_summary.encryption_key,
+			answer_summary.de_identified_selection_type,
+			answer_summary.de_identified_field_set,
+			answer_summary.case_set
+		)
+	);
 	render();
 
 }
@@ -192,7 +203,20 @@ function add_new_all_export_item()
 
 function add_new_cdc_export_item()
 {
-	g_data.push(create_queue_item('CDC CSV'));
+	g_data.push
+	(
+		create_queue_item
+		(
+			'CDC CSV',
+			answer_summary.all_or_core,
+			answer_summary.grantee_name,
+			answer_summary.is_encrypted,
+			answer_summary.encryption_key,
+			answer_summary.de_identified_selection_type,
+			answer_summary.de_identified_field_set,
+			answer_summary.case_set
+		)
+	);
 	render();
 
 }
@@ -215,7 +239,20 @@ function find_export_item(p_id)
 
 function add_new_json_export_item()
 {
-	g_data.push(create_queue_item('ALL JSON'));
+	g_data.push
+	(
+		create_queue_item
+		(
+			'ALL JSON',
+			answer_summary.all_or_core,
+			answer_summary.grantee_name,
+			answer_summary.is_encrypted,
+			answer_summary.encryption_key,
+			answer_summary.de_identified_selection_type,
+			answer_summary.de_identified_field_set,
+			answer_summary.case_set
+		)
+	);
 	render();
 }
 
@@ -389,6 +426,25 @@ function update_queue_task()
 
 			//document.getElementById('form_content_id').innerHTML = aggregate_report_render(g_ui, "", g_ui).join("");
 
+	})
+	.fail(function(jqXHR, textStatus, errorThrown)
+	{
+
+
+		if
+		(
+			update_queue_interval_id != null 
+		)
+		{
+			update_queue_interval_count =0;
+			clearInterval(update_queue_interval_id);
+			update_queue_interval_id = null;
+		}
+/*
+		switch(errorThrown)
+		{
+
+		}*/
 	});
 }
 

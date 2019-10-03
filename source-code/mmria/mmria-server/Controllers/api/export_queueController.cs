@@ -134,25 +134,28 @@ namespace mmria.server
 
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-/*
+			if(queue_item == null)
 			try
 			{
 
-				System.IO.Stream dataStream0 = await this.Request.Content.ReadAsStreamAsync();
-				// Open the stream using a StreamReader for easy access.
-				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-				// Read the content.
-				object_string = reader0.ReadToEnd ();
+				using(System.IO.Stream dataStream0 = this.Request.Body)
+				{
+					//await this.Request.Body.t..Body.CopyToAsync(dataStream0);
+					// Open the stream using a StreamReader for easy access.
+					dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+					System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+					// Read the content.
+					var object_string = reader0.ReadToEnd ();
 
-				queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
+					queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
+				}
 
 			}
 			catch(Exception ex)
 			{
 				//Console.WriteLine (ex);
 			}
- */
+ 
 			//if(queue_request.case_list.Length == 1)
 			try
 			{

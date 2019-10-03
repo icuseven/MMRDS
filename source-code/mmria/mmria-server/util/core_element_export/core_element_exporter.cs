@@ -37,10 +37,10 @@ namespace mmria.server.util
 			//this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
 
 		}
-		public void Execute(string[] args)
+		public void Execute(mmria.server.export_queue_item queue_item)
 		{
 
-
+			/*
 
 			if (args.Length > 1)
 			{
@@ -85,7 +85,19 @@ namespace mmria.server.util
 					}
 				}
 			}
-				
+			 */
+
+
+			this.database_path = this.Configuration.couch_db_url;
+			this.juris_user_name = this.Configuration.jurisdiction_user_name;
+			this.user_name = this.Configuration.user_name;
+			this.value_string = this.Configuration.user_value;
+
+			this.item_file_name = queue_item.file_name;
+			this.item_directory_name = queue_item.file_name.Substring (0, queue_item.file_name.IndexOf ("."));
+			this.item_id = queue_item._id;
+
+
 			string core_file_name = "core_mmria_export.csv";
 
 			if (string.IsNullOrWhiteSpace(this.database_url))
