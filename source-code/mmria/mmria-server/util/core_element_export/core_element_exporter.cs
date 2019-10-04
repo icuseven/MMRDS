@@ -245,18 +245,69 @@ namespace mmria.server.util
 				false
 			);
 
-			dynamic all_cases_rows;
-			if (this.is_offline_mode)
+
+			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
+			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
+			HashSet<string> de_identified_set = new HashSet<string>();
+
+			if(queue_item.de_identified_field_set != null)
 			{
-				all_cases_rows = all_cases;
-			}
-			else
-			{
-				all_cases_rows = all_cases.rows;
+				foreach(string path in queue_item.de_identified_field_set)
+				{
+					de_identified_set.Add(path);
+				}
 			}
 
+
+			HashSet<string> Custom_Case_Id_List = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+			foreach (var id in queue_item.case_set)
+			{
+				Custom_Case_Id_List.Add(id);
+			}
+
+
+
+
+			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
 
 			var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+
+
+			if(queue_item.case_filter_type == "custom")
+			{
+				foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+				{
+					var check_item = ((IDictionary<string, object>)case_row) ["doc"] as System.Dynamic.ExpandoObject;
+					if(check_item!= null)
+					{
+						var temp = check_item as IDictionary<string, object>;
+
+						if
+						(
+							temp != null &&
+							temp.ContainsKey("_id") &&
+
+							temp["_id"] != null &&
+							Custom_Case_Id_List.Contains(temp["_id"].ToString())
+						)
+						{
+							all_cases_rows.Add (check_item);
+						}
+						
+					}
+					
+				}
+			}
+
+			else
+			{
+				foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
+				{
+					all_cases_rows.Add (((IDictionary<string, object>)case_row) ["doc"] as System.Dynamic.ExpandoObject);
+				}
+			}
+
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{

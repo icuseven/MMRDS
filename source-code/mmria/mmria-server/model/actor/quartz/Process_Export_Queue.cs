@@ -86,6 +86,45 @@ namespace mmria.server.model.actor.quartz
 					item.file_name = doc_item ["file_name"] != null ? doc_item ["file_name"].ToString () : null;
 					item.export_type = doc_item ["export_type"] != null ? doc_item ["export_type"].ToString () : null;
 					item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
+
+					item.all_or_core = doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
+					item.grantee_name = doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
+					item.is_encrypted = doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
+					item.encryption_key = doc_item ["encryption_key"] != null ? doc_item ["encryption_key"].ToString () : null;
+					item.de_identified_selection_type = doc_item ["de_identified_selection_type"] != null ? doc_item ["de_identified_selection_type"].ToString () : null;
+					
+					item.case_filter_type = doc_item ["case_filter_type"] != null ? doc_item ["case_filter_type"].ToString () : null;
+
+
+					if(doc_item ["de_identified_field_set"] != null)
+					{
+						var de_identified_field_set = doc_item ["de_identified_field_set"] as List<object>;
+						if(de_identified_field_set != null)
+						{
+							item.de_identified_field_set = new string[de_identified_field_set.Count];
+							for(var i = 0; i < de_identified_field_set.Count; i++)
+							{
+								item.de_identified_field_set[i] = de_identified_field_set[i].ToString().Replace("-","/");
+							}
+						}
+					}
+					
+					if(doc_item ["case_set"] != null)
+					{
+						item.case_set = doc_item ["case_set"] != null ? doc_item ["case_set"] as string[] : null;
+
+						var case_set = doc_item ["case_set"] as List<object>;
+						if(case_set != null)
+						{
+							item.case_set = new string[case_set.Count];
+							for(var i = 0; i < case_set.Count; i++)
+							{
+								item.case_set[i] = case_set[i].ToString();
+							}
+						}
+					}
+					
+
 	
 					result.Add (item);
 				}

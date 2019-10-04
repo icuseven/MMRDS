@@ -256,11 +256,30 @@ namespace mmria.server.util
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
 			HashSet<string> de_identified_set = new HashSet<string>();
+			/*
 			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
 			{
 				de_identified_set.Add(path);
 			}
+			 */
 			
+			if(queue_item.de_identified_field_set != null)
+			{
+				foreach(string path in queue_item.de_identified_field_set)
+				{
+					de_identified_set.Add(path);
+				}
+			}
+
+
+			HashSet<string> Custom_Case_Id_List = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+			foreach (var id in queue_item.case_set)
+			{
+				Custom_Case_Id_List.Add(id);
+			}
+
+
 			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
 
 			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
@@ -269,31 +288,41 @@ namespace mmria.server.util
       		var jurisdiction_hashset = mmria.server.util.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 
-			if (this.is_cdc_de_identified)
+			if(queue_item.case_filter_type == "custom")
 			{
-
 				foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
 				{
-					string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (((IDictionary<string, object>)case_row)["doc"]);
+					var check_item = ((IDictionary<string, object>)case_row) ["doc"] as System.Dynamic.ExpandoObject;
+					if(check_item!= null)
+					{
+						var temp = check_item as IDictionary<string, object>;
 
-					//string de_identified_json = new mmria.server.util.c_de_identifier (document_json, c_de_identifier.de_identifier_type_enum.cdc).execute ();
-					string de_identified_json = new mmria.server.util.c_de_identifier (document_json).execute ();
+						if
+						(
+							temp != null &&
+							temp.ContainsKey("_id") &&
 
-					System.Dynamic.ExpandoObject case_item_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (de_identified_json);
-
-					all_cases_rows.Add (case_item_object);
+							temp["_id"] != null &&
+							Custom_Case_Id_List.Contains(temp["_id"].ToString())
+						)
+						{
+							all_cases_rows.Add (check_item);
+						}
+						
+					}
+					
 				}
-
-
 			}
+
 			else
 			{
 				foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
 				{
 					all_cases_rows.Add (((IDictionary<string, object>)case_row) ["doc"] as System.Dynamic.ExpandoObject);
 				}
-
 			}
+			
+
 
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{

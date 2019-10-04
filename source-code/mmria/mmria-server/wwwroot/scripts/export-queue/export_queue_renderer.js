@@ -1297,6 +1297,8 @@ function case_filter_type_click(p_value)
 	{
 		custom_case_filter.style.display = "none";
 	}
+
+	answer_summary.case_filter_type = p_value.value.toLowerCase()
 }
 
 function de_identify_filter_type_click(p_value)
@@ -1315,4 +1317,6 @@ setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisp
 	{
 		de_identify_filter.style.display = "none";
 	}
+
+	answer_summary.de_identified_selection_type = p_value.value.toLowerCase()
 }
