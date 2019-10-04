@@ -460,7 +460,7 @@ function export_queue_render(p_queue_data)
 			</div>
 		</div>
 
-		<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<!--div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -483,15 +483,13 @@ function export_queue_render(p_queue_data)
 					</div>
 				</div>
 			</div>
-		</div>
+		</div-->
 		
 		<div class="row">
 			${export_queue_comfirm_render(p_queue_data)}		
 		</div>			
 	`);
-
-	result.push("<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
-
+/*
 	result.push("<hr/>");
 
 	result.push('<p>Click on Export Core Data to CSV format to produce a zip file that contains your core data export plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</p>');
@@ -517,6 +515,8 @@ function export_queue_render(p_queue_data)
 	result.push('<button type="button" class="btn btn-secondary mb-2" onclick="add_new_all_export_item()">Export All Data to  CSV format</button>');
 	result.push('<p>Details of the data dictionary format can be found here: <a target="_data_dictionary" href="/data-dictionary">data-dictionary-format</a></p>');
 
+*/
+
 	// result.push("<ul>");
 	// 	result.push("<li><input type='button' value='Export Core Data to CSV format.' onclick='add_new_core_export_item()'/>");
 	// 	result.push("<br/>Click on Export Core Data to CSV format to produce a zip file that contains your core data export plus a data dictionary. The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.<br/>Contains 2 Files<ul><li>core_export.csv</li><li>data-dictionary.csv <p>Details of the data dictionary format can be found here: <a target='_data_dictionary' href='/data-dictionary'>data-dictionary-format</a></p></li></ul></li>");
@@ -526,7 +526,7 @@ function export_queue_render(p_queue_data)
 	// 	//result.push("<li><input type='button' value='All Data to MMRIA JSON format.' onclick='add_new_json_export_item()'/></li>");
 	// result.push("</ul>");
 
-	result.push('<table class="table">');
+	result.push('<br/><br/><div class="row"><table class="table">');
 		result.push('<thead class="thead">');
 			result.push('<tr class="tr bg-tertiary"><th class="th h4" colspan="8">Export Request History</th></tr>');
 			result.push('<tr class="tr bg-quaternary"><th class="th" colspan="8">(*Please note that the export queue is deleted at midnight each day.)</th></tr>');
@@ -590,7 +590,7 @@ function export_queue_render(p_queue_data)
 			}
 
 		result.push("</tbody>");
-	result.push("</table>");
+	result.push("</table></div>");
 
 	return result;
 }
@@ -600,7 +600,7 @@ function export_queue_render(p_queue_data)
 function export_queue_comfirm_render(p_queue_data)
 {
 	var result = `
-	<div class="col-4 fancy-sidebar">
+	<div class="col-4">
 	<div id="answer-summary-card" class="card">
 		<div class="card-header bg-gray-l3">
 		<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
@@ -673,7 +673,7 @@ function export_queue_comfirm_render(p_queue_data)
 		</ul>
 		</div>
 		<div class="card-footer bg-gray-l3">
-			<button class="btn btn-secondary w-100">Confirm & Start Export</button>
+			<button class="btn btn-secondary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
 		</div>
 	</div>
 </div>`;

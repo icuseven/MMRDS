@@ -117,6 +117,7 @@ function create_queue_item
 	p_encryption_key,
 	p_de_identified_selection_type,
 	p_de_identified_field_set,
+	p_case_filter_type,
 	p_case_set
 )
 {
@@ -136,7 +137,8 @@ function create_queue_item
 			encryption_key: p_encryption_key,
 			de_identified_selection_type: p_de_identified_selection_type,
 			de_identified_field_set: p_de_identified_field_set,
-			case_set: p_case_set,
+			case_filter_type: p_case_filter_type,
+			case_set: p_case_set
 
 	}
 	
@@ -163,6 +165,7 @@ function add_new_core_export_item()
 			answer_summary.encryption_key,
 			answer_summary.de_identified_selection_type,
 			answer_summary.de_identified_field_set,
+			answer_summary.case_filter_type,
 			answer_summary.case_set
 		)
 	);
@@ -182,6 +185,7 @@ function add_new_all_export_item()
 			answer_summary.encryption_key,
 			answer_summary.de_identified_selection_type,
 			answer_summary.de_identified_field_set,
+			answer_summary.case_filter_type,
 			answer_summary.case_set
 		)
 	);
@@ -203,6 +207,7 @@ function add_new_cdc_export_item()
 			answer_summary.encryption_key,
 			answer_summary.de_identified_selection_type,
 			answer_summary.de_identified_field_set,
+			answer_summary.case_filter_type,
 			answer_summary.case_set
 		)
 	);
