@@ -87,7 +87,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="none"
 											 checked
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'none'))" /> 
+											 onchange="de_identify_filter_type_click(this)"  /> 
 								<label for="de-identify-none" class="mb-0">None</label>
 							</li>
 							<li>
@@ -97,7 +97,7 @@ function export_queue_render(p_queue_data)
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="standard"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'none'))" />
+											 onchange="de_identify_filter_type_click(this)"  />
 								<label for="de-identify-standard" class="mb-0">Standard</label>
 							</li>
 							<li>
@@ -107,9 +107,9 @@ function export_queue_render(p_queue_data)
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="custom"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))" />
+											 onchange="de_identify_filter_type_click(this)" />
 								<label for="de-identify-custom" class="mb-0">Custom</label>
-								<div class="p-3 mt-2 bg-gray-l3" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
+								<div id="de_identify_filter" class="p-3 mt-2 bg-gray-l3" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
 									<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
 									<div class="form-inline mb-2">
 										<label for="de_identify_search_text" class="mr-2"> Search for:</label>
@@ -299,8 +299,13 @@ function export_queue_render(p_queue_data)
 
 					<li class="mb-4">
 						<p class="mb-3">Please select which cases you want to include in the export?</p>
-						<ul class="font-weight-bold list-unstyled">
-							<li class="mb-4">
+						<p>
+							<label><input id="case_filter_type_all" checked="true" type="radio" name="case_filter_type" value="all" onclick="case_filter_type_click(this)" /> All<label>
+							<label><input id="case_filter_type_custom" type="radio" name="case_filter_type" value="custom" onclick="case_filter_type_click(this)" /> Custom</label>
+						</p>
+						<ul class="font-weight-bold list-unstyled" id="custom_case_filter" style="display:none">
+							<li class="mb-4" >
+
 								<div class="form-inline mb-2">
 									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
 									<input type="text" class="form-control mr-2" id="filter_search_text"  value=""><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
@@ -455,8 +460,6 @@ function export_queue_render(p_queue_data)
 			</div>
 		</div>
 
-		<!-- One modal approach -->
-		<!-- TODO: hook up dynamic HTML -->
 		<div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -1278,4 +1281,38 @@ function render_selected_de_identified_list()
 	}
 
 	el.innerHTML = html.join("");
+}
+
+
+function case_filter_type_click(p_value)
+{
+	var custom_case_filter = document.getElementById("custom_case_filter");
+
+
+	if(p_value.value.toLowerCase() == "custom")
+	{
+		custom_case_filter.style.display = "block";
+	}
+	else
+	{
+		custom_case_filter.style.display = "none";
+	}
+}
+
+function de_identify_filter_type_click(p_value)
+{
+	var de_identify_filter = document.getElementById("de_identify_filter");
+/*
+
+setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))
+
+*/
+	if(p_value.value.toLowerCase() == "custom")
+	{
+		de_identify_filter.style.display = "block";
+	}
+	else
+	{
+		de_identify_filter.style.display = "none";
+	}
 }

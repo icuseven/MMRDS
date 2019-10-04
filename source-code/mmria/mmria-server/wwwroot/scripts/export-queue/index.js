@@ -46,7 +46,8 @@ var answer_summary = {
 	is_for_cdc: 'no',
 	de_identified_selection_type: 'none',
 	de_identified_field_set: [],
-	case_set: [],
+	case_filter_type: 'all',
+	case_set: []
 };
 
 [ 'all', 'csv', 'none', location.host ];
