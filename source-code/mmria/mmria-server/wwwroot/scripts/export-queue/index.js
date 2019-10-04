@@ -35,6 +35,8 @@ var g_filter = 	{
 };
 
 var selected_dictionary = {};
+var selected_metadata_dictionary = {};
+
 
 var answer_summary = {
 	all_or_core: 'all',
@@ -538,7 +540,9 @@ function get_metadata()
 
 
 		render_de_identify_form_filter();
-		
+
 		render_de_identified_search_result();
+
+		render_selected_de_identified_list();
 	});
 }

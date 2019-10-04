@@ -251,7 +251,7 @@ function export_queue_render(p_queue_data)
 												<tr class="tr bg-tertiary">
 													<th class="th" colspan="2">
 														<span class="row no-gutters justify-content-between">
-															<span>Fields that have been de-identified</span>
+															<span id="de_identified_count">Fields that have been de-identified (${answer_summary.de_identified_field_set.length})</span>
 															<button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button>
 														</span>
 													</th>
@@ -413,7 +413,7 @@ function export_queue_render(p_queue_data)
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14">
 												<span class="row no-gutters justify-content-between">
-													<span>Cases to be included in export:</span>
+													<span id="exported_cases_count">Cases to be included in export (${answer_summary.case_set.length}):</span>
 													<button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button>
 												</span>
 											</th>
@@ -1116,10 +1116,23 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 		}
 
+		let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
+		selected_metadata_dictionary[item_id] = p_metadata;
+
+
+		let checked = "";
+
+		let index = answer_summary.de_identified_field_set.indexOf(item_id);
+		if(index > -1)
+		{
+			checked = "checked=true"
+		}
+
+
 		p_result.push(`
 		<tr class="tr">
 		<td class="td text-center" width="38">
-			<input id="unique_id_1" type="checkbox"  />
+			<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
 			<label for="unique_id_1" class="sr-only">unique_id_1</label>
 		</td>
 		<td class="td">
@@ -1173,4 +1186,96 @@ function render_de_identify_form_filter()
 	}
 
 	de_identify_form_filter.innerHTML = result.join("");
+}
+
+
+function de_identified_result_checkbox_click(p_checkbox)
+{
+	let value = p_checkbox.value;
+
+	if(p_checkbox.checked)
+	{
+
+		if(answer_summary.de_identified_field_set.indexOf(value) < 0)
+		{
+			answer_summary.de_identified_field_set.push(value)
+		}
+	}
+	else
+	{
+		let index = answer_summary.de_identified_field_set.indexOf(value);
+		if(index > -1)
+		{
+			answer_summary.de_identified_field_set.splice(index,1)
+		}
+	}
+
+	render_selected_de_identified_list();
+	render_de_identified_search_result();
+}
+
+
+function render_selected_de_identified_list()
+{
+	let el = document.getElementById('selected_de_identified_field_list');
+	let html = [];
+	//html.push("<li><input type='checkbox' /> select all</li>");
+	for(let i = 0; i < answer_summary.de_identified_field_set.length; i++)
+	{
+
+
+		let item_id = answer_summary.de_identified_field_set[i];
+
+
+		let value_list = selected_metadata_dictionary[item_id];
+
+		// Items generated after user ADDS applied filters
+		//html.push(`<li class="baz"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+
+		let checked = "";
+
+		let index = answer_summary.de_identified_field_set.indexOf(item_id);
+		if(index > -1)
+		{
+			checked = "checked=true"
+		}
+
+
+
+		html.push(`
+		<tr class="tr">
+		<td class="td text-center" width="38">
+			<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
+			<label for="unique_id_1" class="sr-only">unique_id_1</label>
+		</td>
+		<td class="td">
+			<table class="table table--plain mb-0">
+				<thead class="thead">
+					<tr class="tr">
+						<th class="th" colspan="4">Path: <span class="font-weight-normal">${item_id.replace(/-/g,"/")}</span></th>
+					</tr>
+				</thead>
+				<thead class="thead">
+					<tr class="tr bg-white">
+						<th class="th">Name</th>
+						<th class="th">Type</th>
+						<th class="th">Prompt</th>
+						<th class="th">Values</th>
+					</tr>
+				</thead>
+				<tbody class="tbody">
+					<tr class="tr">
+						<td class="td">${value_list.name}</td>
+						<td class="td">${value_list.type}</td>
+						<td class="td">${value_list.prompt}</td>
+						<td class="td"></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		</tr>
+		`);
+	}
+
+	el.innerHTML = html.join("");
 }
