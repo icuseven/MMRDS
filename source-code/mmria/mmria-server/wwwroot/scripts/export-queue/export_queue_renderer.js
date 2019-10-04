@@ -118,7 +118,13 @@ function export_queue_render(p_queue_data)
 														id="de_identify_search_text"
 														
 														value="">
-										<button type="button" class="btn btn-tertiary" alt="clear search">Search</button>
+										<select id="de_identify_form_filter">
+											<option selected>select form</option>
+											<option>any</option>
+											<option>home record</option>
+											<option>death certificate parent section</option>
+										</select>&nbsp;
+										<button type="button" class="btn btn-tertiary" alt="clear search" onclick="render_de_identified_search_result()">Search</button>
 									</div>
 									<div class="form-group form-check mb-1">
 										<input type="checkbox" class="form-check-input" id="exclude_pii">
@@ -126,7 +132,7 @@ function export_queue_render(p_queue_data)
 									</div>
 									<div class="form-group form-check mb-0">
 										<input type="checkbox" class="form-check-input" id="include_pii">
-										<label class="form-check-label" for="include_pii">Include PII tagged fields and any data in the field</label>
+										<label class="form-check-label" for="include_pii">De-identify standard fields</label>
 									</div>
 									
 									<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
@@ -141,7 +147,7 @@ function export_queue_render(p_queue_data)
 													</th>
 												</tr>
 											</thead>
-											<tbody class="tbody">
+											<tbody class="tbody" id="de_identify_search_result_list">
 												<tr class="tr">
 													<td class="td text-center" width="38">
 														<input id="unique_id_1" type="checkbox" checked />
@@ -251,7 +257,7 @@ function export_queue_render(p_queue_data)
 													</th>
 												</tr>
 											</thead>
-											<tbody class="tbody">
+											<tbody class="tbody" id="selected_de_identified_field_list">
 												<tr class="tr">
 													<td class="td text-center" width="38">
 														<input id="unique_id_1" type="checkbox" checked />
@@ -1037,4 +1043,134 @@ function render_selected_case_list2()
 	}
 
 	el.innerHTML = html.join("");
+}
+
+
+function render_de_identified_search_result()
+{
+	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
+	let de_identify_form_filter = document.getElementById("de_identify_form_filter");
+
+	let de_identify_search_text = document.getElementById("de_identify_search_text");
+
+	let selected_form = de_identify_form_filter.value;
+	let result = []
+
+	render_de_identified_search_result_item(result, g_metadata, "", selected_form, de_identify_search_text.value);
+
+	de_identify_search_result_list.innerHTML = result.join("");
+}
+
+function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
+{
+
+	switch(p_metadata.type.toLowerCase())
+	{
+
+		
+		case "form":
+				if(p_selected_form== null || p_selected_form=="")
+				{
+					for(let i = 0; i < p_metadata.children.length; i++)
+					{
+						let item = p_metadata.children[i];
+						render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					}
+				}
+				else
+				{
+					if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
+					{
+						for(let i = 0; i < p_metadata.children.length; i++)
+						{
+							let item = p_metadata.children[i];
+							render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+						}
+					}
+				}
+				
+				break;
+		case "app":
+		case "group":
+		case "grid":
+			for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let item = p_metadata.children[i];
+				render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+			}
+			break;
+		default:
+
+		if(p_search_text != null && p_search_text !="")
+		{
+			if
+			(
+				!(
+					p_metadata.name.indexOf(p_search_text) > -1 ||
+					p_metadata.prompt.indexOf(p_search_text) > -1 
+				)
+			
+			)
+			{
+				return;
+			}
+		}
+
+		p_result.push(`
+		<tr class="tr">
+		<td class="td text-center" width="38">
+			<input id="unique_id_1" type="checkbox"  />
+			<label for="unique_id_1" class="sr-only">unique_id_1</label>
+		</td>
+		<td class="td">
+			<table class="table table--plain mb-0">
+				<thead class="thead">
+					<tr class="tr">
+						<th class="th" colspan="4">Path: <span class="font-weight-normal">${p_path}</span></th>
+					</tr>
+				</thead>
+				<thead class="thead">
+					<tr class="tr bg-white">
+						<th class="th">Name</th>
+						<th class="th">Type</th>
+						<th class="th">Prompt</th>
+						<th class="th">Values</th>
+					</tr>
+				</thead>
+				<tbody class="tbody">
+					<tr class="tr">
+						<td class="td">${p_metadata.name}</td>
+						<td class="td">${p_metadata.type}</td>
+						<td class="td">${p_metadata.prompt}</td>
+						<td class="td"></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		</tr>
+		`);
+		break;
+	}
+}
+
+function render_de_identify_form_filter()
+{
+	let de_identify_form_filter = document.getElementById("de_identify_form_filter");
+
+	let result = [];
+
+	result.push(`<option value="">(Any Form)</option>`)
+
+	for(let i = 0; i < g_metadata.children.length; i++)
+	{
+		let item = g_metadata.children[i];
+
+		if(item.type.toLowerCase() == "form")
+		{
+			result.push(`<option value="${item.name}">${item.prompt}</option>`)
+		}
+		
+	}
+
+	de_identify_form_filter.innerHTML = result.join("");
 }

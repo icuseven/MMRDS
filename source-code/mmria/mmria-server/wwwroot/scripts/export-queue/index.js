@@ -536,5 +536,9 @@ function get_metadata()
 			g_look_up["lookup/" + child.name] = child.values;
 		}
 
+
+		render_de_identify_form_filter();
+		
+		render_de_identified_search_result();
 	});
 }
