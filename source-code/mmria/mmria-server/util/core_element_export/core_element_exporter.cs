@@ -312,15 +312,15 @@ namespace mmria.server.util
 			foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
 			{
 				IDictionary<string, object> case_doc;
-				if (this.is_offline_mode)
-				{
+				//if (this.is_offline_mode)
+				//{
 					case_doc = case_row as IDictionary<string, object>;
-				}
+/*				}
 				else
 				{
 					case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				}
-
+ */
 				//IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
 				//IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 				if 

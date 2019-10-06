@@ -11,8 +11,8 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum State
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
-        Empty = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
+        _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"AL")]
         Alabama = 1,
@@ -193,8 +193,8 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Country
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
-        Empty = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
+        _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"US")]
         United_States = 1,
@@ -485,10 +485,10 @@ namespace AwesomeSauce.v1
         Guernsey = 96,
     
         [System.Runtime.Serialization.EnumMember(Value = @"GV")]
-        GV_Guinea = 97,
+        GVGuinea = 97,
     
         [System.Runtime.Serialization.EnumMember(Value = @"PU")]
-        PU_Guinea = 98,
+        PUGuinea = 98,
     
         [System.Runtime.Serialization.EnumMember(Value = @"GY")]
         Guyana = 99,
@@ -951,7 +951,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Year
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"1920")]
@@ -1277,7 +1277,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Month
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"1")]
@@ -1321,7 +1321,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Day
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"1")]
@@ -1422,7 +1422,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Yes_no
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"1")]
@@ -1431,7 +1431,7 @@ namespace AwesomeSauce.v1
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
         No = 2,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"888")]
+        [System.Runtime.Serialization.EnumMember(Value = @"8888")]
         Not_specified = 3,
     
     }
@@ -1439,7 +1439,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Ethnicity
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
@@ -1460,7 +1460,7 @@ namespace AwesomeSauce.v1
         [System.Runtime.Serialization.EnumMember(Value = @"5")]
         Yes__Origin_Unknown = 6,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"888")]
+        [System.Runtime.Serialization.EnumMember(Value = @"8888")]
         Not_Specified = 7,
     
     }
@@ -1468,8 +1468,8 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Case_progress
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
-        Empty = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
+        _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
         Not_Started = 1,
@@ -1491,7 +1491,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Race
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
@@ -1539,7 +1539,7 @@ namespace AwesomeSauce.v1
         [System.Runtime.Serialization.EnumMember(Value = @"14")]
         Other_Race = 15,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"888")]
+        [System.Runtime.Serialization.EnumMember(Value = @"8888")]
         Race_Not_Specified = 16,
     
     }
@@ -1547,7 +1547,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Omb_race_recode
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
@@ -1571,7 +1571,7 @@ namespace AwesomeSauce.v1
         [System.Runtime.Serialization.EnumMember(Value = @"6")]
         MultiRacial = 7,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"888")]
+        [System.Runtime.Serialization.EnumMember(Value = @"8888")]
         Race_Not_Specified = 8,
     
     }
@@ -7066,7 +7066,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Race3Omb_race_recode
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
@@ -7090,7 +7090,7 @@ namespace AwesomeSauce.v1
         [System.Runtime.Serialization.EnumMember(Value = @"6")]
         MultiRacial = 7,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"888")]
+        [System.Runtime.Serialization.EnumMember(Value = @"8888")]
         Race_Not_Specified = 8,
     
     }
@@ -8038,7 +8038,7 @@ namespace AwesomeSauce.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum Race4Omb_race_recode
     {
-        [System.Runtime.Serialization.EnumMember(Value = @"999")]
+        [System.Runtime.Serialization.EnumMember(Value = @"9999")]
         _blank_ = 0,
     
         [System.Runtime.Serialization.EnumMember(Value = @"0")]
@@ -8062,7 +8062,7 @@ namespace AwesomeSauce.v1
         [System.Runtime.Serialization.EnumMember(Value = @"6")]
         MultiRacial = 7,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"888")]
+        [System.Runtime.Serialization.EnumMember(Value = @"8888")]
         Race_Not_Specified = 8,
     
     }

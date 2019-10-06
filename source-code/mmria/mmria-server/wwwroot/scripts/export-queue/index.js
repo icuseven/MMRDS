@@ -142,6 +142,11 @@ function create_queue_item
 
 	}
 	
+	if(result.all_or_core == "core")
+	{
+		result.export_type = "Core CSV";
+	}
+
 	return result;
 	
 
@@ -443,15 +448,18 @@ function update_queue_task()
 }
 
 
-// Promise that sets and updates answer_summary json obj
-function setAnswerSummary(event) {
-	return new Promise((resolve, reject) => {
-		const target = event.target,
-					val = target.value,
-					prop = target.dataset.prop;
-			let path; // variable to split props into
 
-		console.log(target, val, prop);
+function setAnswerSummary(event) 
+{
+	return new Promise
+	(
+		(resolve, reject) => {
+		const target = event.target;
+		const val = target.value;
+		const prop = target.dataset.prop;
+		let path; 
+
+		//console.log(target, val, prop);
 		
 		if (prop) 
 		{
@@ -516,7 +524,7 @@ function setAnswerSummary(event) {
 						break;
 				}
 			}
-			console.log('Updating... ', answer_summary);
+			//console.log('Updating... ', answer_summary);
 			resolve();
 		}
 		else

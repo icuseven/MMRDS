@@ -26,7 +26,7 @@ function export_queue_render(p_queue_data)
 											 data-prop="all_or_core"
 											 type="radio"
 											 value="all"
-											 checked onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+											 checked onchange="setAnswerSummary(event)" />
 								<label for="all-data" class="mb-0">All</label>
 							</li>
 							<li>
@@ -36,7 +36,7 @@ function export_queue_render(p_queue_data)
 											 data-prop="all_or_core"
 											 type="radio"
 											 value="core"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event))" />
+											 onchange="setAnswerSummary(event)" />
 								<label for="core-data" class="mb-0">Core</label>
 							</li>
 						</ul>
@@ -53,7 +53,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="no"
 											 checked
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'none'))" />
+											 onchange="setAnswerSummary(event)" />
 								<label for="password-protect-no" class="mb-0">No</label>
 							</li>
 							<li>
@@ -63,7 +63,7 @@ function export_queue_render(p_queue_data)
 											 data-prop="is_encrypted"
 											 type="radio"
 											 value="yes"
-											 onchange="setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))" />
+											 onchange="setAnswerSummary(event)" />
 								<label for="password-protect-yes" class="mb-0">Yes</label>
 								<div class="mt-2" data-show="is_encrypted" style="display:none">
 									<label for="encryption-key" class="mb-2">Add encryption key</label>
