@@ -1119,7 +1119,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 		}
 
-		let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
+		//let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
+		let item_id = (p_path).replace(/\//g,"-");
 		selected_metadata_dictionary[item_id] = p_metadata;
 
 

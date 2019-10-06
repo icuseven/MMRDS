@@ -31,6 +31,9 @@ namespace mmria.server.util
 
 		private List<string> Core_Element_Paths;
 
+
+		private HashSet<string> de_identified_set;
+
 		public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
 		{
 			this.Configuration = configuration;
@@ -248,13 +251,13 @@ namespace mmria.server.util
 
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
-			HashSet<string> de_identified_set = new HashSet<string>();
+			de_identified_set = new HashSet<string>();
 
 			if(queue_item.de_identified_field_set != null)
 			{
 				foreach(string path in queue_item.de_identified_field_set)
 				{
-					de_identified_set.Add(path);
+					de_identified_set.Add(path.TrimStart('/'));
 				}
 			}
 
@@ -1110,6 +1113,12 @@ namespace mmria.server.util
 		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
 		{
 			dynamic result = null;
+
+			if(de_identified_set.Contains(p_path))
+			{
+				return result;
+			}
+
 			/*
 			foreach (KeyValuePair<string, object> kvp in p_object)
 			{

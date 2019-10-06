@@ -24,6 +24,8 @@ namespace mmria.server.util
 
 		private bool is_offline_mode;
 
+		private HashSet<string> de_identified_set;
+
 
 		private System.IO.StreamWriter qualitativeStreamWriter = null;
 		private int qualitativeStreamCount = 0;
@@ -255,7 +257,7 @@ namespace mmria.server.util
 
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
-			HashSet<string> de_identified_set = new HashSet<string>();
+			de_identified_set = new HashSet<string>();
 			/*
 			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
 			{
@@ -267,7 +269,7 @@ namespace mmria.server.util
 			{
 				foreach(string path in queue_item.de_identified_field_set)
 				{
-					de_identified_set.Add(path);
+					de_identified_set.Add(path.TrimStart('/'));
 				}
 			}
 
@@ -1457,6 +1459,11 @@ namespace mmria.server.util
 			{
 				System.Console.WriteLine(kvp.Key);
 			}*/
+
+			if(de_identified_set.Contains(p_path))
+			{
+				return result;
+			}
 
 			try
 			{
