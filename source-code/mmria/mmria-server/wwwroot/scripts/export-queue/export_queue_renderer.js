@@ -20,16 +20,17 @@ function export_queue_render(p_queue_data)
 						<p class="mb-3">Do you want to export <u>all data</u> or only <u>core data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
 						<input name="export-type"
 											 id="all-data"
-											 data-prop="all_or_core"
 											 type="radio"
 											 value="all"
-											 checked onchange="setAnswerSummary(event)" />
+											 data-prop="all_or_core"
+											 checked
+											 onchange="setAnswerSummary(event)" />
 						<label for="all-data" class="mb-0 font-weight-normal mr-2">All</label>
 						<input name="export-type"
 											 id="core-data"
-											 data-prop="all_or_core"
 											 type="radio"
 											 value="core"
+											 data-prop="all_or_core"
 											 onchange="setAnswerSummary(event)" />
 						<label for="core-data" class="mb-0 font-weight-normal">Core</label>
 					</li>
@@ -38,18 +39,18 @@ function export_queue_render(p_queue_data)
 						<p class="mb-3">Would you like to password protect the file?</p>
 						<input name="password-protect"
 											 id="password-protect-no"
-											 data-prop="is_encrypted"
 											 type="radio"
 											 value="no"
 											 checked
-											 onchange="setAnswerSummary(event)" />
+											 data-prop="is_encrypted"
+											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'none'))" />
 						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No</label>
 						<input name="password-protect"
 											 id="password-protect-yes"
-											 data-prop="is_encrypted"
 											 type="radio"
 											 value="yes"
-											 onchange="setAnswerSummary(event)" />
+											 data-prop="is_encrypted"
+											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block'))" />
 						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
 						<div class="mt-2" data-show="is_encrypted" style="display:none">
 							<label for="encryption-key" class="mb-2">Add encryption key</label>
@@ -64,27 +65,27 @@ function export_queue_render(p_queue_data)
 						<p class="mb-3">What fields do you want to de-identify?</p>
 						<input name="de-identify"
 											 id="de-identify-none"
-											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="none"
 											 checked
-											 onchange="de_identify_filter_type_click(this)"  /> 
+											 data-prop="de_identified_selection_type"
+											 onchange="de_identify_filter_type_click(this)" /> 
 						<label for="de-identify-none" class="mb-0 font-weight-normal mr-2">None</label>
 						<input name="de-identify"
 											 id="de-identify-standard"
-											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="standard"
-											 onchange="de_identify_filter_type_click(this)"  />
+											 data-prop="de_identified_selection_type"
+											 onchange="de_identify_filter_type_click(this)" />
 						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label>
 						<input name="de-identify"
 											 id="de-identify-custom"
-											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="custom"
+											 data-prop="de_identified_selection_type"
 											 onchange="de_identify_filter_type_click(this)" />
 						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
-						<div id="de_identify_filter" class="p-3 mt-2 bg-gray-l3" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
+						<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
 							<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
 							<div class="form-inline mb-2">
 								<label for="de_identify_search_text" class="mr-2"> Search for:</label>
@@ -92,12 +93,9 @@ function export_queue_render(p_queue_data)
 											 class="form-control mr-2"
 											 id="de_identify_search_text"
 											 value="" />
-								<select id="de_identify_form_filter">
-									<option selected>select form</option>
-									<option>any</option>
-									<option>home record</option>
-									<option>death certificate parent section</option>
-								</select>&nbsp;
+								<select id="de_identify_form_filter" class="custom-select mr-2">
+									<!-- Options dynamically generated -->
+								</select>
 								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="render_de_identified_search_result()">Search</button>
 							</div>
 							<div class="form-group form-check mb-1">
@@ -122,99 +120,7 @@ function export_queue_render(p_queue_data)
 										</tr>
 									</thead>
 									<tbody class="tbody" id="de_identify_search_result_list">
-										<tr class="tr">
-											<td class="td text-center" width="38">
-												<input id="unique_id_1" type="checkbox" checked />
-												<label for="unique_id_1" class="sr-only">unique_id_1</label>
-											</td>
-											<td class="td">
-												<table class="table table--plain mb-0">
-													<thead class="thead">
-														<tr class="tr">
-															<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
-														</tr>
-													</thead>
-													<thead class="thead">
-														<tr class="tr bg-white">
-															<th class="th">Name</th>
-															<th class="th">Type</th>
-															<th class="th">Prompt</th>
-															<th class="th">Values</th>
-														</tr>
-													</thead>
-													<tbody class="tbody">
-														<tr class="tr">
-															<td class="td">date_created</td>
-															<td class="td">date</td>
-															<td class="td">date_created</td>
-															<td class="td"></td>
-														</tr>
-													</tbody>
-												</table>
-											</td>
-										</tr>
-										<tr class="tr">
-											<td class="td text-center" width="38">
-												<input id="unique_id_2" type="checkbox" />
-												<label for="unique_id_2" class="sr-only">unique_id_2</label>
-											</td>
-											<td class="td">
-												<table class="table table--plain mb-0">
-													<thead class="thead">
-														<tr class="tr">
-															<th class="th" colspan="4">Path: <span class="font-weight-normal">home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section</span></th>
-														</tr>
-													</thead>
-													<thead class="thead">
-														<tr class="tr bg-white">
-															<th class="th">Name</th>
-															<th class="th">Type</th>
-															<th class="th">Prompt</th>
-															<th class="th">Values</th>
-														</tr>
-													</thead>
-													<tbody class="tbody">
-														<tr class="tr">
-															<td class="td">birth_certificate_infant_or_fetal_death_section</td>
-															<td class="td">list</td>
-															<td class="td">Birth/Fetal Death Certificate- Infant/Fetal Section</td>
-															<td class="td">
-																<table class="table table--plain mb-0">
-																	<thead class="thead">
-																		<tr class="tr">
-																			<th class="th">Value</th>
-																			<th class="th">Description</th>
-																		</tr>
-																	</thead>
-																	<tbody class="tbody">
-																		<tr class="tr">
-																			<td class="td">9999</td>
-																			<td class="td">(blank)</td>
-																		</tr>
-																		<tr class="tr">
-																			<td class="td">1</td>
-																			<td class="td">In Progress</td>
-																		</tr>
-																		<tr class="tr">
-																			<td class="td">2</td>
-																			<td class="td">Completed</td>
-																		</tr>
-																		<tr class="tr">
-																			<td class="td">3</td>
-																			<td class="td">Not Available</td>
-																		</tr>
-																		<tr class="tr">
-																			<td class="td">4</td>
-																			<td class="td">Not Applicable</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</td>
-														</tr>
-													</tbody>
-												</table>
-											</td>
-										</tr>
+										<!-- tr generated dynamically -->
 									</tbody>
 								</table>
 							</div>
@@ -232,37 +138,7 @@ function export_queue_render(p_queue_data)
 										</tr>
 									</thead>
 									<tbody class="tbody" id="selected_de_identified_field_list">
-										<tr class="tr">
-											<td class="td text-center" width="38">
-												<input id="unique_id_1" type="checkbox" checked />
-												<label for="unique_id_1" class="sr-only"></label>
-											</td>
-											<td class="td">
-												<table class="table table--plain mb-0">
-													<thead class="thead">
-														<tr class="tr">
-															<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
-														</tr>
-													</thead>
-													<thead class="thead">
-														<tr class="tr bg-white">
-															<th class="th">Name</th>
-															<th class="th">Type</th>
-															<th class="th">Prompt</th>
-															<th class="th">Values</th>
-														</tr>
-													</thead>
-													<tbody class="tbody">
-														<tr class="tr">
-															<td class="td">date_created</td>
-															<td class="td">date</td>
-															<td class="td">date_created</td>
-															<td class="td"></td>
-														</tr>
-													</tbody>
-												</table>
-											</td>
-										</tr>
+										<!-- Data is dynamically generated -->
 									</tbody>
 								</table>
 							</div>
@@ -273,7 +149,7 @@ function export_queue_render(p_queue_data)
 						<p class="mb-3">Please select which cases you want to include in the export?</p>
 						<label for="case_filter_type_all" class="font-weight-normal mr-2"><input id="case_filter_type_all" checked="true" type="radio" name="case_filter_type" value="all" onclick="case_filter_type_click(this)" /> All</label>
 						<label for="case_filter_type_custom" class="font-weight-normal"><input id="case_filter_type_custom" type="radio" name="case_filter_type" value="custom" onclick="case_filter_type_click(this)" /> Custom</label>
-						<ul class="font-weight-bold list-unstyled" id="custom_case_filter" style="display:none">
+						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:none">
 							<li class="mb-4" >
 
 								<div class="form-inline mb-2">
@@ -597,7 +473,7 @@ function export_queue_comfirm_render(p_queue_data)
 			</li>
 			<li>
 				De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
-				<ul data-show="de_identified_selection_type" style="display: none">
+				<ul data-prop="de_identified_selection_type">
 					<li>
 						<button class="btn btn-link p-0" data-toggle="modal" data-target="#custom-fields">View selection</button>
 					</li>
@@ -729,10 +605,38 @@ function handleElementDisplay(event, str)
 	const prop = event.target.dataset.prop;
 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
 
-	tars.forEach((i) =>
-	{
-		i.style.display = str;
-	});
+	return new Promise
+	(
+		(resolve, reject) =>
+		{
+			if (!isNullOrUndefined(tars)) {
+				console.log('tars exist');
+				for (let i = 0; i < tars.length; i++) {
+					if (tars[i].style.display === 'none') {
+						console.log('show tar');
+						tars[i].style.display = str;
+					} else {
+						console.log('hide tar');
+						tars[i].style.display = 'none';
+					}
+				}
+			} else {
+				// target doesn't exist, reject
+				reject('Target(s) do not exist');
+			}
+		}
+	)
+
+	// tars.forEach((el) =>
+	// {
+	// 	if (el.style.display == 'none') {
+	// 		el.style.display == str;
+	// 		console.log('a');
+	// 	} else {
+	// 		el.style.display == 'none';
+	// 		console.log('b');
+	// 	}
+	// });
 }
 
 // Class to dynamically create a new 'numeric' dropdown
@@ -1086,47 +990,54 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 		//let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
 		let item_id = (p_path).replace(/\//g,"-");
 		selected_metadata_dictionary[item_id] = p_metadata;
-
 		let checked = "";
-
 		let index = answer_summary.de_identified_field_set.indexOf(item_id);
+
 		if(index > -1)
 		{
 			checked = "checked=true"
 		}
 
 		p_result.push(`
-		<tr class="tr">
-			<td class="td text-center" width="38">
-				<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
-				<label for="unique_id_1" class="sr-only">unique_id_1</label>
-			</td>
-			<td class="td">
-				<table class="table table--plain mb-0">
-					<thead class="thead">
-						<tr class="tr">
-							<th class="th" colspan="4">Path: <span class="font-weight-normal">${p_path}</span></th>
-						</tr>
-					</thead>
-					<thead class="thead">
-						<tr class="tr bg-white">
-							<th class="th">Name</th>
-							<th class="th">Type</th>
-							<th class="th">Prompt</th>
-							<th class="th">Values</th>
-						</tr>
-					</thead>
-					<tbody class="tbody">
-						<tr class="tr">
-							<td class="td">${p_metadata.name}</td>
-							<td class="td">${p_metadata.type}</td>
-							<td class="td">${p_metadata.prompt}</td>
-							<td class="td"></td>
-						</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
+			<tr class="tr">
+				<td class="td text-center" width="38">
+					<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
+					<label for="unique_id_1" class="sr-only">unique_id_1</label>
+				</td>
+				<td class="td">
+					<table class="table table--plain mb-0">
+						<thead class="thead">
+							<tr class="tr">
+								<th class="th" colspan="4" style="padding: 0px">
+									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
+													style="padding: 8px 10px"
+													data-prop="search--${p_path}"
+													onclick="handleElementDisplay(event, 'table-row', 'none')">
+										<span><strong>Path:</strong> ${p_path}</span>
+										<span class="x24 fill-p cdc-icon-plus"><span class="sr-only">Click to see more</span></span>
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<thead class="thead">
+							<tr class="tr bg-white" data-show="search--${p_path}" style="display: none">
+								<th class="th">Name</th>
+								<th class="th">Type</th>
+								<th class="th">Prompt</th>
+								<th class="th">Values</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr class="tr" data-show="search--${p_path}" style="display: none">
+								<td class="td">${p_metadata.name}</td>
+								<td class="td">${p_metadata.type}</td>
+								<td class="td">${p_metadata.prompt}</td>
+								<td class="td"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
 		`);
 		break;
 	}
@@ -1212,11 +1123,19 @@ function render_selected_de_identified_list()
 				<table class="table table--plain mb-0">
 					<thead class="thead">
 						<tr class="tr">
-							<th class="th" colspan="4">Path: <span class="font-weight-normal">${item_id.replace(/-/g,"/")}</span></th>
+							<th class="th" colspan="4" style="padding: 0px">
+								<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
+												style="padding: 8px 10px"
+												data-prop="selected--${item_id.replace(/-/g,"/")}"
+												onclick="handleElementDisplay(event, 'table-row', 'none')">
+									<span><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
+									<span class="x24 fill-p cdc-icon-plus"><span class="sr-only">Click to see more</span></span>
+								</button>
+							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr bg-white">
+						<tr class="tr bg-white" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
 							<th class="th">Name</th>
 							<th class="th">Type</th>
 							<th class="th">Prompt</th>
@@ -1224,7 +1143,7 @@ function render_selected_de_identified_list()
 						</tr>
 					</thead>
 					<tbody class="tbody">
-						<tr class="tr">
+						<tr class="tr" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
 							<td class="td">${value_list.name}</td>
 							<td class="td">${value_list.type}</td>
 							<td class="td">${value_list.prompt}</td>
