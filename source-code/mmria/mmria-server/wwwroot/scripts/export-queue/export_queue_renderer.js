@@ -18,291 +18,261 @@ function export_queue_render(p_queue_data)
 					</li>				
 					<li class="mb-4">
 						<p class="mb-3">Do you want to export <u>all data</u> or only <u>core data</u>? <small class="d-block mt-1">The zip file will be downloaded directly to the “Downloads” folder in the local environment of your computer.</small></p>
-						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
-							<li>
-								<input name="export-type"
+						<input name="export-type"
 											 id="all-data"
-											 class="mr-1"
 											 data-prop="all_or_core"
 											 type="radio"
 											 value="all"
 											 checked onchange="setAnswerSummary(event)" />
-								<label for="all-data" class="mb-0">All</label>
-							</li>
-							<li>
-								<input name="export-type"
+						<label for="all-data" class="mb-0 font-weight-normal mr-2">All</label>
+						<input name="export-type"
 											 id="core-data"
-											 class="mr-1"
 											 data-prop="all_or_core"
 											 type="radio"
 											 value="core"
 											 onchange="setAnswerSummary(event)" />
-								<label for="core-data" class="mb-0">Core</label>
-							</li>
-						</ul>
+						<label for="core-data" class="mb-0 font-weight-normal">Core</label>
 					</li>
 
 					<li class="mb-4">
 						<p class="mb-3">Would you like to password protect the file?</p>
-						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
-							<li>
-								<input name="password-protect"
+						<input name="password-protect"
 											 id="password-protect-no"
-											 class="mr-1"
 											 data-prop="is_encrypted"
 											 type="radio"
 											 value="no"
 											 checked
 											 onchange="setAnswerSummary(event)" />
-								<label for="password-protect-no" class="mb-0">No</label>
-							</li>
-							<li>
-								<input name="password-protect"
+						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No</label>
+						<input name="password-protect"
 											 id="password-protect-yes"
-											 class="mr-1"
 											 data-prop="is_encrypted"
 											 type="radio"
 											 value="yes"
 											 onchange="setAnswerSummary(event)" />
-								<label for="password-protect-yes" class="mb-0">Yes</label>
-								<div class="mt-2" data-show="is_encrypted" style="display:none">
-									<label for="encryption-key" class="mb-2">Add encryption key</label>
-									<input id="encryption-key"
-												class="form-control w-auto"
-												type="text"
-												value="${answer_summary.encryption_key}" />
-								</div>
-							</li>
-						</ul>
+						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
+						<div class="mt-2" data-show="is_encrypted" style="display:none">
+							<label for="encryption-key" class="mb-2">Add encryption key</label>
+							<input id="encryption-key"
+										 class="form-control w-auto"
+										 type="text"
+										 value="${answer_summary.encryption_key}" />
+						</div>
 					</li>
 
 					<li class="mb-4">
 						<p class="mb-3">What fields do you want to de-identify?</p>
-						<ul class="font-weight-normal list-unstyled" style="padding-left: 0px;">
-							<li>
-								<input name="de-identify"
+						<input name="de-identify"
 											 id="de-identify-none"
-											 class="mr-1"
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="none"
 											 checked
 											 onchange="de_identify_filter_type_click(this)"  /> 
-								<label for="de-identify-none" class="mb-0">None</label>
-							</li>
-							<li>
-								<input name="de-identify"
+						<label for="de-identify-none" class="mb-0 font-weight-normal mr-2">None</label>
+						<input name="de-identify"
 											 id="de-identify-standard"
-											 class="mr-1"
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="standard"
 											 onchange="de_identify_filter_type_click(this)"  />
-								<label for="de-identify-standard" class="mb-0">Standard</label>
-							</li>
-							<li>
-								<input name="de-identify"
+						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label>
+						<input name="de-identify"
 											 id="de-identify-custom"
-											 class="mr-1"
 											 data-prop="de_identified_selection_type"
 											 type="radio"
 											 value="custom"
 											 onchange="de_identify_filter_type_click(this)" />
-								<label for="de-identify-custom" class="mb-0">Custom</label>
-								<div id="de_identify_filter" class="p-3 mt-2 bg-gray-l3" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
-									<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
-									<div class="form-inline mb-2">
-										<label for="de_identify_search_text" class="mr-2"> Search for:</label>
-										<input type="text"
-														class="form-control mr-2"
-														id="de_identify_search_text"
-														
-														value="">
-										<select id="de_identify_form_filter">
-											<option selected>select form</option>
-											<option>any</option>
-											<option>home record</option>
-											<option>death certificate parent section</option>
-										</select>&nbsp;
-										<button type="button" class="btn btn-tertiary" alt="clear search" onclick="render_de_identified_search_result()">Search</button>
-									</div>
-									<div class="form-group form-check mb-1">
-										<input type="checkbox" class="form-check-input" id="exclude_pii">
-										<label class="form-check-label" for="exclude_pii">Exclude PII tagged fields</label>
-									</div>
-									<div class="form-group form-check mb-0">
-										<input type="checkbox" class="form-check-input" id="include_pii">
-										<label class="form-check-label" for="include_pii">De-identify standard fields</label>
-									</div>
-									
-									<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
-										<table class="table table--plain mb-0">
-											<thead class="thead">
-												<tr class="tr bg-tertiary">
-													<th class="th" colspan="2">
-														<span class="row no-gutters justify-content-between">
-															<span>Fields to de-identify</span>
-															<button class="anti-btn" onclick="fooBarSelectAll()">Select All</button>
-														</span>
-													</th>
-												</tr>
-											</thead>
-											<tbody class="tbody" id="de_identify_search_result_list">
-												<tr class="tr">
-													<td class="td text-center" width="38">
-														<input id="unique_id_1" type="checkbox" checked />
-														<label for="unique_id_1" class="sr-only">unique_id_1</label>
-													</td>
-													<td class="td">
-														<table class="table table--plain mb-0">
-															<thead class="thead">
-																<tr class="tr">
-																	<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
-																</tr>
-															</thead>
-															<thead class="thead">
-																<tr class="tr bg-white">
-																	<th class="th">Name</th>
-																	<th class="th">Type</th>
-																	<th class="th">Prompt</th>
-																	<th class="th">Values</th>
-																</tr>
-															</thead>
-															<tbody class="tbody">
-																<tr class="tr">
-																	<td class="td">date_created</td>
-																	<td class="td">date</td>
-																	<td class="td">date_created</td>
-																	<td class="td"></td>
-																</tr>
-															</tbody>
-														</table>
-													</td>
-												</tr>
-												<tr class="tr">
-													<td class="td text-center" width="38">
-														<input id="unique_id_2" type="checkbox" />
-														<label for="unique_id_2" class="sr-only">unique_id_2</label>
-													</td>
-													<td class="td">
-														<table class="table table--plain mb-0">
-															<thead class="thead">
-																<tr class="tr">
-																	<th class="th" colspan="4">Path: <span class="font-weight-normal">home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section</span></th>
-																</tr>
-															</thead>
-															<thead class="thead">
-																<tr class="tr bg-white">
-																	<th class="th">Name</th>
-																	<th class="th">Type</th>
-																	<th class="th">Prompt</th>
-																	<th class="th">Values</th>
-																</tr>
-															</thead>
-															<tbody class="tbody">
-																<tr class="tr">
-																	<td class="td">birth_certificate_infant_or_fetal_death_section</td>
-																	<td class="td">list</td>
-																	<td class="td">Birth/Fetal Death Certificate- Infant/Fetal Section</td>
-																	<td class="td">
-																		<table class="table table--plain mb-0">
-																			<thead class="thead">
-																				<tr class="tr">
-																					<th class="th">Value</th>
-																					<th class="th">Description</th>
-																				</tr>
-																			</thead>
-																			<tbody class="tbody">
-																				<tr class="tr">
-																					<td class="td">9999</td>
-																					<td class="td">(blank)</td>
-																				</tr>
-																				<tr class="tr">
-																					<td class="td">1</td>
-																					<td class="td">In Progress</td>
-																				</tr>
-																				<tr class="tr">
-																					<td class="td">2</td>
-																					<td class="td">Completed</td>
-																				</tr>
-																				<tr class="tr">
-																					<td class="td">3</td>
-																					<td class="td">Not Available</td>
-																				</tr>
-																				<tr class="tr">
-																					<td class="td">4</td>
-																					<td class="td">Not Applicable</td>
-																				</tr>
-																			</tbody>
-																		</table>
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
+						<div id="de_identify_filter" class="p-3 mt-2 bg-gray-l3" data-show="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
+							<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
+							<div class="form-inline mb-2">
+								<label for="de_identify_search_text" class="mr-2"> Search for:</label>
+								<input type="text"
+											 class="form-control mr-2"
+											 id="de_identify_search_text"
+											 value="" />
+								<select id="de_identify_form_filter">
+									<option selected>select form</option>
+									<option>any</option>
+									<option>home record</option>
+									<option>death certificate parent section</option>
+								</select>&nbsp;
+								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="render_de_identified_search_result()">Search</button>
+							</div>
+							<div class="form-group form-check mb-1">
+								<input type="checkbox" class="form-check-input" id="exclude_pii">
+								<label class="form-check-label font-weight-normal" for="exclude_pii">Exclude PII tagged fields</label>
+							</div>
+							<div class="form-group form-check mb-0">
+								<input type="checkbox" class="form-check-input" id="include_pii">
+								<label class="form-check-label font-weight-normal" for="include_pii">De-identify standard fields</label>
+							</div>
+							
+							<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+								<table class="table table--plain mb-0">
+									<thead class="thead">
+										<tr class="tr bg-tertiary">
+											<th class="th" colspan="2">
+												<span class="row no-gutters justify-content-between">
+													<span>Fields to de-identify</span>
+													<button class="anti-btn" onclick="fooBarSelectAll()">Select All</button>
+												</span>
+											</th>
+										</tr>
+									</thead>
+									<tbody class="tbody" id="de_identify_search_result_list">
+										<tr class="tr">
+											<td class="td text-center" width="38">
+												<input id="unique_id_1" type="checkbox" checked />
+												<label for="unique_id_1" class="sr-only">unique_id_1</label>
+											</td>
+											<td class="td">
+												<table class="table table--plain mb-0">
+													<thead class="thead">
+														<tr class="tr">
+															<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
+														</tr>
+													</thead>
+													<thead class="thead">
+														<tr class="tr bg-white">
+															<th class="th">Name</th>
+															<th class="th">Type</th>
+															<th class="th">Prompt</th>
+															<th class="th">Values</th>
+														</tr>
+													</thead>
+													<tbody class="tbody">
+														<tr class="tr">
+															<td class="td">date_created</td>
+															<td class="td">date</td>
+															<td class="td">date_created</td>
+															<td class="td"></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+										<tr class="tr">
+											<td class="td text-center" width="38">
+												<input id="unique_id_2" type="checkbox" />
+												<label for="unique_id_2" class="sr-only">unique_id_2</label>
+											</td>
+											<td class="td">
+												<table class="table table--plain mb-0">
+													<thead class="thead">
+														<tr class="tr">
+															<th class="th" colspan="4">Path: <span class="font-weight-normal">home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section</span></th>
+														</tr>
+													</thead>
+													<thead class="thead">
+														<tr class="tr bg-white">
+															<th class="th">Name</th>
+															<th class="th">Type</th>
+															<th class="th">Prompt</th>
+															<th class="th">Values</th>
+														</tr>
+													</thead>
+													<tbody class="tbody">
+														<tr class="tr">
+															<td class="td">birth_certificate_infant_or_fetal_death_section</td>
+															<td class="td">list</td>
+															<td class="td">Birth/Fetal Death Certificate- Infant/Fetal Section</td>
+															<td class="td">
+																<table class="table table--plain mb-0">
+																	<thead class="thead">
+																		<tr class="tr">
+																			<th class="th">Value</th>
+																			<th class="th">Description</th>
+																		</tr>
+																	</thead>
+																	<tbody class="tbody">
+																		<tr class="tr">
+																			<td class="td">9999</td>
+																			<td class="td">(blank)</td>
+																		</tr>
+																		<tr class="tr">
+																			<td class="td">1</td>
+																			<td class="td">In Progress</td>
+																		</tr>
+																		<tr class="tr">
+																			<td class="td">2</td>
+																			<td class="td">Completed</td>
+																		</tr>
+																		<tr class="tr">
+																			<td class="td">3</td>
+																			<td class="td">Not Available</td>
+																		</tr>
+																		<tr class="tr">
+																			<td class="td">4</td>
+																			<td class="td">Not Applicable</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 
-									<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
-										<table class="table table--plain mb-0">
-											<thead class="thead">
-												<tr class="tr bg-tertiary">
-													<th class="th" colspan="2">
-														<span class="row no-gutters justify-content-between">
-															<span id="de_identified_count">Fields that have been de-identified (${answer_summary.de_identified_field_set.length})</span>
-															<button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button>
-														</span>
-													</th>
-												</tr>
-											</thead>
-											<tbody class="tbody" id="selected_de_identified_field_list">
-												<tr class="tr">
-													<td class="td text-center" width="38">
-														<input id="unique_id_1" type="checkbox" checked />
-														<label for="unique_id_1" class="sr-only"></label>
-													</td>
-													<td class="td">
-														<table class="table table--plain mb-0">
-															<thead class="thead">
-																<tr class="tr">
-																	<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
-																</tr>
-															</thead>
-															<thead class="thead">
-																<tr class="tr bg-white">
-																	<th class="th">Name</th>
-																	<th class="th">Type</th>
-																	<th class="th">Prompt</th>
-																	<th class="th">Values</th>
-																</tr>
-															</thead>
-															<tbody class="tbody">
-																<tr class="tr">
-																	<td class="td">date_created</td>
-																	<td class="td">date</td>
-																	<td class="td">date_created</td>
-																	<td class="td"></td>
-																</tr>
-															</tbody>
-														</table>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</li>
-						</ul>
+							<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+								<table class="table table--plain mb-0">
+									<thead class="thead">
+										<tr class="tr bg-tertiary">
+											<th class="th" colspan="2">
+												<span class="row no-gutters justify-content-between">
+													<span id="de_identified_count">Fields that have been de-identified (${answer_summary.de_identified_field_set.length})</span>
+													<button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button>
+												</span>
+											</th>
+										</tr>
+									</thead>
+									<tbody class="tbody" id="selected_de_identified_field_list">
+										<tr class="tr">
+											<td class="td text-center" width="38">
+												<input id="unique_id_1" type="checkbox" checked />
+												<label for="unique_id_1" class="sr-only"></label>
+											</td>
+											<td class="td">
+												<table class="table table--plain mb-0">
+													<thead class="thead">
+														<tr class="tr">
+															<th class="th" colspan="4">Path: <span class="font-weight-normal">date_of_death</span></th>
+														</tr>
+													</thead>
+													<thead class="thead">
+														<tr class="tr bg-white">
+															<th class="th">Name</th>
+															<th class="th">Type</th>
+															<th class="th">Prompt</th>
+															<th class="th">Values</th>
+														</tr>
+													</thead>
+													<tbody class="tbody">
+														<tr class="tr">
+															<td class="td">date_created</td>
+															<td class="td">date</td>
+															<td class="td">date_created</td>
+															<td class="td"></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</li>
 
 					<li class="mb-4">
 						<p class="mb-3">Please select which cases you want to include in the export?</p>
-						<p>
-							<label><input id="case_filter_type_all" checked="true" type="radio" name="case_filter_type" value="all" onclick="case_filter_type_click(this)" /> All<label>
-							<label><input id="case_filter_type_custom" type="radio" name="case_filter_type" value="custom" onclick="case_filter_type_click(this)" /> Custom</label>
-						</p>
+						<label for="case_filter_type_all" class="font-weight-normal mr-2"><input id="case_filter_type_all" checked="true" type="radio" name="case_filter_type" value="all" onclick="case_filter_type_click(this)" /> All</label>
+						<label for="case_filter_type_custom" class="font-weight-normal"><input id="case_filter_type_custom" type="radio" name="case_filter_type" value="custom" onclick="case_filter_type_click(this)" /> Custom</label>
 						<ul class="font-weight-bold list-unstyled" id="custom_case_filter" style="display:none">
 							<li class="mb-4" >
 
@@ -989,11 +959,7 @@ function render_selected_case_list2()
 	//html.push("<li><input type='checkbox' /> select all</li>");
 	for(let i = 0; i < answer_summary.case_set.length; i++)
 	{
-
-
 		let item_id = answer_summary.case_set[i];
-
-
 		let value_list = selected_dictionary[item_id];
 
 		// Items generated after user ADDS applied filters
@@ -1069,8 +1035,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 
 	switch(p_metadata.type.toLowerCase())
 	{
-
-		
 		case "form":
 				if(p_selected_form== null || p_selected_form=="")
 				{
@@ -1123,7 +1087,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 		let item_id = (p_path).replace(/\//g,"-");
 		selected_metadata_dictionary[item_id] = p_metadata;
 
-
 		let checked = "";
 
 		let index = answer_summary.de_identified_field_set.indexOf(item_id);
@@ -1132,38 +1095,37 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			checked = "checked=true"
 		}
 
-
 		p_result.push(`
 		<tr class="tr">
-		<td class="td text-center" width="38">
-			<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
-			<label for="unique_id_1" class="sr-only">unique_id_1</label>
-		</td>
-		<td class="td">
-			<table class="table table--plain mb-0">
-				<thead class="thead">
-					<tr class="tr">
-						<th class="th" colspan="4">Path: <span class="font-weight-normal">${p_path}</span></th>
-					</tr>
-				</thead>
-				<thead class="thead">
-					<tr class="tr bg-white">
-						<th class="th">Name</th>
-						<th class="th">Type</th>
-						<th class="th">Prompt</th>
-						<th class="th">Values</th>
-					</tr>
-				</thead>
-				<tbody class="tbody">
-					<tr class="tr">
-						<td class="td">${p_metadata.name}</td>
-						<td class="td">${p_metadata.type}</td>
-						<td class="td">${p_metadata.prompt}</td>
-						<td class="td"></td>
-					</tr>
-				</tbody>
-			</table>
-		</td>
+			<td class="td text-center" width="38">
+				<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
+				<label for="unique_id_1" class="sr-only">unique_id_1</label>
+			</td>
+			<td class="td">
+				<table class="table table--plain mb-0">
+					<thead class="thead">
+						<tr class="tr">
+							<th class="th" colspan="4">Path: <span class="font-weight-normal">${p_path}</span></th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-white">
+							<th class="th">Name</th>
+							<th class="th">Type</th>
+							<th class="th">Prompt</th>
+							<th class="th">Values</th>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr class="tr">
+							<td class="td">${p_metadata.name}</td>
+							<td class="td">${p_metadata.type}</td>
+							<td class="td">${p_metadata.prompt}</td>
+							<td class="td"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
 		</tr>
 		`);
 		break;
@@ -1226,11 +1188,7 @@ function render_selected_de_identified_list()
 	//html.push("<li><input type='checkbox' /> select all</li>");
 	for(let i = 0; i < answer_summary.de_identified_field_set.length; i++)
 	{
-
-
 		let item_id = answer_summary.de_identified_field_set[i];
-
-
 		let value_list = selected_metadata_dictionary[item_id];
 
 		// Items generated after user ADDS applied filters
@@ -1244,39 +1202,37 @@ function render_selected_de_identified_list()
 			checked = "checked=true"
 		}
 
-
-
 		html.push(`
 		<tr class="tr">
-		<td class="td text-center" width="38">
-			<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
-			<label for="unique_id_1" class="sr-only">unique_id_1</label>
-		</td>
-		<td class="td">
-			<table class="table table--plain mb-0">
-				<thead class="thead">
-					<tr class="tr">
-						<th class="th" colspan="4">Path: <span class="font-weight-normal">${item_id.replace(/-/g,"/")}</span></th>
-					</tr>
-				</thead>
-				<thead class="thead">
-					<tr class="tr bg-white">
-						<th class="th">Name</th>
-						<th class="th">Type</th>
-						<th class="th">Prompt</th>
-						<th class="th">Values</th>
-					</tr>
-				</thead>
-				<tbody class="tbody">
-					<tr class="tr">
-						<td class="td">${value_list.name}</td>
-						<td class="td">${value_list.type}</td>
-						<td class="td">${value_list.prompt}</td>
-						<td class="td"></td>
-					</tr>
-				</tbody>
-			</table>
-		</td>
+			<td class="td text-center" width="38">
+				<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
+				<label for="unique_id_1" class="sr-only">unique_id_1</label>
+			</td>
+			<td class="td">
+				<table class="table table--plain mb-0">
+					<thead class="thead">
+						<tr class="tr">
+							<th class="th" colspan="4">Path: <span class="font-weight-normal">${item_id.replace(/-/g,"/")}</span></th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-white">
+							<th class="th">Name</th>
+							<th class="th">Type</th>
+							<th class="th">Prompt</th>
+							<th class="th">Values</th>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr class="tr">
+							<td class="td">${value_list.name}</td>
+							<td class="td">${value_list.type}</td>
+							<td class="td">${value_list.prompt}</td>
+							<td class="td"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
 		</tr>
 		`);
 	}
