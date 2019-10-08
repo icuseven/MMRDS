@@ -447,7 +447,10 @@ function update_queue_task()
 	});
 }
 
-
+function encryption_key_changed(p_value)
+{
+	answer_summary.encryption_key = p_value;
+}
 
 function setAnswerSummary(event) 
 {

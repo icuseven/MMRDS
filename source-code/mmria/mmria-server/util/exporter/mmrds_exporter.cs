@@ -971,7 +971,7 @@ namespace mmria.server.util
 
 			string encryption_key = null;
 
-			if(string.IsNullOrWhiteSpace(queue_item.encryption_key))
+			if(!string.IsNullOrWhiteSpace(queue_item.encryption_key))
 			{
 				encryption_key = queue_item.encryption_key;
 			}
