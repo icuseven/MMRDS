@@ -591,6 +591,12 @@ namespace mmria.server.util
 									try
 									{
 										dynamic val = grid_item_row[path_to_node_map[node].name];
+
+										if(de_identified_set.Contains(node))
+										{
+											val = null;
+										}
+
 										if (val != null)
 										{
 											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
@@ -1053,6 +1059,12 @@ namespace mmria.server.util
 								try
 								{
 									dynamic val = grid_item_row[path_to_node_map[kvp.Key].name];
+
+									if(de_identified_set.Contains(node))
+									{
+										val = null;
+									}
+
 									if (val != null)
 									{
 										if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
