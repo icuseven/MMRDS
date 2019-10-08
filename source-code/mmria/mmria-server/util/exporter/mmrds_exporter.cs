@@ -955,10 +955,18 @@ namespace mmria.server.util
 
 			mmria.server.util.cFolderCompressor folder_compressor = new mmria.server.util.cFolderCompressor();
 
+
+			string encryption_key = null;
+
+			if(string.IsNullOrWhiteSpace(queue_item.encryption_key))
+			{
+				encryption_key = queue_item.encryption_key;
+			}
+
 			folder_compressor.Compress
 			(
 				System.IO.Path.Combine(Configuration.export_directory, this.item_file_name), 
-				null,// string password 
+				encryption_key,// string password 
 				System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name)
 			);
 
