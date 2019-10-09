@@ -3,12 +3,14 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 {
 	var result = [];
 
-	let de_identified_search_result = []
+	let de_identified_search_result = [];
 	render_de_identified_search_result(de_identified_search_result, p_answer_summary, p_filter);
 
-	let selected_de_identified_list = []
+	let selected_de_identified_list = [];
 	render_selected_de_identified_list(selected_de_identified_list, p_answer_summary)
 	
+	let selected_case_list = [];
+	render_selected_case_list(selected_case_list, p_answer_summary)
 
 	result.push(`
 		<div class="row">
@@ -281,21 +283,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 										</tr>
 									</thead>
 									<tbody id="selected_case_list" class="tbody">
-										<!-- items get dynamically generated -->
-										${render_selected_case_list(p_answer_summary)}
+										${selected_case_list.join("")}
 									</tbody>
 								</table>
-								<!-- <nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
-									<h3 class="h5 m-0 mr-2">Cases to be included in export:</h3>
-									<ul class="row no-gutters list-unstyled pl-0">
-										<li class="m-0 mr-2">
-											<button class="link" >Remove all</button>
-										</li>
-									</ul>
-								</nav>
-								<ul id="selected_case_list" class="zebra-list list-unstyled">
-									${render_selected_case_list(p_answer_summary)}
-								</ul> -->
 							</li>
 						</ul>
 					</li>
@@ -661,7 +651,7 @@ function result_checkbox_click(p_checkbox)
 	let el = document.getElementById('selected_case_list');
 
 	let result = []
-	render_selected_case_list2(result, answer_summary);
+	render_selected_case_list(result, answer_summary);
 	el.innerHTML = result.join("");
 }
 
@@ -772,24 +762,24 @@ function get_case_set()
 	)
 };
 
-
-function render_selected_case_list(p_answer_summary)
+/*
+function render_selected_case_list(p_result, p_answer_summary)
 {
-	let result = [];
+
 	//result.push("<li><input type='checkbox' /> select all</li>");
 	for(let i = 0; i < p_answer_summary.case_set.length; i++)
 	{
 		let item_id = p_answer_summary.case_set[i];
 		let value_list = selected_dictionary[item_id];
 
-		result.push(`<li class="bar"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
+		p_result.push(`<li class="bar"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
 	}
 
-	return result.join("");
+
 }
+*/
 
-
-function render_selected_case_list2(p_result, p_answer_summary)
+function render_selected_case_list(p_result, p_answer_summary)
 {
 
 	//html.push("<li><input type='checkbox' /> select all</li>");
