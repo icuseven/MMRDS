@@ -31,7 +31,9 @@ var g_filter = 	{
 	],
 	case_jurisdiction: [
 		'/all'
-	]
+	],
+	selected_form: "",
+	search_text: ""
 };
 
 var selected_dictionary = {};
@@ -87,7 +89,7 @@ function load_data(p_uid)
 			}
 			
 
-			render();
+			//render();
 
 			get_metadata();
 			//document.getElementById('generate_report_button').disabled = false;
@@ -104,7 +106,7 @@ function render()
 {
 
 	g_data.sort(function(a, b){return b.date_created-a.date_created});
-	document.getElementById('form_content_id').innerHTML = export_queue_render(g_data).join("");
+	document.getElementById('form_content_id').innerHTML = export_queue_render(g_data, answer_summary, g_filter).join("");
 	// render_answer_summary();
 }
 
@@ -556,10 +558,13 @@ function get_metadata()
 		}
 
 
+		render();
+/*
 		render_de_identify_form_filter();
 
 		render_de_identified_search_result();
 
 		render_selected_de_identified_list();
+		*/
 	});
 }

@@ -1,7 +1,14 @@
 
-function export_queue_render(p_queue_data)
+function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 {
 	var result = [];
+
+	let de_identified_search_result = []
+	render_de_identified_search_result(de_identified_search_result, p_answer_summary, p_filter);
+
+	let selected_de_identified_list = []
+	render_selected_de_identified_list(selected_de_identified_list, p_answer_summary)
+	
 
 	result.push(`
 		<div class="row">
@@ -12,7 +19,7 @@ function export_queue_render(p_queue_data)
 						<input id="grantee-name"
 							 class="form-control w-auto"
 							 type="text"
-							 value="${answer_summary.grantee_name}"
+							 value="${p_answer_summary.grantee_name}"
 							 disabled
 							 readonly="true" />
 					</li>				
@@ -23,7 +30,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="all"
 											 data-prop="all_or_core"
-											 ${ answer_summary['all_or_core'] == 'all' ? 'checked' : '' }
+											 ${ p_answer_summary['all_or_core'] == 'all' ? 'checked=true' : '' }
 											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
 						<label for="all-data" class="mb-0 font-weight-normal mr-2">All</label>
 						<input name="export-type"
@@ -31,7 +38,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="core"
 											 data-prop="all_or_core"
-											 ${ answer_summary['all_or_core'] == 'core' ? 'checked' : '' }
+											 ${ p_answer_summary['all_or_core'] == 'core' ? 'checked=true' : '' }
 											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
 						<label for="core-data" class="mb-0 font-weight-normal">Core</label>
 					</li>
@@ -43,7 +50,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="no"
 											 data-prop="is_encrypted"
-											 ${ answer_summary['is_encrypted'] == 'no' ? 'checked' : '' }
+											 ${ p_answer_summary['is_encrypted'] == 'no' ? 'checked=true' : '' }
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'none')).then(renderSummarySection(this))" />
 						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No</label>
 						<input name="password-protect"
@@ -51,7 +58,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="yes"
 											 data-prop="is_encrypted"
-											 ${ answer_summary['is_encrypted'] == 'yes' ? 'checked' : '' }
+											 ${ p_answer_summary['is_encrypted'] == 'yes' ? 'checked' : '' }
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block')).then(renderSummarySection(this))" />
 						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
 						<div class="mt-2" data-show="is_encrypted" style="display:none">
@@ -59,7 +66,7 @@ function export_queue_render(p_queue_data)
 							<input id="encryption-key"
 										 class="form-control w-auto"
 										 type="text"
-										 value="${answer_summary.encryption_key}" onchange="encryption_key_changed(this.value)" />
+										 value="${p_answer_summary.encryption_key}" onchange="encryption_key_changed(this.value)" />
 						</div>
 					</li>
 
@@ -70,7 +77,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="none"
 											 data-prop="de_identified_selection_type"
-											 ${ answer_summary['de_identified_selection_type'] == 'none' ? 'checked' : '' }
+											 ${ p_answer_summary.de_identified_selection_type == 'none' ? 'checked=true' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" /> 
 						<label for="de-identify-none" class="mb-0 font-weight-normal mr-2">None</label>
 						<input name="de-identify"
@@ -78,7 +85,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="standard"
 											 data-prop="de_identified_selection_type"
-											 ${ answer_summary['de_identified_selection_type'] == 'standard' ? 'checked' : '' }
+											 ${ p_answer_summary.de_identified_selection_type == 'standard' ? 'checked=true' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label>
 						<input name="de-identify"
@@ -86,17 +93,17 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="custom"
 											 data-prop="de_identified_selection_type"
-											 ${ answer_summary['de_identified_selection_type'] == 'custom' ? 'checked' : '' }
+											 ${ p_answer_summary.de_identified_selection_type == 'custom' ? 'checked=true' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
-						<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
+						<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: ${p_answer_summary.de_identified_selection_type == 'custom' ? 'block' : 'none'}; border: 1px solid #bbb;">
 							<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
 							<div class="form-inline mb-2">
 								<label for="de_identify_search_text" class="mr-2"> Search for:</label>
 								<input type="text"
 											 class="form-control mr-2"
 											 id="de_identify_search_text"
-											 value="" />
+											 value="" onchange="de_identify_search_text_change(this.value)"/>
 								<select id="de_identify_form_filter" class="custom-select mr-2">
 									<!-- Options dynamically generated -->
 								</select>
@@ -124,7 +131,7 @@ function export_queue_render(p_queue_data)
 										</tr>
 									</thead>
 									<tbody class="tbody" id="de_identify_search_result_list">
-										<!-- tr generated dynamically -->
+										${de_identified_search_result.join("")}
 									</tbody>
 								</table>
 							</div>
@@ -142,7 +149,7 @@ function export_queue_render(p_queue_data)
 										</tr>
 									</thead>
 									<tbody class="tbody" id="selected_de_identified_field_list">
-										<!-- Data is dynamically generated -->
+										${selected_de_identified_list.join("")}
 									</tbody>
 								</table>
 							</div>
@@ -157,7 +164,7 @@ function export_queue_render(p_queue_data)
 										 name="case_filter_type"
 										 value="all"
 										 data-prop="case_filter_type"
-										 ${ answer_summary['case_filter_type'] == 'all' ? 'checked' : '' }
+										 ${ p_answer_summary['case_filter_type'] == 'all' ? 'checked=true' : '' }
 										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> All
 						</label>
 						<label for="case_filter_type_custom" class="font-weight-normal">
@@ -166,15 +173,15 @@ function export_queue_render(p_queue_data)
 										 name="case_filter_type"
 										 value="custom"
 										 data-prop="case_filter_type"
-										 ${ answer_summary['case_filter_type'] == 'custom' ? 'checked' : '' }
+										 ${ p_answer_summary['case_filter_type'] == 'custom' ? 'checked=true' : '' }
 										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> Custom
 						</label>
-						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:none">
+						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:${ p_answer_summary['case_filter_type'] == 'custom' ? 'block' : 'none' }">
 							<li class="mb-4" >
 
 								<div class="form-inline mb-2">
 									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
-									<input type="text" class="form-control mr-2" id="filter_search_text"  value=""><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
+									<input type="text" class="form-control mr-2" id="filter_search_text"  value="" onchange="filter_serach_text_change(this.value)"><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
 								</div>
 
 								<div class="form-inline mb-2">
@@ -275,7 +282,7 @@ function export_queue_render(p_queue_data)
 									</thead>
 									<tbody id="selected_case_list" class="tbody">
 										<!-- items get dynamically generated -->
-										${render_selected_case_list()}
+										${render_selected_case_list(p_answer_summary)}
 									</tbody>
 								</table>
 								<!-- <nav class="row no-gutters align-items-end justify-content-between p-2 bg-quaternary" style="border-bottom: 1px solid #ced4da;">
@@ -287,7 +294,7 @@ function export_queue_render(p_queue_data)
 									</ul>
 								</nav>
 								<ul id="selected_case_list" class="zebra-list list-unstyled">
-									${render_selected_case_list()}
+									${render_selected_case_list(p_answer_summary)}
 								</ul> -->
 							</li>
 						</ul>
@@ -418,7 +425,7 @@ function renderSummarySection(el) {
 }
 
 
-function export_queue_comfirm_render(p_queue_data)
+function export_queue_comfirm_render(p_answer_summary)
 {
 	var result = `
 		<div class="col-4">
@@ -429,28 +436,28 @@ function export_queue_comfirm_render(p_queue_data)
 				<div class="card-body bg-gray-l3">
 					<ul>
 						<li>
-							Export/Grantee name: ${answer_summary.grantee_name}
+							Export/Grantee name: ${p_answer_summary.grantee_name}
 						</li>
 
 						<li>
-							Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
+							Export <span data-prop="all_or_core">${capitalizeFirstLetter(p_answer_summary.all_or_core)}</span> data
 							<ul>
 								<li>
-									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
+									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(p_answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
 								</li>
 							</ul>
 						</li>
 
 						<li>
-							Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
+							Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(p_answer_summary.is_encrypted)}</span>
 						</li>
 
 						<li>
-							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
+							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(p_answer_summary.de_identified_selection_type)}</span>
 						</li>
 						
 						<li>
-							Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(answer_summary.case_filter_type)}</span>
+							Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(p_answer_summary.case_filter_type)}</span>
 						</li>
 					</ul>
 				</div>
@@ -651,7 +658,11 @@ function result_checkbox_click(p_checkbox)
 		}
 	}
 
-	render_selected_case_list2();
+	let el = document.getElementById('selected_case_list');
+
+	let result = []
+	render_selected_case_list2(result, answer_summary);
+	el.innerHTML = result.join("");
 }
 
 var g_case_view_request = {
@@ -762,13 +773,13 @@ function get_case_set()
 };
 
 
-function render_selected_case_list()
+function render_selected_case_list(p_answer_summary)
 {
 	let result = [];
 	//result.push("<li><input type='checkbox' /> select all</li>");
-	for(let i = 0; i < answer_summary.case_set.length; i++)
+	for(let i = 0; i < p_answer_summary.case_set.length; i++)
 	{
-		let item_id = answer_summary.case_set[i];
+		let item_id = p_answer_summary.case_set[i];
 		let value_list = selected_dictionary[item_id];
 
 		result.push(`<li class="bar"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
@@ -778,14 +789,13 @@ function render_selected_case_list()
 }
 
 
-function render_selected_case_list2()
+function render_selected_case_list2(p_result, p_answer_summary)
 {
-	let el = document.getElementById('selected_case_list');
-	let html = [];
+
 	//html.push("<li><input type='checkbox' /> select all</li>");
-	for(let i = 0; i < answer_summary.case_set.length; i++)
+	for(let i = 0; i < p_answer_summary.case_set.length; i++)
 	{
-		let item_id = answer_summary.case_set[i];
+		let item_id = p_answer_summary.case_set[i];
 		let value_list = selected_dictionary[item_id];
 
 		// Items generated after user ADDS applied filters
@@ -793,14 +803,14 @@ function render_selected_case_list2()
 
 		let checked = "";
 
-		let index = answer_summary.case_set.indexOf(item_id);
+		let index = p_answer_summary.case_set.indexOf(item_id);
 		if(index > -1)
 		{
 			checked = "checked=true"
 		}
 
 		// Items generated after user applies filters
-		html.push(`
+		p_result.push(`
 			<tr class="tr">
 				<td class="td" data-type="date_created" width="38" align="center">
 					<input id=${escape(item_id)}
@@ -836,21 +846,16 @@ function render_selected_case_list2()
 		`);
 	}
 
-	el.innerHTML = html.join("");
+
 }
 
 
-function render_de_identified_search_result()
+function render_de_identified_search_result(p_result, p_answer_summary, p_filter)
 {
-	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
-	let de_identify_form_filter = document.getElementById("de_identify_form_filter");
-	let de_identify_search_text = document.getElementById("de_identify_search_text");
-	let selected_form = de_identify_form_filter.value;
-	let result = []
 
-	render_de_identified_search_result_item(result, g_metadata, "", selected_form, de_identify_search_text.value);
+	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text);
 
-	de_identify_search_result_list.innerHTML = result.join("");
+	
 }
 
 function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
@@ -962,13 +967,14 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	}
 }
 
-function render_de_identify_form_filter()
+function render_de_identify_form_filter(p_result, p_filter)
 {
-	let de_identify_form_filter = document.getElementById("de_identify_form_filter");
 
-	let result = [];
+	//let de_identify_form_filter = document.getElementById("de_identify_form_filter");
 
-	result.push(`<option value="">(Any Form)</option>`)
+	//let result = [];
+
+	p_result.push(`<option value="">(Any Form)</option>`)
 
 	for(let i = 0; i < g_metadata.children.length; i++)
 	{
@@ -976,12 +982,12 @@ function render_de_identify_form_filter()
 
 		if(item.type.toLowerCase() == "form")
 		{
-			result.push(`<option value="${item.name}">${item.prompt}</option>`)
+			p_result.push(`<option value="${item.name}">${item.prompt}</option>`)
 		}
 		
 	}
 
-	de_identify_form_filter.innerHTML = result.join("");
+	//de_identify_form_filter.innerHTML = result.join("");
 }
 
 
@@ -1006,19 +1012,28 @@ function de_identified_result_checkbox_click(p_checkbox)
 		}
 	}
 
-	render_selected_de_identified_list();
-	render_de_identified_search_result();
+	let el = document.getElementById('selected_de_identified_field_list');
+	let result = [];
+	render_selected_de_identified_list(result, answer_summary);
+
+	el.innerHTML = result.join("");
+
+	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
+
+	render_de_identified_search_result(result, answer_summary, g_filter);
+
+	de_identify_search_result_list.innerHTML = result.join("");
 }
 
 
-function render_selected_de_identified_list()
+function render_selected_de_identified_list(p_result, p_answer_summary)
 {
-	let el = document.getElementById('selected_de_identified_field_list');
-	let html = [];
+	//let el = document.getElementById('selected_de_identified_field_list');
+
 	//html.push("<li><input type='checkbox' /> select all</li>");
-	for(let i = 0; i < answer_summary.de_identified_field_set.length; i++)
+	for(let i = 0; i < p_answer_summary.de_identified_field_set.length; i++)
 	{
-		let item_id = answer_summary.de_identified_field_set[i];
+		let item_id = p_answer_summary.de_identified_field_set[i];
 		let value_list = selected_metadata_dictionary[item_id];
 
 		// Items generated after user ADDS applied filters
@@ -1026,13 +1041,13 @@ function render_selected_de_identified_list()
 
 		let checked = "";
 
-		let index = answer_summary.de_identified_field_set.indexOf(item_id);
+		let index = p_answer_summary.de_identified_field_set.indexOf(item_id);
 		if(index > -1)
 		{
 			checked = "checked=true"
 		}
 
-		html.push(`
+		p_result.push(`
 		<tr class="tr">
 			<td class="td text-center" width="38">
 				<input id="unique_id_1" type="checkbox" onclick="de_identified_result_checkbox_click(this)" value="${item_id}"  ${checked} />
@@ -1075,7 +1090,7 @@ function render_selected_de_identified_list()
 		`);
 	}
 
-	el.innerHTML = html.join("");
+	//el.innerHTML = html.join("");
 }
 
 
@@ -1134,4 +1149,15 @@ function de_identify_filter_type_click(p_value)
 			reject();
 		}
 	})
+}
+
+function de_identify_search_text_change(p_value)
+{
+	g_filter.search_text = p_value;
+}
+
+
+function filter_serach_text_change(p_value)
+{
+	g_case_view_request.search_key = p_value;
 }
