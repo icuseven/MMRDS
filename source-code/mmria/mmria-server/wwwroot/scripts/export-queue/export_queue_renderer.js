@@ -23,7 +23,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="all"
 											 data-prop="all_or_core"
-											 checked
+											 ${ answer_summary['all_or_core'] == 'all' ? 'checked' : '' }
 											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
 						<label for="all-data" class="mb-0 font-weight-normal mr-2">All</label>
 						<input name="export-type"
@@ -31,6 +31,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="core"
 											 data-prop="all_or_core"
+											 ${ answer_summary['all_or_core'] == 'core' ? 'checked' : '' }
 											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
 						<label for="core-data" class="mb-0 font-weight-normal">Core</label>
 					</li>
@@ -41,8 +42,8 @@ function export_queue_render(p_queue_data)
 											 id="password-protect-no"
 											 type="radio"
 											 value="no"
-											 checked
 											 data-prop="is_encrypted"
+											 ${ answer_summary['is_encrypted'] == 'no' ? 'checked' : '' }
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'none')).then(renderSummarySection(this))" />
 						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No</label>
 						<input name="password-protect"
@@ -50,6 +51,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="yes"
 											 data-prop="is_encrypted"
+											 ${ answer_summary['is_encrypted'] == 'yes' ? 'checked' : '' }
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block')).then(renderSummarySection(this))" />
 						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
 						<div class="mt-2" data-show="is_encrypted" style="display:none">
@@ -67,8 +69,8 @@ function export_queue_render(p_queue_data)
 											 id="de-identify-none"
 											 type="radio"
 											 value="none"
-											 checked
 											 data-prop="de_identified_selection_type"
+											 ${ answer_summary['de_identified_selection_type'] == 'none' ? 'checked' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" /> 
 						<label for="de-identify-none" class="mb-0 font-weight-normal mr-2">None</label>
 						<input name="de-identify"
@@ -76,6 +78,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="standard"
 											 data-prop="de_identified_selection_type"
+											 ${ answer_summary['de_identified_selection_type'] == 'standard' ? 'checked' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label>
 						<input name="de-identify"
@@ -83,6 +86,7 @@ function export_queue_render(p_queue_data)
 											 type="radio"
 											 value="custom"
 											 data-prop="de_identified_selection_type"
+											 ${ answer_summary['de_identified_selection_type'] == 'custom' ? 'checked' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
 						<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
@@ -149,11 +153,11 @@ function export_queue_render(p_queue_data)
 						<p class="mb-3">Please select which cases you want to include in the export?</p>
 						<label for="case_filter_type_all" class="font-weight-normal mr-2">
 							<input id="case_filter_type_all"
-										 checked="true"
 										 type="radio"
 										 name="case_filter_type"
 										 value="all"
 										 data-prop="case_filter_type"
+										 ${ answer_summary['case_filter_type'] == 'all' ? 'checked' : '' }
 										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> All
 						</label>
 						<label for="case_filter_type_custom" class="font-weight-normal">
@@ -162,6 +166,7 @@ function export_queue_render(p_queue_data)
 										 name="case_filter_type"
 										 value="custom"
 										 data-prop="case_filter_type"
+										 ${ answer_summary['case_filter_type'] == 'custom' ? 'checked' : '' }
 										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> Custom
 						</label>
 						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:none">
@@ -184,7 +189,7 @@ function export_queue_render(p_queue_data)
 
 								<div class="form-inline mb-2">
 									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
-									<input id="filter_decending" type="checkbox"  checked="true">
+									<input id="filter_decending" type="checkbox" />
 								</div>
 
 								<div class="form-inline mt-4">
