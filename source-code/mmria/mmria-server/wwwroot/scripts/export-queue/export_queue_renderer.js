@@ -24,14 +24,14 @@ function export_queue_render(p_queue_data)
 											 value="all"
 											 data-prop="all_or_core"
 											 checked
-											 onchange="setAnswerSummary(event)" />
+											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
 						<label for="all-data" class="mb-0 font-weight-normal mr-2">All</label>
 						<input name="export-type"
 											 id="core-data"
 											 type="radio"
 											 value="core"
 											 data-prop="all_or_core"
-											 onchange="setAnswerSummary(event)" />
+											 onchange="setAnswerSummary(event).then(renderSummarySection(this))" />
 						<label for="core-data" class="mb-0 font-weight-normal">Core</label>
 					</li>
 
@@ -43,14 +43,14 @@ function export_queue_render(p_queue_data)
 											 value="no"
 											 checked
 											 data-prop="is_encrypted"
-											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'none'))" />
+											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'none')).then(renderSummarySection(this))" />
 						<label for="password-protect-no" class="mb-0 font-weight-normal mr-2">No</label>
 						<input name="password-protect"
 											 id="password-protect-yes"
 											 type="radio"
 											 value="yes"
 											 data-prop="is_encrypted"
-											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block'))" />
+											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block')).then(renderSummarySection(this))" />
 						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
 						<div class="mt-2" data-show="is_encrypted" style="display:none">
 							<label for="encryption-key" class="mb-2">Add encryption key</label>
@@ -69,21 +69,21 @@ function export_queue_render(p_queue_data)
 											 value="none"
 											 checked
 											 data-prop="de_identified_selection_type"
-											 onchange="de_identify_filter_type_click(this)" /> 
+											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" /> 
 						<label for="de-identify-none" class="mb-0 font-weight-normal mr-2">None</label>
 						<input name="de-identify"
 											 id="de-identify-standard"
 											 type="radio"
 											 value="standard"
 											 data-prop="de_identified_selection_type"
-											 onchange="de_identify_filter_type_click(this)" />
+											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label>
 						<input name="de-identify"
 											 id="de-identify-custom"
 											 type="radio"
 											 value="custom"
 											 data-prop="de_identified_selection_type"
-											 onchange="de_identify_filter_type_click(this)" />
+											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
 						<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: none; border: 1px solid #bbb;">
 							<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
@@ -147,8 +147,23 @@ function export_queue_render(p_queue_data)
 
 					<li class="mb-4">
 						<p class="mb-3">Please select which cases you want to include in the export?</p>
-						<label for="case_filter_type_all" class="font-weight-normal mr-2"><input id="case_filter_type_all" checked="true" type="radio" name="case_filter_type" value="all" onclick="case_filter_type_click(this)" /> All</label>
-						<label for="case_filter_type_custom" class="font-weight-normal"><input id="case_filter_type_custom" type="radio" name="case_filter_type" value="custom" onclick="case_filter_type_click(this)" /> Custom</label>
+						<label for="case_filter_type_all" class="font-weight-normal mr-2">
+							<input id="case_filter_type_all"
+										 checked="true"
+										 type="radio"
+										 name="case_filter_type"
+										 value="all"
+										 data-prop="case_filter_type"
+										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> All
+						</label>
+						<label for="case_filter_type_custom" class="font-weight-normal">
+							<input id="case_filter_type_custom"
+										 type="radio"
+										 name="case_filter_type"
+										 value="custom"
+										 data-prop="case_filter_type"
+										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> Custom
+						</label>
 						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:none">
 							<li class="mb-4" >
 
@@ -175,35 +190,6 @@ function export_queue_render(p_queue_data)
 								<div class="form-inline mt-4">
 									<button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button>
 								</div>
-
-								<!-- <p class="mb-3 font-weight-bold">Date of death <small class="d-block mt-1">You can also add multiple date ranges</small></p>
-								<form class="row no-gutters mb-3">
-									<div class="form-inline mr-2 mb-0">
-										<label for="date-from" class="mr-2">From:</label>
-										<input id="date-from"
-													 class="form-control w-auto"
-													 type="text"
-													 value="All"
-													 data-provide="datepicker"
-													 data-date-format="yyyy/mm/dd"
-													 data-prop="filter/date_range/from"
-													 onchange="setAnswerSummary(event)" />
-									</div>
-									<div class="form-inline mr-2 mb-0">
-										<label for="date-to" class="mr-2">To:</label>
-										<input id="date-to"
-													 class="form-control w-auto"
-													 type="text"
-													 value="All"
-													 data-provide="datepicker"
-													 data-date-format="yyyy/mm/dd"
-													 data-prop="filter/date_range/to"
-													 onchange="setAnswerSummary(event)" />
-									</div>
-									<div class="form-inline mb-0">
-										<button type="button" class="btn btn-secondary" onclick="apply_filter_button_click()">search</button>
-									</div>
-								</form> -->
 							</li>
 
 							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
@@ -299,37 +285,11 @@ function export_queue_render(p_queue_data)
 									${render_selected_case_list()}
 								</ul> -->
 							</li>
-
 						</ul>
 					</li>
 				</ol>
 			</div>
 		</div>
-
-		<!--div class="modal fade" id="custom-fields" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">De-identify custom fields</h5>
-						<button type="button" class="close p-0 bg-transparent" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true" class="x24 fill-p cdc-icon-close"></span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<label for="custom-a" class="row no-gutters align-items-baseline"><input id="custom-a" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Exclude PII tagged fields</span></label>
-						<label for="custom-b" class="row no-gutters align-items-baseline"><input id="custom-b" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">Include PII tagged fields and any data in the field</span></label>
-						<label for="custom-1" class="row no-gutters align-items-baseline"><input id="custom-1" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_created</span></label>
-						<label for="custom-2" class="row no-gutters align-items-baseline"><input id="custom-2" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">created_by</span></label>
-						<label for="custom-3" class="row no-gutters align-items-baseline"><input id="custom-3" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">date_last_updated</span></label>
-						<label for="custom-4" class="row no-gutters align-items-baseline"><input id="custom-4" class="mr-2" type="checkbox" style="flex:0" /> <span style="flex:1">last_updated_by</span></label>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div-->
 		
 		<div class="row">
 			${export_queue_comfirm_render(p_queue_data)}		
@@ -388,146 +348,115 @@ function export_queue_render(p_queue_data)
 			result.push('</tr>');
 		result.push('</thead>');
 		result.push('<tbody class="tbody">');
-			// result.push("<table><hr/>");
-			// result.push("<tr><th colspan='8' bgcolor='#CCCCCC'>Export Request History</th></tr>");
-			// result.push("<tr><th colspan='8' bgcolor='#DDDDAA'>(*Please note that the export queue is deleted at midnight each day.)</th></tr>");
-			// result.push("<tr bgcolor='#DDDDDD'><th>date_created</th><th>created_by</th><th>date_last_updated</th><th>last_updated_by</th><th>file_name</th><th>export_type</th><th>status</th><th>action</th></tr>");
+		// result.push("<table><hr/>");
+		// result.push("<tr><th colspan='8' bgcolor='#CCCCCC'>Export Request History</th></tr>");
+		// result.push("<tr><th colspan='8' bgcolor='#DDDDAA'>(*Please note that the export queue is deleted at midnight each day.)</th></tr>");
+		// result.push("<tr bgcolor='#DDDDDD'><th>date_created</th><th>created_by</th><th>date_last_updated</th><th>last_updated_by</th><th>file_name</th><th>export_type</th><th>status</th><th>action</th></tr>");
 
-			for(var i = 0; i < p_queue_data.length; i++)
-			{
-				var item = p_queue_data[i];
-				//console.log(item);
+		for(var i = 0; i < p_queue_data.length; i++)
+		{
+			var item = p_queue_data[i];
+			//console.log(item);
 
-				// if(i % 2 == 0)
-				// {
-				// 	result.push("<tr>");
-				// }
-				// else
-				// {
-				// 	result.push("<tr bgcolor='#EEEEEE'>");
-				// }
-				
-				result.push('<tr class="tr">');
-					result.push(`<td class="td">${item.date_created}</td>`);
-					result.push(`<td class="td">${item.created_by}</td>`);
-					result.push(`<td class="td">${item.date_last_updated}</td>`);
-					result.push(`<td class="td">${item.last_updated_by}</td>`);
-					result.push(`<td class="td">${item.file_name}</td>`);
-					result.push(`<td class="td">${item.export_type}</td>`);
-					result.push(`<td class="td">${item.status}</td>`);
+			// if(i % 2 == 0)
+			// {
+			// 	result.push("<tr>");
+			// }
+			// else
+			// {
+			// 	result.push("<tr bgcolor='#EEEEEE'>");
+			// }
+			
+			result.push('<tr class="tr">');
+				result.push(`<td class="td">${item.date_created}</td>`);
+				result.push(`<td class="td">${item.created_by}</td>`);
+				result.push(`<td class="td">${item.date_last_updated}</td>`);
+				result.push(`<td class="td">${item.last_updated_by}</td>`);
+				result.push(`<td class="td">${item.file_name}</td>`);
+				result.push(`<td class="td">${item.export_type}</td>`);
+				result.push(`<td class="td">${item.status}</td>`);
 
-					if(item.status == "Confirmation Required")
-					{
-						result.push(`<td class="td"><input type='button' value='Confirm' onclick='confirm_export_item("${item._id}")' /> | <input type='button' value='Cancel' onclick='cancel_export_item("${item._id}")' /></td>`);
-					}
-					else if(item.status == "Download")
-					{
-						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /></td>`);
-					}
-					else if(item.status == "Downloaded")
-					{
-						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /> | <input type='button' value='Delete' onclick='delete_export_item("${item._id}")' /></td>`);
-					}
-					else 
-					{
-						result.push("<td>&nbsp;</td>");	
-					}
-				result.push("</tr>")
-			}
+				if(item.status == "Confirmation Required")
+				{
+					result.push(`<td class="td"><input type='button' value='Confirm' onclick='confirm_export_item("${item._id}")' /> | <input type='button' value='Cancel' onclick='cancel_export_item("${item._id}")' /></td>`);
+				}
+				else if(item.status == "Download")
+				{
+					result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /></td>`);
+				}
+				else if(item.status == "Downloaded")
+				{
+					result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /> | <input type='button' value='Delete' onclick='delete_export_item("${item._id}")' /></td>`);
+				}
+				else 
+				{
+					result.push("<td>&nbsp;</td>");	
+				}
+			result.push("</tr>")
+		}
 
-		result.push("</tbody>");
+	result.push("</tbody>");
 	result.push("</table></div>");
 
 	return result;
 }
 
+function renderSummarySection(el) {
+	let val = capitalizeFirstLetter(el.value);
+	let prop = el.dataset.prop;
+	const props = document.querySelectorAll(`#answer-summary-card [data-prop="${prop}"]`);
+
+	props.forEach((el) =>
+	{
+		el.innerText = capitalizeFirstLetter(val);
+	})
+}
 
 
 function export_queue_comfirm_render(p_queue_data)
 {
 	var result = `
-	<div class="col-4">
-	<div id="answer-summary-card" class="card">
-		<div class="card-header bg-gray-l3">
-		<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
+		<div class="col-4">
+			<div id="answer-summary-card" class="card">
+				<div class="card-header bg-gray-l3">
+					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
+				</div>
+				<div class="card-body bg-gray-l3">
+					<ul>
+						<li>
+							Export/Grantee name: ${answer_summary.grantee_name}
+						</li>
+
+						<li>
+							Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
+							<ul>
+								<li>
+									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
+						</li>
+
+						<li>
+							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
+						</li>
+						
+						<li>
+							Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(answer_summary.case_filter_type)}</span>
+						</li>
+					</ul>
+				</div>
+				<div class="card-footer bg-gray-l3">
+					<button class="btn btn-secondary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
+				</div>
+			</div>
 		</div>
-		<div class="card-body bg-gray-l3">
-		<ul>
-			<li>
-				Export <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data
-				<ul>
-					<li>
-						Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				Export/Grantee name: ${answer_summary.grantee_name}
-			</li>
-			<!-- <li>You have selected to export in JSON format</li> -->
-			<li>
-				Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(answer_summary.is_encrypted)}</span>
-			</li>
-			<li>
-				Send file to CDC: <span data-prop="is_for_cdc">${capitalizeFirstLetter(answer_summary.is_for_cdc)}</span>
-			</li>
-			<li>
-				De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(answer_summary.de_identified_selection_type)}</span>
-				<ul data-prop="de_identified_selection_type">
-					<li>
-						<button class="btn btn-link p-0" data-toggle="modal" data-target="#custom-fields">View selection</button>
-					</li>
-				</ul>
-			</li>
-			<li>
-				Filter by:
-				<ul>
-					<li>
-						Date of Death:
-						<ul>
-							<li>
-								From: <span data-prop="filter/date_range/from">${capitalizeFirstLetter(g_filter.date_range[0].from)}</span>
-								,
-								To: <span data-prop="filter/date_range/to">${capitalizeFirstLetter(g_filter.date_range[0].to)}</span>
-							</li>
-						</ul>
-					</li>
-					<!--
-					<li>
-						Date of Death:
-						<ul>
-							<li>Year: <span data-prop="filter/date_of_death/year">${capitalizeFirstLetter(g_filter.date_of_death.year[0])}</span></li>
-							<li>Month: <span data-prop="filter/date_of_death/month">${capitalizeFirstLetter(g_filter.date_of_death.month[0])}</span></li>
-							<li>Day: <span data-prop="filter/date_of_death/day">${capitalizeFirstLetter(g_filter.date_of_death.day[0])}</span></li>
-						</ul>
-					</li>
-					-->
-					<li>
-						Case status(s):
-						<ul data-prop="filter/case_status">
-							<li>${capitalizeFirstLetter(g_filter.case_status[0])}</span></li>
-						</ul>
-					</li>
-					<li>
-						Case jurisdiction(s):
-						<ul data-prop="filter/case_jurisdiction">
-							<li>${capitalizeFirstLetter(g_filter.case_jurisdiction[0])}</span></li>
-						</ul>
-					</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-		<div class="card-footer bg-gray-l3">
-			<button class="btn btn-secondary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
-		</div>
-	</div>
-</div>`;
+	`;
 
 	return result;
-
-
-
 
 }
 
@@ -605,27 +534,21 @@ function handleElementDisplay(event, str)
 	const prop = event.target.dataset.prop;
 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
 
-	return new Promise
-	(
-		(resolve, reject) =>
-		{
-			if (!isNullOrUndefined(tars)) {
-				console.log('tars exist');
-				for (let i = 0; i < tars.length; i++) {
-					if (tars[i].style.display === 'none') {
-						console.log('show tar');
-						tars[i].style.display = str;
-					} else {
-						console.log('hide tar');
-						tars[i].style.display = 'none';
-					}
+	return new Promise ((resolve, reject) =>
+	{
+		if (!isNullOrUndefined(tars)) {
+			for (let i = 0; i < tars.length; i++) {
+				if (tars[i].style.display === 'none') {
+					tars[i].style.display = str;
+				} else {
+					tars[i].style.display = 'none';
 				}
-			} else {
-				// target doesn't exist, reject
-				reject('Target(s) do not exist');
 			}
+		} else {
+			// target doesn't exist, reject
+			reject('Target(s) do not exist');
 		}
-	)
+	})
 
 	// tars.forEach((el) =>
 	// {
@@ -683,28 +606,23 @@ class NumericDropdown
 
 function apply_filter_button_click()
 {
+	var filter_search_text = document.getElementById("filter_search_text");
+	var filter_sort_by = document.getElementById("filter_sort_by");
+	var filter_records_perPage = document.getElementById("filter_records_perPage");
+	var filter_decending = document.getElementById("filter_decending");
 
-var filter_search_text = document.getElementById("filter_search_text");
-var filter_sort_by = document.getElementById("filter_sort_by");
-var filter_records_perPage = document.getElementById("filter_records_perPage");
-var filter_decending = document.getElementById("filter_decending");
+	/*
+	g_case_view_request.total_rows = 0,
+	g_case_view_request.page = 1,
+	g_case_view_request.skip = 0,
+	*/
 
-/*
-g_case_view_request.total_rows = 0,
-g_case_view_request.page = 1,
-g_case_view_request.skip = 0,
-*/
-
-g_case_view_request.take = filter_records_perPage.value;
-g_case_view_request.sort = filter_sort_by.value;
-g_case_view_request.search_key = filter_search_text.value;
-g_case_view_request.descending = filter_decending.checked;
+	g_case_view_request.take = filter_records_perPage.value;
+	g_case_view_request.sort = filter_sort_by.value;
+	g_case_view_request.search_key = filter_search_text.value;
+	g_case_view_request.descending = filter_decending.checked;
 	
-
 	get_case_set();
-
-
-
 }
 
 function result_checkbox_click(p_checkbox)
@@ -759,7 +677,6 @@ var g_case_view_request = {
 
 function get_case_set()
 {
-
 	var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + g_case_view_request.get_query_string();
 
 	$.ajax
@@ -912,7 +829,6 @@ function render_selected_case_list2()
 				</td>
 			</tr>
 		`);
-
 	}
 
 	el.innerHTML = html.join("");
@@ -923,9 +839,7 @@ function render_de_identified_search_result()
 {
 	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
 	let de_identify_form_filter = document.getElementById("de_identify_form_filter");
-
 	let de_identify_search_text = document.getElementById("de_identify_search_text");
-
 	let selected_form = de_identify_form_filter.value;
 	let result = []
 
@@ -1164,35 +1078,55 @@ function case_filter_type_click(p_value)
 {
 	var custom_case_filter = document.getElementById("custom_case_filter");
 
+	return new Promise((resolve, reject) => {
+		if (!isNullOrUndefined(custom_case_filter)) {
+			if(p_value.value.toLowerCase() == "custom")
+			{
+				custom_case_filter.style.display = "block";
+			}
+			else
+			{
+				custom_case_filter.style.display = "none";
+			}
 
-	if(p_value.value.toLowerCase() == "custom")
-	{
-		custom_case_filter.style.display = "block";
-	}
-	else
-	{
-		custom_case_filter.style.display = "none";
-	}
+			answer_summary.case_filter_type = p_value.value.toLowerCase()
 
-	answer_summary.case_filter_type = p_value.value.toLowerCase()
+			resolve();
+		}
+		else
+		{
+			reject();
+		}
+	})
+
+	
 }
 
 function de_identify_filter_type_click(p_value)
 {
 	var de_identify_filter = document.getElementById("de_identify_filter");
-/*
+	/*
+		setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))
+	*/
+	// Making this a promise so I can return a 'then' method
+	return new Promise((resolve, reject) => {
+		if (!isNullOrUndefined(de_identify_filter)) {
+			if(p_value.value.toLowerCase() == "custom")
+			{
+				de_identify_filter.style.display = "block";
+			}
+			else
+			{
+				de_identify_filter.style.display = "none";
+			}
 
-setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))
+			answer_summary.de_identified_selection_type = p_value.value.toLowerCase()
 
-*/
-	if(p_value.value.toLowerCase() == "custom")
-	{
-		de_identify_filter.style.display = "block";
-	}
-	else
-	{
-		de_identify_filter.style.display = "none";
-	}
-
-	answer_summary.de_identified_selection_type = p_value.value.toLowerCase()
+			resolve();
+		}
+		else
+		{
+			reject();
+		}
+	})
 }
