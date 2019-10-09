@@ -12,6 +12,9 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	let selected_case_list = [];
 	render_selected_case_list(selected_case_list, p_answer_summary)
 
+
+	
+
 	result.push(`
 		<div class="row">
 			<div class="col">
@@ -107,16 +110,16 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											 id="de_identify_search_text"
 											 value="" onchange="de_identify_search_text_change(this.value)"/>
 								<select id="de_identify_form_filter" class="custom-select mr-2">
-									<!-- Options dynamically generated -->
+									${render_de_identify_form_filter(p_filter)}
 								</select>
-								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="render_de_identified_search_result()">Search</button>
+								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="de_identified_search_click()">Search</button>
 							</div>
-							<div class="form-group form-check mb-1">
+							<!--div class="form-group form-check mb-1">
 								<input type="checkbox" class="form-check-input" id="exclude_pii">
-								<label class="form-check-label font-weight-normal" for="exclude_pii">Exclude PII tagged fields</label>
-							</div>
+								<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
+							</div-->
 							<div class="form-group form-check mb-0">
-								<input type="checkbox" class="form-check-input" id="include_pii">
+								<input type="checkbox" class="form-check-input" id="include_pii" onchange="de_identify_standard_fields_change(this.checked)">
 								<label class="form-check-label font-weight-normal" for="include_pii">De-identify standard fields</label>
 							</div>
 							
@@ -144,7 +147,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="2">
 												<span class="row no-gutters justify-content-between">
-													<span id="de_identified_count">Fields that have been de-identified (${answer_summary.de_identified_field_set.length})</span>
+													<span id="de_identified_count">Fields that have been de-identified (${p_answer_summary.de_identified_field_set.length})</span>
 													<button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button>
 												</span>
 											</th>
@@ -264,7 +267,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14">
 												<span class="row no-gutters justify-content-between">
-													<span id="exported_cases_count">Cases to be included in export (${answer_summary.case_set.length}):</span>
+													<span id="exported_cases_count">Cases to be included in export (${p_answer_summary.case_set.length}):</span>
 													<button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button>
 												</span>
 											</th>
@@ -653,6 +656,10 @@ function result_checkbox_click(p_checkbox)
 	let result = []
 	render_selected_case_list(result, answer_summary);
 	el.innerHTML = result.join("");
+
+	el = document.getElementById('exported_cases_count');
+	el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
+
 }
 
 var g_case_view_request = {
@@ -840,6 +847,21 @@ function render_selected_case_list(p_result, p_answer_summary)
 }
 
 
+
+
+function de_identified_search_click()
+{
+	g_filter.selected_form = document.getElementById("de_identify_form_filter").value;
+
+	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
+
+	let result = [];
+	render_de_identified_search_result(result, answer_summary, g_filter);
+
+	de_identify_search_result_list.innerHTML = result.join("");
+	
+}
+
 function render_de_identified_search_result(p_result, p_answer_summary, p_filter)
 {
 
@@ -957,14 +979,14 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	}
 }
 
-function render_de_identify_form_filter(p_result, p_filter)
+function render_de_identify_form_filter(p_filter)
 {
 
-	//let de_identify_form_filter = document.getElementById("de_identify_form_filter");
+	
 
-	//let result = [];
+	let result = [];
 
-	p_result.push(`<option value="">(Any Form)</option>`)
+	result.push(`<option value="">(Any Form)</option>`)
 
 	for(let i = 0; i < g_metadata.children.length; i++)
 	{
@@ -972,12 +994,21 @@ function render_de_identify_form_filter(p_result, p_filter)
 
 		if(item.type.toLowerCase() == "form")
 		{
-			p_result.push(`<option value="${item.name}">${item.prompt}</option>`)
+
+			if(p_filter.selected_form == item.name)
+			{
+				result.push(`<option value="${item.name}" selected>${item.prompt}</option>`)
+			}
+			else
+			{
+				result.push(`<option value="${item.name}">${item.prompt}</option>`)
+			}
+			
 		}
 		
 	}
 
-	//de_identify_form_filter.innerHTML = result.join("");
+	return result.join("");
 }
 
 
@@ -1013,6 +1044,10 @@ function de_identified_result_checkbox_click(p_checkbox)
 	render_de_identified_search_result(result, answer_summary, g_filter);
 
 	de_identify_search_result_list.innerHTML = result.join("");
+
+	el = document.getElementById('de_identified_count');
+	el.innerHTML = `Fields that have been de-identified (${answer_summary.de_identified_field_set.length})`;
+
 }
 
 
@@ -1150,4 +1185,13 @@ function de_identify_search_text_change(p_value)
 function filter_serach_text_change(p_value)
 {
 	g_case_view_request.search_key = p_value;
+}
+
+
+function de_identify_standard_fields_change(p_value)
+{
+	if(p_value)
+	{
+		// include standard deidentified fiels
+	}
 }
