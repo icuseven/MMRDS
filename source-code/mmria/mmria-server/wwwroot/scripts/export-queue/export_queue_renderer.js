@@ -12,7 +12,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	let selected_case_list = [];
 	render_selected_case_list(selected_case_list, p_answer_summary)
 
-
+	let pagination_html = [];
+	render_pagination(pagination_html, g_case_view_request);
 	
 
 	result.push(`
@@ -210,20 +211,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 							</li>
 
 							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
-								<div class="table-pagination row align-items-center no-gutters pl-2 pr-2 pt-1 pb-1">
-									<div class="col">
-										<div class="row no-gutters">
-											<p class="mb-0">Total Records: <strong>3</strong></p>
-											<p class="mb-0 ml-2 mr-2">|</p>
-											<p class="mb-0">Viewing Page(s): <strong>1</strong> of <strong>1</strong></p>
-										</div>
-									</div>
-									<div class="col row no-gutters align-items-center justify-content-end">
-										<p class="mb-0">Select by page:</p>
-										<button type="button" class="table-btn-link btn btn-link" alt="select page 1" onclick="g_ui.case_view_request.page=1;get_case_set();">1</button>
-										<button type="button" class="table-btn-link btn btn-link" alt="select page 2" onclick="g_ui.case_view_request.page=2;get_case_set();">2</button>
-										<button type="button" class="table-btn-link btn btn-link" alt="select page 3" onclick="g_ui.case_view_request.page=3;get_case_set();">3</button>
-									</div>
+								<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters'>
+									${pagination_html.join("")}
 								</div>
 								<table class="table table--plain m-0">
 									<thead class="thead">
@@ -660,6 +649,12 @@ function result_checkbox_click(p_checkbox)
 	el = document.getElementById('exported_cases_count');
 	el.innerHTML = `Cases to be included in export (${answer_summary.case_set.length}):`;
 
+
+	el = document.getElementById('case_result_pagination');
+	result = [];
+	render_pagination(result, g_case_view_request);
+	el.innerHTML = result.join("");
+
 }
 
 var g_case_view_request = {
@@ -705,8 +700,9 @@ function get_case_set()
 			let el = document.getElementById('search_result_list');
 			let html = [];
 			//html.push("<li><input type='checkbox' /> select all</li>");
-
+			g_case_view_request.total_rows = case_view_response.total_rows;
 			g_case_view_request.respone_rows = case_view_response.rows;
+			//g_case_view_request.page = case_view_response.page;
 			
 			for(let i = 0; i < case_view_response.rows.length; i++)
 			{
@@ -764,27 +760,15 @@ function get_case_set()
 			}
 
 			el.innerHTML = html.join("");
+
+			el = document.getElementById('case_result_pagination');
+			html = [];
+			render_pagination(html, g_case_view_request);
+			el.innerHTML = html.join("");
 		
 		}
 	)
 };
-
-/*
-function render_selected_case_list(p_result, p_answer_summary)
-{
-
-	//result.push("<li><input type='checkbox' /> select all</li>");
-	for(let i = 0; i < p_answer_summary.case_set.length; i++)
-	{
-		let item_id = p_answer_summary.case_set[i];
-		let value_list = selected_dictionary[item_id];
-
-		p_result.push(`<li class="bar"><input value=${item_id} type="checkbox" onclick="result_checkbox_click(this)" checked="true" /> ${value_list.jurisdiction_id} ${value_list.last_name},${value_list.first_name} ${value_list.date_of_death_year}/${value_list.date_of_death_month} ${value_list.date_last_updated} ${value_list.last_updated_by} agency_id:${value_list.agency_case_id} rc_id:${value_list.record_id}</li>`);
-	}
-
-
-}
-*/
 
 function render_selected_case_list(p_result, p_answer_summary)
 {
@@ -1194,4 +1178,35 @@ function de_identify_standard_fields_change(p_value)
 	{
 		// include standard deidentified fiels
 	}
+}
+
+
+function render_pagination(p_result, p_case_view_request)
+{
+    //p_result.push("<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters'>");
+        p_result.push("<div class='col'>");
+            p_result.push("<div class='row no-gutters'>");
+                p_result.push("<p class='mb-0'>Total Records: ");
+                    p_result.push("<strong>" + p_case_view_request.total_rows + "</strong>");
+                p_result.push("</p>");
+                p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
+                p_result.push("<p class='mb-0'>Viewing Page(s): ");
+                    p_result.push("<strong>" + p_case_view_request.page + "</strong> ");
+                    p_result.push("of ");
+                    p_result.push("<strong>" + Math.ceil(p_case_view_request.total_rows / p_case_view_request.take) + "</strong>");
+                p_result.push("</p>");
+            p_result.push("</div>");
+        p_result.push("</div>");
+        p_result.push("<div class='col row no-gutters align-items-center justify-content-end'>");
+            p_result.push("<p class='mb-0'>Select by page:</p>");
+            for(let current_page = 1; (current_page - 1) * p_case_view_request.take < p_case_view_request.total_rows; current_page++)
+            {
+                p_result.push("<button type='button' class='table-btn-link btn btn-link' alt='select page " + current_page + "' onclick='g_ui.case_view_request.page=");
+                    p_result.push(current_page);
+                    p_result.push(";get_case_set();'>");
+                    p_result.push(current_page);
+                p_result.push("</button>");
+            }
+        p_result.push("</div>");
+    //p_result.push("</div>");
 }
