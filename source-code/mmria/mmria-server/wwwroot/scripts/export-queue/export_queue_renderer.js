@@ -61,7 +61,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											 ${ p_answer_summary['is_encrypted'] == 'yes' ? 'checked' : '' }
 											 onchange="setAnswerSummary(event).then(handleElementDisplay(event, 'block')).then(renderSummarySection(this))" />
 						<label for="password-protect-yes" class="mb-0 font-weight-normal">Yes</label>
-						<div class="mt-2" data-show="is_encrypted" style="display:none">
+						<div class="mt-2" data-show="is_encrypted"  style="display: ${ p_answer_summary['is_encrypted'] == 'yes' ? 'block' : 'none' };">
 							<label for="encryption-key" class="mb-2">Add encryption key</label>
 							<input id="encryption-key"
 										 class="form-control w-auto"
