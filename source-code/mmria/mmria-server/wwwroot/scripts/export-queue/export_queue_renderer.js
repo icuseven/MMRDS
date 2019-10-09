@@ -286,7 +286,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 		</div>
 		
 		<div class="row">
-			${export_queue_comfirm_render(p_queue_data)}		
+			${export_queue_comfirm_render(p_answer_summary)}		
 		</div>			
 	`);
 /*
