@@ -934,7 +934,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 													data-prop="search--${p_path}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
 										<span><strong>Path:</strong> ${p_path}</span>
-										<span class="x24 fill-p cdc-icon-plus"><span class="sr-only">Click to see more</span></span>
 									</button>
 								</th>
 							</tr>
@@ -1072,7 +1071,6 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 												data-prop="selected--${item_id.replace(/-/g,"/")}"
 												onclick="handleElementDisplay(event, 'table-row', 'none')">
 									<span><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
-									<span class="x24 fill-p cdc-icon-plus"><span class="sr-only">Click to see more</span></span>
 								</button>
 							</th>
 						</tr>
