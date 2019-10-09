@@ -19,8 +19,9 @@ namespace mmria.server.util
 		private string item_id = null;
 		private bool is_offline_mode;
 
-		private System.IO.StreamWriter qualitativeStreamWriter = null;
-		private int qualitativeStreamCount = 0;
+
+		private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
+		private int[] qualitativeStreamCount = new int[]{ 0,0,0 };
 		private const int max_qualitative_length = 31000;
 
 		private const string over_limit_message = "Over the qualitative limit. check the over-the-qualitative-limit.txt file for details.";
@@ -137,14 +138,18 @@ namespace mmria.server.util
 				return;
 			}
 
-			string export_directory = System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name);
+			string export_directory = System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name, "over-the-limit");
 
 			if (!System.IO.Directory.Exists(export_directory))
 			{
 				System.IO.Directory.CreateDirectory(export_directory);
 			}
 
-			this.qualitativeStreamWriter = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
+			this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
+			this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
+			this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
+
+
 
 
 			 
@@ -586,17 +591,28 @@ namespace mmria.server.util
 
 			mapping_document.WriteToStream();
 
-			this.qualitativeStreamWriter.Flush();
-			this.qualitativeStreamWriter.Close();
-			this.qualitativeStreamWriter = null;
+			for(int i_index = 0; i_index < this.qualitativeStreamWriter.Length; i_index++)
+			{
+				this.qualitativeStreamWriter[i_index].Flush();
+				this.qualitativeStreamWriter[i_index].Close();
+				this.qualitativeStreamWriter[i_index] = null;
+			}
 
 
 			mmria.server.util.cFolderCompressor folder_compressor = new mmria.server.util.cFolderCompressor();
 
+
+			string encryption_key = null;
+
+			if(!string.IsNullOrWhiteSpace(queue_item.encryption_key))
+			{
+				encryption_key = queue_item.encryption_key;
+			}
+
 			folder_compressor.Compress
 			(
 				System.IO.Path.Combine(Configuration.export_directory, this.item_file_name), 
-				null,// string password 
+				encryption_key,// string password 
 				System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name)
 			);
 
@@ -1222,16 +1238,31 @@ namespace mmria.server.util
 			const string record_split = "************************************************************";
 			const string header_split = "\n\n";
 
-			if(this.qualitativeStreamCount == 0)
+			int index = 0;
+
+			switch(p_mmria_path.Trim().ToLower())
 			{
-				this.qualitativeStreamWriter.WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
+				case "case_narrative/case_opening_overview":
+					index = 1;
+					break;
+				case "informant_interviews/interview_narrative":
+					index = 2;
+					break;
+				default:
+					index = 0;
+					break;
+			}
+
+
+			if(this.qualitativeStreamCount[index] == 0)
+			{
+				this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
 			}
 			else
 			{
-				this.qualitativeStreamWriter.WriteLine($"\n{record_split}id={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
+				this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}id={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n\n{p_data}");
 			}
-			
-			this.qualitativeStreamCount+=1;
+			this.qualitativeStreamCount[index]+=1;
 		}
 
 
