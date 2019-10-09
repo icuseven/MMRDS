@@ -120,7 +120,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
 							</div-->
 							<div class="form-group form-check mb-0">
-								<input type="checkbox" class="form-check-input" id="include_pii" onchange="de_identify_standard_fields_change(this.checked)">
+								<input type="checkbox" class="form-check-input" id="include_pii" onchange="de_identify_standard_fields_change(this.checked)" ${ p_answer_summary.is_de_identify_standard_fields == true ? 'checked=true': ''} >
 								<label class="form-check-label font-weight-normal" for="include_pii">De-identify standard fields</label>
 							</div>
 							
@@ -1087,9 +1087,9 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 					</thead>
 					<tbody class="tbody">
 						<tr class="tr" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
-							<td class="td">${value_list.name}</td>
-							<td class="td">${value_list.type}</td>
-							<td class="td">${value_list.prompt}</td>
+							<td class="td">${(value_list != null) ? value_list.name : '' }</td>
+							<td class="td">${(value_list != null) ? value_list.type : ''}</td>
+							<td class="td">${(value_list != null) ? value_list.prompt : ''}</td>
 							<td class="td"></td>
 						</tr>
 					</tbody>
@@ -1174,10 +1174,7 @@ function filter_serach_text_change(p_value)
 
 function de_identify_standard_fields_change(p_value)
 {
-	if(p_value)
-	{
-		// include standard deidentified fiels
-	}
+	answer_summary.is_de_identify_standard_fields = p_value;
 }
 
 

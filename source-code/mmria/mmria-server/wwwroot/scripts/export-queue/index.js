@@ -1,4 +1,5 @@
 var g_metadata = null;
+var g_standard_de_identified_list = null;
 var g_look_up = {}
 var g_data = null;
 var g_copy_clip_board = null;
@@ -48,6 +49,7 @@ var answer_summary = {
 	is_for_cdc: 'no',
 	de_identified_selection_type: 'none',
 	de_identified_field_set: [],
+	is_de_identify_standard_fields: false,
 	case_filter_type: 'all',
 	case_set: []
 };
@@ -58,8 +60,8 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('form_content_id').innerHTML = "";
-	load_data(g_uid);
-	update_queue_task();
+	get_standard_de_identified_list();
+	
 	//update_queue_interval_id = window.setInterval(update_queue_task, 10000);
 });
 
@@ -88,10 +90,8 @@ function load_data(p_uid)
 				}
 			}
 			
-
-			//render();
-
 			get_metadata();
+			
 			//document.getElementById('generate_report_button').disabled = false;
 			//process_rows();
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_ui).join("");
@@ -120,7 +120,8 @@ function create_queue_item
 	p_de_identified_selection_type,
 	p_de_identified_field_set,
 	p_case_filter_type,
-	p_case_set
+	p_case_set,
+	p_de_identify_standard_fields
 )
 {
 	var new_date = new Date().toISOString();
@@ -149,6 +150,21 @@ function create_queue_item
 		result.export_type = "Core CSV";
 	}
 
+	if
+	(
+		p_de_identified_field_set ||
+		result.de_identified_selection_type == "standard"
+	)
+	{
+		
+		for(let i in g_standard_de_identified_list.paths)
+		{
+			let item = g_standard_de_identified_list.paths[i];
+
+			result.de_identified_field_set.push(item);
+		}
+	}
+
 	return result;
 	
 
@@ -159,28 +175,17 @@ function custom_field_click()
 	alert("you clicked to open the custom field interface. ")
 }
 
-function add_new_core_export_item()
-{
-	g_data.push
-	(
-		create_queue_item
-		(
-			'Core CSV',
-			answer_summary.all_or_core,
-			answer_summary.grantee_name,
-			answer_summary.is_encrypted,
-			answer_summary.encryption_key,
-			answer_summary.de_identified_selection_type,
-			answer_summary.de_identified_field_set,
-			answer_summary.case_filter_type,
-			answer_summary.case_set
-		)
-	);
-	render();
-}
-
 function add_new_all_export_item()
 {
+
+	if
+	(
+		answer_summary.de_identify_standard_fields
+	)
+	{
+		
+	}
+
 	g_data.push
 	(
 		create_queue_item
@@ -193,35 +198,13 @@ function add_new_all_export_item()
 			answer_summary.de_identified_selection_type,
 			answer_summary.de_identified_field_set,
 			answer_summary.case_filter_type,
-			answer_summary.case_set
+			answer_summary.case_set,
+			answer_summary.is_de_identify_standard_fields
 		)
 	);
 	render();
 
 }
-
-
-function add_new_cdc_export_item()
-{
-	g_data.push
-	(
-		create_queue_item
-		(
-			'CDC CSV',
-			answer_summary.all_or_core,
-			answer_summary.grantee_name,
-			answer_summary.is_encrypted,
-			answer_summary.encryption_key,
-			answer_summary.de_identified_selection_type,
-			answer_summary.de_identified_field_set,
-			answer_summary.case_filter_type,
-			answer_summary.case_set
-		)
-	);
-	render();
-
-}
-
 
 function find_export_item(p_id)
 {
@@ -236,25 +219,6 @@ function find_export_item(p_id)
 	}
 
 	return result;
-}
-
-function add_new_json_export_item()
-{
-	g_data.push
-	(
-		create_queue_item
-		(
-			'ALL JSON',
-			answer_summary.all_or_core,
-			answer_summary.grantee_name,
-			answer_summary.is_encrypted,
-			answer_summary.encryption_key,
-			answer_summary.de_identified_selection_type,
-			answer_summary.de_identified_field_set,
-			answer_summary.case_set
-		)
-	);
-	render();
 }
 
 function confirm_export_item(p_id)
@@ -558,13 +522,26 @@ function get_metadata()
 		}
 
 
-		render();
-/*
-		render_de_identify_form_filter();
 
-		render_de_identified_search_result();
+		render();		
 
-		render_selected_de_identified_list();
-		*/
+		update_queue_task();
+	
+
 	});
+}
+
+function get_standard_de_identified_list()
+{
+
+	$.ajax({
+		url: location.protocol + '//' + location.host + '/api/de_identified_list',
+	}).done(function(response) 
+	{
+		g_standard_de_identified_list = response;
+
+		load_data(g_uid);
+		
+	});
+
 }
