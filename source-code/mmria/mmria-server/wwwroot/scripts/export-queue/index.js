@@ -166,8 +166,6 @@ function create_queue_item
 	}
 
 	return result;
-	
-
 }
 
 function custom_field_click()

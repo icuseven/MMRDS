@@ -15,7 +15,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	let pagination_html = [];
 	render_pagination(pagination_html, g_case_view_request);
 	
-
 	result.push(`
 		<div class="row">
 			<div class="col">
@@ -102,6 +101,32 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											 ${ p_answer_summary.de_identified_selection_type == 'custom' ? 'checked=true' : '' }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
 						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
+						<div id="de_identify_filter_standard" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: ${p_answer_summary.de_identified_selection_type == 'standard' ? 'block' : 'none'}; border: 1px solid #bbb;">
+							<div class="" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+								<table class="table table--plain mb-0">
+									<thead class="thead">
+										<tr class="tr bg-tertiary">
+											<th class="th" colspan="2">
+												<span class="row no-gutters justify-content-between">
+													<span>Standard fields that will be de-identified</span>
+												</span>
+											</th>
+										</tr>
+									</thead>
+									<tbody class="tbody">
+										<tr class="tr">
+											<td class="td">
+												<table class="table table--plain mb-0">
+													<tbody class="tbody">
+														${render_standard_de_identify_fields(g_standard_de_identified_list)}
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 						<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: ${p_answer_summary.de_identified_selection_type == 'custom' ? 'block' : 'none'}; border: 1px solid #bbb;">
 							<p class="font-weight-bold">To customize, please search/choose your options below and check the resulting fields you want to de-identify from the list.</p>
 							<div class="form-inline mb-2">
@@ -131,7 +156,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th" colspan="2">
 												<span class="row no-gutters justify-content-between">
 													<span>Fields to de-identify</span>
-													<button class="anti-btn" onclick="fooBarSelectAll()">Select All</button>
+													<!-- <button class="anti-btn" onclick="fooBarSelectAll()">Select All</button> -->
 												</span>
 											</th>
 										</tr>
@@ -149,7 +174,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th" colspan="2">
 												<span class="row no-gutters justify-content-between">
 													<span id="de_identified_count">Fields that have been de-identified (${p_answer_summary.de_identified_field_set.length})</span>
-													<button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button>
+													<!-- <button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button> -->
 												</span>
 											</th>
 										</tr>
@@ -962,6 +987,23 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	}
 }
 
+function render_standard_de_identify_fields(p_path) {
+	let paths = '';
+
+	for (let i = 0; i < p_path.paths.length; i++) {
+		let path = p_path.paths[i];
+		paths += `
+			<tr class="tr">
+				<td class="td" colspan="4" style="padding: 8px 10px">
+					<strong>Path:</strong> ${path}
+				</td>
+			</tr>
+		`;
+	}
+
+	return paths;
+}
+
 function render_de_identify_form_filter(p_filter)
 {
 
@@ -1131,30 +1173,52 @@ function case_filter_type_click(p_value)
 
 function de_identify_filter_type_click(p_value)
 {
+	var de_identify_filter_standard = document.getElementById("de_identify_filter_standard");
 	var de_identify_filter = document.getElementById("de_identify_filter");
 	/*
 		setAnswerSummary(event).then(updateSummarySection(event)).then(handleElementDisplay(event, 'block'))
 	*/
 	// Making this a promise so I can return a 'then' method
 	return new Promise((resolve, reject) => {
-		if (!isNullOrUndefined(de_identify_filter)) {
-			if(p_value.value.toLowerCase() == "custom")
-			{
+		if (true)
+		{
+			if (p_value.value.toLowerCase() == "standard") {
+				de_identify_filter.style.display = "none";
+				de_identify_filter_standard.style.display = "block";
+			} else if (p_value.value.toLowerCase() == "custom") {
+				de_identify_filter_standard.style.display = "none";
 				de_identify_filter.style.display = "block";
-			}
-			else
-			{
+			} else {
+				de_identify_filter_standard.style.display = "none";
 				de_identify_filter.style.display = "none";
 			}
-
 			answer_summary.de_identified_selection_type = p_value.value.toLowerCase()
-
 			resolve();
 		}
 		else
 		{
 			reject();
 		}
+
+
+		// if (!isNullOrUndefined(de_identify_filter)) {
+		// 	if(p_value.value.toLowerCase() == "custom")
+		// 	{
+		// 		de_identify_filter.style.display = "block";
+		// 	}
+		// 	else
+		// 	{
+		// 		de_identify_filter.style.display = "none";
+		// 	}
+
+		// 	answer_summary.de_identified_selection_type = p_value.value.toLowerCase()
+
+		// 	resolve();
+		// }
+		// else
+		// {
+		// 	reject();
+		// }
 	})
 }
 
