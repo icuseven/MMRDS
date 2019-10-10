@@ -212,7 +212,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 								<div class="form-inline mb-2">
 									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
-									<input type="text" class="form-control mr-2" id="filter_search_text"  value="" onchange="filter_serach_text_change(this.value)"><button type="button" class="btn btn-tertiary" alt="clear search">Clear</button>
+									<input type="text" class="form-control mr-2" id="filter_search_text"  value="" onchange="filter_serach_text_change(this.value)"><!--button type="button" class="btn btn-tertiary" alt="clear search">Clear</button-->
 								</div>
 
 								<div class="form-inline mb-2">
@@ -245,7 +245,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th" colspan="14">
 												<span class="row no-gutters justify-content-between">
 													<span>Filtered Cases</span>
-													<button class="anti-btn" onclick="fooBarSelectAll()">Select All</button>
+													<!--button class="anti-btn" onclick="fooBarSelectAll()">Select All</button-->
 												</span>
 											</th>
 										</tr>
@@ -282,7 +282,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th" colspan="14">
 												<span class="row no-gutters justify-content-between">
 													<span id="exported_cases_count">Cases to be included in export (${p_answer_summary.case_set.length}):</span>
-													<button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button>
+													<!--button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button-->
 												</span>
 											</th>
 										</tr>
