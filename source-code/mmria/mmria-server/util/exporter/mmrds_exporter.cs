@@ -252,6 +252,8 @@ namespace mmria.server.util
 			}
 			//Console.WriteLine("stream_file_count: {0}", stream_file_count);
 
+
+
 			create_header_row
 			(
 				path_to_int_map,
@@ -262,6 +264,12 @@ namespace mmria.server.util
 				false,
 				false
 			);
+
+			var grantee_column = new System.Data.DataColumn("export_grantee_name", typeof(string));
+			
+			grantee_column.DefaultValue = queue_item.grantee_name;
+			path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
+
 
 
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
@@ -387,6 +395,7 @@ namespace mmria.server.util
 				System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
 				string mmria_case_id = case_doc["_id"].ToString();
 				row["_id"] = mmria_case_id;
+
 				foreach (string path in path_to_flat_map)
 				{
 					if (
