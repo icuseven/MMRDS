@@ -232,7 +232,7 @@ namespace mmria.server.util
 
 			path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name,  this.item_directory_name, Configuration.export_directory));
 
-			int stream_file_count = 0;
+			//int stream_file_count = 0;
 			/*
 			foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
 			{
@@ -241,6 +241,7 @@ namespace mmria.server.util
 				stream_file_count++;
 			}*/
 			//Console.WriteLine("stream_file_count: {0}", stream_file_count);
+
 
 			create_header_row
 			(
@@ -253,6 +254,10 @@ namespace mmria.server.util
 				false
 			);
 
+			var grantee_column = new System.Data.DataColumn("export_grantee_name", typeof(string));
+			
+			grantee_column.DefaultValue = queue_item.grantee_name;
+			path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
 
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
@@ -265,7 +270,6 @@ namespace mmria.server.util
 					de_identified_set.Add(path.TrimStart('/'));
 				}
 			}
-
 
 			HashSet<string> Custom_Case_Id_List = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
