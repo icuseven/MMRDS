@@ -987,28 +987,26 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	}
 }
 
-function render_standard_de_identify_fields(p_path) {
-	let paths = '';
+function render_standard_de_identify_fields(p_paths)
+{
+	let result = '';
 
-	for (let i = 0; i < p_path.paths.length; i++) {
-		let path = p_path.paths[i];
-		paths += `
+	for (let i = 0; i < p_paths.paths.length; i++) {
+		let path = p_paths.paths[i];
+		result += `
 			<tr class="tr">
-				<td class="td" colspan="4" style="padding: 8px 10px">
+				<td class="td" style="padding: 8px 10px">
 					<strong>Path:</strong> ${path}
 				</td>
 			</tr>
 		`;
 	}
 
-	return paths;
+	return result;
 }
 
 function render_de_identify_form_filter(p_filter)
 {
-
-	
-
 	let result = [];
 
 	result.push(`<option value="">(Any Form)</option>`)
