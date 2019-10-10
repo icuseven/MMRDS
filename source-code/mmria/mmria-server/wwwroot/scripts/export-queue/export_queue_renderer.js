@@ -309,10 +309,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 				</ol>
 			</div>
 		</div>
-		
-		<div class="row">
-			${export_queue_comfirm_render(p_answer_summary)}		
-		</div>			
 	`);
 /*
 	result.push("<hr/>");
@@ -351,7 +347,15 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	// 	//result.push("<li><input type='button' value='All Data to MMRIA JSON format.' onclick='add_new_json_export_item()'/></li>");
 	// result.push("</ul>");
 
-	result.push('<br/><br/><div class="row"><table class="table">');
+	result.push(`
+		<div class="row">
+			<div class="col-5">
+				${export_queue_comfirm_render(p_answer_summary)}
+			</div>
+		</div>
+	`);
+
+	result.push('<table class="table mt-4">');
 		result.push('<thead class="thead">');
 			result.push('<tr class="tr bg-tertiary"><th class="th h4" colspan="8">Export Request History</th></tr>');
 			result.push('<tr class="tr bg-quaternary"><th class="th" colspan="8">(*Please note that the export queue is deleted at midnight each day.)</th></tr>');
@@ -367,55 +371,39 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 			result.push('</tr>');
 		result.push('</thead>');
 		result.push('<tbody class="tbody">');
-		// result.push("<table><hr/>");
-		// result.push("<tr><th colspan='8' bgcolor='#CCCCCC'>Export Request History</th></tr>");
-		// result.push("<tr><th colspan='8' bgcolor='#DDDDAA'>(*Please note that the export queue is deleted at midnight each day.)</th></tr>");
-		// result.push("<tr bgcolor='#DDDDDD'><th>date_created</th><th>created_by</th><th>date_last_updated</th><th>last_updated_by</th><th>file_name</th><th>export_type</th><th>status</th><th>action</th></tr>");
+			for(var i = 0; i < p_queue_data.length; i++)
+			{
+				var item = p_queue_data[i];
 
-		for(var i = 0; i < p_queue_data.length; i++)
-		{
-			var item = p_queue_data[i];
-			//console.log(item);
+				result.push('<tr class="tr">');
+					result.push(`<td class="td">${item.date_created}</td>`);
+					result.push(`<td class="td">${item.created_by}</td>`);
+					result.push(`<td class="td">${item.date_last_updated}</td>`);
+					result.push(`<td class="td">${item.last_updated_by}</td>`);
+					result.push(`<td class="td">${item.file_name}</td>`);
+					result.push(`<td class="td">${item.export_type}</td>`);
+					result.push(`<td class="td">${item.status}</td>`);
 
-			// if(i % 2 == 0)
-			// {
-			// 	result.push("<tr>");
-			// }
-			// else
-			// {
-			// 	result.push("<tr bgcolor='#EEEEEE'>");
-			// }
-			
-			result.push('<tr class="tr">');
-				result.push(`<td class="td">${item.date_created}</td>`);
-				result.push(`<td class="td">${item.created_by}</td>`);
-				result.push(`<td class="td">${item.date_last_updated}</td>`);
-				result.push(`<td class="td">${item.last_updated_by}</td>`);
-				result.push(`<td class="td">${item.file_name}</td>`);
-				result.push(`<td class="td">${item.export_type}</td>`);
-				result.push(`<td class="td">${item.status}</td>`);
-
-				if(item.status == "Confirmation Required")
-				{
-					result.push(`<td class="td"><input type='button' value='Confirm' onclick='confirm_export_item("${item._id}")' /> | <input type='button' value='Cancel' onclick='cancel_export_item("${item._id}")' /></td>`);
-				}
-				else if(item.status == "Download")
-				{
-					result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /></td>`);
-				}
-				else if(item.status == "Downloaded")
-				{
-					result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /> | <input type='button' value='Delete' onclick='delete_export_item("${item._id}")' /></td>`);
-				}
-				else 
-				{
-					result.push("<td>&nbsp;</td>");	
-				}
-			result.push("</tr>")
-		}
-
-	result.push("</tbody>");
-	result.push("</table></div>");
+					if(item.status == "Confirmation Required")
+					{
+						result.push(`<td class="td"><input type='button' value='Confirm' onclick='confirm_export_item("${item._id}")' /> | <input type='button' value='Cancel' onclick='cancel_export_item("${item._id}")' /></td>`);
+					}
+					else if(item.status == "Download")
+					{
+						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /></td>`);
+					}
+					else if(item.status == "Downloaded")
+					{
+						result.push(`<td class="td"><input type='button' value='Download' onclick='download_export_item("${item._id}")' /> | <input type='button' value='Delete' onclick='delete_export_item("${item._id}")' /></td>`);
+					}
+					else 
+					{
+						result.push("<td>&nbsp;</td>");	
+					}
+				result.push("</tr>")
+			}
+		result.push("</tbody>");
+	result.push("</table>");
 
 	return result;
 }
@@ -435,42 +423,40 @@ function renderSummarySection(el) {
 function export_queue_comfirm_render(p_answer_summary)
 {
 	var result = `
-		<div class="col-4">
-			<div id="answer-summary-card" class="card">
-				<div class="card-header bg-gray-l3">
-					<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
-				</div>
-				<div class="card-body bg-gray-l3">
-					<ul>
-						<li>
-							Export/Grantee name: ${p_answer_summary.grantee_name}
-						</li>
+		<div id="answer-summary-card" class="card">
+			<div class="card-header bg-gray-l3">
+				<h2 class="h5 font-weight-bold">Summary of your Export Data choices</h2>
+			</div>
+			<div class="card-body bg-gray-l3">
+				<ul>
+					<li>
+						Export/Grantee name: ${p_answer_summary.grantee_name}
+					</li>
 
-						<li>
-							Export <span data-prop="all_or_core">${capitalizeFirstLetter(p_answer_summary.all_or_core)}</span> data
-							<ul>
-								<li>
-									Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(p_answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
-								</li>
-							</ul>
-						</li>
+					<li>
+						Export <span data-prop="all_or_core">${capitalizeFirstLetter(p_answer_summary.all_or_core)}</span> data
+						<ul>
+							<li>
+								Exporting <span data-prop="all_or_core">${capitalizeFirstLetter(p_answer_summary.all_or_core)}</span> data and a <a href="/data-dictionary" target="_blank">data dictionary</a>
+							</li>
+						</ul>
+					</li>
 
-						<li>
-							Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(p_answer_summary.is_encrypted)}</span>
-						</li>
+					<li>
+						Password protected: <span data-prop="is_encrypted">${capitalizeFirstLetter(p_answer_summary.is_encrypted)}</span>
+					</li>
 
-						<li>
-							De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(p_answer_summary.de_identified_selection_type)}</span>
-						</li>
-						
-						<li>
-							Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(p_answer_summary.case_filter_type)}</span>
-						</li>
-					</ul>
-				</div>
-				<div class="card-footer bg-gray-l3">
-					<button class="btn btn-secondary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
-				</div>
+					<li>
+						De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(p_answer_summary.de_identified_selection_type)}</span>
+					</li>
+					
+					<li>
+						Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(p_answer_summary.case_filter_type)}</span>
+					</li>
+				</ul>
+			</div>
+			<div class="card-footer bg-gray-l3">
+				<button class="btn btn-secondary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
 			</div>
 		</div>
 	`;
