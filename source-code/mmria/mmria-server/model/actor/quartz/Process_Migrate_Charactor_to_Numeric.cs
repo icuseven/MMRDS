@@ -205,7 +205,7 @@ namespace mmria.server.model.actor.quartz
 						}   
 
 					}
-					else if(p_metadata.list_item_data_type == "string")
+					else if(p_metadata.data_type == "string")
 					{
 						for(var i = 0; i < data_migration_list.Length; i++)
 						{

@@ -7,6 +7,7 @@ namespace mmria.common.metadata
 		public string name { get; set; }
 		public string type { get; set; }
 		public string list_item_data_type { get; set; }
+		public string data_type { get; set; }
 		public string cardinality { get; set; } 
 		public value_node[] values  { get; set; } 
 		public node[] children { get; set; } 

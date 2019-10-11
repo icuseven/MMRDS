@@ -91,7 +91,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }   
 
             }
-            else if(p_metadata.list_item_data_type == "string")
+            else if(p_metadata.data_type == "string")
             {
                 for(let i = 0; i < data_migration_list.length; i++)
                 {

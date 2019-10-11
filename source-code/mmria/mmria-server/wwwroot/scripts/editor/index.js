@@ -111,13 +111,13 @@ return {
 			"y_type":""
 		}
 	},
-	create_value_list: function(p_name, p_prompt, p_type, p_list_item_data_type)
+	create_value_list: function(p_name, p_prompt, p_type, p_data_type)
 	{
 		return {
 			"name": p_name,
 			"prompt": p_prompt,
 			"type": p_type,
-			"list_item_data_type": p_list_item_data_type,
+			"data_type": p_data_type,
 			"values": []
 		}
 	},

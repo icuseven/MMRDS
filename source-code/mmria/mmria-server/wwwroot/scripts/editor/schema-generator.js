@@ -240,18 +240,18 @@ function generate_schema(p_schema_context)
             break;
         case "list":
 
-            let list_item_data_type = "string";
+            let data_type = "string";
 
             if
             (
-                p_schema_context.metadata.list_item_data_type != null &&
-                p_schema_context.metadata.list_item_data_type != ""
+                p_schema_context.metadata.data_type != null &&
+                p_schema_context.metadata.data_type != ""
             )
             {
-                list_item_data_type = p_schema_context.metadata.list_item_data_type;
+                data_type = p_schema_context.metadata.data_type;
             }
 
-            switch(list_item_data_type.toLowerCase())
+            switch(data_type.toLowerCase())
             {
                 default:
                 if
@@ -276,7 +276,7 @@ function generate_schema(p_schema_context)
                         }
 
                         
-                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum":[] } }
 
                         for(let j = 0; j < data_value_list.length; j++ )
                         {
@@ -290,7 +290,7 @@ function generate_schema(p_schema_context)
                             object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array",  "items": { "allOf": [{ "$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
                             
                             
-                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum":[] } }
 
                             for(let j = 0; j < data_value_list.length; j++ )
                             {
@@ -303,7 +303,7 @@ function generate_schema(p_schema_context)
                     }
                     else
                     {
-                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum":[] } }
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum":[] } }
 
                         for(let j = 0; j < p_schema_context.metadata.values.length; j++ )
                         {
@@ -329,7 +329,7 @@ function generate_schema(p_schema_context)
                         }
 
 
-                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": data_type, "x-enumNames": [], "enum":[] }
                             
                         for(let j = 0; j < data_value_list.length; j++ )
                         {
@@ -340,10 +340,10 @@ function generate_schema(p_schema_context)
                         /*
                         else
                         {
-                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = {  "type": list_item_data_type, "items": { "oneOf": [{"$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = {  "type": data_type, "items": { "oneOf": [{"$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
 
                             
-                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": data_type, "x-enumNames": [], "enum":[] }
 
                             for(let j = 0; j < data_value_list.length; j++ )
                             {
@@ -356,7 +356,7 @@ function generate_schema(p_schema_context)
                     }
                     else
                     {
-                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": list_item_data_type, "x-enumNames": [], "enum":[] }
+                        object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": data_type, "x-enumNames": [], "enum":[] }
 
                         for(let j = 0; j < p_schema_context.metadata.values.length; j++ )
                         {
@@ -528,8 +528,8 @@ function set_definitions(p_definition_context)
             {*/
                 //object = p_definition_context.definition_node[definition_name] = { "type": "string", "x-enumNames": [], "enum": [] }
 
-                let list_item_data_type = p_definition_context.metadata.list_item_data_type;
-                object = p_definition_context.definition_node[definition_name] = { "type": list_item_data_type, "items": { "type": list_item_data_type, "x-enumNames": [], "enum": [] } }
+                let data_type = p_definition_context.metadata.data_type;
+                object = p_definition_context.definition_node[definition_name] = { "type": data_type, "items": { "type": data_type, "x-enumNames": [], "enum": [] } }
                 for(var j in p_definition_context.metadata.values)
                 {
                     object["items"]["x-enumNames"].push(p_definition_context.metadata.values[j].display);
@@ -570,8 +570,8 @@ function set_lookUp(p_parent, p_node)
                 if(p_node.is_multiselect && p_node.is_multiselect == true)
                 {
                     //"allOf": [ {
-                    let list_item_data_type = p_node.list_item_data_type;
-                    property = p_parent[p_node.name.toLowerCase()] = { "type": "array", "items": { "type": list_item_data_type, "x-enumNames": [], "enum": [] } }
+                    let data_type = p_node.data_type;
+                    property = p_parent[p_node.name.toLowerCase()] = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum": [] } }
                     for(var j in p_node.values)
                     {
                         property["items"]["x-enumNames"].push(p_node.values[j].display);
