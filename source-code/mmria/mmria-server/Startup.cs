@@ -347,8 +347,8 @@ namespace mmria.server
                         {
                                 options.LoginPath = new PathString("/Account/SignIn");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                                options.Cookie.SameSite = SameSiteMode.None;
-                               // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                                options.Cookie.SameSite = SameSiteMode.Strict;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                                options.Events = get_sams_authentication_events();
 
                         });
@@ -413,7 +413,8 @@ namespace mmria.server
                         {
                                 options.LoginPath = new PathString("/Account/Login/");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                                options.Cookie.SameSite = SameSiteMode.None;
+                                options.Cookie.SameSite = SameSiteMode.Strict;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                                // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                         });
                 }
