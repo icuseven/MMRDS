@@ -307,7 +307,7 @@ function user_role_render(p_user, p_user_role_jurisdiction)
 	}
 	else
 	{
-		role_set = [ '', 'abstractor','committee_member', 'jurisdiction_admin'];
+		role_set = [ '', 'abstractor','committee_member'];
 	}
 
 	result.push("<select id='selected_user_role_for_" + p_user.name + "_role' size='1' path='" + p_user._id + "'>")
