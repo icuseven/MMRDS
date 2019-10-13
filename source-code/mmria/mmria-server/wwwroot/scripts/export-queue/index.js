@@ -184,9 +184,7 @@ function add_new_all_export_item()
 		
 	}
 
-	g_data.push
-	(
-		create_queue_item
+	let queue_item = create_queue_item
 		(
 			'All CSV',
 			answer_summary.all_or_core,
@@ -198,9 +196,17 @@ function add_new_all_export_item()
 			answer_summary.case_filter_type,
 			answer_summary.case_set,
 			answer_summary.is_de_identify_standard_fields
-		)
+		);
+	
+
+	g_data.push
+	(
+		queue_item
 	);
-	render();
+
+	confirm_export_item(queue_item._id);
+
+	//render();
 
 }
 

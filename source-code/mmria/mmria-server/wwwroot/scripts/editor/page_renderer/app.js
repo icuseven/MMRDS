@@ -26,7 +26,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_post_html_render.push("	$(this).trigger(\"enterKey\");");
     p_post_html_render.push("	}");
     p_post_html_render.push("});");
-    p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();'>Clear</button>");
+    p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='get_case_set()'>Apply Filters</button>&nbsp; ");
+    p_result.push(" <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();'>Clear</button>");
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline mb-2'>");
@@ -222,9 +223,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(" />");
     p_result.push("</div>");
 
-    p_result.push("<div class='form-inline mt-4'>");
-    p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='get_case_set()'>Apply Filters</button>");
-    p_result.push("</div>");
     p_result.push("</div> <!-- end .content-intro -->");
 
     p_result.push("<div class='table-pagination row align-items-center no-gutters'>");

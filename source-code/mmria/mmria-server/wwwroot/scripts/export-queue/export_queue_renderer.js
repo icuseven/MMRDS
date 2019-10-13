@@ -212,7 +212,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 								<div class="form-inline mb-2">
 									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
-									<input type="text" class="form-control mr-2" id="filter_search_text"  value="" onchange="filter_serach_text_change(this.value)"><!--button type="button" class="btn btn-tertiary" alt="clear search">Clear</button-->
+									<input type="text" class="form-control mr-2" id="filter_search_text"  value="" onchange="filter_serach_text_change(this.value)"><button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button><!--button type="button" class="btn btn-tertiary" alt="clear search">Clear</button-->
 								</div>
 
 								<div class="form-inline mb-2">
@@ -228,10 +228,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<div class="form-inline mb-2">
 									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
 									<input id="filter_decending" type="checkbox" />
-								</div>
-
-								<div class="form-inline mt-4">
-									<button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button>
 								</div>
 							</li>
 

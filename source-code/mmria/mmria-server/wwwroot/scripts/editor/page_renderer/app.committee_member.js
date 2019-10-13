@@ -37,6 +37,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_post_html_render.push("});");
 
         // // p_result.push("<input type='button' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' />");
+        p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='get_case_set();'>Apply Filters</button>&nbsp; ");
         p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();'>Clear</button>");
         // p_result.push("<label>==><input type='button' class='btn btn-primary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();' value='Clear Search Text' /></label>");
         p_result.push("</div>");
@@ -186,11 +187,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         p_result.push(" />");
         p_result.push("</div>");
 
-        p_result.push("<div class='form-inline mt-4'>");
-        // // p_result.push("<br/><br/><p style='text-align:right;'><input type='button' alt='search' id='search_command_button' onclick='get_case_set()' value='Apply Search and Sort' /> ");
-        p_result.push("<button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='get_case_set();'>Apply Filters</button>");
-        // p_result.push("</p><br/><hr/>");
-        p_result.push("</div>");
         p_result.push("</div> <!-- end .content-intro -->");
 
     // /*
