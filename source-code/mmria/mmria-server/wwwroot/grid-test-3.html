@@ -47,11 +47,10 @@ function get_metadata()
             schema = schema_context.schema;
 
             //console.log(schema);
-            $("#output2").html
-                (
-                    JSON.stringify(schema)
-                );
-            get_cs_code(schema);
+            let el = document.getElementById("output2")
+                
+            el.value = JSON.stringify(schema);
+            //get_cs_code(schema);
 	});
 }
 
@@ -118,9 +117,11 @@ function load_metadata_click()
 
 function generate_code_click()
 {
-    var el = document.getElementById("output2");
+    let el = document.getElementById("output2");
 
-    get_cs_code(el.value);
+    let json = eval("(" + el.value + ")");
+
+    get_cs_code(json);
 }
 
   </script>
@@ -139,7 +140,7 @@ function generate_code_click()
     </textarea>
 
     <div>
-    <h3>Code  <input type="button" value="generate code" onclick="generate_code_click()" /></h3>
+    <h3>code  <input type="button" value="generate code" onclick="generate_code_click()" /></h3>
     </div>
     <textarea id="output3" cols=80 rows=20>
 
