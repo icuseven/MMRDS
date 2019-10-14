@@ -17,7 +17,7 @@ var mmria_path_to_definition_name = null;
 
 function main()
 {
-    get_metadata();
+    
 }
 
 function get_metadata()
@@ -51,15 +51,15 @@ function get_metadata()
                 (
                     JSON.stringify(schema)
                 );
-            get_cs_code();
+            get_cs_code(schema);
 	});
 }
 
 
 
-function get_cs_code()
+function get_cs_code(p_schema)
 {
-    var code_gen_request = { action:"generate", payload: schema };
+    var code_gen_request = { action:"generate", payload: p_schema };
     $.ajax
     ({
             url: location.protocol + '//' + location.host + '/api/version_code_gen',
@@ -110,6 +110,19 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
+
+function load_metadata_click()
+{
+    get_metadata();
+}
+
+function generate_code_click()
+{
+    var el = document.getElementById("output2");
+
+    get_cs_code(el.value);
+}
+
   </script>
 
 
@@ -118,14 +131,16 @@ function convert_dictionary_path_to_lookup_object(p_path)
 </head>
 <body onload="main()">
     <div id="output">
-        hello
+        <h3>json schema <input type="button" value="load metadata" onclick="load_metadata_click()" /></h3>
     </div>
 
     <textarea id="output2" cols=80 rows=20>
 
     </textarea>
 
-    <p>Code</p>
+    <div>
+    <h3>Code  <input type="button" value="generate code" onclick="generate_code_click()" /></h3>
+    </div>
     <textarea id="output3" cols=80 rows=20>
 
     </textarea>

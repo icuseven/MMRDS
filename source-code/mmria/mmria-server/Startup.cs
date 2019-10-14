@@ -637,6 +637,7 @@ namespace mmria.server
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            //app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
