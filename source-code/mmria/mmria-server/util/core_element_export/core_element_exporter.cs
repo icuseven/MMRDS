@@ -257,7 +257,7 @@ namespace mmria.server.util
 			var grantee_column = new System.Data.DataColumn("export_grantee_name", typeof(string));
 			
 			grantee_column.DefaultValue = queue_item.grantee_name;
-			path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
+			path_to_csv_writer[core_file_name].Table.Columns.Add(grantee_column);
 
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
@@ -535,10 +535,6 @@ namespace mmria.server.util
 			WriteCSV mapping_document = new WriteCSV("data-dictionary.csv",  this.item_directory_name, Configuration.export_directory);
 			System.Data.DataColumn column = null;
 
-			column = new System.Data.DataColumn("grantee_name", typeof(string));
-			column.DefaultValue = queue_item.grantee_name;
-			mapping_document.Table.Columns.Add(column);
-
 			column = new System.Data.DataColumn("file_name", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
@@ -549,6 +545,9 @@ namespace mmria.server.util
 			mapping_document.Table.Columns.Add(column);
 
 			column = new System.Data.DataColumn("mmria_prompt", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("field_description", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
 
@@ -568,7 +567,7 @@ namespace mmria.server.util
 						string path = int_to_path_map [table_column.ColumnName];
 						mapping_row["mmria_path"] = path;
 						mapping_row ["mmria_prompt"] = path_to_node_map [path].prompt;
-
+						mapping_row ["field_description"] = path_to_node_map [path].description;
 					}
 					else
 					{

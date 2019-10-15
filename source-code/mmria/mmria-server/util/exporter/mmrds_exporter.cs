@@ -910,10 +910,6 @@ namespace mmria.server.util
 			System.Data.DataColumn column = null;
 
 
-			column = new System.Data.DataColumn("grantee_name", typeof(string));
-			column.DefaultValue = queue_item.grantee_name;
-			mapping_document.Table.Columns.Add(column);
-
 			column = new System.Data.DataColumn("file_name", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
@@ -924,6 +920,9 @@ namespace mmria.server.util
 			mapping_document.Table.Columns.Add(column);
 
 			column = new System.Data.DataColumn("mmria_prompt", typeof(string));
+			mapping_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("field_description", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
 
@@ -941,6 +940,7 @@ namespace mmria.server.util
 						string path = int_to_path_map [table_column.ColumnName];
 						mapping_row ["mmria_path"] = path;
 						mapping_row ["mmria_prompt"] = path_to_node_map [path].prompt;
+						mapping_row ["field_description"] = path_to_node_map [path].description;
 					}
 					else
 					{
