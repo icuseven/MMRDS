@@ -15,6 +15,7 @@ function aggregate_report_render(p_ui, p_data, p_metadata_path, p_object_path, p
 			Array.prototype.push.apply(result, user_entry_render(item, i));
 		}
 	}
+	
 	result.push("<tr><td colspan=4 align=right>&nbsp;</tr>")
 	result.push("<tr><td colspan=4 align=right>user name:<input type='text' id='new_user_name' value=''/>password:<input type='text' id='new_user_password' value=''/><input type='button' value='add new user' onclick='add_new_user_click()' /></tr>")
 	result.push("</table></div><br/><br/>");
@@ -63,16 +64,35 @@ function create_total_number_of_cases_by_pregnancy_relatedness(p_row_set)
 	result.push("<h3>Total Number of Cases by Pregnancy Relatedness</h3>")
 	result.push("<ul>");
 		result.push("<li>Pregnancy Related: ");
-		result.push(count['Pregnancy Related']);
-		result.push("</li><li>Pregnancy Associated But NOT Related: ");
-		result.push(count['Pregnancy Associated But NOT Related']);
-		result.push("</li><li>Not Pregnancy Related or Associated (i.e. False Positive): ");
-		result.push(count['Not Pregnancy Related or Associated (i.e. False Positive)']);
-		result.push("</li><li>Unable to Determine if Pregnancy Related or Associated: ");
-		result.push(count['Unable to Determine if Pregnancy Related or Associated']);
-		result.push("</li><li>blank: ");
-		result.push(count['']);
+			result.push(count['Pregnancy Related']);
 		result.push('</li>');
+		result.push("<li>Pregnancy Associated But NOT Related: ");
+			result.push(count['Pregnancy Associated But NOT Related']);
+		result.push('</li>');
+		result.push("<li>Not Pregnancy Related or Associated (i.e. False Positive): ");
+			result.push(count['Not Pregnancy Related or Associated (i.e. False Positive)']);
+		result.push('</li>');
+		result.push("<li>Unable to Determine if Pregnancy Related or Associated: ");
+			result.push(count['Unable to Determine if Pregnancy Related or Associated:']);
+		result.push('</li>');
+		result.push("<li>Unable to Determine if Pregnancy Related or Associated: ");
+			result.push(count['Unable to Determine if Pregnancy Related or Associated:']);
+		result.push('</li>');
+		result.push("<li>blank: ");
+			result.push(count['']);
+		result.push('</li>');
+
+		// result.push("<li>Pregnancy Related: ");
+		// result.push(count['Pregnancy Related']);
+		// result.push("</li><li>Pregnancy Associated But NOT Related: ");
+		// result.push(count['Pregnancy Associated But NOT Related']);
+		// result.push("</li><li>Not Pregnancy Related or Associated (i.e. False Positive): ");
+		// result.push(count['Not Pregnancy Related or Associated (i.e. False Positive)']);
+		// result.push("</li><li>Unable to Determine if Pregnancy Related or Associated: ");
+		// result.push(count['Unable to Determine if Pregnancy Related or Associated']);
+		// result.push("</li><li>blank: ");
+		// result.push(count['']);
+		// result.push('</li>');
 	result.push('</ul>');
 
 	return result;
@@ -129,16 +149,32 @@ death_certificate/demographics/is_of_hispanic_origin = Yes, Mexican, Mexican Ame
 	result.push("<h3>Total Number of Cases by Pregnancy Relatedness</h3>")
 	result.push("<ul>");
 		result.push("<li>Pregnancy Related: ");
-		result.push(count['Pregnancy Related']);
-		result.push("</li><li>Pregnancy Associated But NOT Related: ");
-		result.push(count['Pregnancy Associated But NOT Related']);
-		result.push("</li><li>Not Pregnancy Related or Associated (i.e. False Positive): ");
-		result.push(count['Not Pregnancy Related or Associated (i.e. False Positive)']);
-		result.push("</li><li>Unable to Determine if Pregnancy Related or Associated: ");
-		result.push(count['Unable to Determine if Pregnancy Related or Associated']);
-		result.push("</li><li>blank: ");
-		result.push(count['']);
-		result.push('</li>');
+			result.push(count['Pregnancy Related']);
+		result.push("</li>");
+		result.push("<li>Pregnancy Associated But NOT Related: ");
+			result.push(count['Pregnancy Associated But NOT Related']);
+		result.push("</li>");
+		result.push("<li>Not Pregnancy Related or Associated (i.e. False Positive): ");
+			result.push(count['Not Pregnancy Related or Associated (i.e. False Positive)']);
+		result.push("</li>");
+		result.push("<li>Unable to Determine if Pregnancy Related or Associated: ");
+			result.push(count['Unable to Determine if Pregnancy Related or Associated']);
+		result.push("</li>");
+		result.push("<li>blank: ");
+			result.push(count['']);
+		result.push("</li>");
+	
+		// result.push("<li>Pregnancy Related: ");
+		// result.push(count['Pregnancy Related']);
+		// result.push("</li><li>Pregnancy Associated But NOT Related: ");
+		// result.push(count['Pregnancy Associated But NOT Related']);
+		// result.push("</li><li>Not Pregnancy Related or Associated (i.e. False Positive): ");
+		// result.push(count['Not Pregnancy Related or Associated (i.e. False Positive)']);
+		// result.push("</li><li>Unable to Determine if Pregnancy Related or Associated: ");
+		// result.push(count['Unable to Determine if Pregnancy Related or Associated']);
+		// result.push("</li><li>blank: ");
+		// result.push(count['']);
+		// result.push('</li>');
 	result.push('</ul>');
 		
 	return result;
