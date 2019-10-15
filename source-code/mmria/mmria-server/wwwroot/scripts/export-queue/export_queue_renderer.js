@@ -196,7 +196,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 										 value="all"
 										 data-prop="case_filter_type"
 										 ${ p_answer_summary['case_filter_type'] == 'all' ? 'checked=true' : '' }
-										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> All
+										 onclick="case_filter_type_click(this)" /> All
 						</label>
 						<label for="case_filter_type_custom" class="font-weight-normal">
 							<input id="case_filter_type_custom"
@@ -205,7 +205,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 										 value="custom"
 										 data-prop="case_filter_type"
 										 ${ p_answer_summary['case_filter_type'] == 'custom' ? 'checked=true' : '' }
-										 onclick="case_filter_type_click(this).then(renderSummarySection(this))" /> Custom
+										 onclick="case_filter_type_click(this)" /> Custom
 						</label>
 						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:${ p_answer_summary['case_filter_type'] == 'custom' ? 'block' : 'none' }">
 							<li class="mb-4" >
@@ -413,6 +413,12 @@ function renderSummarySection(el) {
 	{
 		el.innerText = capitalizeFirstLetter(val);
 	})
+
+	var summary_of_de_identified_fields = document.getElementById("summary_of_de_identified_fields");
+	summary_of_de_identified_fields.innerHTML = render_summary_de_identified_fields(answer_summary);
+	
+	var summary_of_selected_cases = document.getElementById("summary_of_selected_cases");
+	summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(answer_summary);
 }
 
 
@@ -444,10 +450,16 @@ function export_queue_comfirm_render(p_answer_summary)
 
 					<li>
 						De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(p_answer_summary.de_identified_selection_type)}</span>
+						<div id="summary_of_de_identified_fields" style="height:100;overflow-y:scroll">
+						${render_summary_de_identified_fields(p_answer_summary)}
+						</div>
 					</li>
 					
 					<li>
 						Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(p_answer_summary.case_filter_type)}</span>
+						<div id="summary_of_selected_cases" style="height:100;overflow-y:scroll">
+						${render_summary_of_selected_cases(p_answer_summary)}
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -661,6 +673,10 @@ function result_checkbox_click(p_checkbox)
 	result = [];
 	render_pagination(result, g_case_view_request);
 	el.innerHTML = result.join("");
+
+
+	var summary_of_selected_cases = document.getElementById("summary_of_selected_cases");
+	summary_of_selected_cases.innerHTML = render_summary_of_selected_cases(answer_summary);
 
 }
 
@@ -1053,6 +1069,8 @@ function de_identified_result_checkbox_click(p_checkbox)
 	el = document.getElementById('de_identified_count');
 	el.innerHTML = `Fields that have been de-identified (${answer_summary.de_identified_field_set.length})`;
 
+	renderSummarySection(p_checkbox);
+
 }
 
 
@@ -1125,30 +1143,22 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 
 function case_filter_type_click(p_value)
 {
+
+	answer_summary.case_filter_type = p_value.value.toLowerCase()
+
 	var custom_case_filter = document.getElementById("custom_case_filter");
+	if(p_value.value.toLowerCase() == "custom")
+	{
+		custom_case_filter.style.display = "block";
+	}
+	else
+	{
+		custom_case_filter.style.display = "none";
+	}
 
-	return new Promise((resolve, reject) => {
-		if (!isNullOrUndefined(custom_case_filter)) {
-			if(p_value.value.toLowerCase() == "custom")
-			{
-				custom_case_filter.style.display = "block";
-			}
-			else
-			{
-				custom_case_filter.style.display = "none";
-			}
 
-			answer_summary.case_filter_type = p_value.value.toLowerCase()
+	renderSummarySection(p_value)
 
-			resolve();
-		}
-		else
-		{
-			reject();
-		}
-	})
-
-	
 }
 
 function de_identify_filter_type_click(p_value)
@@ -1248,4 +1258,95 @@ function render_pagination(p_result, p_case_view_request)
             }
         p_result.push("</div>");
     //p_result.push("</div>");
+}
+
+
+function render_summary_de_identified_fields(p_answer_summary)
+{
+	let result = [];
+
+	switch(p_answer_summary.de_identified_selection_type.toLowerCase())
+	{
+		case "none":
+
+			break;
+		case "standard":
+			result.push("<table>")
+
+			for (let i = 0; i < g_standard_de_identified_list.paths.length; i++) 
+			{
+				let path = g_standard_de_identified_list.paths[i];
+				result.push(`
+					<tr class="tr">
+						<td class="td" style="padding: 8px 10px">
+							<strong>Path:</strong> ${path}
+						</td>
+					</tr>
+				`);
+			}
+			result.push("</table>");
+			break;
+
+		case "custom":
+				result.push("<table>");
+	
+				for (let i = 0; i < p_answer_summary.de_identified_field_set.length; i++) 
+				{
+					let path = p_answer_summary.de_identified_field_set[i];
+					result.push(`
+						<tr class="tr">
+							<td class="td" style="padding: 8px 10px">
+								<strong>Path:</strong> ${path}
+							</td>
+						</tr>
+					`);
+				}
+				result.push("</table>")
+				break;
+		
+
+	}
+	
+	return result.join("");
+}
+
+
+function render_summary_of_selected_cases(p_answer_summary)
+{
+	let result = [];
+
+	switch(p_answer_summary.case_filter_type.toLowerCase())
+	{
+		case "all":
+
+			break;
+
+
+		case "custom":
+				result.push("<table>");
+	
+				
+
+				for (let i = 0; i < p_answer_summary.case_set.length; i++) 
+				{
+
+					let value_list = selected_dictionary[p_answer_summary.case_set[i]];
+					//let path = p_answer_summary.case_set[i];
+
+					let text_value = escape(value_list.date_last_updated).replace(/%20/g," ").replace(/%3A/g,"-") + "<br/>" + escape(value_list.last_updated_by) + " " + escape(value_list.last_name).replace(/%20/g," ").replace(/%3A/g,"-") + ", " + escape(value_list.first_name).replace(/%20/g," ").replace(/%3A/g,"-") + " " + escape(value_list.middle_name).replace(/%20/g," ").replace(/%3A/g,"-") + " [" + escape(value_list.jurisdiction_id) + "]";
+					result.push(`
+						<tr class="tr">
+							<td class="td" style="padding: 8px 10px">
+							${text_value}
+							</td>
+						</tr>
+					`);
+				}
+				result.push("</table>")
+				break;
+		
+
+	}
+	
+	return result.join("");
 }
