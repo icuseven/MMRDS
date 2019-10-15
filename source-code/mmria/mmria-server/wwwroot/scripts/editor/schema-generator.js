@@ -84,6 +84,11 @@ function generate_schema_phase2(p_schema_context)
         
                     new_schema_context = get_schema_context(child, p_schema_context.schema.properties, p_schema_context.version, "");
                     generate_schema_phase2(new_schema_context);
+                    /*
+                    if(child.name == "home_record")
+                    {
+                        break;
+                    }*/
                 }
             }
 
@@ -643,3 +648,7 @@ function get_grid(p_schema_context)
 }
 
 
+function convert_to_enum_name(p_value)
+{
+    return p_value.replace(/\W/g,"_");
+}
