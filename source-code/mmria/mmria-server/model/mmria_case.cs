@@ -4173,9 +4173,6 @@ namespace AwesomeSauce.v1
         [Newtonsoft.Json.JsonProperty("does_committee_agree_with_cod_on_death_certificate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double Does_committee_agree_with_cod_on_death_certificate { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("committee_determination_of_causes_of_death", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<Committee_determination_of_causes_of_death> Committee_determination_of_causes_of_death { get; set; }
-    
         [Newtonsoft.Json.JsonProperty("pmss_mm", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double Pmss_mm { get; set; }
     
@@ -4238,39 +4235,6 @@ namespace AwesomeSauce.v1
         public static Committee_review FromJson(string data)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Committee_review>(data);
-        }
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.20.0 (Newtonsoft.Json v10.0.0.0)")]
-    public partial class Committee_determination_of_causes_of_death 
-    {
-        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Type { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("cause_descriptive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Cause_descriptive { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("comments", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Comments { get; set; }
-    
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
-    
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
-    
-        public string ToJson() 
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    
-        public static Committee_determination_of_causes_of_death FromJson(string data)
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<Committee_determination_of_causes_of_death>(data);
         }
     
     }
