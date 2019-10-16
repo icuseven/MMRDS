@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server.Controllers
 {
-    [Authorize(Roles  = "abstractor,committee_member")]
+    [AllowAnonymous] 
     [Route("metadata-listing")]
     
     public class MetadataListing : Controller
