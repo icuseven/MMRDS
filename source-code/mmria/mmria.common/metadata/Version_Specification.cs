@@ -8,6 +8,7 @@ namespace mmria.common.metadata
         public Version_Specification()
         {
             this.shema = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            this.data_type = "version_specification";
         }
         public string _id { get; set; }
 

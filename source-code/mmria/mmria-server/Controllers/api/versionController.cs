@@ -78,28 +78,37 @@ namespace mmria.server
 		[Authorize(Roles  = "form_designer")]
 		[HttpPost]
 		[HttpPut]
-		public async System.Threading.Tasks.Task<ContentResult> Post
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-			[FromBody] System.Dynamic.ExpandoObject code_gen_request
+			[FromBody] mmria.common.metadata.Version_Specification p_Version_Specification
 		) 
 		{ 
-			var generatedFile = "";
+			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
 			//if(!string.IsNullOrWhiteSpace(json))
 			try
 			{
-
-				var byName = (IDictionary<string,object>)code_gen_request;
-				var payload = byName["payload"].ToString(); 
-				string id_val = null;
+				string id_val = p_Version_Specification._id;
 
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				var payload_string = Newtonsoft.Json.JsonConvert.SerializeObject(byName["payload"], settings);
+				var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_Version_Specification, settings);
 
 
-				generatedFile = await GenerateFileAsync(payload_string);
+				
+				string metadata_url = Program.config_couchdb_url + "/metadata/"  + id_val;
+				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+
+                try
+                {
+                    string responseFromServer = await document_curl.executeAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
 
 			}
 			catch(Exception ex)
@@ -111,7 +120,7 @@ namespace mmria.server
 			this.Response.ClearHeaders();
 			this.Response.AddHeader("Content-Type", "text/plain");
  */
-			return Content(generatedFile, "text/plain");
+			return result;
 		}
 
 		async Task<string> GenerateFileAsync(string schemaJson)

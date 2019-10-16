@@ -5,14 +5,18 @@ function create_default_object(p_metadata, p_parent)
   {
     case 'grid':
       p_parent[p_metadata.name] = [];
-      var sample_grid_item = {};
-      for(var i = 0; i < p_metadata.children.length; i++)
-      {
-        var child = p_metadata.children[i];
-        create_default_object(child, sample_grid_item);
-      }
-      p_parent[p_metadata.name].push(sample_grid_item);
 
+      if(p_metadata.name != "recommendations_of_committee")
+      {
+
+        var sample_grid_item = {};
+        for(var i = 0; i < p_metadata.children.length; i++)
+        {
+          var child = p_metadata.children[i];
+          create_default_object(child, sample_grid_item);
+        }
+        p_parent[p_metadata.name].push(sample_grid_item);
+      }
       break;
     case 'form':
       var temp_object = {};
