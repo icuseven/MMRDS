@@ -232,7 +232,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 							</li>
 
 							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
-								<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters'>
+								<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters pt-1 pb-1 pl-2 pr-2'>
 									${pagination_html.join("")}
 								</div>
 								<table class="table table--plain m-0">
@@ -345,7 +345,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 	result.push(`
 		<div class="row">
-			<div class="col-5">
+			<div class="col">
 				${export_queue_comfirm_render(p_answer_summary)}
 			</div>
 		</div>
@@ -450,27 +450,26 @@ function export_queue_comfirm_render(p_answer_summary)
 
 					<li>
 						De-identify fields: <span data-prop="de_identified_selection_type">${capitalizeFirstLetter(p_answer_summary.de_identified_selection_type)}</span>
-						<div id="summary_of_de_identified_fields" style="height:100;overflow-y:scroll">
-						${render_summary_de_identified_fields(p_answer_summary)}
+						<div id="summary_of_de_identified_fields" class="" style="max-height:120px; overflow:auto">
+							${render_summary_de_identified_fields(p_answer_summary)}
 						</div>
 					</li>
 					
 					<li>
 						Filter by: <span data-prop="case_filter_type">${capitalizeFirstLetter(p_answer_summary.case_filter_type)}</span>
-						<div id="summary_of_selected_cases" style="height:100;overflow-y:scroll">
-						${render_summary_of_selected_cases(p_answer_summary)}
+						<div id="summary_of_selected_cases" class="" style="max-height:120px; overflow:auto">
+							${render_summary_of_selected_cases(p_answer_summary)}
 						</div>
 					</li>
 				</ul>
 			</div>
 			<div class="card-footer bg-gray-l3">
-				<button class="btn btn-secondary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
+				<button class="btn btn-primary btn-lg w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
 			</div>
 		</div>
 	`;
 
 	return result;
-
 }
 
 
@@ -1271,7 +1270,7 @@ function render_summary_de_identified_fields(p_answer_summary)
 
 			break;
 		case "standard":
-			result.push("<table>")
+			result.push("<table class='bg-white mt-1 w-100'>")
 
 			for (let i = 0; i < g_standard_de_identified_list.paths.length; i++) 
 			{
@@ -1344,8 +1343,6 @@ function render_summary_of_selected_cases(p_answer_summary)
 				}
 				result.push("</table>")
 				break;
-		
-
 	}
 	
 	return result.join("");
