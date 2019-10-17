@@ -464,7 +464,7 @@ function export_queue_comfirm_render(p_answer_summary)
 				</ul>
 			</div>
 			<div class="card-footer bg-gray-l3">
-				<button class="btn btn-primary w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
+				<button class="btn btn-primary btn-lg w-100" onclick="add_new_all_export_item()">Confirm & Start Export</button>
 			</div>
 		</div>
 	`;
