@@ -296,6 +296,8 @@ namespace mmria.server
             {
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
                 {
+
+                    Log.Information ("using sams and NOT is_development");
                     //https://github.com/jerriepelser-blog/AspnetCoreGitHubAuth/blob/master/AspNetCoreGitHubAuth/
 
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
