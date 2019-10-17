@@ -52,4 +52,9 @@ function load_metadata()
 }
 
 
+function de_identify_search_text_change(p_value)
+{
+	g_filter.search_text = p_value;
+}
+
 

@@ -328,11 +328,61 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				return;
 			}
 		}
+		let form_name = "(none)";
+		let path_array = p_path.split('/');
+		if(path_array.length > 2)
+		{
+			form_name = path_array[1];
+		}
 
-		//let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
-		let item_id = (p_path).replace(/\//g,"-");
+		let description = "";
 
-		let checked = "";
+		if(p_metadata.description != null)
+		{
+			description = p_metadata.description;
+		}
+
+		let list_values = [];
+
+		if(p_metadata.type.toLowerCase() == "list")
+		{
+			let value_list = p_metadata.values;
+
+			if(p_metadata.path_reference && p_metadata.path_reference != "")
+			{
+				value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+		
+				if(value_list == null)	
+				{
+					value_list = p_metadata.values;
+				}
+			}
+
+			list_values.push(`<tr>
+			<td colspan="6">
+				<table>
+					<tr>
+						<th class="th" colspan=3>List Values</th>
+					</tr>
+					<tr>
+						<th>value</th>
+						<th>display</th>
+						<th>description</th>
+					</tr>`);
+
+			for(let i= 0; i < value_list.length; i++)
+			{
+				list_values.push(`<tr>
+						<th>${value_list[i].value}</th>
+						<th>${value_list[i].display}</th>
+						<th>${value_list[i].description}</th>
+					</tr>`);
+			}
+			
+			list_values.push(`</table>
+			</td>
+			</tr>`);
+		}
 
 		p_result.push(`
 			<tr class="tr">
@@ -340,31 +390,39 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					<table class="table table--plain mb-0">
 						<thead class="thead">
 							<tr class="tr">
-								<th class="th" colspan="4" style="padding: 0px">
-									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
-													style="padding: 8px 10px"
-													data-prop="search--${p_path}"
-													onclick="handleElementDisplay(event, 'table-row', 'none')">
-										<span><strong>Path:</strong> ${p_path}</span>
-									</button>
+								<th class="th" colspan="6" style="padding: 0px">
+									<span>
+										<strong>MMRIA Path:</strong> ${p_path}
+									</span>
+
 								</th>
 							</tr>
 						</thead>
 						<thead class="thead">
-							<tr class="tr bg-white" data-show="search--${p_path}" style="display: none">
+							<tr class="tr bg-white" data-show="search--${p_path}" style="display: table-row">
+								<th class="th">Form</th>
+								<th class="th">Export File</th>
+								<th class="th">Export Field</th>
 								<th class="th">Name</th>
 								<th class="th">Type</th>
 								<th class="th">Prompt</th>
-								<th class="th">Values</th>
 							</tr>
 						</thead>
 						<tbody class="tbody">
-							<tr class="tr" data-show="search--${p_path}" style="display: none">
+							<tr class="tr" data-show="search--${p_path}" style="display: table-row">
+								<td class="td">${form_name}</td>
+								<td class="td">Export File</td>
+								<td class="td">Export Field</td>
 								<td class="td">${p_metadata.name}</td>
 								<td class="td">${p_metadata.type}</td>
 								<td class="td">${p_metadata.prompt}</td>
-								<td class="td"></td>
 							</tr>
+							<tr>
+								<td colspan="6">
+								<strong>Description</strong> ${description}
+								</td>
+							</tr>
+							${list_values.join("")}
 						</tbody>
 					</table>
 				</td>
@@ -405,4 +463,30 @@ function handleElementDisplay(event, str)
 	// 		console.log('b');
 	// 	}
 	// });
+}
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = null;
+	var temp_result = []
+	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	var lookup_list = eval(temp_result[0]);
+
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
 }
