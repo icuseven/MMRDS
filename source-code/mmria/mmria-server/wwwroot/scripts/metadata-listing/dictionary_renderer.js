@@ -365,7 +365,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						<tr class="tr bg-gray-l3">
 							<th class="th" colspan=3>List Values</th>
 						</tr>
-						<tr class="tr">
+						<tr class="tr bg-gray-l3">
 							<th class="th">value</th>
 							<th class="th">display</th>
 							<th class="th">description</th>
@@ -390,14 +390,14 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				<td class="td">
 					<table class="table table--plain mb-0">
 						<thead class="thead">
-							<tr class="tr">
+							<tr class="tr bg-gray-l1">
 								<th class="th" colspan="6">
 									<strong>MMRIA Path:</strong> ${p_path}
 								</th>
 							</tr>
 						</thead>
 						<thead class="thead">
-							<tr class="tr bg-white" data-show="search--${p_path}" style="display: table-row">
+							<tr class="tr bg-gray-l3" data-show="search--${p_path}" style="display: table-row">
 								<th class="th">Form</th>
 								<th class="th">Export File</th>
 								<th class="th">Export Field</th>
