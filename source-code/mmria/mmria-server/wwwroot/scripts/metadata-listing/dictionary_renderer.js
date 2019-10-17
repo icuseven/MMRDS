@@ -31,7 +31,7 @@ result.push(`<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop=
 	<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
 </div-->
 
-<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto;">
 	<table class="table table--plain mb-0">
 		<thead class="thead">
 			<tr class="tr bg-tertiary">
@@ -358,24 +358,25 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				}
 			}
 
-			list_values.push(`<tr>
-			<td colspan="6">
-				<table>
-					<tr>
-						<th class="th" colspan=3>List Values</th>
-					</tr>
-					<tr>
-						<th>value</th>
-						<th>display</th>
-						<th>description</th>
-					</tr>`);
+			list_values.push(`
+			<tr>
+				<td colspan="6">
+					<table class="table table--plain mb-0">
+						<tr class="tr bg-gray-l3">
+							<th class="th" colspan=3>List Values</th>
+						</tr>
+						<tr class="tr">
+							<th class="th">value</th>
+							<th class="th">display</th>
+							<th class="th">description</th>
+			</tr>`);
 
 			for(let i= 0; i < value_list.length; i++)
 			{
 				list_values.push(`<tr>
-						<th>${value_list[i].value}</th>
-						<th>${value_list[i].display}</th>
-						<th>${value_list[i].description}</th>
+						<th class="th">${value_list[i].value}</th>
+						<th class="th">${value_list[i].display}</th>
+						<th class="th">${value_list[i].description}</th>
 					</tr>`);
 			}
 			
@@ -390,11 +391,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					<table class="table table--plain mb-0">
 						<thead class="thead">
 							<tr class="tr">
-								<th class="th" colspan="6" style="padding: 0px">
-									<span>
-										<strong>MMRIA Path:</strong> ${p_path}
-									</span>
-
+								<th class="th" colspan="6">
+									<strong>MMRIA Path:</strong> ${p_path}
 								</th>
 							</tr>
 						</thead>
@@ -417,9 +415,9 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 								<td class="td">${p_metadata.type}</td>
 								<td class="td">${p_metadata.prompt}</td>
 							</tr>
-							<tr>
-								<td colspan="6">
-								<strong>Description</strong> ${description}
+							<tr class="tr">
+								<td class="td" colspan="6">
+									<strong>Description:</strong> ${description}
 								</td>
 							</tr>
 							${list_values.join("")}
