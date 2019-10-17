@@ -239,6 +239,7 @@ namespace mmria.server
             Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
             Log.Information ("mmria_settings:is_schedule_enabled: {0}", Configuration["mmria_settings:is_schedule_enabled"]);
             Log.Information ("mmria_settings:is_db_check_enabled: {0}", Configuration["mmria_settings:is_db_check_enabled"]);
+            Log.Information ("mmria_settings:is_development: {0}", Configuration["mmria_settings:is_development"]);
 
 
 
