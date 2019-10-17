@@ -104,6 +104,8 @@ namespace mmria.server
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {
                 Log.Information ("using Environment");
+
+                
                 //Log.Information ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
                 //Log.Information ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
                 Log.Information ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
@@ -137,6 +139,11 @@ namespace mmria.server
                     Configuration["sams:endpoint_authorization"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_authorization");
                 }
 
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("use_development_settings")))
+                {
+                    Configuration["mmria_settings:is_development"] = System.Environment.GetEnvironmentVariable ("use_development_settings");
+                }
                 
 
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_token")))
