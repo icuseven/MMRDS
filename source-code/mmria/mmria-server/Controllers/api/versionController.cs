@@ -46,7 +46,8 @@ namespace mmria.server
 
 		[AllowAnonymous] 
 		[HttpGet]
-		public async Task<mmria.common.metadata.Version_Specification> Get_Version_Specification(string p_Version_Specification_Id)
+		[Route("{p_Version_Specification_Id}")]
+		public async Task<mmria.common.metadata.Version_Specification> Get_Version_Specification(string p_Version_Specification_Id, string path = "")
 		{
 			mmria.common.metadata.Version_Specification result = null;
 
