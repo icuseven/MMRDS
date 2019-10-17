@@ -1,53 +1,54 @@
+
+
 function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
-				
-	if(p_metadata.type.toLowerCase() == 'app')
-	{
-		result.push('<table class="table" border="1">');
-		result.push('<thead class="thead">');
-			result.push('<tr class="bg-primary">');
-				result.push('<th class="th" colspan="23">');
-				result.push(p_path);
-				result.push(' ');
-				result.push(p_metadata.name);
-				result.push(' ');
-				result.push(p_metadata.prompt);
-				result.push(' ');
-				result.push(p_metadata.type);
-				result.push('</th>');
-			result.push('</tr>');
-		result.push('</thead>');
-	}
-	else
-	{
-		Array.prototype.push.apply(result, dictionary_render_row(p_metadata, p_path));
-	}
 
-	if(p_metadata.children && p_metadata.children.length > 0)
-	{
-		
-		Array.prototype.push.apply(result, dictionary_render_header());
-		
-		for(var i = 0; i < p_metadata.children.length; i++)
-		{
-			var child = p_metadata.children[i];
 
-			if(p_metadata.type.toLowerCase() == 'app')
-			{
-				Array.prototype.push.apply(result, dictionary_render(child, child.name));
-			}
-			else
-			{
-				Array.prototype.push.apply(result, dictionary_render(child, p_path + "/" + child.name));
-			}
-		}
-	}
+	let de_identified_search_result = [];
+	render_de_identified_search_result(de_identified_search_result, g_filter);
 
-	if(p_metadata.type.toLowerCase() == 'app')
-	{
-		result.push("</table>");
-	}
+
+
+result.push(`<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: block; border: 1px solid #bbb;">
+<div class="form-inline mb-2">
+	<label for="de_identify_search_text" class="mr-2"> Search for:</label>
+	<input type="text"
+				 class="form-control mr-2"
+				 id="de_identify_search_text"
+				 value="" onchange="de_identify_search_text_change(this.value)"/>
+	<select id="de_identify_form_filter" class="custom-select mr-2">
+		${render_de_identify_form_filter(g_filter)}
+	</select>
+	<select id="metadata_version_filter" class="custom-select mr-2">
+		<option value="">Select Metadata Version</option>
+		<option value="19.10.17">19.10.17</option>
+	</select>
+	<button type="button" class="btn btn-tertiary" alt="clear search" onclick="de_identified_search_click()">Search</button>
+</div>
+<!--div class="form-group form-check mb-1">
+	<input type="checkbox" class="form-check-input" id="exclude_pii">
+	<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
+</div-->
+
+<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
+	<table class="table table--plain mb-0">
+		<thead class="thead">
+			<tr class="tr bg-tertiary">
+				<th class="th" colspan="2">
+					<span class="row no-gutters justify-content-between">
+						<span>Fields for version {version number}</span>
+						<!-- <button class="anti-btn" onclick="fooBarSelectAll()">Select All</button> -->
+					</span>
+				</th>
+			</tr>
+		</thead>
+		<tbody class="tbody" id="de_identify_search_result_list">
+			${de_identified_search_result.join("")}
+		</tbody>
+	</table>
+</div>`);
+
 
 	return result;
 }
@@ -221,4 +222,187 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	}
 
 	return result;
+}
+
+
+function render_de_identify_form_filter(p_filter)
+{
+	let result = [];
+
+	result.push(`<option value="">(Any Form)</option>`)
+
+	for(let i = 0; i < g_metadata.children.length; i++)
+	{
+		let item = g_metadata.children[i];
+
+		if(item.type.toLowerCase() == "form")
+		{
+
+			if(p_filter.selected_form == item.name)
+			{
+				result.push(`<option value="${item.name}" selected>${item.prompt}</option>`)
+			}
+			else
+			{
+				result.push(`<option value="${item.name}">${item.prompt}</option>`)
+			}
+			
+		}
+		
+	}
+
+	return result.join("");
+}
+
+
+function de_identified_search_click()
+{
+	g_filter.selected_form = document.getElementById("de_identify_form_filter").value;
+
+	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
+
+	let result = [];
+	render_de_identified_search_result(result, g_filter);
+
+	de_identify_search_result_list.innerHTML = result.join("");
+	
+}
+
+function render_de_identified_search_result(p_result, p_filter)
+{
+
+	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text);
+
+	
+}
+
+function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
+{
+
+	switch(p_metadata.type.toLowerCase())
+	{
+		case "form":
+				if(p_selected_form== null || p_selected_form=="")
+				{
+					for(let i = 0; i < p_metadata.children.length; i++)
+					{
+						let item = p_metadata.children[i];
+						render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+					}
+				}
+				else
+				{
+					if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
+					{
+						for(let i = 0; i < p_metadata.children.length; i++)
+						{
+							let item = p_metadata.children[i];
+							render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+						}
+					}
+				}
+				
+				break;
+		case "app":
+		case "group":
+		case "grid":
+			for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let item = p_metadata.children[i];
+				render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+			}
+			break;
+		default:
+
+		if(p_search_text != null && p_search_text !="")
+		{
+			if
+			(
+				!(
+					p_metadata.name.indexOf(p_search_text) > -1 ||
+					p_metadata.prompt.indexOf(p_search_text) > -1 
+				)
+			
+			)
+			{
+				return;
+			}
+		}
+
+		//let item_id = (p_path + "-" + p_metadata.name).replace(/\//g,"-");
+		let item_id = (p_path).replace(/\//g,"-");
+
+		let checked = "";
+
+		p_result.push(`
+			<tr class="tr">
+				<td class="td">
+					<table class="table table--plain mb-0">
+						<thead class="thead">
+							<tr class="tr">
+								<th class="th" colspan="4" style="padding: 0px">
+									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
+													style="padding: 8px 10px"
+													data-prop="search--${p_path}"
+													onclick="handleElementDisplay(event, 'table-row', 'none')">
+										<span><strong>Path:</strong> ${p_path}</span>
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<thead class="thead">
+							<tr class="tr bg-white" data-show="search--${p_path}" style="display: none">
+								<th class="th">Name</th>
+								<th class="th">Type</th>
+								<th class="th">Prompt</th>
+								<th class="th">Values</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr class="tr" data-show="search--${p_path}" style="display: none">
+								<td class="td">${p_metadata.name}</td>
+								<td class="td">${p_metadata.type}</td>
+								<td class="td">${p_metadata.prompt}</td>
+								<td class="td"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		`);
+		break;
+	}
+}
+
+function handleElementDisplay(event, str)
+{
+	const prop = event.target.dataset.prop;
+	const tars = document.querySelectorAll(`[data-show='${prop}']`);
+
+	return new Promise ((resolve, reject) =>
+	{
+		if (!isNullOrUndefined(tars)) {
+			for (let i = 0; i < tars.length; i++) {
+				if (tars[i].style.display === 'none') {
+					tars[i].style.display = str;
+				} else {
+					tars[i].style.display = 'none';
+				}
+			}
+		} else {
+			// target doesn't exist, reject
+			reject('Target(s) do not exist');
+		}
+	})
+
+	// tars.forEach((el) =>
+	// {
+	// 	if (el.style.display == 'none') {
+	// 		el.style.display == str;
+	// 		console.log('a');
+	// 	} else {
+	// 		el.style.display == 'none';
+	// 		console.log('b');
+	// 	}
+	// });
 }

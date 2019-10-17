@@ -2,6 +2,36 @@
 
 var g_metadata = null;
 
+var g_filter = 	{
+	date_of_death:
+	{
+		year: [
+			'all'
+		],
+		month: [
+			'all'
+		],
+		day: [
+			'all'
+		],
+	},
+	date_range: [
+		{
+			from: 'all',
+			to:	'all'
+		}
+	],
+	case_status: [
+		'all'
+	],
+	case_jurisdiction: [
+		'/all'
+	],
+	selected_form: "",
+	search_text: ""
+};
+
+
 $(function ()
 {
 	
