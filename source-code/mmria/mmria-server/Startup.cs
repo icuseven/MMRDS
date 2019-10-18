@@ -436,7 +436,7 @@ namespace mmria.server
                 else
                 {
                     Log.Information ("is_development == false");
-                    
+
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -593,7 +593,7 @@ namespace mmria.server
                                     session.data["refresh_token"] = refreshToken;
                                     session.data["expires_at"] = unix_time.ToString();
 
-                                    context.Response.Cookies.Append("expires_at", unix_time.ToString());
+                                    context.Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
 
 
                                     session.date_last_updated  = DateTime.UtcNow;

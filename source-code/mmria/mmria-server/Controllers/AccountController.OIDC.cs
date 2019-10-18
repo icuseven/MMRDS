@@ -299,8 +299,8 @@ namespace mmria.common.Controllers
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
-                Response.Cookies.Append("sid", Session_Message._id);
-                Response.Cookies.Append("expires_at", unix_time.ToString());
+                Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
+                Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                 //return RedirectToAction("Index", "HOME");
                 //return RedirectToAction("Index", "HOME");
             }

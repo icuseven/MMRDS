@@ -556,10 +556,10 @@ namespace mmria.server.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
             }
 
-
-            Response.Cookies.Append("uid", p_user_name);
-            Response.Cookies.Append("roles", string.Join(",",p_role_list));
-            
+/*
+            Response.Cookies.Append("uid", p_user_name, new CookieOptions{ HttpOnly = true });
+            Response.Cookies.Append("roles", string.Join(",",p_role_list), new CookieOptions{ HttpOnly = true });
+   */          
             var userIdentity = new ClaimsIdentity("SuperSecureLogin");
             userIdentity.AddClaims(claims);
             var userPrincipal = new ClaimsPrincipal(userIdentity);
