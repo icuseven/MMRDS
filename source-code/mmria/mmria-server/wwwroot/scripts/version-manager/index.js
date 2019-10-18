@@ -56,7 +56,7 @@ function get_gen_from_metadata()
     schema = schema_context.schema;
 
     //console.log(schema);
-    let el = document.getElementById("output2")
+    let el = document.getElementById("json_schema")
         
     el.value = JSON.stringify(schema);
     //get_cs_code(schema);
@@ -80,13 +80,13 @@ function get_cs_code(p_schema)
     (
         function(response) 
         {
-            $("#output3").value = response;
+            $("#generated_code").value = response;
         }
     ).fail
     (
         function(xhr, ajaxOptions, thrownError) 
         {
-            $("#output3").val(xhr.responseText);
+            $("#generated_code").val(xhr.responseText);
         }
     );
 }
@@ -123,9 +123,16 @@ function load_metadata_click()
     get_metadata();
 }
 
+function generate_schema_click()
+{
+    var el = document.getElementById("mmria_path")
+
+
+}
+
 function generate_code_click()
 {
-    let el = document.getElementById("output2");
+    let el = document.getElementById("json_schema");
 
     let json = eval("(" + el.value + ")");
 
@@ -201,4 +208,14 @@ function get_saved_version_spec()
 	}).done(function(response) {
             g_data = response
 	});
+}
+
+function show_selected_metadata_click()
+{
+
+}
+
+function save_schema_click()
+{
+    
 }

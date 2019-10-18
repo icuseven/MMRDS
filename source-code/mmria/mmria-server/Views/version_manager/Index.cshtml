@@ -30,22 +30,32 @@
 
 <div>
   <div>
-      <input type="button" value="get version" onclick="get_version_click()" /><br/>
-      <input type="button" value="save version" onclick="save_version_click()" />
+      <input type="button" value="create version" onclick="create_new_version_click()" /> | <input type="button" value="load metadata" onclick="load_metadata_click()" /> <br/> <br/>
+      <input type="button" value="get version" onclick="get_version_click()" /> | 
+      <input type="button" value="save version" onclick="save_version_click()" /> <br/>
   </div>
-  <div id="output">
-        <h3>json schema <input type="button" value="load metadata" onclick="load_metadata_click()" /></h3>
-    </div>
+  <hr/>
+  <div>
+        <h3>path <input id="mmria_path" type="text" value="/" size="80"> <br/> </h3>
+        <h4>selected metadata <input type="button" value="show selected metadata" onclick="show_selected_metadata_click()" /></h4>
+        <textarea id="selected_metatdata" cols=80 rows=20>
 
-    <textarea id="output2" cols=80 rows=20>
+        </textarea>
+  </div>
+
+  <div>
+    
+    <h4>generated json schema <input type="button" value="generate schema" onclick="generate_schema_click()" /> | <input type="button" value="save schema" onclick="save_schema_click()" /></h4>
+    <textarea id="json_schema" cols=80 rows=20>
 
     </textarea>
+  </div>
 
-    <div>
-    <h3>code  <input type="button" value="generate code" onclick="generate_code_click()" /></h3>
-    </div>
-    <textarea id="output3" cols=80 rows=20>
+  <div>
+    <h4>generated code <input type="button" value="generate code" onclick="generate_code_click()" /></h4>
+    <textarea id="generated_code" cols=80 rows=20>
 
     </textarea>
+  </div>
 </div>
 </body>
