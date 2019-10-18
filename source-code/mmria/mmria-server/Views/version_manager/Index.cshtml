@@ -1,0 +1,21 @@
+@using System.Security.Claims;
+@{
+  Layout = "_LayoutBase";
+  var userName = "";
+  if (User.Identities.Any(u => u.IsAuthenticated))
+  {
+    userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+  }
+}
+
+@section HeadScripts {  
+  <script>var g_uid = '@userName';</script>
+}
+
+<h1 class="h2">Manage Versions</h1>
+
+<div class="ratio-16-9">
+  data
+</div>
