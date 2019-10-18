@@ -124,6 +124,56 @@ namespace mmria.server
 			return result;
 		}
 
+
+// POST api/values 
+		[Authorize(Roles  = "form_designer")]
+		[HttpPost]
+		[HttpPut]
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> SetValue
+		(
+			[FromBody] string id, string name, string value
+		) 
+		{ 
+			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+
+			//if(!string.IsNullOrWhiteSpace(json))
+			try
+			{
+				string id_val = id;
+
+/*
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_Version_Specification, settings);
+
+
+				
+				string metadata_url = Program.config_couchdb_url + "/metadata/"  + id_val;
+				cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+
+                try
+                {
+                    string responseFromServer = await document_curl.executeAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+ */
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+			}
+/*
+			this.Response.Clear();
+			this.Response.ClearHeaders();
+			this.Response.AddHeader("Content-Type", "text/plain");
+ */
+			return result;
+		}
+
 		async Task<string> GenerateFileAsync(string schemaJson)
 		{
 				string result = null;
