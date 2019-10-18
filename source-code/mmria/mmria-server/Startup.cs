@@ -294,10 +294,12 @@ namespace mmria.server
  */
             if(use_sams)
             {
+                Log.Information ("using sams");
+
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
                 {
 
-                    Log.Information ("using sams and NOT is_development");
+                    Log.Information ("using sams and is_development");
                     //https://github.com/jerriepelser-blog/AspnetCoreGitHubAuth/blob/master/AspNetCoreGitHubAuth/
 
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -355,6 +357,8 @@ namespace mmria.server
                 }
                 else
                 {
+                    Log.Information ("using sams and NOT is_development");
+
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -411,8 +415,11 @@ namespace mmria.server
             }
             else
             {
+                Log.Information ("NOT using sams");
+
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
                 {
+                    Log.Information ("is_development == true");
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -428,6 +435,8 @@ namespace mmria.server
                 }
                 else
                 {
+                    Log.Information ("is_development == false");
+                    
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
