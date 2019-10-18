@@ -1,10 +1,22 @@
 var g_metadata = null;
 var schema = null;
 var mmria_path_to_definition_name = null;
+var g_data = null;
 
 function main()
 {
     
+}
+
+
+function get_version_click()
+{
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + '/api/metadata/version_specification-19.10.18'
+	}).done(function(response) {
+            g_data = response;
+	});
 }
 
 function get_metadata()
@@ -14,33 +26,42 @@ function get_metadata()
             url: location.protocol + '//' + location.host + '/api/metadata'
 	}).done(function(response) {
             g_metadata = response;
-            schema = get_initial_schema();
-
-            for(var child in g_metadata.lookup)
-			{
-                var child_node = g_metadata.lookup[child];
-                set_lookUp(schema.definitions, child_node);
-            }
-
-            var schema_context = get_schema_context(g_metadata, schema, "v1",  "");
-
-            var definition_context = get_definition_context(g_metadata, schema_context.schema.definitions, {}, "");
-            set_definitions(definition_context);
-
-            mmria_path_to_definition_name = definition_context.mmria_path_to_definition_name;
-
-            generate_schema_phase2(schema_context);
-
-            schema = schema_context.schema;
-
-            //console.log(schema);
-            let el = document.getElementById("output2")
-                
-            el.value = JSON.stringify(schema);
-            //get_cs_code(schema);
+            g_data.metadata = JSON.stringify(g_metadata);
 	});
 }
 
+
+
+
+function get_gen_from_metadata()
+{
+    g_metadata = response;
+    schema = get_initial_schema();
+
+    for(var child in g_metadata.lookup)
+    {
+        var child_node = g_metadata.lookup[child];
+        set_lookUp(schema.definitions, child_node);
+    }
+
+    var schema_context = get_schema_context(g_metadata, schema, "v1",  "");
+
+    var definition_context = get_definition_context(g_metadata, schema_context.schema.definitions, {}, "");
+    set_definitions(definition_context);
+
+    mmria_path_to_definition_name = definition_context.mmria_path_to_definition_name;
+
+    generate_schema_phase2(schema_context);
+
+    schema = schema_context.schema;
+
+    //console.log(schema);
+    let el = document.getElementById("output2")
+        
+    el.value = JSON.stringify(schema);
+    //get_cs_code(schema);
+	
+}
 
 
 function get_cs_code(p_schema)
@@ -109,4 +130,75 @@ function generate_code_click()
     let json = eval("(" + el.value + ")");
 
     get_cs_code(json);
+}
+
+
+
+function create_new_version_click()
+{
+    g_data = {
+        _id : "version_specification-19.10.18",
+		data_type : "version-specification",
+		date_created : new Date().toISOString(),
+		created_by : "isu7@cdc.gov",
+		date_last_updated :  new Date().toISOString(),
+		last_updated_by : "isu7@cdc.gov",
+		name: "19.10.18",
+        metadata: "",
+        schema: { } 
+    };
+}
+
+
+function save_version_click()
+{
+    $.ajax
+    (
+        {
+        url: location.protocol + '//' + location.host + '/api/metadata/' + g_data._id,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(g_data),
+        type: "POST"
+        }
+    )
+    .done
+    (
+        function(case_response) 
+        {
+            console.log("save_case: success");
+        
+            if(g_data && g_data._id == case_response.id)
+            {
+                g_data._rev = case_response.rev;
+            }
+        }
+    )
+    .fail
+    (
+        function(xhr, err) 
+        { 
+            console.log("server save_case: failed", err); 
+            
+            if(xhr.status == 401)
+            {
+                /*
+                let redirect_url = location.protocol + '//' + location.host;
+                window.location = redirect_url;
+                */
+            }
+            
+        }
+    );
+}
+
+
+function get_saved_version_spec()
+{
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + '/api/metadata/' + g_data._id
+	}).done(function(response) {
+            g_data = response
+	});
 }

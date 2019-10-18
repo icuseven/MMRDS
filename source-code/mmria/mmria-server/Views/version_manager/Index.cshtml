@@ -1,6 +1,6 @@
 @using System.Security.Claims;
 @{
-  Layout = "_LayoutBase";
+  
   var userName = "";
   if (User.Identities.Any(u => u.IsAuthenticated))
   {
@@ -9,19 +9,30 @@
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
   }
 }
-
-@section HeadScripts {  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+  <script src="./scripts/jquery-3.1.1.min.js"></script>
   <script src="./scripts/version-manager/schema-generator.js"></script>
   <script src="./scripts/version-manager/index.js"></script>
   <script>var g_uid = '@userName';</script>
-}
-
-<h1 class="h2">Manage Versions</h1>
+</head>
+<body onload="main()">
+<h1>Manage Versions</h1>
 
 
     
 
-<div class="ratio-16-9">
+<div>
+  <div>
+      <input type="button" value="get version" onclick="get_version_click()" /><br/>
+      <input type="button" value="save version" onclick="save_version_click()" />
+  </div>
   <div id="output">
         <h3>json schema <input type="button" value="load metadata" onclick="load_metadata_click()" /></h3>
     </div>
@@ -37,3 +48,4 @@
 
     </textarea>
 </div>
+</body>

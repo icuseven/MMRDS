@@ -7,8 +7,8 @@ namespace mmria.common.metadata
 	{
         public Version_Specification()
         {
-            this.shema = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            this.data_type = "version_specification";
+            this.schema = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            this.data_type = "version-specification";
         }
         public string _id { get; set; }
 
@@ -24,7 +24,7 @@ namespace mmria.common.metadata
 
         public string metadata { get; set; }
 
-        public Dictionary<string, string> shema { get; set; } 
+        public Dictionary<string, string> schema { get; set; } 
 
     }
 }
