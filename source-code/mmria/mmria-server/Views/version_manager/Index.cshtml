@@ -11,11 +11,29 @@
 }
 
 @section HeadScripts {  
+  <script src="./scripts/version-manager/schema-generator.js"></script>
+  <script src="./scripts/version-manager/index.js"></script>
   <script>var g_uid = '@userName';</script>
 }
 
 <h1 class="h2">Manage Versions</h1>
 
+
+    
+
 <div class="ratio-16-9">
-  data
+  <div id="output">
+        <h3>json schema <input type="button" value="load metadata" onclick="load_metadata_click()" /></h3>
+    </div>
+
+    <textarea id="output2" cols=80 rows=20>
+
+    </textarea>
+
+    <div>
+    <h3>code  <input type="button" value="generate code" onclick="generate_code_click()" /></h3>
+    </div>
+    <textarea id="output3" cols=80 rows=20>
+
+    </textarea>
 </div>
