@@ -151,7 +151,10 @@ function create_new_version_click()
 		last_updated_by : "isu7@cdc.gov",
 		name: "19.10.18",
         metadata: "",
-        schema: { } 
+        ui_specification:"",
+        schema: { },
+        path_to_csv_all: {},
+        path_to_csv_core: {}
     };
 }
 
@@ -215,6 +218,8 @@ function show_selected_metadata_click()
     let selected_metatdata = document.getElementById("selected_metatdata");
     selected_metatdata.value = "";
 
+    let source_metadata = eval("(" + g_data.metadata + ")");
+
     if(path != null && path != "")
     {
 
@@ -223,13 +228,13 @@ function show_selected_metadata_click()
         if(path.indexOf("/lookup/") == 0)
         {
             let new_path = path.replace("/lookup/", "")
-            for(let i = 0; i < g_metadata.lookup.length; i++)
+            for(let i = 0; i < source_metadata.lookup.length; i++)
             {
-                let child = g_metadata.lookup[i];
+                let child = source_metadata.lookup[i];
 
                 if(child.name.toLowerCase() == new_path.toLowerCase())
                 {
-                    //let metadata = g_metadata.lookup[new_path];
+                    //let metadata = source_metadata.lookup[new_path];
                     selected_metatdata.value = JSON.stringify(child);
                     break;
                 }
@@ -239,7 +244,7 @@ function show_selected_metadata_click()
         }
         else
         {
-            let metadata = find_metadata(g_metadata, path);
+            let metadata = find_metadata(source_metadata, path);
             selected_metatdata.value = JSON.stringify(metadata);
     
         }
