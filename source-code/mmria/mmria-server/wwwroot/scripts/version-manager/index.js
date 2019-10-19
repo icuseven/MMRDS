@@ -1,4 +1,3 @@
-var g_metadata = null;
 var schema = null;
 var mmria_path_to_definition_name = null;
 var g_data = null;
@@ -212,10 +211,109 @@ function get_saved_version_spec()
 
 function show_selected_metadata_click()
 {
+    let path = document.getElementById("mmria_path").value;
 
+    if(path != null && path != "")
+    {
+
+        let metadata = find_metadata(g_metadata, path);
+
+        let selected_metatdata = document.getElementById("selected_metatdata");
+
+        selected_metatdata.value = JSON.stringify(metadata);
+    }
 }
+
+
 
 function save_schema_click()
 {
     
+}
+
+
+function find_metadata(p_metadata, p_path)
+{
+    var result = null;
+    let path_array = p_path.split("/");
+    
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+                if
+                (
+                    path_array.length == 1 ||
+                    (
+                        path_array.length == 2 &&
+                        path_array[0] == "" &&
+                        path_array[1] == ""
+                    )
+                )
+                {
+                    result =  p_metadata;
+                }
+                else
+                {
+                    for(let i = 0; i < p_metadata.children.length; i++)
+                    {
+                        let child = p_metadata.children[i];
+                        let new_path = path_array.slice(1, path_array.length);
+    
+                        result = find_metadata(child, new_path.join("/"))
+                        if(result)
+                        {
+                            break;
+                        }
+    
+                    }
+                }
+                break;            
+        case "form":
+        case "group":
+        case "grid":
+            if
+            (
+                path_array.length == 1
+            )
+            {
+                if(path_array[0].toLowerCase() == p_metadata.name.toLowerCase())
+                {
+                    result =  p_metadata;
+                }
+            }
+            else
+            {
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let child = p_metadata.children[i];
+                    let new_path = path_array.slice(1, path_array.length);
+
+                    result = find_metadata(child, new_path.join("/"))
+                    if(result)
+                    {
+                        break;
+                    }
+
+                }
+            }
+        break;
+        default:
+            if(p_path.toLowerCase() == p_metadata.name.toLowerCase())
+            {
+                result = p_metadata;
+            }
+            break;
+
+    }
+
+    
+
+
+
+
+
+    
+
+    return result;
+
 }
