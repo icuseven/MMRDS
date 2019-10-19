@@ -212,23 +212,48 @@ function get_saved_version_spec()
 function show_selected_metadata_click()
 {
     let path = document.getElementById("mmria_path").value;
+    let selected_metatdata = document.getElementById("selected_metatdata");
+    selected_metatdata.value = "";
 
     if(path != null && path != "")
     {
 
-        let metadata = find_metadata(g_metadata, path);
+        
 
-        let selected_metatdata = document.getElementById("selected_metatdata");
+        if(path.indexOf("/lookup/") == 0)
+        {
+            let new_path = path.replace("/lookup/", "")
+            for(let i = 0; i < g_metadata.lookup.length; i++)
+            {
+                let child = g_metadata.lookup[i];
 
-        selected_metatdata.value = JSON.stringify(metadata);
+                if(child.name.toLowerCase() == new_path.toLowerCase())
+                {
+                    //let metadata = g_metadata.lookup[new_path];
+                    selected_metatdata.value = JSON.stringify(child);
+                    break;
+                }
+    
+            }
+    
+        }
+        else
+        {
+            let metadata = find_metadata(g_metadata, path);
+            selected_metatdata.value = JSON.stringify(metadata);
+    
+        }
+
     }
 }
 
 
 
-function save_schema_click()
+function pair_schema_click()
 {
-    
+    let path = document.getElementById("mmria_path").value;
+    let json_schema = document.getElementById("json_schema");
+    g_data.schema[path] = json_schema;
 }
 
 
