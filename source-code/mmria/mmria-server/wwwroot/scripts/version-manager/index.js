@@ -1,7 +1,7 @@
 var schema = null;
 var mmria_path_to_definition_name = null;
 var g_data = null;
-let base_api_url = location.protocol + '//' + location.host + "/api/version?p_mmria_path=";
+let base_api_url = location.protocol + '//' + location.host + "/api/version?path=";
 
 function main()
 {
@@ -16,7 +16,11 @@ function get_version_click()
             url: location.protocol + '//' + location.host + '/api/metadata/version_specification-19.10.18'
 	}).done(function(response) {
             g_data = response;
-            base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?p_mmria_path=";
+            if(g_data.definition_set == null)
+            {
+                g_data.definition_set = {};
+            }
+            base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?path=";
 	});
 }
 
@@ -161,6 +165,7 @@ function create_new_version_click()
         metadata: "",
         ui_specification:"",
         schema: { },
+        definition_set: { },
         path_to_csv_all: {},
         path_to_csv_core: {}
     };
@@ -217,6 +222,7 @@ function get_saved_version_spec()
             url: location.protocol + '//' + location.host + '/api/metadata/' + g_data._id
 	}).done(function(response) {
             g_data = response
+
 	});
 }
 
@@ -266,7 +272,15 @@ function pair_schema_click()
 {
     let path = document.getElementById("mmria_path").value;
     let json_schema = document.getElementById("json_schema");
-    g_data.schema[path] = json_schema;
+    g_data.schema[path] = json_schema.value;
+}
+
+
+function set_definition_click()
+{
+    let path = document.getElementById("mmria_path").value;
+    let json_schema = document.getElementById("json_schema");
+    g_data.definition_set[path] = json_schema.value;
 }
 
 
@@ -449,6 +463,149 @@ function generate_schema_from_metadata(p_metadata, p_path)
         case "datetime":            
             result = { "type" : "string", "format": "date-time" }
             break;
+        case "list":
+                
+        
+            if(p_path.indexOf("/lookup/") == 0)
+            {
+                result = { };
+                result[p_metadata.name] = { "type" : p_metadata.data_type, "x-enumNames": [], "enum": [] };
+
+
+                for(let j = 0; j < p_metadata.values.length; j++ )
+                {
+                    result[p_metadata.name]["x-enumNames"].push(p_metadata.values[j].display);
+                    result[p_metadata.name]["enum"].push(p_metadata.values[j].value);
+                }
+
+            }
+            else
+            {
+
+                let data_type = "string";
+
+                if
+                (
+                    p_metadata.data_type != null &&
+                    p_metadata.data_type != ""
+                )
+                {
+                    data_type = p_metadata.data_type;
+                }
+
+                if
+                (
+                    p_metadata.is_multiselect != null &&
+                    p_metadata.is_multiselect == "true"
+                )
+                {
+                    let data_value_list = p_metadata.values;
+
+                    if
+                    (
+                        p_metadata.path_reference &&
+                        p_metadata.path_reference != ""
+                    )
+                    {
+                        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+                
+                        if(data_value_list == null)	
+                        {
+                            data_value_list = p_metadata.values;
+                        }
+
+                        
+                        result = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum":[] } }
+
+                        for(let j = 0; j < data_value_list.length; j++ )
+                        {
+                            result["items"]["x-enumNames"].push(data_value_list[j].display);
+                            result["items"]["enum"].push(data_value_list[j].value);
+                        }
+
+                        /*
+                        else
+                        {
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array",  "items": { "allOf": [{ "$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
+                            
+                            
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum":[] } }
+
+                            for(let j = 0; j < data_value_list.length; j++ )
+                            {
+                                object["items"]["x-enumNames"].push(data_value_list[j].display);
+                                object["items"]["enum"].push(data_value_list[j].value);
+                            }
+                            
+                        }*/
+
+                    }
+                    else
+                    {
+                        result = { "type": "array", "items": { "type": data_type, "x-enumNames": [], "enum":[] } }
+
+                        for(let j = 0; j < p_metadata.values.length; j++ )
+                        {
+                            result["items"]["x-enumNames"].push(p_metadata.values[j].display);
+                            result["items"]["enum"].push(p_metadata.values[j].value);
+                        }
+                    }
+
+                }
+                else
+                {
+
+                    
+
+                    if(p_metadata.path_reference && p_metadata.path_reference != "")
+                    {
+                        data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+                
+                        if(data_value_list == null)	
+                        {
+                            data_value_list = p_metadata.values;
+
+                        }
+
+
+                        result = { "type": data_type,  "x-enumNames": [], "enum":[] }
+                            
+                        for(let j = 0; j < data_value_list.length; j++ )
+                        {
+                            result["x-enumNames"].push(data_value_list[j].display);
+                            result["enum"].push(data_value_list[j].value);
+                        }
+
+                        /*
+                        else
+                        {
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = {  "type": data_type, "items": { "oneOf": [{"$ref": "#/definitions/" + p_schema_context.metadata.path_reference.replace("lookup/","") }] } }
+
+                            
+                            object = p_schema_context.schema[p_schema_context.metadata.name.toLowerCase()] = { "type": data_type, "x-enumNames": [], "enum":[] }
+
+                            for(let j = 0; j < data_value_list.length; j++ )
+                            {
+                                object["x-enumNames"].push(data_value_list[j].display);
+                                object["enum"].push(data_value_list[j].value);
+                            }
+                            
+                        }*/
+
+                    }
+                    else
+                    {
+                        result = { "type": data_type, "x-enumNames": [], "enum":[] }
+
+                        for(let j = 0; j < p_metadata.values.length; j++ )
+                        {
+                            result["x-enumNames"].push(p_metadata.values[j].display);
+                            result["enum"].push(p_metadata.values[j].value);
+                        }
+                    }
+                }
+            }
+            break;            
         default:
             result = {"type": "string"}
             break;
@@ -456,4 +613,54 @@ function generate_schema_from_metadata(p_metadata, p_path)
 
     return result;
 
+}
+
+
+/*
+function set_list_definition(p_definitions, p_metadata, p_path)
+{
+
+    p_definitions[p_path] = { "type" : p_metadata.data_type, "x-enumNames": [], "enum": [] };
+
+
+    for(let j = 0; j < p_metadata.values.length; j++ )
+    {
+        p_definitions[p_path]["x-enumNames"].push(p_metadata.values[j].display);
+        p_definitions[p_path]["enum"].push(p_metadata.values[j].value);
+    }
+
+
+
+    return result;
+
+}
+*/
+
+function generate_definition_from_metadata(p_metadata)
+{
+
+    let result = { "type" : p_metadata.data_type, "x-enumNames": [], "enum": [] };
+
+
+    for(let j = 0; j < p_metadata.values.length; j++ )
+    {
+        result["x-enumNames"].push(p_metadata.values[j].display);
+        result["enum"].push(p_metadata.values[j].value);
+    }
+
+
+
+    return result;
+
+}
+
+function generate_definition_click()
+{
+
+    let path = document.getElementById("mmria_path").value;
+    let selected_metatdata = document.getElementById("selected_metatdata");
+    let json = eval("(" + selected_metatdata.value + ")");
+
+    let schema = generate_definition_from_metadata(json);
+    document.getElementById("json_schema").value = JSON.stringify(schema);
 }
