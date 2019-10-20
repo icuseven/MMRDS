@@ -1,6 +1,7 @@
 var schema = null;
 var mmria_path_to_definition_name = null;
 var g_data = null;
+let base_api_url = location.protocol + '//' + location.host + "/api/version?p_mmria_path=";
 
 function main()
 {
@@ -15,6 +16,7 @@ function get_version_click()
             url: location.protocol + '//' + location.host + '/api/metadata/version_specification-19.10.18'
 	}).done(function(response) {
             g_data = response;
+            base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?p_mmria_path=";
 	});
 }
 
@@ -124,8 +126,14 @@ function load_metadata_click()
 
 function generate_schema_click()
 {
-    var el = document.getElementById("mmria_path")
 
+
+    let path = document.getElementById("mmria_path").value;
+    let selected_metatdata = document.getElementById("selected_metatdata");
+    let json = eval("(" + selected_metatdata.value + ")");
+
+    let schema = generate_schema_from_metadata(json, path);
+    document.getElementById("json_schema").value = JSON.stringify(schema);
 
 }
 
@@ -335,14 +343,18 @@ function find_metadata(p_metadata, p_path)
             break;
 
     }
-
-    
-
-
+    return result;
+}
 
 
 
-    
+function generate_schema_from_metadata(p_metadata, p_path)
+{
+    let result = { 
+        "$schema": "http://json-schema.org/schema#",
+        "$id": base_api_url + p_path
+    };
+
 
     return result;
 
