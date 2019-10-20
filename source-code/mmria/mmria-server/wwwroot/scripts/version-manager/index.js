@@ -350,11 +350,109 @@ function find_metadata(p_metadata, p_path)
 
 function generate_schema_from_metadata(p_metadata, p_path)
 {
-    let result = { 
-        "$schema": "http://json-schema.org/schema#",
-        "$id": base_api_url + p_path
-    };
+    let result = null;
 
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+                result = { 
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "$id": base_api_url + p_path,
+                    "title": "MMRIA_Case",
+                    "description": "Maternal Mortality Review Information Application (MMRIA) case schema",
+                    "type": "object",
+                    "properties" :
+                    {
+                        "_id": {"type": "string" },
+                        "_rev": {"type": "string" },
+                        "version": {
+                            "type": "string",
+                            "enum": [ g_data.name ],
+                            "default" : g_data.name
+                        }
+        
+                    },
+                    "definitions": {},
+                    "required": ["_id", "version"]
+                };
+
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let child = p_metadata.children[i];
+                    switch(child.type.toLowerCase())
+                    {
+                        case "form":
+                            result.properties[child.name] = { 
+                                "type": "object",
+                                "$ref": base_api_url + p_path + child.name
+                            };
+
+                            break;
+                        case "group":
+                        case "grid":
+                            result.properties[child.name] = { 
+                                "type": "object",
+                                "$ref": base_api_url + p_path + child.name
+                            };
+                        break;
+                        default:
+                            Array.prototype.push.apply(result, generate_schema_from_metadata(child, p_path + child.name));
+                            break;
+                    }
+                }
+            break;
+        case "form":
+        case "group":
+        case "grid":
+            result = { 
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "$id": base_api_url + p_path,
+                "title": p_metadata.name,
+                "type": "object",
+                "properties" :
+                {
+                    
+                }
+                
+            };
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                switch(child.type.toLowerCase())
+                {
+                    case "group":
+                    case "grid":
+                        result.properties[child.name] = { 
+                            "type": "object",
+                            "$ref": base_api_url + p_path + "/" + child.name
+                        };
+                    break;
+                    default:
+                        Array.prototype.push.apply(result, generate_schema_from_metadata(child, p_path + "/" + child.name));
+                        break;
+                }
+            }
+            break;
+        case "number":
+            result = { "type" : "number"}
+            break;                    
+        case "string":
+            result = { "type" : "string"}
+            break;
+        case "date":
+            result = { "type" : "string", "format": "date" }
+            break;            
+        case "time":
+            result = { "type" : "string", "format": "time" }
+            break;            
+        case "datetime":            
+            result = { "type" : "string", "format": "date-time" }
+            break;
+        default:
+            result = {"type": "string"}
+            break;
+    }
 
     return result;
 
