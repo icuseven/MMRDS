@@ -508,8 +508,6 @@ function create_check_code_submit()
 									{
 										//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 										request.setRequestHeader("If-Match", g_metadata._rev);
-										request.setRequestHeader("uid", g_uid);
-										request.setRequestHeader("roles", $mmria.getCookie("roles"));
 									}
 
 								}).done(function(response) 
