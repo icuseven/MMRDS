@@ -1353,8 +1353,6 @@ $("input.number").TouchSpin({
 //$("input.number").mask("#,##0[.00", {reverse: true});
 
     apply_validation();
-
-
 }
 
 
@@ -1495,7 +1493,6 @@ function open_blank_version(p_section)
 
 function open_aggregate_report_version(p_section)
 {
-
 	var report_window = window.open('./aggregate-report','_aggregate_report',null,false);
 
 	window.setTimeout(function()
@@ -1516,8 +1513,6 @@ function open_export_queue()
 	}, 1000);	
 }
 
-
-
 function add_new_form_click(p_metadata_path, p_object_path)
 {
   console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
@@ -1528,8 +1523,8 @@ function add_new_form_click(p_metadata_path, p_object_path)
   var item = new_form[metadata.name][0];
   form_array.push(item);
 
-
-  save_case(g_data, function(){
+  save_case(g_data, function()
+  {
     
     var post_html_call_back = [];
     document.getElementById(metadata.name + "_id").innerHTML = page_render(metadata, form_array, g_ui, p_metadata_path, p_object_path, "", false, post_html_call_back).join("");
@@ -1542,12 +1537,9 @@ function add_new_form_click(p_metadata_path, p_object_path)
 }
 
 
-
 function save_form_click()
 {
-
   save_case(g_data, create_save_message);
-  
 }
 
 function create_save_message()
@@ -1578,8 +1570,6 @@ function set_local_case(p_data, p_call_back)
   {
     p_call_back();
   }
-  
-
 }
 
 
@@ -1588,7 +1578,6 @@ function get_local_case(p_id)
   var result = null;
 
   result = JSON.parse(localStorage.getItem('case_' + p_id));
-
 
   return result;
 }
@@ -1600,7 +1589,6 @@ function undo_click()
   {
 
     var metadata = eval(current_change.metadata_path);
-
 
     if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
     {

@@ -110,7 +110,7 @@ function navigation_render(p_metadata, p_level, p_ui)
                 
 
 
-                result.push('<span class="fancy-form-icon 24 fill-p cdc-icon-search-solid" aria-hidden="true"></span>');
+                result.push('<button class="anti-btn fancy-form-icon 24 fill-p cdc-icon-search-solid" type="submit"><span class="sr-only">Click to search</span></button>');
               result.push('</div>');
             result.push('</div>');
           result.push('</li>');

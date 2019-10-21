@@ -461,19 +461,17 @@ flatpickr(" .date", {
 
 $( ".datetime" ).datetimepicker();
 
-$("input.number").TouchSpin({
-                verticalbuttons: true,
-                min: 0,
-                max: 10000,
-                step: 1,
-                maxboostedstep: 10
-            });
+$("input.number").TouchSpin(
+{
+  verticalbuttons: true,
+  min: 0,
+  max: 10000,
+  step: 1,
+  maxboostedstep: 10
+});
 
 $("input.number").mask("#,##0.00", {reverse: true});
-
     apply_validation();
-
-
 }
 
 

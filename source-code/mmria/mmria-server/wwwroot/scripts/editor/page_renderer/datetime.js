@@ -12,7 +12,6 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_result.push(p_metadata_path);
 			p_result.push("' ");
 
-
 			p_result.push(">");
 			p_result.push("<label ");
 			if(p_metadata.description && p_metadata.description.length > 0)

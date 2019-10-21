@@ -510,7 +510,7 @@ button.link {
 
 .form-control-wrap .form-control + .fancy-form-icon {
   right: 10px;
-  pointer-events: none;
+  /* pointer-events: none; */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
