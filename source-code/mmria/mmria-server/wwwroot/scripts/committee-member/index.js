@@ -440,7 +440,17 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'LT'});
+  $( ".time" ).datetimepicker({
+    format: 'LT',
+    icons: {
+      time: 'x24 fill-p cdc-icon-clock_01',
+      date: 'x24 fill-p cdc-icon-calendar_01',
+      up: "x24 fill-p cdc-icon-chevron-circle-up",
+      down: "x24 fill-p cdc-icon-chevron-circle-down",
+      previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+      next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+    }
+  });
 //$( "[metadata_type='date']" ).datetimepicker();
 
 flatpickr(" .date", {

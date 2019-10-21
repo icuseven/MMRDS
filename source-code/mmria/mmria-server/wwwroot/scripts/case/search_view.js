@@ -319,7 +319,7 @@ function render_search_text_input_control(p_ctx)
             p_ctx.post_html_render.push('});');
             break;
         case "time":
-            p_ctx.post_html_render.push(' $("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input " ).datetimepicker({');
+            p_ctx.post_html_render.push(' $("#' + convert_object_path_to_jquery_id(p_ctx.object_path) + ' input" ).datetimepicker({');
             p_ctx.post_html_render.push(`
                 format: 'LT',
                 icons: {

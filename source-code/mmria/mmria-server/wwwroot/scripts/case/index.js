@@ -167,7 +167,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       switch(metadata.type.toLowerCase())
       {
         case 'time':
-          $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.time" ).datetimepicker({
+          $("#" + convert_object_path_to_jquery_id(p_object_path) + " input" ).datetimepicker({
             format: 'LT',
             icons: {
               time: 'x24 fill-p cdc-icon-clock_01',
@@ -193,7 +193,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
           break;
 */
           case 'datetime':
-            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker(
+            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
               {
                 format:"Y-MM-D H:mm:ss",  
                 defaultDate: value,
@@ -209,7 +209,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
             break;
 
           case 'date':
-            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker(
+            $("#" + convert_object_path_to_jquery_id(p_object_path) + " input").datetimepicker(
               {
                 format:"Y-MM-DD",  
                 defaultDate: value,
@@ -1298,7 +1298,17 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'LT' });
+  $( ".time" ).datetimepicker({ 
+    format: 'LT',
+    icons: {
+      time: 'x24 fill-p cdc-icon-clock_01',
+      date: 'x24 fill-p cdc-icon-calendar_01',
+      up: "x24 fill-p cdc-icon-chevron-circle-up",
+      down: "x24 fill-p cdc-icon-chevron-circle-down",
+      previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+      next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+    }
+  });
 //$( "[metadata_type='date']" ).datetimepicker();
 /*
 flatpickr(" .date", {

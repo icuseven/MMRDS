@@ -778,53 +778,60 @@ function show_user_administration()
 function apply_tool_tips()
 {
   $('[rel=tooltip]').tooltip();
-  $( ".time" ).datetimepicker({ format: 'LT' });
-//$( "[metadata_type='date']" ).datetimepicker();
-/*
-flatpickr(" .date", {
-	utc: true,
-	//defaultDate: "2016-12-27T00:00:00.000Z",
-	enableTime: false,
-  onSelect: function(p_value,evnt) 
-  {
-                g_set_data_object_from_path(p_object_path, p_metadata_path, p_value);
-  }
-});*/
+  $( ".time" ).datetimepicker({
+    format: 'LT',
+    icons: {
+      time: 'x24 fill-p cdc-icon-clock_01',
+      date: 'x24 fill-p cdc-icon-calendar_01',
+      up: "x24 fill-p cdc-icon-chevron-circle-up",
+      down: "x24 fill-p cdc-icon-chevron-circle-down",
+      previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+      next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+    }
+  });
+  //$( "[metadata_type='date']" ).datetimepicker();
+  /*
+  flatpickr(" .date", {
+    utc: true,
+    //defaultDate: "2016-12-27T00:00:00.000Z",
+    enableTime: false,
+    onSelect: function(p_value,evnt) 
+    {
+                  g_set_data_object_from_path(p_object_path, p_metadata_path, p_value);
+    }
+  });*/
 
-//$( ".datetime" ).datetimepicker();
-
-
-$("input.number").numeric();
-$("input.number0").numeric({ decimal: false });
-$("input.number1").numeric({ decimalPlaces: 1 });
-$("input.number2").numeric({  decimalPlaces: 2 });
-$("input.number3").numeric({ decimalPlaces: 3 });
-$("input.number4").numeric({ decimalPlaces: 4 });
-$("input.number5").numeric({ decimalPlaces: 5 });
-$("input.number").attr("size", "15");
-$("input.number0").attr("size", "15");
-$("input.number1").attr("size", "15");
-$("input.number2").attr("size", "15");
-$("input.number3").attr("size", "15");
-$("input.number4").attr("size", "15");
-$("input.number5").attr("size", "15");
+  //$( ".datetime" ).datetimepicker();
 
 
-/*
-$("input.number").TouchSpin({
-                verticalbuttons: true,
-				decimals: 3,
-                min: 0,
-                max: 10000,
-                step: 1,
-                maxboostedstep: 10
-            });*/
+  $("input.number").numeric();
+  $("input.number0").numeric({ decimal: false });
+  $("input.number1").numeric({ decimalPlaces: 1 });
+  $("input.number2").numeric({  decimalPlaces: 2 });
+  $("input.number3").numeric({ decimalPlaces: 3 });
+  $("input.number4").numeric({ decimalPlaces: 4 });
+  $("input.number5").numeric({ decimalPlaces: 5 });
+  $("input.number").attr("size", "15");
+  $("input.number0").attr("size", "15");
+  $("input.number1").attr("size", "15");
+  $("input.number2").attr("size", "15");
+  $("input.number3").attr("size", "15");
+  $("input.number4").attr("size", "15");
+  $("input.number5").attr("size", "15");
 
-//$("input.number").mask("#,##0[.00", {reverse: true});
+  /*
+  $("input.number").TouchSpin({
+                  verticalbuttons: true,
+          decimals: 3,
+                  min: 0,
+                  max: 10000,
+                  step: 1,
+                  maxboostedstep: 10
+              });*/
+
+  //$("input.number").mask("#,##0[.00", {reverse: true});
 
     apply_validation();
-
-
 }
 
 
