@@ -48,6 +48,44 @@ namespace mmria.server
 			return json_result;
 		}
 
+
+		[Authorize(Policy = "form_designer")]
+		[Route("{id}")]
+		[HttpGet]
+		public System.Dynamic.ExpandoObject Get(string id)
+		{
+			System.Console.WriteLine ("Recieved message.");
+			string result = null;
+			System.Dynamic.ExpandoObject json_result = null;
+			try
+			{
+
+				//"2016-06-12T13:49:24.759Z"
+                string request_string = Program.config_couchdb_url + $"/metadata/{id}";
+
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+
+				request.PreAuthenticate = false;
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+				System.IO.Stream dataStream = response.GetResponseStream ();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				result = reader.ReadToEnd ();
+
+				json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+
+			//return result;
+			return json_result;
+		}
+
+
 		[Authorize(Policy = "form_designer")]
 		[HttpPost]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
@@ -169,6 +207,67 @@ namespace mmria.server
 					Console.WriteLine (ex);
 				}
 				
+			return result;
+		} 
+
+		[Authorize(Roles  = "form_designer")]
+		[Route("{id}")]
+		[HttpPost]
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
+        (
+            [FromBody] mmria.common.metadata.Version_Specification p_version_specification
+        ) 
+		{ 
+			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+
+				if
+				(
+					p_version_specification.data_type == null ||
+					p_version_specification.data_type != "version-specification" || 
+					p_version_specification._id == "2016-06-12T13:49:24.759Z" ||
+					p_version_specification._id == "de-identified-list"
+
+				)
+				{
+					return null;
+				}
+
+
+			try
+			{
+/*
+				System.IO.Stream dataStream0 = this.Request.Body;
+				// Open the stream using a StreamReader for easy access.
+				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+				// Read the content.
+				check_code_json = await reader0.ReadToEndAsync ();
+*/
+
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
+						NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                        MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
+				};
+				string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_version_specification, settings);
+				string metadata_url = Program.config_couchdb_url + $"/metadata/{p_version_specification._id}";
+
+				var metadata_curl = new cURL("PUT", null, metadata_url, json_string, Program.config_timer_user_name, Program.config_timer_value);
+
+				string responseFromServer = await metadata_curl.executeAsync();
+
+				result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+				if (!result.ok) 
+				{
+
+				}
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+			
 			return result;
 		} 
 

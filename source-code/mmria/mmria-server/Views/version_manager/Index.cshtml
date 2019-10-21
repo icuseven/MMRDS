@@ -1,0 +1,61 @@
+@using System.Security.Claims;
+@{
+  
+  var userName = "";
+  if (User.Identities.Any(u => u.IsAuthenticated))
+  {
+    userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+  }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+<title>Maternal Mortality Review Information App | Public Health | MMRIA</title>
+  <script src="./scripts/jquery-3.1.1.min.js"></script>
+  <script src="./scripts/version-manager/schema-generator.js"></script>
+  <script src="./scripts/version-manager/index.js"></script>
+  <script>var g_uid = '@userName';</script>
+</head>
+<body onload="main()">
+<h1>Manage Versions</h1>
+
+
+    
+
+<div>
+  <div>
+      <input type="button" value="create version" onclick="create_new_version_click()" /> | <input type="button" value="load metadata" onclick="load_metadata_click()" /> <br/> <br/>
+      <input type="button" value="get version" onclick="get_version_click()" /> | 
+      <input type="button" value="save version" onclick="save_version_click()" /> <br/>
+  </div>
+  <hr/>
+  <div>
+        <h3>path <input id="mmria_path" type="text" value="/" size="80"> <br/> </h3>
+        <h4>selected metadata <input type="button" value="show selected metadata" onclick="show_selected_metadata_click()" /></h4>
+        <textarea id="selected_metatdata" cols=80 rows=20>
+
+        </textarea>
+  </div>
+
+  <div>
+    
+    <h4>generated json schema <input type="button" value="generate schema" onclick="generate_schema_click()" /> | <input type="button" value="pair schema" onclick="pair_schema_click()" />| <input type="button" value="generate definition" onclick="generate_definition_click()" />| <input type="button" value="set definition" onclick="set_definition_click()" />| <input type="button" value="set all lists in definition" onclick="set_all_lists_in_definition_click()" /></h4>
+    <textarea id="json_schema" cols=80 rows=20>
+
+    </textarea>
+  </div>
+
+  <div>
+    <h4>generated code <input type="button" value="generate code" onclick="generate_code_click()" /></h4>
+    <textarea id="generated_code" cols=80 rows=20>
+
+    </textarea>
+  </div>
+</div>
+</body>

@@ -104,6 +104,8 @@ namespace mmria.server
             if (bool.Parse (Configuration["mmria_settings:is_environment_based"])) 
             {
                 Log.Information ("using Environment");
+
+                
                 //Log.Information ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
                 //Log.Information ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
                 Log.Information ("couchdb_url: {0}", System.Environment.GetEnvironmentVariable ("couchdb_url"));
@@ -137,6 +139,11 @@ namespace mmria.server
                     Configuration["sams:endpoint_authorization"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_authorization");
                 }
 
+
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("use_development_settings")))
+                {
+                    Configuration["mmria_settings:is_development"] = System.Environment.GetEnvironmentVariable ("use_development_settings");
+                }
                 
 
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_token")))
@@ -232,6 +239,7 @@ namespace mmria.server
             Log.Information ("sams:activity_name: {0}", Configuration["sams:activity_name"]);
             Log.Information ("mmria_settings:is_schedule_enabled: {0}", Configuration["mmria_settings:is_schedule_enabled"]);
             Log.Information ("mmria_settings:is_db_check_enabled: {0}", Configuration["mmria_settings:is_db_check_enabled"]);
+            Log.Information ("mmria_settings:is_development: {0}", Configuration["mmria_settings:is_development"]);
 
 
 
@@ -286,8 +294,12 @@ namespace mmria.server
  */
             if(use_sams)
             {
+                Log.Information ("using sams");
+
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
                 {
+
+                    Log.Information ("using sams and is_development");
                     //https://github.com/jerriepelser-blog/AspnetCoreGitHubAuth/blob/master/AspNetCoreGitHubAuth/
 
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -299,6 +311,10 @@ namespace mmria.server
                                 options.Cookie.SameSite = SameSiteMode.Strict;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                                 options.Events = get_sams_authentication_events();
+
+                                Log.Information ("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
+                                Log.Information ("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
+
 
                         });
                         /*
@@ -341,6 +357,8 @@ namespace mmria.server
                 }
                 else
                 {
+                    Log.Information ("using sams and NOT is_development");
+
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -350,6 +368,10 @@ namespace mmria.server
                                 options.Cookie.SameSite = SameSiteMode.Strict;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                                options.Events = get_sams_authentication_events();
+
+                                Log.Information ("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
+                                Log.Information ("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
+
 
                         });
                         /*
@@ -393,8 +415,11 @@ namespace mmria.server
             }
             else
             {
+                Log.Information ("NOT using sams");
+
                 if(Configuration["mmria_settings:is_development"]!= null && Configuration["mmria_settings:is_development"] == "true")
                 {
+                    Log.Information ("is_development == true");
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -403,10 +428,15 @@ namespace mmria.server
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
                                 //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+                                Log.Information ("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
+                                Log.Information ("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
                         });
                 }
                 else
                 {
+                    Log.Information ("is_development == false");
+
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
                         options => 
@@ -416,6 +446,8 @@ namespace mmria.server
                                 options.Cookie.SameSite = SameSiteMode.Strict;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                                // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                               Log.Information ("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
+                                Log.Information ("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
                         });
                 }
             }
@@ -561,7 +593,7 @@ namespace mmria.server
                                     session.data["refresh_token"] = refreshToken;
                                     session.data["expires_at"] = unix_time.ToString();
 
-                                    context.Response.Cookies.Append("expires_at", unix_time.ToString());
+                                    context.Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
 
 
                                     session.date_last_updated  = DateTime.UtcNow;
