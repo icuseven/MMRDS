@@ -11,6 +11,12 @@ namespace mmria.common.metadata
         public string file_name { get; set; }
 		public string field_name { get; set; } 
     }
+
+    public enum publish_status_enum
+    {
+        draft,
+        final
+    }
 	public class Version_Specification
 	{
         public Version_Specification()
@@ -33,13 +39,24 @@ namespace mmria.common.metadata
 
 		public string name { get; set; }
 
+        public publish_status_enum publish_status { get; set; }
+
+
+        public string calculations_js { get; set; }
         public string metadata { get; set; }
+
+        public string metadata_id { get; set; }
+        public string metadata_rev { get; set; }
         public string ui_specification { get; set; }
+        public string ui_specification_id { get; set; }
+        public string ui_specification_rev { get; set; }
 
         public Dictionary<string, string> schema { get; set; }
         public Dictionary<string, string> definition_set { get; set; } 
         public Dictionary<string, csv_info> path_to_csv_all { get; set; }
         public Dictionary<string, csv_info> path_to_csv_core { get; set; }
+
+        public System.Dynamic.ExpandoObject _attachments { get; set; } 
 
     }
 }
