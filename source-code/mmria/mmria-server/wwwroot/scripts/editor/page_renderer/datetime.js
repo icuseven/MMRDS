@@ -37,7 +37,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
 			p_result.push("</label> ");
 			page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path);
 
-			p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input.datetime").datetimepicker({');
+			p_post_html_render.push('$("#' + convert_object_path_to_jquery_id(p_object_path) + ' input").datetimepicker({');
 
 				p_post_html_render.push(' format: "Y-MM-D H:mm:ss", ');
 				p_post_html_render.push(' defaultDate: "' + p_data + '",');

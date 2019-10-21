@@ -167,8 +167,17 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       switch(metadata.type.toLowerCase())
       {
         case 'time':
-
-          $("#" + convert_object_path_to_jquery_id(p_object_path) + " .time" ).datetimepicker({format: 'LT',  });
+          $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.time" ).datetimepicker({
+            format: 'LT',
+            icons: {
+              time: 'x24 fill-p cdc-icon-clock_01',
+              date: 'x24 fill-p cdc-icon-calendar_01',
+              up: 'x24 fill-p cdc-icon-chevron-circle-up',
+              down: 'x24 fill-p cdc-icon-chevron-circle-down',
+              previous: 'x24 fill-p fill-p cdc-icon-chevron-circle-left-light',
+              next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
+            }
+          });
           break;
           /*
           case 'date':
@@ -197,8 +206,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
                   next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
                 } 
               });
-          break;
-
+            break;
 
           case 'date':
             $("#" + convert_object_path_to_jquery_id(p_object_path) + " input.datetime").datetimepicker(
@@ -214,7 +222,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
                   next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
                 }
               });
-          break;          
+            break;          
 
           case 'number':
 
