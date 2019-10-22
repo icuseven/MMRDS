@@ -39,9 +39,42 @@ function get_metadata()
 	}).done(function(response) {
             g_metadata = response;
             g_data.metadata = JSON.stringify(g_metadata);
+
+            get_MMRIA_Calculations();
 	});
 }
 
+function get_MMRIA_Calculations()
+{
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + '/api/metadata/GetCheckCode'
+	}).done(function(response) {
+            g_MMRIA_Calculations = response;
+            get_validation()
+	});
+}
+
+function get_validation()
+{
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + '/api/validator'
+	}).done(function(response) {
+            g_validation = response;
+            get_ui_specification();
+	});
+}
+
+function get_ui_specification()
+{
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification'
+	}).done(function(response) {
+            g_ui_specification = response;
+	});
+}
 
 
 
