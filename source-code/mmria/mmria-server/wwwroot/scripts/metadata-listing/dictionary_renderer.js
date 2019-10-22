@@ -34,14 +34,6 @@ function dictionary_render(p_metadata, p_path)
 					</div>
 				</div>
 			</div>
-			<!--div class="form-group form-check mb-1">
-				<input type="checkbox" class="form-check-input" id="exclude_pii">
-				<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
-			</div-->
-
-			<div id="print-area">
-				<h1>Hello world</h1>
-			</div>
 
 			<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto;">
 				<table id="print-content" class="table table--plain mb-0">
@@ -50,7 +42,6 @@ function dictionary_render(p_metadata, p_path)
 							<th class="th" colspan="2">
 								<span class="row no-gutters justify-content-between">
 									<span>Fields for version {version number}</span>
-									<!-- <button class="anti-btn" onclick="fooBarSelectAll()">Select All</button> -->
 								</span>
 							</th>
 						</tr>
@@ -71,7 +62,7 @@ function dictionary_render_header()
 	var result = [];
 
 	result.push(`
-		<tr class="tr bg-gray-l3">
+		<tr class="tr bg-white">
 			<th class="th">path</th>
 			<th class="th">name</th>
 			<th class="th">type</th>
@@ -157,7 +148,7 @@ function dictionary_render_row(p_metadata, p_path)
 				var child = value_list[i];
 				if(i % 2)
 				{
-					result.push("<tr class='tr bg-gray-l3'><td>");
+					result.push("<tr class='tr bg-white'><td>");
 				}
 				else
 				{
@@ -378,14 +369,14 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			list_values.push(`
 				<tr class="tr">
 					<td class="td" colspan="6">
-						<table class="table table--plain mb-0">
+						<table class="table table--plain w-50 mb-0 ml-auto mr-auto">
 							<thead class="thead">
-								<tr class="tr bg-gray-l3">
+								<tr class="tr bg-white">
 									<th class="th" colspan=3>List Values</th>
 								</tr>
 							</thead>
 							<thead class="thead">
-								<tr class="tr bg-gray-l3">
+								<tr class="tr bg-white">
 									<th class="th" width="30">Value</th>
 									<th class="th">Display</th>
 									<th class="th">Description</th>
@@ -418,14 +409,14 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				<td class="td">
 					<table class="table table--plain mb-0">
 						<thead class="thead">
-							<tr class="tr bg-gray-l1">
+							<tr class="tr bg-white">
 								<th class="th" colspan="6">
 									<strong>MMRIA Path:</strong> ${p_path}
 								</th>
 							</tr>
 						</thead>
 						<thead class="thead">
-							<tr class="tr bg-gray-l3" data-show="search--${p_path}" style="display: table-row">
+							<tr class="tr bg-white" data-show="search--${p_path}" style="display: table-row">
 								<th class="th">Form</th>
 								<th class="th">Export File</th>
 								<th class="th">Export Field</th>

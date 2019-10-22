@@ -541,8 +541,16 @@ button.link {
   border-top: none;
 }
 
-.table .th,
-.table .td {
+.th,
+.td {
+  border: var(--border-width) solid;
+  border-color: var(--neutral);
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+.th,
+.td {
   border: var(--border-width) solid;
   border-color: var(--neutral);
   padding: 8px 10px;
