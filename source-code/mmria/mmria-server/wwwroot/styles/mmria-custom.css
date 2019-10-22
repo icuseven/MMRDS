@@ -637,13 +637,13 @@ button.link {
 
 .app-content {
   background-color: var(--white);
-  padding: 1rem;
+  /* padding: 1rem; */
 
   /* Mobile layout width */
   width: 100%;
 }
 @media screen and (min-width: 768px) {
-  .app-content {
+  .app-sidebar + .app-content {
     /* The below width is calculated from app-sidebar's width */
     width: calc(100% - 280px);
   }

@@ -25,17 +25,10 @@
 
   @await Html.PartialAsync("_Header")
 
-  <main id="content"
-        class="container app-main"
-        role="main"
-        aria-label="Main Content Area">
-    <div class="row">
-      <div class="col">
+  <main id="content" class="container app-main" role="main" aria-label="Main Content Area">
 
-        @RenderBody()
+    @RenderBody()
 
-      </div>
-    </div>
   </main>
     
   @await Html.PartialAsync("_Footer")
