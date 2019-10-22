@@ -8,44 +8,59 @@ function dictionary_render(p_metadata, p_path)
 
 
 
-result.push(`<div id="de_identify_filter" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: block; border: 1px solid #bbb;">
-<div class="form-inline mb-2">
-	<label for="de_identify_search_text" class="mr-2"> Search for:</label>
-	<input type="text"
-				 class="form-control mr-2"
-				 id="de_identify_search_text"
-				 value="" onchange="de_identify_search_text_change(this.value)"/>
-	<select id="de_identify_form_filter" class="custom-select mr-2">
-		${render_de_identify_form_filter(g_filter)}
-	</select>
-	<select id="metadata_version_filter" class="custom-select mr-2">
-		<option value="">Select Metadata Version</option>
-		<option value="19.10.17">19.10.17</option>
-	</select>
-	<button type="button" class="btn btn-tertiary" alt="clear search" onclick="de_identified_search_click()">Search</button>
-</div>
-<!--div class="form-group form-check mb-1">
-	<input type="checkbox" class="form-check-input" id="exclude_pii">
-	<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
-</div-->
+	result.push(`
+		<div id="de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
+			<div class="form-inline mb-2 row no-gutters align-items-center justify-content-between">
+				<div class="row no-gutters align-items-center">
+					<label for="de_identify_search_text" class="mr-2"> Search for:</label>
+					<input type="text"
+								class="form-control mr-2"
+								id="de_identify_search_text"
+								value=""
+								style="width: 170px;"
+								onchange="de_identify_search_text_change(this.value)"/>
+					<select id="de_identify_form_filter" class="custom-select mr-2">
+						${render_de_identify_form_filter(g_filter)}
+					</select>
+					<select id="metadata_version_filter" class="custom-select mr-2">
+						<option value="">Select Metadata Version</option>
+						<option value="19.10.17">19.10.17</option>
+					</select>
+					<button type="button" class="btn btn-secondary" alt="clear search" onclick="de_identified_search_click()">Search</button>
+				</div>
+				<div>
+					<div class="row no-gutters justify-content-end">
+						<button class="btn btn-secondary row no-gutters align-items-center" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>Print</button>
+					</div>
+				</div>
+			</div>
+			<!--div class="form-group form-check mb-1">
+				<input type="checkbox" class="form-check-input" id="exclude_pii">
+				<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
+			</div-->
 
-<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto;">
-	<table class="table table--plain mb-0">
-		<thead class="thead">
-			<tr class="tr bg-tertiary">
-				<th class="th" colspan="2">
-					<span class="row no-gutters justify-content-between">
-						<span>Fields for version {version number}</span>
-						<!-- <button class="anti-btn" onclick="fooBarSelectAll()">Select All</button> -->
-					</span>
-				</th>
-			</tr>
-		</thead>
-		<tbody class="tbody" id="de_identify_search_result_list">
-			${de_identified_search_result.join("")}
-		</tbody>
-	</table>
-</div>`);
+			<div id="print-area">
+				<h1>Hello world</h1>
+			</div>
+
+			<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto;">
+				<table id="print-content" class="table table--plain mb-0">
+					<thead class="thead">
+						<tr class="tr bg-tertiary">
+							<th class="th" colspan="2">
+								<span class="row no-gutters justify-content-between">
+									<span>Fields for version {version number}</span>
+									<!-- <button class="anti-btn" onclick="fooBarSelectAll()">Select All</button> -->
+								</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody class="tbody" id="de_identify_search_result_list">
+						${de_identified_search_result.join("")}
+					</tbody>
+				</table>
+			</div>
+	`);
 
 
 	return result;
@@ -194,7 +209,11 @@ function dictionary_render_row(p_metadata, p_path)
 	result.push('</tr>');
 
 	return result;
+}
 
+
+function handle_print() {
+	window.print();
 }
 
 
