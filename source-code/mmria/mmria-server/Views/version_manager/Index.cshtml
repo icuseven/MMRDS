@@ -33,10 +33,10 @@
       Version Name: <input type="text" id="version_name"/> <input type="button" value="create version" onclick="create_new_version_click()" /> |
 
       <ol>
-        <li>metadata <input type="button" value="attach" onclick="_click()" /></li>
-        <li>MMRIA_Calculations.js mmria-check-code.js GetCheckCode()<input type="button" value="attach" onclick="_click()" /></li>
-        <li>validation.js <input type="button" value="attach" onclick="_click()" /></li>
-        <li>ui_specification <input type="button" value="attach" onclick="_click()" /></li>
+        <li>metadata <input type="button" value="metadata" onclick="add_attachement_click(this)" /></li>
+        <li>MMRIA_Calculations.js mmria-check-code.js GetCheckCode()<input type="button" value="MMRIA_Calculations" onclick="add_attachement_click(this)" /></li>
+        <li>validation.js <input type="button" value="validation" onclick="add_attachement_click(this)" /></li>
+        <li>ui_specification <input type="button" value="ui_specification" onclick="add_attachement_click(this)" /></li>
         <li>metadata</li>
       </ol>
       <input type="button" value="load metadata" onclick="load_metadata_click()" /> <br/> <br/>

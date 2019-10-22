@@ -3,6 +3,13 @@ var mmria_path_to_definition_name = null;
 var g_data = null;
 let base_api_url = location.protocol + '//' + location.host + "/api/version?path=";
 
+
+
+var g_MMRIA_Calculations = null;
+var g_validation = null;
+var g_ui_specification = null;
+
+
 function main()
 {
     
@@ -819,4 +826,63 @@ function set_all_lists_in_definition(p_definitions, p_metadata, p_path)
 
     return result;
 
+}
+
+
+function add_attachement_click(p_value)
+{
+    let doc_name = p_value.value.toLowerCase();
+
+    switch(doc_name)
+    {
+        case "metadata":
+            add_attachement(g_data._id, g_data._rev, doc_name, g_metadata)
+            break;
+        case "MMRIA_Calculations":
+            add_attachement(g_data._id, g_data._rev, doc_name, g_MMRIA_Calculations)
+            break;
+        case "validation":
+            add_attachement(g_data._id, g_data._rev, doc_name, g_validation)
+            break;
+        case "ui_specification":
+            add_attachement(g_data._id, g_data._rev, doc_name, g_ui_specification)
+            break;
+        
+    }
+}
+
+function add_attachement(p_id, p_rev, p_doc_name, p_content) 
+{
+    //add_attachement/{_id}/{_rev}/{doc_name}
+
+    $.ajax({
+        url: `${location.protocol}//${location.host}/api/metadata/add_attachement/${p_id}/${p_rev}/${p_doc_name}`,
+        //contentType: 'application/json; charset=utf-8',
+        contentType: 'multipart/form-data; charset=utf-8',
+        dataType: 'text',
+        data: p_content,
+        type: "POST"
+}).done(function(response) 
+{
+
+    if(response && response.ok == null)
+    {
+        response = JSON.parse(response);
+    }
+    
+    if(response.ok)
+    {
+        g_data._rev = response.rev; 
+        console.log("perform_validation_save: complete");
+    }
+
+    
+})
+.fail
+(
+    function(x) 
+    {
+        console.log(x);
+    }
+);
 }
