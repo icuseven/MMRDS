@@ -1,5 +1,3 @@
-
-
 function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
@@ -359,30 +357,41 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 
 			list_values.push(`
-			<tr>
-				<td colspan="6">
-					<table class="table table--plain mb-0">
-						<tr class="tr bg-gray-l3">
-							<th class="th" colspan=3>List Values</th>
-						</tr>
-						<tr class="tr bg-gray-l3">
-							<th class="th">value</th>
-							<th class="th">display</th>
-							<th class="th">description</th>
-			</tr>`);
+				<tr class="tr">
+					<td class="td" colspan="6">
+						<table class="table table--plain mb-0">
+							<thead class="thead">
+								<tr class="tr bg-gray-l3">
+									<th class="th" colspan=3>List Values</th>
+								</tr>
+							</thead>
+							<thead class="thead">
+								<tr class="tr bg-gray-l3">
+									<th class="th" width="30">Value</th>
+									<th class="th">Display</th>
+									<th class="th">Description</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">	
+			`);
 
 			for(let i= 0; i < value_list.length; i++)
 			{
-				list_values.push(`<tr>
-						<th class="th">${value_list[i].value}</th>
-						<th class="th">${value_list[i].display}</th>
-						<th class="th">${value_list[i].description}</th>
-					</tr>`);
+				list_values.push(`
+								<tr>
+									<td class="td">${value_list[i].value}</td>
+									<td class="td">${value_list[i].display}</td>
+									<td class="td">${value_list[i].description}</td>
+								</tr>
+				`);
 			}
 			
-			list_values.push(`</table>
-			</td>
-			</tr>`);
+			list_values.push(`
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			`);
 		}
 
 		p_result.push(`

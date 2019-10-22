@@ -175,9 +175,6 @@ function dictionary_render_row(p_metadata, p_path)
 	result.push('<td>' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
 	result.push('<td>' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
 
-	
-
-
 	result.push('</tr>');
 
 	return result;
