@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
+using Serilog;
+using Serilog.Configuration;
 using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
@@ -12,8 +14,54 @@ namespace mmria.server
 	[Route("api/[controller]")]
 	public class versionController: ControllerBase
 	{ 
-		// GET api/values 
-		//public IEnumerable<master_record> Get() 
+
+		[Route("list")]
+		[AllowAnonymous] 
+		[HttpGet]
+		public async System.Threading.Tasks.Task<List<mmria.common.metadata.Version_Specification>> List()
+		{
+			Log.Information  ("Recieved message.");
+			var result = new List<mmria.common.metadata.Version_Specification>();
+
+			try
+			{
+				string version_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
+
+				var curl = new cURL("GET", null, version_specification_url, null, Program.config_timer_user_name, Program.config_timer_value);
+				string responseFromServer = await curl.executeAsync();
+
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
+						NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                        MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
+				};
+				var version_specification_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.metadata.Version_Specification>> (responseFromServer, settings);
+
+				foreach(var row in version_specification_list.rows)
+				{
+					var version_specification = row.doc;
+					if
+					(
+						version_specification.data_type == null || 
+						version_specification.data_type != "version-specification"|| 
+						version_specification._id == "2016-06-12T13:49:24.759Z" ||
+						version_specification._id == "de-identified-list"
+					)
+					{
+						continue;
+					}
+					result.Add(row.doc);
+						
+				}
+
+			}
+			catch(Exception ex) 
+			{
+				Log.Information ($"{ex}");
+			}
+
+			return result;
+		}
+
 		[AllowAnonymous] 
 		[HttpGet]
 		public async Task<string> Get()
@@ -230,7 +278,7 @@ namespace mmria.server
 					(
 						//p_version_specification.data_type == null ||
 						//p_version_specification.data_type != "version-specification" || 
-						add_attachement._id =="default_ui_specification" ||
+						add_attachement._id =="default_version_specification" ||
 						add_attachement._id == "2016-06-12T13:49:24.759Z" ||
 						add_attachement._id == "de-identified-list"
 

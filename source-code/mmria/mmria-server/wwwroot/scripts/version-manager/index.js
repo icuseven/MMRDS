@@ -12,7 +12,7 @@ var g_ui_specification = null;
 
 function main()
 {
-    
+    document.getElementById("base_api_url").value = base_api_url;
 }
 
 
@@ -28,6 +28,8 @@ function get_version_click()
                 g_data.definition_set = {};
             }
             base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?path=";
+
+            document.getElementById("base_api_url").value = base_api_url;
 	});
 }
 
@@ -930,4 +932,9 @@ function add_attachement(p_id, p_rev, p_doc_name, p_content)
         console.log(x);
     }
 );
+}
+function base_api_url_change(p_value)
+{
+
+    base_api_url = p_value;
 }
