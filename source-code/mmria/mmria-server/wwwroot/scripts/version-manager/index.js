@@ -865,19 +865,27 @@ function set_all_lists_in_definition(p_definitions, p_metadata, p_path)
 function add_attachement_click(p_value)
 {
     let doc_name = p_value.value.toLowerCase();
+    document.getElementById("add_attachement_id").value = g_data._id;
+    document.getElementById("add_attachement_rev").value = g_data._rev;
+    document.getElementById("add_attachement_doc_name").value = doc_name;
+
 
     switch(doc_name)
     {
         case "metadata":
+            document.getElementById("add_attachement_document_content").value = JSON.stringify(g_metadata);
             add_attachement(g_data._id, g_data._rev, doc_name, g_metadata)
             break;
-        case "MMRIA_Calculations":
+        case "mmria_calculations":
+            document.getElementById("add_attachement_document_content").value = g_MMRIA_Calculations;
             add_attachement(g_data._id, g_data._rev, doc_name, g_MMRIA_Calculations)
             break;
         case "validation":
+            document.getElementById("add_attachement_document_content").value = g_validation;
             add_attachement(g_data._id, g_data._rev, doc_name, g_validation)
             break;
         case "ui_specification":
+            document.getElementById("add_attachement_document_content").value = g_ui_specification;
             add_attachement(g_data._id, g_data._rev, doc_name, g_ui_specification)
             break;
         
@@ -887,13 +895,17 @@ function add_attachement_click(p_value)
 function add_attachement(p_id, p_rev, p_doc_name, p_content) 
 {
     //add_attachement/{_id}/{_rev}/{doc_name}
+    ///${p_rev}/${p_doc_name}
 
     $.ajax({
-        url: `${location.protocol}//${location.host}/api/metadata/add_attachement/${p_id}/${p_rev}/${p_doc_name}`,
+        //url: `${location.protocol}//${location.host}/api/version_attach/add/${p_id}`,
+        //url: `${location.protocol}//${location.host}/api/version_attach/add`,
+        //url: `${location.protocol}//${location.host}/api/version_attach/add/${p_id}`,
+        url: `${location.protocol}//${location.host}/api/version_attach`,
         //contentType: 'application/json; charset=utf-8',
         contentType: 'multipart/form-data; charset=utf-8',
-        dataType: 'text',
-        data: p_content,
+        //dataType: 'text',
+        data:  $("#add_attachement").serialize(),
         type: "POST"
 }).done(function(response) 
 {

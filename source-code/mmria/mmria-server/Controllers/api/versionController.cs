@@ -196,26 +196,15 @@ namespace mmria.server
 		}
 
 		[Authorize(Roles  = "form_designer")]
-		[Route("add_attachement/{_id}/{_rev}/{doc_name}")]
+		[Route("add_attachement")]
 		[HttpPost]
-		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Add_Attachment
         (
-            string _id, string _rev, string doc_name
+			
+            //[FromBody] mmria.common.metadata.Add_Attachement add_attachement
         ) 
 		{ 
 
-			if
-			(
-				//p_version_specification.data_type == null ||
-				//p_version_specification.data_type != "version-specification" || 
-				_id =="default_ui_specification" ||
-				_id == "2016-06-12T13:49:24.759Z" ||
-				_id == "de-identified-list"
-
-			)
-			{
-				return null;
-			}
 
 
 			string document_content;
@@ -224,6 +213,9 @@ namespace mmria.server
 				try
 				{
 
+
+					mmria.common.metadata.Add_Attachement add_attachement = null;
+
 					System.IO.Stream dataStream0 = this.Request.Body;
 
 					//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
@@ -231,10 +223,29 @@ namespace mmria.server
 
 					document_content = await reader0.ReadToEndAsync ();
 
-                    string metadata_url = Program.config_couchdb_url + "/metadata/{id}/{doc_name}";
 
-					var put_curl = new cURL("PUT", null, metadata_url, document_content, Program.config_timer_user_name, Program.config_timer_value, "text/*");
-					put_curl.AddHeader("If-Match",  _rev);
+					add_attachement = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Add_Attachement>(document_content);
+
+					if
+					(
+						//p_version_specification.data_type == null ||
+						//p_version_specification.data_type != "version-specification" || 
+						add_attachement._id =="default_ui_specification" ||
+						add_attachement._id == "2016-06-12T13:49:24.759Z" ||
+						add_attachement._id == "de-identified-list"
+
+					)
+					{
+						return null;
+					}
+
+
+					
+
+                    string metadata_url = Program.config_couchdb_url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
+
+					var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, Program.config_timer_user_name, Program.config_timer_value, "text/*");
+					put_curl.AddHeader("If-Match",  add_attachement._rev);
 
 					string responseFromServer = await put_curl.executeAsync();
 
