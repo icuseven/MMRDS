@@ -887,7 +887,7 @@ function add_attachement_click(p_value)
             add_attachement(g_data._id, g_data._rev, doc_name, g_validation)
             break;
         case "ui_specification":
-            document.getElementById("add_attachement_document_content").value = g_ui_specification;
+            document.getElementById("add_attachement_document_content").value = JSON.stringify(g_ui_specification);
             add_attachement(g_data._id, g_data._rev, doc_name, g_ui_specification)
             break;
         

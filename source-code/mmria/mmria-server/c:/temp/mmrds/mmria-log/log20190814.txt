@@ -1,0 +1,78 @@
+2019-08-14 12:23:08.643 -04:00 [INF] Program.config_timer_user_name = mmrds
+2019-08-14 12:23:08.711 -04:00 [INF] Program.config_couchdb_url = http://localhost:5984
+2019-08-14 12:23:08.712 -04:00 [INF] Logging = False
+2019-08-14 12:23:08.712 -04:00 [INF] Console = Warning
+2019-08-14 12:23:08.715 -04:00 [INF] sams:callback_url: http://localhost:12345/Account/SignInCallback
+2019-08-14 12:23:08.717 -04:00 [INF] sams:activity_name: MMRIA
+2019-08-14 12:23:08.717 -04:00 [INF] mmria_settings:is_schedule_enabled: False
+2019-08-14 12:23:08.717 -04:00 [INF] mmria_settings:is_db_check_enabled: False
+2019-08-14 12:23:09.399 -04:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2019-08-14 12:23:09.491 -04:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2019-08-14 12:23:09.492 -04:00 [INF] Quartz Scheduler v.3.0.4.0 created.
+2019-08-14 12:23:09.504 -04:00 [INF] RAMJobStore initialized.
+2019-08-14 12:23:09.513 -04:00 [INF] Scheduler meta-data: Quartz Scheduler (v3.0.4.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2019-08-14 12:23:09.513 -04:00 [INF] Quartz scheduler 'DefaultQuartzScheduler' initialized
+2019-08-14 12:23:09.513 -04:00 [INF] Quartz scheduler version: 3.0.4.0
+2019-08-14 12:24:29.021 -04:00 [INF] Program.config_timer_user_name = mmrds
+2019-08-14 12:24:29.091 -04:00 [INF] Program.config_couchdb_url = http://localhost:5984
+2019-08-14 12:24:29.091 -04:00 [INF] Logging = False
+2019-08-14 12:24:29.091 -04:00 [INF] Console = Warning
+2019-08-14 12:24:29.095 -04:00 [INF] sams:callback_url: http://localhost:12345/Account/SignInCallback
+2019-08-14 12:24:29.097 -04:00 [INF] sams:activity_name: MMRIA
+2019-08-14 12:24:29.097 -04:00 [INF] mmria_settings:is_schedule_enabled: False
+2019-08-14 12:24:29.097 -04:00 [INF] mmria_settings:is_db_check_enabled: False
+2019-08-14 12:24:29.793 -04:00 [INF] Default Quartz.NET properties loaded from embedded resource file
+2019-08-14 12:24:29.892 -04:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2019-08-14 12:24:29.892 -04:00 [INF] Quartz Scheduler v.3.0.4.0 created.
+2019-08-14 12:24:29.893 -04:00 [INF] RAMJobStore initialized.
+2019-08-14 12:24:29.911 -04:00 [INF] Scheduler meta-data: Quartz Scheduler (v3.0.4.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2019-08-14 12:24:29.912 -04:00 [INF] Quartz scheduler 'DefaultQuartzScheduler' initialized
+2019-08-14 12:24:29.912 -04:00 [INF] Quartz scheduler version: 3.0.4.0
+2019-08-14 12:25:00.809 -04:00 [INF] Recieved message.
+2019-08-14 12:25:01.041 -04:00 [INF] Recieved message.
+2019-08-14 12:25:40.040 -04:00 [INF] Recieved message.
+2019-08-14 12:25:40.384 -04:00 [INF] Recieved message.
+2019-08-14 12:29:41.834 -04:00 [INF] Recieved message.
+2019-08-14 12:29:42.022 -04:00 [INF] Recieved message.
+2019-08-14 12:31:15.296 -04:00 [INF] Recieved message.
+2019-08-14 12:31:15.460 -04:00 [INF] Recieved message.
+2019-08-14 12:33:38.023 -04:00 [INF] Recieved message.
+2019-08-14 12:33:38.219 -04:00 [INF] Recieved message.
+2019-08-14 12:33:47.312 -04:00 [INF] Recieved message.
+2019-08-14 12:33:47.481 -04:00 [INF] Recieved message.
+2019-08-14 12:38:54.418 -04:00 [INF] Recieved message.
+2019-08-14 12:38:54.613 -04:00 [INF] Recieved message.
+2019-08-14 12:40:26.465 -04:00 [INF] Recieved message.
+2019-08-14 12:40:26.701 -04:00 [INF] Recieved message.
+2019-08-14 12:41:37.418 -04:00 [INF] Recieved message.
+2019-08-14 12:41:37.666 -04:00 [INF] Recieved message.
+2019-08-14 12:42:59.292 -04:00 [INF] Recieved message.
+2019-08-14 12:42:59.556 -04:00 [INF] Recieved message.
+2019-08-14 12:45:59.583 -04:00 [INF] Recieved message.
+2019-08-14 12:45:59.770 -04:00 [INF] Recieved message.
+2019-08-14 12:47:30.834 -04:00 [INF] Recieved message.
+2019-08-14 12:47:31.020 -04:00 [INF] Recieved message.
+2019-08-14 12:51:09.629 -04:00 [INF] Recieved message.
+2019-08-14 12:51:09.811 -04:00 [INF] Recieved message.
+2019-08-14 12:51:13.607 -04:00 [INF] Recieved message.
+2019-08-14 12:51:13.798 -04:00 [INF] Recieved message.
+2019-08-14 13:05:31.409 -04:00 [INF] Recieved message.
+2019-08-14 13:05:31.582 -04:00 [INF] Recieved message.
+2019-08-14 13:07:19.279 -04:00 [INF] Recieved message.
+2019-08-14 13:07:19.517 -04:00 [INF] Recieved message.
+2019-08-14 13:07:25.854 -04:00 [INF] Recieved message.
+2019-08-14 13:07:26.041 -04:00 [INF] Recieved message.

@@ -91,6 +91,38 @@ namespace mmria.server
 			return result;
 		} 
 
+		[AllowAnonymous] 
+		[HttpGet]
+		[Route("{version_specification_id}/{document_name}")]
+		public async Task<string> Get_Version_Document(string version_specification_id, string document_name = "")
+		{
+			string result = null;
+
+			try
+			{
+				//"2016-06-12T13:49:24.759Z"
+                string request_string = Program.config_couchdb_url + $"/metadata/version_specification-{version_specification_id}/{document_name}";
+
+				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+				request.Method = "GET";
+				request.PreAuthenticate = false;
+
+				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
+				System.IO.Stream dataStream = response.GetResponseStream();
+				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+				result = await reader.ReadToEndAsync ();
+				
+
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex);
+			}
+
+			return result;
+		} 
+
+
 
 		[AllowAnonymous] 
 		[HttpGet]
