@@ -401,7 +401,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr  bg-gray-l3">
+						<tr class="tr  bg-gray-l2">
 							<th class="th" width="180">Export Field</th>
 							<th class="th" width="240">Prompt</th>
 							<th class="th" width="420">Description</th>
