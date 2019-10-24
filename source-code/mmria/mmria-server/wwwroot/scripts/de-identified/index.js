@@ -433,10 +433,9 @@ function get_case_set(p_call_back)
 
   $.ajax({
     url: case_view_url,
-}).done(function(case_view_response) {
+  }).done(function(case_view_response) {
     
-
-    //console.log(case_view_response);
+    // console.log(case_view_response);
     g_ui.case_view_list = [];
     g_ui.case_view_request.total_rows = case_view_response.total_rows;
 
