@@ -146,6 +146,12 @@ namespace mmria.server
                 }
                 
 
+                if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("metadata_version")))
+                {
+                    Configuration["mmria_settings:metadata_version"] = System.Environment.GetEnvironmentVariable ("metadata_version");
+                }
+
+
                 if(!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable ("sams_endpoint_token")))
                 {
                     Configuration["sams:endpoint_token"] = System.Environment.GetEnvironmentVariable ("sams_endpoint_token");
@@ -240,6 +246,7 @@ namespace mmria.server
             Log.Information ("mmria_settings:is_schedule_enabled: {0}", Configuration["mmria_settings:is_schedule_enabled"]);
             Log.Information ("mmria_settings:is_db_check_enabled: {0}", Configuration["mmria_settings:is_db_check_enabled"]);
             Log.Information ("mmria_settings:is_development: {0}", Configuration["mmria_settings:is_development"]);
+            Log.Information ("mmria_settings:metadata_version: {0}", Configuration["mmria_settings:metadata_version"]);
 
 
 

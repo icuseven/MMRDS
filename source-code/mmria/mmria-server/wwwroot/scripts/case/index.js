@@ -898,11 +898,12 @@ function get_metadata()
 
   $.ajax
   ({
-			url: location.protocol + '//' + location.host + '/api/metadata',
+      //url: location.protocol + '//' + location.host + '/api/metadata',
+      url: location.protocol + '//' + location.host + '/api/version/19.10.18/metadata',
   })
   .done(function(response) 
   {
-			g_metadata = response;
+			g_metadata = eval("(" + response + ")");
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
 
