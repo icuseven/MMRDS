@@ -33,7 +33,7 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<h2 class="h5">Fields for version {version number}</h2>
+				<p class="mb-2">Fields for version: {version number}</p>
 				<div id="de_identify_search_result_list" style="font-size: 14px">
 					${de_identified_search_result.join("")}
 				</div>
@@ -392,8 +392,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				<table class="table table--standard rounded-0 mb-4">
 					<thead class="thead">
 						<tr class="tr bg-gray">
-							<th class="th" colspan="3">
-								MMRIA Form: <span class="font-weight-normal">${form_name}</span>
+							<th class="th" colspan="3" style="font-size: 20px">
+								MMRIA Form: ${form_name}
 							</th>
 							<th class="th" colspan="3">
 								Export File: <span class="font-weight-normal">example_file_name.csv</span>
