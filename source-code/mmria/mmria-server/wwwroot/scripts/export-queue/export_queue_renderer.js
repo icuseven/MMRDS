@@ -103,7 +103,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 						<label for="de-identify-custom" class="mb-0 font-weight-normal">Custom</label>
 						<div id="de_identify_filter_standard" class="p-3 mt-3 bg-gray-l3" data-prop="de_identified_selection_type" style="display: ${p_answer_summary.de_identified_selection_type == 'standard' ? 'block' : 'none'}; border: 1px solid #bbb;">
 							<div class="" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
-								<table class="table table--plain mb-0">
+								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="2">
@@ -116,7 +116,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 									<tbody class="tbody">
 										<tr class="tr">
 											<td class="td">
-												<table class="table table--plain mb-0">
+												<table class="table rounded-0 mb-0">
 													<tbody class="tbody">
 														${render_standard_de_identify_fields(g_standard_de_identified_list)}
 													</tbody>
@@ -150,7 +150,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 							</div>
 							
 							<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
-								<table class="table table--plain mb-0">
+								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="2">
@@ -168,7 +168,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 							</div>
 
 							<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto; max-height: 346px;">
-								<table class="table table--plain mb-0">
+								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="2">
@@ -235,7 +235,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters pt-1 pb-1 pl-2 pr-2'>
 									${pagination_html.join("")}
 								</div>
-								<table class="table table--plain m-0">
+								<table class="table rounded-0 m-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14">
@@ -272,7 +272,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 							</li>
 
 							<li class="" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
-								<table class="table table--plain mb-0">
+								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
 											<th class="th" colspan="14">
@@ -947,7 +947,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					<label for="unique_id_1" class="sr-only">unique_id_1</label>
 				</td>
 				<td class="td">
-					<table class="table table--plain mb-0">
+					<table class="table rounded-0 mb-0">
 						<thead class="thead">
 							<tr class="tr">
 								<th class="th" colspan="4" style="padding: 0px">
@@ -1101,7 +1101,7 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 				<label for="unique_id_1" class="sr-only">unique_id_1</label>
 			</td>
 			<td class="td">
-				<table class="table table--plain mb-0">
+				<table class="table rounded-0 mb-0">
 					<thead class="thead">
 						<tr class="tr">
 							<th class="th" colspan="4" style="padding: 0px">
