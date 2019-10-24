@@ -22,6 +22,7 @@ var g_change_stack = [];
 var g_default_ui_specification = null;
 var g_use_position_information = true;
 var g_look_up = {};
+var g_release_version = null;
 
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
@@ -359,14 +360,7 @@ function load_user_role_jurisdiction()
       $("#footer").hide();
       $("#root").removeClass("header");
 
-      if(g_use_position_information)
-      {
-        get_ui_specification()
-      }
-      else
-      {
-        get_metadata();
-      }
+      get_release_version();
 
  
 
@@ -383,7 +377,7 @@ function load_profile()
       $("#logout_page").hide();
       $("#footer").hide();
       $("#root").removeClass("header");
-      get_metadata();
+      get_release_version();
       /*
       if
       (
@@ -494,12 +488,28 @@ function get_case_set(p_call_back)
 }
 
 
+function get_release_version()
+{
+  $.ajax
+  ({
+
+      url: location.protocol + '//' + location.host + '/api/version/release-version',
+  })
+  .done(function(response) 
+  {
+      g_release_version = response;
+      get_ui_specification();
+      
+	});
+}
+
+
 function get_ui_specification()
 {
  	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
+			url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/ui_specification`,
 	}).done(function(response) {
-      g_default_ui_specification = response;
+      g_default_ui_specification = eval("(" + response + ")");
       get_metadata();
 	});
 }
@@ -509,9 +519,9 @@ function get_metadata()
   document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
 
   	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/metadata',
+			url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`,
 	}).done(function(response) {
-			g_metadata = response;
+			g_metadata = eval("(" + response + ")");
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
 

@@ -7,6 +7,7 @@ using mmria.common.model;
 using System.Net.Http;
 using Serilog;
 using Serilog.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 
 namespace mmria.server
@@ -14,6 +15,12 @@ namespace mmria.server
 	[Route("api/[controller]")]
 	public class versionController: ControllerBase
 	{ 
+
+		IConfiguration configuration;
+		public versionController(IConfiguration p_configuration)
+        {
+            configuration = p_configuration;
+        }
 
 		[Route("list")]
 		[AllowAnonymous] 
@@ -60,6 +67,15 @@ namespace mmria.server
 			}
 
 			return result;
+		}
+
+		
+		[AllowAnonymous] 
+		[Route("release-version")]
+		[HttpGet]
+		public string release_version()
+		{
+			return configuration["mmria_settings:metadata_version"];
 		}
 
 		[AllowAnonymous] 

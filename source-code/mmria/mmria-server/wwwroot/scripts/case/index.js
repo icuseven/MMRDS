@@ -24,6 +24,7 @@ var g_change_stack = [];
 var g_default_ui_specification = null;
 var g_use_position_information = true;
 var g_look_up = {};
+var g_release_version = null;
 
 
 
@@ -719,14 +720,8 @@ function load_user_role_jurisdiction()
       $("#footer").hide();
       $("#root").removeClass("header");
 
-      if(g_use_position_information)
-      {
-        get_ui_specification()
-      }
-      else
-      {
-        get_metadata();
-      }
+
+      get_release_version();
 
       //load_profile();
 
@@ -776,14 +771,8 @@ function load_profile()
       $("#logout_page").hide();
       $("#footer").hide();
       $("#root").removeClass("header");
-      if(g_use_position_information)
-      {
-        get_ui_specification()
-      }
-      else
-      {
-        get_metadata();
-      }
+      
+      get_release_version();
       
     };
 
@@ -885,10 +874,27 @@ function get_case_set(p_call_back)
 function get_ui_specification()
 {
  	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification',
+			url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/ui_specification`,
 	}).done(function(response) {
-      g_default_ui_specification = response;
+      g_default_ui_specification = eval("(" + response + ")");
       get_metadata();
+	});
+}
+
+
+
+function get_release_version()
+{
+  $.ajax
+  ({
+
+      url: location.protocol + '//' + location.host + '/api/version/release-version',
+  })
+  .done(function(response) 
+  {
+      g_release_version = response;
+      get_ui_specification();
+      
 	});
 }
 
@@ -899,7 +905,7 @@ function get_metadata()
   $.ajax
   ({
       //url: location.protocol + '//' + location.host + '/api/metadata',
-      url: location.protocol + '//' + location.host + '/api/version/19.10.18/metadata',
+      url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`,
   })
   .done(function(response) 
   {
