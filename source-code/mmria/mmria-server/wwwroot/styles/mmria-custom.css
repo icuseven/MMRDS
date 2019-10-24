@@ -524,37 +524,61 @@ button.link {
   box-shadow: 0 0 0 var(--border-width) var(--neutral);
   overflow: hidden;
 }
+@media print {
+  .table {
+    border: 1px solid var(--neutral-light);
+    border-radius: 0;
+    overflow: visible;
+  }
+}
 
-.table--plain {
-  border-radius: 0;
+.table--standard {
+  border: 2px solid var(--neutral-dark);
+  box-shadow: none;
+  overflow: visible;
+}
+.table--standard .table--standard {
+  border: none;
 }
 
 .thead > .tr {
-  background-color: #f1f1f1;
+  background-color: var(--neutral-light);
 }
 .tbody > .tr {
   background-color: var(--white);
 }
 
-.th {
-  border-bottom: none;
+.th,
+.td {
+  border: var(--border-width) solid var(--neutral);
+  padding: 8px 10px;
+  vertical-align: middle;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+}
+@media print {
+  .table .thead:first-of-type th {
+    background-color: var(--neutral-light) !important;
+  }
+}
+
+.table--standard .th,
+.table--standard .td {
+  border: 2px solid var(--neutral-dark);
+  padding: 6px 8px;
+}
+.table--standard .table--standard .th,
+.table--standard .table--standard .td {
+  border-right: none;
   border-top: none;
 }
-
-.th,
-.td {
-  border: var(--border-width) solid;
-  border-color: var(--neutral);
-  padding: 8px 10px;
-  vertical-align: middle;
+.table--standard .table--standard .th:first-of-type,
+.table--standard .table--standard .td:first-of-type {
+  border-left: none;
 }
-
-.th,
-.td {
-  border: var(--border-width) solid;
-  border-color: var(--neutral);
-  padding: 8px 10px;
-  vertical-align: middle;
+.table--standard .table--standard .tr:last-of-type .td {
+  border-bottom: none;
 }
 
 .table .tbody .td--25 {
@@ -602,7 +626,8 @@ button.link {
   /* background-position: 50%; */
   min-height: 100%;
   min-height: calc(100% - 156px);
-  padding-bottom: 1rem;
+  padding-bottom: 15px;
+  padding-top: 15px;
   position: relative;
   width: calc(100% - 60px);
 }
@@ -1087,5 +1112,12 @@ button.link {
 
 
 /*
-  Printing
+  Borders
 */
+.no-borders {
+  border: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}

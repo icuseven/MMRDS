@@ -2,11 +2,8 @@ function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
 
-
 	let de_identified_search_result = [];
 	render_de_identified_search_result(de_identified_search_result, g_filter);
-
-
 
 	result.push(`
 		<div id="de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
@@ -26,7 +23,7 @@ function dictionary_render(p_metadata, p_path)
 						<option value="">Select Metadata Version</option>
 						<option value="19.10.17">19.10.17</option>
 					</select>
-					<button type="button" class="btn btn-secondary" alt="clear search" onclick="de_identified_search_click()">Search</button>
+					<button type="submit" class="btn btn-secondary" alt="clear search" onclick="de_identified_search_click()">Search</button>
 				</div>
 				<div>
 					<div class="row no-gutters justify-content-end">
@@ -35,172 +32,161 @@ function dictionary_render(p_metadata, p_path)
 				</div>
 			</div>
 
-			<div class="mt-3" style="border: 1px solid #bbbbbb; overflow:hidden; overflow-y: auto;">
-				<table id="print-content" class="table table--plain mb-0">
-					<thead class="thead">
-						<tr class="tr bg-tertiary">
-							<th class="th" colspan="2">
-								<span class="row no-gutters justify-content-between">
-									<span>Fields for version {version number}</span>
-								</span>
-							</th>
-						</tr>
-					</thead>
-					<tbody class="tbody" id="de_identify_search_result_list">
-						${de_identified_search_result.join("")}
-					</tbody>
-				</table>
+			<div class="mt-2">
+				<h2 class="h5">Fields for version {version number}</h2>
+				<div id="de_identify_search_result_list" style="font-size: 14px">
+					${de_identified_search_result.join("")}
+				</div>
 			</div>
 	`);
 
-
 	return result;
 }
 
-function dictionary_render_header()
-{
-	var result = [];
+// function dictionary_render_header()
+// {
+// 	var result = [];
 
-	result.push(`
-		<tr class="tr bg-white">
-			<th class="th">path</th>
-			<th class="th">name</th>
-			<th class="th">type</th>
-			<th class="th">prompt</th>
-			<th class="th">control_style</th>
-			<th class="th">description</th>
-			<th class="th">is_save_value_display_description</th>
-			<th class="th">values</th>
-			<th class="th">is_core_summary</th>
-			<th class="th">is_required</th>
-			<th class="th">is_multiselect</th>
-			<th class="th">is_read_only</th>
-			<th class="th">default_value</th>
-			<th class="th">regex_pattern</th>
-			<th class="th">pre_fill</th>
-			<th class="th">max_value</th>
-			<th class="th">min_value</th>	
-			<th class="th">validation</th>
-			<th class="th">validation_description</th>
-			<th class="th">onfocus</th>
-			<th class="th">onchange</th>
-			<th class="th">onblur</th>
-			<th class="th">onclick</th>
-		</tr>
-	`);
+// 	result.push(`
+// 		<tr class="tr bg-white">
+// 			<th class="th">path</th>
+// 			<th class="th">name</th>
+// 			<th class="th">type</th>
+// 			<th class="th">prompt</th>
+// 			<th class="th">control_style</th>
+// 			<th class="th">description</th>
+// 			<th class="th">is_save_value_display_description</th>
+// 			<th class="th">values</th>
+// 			<th class="th">is_core_summary</th>
+// 			<th class="th">is_required</th>
+// 			<th class="th">is_multiselect</th>
+// 			<th class="th">is_read_only</th>
+// 			<th class="th">default_value</th>
+// 			<th class="th">regex_pattern</th>
+// 			<th class="th">pre_fill</th>
+// 			<th class="th">max_value</th>
+// 			<th class="th">min_value</th>	
+// 			<th class="th">validation</th>
+// 			<th class="th">validation_description</th>
+// 			<th class="th">onfocus</th>
+// 			<th class="th">onchange</th>
+// 			<th class="th">onblur</th>
+// 			<th class="th">onclick</th>
+// 		</tr>
+// 	`);
 
-	return result;
-}
+// 	return result;
+// }
 
-function dictionary_render_row(p_metadata, p_path)
-{
-	var result = [];
+// function dictionary_render_row(p_metadata, p_path)
+// {
+// 	var result = [];
 
-	result.push('<tr class="tr">');
-		result.push('<td class="td">' + p_path + '</td>');
-		result.push('<td class="td">' + ((p_metadata['name'])? p_metadata['name']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['type'])? p_metadata['type']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['prompt'])? p_metadata['prompt']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['control_style'])? p_metadata['control_style']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['description'])? p_metadata['description']: "&nbsp;") + '</td>');
+// 	result.push('<tr class="tr">');
+// 		result.push('<td class="td">' + p_path + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['name'])? p_metadata['name']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['type'])? p_metadata['type']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['prompt'])? p_metadata['prompt']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['control_style'])? p_metadata['control_style']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['description'])? p_metadata['description']: "&nbsp;") + '</td>');
 		
-		if(p_metadata.type.toLowerCase() == "list")
-		{
-			result.push('<td class="td">')
-			if
-			(
-				p_metadata['is_save_value_display_description'] &&
-				p_metadata['is_save_value_display_description'] == true
-			)
-			{
-				result.push("saves the value, displays the <strong>description</strong> in list.");
-			}
-			else
-			{
-				result.push("saves value, displays value.");
-			}
+// 		if(p_metadata.type.toLowerCase() == "list")
+// 		{
+// 			result.push('<td class="td">')
+// 			if
+// 			(
+// 				p_metadata['is_save_value_display_description'] &&
+// 				p_metadata['is_save_value_display_description'] == true
+// 			)
+// 			{
+// 				result.push("saves the value, displays the <strong>description</strong> in list.");
+// 			}
+// 			else
+// 			{
+// 				result.push("saves value, displays value.");
+// 			}
 				
-			result.push('</td>');
-		}
-		else
-		{
-			result.push("<td class='td'>&nbsp;</td>");
-		}
+// 			result.push('</td>');
+// 		}
+// 		else
+// 		{
+// 			result.push("<td class='td'>&nbsp;</td>");
+// 		}
 
-		if(p_metadata.values)
-		{
-			result.push('<td class="td"><table class="table"><tr class="tr bg-secondary"><th class="th">value</th><th class="th">description</th></tr>');
+// 		if(p_metadata.values)
+// 		{
+// 			result.push('<td class="td"><table class="table"><tr class="tr bg-secondary"><th class="th">value</th><th class="th">description</th></tr>');
 
-			let value_list = p_metadata.values;
+// 			let value_list = p_metadata.values;
 
-			if(p_metadata.path_reference && p_metadata.path_reference != "")
-			{
-				value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+// 			if(p_metadata.path_reference && p_metadata.path_reference != "")
+// 			{
+// 				value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
 		
-				if(value_list == null)	
-				{
-					value_list = p_metadata.values;
-				}
-			}
+// 				if(value_list == null)	
+// 				{
+// 					value_list = p_metadata.values;
+// 				}
+// 			}
 
-			for(var i = 0; i < value_list.length; i++)
-			{
-				var child = value_list[i];
-				if(i % 2)
-				{
-					result.push("<tr class='tr bg-white'><td>");
-				}
-				else
-				{
-					result.push("<tr class='tr'><td class='td'>");
-				}
-				if(child.value == "")
-				{
-					result.push("(blank)");
-				}
-				else
-				{
-					result.push(child.value);
-				}
+// 			for(var i = 0; i < value_list.length; i++)
+// 			{
+// 				var child = value_list[i];
+// 				if(i % 2)
+// 				{
+// 					result.push("<tr class='tr bg-white'><td>");
+// 				}
+// 				else
+// 				{
+// 					result.push("<tr class='tr'><td class='td'>");
+// 				}
+// 				if(child.value == "")
+// 				{
+// 					result.push("(blank)");
+// 				}
+// 				else
+// 				{
+// 					result.push(child.value);
+// 				}
 				
-				result.push("</td><td class='td'>")
-				if(child.display == "")
-				{
-					result.push("(blank)");
-				}
-				else
-				{
-					result.push(child.display);
-				}
-				result.push('</td></tr>');
-			}
-			result.push('</table></td>');
-		}
-		else
-		{
-			result.push('<td class="td">&nbsp;</td>');
-		}
+// 				result.push("</td><td class='td'>")
+// 				if(child.display == "")
+// 				{
+// 					result.push("(blank)");
+// 				}
+// 				else
+// 				{
+// 					result.push(child.display);
+// 				}
+// 				result.push('</td></tr>');
+// 			}
+// 			result.push('</table></td>');
+// 		}
+// 		else
+// 		{
+// 			result.push('<td class="td">&nbsp;</td>');
+// 		}
 
-		result.push('<td class="td">' + ((p_metadata['is_core_summary'])? p_metadata['is_core_summary']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['is_required'])? p_metadata['is_required']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['is_multiselect'])? p_metadata['is_multiselect']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['is_read_only'])? p_metadata['is_read_only']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['default_value'])? p_metadata['default_value']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['regex_pattern'])? p_metadata['regex_pattern']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['pre_fill'])? p_metadata['pre_fill']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['max_value'])? p_metadata['max_value']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['min_value'])? p_metadata['min_value']: "&nbsp;") + '</td>');	
-		result.push('<td class="td">' + ((p_metadata['validation'])? p_metadata['validation']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['validation_description'])? p_metadata['validation_description']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['onfocus'])? p_metadata['onfocus']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['onchange'])? p_metadata['onchange']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
-		result.push('<td class="td">' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['is_core_summary'])? p_metadata['is_core_summary']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['is_required'])? p_metadata['is_required']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['is_multiselect'])? p_metadata['is_multiselect']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['is_read_only'])? p_metadata['is_read_only']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['default_value'])? p_metadata['default_value']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['regex_pattern'])? p_metadata['regex_pattern']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['pre_fill'])? p_metadata['pre_fill']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['max_value'])? p_metadata['max_value']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['min_value'])? p_metadata['min_value']: "&nbsp;") + '</td>');	
+// 		result.push('<td class="td">' + ((p_metadata['validation'])? p_metadata['validation']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['validation_description'])? p_metadata['validation_description']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['onfocus'])? p_metadata['onfocus']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['onchange'])? p_metadata['onchange']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
+// 		result.push('<td class="td">' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
 
-	result.push('</tr>');
+// 	result.push('</tr>');
 
-	return result;
-}
+// 	return result;
+// }
 
 
 function handle_print() {
@@ -273,20 +259,15 @@ function de_identified_search_click()
 	render_de_identified_search_result(result, g_filter);
 
 	de_identify_search_result_list.innerHTML = result.join("");
-	
 }
 
 function render_de_identified_search_result(p_result, p_filter)
 {
-
 	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text);
-
-	
 }
 
 function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
-
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":
@@ -321,154 +302,151 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 			break;
 		default:
-
-		if(p_search_text != null && p_search_text !="")
-		{
-			if
-			(
-				!(
-					p_metadata.name.indexOf(p_search_text) > -1 ||
-					p_metadata.prompt.indexOf(p_search_text) > -1 
+			if(p_search_text != null && p_search_text !="")
+			{
+				if
+				(
+					!(
+						p_metadata.name.indexOf(p_search_text) > -1 ||
+						p_metadata.prompt.indexOf(p_search_text) > -1 
+					)
+				
 				)
-			
-			)
-			{
-				return;
-			}
-		}
-		let form_name = "(none)";
-		let path_array = p_path.split('/');
-		if(path_array.length > 2)
-		{
-			form_name = path_array[1];
-		}
-
-		let description = "";
-
-		if(p_metadata.description != null)
-		{
-			description = p_metadata.description;
-		}
-
-		let list_values = [];
-
-		if(p_metadata.type.toLowerCase() == "list")
-		{
-			let value_list = p_metadata.values;
-
-			if(p_metadata.path_reference && p_metadata.path_reference != "")
-			{
-				value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-		
-				if(value_list == null)	
 				{
-					value_list = p_metadata.values;
+					return;
 				}
 			}
 
-			list_values.push(`
-				<tr class="tr">
-					<td class="td" colspan="6">
-						<table class="table table--plain w-50 mb-0 ml-auto mr-auto">
-							<thead class="thead">
-								<tr class="tr bg-white">
-									<th class="th" colspan=3>List Values</th>
-								</tr>
-							</thead>
-							<thead class="thead">
-								<tr class="tr bg-white">
-									<th class="th" width="30">Value</th>
-									<th class="th">Display</th>
-									<th class="th">Description</th>
-								</tr>
-							</thead>
-							<tbody class="tbody">	
-			`);
+			let form_name = "(none)";
+			let path_array = p_path.split('/');
+			let description = "";
+			let list_values = [];
 
-			for(let i= 0; i < value_list.length; i++)
+			if(path_array.length > 2)
 			{
+				form_name = path_array[1];
+			}
+
+
+			if(p_metadata.description != null)
+			{
+				description = p_metadata.description;
+			}
+
+
+			if(p_metadata.type.toLowerCase() == "list")
+			{
+				let value_list = p_metadata.values;
+
+				if(p_metadata.path_reference && p_metadata.path_reference != "")
+				{
+					value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+			
+					if(value_list == null)	
+					{
+						value_list = p_metadata.values;
+					}
+				}
+
 				list_values.push(`
-								<tr>
-									<td class="td">${value_list[i].value}</td>
-									<td class="td">${value_list[i].display}</td>
-									<td class="td">${value_list[i].description}</td>
-								</tr>
+					<tr class="tr">
+						<td class="td"></td>
+						<td class="td p-0" colspan="3">
+							<table class="table table--standard rounded-0 m-0">
+								<thead class="thead">
+									<tr class="tr">
+										<th class="th" colspan=3>List Values</th>
+									</tr>
+								</thead>
+								<thead class="thead">
+									<tr class="tr">
+										<th class="th" width="125">Value</th>
+										<th class="th">Display</th>
+										<th class="th" width="300">Description</th>
+									</tr>
+								</thead>
+								<tbody class="tbody">	
+				`);
+
+					for(let i= 0; i < value_list.length; i++)
+					{
+						list_values.push(`
+									<tr class="tr">
+										<td class="td">${value_list[i].value}</td>
+										<td class="td">${value_list[i].display}</td>
+										<td class="td">${value_list[i].description}</td>
+									</tr>
+						`);
+					}
+				
+				list_values.push(`
+								</tbody>
+							</table>
+						</td>
+						<td class="td" colspan="2"></td>
+					</tr>
 				`);
 			}
-			
-			list_values.push(`
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			`);
-		}
 
-		p_result.push(`
-			<tr class="tr">
-				<td class="td">
-					<table class="table table--plain mb-0">
-						<thead class="thead">
-							<tr class="tr bg-white">
-								<th class="th" colspan="6">
-									<strong>MMRIA Path:</strong> ${p_path}
-								</th>
-							</tr>
-						</thead>
-						<thead class="thead">
-							<tr class="tr bg-white" data-show="search--${p_path}" style="display: table-row">
-								<th class="th">Form</th>
-								<th class="th">Export File</th>
-								<th class="th">Export Field</th>
-								<th class="th">Name</th>
-								<th class="th">Type</th>
-								<th class="th">Prompt</th>
-							</tr>
-						</thead>
-						<tbody class="tbody">
-							<tr class="tr" data-show="search--${p_path}" style="display: table-row">
-								<td class="td">${form_name}</td>
-								<td class="td">Export File</td>
-								<td class="td">Export Field</td>
-								<td class="td">${p_metadata.name}</td>
-								<td class="td">${p_metadata.type}</td>
-								<td class="td">${p_metadata.prompt}</td>
-							</tr>
-							<tr class="tr">
-								<td class="td" colspan="6">
-									<strong>Description:</strong> ${description}
-								</td>
-							</tr>
-							${list_values.join("")}
-						</tbody>
-					</table>
-				</td>
-			</tr>
-		`);
-		break;
+			p_result.push(`
+				<table class="table table--standard rounded-0 mb-4">
+					<thead class="thead">
+						<tr class="tr bg-gray">
+							<th class="th" colspan="3">
+								MMRIA Form: <span class="font-weight-normal">${form_name}</span>
+							</th>
+							<th class="th" colspan="3">
+								Export File: <span class="font-weight-normal">example_file_name.csv</span>
+							</th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr  bg-gray-l3">
+							<th class="th" width="180">Export Field</th>
+							<th class="th" width="240">Prompt</th>
+							<th class="th" width="420">Description</th>
+							<th class="th" width="300">Path</th>
+							<th class="th" width="110">Type</th>
+							<th class="th" width="100">Calculated</th>
+						</tr>
+					</thead>
+					<tbody class="tbody">
+						<tr class="tr">
+							<td class="td">example_export_field</td>
+							<td class="td">${p_metadata.prompt}</td>
+							<td class="td">${description}</td>
+							<td class="td">${p_path}</td>
+							<td class="td">${p_metadata.type}</td>
+							<td class="td">no</td>
+						</tr>
+						${list_values.join("")}
+					</tbody>
+				</table>
+			`);
+			break;
 	}
 }
 
-function handleElementDisplay(event, str)
-{
-	const prop = event.target.dataset.prop;
-	const tars = document.querySelectorAll(`[data-show='${prop}']`);
+// function handleElementDisplay(event, str)
+// {
+// 	const prop = event.target.dataset.prop;
+// 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
 
-	return new Promise ((resolve, reject) =>
-	{
-		if (!isNullOrUndefined(tars)) {
-			for (let i = 0; i < tars.length; i++) {
-				if (tars[i].style.display === 'none') {
-					tars[i].style.display = str;
-				} else {
-					tars[i].style.display = 'none';
-				}
-			}
-		} else {
-			// target doesn't exist, reject
-			reject('Target(s) do not exist');
-		}
-	})
+// 	return new Promise ((resolve, reject) =>
+// 	{
+// 		if (!isNullOrUndefined(tars)) {
+// 			for (let i = 0; i < tars.length; i++) {
+// 				if (tars[i].style.display === 'none') {
+// 					tars[i].style.display = str;
+// 				} else {
+// 					tars[i].style.display = 'none';
+// 				}
+// 			}
+// 		} else {
+// 			// target doesn't exist, reject
+// 			reject('Target(s) do not exist');
+// 		}
+// 	})
 
 	// tars.forEach((el) =>
 	// {
@@ -480,7 +458,7 @@ function handleElementDisplay(event, str)
 	// 		console.log('b');
 	// 	}
 	// });
-}
+// }
 
 function convert_dictionary_path_to_lookup_object(p_path)
 {
