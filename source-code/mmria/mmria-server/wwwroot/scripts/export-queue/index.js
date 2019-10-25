@@ -6,6 +6,8 @@ var g_copy_clip_board = null;
 var g_delete_value_clip_board = null;
 var g_delete_attribute_clip_board = null;
 var g_delete_node_clip_board = null;
+var g_current_version = null;
+
 
 var g_ui = { is_collapsed : [] };
 var g_filter = 	{
@@ -548,4 +550,15 @@ function get_standard_de_identified_list()
 		
 	});
 
+}
+
+function get_latest_version()
+{
+
+  	$.ajax({
+
+            url: location.protocol + '//' + location.host + `/api/version/latest`
+	}).done(function(response) {
+		g_current_version = response;
+	});
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace mmria.server.util
 {
-	public class c_convert_to_report_object
+	public partial class c_convert_to_report_object
 	{
 		string source_json;
 

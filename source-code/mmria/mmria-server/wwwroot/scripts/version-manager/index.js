@@ -30,7 +30,7 @@ function get_available_versions()
   .done(function(response) 
   {
 
-      let avaliable_version = document.getElementById("avaliable_version");
+      let available_version = document.getElementById("available_version");
 
       let version_list = response;
 
@@ -48,7 +48,7 @@ function get_available_versions()
             result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
         }
       }
-      avaliable_version.innerHTML = result.join("");
+      available_version.innerHTML = result.join("");
  
       
 	});
@@ -57,7 +57,7 @@ function get_available_versions()
 
 function get_version_click()
 {
-    let version_id = document.getElementById("avaliable_version").value;
+    let version_id = document.getElementById("available_version").value;
   	$.ajax({
             //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
             url: location.protocol + '//' + location.host + `/api/metadata/${version_id}`
@@ -80,6 +80,7 @@ function get_metadata()
             url: location.protocol + '//' + location.host + '/api/metadata'
 	}).done(function(response) {
             g_metadata = response;
+            g_metadata.version = g_data.name;
             g_data.metadata = JSON.stringify(g_metadata);
 
             get_MMRIA_Calculations();
