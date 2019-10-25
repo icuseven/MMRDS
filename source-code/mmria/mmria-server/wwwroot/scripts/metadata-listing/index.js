@@ -48,6 +48,7 @@ function load_metadata()
 	}).done(function(response) {
 			g_metadata = response;
 			document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
+			get_available_versions()
 	});
 }
 
@@ -55,4 +56,41 @@ function load_metadata()
 function de_identify_search_text_change(p_value)
 {
 	g_filter.search_text = p_value;
+}
+
+
+function get_available_versions()
+{
+  
+
+  $.ajax
+  ({
+
+      url: location.protocol + '//' + location.host + '/api/version/list',
+  })
+  .done(function(response) 
+  {
+
+      let avaliable_version = document.getElementById("metadata_version_filter");
+
+      let version_list = response;
+
+      let result = []
+      for(let i = 0; i < version_list.length; i++)
+      {
+        let item = version_list[i];
+        let is_selected = "";
+        if(i== 0)
+        {
+            is_selected = "selected=true"
+        }
+        if(item._id.indexOf("_design/auth") < 0)
+        {
+            result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
+        }
+      }
+      avaliable_version.innerHTML = result.join("");
+ 
+      
+	});
 }

@@ -13,14 +13,54 @@ var g_ui_specification = null;
 function main()
 {
     document.getElementById("base_api_url").value = base_api_url;
+    get_available_versions();
+}
+
+
+
+function get_available_versions()
+{
+  
+
+  $.ajax
+  ({
+
+      url: location.protocol + '//' + location.host + '/api/version/list',
+  })
+  .done(function(response) 
+  {
+
+      let avaliable_version = document.getElementById("avaliable_version");
+
+      let version_list = response;
+
+      let result = []
+      for(let i = 0; i < version_list.length; i++)
+      {
+        let item = version_list[i];
+        let is_selected = "";
+        if(i== 0)
+        {
+            is_selected = "selected=true"
+        }
+        if(item._id.indexOf("_design/auth") < 0)
+        {
+            result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
+        }
+      }
+      avaliable_version.innerHTML = result.join("");
+ 
+      
+	});
 }
 
 
 function get_version_click()
 {
+    let version_id = document.getElementById("avaliable_version").value;
   	$.ajax({
             //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + '/api/metadata/version_specification-19.10.18'
+            url: location.protocol + '//' + location.host + `/api/metadata/${version_id}`
 	}).done(function(response) {
             g_data = response;
             if(g_data.definition_set == null)
