@@ -71,7 +71,7 @@ function get_available_versions()
   .done(function(response) 
   {
 
-      let avaliable_version = document.getElementById("metadata_version_filter");
+      let available_version = document.getElementById("metadata_version_filter");
 
       let version_list = response;
 
@@ -89,7 +89,7 @@ function get_available_versions()
             result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
         }
       }
-      avaliable_version.innerHTML = result.join("");
+      available_version.innerHTML = result.join("");
  
       
 	});
