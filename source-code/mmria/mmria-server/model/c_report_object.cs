@@ -1,14 +1,15 @@
 ﻿using System;
 namespace mmria.server.model
 {
-	public struct total_number_pregnant_at_time_of_death_struct
+	public struct timing_of_death_in_relation_to_pregnancy_struct
 	{
 		public int pregnant_at_the_time_of_death;
 		public int pregnant_within_42_days_of_death;
 		public int pregnant_within_43_to_365_days_of_death;
-		public int blank;	}
+		public int blank;
+	}
 
-	public struct total_number_of_pregnancy_related_deaths_by_age_struct
+	public struct age_at_death_struct
 	{
 		public int age_less_than_20;
 		public int age_20_to_24;
@@ -16,7 +17,8 @@ namespace mmria.server.model
 		public int age_30_to_34;
 		public int age_35_to_44;
 		public int age_45_and_above;
-		public int blank;	}
+		public int blank;
+	}
 
 	public struct  total_number_of_cases_by_pregnancy_relatedness_struct 
 	{
@@ -50,6 +52,30 @@ namespace mmria.server.model
 	}
 
 
+//  new - start
+
+	public struct total_value_struct
+	{
+		public int value;
+	}
+
+// singular
+// distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm
+
+
+// double
+	//determined_to_be_preventable - value struct
+	// obesity_contributed_to_the_death
+	// mental_health_conditions_contributed_to_death
+	// substance_use_disorder_contributed_to_death
+	// is_suicide
+	// is_homocide
+	//
+
+//  new - end
+
+
+
 	public struct c_report_object
 	{
 		public string _id ;
@@ -59,9 +85,40 @@ namespace mmria.server.model
 		public total_number_of_cases_by_pregnancy_relatedness_struct total_number_of_cases_by_pregnancy_relatedness;
 		public ethnicity_struct total_number_of_pregnancy_related_deaths_by_ethnicity;
 		public ethnicity_struct total_number_of_pregnancy_associated_by_ethnicity;
-		public total_number_of_pregnancy_related_deaths_by_age_struct total_number_of_pregnancy_related_deaths_by_age;
-		public total_number_of_pregnancy_related_deaths_by_age_struct total_number_of_pregnancy_associated_deaths_by_age;
-		public total_number_pregnant_at_time_of_death_struct total_number_pregnancy_related_at_time_of_death;
-		public total_number_pregnant_at_time_of_death_struct total_number_pregnancy_associated_at_time_of_death;
+		public age_at_death_struct total_number_of_pregnancy_related_deaths_by_age;
+		public age_at_death_struct total_number_of_pregnancy_associated_deaths_by_age;
+		public timing_of_death_in_relation_to_pregnancy_struct total_number_pregnancy_related_at_time_of_death;
+		public timing_of_death_in_relation_to_pregnancy_struct total_number_pregnancy_associated_at_time_of_death;
+
+		// singular
+		public total_value_struct distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm;
+
+		// double
+		//determined_to_be_preventable - value struct
+		public total_value_struct total_pregnancy_related_determined_to_be_preventable;
+		public total_value_struct total_pregnancy_associated_determined_to_be_preventable;
+
+
+		// obesity_contributed_to_the_death
+		public total_value_struct total_pregnancy_related_obesity_contributed_to_the_death;
+		public total_value_struct total_pregnancy_associated_obesity_contributed_to_the_death;
+
+		// mental_health_conditions_contributed_to_death
+		public total_value_struct total_pregnancy_related_mental_health_conditions_contributed_to_death;
+		public total_value_struct total_pregnancy_associated_mental_health_conditions_contributed_to_death;
+
+		// substance_use_disorder_contributed_to_death
+		public total_value_struct total_pregnancy_related_substance_use_disorder_contributed_to_death;
+		public total_value_struct total_pregnancy_associated_substance_use_disorder_contributed_to_death;
+
+		// is_suicide
+		public total_value_struct total_pregnancy_related_is_suicide;
+		public total_value_struct total_pregnancy_associated_is_suicide;
+
+		// is_homocide
+		public total_value_struct total_pregnancy_related_is_homocide;
+		public total_value_struct total_pregnancy_associated_is_homocide;
+
+
 	}
 }
