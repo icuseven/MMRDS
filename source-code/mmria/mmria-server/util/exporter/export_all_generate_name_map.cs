@@ -44,7 +44,7 @@ namespace mmria.server.util
 		public Dictionary<string, Dictionary<string, string>> Execute(string p_version)
 		{
 		
-			string metadata_url = this.database_url + $"/metadata/{p_version}/metadata";
+			string metadata_url = $"{this.Configuration["mmria_settings:couchdb_url"]}/metadata/version_specification-{p_version}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
@@ -360,11 +360,12 @@ namespace mmria.server.util
 
 			p_result[main_file_name].Add("_id","_id");
 			p_result[main_file_name].Add("version","");
+			/*
 			p_result[main_file_name].Add("date_created","version");
 			p_result[main_file_name].Add("created_by","created_by");
 			p_result[main_file_name].Add("date_last_updated","date_last_updated");
 			p_result[main_file_name].Add("last_updated_by","last_updated_by");
-
+ */
 			foreach(mmria.common.metadata.node node in p_metadata.children)
 			{
 				generate_file_names(p_result, node, path_to_int_map, "/" + node.name.ToLower(), main_file_name, p_is_core, false, false);
@@ -397,14 +398,14 @@ namespace mmria.server.util
 
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, true, false);
+							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, true, false);
 						}
 					}
 					else
 					{
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, false, false);
+							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, false, false);
 						}
 					}
 					
@@ -413,7 +414,7 @@ namespace mmria.server.util
 				
 					foreach(mmria.common.metadata.node node in p_metadata.children)
 					{
-						generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
+						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
 					}
 					
 					break;
@@ -427,7 +428,7 @@ namespace mmria.server.util
 
 					foreach(mmria.common.metadata.node node in p_metadata.children)
 					{
-						generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
+						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
 					}
 					break;
 				default:

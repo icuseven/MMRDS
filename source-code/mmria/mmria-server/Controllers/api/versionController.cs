@@ -107,6 +107,29 @@ namespace mmria.server
 			return result;
 		} 
 
+		
+
+		[AllowAnonymous] 
+		[Route("export-names/{version_specification_id}")]
+		[HttpGet]
+		public string export_all_generate_name_map
+		(
+			string version_specification_id
+		)
+		{
+
+			var export_all_generate_name_map = new mmria.server.util.export_all_generate_name_map(configuration);
+
+			var result = export_all_generate_name_map.Execute(version_specification_id);
+
+			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+			var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
+
+			return object_string;
+		}
+
+
 		[AllowAnonymous] 
 		[HttpGet]
 		[Route("{version_specification_id}/{document_name}")]
