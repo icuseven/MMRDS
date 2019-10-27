@@ -367,12 +367,12 @@ namespace mmria.server.util
 
 			foreach(mmria.common.metadata.node node in p_metadata.children)
 			{
-				generate_file_names(p_result, node, path_to_int_map, "/" + node.name.ToLower(), main_file_name, false, false);
+				generate_file_names(p_result, node, path_to_int_map, "/" + node.name.ToLower(), main_file_name, p_is_core, false, false);
 			}
 
 		}
 
-		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.node p_metadata, Dictionary<string, int> p_path_to_int_map, string p_path, string file_name, bool p_is_multi_form, bool p_is_grid)
+		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.node p_metadata, Dictionary<string, int> p_path_to_int_map, string p_path, string file_name, bool p_is_core, bool p_is_multi_form, bool p_is_grid)
 		{
 
 				//p_result.Add(field_name)
@@ -397,14 +397,14 @@ namespace mmria.server.util
 
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, true, false);
+							generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, true, false);
 						}
 					}
 					else
 					{
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, false, false);
+							generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, false, false);
 						}
 					}
 					
@@ -413,7 +413,7 @@ namespace mmria.server.util
 				
 					foreach(mmria.common.metadata.node node in p_metadata.children)
 					{
-						generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_multi_form, p_is_grid);
+						generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
 					}
 					
 					break;
@@ -427,10 +427,25 @@ namespace mmria.server.util
 
 					foreach(mmria.common.metadata.node node in p_metadata.children)
 					{
-						generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_multi_form, true);
+						generate_file_names(p_result, node, p_path_to_int_map, "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
 					}
 					break;
 				default:
+					if
+					(
+						p_is_core &&
+						(
+							p_metadata.is_core_summary == null ||
+							(
+								p_metadata.is_core_summary.HasValue &&
+								p_metadata.is_core_summary.Value != true
+							)
+						)
+					)
+					{
+						break;
+					}
+
 					string field_name = convert_path_to_field_name(p_path);
 					if(p_result.ContainsKey(field_name))
 					{
