@@ -1,8 +1,8 @@
 var schema = null;
 var mmria_path_to_definition_name = null;
 var g_data = null;
-let base_api_url = location.protocol + '//' + location.host + "/api/version?path=";
-
+var base_api_url = location.protocol + '//' + location.host + "/api/version?path=";
+var g_available_version_list = null;
 
 
 var g_MMRIA_Calculations = null;
@@ -30,26 +30,9 @@ function get_available_versions()
   .done(function(response) 
   {
 
-      let available_version = document.getElementById("available_version");
+      g_available_version_list = response;
 
-      let version_list = response;
-
-      let result = []
-      for(let i = 0; i < version_list.length; i++)
-      {
-        let item = version_list[i];
-        let is_selected = "";
-        if(i== 0)
-        {
-            is_selected = "selected=true"
-        }
-        if(item._id.indexOf("_design/auth") < 0)
-        {
-            result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
-        }
-      }
-      available_version.innerHTML = result.join("");
- 
+      render_available_version_list();
       
 	});
 }
@@ -70,7 +53,38 @@ function get_version_click()
             base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?path=";
 
             document.getElementById("base_api_url").value = base_api_url;
+
+            render_selected_version();
 	});
+}
+
+function render_available_version_list()
+{
+    let available_version = document.getElementById("available_version");
+
+    let result = []
+    for(let i = 0; i < g_available_version_list.length; i++)
+    {
+      let item = g_available_version_list[i];
+      let is_selected = "";
+      if(i== 0)
+      {
+          is_selected = "selected=true"
+      }
+      if(item._id.indexOf("_design/auth") < 0)
+      {
+          result.push(`<option value="${item._id}" ${is_selected}>${item.name}</option>`)
+      }
+    }
+    available_version.innerHTML = result.join("");
+}
+
+function render_selected_version()
+{
+    document.getElementById("selected_version_name").innerHTML = g_data.name;
+    document.getElementById("selected_version_2").innerHTML = g_data.name;
+    document.getElementById("selected_publish_status").value = g_data.publish_status;
+
 }
 
 function get_metadata()
@@ -237,22 +251,34 @@ function generate_code_click()
 
 function create_new_version_click()
 {
-    g_data = {
-        _id : "version_specification-19.10.18",
-		data_type : "version-specification",
-		date_created : new Date().toISOString(),
-		created_by : "isu7@cdc.gov",
-		date_last_updated :  new Date().toISOString(),
-		last_updated_by : "isu7@cdc.gov",
-        name: "19.10.18",
-        publish_status: 0,
-        metadata: "",
-        ui_specification:"",
-        schema: { },
-        definition_set: { },
-        path_to_csv_all: {},
-        path_to_csv_core: {}
-    };
+    let version_name = document.getElementById("version_name").value;
+    if(version_name!= null && version_name != "")
+    {
+        g_data = {
+            _id : "version_specification-" + version_name,
+            data_type : "version-specification",
+            date_created : new Date().toISOString(),
+            created_by : "isu7@cdc.gov",
+            date_last_updated :  new Date().toISOString(),
+            last_updated_by : "isu7@cdc.gov",
+            name: version_name,
+            publish_status: 0,
+            metadata: "",
+            ui_specification:"",
+            schema: { },
+            definition_set: { },
+            path_to_csv_all: {},
+            path_to_csv_core: {}
+        };
+
+
+        g_available_version_list.push(g_data);
+
+        render_available_version_list();
+        render_selected_version();
+    }
+
+    
 }
 
 
@@ -306,6 +332,10 @@ function get_saved_version_spec()
             url: location.protocol + '//' + location.host + '/api/metadata/' + g_data._id
 	}).done(function(response) {
             g_data = response
+
+            
+            document.getElementById("selected_version_name").value = g_data.name;
+            document.getElementById("selected_publish_status").value = g_data.publish_status;
 
 	});
 }
@@ -979,4 +1009,9 @@ function base_api_url_change(p_value)
 {
 
     base_api_url = p_value;
+}
+
+function selected_publish_status_change(p_value)
+{
+    g_data.publish_status = p_value;
 }
