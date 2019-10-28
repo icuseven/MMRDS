@@ -41,10 +41,10 @@ namespace mmria.server.util
 			//this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
 
 		}
-		public void Execute(string p_version)
+		public Dictionary<string, Dictionary<string, string>> Execute(string p_version)
 		{
 		
-			string metadata_url = this.database_url + $"/metadata/{p_version}/metadata";
+			string metadata_url = $"{this.Configuration["mmria_settings:couchdb_url"]}/metadata/version_specification-{p_version}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
@@ -80,6 +80,14 @@ namespace mmria.server.util
 				 false,
 			 	path_to_flat_map
 			);
+
+
+			var name_map = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+
+			generate_file_names(name_map, metadata, path_to_int_map, false);
+
+
+			return name_map;
 
 			System.Collections.Generic.HashSet<string> flat_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			System.Collections.Generic.HashSet<string> mutiform_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -265,7 +273,7 @@ namespace mmria.server.util
 					int_to_path_map.Add(key, ptn.Key);
 				}
 			}
-			 */
+			
 
 			WriteCSV mapping_document = new WriteCSV("data-dictionary.csv", this.item_directory_name, Configuration.export_directory);
 			System.Data.DataColumn column = null;
@@ -284,7 +292,7 @@ namespace mmria.server.util
 			mapping_document.Table.Columns.Add(column);
 
 			column = new System.Data.DataColumn("field_description", typeof(string));
-			mapping_document.Table.Columns.Add(column);
+			mapping_document.Table.Columns.Add(column); */
 /*
 
 			foreach (KeyValuePair<string, WriteCSV> kvp in path_to_csv_writer)
@@ -332,6 +340,123 @@ namespace mmria.server.util
 			Console.WriteLine("{0} Export Finished", System.DateTime.Now);
 		}
 
+
+		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.app p_metadata, Dictionary<string, int> path_to_int_map, bool p_is_core)
+		{
+			string main_file_name = null;
+			if(p_is_core)
+			{
+				main_file_name = "mmria_case_export.csv";
+			}
+			else
+			{
+				main_file_name = "mmria_case_export.csv";
+			}
+
+
+			p_result.Add(main_file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+
+
+
+			p_result[main_file_name].Add("_id","_id");
+			p_result[main_file_name].Add("version","");
+			/*
+			p_result[main_file_name].Add("date_created","version");
+			p_result[main_file_name].Add("created_by","created_by");
+			p_result[main_file_name].Add("date_last_updated","date_last_updated");
+			p_result[main_file_name].Add("last_updated_by","last_updated_by");
+ */
+			foreach(mmria.common.metadata.node node in p_metadata.children)
+			{
+				generate_file_names(p_result, node, path_to_int_map, "/" + node.name.ToLower(), main_file_name, p_is_core, false, false);
+			}
+
+		}
+
+		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.node p_metadata, Dictionary<string, int> p_path_to_int_map, string p_path, string file_name, bool p_is_core, bool p_is_multi_form, bool p_is_grid)
+		{
+
+				//p_result.Add(field_name)
+
+			switch(p_metadata.type)
+			{
+				case "form":
+					if
+					(
+						p_metadata.cardinality!= null &&
+						p_metadata.cardinality == "*" &&
+						p_metadata.cardinality == "+"
+						
+					)
+					{
+						file_name = convert_path_to_field_name(p_path);
+						if(p_result.ContainsKey(file_name))
+						{
+								file_name = "_" + p_path_to_int_map[p_path].ToString("X");
+						}
+						p_result.Add(file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+
+						foreach(mmria.common.metadata.node node in p_metadata.children)
+						{
+							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, true, false);
+						}
+					}
+					else
+					{
+						foreach(mmria.common.metadata.node node in p_metadata.children)
+						{
+							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, false, false);
+						}
+					}
+					
+					break;
+				case "group":
+				
+					foreach(mmria.common.metadata.node node in p_metadata.children)
+					{
+						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
+					}
+					
+					break;
+				case "grid":
+					file_name = convert_path_to_field_name(p_path);
+					if(p_result.ContainsKey(file_name))
+					{
+							file_name = "_" + p_path_to_int_map[p_path].ToString("X");
+					}
+					p_result.Add(file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+
+					foreach(mmria.common.metadata.node node in p_metadata.children)
+					{
+						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
+					}
+					break;
+				default:
+					if
+					(
+						p_is_core &&
+						(
+							p_metadata.is_core_summary == null ||
+							(
+								p_metadata.is_core_summary.HasValue &&
+								p_metadata.is_core_summary.Value != true
+							)
+						)
+					)
+					{
+						break;
+					}
+
+					string field_name = convert_path_to_field_name(p_path);
+					if(p_result.ContainsKey(field_name))
+					{
+							field_name = "_" + p_path_to_int_map[p_path].ToString("X");
+					}
+					p_result[file_name].Add(p_path, field_name);
+					break;
+			}
+
+		}
 
 
 		private void process_multiform_grid
@@ -486,6 +611,8 @@ namespace mmria.server.util
 				}
 			}
 		}
+
+
 
 
 		private string convert_path_to_field_name(string p_path)

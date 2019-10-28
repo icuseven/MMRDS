@@ -84,22 +84,58 @@ namespace mmria.server.Controllers
 					}
 
 
+					string check_url = Program.config_couchdb_url + "/metadata/"  + add_attachement._id;
+					cURL check_document_curl = new cURL ("Get", null, check_url, null, Program.config_timer_user_name, Program.config_timer_value);
+
+					bool save_document = false;
+
+
+					try
+					{
+						string responseFromServer = await check_document_curl.executeAsync();
+						var check_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Version_Specification>(responseFromServer);
+
+						if
+						(
+							!string.IsNullOrWhiteSpace(check_result.data_type) &&
+							check_result.data_type == "version-specification" 
+						)
+						{
+							if(string.IsNullOrWhiteSpace(check_result.data_type))
+							{
+								save_document = true;
+							}
+							else if(check_result.publish_status != common.metadata.publish_status_enum.final)
+							{
+								save_document = true;
+							}
+							
+						}
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
 					
 
-                    string metadata_url = Program.config_couchdb_url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
 
-					var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, Program.config_timer_user_name, Program.config_timer_value, "text/*");
-					put_curl.AddHeader("If-Match",  add_attachement._rev);
-
-					string responseFromServer = await put_curl.executeAsync();
-
-					result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-					if (!result.ok) 
+					if(save_document)
 					{
 
-					}
+						string metadata_url = Program.config_couchdb_url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
 
+						var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, Program.config_timer_user_name, Program.config_timer_value, "text/*");
+						put_curl.AddHeader("If-Match",  add_attachement._rev);
+
+						string responseFromServer = await put_curl.executeAsync();
+
+						result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+						if (!result.ok) 
+						{
+
+						}
+					}
 				}
 				catch(Exception ex) 
 				{
