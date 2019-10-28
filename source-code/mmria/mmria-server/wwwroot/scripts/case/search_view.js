@@ -151,33 +151,27 @@ function render_search_text_input_control(p_ctx)
     result.push(p_ctx.mmria_path);
     result.push("'>");
     result.push("<p>");
-
-
-    //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
-    let path_items = p_ctx.mmria_path.split("/");
-    for(let i = 1; i < path_items.length; i++)
-    {
-        let item = path_items[i];
-        if(i == 1)
+        //result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+        let path_items = p_ctx.mmria_path.split("/");
+        for(let i = 1; i < path_items.length; i++)
         {
+            let item = path_items[i];
+            if(i == 1)
+            {
 
 
-            let array = window.location.href.split("/field_search/");
-            //window.location.hash = "/" + record_index + "/field_search/" + search_text;
-            let link_url = array[0] + "/" + item;
-            result.push(`<a href='${link_url}'>${item}</a>`);
+                let array = window.location.href.split("/field_search/");
+                //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                let link_url = array[0] + "/" + item;
+                result.push(`<a href='${link_url}'>${item}</a>`);
+            }
+            else
+            {
+                result.push(" > ");
+                result.push(item);
+            }
+            
         }
-        else
-        {
-            result.push(" > ");
-            result.push(item);
-        }
-        
-    }
-    
-
-
-
     result.push("</p>");
 
     result.push("<label class='row no-gutters w-auto h-auto' for='");
@@ -347,7 +341,7 @@ function render_search_text_textarea_control(p_ctx)
         p_ctx.result.push(p_ctx.mmria_path);
         p_ctx.result.push("' class='form-group mb-5'>");
         p_ctx.result.push("<p>");
-        p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         p_ctx.result.push("</p>");
 
         p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
@@ -501,7 +495,7 @@ function render_search_text_select_control(p_ctx)
         p_ctx.result.push(p_ctx.mmria_path_path);
         p_ctx.result.push("' class='form-group mb-5'>");
         p_ctx.result.push("<p>");
-        p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
         p_ctx.result.push("</p>");
             
         p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
@@ -975,25 +969,25 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
 
 
     p_result.push("<p>")
-    let path_items = p_dictionary_path.split("/");
-    for(let i = 1; i < path_items.length; i++)
-    {
-        let item = path_items[i];
-        if(i == 1)
+        let path_items = p_dictionary_path.split("/");
+        for(let i = 1; i < path_items.length; i++)
         {
+            let item = path_items[i];
+            if(i == 1)
+            {
 
 
-            let array = window.location.href.split("/field_search/");
-            //window.location.hash = "/" + record_index + "/field_search/" + search_text;
-            let link_url = array[0] + "/" + item;
-            p_result.push(`<a href='${link_url}'>${item}</a>`);
+                let array = window.location.href.split("/field_search/");
+                //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                let link_url = array[0] + "/" + item;
+                p_result.push(`<a href='${link_url}'>${item}</a>`);
+            }
+            else
+            {
+                p_result.push(" > ");
+                p_result.push(item);
+            }
         }
-        else
-        {
-            p_result.push(" > ");
-            p_result.push(item);
-        }
-    }
     p_result.push("</p>")
 
     p_result.push("<fieldset id='");
