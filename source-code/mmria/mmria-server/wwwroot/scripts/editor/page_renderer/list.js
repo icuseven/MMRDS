@@ -41,7 +41,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     let item = data_migration_list[i];
         
-                    if(item.value == -9 && array_item == null || array_item == "")
+                    if(item.value == 9999 && array_item == null || array_item == "")
                     {
                         p_data[item_index] = item.value;
                         break;
@@ -78,7 +78,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     let item = data_migration_list[i];
 
-                    if(item.value == -9 && p_data == null || p_data == "")
+                    if(item.value == 9999 && p_data == null || p_data == "")
                     {
                         p_data = item.value;
                         break;
@@ -105,7 +105,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         let display = name_value[1].trim();                    
             
                         
-                        if(item.value == -9 && p_data == null || p_data == "")
+                        if(item.value == 9999 && p_data == null || p_data == "")
                         {
                             p_data = item.value;
                             break;
@@ -116,7 +116,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             break;
                         }
                     }
-                    else if(item.value == -9 && p_data == null || p_data == "")
+                    else if(item.value == 9999 && p_data == null || p_data == "")
                     {
                         p_data = item.value;
                         break;
@@ -131,7 +131,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     let item = data_migration_list[i];
         
-                    if(item.value == -9 && p_data == null || p_data == "")
+                    if(item.value == 9999 && p_data == null || p_data == "")
                     {
                         p_data = item.value;
                         break;
@@ -292,7 +292,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     {
                         p_result.push(item.display);
                     }
-                    else if(item.value == -9)
+                    else if(item.value == 9999)
                     {
                         p_result.push("(blank)");
                     }
@@ -311,7 +311,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     {
                         p_result.push(item.display);
                     }
-                    else if(item.value == -9)
+                    else if(item.value == 9999)
                     {
                         p_result.push("(blank)");
                     }
@@ -355,7 +355,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     p_result.push(item.display);
                 }
-                else if(item.value == -9)
+                else if(item.value == 9999)
                 {
                     p_result.push("(blank)");
                 }
@@ -374,7 +374,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     p_result.push(item.display);
                 }
-                else if(item.value == -9)
+                else if(item.value == 9999)
                 {
                     p_result.push("(blank)");
                 }
@@ -524,7 +524,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                     {
                         p_result.push(item.display);
                     }
-                    else if(item.value == -9)
+                    else if(item.value == 9999)
                     {
                         p_result.push("(blank)");
                     }
@@ -543,7 +543,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                     {
                         p_result.push(item.display);
                     }
-                    else if(item.value == -9)
+                    else if(item.value == 9999)
                     {
                         p_result.push("(blank)");
                     }
@@ -619,7 +619,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 {
                     p_result.push(item.display);
                 }
-                else  if(item.value == -9)
+                else  if(item.value == 9999)
                 {
                     p_result.push("(blank)");
                 }
@@ -638,7 +638,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
                 {
                     p_result.push(item.display);
                 }
-                else if(item.value == -9)
+                else if(item.value == 9999)
                 {
                     p_result.push("(blank)");
                 }
@@ -823,7 +823,7 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
             
             
         }
-        else if(item.value == -9)
+        else if(item.value == 9999)
         {
             p_result.push(`<label class="choice-control" style='${get_style_string(item_style.prompt.style)}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
         }
@@ -946,7 +946,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         
             
         }
-        else if(item.value == -9)
+        else if(item.value == 9999)
         {
             p_result.push("<label class='choice-control' style='" + get_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
             list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);

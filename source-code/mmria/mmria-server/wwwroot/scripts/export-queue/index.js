@@ -154,7 +154,8 @@ function create_queue_item
 
 	if
 	(
-		p_de_identified_field_set ||
+		p_de_identify_standard_fields &&
+		p_de_identified_field_set &&
 		result.de_identified_selection_type == "standard"
 	)
 	{

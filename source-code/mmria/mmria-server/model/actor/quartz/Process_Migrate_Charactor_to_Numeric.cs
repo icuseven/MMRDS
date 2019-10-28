@@ -150,7 +150,7 @@ namespace mmria.server.model.actor.quartz
 						{
 							var item = data_migration_list[i];
 				
-							if(item.value == "-9" && array_item == null || array_item == "")
+							if(item.value == "9999" && array_item == null || array_item == "")
 							{
 								data_list[item_index] = item.value;
 								is_changed = true;
@@ -190,7 +190,7 @@ namespace mmria.server.model.actor.quartz
 						{
 							var item = data_migration_list[i];
 
-							if(item.value == "-9" && string.IsNullOrWhiteSpace(p_data as string))
+							if(item.value == "9999" && string.IsNullOrWhiteSpace(p_data as string))
 							{
 								p_data = item.value;
 								is_changed = true;
@@ -227,7 +227,7 @@ namespace mmria.server.model.actor.quartz
 								var value = name_value[0].Trim();
 								var display = name_value[1].Trim();                    
 					
-								if(item.value == "-9" && string.IsNullOrWhiteSpace(p_data as string))
+								if(item.value == "9999" && string.IsNullOrWhiteSpace(p_data as string))
 								{
 									p_data = item.value;
 									is_changed = true;
@@ -240,7 +240,7 @@ namespace mmria.server.model.actor.quartz
 									break;
 								}
 							}
-							else if(item.value == "-9" && string.IsNullOrWhiteSpace(p_data as string))
+							else if(item.value == "9999" && string.IsNullOrWhiteSpace(p_data as string))
 							{
 								p_data = item.value;
 								is_changed = true;
@@ -255,7 +255,7 @@ namespace mmria.server.model.actor.quartz
 						{
 							var item = data_migration_list[i];
 				
-							if(item.value == "-9" && string.IsNullOrWhiteSpace(p_data as string))
+							if(item.value == "9999" && string.IsNullOrWhiteSpace(p_data as string))
 							{
 								p_data = item.value;
 								is_changed = true;
