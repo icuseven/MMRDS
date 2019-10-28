@@ -23,7 +23,7 @@ function dictionary_render(p_metadata, p_path)
 						<option value="">Select Metadata Version</option>
 						<option value="19.10.17">19.10.17</option>
 					</select>
-					<button type="submit" class="btn btn-secondary print-none" alt="clear search" onclick="de_identified_search_click()">Search</button>
+					<button type="submit" class="btn btn-secondary print-none" alt="clear search" onclick="handle_search(de_identified_search_click)">Search</button>
 				</div>
 				<div>
 					<div class="row no-gutters justify-content-end">
@@ -246,6 +246,13 @@ function render_de_identify_form_filter(p_filter)
 	}
 
 	return result.join("");
+}
+
+function handle_search(callback)
+{
+	const search_input = document.getElementById('de_identify_search_text');
+	const search_list = document.getElementById('de_identify_search_result_list');
+	callback();
 }
 
 
