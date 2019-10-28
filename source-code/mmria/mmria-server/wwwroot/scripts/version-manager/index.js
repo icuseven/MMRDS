@@ -58,6 +58,58 @@ function get_version_click()
 	});
 }
 
+function get_name_map_click()
+{
+    let version_id = document.getElementById("available_version").value;
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + `/api/version/export-names/${version_id}/all`
+	}).done(function(response) {
+            let file_map = eval("(" + response + ")");
+            g_data.path_to_csv_all_file = {};
+            g_data.path_to_csv_all_field = {};
+
+            for(let file_name in file_map)
+            {
+                let path_to_field = file_map[file_name];
+                for(let path in path_to_field)
+                {
+                    let field_name = path_to_field[path];
+
+                    g_data.path_to_csv_all_file[path] = file_name;
+                    g_data.path_to_csv_all_field[path] = field_name;
+                }
+            }
+            get_core_name_map();
+	});
+}
+
+
+function get_core_name_map()
+{
+    let version_id = document.getElementById("available_version").value;
+  	$.ajax({
+            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+            url: location.protocol + '//' + location.host + `/api/version/export-names/${version_id}/core`
+	}).done(function(response) {
+            let file_map = eval("(" + response + ")");
+            g_data.path_to_csv_core_file = {};
+            g_data.path_to_csv_core_field = {};
+
+            for(let file_name in file_map)
+            {
+                let path_to_field = file_map[file_name];
+                for(let path in path_to_field)
+                {
+                    let field_name = path_to_field[path];
+                    g_data.path_to_csv_core_file[path] = file_name;
+                    g_data.path_to_csv_core_field[path] = field_name;
+                }
+            }
+	});
+}
+
+
 function render_available_version_list()
 {
     let available_version = document.getElementById("available_version");
@@ -267,8 +319,10 @@ function create_new_version_click()
             ui_specification:"",
             schema: { },
             definition_set: { },
-            path_to_csv_all: {},
-            path_to_csv_core: {}
+            path_to_csv_all_file: {},
+            path_to_csv_all_field: {},
+            path_to_csv_core_file: {},
+            path_to_csv_core_field: {}
         };
 
 

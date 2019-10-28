@@ -275,12 +275,6 @@ namespace mmria.server.util
 			cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
 			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
 			de_identified_set = new HashSet<string>();
-			/*
-			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
-			{
-				de_identified_set.Add(path);
-			}
-			 */
 			
 			if(queue_item.de_identified_field_set != null)
 			{
@@ -402,6 +396,9 @@ namespace mmria.server.util
 						path_to_node_map[path].type.ToLower() == "app" ||
 						path_to_node_map[path].type.ToLower() == "form" ||
 						path_to_node_map[path].type.ToLower() == "group" ||
+						path_to_node_map[path].type.ToLower() == "button" ||
+						path_to_node_map[path].type.ToLower() == "chart" ||
+						path_to_node_map[path].type.ToLower() == "label" ||
 						path_to_node_map[path].mirror_reference != null
 
 					  )
@@ -724,7 +721,11 @@ namespace mmria.server.util
 								path_to_node_map[path].type.ToLower() == "app" ||
 								path_to_node_map[path].type.ToLower() == "form" ||
 								path_to_node_map[path].type.ToLower() == "group"||
-								path_to_node_map[path].type.ToLower() == "grid"
+								path_to_node_map[path].type.ToLower() == "grid" ||
+								path_to_node_map[path].type.ToLower() == "button" ||
+								path_to_node_map[path].type.ToLower() == "chart" ||
+								path_to_node_map[path].type.ToLower() == "label" ||
+								path_to_node_map[path].mirror_reference != null
 
 							  )
 							{
@@ -1202,16 +1203,32 @@ namespace mmria.server.util
 					case "form":
 					case "group":
 					case "grid":
-
+					case "button":
+					case "chart":
+					case "label":
 											continue;
 					case "number":
-						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
-						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
+
+						if(p_path_to_node_map[path].mirror_reference != null)
+						{
+							//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
+							column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
+						}
+						else
+						{
+							continue;
+						}
 						break;
 					default:
-						
-						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
-						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
+						if(p_path_to_node_map[path].mirror_reference != null)
+						{
+							//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
+							column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
+						}
+						else
+						{
+							continue;
+						}
 						break;
 
 				}

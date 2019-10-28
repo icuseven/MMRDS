@@ -41,10 +41,10 @@ namespace mmria.server.util
 			//this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
 
 		}
-		public Dictionary<string, Dictionary<string, string>> Execute(string p_version)
+		public Dictionary<string, Dictionary<string, string>> Execute(string p_version, string p_export_type = "all")
 		{
 		
-			string metadata_url = $"{this.Configuration["mmria_settings:couchdb_url"]}/metadata/version_specification-{p_version}/metadata";
+			string metadata_url = $"{this.Configuration["mmria_settings:couchdb_url"]}/metadata/{p_version}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
@@ -83,8 +83,14 @@ namespace mmria.server.util
 
 
 			var name_map = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+			bool is_core_export = false;
 
-			generate_file_names(name_map, metadata, path_to_int_map, false);
+			if(p_export_type.ToLower() == "core")
+			{
+				is_core_export = true;
+			}
+
+			generate_file_names(name_map, metadata, path_to_int_map, is_core_export);
 
 
 			return name_map;
@@ -346,7 +352,7 @@ namespace mmria.server.util
 			string main_file_name = null;
 			if(p_is_core)
 			{
-				main_file_name = "mmria_case_export.csv";
+				main_file_name = "core_mmria_export.csv";
 			}
 			else
 			{
@@ -430,6 +436,10 @@ namespace mmria.server.util
 					{
 						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
 					}
+					break;
+				case "button":
+				case "chart":
+				case "label":				
 					break;
 				default:
 					if

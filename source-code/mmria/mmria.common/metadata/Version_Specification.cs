@@ -23,8 +23,10 @@ namespace mmria.common.metadata
         {
             this.schema = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             this.definition_set = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            this.path_to_csv_all = new Dictionary<string, csv_info>(StringComparer.OrdinalIgnoreCase);
-            this.path_to_csv_core = new Dictionary<string, csv_info>(StringComparer.OrdinalIgnoreCase);
+            this.path_to_csv_all_file = new Dictionary<string, csv_info>(StringComparer.OrdinalIgnoreCase);
+            this.path_to_csv_all_field = new Dictionary<string, csv_info>(StringComparer.OrdinalIgnoreCase);
+            this.path_to_csv_core_file = new Dictionary<string, csv_info>(StringComparer.OrdinalIgnoreCase);
+            this.path_to_csv_core_field = new Dictionary<string, csv_info>(StringComparer.OrdinalIgnoreCase);
             this.data_type = "version-specification";
         }
         public string _id { get; set; }
@@ -53,8 +55,10 @@ namespace mmria.common.metadata
 
         public Dictionary<string, string> schema { get; set; }
         public Dictionary<string, string> definition_set { get; set; } 
-        public Dictionary<string, csv_info> path_to_csv_all { get; set; }
-        public Dictionary<string, csv_info> path_to_csv_core { get; set; }
+        public Dictionary<string, csv_info> path_to_csv_all_file { get; set; }
+        public Dictionary<string, csv_info> path_to_csv_all_field { get; set; }
+        public Dictionary<string, csv_info> path_to_csv_core_file { get; set; }
+        public Dictionary<string, csv_info> path_to_csv_core_field { get; set; }
 
         public System.Dynamic.ExpandoObject _attachments { get; set; } 
 
