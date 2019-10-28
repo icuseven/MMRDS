@@ -147,12 +147,12 @@ function generate_report_click()
 		//console.log(data);
     var post_html_callback = [];
 		var render_result = [];
-    render_result.push("<h2>Year of Death: ");
+    render_result.push("<h2 class='h4'>Year of Death: ");
     render_result.push(filter.year_of_death);
     render_result.push("</h2>");
-    render_result.push("<h2>Year and Month of Case Review: ");
+    render_result.push("<h2 class='h4 mt-0'>Year and Month of Case Review: ");
     render_result.push(filter.year_of_case_review);
-    render_result.push("&nbsp;");
+    render_result.push(" / ");
     render_result.push(filter.month_of_case_review);
     render_result.push("</h2>");
 
