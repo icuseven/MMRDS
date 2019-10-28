@@ -161,6 +161,30 @@ namespace mmria.server.util
 			this.popluate_pregnancy_deaths_by_age(ref report_object, source_object);
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
+			this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
+
+			this.popluate_pregnancy_related_determined_to_be_preventable(ref report_object, source_object);
+			this.popluate_pregnancy_associated_determined_to_be_preventable(ref report_object, source_object);
+
+
+			this.popluate_pregnancy_related_obesity_contributed_to_the_death(ref report_object, source_object);
+			this.popluate_pregnancy_associated_obesity_contributed_to_the_death(ref report_object, source_object);
+
+
+			this.popluate_pregnancy_related_mental_health_conditions_contributed_to_death(ref report_object, source_object);
+			this.popluate_pregnancy_associated_mental_health_conditions_contributed_to_death(ref report_object, source_object);
+
+			this.popluate_pregnancy_related_substance_use_disorder_contributed_to_death(ref report_object, source_object);
+			this.popluate_pregnancy_associated_substance_use_disorder_contributed_to_death(ref report_object, source_object);
+
+
+			this.popluate_pregnancy_related_is_suicide(ref report_object, source_object);
+			this.popluate_pregnancy_associated_is_suicide(ref report_object, source_object);
+
+			this.popluate_pregnancy_related_is_homocide(ref report_object, source_object);
+			this.popluate_pregnancy_associated_is_homocide(ref report_object, source_object);
+
+
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 			//settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 			result = Newtonsoft.Json.JsonConvert.SerializeObject(report_object, settings);
