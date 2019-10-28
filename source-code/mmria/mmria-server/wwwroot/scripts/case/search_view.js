@@ -579,7 +579,7 @@ function render_search_text_select_control(p_ctx)
 
                     p_ctx.result.push(child.display);
                 }
-                else if(child.value == -9)
+                else if(child.value == 9999)
                 {
                     p_ctx.result.push("(blank)");
                 }
@@ -780,7 +780,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
                     {
                         p_result.push(item.display);
                     }
-                    else if(item.value == -9)
+                    else if(item.value == 9999)
                     {
                         p_result.push("(blank)");
                     }
@@ -799,7 +799,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
                     {
                         p_result.push(item.display);
                     }
-                    else if(item.value == -9)
+                    else if(item.value == 9999)
                     {
                         p_result.push("(blank)");
                     }
@@ -875,7 +875,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
                 {
                     p_result.push(item.display);
                 }
-                else  if(item.value == -9)
+                else  if(item.value == 9999)
                 {
                     p_result.push("(blank)");
                 }
@@ -894,7 +894,7 @@ function render_search_text_list_editable_render(p_result, p_metadata, p_data, p
                 {
                     p_result.push(item.display);
                 }
-                else if(item.value == -9)
+                else if(item.value == 9999)
                 {
                     p_result.push("(blank)");
                 }
@@ -1106,7 +1106,7 @@ function render_search_text_list_radio_render(p_result, p_metadata, p_data, p_ui
             
             
         }
-        else if(item.value == -9)
+        else if(item.value == 9999)
         {
             p_result.push(`<label class="choice-control" style='${get_only_font_style_string(item_style.prompt.style.replace('absolute','relative'))}' for="${object_id}">${input_html}<span class="choice-control-info"> (blank)</span></label>`);
         }
@@ -1229,7 +1229,7 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
         
             
         }
-        else if(item.value == -9)
+        else if(item.value == 9999)
         {
             p_result.push("<label class='choice-control' style='" + get_only_font_style_string(item_style.prompt.style) + "' for='" + object_id + "'>");
             render_search_text_list_checkbox_input_render(p_result, object_id,  item, p_object_path, p_metadata_path, p_dictionary_path, is_selected, is_read_only);
