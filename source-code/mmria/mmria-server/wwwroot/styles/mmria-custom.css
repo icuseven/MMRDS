@@ -1110,7 +1110,6 @@ button.link {
   pointer-events: none !important;
 }
 
-
 /*
   Borders
 */
@@ -1120,4 +1119,14 @@ button.link {
   border-left: none !important;
   border-right: none !important;
   border-top: none !important;
+}
+
+/*
+  No Printing
+*/
+@media print {
+  .print-none {
+    display: none !important;
+    visibility: hidden !important;
+  }  
 }
