@@ -46,7 +46,12 @@ namespace mmria.server.util
 		
 			string metadata_url = $"{this.Configuration["mmria_settings:couchdb_url"]}/metadata/{p_version}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
-			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
+			var curl_result = metadata_curl.execute();
+
+			System.Console.WriteLine("Execute(string p_version, string p_export_type = all)");
+			System.Console.WriteLine(curl_result);
+			
+			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(curl_result);
 
 
 
