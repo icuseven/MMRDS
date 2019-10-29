@@ -163,7 +163,7 @@ namespace mmria.server
 		} 
 
 
-
+/*
 		[AllowAnonymous] 
 		[HttpGet]
 		[Route("{p_Version_Specification_Id}")]
@@ -173,7 +173,7 @@ namespace mmria.server
 
 			try
 			{
-				/*//"2016-06-12T13:49:24.759Z"
+				//"2016-06-12T13:49:24.759Z"
                 string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
@@ -184,7 +184,7 @@ namespace mmria.server
 				System.IO.Stream dataStream = response.GetResponseStream();
 				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
 				result = await reader.ReadToEndAsync ();
-				*/
+				
 
 			}
 			catch(Exception ex) 
@@ -193,18 +193,30 @@ namespace mmria.server
 			}
 
 			return result;
-		} 
+		} */
 
 		// POST api/values 
 		[Authorize(Roles  = "form_designer")]
+		[Route("save")]
 		[HttpPost]
 		[HttpPut]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-			[FromBody] mmria.common.metadata.Version_Specification p_Version_Specification
+			//[FromBody] mmria.common.metadata.Version_Specification p_Version_Specification
 		) 
 		{ 
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+
+
+			System.IO.Stream dataStream0 = this.Request.Body;
+			// Open the stream using a StreamReader for easy access.
+			//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+			System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+			// Read the content.
+			var object_string = await reader0.ReadToEndAsync ();
+
+
+			var p_Version_Specification = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Version_Specification>(object_string); 
 
 			//if(!string.IsNullOrWhiteSpace(json))
 			try
@@ -252,7 +264,7 @@ namespace mmria.server
 				{
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_Version_Specification, settings);
+					object_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_Version_Specification, settings);
 
 
 					

@@ -341,7 +341,8 @@ function save_version_click()
     $.ajax
     (
         {
-        url: location.protocol + '//' + location.host + '/api/metadata/' + g_data._id,
+        //url: location.protocol + '//' + location.host + '/api/version/save/' + g_data._id,
+        url: location.protocol + '//' + location.host + '/api/version/save',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(g_data),
