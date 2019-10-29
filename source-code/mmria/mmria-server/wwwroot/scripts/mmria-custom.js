@@ -8,10 +8,11 @@ const isNullOrUndefined = (value) => {
 }
 
 // Object Oriented approach on adding classes dynamically on load
-function ClassNameOnLoad(element, className, delay) {
+function ClassNameOnDomLoad(element, className, delay)
+{
   this.element = element;
   this.className = className;
-  this.delay = delay || 0;
+  this.delay = delay || 0; // if no arguments then set to 0
   this.addClassName = setTimeout(() => {
     if (!isNullOrUndefined(this.element)) {
       this.element.classList.add(this.className);
@@ -20,4 +21,4 @@ function ClassNameOnLoad(element, className, delay) {
 };
 
 const userLogin = document.getElementById("user_login");
-const fancyLogin = new ClassNameOnLoad(userLogin, "is-active", 100);
+const fancyLogin = new ClassNameOnDomLoad(userLogin, "is-active", 150);

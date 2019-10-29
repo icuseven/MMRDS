@@ -792,24 +792,24 @@ button.link {
   border-radius: var(--radius);
   box-shadow: 1px 2px 6px rgba(0,0,0,.3);
   color: var(--white);
-  /* left: 50%; */
   margin-bottom: 0;
   max-width: 490px;
   opacity: 0;
   padding: 2rem;
-  /* position: absolute; */
-  /* top: 40%; */
-  /* transform: translateX(-50%) translateY(-50%); */
-  transition: opacity 60ms ease;
+  transform: translateY(-15px);
+  transition:
+    opacity 60ms ease,
+    transform 60ms ease-in;
   width: 90%;
-
   margin-left: auto;
   margin-right: auto;
 }
 .login.is-active {
   opacity: 1;
+  transform: translateY(0px);
   transition:
-    opacity 250ms ease
+    opacity 250ms ease,
+    transform 250ms ease-out;
   ;
 }
 .app-main .row > .login {
