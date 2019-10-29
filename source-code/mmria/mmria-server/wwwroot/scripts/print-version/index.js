@@ -23,6 +23,7 @@ $(function ()
 function create_print_version(p_metadata, p_data, p_section)
 {
 	g_data = p_data;
+	g_metadata = p_metadata;
 	var post_html_call_back = [];
 
 	document.getElementById('form_content_id').innerHTML = print_version_render(p_metadata, p_data, "/", g_ui, "g_metadata", "g_data", post_html_call_back).join("");
@@ -69,10 +70,10 @@ function load_metadata()
 			url: metadata_url
 	}).done(function(response) {
 			g_metadata = response;
-			g_data = create_default_object(g_metadata, {});
-			g_ui.url_state = url_monitor.get_url_state(window.location.href);
+			//g_data = create_default_object(g_metadata, {});
+			//g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
-			create_print_version();
+			//create_print_version();
 	});
 }
 

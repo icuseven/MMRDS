@@ -138,6 +138,26 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				break;	
 		case "list":
 		
+
+				let data_value_list = p_metadata.values;
+				let list_lookup = {};
+
+				if(p_metadata.path_reference && p_metadata.path_reference != "")
+				{
+					data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+			
+					if(data_value_list == null)	
+					{
+						data_value_list = p_metadata.values;
+					}
+				}
+
+				for(let list_index = 0; list_index < data_value_list.length; list_index++)
+				{
+					let list_item = data_value_list[list_index];
+					list_lookup[list_item.value] = list_item.display;
+				}
+
 				result.push('<p>');
 				//result.push(p_path)
 				result.push('<h9>');
@@ -153,6 +173,8 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 					{
 						result.push("<li>");
 						result.push(p_data[i]);
+						result.push(" - ");
+						result.push(list_lookup[p_data[i]]);
 						result.push("</li>");
 
 					}
@@ -161,6 +183,8 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				else
 				{
 					result.push(p_data);
+					result.push(" - ");
+					result.push(list_lookup[p_data]);
 				}
 				result.push('</h9>');
 				result.push('</p>');
@@ -584,16 +608,16 @@ function convert_dictionary_path_to_lookup_object(p_path)
 {
 
 	//g_data.prenatal.routine_monitoring.systolic_bp
-	var result = null;
-	var temp_result = []
-	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
-	var index = temp.lastIndexOf('.');
+	let result = null;
+	let temp_result = []
+	let temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	let index = temp.lastIndexOf('.');
 	temp_result.push(temp.substr(0, index));
 	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
-	var lookup_list = eval(temp_result[0]);
+	let lookup_list = eval(temp_result[0]);
 
-	for(var i = 0; i < lookup_list.length; i++)
+	for(let i = 0; i < lookup_list.length; i++)
 	{
 		if(lookup_list[i].name == temp_result[1])
 		{
@@ -642,3 +666,4 @@ function make_c3_date(p_value)
 
 	return result.join("");
 }
+

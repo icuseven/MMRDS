@@ -54,7 +54,11 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     {
                         var child = p_metadata.children[j];
 
-                        if(p_data[i][child.name] || p_data[child.name] == 0)
+                        if(p_data[i] == null)
+                        {
+                           continue; 
+                        }
+                        else if(p_data[i][child.name] || p_data[child.name] == 0)
                         {
                             // do nothing 
                         }
