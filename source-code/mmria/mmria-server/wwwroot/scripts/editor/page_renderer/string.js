@@ -14,25 +14,15 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
     //var key = p_dictionary_path.substring(1);
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-    if(p_is_grid_context)
+    
+    
+    if(style_object)
     {
-        if(style_object)
-        {
 
-            p_result.push(get_grid_style_string(p_is_grid_context.control.style, style_object.prompt.style));
-            
-        }
-    }
-    else
-    {
+        p_result.push(get_style_string(style_object.prompt.style));
         
-        if(style_object)
-        {
-
-            p_result.push(get_style_string(style_object.prompt.style));
-            
-        }
     }
+    
     p_result.push("' ");
 
     if(p_metadata.description && p_metadata.description.length > 0)

@@ -202,12 +202,12 @@ namespace mmria.server
 		[HttpPut]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-			//[FromBody] mmria.common.metadata.Version_Specification p_Version_Specification
+			[FromBody] mmria.common.metadata.Version_Specification p_Version_Specification
 		) 
 		{ 
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-
+/*
 			System.IO.Stream dataStream0 = this.Request.Body;
 			// Open the stream using a StreamReader for easy access.
 			//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
@@ -217,7 +217,7 @@ namespace mmria.server
 
 
 			var p_Version_Specification = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Version_Specification>(object_string); 
-
+ */
 			//if(!string.IsNullOrWhiteSpace(json))
 			try
 			{
@@ -264,7 +264,7 @@ namespace mmria.server
 				{
 					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-					object_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_Version_Specification, settings);
+					var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_Version_Specification, settings);
 
 
 					

@@ -66,8 +66,8 @@ function get_name_map_click()
             url: location.protocol + '//' + location.host + `/api/version/export-names/${version_id}/all`
 	}).done(function(response) {
             let file_map = eval("(" + response + ")");
-            g_data.path_to_csv_all_file = {};
-            g_data.path_to_csv_all_field = {};
+            g_data.path_to_csv_all = {};
+            //g_data.path_to_csv_all_field = {};
 
             for(let file_name in file_map)
             {
@@ -76,8 +76,7 @@ function get_name_map_click()
                 {
                     let field_name = path_to_field[path];
 
-                    g_data.path_to_csv_all_file[path] = file_name;
-                    g_data.path_to_csv_all_field[path] = field_name;
+                    g_data.path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
                 }
             }
             get_core_name_map();
@@ -93,8 +92,8 @@ function get_core_name_map()
             url: location.protocol + '//' + location.host + `/api/version/export-names/${version_id}/core`
 	}).done(function(response) {
             let file_map = eval("(" + response + ")");
-            g_data.path_to_csv_core_file = {};
-            g_data.path_to_csv_core_field = {};
+            g_data.path_to_csv_core = {};
+            //g_data.path_to_csv_core_field = {};
 
             for(let file_name in file_map)
             {
@@ -102,8 +101,9 @@ function get_core_name_map()
                 for(let path in path_to_field)
                 {
                     let field_name = path_to_field[path];
-                    g_data.path_to_csv_core_file[path] = file_name;
-                    g_data.path_to_csv_core_field[path] = field_name;
+
+                    g_data.path_to_csv_core[path] = { "file_name": file_name, "field_name": field_name };
+                    
                 }
             }
 	});
