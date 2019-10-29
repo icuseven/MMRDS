@@ -170,7 +170,6 @@ function render_search_text_input_control(p_ctx)
                 result.push(" > ");
                 result.push(item);
             }
-            
         }
     result.push("</p>");
 
@@ -341,7 +340,24 @@ function render_search_text_textarea_control(p_ctx)
         p_ctx.result.push(p_ctx.mmria_path);
         p_ctx.result.push("' class='form-group mb-5'>");
         p_ctx.result.push("<p>");
-            p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            let path_items = p_ctx.mmria_path.split('/');
+            for(let i = 1; i < path_items.length; i++)
+            {
+                let item = path_items[i];
+                if(i == 1)
+                {
+                    let array = window.location.href.split("/field_search/");
+                    //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                    let link_url = array[0] + "/" + item;
+                    p_ctx.result.push(`<a href='${link_url}'>${item}</a>`);
+                }
+                else
+                {
+                    p_ctx.result.push(" > ");
+                    p_ctx.result.push(item);
+                }
+            }
         p_ctx.result.push("</p>");
 
         p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
@@ -495,7 +511,24 @@ function render_search_text_select_control(p_ctx)
         p_ctx.result.push(p_ctx.mmria_path_path);
         p_ctx.result.push("' class='form-group mb-5'>");
         p_ctx.result.push("<p>");
-            p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            // p_ctx.result.push(p_ctx.mmria_path.substring(1).replace(/\//g, " > "));
+            let path_items = p_ctx.mmria_path.split('/');
+            for(let i = 1; i < path_items.length; i++)
+            {
+                let item = path_items[i];
+                if(i == 1)
+                {
+                    let array = window.location.href.split("/field_search/");
+                    //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                    let link_url = array[0] + "/" + item;
+                    p_ctx.result.push(`<a href='${link_url}'>${item}</a>`);
+                }
+                else
+                {
+                    p_ctx.result.push(" > ");
+                    p_ctx.result.push(item);
+                }
+            }
         p_ctx.result.push("</p>");
             
         p_ctx.result.push("<label class='row no-gutters w-auto h-auto' for='");
