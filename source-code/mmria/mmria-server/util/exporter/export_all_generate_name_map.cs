@@ -44,10 +44,13 @@ namespace mmria.server.util
 		public Dictionary<string, Dictionary<string, string>> Execute(string p_version, string p_export_type = "all")
 		{
 		
-			string metadata_url = $"{this.Configuration["mmria_settings:couchdb_url"]}/metadata/{p_version}/metadata";
+			string metadata_url = $"{Program.config_couchdb_url}/metadata/{p_version}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
+
+			System.Console.WriteLine("metadata_url: " + metadata_url);
 			var curl_result = metadata_curl.execute();
 
+			
 			System.Console.WriteLine("Execute(string p_version, string p_export_type = all)");
 			System.Console.WriteLine(curl_result);
 			
