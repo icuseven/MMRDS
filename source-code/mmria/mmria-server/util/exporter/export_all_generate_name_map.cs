@@ -384,17 +384,49 @@ namespace mmria.server.util
 
 				//p_result.Add(field_name)
 
-			switch(p_metadata.type)
+			try
 			{
-				case "form":
-					if
-					(
-						p_metadata.cardinality!= null &&
-						p_metadata.cardinality == "*" &&
-						p_metadata.cardinality == "+"
+				switch(p_metadata.type)
+				{
+					case "form":
+						if
+						(
+							p_metadata.cardinality!= null &&
+							p_metadata.cardinality == "*" &&
+							p_metadata.cardinality == "+"
+							
+						)
+						{
+							file_name = convert_path_to_field_name(p_path);
+							if(p_result.ContainsKey(file_name))
+							{
+									file_name = "_" + p_path_to_int_map[p_path].ToString("X");
+							}
+							p_result.Add(file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+
+							foreach(mmria.common.metadata.node node in p_metadata.children)
+							{
+								generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, true, false);
+							}
+						}
+						else
+						{
+							foreach(mmria.common.metadata.node node in p_metadata.children)
+							{
+								generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, false, false);
+							}
+						}
 						
-					)
-					{
+						break;
+					case "group":
+					
+						foreach(mmria.common.metadata.node node in p_metadata.children)
+						{
+							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
+						}
+						
+						break;
+					case "grid":
 						file_name = convert_path_to_field_name(p_path);
 						if(p_result.ContainsKey(file_name))
 						{
@@ -404,67 +436,44 @@ namespace mmria.server.util
 
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, true, false);
+							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
 						}
-					}
-					else
-					{
-						foreach(mmria.common.metadata.node node in p_metadata.children)
-						{
-							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, false, false);
-						}
-					}
-					
-					break;
-				case "group":
-				
-					foreach(mmria.common.metadata.node node in p_metadata.children)
-					{
-						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
-					}
-					
-					break;
-				case "grid":
-					file_name = convert_path_to_field_name(p_path);
-					if(p_result.ContainsKey(file_name))
-					{
-							file_name = "_" + p_path_to_int_map[p_path].ToString("X");
-					}
-					p_result.Add(file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
-
-					foreach(mmria.common.metadata.node node in p_metadata.children)
-					{
-						generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
-					}
-					break;
-				case "button":
-				case "chart":
-				case "label":				
-					break;
-				default:
-					if
-					(
-						p_is_core &&
+						break;
+					case "button":
+					case "chart":
+					case "label":				
+						break;
+					default:
+						if
 						(
-							p_metadata.is_core_summary == null ||
+							p_is_core &&
 							(
-								p_metadata.is_core_summary.HasValue &&
-								p_metadata.is_core_summary.Value != true
+								p_metadata.is_core_summary == null ||
+								(
+									p_metadata.is_core_summary.HasValue &&
+									p_metadata.is_core_summary.Value != true
+								)
 							)
 						)
-					)
-					{
-						break;
-					}
+						{
+							break;
+						}
 
-					string field_name = convert_path_to_field_name(p_path);
-					if(p_result.ContainsKey(field_name))
-					{
-							field_name = "_" + p_path_to_int_map[p_path].ToString("X");
-					}
-					p_result[file_name].Add(p_path, field_name);
-					break;
+						string field_name = convert_path_to_field_name(p_path);
+						if(p_result.ContainsKey(field_name))
+						{
+								field_name = "_" + p_path_to_int_map[p_path].ToString("X");
+						}
+						p_result[file_name].Add(p_path, field_name);
+						break;
+				}
+
 			}
+			catch(Exception ex)
+			{
+				System.Console.Write(ex);
+			}
+
 
 		}
 
