@@ -1180,26 +1180,48 @@ function render_search_text_list_checkbox_render(p_result, p_metadata, p_data, p
     }
 
     p_result.push(">"); // close opening div
-    p_result.push("<legend ");
+    p_result.push("<p>");
+        let path_items = p_dictionary_path.split('/');
+        for(let i = 1; i < path_items.length; i++)
+        {
+            let item = path_items[i];
+            if(i == 1)
+            {
 
-    //var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-    if(style_object && style_object.prompt)
-    {
-        p_result.push(" style='");
-        p_result.push(get_only_font_style_string(style_object.prompt.style));
-        p_result.push("'");
-    }
 
-    if(p_metadata.description && p_metadata.description.length > 0)
-    {
-        p_result.push(" rel='tooltip'  data-original-title='");
-        p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
-        p_result.push("' ");
-    }
+                let array = window.location.href.split("/field_search/");
+                //window.location.hash = "/" + record_index + "/field_search/" + search_text;
+                let link_url = array[0] + "/" + item;
+                p_result.push(`<a href='${link_url}'>${item}</a>`);
+            }
+            else
+            {
+                p_result.push(" > ");
+                p_result.push(item);
+            }
+        }
 
-    p_result.push(">");
-    p_result.push(p_metadata.prompt);
-    p_result.push("</legend>");
+        // p_result.push("<legend ");
+
+        // //var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+        // if(style_object && style_object.prompt)
+        // {
+        //     p_result.push(" style='");
+        //     p_result.push(get_only_font_style_string(style_object.prompt.style));
+        //     p_result.push("'");
+        // }
+
+        // if(p_metadata.description && p_metadata.description.length > 0)
+        // {
+        //     p_result.push(" rel='tooltip'  data-original-title='");
+        //     p_result.push(p_metadata.description.replace(/'/g, "&#39;"));
+        //     p_result.push("' ");
+        // }
+
+        // p_result.push(">");
+        // p_result.push(p_metadata.prompt);
+        // p_result.push("</legend>");
+    p_result.push("</p>");
 
     let data_value_list = p_metadata.values;
 
