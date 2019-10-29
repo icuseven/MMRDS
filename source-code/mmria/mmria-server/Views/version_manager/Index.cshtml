@@ -64,19 +64,19 @@
       <legend>edit attachments</legend>
       <input type="button" value="load latest metadata" onclick="load_metadata_click()" /> <br/> <br/>
 
-      <form id="add_attachement" method="POST">
-        <input id="add_attachement_id" name="_id" type="text" value="" />
-        <input id="add_attachement_rev" name="_rev" type="text" value="" />
-        <input id="add_attachement_doc_name" name="doc_name" type="text" value=""/>
-        <textarea id="add_attachement_document_content" name="document_content"></textarea>
+      <form id="add_attachment" method="POST">
+        <input id="add_attachment_id" name="_id" type="text" value="" />
+        <input id="add_attachment_rev" name="_rev" type="text" value="" />
+        <input id="add_attachment_doc_name" name="doc_name" type="text" value=""/>
+        <textarea id="add_attachment_document_content" name="document_content"></textarea>
       <form>
 
       <h3>selected version <span id="selected_version_2"></span></h3>
       <ol>
-        <li>attach metadata <input type="button" value="metadata" onclick="add_attachement_click(this)" /></li>
-        <li>attach MMRIA_Calculations.js mmria-check-code.js GetCheckCode()<input type="button" value="MMRIA_Calculations" onclick="add_attachement_click(this)" /></li>
-        <li>attach validation.js <input type="button" value="validation" onclick="add_attachement_click(this)" /></li>
-        <li>attach ui_specification <input type="button" value="ui_specification" onclick="add_attachement_click(this)" /></li>
+        <li>attach metadata <input type="button" value="metadata" onclick="add_attachment_click(this)" /></li>
+        <li>attach MMRIA_Calculations.js mmria-check-code.js GetCheckCode()<input type="button" value="MMRIA_Calculations" onclick="add_attachment_click(this)" /></li>
+        <li>attach validation.js <input type="button" value="validation" onclick="add_attachment_click(this)" /></li>
+        <li>attach ui_specification <input type="button" value="ui_specification" onclick="add_attachment_click(this)" /></li>
       </ol>
       </fieldset>
       <hr/>
