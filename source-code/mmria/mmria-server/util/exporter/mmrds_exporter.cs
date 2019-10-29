@@ -1209,7 +1209,7 @@ namespace mmria.server.util
 											continue;
 					case "number":
 
-						if(p_path_to_node_map[path].mirror_reference != null)
+						if(p_path_to_node_map[path].mirror_reference == null)
 						{
 							//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
 							column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
@@ -1220,7 +1220,7 @@ namespace mmria.server.util
 						}
 						break;
 					default:
-						if(p_path_to_node_map[path].mirror_reference != null)
+						if(p_path_to_node_map[path].mirror_reference == null)
 						{
 							//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
 							column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));

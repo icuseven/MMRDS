@@ -388,6 +388,7 @@ var g_ui = {
     result.created_by = g_uid;
     result.date_last_updated = new Date();
     result.last_updated_by = g_uid;
+    result.version = g_release_version;
 
     if(g_jurisdiction_list.length > 0)
     {
