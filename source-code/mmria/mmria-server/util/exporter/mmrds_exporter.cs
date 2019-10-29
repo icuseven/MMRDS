@@ -911,6 +911,10 @@ namespace mmria.server.util
 			System.Data.DataColumn column = null;
 
 
+			column = new System.Data.DataColumn("metadata_version", typeof(string));
+			column.DefaultValue = metadata.version;
+			mapping_document.Table.Columns.Add(column);
+
 			column = new System.Data.DataColumn("file_name", typeof(string));
 			mapping_document.Table.Columns.Add(column);
 
