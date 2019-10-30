@@ -35,6 +35,8 @@ namespace mmria.server.util
 
 		private HashSet<string> de_identified_set;
 
+		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
+
 		public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
 		{
 			this.Configuration = configuration;
@@ -196,6 +198,13 @@ namespace mmria.server.util
 				 false,
 			 	path_to_flat_map
 			);
+
+			List_Look_Up = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+
+			foreach(var child in metadata.children)
+			{
+				Get_List_Look_Up(List_Look_Up, metadata.lookup, child, path_to_int_map, "/" + child.name);
+			}
 
 
 			System.Collections.Generic.HashSet<string> flat_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -431,6 +440,20 @@ namespace mmria.server.util
 								List<object> temp = val as List<object>;
 								if (temp != null && temp.Count > 0) 
 								{
+									List<string> temp2 = new List<string>();
+									foreach(var item in temp)
+									{
+										var key = "/" + path;
+										var item_key = item.ToString();
+										if(List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+										{
+											temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+										}
+										else
+										{
+											temp2.Add(item.ToString());
+										}
+									}
 
 									row [convert_path_to_field_name (path)] = string.Join ("|", temp);
 								}
@@ -461,6 +484,12 @@ namespace mmria.server.util
 									List<object> temp = val as List<object>;
 									if (temp != null && temp.Count > 0)
 									{
+
+										List<string> temp2 = new List<string>();
+										foreach(var item in temp)
+										{
+											temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+										}
 
 										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
 										{
@@ -641,7 +670,57 @@ namespace mmria.server.util
 			Console.WriteLine("{0} Export Finished.", System.DateTime.Now);
 		}
 
+		private void Get_List_Look_Up
+		(
+			System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> p_result,
+			mmria.common.metadata.node[] p_lookup,
+			mmria.common.metadata.node p_metadata,
+			Dictionary<string, int> p_path_to_int_map,
+			string p_path
+		)
+		{
+				switch(p_metadata.type.ToLower())
+				{
+					case "form":
+					case "group":
+					case "grid":
+						foreach(mmria.common.metadata.node node in p_metadata.children)
+						{
+							Get_List_Look_Up(p_result, p_lookup, node, p_path_to_int_map, p_path + "/" + node.name.ToLower());
+						}
+						break;
+					case "list":
+						p_result.Add(p_path, new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
 
+						var value_node_list = p_metadata.values;
+						if
+						(
+							!string.IsNullOrWhiteSpace(p_metadata.path_reference)
+						)
+						{
+							var name = p_metadata.path_reference.Replace("lookup/", "");
+							foreach(var item in p_lookup)
+							{
+								if(item.name.ToLower() == name.ToLower())
+								{
+									value_node_list = item.values;
+									break;
+								}
+							}
+						}
+
+						foreach(var value in value_node_list)
+						{
+							p_result[p_path].Add(value.value, value.display);
+						}
+
+						//p_result[file_name].Add(p_path, field_name);
+
+						break;
+					default:
+						break;
+				}
+		}
 
 		private void process_multiform_grid
 		(

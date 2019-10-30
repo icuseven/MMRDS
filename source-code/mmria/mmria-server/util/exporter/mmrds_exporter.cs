@@ -26,6 +26,8 @@ namespace mmria.server.util
 
 		private HashSet<string> de_identified_set;
 
+		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
+
 
 		private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
 		private int[] qualitativeStreamCount = new int[]{ 0,0,0 };
@@ -43,76 +45,14 @@ namespace mmria.server.util
 		}
 		public void Execute(mmria.server.export_queue_item queue_item)
 		{
-			/*
-			if (args.Length > 1)
-			{
-				for (var i = 1; i < args.Length; i++)
-				{
-					string arg = args[i];
-					int index = arg.IndexOf(':');
-					string val = arg.Substring(index + 1, arg.Length - (index + 1)).Trim(new char[] { '\"' });
+			this.database_path = this.Configuration.couch_db_url;
+			this.juris_user_name = this.Configuration.jurisdiction_user_name;
+			this.user_name = this.Configuration.user_name;
+			this.value_string = this.Configuration.user_value;
 
-					if (arg.ToLower().StartsWith("auth_token"))
-					{
-						this.auth_token = val;
-					}
-					else if (arg.ToLower().StartsWith("juris_user_name"))
-					{
-						this.juris_user_name = val;
-					}
-					else if (arg.ToLower().StartsWith("user_name"))
-					{
-						this.user_name = val;
-					}
-					else if (arg.ToLower().StartsWith("password"))
-					{
-						this.value_string = val;
-					}
-					else if (arg.ToLower().StartsWith("database_url"))
-					{
-						this.database_url = val;
-					}
-					else if (arg.ToLower().StartsWith("database"))
-					{
-						this.database_path = val;
-					}
-					else if (arg.ToLower().StartsWith("item_file_name"))
-					{
-						this.item_file_name = val;
-						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.IndexOf ("."));
-					}
-					else if (arg.ToLower().StartsWith("item_id"))
-					{
-						this.item_id = val;
-					}
-					else if (arg.ToLower().StartsWith("is_cdc_de_identified"))
-					{
-						bool.TryParse(val, out this.is_cdc_de_identified);
-					}
-				}
-			}
-				args.Add("user_name:" + scheduleInfoMessage.user_name);
-				args.Add("password:" + scheduleInfoMessage.user_value);
-				args.Add("database_url:" + scheduleInfoMessage.couch_db_url);
-				args.Add ("item_file_name:" + item_to_process.file_name);
-				args.Add ("item_id:" + item_to_process._id);
-				args.Add ("juris_user_name:" + scheduleInfoMessage.jurisdiction_user_name);
-
-
- 			*/
-
-
-						//this.auth_token = queue_item.val;
-						this.database_path = this.Configuration.couch_db_url;
-						this.juris_user_name = this.Configuration.jurisdiction_user_name;
-						this.user_name = this.Configuration.user_name;
-						this.value_string = this.Configuration.user_value;
-
-						this.item_file_name = queue_item.file_name;
-						this.item_directory_name = queue_item.file_name.Substring (0, queue_item.file_name.IndexOf ("."));
-						this.item_id = queue_item._id;
-					
-
+			this.item_file_name = queue_item.file_name;
+			this.item_directory_name = queue_item.file_name.Substring (0, queue_item.file_name.IndexOf ("."));
+			this.item_id = queue_item._id;
 					
 
 			if (string.IsNullOrWhiteSpace(this.database_url))
@@ -180,7 +120,6 @@ namespace mmria.server.util
 
 
 
-
 			/*
 			foreach (KeyValuePair<string, object> kvp in all_cases)
 			{
@@ -210,6 +149,14 @@ namespace mmria.server.util
 				 false,
 			 	path_to_flat_map
 			);
+
+
+			List_Look_Up = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+
+			foreach(var child in metadata.children)
+			{
+				Get_List_Look_Up(List_Look_Up, metadata.lookup, child, path_to_int_map, "/" + child.name);
+			}
 
 			System.Collections.Generic.HashSet<string> flat_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			System.Collections.Generic.HashSet<string> mutiform_grid_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -465,14 +412,28 @@ namespace mmria.server.util
 									List<object> temp = val as List<object>;
 									if (temp != null && temp.Count > 0)
 									{
+										List<string> temp2 = new List<string>();
+										foreach(var item in temp)
+										{
+											var key = "/" + path;
+											var item_key = item.ToString();
+											if(List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+											{
+												temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+											}
+											else
+											{
+												temp2.Add(item.ToString());
+											}
+										}
 
 										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
 										{
-											row[convert_path_to_field_name(path)] = string.Join("|", temp);
+											row[convert_path_to_field_name(path)] = string.Join("|", temp2);
 										}
 										else
 										{
-											row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+											row[path_to_int_map[path].ToString("X")] = string.Join("|", temp2);
 										}
 									}
 								}
@@ -486,14 +447,28 @@ namespace mmria.server.util
 											List<object> temp = val as List<object>;
 											if (temp != null && temp.Count > 0)
 											{
+												List<string> temp2 = new List<string>();
+												foreach(var item in temp)
+												{
+													var key = "/" + path;
+													var item_key = item.ToString();
+													if(List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+													{
+														temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+													}
+													else
+													{
+														temp2.Add(item.ToString());
+													}
+												}
 
 												if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
 												{
-													row[convert_path_to_field_name(path)] = string.Join("|", temp);
+													row[convert_path_to_field_name(path)] = string.Join("|", temp2);
 												}
 												else
 												{
-													row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+													row[path_to_int_map[path].ToString("X")] = string.Join("|", temp2);
 												}
 											}
 										}
@@ -794,13 +769,28 @@ namespace mmria.server.util
 										IList<object> temp = val as IList<object>;
 										if (temp != null && temp.Count > 0)
 										{
+											List<string> temp2 = new List<string>();
+											foreach(var item in temp)
+											{
+												var key = "/" + path;
+												var item_key = item.ToString();
+												if(List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+												{
+													temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+												}
+												else
+												{
+													temp2.Add(item.ToString());
+												}
+											}
+
 											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
 											{
-												form_row[convert_path_to_field_name(path)] = string.Join("|", temp);
+												form_row[convert_path_to_field_name(path)] = string.Join("|", temp2);
 											}
 											else
 											{
-												form_row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+												form_row[path_to_int_map[path].ToString("X")] = string.Join("|", temp2);
 											}
 
 										}
@@ -1015,6 +1005,60 @@ namespace mmria.server.util
 			Console.WriteLine("{0} Export Finished", System.DateTime.Now);
 		}
 
+
+
+		private void Get_List_Look_Up
+		(
+			System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> p_result,
+			mmria.common.metadata.node[] p_lookup,
+			mmria.common.metadata.node p_metadata,
+			Dictionary<string, int> p_path_to_int_map,
+			string p_path
+		)
+		{
+				switch(p_metadata.type.ToLower())
+				{
+					case "form":
+					case "group":
+					case "grid":
+						foreach(mmria.common.metadata.node node in p_metadata.children)
+						{
+							Get_List_Look_Up(p_result, p_lookup, node, p_path_to_int_map, p_path + "/" + node.name.ToLower());
+						}
+						break;
+					case "list":
+
+						p_result.Add(p_path, new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+
+						var value_node_list = p_metadata.values;
+						if
+						(
+							!string.IsNullOrWhiteSpace(p_metadata.path_reference)
+						)
+						{
+							var name = p_metadata.path_reference.Replace("lookup/", "");
+							foreach(var item in p_lookup)
+							{
+								if(item.name.ToLower() == name.ToLower())
+								{
+									value_node_list = item.values;
+									break;
+								}
+							}
+						}
+
+						foreach(var value in value_node_list)
+						{
+							p_result[p_path].Add(value.value, value.display);
+						}
+
+						//p_result[file_name].Add(p_path, field_name);
+
+						break;
+					default:
+						break;
+				}
+		}
 
 
 		private void process_multiform_grid
