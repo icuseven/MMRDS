@@ -33,7 +33,7 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<p class="mb-2">Fields for version: {version number}</p>
+				<!--p class="mb-2">Fields for version: {version number}</p-->
 				<div id="de_identify_search_result_list" style="font-size: 14px">
 					${de_identified_search_result.join("")}
 				</div>
