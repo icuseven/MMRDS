@@ -185,7 +185,7 @@ namespace mmria.server.util
 
 
 			p_result[main_file_name].Add("_id","_id");
-			p_result[main_file_name].Add("version","");
+			//p_result[main_file_name].Add("version","");
 			/*
 			p_result[main_file_name].Add("date_created","version");
 			p_result[main_file_name].Add("created_by","created_by");
