@@ -368,8 +368,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 								<thead class="thead">
 									<tr class="tr">
 										<th class="th" width="200">Value</th>
-										<th class="th" width="480">Display</th>
-										<th class="th" width="350">Description</th>
+										<th class="th" width="500">Display</th>
+										<th class="th" width="380">Description</th>
 									</tr>
 								</thead>
 								<tbody class="tbody">	
@@ -411,8 +411,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						<tr class="tr  bg-gray-l2">
 							<th class="th" width="160">Export Field</th>
 							<th class="th" width="200">Prompt</th>
-							<th class="th" width="480">Description</th>
-							<th class="th" width="350">Path</th>
+							<th class="th" width="500">Description</th>
+							<th class="th" width="380">Path</th>
 							<th class="th" width="110">Type</th>
 							<!-- <th class="th" width="100">Calculated</th> -->
 						</tr>
