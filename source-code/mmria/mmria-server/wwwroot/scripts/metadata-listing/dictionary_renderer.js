@@ -43,151 +43,6 @@ function dictionary_render(p_metadata, p_path)
 	return result;
 }
 
-// function dictionary_render_header()
-// {
-// 	var result = [];
-
-// 	result.push(`
-// 		<tr class="tr bg-white">
-// 			<th class="th">path</th>
-// 			<th class="th">name</th>
-// 			<th class="th">type</th>
-// 			<th class="th">prompt</th>
-// 			<th class="th">control_style</th>
-// 			<th class="th">description</th>
-// 			<th class="th">is_save_value_display_description</th>
-// 			<th class="th">values</th>
-// 			<th class="th">is_core_summary</th>
-// 			<th class="th">is_required</th>
-// 			<th class="th">is_multiselect</th>
-// 			<th class="th">is_read_only</th>
-// 			<th class="th">default_value</th>
-// 			<th class="th">regex_pattern</th>
-// 			<th class="th">pre_fill</th>
-// 			<th class="th">max_value</th>
-// 			<th class="th">min_value</th>	
-// 			<th class="th">validation</th>
-// 			<th class="th">validation_description</th>
-// 			<th class="th">onfocus</th>
-// 			<th class="th">onchange</th>
-// 			<th class="th">onblur</th>
-// 			<th class="th">onclick</th>
-// 		</tr>
-// 	`);
-
-// 	return result;
-// }
-
-// function dictionary_render_row(p_metadata, p_path)
-// {
-// 	var result = [];
-
-// 	result.push('<tr class="tr">');
-// 		result.push('<td class="td">' + p_path + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['name'])? p_metadata['name']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['type'])? p_metadata['type']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['prompt'])? p_metadata['prompt']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['control_style'])? p_metadata['control_style']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['description'])? p_metadata['description']: "&nbsp;") + '</td>');
-		
-// 		if(p_metadata.type.toLowerCase() == "list")
-// 		{
-// 			result.push('<td class="td">')
-// 			if
-// 			(
-// 				p_metadata['is_save_value_display_description'] &&
-// 				p_metadata['is_save_value_display_description'] == true
-// 			)
-// 			{
-// 				result.push("saves the value, displays the <strong>description</strong> in list.");
-// 			}
-// 			else
-// 			{
-// 				result.push("saves value, displays value.");
-// 			}
-				
-// 			result.push('</td>');
-// 		}
-// 		else
-// 		{
-// 			result.push("<td class='td'>&nbsp;</td>");
-// 		}
-
-// 		if(p_metadata.values)
-// 		{
-// 			result.push('<td class="td"><table class="table"><tr class="tr bg-secondary"><th class="th">value</th><th class="th">description</th></tr>');
-
-// 			let value_list = p_metadata.values;
-
-// 			if(p_metadata.path_reference && p_metadata.path_reference != "")
-// 			{
-// 				value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-		
-// 				if(value_list == null)	
-// 				{
-// 					value_list = p_metadata.values;
-// 				}
-// 			}
-
-// 			for(var i = 0; i < value_list.length; i++)
-// 			{
-// 				var child = value_list[i];
-// 				if(i % 2)
-// 				{
-// 					result.push("<tr class='tr bg-white'><td>");
-// 				}
-// 				else
-// 				{
-// 					result.push("<tr class='tr'><td class='td'>");
-// 				}
-// 				if(child.value == "")
-// 				{
-// 					result.push("(blank)");
-// 				}
-// 				else
-// 				{
-// 					result.push(child.value);
-// 				}
-				
-// 				result.push("</td><td class='td'>")
-// 				if(child.display == "")
-// 				{
-// 					result.push("(blank)");
-// 				}
-// 				else
-// 				{
-// 					result.push(child.display);
-// 				}
-// 				result.push('</td></tr>');
-// 			}
-// 			result.push('</table></td>');
-// 		}
-// 		else
-// 		{
-// 			result.push('<td class="td">&nbsp;</td>');
-// 		}
-
-// 		result.push('<td class="td">' + ((p_metadata['is_core_summary'])? p_metadata['is_core_summary']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['is_required'])? p_metadata['is_required']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['is_multiselect'])? p_metadata['is_multiselect']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['is_read_only'])? p_metadata['is_read_only']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['default_value'])? p_metadata['default_value']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['regex_pattern'])? p_metadata['regex_pattern']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['pre_fill'])? p_metadata['pre_fill']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['max_value'])? p_metadata['max_value']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['min_value'])? p_metadata['min_value']: "&nbsp;") + '</td>');	
-// 		result.push('<td class="td">' + ((p_metadata['validation'])? p_metadata['validation']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['validation_description'])? p_metadata['validation_description']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onfocus'])? p_metadata['onfocus']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onchange'])? p_metadata['onchange']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
-
-// 	result.push('</tr>');
-
-// 	return result;
-// }
-
 
 function handle_print() {
 	window.print();
@@ -368,8 +223,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 								<thead class="thead">
 									<tr class="tr">
 										<th class="th" width="200">Value</th>
-										<th class="th" width="500">Display</th>
-										<th class="th" width="380">Description</th>
+										<th class="th" width="480">Display</th>
+										<th class="th" width="350">Description</th>
 									</tr>
 								</thead>
 								<tbody class="tbody">	
@@ -396,7 +251,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 
 			p_result.push(`
-				<table class="table table--standard rounded-0 mb-4">
+				<table class="table table--standard rounded-0 mb-3">
 					<thead class="thead">
 						<tr class="tr bg-gray">
 							<th class="th" colspan="3" style="font-size: 20px">
@@ -411,8 +266,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						<tr class="tr  bg-gray-l2">
 							<th class="th" width="160">Export Field</th>
 							<th class="th" width="200">Prompt</th>
-							<th class="th" width="500">Description</th>
-							<th class="th" width="380">Path</th>
+							<th class="th" width="480">Description</th>
+							<th class="th" width="350">Path</th>
 							<th class="th" width="110">Type</th>
 							<!-- <th class="th" width="100">Calculated</th> -->
 						</tr>
@@ -434,38 +289,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	}
 }
 
-// function handleElementDisplay(event, str)
-// {
-// 	const prop = event.target.dataset.prop;
-// 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
 
-// 	return new Promise ((resolve, reject) =>
-// 	{
-// 		if (!isNullOrUndefined(tars)) {
-// 			for (let i = 0; i < tars.length; i++) {
-// 				if (tars[i].style.display === 'none') {
-// 					tars[i].style.display = str;
-// 				} else {
-// 					tars[i].style.display = 'none';
-// 				}
-// 			}
-// 		} else {
-// 			// target doesn't exist, reject
-// 			reject('Target(s) do not exist');
-// 		}
-// 	})
-
-	// tars.forEach((el) =>
-	// {
-	// 	if (el.style.display == 'none') {
-	// 		el.style.display == str;
-	// 		console.log('a');
-	// 	} else {
-	// 		el.style.display == 'none';
-	// 		console.log('b');
-	// 	}
-	// });
-// }
 
 function convert_dictionary_path_to_lookup_object(p_path)
 {

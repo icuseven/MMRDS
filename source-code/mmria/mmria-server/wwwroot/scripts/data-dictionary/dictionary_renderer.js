@@ -6,8 +6,8 @@ function dictionary_render(p_metadata, p_path)
 	render_de_identified_search_result(de_identified_search_result, g_filter);
 
 	result.push(`
-		<div id="de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
-			<div class="form-inline mb-2 row no-gutters align-items-center justify-content-between">
+		<div id="sticky-section de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
+			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between">
 				<div class="row no-gutters align-items-center">
 					<label for="de_identify_search_text" class="mr-2"> Search for:</label>
 					<input type="text"
@@ -22,9 +22,9 @@ function dictionary_render(p_metadata, p_path)
 					<select id="metadata_version_filter" class="custom-select mr-2">
 						<option value="">Select Metadata Version</option>
 						<option value="19.10.17">19.10.17</option>
-					</select>
-					<button type="submit" class="btn btn-secondary print-none" alt="clear search" onclick="handle_search(de_identified_search_click)">Search</button>
+					</select> class="btn btn-secondary print-none" alt="clear search" onclick="handle_search(de_identified_search_click)">Search</button>
 				</div>
+					<button type="submit"
 				<div>
 					<div class="row no-gutters justify-content-end">
 						<button class="btn btn-secondary row no-gutters align-items-center print-none" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>Print</button>
@@ -33,7 +33,7 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<!--p class="mb-2">Fields for version: {version number}</p-->
+				<p class="mb-2">Fields for version: {version number}</p>
 				<div id="de_identify_search_result_list" style="font-size: 14px">
 					${de_identified_search_result.join("")}
 				</div>
@@ -42,151 +42,6 @@ function dictionary_render(p_metadata, p_path)
 
 	return result;
 }
-
-// function dictionary_render_header()
-// {
-// 	var result = [];
-
-// 	result.push(`
-// 		<tr class="tr bg-white">
-// 			<th class="th">path</th>
-// 			<th class="th">name</th>
-// 			<th class="th">type</th>
-// 			<th class="th">prompt</th>
-// 			<th class="th">control_style</th>
-// 			<th class="th">description</th>
-// 			<th class="th">is_save_value_display_description</th>
-// 			<th class="th">values</th>
-// 			<th class="th">is_core_summary</th>
-// 			<th class="th">is_required</th>
-// 			<th class="th">is_multiselect</th>
-// 			<th class="th">is_read_only</th>
-// 			<th class="th">default_value</th>
-// 			<th class="th">regex_pattern</th>
-// 			<th class="th">pre_fill</th>
-// 			<th class="th">max_value</th>
-// 			<th class="th">min_value</th>	
-// 			<th class="th">validation</th>
-// 			<th class="th">validation_description</th>
-// 			<th class="th">onfocus</th>
-// 			<th class="th">onchange</th>
-// 			<th class="th">onblur</th>
-// 			<th class="th">onclick</th>
-// 		</tr>
-// 	`);
-
-// 	return result;
-// }
-
-// function dictionary_render_row(p_metadata, p_path)
-// {
-// 	var result = [];
-
-// 	result.push('<tr class="tr">');
-// 		result.push('<td class="td">' + p_path + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['name'])? p_metadata['name']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['type'])? p_metadata['type']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['prompt'])? p_metadata['prompt']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['control_style'])? p_metadata['control_style']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['description'])? p_metadata['description']: "&nbsp;") + '</td>');
-		
-// 		if(p_metadata.type.toLowerCase() == "list")
-// 		{
-// 			result.push('<td class="td">')
-// 			if
-// 			(
-// 				p_metadata['is_save_value_display_description'] &&
-// 				p_metadata['is_save_value_display_description'] == true
-// 			)
-// 			{
-// 				result.push("saves the value, displays the <strong>description</strong> in list.");
-// 			}
-// 			else
-// 			{
-// 				result.push("saves value, displays value.");
-// 			}
-				
-// 			result.push('</td>');
-// 		}
-// 		else
-// 		{
-// 			result.push("<td class='td'>&nbsp;</td>");
-// 		}
-
-// 		if(p_metadata.values)
-// 		{
-// 			result.push('<td class="td"><table class="table"><tr class="tr bg-secondary"><th class="th">value</th><th class="th">description</th></tr>');
-
-// 			let value_list = p_metadata.values;
-
-// 			if(p_metadata.path_reference && p_metadata.path_reference != "")
-// 			{
-// 				value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
-		
-// 				if(value_list == null)	
-// 				{
-// 					value_list = p_metadata.values;
-// 				}
-// 			}
-
-// 			for(var i = 0; i < value_list.length; i++)
-// 			{
-// 				var child = value_list[i];
-// 				if(i % 2)
-// 				{
-// 					result.push("<tr class='tr bg-white'><td>");
-// 				}
-// 				else
-// 				{
-// 					result.push("<tr class='tr'><td class='td'>");
-// 				}
-// 				if(child.value == "")
-// 				{
-// 					result.push("(blank)");
-// 				}
-// 				else
-// 				{
-// 					result.push(child.value);
-// 				}
-				
-// 				result.push("</td><td class='td'>")
-// 				if(child.display == "")
-// 				{
-// 					result.push("(blank)");
-// 				}
-// 				else
-// 				{
-// 					result.push(child.display);
-// 				}
-// 				result.push('</td></tr>');
-// 			}
-// 			result.push('</table></td>');
-// 		}
-// 		else
-// 		{
-// 			result.push('<td class="td">&nbsp;</td>');
-// 		}
-
-// 		result.push('<td class="td">' + ((p_metadata['is_core_summary'])? p_metadata['is_core_summary']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['is_required'])? p_metadata['is_required']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['is_multiselect'])? p_metadata['is_multiselect']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['is_read_only'])? p_metadata['is_read_only']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['default_value'])? p_metadata['default_value']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['regex_pattern'])? p_metadata['regex_pattern']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['pre_fill'])? p_metadata['pre_fill']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['max_value'])? p_metadata['max_value']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['min_value'])? p_metadata['min_value']: "&nbsp;") + '</td>');	
-// 		result.push('<td class="td">' + ((p_metadata['validation'])? p_metadata['validation']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['validation_description'])? p_metadata['validation_description']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onfocus'])? p_metadata['onfocus']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onchange'])? p_metadata['onchange']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onblur'])? p_metadata['onblur']: "&nbsp;") + '</td>');
-// 		result.push('<td class="td">' + ((p_metadata['onclick'])? p_metadata['onclick']: "&nbsp;") + '</td>');
-
-// 	result.push('</tr>');
-
-// 	return result;
-// }
 
 
 function handle_print() {
@@ -355,6 +210,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			if(path_array.length > 2)
 			{
 				form_name = path_array[1];
+				form_name = convert_form_name(form_name);
 			}
 
 
@@ -381,7 +237,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				list_values.push(`
 					<tr class="tr">
 						<td class="td"></td>
-						<td class="td p-0" colspan="3">
+						<td class="td"></td>
+						<td class="td p-0" colspan="4">
 							<table class="table table--standard rounded-0 m-0">
 								<thead class="thead">
 									<tr class="tr">
@@ -390,9 +247,9 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 								</thead>
 								<thead class="thead">
 									<tr class="tr">
-										<th class="th" width="200">Value</th>
-										<th class="th" width="500">Display</th>
-										<th class="th" width="380">Description</th>
+										<th class="th" width="120">Value</th>
+										<th class="th" width="560">Display</th>
+										<th class="th" width="260">Description</th>
 									</tr>
 								</thead>
 								<tbody class="tbody">	
@@ -419,29 +276,23 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 
 			p_result.push(`
-				<table class="table table--standard rounded-0 mb-4">
-					<thead class="thead">
-						<tr class="tr bg-gray">
-							<th class="th" colspan="3" style="font-size: 20px">
-								MMRIA Form: ${form_name}
-							</th>
-							<th class="th" colspan="3">
-								Export File: <span class="font-weight-normal">${file_name}</span>
-							</th>
-						</tr>
-					</thead>
+				<table class="table table--standard rounded-0 mb-3">
 					<thead class="thead">
 						<tr class="tr  bg-gray-l2">
-							<th class="th" width="160">Export Field</th>
-							<th class="th" width="200">Prompt</th>
-							<th class="th" width="500">Description</th>
-							<th class="th" width="380">Path</th>
-							<th class="th" width="110">Type</th>
+							<th class="th" width="140">MMRIA Form</th>
+							<th class="th" width="140">Export File Name</th>
+							<th class="th" width="120">Export Field</th>
+							<th class="th" width="180">Prompt</th>
+							<th class="th" width="380">Description</th>
+							<th class="th" width="260">Path</th>
+							<th class="th" width="110">Data Type</th>
 							<!-- <th class="th" width="100">Calculated</th> -->
 						</tr>
 					</thead>
 					<tbody class="tbody">
 						<tr class="tr">
+							<td class="td">${form_name}</td>
+							<td class="td">${file_name}</td>
 							<td class="td">${field_name}</td>
 							<td class="td">${p_metadata.prompt}</td>
 							<td class="td">${description}</td>
@@ -457,38 +308,17 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	}
 }
 
-// function handleElementDisplay(event, str)
-// {
-// 	const prop = event.target.dataset.prop;
-// 	const tars = document.querySelectorAll(`[data-show='${prop}']`);
+function convert_form_name(p_value)
+{
+	switch (p_value) {
+		case 'home_record':
+			p_value = 'Home Record';
+			return p_value;
+		default: 
+			return p_value;
+	}
+}
 
-// 	return new Promise ((resolve, reject) =>
-// 	{
-// 		if (!isNullOrUndefined(tars)) {
-// 			for (let i = 0; i < tars.length; i++) {
-// 				if (tars[i].style.display === 'none') {
-// 					tars[i].style.display = str;
-// 				} else {
-// 					tars[i].style.display = 'none';
-// 				}
-// 			}
-// 		} else {
-// 			// target doesn't exist, reject
-// 			reject('Target(s) do not exist');
-// 		}
-// 	})
-
-	// tars.forEach((el) =>
-	// {
-	// 	if (el.style.display == 'none') {
-	// 		el.style.display == str;
-	// 		console.log('a');
-	// 	} else {
-	// 		el.style.display == 'none';
-	// 		console.log('b');
-	// 	}
-	// });
-// }
 
 function convert_dictionary_path_to_lookup_object(p_path)
 {
