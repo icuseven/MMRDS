@@ -310,13 +310,28 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 
 function convert_form_name(p_value)
 {
-	switch (p_value) {
-		case 'home_record':
-			p_value = 'Home Record';
-			return p_value;
-		default: 
-			return p_value;
+	let lookup = {
+		'(none)': '(none)',
+		'home_record': 'Home Record',
+		'death_certificate': 'Death Certificate',
+		'birth_fetal_death_certificate_parent': 'Birth/Fetal Death Certificate - Parent Section',
+		'birth_certificate_infant_fetal_section': 'Birth/Fetal Death Certificate - Infant/Fetal Section',
+		'autopsy_report': 'Autopsy Report',
+		'prenatal': 'Prenatal Care Record',
+		'er_visit_and_hospital_medical_records': 'ER Visits and Hospitalizations',
+		'other_medical_office_visits': 'Other Medical Office Visits',
+		'medical_transport': 'Medical Transport',
+		'social_and_environmental_profile': 'Social and Environment Profile',
+		'mental_health_profile': 'Mental Health Profile',
+		'informant_interviews': 'Informant Interviews',
+		'case_narrative': 'Case Narrative',
+		'committee_review': 'Committee Decisions'
 	}
+
+
+
+	return lookup[p_value.toLowerCase()];
+
 }
 
 

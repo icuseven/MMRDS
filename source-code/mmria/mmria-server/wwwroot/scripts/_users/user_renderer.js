@@ -21,7 +21,7 @@ function user_render(p_ui, p_created_by)
 
 	if(g_policy_values.sams_is_enabled != "True")
 	{
-		result.push("Password: <input type='text' id='new_user_password' value=''/><br/>");
+		result.push("Password: <input type='password' id='new_user_password' value=''/><br/>");
 		result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
 	}
 	
