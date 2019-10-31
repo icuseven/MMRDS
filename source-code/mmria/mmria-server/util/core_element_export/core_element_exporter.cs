@@ -35,6 +35,8 @@ namespace mmria.server.util
 
 		private HashSet<string> de_identified_set;
 
+System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
+
 		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
 		public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
@@ -634,6 +636,128 @@ namespace mmria.server.util
 				this.qualitativeStreamWriter[i_index] = null;
 			}
 
+			WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory);
+			column = null;
+
+
+			column = new System.Data.DataColumn("metadata_version", typeof(string));
+			column.DefaultValue = metadata.version;
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("file_name", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("column_name", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("mmria_path", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("mmria_prompt", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("field_description", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("item_value", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+
+			column = new System.Data.DataColumn("item_display", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+			column = new System.Data.DataColumn("item_description", typeof(string));
+			mapping_look_up_document.Table.Columns.Add(column);
+
+
+
+
+			foreach (KeyValuePair<string, mmria.common.metadata.node> kvp in path_to_node_map)
+			{
+				var node = kvp.Value;
+				
+
+				if(node.type.ToLower() == "list")
+				{
+					 
+					try
+					{
+
+					
+						
+	//List_Look_Up
+						var value_list = node.values;
+						
+						if(!string.IsNullOrWhiteSpace(node.path_reference))
+						{
+							//var key = node.path_reference.Replace("lookup/", "");
+							var key = "/" + kvp.Key;
+							
+							if(List_Look_Up.ContainsKey(key))
+							{
+								foreach(var item in List_Look_Up[key])
+								{
+									System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
+
+									if(path_to_file_name_map.ContainsKey(kvp.Key))
+									{
+										row["file_name"] = path_to_file_name_map[kvp.Key];
+									}
+									
+									if(path_to_field_name_map.ContainsKey(kvp.Key))
+									{
+										row["column_name"] = path_to_field_name_map[kvp.Key];
+									}
+									
+									row["mmria_path"] = kvp.Key;
+									row["mmria_prompt"] = node.prompt;
+									row["field_description"] = node.description;
+									row["item_value"] = item.Key;
+									row["item_display"] = item.Value;
+									//row["item_description"] = item.description;
+									mapping_look_up_document.Table.Rows.Add(row);	
+								}
+							}
+							
+						}
+						else
+						{
+							foreach(var item in value_list)
+							{
+								System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
+								
+								if(path_to_file_name_map.ContainsKey(kvp.Key))
+								{
+									row["file_name"] = path_to_file_name_map[kvp.Key];
+								}
+
+								if(path_to_field_name_map.ContainsKey(kvp.Key))
+								{
+									row["column_name"] = path_to_field_name_map[kvp.Key];
+								}
+								row["mmria_path"] = kvp.Key;
+								row["mmria_prompt"] = node.prompt;
+								row["field_description"] = node.description;
+								row["item_value"] = item.value;
+								row["item_display"] = item.display;
+								row["item_description"] = item.description;
+
+								
+								mapping_look_up_document.Table.Rows.Add(row);
+							}
+						}
+
+						
+					}
+					catch(Exception ex)
+					{
+						System.Console.WriteLine(ex);
+					}
+				}
+			}
+
+			mapping_look_up_document.WriteToStream();
+
 
 			mmria.server.util.cFolderCompressor folder_compressor = new mmria.server.util.cFolderCompressor();
 
@@ -867,6 +991,7 @@ namespace mmria.server.util
 
 		private string convert_path_to_field_name(string p_path)
 		{
+			string result_value = null;
 			//		/birth_certificate_infant_fetal_section / causes_of_death
 			// /birth_certificate_infant_fetal_section
 			bool is_added_item = false;
@@ -920,7 +1045,18 @@ namespace mmria.server.util
 							{
 								result.Append(temp2[j]);
 							}
-							return result.ToString();
+							
+							result_value = result.ToString();
+							if(path_to_field_name_map.ContainsKey(p_path))
+							{
+								path_to_field_name_map[p_path] = result_value;
+							}
+							else
+							{
+								path_to_field_name_map.Add(p_path, result_value);
+							}
+
+							return result_value;
 						}
 
 
@@ -934,7 +1070,16 @@ namespace mmria.server.util
 				}
 			}
 
-            return result.ToString();
+			result_value = result.ToString();
+			if(path_to_field_name_map.ContainsKey(p_path))
+			{
+				path_to_field_name_map[p_path] = result_value;
+			}
+			else
+			{
+				path_to_field_name_map.Add(p_path, result_value);
+			}
+            return result_value;
 		}
 
 

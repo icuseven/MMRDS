@@ -8,6 +8,8 @@ namespace mmria.server.util
 	public class WriteCSV
 	{
 		string file_name;
+
+		public string File_Name { get { return file_name;}}
 		string folder_name;
 		DataTable table;
 		public WriteCSV(string p_file_name, string p_folder_name, string p_export_directory)
