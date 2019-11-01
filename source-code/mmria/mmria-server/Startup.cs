@@ -484,6 +484,12 @@ namespace mmria.server
                                 .RequireAuthenticatedUser()
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
+
+                config.CacheProfiles.Add("Default30",
+                new Microsoft.AspNetCore.Mvc.CacheProfile()
+                {
+                    Duration = 30
+                });
             });
 
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
