@@ -1002,6 +1002,7 @@ function add_attachment_click(p_value)
     switch(doc_name)
     {
         case "metadata":
+            g_metadata.version = g_data.name;
             document.getElementById("add_attachment_document_content").value = JSON.stringify(g_metadata);
             add_attachment(g_data._id, g_data._rev, doc_name, g_metadata)
             break;

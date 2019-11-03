@@ -114,7 +114,7 @@ namespace mmria.server.util
 			cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
-			string metadata_url = this.database_url + "/metadata/2016-06-12T13:49:24.759Z";
+			string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
