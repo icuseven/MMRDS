@@ -15,6 +15,13 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 	let pagination_html = [];
 	render_pagination(pagination_html, g_case_view_request);
 	
+
+	let filter_decending = "";
+
+	if(g_case_view_request.descending)
+	{
+		filter_decending = "checked=true";
+	}
 	result.push(`
 		<div class="row">
 			<div class="col">
@@ -227,7 +234,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 								<div class="form-inline mb-2">
 									<label for="filter_decending" class="font-weight-normal mr-2">Descending order:</label>
-									<input id="filter_decending" type="checkbox" />
+									<input id="filter_decending" type="checkbox" ${filter_decending}/>
 								</div>
 							</li>
 
