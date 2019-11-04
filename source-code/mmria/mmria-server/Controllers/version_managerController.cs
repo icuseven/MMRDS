@@ -22,5 +22,12 @@ namespace mmria.server.Controllers
         {
             return View();
         }
+
+
+        [Route("migrate")]
+        public IActionResult Migrate()
+        {
+            return View("migrate");
+        }
     }
 }

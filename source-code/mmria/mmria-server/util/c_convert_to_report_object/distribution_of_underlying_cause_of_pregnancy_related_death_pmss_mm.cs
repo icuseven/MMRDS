@@ -18,7 +18,7 @@ namespace mmria.server.util
         {
             if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
 			{
-
+                var list = List_Look_Up["committee_review/pmss_mm"];
 
                 p_report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
                 try

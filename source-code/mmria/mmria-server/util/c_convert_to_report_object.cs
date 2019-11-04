@@ -8,6 +8,9 @@ namespace mmria.server.util
 	{
 		string source_json;
 
+		private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
+
+
 
 		private enum deaths_by_age_enum
 		{
@@ -106,6 +109,20 @@ namespace mmria.server.util
 		public string execute ()
 		{
 			string result = null;
+
+			string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
+			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
+			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
+
+
+			List_Look_Up = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+
+			foreach(var child in metadata.children)
+			{
+				Get_List_Look_Up(List_Look_Up, metadata.lookup, child, "/" + child.name);
+			}
+
+
 
 			mmria.server.model.c_report_object report_object;
 
@@ -1262,6 +1279,59 @@ age_45_and_above
 				System.Console.WriteLine (ex);
 			}
 		}
+
+		private void Get_List_Look_Up
+		(
+			System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> p_result,
+			mmria.common.metadata.node[] p_lookup,
+			mmria.common.metadata.node p_metadata,
+			string p_path
+		)
+		{
+				switch(p_metadata.type.ToLower())
+				{
+					case "form":
+					case "group":
+					case "grid":
+						foreach(mmria.common.metadata.node node in p_metadata.children)
+						{
+							Get_List_Look_Up(p_result, p_lookup, node, p_path + "/" + node.name.ToLower());
+						}
+						break;
+					case "list":
+
+						p_result.Add(p_path, new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+
+						var value_node_list = p_metadata.values;
+						if
+						(
+							!string.IsNullOrWhiteSpace(p_metadata.path_reference)
+						)
+						{
+							var name = p_metadata.path_reference.Replace("lookup/", "");
+							foreach(var item in p_lookup)
+							{
+								if(item.name.ToLower() == name.ToLower())
+								{
+									value_node_list = item.values;
+									break;
+								}
+							}
+						}
+
+						foreach(var value in value_node_list)
+						{
+							p_result[p_path].Add(value.value, value.display);
+						}
+
+						//p_result[file_name].Add(p_path, field_name);
+
+						break;
+					default:
+						break;
+				}
+		}
+
 	}
 }
 
