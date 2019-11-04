@@ -8,12 +8,12 @@ namespace mmria.server.Controllers
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
-    public class OpioidReportController : Controller
+    public class opioid_reportController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
         //private readonly IDocumentRepository _documentRepository;
 
-        public OpioidReportController(IAuthorizationService authorizationService)
+        public opioid_reportController(IAuthorizationService authorizationService)
         {
             _authorizationService = authorizationService;
             //_documentRepository = documentRepository;
