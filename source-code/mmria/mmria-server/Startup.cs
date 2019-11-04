@@ -661,7 +661,7 @@ namespace mmria.server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
+
 
             if (env.IsDevelopment())
             {
@@ -673,11 +673,15 @@ namespace mmria.server
             (
                 async (context, next) =>
                 {
-                    context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                    context.Response.Headers.Add("X-Frame-Options", "DENY");
+                    context.Response.Headers.Add("Content-Security-Policy",  
+                    "" +  
+                    "frame-ancestors  'self'"); 
+                    context.Response.Headers.Add("Cache-Control","no-store"); 
                     await next();
                 }
             );
-
+            app.UseAuthentication();
 
 
             //app.UseMvc();
