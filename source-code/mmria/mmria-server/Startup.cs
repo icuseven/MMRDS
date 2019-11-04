@@ -677,7 +677,7 @@ namespace mmria.server
                     context.Response.Headers.Add("Content-Security-Policy",  
                     "" +  
                     "frame-ancestors  'self'"); 
-                    context.Response.Headers.Add("Cache-Control","no-store"); 
+                    context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
                     await next();
                 }
             );
