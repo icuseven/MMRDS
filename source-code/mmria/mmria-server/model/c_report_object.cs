@@ -95,29 +95,29 @@ namespace mmria.server.model
 
 		// double
 		//determined_to_be_preventable - value struct
-		public total_value_struct total_pregnancy_related_determined_to_be_preventable;
-		public total_value_struct total_pregnancy_associated_determined_to_be_preventable;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_determined_to_be_preventable;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_determined_to_be_preventable;
 
 
 		// obesity_contributed_to_the_death
-		public total_value_struct total_pregnancy_related_obesity_contributed_to_the_death;
-		public total_value_struct total_pregnancy_associated_obesity_contributed_to_the_death;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_obesity_contributed_to_the_death;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_obesity_contributed_to_the_death;
 
 		// mental_health_conditions_contributed_to_death
-		public total_value_struct total_pregnancy_related_mental_health_conditions_contributed_to_death;
-		public total_value_struct total_pregnancy_associated_mental_health_conditions_contributed_to_death;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_mental_health_conditions_contributed_to_death;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_mental_health_conditions_contributed_to_death;
 
 		// substance_use_disorder_contributed_to_death
-		public total_value_struct total_pregnancy_related_substance_use_disorder_contributed_to_death;
-		public total_value_struct total_pregnancy_associated_substance_use_disorder_contributed_to_death;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_substance_use_disorder_contributed_to_death;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_substance_use_disorder_contributed_to_death;
 
 		// is_suicide
-		public total_value_struct total_pregnancy_related_is_suicide;
-		public total_value_struct total_pregnancy_associated_is_suicide;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_is_suicide;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_is_suicide;
 
 		// is_homocide
-		public total_value_struct total_pregnancy_related_is_homocide;
-		public total_value_struct total_pregnancy_associated_is_homocide;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_is_homocide;
+		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_is_homocide;
 
 
 	}

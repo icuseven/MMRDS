@@ -180,26 +180,40 @@ namespace mmria.server.util
 
 			this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
 
-			this.popluate_pregnancy_related_determined_to_be_preventable(ref report_object, source_object);
-			this.popluate_pregnancy_associated_determined_to_be_preventable(ref report_object, source_object);
+			//this.popluate_pregnancy_related_determined_to_be_preventable(ref report_object, source_object);
+			//this.popluate_pregnancy_associated_determined_to_be_preventable(ref report_object, source_object);
+			this.popluate_list(ref report_object.total_pregnancy_related_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", true);
+			this.popluate_list(ref report_object.total_pregnancy_related_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", false);
 
 
-			this.popluate_pregnancy_related_obesity_contributed_to_the_death(ref report_object, source_object);
-			this.popluate_pregnancy_associated_obesity_contributed_to_the_death(ref report_object, source_object);
+			//this.popluate_pregnancy_related_obesity_contributed_to_the_death(ref report_object, source_object);
+			//this.popluate_pregnancy_associated_obesity_contributed_to_the_death(ref report_object, source_object);
+			this.popluate_list(ref report_object.total_pregnancy_related_obesity_contributed_to_the_death, ref report_object, source_object, "committee_review/did_obesity_contribute_to_the_death", true);
+			this.popluate_list(ref report_object.total_pregnancy_associated_obesity_contributed_to_the_death, ref report_object, source_object, "committee_review/did_obesity_contribute_to_the_death", false);
 
 
-			this.popluate_pregnancy_related_mental_health_conditions_contributed_to_death(ref report_object, source_object);
-			this.popluate_pregnancy_associated_mental_health_conditions_contributed_to_death(ref report_object, source_object);
+			//this.popluate_pregnancy_related_mental_health_conditions_contributed_to_death(ref report_object, source_object);
+			//this.popluate_pregnancy_associated_mental_health_conditions_contributed_to_death(ref report_object, source_object);
+			this.popluate_list(ref report_object.total_pregnancy_related_mental_health_conditions_contributed_to_death, ref report_object, source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death", true);
+			this.popluate_list(ref report_object.total_pregnancy_associated_mental_health_conditions_contributed_to_death, ref report_object, source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death", false);
 
-			this.popluate_pregnancy_related_substance_use_disorder_contributed_to_death(ref report_object, source_object);
-			this.popluate_pregnancy_associated_substance_use_disorder_contributed_to_death(ref report_object, source_object);
 
 
-			this.popluate_pregnancy_related_is_suicide(ref report_object, source_object);
-			this.popluate_pregnancy_associated_is_suicide(ref report_object, source_object);
+			//this.popluate_pregnancy_related_substance_use_disorder_contributed_to_death(ref report_object, source_object);
+			//this.popluate_pregnancy_associated_substance_use_disorder_contributed_to_death(ref report_object, source_object);
+			this.popluate_list(ref report_object.total_pregnancy_related_substance_use_disorder_contributed_to_death, ref report_object, source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death", true);
+			this.popluate_list(ref report_object.total_pregnancy_associated_substance_use_disorder_contributed_to_death, ref report_object, source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death", false);
 
-			this.popluate_pregnancy_related_is_homocide(ref report_object, source_object);
-			this.popluate_pregnancy_associated_is_homocide(ref report_object, source_object);
+
+			//this.popluate_pregnancy_related_is_suicide(ref report_object, source_object);
+			//this.popluate_pregnancy_associated_is_suicide(ref report_object, source_object);
+			this.popluate_list(ref report_object.total_pregnancy_related_is_suicide, ref report_object, source_object, "committee_review/was_this_death_a_sucide", true);
+			this.popluate_list(ref report_object.total_pregnancy_associated_is_suicide, ref report_object, source_object, "committee_review/was_this_death_a_sucide", false);
+
+			//this.popluate_pregnancy_related_is_homocide(ref report_object, source_object);
+			//this.popluate_pregnancy_associated_is_homocide(ref report_object, source_object);
+			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide", true);
+			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide", false);
 
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -1331,6 +1345,81 @@ age_45_and_above
 						break;
 				}
 		}
+
+
+		private void popluate_list (ref System.Collections.Generic.Dictionary<string, int> p_result, ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object, string p_mmria_path, bool p_is_pregnance_related)
+        {
+            var list = List_Look_Up[p_mmria_path];
+
+            p_result = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
+
+            foreach(var kvp in list)
+            {
+                p_result.Add(kvp.Key, 0);
+            }
+
+			if(p_is_pregnance_related)
+			{
+				if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					try
+					{	
+						string val = get_value(p_source_object, p_mmria_path);
+						if(val != null && p_result.ContainsKey(val))
+						{
+							p_result[val] = 1;
+						}
+						else
+						{
+							p_result["9999"] = 1;
+						}
+
+						val = get_value(p_source_object, p_mmria_path);
+						if(val != null && p_result.ContainsKey(val))
+						{
+							p_result[val] += 1;
+						}
+						else
+						{
+							p_result["9999"] += 1;
+						}
+					}
+					catch(Exception ex)
+					{
+						System.Console.WriteLine (ex);
+					}
+				}
+			}
+            else if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+			{
+            	try
+                {	
+                    string val = get_value(p_source_object, p_mmria_path);
+                    if(val != null && p_result.ContainsKey(val))
+                    {
+                        p_result[val] = 1;
+                    }
+                    else
+                    {
+                       p_result["9999"] = 1;
+                    }
+
+                    val = get_value(p_source_object, p_mmria_path);
+                    if(val != null && p_result.ContainsKey(val))
+                    {
+                        p_result[val] += 1;
+                    }
+                    else
+                    {
+                       p_result["9999"] += 1;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+            }
+        }
 
 	}
 }

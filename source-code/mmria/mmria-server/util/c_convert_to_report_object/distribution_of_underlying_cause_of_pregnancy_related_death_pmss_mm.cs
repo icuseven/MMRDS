@@ -21,16 +21,33 @@ namespace mmria.server.util
                 var list = List_Look_Up["committee_review/pmss_mm"];
 
                 p_report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
+                var result = p_report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm;
+
+                foreach(var kvp in list)
+                {
+                    result.Add(kvp.Key, 0);
+                }
+
                 try
                 {	
                     string val = get_value(p_source_object, "committee_review/pmss_mm");
-                    if(val != null && val.ToString() == "1")
+                    if(val != null && result.ContainsKey(val))
                     {
-                        //p_report_object.total_pregnancy_related_determined_to_be_preventable.value = 0;
+                        result[val] = 1;
                     }
                     else
                     {
-                       // p_report_object.total_pregnancy_related_determined_to_be_preventable.value = 0;
+                       result["9999"] = 1;
+                    }
+
+                    val = get_value(p_source_object, "committee_review/pmss_mm_secondary");
+                    if(val != null && result.ContainsKey(val))
+                    {
+                        result[val] += 1;
+                    }
+                    else
+                    {
+                       result["9999"] += 1;
                     }
                 }
                 catch(Exception ex)
