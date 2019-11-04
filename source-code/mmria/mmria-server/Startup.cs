@@ -492,10 +492,10 @@ namespace mmria.server
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
 
-                config.CacheProfiles.Add("Default30",
+                config.CacheProfiles.Add("NoStore",
                 new Microsoft.AspNetCore.Mvc.CacheProfile()
                 {
-                    Duration = 30
+                    NoStore = true
                 });
             });
 
