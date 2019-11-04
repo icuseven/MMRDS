@@ -91,7 +91,7 @@ namespace mmria.server.model
 		public timing_of_death_in_relation_to_pregnancy_struct total_number_pregnancy_associated_at_time_of_death;
 
 		// singular
-		public total_value_struct distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm;
+		public System.Collections.Generic.Dictionary<string, int> distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm;
 
 		// double
 		//determined_to_be_preventable - value struct

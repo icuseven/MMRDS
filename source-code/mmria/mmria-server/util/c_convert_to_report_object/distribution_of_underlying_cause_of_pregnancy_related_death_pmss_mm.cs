@@ -18,16 +18,19 @@ namespace mmria.server.util
         {
             if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
 			{
+
+
+                p_report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
                 try
                 {	
                     string val = get_value(p_source_object, "committee_review/pmss_mm");
                     if(val != null && val.ToString() == "1")
                     {
-                        p_report_object.total_pregnancy_related_determined_to_be_preventable.value = 0;
+                        //p_report_object.total_pregnancy_related_determined_to_be_preventable.value = 0;
                     }
                     else
                     {
-                        p_report_object.total_pregnancy_related_determined_to_be_preventable.value = 0;
+                       // p_report_object.total_pregnancy_related_determined_to_be_preventable.value = 0;
                     }
                 }
                 catch(Exception ex)
