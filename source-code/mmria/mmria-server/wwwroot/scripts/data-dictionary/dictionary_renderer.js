@@ -275,6 +275,17 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				`);
 			}
 
+			// Remove fields who do not have a form_name or if it doesn't exist
+			// if (!form_name || form_name == '(none)' || form_name == '(blank)') {
+			// if (!form_name || form_name.includes('none') || form_name.includes('blank')) {
+			if (
+				!form_name ||
+				 form_name.indexOf('none') !== -1 ||
+				 form_name.indexOf('blank') !== -1
+			) {
+				return;
+			}
+
 			p_result.push(`
 				<table class="table table--standard rounded-0 mb-3">
 					<thead class="thead">
@@ -328,10 +339,7 @@ function convert_form_name(p_value)
 		'committee_review': 'Committee Decisions'
 	}
 
-
-
 	return lookup[p_value.toLowerCase()];
-
 }
 
 
