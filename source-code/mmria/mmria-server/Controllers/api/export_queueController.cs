@@ -192,7 +192,9 @@ namespace mmria.server
 						Program.config_timer_user_name,
 						Program.config_timer_value,
 						Program.config_export_directory,
-						juris_user_name
+						juris_user_name,
+						Program.metadata_release_version_name
+
 					);
 
 					//_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);

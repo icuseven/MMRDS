@@ -67,6 +67,13 @@ namespace mmria.server
                 Program.grantee_name = Configuration["mmria_settings:grantee_name"];
             }
 
+            if(!string.IsNullOrEmpty(Configuration["mmria_settings:metadata_version"]))
+            {
+                Program.metadata_release_version_name = Configuration["mmria_settings:metadata_version"];
+            }
+
+
+
             var test_int = 0;
             //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
             //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];

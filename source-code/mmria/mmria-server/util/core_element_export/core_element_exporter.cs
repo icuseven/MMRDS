@@ -48,54 +48,6 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 		public void Execute(mmria.server.export_queue_item queue_item)
 		{
 
-			/*
-
-			if (args.Length > 1)
-			{
-				for (var i = 1; i < args.Length; i++)
-				{
-					string arg = args[i];
-					int index = arg.IndexOf(':');
-					string val = arg.Substring(index + 1, arg.Length - (index + 1)).Trim(new char[] { '\"' });
-
-					if (arg.ToLower().StartsWith("auth_token"))
-					{
-						this.auth_token = val;
-					}
-					else if (arg.ToLower().StartsWith("juris_user_name"))
-					{
-						this.juris_user_name = val;
-					}
-					else if (arg.ToLower().StartsWith("user_name"))
-					{
-						this.user_name = val;
-					}
-					else if (arg.ToLower().StartsWith("password"))
-					{
-						this.value_string = val;
-					}
-					else if (arg.ToLower().StartsWith("database_url"))
-					{
-						this.database_url = val;
-					}
-					else if (arg.ToLower().StartsWith("database"))
-					{
-						this.database_path = val;
-					}
-					else if (arg.ToLower().StartsWith("item_file_name"))
-					{
-						this.item_file_name = val;
-						this.item_directory_name = this.item_file_name.Substring (0, this.item_file_name.LastIndexOf ("."));
-					}
-					else if (arg.ToLower().StartsWith("item_id"))
-					{
-						this.item_id = val;
-					}
-				}
-			}
-			 */
-
-
 			this.database_path = this.Configuration.couch_db_url;
 			this.juris_user_name = this.Configuration.jurisdiction_user_name;
 			this.user_name = this.Configuration.user_name;
@@ -162,7 +114,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 			cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
 			dynamic all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
-			string metadata_url = this.database_url + "/metadata/2016-06-12T13:49:24.759Z";
+			string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 			
