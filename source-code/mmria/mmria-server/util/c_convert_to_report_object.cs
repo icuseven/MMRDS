@@ -178,7 +178,10 @@ namespace mmria.server.util
 			this.popluate_pregnancy_deaths_by_age(ref report_object, source_object);
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
-			this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
+			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
+			this.popluate_list(ref report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm, ref report_object, source_object, "committee_review/pmss_mm", true);
+
+
 
 			//this.popluate_pregnancy_related_determined_to_be_preventable(ref report_object, source_object);
 			//this.popluate_pregnancy_associated_determined_to_be_preventable(ref report_object, source_object);
