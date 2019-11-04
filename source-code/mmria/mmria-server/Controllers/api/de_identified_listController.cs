@@ -15,11 +15,23 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
-		public System.Dynamic.ExpandoObject Get() 
+		public System.Dynamic.ExpandoObject Get(string id = "export") 
 		{ 
 			try
 			{
-                string request_string = Program.config_couchdb_url + "/metadata/de-identified-list";
+
+				string list_id = null;
+
+				if(!string.IsNullOrWhiteSpace(id) && id.ToLower() == "export")
+				{
+					list_id = "de-identified-export-list";
+				}
+				else
+				{
+					list_id = "de-identified-list";
+				}
+
+                string request_string = Program.config_couchdb_url + $"/metadata/{list_id}";
 
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -65,13 +77,26 @@ namespace mmria.server
 		} 
 
 		[Authorize(Policy = "form_designer")]
+		[Route("{id?}")]
 		[HttpPost]
 		[HttpPut]
-		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
+		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post(string id) 
 		{ 
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
 			//if(!string.IsNullOrWhiteSpace(json))
+
+			string list_id = null;
+
+			if(!string.IsNullOrWhiteSpace(id) && id.ToLower() == "export")
+			{
+				list_id = "de-identified-export-list";
+			}
+			else
+			{
+				list_id = "de-identified-list";
+			}
+
 			try
 			{
 
@@ -80,11 +105,11 @@ namespace mmria.server
 				//dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
 				System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
 				// Read the content.
-				string validator_js_text = await reader0.ReadToEndAsync ();
+				string document_json = await reader0.ReadToEndAsync ();
 
-				string metadata_url = Program.config_couchdb_url + "/metadata/de-identified-list";
+				string metadata_url = Program.config_couchdb_url + $"/metadata/{list_id}";
 
-				var de_identified_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_value,"text/*");
+				var de_identified_curl = new cURL("PUT", null, metadata_url, document_json, Program.config_timer_user_name, Program.config_timer_value,"text/*");
 
 				string responseFromServer = await de_identified_curl.executeAsync ();
 
