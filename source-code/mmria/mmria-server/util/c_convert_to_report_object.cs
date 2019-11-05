@@ -130,8 +130,9 @@ namespace mmria.server.util
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 			report_object = new mmria.server.model.c_report_object ();
-
 			report_object._id = get_value (source_object, "_id");
+
+
 
 
 			/*

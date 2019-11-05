@@ -263,7 +263,21 @@ function process_rows(p_filter)
     "pregnant_within_42_days_of_death": 0,
     "pregnant_within_43_to_365_days_of_death": 0,
     "blank": 0
-  }
+  },
+  distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm: {},
+  total_pregnancy_related_determined_to_be_preventable: {},
+  total_pregnancy_associated_determined_to_be_preventable: {},
+  total_pregnancy_related_obesity_contributed_to_the_death: {},
+  total_pregnancy_associated_obesity_contributed_to_the_death: {},
+  total_pregnancy_related_mental_health_conditions_contributed_to_death: {},
+  total_pregnancy_associated_mental_health_conditions_contributed_to_death: {},
+  total_pregnancy_related_substance_use_disorder_contributed_to_death: {},
+  total_pregnancy_associated_substance_use_disorder_contributed_to_death: {},
+  total_pregnancy_related_is_suicide: {},
+  total_pregnancy_associated_is_suicide: {},
+  total_pregnancy_related_is_homocide: {},
+  total_pregnancy_associated_is_homocide: {}
+
 };
 
 	
@@ -279,7 +293,30 @@ function process_rows(p_filter)
 		{
 			accumulate_render_total_number_of_cases_by_pregnancy_relatedness(result, current_row);
 			accumulate_render_total_number_of_pregnancy_related_deaths_by_ethnicity(result, current_row);
-			accumulate_render_total_number_of_pregnancy_associated_by_ethnicity(result, current_row);
+      accumulate_render_total_number_of_pregnancy_associated_by_ethnicity(result, current_row);
+      
+
+      accumulate_list(result, "distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm", current_row);
+      accumulate_list(result, "total_pregnancy_related_determined_to_be_preventable", current_row);
+      accumulate_list(result, "total_pregnancy_associated_determined_to_be_preventable", current_row);
+      accumulate_list(result, "total_pregnancy_related_obesity_contributed_to_the_death", current_row);
+      accumulate_list(result, "total_pregnancy_associated_obesity_contributed_to_the_death", current_row);
+      
+      accumulate_list(result, "total_pregnancy_related_mental_health_conditions_contributed_to_death", current_row);
+      accumulate_list(result, "total_pregnancy_associated_mental_health_conditions_contributed_to_death", current_row);
+
+      
+      accumulate_list(result, "total_pregnancy_related_substance_use_disorder_contributed_to_death", current_row);
+      accumulate_list(result, "total_pregnancy_associated_substance_use_disorder_contributed_to_death", current_row);
+      
+      accumulate_list(result, "total_pregnancy_related_is_suicide", current_row);
+      accumulate_list(result, "total_pregnancy_associated_is_suicide", current_row);
+      
+      accumulate_list(result, "total_pregnancy_related_is_homocide", current_row);
+      accumulate_list(result, "total_pregnancy_associated_is_homocide", current_row);
+      
+      
+
 		}
 	}
 	 
@@ -369,6 +406,36 @@ function accumulate_render_total_number_of_cases_by_pregnancy_relatedness(p_data
 	p_data.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine += p_current_row.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine;
 	p_data.total_number_of_cases_by_pregnancy_relatedness.blank += p_current_row.total_number_of_cases_by_pregnancy_relatedness.blank;
 }
+
+
+
+
+
+function accumulate_list(p_data, p_name, p_current_item)
+{
+  if(p_data[p_name] == null)
+  {
+    p_data[p_name] = {};
+    for(let key in p_current_item[p_name])
+    {
+      p_data[p_name][key] = new Number(p_current_item[p_name][key]);
+    }
+  }
+  else
+  {
+    for(let key in p_current_item[p_name])
+    {
+      p_data[p_name][key] += new Number(p_current_item[p_name][key]);
+    }
+  }
+
+
+
+}
+
+
+
+
 
 function render_total_number_of_cases_by_pregnancy_relatedness(p_data, p_post_html_callback)
 {
