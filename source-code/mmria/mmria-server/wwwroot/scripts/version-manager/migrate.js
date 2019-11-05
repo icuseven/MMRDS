@@ -280,18 +280,25 @@ function traverse_object(p_data, p_metadata, p_path)
 
 function migrate_one_case_click()
 {
-    let current_case = g_data_view_rows[5];
+    let el = document.getElementById("output");
 
-    get_specific_case(current_case.id, travers_g_data)
+    for(let i = 0; i < g_data_view_rows.length; i++)
+    {
+        let current_case = g_data_view_rows[i];
+
+        get_specific_case(current_case.id, travers_case);
+
+        el.innerHTML = "Migration Processed:" + (i+1) + " cases";
+    }
 
 
 }
 
-function travers_g_data()
+function travers_case(p_case)
 {
-    if(g_data.version == null || g_data.version != g_release_version)
+    if(p_case.version == null || p_case.version != g_release_version)
     {
-        traverse_object(g_data, g_metadata, "");
+        traverse_object(p_case, g_metadata, "");
     }
     
 }
@@ -312,11 +319,9 @@ function get_specific_case(p_id, p_call_back)
         {
             if(case_response)
             { 
-                g_data = case_response;
-
                 if(p_call_back)
                 {
-                  p_call_back();
+                  p_call_back(case_response);
                 }
             }
         }
