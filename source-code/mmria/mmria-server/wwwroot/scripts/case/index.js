@@ -27,11 +27,8 @@ var g_look_up = {};
 var g_release_version = null;
 
 
-
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value)
 {
-
-
   var is_search_result = false;
   var search_text = null;
   
@@ -1043,100 +1040,92 @@ function window_on_hash_change(e)
 function get_specific_case(p_id)
 {
 
-    var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
-    $.ajax({
-      url: case_url,
-    }).done(function(case_response) 
+  var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+  $.ajax({
+    url: case_url,
+  }).done(function(case_response) 
+  {
+    if(case_response)
     {
-      if(case_response)
-      {
-        var local_data = get_local_case(p_id);
+      var local_data = get_local_case(p_id);
 
-        if(local_data)
-        {
-            if(local_data._rev && local_data._rev == case_response._rev)
-            {
-                g_data = local_data;
-            }
+      if(local_data)
+      {
+          if(local_data._rev && local_data._rev == case_response._rev)
+          {
+              g_data = local_data;
+          }
+          else
+          {
+            /*
+            console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
+            var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
+            if(date_difference.days > 3)
+            {*/
+
+              local_data = case_response;
+            /*}
             else
             {
-              /*
-              console.log( "get_specific_case potential conflict:",  local_data._id, local_data._rev, case_response._rev);
-              var date_difference = local_data.date_last_updated.diff(case_response.date_last_updated);
-              if(date_difference.days > 3)
-              {*/
+              local_data._rev = case_response._rev;
+            }*/
+            
+            set_local_case(local_data);
+            g_data = local_data;
+          }
 
-                local_data = case_response;
-              /*}
-              else
-              {
-                local_data._rev = case_response._rev;
-              }*/
-              
-              set_local_case(local_data);
-              g_data = local_data;
-            }
-
-            g_render();
-        }
-        else
-        {
-          g_data = case_response;
-        }
-        g_render();
+          g_render();
       }
       else
       {
-        g_render();
+        g_data = case_response;
       }
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log( "get_specific_case:",  textStatus, errorThrown);
-      g_data = get_local_case(p_id);
-    });
-
-
-
-
+      g_render();
+    }
+    else
+    {
+      g_render();
+    }
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+    console.log( "get_specific_case:",  textStatus, errorThrown);
+    g_data = get_local_case(p_id);
+  });
 }
+
 
 function save_case(p_data, p_call_back)
 {
-
-
-    $.ajax({
-      url: location.protocol + '//' + location.host + '/api/case',
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify(p_data),
-      type: "POST"
+  $.ajax({
+    url: location.protocol + '//' + location.host + '/api/case',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    data: JSON.stringify(p_data),
+    type: "POST"
   }).done(function(case_response) {
 
-      console.log("save_case: success");
+    console.log("save_case: success");
 
-      g_change_stack = [];
+    g_change_stack = [];
 
-      if(g_data && g_data._id == case_response.id)
-      {
-        g_data._rev = case_response.rev;
-        set_local_case(g_data);
-        //console.log('set_value save finished');
-      }
+    if(g_data && g_data._id == case_response.id)
+    {
+      g_data._rev = case_response.rev;
+      set_local_case(g_data);
+      //console.log('set_value save finished');
+    }
+    
+    if(case_response.auth_session)
+    {
+      profile.auth_session = case_response.auth_session;
+      $mmria.addCookie("AuthSession", case_response.auth_session);
+      set_session_warning_interval();
+    }
 
-      
-      if(case_response.auth_session)
-      {
-        profile.auth_session = case_response.auth_session;
-        $mmria.addCookie("AuthSession", case_response.auth_session);
-        set_session_warning_interval();
-      }
-
-      if(p_call_back)
-      {
-        p_call_back();
-      }
-
-
+    if(p_call_back)
+    {
+      p_call_back();
+    }
   })
   .fail
   (
@@ -1148,16 +1137,14 @@ function save_case(p_data, p_call_back)
         let redirect_url = location.protocol + '//' + location.host;
         window.location = redirect_url;
       }
-      
+  
     }
   );
-
 }
 
 
 function delete_case(p_id, p_rev)
 {
-
   $.ajax({
     url: location.protocol + '//' + location.host + '/api/case?case_id=' + p_id + '&rev=' + p_rev,
     contentType: 'application/json; charset=utf-8',
@@ -1165,7 +1152,7 @@ function delete_case(p_id, p_rev)
     //data: JSON.stringify(p_data),
     type: "DELETE"
     
-}).done(function(case_response) {
+  }).done(function(case_response) {
 
     console.log("delete_case: success");
 
@@ -1179,10 +1166,8 @@ function delete_case(p_id, p_rev)
     }
     get_case_set();
 
-}).fail(function(xhr, err) { console.log("delete_case: failed", err); });
-
+  }).fail(function(xhr, err) { console.log("delete_case: failed", err); });
 }
-
 
 
 function g_render()
@@ -1286,7 +1271,6 @@ function g_render()
 }
 
 
-
 function show_print_version()
 {
   window.open("./print-version", "_print_version");
@@ -1317,53 +1301,51 @@ function apply_tool_tips()
       next: 'x24 fill-p cdc-icon-chevron-circle-right-light'
     }
   });
-//$( "[metadata_type='date']" ).datetimepicker();
-/*
-flatpickr(" .date", {
-	utc: true,
-	//defaultDate: "2016-12-27T00:00:00.000Z",
-	enableTime: false,
-  onSelect: function(p_value,evnt) 
-  {
-                g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
-  }
-});*/
+  //$( "[metadata_type='date']" ).datetimepicker();
+  /*
+  flatpickr(" .date", {
+    utc: true,
+    //defaultDate: "2016-12-27T00:00:00.000Z",
+    enableTime: false,
+    onSelect: function(p_value,evnt) 
+    {
+                  g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, p_value);
+    }
+  });*/
 
-//$( ".datetime" ).datetimepicker();
-
-
-$("input.number").numeric();
-$("input.number0").numeric({ decimal: false });
-$("input.number1").numeric({ decimalPlaces: 1 });
-$("input.number2").numeric({  decimalPlaces: 2 });
-$("input.number3").numeric({ decimalPlaces: 3 });
-$("input.number4").numeric({ decimalPlaces: 4 });
-$("input.number5").numeric({ decimalPlaces: 5 });
-$("input.number").attr("size", "15");
-$("input.number0").attr("size", "15");
-$("input.number1").attr("size", "15");
-$("input.number2").attr("size", "15");
-$("input.number3").attr("size", "15");
-$("input.number4").attr("size", "15");
-$("input.number5").attr("size", "15");
+  //$( ".datetime" ).datetimepicker();
 
 
-/*
-$("input.number").TouchSpin({
-                verticalbuttons: true,
-				decimals: 3,
-                min: 0,
-                max: 10000,
-                step: 1,
-                maxboostedstep: 10
-            });*/
+  $("input.number").numeric();
+  $("input.number0").numeric({ decimal: false });
+  $("input.number1").numeric({ decimalPlaces: 1 });
+  $("input.number2").numeric({  decimalPlaces: 2 });
+  $("input.number3").numeric({ decimalPlaces: 3 });
+  $("input.number4").numeric({ decimalPlaces: 4 });
+  $("input.number5").numeric({ decimalPlaces: 5 });
+  $("input.number").attr("size", "15");
+  $("input.number0").attr("size", "15");
+  $("input.number1").attr("size", "15");
+  $("input.number2").attr("size", "15");
+  $("input.number3").attr("size", "15");
+  $("input.number4").attr("size", "15");
+  $("input.number5").attr("size", "15");
 
-//$("input.number").mask("#,##0[.00", {reverse: true});
 
-    apply_validation();
+  /*
+  $("input.number").TouchSpin({
+                  verticalbuttons: true,
+          decimals: 3,
+                  min: 0,
+                  max: 10000,
+                  step: 1,
+                  maxboostedstep: 10
+              });*/
+
+  //$("input.number").mask("#,##0[.00", {reverse: true});
+
+  apply_validation();
 }
-
-
 
 
 function apply_validation()
@@ -1412,6 +1394,7 @@ function apply_validation()
     }
 }
 
+
 function delete_record(p_index)
 {
   if(p_index == g_selected_delete_index)
@@ -1440,8 +1423,6 @@ function delete_record(p_index)
 }
 
 
-
-
 var save_interval_id = null;
 var save_queue = [];
 
@@ -1465,7 +1446,6 @@ function print_case_onchange()
 
 function open_print_version(p_section)
 {
-
 	var print_window = window.open('./print-version','_print_version',null,false);
 
 	window.setTimeout(function()

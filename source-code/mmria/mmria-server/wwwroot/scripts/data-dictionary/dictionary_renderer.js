@@ -33,7 +33,6 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<p class="mb-2">Fields for version: {version number}</p>
 				<table class="table table--standard rounded-0 mb-3" style="font-size: 14px">
 					<thead class="thead">
 						<tr class="tr bg-gray-l1">
@@ -146,7 +145,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 {
 	switch(p_metadata.type.toLowerCase())
 	{
-		case "form":
+		case "form":			
 			if(p_selected_form== null || p_selected_form=="")
 			{
 				for(let i = 0; i < p_metadata.children.length; i++)
@@ -291,7 +290,9 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			if (
 				!form_name ||
 				 form_name.indexOf('none') !== -1 ||
-				 form_name.indexOf('blank') !== -1
+				 form_name == '(none)' ||
+				 form_name.indexOf('blank') !== -1 ||
+				 form_name == '(blank)'
 			) {
 				return;
 			}
