@@ -245,7 +245,7 @@ namespace mmria.server.util
                             DateTime.Now
                         );
 
-                        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Charactor_to_Numeric>()).Tell(Process_All_Migrations_Message);
+                        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
                     });
 
                 }

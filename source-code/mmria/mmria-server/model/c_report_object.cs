@@ -76,8 +76,32 @@ namespace mmria.server.model
 
 
 
-	public struct c_report_object
+	public class c_report_object
 	{
+
+		public c_report_object()
+		{
+			this.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_related_determined_to_be_preventable = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_associated_determined_to_be_preventable = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_related_obesity_contributed_to_the_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_associated_obesity_contributed_to_the_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+			this.total_pregnancy_related_mental_health_conditions_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_associated_mental_health_conditions_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+
+			this.total_pregnancy_related_substance_use_disorder_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_associated_substance_use_disorder_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+			this.total_pregnancy_related_is_suicide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_associated_is_suicide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+
+			this.total_pregnancy_related_is_homocide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+			this.total_pregnancy_associated_is_homocide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+		}
 		public string _id ;
 		public int? year_of_death;
 		public int? month_of_case_review;

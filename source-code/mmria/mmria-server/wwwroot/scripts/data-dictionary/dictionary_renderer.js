@@ -7,15 +7,15 @@ function dictionary_render(p_metadata, p_path)
 
 	result.push(`
 		<div id="sticky-section de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
-			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between">
+			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
 				<div class="row no-gutters align-items-center">
 					<label for="de_identify_search_text" class="mr-2"> Search for:</label>
 					<input type="text"
-								class="form-control mr-2"
-								id="de_identify_search_text"
-								value=""
-								style="width: 170px;"
-								onchange="de_identify_search_text_change(this.value)"/>
+								 class="form-control mr-2"
+								 id="de_identify_search_text"
+								 value=""
+								 style="width: 170px;"
+								 onchange="de_identify_search_text_change(this.value)"/>
 					<select id="de_identify_form_filter" class="custom-select mr-2">
 						${render_de_identify_form_filter(g_filter)}
 					</select>
@@ -23,20 +23,33 @@ function dictionary_render(p_metadata, p_path)
 						<option value="">Select Metadata Version</option>
 						<option value="19.10.17">19.10.17</option>
 					</select>
-					<button type="submit" class="btn btn-secondary print-none" alt="clear search" onclick="handle_search(de_identified_search_click)">Search</button>
+					<button type="submit" class="btn btn-secondary no-print" alt="clear search" onclick="handle_search_loader(de_identified_search_click)">Search</button>
 				</div>
 				<div>
 					<div class="row no-gutters justify-content-end">
-						<button class="btn btn-secondary row no-gutters align-items-center print-none" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>Print</button>
+						<button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>Print</button>
 					</div>
 				</div>
 			</div>
 
 			<div class="mt-2">
 				<p class="mb-2">Fields for version: {version number}</p>
-				<div id="de_identify_search_result_list" style="font-size: 14px">
-					${de_identified_search_result.join("")}
-				</div>
+				<table class="table table--standard rounded-0 mb-3" style="font-size: 14px">
+					<thead class="thead">
+						<tr class="tr bg-gray-l1">
+							<th class="th" width="140">MMRIA Form</th>
+							<th class="th" width="140">Export File Name</th>
+							<th class="th" width="120">Export Field</th>
+							<th class="th" width="180">Prompt</th>
+							<th class="th" width="380">Description</th>
+							<th class="th" width="260">Path</th>
+							<th class="th" width="110">Data Type</th>
+						</tr>
+					</thead>
+					<tbody id="de_identify_search_result_list" class="tbody">
+						${de_identified_search_result.join("")}
+					</tbody>
+				</table>
 			</div>
 	`);
 
@@ -103,7 +116,8 @@ function render_de_identify_form_filter(p_filter)
 	return result.join("");
 }
 
-function handle_search(callback)
+
+function handle_search_loader(callback)
 {
 	const search_input = document.getElementById('de_identify_search_text');
 	const search_list = document.getElementById('de_identify_search_result_list');
@@ -133,7 +147,17 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":
-				if(p_selected_form== null || p_selected_form=="")
+			if(p_selected_form== null || p_selected_form=="")
+			{
+				for(let i = 0; i < p_metadata.children.length; i++)
+				{
+					let item = p_metadata.children[i];
+					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+				}
+			}
+			else
+			{
+				if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
 				{
 					for(let i = 0; i < p_metadata.children.length; i++)
 					{
@@ -141,19 +165,10 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 					}
 				}
-				else
-				{
-					if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
-					{
-						for(let i = 0; i < p_metadata.children.length; i++)
-						{
-							let item = p_metadata.children[i];
-							render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
-						}
-					}
-				}
-				
-				break;
+			}
+			
+			break;
+
 		case "app":
 		case "group":
 		case "grid":
@@ -179,10 +194,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				}
 			}
 
-
 			let file_name = "";
 			let field_name = "";
-
 			let file_field_item = g_release_version_specification.path_to_csv_all[p_path];
 
 			if(file_field_item)
@@ -190,7 +203,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				file_name = file_field_item.file_name;
 				field_name = file_field_item.field_name;
 			}
-
 
 			let form_name = "(none)";
 			let path_array = p_path.split('/');
@@ -219,7 +231,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				description = p_metadata.description;
 			}
 
-
 			if(p_metadata.type.toLowerCase() == "list")
 			{
 				let value_list = p_metadata.values;
@@ -236,19 +247,18 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 
 				list_values.push(`
 					<tr class="tr">
-						<td class="td"></td>
-						<td class="td"></td>
-						<td class="td p-0" colspan="4">
+						<td class="td" width="140"></td>
+						<td class="td p-0" colspan="5">
 							<table class="table table--standard rounded-0 m-0">
 								<thead class="thead">
-									<tr class="tr">
-										<th class="th" colspan=3>List Values</th>
+									<tr class="tr bg-gray-l1">
+										<th class="th" colspan="5" width="1080">List Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
-									<tr class="tr">
-										<th class="th" width="120">Value</th>
-										<th class="th" width="560">Display</th>
+									<tr class="tr bg-gray-l1">
+										<th class="th" width="140">Value</th>
+										<th class="th" width="680">Display</th>
 										<th class="th" width="260">Description</th>
 									</tr>
 								</thead>
@@ -287,37 +297,21 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 
 			p_result.push(`
-				<table class="table table--standard rounded-0 mb-3">
-					<thead class="thead">
-						<tr class="tr  bg-gray-l2">
-							<th class="th" width="140">MMRIA Form</th>
-							<th class="th" width="140">Export File Name</th>
-							<th class="th" width="120">Export Field</th>
-							<th class="th" width="180">Prompt</th>
-							<th class="th" width="380">Description</th>
-							<th class="th" width="260">Path</th>
-							<th class="th" width="110">Data Type</th>
-							<!-- <th class="th" width="100">Calculated</th> -->
-						</tr>
-					</thead>
-					<tbody class="tbody">
-						<tr class="tr">
-							<td class="td">${form_name}</td>
-							<td class="td">${file_name}</td>
-							<td class="td">${field_name}</td>
-							<td class="td">${p_metadata.prompt}</td>
-							<td class="td">${description}</td>
-							<td class="td">${p_path}</td>
-							<td class="td">${data_type}</td>
-							<!-- <td class="td">no</td> -->
-						</tr>
-						${list_values.join("")}
-					</tbody>
-				</table>
+				<tr class="tr">
+					<td class="td" width="140">${form_name}</td>
+					<td class="td" width="140">${file_name}</td>
+					<td class="td" width="120">${field_name}</td>
+					<td class="td" width="180">${p_metadata.prompt}</td>
+					<td class="td" width="380">${description}</td>
+					<td class="td" width="260">${p_path}</td>
+					<td class="td" width="110">${data_type}</td>
+				</tr>
+				${list_values.join("")}
 			`);
 			break;
 	}
 }
+
 
 function convert_form_name(p_value)
 {
@@ -329,10 +323,10 @@ function convert_form_name(p_value)
 		'birth_certificate_infant_fetal_section': 'Birth/Fetal Death Certificate - Infant/Fetal Section',
 		'autopsy_report': 'Autopsy Report',
 		'prenatal': 'Prenatal Care Record',
-		'er_visit_and_hospital_medical_records': 'ER Visits and Hospitalizations',
+		'er_visit_and_hospital_medical_records': 'ER Visits & Hospitalizations',
 		'other_medical_office_visits': 'Other Medical Office Visits',
 		'medical_transport': 'Medical Transport',
-		'social_and_environmental_profile': 'Social and Environment Profile',
+		'social_and_environmental_profile': 'Social & Environment Profile',
 		'mental_health_profile': 'Mental Health Profile',
 		'informant_interviews': 'Informant Interviews',
 		'case_narrative': 'Case Narrative',
@@ -345,7 +339,6 @@ function convert_form_name(p_value)
 
 function convert_dictionary_path_to_lookup_object(p_path)
 {
-
 	//g_data.prenatal.routine_monitoring.systolic_bp
 	var result = null;
 	var temp_result = []
@@ -364,7 +357,6 @@ function convert_dictionary_path_to_lookup_object(p_path)
 			break;
 		}
 	}
-
 
 	return result;
 }

@@ -130,8 +130,9 @@ namespace mmria.server.util
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 			report_object = new mmria.server.model.c_report_object ();
-
 			report_object._id = get_value (source_object, "_id");
+
+
 
 
 			/*
@@ -186,7 +187,7 @@ namespace mmria.server.util
 			//this.popluate_pregnancy_related_determined_to_be_preventable(ref report_object, source_object);
 			//this.popluate_pregnancy_associated_determined_to_be_preventable(ref report_object, source_object);
 			this.popluate_list(ref report_object.total_pregnancy_related_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", true);
-			this.popluate_list(ref report_object.total_pregnancy_related_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", false);
+			this.popluate_list(ref report_object.total_pregnancy_associated_determined_to_be_preventable, ref report_object, source_object, "committee_review/was_this_death_preventable", false);
 
 
 			//this.popluate_pregnancy_related_obesity_contributed_to_the_death(ref report_object, source_object);
@@ -215,8 +216,8 @@ namespace mmria.server.util
 
 			//this.popluate_pregnancy_related_is_homocide(ref report_object, source_object);
 			//this.popluate_pregnancy_associated_is_homocide(ref report_object, source_object);
-			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide", true);
-			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/homicide_relatedness/was_this_death_a_homicide", false);
+			this.popluate_list(ref report_object.total_pregnancy_related_is_homocide, ref report_object, source_object, "committee_review/was_this_death_a_homicide", true);
+			this.popluate_list(ref report_object.total_pregnancy_associated_is_homocide, ref report_object, source_object, "committee_review/was_this_death_a_homicide", false);
 
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -419,8 +420,7 @@ namespace mmria.server.util
 			{
 				if 
 				(
-					"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-					"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
+					"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
 				)
 				{
 					val = get_value (p_source_object, "birth_fetal_death_certificate_parent/race/race_of_mother");
@@ -447,8 +447,7 @@ namespace mmria.server.util
 					(
 						val != null && 
 						(
-							"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-							"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+							"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
 						)
 					)
 					{
@@ -582,11 +581,30 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 			// Yes, Other Spanish/Hispanic/Latino 
 			//Yes, Origin Unknown
 
+/*
+9999 (blank)
+0 No, Not Spanish/Hispanic/Latino
+1 Yes, Mexican, Mexican American, Chicano
+2 Yes, Puerto Rican
+3 Yes, Cuban
+4 Yes, Other Spanish/Hispanic/Latino
+5 Yes, Origin Unknown
+8888 Not Specified
+
+
 			bc_hispanic_origin.Add ("Yes, Mexican, Mexican American, Chicano");
 			bc_hispanic_origin.Add ("Yes, Puerto Rican");
 			bc_hispanic_origin.Add ("Yes, Cuban");
 			bc_hispanic_origin.Add ("Yes, Other Spanish/Hispanic/Latino");
 			bc_hispanic_origin.Add ("Yes, Origin Unknown");
+ */
+			bc_hispanic_origin.Add ("1");
+			bc_hispanic_origin.Add ("2");
+			bc_hispanic_origin.Add ("3");
+			bc_hispanic_origin.Add ("4");
+			bc_hispanic_origin.Add ("5");
+
+
 
 //IF NO BC present:
 //death_certificate/demographics/is_of_hispanic_origin
@@ -596,11 +614,11 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 			//Yes, Other Spanish/Hispanic/Latino 
 			//Yes, Origin Unknown
 
-			dc_hispanic_origin.Add ("Yes, Mexican, Mexican American, Chicano");
-			dc_hispanic_origin.Add ("Yes, Puerto Rican");
-			dc_hispanic_origin.Add ("Yes, Cuban");
-			dc_hispanic_origin.Add ("Yes, Other Spanish/Hispanic/Latino ");
-			dc_hispanic_origin.Add ("Yes, Origin Unknown");
+			dc_hispanic_origin.Add ("1");
+			dc_hispanic_origin.Add ("2");
+			dc_hispanic_origin.Add ("3");
+			dc_hispanic_origin.Add ("4");
+			dc_hispanic_origin.Add ("5");
 
 
 			val = get_value (p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
@@ -1259,6 +1277,9 @@ age_45_and_above
 
 			try
 			{	
+				
+				var list = List_Look_Up["/committee_review/pregnancy_relatedness"];
+
 				string val = get_value(p_source_object, "committee_review/pregnancy_relatedness");
 				if(val != null)
 				{
@@ -1266,18 +1287,22 @@ age_45_and_above
 					{
 						case "Pregnancy-Related":
 						case "Pregnancy Related":
+						case "1":
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related = 1;
 						break;
 						case "Pregnancy-Associated but NOT Related":
 						case "Pregnancy-Associated, but NOT -Related":
+						case "0":
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related = 1;
 						break;
 						case "Not Pregnancy Related or Associated (i.e. False Positive)":
 						case "Not Pregnancy-Related or -Associated (i.e. False Positive)":
+						case "99":
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.not_pregnancy_related_or_associated = 1;
 						break;
 						case "Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness":
 						case "Unable to Determine if Pregnancy Related or Associated":
+						case "2":
 							p_report_object.total_number_of_cases_by_pregnancy_relatedness.unable_to_determine = 1;
 						break;
 						default:
@@ -1352,9 +1377,9 @@ age_45_and_above
 
 		private void popluate_list (ref System.Collections.Generic.Dictionary<string, int> p_result, ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object, string p_mmria_path, bool p_is_pregnance_related)
         {
-            var list = List_Look_Up[p_mmria_path];
+            var list = List_Look_Up["/" + p_mmria_path];
 
-            p_result = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
+            //p_result = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
 
             foreach(var kvp in list)
             {

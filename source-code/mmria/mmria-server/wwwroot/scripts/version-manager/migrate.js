@@ -1,6 +1,13 @@
-var schema = null;
-var mmria_path_to_definition_name = null;
+var g_release_version = null;
+var g_version_specification = null;
+var g_metadata = null;
 var g_data = null;
+var g_data_view_rows = [];
+
+var g_list_lookup = {};
+
+var mmria_path_to_definition_name = null;
+
 var base_api_url = location.protocol + '//' + location.host + "/api/version?path=";
 var g_available_version_list = null;
 
@@ -9,11 +16,316 @@ var g_MMRIA_Calculations = null;
 var g_validation = null;
 var g_ui_specification = null;
 
+var case_view_request = {
+    total_rows: 0,
+    page :1,
+    skip : 0,
+    take : 100,
+    sort : "by_date_last_updated",
+    search_key : null,
+    descending : true,
+    get_query_string : function(){
+      var result = [];
+      result.push("?skip=" + (this.page - 1) * this.take);
+      result.push("take=" + this.take);
+      result.push("sort=" + this.sort);
+  
+      if(this.search_key)
+      {
+        result.push("search_key=\"" + this.search_key.replace(/"/g, '\\"').replace(/\n/g,"\\n") + "\"");
+      }
+  
+      result.push("descending=" + this.descending);
+  
+      return result.join("&");
+    }
+  };
+
+
 
 function main()
 {
-    document.getElementById("base_api_url").value = base_api_url;
-    get_available_versions();
+    
+    get_release_version();
+}
+
+
+
+function get_release_version()
+{
+  $.ajax
+  ({
+
+      url: location.protocol + '//' + location.host + '/api/version/release-version',
+  })
+  .done(function(response) 
+  {
+      g_release_version = response;
+      document.getElementById("current_release").innerHTML = g_release_version;
+      
+      get_metadata();
+	});
+}
+
+function get_metadata()
+{
+    $.ajax
+    (
+        {
+            url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`
+        }
+    )
+    .done
+    (
+        function(response) 
+        {
+            g_metadata = eval("(" + response + ")");
+
+
+            set_list_lookup(g_list_lookup, g_metadata, "");
+
+            get_case_set();
+        }
+    );
+}
+
+
+function get_case_set()
+{
+
+    var case_view_url = location.protocol + '//' + location.host + '/api/case_view' + case_view_request.get_query_string();
+
+    $.ajax
+    (
+        {
+            url: case_view_url,
+        }
+    )
+    .done
+    (
+        function(case_view_response) 
+        {
+            case_view_request.total_rows = case_view_response.total_rows;
+
+            g_data_view_rows = case_view_response.rows;
+
+            document.getElementById("output").innerHTML = "case_view_request.total_rows: " + g_data_view_rows.length;
+        }
+    );
+}
+
+function set_list_lookup(p_list_lookup, p_metadata, p_path)
+{
+
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                set_list_lookup(p_list_lookup, child, p_path + "/" + child.name);
+
+            }
+
+            break;
+        default:
+            if(p_metadata.type.toLowerCase() == "list")
+            {
+                let data_value_list = p_metadata.values;
+
+                if(p_metadata.path_reference && p_metadata.path_reference != "")
+                {
+                    data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+            
+                    if(data_value_list == null)	
+                    {
+                        data_value_list = p_metadata.values;
+                    }
+                }
+    
+                p_list_lookup[p_path] = {};
+                for(let i = 0; i < data_value_list.length; i++)
+                {
+                    let item = data_value_list[i];
+                    p_list_lookup[p_path][item.display] = item.value;
+                }
+            }
+            break;
+
+    }
+}
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = null;
+	var temp_result = []
+	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	var lookup_list = eval(temp_result[0]);
+
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
+}
+
+function traverse_object(p_data, p_metadata, p_path)
+{
+
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "form":
+            if
+            (
+                p_metadata.cardinality == "+" ||
+                p_metadata.cardinality == "*"
+            )
+            {
+                if(Array.isArray(p_data))
+                {
+                    for(let j = 0; j < p_data.length; j++)
+                    {
+                        for(let i = 0; i < p_metadata.children.length; i++)
+                        {
+                            let child = p_metadata.children[i];
+                            let data_child = p_data[j][child.name];
+                            if(data_child)
+                            {
+                                traverse_object(data_child, child, p_path + "/" + child.name);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let child = p_metadata.children[i];
+                    let data_child = p_data[child.name];
+                    if(data_child)
+                    {
+                        traverse_object(data_child, child, p_path + "/" + child.name);
+                    }
+                }
+            }
+            break;
+        case "app":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                let data_child = p_data[child.name];
+                if(data_child)
+                {
+                    traverse_object(data_child, child, p_path + "/" + child.name);
+                }
+            }
+            break;
+        default:
+            if(p_metadata.type.toLowerCase() == "list")
+            {
+                let data_value_list = g_list_lookup[p_path];
+
+                if(Array.isArray(p_data))
+                {
+                    for(let i = 0; i < p_data.length; i++)
+                    {
+                        let item = p_data[i];
+
+                        if(item == null || item =="")
+                        {
+                            p_data[i] = data_value_list["(blank)"];
+                        }
+                        else if(data_value_list[item])
+                        {
+                            p_data[i] = data_value_list[item];
+                        }
+                    }
+                }
+                else
+                {
+                    if(p_data == null || p_data =="")
+                    {
+                        p_data = data_value_list["(blank)"];
+                    }
+                    else if(data_value_list[p_data])
+                    {
+                        p_data = data_value_list[p_data];
+                    }
+                }
+            }
+            break;
+
+    }
+}
+
+
+
+function migrate_one_case_click()
+{
+    let el = document.getElementById("output");
+
+    for(let i = 0; i < g_data_view_rows.length; i++)
+    {
+        let current_case = g_data_view_rows[i];
+
+        get_specific_case(current_case.id, travers_case);
+
+        el.innerHTML = "Migration Processed:" + (i+1) + " cases";
+    }
+
+
+}
+
+function travers_case(p_case)
+{
+    if(p_case.version == null || p_case.version != g_release_version)
+    {
+        traverse_object(p_case, g_metadata, "");
+    }
+    
+}
+
+function get_specific_case(p_id, p_call_back)
+{
+
+    var case_url = location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+    $.ajax
+    (
+        {
+          url: case_url,
+        }
+    )
+    .done
+    (
+        function(case_response) 
+        {
+            if(case_response)
+            { 
+                if(p_call_back)
+                {
+                  p_call_back(case_response);
+                }
+            }
+        }
+    );
 }
 
 
@@ -38,25 +350,7 @@ function get_available_versions()
 }
 
 
-function get_version_click()
-{
-    let version_id = document.getElementById("available_version").value;
-  	$.ajax({
-            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + `/api/metadata/${version_id}`
-	}).done(function(response) {
-            g_data = response;
-            if(g_data.definition_set == null)
-            {
-                g_data.definition_set = {};
-            }
-            base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?path=";
 
-            document.getElementById("base_api_url").value = base_api_url;
-
-            render_selected_version();
-	});
-}
 
 function get_name_map_click()
 {
@@ -139,19 +433,6 @@ function render_selected_version()
 
 }
 
-function get_metadata()
-{
-  	$.ajax({
-            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + '/api/metadata'
-	}).done(function(response) {
-            g_metadata = response;
-            g_metadata.version = g_data.name;
-            g_data.metadata = JSON.stringify(g_metadata);
-
-            get_MMRIA_Calculations();
-	});
-}
 
 function get_MMRIA_Calculations()
 {
