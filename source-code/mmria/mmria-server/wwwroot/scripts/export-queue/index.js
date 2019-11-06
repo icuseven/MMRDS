@@ -541,7 +541,7 @@ function get_standard_de_identified_list()
 {
 
 	$.ajax({
-		url: location.protocol + '//' + location.host + '/api/de_identified_list',
+		url: location.protocol + '//' + location.host + '/api/de_identified_list?id=export',
 	}).done(function(response) 
 	{
 		g_standard_de_identified_list = response;
