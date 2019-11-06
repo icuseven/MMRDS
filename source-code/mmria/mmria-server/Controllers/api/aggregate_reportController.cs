@@ -52,6 +52,7 @@ namespace mmria.server
 
 					if(row_dictionary != null && row_dictionary.ContainsKey("doc"))
 					{
+
 						KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
 						if(convert_result.Key)
 						{
@@ -203,6 +204,38 @@ namespace mmria.server
 					temp.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = int.Parse (current_dictionary ["pregnant_within_43_to_365_days_of_death"].ToString ());
 					temp.total_number_pregnancy_associated_at_time_of_death.blank = int.Parse (current_dictionary ["blank"].ToString ());
 				}
+
+
+
+			this.popluate_list(ref temp.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm, p_item ["distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"] as IDictionary<string, object>);
+
+
+
+			this.popluate_list(ref temp.total_pregnancy_related_determined_to_be_preventable, p_item ["total_pregnancy_related_determined_to_be_preventable"] as IDictionary<string, object>);
+			this.popluate_list(ref temp.total_pregnancy_associated_determined_to_be_preventable, p_item ["total_pregnancy_associated_determined_to_be_preventable"] as IDictionary<string, object>);
+
+
+			this.popluate_list(ref temp.total_pregnancy_related_obesity_contributed_to_the_death, p_item ["total_pregnancy_related_obesity_contributed_to_the_death"] as IDictionary<string, object>);
+			this.popluate_list(ref temp.total_pregnancy_associated_obesity_contributed_to_the_death, p_item ["total_pregnancy_associated_obesity_contributed_to_the_death"] as IDictionary<string, object>);
+
+
+			this.popluate_list(ref temp.total_pregnancy_related_mental_health_conditions_contributed_to_death, p_item ["total_pregnancy_related_mental_health_conditions_contributed_to_death"] as IDictionary<string, object>);
+			this.popluate_list(ref temp.total_pregnancy_associated_mental_health_conditions_contributed_to_death, p_item ["total_pregnancy_associated_mental_health_conditions_contributed_to_death"] as IDictionary<string, object>);
+
+
+
+			this.popluate_list(ref temp.total_pregnancy_related_substance_use_disorder_contributed_to_death, p_item ["total_pregnancy_related_substance_use_disorder_contributed_to_death"] as IDictionary<string, object>);
+			this.popluate_list(ref temp.total_pregnancy_associated_substance_use_disorder_contributed_to_death, p_item ["total_pregnancy_associated_substance_use_disorder_contributed_to_death"] as IDictionary<string, object>);
+
+
+			this.popluate_list(ref temp.total_pregnancy_related_is_suicide, p_item ["total_pregnancy_related_is_suicide"] as IDictionary<string, object>);
+			this.popluate_list(ref temp.total_pregnancy_associated_is_suicide, p_item ["total_pregnancy_associated_is_suicide"] as IDictionary<string, object>);
+
+			this.popluate_list(ref temp.total_pregnancy_related_is_homocide, p_item ["total_pregnancy_related_is_homocide"] as IDictionary<string, object>);
+			this.popluate_list(ref temp.total_pregnancy_associated_is_homocide, p_item ["total_pregnancy_associated_is_homocide"] as IDictionary<string, object>);
+
+
+
 			}
 			catch (Exception ex)
 			{
@@ -215,6 +248,17 @@ namespace mmria.server
 		}
 
 
+		private void popluate_list (ref System.Collections.Generic.Dictionary<string, int> p_result, IDictionary<string, object> p_source_object)
+        {
+
+            //p_result = new System.Collections.Generic.Dictionary<string, int> (StringComparer.OrdinalIgnoreCase);
+
+            foreach(var kvp in p_source_object)
+            {
+                p_result.Add(kvp.Key, int.Parse(kvp.Value.ToString()));
+            }
+            
+        }
 
 		private string get_couch_db_url()
 		{
