@@ -606,7 +606,10 @@ button.link {
   margin-left: 6px;
 }
 
-
+/* More Info Icon */
+.info-icon {
+  cursor: help;
+}
 
 
 
