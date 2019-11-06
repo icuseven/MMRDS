@@ -236,17 +236,17 @@ namespace mmria.server.util
                     Program.Last_Change_Sequence = latest_change_set.last_seq;
 
 
-                    new System.Threading.Thread(() => 
-                    {
+                    //new System.Threading.Thread(() => 
+                    //{
 
-                        System.Threading.Thread.CurrentThread.IsBackground = true;
+                        //System.Threading.Thread.CurrentThread.IsBackground = true;
                         var Process_All_Migrations_Message = new mmria.server.model.actor.quartz.Process_Initial_Migrations_Message
                         (
                             DateTime.Now
                         );
 
                         _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
-                    });
+                    //});
 
                 }
         

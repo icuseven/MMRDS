@@ -20,10 +20,10 @@ var case_view_request = {
     total_rows: 0,
     page :1,
     skip : 0,
-    take : 100,
+    take : 10000,
     sort : "by_date_last_updated",
     search_key : null,
-    descending : true,
+    descending : false,
     get_query_string : function(){
       var result = [];
       result.push("?skip=" + (this.page - 1) * this.take);
@@ -79,7 +79,7 @@ function get_metadata()
     (
         function(response) 
         {
-            g_metadata = eval("(" + response + ")");
+            g_metadata = response;
 
 
             set_list_lookup(g_list_lookup, g_metadata, "");
@@ -293,6 +293,25 @@ function migrate_one_case_click()
 
 
 }
+
+
+
+function save_changes_click()
+{
+    let el = document.getElementById("output");
+
+    for(let i = 0; i < g_data_view_rows.length; i++)
+    {
+        let current_case = g_data_view_rows[i];
+
+        save_case(current_case, null);
+
+        el.innerHTML = "Save Processed:" + (i+1) + " cases";
+    }
+
+
+}
+
 
 function travers_case(p_case)
 {
@@ -550,6 +569,54 @@ function convert_dictionary_path_to_lookup_object(p_path)
 
 
 	return result;
+}
+
+
+function save_case(p_data, p_call_back)
+{
+
+
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/api/case',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(p_data),
+      type: "POST"
+  }).done(function(case_response) {
+
+      console.log("save_case: success");
+
+      g_change_stack = [];
+
+      if(p_data && p_data._id == case_response.id)
+      {
+        p_data._rev = case_response.rev;
+        //console.log('set_value save finished');
+      }
+
+
+
+      if(p_call_back)
+      {
+        p_call_back();
+      }
+
+
+  })
+  .fail
+  (
+    function(xhr, err) 
+    { 
+      console.log("server save_case: failed", err); 
+      if(xhr.status == 401)
+      {
+        let redirect_url = location.protocol + '//' + location.host;
+        window.location = redirect_url;
+      }
+      
+    }
+  );
+
 }
 
 

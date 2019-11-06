@@ -1715,6 +1715,12 @@ namespace mmria.server.util
 				System.Console.WriteLine(kvp.Key);
 			}*/
 
+
+			if(p_path == "death_certificate/place_of_last_residence/latitude")
+			{
+				System.Console.WriteLine(p_path);
+			}
+
 			if(de_identified_set.Contains(p_path))
 			{
 				return result;
@@ -1729,12 +1735,6 @@ namespace mmria.server.util
 				//IDictionary<string, object> index = p_object;
 				dynamic index = p_object;
 
-				
-				if (p_path.Contains("birth_order"))
-				{
-					System.Console.WriteLine("break");
-				}
- 				
 
 				for (int i = 0; i < path.Length; i++)
 				{
@@ -1746,7 +1746,7 @@ namespace mmria.server.util
 						}
 						else
 						{
-							result = index;
+							//result = index;
 						}
 
 					}
