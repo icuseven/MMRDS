@@ -30,25 +30,11 @@ namespace mmria.server
 			{
 				string request_string = this.get_couch_db_url() + "/report/_all_docs?include_docs=true";
 
-				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
-				request.PreAuthenticate = false;
+				var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+				string responseFromServer = await request_curl.executeAsync();
 
-
-				if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                    request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
-
-
-				System.Net.WebResponse response = await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream ();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				string all_docs_result = reader.ReadToEnd ();
-
-				System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(all_docs_result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
+				System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 				IDictionary<string,object> all_docs_dictionary = expando_result as IDictionary<string,object>;
 				List<object> row_list = null;
