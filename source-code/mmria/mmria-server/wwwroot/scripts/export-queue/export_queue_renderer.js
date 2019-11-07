@@ -238,7 +238,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								</div>
 							</li>
 
-							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
+							<li class="mb-3" style="overflow:hidden; overflow-y: auto; height: 360px; border: 1px solid #ced4da;">
 								<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters pt-1 pb-1 pl-2 pr-2'>
 									${pagination_html.join("")}
 								</div>
@@ -278,7 +278,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<!-- <ul id="search_result_list" class="zebra-list list-unstyled"></ul> -->
 							</li>
 
-							<li class="" style="overflow:hidden; overflow-y: auto; height: 260px; border: 1px solid #ced4da;">
+							<li class="" style="overflow:hidden; overflow-y: auto; height: 360px; border: 1px solid #ced4da;">
 								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
@@ -752,7 +752,7 @@ function get_case_set()
 
 				// Items generated after user applies filters
 				html.push(`
-					<tr class="tr">
+					<tr class="tr font-weight-normal">
 						<td class="td" data-type="date_created" width="38" align="center">
 							<input id=${escape(item.id)}
 										 type="checkbox"
@@ -821,7 +821,7 @@ function render_selected_case_list(p_result, p_answer_summary)
 
 		// Items generated after user applies filters
 		p_result.push(`
-			<tr class="tr">
+			<tr class="tr font-weight-normal">
 				<td class="td" data-type="date_created" width="38" align="center">
 					<input id=${escape(item_id)}
 								 type="checkbox"
@@ -959,7 +959,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 							<tr class="tr">
 								<th class="th" colspan="4" style="padding: 0px">
 									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
-													style="padding: 8px 10px"
 													data-prop="search--${p_path}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
 										<span><strong>Path:</strong> ${p_path}</span>
@@ -999,7 +998,7 @@ function render_standard_de_identify_fields(p_paths)
 		let path = p_paths.paths[i];
 		result += `
 			<tr class="tr">
-				<td class="td" style="padding: 8px 10px">
+				<td class="td">
 					<strong>Path:</strong> ${path}
 				</td>
 			</tr>
@@ -1113,7 +1112,6 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 						<tr class="tr">
 							<th class="th" colspan="4" style="padding: 0px">
 								<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
-												style="padding: 8px 10px"
 												data-prop="selected--${item_id.replace(/-/g,"/")}"
 												onclick="handleElementDisplay(event, 'table-row', 'none')">
 									<span><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
@@ -1284,7 +1282,7 @@ function render_summary_de_identified_fields(p_answer_summary)
 				let path = g_standard_de_identified_list.paths[i];
 				result.push(`
 					<tr class="tr">
-						<td class="td" style="padding: 8px 10px">
+						<td class="td">
 							<strong>Path:</strong> ${path}
 						</td>
 					</tr>
@@ -1301,7 +1299,7 @@ function render_summary_de_identified_fields(p_answer_summary)
 					let path = p_answer_summary.de_identified_field_set[i];
 					result.push(`
 						<tr class="tr">
-							<td class="td" style="padding: 8px 10px">
+							<td class="td">
 								<strong>Path:</strong> ${path}
 							</td>
 						</tr>
@@ -1342,7 +1340,7 @@ function render_summary_of_selected_cases(p_answer_summary)
 					let text_value = escape(value_list.date_last_updated).replace(/%20/g," ").replace(/%3A/g,"-") + "<br/>" + escape(value_list.last_updated_by) + " " + escape(value_list.last_name).replace(/%20/g," ").replace(/%3A/g,"-") + ", " + escape(value_list.first_name).replace(/%20/g," ").replace(/%3A/g,"-") + " " + escape(value_list.middle_name).replace(/%20/g," ").replace(/%3A/g,"-") + " [" + escape(value_list.jurisdiction_id) + "]";
 					result.push(`
 						<tr class="tr">
-							<td class="td" style="padding: 8px 10px">
+							<td class="td">
 							${text_value}
 							</td>
 						</tr>
