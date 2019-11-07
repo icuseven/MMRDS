@@ -268,9 +268,9 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					{
 						list_values.push(`
 									<tr class="tr">
-										<td class="td">${value_list[i].value}</td>
-										<td class="td">${value_list[i].display}</td>
-										<td class="td">${value_list[i].description}</td>
+										<td class="td" width="140">${value_list[i].value}</td>
+										<td class="td" width="680">${value_list[i].display}</td>
+										<td class="td" width="260">${value_list[i].description}</td>
 									</tr>
 						`);
 					}
