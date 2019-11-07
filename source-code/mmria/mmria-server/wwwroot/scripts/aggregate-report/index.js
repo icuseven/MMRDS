@@ -1,8 +1,6 @@
 var g_release_version = null;
 var g_data = null;
 var g_couchdb_url = null;
-var g_uid = null;
-var g_pwd = null;
 var g_metadata = null;
 
 var g_list_lookup = {};
