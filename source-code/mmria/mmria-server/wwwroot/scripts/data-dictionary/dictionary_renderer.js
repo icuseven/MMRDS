@@ -34,19 +34,10 @@ function dictionary_render(p_metadata, p_path)
 
 			<div class="mt-2">
 				<table class="table table--standard rounded-0 mb-3" style="font-size: 14px">
-					<thead class="thead">
-						<tr class="tr bg-gray-l1">
-							<th class="th" width="140">MMRIA Form</th>
-							<th class="th" width="140">Export File Name</th>
-							<th class="th" width="120">Export Field</th>
-							<th class="th" width="180">Prompt</th>
-							<th class="th" width="380">Description</th>
-							<th class="th" width="260">Path</th>
-							<th class="th" width="110">Data Type</th>
-						</tr>
-					</thead>
-					<tbody id="de_identify_search_result_list" class="tbody">
-						${de_identified_search_result.join("")}
+					<tbody id="de_identify_search_result_list" class="tbody">	
+
+					${de_identified_search_result.join("")}
+
 					</tbody>
 				</table>
 			</div>
@@ -136,10 +127,16 @@ function de_identified_search_click()
 	de_identify_search_result_list.innerHTML = result.join("");
 }
 
+
 function render_de_identified_search_result(p_result, p_filter)
 {
 	render_de_identified_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text);
 }
+
+
+// var that helps calculate current form and latest form
+// Used to calc and create section headers
+let last_form = null;
 
 function render_de_identified_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
@@ -250,12 +247,12 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						<td class="td p-0" colspan="5">
 							<table class="table table--standard rounded-0 m-0">
 								<thead class="thead">
-									<tr class="tr bg-gray-l1">
+									<tr class="tr bg-gray-l2">
 										<th class="th" colspan="5" width="1080">List Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
-									<tr class="tr bg-gray-l1">
+									<tr class="tr bg-gray-l2">
 										<th class="th" width="140">Value</th>
 										<th class="th" width="680">Display</th>
 										<th class="th" width="260">Description</th>
@@ -295,6 +292,27 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				 form_name == '(blank)'
 			) {
 				return;
+			}
+
+			// Adding a header per section
+			if (last_form !== form_name) {
+				last_form = form_name;
+				p_result.push(`
+					<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+						<td class="td" colspan="7">
+							${form_name}
+						</td>
+					</tr>
+					<tr class="tr bg-gray-l1 font-weight-bold">
+						<td class="td" width="140">MMRIA Form</td>
+						<td class="td" width="140">Export File Name</td>
+						<td class="td" width="120">Export Field</td>
+						<td class="td" width="180">Prompt</td>
+						<td class="td" width="380">Description</td>
+						<td class="td" width="260">Path</td>
+						<td class="td" width="110">Data Type</td>
+					</tr>
+				`);
 			}
 
 			p_result.push(`
