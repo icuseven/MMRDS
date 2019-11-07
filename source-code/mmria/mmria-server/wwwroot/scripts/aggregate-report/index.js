@@ -160,6 +160,29 @@ function generate_report_click()
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_related_deaths_by_ethnicity(data));
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_associated_by_ethnicity(data));
 
+    Array.prototype.push.apply(render_result, render_list(data["distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"], "distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"));
+
+    
+  
+    
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_determined_to_be_preventable"], "total_pregnancy_related_determined_to_be_preventable"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_determined_to_be_preventable"], "total_pregnancy_associated_determined_to_be_preventable"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_obesity_contributed_to_the_death"], "total_pregnancy_related_obesity_contributed_to_the_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_obesity_contributed_to_the_death"], "total_pregnancy_associated_obesity_contributed_to_the_death"));
+    
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_mental_health_conditions_contributed_to_death"], "total_pregnancy_related_mental_health_conditions_contributed_to_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_mental_health_conditions_contributed_to_death"], "total_pregnancy_associated_mental_health_conditions_contributed_to_death"));
+
+    
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_substance_use_disorder_contributed_to_death"], "total_pregnancy_related_substance_use_disorder_contributed_to_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_substance_use_disorder_contributed_to_death"], "total_pregnancy_associated_substance_use_disorder_contributed_to_death"));
+    
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_is_suicide"], "total_pregnancy_related_is_suicide"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_is_suicide"], "total_pregnancy_associated_is_suicide"));
+    
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_is_homocide"], "total_pregnancy_related_is_homocide"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_is_homocide"], "total_pregnancy_associated_is_homocide"));
+
 		document.getElementById('report_output_id').innerHTML = render_result.join("");
 	}
 	else
@@ -425,13 +448,32 @@ function accumulate_list(p_data, p_name, p_current_item)
   {
     for(let key in p_current_item[p_name])
     {
-      p_data[p_name][key] += new Number(p_current_item[p_name][key]);
+      if(p_data[p_name][key] == null)
+      {
+        p_data[p_name][key] = new Number(p_current_item[p_name][key]);
+      }
+      else
+      {
+        p_data[p_name][key] += new Number(p_current_item[p_name][key]);
+      }
     }
   }
-
-
-
 }
+
+function render_list(p_data, p_title)
+{
+	var result = [];
+  result.push(`<p><b>${p_title}</b><br/><ul>`);
+  for(let key in p_data)
+  {
+    result.push(`<li>${key}: ${p_data[key]}</li>`);
+
+  }
+  result.push(`</ul></p>`);
+	return result;
+}
+
+
 
 
 
