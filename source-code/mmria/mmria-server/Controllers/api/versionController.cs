@@ -134,9 +134,9 @@ namespace mmria.server
 		[AllowAnonymous] 
 		[HttpGet]
 		[Route("{version_specification_id}/{document_name}")]
-		public async Task<string> Get_Version_Document(string version_specification_id, string document_name = "")
+		public async Task<FileResult> Get_Version_Document(string version_specification_id, string document_name = "")
 		{
-			string result = null;
+			FileResult result = null;
 
 			try
 			{
@@ -148,9 +148,24 @@ namespace mmria.server
 				request.PreAuthenticate = false;
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result = await reader.ReadToEndAsync ();
+
+				using(System.IO.Stream dataStream = response.GetResponseStream())
+				{
+					//System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+					string type="javascript";
+					if(!string.IsNullOrWhiteSpace(document_name))
+					switch(document_name.ToLower())
+					{
+						case "metadata":
+						case "ui_specification":
+							type="json";
+							break;
+					}
+
+					result = File(ReadFully(dataStream),$"application/{type}", "validator");
+				}
+
+
 				
 
 			}
@@ -162,7 +177,19 @@ namespace mmria.server
 			return result;
 		} 
 
-
+		public static byte[] ReadFully(System.IO.Stream input)
+		{
+			byte[] buffer = new byte[16*1024];
+			using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+			{
+				int read;
+				while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+				{
+					ms.Write(buffer, 0, read);
+				}
+				return ms.ToArray();
+			}
+		}
 /*
 		[AllowAnonymous] 
 		[HttpGet]

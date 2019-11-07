@@ -508,7 +508,7 @@ function get_ui_specification()
  	$.ajax({
 			url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/ui_specification`,
 	}).done(function(response) {
-      g_default_ui_specification = eval("(" + response + ")");
+      g_default_ui_specification = response;
       get_metadata();
 	});
 }
@@ -520,7 +520,7 @@ function get_metadata()
   	$.ajax({
 			url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`,
 	}).done(function(response) {
-			g_metadata = eval("(" + response + ")");
+			g_metadata = response;
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
 

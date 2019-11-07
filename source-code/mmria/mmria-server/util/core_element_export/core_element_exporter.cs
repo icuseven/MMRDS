@@ -1359,7 +1359,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 							}
 							else
 							{
-								result = index;
+								//result = index;
 							}
 
 						}

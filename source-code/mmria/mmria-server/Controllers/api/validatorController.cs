@@ -5,33 +5,43 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server
 {
 	[Route("api/[controller]")]
 	public class validatorController: ControllerBase
 	{ 
+		public IConfiguration Configuration { get; }
+		public validatorController(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
 		[AllowAnonymous] 
 		[HttpGet]
-		public async Task<string> Get()
+		public async Task<FileResult> Get()
 		{
-			string result = null;
+			FileResult result = null;
 
 			try
 			{
 				//"2016-06-12T13:49:24.759Z"
-                string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
+                //string request_string = Program.config_couchdb_url + $"/metadata/version_specification-{Configuration["mmria_settings:metadata_version"]}/validator";
+				string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
+//
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 				request.Method = "GET";
 				request.PreAuthenticate = false;
 
 				System.Net.WebResponse response = (System.Net.HttpWebResponse) await request.GetResponseAsync();
-				System.IO.Stream dataStream = response.GetResponseStream();
-				System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-				result = await reader.ReadToEndAsync ();
+				using(System.IO.Stream dataStream = response.GetResponseStream())
+				{
+					//System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
+					result = File(ReadFully(dataStream),"application/javascript", "validator");
+				}
 
 			}
 			catch(Exception ex) 
@@ -39,9 +49,21 @@ namespace mmria.server
 				Console.WriteLine (ex);
 			}
 
-			return result;
+    		return result;
 		} 
-
+		public static byte[] ReadFully(System.IO.Stream input)
+		{
+			byte[] buffer = new byte[16*1024];
+			using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+			{
+				int read;
+				while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+				{
+					ms.Write(buffer, 0, read);
+				}
+				return ms.ToArray();
+			}
+		}
 
 		// POST api/values 
 		[Authorize(Roles  = "form_designer")]

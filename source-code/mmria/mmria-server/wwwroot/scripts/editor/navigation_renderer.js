@@ -97,7 +97,7 @@ function navigation_render(p_metadata, p_level, p_ui)
 
           result.push('<li class="list-group-item">');
             result.push('<div class="form-group fake-list-group-anchor">');
-              result.push('<label for="search_case_fields" class="row no-gutters align-items-center"><span>Quick Edit</span> <button class="x20 anti-btn fill-p cdc-icon-info-circle-solid ml-1" data-toggle="tooltip" data-placement="bottom" title="Use Quick Edit to locate and edit similar fields across all forms for this case. Type at least three characters to begin your search."></button></label>');
+              result.push('<label for="search_case_fields" class="row no-gutters align-items-center"><span>Quick Edit</span> <button class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" data-toggle="tooltip" data-placement="bottom" title="Use Quick Edit to locate and edit similar fields across all forms for this case. Type at least three characters to begin your search."></button></label>');
               result.push('<div class="form-control-wrap">');
                 if(p_ui.url_state.selected_id == "field_search")
                 {
