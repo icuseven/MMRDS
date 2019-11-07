@@ -220,7 +220,7 @@ namespace mmria.server.util
 							file_name = convert_path_to_field_name(p_path);
 							if(p_result.ContainsKey(file_name))
 							{
-									file_name = "_" + p_path_to_int_map[p_path].ToString("X");
+									file_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
 							}
 							p_result.Add(file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
 
@@ -250,7 +250,7 @@ namespace mmria.server.util
 						file_name = convert_path_to_field_name(p_path);
 						if(p_result.ContainsKey(file_name))
 						{
-								file_name = "_" + p_path_to_int_map[p_path].ToString("X");
+								file_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
 						}
 						p_result.Add(file_name, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
 
@@ -282,7 +282,7 @@ namespace mmria.server.util
 						string field_name = convert_path_to_field_name(p_path);
 						if(p_result.ContainsKey(field_name))
 						{
-								field_name = "_" + p_path_to_int_map[p_path].ToString("X");
+								field_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
 						}
 						p_result[file_name].Add(p_path, field_name);
 						break;
@@ -390,12 +390,12 @@ namespace mmria.server.util
 
 											continue;
 					case "number":
-						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
+						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString(), typeof(double));
 						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
 						break;
 					default:
 						
-						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
+						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString(), typeof(string));
 						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
 						break;
 
@@ -407,7 +407,7 @@ namespace mmria.server.util
 				}
 				catch (Exception ex)
 				{
-					column.ColumnName = "_" + p_path_to_int_map[path].ToString("X");
+					column.ColumnName = "_" + p_path_to_int_map[path].ToString();
 					p_Table.Columns.Add(column);
 				}
 

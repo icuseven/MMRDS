@@ -363,7 +363,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
 					/*
-					if (path_to_int_map[path].ToString("X") == "41")
+					if (path_to_int_map[path].ToString() == "41")
 					{
 						System.Console.Write("pause");
 					}
@@ -445,13 +445,14 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 											temp2.Add(List_Look_Up["/" + path][item.ToString()]);
 										}
 
-										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+										string file_field_name = convert_path_to_field_name(path);
+										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
 										{
-											row[convert_path_to_field_name(path)] = string.Join("|", temp);
+											row[file_field_name] = string.Join("|", temp);
 										}
 										else
 										{
-											row[path_to_int_map[path].ToString("X")] = string.Join("|", temp);
+											row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp);
 										}
 									}
 								}
@@ -883,15 +884,17 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 										if (val != null)
 										{
+											string file_field_name = convert_path_to_field_name(node);
+
 											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 											{
-												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 												{
-													grid_row[convert_path_to_field_name(node)] = val;
+													grid_row[file_field_name] = val;
 												}
 												else
 												{
-													grid_row[path_to_int_map[node].ToString("X")] = val;
+													grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
 												}
 											}
 											else
@@ -917,13 +920,13 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 													val = over_limit_message;
 												}
 
-												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 												{
-													grid_row[convert_path_to_field_name(node)] = val;
+													grid_row[file_field_name] = val;
 												}
 												else
 												{
-													grid_row[path_to_int_map[node].ToString("X")] = val;
+													grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
 												}
 											}
 										}
@@ -1088,6 +1091,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 					continue;
 				}
 
+				string file_field_name = convert_path_to_field_name(path);
 				switch (p_path_to_node_map[path].type.ToLower())
 				{
 					case "app":
@@ -1097,13 +1101,12 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 											continue;
 					case "number":
-						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
-						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
+						column = new System.Data.DataColumn(file_field_name, typeof(double));
 
 						break;
 					default:
-						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
-						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
+						
+						column = new System.Data.DataColumn(file_field_name, typeof(string));
 						break;
 
 				}

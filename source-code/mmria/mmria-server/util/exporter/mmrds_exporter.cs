@@ -369,12 +369,6 @@ namespace mmria.server.util
 					}
 
 					dynamic val = get_value(case_doc as IDictionary<string, object>, path);
-					/*
-					if (path_to_int_map[path].ToString("X") == "41")
-					{
-						System.Console.Write("pause");
-					}
-					*/
 					try
 					{
 						switch (path_to_node_map[path].type.ToLower())
@@ -385,14 +379,15 @@ namespace mmria.server.util
 
 								if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())) && int.TryParse(val.ToString(), out try_int))
 								{
-									//row[path_to_int_map[path ].ToString("X")] = val;
-									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+									string file_field_name = convert_path_to_field_name(path);
+									
+									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
 									{
-										row[convert_path_to_field_name(path)] = val;
+										row[file_field_name] = val;
 									}
 									else
 									{
-										row[path_to_int_map[path].ToString("X")] = val;
+										row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 									}
 									    
 									
@@ -428,13 +423,14 @@ namespace mmria.server.util
 											}
 										}
 
-										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+										string file_field_name = convert_path_to_field_name(path);
+										if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
 										{
-											row[convert_path_to_field_name(path)] = string.Join("|", temp2);
+											row[file_field_name] = string.Join("|", temp2);
 										}
 										else
 										{
-											row[path_to_int_map[path].ToString("X")] = string.Join("|", temp2);
+											row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp2);
 										}
 									}
 								}
@@ -442,6 +438,7 @@ namespace mmria.server.util
 								{
 									if (val != null)
 									{
+										string file_field_name = convert_path_to_field_name(path);
 
 										if(val is List<object>)
 										{
@@ -463,23 +460,24 @@ namespace mmria.server.util
 													}
 												}
 
-												if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+												
+												if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
 												{
-													row[convert_path_to_field_name(path)] = string.Join("|", temp2);
+													row[file_field_name] = string.Join("|", temp2);
 												}
 												else
 												{
-													row[path_to_int_map[path].ToString("X")] = string.Join("|", temp2);
+													row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp2);
 												}
 											}
 										}
-										else if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+										else if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
 										{
-											row[convert_path_to_field_name(path)] = val;
+											row[file_field_name] = val;
 										}
 										else
 										{
-											row[path_to_int_map[path].ToString("X")] = val;
+											row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 										}
 
 									}
@@ -510,14 +508,14 @@ namespace mmria.server.util
 										val = over_limit_message;
 									}
 
-
-									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(convert_path_to_field_name(path)))
+									string file_field_name = convert_path_to_field_name(path);
+									if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
 									{
-										row[convert_path_to_field_name(path)] = val;
+										row[file_field_name] = val;
 									}
 									else
 									{
-										row[path_to_int_map[path].ToString("X")] = val;
+										row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 									}
 
 								}
@@ -590,16 +588,19 @@ namespace mmria.server.util
 
 										if (val != null)
 										{
+
+											string file_field_name = convert_path_to_field_name(node);
+
 											if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 											{
-												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 												{
-													grid_row[convert_path_to_field_name(node)] = val;
+													grid_row[file_field_name] = val;
 												}
 												else
 												{
 
-													grid_row[path_to_int_map[node].ToString("X")] = val;
+													grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
 												}
 											}
 											else
@@ -624,14 +625,14 @@ namespace mmria.server.util
 													val = over_limit_message;
 												}
 
-												if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+												if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 												{
-													grid_row[convert_path_to_field_name(node)] = val;
+													grid_row[file_field_name] = val;
 												}
 												else
 												{
 
-													grid_row[path_to_int_map[node].ToString("X")] = val;
+													grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
 												}
 											}
 										}
@@ -747,13 +748,14 @@ namespace mmria.server.util
 								case "number":
 									if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())))
 									{
-										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+										string file_field_name = convert_path_to_field_name(path);
+										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(file_field_name))
 										{
-											form_row[convert_path_to_field_name(path)] = val;
+											form_row[file_field_name] = val;
 										}
 										else
 										{
-											form_row[path_to_int_map[path].ToString("X")] = val;
+											form_row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 										}
 		
 									}
@@ -785,13 +787,14 @@ namespace mmria.server.util
 												}
 											}
 
-											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+											string file_field_name = convert_path_to_field_name(path);
+											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(file_field_name))
 											{
-												form_row[convert_path_to_field_name(path)] = string.Join("|", temp2);
+												form_row[file_field_name] = string.Join("|", temp2);
 											}
 											else
 											{
-												form_row[path_to_int_map[path].ToString("X")] = string.Join("|", temp2);
+												form_row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp2);
 											}
 
 										}
@@ -821,13 +824,14 @@ namespace mmria.server.util
 												val = over_limit_message;
 											}
 
-											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+											string file_field_name = convert_path_to_field_name(path);
+											if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(file_field_name))
 											{
-												form_row[convert_path_to_field_name(path)] = val;
+												form_row[file_field_name] = val;
 											}
 											else
 											{
-												form_row[path_to_int_map[path].ToString("X")] = val;
+												form_row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 											}
 										}
 									}
@@ -836,13 +840,14 @@ namespace mmria.server.util
 								default:
 									if (val != null)
 									{
-										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(convert_path_to_field_name(path)))
+										string file_field_name = convert_path_to_field_name(path);
+										if (path_to_csv_writer[kvp.Value].Table.Columns.Contains(file_field_name))
 										{
-											form_row[convert_path_to_field_name(path)] = val;
+											form_row[file_field_name] = val;
 										}
 										else
 										{
-											form_row[path_to_int_map[path].ToString("X")] = val;
+											form_row[$"{file_field_name}_{path_to_int_map[path].ToString()}"] = val;
 										}
 									}
 									break;
@@ -886,7 +891,7 @@ namespace mmria.server.util
 			Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			foreach (KeyValuePair<string, int> ptn in path_to_int_map)
 			{
-				//int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
+				
 				string key = convert_path_to_field_name(ptn.Key);
 				if (int_to_path_map.ContainsKey(key))
 				{
@@ -1270,16 +1275,18 @@ namespace mmria.server.util
 
 									if (val != null)
 									{
+										string file_field_name = convert_path_to_field_name(node);
 										if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
 										{
-											if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+
+											if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 											{
-												grid_row[convert_path_to_field_name(node)] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+												grid_row[file_field_name] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
 											}
 											else
 											{
 
-												grid_row[path_to_int_map[node].ToString("X")] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+												grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
 											}
 											
 										}
@@ -1305,14 +1312,14 @@ namespace mmria.server.util
 												val = over_limit_message;
 											}
 
-											if (path_to_csv_writer[grid_name].Table.Columns.Contains(convert_path_to_field_name(node)))
+											if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
 											{
-												grid_row[convert_path_to_field_name(node)] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+												grid_row[file_field_name] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
 											}
 											else
 											{
 
-												grid_row[path_to_int_map[node].ToString("X")] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
+												grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = ((IDictionary<string, object>)val[0]).ContainsKey(path_to_node_map[node].name);
 											}
 										}
 									}
@@ -1367,8 +1374,11 @@ namespace mmria.server.util
 				p_Table.Columns.Add(column);
 			}
 
+			
 			foreach (string path in p_path_to_csv_set)
 			{
+				string file_field_name = convert_path_to_field_name(path);
+
 				switch (p_path_to_node_map[path].type.ToLower())
 				{
 					case "app":
@@ -1383,8 +1393,7 @@ namespace mmria.server.util
 
 						if(p_path_to_node_map[path].mirror_reference == null)
 						{
-							//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(double));
-							column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
+							column = new System.Data.DataColumn(file_field_name, typeof(double));
 						}
 						else
 						{
@@ -1394,8 +1403,7 @@ namespace mmria.server.util
 					default:
 						if(p_path_to_node_map[path].mirror_reference == null)
 						{
-							//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString("X"), typeof(string));
-							column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
+							column = new System.Data.DataColumn(file_field_name, typeof(string));
 						}
 						else
 						{
@@ -1411,7 +1419,7 @@ namespace mmria.server.util
 				}
 				catch (Exception ex)
 				{
-					column.ColumnName = "_" + p_path_to_int_map[path].ToString("X");
+					column.ColumnName = $"{file_field_name}_{p_path_to_int_map[path].ToString()}";
 					p_Table.Columns.Add(column);
 				}
 
@@ -1455,6 +1463,12 @@ namespace mmria.server.util
 			}
 		}
 
+
+		private string create_field_name_from_path(string p_path, System.Data.DataTable p_DT)
+		{
+
+			return null;
+		}
 
 		private string convert_path_to_field_name(string p_path)
 		{
@@ -1713,7 +1727,7 @@ namespace mmria.server.util
 			foreach (KeyValuePair<string, object> kvp in p_object)
 			{
 				System.Console.WriteLine(kvp.Key);
-			}*/
+			}
 
 
 			if(p_path == "death_certificate/place_of_last_residence/latitude")
@@ -1724,7 +1738,7 @@ namespace mmria.server.util
 			if(de_identified_set.Contains(p_path))
 			{
 				return result;
-			}
+			}*/
 
 			try
 			{
