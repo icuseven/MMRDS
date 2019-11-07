@@ -1,7 +1,11 @@
+var g_release_version = null;
 var g_data = null;
 var g_couchdb_url = null;
 var g_uid = null;
 var g_pwd = null;
+var g_metadata = null;
+
+var g_list_lookup = {};
 
 
 var g_ui = { 
@@ -64,23 +68,123 @@ $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
 	document.getElementById('report_output_id').innerHTML = "";
-	load_data(g_uid, $mmria.getCookie("pwd"));
+	get_release_version();
 });
 
-function load_values()
+function get_release_version()
 {
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/values',
-	}).done(function(response) {
-			g_couchdb_url = response.couchdb_url;
-			load_data(g_uid, $mmria.getCookie("pwd"))
-	});
+  $.ajax
+  ({
 
+      url: location.protocol + '//' + location.host + '/api/version/release-version',
+  })
+  .done(function(response) 
+  {
+      g_release_version = response;
+      //document.getElementById("current_release").innerHTML = g_release_version;
+      
+      get_metadata();
+	});
 }
 
-function load_data(p_uid, p_pwd)
+
+function get_metadata()
 {
-	var url =  location.protocol + '//' + location.host + '/api/aggregate_report?' + p_uid
+    $.ajax
+    (
+        {
+            url: location.protocol + '//' + location.host + `/api/version/${g_release_version}/metadata`
+        }
+    )
+    .done
+    (
+        function(response) 
+        {
+            g_metadata = response;
+
+
+            set_list_lookup(g_list_lookup, g_metadata, "");
+
+            load_data();
+        }
+    );
+}
+
+
+function set_list_lookup(p_list_lookup, p_metadata, p_path)
+{
+
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                set_list_lookup(p_list_lookup, child, p_path + "/" + child.name);
+
+            }
+
+            break;
+        default:
+            if(p_metadata.type.toLowerCase() == "list")
+            {
+                let data_value_list = p_metadata.values;
+
+                if(p_metadata.path_reference && p_metadata.path_reference != "")
+                {
+                    data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+            
+                    if(data_value_list == null)	
+                    {
+                        data_value_list = p_metadata.values;
+                    }
+                }
+    
+                p_list_lookup[p_path] = {};
+                for(let i = 0; i < data_value_list.length; i++)
+                {
+                    let item = data_value_list[i];
+                    p_list_lookup[p_path][item.value] = item.display;
+                }
+            }
+            break;
+
+    }
+}
+
+function convert_dictionary_path_to_lookup_object(p_path)
+{
+
+	//g_data.prenatal.routine_monitoring.systolic_bp
+	var result = null;
+	var temp_result = []
+	var temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
+	var index = temp.lastIndexOf('.');
+	temp_result.push(temp.substr(0, index));
+	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
+
+	var lookup_list = eval(temp_result[0]);
+
+	for(var i = 0; i < lookup_list.length; i++)
+	{
+		if(lookup_list[i].name == temp_result[1])
+		{
+			result = lookup_list[i].values;
+			break;
+		}
+	}
+
+
+	return result;
+}
+
+
+function load_data()
+{
+	var url =  location.protocol + '//' + location.host + '/api/aggregate_report'
 
 //	var prefix = 'http://' + p_uid + ":" + p_pwd + '@';
     //var url = prefix + g_couchdb_url.replace('http://','') + '/mmrds/_design/aggregate_report/_view/all';
@@ -160,28 +264,27 @@ function generate_report_click()
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_related_deaths_by_ethnicity(data));
 		Array.prototype.push.apply(render_result, render_total_number_of_pregnancy_associated_by_ethnicity(data));
 
-    Array.prototype.push.apply(render_result, render_list(data["distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"], "distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"));
+    
+    Array.prototype.push.apply(render_result, render_list(data["distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"], "/committee_review/pmss_mm", "distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm"));
+
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_determined_to_be_preventable"], "/committee_review/was_this_death_preventable", "total_pregnancy_related_determined_to_be_preventable"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_determined_to_be_preventable"], "/committee_review/was_this_death_preventable", "total_pregnancy_associated_determined_to_be_preventable"));
+
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_obesity_contributed_to_the_death"], "/committee_review/did_obesity_contribute_to_the_death", "total_pregnancy_related_obesity_contributed_to_the_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_obesity_contributed_to_the_death"], "/committee_review/did_obesity_contribute_to_the_death", "total_pregnancy_associated_obesity_contributed_to_the_death"));
+    
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_mental_health_conditions_contributed_to_death"], "/committee_review/did_mental_health_conditions_contribute_to_the_death", "total_pregnancy_related_mental_health_conditions_contributed_to_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_mental_health_conditions_contributed_to_death"], "/committee_review/did_mental_health_conditions_contribute_to_the_death", "total_pregnancy_associated_mental_health_conditions_contributed_to_death"));
 
     
-  
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_substance_use_disorder_contributed_to_death"], "/committee_review/did_substance_use_disorder_contribute_to_the_death", "total_pregnancy_related_substance_use_disorder_contributed_to_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_substance_use_disorder_contributed_to_death"], "/committee_review/did_substance_use_disorder_contribute_to_the_death", "total_pregnancy_associated_substance_use_disorder_contributed_to_death"));
     
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_determined_to_be_preventable"], "total_pregnancy_related_determined_to_be_preventable"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_determined_to_be_preventable"], "total_pregnancy_associated_determined_to_be_preventable"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_obesity_contributed_to_the_death"], "total_pregnancy_related_obesity_contributed_to_the_death"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_obesity_contributed_to_the_death"], "total_pregnancy_associated_obesity_contributed_to_the_death"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_is_suicide"], "/committee_review/was_this_death_a_sucide", "total_pregnancy_related_is_suicide"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_is_suicide"], "/committee_review/was_this_death_a_sucide", "total_pregnancy_associated_is_suicide"));
     
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_mental_health_conditions_contributed_to_death"], "total_pregnancy_related_mental_health_conditions_contributed_to_death"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_mental_health_conditions_contributed_to_death"], "total_pregnancy_associated_mental_health_conditions_contributed_to_death"));
-
-    
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_substance_use_disorder_contributed_to_death"], "total_pregnancy_related_substance_use_disorder_contributed_to_death"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_substance_use_disorder_contributed_to_death"], "total_pregnancy_associated_substance_use_disorder_contributed_to_death"));
-    
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_is_suicide"], "total_pregnancy_related_is_suicide"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_is_suicide"], "total_pregnancy_associated_is_suicide"));
-    
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_is_homocide"], "total_pregnancy_related_is_homocide"));
-    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_is_homocide"], "total_pregnancy_associated_is_homocide"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_related_is_homocide"], "/committee_review/was_this_death_a_homicide", "total_pregnancy_related_is_homocide"));
+    Array.prototype.push.apply(render_result, render_list(data["total_pregnancy_associated_is_homocide"], "/committee_review/was_this_death_a_homicide", "total_pregnancy_associated_is_homocide"));
 
 		document.getElementById('report_output_id').innerHTML = render_result.join("");
 	}
@@ -339,7 +442,6 @@ function process_rows(p_filter)
       accumulate_list(result, "total_pregnancy_associated_is_homocide", current_row);
       
       
-
 		}
 	}
 	 
@@ -460,13 +562,24 @@ function accumulate_list(p_data, p_name, p_current_item)
   }
 }
 
-function render_list(p_data, p_title)
+function render_list(p_data, p_path, p_title)
 {
 	var result = [];
   result.push(`<p><b>${p_title}</b><br/><ul>`);
   for(let key in p_data)
   {
-    result.push(`<li>${key}: ${p_data[key]}</li>`);
+    let description = key;
+
+    if(g_list_lookup[p_path])
+    {
+      if(g_list_lookup[p_path][key])
+      {
+        description = g_list_lookup[p_path][key];
+      }
+    }
+  
+
+    result.push(`<li>${description}: ${p_data[key]}</li>`);
 
   }
   result.push(`</ul></p>`);

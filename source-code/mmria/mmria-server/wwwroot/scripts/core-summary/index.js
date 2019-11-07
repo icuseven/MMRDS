@@ -23,6 +23,7 @@ $(function ()
 
 function create_print_version(p_metadata, p_data, p_section)
 {
+	g_metadata = p_metadata;
 	metadata_summary(g_metadata_summary, p_metadata, "g_metadata", 0, 0);
 	document.getElementById('form_content_id').innerHTML = core_summary_render(p_metadata, p_data, "/", g_ui, false, "").join("");
 
