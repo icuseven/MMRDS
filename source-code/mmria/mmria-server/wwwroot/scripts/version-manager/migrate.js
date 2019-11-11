@@ -3,6 +3,7 @@ var g_version_specification = null;
 var g_metadata = null;
 var g_data = null;
 var g_data_view_rows = [];
+var g_save_data_rows = [];
 
 var g_list_lookup = {};
 
@@ -204,9 +205,9 @@ function traverse_object(p_data, p_metadata, p_path)
                         {
                             let child = p_metadata.children[i];
                             let data_child = p_data[j][child.name];
-                            if(data_child)
+                            if( p_data[j][child.name])
                             {
-                                traverse_object(data_child, child, p_path + "/" + child.name);
+                                traverse_object(p_data[j][child.name], child, p_path + "/" + child.name);
                             }
                         }
                     }
@@ -218,9 +219,9 @@ function traverse_object(p_data, p_metadata, p_path)
                 {
                     let child = p_metadata.children[i];
                     let data_child = p_data[child.name];
-                    if(data_child)
+                    if(p_data[child.name])
                     {
-                        traverse_object(data_child, child, p_path + "/" + child.name);
+                        traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                     }
                 }
             }
@@ -232,9 +233,9 @@ function traverse_object(p_data, p_metadata, p_path)
             {
                 let child = p_metadata.children[i];
                 let data_child = p_data[child.name];
-                if(data_child)
+                if(p_data[child.name])
                 {
-                    traverse_object(data_child, child, p_path + "/" + child.name);
+                    traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                 }
             }
             break;
@@ -256,6 +257,25 @@ function traverse_object(p_data, p_metadata, p_path)
                         else if(data_value_list[item])
                         {
                             p_data[i] = data_value_list[item];
+                        }                   
+                        else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
+                        {
+                            p_data[i] = "0"
+                        }
+                        else if
+                        (
+                            p_data[i].length > 3 && 
+                            (
+                                p_data[i].substr(2,1) == "-" ||
+                                p_data[i].substr(1,1) == "-"
+                            )
+                        )
+                        {
+                            let val = p_data[i].split("-")[1].trim();
+                            if(data_value_list[val])
+                            {
+                                p_data[i] = data_value_list[val];
+                            }
                         }
                     }
                 }
@@ -268,6 +288,26 @@ function traverse_object(p_data, p_metadata, p_path)
                     else if(data_value_list[p_data])
                     {
                         p_data = data_value_list[p_data];
+                    }
+                    else if(p_data == "No, not Spanish/ Hispanic/ Latino")
+                    {
+                        p_data = "0"
+                    }
+                    else if
+                    (
+                        p_data.length > 3 && 
+                        (
+                            p_data.substr(2,1) == "-" ||
+                            p_data.substr(1,1) == "-"
+                        )
+                        
+                    )
+                    {
+                        let val = p_data.split("-")[1].trim();
+                        if(data_value_list[val])
+                        {
+                            p_data = data_value_list[val];
+                        }
                     }
                 }
             }
@@ -300,9 +340,9 @@ function save_changes_click()
 {
     let el = document.getElementById("output");
 
-    for(let i = 0; i < g_data_view_rows.length; i++)
+    for(let i = 0; i < g_save_data_rows.length; i++)
     {
-        let current_case = g_data_view_rows[i];
+        let current_case = g_save_data_rows[i];
 
         save_case(current_case, null);
 
@@ -318,6 +358,8 @@ function travers_case(p_case)
     if(p_case.version == null || p_case.version != g_release_version)
     {
         traverse_object(p_case, g_metadata, "");
+
+        g_save_data_rows.push(p_case);
     }
     
 }

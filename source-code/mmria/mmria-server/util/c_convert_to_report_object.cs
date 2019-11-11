@@ -420,6 +420,8 @@ namespace mmria.server.util
 			{
 				if 
 				(
+					//"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+					//"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
 					"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
 				)
 				{
@@ -447,6 +449,8 @@ namespace mmria.server.util
 					(
 						val != null && 
 						(
+							//"No, not Spanish/ Hispanic/ Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+							//"No, not Spanish/Hispanic/Latino".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase) 
 							"0".Equals(val.ToString(), StringComparison.InvariantCultureIgnoreCase)
 						)
 					)
