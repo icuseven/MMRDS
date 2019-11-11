@@ -13,10 +13,10 @@
             "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/mmria-console.dll",
             "args": [
                 "restore",
-                "user_name:mmria_admin",
-                "password:?n3v3raga1n?",
-                "database_url:https://couchdb-fl-mmria.services.cdc.gov/mmrds",
-                "backup_file_path:C:/Users/isu7/Downloads/mmria-mmrds-db.json"
+                "user_name:mmrds",
+                "password:mmrds",
+                "database_url:http://localhost:5984/mmrds",
+                "backup_file_path:/media/jhaines/vold_tera/file-set/workspace/vsce/testdb-premigration-mmrds.json"
 
                 /*
                 "convert",
