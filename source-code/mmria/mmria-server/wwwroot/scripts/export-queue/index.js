@@ -68,9 +68,9 @@ $(function ()
 });
 
 
-function load_data(p_uid)
+function load_data()
 {
-	var url =  location.protocol + '//' + location.host + '/api/export_queue?' + p_uid
+	var url =  location.protocol + '//' + location.host + '/api/export_queue'
 
 //	var prefix = 'http://' + p_uid + ":" + p_pwd + '@';
     //var url = prefix + g_couchdb_url.replace('http://','') + '/mmrds/_design/aggregate_report/_view/all';
@@ -130,9 +130,9 @@ function create_queue_item
 	var result = {
 			_id: new_date.replace(/:/g, "-") + ".zip",
 			date_created: new_date,
-			created_by: g_uid,
+			created_by: "",
 			date_last_updated: new_date,
-			last_updated_by: g_uid,
+			last_updated_by: "",
 			file_name: new_date.replace(/:/g, "-") + ".zip",
 			export_type: p_export_type,
 			status: "Confirmation Required",
@@ -235,7 +235,7 @@ function confirm_export_item(p_id)
 	{
 		item.status = "In Queue...";
 		item.date_last_updated = new Date().toISOString();
-		item.last_updated_by = g_uid;
+		item.last_updated_by = "";
 
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
@@ -292,7 +292,7 @@ function download_export_item(p_id)
 	{
 		var download_url = location.protocol + '//' + location.host + '/api/zip/' + p_id;
 		window.open(download_url, "_zip");
-		load_data(g_uid, $mmria.getCookie("pwd"));
+		load_data();
 
 		if
 		(
@@ -321,7 +321,7 @@ function delete_export_item(p_id)
 	{
 		item.status = "Deleted";
 		item.date_last_updated = new Date().toISOString();
-		item.last_updated_by = g_uid;
+		item.last_updated_by = "";
 		//item._deleted = true;
 		var export_queue_url = location.protocol + '//' + location.host + '/api/export_queue';
 
@@ -337,7 +337,7 @@ function delete_export_item(p_id)
 				}//,
 		}).done(function(response) {
 				//g_metadata = response;
-				load_data(g_uid, $mmria.getCookie("pwd"));
+				load_data();
 		});
 	}
 }
@@ -364,7 +364,7 @@ function update_queue_task()
 		}
 	}
 
-	var url =  location.protocol + '//' + location.host + '/api/export_queue?' + g_uid;
+	var url =  location.protocol + '//' + location.host + '/api/export_queue';
 
 	$.ajax({
 			url: url
@@ -546,7 +546,7 @@ function get_standard_de_identified_list()
 	{
 		g_standard_de_identified_list = response;
 
-		load_data(g_uid);
+		load_data();
 		
 	});
 
