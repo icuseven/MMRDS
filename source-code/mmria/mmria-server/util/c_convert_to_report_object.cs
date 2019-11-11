@@ -647,7 +647,8 @@ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
 //death_certificate/demographics/is_of_hispanic_origin = 
 //No, not Spanish/ Hispanic/ Latino; AND
 // death_certificate/Race/race = Black
-			if (is_non_hispanic("Black", p_source_object))
+			//if (is_non_hispanic("Black", p_source_object))
+			if (is_non_hispanic("1", p_source_object))
 			{
 				result.Add (ethnicity_enum.non_hispanic_black);
 			}
@@ -666,7 +667,8 @@ death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic
 AND death_certificate/Race/race = White
 */
 
-			if (is_non_hispanic("White", p_source_object))
+			//if (is_non_hispanic("White", p_source_object))
+			if (is_non_hispanic("0", p_source_object))
 			{
 				result.Add (ethnicity_enum.non_hispanic_white);
 			}
@@ -682,7 +684,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
  death_certificate/Race/race = American Indian / AK Native
 */
-			if (is_non_hispanic("American Indian/Alaska Native", p_source_object))
+			//if (is_non_hispanic("American Indian/Alaska Native", p_source_object))
+			if (is_non_hispanic("2", p_source_object))
 			{
 				result.Add (ethnicity_enum.american_indian_alaska_native);
 			}
@@ -696,7 +699,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Native Hawaiian
 */
-			if (is_non_hispanic("Native Hawaiian", p_source_object))
+			//if (is_non_hispanic("Native Hawaiian", p_source_object))
+			if (is_non_hispanic("3", p_source_object))
 			{
 				result.Add (ethnicity_enum.native_hawaiian);
 			}
@@ -710,7 +714,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
  death_certificate/Race/race = Guamanian or Chamorro
 */
-			if (is_non_hispanic("Guamanian or Chamorro", p_source_object))
+			//if (is_non_hispanic("Guamanian or Chamorro", p_source_object))
+			if (is_non_hispanic("4", p_source_object))
 			{
 				result.Add (ethnicity_enum.guamanian_or_chamorro);
 			}
@@ -724,7 +729,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Samoan
 */
-			if (is_non_hispanic("Samoan", p_source_object))
+			//if (is_non_hispanic("Samoan", p_source_object))
+			if (is_non_hispanic("5", p_source_object))
 			{
 				result.Add (ethnicity_enum.samoan);
 			}
@@ -738,7 +744,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Other Pacific Islander
 */
-			if (is_non_hispanic("Other Pacific Islander", p_source_object))
+			//if (is_non_hispanic("Other Pacific Islander", p_source_object))
+			if (is_non_hispanic("6", p_source_object))
 			{
 				result.Add (ethnicity_enum.other_pacific_islander);
 			}
@@ -752,7 +759,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND
  death_certificate/Race/race = Asian Indian
 */
-			if (is_non_hispanic("Asian Indian", p_source_object))
+			//if (is_non_hispanic("Asian Indian", p_source_object))
+			if (is_non_hispanic("7", p_source_object))
 			{
 				result.Add (ethnicity_enum.asian_indian);
 			}
@@ -766,7 +774,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Filipino
 */
-			if (is_non_hispanic("Filipino", p_source_object))
+			//if (is_non_hispanic("Filipino", p_source_object))
+			if (is_non_hispanic("9", p_source_object))
 			{
 				result.Add (ethnicity_enum.filipino);
 			}
@@ -780,7 +789,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Korean
 */
-			if (is_non_hispanic("Korean", p_source_object))
+			//if (is_non_hispanic("Korean", p_source_object))
+			if (is_non_hispanic("11", p_source_object))
 			{
 				result.Add (ethnicity_enum.korean);
 			}
@@ -794,7 +804,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Other Asian
 */
-			if (is_non_hispanic("Other Asian", p_source_object))
+			//if (is_non_hispanic("Other Asian", p_source_object))
+			if (is_non_hispanic("13", p_source_object))
 			{
 				result.Add (ethnicity_enum.other_asian);
 			}
@@ -807,7 +818,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Chinese
 */
-			if (is_non_hispanic("Chinese", p_source_object))
+			//if (is_non_hispanic("Chinese", p_source_object))
+			if (is_non_hispanic("8", p_source_object))
 			{
 				result.Add (ethnicity_enum.chinese);
 			}
@@ -822,7 +834,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Japanese
 */
-			if (is_non_hispanic("Japanese", p_source_object))
+			//if (is_non_hispanic("Japanese", p_source_object))
+			if (is_non_hispanic("10", p_source_object))
 			{
 				result.Add (ethnicity_enum.japanese);
 			}
@@ -835,7 +848,8 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Vietnamese
 */
-			if (is_non_hispanic("Vietnamese", p_source_object))
+			//if (is_non_hispanic("Vietnamese", p_source_object))
+			if (is_non_hispanic("12", p_source_object))
 			{
 				result.Add (ethnicity_enum.vietnamese);
 			}
@@ -849,12 +863,19 @@ IF NO BC PRESENT:
 death_certificate/demographics/is_of_hispanic_origin = No, not Spanish/ Hispanic/ Latino; AND 
 death_certificate/Race/race = Other
 
-*/
+
 			if 
 			(
 				is_non_hispanic("Other", p_source_object) ||
 				is_non_hispanic("Other Race", p_source_object) 
 			)
+*/
+			if 
+			(
+				is_non_hispanic("13", p_source_object) ||
+				is_non_hispanic("14", p_source_object) 
+			)
+
 			{
 				result.Add (ethnicity_enum.other);
 			}
