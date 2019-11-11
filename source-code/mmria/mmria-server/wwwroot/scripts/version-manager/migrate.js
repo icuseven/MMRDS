@@ -205,9 +205,16 @@ function traverse_object(p_data, p_metadata, p_path)
                         {
                             let child = p_metadata.children[i];
                             let data_child = p_data[j][child.name];
-                            if( p_data[j][child.name])
+                            if(p_data[j][child.name])
                             {
-                                traverse_object(p_data[j][child.name], child, p_path + "/" + child.name);
+                                if(child.children != null)
+                                {
+                                    traverse_object(p_data[j][child.name], child, p_path + "/" + child.name);
+                                }
+                                else if(child.type.toLowerCase() == "list")
+                                {
+                                    p_data[j][child.name] = get_value(p_path + "/" + child.name, p_data[j][child.name])
+                                }
                             }
                         }
                     }
@@ -221,7 +228,14 @@ function traverse_object(p_data, p_metadata, p_path)
                     let data_child = p_data[child.name];
                     if(p_data[child.name])
                     {
-                        traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                        if(child.children != null)
+                        {
+                            traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                        }
+                        else if(child.type.toLowerCase() == "list")
+                        {
+                            p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                        }
                     }
                 }
             }
@@ -235,7 +249,14 @@ function traverse_object(p_data, p_metadata, p_path)
                 let data_child = p_data[child.name];
                 if(p_data[child.name])
                 {
-                    traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                    if(child.children != null)
+                    {
+                        traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                    }
+                    else if(child.type.toLowerCase() == "list")
+                    {
+                        p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                    }
                 }
             }
             break;
@@ -316,6 +337,82 @@ function traverse_object(p_data, p_metadata, p_path)
     }
 }
 
+
+function get_value(p_path, p_data)
+{
+    let data_value_list = g_list_lookup[p_path];
+    let result = p_data;
+
+    if(Array.isArray(p_data))
+    {
+        result = [];
+        for(let i = 0; i < p_data.length; i++)
+        {
+            let item = p_data[i];
+
+            if(item == null || item =="")
+            {
+                result.push(data_value_list["(blank)"]);
+            }
+            else if(data_value_list[item])
+            {
+                result.push(data_value_list[item]);
+            }                   
+            else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
+            {
+                result.push("0");
+            }
+            else if
+            (
+                p_data[i].length > 3 && 
+                (
+                    p_data[i].substr(2,1) == "-" ||
+                    p_data[i].substr(1,1) == "-"
+                )
+            )
+            {
+                let val = p_data[i].split("-")[1].trim();
+                if(data_value_list[val])
+                {
+                    result.push(data_value_list[val]);
+                }
+            }
+        }
+    }
+    else
+    {
+        if(p_data == null || p_data =="")
+        {
+            result = data_value_list["(blank)"];
+        }
+        else if(data_value_list[p_data])
+        {
+            result = data_value_list[p_data];
+        }
+        else if(p_data == "No, not Spanish/ Hispanic/ Latino")
+        {
+            result = "0"
+        }
+        else if
+        (
+            p_data.length > 3 && 
+            (
+                p_data.substr(2,1) == "-" ||
+                p_data.substr(1,1) == "-"
+            )
+            
+        )
+        {
+            let val = p_data.split("-")[1].trim();
+            if(data_value_list[val])
+            {
+                result = data_value_list[val];
+            }
+        }
+    }
+
+    return result;
+}
 
 
 function migrate_one_case_click()
