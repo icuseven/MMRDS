@@ -133,6 +133,15 @@ namespace mmria.server
 			//mmria.common.data.api.Set_Queue_Request queue_request = null;
 
 			mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
+			
+			var userName = "";
+			if (User.Identities.Any(u => u.IsAuthenticated))
+			{
+				userName = User.Identities.First(
+					u => u.IsAuthenticated && 
+					u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+			}
+
 
 			if(queue_item == null)
 			try
@@ -148,6 +157,9 @@ namespace mmria.server
 					var object_string = reader0.ReadToEnd ();
 
 					queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
+
+
+					
 				}
 
 			}
@@ -156,6 +168,14 @@ namespace mmria.server
 				//Console.WriteLine (ex);
 			}
  
+			if(string.IsNullOrWhiteSpace(queue_item.created_by))
+			{
+				queue_item.created_by = userName;
+			} 
+
+			
+			queue_item.last_updated_by = userName;
+
 			//if(queue_request.case_list.Length == 1)
 			try
 			{
