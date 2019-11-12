@@ -548,11 +548,14 @@ button.link {
   background-color: var(--white);
 }
 
-.th,
-.td {
+.table th,
+.table td {
+  padding: 6px 8px;
+}
+
+.table .th,
+.table .td {
   border: var(--border-width) solid var(--neutral);
-  padding: 6px 8px !important;
-  vertical-align: middle;
   word-wrap: break-word;
   word-break: break-word;
   white-space: normal;
@@ -566,7 +569,6 @@ button.link {
 .table--standard .th,
 .table--standard .td {
   border: 2px solid var(--neutral-dark);
-  /* padding: 6px 8px; */
 }
 .table--standard .table--standard .th,
 .table--standard .table--standard .td {
