@@ -37,6 +37,10 @@ namespace mmria.console
 						var convert = new mmria.console.convert();
 						await convert.Execute (args);
 						break;
+					case "replicate":
+						var replicate = new mmria.console.replicate.Replicate();
+						await replicate.Execute (args);
+						break;						
 					default:
 						return;
 				}
