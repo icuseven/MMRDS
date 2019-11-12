@@ -204,7 +204,7 @@ function load_data()
 
 function generate_report_click()
 {
-
+/*
   let valid_response_regx = /^(All|\d+)$/;
 
 
@@ -234,7 +234,11 @@ function generate_report_click()
   let year_of_death = year_options[year_of_death_index];
   let month_of_case_review = month_options[month_of_case_review_index];
   let year_of_case_review = year_options[year_of_case_review_index];
+*/
 
+let year_of_death = document.getElementById('year_of_death').value;
+  let month_of_case_review = document.getElementById('month_of_case_review').value;
+  let year_of_case_review = document.getElementById('year_of_case_review').value;
 
 	var filter = {
 		year_of_death: year_of_death,
