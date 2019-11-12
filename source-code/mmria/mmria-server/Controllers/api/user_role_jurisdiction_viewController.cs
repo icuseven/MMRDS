@@ -6,12 +6,181 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using mmria.common;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 
 namespace mmria.server
 {
     [Route("api/[controller]")]
 	public class user_role_jurisdiction_viewController: ControllerBase
 	{
+
+// GET api/values 
+        [HttpGet]
+        [Route("my-roles")]
+        public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> my_roles()
+		{
+            /*
+             * 
+             * http://localhost:5984/de_id/_design/sortable/_view/conflicts
+             * 
+
+by_date_created
+by_created_by
+by_date_last_updated
+by_last_updated_by
+by_role_name
+by_user_id
+by_parent_id
+by_jurisdiction_id
+by_is_active
+by_effective_start_date
+by_effective_end_date
+
+
+date_created
+created_by
+date_last_updated
+last_updated_by
+role_name
+user_id
+parent_id
+jurisdiction_id
+is_active
+effective_start_date
+effective_end_date
+
+*/
+
+            int skip = 0;
+            int take = 25;
+            string sort = "by_date_created";
+            string search_key = null;
+            bool descending = false;
+
+			
+			if (User.Identities.Any(u => u.IsAuthenticated))
+			{
+				search_key = User.Identities.First(
+					u => u.IsAuthenticated && 
+					u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+			}
+
+
+            var jurisdiction_hashset = mmria.server.util.authorization_user.get_current_jurisdiction_id_set_for(User);
+            string sort_view = sort.ToLower ();
+            switch (sort_view)
+            {
+                    case "by_date_created":
+                    case "by_created_by":
+                    case "by_date_last_updated":
+                    case "by_last_updated_by":
+                    case "by_role_name":
+                    case "by_user_id":
+                    case "by_parent_id":
+                    case "by_jurisdiction_id":
+                    case "by_is_active":
+                    case "by_effective_start_date":
+                    case "by_effective_end_date":
+                    break;
+
+                default:
+                    sort_view = "by_date_created";
+                break;
+            }
+
+
+
+			try
+			{
+                System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
+                request_builder.Append (Program.config_couchdb_url);
+                request_builder.Append ($"/jurisdiction/_design/sortable/_view/{sort_view}?");
+
+
+                if (string.IsNullOrWhiteSpace (search_key))
+                {
+                    if (skip > -1) 
+                    {
+                        request_builder.Append ($"skip={skip}");
+                    } 
+                    else 
+                    {
+
+                        request_builder.Append ("skip=0");
+                    }
+
+
+                    if (take > -1) 
+                    {
+                        request_builder.Append ($"&limit={take}");
+                    }
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                } 
+                else 
+                {
+                    request_builder.Append ("skip=0");
+
+                    if (descending) 
+                    {
+                        request_builder.Append ("&descending=true");
+                    }
+                }
+
+				var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
+				string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
+
+                var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
+
+
+                var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>();
+                result.offset = case_view_response.offset;
+                result.total_rows = case_view_response.total_rows;
+
+                foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
+                {
+                    if
+                    (
+                        cvi.value != null && 
+                        !string.IsNullOrWhiteSpace(cvi.value.user_id) && 
+                        cvi.value.user_id.Equals(search_key, StringComparison.OrdinalIgnoreCase)
+                    )
+                    {
+                        result.rows.Add (cvi);
+                    }
+                }
+                result.total_rows = result.rows.Count;
+                return result;
+
+
+
+
+				/*
+		< HTTP/1.1 200 OK
+		< Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
+		< Version=1; Path=/; HttpOnly
+		> ...
+		<
+		{"ok":true}*/
+
+
+
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine (ex);
+
+			} 
+
+			return null;
+		} 
+
+
         // GET api/values 
         [HttpGet]
         public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> Get
@@ -54,6 +223,15 @@ effective_start_date
 effective_end_date
 
 */
+
+			search_key = "";
+			if (User.Identities.Any(u => u.IsAuthenticated))
+			{
+				search_key = User.Identities.First(
+					u => u.IsAuthenticated && 
+					u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+			}
+
 
             var jurisdiction_hashset = mmria.server.util.authorization_user.get_current_jurisdiction_id_set_for(User);
             string sort_view = sort.ToLower ();

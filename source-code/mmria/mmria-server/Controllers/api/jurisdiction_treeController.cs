@@ -58,6 +58,19 @@ namespace mmria.server
 			try
 			{
 
+				var userName = "";
+				if (User.Identities.Any(u => u.IsAuthenticated))
+				{
+					userName = User.Identities.First(
+						u => u.IsAuthenticated && 
+						u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+				}
+
+				if(string.IsNullOrWhiteSpace(jurisdiction_tree.created_by))
+				{
+					jurisdiction_tree.created_by = userName;
+				} 
+				jurisdiction_tree.last_updated_by = userName;
 
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -67,12 +80,7 @@ namespace mmria.server
 
 				cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, jurisdiction_json, Program.config_timer_user_name, Program.config_timer_value);
 
-                if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-                {
-                    string auth_session_value = this.Request.Cookies["AuthSession"];
-                    document_curl.AddHeader("Cookie", "AuthSession=" + auth_session_value);
-                    document_curl.AddHeader("X-CouchDB-WWW-Authenticate", auth_session_value);
-                }
+
 
                 try
                 {

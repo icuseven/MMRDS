@@ -69,7 +69,7 @@ namespace mmria.server
         [HttpPost]
 		public async Task<mmria.common.model.couchdb.document_put_response> Post
 		(
-            [FromBody] System.Dynamic.ExpandoObject queue_request
+            [FromBody] System.Dynamic.ExpandoObject case_post_request
         ) 
 		{ 
 			string auth_session_token = null;
@@ -81,11 +81,37 @@ namespace mmria.server
 			try
 			{
 
+				var userName = "";
+				if (User.Identities.Any(u => u.IsAuthenticated))
+				{
+					userName = User.Identities.First(
+						u => u.IsAuthenticated && 
+						u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+				}
+
+				var byName = (IDictionary<string,object>)case_post_request;
+				var created_by = byName["created_by"] as string;
+				if(string.IsNullOrWhiteSpace(created_by))
+				{
+					byName["created_by"] = userName;
+				} 
+
+				if(byName.ContainsKey("last_updated_by"))
+				{
+					byName["last_updated_by"] = userName;
+				}
+				else
+				{
+					byName.Add("last_updated_by", userName);
+					
+				}
+
+
 				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
 				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_request, settings);
+				object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_post_request, settings);
 
-				var byName = (IDictionary<string,object>)queue_request;
+				
 				var temp_id = byName["_id"]; 
 				string id_val = null;
 
@@ -97,6 +123,8 @@ namespace mmria.server
 				{
 					id_val = temp_id.ToString();
 				}
+
+
 
 				var home_record = (IDictionary<string,object>)byName["home_record"];
 				if(!home_record.ContainsKey("jurisdiction_id"))

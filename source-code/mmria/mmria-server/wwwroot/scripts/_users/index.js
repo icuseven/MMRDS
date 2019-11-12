@@ -166,7 +166,7 @@ function load_users()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_uid).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_uid).join("")
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("")
 			+ "" + jurisdiction_render(g_jurisdiction_tree).join("");
 			;
 
@@ -192,12 +192,7 @@ function server_save(p_user)
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(p_user),
-					type: "POST",
-					beforeSend: function (request)
-					{
-						request.setRequestHeader ("Authorization", "Basic " + btoa(g_uid  + ":" + $mmria.getCookie("pwd")));
-						request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-					}//,
+					type: "POST"
 			}).done(function(response) 
 			{
 
@@ -206,7 +201,7 @@ function server_save(p_user)
 						if(response_obj.ok)
 						{
 							g_user_list._rev = response_obj.rev; 
-							document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_uid).join("");
+							document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "").join("");
 						}
 						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
 					console.log("metadata sent", response);
@@ -274,7 +269,7 @@ function add_new_user_click()
 						$mmria.addCookie("AuthSession", response_obj.auth_session);
 					}
 	
-					document.getElementById('form_content_id').innerHTML = user_render(g_ui,  g_uid).join("");
+					document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
 					create_status_message("new user has been added.", "new_user");
 	
 				}
@@ -362,7 +357,7 @@ function change_password_user_click(p_user_id)
 							$mmria.addCookie("AuthSession", response_obj.auth_session);
 						}
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui,  g_uid).join("");
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
@@ -375,7 +370,7 @@ function change_password_user_click(p_user_id)
 		}
 		else
 		{
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui,  g_uid).join("");
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
 			//console.log("greatness awaits.");
 		}
 	}
@@ -493,7 +488,7 @@ function save_user(p_user_id)
 							$mmria.addCookie("AuthSession", response_obj.auth_session);
 						}
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui,  g_uid).join("");
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
@@ -719,7 +714,7 @@ function remove_role(p_user_role_id)
 						if(g_ui.user_summary_list[i].name == user_role.user_id)
 						{
 							var escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
-							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "", g_uid).join("") );
+							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "").join("") );
 							break;
 						}
 					}
@@ -737,7 +732,7 @@ function remove_role(p_user_role_id)
 				if(g_ui.user_summary_list[i].name == user_role.user_id)
 				{
 					var escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
-					$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "", g_uid).join("") );
+					$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "").join("") );
 					break;
 				}
 			}
@@ -770,7 +765,7 @@ function change_password(p_user_id, p_role)
 		{
 			user.roles.splice(role_index, 1);
 			g_ui.user_summary_list[user_index] = user;
-			$( "#" + escaped_id).replaceWith( user_entry_render(user, "", g_uid).join("") );
+			$( "#" + escaped_id).replaceWith( user_entry_render(user, "").join("") );
 			create_status_message("user information saved", convert_to_jquery_id(user._id));
 		}
 	}

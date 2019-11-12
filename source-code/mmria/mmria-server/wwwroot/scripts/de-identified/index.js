@@ -67,9 +67,9 @@ var g_ui = {
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
-    result.created_by = g_uid;
+    //result.created_by = g_uid;
     result.date_last_updated = new Date();
-    result.last_updated_by = g_uid;
+    //result.last_updated_by = g_uid;
 
     result.home_record.last_name = "new-last-name";
     result.home_record.first_name = "new-first-name";
@@ -340,7 +340,7 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
+			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
 	}).done(function(response) {
 
       g_jurisdiction_list = []
@@ -348,10 +348,10 @@ function load_user_role_jurisdiction()
       {
 
           var value = response.rows[i].value;
-          if(value.user_id == g_uid && value.role_name == "abstractor")
-          {
+          //if(value.user_id == g_uid && value.role_name == "abstractor")
+          //{
             g_jurisdiction_list.push(value.jurisdiction_id);
-          }
+          //}
           
       }
 			
@@ -980,30 +980,6 @@ function open_blank_version(p_section)
 	window.setTimeout(function()
 	{
 		blank_window.create_print_version(g_metadata, default_object, p_section)
-	}, 1000);	
-}
-
-
-function open_aggregate_report_version(p_section)
-{
-
-	var report_window = window.open('./aggregate-report','_aggregate_report',null,false);
-
-	window.setTimeout(function()
-	{
-		report_window.load_data(g_uid, profile.password)
-	}, 1000);	
-}
-
-
-function open_export_queue()
-{
-
-	var export_queue_window = window.open('./export-queue','_export_queue',null,false);
-
-	window.setTimeout(function()
-	{
-		export_queue_window.load_data(g_uid, profile.password)
 	}, 1000);	
 }
 

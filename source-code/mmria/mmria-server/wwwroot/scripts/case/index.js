@@ -56,7 +56,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
         eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
       }
       g_data.date_last_updated = new Date();
-      g_data.last_updated_by = g_uid;
+      //g_data.last_updated_by = g_uid;
 		
       g_change_stack.push({
         object_path : p_object_path,
@@ -127,7 +127,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
       });
 
       g_data.date_last_updated = new Date();
-      g_data.last_updated_by = g_uid;
+      //g_data.last_updated_by = g_uid;
 
       set_local_case(g_data, function (){
 
@@ -382,9 +382,9 @@ var g_ui = {
     var result = create_default_object(g_metadata, {});
 
     result.date_created = new Date();
-    result.created_by = g_uid;
+    result.created_by = "";
     result.date_last_updated = new Date();
-    result.last_updated_by = g_uid;
+    result.last_updated_by = "";
     result.version = g_release_version;
 
     if(g_jurisdiction_list.length > 0)
@@ -696,7 +696,7 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
+			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
 	}).done(function(response) {
 
       g_user_role_jurisdiction_list = []
@@ -704,10 +704,10 @@ function load_user_role_jurisdiction()
       {
 
           var value = response.rows[i].value;
-          if(value.user_id == g_uid && value.role_name == "abstractor")
-          {
+          //if(value.user_id == g_uid && value.role_name == "abstractor")
+          //{
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
-          }
+          //}
           
       }
       
@@ -1479,27 +1479,6 @@ function open_blank_version(p_section)
 }
 
 
-function open_aggregate_report_version(p_section)
-{
-	var report_window = window.open('./aggregate-report','_aggregate_report',null,false);
-
-	window.setTimeout(function()
-	{
-		report_window.load_data(g_uid, profile.password)
-	}, 1000);	
-}
-
-
-function open_export_queue()
-{
-
-	var export_queue_window = window.open('./export-queue','_export_queue',null,false);
-
-	window.setTimeout(function()
-	{
-		export_queue_window.load_data(g_uid, profile.password)
-	}, 1000);	
-}
 
 function add_new_form_click(p_metadata_path, p_object_path)
 {

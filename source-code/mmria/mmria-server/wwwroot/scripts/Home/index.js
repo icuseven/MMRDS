@@ -43,7 +43,7 @@ function load_user_role_jurisdiction()
 
 
 	$.ajax({
-      url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view?skip=0&take=25&sort=by_user_id&search_key=' + g_uid,
+      url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
       headers: {          
         Accept: "text/plain; charset=utf-8",         
         "Content-Type": "text/plain; charset=utf-8"   
@@ -71,7 +71,7 @@ function load_user_role_jurisdiction()
       role_list_html.push("<table class='table'>");
         role_list_html.push("<thead class='thead'>");
         role_list_html.push("<tr class='tr bg-tertiary'>");
-        role_list_html.push("<th class='th h4' colspan='7'>Role assignment list for " + g_uid + "</th>");
+        role_list_html.push("<th class='th h4' colspan='7'>Role assignment list</th>");
         role_list_html.push("</tr>");
         role_list_html.push("</thead>");
         role_list_html.push("<thead class='thead'>");
@@ -96,8 +96,8 @@ function load_user_role_jurisdiction()
               var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
 
               var value = response.rows[i].value;
-              if(value.user_id == g_uid)
-              {
+              //if(value.user_id == g_uid)
+              //{
                 g_jurisdiction_list.push(value);
 
                 var diffDays = 0;
@@ -143,7 +143,7 @@ function load_user_role_jurisdiction()
                 role_list_html.push("<td class='td'>" + diffDays + "</td>");
                 role_list_html.push("<td class='td'>" + escape(value.last_updated_by) + "</td>");
                 role_list_html.push("</tr>");
-              }
+              //}
             }
               
           }
