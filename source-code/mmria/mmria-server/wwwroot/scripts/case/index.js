@@ -1575,3 +1575,23 @@ function undo_click()
 
   g_render();
 }
+
+
+function autosave()
+{
+  let split_one = window.location.href.split("#");
+
+  if(split_one.length > 1)
+  {
+    let split_two = split_one[0].split("/");
+    if(split_two.length > 3 && split_two[3] == "Case")
+    {
+      let split_three = split_one[1].split("/");
+      if(split_three.length > 1 && split[1] != "Summary")
+      {
+        
+      }
+    }
+  }
+
+}
