@@ -7,7 +7,7 @@ function dictionary_render(p_metadata, p_path)
 
 	result.push(`
 		<div id="de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
-			<div class="form-inline mb-2 row no-gutters align-items-center justify-content-between">
+			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
 				<div class="row no-gutters align-items-center">
 					<label for="de_identify_search_text" class="mr-2"> Search for:</label>
 					<input type="text"
@@ -33,7 +33,6 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<p class="mb-2">Fields for version: {version number}</p>
 				<div id="de_identify_search_result_list" style="font-size: 14px">
 					${de_identified_search_result.join("")}
 				</div>
