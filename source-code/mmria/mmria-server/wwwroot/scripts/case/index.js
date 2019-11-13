@@ -1115,13 +1115,6 @@ function save_case(p_data, p_call_back)
       //console.log('set_value save finished');
     }
     
-    if(case_response.auth_session)
-    {
-      profile.auth_session = case_response.auth_session;
-      $mmria.addCookie("AuthSession", case_response.auth_session);
-      set_session_warning_interval();
-    }
-
     if(p_call_back)
     {
       p_call_back();
