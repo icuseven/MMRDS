@@ -22,3 +22,7 @@ function ClassNameOnDomLoad(element, className, delay)
 
 const userLogin = document.getElementById("user_login");
 const fancyLogin = new ClassNameOnDomLoad(userLogin, "is-active", 150);
+
+function handleLoader() {
+  
+}
