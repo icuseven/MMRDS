@@ -1589,9 +1589,39 @@ function autosave()
       let split_three = split_one[1].split("/");
       if(split_three.length > 1 && split[1] != "Summary")
       {
-        
+
       }
     }
   }
 
+}
+
+function g_textarea_oninput(p_object_path, p_metadata_path, p_dictionary_path,  value)
+{
+      var metadata = eval(p_metadata_path);
+
+      //var current_value = eval(p_object_path);
+
+      if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
+      {
+        var item = eval(p_object_path);
+        if(item.indexOf(value) > -1)
+        {
+          item.splice(item.indexOf(value), 1);
+        }
+        else
+        {
+          item.push(value);
+        }
+      }
+      else if(metadata.type.toLowerCase() == "boolean")
+      {
+        eval(p_object_path + ' = ' + value);
+      }
+      else
+      {
+        eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
+      }
+
+      set_local_case(g_data, null);
 }

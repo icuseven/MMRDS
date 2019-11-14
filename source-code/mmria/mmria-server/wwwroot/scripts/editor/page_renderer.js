@@ -745,6 +745,17 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	{
 		page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path)
 	}
+
+
+	p_result.push(" oninput='g_textarea_oninput(\"");
+	p_result.push(p_object_path);
+	p_result.push("\",\"");
+	p_result.push(p_metadata_path);
+	p_result.push("\",\"");
+	p_result.push(p_dictionary_path);
+	p_result.push("\",this.value)' ");
+
+
 	
 	f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
 	if(path_to_onclick_map[p_metadata_path])
