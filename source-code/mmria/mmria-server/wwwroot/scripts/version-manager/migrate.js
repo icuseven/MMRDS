@@ -151,7 +151,7 @@ function set_list_lookup(p_list_lookup, p_metadata, p_path)
                 for(let i = 0; i < data_value_list.length; i++)
                 {
                     let item = data_value_list[i];
-                    p_list_lookup[p_path][item.display] = item.value;
+                    p_list_lookup[p_path][item.display.toLowerCase()] = item.value;
                 }
             }
             break;
@@ -343,6 +343,8 @@ function get_value(p_path, p_data)
     let data_value_list = g_list_lookup[p_path];
     let result = p_data;
 
+    let is_number_regex = /\-?\d+\.?\d*/;
+
     if(Array.isArray(p_data))
     {
         result = [];
@@ -354,9 +356,13 @@ function get_value(p_path, p_data)
             {
                 result.push(data_value_list["(blank)"]);
             }
-            else if(data_value_list[item])
+            else if(is_number_regex.test(data_value_list[item]) && data_value_list[item])
             {
                 result.push(data_value_list[item]);
+            }
+            else if(!is_number_regex.test(data_value_list[item]) && data_value_list[item.toLowerCase()])
+            {
+                result.push(data_value_list[item.toLowerCase()]);
             }                   
             else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
             {
@@ -371,11 +377,15 @@ function get_value(p_path, p_data)
                 )
             )
             {
-                let val = p_data[i].split("-")[1].trim();
+                let val = p_data[i].split("-")[1].trim().toLowerCase();
                 if(data_value_list[val])
                 {
                     result.push(data_value_list[val]);
                 }
+            }
+            else if(p_data[i] == "-9")
+            {
+                result = "9999";
             }
         }
     }
@@ -385,9 +395,13 @@ function get_value(p_path, p_data)
         {
             result = data_value_list["(blank)"];
         }
-        else if(data_value_list[p_data])
+        else if(is_number_regex.test(p_data) && data_value_list[p_data])
         {
             result = data_value_list[p_data];
+        }
+        else if(!is_number_regex.test(p_data) && data_value_list[p_data.toLowerCase()])
+        {
+            result = data_value_list[p_data.toLowerCase()];
         }
         else if(p_data == "No, not Spanish/ Hispanic/ Latino")
         {
@@ -403,11 +417,15 @@ function get_value(p_path, p_data)
             
         )
         {
-            let val = p_data.split("-")[1].trim();
+            let val = p_data.split("-")[1].trim().toLowerCase();
             if(data_value_list[val])
             {
                 result = data_value_list[val];
             }
+        }
+        else if(p_data == "-9")
+        {
+            result = "9999";
         }
     }
 
