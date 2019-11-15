@@ -166,6 +166,30 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			break;
 
 		case "app":
+			
+			let de_identify_form_filter = "(any form)";
+			
+			let el = document.getElementById("de_identify_form_filter");
+			if(el)
+			{
+				de_identify_form_filter = el.value;
+			}
+
+			for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let item = p_metadata.children[i];
+				if(de_identify_form_filter.toLowerCase() == "(any form)")
+				{
+					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+				}
+				else if(item.type.toLowerCase() == "form")
+				{
+					render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+				}
+				
+			}
+			break;
+
 		case "group":
 		case "grid":
 			for(let i = 0; i < p_metadata.children.length; i++)
@@ -175,20 +199,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			}
 			break;
 		default:
-			if(p_search_text != null && p_search_text !="")
-			{
-				if
-				(
-					!(
-						p_metadata.name.indexOf(p_search_text) > -1 ||
-						p_metadata.prompt.indexOf(p_search_text) > -1 
-					)
-				
-				)
-				{
-					return;
-				}
-			}
+	
 
 			let file_name = "";
 			let field_name = "";
@@ -199,6 +210,26 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				file_name = file_field_item.file_name;
 				field_name = file_field_item.field_name;
 			}
+
+			if(p_search_text != null && p_search_text !="")
+			{
+				if
+				(
+					!(
+						p_metadata.name.indexOf(p_search_text) > -1 ||
+						p_metadata.prompt.indexOf(p_search_text) > -1 ||
+						file_name.indexOf(p_search_text) > -1 ||
+						field_name.indexOf(p_search_text) > -1
+					)
+				
+				)
+				{
+					return;
+				}
+			}
+
+
+
 
 			let form_name = "(none)";
 			let path_array = p_path.split('/');
