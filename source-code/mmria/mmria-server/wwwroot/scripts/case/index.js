@@ -25,7 +25,7 @@ var g_default_ui_specification = null;
 var g_use_position_information = true;
 var g_look_up = {};
 var g_release_version = null;
-
+var g_autosave_interval = null;
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value)
 {
@@ -935,6 +935,9 @@ function get_metadata()
         window.onhashchange = window_on_hash_change;
         window.onhashchange ({ isTrusted: true, newURL : window.location.href });
       }
+
+      g_autosave_interval = window.setInterval(autosave, 10000);
+
 	});
 }
 
@@ -1584,17 +1587,40 @@ function autosave()
   if(split_one.length > 1)
   {
     let split_two = split_one[0].split("/");
-    if(split_two.length > 3 && split_two[3] == "Case")
+    if(split_two.length > 3 && split_two[3].toLocaleLowerCase() == "case")
     {
       let split_three = split_one[1].split("/");
-      if(split_three.length > 1 && split[1] != "Summary")
+      if(split_three.length > 1 && split_three[1].toLocaleLowerCase() != "summary")
       {
+        if(g_data)
+        {
+          let dt1 = new Date(g_data.date_last_updated);
+          let dt2 = new Date();
+          let number_of_minutes = diff_minutes(dt1, dt2);
 
+          if(number_of_minutes > 2)
+          {
+            g_data.date_last_updated = new Date();
+            save_case(g_data, null)
+          }
+        }
+
+        //console.log(nubmer_of_minutes);
       }
     }
   }
 
 }
+
+function diff_minutes(dt1, dt2) 
+ {
+
+  let diff =(dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= 60;
+  return Math.abs(Math.round(diff));
+  
+ }
+
 
 function g_textarea_oninput(p_object_path, p_metadata_path, p_dictionary_path,  value)
 {
