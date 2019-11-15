@@ -188,6 +188,8 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function traverse_object(p_data, p_metadata, p_path, p_call_back)
 {
 
+
+
     switch(p_metadata.type.toLowerCase())
     {
         case "form":
@@ -366,16 +368,13 @@ function get_value(p_path, p_data)
     let data_value_list = g_list_lookup[p_path];
     let result = p_data;
 
-    let is_number_regex = /\-?\d+\.?\d*/;
-
-    if
-    (
-        p_path == "/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/type_of_place"
-    )
+    let is_number_regex = /^\-?\d+\.?\d*$/;
+/*
+    if(p_path == "/death_certificate/death_information/pregnancy_status")
     {
-       console.log(p_data)
+        console.log("break");
     }
-
+*/
     try
     {
         if(Array.isArray(p_data))
@@ -401,6 +400,10 @@ function get_value(p_path, p_data)
                 {
                     result.push("0");
                 }
+                else if(p_data[i] == "Yes, Other Spanish/ Hispanic/ Latino")
+                {
+                    result.push("4");
+                }
                 else if
                 (
                     p_data[i].length > 3 && 
@@ -418,7 +421,15 @@ function get_value(p_path, p_data)
                 }
                 else if(p_data[i] == "-9")
                 {
-                    result = "9999";
+                    result.push("9999");
+                }
+                else if(p_data[i] == "-8")
+                {
+                    result.push("8888");
+                }
+                else if(p_data[i] == "-7")
+                {
+                    result.push("7777");
                 }
             }
         }
@@ -440,6 +451,10 @@ function get_value(p_path, p_data)
             {
                 result = "0"
             }
+            else if(p_data == "Yes, Other Spanish/ Hispanic/ Latino")
+            {
+                result = "4"
+            }
             else if
             (
                 p_data.length > 3 && 
@@ -459,6 +474,14 @@ function get_value(p_path, p_data)
             else if(p_data == "-9")
             {
                 result = "9999";
+            }
+            else if(p_data == "-8")
+            {
+                result = "8888";
+            }
+            else if(p_data == "-7")
+            {
+                result = "7777";
             }
         }
     }
