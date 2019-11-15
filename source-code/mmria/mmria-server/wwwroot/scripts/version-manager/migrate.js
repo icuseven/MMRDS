@@ -185,7 +185,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
-function traverse_object(p_data, p_metadata, p_path)
+function traverse_object(p_data, p_metadata, p_path, p_call_back)
 {
 
     switch(p_metadata.type.toLowerCase())
@@ -241,6 +241,29 @@ function traverse_object(p_data, p_metadata, p_path)
             }
             break;
         case "app":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                let data_child = p_data[child.name];
+                if(p_data[child.name])
+                {
+                    if(child.children != null)
+                    {
+                        traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                    }
+                    else if(child.type.toLowerCase() == "list")
+                    {
+                        p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                    }
+                }
+            }
+
+            if(p_call_back)
+            {
+                p_call_back();
+            }
+
+            break;
         case "group":
         case "grid":
             for(let i = 0; i < p_metadata.children.length; i++)
@@ -345,6 +368,13 @@ function get_value(p_path, p_data)
 
     let is_number_regex = /\-?\d+\.?\d*/;
 
+    if
+    (
+        p_path == "/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/type_of_place"
+    )
+    {
+       console.log(p_data)
+    }
     if(Array.isArray(p_data))
     {
         result = [];
@@ -449,7 +479,13 @@ function migrate_one_case_click()
 
 }
 
+function view_progress_click()
+{
+    let el = document.getElementById("output");
 
+    el.innerHTML = `g_save_data_rows.length: ${g_save_data_rows.length}`;
+    
+}
 
 function save_changes_click()
 {
@@ -472,9 +508,7 @@ function travers_case(p_case)
 {
     if(p_case.version == null || p_case.version != g_release_version)
     {
-        traverse_object(p_case, g_metadata, "");
-
-        g_save_data_rows.push(p_case);
+        traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
     }
     
 }
@@ -508,8 +542,6 @@ function get_specific_case(p_id, p_call_back)
 
 function get_available_versions()
 {
-  
-
   $.ajax
   ({
 
@@ -524,7 +556,6 @@ function get_available_versions()
       
 	});
 }
-
 
 
 
