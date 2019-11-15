@@ -375,88 +375,96 @@ function get_value(p_path, p_data)
     {
        console.log(p_data)
     }
-    if(Array.isArray(p_data))
-    {
-        result = [];
-        for(let i = 0; i < p_data.length; i++)
-        {
-            let item = p_data[i];
 
-            if(item == null || item =="")
+    try
+    {
+        if(Array.isArray(p_data))
+        {
+            result = [];
+            for(let i = 0; i < p_data.length; i++)
             {
-                result.push(data_value_list["(blank)"]);
+                let item = p_data[i];
+
+                if(item == null || item =="")
+                {
+                    result.push(data_value_list["(blank)"]);
+                }
+                else if(is_number_regex.test(data_value_list[item]) && data_value_list[item])
+                {
+                    result.push(data_value_list[item]);
+                }
+                else if(!is_number_regex.test(data_value_list[item]) && data_value_list[item.toLowerCase()])
+                {
+                    result.push(data_value_list[item.toLowerCase()]);
+                }                   
+                else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
+                {
+                    result.push("0");
+                }
+                else if
+                (
+                    p_data[i].length > 3 && 
+                    (
+                        p_data[i].substr(2,1) == "-" ||
+                        p_data[i].substr(1,1) == "-"
+                    )
+                )
+                {
+                    let val = p_data[i].split("-")[1].trim().toLowerCase();
+                    if(data_value_list[val])
+                    {
+                        result.push(data_value_list[val]);
+                    }
+                }
+                else if(p_data[i] == "-9")
+                {
+                    result = "9999";
+                }
             }
-            else if(is_number_regex.test(data_value_list[item]) && data_value_list[item])
+        }
+        else
+        {
+            if(p_data == null || p_data =="")
             {
-                result.push(data_value_list[item]);
+                result = data_value_list["(blank)"];
             }
-            else if(!is_number_regex.test(data_value_list[item]) && data_value_list[item.toLowerCase()])
+            else if(is_number_regex.test(p_data) && data_value_list[p_data])
             {
-                result.push(data_value_list[item.toLowerCase()]);
-            }                   
-            else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
+                result = data_value_list[p_data];
+            }
+            else if(!is_number_regex.test(p_data) && data_value_list[p_data.toLowerCase()])
             {
-                result.push("0");
+                result = data_value_list[p_data.toLowerCase()];
+            }
+            else if(p_data == "No, not Spanish/ Hispanic/ Latino")
+            {
+                result = "0"
             }
             else if
             (
-                p_data[i].length > 3 && 
+                p_data.length > 3 && 
                 (
-                    p_data[i].substr(2,1) == "-" ||
-                    p_data[i].substr(1,1) == "-"
+                    p_data.substr(2,1) == "-" ||
+                    p_data.substr(1,1) == "-"
                 )
+                
             )
             {
-                let val = p_data[i].split("-")[1].trim().toLowerCase();
+                let val = p_data.split("-")[1].trim().toLowerCase();
                 if(data_value_list[val])
                 {
-                    result.push(data_value_list[val]);
+                    result = data_value_list[val];
                 }
             }
-            else if(p_data[i] == "-9")
+            else if(p_data == "-9")
             {
                 result = "9999";
             }
         }
     }
-    else
+    catch(ex)
     {
-        if(p_data == null || p_data =="")
-        {
-            result = data_value_list["(blank)"];
-        }
-        else if(is_number_regex.test(p_data) && data_value_list[p_data])
-        {
-            result = data_value_list[p_data];
-        }
-        else if(!is_number_regex.test(p_data) && data_value_list[p_data.toLowerCase()])
-        {
-            result = data_value_list[p_data.toLowerCase()];
-        }
-        else if(p_data == "No, not Spanish/ Hispanic/ Latino")
-        {
-            result = "0"
-        }
-        else if
-        (
-            p_data.length > 3 && 
-            (
-                p_data.substr(2,1) == "-" ||
-                p_data.substr(1,1) == "-"
-            )
-            
-        )
-        {
-            let val = p_data.split("-")[1].trim().toLowerCase();
-            if(data_value_list[val])
-            {
-                result = data_value_list[val];
-            }
-        }
-        else if(p_data == "-9")
-        {
-            result = "9999";
-        }
+        console.log(ex);
     }
 
     return result;
@@ -506,7 +514,13 @@ function save_changes_click()
 
 function travers_case(p_case)
 {
-    if(p_case.version == null || p_case.version != g_release_version)
+    let all_cases = document.getElementById("all_cases").checked;
+
+    if(all_cases)
+    {
+        traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
+    }
+    else if(p_case.version == null || p_case.version != g_release_version)
     {
         traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
     }
@@ -554,59 +568,6 @@ function get_available_versions()
 
       render_available_version_list();
       
-	});
-}
-
-
-
-function get_name_map_click()
-{
-    let version_id = document.getElementById("available_version").value;
-  	$.ajax({
-            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + `/api/version/export-names/${version_id}/all`
-	}).done(function(response) {
-            let file_map = eval("(" + response + ")");
-            g_data.path_to_csv_all = {};
-            //g_data.path_to_csv_all_field = {};
-
-            for(let file_name in file_map)
-            {
-                let path_to_field = file_map[file_name];
-                for(let path in path_to_field)
-                {
-                    let field_name = path_to_field[path];
-
-                    g_data.path_to_csv_all[path] = { "file_name": file_name, "field_name": field_name };
-                }
-            }
-            get_core_name_map();
-	});
-}
-
-
-function get_core_name_map()
-{
-    let version_id = document.getElementById("available_version").value;
-  	$.ajax({
-            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + `/api/version/export-names/${version_id}/core`
-	}).done(function(response) {
-            let file_map = eval("(" + response + ")");
-            g_data.path_to_csv_core = {};
-            //g_data.path_to_csv_core_field = {};
-
-            for(let file_name in file_map)
-            {
-                let path_to_field = file_map[file_name];
-                for(let path in path_to_field)
-                {
-                    let field_name = path_to_field[path];
-
-                    g_data.path_to_csv_core[path] = { "file_name": file_name, "field_name": field_name };
-                    
-                }
-            }
 	});
 }
 
