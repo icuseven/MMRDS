@@ -525,6 +525,8 @@ function save_changes_click()
     {
         i++;
         let message = "Save Processed:" + i + " cases";
+
+        current_case.version = g_release_version;
         save_case
         (
             current_case, ()=> { el.innerHTML =  message}
