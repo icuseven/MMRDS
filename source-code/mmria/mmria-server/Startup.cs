@@ -673,6 +673,19 @@ namespace mmria.server
             (
                 async (context, next) =>
                 {
+                    foreach(var header in context.Request.Headers)
+                    {
+                        if
+                        (
+                            header.Key.ToLower() == "x-http-method-override" ||
+                            header.Key.ToLower() == "x-method-override"
+                        )
+                        {
+                            context.Request.Headers.Remove(header);
+                            break;
+                        }
+                    }
+                    
                     context.Response.Headers.Add("X-Frame-Options", "DENY");
                     context.Response.Headers.Add("Content-Security-Policy",  
                     "" +  
@@ -680,7 +693,7 @@ namespace mmria.server
                     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                     context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
                     context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
-  
+
 
 
                     await next();

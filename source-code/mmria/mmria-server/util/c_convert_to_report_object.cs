@@ -1426,16 +1426,6 @@ age_45_and_above
 						{
 							p_result["9999"] = 1;
 						}
-
-						val = get_value(p_source_object, p_mmria_path);
-						if(val != null && p_result.ContainsKey(val))
-						{
-							p_result[val] += 1;
-						}
-						else
-						{
-							p_result["9999"] += 1;
-						}
 					}
 					catch(Exception ex)
 					{
@@ -1455,16 +1445,6 @@ age_45_and_above
                     else
                     {
                        p_result["9999"] = 1;
-                    }
-
-                    val = get_value(p_source_object, p_mmria_path);
-                    if(val != null && p_result.ContainsKey(val))
-                    {
-                        p_result[val] += 1;
-                    }
-                    else
-                    {
-                       p_result["9999"] += 1;
                     }
                 }
                 catch(Exception ex)
