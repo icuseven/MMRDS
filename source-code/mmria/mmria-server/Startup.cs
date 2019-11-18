@@ -673,10 +673,17 @@ namespace mmria.server
             (
                 async (context, next) =>
                 {
+
+                    context.Request.Headers.Remove("X-HTTP-METHOD");
+                    context.Request.Headers.Remove("X-HTTP-Method-Override");
+                    context.Request.Headers.Remove("X-METHOD-OVERRIDE");
+
+/*
                     foreach(var header in context.Request.Headers)
                     {
                         if
                         (
+                            header.Key.ToLower() == "x-http-method" ||
                             header.Key.ToLower() == "x-http-method-override" ||
                             header.Key.ToLower() == "x-method-override"
                         )
@@ -685,7 +692,7 @@ namespace mmria.server
                             break;
                         }
                     }
-                    
+  */                  
                     context.Response.Headers.Add("X-Frame-Options", "DENY");
                     context.Response.Headers.Add("Content-Security-Policy",  
                     "" +  
