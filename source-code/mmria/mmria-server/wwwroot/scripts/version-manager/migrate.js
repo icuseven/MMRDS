@@ -379,30 +379,29 @@ function get_value(p_path, p_data)
     {
         if(Array.isArray(p_data))
         {
-            result = [];
             for(let i = 0; i < p_data.length; i++)
             {
                 let item = p_data[i];
 
                 if(item == null || item =="")
                 {
-                    result.push(data_value_list["(blank)"]);
+                    result[i] = data_value_list["(blank)"];
                 }
                 else if(is_number_regex.test(data_value_list[item]) && data_value_list[item])
                 {
-                    result.push(data_value_list[item]);
+                    result[i] = data_value_list[item];
                 }
                 else if(!is_number_regex.test(data_value_list[item]) && data_value_list[item.toLowerCase()])
                 {
-                    result.push(data_value_list[item.toLowerCase()]);
+                    result[i] = data_value_list[item.toLowerCase()];
                 }                   
                 else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
                 {
-                    result.push("0");
+                    result[i] = "0";
                 }
                 else if(p_data[i] == "Yes, Other Spanish/ Hispanic/ Latino")
                 {
-                    result.push("4");
+                    result[i] = "4";
                 }
                 else if
                 (
@@ -416,20 +415,20 @@ function get_value(p_path, p_data)
                     let val = p_data[i].split("-")[1].trim().toLowerCase();
                     if(data_value_list[val])
                     {
-                        result.push(data_value_list[val]);
+                        result[i] = data_value_list[val];
                     }
                 }
                 else if(p_data[i] == "-9")
                 {
-                    result.push("9999");
+                    result[i] = "9999";
                 }
                 else if(p_data[i] == "-8")
                 {
-                    result.push("8888");
+                    result[i] = "8888";
                 }
                 else if(p_data[i] == "-7")
                 {
-                    result.push("7777");
+                    result[i] = "7777";
                 }
             }
         }
@@ -483,6 +482,7 @@ function get_value(p_path, p_data)
             {
                 result = "7777";
             }
+            
         }
     }
     catch(ex)
