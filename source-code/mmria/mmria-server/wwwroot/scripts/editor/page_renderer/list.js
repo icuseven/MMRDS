@@ -518,7 +518,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             if(p_data.indexOf(item.value) > -1)
             {
                     p_result.push("<option value='");
-                    p_result.push(item.value.replace(/'/g, "&#39;"));
+                    p_result.push(item.display.replace(/'/g, "&#39;"));
                     p_result.push("' selected>");
                     if(item.display)
                     {
@@ -537,7 +537,7 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             else
             {
                     p_result.push("<option value='");
-                    p_result.push(item.value.replace(/'/g, "&#39;"));
+                    p_result.push(item.display.replace(/'/g, "&#39;"));
                     p_result.push("' >");
                     if(item.display)
                     {
