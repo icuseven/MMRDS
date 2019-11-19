@@ -891,6 +891,121 @@ death_certificate/Race/race = Other
 
 		private void popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
+
+/*
+
+1
+committee_review/pregnancy_relatedness = Pregnancy Related; 
+AND
+birth_fetal_death_certificate_parent/
+	length_between_child_birth_and_death_of_mother = 0;
+ OR death_certificate/pregnancy_status = pregnant at time of death
+
+
+
+2
+committee_review/pregnancy_relatedness = Pregnancy Related; 
+AND
+birth_fetal_death_certificate_parent/
+	length_between_child_birth_and_death_of_mother = 1-42;
+ OR death_certificate/pregnancy_status = Pregnant within 42 days of death
+
+3
+committee_review/pregnancy_relatedness = Pregnancy Related; 
+AND
+birth_fetal_death_certificate_parent/
+	length_between_child_birth_and_death_of_mother = 43-365;
+ OR death_certificate/pregnancy_status = Pregnant 43 to 365 days of death
+
+
+length_between_child_birth_and_death_of_mother <- number field
+length_between_child_birth_and_death_of_mother = 0
+length_between_child_birth_and_death_of_mother = 1-42
+length_between_child_birth_and_death_of_mother = 43-365
+
+
+pregnancy_status <- list field
+9999 (blank)
+0 Not pregnant within last year
+1 Pregnant at the time of death
+2 Pregnant within 42 days of death
+3 Pregnant 43 to 365 days of death
+88 Unknown if pregnant in last year
+4 Not pregnant, but pregnant withing past year (time unknown)
+8888 Not Specififed
+
+
+
+*/
+
+			string length_between_child_birth_and_death_of_mother_string = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+			int length_between_child_birth_and_death_of_mother =  -1;
+
+			int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother);
+			
+			string pregnancy_status_string = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+			int pregnancy_status = -1;
+			int.TryParse(pregnancy_status_string, out pregnancy_status);
+
+
+			if
+			(
+				length_between_child_birth_and_death_of_mother == 0 ||
+				pregnancy_status == 1
+
+			)
+			{
+				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death = 1;
+				}
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = 1;
+				}
+			}
+			else if
+			(
+				(
+					length_between_child_birth_and_death_of_mother >= 1 &&
+					length_between_child_birth_and_death_of_mother <= 42 
+				) ||
+				pregnancy_status == 2
+
+			)
+			{
+				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death = 1;
+				}
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = 1;
+				}
+			}
+			else if
+			(
+				(
+					length_between_child_birth_and_death_of_mother >= 43 &&
+					length_between_child_birth_and_death_of_mother <= 365
+				) ||
+				pregnancy_status == 3
+
+			)
+			{
+				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
+				}
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
+				}
+			}
+
+	
+
+/*
 			pregnant_at_time_of_death_enum time_of_death_enum = get_pregnant_at_time_of_death_classifier (p_source_object);
 			switch (time_of_death_enum) 
 			{
@@ -941,7 +1056,7 @@ death_certificate/Race/race = Other
 	
 				break;
 			}
-
+*/
 				/*			
 			age_less_than_20,
 			age_20_to_24,
