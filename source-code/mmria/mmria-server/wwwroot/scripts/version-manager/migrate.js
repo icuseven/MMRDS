@@ -206,14 +206,21 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                         for(let i = 0; i < p_metadata.children.length; i++)
                         {
                             let child = p_metadata.children[i];
-                            let data_child = p_data[j][child.name];
+                            //let data_child = p_data[j][child.name];
                             if(p_data[j][child.name])
                             {
                                 if(child.children != null)
                                 {
                                     traverse_object(p_data[j][child.name], child, p_path + "/" + child.name);
                                 }
-                                else if(child.type.toLowerCase() == "list")
+                                else if
+                                (
+                                    child.type.toLowerCase() == "list" && 
+                                    !(
+                                        child.control_style && 
+                                        child.control_style.toLowerCase().indexOf("editable") == -1
+                                    )
+                                )
                                 {
                                     p_data[j][child.name] = get_value(p_path + "/" + child.name, p_data[j][child.name])
                                 }
@@ -227,14 +234,21 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                 for(let i = 0; i < p_metadata.children.length; i++)
                 {
                     let child = p_metadata.children[i];
-                    let data_child = p_data[child.name];
+                    //let data_child = p_data[child.name];
                     if(p_data[child.name])
                     {
                         if(child.children != null)
                         {
                             traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                         }
-                        else if(child.type.toLowerCase() == "list")
+                        else if
+                        (
+                            child.type.toLowerCase() == "list" && 
+                            !(
+                                child.control_style && 
+                                child.control_style.toLowerCase().indexOf("editable") == -1
+                            )
+                        )
                         {
                             p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
                         }
@@ -246,14 +260,21 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                let data_child = p_data[child.name];
+                //let data_child = p_data[child.name];
                 if(p_data[child.name])
                 {
                     if(child.children != null)
                     {
                         traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                     }
-                    else if(child.type.toLowerCase() == "list")
+                    else if
+                    (
+                        child.type.toLowerCase() == "list" && 
+                        !(
+                            child.control_style && 
+                            child.control_style.toLowerCase().indexOf("editable") == -1
+                        )
+                    )
                     {
                         p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
                     }
@@ -271,14 +292,21 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                let data_child = p_data[child.name];
+                //let data_child = p_data[child.name];
                 if(p_data[child.name])
                 {
                     if(child.children != null)
                     {
                         traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                     }
-                    else if(child.type.toLowerCase() == "list")
+                    else if
+                    (
+                        child.type.toLowerCase() == "list" && 
+                        !(
+                            child.control_style && 
+                            child.control_style.toLowerCase().indexOf("editable") == -1
+                        )
+                    )
                     {
                         p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
                     }
@@ -286,7 +314,14 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
             }
             break;
         default:
-            if(p_metadata.type.toLowerCase() == "list")
+            if
+            (
+                p_metadata.type.toLowerCase() == "list" && 
+                !(
+                    p_metadata.control_style && 
+                    p_metadata.control_style.toLowerCase().indexOf("editable") == -1
+                )
+            )
             {
                 let data_value_list = g_list_lookup[p_path];
 
