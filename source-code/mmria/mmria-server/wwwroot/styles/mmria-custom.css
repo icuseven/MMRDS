@@ -481,13 +481,15 @@ button.link {
   padding: 0;
 }
 
-.anti-btn {
+.anti-btn,
+.anti-btn:focus {
   background-color: transparent;
   border: none;
   margin: 0;
   outline: none;
   padding: 0;
 }
+
 
 .smooth-list {
   padding-left: 0;

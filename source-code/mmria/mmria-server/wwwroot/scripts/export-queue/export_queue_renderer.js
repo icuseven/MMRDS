@@ -147,10 +147,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								</select>
 								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="de_identified_search_click()">Search</button>
 							</div>
-							<!--div class="form-group form-check mb-1">
-								<input type="checkbox" class="form-check-input" id="exclude_pii">
-								<label class="form-check-label font-weight-normal" for="exclude_pii">Deidentify PII tagged fields</label>
-							</div-->
 							<div class="form-group form-check mb-0">
 								<input type="checkbox" class="form-check-input" id="include_pii" onchange="de_identify_standard_fields_change(this.checked)" ${ p_answer_summary.is_de_identify_standard_fields == true ? 'checked=true': ''} >
 								<label class="form-check-label font-weight-normal" for="include_pii">De-identify standard fields</label>
@@ -163,7 +159,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th" colspan="2">
 												<span class="row no-gutters justify-content-between">
 													<span>Fields to de-identify</span>
-													<!-- <button class="anti-btn" onclick="fooBarSelectAll()">Select All</button> -->
 												</span>
 											</th>
 										</tr>
@@ -181,7 +176,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th" colspan="2">
 												<span class="row no-gutters justify-content-between">
 													<span id="de_identified_count">Fields that have been de-identified (${p_answer_summary.de_identified_field_set.length})</span>
-													<!-- <button class="anti-btn" onclick="fooBarDeselectAll()">Deselect All</button> -->
 												</span>
 											</th>
 										</tr>
@@ -216,10 +210,14 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 						</label>
 						<ul class="font-weight-bold list-unstyled mt-3" id="custom_case_filter" style="display:${ p_answer_summary['case_filter_type'] == 'custom' ? 'block' : 'none' }">
 							<li class="mb-4" >
-
 								<div class="form-inline mb-2">
 									<label for="filter_search_text" class="font-weight-normal mr-2">Search for:</label>
-									<input type="text" class="form-control mr-2" id="filter_search_text"  value="" onchange="filter_serach_text_change(this.value)"><button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button><!--button type="button" class="btn btn-tertiary" alt="clear search">Clear</button-->
+									<input type="text"
+												 class="form-control mr-2"
+												 id="filter_search_text"
+												 value=""
+												 onchange="filter_serach_text_change(this.value)">
+									<button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button>
 								</div>
 
 								<div class="form-inline mb-2">
@@ -263,19 +261,12 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 											<th class="th">Committee review date</th>
 											<th class="th">Agency case ID</th>
 											<th class="th">Date created<br/>Created by</th>
-											
 										</tr>
 									</thead>
 									<tbody id="search_result_list" class="tbody">
 										<!-- items get dynamically generated -->
 									</tbody>
 								</table>
-								<!-- <ul class="row no-gutters list-unstyled pl-0">
-									<li class="m-0 mr-2">
-										<button class="link" >Select all</button>
-									</li>
-								</ul> -->
-								<!-- <ul id="search_result_list" class="zebra-list list-unstyled"></ul> -->
 							</li>
 
 							<li class="" style="overflow:hidden; overflow-y: auto; height: 360px; border: 1px solid #ced4da;">
@@ -957,11 +948,11 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					<table class="table rounded-0 mb-0">
 						<thead class="thead">
 							<tr class="tr">
-								<th class="th" colspan="4" style="padding: 0px">
+								<th class="th" colspan="4">
 									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
 													data-prop="search--${p_path}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
-										<span><strong>Path:</strong> ${p_path}</span>
+										<span class="pointer-none"><strong>Path:</strong> ${p_path}</span>
 									</button>
 								</th>
 							</tr>
@@ -1110,11 +1101,11 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 				<table class="table rounded-0 mb-0">
 					<thead class="thead">
 						<tr class="tr">
-							<th class="th" colspan="4" style="padding: 0px">
+							<th class="th" colspan="4">
 								<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
 												data-prop="selected--${item_id.replace(/-/g,"/")}"
 												onclick="handleElementDisplay(event, 'table-row', 'none')">
-									<span><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
+									<span class="pointer-none"><strong>Path:</strong> ${item_id.replace(/-/g,"/")}</span>
 								</button>
 							</th>
 						</tr>

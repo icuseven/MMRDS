@@ -46,10 +46,10 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push(" - ");
             p_result.push(p_data.length)
             p_result.push(" item(s) </legend>");
-            p_result.push("<div class='grid-control-items'>");
+            p_result.push("<ul class='grid-control-items p-0 list-unstyled'>");
             for(var i = 0; i < p_data.length; i++)
             {
-                p_result.push("<div class='grid-control-item'>");
+                p_result.push("<li class='grid-control-item mb-0'>");
                     for(var j = 0; j < p_metadata.children.length; j++)
                     {
                         var child = p_metadata.children[j];
@@ -105,14 +105,13 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             p_result.push(p_data.length);
                         p_result.push("</span>");
                     p_result.push("</div>");
-                p_result.push("</div>");
+                p_result.push("</li>");
             }
             // p_result.push("<br/>");
-            p_result.push("</div>");
+            p_result.push("</ul>");
             if(p_metadata.is_read_only == null && p_metadata.is_read_only != true)
             {
-                p_result.push("<button type='button'class='grid-control-btn btn btn-primary d-flex align-items-center' onclick='g_add_grid_item(\"");
-                    // p_result.push("<input type='button' style='width:90px'  class='btn btn-primary' value='Add Item' onclick='g_add_grid_item(\"");
+                p_result.push("<button type='button' class='grid-control-btn btn btn-primary d-flex align-items-center' onclick='g_add_grid_item(\"");
                     p_result.push(p_object_path);
                     p_result.push("\", \"");
                     p_result.push(p_metadata_path);
