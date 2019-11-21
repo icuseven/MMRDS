@@ -938,14 +938,20 @@ pregnancy_status <- list field
 
 */
 
-			string length_between_child_birth_and_death_of_mother_string = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+			string length_between_child_birth_and_death_of_mother_string = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
 			int length_between_child_birth_and_death_of_mother =  -1;
 
-			int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother);
+			if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
+			{
+				length_between_child_birth_and_death_of_mother = -1;
+			}
 			
-			string pregnancy_status_string = get_value(p_source_object, "committee_review/pregnancy_relatedness");
+			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 			int pregnancy_status = -1;
-			int.TryParse(pregnancy_status_string, out pregnancy_status);
+			if(!int.TryParse(pregnancy_status_string, out pregnancy_status))
+			{
+				pregnancy_status = -1;
+			}
 
 
 			if
