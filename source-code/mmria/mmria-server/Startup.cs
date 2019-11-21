@@ -674,36 +674,51 @@ namespace mmria.server
                 async (context, next) =>
                 {
 
-                    context.Request.Headers.Remove("X-HTTP-METHOD");
-                    context.Request.Headers.Remove("X-HTTP-Method-Override");
-                    context.Request.Headers.Remove("X-METHOD-OVERRIDE");
-
-/*
-                    foreach(var header in context.Request.Headers)
+                    if(
+                    context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
+                    context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
+                    context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
+                    )
                     {
-                        if
-                        (
-                            header.Key.ToLower() == "x-http-method" ||
-                            header.Key.ToLower() == "x-http-method-override" ||
-                            header.Key.ToLower() == "x-method-override"
-                        )
-                        {
-                            context.Request.Headers.Remove(header);
-                            break;
-                        }
+                        context.Response.Headers.Add("X-Frame-Options", "DENY");
+                        context.Response.Headers.Add("Content-Security-Policy",  
+                        "" +  
+                        "frame-ancestors  'self'"); 
+                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                        context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
+                        context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
+                        context.Response.StatusCode = 405;
+
                     }
-  */                  
-                    context.Response.Headers.Add("X-Frame-Options", "DENY");
-                    context.Response.Headers.Add("Content-Security-Policy",  
-                    "" +  
-                    "frame-ancestors  'self'"); 
-                    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                    context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
-                    context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
+                    else
+                    {
+    /*
+                        foreach(var header in context.Request.Headers)
+                        {
+                            if
+                            (
+                                header.Key.ToLower() == "x-http-method" ||
+                                header.Key.ToLower() == "x-http-method-override" ||
+                                header.Key.ToLower() == "x-method-override"
+                            )
+                            {
+                                context.Request.Headers.Remove(header);
+                                break;
+                            }
+                        }
+    */                  
+                        context.Response.Headers.Add("X-Frame-Options", "DENY");
+                        context.Response.Headers.Add("Content-Security-Policy",  
+                        "" +  
+                        "frame-ancestors  'self'"); 
+                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                        context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
+                        context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
 
 
 
-                    await next();
+                        await next();
+                    }
                 }
             );
             app.UseAuthentication();
