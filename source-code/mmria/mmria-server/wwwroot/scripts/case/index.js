@@ -267,6 +267,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
   }
 }
 
+
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 {
   var metadata = eval(p_metadata_path);
@@ -288,6 +289,7 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 
   });
 }
+
 
 function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path, p_index)
 {
@@ -316,6 +318,7 @@ function g_delete_grid_item(p_object_path, p_metadata_path, p_dictionary_path, p
     });
   }
 }
+
 
 function g_delete_record_item(p_object_path, p_metadata_path, p_index)
 {
@@ -491,6 +494,7 @@ var $$ = {
   }
 };
 
+
 $(function ()
 {
 
@@ -648,6 +652,7 @@ $(function ()
 
   load_jurisdiction_tree();
 });
+
 
 function load_values()
 {
@@ -896,6 +901,7 @@ function get_release_version()
 	});
 }
 
+
 function get_metadata()
 {
   document.getElementById('form_content_id').innerHTML ="<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>";
@@ -940,6 +946,7 @@ function get_metadata()
 
 	});
 }
+
 
 function window_on_hash_change(e)
 {
@@ -1035,7 +1042,6 @@ function window_on_hash_change(e)
   {
     // do nothing for now
   }
-
 
 };
 
@@ -1272,10 +1278,12 @@ function show_print_version()
   window.open("./print-version", "_print_version");
 }
 
+
 function show_data_dictionary()
 {
   window.open("./data-dictionary", "_data_dictionary");
 }
+
 
 function show_user_administration()
 {
@@ -1440,6 +1448,7 @@ function print_case_onchange()
   }
 }
 
+
 function open_print_version(p_section)
 {
 	var print_window = window.open('./print-version','_print_version',null,false);
@@ -1505,6 +1514,7 @@ function save_form_click()
   save_case(g_data, create_save_message);
 }
 
+
 function create_save_message()
 {
 	var result = [];
@@ -1519,10 +1529,12 @@ function create_save_message()
 	window.setTimeout(clear_nav_status_area, 5000);
 }
 
+
 function clear_nav_status_area()
 {
 	document.getElementById("nav_status_area").innerHTML = "<div>&nbsp;</div>";
 }
+
 
 function set_local_case(p_data, p_call_back)
 {
@@ -1544,6 +1556,7 @@ function get_local_case(p_id)
 
   return result;
 }
+
 
 function undo_click()
 {
@@ -1604,50 +1617,46 @@ function autosave()
             save_case(g_data, null)
           }
         }
-
-        //console.log(nubmer_of_minutes);
       }
     }
   }
-
 }
 
+
 function diff_minutes(dt1, dt2) 
- {
+{
 
   let diff =(dt2.getTime() - dt1.getTime()) / 1000;
   diff /= 60;
   return Math.abs(Math.round(diff));
   
- }
+}
 
 
 function g_textarea_oninput(p_object_path, p_metadata_path, p_dictionary_path,  value)
 {
-      var metadata = eval(p_metadata_path);
+  var metadata = eval(p_metadata_path);
 
-      //var current_value = eval(p_object_path);
+  if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
+  {
+    var item = eval(p_object_path);
+    if(item.indexOf(value) > -1)
+    {
+      item.splice(item.indexOf(value), 1);
+    }
+    else
+    {
+      item.push(value);
+    }
+  }
+  else if(metadata.type.toLowerCase() == "boolean")
+  {
+    eval(p_object_path + ' = ' + value);
+  }
+  else
+  {
+    eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
+  }
 
-      if(metadata.type.toLowerCase() == "list" && metadata['is_multiselect'] && metadata.is_multiselect == true)
-      {
-        var item = eval(p_object_path);
-        if(item.indexOf(value) > -1)
-        {
-          item.splice(item.indexOf(value), 1);
-        }
-        else
-        {
-          item.push(value);
-        }
-      }
-      else if(metadata.type.toLowerCase() == "boolean")
-      {
-        eval(p_object_path + ' = ' + value);
-      }
-      else
-      {
-        eval(p_object_path + ' = "' + value.replace(/"/g, '\\"').replace(/\n/g,"\\n") + '"');
-      }
-
-      set_local_case(g_data, null);
+  set_local_case(g_data, null);
 }
