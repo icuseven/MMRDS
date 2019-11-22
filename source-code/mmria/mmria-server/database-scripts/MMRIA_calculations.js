@@ -1,35 +1,83 @@
 // FUNCTION TO RECODE RACE TO OMB STANDARD
 function $calculate_omb_recode(p_value_list) 
 {
-    // p_value_list is an array
+
+/*
+9999    (blank)
+0       White
+1       Black
+2       American Indian/Alaska Native
+3       Native Hawaiian
+4       Guamanian or Chamorro
+5       Samoan
+6       Other Pacific Islander
+7       Asian Indian
+8       Chinese
+9       Filipino
+10      Japanese
+11      Korean
+12      Vietnamese
+13      Other Asian
+14      Other Race
+8888    Race Not Specified
+
+9999    (blank)
+0       White
+1       Black
+2       American Indian/Alaska Native
+3       Pacific Islander
+4       Asian
+5       Bi-Racial
+6       Multi-Racial
+14       Other Race
+8888    Race Not Specified
+
+*/
+
+
+
+   // p_value_list is an array
     var result = null;
     var asian_list = [
-            'Asian Indian',
-            'Chinese',
-            'Filipino',
-            'Japanese',
-            'Korean',
-            'Vietnamese',
-            'Other Asian'
+            7, //'Asian Indian',
+            8, //'Chinese',
+            9, //'Filipino',
+            10, //'Japanese',
+            11, //'Korean',
+            12, //'Vietnamese',
+            13 //'Other Asian'
         ];
     var islander_list = [
-            'Native Hawaiian',
-            'Guamanian or Chamorro',
-            'Samoan',
-            'Other Pacific Islander'
+            3, //'Native Hawaiian',
+            4, //'Guamanian or Chamorro',
+            5, //'Samoan',
+            6 //'Other Pacific Islander'
         ];
     if (p_value_list.length == 0) 
     {
+/*
+9999    (blank)
+0       White
+1       Black
+2       American Indian/Alaska Native
+3       Pacific Islander
+4       Asian
+5       Bi-Racial
+6       Multi-Racial
+14       Other Race
+8888    Race Not Specified
+
+*/
     } 
     else if (p_value_list.length == 1) 
     {
         if ($global.get_intersection(p_value_list, asian_list).length > 0) 
         {
-            result = 'Asian';
+            result = 4; //'Asian';
         } 
         else if ($global.get_intersection(p_value_list, islander_list).length > 0) 
         {
-            result = 'Pacific Islander';
+            result = 3; //'Pacific Islander';
         } 
         else 
         {
@@ -38,9 +86,12 @@ function $calculate_omb_recode(p_value_list)
     }
     else // more than 1 item has been selected.
     {
-        if (p_value_list.includes('Race Not Specified')) {
-            result = 'Race Not Specified';
-        } else {
+        if (p_value_list.includes('Race Not Specified')) 
+        {
+            result = 8888; //'Race Not Specified';
+        } 
+        else 
+        {
             /* Description of recode process
         
         total unique = non list items + is_asian + is_islander
@@ -61,32 +112,39 @@ function $calculate_omb_recode(p_value_list)
             var islander_intersection_count = $global.get_intersection(p_value_list, islander_list).length;
             var is_islander = 0;
             if (asian_intersection_count > 0)
+            {
                 is_asian = 1;
+            }
+
             if (islander_intersection_count > 0)
+            {
                 is_islander = 1;
+            }
+
             var number_not_in_asian_or_islander_categories = p_value_list.length - asian_intersection_count - islander_intersection_count;
             var total_unique_items = number_not_in_asian_or_islander_categories + is_asian + is_islander;
-            switch (total_unique_items) {
-            case 1:
-                if (is_asian == 1) 
-                {
-                    result = 'Asian';
-                } 
-                else if (is_islander == 1) 
-                {
-                    result = 'Pacific Islander';
-                } 
-                else 
-                {
-                    console.log('This should never happen bug');
-                }
-                break;
-            case 2:
-                result = 'Bi-Racial';
-                break;
-            default:
-                result = 'Multi-Racial';
-                break;
+            switch (total_unique_items) 
+            {
+                case 1:
+                    if (is_asian == 1) 
+                    {
+                        result = 4; //'Asian';
+                    } 
+                    else if (is_islander == 1) 
+                    {
+                        result = 3; //'Pacific Islander';
+                    } 
+                    else 
+                    {
+                        console.log('This should never happen bug');
+                    }
+                    break;
+                case 2:
+                    result = 5; //'Bi-Racial';
+                    break;
+                default:
+                    result = 6; //'Multi-Racial';
+                    break;
             }
         }
     }
