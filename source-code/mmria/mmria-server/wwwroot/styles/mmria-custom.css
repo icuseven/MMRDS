@@ -1112,7 +1112,6 @@ button.link {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  position: relative;
   width: 100%;
 
   left: 0;
@@ -1169,6 +1168,11 @@ button.link {
 }
 .login + .box {
   margin-top: 3rem;
+}
+
+.crate {
+  border: 2px solid var(--neutral-dark);
+  padding: 16px 20px;
 }
 
 /*
