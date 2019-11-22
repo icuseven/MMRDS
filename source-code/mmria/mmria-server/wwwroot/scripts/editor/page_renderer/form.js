@@ -50,7 +50,6 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         p_result.push("</div>");
                     p_result.push("</div>");
                 }
-
             p_result.push("</header> <!-- end .construct__header -->");
             
             // The 'Records' Table
@@ -263,34 +262,55 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
        p_result.push("</div> <!-- end .construct__header -->");
        p_result.push("<div class='construct__body'>");
+
        let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
        p_result.push(`<div class='construct-output' style='height:${height_attribute}'>`);
+
        if(g_data && p_metadata.name == "case_narrative")
        {
-           //death_certificate/reviewer_note
-           p_result.push("<p><h3>Death Certificate</h3>");
-           p_result.push("<label>Reviewer's Notes<br/><textarea cols=100 rows=7>");
-           p_result.push(g_data.death_certificate.reviewer_note);
-           p_result.push("</textarea></label></p>");
+            //death_certificate/reviewer_note
+            p_result.push(`
+                <!-- <p>Useful intro copy goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id ex quis orci maximus dapibus. Nullam hendrerit sagittis odio non ultrices. Aliquam euismod nulla porta, malesuada enim vel, tempor sem. Mauris vulputate diam sem, et porta augue dictum non. Nam volutpat nisi in ipsum posuere, sed posuere quam egestas.</p> -->
+            `);
+
+            //death_certificate/reviewer_note
+            p_result.push(`
+                <h3>Death Certificate</h3>
+                <p class="mb-2">Reviewer's Notes</p>
+                <p class="bin is-read-only">${g_data.death_certificate.reviewer_note.length < 1 ? 'There are no notes added on this field yet' : g_data.death_certificate.reviewer_note}</p>
+           `);
+            // p_result.push("<p><h3>Death Certificate</h3>");
+            // p_result.push("<label>Reviewer's Notes<br/><textarea cols=100 rows=7>");
+            // p_result.push(g_data.death_certificate.reviewer_note);
+            // p_result.push("</textarea></label></p>");
 
            //birth_fetal_death_certificate_parent/reviewer_note
-           p_result.push("<p><h3>Birth/Fetal Death Certificate- Parent Section </h3>");
-           p_result.push("<label>Reviewer's Notes<br/><textarea cols=100 rows=7>");
-           p_result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
-           p_result.push("</textarea></label></p>");
+           p_result.push(`
+                <h3>Birth/Fetal Death Certificate- Parent Section</h3>
+                <label class="mb-2">Reviewer's Notes</label>
+                <textarea cols="100" rows="7">${g_data.birth_fetal_death_certificate_parent.reviewer_note}</textarea>
+           `);
+            // p_result.push("<p><h3>Birth/Fetal Death Certificate- Parent Section </h3>");
+            // p_result.push("<label>Reviewer's Notes<br/><textarea cols=100 rows=7>");
+            // p_result.push(g_data.birth_fetal_death_certificate_parent.reviewer_note);
+            // p_result.push("</textarea></label></p>");
 
            //birth_certificate_infant_fetal_section/reviewer_note
-           p_result.push("<h3>Birth/Fetal Death Certificate- Infant/Fetal Section Reviewer's Notes</h3>");
-           for(var i = 0; i < g_data.birth_certificate_infant_fetal_section.length; i++)
-           {
-               p_result.push("<p><label>Note: ");
-               p_result.push(i+1);
-               p_result.push("<br/>");
-               p_result.push("<textarea cols=100 rows=7>");
-               p_result.push(g_data.birth_certificate_infant_fetal_section[i].reviewer_note);
-               p_result.push("</textarea></label>");
-               p_result.push("</p>");
-           }
+           p_result.push(`
+                <h3 class="mb-0">Birth/Fetal Death Certificate- Infant/Fetal Section</h3>
+                ${g_data.birth_certificate_infant_fetal_section.map((note, i) => (`<label class="mb-0">Reviewer's Notes from Record ${i + 1}:</label> <textarea cols="100" rows="7">${!note.reviewer_note ? 'There are no notes added on this field yet' : note.reviewer_note}</textarea>`)).join("")}
+           `);
+            // p_result.push("<h3>Birth/Fetal Death Certificate- Infant/Fetal Section Reviewer's Notes</h3>");
+            // for(var i = 0; i < g_data.birth_certificate_infant_fetal_section.length; i++)
+            // {
+            //     p_result.push("<p><label>Note: ");
+            //     p_result.push(i+1);
+            //     p_result.push("<br/>");
+            //     p_result.push("<textarea cols=100 rows=7>");
+            //     p_result.push(g_data.birth_certificate_infant_fetal_section[i].reviewer_note);
+            //     p_result.push("</textarea></label>");
+            //     p_result.push("</p>");
+            // }
            
            //autopsy_report/reviewer_note
            p_result.push("<p><h3>Autopsy Report </h3>");
