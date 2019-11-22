@@ -658,7 +658,6 @@ namespace mmria.server
         
         
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
@@ -667,26 +666,17 @@ namespace mmria.server
             {
                 app.UseDeveloperExceptionPage();
             }
-            /*
-            else
-            {
-                app.UseHsts(options =>  
-    {  
-        options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;  
-        options.HttpsPort = 5001;  
-    });
-            }
-*/
 
             app.Use
             (
                 async (context, next) =>
                 {
 
-                    if(
-                    context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
-                    context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
-                    context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
+                    if
+                    (
+                        context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
+                        context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
+                        context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
                     )
                     {
                         context.Response.Headers.Add("X-Frame-Options", "DENY");
@@ -701,21 +691,6 @@ namespace mmria.server
                     }
                     else
                     {
-    /*
-                        foreach(var header in context.Request.Headers)
-                        {
-                            if
-                            (
-                                header.Key.ToLower() == "x-http-method" ||
-                                header.Key.ToLower() == "x-http-method-override" ||
-                                header.Key.ToLower() == "x-method-override"
-                            )
-                            {
-                                context.Request.Headers.Remove(header);
-                                break;
-                            }
-                        }
-    */                  
                         context.Response.Headers.Add("X-Frame-Options", "DENY");
                         context.Response.Headers.Add("Content-Security-Policy",  
                         "" +  
@@ -723,8 +698,6 @@ namespace mmria.server
                         context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                         context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
                         context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
-
-
 
                         await next();
                     }

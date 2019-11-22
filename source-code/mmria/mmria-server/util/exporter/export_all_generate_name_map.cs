@@ -98,7 +98,7 @@ namespace mmria.server.util
 				is_core_export = true;
 			}
 
-			generate_file_names(name_map, metadata, path_to_int_map, is_core_export);
+			generate_file_names(name_map, metadata, path_to_int_map, path_to_file_name_map, is_core_export);
 
 
 			return name_map;
@@ -167,7 +167,7 @@ namespace mmria.server.util
 		}
 
 
-		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.app p_metadata, Dictionary<string, int> path_to_int_map, bool p_is_core)
+		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.app p_metadata, Dictionary<string, int> path_to_int_map, Dictionary<string,string> path_to_file_name_map, bool p_is_core)
 		{
 			string main_file_name = null;
 			if(p_is_core)
@@ -194,12 +194,12 @@ namespace mmria.server.util
  */
 			foreach(mmria.common.metadata.node node in p_metadata.children)
 			{
-				generate_file_names(p_result, node, path_to_int_map, "/" + node.name.ToLower(), main_file_name, p_is_core, false, false);
+				generate_file_names(p_result, node, path_to_int_map, path_to_file_name_map, "/" + node.name.ToLower(), main_file_name, p_is_core, false, false);
 			}
 
 		}
 
-		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.node p_metadata, Dictionary<string, int> p_path_to_int_map, string p_path, string file_name, bool p_is_core, bool p_is_multi_form, bool p_is_grid)
+		public void generate_file_names(Dictionary<string, Dictionary<string, string>> p_result, mmria.common.metadata.node p_metadata, Dictionary<string, int> p_path_to_int_map, Dictionary<string,string> p_path_to_file_name_map, string p_path, string file_name, bool p_is_core, bool p_is_multi_form, bool p_is_grid)
 		{
 
 				//p_result.Add(field_name)
@@ -212,12 +212,16 @@ namespace mmria.server.util
 						if
 						(
 							p_metadata.cardinality!= null &&
-							p_metadata.cardinality == "*" &&
-							p_metadata.cardinality == "+"
+							(
+								p_metadata.cardinality == "*" ||
+								p_metadata.cardinality == "+"
+							)
 							
 						)
 						{
-							file_name = convert_path_to_field_name(p_path);
+
+
+							file_name = this.convert_path_to_file_name(p_path);
 							if(p_result.ContainsKey(file_name))
 							{
 									file_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
@@ -226,14 +230,14 @@ namespace mmria.server.util
 
 							foreach(mmria.common.metadata.node node in p_metadata.children)
 							{
-								generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, true, false);
+								generate_file_names(p_result, node, p_path_to_int_map, p_path_to_file_name_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, true, false);
 							}
 						}
 						else
 						{
 							foreach(mmria.common.metadata.node node in p_metadata.children)
 							{
-								generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, false, false);
+								generate_file_names(p_result, node, p_path_to_int_map, p_path_to_file_name_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, false, false);
 							}
 						}
 						
@@ -242,7 +246,7 @@ namespace mmria.server.util
 					
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
+							generate_file_names(p_result, node, p_path_to_int_map, p_path_to_file_name_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, p_is_grid);
 						}
 						
 						break;
@@ -256,7 +260,7 @@ namespace mmria.server.util
 
 						foreach(mmria.common.metadata.node node in p_metadata.children)
 						{
-							generate_file_names(p_result, node, p_path_to_int_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
+							generate_file_names(p_result, node, p_path_to_int_map, p_path_to_file_name_map, p_path + "/" + node.name.ToLower(), file_name, p_is_core, p_is_multi_form, true);
 						}
 						break;
 					case "button":

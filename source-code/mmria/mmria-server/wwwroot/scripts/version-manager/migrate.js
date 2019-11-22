@@ -517,6 +517,10 @@ function get_value(p_path, p_data)
             {
                 result = "7777";
             }
+            else if(p_path == "/birth_certificate_infant_fetal_section/is_multiple_gestation" && p_data == "Multiple gestation")
+            {
+                result = 1;
+            }
             
         }
     }
