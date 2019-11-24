@@ -8,6 +8,33 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 
 	var result = [];
 
+
+	if(p_metadata.tags != null)
+	{
+		if
+		(
+			p_metadata.control_style != null &&
+			p_metadata.control_style.toLowerCase() == "editable" &&
+			p_metadata.tags.indexOf("EDITABLELIST") == -1
+		)
+		{
+			p_metadata.tags.push("EDITABLELIST");
+		}
+
+
+		if
+		(
+			p_metadata.is_core_summary != null &&
+			p_metadata.is_core_summary == true &&
+			p_metadata.tags.indexOf("COREVARIABLE") == -1
+		)
+		{
+			p_metadata.tags.push("COREVARIABLE");
+		}
+
+	}
+
+
 	switch(p_metadata.type.toLowerCase())
   	{
 		case 'grid':
