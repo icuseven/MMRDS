@@ -1156,6 +1156,14 @@ namespace mmria.server.util
 						}
 						break;
 					case "list":
+						if
+						(
+							p_metadata.control_style!= null &&
+							p_metadata.control_style.ToLower() == "editable"
+						)
+						{
+							break;
+						}
 
 						p_result.Add(p_path, new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
 
