@@ -555,6 +555,21 @@ function get_value(p_path, p_data)
             {
                 result = 1;
             }
+            else if(p_path == '/committee_review/critical_factors_worksheet/prevention")
+            {
+                if(p_data.toLowerCase() == "prevent incidence")
+                {
+                    result = 1;
+                }
+                else if(p_data.toLowerCase() == "prevent progression")
+                {
+                    result = 2;
+                }
+                else if(p_data.toLowerCase() == "prevent complications")
+                {
+                    result = 3;
+                }
+            }
             
         }
     }
