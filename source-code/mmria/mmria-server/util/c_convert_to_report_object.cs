@@ -938,13 +938,21 @@ pregnancy_status <- list field
 
 */
 
-			string length_between_child_birth_and_death_of_mother_string = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
 			int length_between_child_birth_and_death_of_mother =  -1;
-
-			if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
+			if(length_between_child_birth_and_death_of_mother_dynamic is string)
 			{
-				length_between_child_birth_and_death_of_mother = -1;
+				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
+				if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
+				{
+					length_between_child_birth_and_death_of_mother = -1;
+				}
 			}
+			else if(length_between_child_birth_and_death_of_mother_dynamic is Int64)
+			{
+				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
+			}
+
 			
 			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 			int pregnancy_status = -1;
