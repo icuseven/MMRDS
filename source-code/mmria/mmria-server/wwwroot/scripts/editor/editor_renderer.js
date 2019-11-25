@@ -32,6 +32,17 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			p_metadata.tags.push("COREVARIABLE");
 		}
 
+
+		if
+		(
+			p_metadata.is_required != null &&
+			p_metadata.is_required == true &&
+			p_metadata.tags.indexOf("REQUIRED") == -1
+		)
+		{
+			p_metadata.tags.push("REQUIRED");
+		}
+
 	}
 
 

@@ -213,8 +213,27 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 
 			if(p_search_text != null && p_search_text !="")
 			{
+				let is_search_match = false;
+				let search_array = p_search_text.split(" ");
+				
+				for(let i = 0; i < search_array.length; i++)
+				{
+					let search_term = search_array[i].toLowerCase();
+					for(let j = 0; j < p_metadata.tags.length; j++)
+					{
+						let check_item = p_metadata.tags[j].toLowerCase();
+						if(check_item.indexOf(search_term) > -1)
+						{
+							is_search_match = true;
+							break;
+						}
+						
+					}	
+				}
+				
 				if
 				(
+					!is_search_match && 
 					!(
 						p_metadata.name.indexOf(p_search_text) > -1 ||
 						p_metadata.prompt.indexOf(p_search_text) > -1 ||
