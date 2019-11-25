@@ -288,7 +288,6 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
 
             break;
         case "group":
-        case "grid":
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
@@ -309,6 +308,37 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                     )
                     {
                         p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                    }
+                }
+            }
+            break;
+        case "grid":
+            for(let j = 0; j < p_data.length; j++)
+            {
+                let grid_item = p_data[j];
+
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+
+                    let child = p_metadata.children[i];
+                    //let data_child = p_data[child.name];
+                    if(grid_item[child.name])
+                    {
+                        if(child.children != null)
+                        {
+                            traverse_object(grid_item[child.name], child, p_path + "/" + child.name);
+                        }
+                        else if
+                        (
+                            child.type.toLowerCase() == "list" && 
+                            !(
+                                child.control_style && 
+                                child.control_style.toLowerCase().indexOf("editable") == -1
+                            )
+                        )
+                        {
+                            grid_item[child.name] = get_value(p_path + "/" + child.name, grid_item[child.name])
+                        }
                     }
                 }
             }
@@ -404,12 +434,12 @@ function get_value(p_path, p_data)
     let result = p_data;
 
     let is_number_regex = /^\-?\d+\.?\d*$/;
-/*
-    if(p_path == "/death_certificate/death_information/pregnancy_status")
+
+    if(p_path == "/autopsy_report/causes_of_death/type")
     {
         console.log("break");
     }
-*/
+
     try
     {
         if(Array.isArray(p_data))
