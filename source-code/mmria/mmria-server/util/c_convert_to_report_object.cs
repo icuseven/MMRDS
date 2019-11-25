@@ -1488,6 +1488,15 @@ age_45_and_above
 						break;
 					case "list":
 
+						if
+						(
+							p_metadata.control_style!= null &&
+							p_metadata.control_style.ToLower() == "editable"
+						)
+						{
+							break;
+						}
+
 						p_result.Add(p_path, new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
 
 						var value_node_list = p_metadata.values;
