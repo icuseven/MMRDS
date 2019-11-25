@@ -551,6 +551,10 @@ function get_value(p_path, p_data)
             {
                 result = 1;
             }
+            else if(p_path == "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/deceased_at_discharge" && p_data == "Deceased at the time of discharge?")
+            {
+                result = 1;
+            }
             
         }
     }
