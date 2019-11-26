@@ -964,9 +964,7 @@ pregnancy_status <- list field
 
 			if
 			(
-				length_between_child_birth_and_death_of_mother == 0 ||
-				pregnancy_status == 1
-
+				length_between_child_birth_and_death_of_mother == 0 
 			)
 			{
 				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
@@ -980,10 +978,41 @@ pregnancy_status <- list field
 			}
 			else if
 			(
+				length_between_child_birth_and_death_of_mother == -1 &&
+				pregnancy_status == 1
+
+			)
+			{
+				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_at_the_time_of_death = 1;
+				}
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_at_the_time_of_death = 1;
+				}
+			}
+
+			else if
+			(
 				(
 					length_between_child_birth_and_death_of_mother >= 1 &&
 					length_between_child_birth_and_death_of_mother <= 42 
-				) ||
+				)
+			)
+			{
+				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_42_days_of_death = 1;
+				}
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_42_days_of_death = 1;
+				}
+			}
+			else if
+			(
+				length_between_child_birth_and_death_of_mother == -1 &&
 				pregnancy_status == 2
 
 			)
@@ -1002,7 +1031,21 @@ pregnancy_status <- list field
 				(
 					length_between_child_birth_and_death_of_mother >= 43 &&
 					length_between_child_birth_and_death_of_mother <= 365
-				) ||
+				)
+			)
+			{
+				if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+				{
+					p_report_object.total_number_pregnancy_related_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
+				}
+				else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+				{
+					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
+				}
+			}
+			else if
+			(
+				length_between_child_birth_and_death_of_mother == -1 &&
 				pregnancy_status == 3
 
 			)
@@ -1016,7 +1059,14 @@ pregnancy_status <- list field
 					p_report_object.total_number_pregnancy_associated_at_time_of_death.pregnant_within_43_to_365_days_of_death = 1;
 				}
 			}
-
+			else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
+			{
+				p_report_object.total_number_pregnancy_related_at_time_of_death.blank = 1;
+			}
+			else if(p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
+			{
+				p_report_object.total_number_pregnancy_associated_at_time_of_death.blank = 1;
+			}
 	
 
 /*
