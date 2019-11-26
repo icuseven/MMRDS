@@ -435,14 +435,43 @@ function get_value(p_path, p_data)
 
     let is_number_regex = /^\-?\d+\.?\d*$/;
 
+    /*
     if(p_path == "/autopsy_report/causes_of_death/type")
     {
         console.log("break");
-    }
+    }*/
 
     try
     {
-        if(Array.isArray(p_data))
+
+        if(p_path == "/informant_interviews/race")
+        {
+            if(Array.isArray(p_data))
+            {
+                result = "";
+
+                for(let i = 0; i < p_data.length; i++)
+                {
+                    let val = p_data[i];
+
+                    if
+                    (
+                        val != null && 
+                        val != "" &&
+                        data_value_list[val]
+                    )
+                    {
+                        result = data_value_list[val];
+                    }
+                    
+                }
+            }
+            else if(data_value_list[p_data])
+            {
+                result = data_value_list[p_data];
+            }
+        }
+        else if(Array.isArray(p_data))
         {
             for(let i = 0; i < p_data.length; i++)
             {
