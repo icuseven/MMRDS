@@ -1332,7 +1332,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 			return result;
 		}
 
-		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+		public dynamic get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid)
 		{
 			dynamic result = null;
 
@@ -1369,6 +1369,10 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 							{
 
 								result = ((IDictionary<string, object>)val)[path[i]];
+							}
+							else if(p_is_grid)
+							{
+								result = index;
 							}
 							else
 							{

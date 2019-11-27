@@ -1251,7 +1251,7 @@ namespace mmria.server.util
 
 					}
 
-					dynamic raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path));
+					dynamic raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path), true);
 					List<object> object_data = raw_data as List<object>;
 
 					if (object_data != null)
@@ -1728,7 +1728,7 @@ namespace mmria.server.util
 			}
 		}
 
-		public dynamic get_value(IDictionary<string, object> p_object, string p_path)
+		public dynamic get_value(IDictionary<string, object> p_object, string p_path, bool p_is_grid = false)
 		{
 			dynamic result = null;
 			/*
@@ -1765,6 +1765,10 @@ namespace mmria.server.util
 						if (index != null && index is IDictionary<string, object> && ((IDictionary<string, object>)index).ContainsKey(path[i]))
 						{
 							result = ((IDictionary<string, object>)index)[path[i]];
+						}
+						else if(p_is_grid)
+						{
+							result = index;
 						}
 						else
 						{

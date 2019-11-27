@@ -954,6 +954,11 @@ pregnancy_status <- list field
 			}
 
 			
+			if(length_between_child_birth_and_death_of_mother < -1)
+			{
+				length_between_child_birth_and_death_of_mother = -1;
+			}
+
 			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 			int pregnancy_status = -1;
 			if(!int.TryParse(pregnancy_status_string, out pregnancy_status))
