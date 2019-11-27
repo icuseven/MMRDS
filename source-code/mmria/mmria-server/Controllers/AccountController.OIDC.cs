@@ -58,7 +58,7 @@ namespace mmria.common.Controllers
             _configuration = configuration;
         }
         private IConfiguration _configuration;
-
+/*
         public ActionResult Index()
         {
             if (TempData["email"] == null)
@@ -72,7 +72,7 @@ namespace mmria.common.Controllers
             }
             return View();
         }
-
+*/
         [AllowAnonymous] 
         public ActionResult SignIn()
         {
