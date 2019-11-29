@@ -251,7 +251,7 @@ namespace mmria.server.util
 						
 						break;
 					case "grid":
-						file_name = convert_path_to_field_name(p_path);
+						file_name = convert_path_to_file_name(p_path);
 						if(p_result.ContainsKey(file_name))
 						{
 								file_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
