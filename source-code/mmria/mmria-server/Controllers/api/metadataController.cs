@@ -49,7 +49,7 @@ namespace mmria.server
 		}
 
 
-		[Authorize(Policy = "form_designer")]
+		[AllowAnonymous] 
 		[Route("{id}")]
 		[HttpGet]
 		public System.Dynamic.ExpandoObject Get(string id)
