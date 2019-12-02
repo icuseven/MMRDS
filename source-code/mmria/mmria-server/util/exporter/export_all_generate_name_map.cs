@@ -26,6 +26,8 @@ namespace mmria.server.util
 
 		private HashSet<string> de_identified_set;
 
+System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
+
 
 		private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
 		private int[] qualitativeStreamCount = new int[]{ 0,0,0 };
@@ -252,6 +254,7 @@ namespace mmria.server.util
 						break;
 					case "grid":
 						file_name = convert_path_to_file_name(p_path);
+						
 						if(p_result.ContainsKey(file_name))
 						{
 								file_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
@@ -283,11 +286,12 @@ namespace mmria.server.util
 							break;
 						}
 
-						string field_name = convert_path_to_field_name(p_path);
+						string field_name = convert_path_to_field_name(p_path, p_path_to_int_map);
+						/*
 						if(p_result.ContainsKey(field_name))
 						{
 								field_name = $"{file_name}_{p_path_to_int_map[p_path].ToString()}";
-						}
+						}*/
 						p_result[file_name].Add(p_path, field_name);
 						break;
 				}
@@ -385,6 +389,8 @@ namespace mmria.server.util
 
 			foreach (string path in p_path_to_csv_set)
 			{
+				var field_name = convert_path_to_field_name(path, p_path_to_int_map);
+
 				switch (p_path_to_node_map[path].type.ToLower())
 				{
 					case "app":
@@ -395,12 +401,12 @@ namespace mmria.server.util
 											continue;
 					case "number":
 						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString(), typeof(double));
-						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(double));
+						column = new System.Data.DataColumn(field_name, typeof(double));
 						break;
 					default:
 						
 						//column = new System.Data.DataColumn(p_path_to_int_map[path].ToString(), typeof(string));
-						column = new System.Data.DataColumn(convert_path_to_field_name(path), typeof(string));
+						column = new System.Data.DataColumn(field_name, typeof(string));
 						break;
 
 				}
@@ -458,7 +464,7 @@ namespace mmria.server.util
 
 
 
-		private string convert_path_to_field_name(string p_path)
+		private string convert_path_to_field_name(string p_path, Dictionary<string,int> p_path_to_int_map)
 		{
 			//		/birth_certificate_infant_fetal_section / causes_of_death
 			// /birth_certificate_infant_fetal_section
@@ -513,7 +519,8 @@ namespace mmria.server.util
 							{
 								result.Append(temp2[j]);
 							}
-							return result.ToString();
+
+							//return result.ToString();
 						}
 
 
@@ -527,7 +534,18 @@ namespace mmria.server.util
 				}
 			}
 
-            return result.ToString();
+			var result_value = result.ToString();
+			if(path_to_field_name_map.ContainsValue(result_value))
+			{
+				//path_to_field_name_map[p_path] = result_value;
+				result_value = result_value + "_" + p_path_to_int_map[p_path];
+				//path_to_field_name_map.Add(p_path, result_value + "_" + p_path_to_int_map[p_path]);
+			}
+
+			path_to_field_name_map.Add(p_path, result_value);
+
+
+            return result_value;
 		}
 
 
@@ -656,6 +674,8 @@ namespace mmria.server.util
 			}
 			result.Append(temp[temp.Length - 1]);
 			//result.Append(".csv");
+
+
 
             string value = result.ToString();
             if(value.Length > 32)
