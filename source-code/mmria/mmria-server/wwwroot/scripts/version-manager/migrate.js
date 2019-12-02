@@ -6,6 +6,10 @@ var g_data_view_rows = [];
 var g_save_data_rows = [];
 
 var g_list_lookup = {};
+var g_name_to_value_lookup = {};
+
+
+var g_missed_convert_output = [];
 
 var mmria_path_to_definition_name = null;
 
@@ -83,7 +87,7 @@ function get_metadata()
             g_metadata = response;
 
 
-            set_list_lookup(g_list_lookup, g_metadata, "");
+            set_list_lookup(g_list_lookup, g_name_to_value_lookup, g_metadata, "");
 
             get_case_set();
         }
@@ -115,7 +119,7 @@ function get_case_set()
     );
 }
 
-function set_list_lookup(p_list_lookup, p_metadata, p_path)
+function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_path)
 {
 
     switch(p_metadata.type.toLowerCase())
@@ -127,7 +131,7 @@ function set_list_lookup(p_list_lookup, p_metadata, p_path)
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                set_list_lookup(p_list_lookup, child, p_path + "/" + child.name);
+                set_list_lookup(p_list_lookup, p_name_to_value_lookup, child, p_path + "/" + child.name);
 
             }
 
@@ -148,10 +152,12 @@ function set_list_lookup(p_list_lookup, p_metadata, p_path)
                 }
     
                 p_list_lookup[p_path] = {};
+                p_name_to_value_lookup[p_path] = {};
                 for(let i = 0; i < data_value_list.length; i++)
                 {
                     let item = data_value_list[i];
                     p_list_lookup[p_path][item.display.toLowerCase()] = item.value;
+                    p_name_to_value_lookup[p_path][item.value] = item.display.toLowerCase();
                 }
             }
             break;
@@ -457,18 +463,33 @@ function get_value(p_path, p_data)
                     if
                     (
                         val != null && 
-                        val != "" &&
-                        data_value_list[val]
-                    )
-                    {
-                        result = data_value_list[val];
+                        val != ""
+                     )
+                     {
+                         if(data_value_list[val])
+                        {
+                            p_data[i] = data_value_list[val];
+                        }
+                        else if
+                        (   
+                            g_name_to_value_lookup[p_path][p_data[i]] == null
+                        )
+                        {
+                            g_missed_convert_output.push(`${p_path} - ${p_data[i]}`);
+                        }
                     }
-                    
                 }
             }
             else if(data_value_list[p_data])
             {
                 result = data_value_list[p_data];
+            }
+            else if
+            (   
+                g_name_to_value_lookup[p_path][p_data] == null
+            )
+            {
+                g_missed_convert_output.push(`${p_path} - ${p_data}`);
             }
         }
         else if(Array.isArray(p_data))
@@ -523,6 +544,13 @@ function get_value(p_path, p_data)
                 else if(p_data[i] == "-7")
                 {
                     result[i] = "7777";
+                }
+                else if
+                (   
+                    g_name_to_value_lookup[p_path][p_data[i]] == null
+                )
+                {
+                    g_missed_convert_output.push(`${p_path} - ${p_data[i]}`);
                 }
             }
         }
@@ -598,6 +626,20 @@ function get_value(p_path, p_data)
                 {
                     result = 3;
                 }
+                else if
+                (   
+                    g_name_to_value_lookup[p_path][p_data] == null
+                )
+                {
+                    g_missed_convert_output.push(`${p_path} - ${p_data}`);
+                }
+            }
+            else if
+            (   
+                g_name_to_value_lookup[p_path][p_data] == null 
+            )
+            {
+                g_missed_convert_output.push(`${p_path} - ${p_data}`);
             }
             
         }
@@ -614,6 +656,7 @@ function get_value(p_path, p_data)
 function migrate_cases_click()
 {
     let el = document.getElementById("output");
+    g_missed_convert_output = [];
 
     for(let i = 0; i < g_data_view_rows.length; i++)
     {
@@ -630,6 +673,22 @@ function migrate_cases_click()
     }
 
 
+}
+
+function view_conversion_misses_click()
+{
+
+    let unique_array = Array.from(new Set(g_missed_convert_output));
+
+    let el = document.getElementById("output_2").innerHTML = unique_array.sort().join("\n");
+
+    /*
+    for(let i = 0; i < g_missed_convert_output.length; i++)
+    {
+        let item = g_missed_convert_output[i];
+
+    }
+    */
 }
 
 
