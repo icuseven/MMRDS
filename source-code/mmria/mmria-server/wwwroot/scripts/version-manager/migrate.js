@@ -222,8 +222,8 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                                 else if
                                 (
                                     child.type.toLowerCase() == "list" && 
-                                    !(
-                                        child.control_style && 
+                                    (
+                                        child.control_style == null || 
                                         child.control_style.toLowerCase().indexOf("editable") == -1
                                     )
                                 )
@@ -250,10 +250,10 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                         else if
                         (
                             child.type.toLowerCase() == "list" && 
-                            !(
-                                child.control_style && 
+                            (
+                                child.control_style == null || 
                                 child.control_style.toLowerCase().indexOf("editable") == -1
-                            )
+                            )                           
                         )
                         {
                             p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
@@ -276,8 +276,8 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                     else if
                     (
                         child.type.toLowerCase() == "list" && 
-                        !(
-                            child.control_style && 
+                        (
+                            child.control_style == null || 
                             child.control_style.toLowerCase().indexOf("editable") == -1
                         )
                     )
@@ -307,8 +307,8 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                     else if
                     (
                         child.type.toLowerCase() == "list" && 
-                        !(
-                            child.control_style && 
+                        (
+                            child.control_style == null || 
                             child.control_style.toLowerCase().indexOf("editable") == -1
                         )
                     )
@@ -337,10 +337,11 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                         else if
                         (
                             child.type.toLowerCase() == "list" && 
-                            !(
-                                child.control_style && 
+                            (
+                                child.control_style == null || 
                                 child.control_style.toLowerCase().indexOf("editable") == -1
                             )
+                            
                         )
                         {
                             grid_item[child.name] = get_value(p_path + "/" + child.name, grid_item[child.name])
@@ -353,8 +354,8 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
             if
             (
                 p_metadata.type.toLowerCase() == "list" && 
-                !(
-                    p_metadata.control_style && 
+                (
+                    p_metadata.control_style == null || 
                     p_metadata.control_style.toLowerCase().indexOf("editable") == -1
                 )
             )
