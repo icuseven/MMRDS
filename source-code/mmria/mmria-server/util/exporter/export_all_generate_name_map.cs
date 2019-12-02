@@ -538,7 +538,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 			if(path_to_field_name_map.ContainsValue(result_value))
 			{
 				//path_to_field_name_map[p_path] = result_value;
-				result_value = result_value + "_" + p_path_to_int_map[p_path];
+				result_value = result_value + "_" + p_path_to_int_map[p_path.Substring(1, p_path.Length -1)];
 				//path_to_field_name_map.Add(p_path, result_value + "_" + p_path_to_int_map[p_path]);
 			}
 
