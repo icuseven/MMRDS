@@ -367,9 +367,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                     <li>
                                         <p class="mb-2 font-weight-bold">
                                             Reviewer's Notes from <a href="${noteURL}/${i}">Case Form</a>: Record ${i + 1}
-                                            ${!isNullOrUndefined(recordType) ? `· ${recordType}` : ''}
-                                            ${!isNullOrUndefined(birthOrder) ? `· ${birthOrder}` : ''}
-                                            ${!isNullOrUndefined(timeOfDelivery) ? `· ${timeOfDelivery}` : ''}
+                                            ${!isNullOrUndefined(recordType) ? `– ${recordType}` : ''}
+                                            ${!isNullOrUndefined(birthOrder) ? `– ${birthOrder}` : ''}
+                                            ${!isNullOrUndefined(timeOfDelivery) ? `– ${timeOfDelivery}` : ''}
                                         </p>
                                         <p>${!noteText[i].reviewer_note ? '<em>No data entered</em>' : noteText[i].reviewer_note}</p>
                                     </li>
@@ -493,9 +493,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                                 arrivalMonth != '9999' &&
                                                 arrivalDay != '9999' &&
                                                 arrivalYear != '9999' ?
-                                                `· ${arrivalMonth}/${arrivalDay}/${arrivalYear}` : ''
+                                                `– ${arrivalMonth}/${arrivalDay}/${arrivalYear}` : ''
                                             }
-                                            ${!isNullOrUndefined(dischargeStatus) ? `· ${dischargeStatus}` : ''}
+                                            ${!isNullOrUndefined(dischargeStatus) ? `– ${dischargeStatus}` : ''}
                                         </p>
                                         <p>${!noteText[i].reviewer_note ? '<em>No data entered</em>' : noteText[i].reviewer_note}</p>
                                     </li>
@@ -647,11 +647,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                                 month != '9999' &&
                                                 day != '9999' &&
                                                 year != '9999' ?
-                                                `· ${month}/${day}/${year}` : ''
+                                                `– ${month}/${day}/${year}` : ''
                                             }
-                                            ${!isNullOrUndefined(visitType) ? `· ${visitType}` : ''}
-                                            ${!isNullOrUndefined(providerType) ? `· ${providerType}` : ''}
-                                            ${!isNullOrUndefined(pregnancyStatus) ? `· ${pregnancyStatus}` : ''}
+                                            ${!isNullOrUndefined(visitType) ? `– ${visitType}` : ''}
+                                            ${!isNullOrUndefined(providerType) ? `– ${providerType}` : ''}
+                                            ${!isNullOrUndefined(pregnancyStatus) ? `– ${pregnancyStatus}` : ''}
                                         </p>
                                         <p>${!noteText[i].reviewer_note ? '<em>No data entered</em>' : noteText[i].reviewer_note}</p>
                                     </li>
@@ -708,9 +708,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                                 month != '9999' &&
                                                 day != '9999' &&
                                                 year != '9999' ?
-                                                `· ${month}/${day}/${year}` : ''
+                                                `– ${month}/${day}/${year}` : ''
                                             }
-                                            ${!isNullOrUndefined(transportReason) ? `· ${transportReason}` : ''}
+                                            ${!isNullOrUndefined(transportReason) ? `– ${transportReason}` : ''}
                                         </p>
                                         <p>${!noteText[i].reviewer_note ? '<em>No data entered</em>' : noteText[i].reviewer_note}</p>
                                     </li>
@@ -901,10 +901,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                                 month != '9999' &&
                                                 day != '9999' &&
                                                 year != '9999' ?
-                                                `· ${month}/${day}/${year}` : ''
+                                                `– ${month}/${day}/${year}` : ''
                                             }
-                                            ${!isNullOrUndefined(interviewType) ? `· ${interviewType}` : ''}
-                                            ${!isNullOrUndefined(relationshipToDeceased) ? `· ${relationshipToDeceased}` : ''}
+                                            ${!isNullOrUndefined(interviewType) ? `– ${interviewType}` : ''}
+                                            ${!isNullOrUndefined(relationshipToDeceased) ? `– ${relationshipToDeceased}` : ''}
                                         </p>
                                         <p>${!noteText[i].reviewer_note ? '<em>No data entered</em>' : noteText[i].reviewer_note}</p>
                                     </li>
