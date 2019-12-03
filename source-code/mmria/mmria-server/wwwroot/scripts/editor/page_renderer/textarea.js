@@ -16,7 +16,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         let info = p_metadata.prompt.replace(/Case Narrative-/, ''); // Remove the 'Case Narrative-' string in the prompt
 
         p_result.push(`
-            <label for="${p_metadata.name}" class="h3 mb-2">Case Narrative</label>
+            <label for="${p_metadata.name}" class="h3 font-weight-bold mb-2">Case Narrative</label>
             <div class="form-group">
                 <p class="font-weight-bold">${info}</p>
                 <textarea id="${p_metadata.name}" class="form-control" rows="15">${p_data}</textarea>
