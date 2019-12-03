@@ -1502,7 +1502,6 @@ function open_blank_version(p_section)
 }
 
 
-
 function add_new_form_click(p_metadata_path, p_object_path)
 {
   console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
@@ -1537,10 +1536,12 @@ function create_save_message()
 {
 	var result = [];
 
-	result.push('<div class="alert alert-success alert-dismissible">');
-	result.push('<button class="close" data-dismiss="alert" aria-label="close">&times;</button>');
-	result.push('<p>Case information has been saved</p>');
-	result.push('</div>');
+  result.push(`
+    <div class="alert alert-success alert-dismissible">
+      <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
+      <p>Case information has been saved</p>
+    </div>
+  `);
 
 	document.getElementById("nav_status_area").innerHTML = result.join("");
 
