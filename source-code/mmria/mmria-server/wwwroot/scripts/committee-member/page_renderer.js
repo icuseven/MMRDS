@@ -536,7 +536,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			   
 		case 'address':
 		case 'textarea':
-				result.push("<div  class='textarea' id='");
+				result.push("<div class='textarea' id='");
 				result.push(p_object_path);
 				result.push("'><span ");
 				if(p_metadata.description && p_metadata.description.length > 0)
