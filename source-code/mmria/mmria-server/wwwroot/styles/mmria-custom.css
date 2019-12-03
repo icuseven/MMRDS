@@ -698,7 +698,6 @@ button.link {
 
 .is-read-only {
   background-color: var(--neutral-light);
-  cursor: auto;
 }
 
 
