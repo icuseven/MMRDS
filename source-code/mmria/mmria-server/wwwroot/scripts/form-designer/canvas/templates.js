@@ -156,7 +156,7 @@ let fdTemplates = {
             listOptions: function (data, formName) 
             { 
                 let values;
-                if (data.path_reference !== undefined) 
+                if (data.path_reference != null && data.path_reference != "" && data.path_reference !== undefined) 
                 {
 
                     let p = data.path_reference.split("/")[1];
