@@ -21,6 +21,7 @@ var g_MMRIA_Calculations = null;
 var g_validation = null;
 var g_ui_specification = null;
 
+
 var case_view_request = {
     total_rows: 0,
     page :1,
@@ -507,6 +508,10 @@ function get_value(p_path, p_data)
                 {
                     result[i] = data_value_list[item];
                 }
+                else if (typeof item === "boolean")
+                {
+                    g_missed_convert_output.push(`${p_path} - ${item}`);
+                }
                 else if(!is_number_regex.test(data_value_list[item]) && data_value_list[item.toLowerCase()])
                 {
                     result[i] = data_value_list[item.toLowerCase()];
@@ -564,6 +569,10 @@ function get_value(p_path, p_data)
             else if(is_number_regex.test(p_data) && data_value_list[p_data])
             {
                 result = data_value_list[p_data];
+            }
+            else if (typeof item === "boolean")
+            {
+                g_missed_convert_output.push(`${p_path} - ${p_data}`);
             }
             else if(!is_number_regex.test(p_data) && data_value_list[p_data.toLowerCase()])
             {
@@ -648,6 +657,7 @@ function get_value(p_path, p_data)
     catch(ex)
     {
         console.log(ex);
+        g_missed_convert_output.push(`${p_path} - ${p_data}`);
     }
 
     return result;
