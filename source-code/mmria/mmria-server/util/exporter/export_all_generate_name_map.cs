@@ -208,7 +208,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 			try
 			{
-				switch(p_metadata.type)
+				switch(p_metadata.type.ToLower())
 				{
 					case "form":
 						if

@@ -60,6 +60,8 @@ function get_version_click()
 
 function get_name_map_click()
 {
+    document.getElementById("add_attachment_document_content").value = "";
+
     let version_id = document.getElementById("available_version").value;
   	$.ajax({
             //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
@@ -106,6 +108,8 @@ function get_core_name_map()
                     
                 }
             }
+
+            document.getElementById("add_attachment_document_content").value = "get name map finished";
 	});
 }
 
