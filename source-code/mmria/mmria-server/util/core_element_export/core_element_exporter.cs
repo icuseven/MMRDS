@@ -502,25 +502,24 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 			}
 
-/*
+
 			Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 			foreach (KeyValuePair<string, int> ptn in path_to_int_map)
 			{
-				//int_to_path_map.Add(ptn.Value.ToString("X"), ptn.Key);
-				string key = path_to_field_name_map[ptn.Key];
-				if (int_to_path_map.ContainsKey(key))
+				if(path_to_field_name_map.ContainsKey(ptn.Key))
 				{
-					int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
-				}
-				else
-				{
-					int_to_path_map.Add(key, ptn.Key);
-				}
-					
-
-
+					string key = path_to_field_name_map[ptn.Key];
+					if (int_to_path_map.ContainsKey(key))
+					{
+						int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
+					}
+					else
+					{
+						int_to_path_map.Add(key, ptn.Key);
+					}
+				}	
 			}
-			*/
+			
 
 			WriteCSV mapping_document = new WriteCSV("data-dictionary.csv",  this.item_directory_name, Configuration.export_directory);
 			System.Data.DataColumn column = null;
@@ -555,7 +554,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 				{
 					System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
 					mapping_row["file_name"] = kvp.Key;
-/*
+
 					if (int_to_path_map.ContainsKey(table_column.ColumnName))
 					{
 						string path = int_to_path_map [table_column.ColumnName];
@@ -564,7 +563,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 						mapping_row ["field_description"] = path_to_node_map [path].description;
 					}
 					else
-					{*/
+					{
 						switch (table_column.ColumnName)
 						{
 							case "_record_index":
@@ -573,7 +572,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 								mapping_row["mmria_path"] = table_column.ColumnName;
 								break;
 						}
-					//}
+					}
 
 					mapping_row["column_name"] = table_column.ColumnName;
 

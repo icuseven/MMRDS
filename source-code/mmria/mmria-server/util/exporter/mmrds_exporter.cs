@@ -953,21 +953,23 @@ namespace mmria.server.util
 
 			Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-			/*
+			
 			foreach (KeyValuePair<string, int> ptn in path_to_int_map)
 			{
-				
-				string key = convert_path_to_field_name(ptn.Key);
-				if (int_to_path_map.ContainsKey(key))
+				if(path_to_field_name_map.ContainsKey(ptn.Key))
 				{
-					int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
-				}
-				else
-				{
-					int_to_path_map.Add(key, ptn.Key);
+					string key = path_to_field_name_map[ptn.Key];
+					if (int_to_path_map.ContainsKey(key))
+					{
+						int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
+					}
+					else
+					{
+						int_to_path_map.Add(key, ptn.Key);
+					}
 				}
 			}
-			*/
+
 
 			WriteCSV mapping_document = new WriteCSV("data-dictionary.csv", this.item_directory_name, Configuration.export_directory);
 			System.Data.DataColumn column = null;
@@ -1002,7 +1004,7 @@ namespace mmria.server.util
 					System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
 					mapping_row["file_name"] = kvp.Key;
 
-					/*
+					
 					if (int_to_path_map.ContainsKey(table_column.ColumnName))
 					{
 						string path = int_to_path_map [table_column.ColumnName];
@@ -1011,7 +1013,7 @@ namespace mmria.server.util
 						mapping_row ["field_description"] = path_to_node_map [path].description;
 					}
 					else
-					{*/
+					{
 
 						switch (table_column.ColumnName)
 						{
@@ -1021,7 +1023,7 @@ namespace mmria.server.util
 								mapping_row["mmria_path"] = table_column.ColumnName;
 								break;
 						}
-					//}
+					}
 
 					mapping_row["column_name"] = table_column.ColumnName;
 
