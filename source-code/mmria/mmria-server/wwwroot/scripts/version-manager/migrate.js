@@ -570,9 +570,20 @@ function get_value(p_path, p_data)
             {
                 result = data_value_list[p_data];
             }
-            else if (typeof item === "boolean")
+            else if (typeof p_data === "boolean")
             {
-                g_missed_convert_output.push(`${p_path} - ${p_data}`);
+                if(p_data && data_value_list["yes"])
+                {
+                    result = data_value_list["yes"];
+                }
+                else if(data_value_list["no"])
+                {
+                    result = data_value_list["no"];
+                }
+                else
+                {
+                    g_missed_convert_output.push(`${p_path} - ${p_data}`);
+                }
             }
             else if(!is_number_regex.test(p_data) && data_value_list[p_data.toLowerCase()])
             {
@@ -643,6 +654,10 @@ function get_value(p_path, p_data)
                 {
                     g_missed_convert_output.push(`${p_path} - ${p_data}`);
                 }
+            }
+            else if(p_path == "/birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin" && p_data == "Yes, other Spanish/ Hispanic/ Latino")
+            {
+                result = 4;
             }
             else if
             (   
