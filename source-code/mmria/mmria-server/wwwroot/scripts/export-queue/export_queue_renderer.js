@@ -27,7 +27,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 			<div class="col">
 				<ol class="font-weight-bold pl-3">
 					<li class="mb-4">
-						<label for="grantee-name" class="mb-3">The grantee name that will be added to each exported case is:</label>
+						<label for="grantee-name" class="mb-3">The Jurisdiction name that will be added to each exported case is:</label>
 						<input id="grantee-name"
 							 class="form-control w-auto"
 							 type="text"
@@ -430,7 +430,7 @@ function export_queue_comfirm_render(p_answer_summary)
 			<div class="card-body bg-gray-l3">
 				<ul>
 					<li>
-						Export/Grantee name: ${p_answer_summary.grantee_name}
+						Export/Jurisdiction name: ${p_answer_summary.grantee_name}
 					</li>
 
 					<li>
