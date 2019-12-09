@@ -1,21 +1,24 @@
-function create_default_object(p_metadata, p_parent)
+function create_default_object(p_metadata, p_parent, p_create_grid)
 {
 
   switch(p_metadata.type.toLowerCase())
   {
     case 'grid':
       p_parent[p_metadata.name] = [];
-
-      if(p_metadata.name != "recommendations_of_committee")
+      
+      if(p_create_grid)
       {
-
-        var sample_grid_item = {};
-        for(var i = 0; i < p_metadata.children.length; i++)
+        if(p_metadata.name != "recommendations_of_committee")
         {
-          var child = p_metadata.children[i];
-          create_default_object(child, sample_grid_item);
+
+          var sample_grid_item = {};
+          for(var i = 0; i < p_metadata.children.length; i++)
+          {
+            var child = p_metadata.children[i];
+            create_default_object(child, sample_grid_item);
+          }
+          p_parent[p_metadata.name].push(sample_grid_item);
         }
-        p_parent[p_metadata.name].push(sample_grid_item);
       }
       break;
     case 'form':
@@ -105,7 +108,7 @@ function create_default_object(p_metadata, p_parent)
         }
         else
         {
-          p_parent[p_metadata.name] = "";
+          p_parent[p_metadata.name] = "9999";
         }
             
         break;

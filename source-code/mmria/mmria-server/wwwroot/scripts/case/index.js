@@ -271,7 +271,7 @@ function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionar
 function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 {
   var metadata = eval(p_metadata_path);
-  var new_line_item = create_default_object(metadata, {});
+  var new_line_item = create_default_object(metadata, {}, true);
 
   eval(p_object_path).push(new_line_item[metadata.name][0]);
 
