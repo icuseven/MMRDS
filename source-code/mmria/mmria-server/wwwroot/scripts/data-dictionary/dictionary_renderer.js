@@ -214,11 +214,21 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 			if(p_search_text != null && p_search_text !="")
 			{
 				let is_search_match = false;
-				let search_array = p_search_text.split(" ");
+				let search_array = p_search_text.trim().split(" ");
 				
 				for(let i = 0; i < search_array.length; i++)
 				{
-					let search_term = search_array[i].toLowerCase();
+					let search_term = search_array[i].toLowerCase().trim();
+					
+					if
+					(
+						search_term == null || 
+						search_term == ""
+					)
+					{
+						continue;
+					}
+
 					for(let j = 0; j < p_metadata.tags.length; j++)
 					{
 						let check_item = p_metadata.tags[j].toLowerCase();
@@ -235,10 +245,10 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				(
 					!is_search_match && 
 					!(
-						p_metadata.name.indexOf(p_search_text) > -1 ||
-						p_metadata.prompt.indexOf(p_search_text) > -1 ||
-						file_name.indexOf(p_search_text) > -1 ||
-						field_name.indexOf(p_search_text) > -1
+						p_metadata.name.indexOf(p_search_text.trim()) > -1 ||
+						p_metadata.prompt.indexOf(p_search_text.trim()) > -1 ||
+						file_name.indexOf(p_search_text.trim()) > -1 ||
+						field_name.indexOf(p_search_text.trim()) > -1
 					)
 				
 				)
