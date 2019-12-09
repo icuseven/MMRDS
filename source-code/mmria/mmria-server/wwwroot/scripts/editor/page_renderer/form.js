@@ -230,23 +230,25 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
                 if(g_data.home_record.record_id)
                 {
-                p_result.push("<p class='construct__info mb-1'>");
+                    p_result.push("<p class='construct__info mb-1'>");
                     p_result.push("<strong>Record ID:</strong> " + g_data.home_record.record_id);
-                p_result.push("</p>");
+                    p_result.push("</p>");
                 }
-                p_result.push("<p class='construct__subtitle'");
-                    if(p_metadata.description && p_metadata.description.length > 0)
-                    {
-                        p_result.push("rel='tooltip' data-original-title='");
-                        p_result.push(p_metadata.description.replace(/'/g, "\\'"));
-                        p_result.push("'>");
-                    }
-                    else
-                    {
-                        p_result.push(">");
-                    }
 
-                    p_result.push(p_metadata.prompt);
+                p_result.push("<p class='construct__subtitle'");
+
+                if(p_metadata.description && p_metadata.description.length > 0)
+                {
+                    p_result.push("rel='tooltip' data-original-title='");
+                    p_result.push(p_metadata.description.replace(/'/g, "\\'"));
+                    p_result.push("'>");
+                }
+                else
+                {
+                    p_result.push(">");
+                }
+
+                p_result.push(p_metadata.prompt);
                 p_result.push("</p>");
 
             p_result.push("</div>");
@@ -293,8 +295,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     `);
 
                     //~~~ death_certificate/reviewer_note
-                    for (let key in g_data) {
-                        if (key == 'death_certificate') {
+                    for (let key in g_data) 
+                    {
+                        if (key == 'death_certificate') 
+                        {
                             noteTitle = 'Death Certificate';
                             noteText = g_data[key];
                             noteURL = window.location.hash.replace('case_narrative', 'death_certificate');
@@ -312,8 +316,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     // p_result.push("</textarea></label></p>");
 
                     //~~~ birth_fetal_death_certificate_parent/reviewer_note
-                    for (let key in g_data) {
-                        if (key == 'birth_fetal_death_certificate_parent') {
+                    for (let key in g_data) 
+                    {
+                        if (key == 'birth_fetal_death_certificate_parent')
+                         {
                             noteTitle = 'Birth/Fetal Death Certificate- Parent Section';
                             noteText = g_data[key];
                             noteURL = window.location.hash.replace('case_narrative', key);
@@ -331,8 +337,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     // p_result.push("</textarea></label></p>");
 
                     //~~~ birth_certificate_infant_fetal_section/reviewer_note
-                    for (let key in g_data) {
-                        if (key == 'birth_certificate_infant_fetal_section') {
+                    for (let key in g_data) 
+                    {
+                        if (key == 'birth_certificate_infant_fetal_section') 
+                        {
                             let recordType = null; // g_data[key][i].record_type
                             let birthOrder = null; // g_data[key][i].birth_order
                             let timeOfDelivery = null; // g_data[key][i].record_identification.time_of_deliverys
@@ -345,23 +353,15 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 <ul class="list-unstyled">
                             `);
 
-                            for (let i = 0; i < noteText.length; i++) {
+                            for (let i = 0; i < noteText.length; i++) 
+                            {
                                 recordType = g_data[key][i].record_type;
                                 birthOrder = g_data[key][i].birth_order;
                                 timeOfDelivery = g_data[key][i].record_identification.time_of_delivery;
-                                
-                                if (recordType == '0')
-                                {
-                                    recordType = 'Live Birth';
-                                }
-                                else if (recordType == '1')
-                                {
-                                    recordType = 'Fetal Death';
-                                }
-                                else
-                                {
-                                    recordType = null;
-                                }
+
+                                recordType = g_value_to_display_lookup["/birth_certificate_infant_fetal_section/record_type"][g_data[key][i].record_type];
+                                birthOrder = g_data[key][i].birth_order;
+                                timeOfDelivery = g_data[key][i].time_of_delivery;
 
                                 p_result.push(`
                                     <li>
@@ -394,8 +394,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     // }
                     
                     //~~~ autopsy_report/reviewer_note
-                    for (let key in g_data) {
-                        if (key == 'autopsy_report') {
+                    for (let key in g_data) 
+                    {
+                        if (key == 'autopsy_report') 
+                        {
                             noteTitle = 'Autopsy Report';
                             noteText = g_data[key];
                             noteURL = window.location.hash.replace('case_narrative', key);
@@ -413,8 +415,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     // p_result.push("</textarea></label></p>");
 
                     //~~~ prenatal/reviewer_note
-                    for (let key in g_data) {
-                        if (key == 'prenatal') {
+                    for (let key in g_data) 
+                    {
+                        if (key == 'prenatal') 
+                        {
                             noteTitle = 'Prenatal Care Record';
                             noteText = g_data[key];
                             noteURL = window.location.hash.replace('case_narrative', key);
@@ -433,7 +437,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     
                     //~~~ er_visit_and_hospital_medical_records/reviewer_note
                     for (let key in g_data) {
-                        if (key == 'er_visit_and_hospital_medical_records') {
+                        if (key == 'er_visit_and_hospital_medical_records') 
+                        {
                             let arrivalMonth = null; // er_visit_and_hospital_medical_records[0].basic_admission_and_discharge_information.date_of_arrival.month
                             let arrivalDay = null; // er_visit_and_hospital_medical_records[0].basic_admission_and_discharge_information.date_of_arrival.day
                             let arrivalYear = null; // er_visit_and_hospital_medical_records[0].basic_admission_and_discharge_information.date_of_arrival.year
@@ -447,40 +452,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 <ul class="list-unstyled">
                             `);
 
-                            for (let i = 0; i < noteText.length; i++) {
+                            for (let i = 0; i < noteText.length; i++) 
+                            {
                                 arrivalMonth = g_data[key][i].basic_admission_and_discharge_information.date_of_arrival.month;
                                 arrivalDay = g_data[key][i].basic_admission_and_discharge_information.date_of_arrival.day;
                                 arrivalYear = g_data[key][i].basic_admission_and_discharge_information.date_of_arrival.year;
-                                dischargeStatus = g_data[key][i].basic_admission_and_discharge_information.discharge_pregnancy_status;
-
-                                if (dischargeStatus == '0')
-                                {
-                                    dischargeStatus = 'Pregnant, released undelivered';
-                                }
-                                else if (dischargeStatus == '1')
-                                {
-                                    dischargeStatus = 'Pregnant, released postpartum';
-                                }
-                                else if (dischargeStatus == '2')
-                                {
-                                    dischargeStatus = 'Not pregnant, but pregnant within the last 12 months';
-                                }
-                                else if (dischargeStatus == '3')
-                                {
-                                    dischargeStatus = 'Not pregnant, prior 12 months unknown';
-                                }
-                                else if (dischargeStatus == '4')
-                                {
-                                    dischargeStatus = 'Not evaluated for pregnancy';
-                                }
-                                else if (dischargeStatus == '8888')
-                                {
-                                    dischargeStatus = 'Not Specified';
-                                }
-                                else 
-                                {
-                                    dischargeStatus = null;
-                                }
+                                dischargeStatus = g_value_to_display_lookup["/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/discharge_pregnancy_status"][g_data[key][i].basic_admission_and_discharge_information.discharge_pregnancy_status];
 
                                 p_result.push(`
                                     <li>
@@ -521,7 +498,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     
                     //~~~ other_medical_office_visits/reviewer_note
                     for (let key in g_data) {
-                        if (key == 'other_medical_office_visits') {
+                        if (key == 'other_medical_office_visits') 
+                        {
                             let month = null; // g_data[key][i].visit.date_of_medical_office_visit.month
                             let day = null; // g_data[key][i].visit.date_of_medical_office_visit.day
                             let year = null; // g_data[key][i].visit.date_of_medical_office_visit.year
@@ -537,7 +515,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 <ul class="list-unstyled">
                             `);
 
-                            for (let i = 0; i < noteText.length; i++) {
+                            for (let i = 0; i < noteText.length; i++) 
+                            {
                                 month = g_data[key][i].visit.date_of_medical_office_visit.month;
                                 day = g_data[key][i].visit.date_of_medical_office_visit.day;
                                 year = g_data[key][i].visit.date_of_medical_office_visit.year;

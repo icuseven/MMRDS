@@ -989,3 +989,50 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
     p_result.push(p_is_read_only);
     p_result.push("></input>");
 }
+
+
+function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_metadata, p_path)
+{
+
+    switch(p_metadata.type.toLowerCase())
+    {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                set_list_lookup(p_list_lookup, p_name_to_value_lookup, child, p_path + "/" + child.name);
+
+            }
+
+            break;
+        default:
+            if(p_metadata.type.toLowerCase() == "list")
+            {
+                let data_value_list = p_metadata.values;
+
+                if(p_metadata.path_reference && p_metadata.path_reference != "")
+                {
+                    data_value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+            
+                    if(data_value_list == null)	
+                    {
+                        data_value_list = p_metadata.values;
+                    }
+                }
+    
+                p_list_lookup[p_path] = {};
+                p_name_to_value_lookup[p_path] = {};
+                for(let i = 0; i < data_value_list.length; i++)
+                {
+                    let item = data_value_list[i];
+                    p_list_lookup[p_path][item.display.toLowerCase()] = item.value;
+                    p_name_to_value_lookup[p_path][item.value] = item.display.toLowerCase();
+                }
+            }
+            break;
+
+    }
+}

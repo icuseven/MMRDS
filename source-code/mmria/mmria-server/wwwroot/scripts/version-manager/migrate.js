@@ -5,7 +5,7 @@ var g_data = null;
 var g_data_view_rows = [];
 var g_save_data_rows = [];
 
-var g_list_lookup = {};
+var g_value_to_name_lookup = {};
 var g_name_to_value_lookup = {};
 
 
@@ -88,7 +88,7 @@ function get_metadata()
             g_metadata = response;
 
 
-            set_list_lookup(g_list_lookup, g_name_to_value_lookup, g_metadata, "");
+            set_list_lookup(g_value_to_name_lookup, g_name_to_value_lookup, g_metadata, "");
 
             get_case_set();
         }
@@ -361,7 +361,7 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                 )
             )
             {
-                let data_value_list = g_list_lookup[p_path];
+                let data_value_list = g_value_to_name_lookup[p_path];
 
                 if(Array.isArray(p_data))
                 {
@@ -438,7 +438,7 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
 
 function get_value(p_path, p_data)
 {
-    let data_value_list = g_list_lookup[p_path];
+    let data_value_list = g_value_to_name_lookup[p_path];
     let result = p_data;
 
     let is_number_regex = /^\-?\d+\.?\d*$/;
