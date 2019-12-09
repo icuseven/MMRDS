@@ -217,7 +217,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 				false
 			);
 
-			var grantee_column = new System.Data.DataColumn("export_grantee_name", typeof(string));
+			var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
 			
 			grantee_column.DefaultValue = queue_item.grantee_name;
 			path_to_csv_writer[core_file_name].Table.Columns.Add(grantee_column);

@@ -213,7 +213,7 @@ namespace mmria.server.util
 				false
 			);
 
-			var grantee_column = new System.Data.DataColumn("export_grantee_name", typeof(string));
+			var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
 			
 			grantee_column.DefaultValue = queue_item.grantee_name;
 			path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
