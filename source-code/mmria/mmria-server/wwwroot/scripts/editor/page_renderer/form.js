@@ -95,7 +95,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     
                                 p_result.push('</a></td>');
                                 
-                                p_result.push('<td class="td td--25"><button class="btn btn-primary" onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\')');
+                                p_result.push('<td class="td td--25"><button class="btn btn-primary" onclick="g_delete_record_item(\'' + p_object_path + "[" + i + "]" + '\', \'' + p_metadata_path + '\',\'' + i + '\')');
                                 p_result.push("\">");
                                 p_result.push('Delete Record');
                                 // p_result.push('Delete Record ');
