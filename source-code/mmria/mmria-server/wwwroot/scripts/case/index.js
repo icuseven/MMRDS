@@ -277,8 +277,9 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
   var metadata = eval(p_metadata_path);
   var new_line_item = create_default_object(metadata, {}, true);
 
-  eval(p_object_path).push(new_line_item[metadata.name][0]);
+  let grid = eval(p_object_path);
 
+  grid.push(new_line_item[metadata.name][0]);
   set_local_case(g_data, function()
   {
     var post_html_call_back = [];
@@ -289,26 +290,18 @@ function g_add_grid_item(p_object_path, p_metadata_path, p_dictionary_path)
 
     apply_tool_tips();
 
+    let jump_value = 9999;
+
+    post_html_call_back.push(
+    `document.getElementById("${p_metadata_path}").children[1].scrollTop = ${jump_value};`
+    );
+
     if(post_html_call_back.length > 0)
     {
       eval(post_html_call_back.join(""));
     }
 
-    let list = element.querySelector('ul');
-    
-    // if (count > 0) {
-    //   let item = items[count - 1];
-    //   item = $(item);
-    //   list = $(list);
 
-    //   setTimeout(() => {
-    //     list.scrollTop(list.scrollTop() + item.position().top)
-
-    //     // item.scrollIntoView({
-    //     //   behavior: 'smooth'
-    //     // });
-    //   }, 100)
-    // }
   });
 }
 
