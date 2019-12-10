@@ -1736,7 +1736,7 @@ function editor_add_to_attributes(e, p_ui)
 				window.dispatchEvent(metadata_changed_event);
 				break;				
 			default:
-				console.log("e.value, path", element.value, e.attributes['path'].value);
+				//console.log("e.value, path", element.value, e.attributes['path'].value);
 				break;
 			
 		}

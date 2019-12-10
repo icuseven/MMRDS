@@ -280,7 +280,7 @@ function load_metadata_click()
 {
     get_metadata();
 }
-
+/*
 function generate_schema_click()
 {
 
@@ -302,7 +302,7 @@ function generate_code_click()
 
     get_cs_code(json);
 }
-
+*/
 
 
 function create_new_version_click()
@@ -818,6 +818,7 @@ function generate_definition_from_metadata(p_metadata)
 
 }
 
+/*
 function generate_definition_click()
 {
 
@@ -828,7 +829,7 @@ function generate_definition_click()
     let schema = generate_definition_from_metadata(json);
     document.getElementById("json_schema").value = JSON.stringify(schema);
 }
-
+*/
 
 function set_all_lists_in_definition(p_definitions, p_metadata, p_path)
 {

@@ -161,7 +161,7 @@ function load_users()
 			}
 			//console.log(temp);
 			g_ui.user_summary_list = temp;
-			console.log(g_ui.user_summary_list);
+			//console.log(g_ui.user_summary_list);
 			g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_uid).join("");
