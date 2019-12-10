@@ -29,17 +29,28 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
         create_default_object(child, temp_object);
       }
 
-      if
-      (
-        p_metadata.cardinality && 
-        (
-          p_metadata.cardinality == "+" ||
-          p_metadata.cardinality == "*"
-        )
-      )
+      if(p_metadata.cardinality)
       {
-        p_parent[p_metadata.name] = [];
-        p_parent[p_metadata.name].push(temp_object);
+        switch(p_metadata.cardinality)
+        {
+          case "+":
+          case "*":
+              if(p_create_grid)
+              {
+                p_parent[p_metadata.name] = [];
+                p_parent[p_metadata.name].push(temp_object);
+              }
+              else
+              {
+                p_parent[p_metadata.name] = [];
+              }
+              break;
+          case "?":
+          case "1":
+          default:
+              p_parent[p_metadata.name] = temp_object;
+            break;
+        }
       }
       else
       {

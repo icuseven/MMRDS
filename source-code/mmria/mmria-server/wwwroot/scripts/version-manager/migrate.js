@@ -10,6 +10,7 @@ var g_name_to_value_lookup = {};
 
 
 var g_missed_convert_output = [];
+var g_passed_convert_output = [];
 
 var mmria_path_to_definition_name = null;
 
@@ -562,7 +563,11 @@ function get_value(p_path, p_data)
         }
         else
         {
-            if(p_data == null || p_data =="")
+            if(p_data == null)
+            {
+                result = data_value_list["(blank)"];
+            }
+            else if(p_data =="")
             {
                 result = data_value_list["(blank)"];
             }
@@ -666,6 +671,10 @@ function get_value(p_path, p_data)
             {
                 g_missed_convert_output.push(`${p_path} - ${p_data}`);
             }
+            else
+            {
+                g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+            }
             
         }
     }
@@ -705,16 +714,11 @@ function view_conversion_misses_click()
 {
 
     let unique_array = Array.from(new Set(g_missed_convert_output));
+    let unique_passed_array = Array.from(new Set(g_passed_convert_output));
+    
+    document.getElementById("output_2").innerHTML = unique_array.sort().join("\n");
+    //document.getElementById("output_2").innerHTML = "missed values\n\n" + unique_array.sort().join("\n") + "\n\n\npassed values:\n" + unique_passed_array.sort().join("\n");
 
-    let el = document.getElementById("output_2").innerHTML = unique_array.sort().join("\n");
-
-    /*
-    for(let i = 0; i < g_missed_convert_output.length; i++)
-    {
-        let item = g_missed_convert_output[i];
-
-    }
-    */
 }
 
 

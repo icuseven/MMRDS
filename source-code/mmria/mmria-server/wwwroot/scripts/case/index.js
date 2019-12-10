@@ -1508,7 +1508,7 @@ function add_new_form_click(p_metadata_path, p_object_path)
   var metadata = eval(p_metadata_path);
   var form_array = eval(p_object_path);
 
-  var new_form = create_default_object(metadata, {});
+  var new_form = create_default_object(metadata, {}, true);
   var item = new_form[metadata.name][0];
   form_array.push(item);
 
