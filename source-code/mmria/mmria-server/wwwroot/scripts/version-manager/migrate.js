@@ -457,11 +457,11 @@ function get_value(p_path, p_data)
         {
             if(Array.isArray(p_data))
             {
-                result = "";
+                result = 9999;
 
                 for(let i = 0; i < p_data.length; i++)
                 {
-                    let val = p_data[i];
+                    let val = p_data[i].toLowerCase();
 
                     if
                     (
@@ -471,7 +471,8 @@ function get_value(p_path, p_data)
                      {
                          if(data_value_list[val])
                         {
-                            p_data[i] = data_value_list[val];
+                            //p_data[i] = data_value_list[val];
+                            result = data_value_list[val];
                         }
                         else if
                         (   
@@ -483,13 +484,13 @@ function get_value(p_path, p_data)
                     }
                 }
             }
-            else if(data_value_list[p_data])
+            else if(data_value_list[p_data.toLowerCase()])
             {
-                result = data_value_list[p_data];
+                result = data_value_list[p_data.toLowerCase()];
             }
             else if
             (   
-                g_name_to_value_lookup[p_path][p_data] == null
+                g_name_to_value_lookup[p_path][p_data.toLowerCase()] == null
             )
             {
                 g_missed_convert_output.push(`${p_path} - ${p_data}`);
@@ -575,13 +576,24 @@ function get_value(p_path, p_data)
             {
                 result = data_value_list[p_data];
             }
-            else if 
-            (
-                typeof p_data === "boolean" &&      
-                p_path != "/social_and_environmental_profile/health_care_system/no_prenatal_care"
-            )
+            else if(typeof p_data === "boolean")
             {
-                if(p_data && data_value_list["yes"])
+                if
+                (
+                    p_path == "/social_and_environmental_profile/health_care_system/no_prenatal_care"
+                )
+                {
+                    if(p_data)
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        result = 1;
+                    }
+                    
+                }
+                else if(p_data && data_value_list["yes"])
                 {
                     result = data_value_list["yes"];
                 }
@@ -667,14 +679,14 @@ function get_value(p_path, p_data)
             else if(p_path == "/birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin" && p_data == "Yes, other Spanish/ Hispanic/ Latino")
             {
                 result = 4;
-            }
+            }/*
             else if
             (   
                 g_name_to_value_lookup[p_path][p_data] == null 
             )
             {
                 g_missed_convert_output.push(`${p_path} - ${p_data}`);
-            }
+            }*/
             else
             {
                 switch(p_path.toLowerCase())
@@ -719,7 +731,7 @@ function get_value(p_path, p_data)
                         }
                         break;
                     case "/death_certificate/injury_associated_information/date_of_injury/year":
-                        if(p_data.trim().toLowerCase() == "203")
+                        if(p_data == "203")
                         {
                             result = 9999;
                         }
@@ -729,11 +741,11 @@ function get_value(p_path, p_data)
                         }
                         break;
                     case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/year":
-                        if(p_data.trim().toLowerCase() == "14")
+                        if(p_data == "14")
                         {
                             result = 9999;
                         }
-                        else if(p_data.trim().toLowerCase() == "9")
+                        else if(p_data == "9")
                         {
                             result = 9999;
                         }
