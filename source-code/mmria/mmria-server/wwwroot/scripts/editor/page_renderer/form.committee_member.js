@@ -80,14 +80,14 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push('<table class="table">');
                 p_result.push('<thead class="thead">');
                     p_result.push('<tr class="tr bg-tertiary">');
-                        p_result.push('<th class="th h4" colspan="1">');
+                        p_result.push('<th class="th h4" colspan="1" scope="colgroup">');
                             p_result.push('List of Records');
                         p_result.push('</th>');
                     p_result.push('</tr>');
                 p_result.push('</thead>');
                 p_result.push('<thead class="thead">');
                     p_result.push('<tr class="tr">');
-                        p_result.push('<th class="th">');
+                        p_result.push('<th class="th" scope="col">');
                             p_result.push('Record Number');
                         p_result.push('</th>');
                     p_result.push('</tr>');
