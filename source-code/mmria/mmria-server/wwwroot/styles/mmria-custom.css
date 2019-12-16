@@ -481,6 +481,15 @@ button.link {
   padding: 0;
 }
 
+.skip-link {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute;
+}
+.skip-link:focus {
+  clip: auto;
+  position: static;
+}
+
 .anti-btn,
 .anti-btn:focus {
   background-color: transparent;
