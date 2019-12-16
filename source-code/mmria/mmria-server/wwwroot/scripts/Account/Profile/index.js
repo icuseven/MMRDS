@@ -71,15 +71,15 @@ function load_user_role_jurisdiction()
       }
       role_list_html.push("</p>");
       role_list_html.push("<table border=1>");
-      role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan=7>Role assignment list</th></tr>");
+      role_list_html.push("<tr bgcolor='#CCCCCC'><th colspan='7' scope='colgroup'>Role assignment list</th></tr>");
       role_list_html.push("<tr bgcolor='#CCCCCC'>");
-      role_list_html.push("<th>Role Name</th>");
-      role_list_html.push("<th>Jurisdiction</th>");
-      role_list_html.push("<th>Is Active</th>");
-      role_list_html.push("<th>Start Date</th>");
-      role_list_html.push("<th>End Date</th>");
-      role_list_html.push("<th>Days Till<br/>Role Expires</th>");
-      role_list_html.push("<th>Jurisdiction<br/>Admin</th>");
+      role_list_html.push("<th scope='col'>Role Name</th>");
+      role_list_html.push("<th scope='col'>Jurisdiction</th>");
+      role_list_html.push("<th scope='col'>Is Active</th>");
+      role_list_html.push("<th scope='col'>Start Date</th>");
+      role_list_html.push("<th scope='col'>End Date</th>");
+      role_list_html.push("<th scope='col'>Days Till<br/>Role Expires</th>");
+      role_list_html.push("<th scope='col'>Jurisdiction<br/>Admin</th>");
       role_list_html.push("</tr>");
       for(var i in response.rows)
       {

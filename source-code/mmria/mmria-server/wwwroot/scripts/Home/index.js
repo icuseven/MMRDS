@@ -71,18 +71,18 @@ function load_user_role_jurisdiction()
       role_list_html.push("<table class='table'>");
         role_list_html.push("<thead class='thead'>");
         role_list_html.push("<tr class='tr bg-tertiary'>");
-        role_list_html.push("<th class='th h4' colspan='7'>Role assignment list</th>");
+        role_list_html.push("<th class='th h4' colspan='7' scope='colgroup'>Role assignment list</th>");
         role_list_html.push("</tr>");
         role_list_html.push("</thead>");
         role_list_html.push("<thead class='thead'>");
         role_list_html.push("<tr class='tr'>");
-        role_list_html.push("<th class='th'>Role Name</th>");
-        role_list_html.push("<th class='th'>Jurisdiction</th>");
-        role_list_html.push("<th class='th'>Is Active</th>");
-        role_list_html.push("<th class='th'>Start Date</th>");
-        role_list_html.push("<th class='th'>End Date</th>");
-        role_list_html.push("<th class='th'>Days Till<br/>Role Expires</th>");
-        role_list_html.push("<th class='th'>Jurisdiction<br/>Admin</th>");
+        role_list_html.push("<th class='th' scope='col'>Role Name</th>");
+        role_list_html.push("<th class='th' scope='col'>Jurisdiction</th>");
+        role_list_html.push("<th class='th' scope='col'>Is Active</th>");
+        role_list_html.push("<th class='th' scope='col'>Start Date</th>");
+        role_list_html.push("<th class='th' scope='col'>End Date</th>");
+        role_list_html.push("<th class='th' scope='col'>Days Till<br/>Role Expires</th>");
+        role_list_html.push("<th class='th' scope='col'>Jurisdiction<br/>Admin</th>");
         role_list_html.push("</tr>");
         role_list_html.push("</thead>");
         

@@ -247,14 +247,14 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("<table class='table mb-0'>");
     p_result.push("<thead class='thead'>");
     p_result.push("<tr class='tr bg-tertiary'>");
-    p_result.push("<th class='th h4' colspan='2'>Case Listing</th>");
+    p_result.push("<th class='th h4' colspan='2' scope='colgroup'>Case Listing</th>");
     p_result.push("</tr>");
     p_result.push("</thead>");
     p_result.push("<thead class='thead'>");
     p_result.push("<tr class='tr'>");
-    p_result.push("<th class='th'>Case Information</th>");
-    p_result.push("<th class='th'>Last Updated </th>");
-    // p_result.push("<th class='th'>Actions</th>");
+    p_result.push("<th class='th' scope='col'>Case Information</th>");
+    p_result.push("<th class='th' scope='col'>Last Updated </th>");
+    // p_result.push("<th class='th' scope='col'>Actions</th>");
     p_result.push("</tr>");
     p_result.push("</thead>");
 
