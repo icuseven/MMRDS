@@ -575,7 +575,11 @@ function get_value(p_path, p_data)
             {
                 result = data_value_list[p_data];
             }
-            else if (typeof p_data === "boolean")
+            else if 
+            (
+                typeof p_data === "boolean" &&      
+                p_path != "/social_and_environmental_profile/health_care_system/no_prenatal_care"
+            )
             {
                 if(p_data && data_value_list["yes"])
                 {
@@ -673,7 +677,137 @@ function get_value(p_path, p_data)
             }
             else
             {
-                g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                switch(p_path.toLowerCase())
+                {
+                    case "/birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth":
+                    case "/social_and_environmental_profile/socio_economic_characteristics/country_of_birth":
+                        if(p_data.trim().toLowerCase() == "(see geography)")
+                        {
+                            result = "9999";
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/committee_review/critical_factors_worksheet/class":
+                        if(p_data.trim().toLowerCase() == "enforcement")
+                        {
+                            result = 20;
+                        }
+                        else if(p_data.trim().toLowerCase() == "access/finacial")
+                        {
+                            result = 11;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/committee_review/pmss_mm":
+                        if(p_data.trim().toLowerCase().indexOf("91 pulmonary conditions") > -1)
+                        {
+                            result = 91;
+                        }
+                        else if(p_data.trim().toLowerCase().indexOf("83 collagen vascular") > -1)
+                        {
+                            result = 83;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/death_certificate/injury_associated_information/date_of_injury/year":
+                        if(p_data.trim().toLowerCase() == "203")
+                        {
+                            result = 9999;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_arrival/year":
+                        if(p_data.trim().toLowerCase() == "14")
+                        {
+                            result = 9999;
+                        }
+                        else if(p_data.trim().toLowerCase() == "9")
+                        {
+                            result = 9999;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/informant_interviews/race":
+                        if(p_data.trim().toLowerCase() == "white")
+                        {
+                            result = 0;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/other_medical_office_visits/physical_exam/body_system":
+                        if(p_data.trim().toLowerCase() == "endoncrine")
+                        {
+                            result = 7;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/prenatal/current_pregnancy/attended_prenatal_visits_alone":
+                        if(p_data.trim().toLowerCase() == "unknown")
+                        {
+                            result = 8888;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/prenatal/primary_prenatal_care_facility/principal_source_of_payment":
+                        if(p_data.trim().toLowerCase() == "private")
+                        {
+                            result = 0;
+                        }
+                        else if(p_data.trim().toLowerCase() == "public")
+                        {
+                            result = 1;
+                        }
+                        else if(p_data.trim().toLowerCase() == "self")
+                        {
+                            result = 2;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    case "/social_and_environmental_profile/health_care_system/no_prenatal_care":
+                        if
+                        (
+                            typeof p_data === "boolean" &&
+                            p_data
+                        )
+                        {
+                            result = 0;
+                        }
+                        else
+                        {
+                            g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        }
+                        break;
+                    default:
+                        g_passed_convert_output.push(`val paassed ${p_path} - ${p_data}`);
+                        break;
+                }
             }
             
         }
