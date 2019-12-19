@@ -6,7 +6,7 @@ function dictionary_render(p_metadata, p_path)
 	render_de_identified_search_result(de_identified_search_result, g_filter);
 
 	result.push(`
-		<div id="sticky-section de_identify_filter" class="mt-2" data-prop="de_identified_selection_type" style="">
+		<div id="de_identify_filter" class="sticky-section mt-2" data-prop="de_identified_selection_type" style="">
 			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
 				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
 					<label for="de_identify_search_text" class="mr-2"> Search for:</label>
@@ -23,7 +23,7 @@ function dictionary_render(p_metadata, p_path)
 						<option value="">Select Metadata Version</option>
 						<option value="19.10.17">19.10.17</option>
 					</select>
-					<button type="submit" class="btn btn-secondary no-print" alt="clear search" onclick="handle_search_loader(de_identified_search_click)">Search</button>
+					<button type="submit" class="btn btn-secondary no-print" alt="clear search" onclick="de_identified_search_click()">Search</button>
 				</form>
 				<div>
 					<div class="row no-gutters justify-content-end">
@@ -33,12 +33,10 @@ function dictionary_render(p_metadata, p_path)
 			</div>
 
 			<div class="mt-2">
-				<table class="table table--standard rounded-0 mb-3" style="font-size: 14px">
-					<tbody id="de_identify_search_result_list" class="tbody">	
+				<table id="de_identify_search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
 
 					${de_identified_search_result.join("")}
-
-					</tbody>
+					
 				</table>
 			</div>
 	`);
@@ -104,14 +102,6 @@ function render_de_identify_form_filter(p_filter)
 	}
 
 	return result.join("");
-}
-
-
-function handle_search_loader(callback)
-{
-	const search_input = document.getElementById('de_identify_search_text');
-	const search_list = document.getElementById('de_identify_search_result_list');
-	callback();
 }
 
 
