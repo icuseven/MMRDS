@@ -24,13 +24,13 @@ var g_use_position_information = true;
 var g_look_up = {};
 var g_release_version = null;
 
+var g_value_to_display_lookup = {};
+var g_display_to_value_lookup = {};
 
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
 {
     return;
 }
-
-
 
 var g_ui = {
   url_state: {
@@ -524,10 +524,7 @@ function get_metadata()
       metadata_summary(g_metadata_summary, g_metadata, "g_metadata", 0, 0);
       default_object =  create_default_object(g_metadata, {});
 
-      //create_validator_map(g_validator_map, g_validation_description_map, g_metadata, "g_metadata");
-
-      //window.location.href = location.protocol + '//' + location.host;
-      
+      set_list_lookup(g_display_to_value_lookup, g_value_to_display_lookup, g_metadata, "");      
 
       get_case_set();
       

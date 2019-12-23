@@ -30,7 +30,6 @@ var g_autosave_interval = null;
 var g_value_to_display_lookup = {};
 var g_display_to_value_lookup = {};
 
-
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path,  value)
 {
   var is_search_result = false;
@@ -933,7 +932,6 @@ function get_metadata()
       default_object =  create_default_object(g_metadata, {});
 
       set_list_lookup(g_display_to_value_lookup, g_value_to_display_lookup, g_metadata, "");
-
 
       for(var i in g_metadata.lookup)
       {
