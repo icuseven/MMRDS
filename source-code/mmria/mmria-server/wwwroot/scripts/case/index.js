@@ -1556,6 +1556,16 @@ function clear_nav_status_area()
 function set_local_case(p_data, p_call_back)
 {
 
+  let local_storage_index = get_local_storage_index();
+
+  if(local_storage_index == null)
+  {
+    local_storage_index = create_local_storage_index();
+  }
+
+  local_storage_index[p_data._id] = create_local_storage_index_item(p_data);
+  localStorage.setItem('case_index', JSON.stringify(local_storage_index));
+
   localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
 
   if(p_call_back)
@@ -1564,6 +1574,33 @@ function set_local_case(p_data, p_call_back)
   }
 }
 
+
+function create_local_storage_index()
+{
+  let result = {};
+  localStorage.setItem('case_index', JSON.stringify(result));
+
+  return result;
+}
+
+
+function get_local_storage_index()
+{
+  return JSON.parse(localStorage.getItem('case_index'));
+}
+
+
+function create_local_storage_index_item(p_data)
+{
+  return {
+    _id: p_data._id,
+    _rev: p_data._rev,
+    date_created: p_data.date_created,
+    created_by: p_data.created_by,
+    date_last_updated: p_data.date_last_updated,
+    last_updated_by: p_data.last_updated_by
+  }
+}
 
 function get_local_case(p_id)
 {
