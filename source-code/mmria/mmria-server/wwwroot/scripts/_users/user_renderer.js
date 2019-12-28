@@ -19,7 +19,7 @@ function user_render(p_ui, p_created_by)
 	result.push("<tr><td colspan=6 align=right>");
 	result.push("Enter new user name:<input type='text' id='new_user_name' value=''/><br/>");
 
-	if(g_policy_values.sams_is_enabled != "True")
+	if(g_policy_values.sams_is_enabled.toLowerCase() != "true")
 	{
 		result.push("Password: <input type='password' id='new_user_password' value=''/><br/>");
 		result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
