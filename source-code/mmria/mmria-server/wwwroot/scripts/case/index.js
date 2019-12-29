@@ -524,7 +524,53 @@ $(function ()
   let default_local_storage_limit = 5000; // 5GB
   if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < 1000)
   {
-    //remove older cases from local storage
+      let date_now = new Date();
+      let case_index = get_local_storage_index();
+      let is_update_case_index = false;
+
+      for(let key in window.localStorage)
+      {
+          if(key == "case_index")
+          {
+            continue;
+          } 
+
+          if(window.localStorage.hasOwnProperty(key))
+          {
+            
+              let item = JSON.parse(window.localStorage[key]);
+              let date_last_updated = item.date_last_updated;
+
+              if(!(date_last_updated instanceof Date))
+              {
+                date_last_updated = new Date(date_last_updated);
+              }
+
+              let diff_in_days = Math.floor((date_now - date_last_updated) / (1000*60*60*24));
+
+              if(diff_in_days > 7)
+              {
+
+                try
+                {
+                  delete case_index[key]; 
+                  is_update_case_index = true;
+                  localStorage.removeItem(key);
+                }
+                catch(ex)
+                {
+                  //console.log("remove this");
+                }
+                
+              }
+              
+          }
+      }
+
+      if(is_update_case_index)
+      {
+        window.localStorage.setItem('case_index', JSON.stringify(case_index));
+      }
   }
 
 /*
@@ -1604,7 +1650,14 @@ function get_local_storage_space_usage_in_kilobytes()
 
 function get_local_storage_index()
 {
-  return JSON.parse(localStorage.getItem('case_index'));
+  let result = JSON.parse(localStorage.getItem('case_index'));
+
+  if(result == null)
+  {
+    result = create_local_storage_index();
+  }
+
+  return result;
 }
 
 
