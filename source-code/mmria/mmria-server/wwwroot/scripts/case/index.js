@@ -1564,9 +1564,9 @@ function set_local_case(p_data, p_call_back)
   }
 
   local_storage_index[p_data._id] = create_local_storage_index_item(p_data);
-  localStorage.setItem('case_index', JSON.stringify(local_storage_index));
+  window.localStorage.setItem('case_index', JSON.stringify(local_storage_index));
 
-  localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
+  window.localStorage.setItem('case_' + p_data._id, JSON.stringify(p_data));
 
   if(p_call_back)
   {
@@ -1578,7 +1578,7 @@ function set_local_case(p_data, p_call_back)
 function create_local_storage_index()
 {
   let result = {};
-  localStorage.setItem('case_index', JSON.stringify(result));
+  window.localStorage.setItem('case_index', JSON.stringify(result));
 
   return result;
 }
@@ -1586,8 +1586,8 @@ function create_local_storage_index()
 
 function get_local_storage_space_usage_in_kilobytes()
 {
-  var allStrings = '';
-  for(var key in window.localStorage)
+  let allStrings = '';
+  for(let key in window.localStorage)
   {
       if(window.localStorage.hasOwnProperty(key))
       {
@@ -1619,7 +1619,7 @@ function get_local_case(p_id)
 {
   var result = null;
 
-  result = JSON.parse(localStorage.getItem('case_' + p_id));
+  result = JSON.parse(window.localStorage.getItem('case_' + p_id));
 
   return result;
 }
