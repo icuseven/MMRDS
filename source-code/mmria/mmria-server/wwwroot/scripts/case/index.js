@@ -521,6 +521,11 @@ $(function ()
 
 	});
 
+  let default_local_storage_limit = 5000; // 5GB
+  if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < 1000)
+  {
+    //remove older cases from local storage
+  }
 
 /*
         // Get the modal
