@@ -1584,6 +1584,19 @@ function create_local_storage_index()
 }
 
 
+function get_local_storage_space_usage_in_kilobytes()
+{
+  var allStrings = '';
+  for(var key in window.localStorage)
+  {
+      if(window.localStorage.hasOwnProperty(key))
+      {
+          allStrings += window.localStorage[key];
+      }
+  }
+  return allStrings ? 3 + ((allStrings.length*16)/(8*1024)): 0;
+}
+
 function get_local_storage_index()
 {
   return JSON.parse(localStorage.getItem('case_index'));
