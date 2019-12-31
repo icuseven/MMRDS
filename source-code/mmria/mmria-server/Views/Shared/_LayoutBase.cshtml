@@ -39,9 +39,7 @@
 
   @RenderSection("Scripts", false)
 
-  <div class="spinner-container">
-    <div class="spinner"></div>
-  </div>
+  @await Html.PartialAsync("_Spinner")
   
 </body>
 </html>
