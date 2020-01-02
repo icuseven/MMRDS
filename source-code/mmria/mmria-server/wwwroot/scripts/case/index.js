@@ -521,50 +521,41 @@ $(function ()
 
 	});
 
+
+  
+
+  /*
+  let working_space = 1000;
   let default_local_storage_limit = 5000; // 5GB
-  if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < 1000)
+  if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < working_space)
+*/
+  let working_space = 100;
+  let default_local_storage_limit = 300; // 5GB
+  if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < working_space)
   {
-      let date_now = new Date();
-      let case_index = get_local_storage_index();
+      let case_index = create_local_storage_index();
+      let case_index_array = convert_local_storage_index_to_array(case_index);
       let is_update_case_index = false;
 
-      for(let key in window.localStorage)
+      let space_removed = 0;
+      for(let index = 0; index < case_index_array.length && space_removed < working_space; index++)
       {
-          if(key == "case_index")
-          {
-            continue;
-          } 
 
-          if(window.localStorage.hasOwnProperty(key))
-          {
-            
-              let item = JSON.parse(window.localStorage[key]);
-              let date_last_updated = item.date_last_updated;
+        let item = case_index_array[index];
+        let key = item._id;
 
-              if(!(date_last_updated instanceof Date))
-              {
-                date_last_updated = new Date(date_last_updated);
-              }
-
-              let diff_in_days = Math.floor((date_now - date_last_updated) / (1000*60*60*24));
-
-              if(diff_in_days > 7)
-              {
-
-                try
-                {
-                  delete case_index[key]; 
-                  is_update_case_index = true;
-                  localStorage.removeItem(key);
-                }
-                catch(ex)
-                {
-                  //console.log("remove this");
-                }
-                
-              }
-              
-          }
+        try
+        {
+          delete case_index[key]; 
+          space_removed += item.size_in_kilobytes
+          is_update_case_index = true;
+          localStorage.removeItem('case_' + key);
+        }
+        catch(ex)
+        {
+          //console.log("remove this");
+        }
+          
       }
 
       if(is_update_case_index)
@@ -1629,6 +1620,25 @@ function set_local_case(p_data, p_call_back)
 function create_local_storage_index()
 {
   let result = {};
+
+
+  for(let key in window.localStorage)
+  {
+      if(key == 'case_index')
+      {
+        continue;
+      }
+
+      if(window.localStorage.hasOwnProperty(key))
+      {
+          let item_string = window.localStorage[key];
+          let item_object = JSON.parse(item_string);
+
+          result[item_object._id] = create_local_storage_index_item(item_object)
+      }
+  }
+
+
   window.localStorage.setItem('case_index', JSON.stringify(result));
 
   return result;
@@ -1648,11 +1658,52 @@ function get_local_storage_space_usage_in_kilobytes()
   return allStrings ? 3 + ((allStrings.length*16)/(8*1024)): 0;
 }
 
+function calc_local_storage_space_usage_in_kilobytes(p_string)
+{
+  return p_string ? 3 + ((p_string.length*16)/(8*1024)): 0;
+}
+
+function convert_local_storage_index_to_array(p_case_index)
+{  
+  let result = []
+
+  for(let key in p_case_index)
+  {
+      if(p_case_index.hasOwnProperty(key))
+      {
+          let item = p_case_index[key];
+          let item_object = JSON.parse(window.localStorage['case_' + key]);
+          if(!(item.date_last_updated instanceof Date))
+          {
+            item.date_last_updated = new Date(item.date_last_updated);
+          }
+
+          item.size_in_kilobytes = calc_local_storage_space_usage_in_kilobytes(JSON.stringify(item_object));
+
+          result.push(item);
+      }
+  }
+
+  //result.sort(function(p1, p2){return p1.size_in_kilobytes-p2.size_in_kilobytes});
+  result.sort(function(p1, p2){return p1.date_last_updated-p2.date_last_updated});
+
+  return result;
+}
+
 function get_local_storage_index()
 {
-  let result = JSON.parse(localStorage.getItem('case_index'));
+  let result = JSON.parse(window.localStorage.getItem('case_index'));
 
   if(result == null)
+  {
+    result = create_local_storage_index();
+  }
+  else if
+  (
+    Object.keys(result).length === 0 &&
+    result.constructor === Object &&
+    window.localStorage.length > 0
+  )
   {
     result = create_local_storage_index();
   }
