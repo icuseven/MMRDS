@@ -88,41 +88,44 @@ namespace mmria.server.util
 
 			string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
 
-			string de_identified_revision = await get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
-			System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
-
-			if(!string.IsNullOrEmpty(de_identified_revision))
+			if(!string.IsNullOrEmpty(de_identified_json))
 			{
-				//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
 				
-				de_identified_json = set_revision (de_identified_json, de_identified_revision);
+				string de_identified_revision = await get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
+				System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
 
+				if(!string.IsNullOrEmpty(de_identified_revision))
+				{
+					//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
+					
+					de_identified_json = set_revision (de_identified_json, de_identified_revision);
+
+				}
+
+				de_identfied_url.Append(Program.config_couchdb_url);
+				de_identfied_url.Append("/de_id/");
+				de_identfied_url.Append(this.document_id);
+
+				if(this.method == "DELETE")
+				{
+					de_identfied_url.Append("?rev=");
+					de_identfied_url.Append(de_identified_revision);	
+				}
+
+				var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_value);
+				try
+				{
+					string de_id_result = await de_identfied_curl.executeAsync();
+					System.Console.WriteLine("sync de_id");
+					System.Console.WriteLine(de_id_result);
+
+				}
+				catch (Exception ex)
+				{
+					//System.Console.WriteLine("c_sync_document de_id");
+					//System.Console.WriteLine(ex);
+				}
 			}
-
-			de_identfied_url.Append(Program.config_couchdb_url);
-			de_identfied_url.Append("/de_id/");
-			de_identfied_url.Append(this.document_id);
-
-			if(this.method == "DELETE")
-			{
-				de_identfied_url.Append("?rev=");
-				de_identfied_url.Append(de_identified_revision);	
-			}
-
-			var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_value);
-			try
-			{
-				string de_id_result = await de_identfied_curl.executeAsync();
-				System.Console.WriteLine("sync de_id");
-				System.Console.WriteLine(de_id_result);
-
-			}
-			catch (Exception ex)
-			{
-				//System.Console.WriteLine("c_sync_document de_id");
-				//System.Console.WriteLine(ex);
-			}
-
 
 			//string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
 

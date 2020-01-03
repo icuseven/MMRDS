@@ -33,23 +33,30 @@ namespace mmria.server.util
 				expando_object.Remove("_rev");
 			}
 
+			bool is_fully_de_identified = false;
 			foreach (string path in de_identified_set) 
 			{
-					set_de_identified_value (case_item_object, path);
+				is_fully_de_identified = set_de_identified_value (case_item_object, path);
 			}
 
-
-			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-			result = Newtonsoft.Json.JsonConvert.SerializeObject(case_item_object, settings);
-
+			if(is_fully_de_identified)
+			{
+				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+				result = Newtonsoft.Json.JsonConvert.SerializeObject(case_item_object, settings);
+			}
+			else
+			{
+				System.Console.WriteLine ("Not fully de-identified");
+			}
 			return result;
 		}
 
 
-		public void set_de_identified_value (dynamic p_object, string p_path)
+		public bool set_de_identified_value (dynamic p_object, string p_path)
 		{
 
+			bool result = false;
             /*
             if (p_path == "death_certificate/demographics/city_of_birth")
 			{
@@ -95,19 +102,23 @@ namespace mmria.server.util
 									)
 									{
 										dictionary_object [path_list [0]] = "de-identified";
+										result = true;
 									}
 									else
 									{
 										dictionary_object [path_list [0]] = null;
+										result = true;
 									}
 								}
 								else if (val is System.DateTime)
 								{
 									dictionary_object [path_list [0]] = DateTime.MinValue;
+									result = true;
 								}
 								else
 								{
 									dictionary_object [path_list [0]] = null;
+									result = true;
 								}
 							}
 						}
@@ -119,7 +130,7 @@ namespace mmria.server.util
 
 						foreach(object item in Items)
 						{
-							set_de_identified_value (item, path_list [0]);
+							result = set_de_identified_value (item, path_list [0]);
 
 						}
 					}	
@@ -155,7 +166,7 @@ namespace mmria.server.util
 						if (val != null)
 						{
 	
-							set_de_identified_value (val, string.Join("/", new_path));
+							result = set_de_identified_value (val, string.Join("/", new_path));
 						}
 	
 					}
@@ -166,7 +177,7 @@ namespace mmria.server.util
 
 						foreach(object item in Items)
 						{
-							set_de_identified_value (item, string.Join("/", path_list));
+							result = set_de_identified_value (item, string.Join("/", path_list));
 
 						}
 					}
@@ -179,8 +190,10 @@ namespace mmria.server.util
 			catch (Exception ex)
 			{
 				System.Console.WriteLine ("set_de_identified_value. {0}", ex);
+				result = false;
 			}
-				
+			
+			return result;
 		}
 	}
 }
