@@ -375,9 +375,9 @@ namespace mmria.server.util
 						{
 
 							case "number":
-								int try_int = 0;
+								double try_int = 0;
 
-								if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())) && int.TryParse(val.ToString(), out try_int))
+								if (val != null && (!string.IsNullOrWhiteSpace(val.ToString())) && double.TryParse(val.ToString(), out try_int))
 								{
 									string file_field_name = path_to_field_name_map[path];
 									
@@ -1815,13 +1815,13 @@ namespace mmria.server.util
 			{
 				System.Console.WriteLine(kvp.Key);
 			}
+*/
 
-
-			if(p_path == "death_certificate/place_of_last_residence/latitude")
+			if(p_path == "death_certificate/address_of_death/estimated_death_distance_from_residence")
 			{
 				System.Console.WriteLine(p_path);
 			}
-			*/
+			
 			if(de_identified_set.Contains(p_path))
 			{
 				return result;
