@@ -113,7 +113,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
-											<th class="th" colspan="2">
+											<th class="th" colspan="2" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span>Standard fields that will be de-identified</span>
 												</span>
@@ -156,7 +156,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
-											<th class="th" colspan="2">
+											<th class="th" colspan="2" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span>Fields to de-identify</span>
 												</span>
@@ -173,7 +173,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
-											<th class="th" colspan="2">
+											<th class="th" colspan="2" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span id="de_identified_count">Fields that have been de-identified (${p_answer_summary.de_identified_field_set.length})</span>
 												</span>
@@ -243,7 +243,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<table class="table rounded-0 m-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
-											<th class="th" colspan="14">
+											<th class="th" colspan="14" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span>Filtered Cases</span>
 													<!--button class="anti-btn" onclick="fooBarSelectAll()">Select All</button-->
@@ -253,14 +253,14 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 									</thead>
 									<thead class="thead">
 										<tr class="tr">
-											<th class="th" width="38"></th>
-											<th class="th">Date last updated <br/>Last updated by</th>
-											<th class="th">Name [Jurisdiction ID]</th>
-											<th class="th">Record ID</th>
-											<th class="th">Date of death</th>
-											<th class="th">Committee review date</th>
-											<th class="th">Agency case ID</th>
-											<th class="th">Date created<br/>Created by</th>
+											<th class="th" width="38" scope="col"></th>
+											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
+											<th class="th" scope="col">Name [Jurisdiction ID]</th>
+											<th class="th" scope="col">Record ID</th>
+											<th class="th" scope="col">Date of death</th>
+											<th class="th" scope="col">Committee review date</th>
+											<th class="th" scope="col">Agency case ID</th>
+											<th class="th" scope="col">Date created<br/>Created by</th>
 										</tr>
 									</thead>
 									<tbody id="search_result_list" class="tbody">
@@ -273,7 +273,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<table class="table rounded-0 mb-0">
 									<thead class="thead">
 										<tr class="tr bg-tertiary">
-											<th class="th" colspan="14">
+											<th class="th" colspan="14" scope="colgroup">
 												<span class="row no-gutters justify-content-between">
 													<span id="exported_cases_count">Cases to be included in export (${p_answer_summary.case_set.length}):</span>
 													<!--button class="anti-btn" onclick="fooBarSelectAll()">Deselect All</button-->
@@ -283,14 +283,14 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 									</thead>
 									<thead class="thead">
 										<tr class="tr">
-											<th class="th" width="38"></th>
-											<th class="th">Date last updated <br/>Last updated by</th>
-											<th class="th">Name [Jurisdiction ID]</th>
-											<th class="th">Record ID</th>
-											<th class="th">Date of death</th>
-											<th class="th">Committee review date</th>
-											<th class="th">Agency case ID</th>
-											<th class="th">Date created<br/>Created by</th>
+											<th class="th" width="38" scope="col"></th>
+											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
+											<th class="th" scope="col">Name [Jurisdiction ID]</th>
+											<th class="th" scope="col">Record ID</th>
+											<th class="th" scope="col">Date of death</th>
+											<th class="th" scope="col">Committee review date</th>
+											<th class="th" scope="col">Agency case ID</th>
+											<th class="th" scope="col">Date created<br/>Created by</th>
 										</tr>
 									</thead>
 									<tbody id="selected_case_list" class="tbody">
@@ -351,17 +351,17 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 
 	result.push('<table class="table mt-4">');
 		result.push('<thead class="thead">');
-			result.push('<tr class="tr bg-tertiary"><th class="th h4" colspan="8">Export Request History</th></tr>');
-			result.push('<tr class="tr bg-quaternary"><th class="th" colspan="8">(*Please note that the export queue is deleted at midnight each day.)</th></tr>');
+			result.push('<tr class="tr bg-tertiary"><th class="th h4" colspan="8" scope="colgroup">Export Request History</th></tr>');
+			result.push('<tr class="tr bg-quaternary"><th class="th" colspan="8" scope="colgroup">(*Please note that the export queue is deleted at midnight each day.)</th></tr>');
 			result.push('<tr class="tr">');
-				result.push('<th class="th">date_created</th>');
-				result.push('<th class="th">created_by</th>');
-				result.push('<th class="th">date_last_updated</th>');
-				result.push('<th class="th">last_updated_by</th>');
-				result.push('<th class="th">file_name</th>');
-				result.push('<th class="th">export_type</th>');
-				result.push('<th class="th">status</th>');
-				result.push('<th class="th">action</th>');
+				result.push('<th class="th" scope="col">date_created</th>');
+				result.push('<th class="th" scope="col">created_by</th>');
+				result.push('<th class="th" scope="col">date_last_updated</th>');
+				result.push('<th class="th" scope="col">last_updated_by</th>');
+				result.push('<th class="th" scope="col">file_name</th>');
+				result.push('<th class="th" scope="col">export_type</th>');
+				result.push('<th class="th" scope="col">status</th>');
+				result.push('<th class="th" scope="col">action</th>');
 			result.push('</tr>');
 		result.push('</thead>');
 		result.push('<tbody class="tbody">');
@@ -948,7 +948,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					<table class="table rounded-0 mb-0">
 						<thead class="thead">
 							<tr class="tr">
-								<th class="th" colspan="4">
+								<th class="th" colspan="4" scope="colgroup">
 									<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
 													data-prop="search--${p_path}"
 													onclick="handleElementDisplay(event, 'table-row', 'none')">
@@ -959,10 +959,10 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 						</thead>
 						<thead class="thead">
 							<tr class="tr bg-white" data-show="search--${p_path}" style="display: none">
-								<th class="th">Name</th>
-								<th class="th">Type</th>
-								<th class="th">Prompt</th>
-								<th class="th">Values</th>
+								<th class="th" scope="col">Name</th>
+								<th class="th" scope="col">Type</th>
+								<th class="th" scope="col">Prompt</th>
+								<th class="th" scope="col">Values</th>
 							</tr>
 						</thead>
 						<tbody class="tbody">
@@ -1101,7 +1101,7 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 				<table class="table rounded-0 mb-0">
 					<thead class="thead">
 						<tr class="tr">
-							<th class="th" colspan="4">
+							<th class="th" colspan="4" scope="colgroup">
 								<button class="anti-btn w-100 row no-gutters align-items-center justify-content-between"
 												data-prop="selected--${item_id.replace(/-/g,"/")}"
 												onclick="handleElementDisplay(event, 'table-row', 'none')">
@@ -1112,10 +1112,10 @@ function render_selected_de_identified_list(p_result, p_answer_summary)
 					</thead>
 					<thead class="thead">
 						<tr class="tr bg-white" data-show="selected--${item_id.replace(/-/g,"/")}" style="display: none;">
-							<th class="th">Name</th>
-							<th class="th">Type</th>
-							<th class="th">Prompt</th>
-							<th class="th">Values</th>
+							<th class="th" scope="col">Name</th>
+							<th class="th" scope="col">Type</th>
+							<th class="th" scope="col">Prompt</th>
+							<th class="th" scope="col">Values</th>
 						</tr>
 					</thead>
 					<tbody class="tbody">

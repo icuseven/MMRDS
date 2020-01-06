@@ -53,10 +53,10 @@ function render_de_identified_list()
 	var result = [];
 	result.push("<br/>");
 	result.push("<table>");
-	result.push("<tr><th colspan=2 bgcolor=silver>de identified list</th></tr>");
+	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>de identified list</th></tr>");
 	result.push("<tr>");
-	result.push("<th>path</th>");
-	result.push("<th>&nbsp;</th>");
+	result.push("<th scope='col'>path</th>");
+	result.push("<th scope='col'>&nbsp;</th>");
 	result.push("</tr>");
 
 	//result.push("<tr><td colspan=2 align=center><input type='button' value='save list' onclick='server_save()' /></td></tr>")
@@ -238,7 +238,7 @@ function render_edit_migration_plan(p_migration_plan)
 
 	result.push("<a href=/migrationplan>back to migration plan list</a><br/>");
 	result.push("<table>");
-	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th></tr>");
+	result.push("<tr bgcolor='#DDDD88'><th colspan='2' scope='colgroup'>selected migration plan</th></tr>");
 	result.push("<tr><td><b>name:</b></td>");
 	result.push("<td><span title='" + p_migration_plan.name + "'><input type='text' value='");
 	result.push(p_migration_plan.name);
@@ -282,14 +282,14 @@ function render_migration_plan_item_list(p_migration_plan)
 	var result = [];
 
 	result.push("<table>");
-	result.push("<tr><th colspan=6 bgcolor=#DDDD88>migration plan item list</th></tr>");
+	result.push("<tr><th colspan='6' bgcolor='#DDDD88' scope='colgroup'>migration plan item list</th></tr>");
 	result.push("<tr>");
-	result.push("<th>old_mmria_path</th>");
-	result.push("<th>new_mmria_path</th>");
-	result.push("<th>old_value</th>");
-	result.push("<th>new_value</th>");
-	result.push("<th>comment</th>");
-	result.push("<th>&nbsp;</th>");
+	result.push("<th scope='col'>old_mmria_path</th>");
+	result.push("<th scope='col'>new_mmria_path</th>");
+	result.push("<th scope='col'>old_value</th>");
+	result.push("<th scope='col'>new_value</th>");
+	result.push("<th scope='col'>comment</th>");
+	result.push("<th scope='col'>&nbsp;</th>");
 	result.push("</tr>");
 	for(var i in p_migration_plan.plan_items)
 	{

@@ -5,7 +5,7 @@ function user_render(p_ui, p_created_by)
 	var result = [];
 
 	result.push("<div style='clear:both;margin-left:10px;'>");
-	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan=6>User List</th></tr>");
+	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan='6' scope='colgroup'>User List</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
@@ -391,7 +391,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push("<td id='selected_user_role_for_");
 	result.push(p_user_role_jurisdiction.user_id);
 	result.push("'><table>");
-	result.push("<tr><th>Name</th><th>Value</th><tr>");
+	result.push("<tr><th scope='col'>Name</th><th scope='col'>Value</th><tr>");
 
 	result.push("<tr><td>")
 	result.push("user_id");

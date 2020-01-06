@@ -103,24 +103,24 @@ function render_migration_plan()
 
 	var result = [];
 	result.push("<br/>");
-	result.push("<table bgcolor=#CCCCCC>");
-	result.push("<tr><th colspan=2 bgcolor=silver>add new migration plan</td><tr>");
-	result.push("<tr><td align=right><label for='add_new_plan_name'><b>name:</b></label></td><td><input id='add_new_plan_name' type='text' value='' size=45 /></td></tr>")
+	result.push("<table bgcolor='#CCCCCC'>");
+	result.push("<tr><th colspan='2' bgcolor='silver' scope='colgroup'>add new migration plan</td><tr>");
+	result.push("<tr><td align='right'><label for='add_new_plan_name'><b>name:</b></label></td><td><input id='add_new_plan_name' type='text' value='' size=45 /></td></tr>")
 	result.push("<tr><td><label for='add_new_plan_description'><b>description:</b></label></td><td><textarea cols=45 rows=7 id='add_new_plan_description'></textarea></td></tr>")
-	result.push("<tr><td colspan=2 align=right><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td></tr>")
+	result.push("<tr><td colspan='2' align=right><input type='button' value='add new plan' onclick='add_new_plan_click()' /></td></tr>")
 	result.push("</table>");
 
 	result.push("<br/><br/>");
 	result.push("<table>");
-	result.push("<tr><th colspan=6 bgcolor=silver>migration plan list</th></tr>");
+	result.push("<tr><th colspan='6' bgcolor='silver' scope='colgroup'>migration plan list</th></tr>");
 	result.push("<tr>");
-	result.push("<th>name</th>");
-	result.push("<th>description</th>");
-	result.push("<th>created_by</th>");
-	result.push("<th>date_created</th>");
-	result.push("<th>date_last_updated</th>");
-	result.push("<th>last_updated_by</th>");
-	result.push("<th>action</th>");
+	result.push("<th scope='col'>name</th>");
+	result.push("<th scope='col'>description</th>");
+	result.push("<th scope='col'>created_by</th>");
+	result.push("<th scope='col'>date_created</th>");
+	result.push("<th scope='col'>date_last_updated</th>");
+	result.push("<th scope='col'>last_updated_by</th>");
+	result.push("<th scope='col'>action</th>");
 	result.push("</tr>");
 	for(var i in g_migration_plan_list)
 	{
@@ -320,7 +320,7 @@ function render_edit_migration_plan(p_migration_plan)
 
 	result.push("<a href=/migrationplan>back to migration plan list</a><br/>");
 	result.push("<table>");
-	result.push("<tr bgcolor=#DDDD88><th colspan=2>selected migration plan</th></tr>");
+	result.push("<tr bgcolor='#DDDD88'><th colspan='2' scope='col'>selected migration plan</th></tr>");
 	
 	result.push("<tr><td><b>name:</b></td>");
 	result.push("<td colspan=2><label title='" + p_migration_plan.name + "'><input type='text' size=50 value='");
@@ -366,14 +366,14 @@ function render_migration_plan_item_list(p_migration_plan)
 	var result = [];
 
 	result.push("<table>");
-	result.push("<tr><th colspan=6 bgcolor=#DDDD88>migration plan item list</th></tr>");
+	result.push("<tr><th colspan='6' bgcolor='#DDDD88' scope='colgroup'>migration plan item list</th></tr>");
 	result.push("<tr>");
-	result.push("<th>old_mmria_path</th>");
-	result.push("<th>new_mmria_path</th>");
-	result.push("<th>old_value</th>");
-	result.push("<th>new_value</th>");
-	result.push("<th>comment</th>");
-	result.push("<th>&nbsp;</th>");
+	result.push("<th scope='col'>old_mmria_path</th>");
+	result.push("<th scope='col'>new_mmria_path</th>");
+	result.push("<th scope='col'>old_value</th>");
+	result.push("<th scope='col'>new_value</th>");
+	result.push("<th scope='col'>comment</th>");
+	result.push("<th scope='col'>&nbsp;</th>");
 	result.push("</tr>");
 	for(var i in p_migration_plan.plan_items)
 	{

@@ -298,14 +298,14 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 							<table class="table table--standard rounded-0 m-0">
 								<thead class="thead">
 									<tr class="tr bg-gray-l2">
-										<th class="th" colspan="5" scope="colgroup" width="1080">List Values</th>
+										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
 									<tr class="tr bg-gray-l2">
-										<th class="th" scope="col" width="140">Value</th>
-										<th class="th" scope="col" width="680">Display</th>
-										<th class="th" scope="col" width="260">Description</th>
+										<th class="th" width="140" scope="col">Value</th>
+										<th class="th" width="680" scope="col">Display</th>
+										<th class="th" width="260" scope="col">Description</th>
 									</tr>
 								</thead>
 								<tbody class="tbody">	
@@ -350,20 +350,20 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				p_result.push(`
 					<thead class="thead">
 						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
-							<th class="th" colspan="7">
+							<th class="th" colspan="7" scope="colgroup">
 								${form_name}
 							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
 						<tr class="tr bg-gray-l1 font-weight-bold">
-							<th class="th" width="140">MMRIA Form</th>
-							<th class="th" width="140">Export File Name</th>
-							<th class="th" width="120">Export Field</th>
-							<th class="th" width="180">Prompt</th>
-							<th class="th" width="380">Description</th>
-							<th class="th" width="260">Path</th>
-							<th class="th" width="110">Data Type</th>
+							<th class="th" width="140" scope="col">MMRIA Form</th>
+							<th class="th" width="140" scope="col">Export File Name</th>
+							<th class="th" width="120" scope="col">Export Field</th>
+							<th class="th" width="180" scope="col">Prompt</th>
+							<th class="th" width="380" scope="col">Description</th>
+							<th class="th" width="260" scope="col">Path</th>
+							<th class="th" width="110" scope="col">Data Type</th>
 						</tr>
 					</thead>
 				`);
