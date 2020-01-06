@@ -241,6 +241,9 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         p_result.push("' ");
     }
 
+    p_result.push(" dpath='")
+    p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
+    p_result.push("' ");
 
     if
     (
@@ -471,7 +474,10 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
     p_result.push(p_metadata.name);
     
     p_result.push("'");
-    // p_result.push("' style='width:98%;height:49%;'");
+
+    p_result.push(" dpath='")
+    p_result.push(p_dictionary_path.substring(1, p_dictionary_path.length));
+    p_result.push("' ");
 
     if
     (
