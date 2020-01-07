@@ -33,22 +33,67 @@ namespace mmria.server.util
 				expando_object.Remove("_rev");
 			}
 
-			bool is_fully_de_identified = false;
+			bool is_fully_de_identified = true;
 			foreach (string path in de_identified_set) 
 			{
-				is_fully_de_identified = set_de_identified_value (case_item_object, path);
+				is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path);
 			}
 
-			if(is_fully_de_identified)
+			if(!is_fully_de_identified)
 			{
-				Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-				settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-				result = Newtonsoft.Json.JsonConvert.SerializeObject(case_item_object, settings);
-			}
-			else
-			{
+
 				System.Console.WriteLine ("Not fully de-identified");
+
+				string de_identified_json;
+
+				try 
+				{
+					
+					string current_directory = AppContext.BaseDirectory;
+					if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+					{
+						current_directory = System.IO.Directory.GetCurrentDirectory();
+					}
+
+					using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
+					{
+						de_identified_json = sr.ReadToEnd();
+					}
+
+					var case_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (de_identified_json);
+
+
+					var byName = (IDictionary<string,object>)case_expando_object;
+					var created_by = byName["created_by"] as string;
+					if(string.IsNullOrWhiteSpace(created_by))
+					{
+						byName["created_by"] = "system";
+					} 
+
+					if(byName.ContainsKey("last_updated_by"))
+					{
+						byName["last_updated_by"] = "system";
+					}
+					else
+					{
+						byName.Add("last_updated_by", "system");
+						
+					}
+
+					byName["_id"] = expando_object["_id"]; 
+					case_item_object = case_expando_object;
+
+				} 
+				catch (Exception ex) 
+				{
+
+				}
+
 			}
+
+			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+			result = Newtonsoft.Json.JsonConvert.SerializeObject(case_item_object, settings);
 			return result;
 		}
 
@@ -58,7 +103,7 @@ namespace mmria.server.util
 
 			bool result = false;
             /*
-            if (p_path == "death_certificate/demographics/city_of_birth")
+            if (p_path == "geocode_quality_indicator")
 			{
 				System.Console.Write("break");
 			}*/
@@ -121,6 +166,14 @@ namespace mmria.server.util
 									result = true;
 								}
 							}
+							else
+							{
+								result = true;
+							}
+						}
+						else
+						{
+							result = true;
 						}
 				
 					}

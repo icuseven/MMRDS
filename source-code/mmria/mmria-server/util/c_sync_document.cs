@@ -88,8 +88,8 @@ namespace mmria.server.util
 
 			string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
 
-
-			if(!string.IsNullOrEmpty(de_identified_json))
+			/*
+			if(string.IsNullOrEmpty(de_identified_json))
 			{
 				try 
 				{
@@ -134,7 +134,7 @@ namespace mmria.server.util
 
 				}
 
-			}
+			}*/
 
 			string de_identified_revision = await get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
 			System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
