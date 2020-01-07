@@ -14,11 +14,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 {
                     p_result.push("<div class='row no-gutters'>");
                         p_result.push("<div class='col col-8'>");
-                            p_result.push("<h2 class='construct__title text-primary h1'>");
+                            p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
                             p_result.push(g_data.home_record.last_name);
                             p_result.push(", ");
                             p_result.push(g_data.home_record.first_name);
-                            p_result.push("</h2>");
+                            p_result.push("</h1>");
                             if(g_data.home_record.record_id)
                             {
                                 p_result.push("<p class='construct__info mb-1'>");
@@ -329,11 +329,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("<div class='col col-8'>");
                         if(g_data)
                         {
-                            p_result.push("<h2 class='construct__title text-primary h1'>");
+                            p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
                             p_result.push(g_data.home_record.last_name);
                             p_result.push(", ");
                             p_result.push(g_data.home_record.first_name);
-                            p_result.push("</h2>");
+                            p_result.push("</h1>");
                         }
                         if(g_data.home_record.record_id)
                         {
@@ -360,8 +360,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("</div>");
                     p_result.push("<div class='col col-4 text-right'>");
                         p_result.push("<div>");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+                            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo111' onclick='undo_click()' />");
+                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save111' onclick='save_form_click()' />");
                             render_print_form_control(p_result, p_ui, p_metadata);
                         p_result.push("</div>");
                     p_result.push("</div>");
@@ -413,11 +413,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("<div class='col col-8'>");
                 if(g_data)
                 {
-                    p_result.push("<h2 class='construct__title text-primary h1'>");
+                    p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
                     p_result.push(g_data.home_record.last_name);
                     p_result.push(", ");
                     p_result.push(g_data.home_record.first_name);
-                    p_result.push("</h2>");
+                    p_result.push("</h1>");
                 }
                 if(g_data.home_record.record_id)
                 {
@@ -805,11 +805,11 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
     p_result.push("<div class='col col-8'>");
         if(g_data)
         {
-            p_result.push("<h2 class='construct__title text-primary h1'>");
+            p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
             p_result.push(g_data.home_record.last_name);
             p_result.push(", ");
             p_result.push(g_data.home_record.first_name);
-            p_result.push("</h2>");
+            p_result.push("</h1>");
         }
         if(g_data.home_record.record_id)
         {

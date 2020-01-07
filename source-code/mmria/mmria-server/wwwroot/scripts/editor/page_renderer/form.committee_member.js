@@ -12,11 +12,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 if(g_data)
                 {
                     p_result.push("<div class='row no-gutters align-items-start'>");
-                    p_result.push("<h2 class='construct__title text-primary h1'>");
+                    p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
                     p_result.push(g_data.home_record.last_name);
                     p_result.push(", ");
                     p_result.push(g_data.home_record.first_name);
-                    p_result.push("</h2>");
+                    p_result.push("</h1>");
                     p_result.push("</div>");
                 }
 
@@ -311,11 +311,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("<div class='construct__header'>");
                     if(g_data)
                     {
-                        p_result.push("<h2 class='construct__title text-primary h1'>");
+                        p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
                         p_result.push(g_data.home_record.last_name);
                         p_result.push(", ");
                         p_result.push(g_data.home_record.first_name);
-                        p_result.push("</h2>");
+                        p_result.push("</h1>");
                     }
                     if(g_data.home_record.record_id)
                     {
@@ -381,11 +381,11 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             p_result.push("<div class='col col-8'>");
                 if(g_data)
                 {
-                    p_result.push("<h2 class='construct__title text-primary h1'>");
+                    p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
                     p_result.push(g_data.home_record.last_name);
                     p_result.push(", ");
                     p_result.push(g_data.home_record.first_name);
-                    p_result.push("</h2>");
+                    p_result.push("</h1>");
                 }
                 if(g_data.home_record.record_id)
                 {

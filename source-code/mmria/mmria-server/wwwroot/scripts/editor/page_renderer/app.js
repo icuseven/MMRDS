@@ -3,8 +3,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     /* The Intro */
     p_result.push("<div class='content-intro'>");
-    p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
-    p_result.push("<input type='button' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' />");
+    p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>Line Listing Summary</h1>");
+    p_result.push("<input type='button' id='add-new-case' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' />");
     p_result.push("</div> <!-- end .content-intro -->");
 
     p_result.push("<div class='content-intro'>");
@@ -339,7 +339,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push("</tbody>");
     p_result.push('</table>');
 
-    p_result.push("<div class='table-pagination row align-items-center no-gutters mb-2'>");
+    p_result.push("<div class='table-pagination row align-items-center no-gutters'>");
         p_result.push("<div class='col'>");
             p_result.push("<div class='row no-gutters'>");
                 p_result.push("<p class='mb-0'>Total Records: ");

@@ -67,7 +67,23 @@
 
 @section Scripts
 {
-  
+  <script>
+    $('body').on('click', '#content-link', function(event) {
+      var tar = $('h1[tabindex]');
+      event.preventDefault();
+
+      tar.focus();
+    });
+
+
+    $('#nav-link').show();
+    $('body').on('click', '#nav-link', function() {
+      var tar = $('#navigation[tabindex]');
+      event.preventDefault();
+
+      tar.focus();
+    });
+  </script>
 }
 
 <div id="form_content_id" class="app-content col"></div>
