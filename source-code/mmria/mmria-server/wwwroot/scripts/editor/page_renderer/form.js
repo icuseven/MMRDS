@@ -506,14 +506,30 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
                     }
 
-                    setTimeout(() => {
-                        let caseNarrativeLabel = document.querySelectorAll('#g_data_case_narrative_case_opening_overview')[0].children[0];
-                    
-                        caseNarrativeLabel.innerHTML = `
-                            <h3 class="h3 mb-2 mt-0 font-weight-bold">Case Narrative</h3>
-                            <p class="mb-0" style="line-height: normal">Use the pre-fill text below, and copy and paste from Reviewer's Notes below to create a comprehensive case narrative. Whatever you type here is what will be printed in the Print Version.</p>
-                        `;
-                    }, 50);
+                    //~~~~~~~ QUEUE the WEIRDNESS
+                        // A bit weird/hacky but works
+                        // Because label is created dynamically, it doesn't exist until a few miliseconds later after DOM render
+                        // The logic below runs aand scans on a timed interval every 25ms...
+                        // It then stops after the label finally exists in the DOM
+                        // Finally it sets the label HTML to the new version (see below)
+                        let scan_for_narrative_label = setInterval(changeNarrativeLabel, 25);
+                        function changeNarrativeLabel()
+                        {
+                            let caseNarrativeLabel = document.querySelectorAll('#g_data_case_narrative_case_opening_overview')[0].children[0];
+
+                            // Checks if the label exists
+                            if (!isNullOrUndefined(caseNarrativeLabel))
+                            {
+                                // Insert new HTML/TEXT
+                                caseNarrativeLabel.innerHTML = `
+                                    <h3 class="h3 mb-2 mt-0 font-weight-bold">Case Narrative</h3>
+                                    <p class="mb-0" style="line-height: normal">Use the pre-fill text below, and copy and paste from Reviewer's Notes below to create a comprehensive case narrative. Whatever you type here is what will be printed in the Print Version.</p>
+                                `;
+                                // Stop the scanning
+                                clearInterval(scan_for_narrative_label);
+                            }
+                        }
+                    //~~~~~~~ END the WEIRDNESS    
                     
                     //~~~ Introduction text
                     p_result.push(`
