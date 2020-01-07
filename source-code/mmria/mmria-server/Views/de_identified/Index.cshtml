@@ -3,6 +3,8 @@
     Layout = "_LayoutBase"; 
     var userName = "";
 
+    ViewBag.Sidebar = true;
+
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -63,10 +65,4 @@
 
 }
 
-<div class="row">
-  <aside class="app-sidebar col">
-    @await Html.PartialAsync("_SideBarNav")
-  </aside>
-
-  <div id="form_content_id" class="app-content col"></div>
-</div>
+<div id="form_content_id" class="app-content col"></div>

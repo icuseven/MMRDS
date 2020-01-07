@@ -2,6 +2,9 @@
 @{
   Layout = "_LayoutBase";
   var userName = "";
+
+  ViewBag.Sidebar = false;
+  
   if (User.Identities.Any(u => u.IsAuthenticated))
   {
     userName = User.Identities.First(
@@ -20,13 +23,7 @@
 
 }
 
-<div class="row">
-  <div class="app-content col">
+<h1 class="h2 no-print">CSV Data Dictionary</h1>
+<p class="mb-4 no-print">This webpage lists, describes, and defines the properties of all fields contained within the MMRIA application database.  The data dictionary, including the column names of your exported data, can be found in the exported data file titled “data-dictionary.csv”. This file was previously named “field_mapping”.</p>
 
-    <h1 class="h2 no-print">CSV Data Dictionary</h1>
-    <p class="mb-4 no-print">This webpage lists, describes, and defines the properties of all fields contained within the MMRIA application database.  The data dictionary, including the column names of your exported data, can be found in the exported data file titled “data-dictionary.csv”. This file was previously named “field_mapping”.</p>
-
-    <div id="form_content_id"></div>
-  
-  </div>
-</div>
+<div id="form_content_id"></div>

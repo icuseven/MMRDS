@@ -26,11 +26,24 @@
   
   @await Html.PartialAsync("_Header")
 
-  <main id="content" class="container app-main" role="main" aria-label="Main Content Area">
+  <div class="container body-wrapper bg-white d-flex mt-2 mb-3 pl-0 pr-0">
+    <!-- <div class="row"> -->
 
-    @RenderBody()
-
-  </main>
+      @if (ViewBag.Sidebar == true)
+      {
+        <aside class="app-sidebar col order-lg-1 leftnav-wrapper">
+          @await Html.PartialAsync("_SideBarNav")
+        </aside>
+      }
+    
+      <main id="content"
+            class="app-main col order-lg-2"
+            role="main"
+            aria-label="Main Content Area">
+        @RenderBody()
+      </main>
+    <!-- </div> -->
+  </div>
     
   @await Html.PartialAsync("_Footer")
 

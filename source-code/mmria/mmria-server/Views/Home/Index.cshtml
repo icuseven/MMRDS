@@ -9,6 +9,8 @@
   var userName = "";
   var is_installation_admin = false;
   var is_jurisdiction_admin = false;
+
+  ViewBag.Sidebar = false;
   
   if(User.Identity != null && User.Identity.IsAuthenticated)
   {

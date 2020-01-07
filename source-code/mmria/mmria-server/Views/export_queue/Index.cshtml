@@ -2,6 +2,9 @@
 @{
   Layout = "_LayoutBase"; // _cdc_no_footer used to be the template file
   var userName = "";
+
+  ViewBag.Sidebar = false;
+
   if (User.Identities.Any(u => u.IsAuthenticated))
   {
     userName = User.Identities.First(
@@ -22,11 +25,5 @@
 
 }
 
-<div class="row">
-  <div class="app-content col">
-
-    <h1 class="h2 mb-4">Export Data</h1>
-    <div id='form_content_id'></div>
-
-  </div>
-</div>
+<h1 class="h2 mb-4">Export Data</h1>
+<div id='form_content_id'></div>
