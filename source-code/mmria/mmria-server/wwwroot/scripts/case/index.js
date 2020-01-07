@@ -524,13 +524,13 @@ $(function ()
 
   
 
-  /*
-  let working_space = 1000;
+  
+  let working_space = 1000; // 1GB
   let default_local_storage_limit = 5000; // 5GB
-  if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < working_space)
-*/
+
+/*
   let working_space = 100;
-  let default_local_storage_limit = 300; // 5GB
+  let default_local_storage_limit = 300; */
   if(default_local_storage_limit - get_local_storage_space_usage_in_kilobytes() < working_space)
   {
       let case_index = create_local_storage_index();

@@ -183,7 +183,7 @@ function load_users()
 function server_save(p_user)
 {
 	console.log("server save");
-	var current_auth_session = profile.get_auth_session_cookie();
+	//var current_auth_session = profile.get_auth_session_cookie();
 
 	if(current_auth_session)
 	{ 
@@ -239,7 +239,7 @@ function add_new_user_click()
 		)
 		{
 
-			var new_user = $$.add_new_user(new_user_name, new_user_password);
+			var new_user = $$.add_new_user(new_user_name.toLowerCase(), new_user_password);
 			user_id = new_user._id;
 			g_ui.user_summary_list.push(new_user);
 	
@@ -342,7 +342,7 @@ function change_password_user_click(p_user_id)
 					var response_obj = eval(response);
 					if(response_obj.ok)
 					{
-						for(var i = 0; i < g_ui.user_summary_list.length; i++)
+						for(let i = 0; i < g_ui.user_summary_list.length; i++)
 						{
 							if(g_ui.user_summary_list[i]._id == response_obj.id)
 							{
