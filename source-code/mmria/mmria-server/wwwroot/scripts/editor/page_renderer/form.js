@@ -465,31 +465,59 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
             p_result.push(`<div class='construct-output' style='height:${height_attribute}'>`);
 
-                //~~~ # RENDERS EACH INIDVIDUAL FIELD
-                for(var i = 0; i < p_metadata.children.length; i++)
+                if(g_data && p_metadata.name !== "case_narrative")
                 {
-                    var child = p_metadata.children[i];
-                    if(p_data[child.name] || p_data[child.name] == 0)
+                    //~~~ # RENDERS EACH INIDVIDUAL FIELD
+                    for(var i = 0; i < p_metadata.children.length; i++)
                     {
-                        // do nothing 
-                    }
-                    else
-                    {
-                        p_data[child.name] = create_default_object(child, {})[child.name];
-                    }
-                    Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
-                }
+                        var child = p_metadata.children[i];
 
-                //~~~ # CASE NARRATIVE FORM
-                if(g_data && p_metadata.name == "case_narrative")
+                        if(p_data[child.name] || p_data[child.name] == 0)
+                        {
+                            // do nothing 
+                        }
+                        else
+                        {
+                            p_data[child.name] = create_default_object(child, {})[child.name];
+                        }
+                        Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
+                    }
+                }
+                else if (g_data && p_metadata.name === 'case_narrative')
                 {
                     let noteTitle = null;
                     let noteUrl = null;
                     let notes = null;
+
+                    //~~~ # RENDER THE CASE NARRATIVE TEXTAREA
+                    for(var i = 0; i < p_metadata.children.length; i++)
+                    {
+                        var child = p_metadata.children[i];
+
+                        if(p_data[child.name] || p_data[child.name] == 0)
+                        {
+                            // do nothing 
+                        }
+                        else
+                        {
+                            p_data[child.name] = create_default_object(child, {})[child.name];
+                        }
+
+                        Array.prototype.push.apply(p_result, page_render(child, p_data[child.name], p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_dictionary_path + "/" + child.name, false, p_post_html_render, p_search_ctx));
+                    }
+
+                    setTimeout(() => {
+                        let caseNarrativeLabel = document.querySelectorAll('#g_data_case_narrative_case_opening_overview')[0].children[0];
+                    
+                        caseNarrativeLabel.innerHTML = `
+                            <h3 class="h3 mb-2 mt-0 font-weight-bold">Case Narrative</h3>
+                            <p class="mb-0" style="line-height: normal">Use the pre-fill text below, and copy and paste from Reviewer's Notes below to create a comprehensive case narrative. Whatever you type here is what will be printed in the Print Version.</p>
+                        `;
+                    }, 50);
                     
                     //~~~ Introduction text
                     p_result.push(`
-                        <p class="mt-5">The Reviewer’s Notes below come from each individual form. To make edits, navigate to each form. This content is included for reference in order to complete the Case Narrative at the top of the page.</p>
+                        <p class="mt-4">The Reviewer’s Notes below come from each individual form. To make edits, navigate to each form. This content is included for reference in order to complete the Case Narrative at the top of the page.</p>
                     `);
 
                     //~~~~~~~ LOOPS through each key and prints out data unique to that form
