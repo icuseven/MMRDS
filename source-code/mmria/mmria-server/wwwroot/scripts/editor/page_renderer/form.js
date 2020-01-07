@@ -211,6 +211,12 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             let transportMonth = g_value_to_display_lookup[`/${p_metadata.name}/date_of_transport/month`][g_data[p_metadata.name][i].date_of_transport.month];
                             let transportDay = g_value_to_display_lookup[`/${p_metadata.name}/date_of_transport/day`][g_data[p_metadata.name][i].date_of_transport.day];
                             let transportYear = g_value_to_display_lookup[`/${p_metadata.name}/date_of_transport/year`][g_data[p_metadata.name][i].date_of_transport.year];
+                            let transportReason = item.reason_for_transport;
+
+                            if (transportReason.length >= 100)
+                            {
+                                transportReason = transportReason.substring(0,100) + '...';
+                            }
 
                             p_result.push(`
                                 <tr class="tr">
@@ -225,7 +231,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                             `${transportMonth}/${transportDay}/${transportYear}` : ''
                                         }
                                     </td>
-                                    <td class="td">${item.reason_for_transport}</td>
+                                    <td class="td">${transportReason}</td>
                                     <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
                                 </tr>
                             `);
@@ -360,8 +366,8 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     p_result.push("</div>");
                     p_result.push("<div class='col col-4 text-right'>");
                         p_result.push("<div>");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo111' onclick='undo_click()' />");
-                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save111' onclick='save_form_click()' />");
+                            p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                            p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
                             render_print_form_control(p_result, p_ui, p_metadata);
                         p_result.push("</div>");
                     p_result.push("</div>");
