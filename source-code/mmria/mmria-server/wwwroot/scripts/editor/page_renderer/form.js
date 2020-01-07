@@ -529,7 +529,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 clearInterval(scan_for_narrative_label);
                             }
                         }
-                    //~~~~~~~ END the WEIRDNESS    
+                    //~~~~~~~ END the WEIRDNESS
                     
                     //~~~ Introduction text
                     p_result.push(`
