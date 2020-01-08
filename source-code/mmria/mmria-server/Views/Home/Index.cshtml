@@ -118,10 +118,10 @@
 }
 else
 {
-  <div class="grid mb-5">
+  <ul class="grid list-unstyled mb-4">
     @if(is_abstractor)
     {
-      <div class="card grid-item grid-item--3">
+      <li class="card grid-item grid-item--3">
         <div class="card-header bg-secondary"><h4 class="h5">Abstractor</h4></div>
         <div class="card-body">
           <ul>
@@ -130,24 +130,24 @@ else
             @*<li><a href="/recover-case">Recover-case</a></li>*@
           </ul>
         </div>
-      </div>
+      </li>
     }
 
     @if(is_committee_member)
     {
-      <div class="card grid-item grid-item--3">
+      <li class="card grid-item grid-item--3">
         <div class="card-header bg-secondary"><h4 class="h5">Committee Member</h4></div>
         <div class="card-body">
           <ul>
             <li><a href="/de-identified">View de-identified case data</a></li>
           </ul>
         </div>
-      </div>
+      </li>
     }
 
     @if(is_form_designer)
     {
-      <div class="card grid-item grid-item--3">
+      <li class="card grid-item grid-item--3">
         <div class="card-header bg-secondary"><h4 class="h5">Form Designer</h4></div>
         <div class="card-body">
           <ul>
@@ -160,25 +160,25 @@ else
             <li><a href="/version-manager/migrate">Open data migration manager</a></li>
           </ul>
         </div>
-      </div>
+      </li>
     }
 
     @if(is_jurisdiction_admin && ! is_installation_admin)
     {
-      <div class="card grid-item grid-item--3">
+      <li class="card grid-item grid-item--3">
         <div class="card-header bg-secondary"><h4 class="h5">Jurisdiction Admin</h4></div>
         <div class="card-body">
           <ul>
             <li><a href="/_users">Manage users & jurisdictions</a></li>
           </ul>
         </div>
-      </div>
+      </li>
     }
 
 
     @if(is_installation_admin)
     {
-      <div class="card grid-item grid-item--3">
+      <li class="card grid-item grid-item--3">
         <div class="card-header bg-secondary"><h4 class="h5">Installation Admin</h4></div>
         <div class="card-body">
           <ul>
@@ -186,10 +186,10 @@ else
             <li><a href="/_config">View configuration</a></li>
           </ul>
         </div>
-      </div>
+      </li>
     }
 
-    <div class="card grid-item grid-item--3">
+    <li class="card grid-item grid-item--3">
       <div class="card-header bg-secondary"><h4 class="h5">General</h4></div>
       <div class="card-body">
         <ul>
@@ -236,19 +236,19 @@ else
           <!-- li><a href="/metadata-listing" >View metadata listing</a></li -->
         </ul>
       </div>
-    </div>
+    </li>
 
-    <div class="card grid-item grid-item--3">
+    <li class="card grid-item grid-item--3">
       <div class="card-header bg-secondary"><h4 class="h5">Help</h4></div>
       <div class="card-body">
         <ul>
           <li>For MMRIA application support, please email <a href="mailto:MMRIASupport@cdc.gov">MMRIASupport@cdc.gov</a>.</li>
           <li>For MMRIA user roles or permissions, please contact your MMRIA Jurisdiction Administrator.</li>
-          <li>For SAMS login support, please email <a href="mailto:samshelp@cdc.gov">samshelp@cdc.gov</a> or call 877-681-2901</li>
+          <li>For SAMS login support, please email <a href="mailto:samshelp@cdc.gov">samshelp@cdc.gov</a> or call 877-681-2901.</li>
         </ul>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 }
 
 <span id="role_list" class="d-block"></span>
