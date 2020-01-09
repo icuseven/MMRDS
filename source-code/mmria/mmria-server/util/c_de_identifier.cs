@@ -34,21 +34,26 @@ namespace mmria.server.util
 			}
 
 			bool is_fully_de_identified = true;
-			foreach (string path in de_identified_set) 
-			{
-				is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path);
-			}
-
-			if(!is_fully_de_identified)
+			try 
 			{
 
-				System.Console.WriteLine ("Not fully de-identified");
-
-				string de_identified_json;
-
-				try 
+				foreach (string path in de_identified_set) 
 				{
-					
+					is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path);
+					/*
+					if(!is_fully_de_identified)
+					{
+						set_de_identified_value (case_item_object, path);
+					}*/
+				}
+
+				if(!is_fully_de_identified)
+				{
+
+					System.Console.WriteLine ("Not fully de-identified");
+
+					string de_identified_json;
+
 					string current_directory = AppContext.BaseDirectory;
 					if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
 					{
@@ -84,11 +89,12 @@ namespace mmria.server.util
 					case_item_object = case_expando_object;
 
 				} 
-				catch (Exception ex) 
-				{
 
-				}
 
+			}
+			catch (Exception ex) 
+			{
+				System.Console.WriteLine ($"de-identify exception {ex}");
 			}
 
 			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -181,10 +187,17 @@ namespace mmria.server.util
 					{
 						IList<object> Items = p_object as IList<object>;
 
-						foreach(object item in Items)
+						if(Items.Count > 0)
 						{
-							result = set_de_identified_value (item, path_list [0]);
+							foreach(object item in Items)
+							{
+								result = set_de_identified_value (item, path_list [0]);
 
+							}
+						}
+						else
+						{
+							result = true;
 						}
 					}	
 					else
@@ -228,11 +241,19 @@ namespace mmria.server.util
 						
 						IList<object> Items = p_object as IList<object>;
 
-						foreach(object item in Items)
+						if(Items.Count > 0)
 						{
-							result = set_de_identified_value (item, string.Join("/", path_list));
+							foreach(object item in Items)
+							{
+								result = set_de_identified_value (item, string.Join("/", path_list));
 
+							}
 						}
+						else
+						{
+							result = true;
+						}
+
 					}
 					else
 					{
