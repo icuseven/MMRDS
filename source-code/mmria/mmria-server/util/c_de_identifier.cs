@@ -86,7 +86,17 @@ namespace mmria.server.util
 					}
 
 					byName["_id"] = expando_object["_id"]; 
-					case_item_object = case_expando_object;
+					
+
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					result = Newtonsoft.Json.JsonConvert.SerializeObject(case_expando_object, settings);
+				}
+				else
+				{
+					Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+					settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+					result = Newtonsoft.Json.JsonConvert.SerializeObject(case_item_object, settings);
 
 				} 
 
@@ -97,9 +107,6 @@ namespace mmria.server.util
 				System.Console.WriteLine ($"de-identify exception {ex}");
 			}
 
-			Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-			settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-			result = Newtonsoft.Json.JsonConvert.SerializeObject(case_item_object, settings);
 			return result;
 		}
 

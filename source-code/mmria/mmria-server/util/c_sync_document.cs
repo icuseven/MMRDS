@@ -88,7 +88,7 @@ namespace mmria.server.util
 
 			string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
 
-			/*
+			
 			if(string.IsNullOrEmpty(de_identified_json))
 			{
 				try 
@@ -112,16 +112,16 @@ namespace mmria.server.util
 					var created_by = byName["created_by"] as string;
 					if(string.IsNullOrWhiteSpace(created_by))
 					{
-						byName["created_by"] = "system";
+						byName["created_by"] = "system2";
 					} 
 
 					if(byName.ContainsKey("last_updated_by"))
 					{
-						byName["last_updated_by"] = "system";
+						byName["last_updated_by"] = "system2";
 					}
 					else
 					{
-						byName.Add("last_updated_by", "system");
+						byName.Add("last_updated_by", "system2");
 						
 					}
 
@@ -134,7 +134,7 @@ namespace mmria.server.util
 
 				}
 
-			}*/
+			}
 
 			string de_identified_revision = await get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
 			System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
