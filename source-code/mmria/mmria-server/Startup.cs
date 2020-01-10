@@ -285,8 +285,11 @@ namespace mmria.server
                 sched.Start();
             }
             
- 
+            Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>(), "case_sync_actor");
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
+
+            //System.Threading.Thread.Sleep(1000);
+
             quartzSupervisor.Tell("init");
 
             var use_sams = false;

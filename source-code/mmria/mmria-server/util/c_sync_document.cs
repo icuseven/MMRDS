@@ -85,67 +85,9 @@ namespace mmria.server.util
 		public async System.Threading.Tasks.Task executeAsync()
 		{
 
-
-			string de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
-
-			
-			if(string.IsNullOrEmpty(de_identified_json))
-			{
-				try 
-				{
-					
-					string current_directory = AppContext.BaseDirectory;
-					if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
-					{
-						current_directory = System.IO.Directory.GetCurrentDirectory();
-					}
-
-					using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
-					{
-						de_identified_json = await sr.ReadToEndAsync ();
-					}
-
-					var case_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (de_identified_json);
-
-
-					var byName = (IDictionary<string,object>)case_expando_object;
-					var created_by = byName["created_by"] as string;
-					if(string.IsNullOrWhiteSpace(created_by))
-					{
-						byName["created_by"] = "system2";
-					} 
-
-					if(byName.ContainsKey("last_updated_by"))
-					{
-						byName["last_updated_by"] = "system2";
-					}
-					else
-					{
-						byName.Add("last_updated_by", "system2");
-						
-					}
-
-					byName["_id"] = this.document_id; 
-
-	
-				} 
-				catch (Exception ex) 
-				{
-
-				}
-
-			}
-
 			string de_identified_revision = await get_revision (Program.config_couchdb_url + "/de_id/" + this.document_id);
 			System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
-
-			if(!string.IsNullOrEmpty(de_identified_revision))
-			{
-				//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
-				
-				de_identified_json = set_revision (de_identified_json, de_identified_revision);
-
-			}
+			string de_identified_json = null;
 
 			de_identfied_url.Append(Program.config_couchdb_url);
 			de_identfied_url.Append("/de_id/");
@@ -155,6 +97,67 @@ namespace mmria.server.util
 			{
 				de_identfied_url.Append("?rev=");
 				de_identfied_url.Append(de_identified_revision);	
+
+			}
+			else
+			{
+
+				de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
+				
+				if(string.IsNullOrEmpty(de_identified_json))
+				{
+					try 
+					{
+						
+						string current_directory = AppContext.BaseDirectory;
+						if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+						{
+							current_directory = System.IO.Directory.GetCurrentDirectory();
+						}
+
+						using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
+						{
+							de_identified_json = await sr.ReadToEndAsync ();
+						}
+
+						var case_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (de_identified_json);
+
+
+						var byName = (IDictionary<string,object>)case_expando_object;
+						var created_by = byName["created_by"] as string;
+						if(string.IsNullOrWhiteSpace(created_by))
+						{
+							byName["created_by"] = "system2";
+						} 
+
+						if(byName.ContainsKey("last_updated_by"))
+						{
+							byName["last_updated_by"] = "system2";
+						}
+						else
+						{
+							byName.Add("last_updated_by", "system2");
+							
+						}
+
+						byName["_id"] = this.document_id; 
+
+		
+					} 
+					catch (Exception ex) 
+					{
+
+					}
+
+				}
+
+				if(!string.IsNullOrEmpty(de_identified_revision))
+				{
+					//de_identfied_url = Program.config_couchdb_url + "/de_id/" + this.document_id + "?new_edits=false";
+					
+					de_identified_json = set_revision (de_identified_json, de_identified_revision);
+
+				}
 			}
 
 			var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_value);
@@ -170,8 +173,8 @@ namespace mmria.server.util
 				//System.Console.WriteLine("c_sync_document de_id");
 				//System.Console.WriteLine(ex);
 			}
+		
 			
-
 			//string aggregate_url = Program.config_couchdb_url + "/report/" + kvp.Key + "?new_edits=false";
 
 			try

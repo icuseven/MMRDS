@@ -45,7 +45,9 @@ namespace mmria.server.model.actor.quartz
                         DateTime.Now
                     );
 
-                    Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+                    //Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>(), "case_sync_actor").Tell(Sync_All_Documents_Message);
+					var case_sync_actor = Context.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
+					case_sync_actor.Tell(Sync_All_Documents_Message);
 
 					break;
 			}
