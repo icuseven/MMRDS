@@ -25,7 +25,7 @@ namespace mmria.server.model.actor.quartz
                     var difference = DateTime.Now - midnight_timespan;
                     if(difference.Hour != 0 && difference.Minute != 0)
                     {
-                        return;
+                        break;
                     }
                     /*
                     try 
@@ -88,12 +88,15 @@ namespace mmria.server.model.actor.quartz
                         System.Console.WriteLine ($"rebuild_queue_job. error resuming schedule\n{ex}");
                     }
  */
+
+                    
                     break;
             }
 
+            Context.Stop(this.Self);
         }
 
-                private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_value, string p_method = "HEAD")
+        private static bool url_endpoint_exists (string p_target_server, string p_user_name, string p_value, string p_method = "HEAD")
         {
             bool result = false;
 

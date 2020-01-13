@@ -42,6 +42,8 @@ namespace mmria.server.model.actor.quartz
                 }
                 break;
             }
+
+			Context.Stop(this.Self);
         }
 
 

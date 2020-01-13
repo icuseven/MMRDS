@@ -28,7 +28,7 @@ namespace mmria.server.model
             // Say Hello to the World and display the date/time
             System.Console.WriteLine($"Quartz_Pulse - {DateTime.Now:r}");
 
-            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>());
+            var quartzSupervisor = Program.actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
             quartzSupervisor.Tell("pulse");
 
             return Task.CompletedTask;

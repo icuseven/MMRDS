@@ -63,6 +63,8 @@ namespace mmria.server.model.actor.quartz
 				Console.WriteLine($"Starup/Install Check - end {System.DateTime.Now}");
                 break;
             }
+
+            Context.Stop(this.Self);
         }
 
 

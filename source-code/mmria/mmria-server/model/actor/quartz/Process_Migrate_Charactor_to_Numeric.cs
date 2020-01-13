@@ -24,6 +24,7 @@ namespace mmria.server.model.actor.quartz
                     );
 
                     Context.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_Initial_Migrations_Message);
+					//Context.ActorSelection("akka://mmria-actor-system/user/Process_Migrate_Data").Tell(Process_Initial_Migrations_Message);
 
 					break;
 			}

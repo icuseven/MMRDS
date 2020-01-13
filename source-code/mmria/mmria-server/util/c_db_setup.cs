@@ -246,6 +246,7 @@ namespace mmria.server.util
                         );
 
                         _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
+                        //_actorSystem.ActorSelection("akka://mmria-actor-system/user/Process_Migrate_Data").Tell(Process_All_Migrations_Message);
                     //});
 
                 }

@@ -20,38 +20,47 @@ namespace mmria.server.model.actor.quartz
 
         protected override void OnReceive(object message)
         {
-			switch (message)
+			try
 			{
-				case string migration_plan_id:
-					process_migration_plan_by_id(migration_plan_id);
-					break;
-				case Process_Initial_Migrations_Message process_initial_migrations_message:
-				    string current_directory = AppContext.BaseDirectory;
-					if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
-					{
-						current_directory = System.IO.Directory.GetCurrentDirectory();
-					}
+				switch (message)
+				{
+					case string migration_plan_id:
+						process_migration_plan_by_id(migration_plan_id);
+						break;
+					case Process_Initial_Migrations_Message process_initial_migrations_message:
+						string current_directory = AppContext.BaseDirectory;
+						if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+						{
+							current_directory = System.IO.Directory.GetCurrentDirectory();
+						}
 
-					var migration_plan_directory_files =  System.IO.Directory.GetFiles(System.IO.Path.Combine (current_directory, "database-scripts/migration-plan-set"));
-					foreach(var file_path in migration_plan_directory_files)
-					{
-						var file_info = new System.IO.FileInfo(file_path);
-						var id = file_info.Name.Replace(".json","");
-						process_migration_plan_by_id(id);
-					}
+						var migration_plan_directory_files =  System.IO.Directory.GetFiles(System.IO.Path.Combine (current_directory, "database-scripts/migration-plan-set"));
+						foreach(var file_path in migration_plan_directory_files)
+						{
+							var file_info = new System.IO.FileInfo(file_path);
+							var id = file_info.Name.Replace(".json","");
+							process_migration_plan_by_id(id);
+						}
 
-                    var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
-                    (
-                        DateTime.Now
-                    );
+						var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
+						(
+							DateTime.Now
+						);
 
-                    //Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>(), "case_sync_actor").Tell(Sync_All_Documents_Message);
-					var case_sync_actor = Context.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
-					case_sync_actor.Tell(Sync_All_Documents_Message);
-
-					break;
+						Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+						/*
+						var case_sync_actor = Context.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
+						case_sync_actor.Tell(Sync_All_Documents_Message);
+						*/
+						break;
+			}
+			}
+			finally
+			{
+				Context.Stop(this.Self);
 			}
 
+ 			
         }
 
 		private void process_migration_plan_by_id(string migration_plan_id)

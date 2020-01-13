@@ -1,27 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace mmria.server.util
 {
 	public class c_de_identifier
 	{
 		string case_item_json;
-		static HashSet<string> de_identified_set = new HashSet<string>();
+		HashSet<string> de_identified_set = new HashSet<string>();
 		
 		public c_de_identifier (string p_case_item_json)
 		{
 			this.case_item_json = p_case_item_json;
 		}
-
-
-		public static HashSet<string> De_Identified_Set 
-		{
-			 set{ de_identified_set = value;}
-		}
-
-		public string execute()
+		public async Task<string> executeAsync()
 		{
 			string result = null;
+
+			cURL de_identified_list_curl = new cURL("GET", null, Program.config_couchdb_url + "/metadata/de-identified-list", null, Program.config_timer_user_name, Program.config_timer_value);
+			System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await de_identified_list_curl.executeAsync());
+			de_identified_set = new HashSet<string>();
+			foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
+			{
+				de_identified_set.Add(path);
+			}
+
+
+			if(this.case_item_json == null || de_identified_set.Count == 0)
+			{
+				return result;
+			}
 
 			System.Dynamic.ExpandoObject case_item_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(case_item_json);
 
@@ -210,6 +218,7 @@ namespace mmria.server.util
 					else
 					{
 						//System.Console.WriteLine ("This should not happen. {0}", p_path);
+						result = false;
 					}
 					
 				}
@@ -241,6 +250,10 @@ namespace mmria.server.util
 	
 							result = set_de_identified_value (val, string.Join("/", new_path));
 						}
+						else
+						{
+							result = true;
+						}
 	
 					}
 					else if (p_object is IList<object>)
@@ -265,6 +278,7 @@ namespace mmria.server.util
 					else
 					{
 						//System.Console.WriteLine ("This should not happen. {0}", p_path);
+						result = false;
 					}
 				}
 			}

@@ -126,6 +126,7 @@ namespace mmria.server.model.actor
                     Console.WriteLine (ex);
                 } 
 
+                Context.Stop(this.Self);
                 
                 break;
             }

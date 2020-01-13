@@ -285,7 +285,15 @@ namespace mmria.server
                 sched.Start();
             }
             
+            /*
+            Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Check_DB_Install>(), "Check_DB_Install");
+            Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Rebuild_Export_Queue>(), "Rebuild_Export_Queue");
+            Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue");
+            Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>(), "Process_Migrate_Data");
             Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>(), "case_sync_actor");
+            */
+            //Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>(), "Process_Migrate_Data");
+
             var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
 
             //System.Threading.Thread.Sleep(1000);

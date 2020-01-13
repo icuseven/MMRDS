@@ -241,7 +241,7 @@ namespace mmria.server.util
 			}
 
 
-			mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
+			//mmria.server.util.c_de_identifier.De_Identified_Set = de_identified_set;
 
 			List<System.Dynamic.ExpandoObject> all_cases_rows  = new List<System.Dynamic.ExpandoObject> ();
 		

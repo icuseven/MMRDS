@@ -101,9 +101,8 @@ namespace mmria.server.util
 			}
 			else
 			{
+				de_identified_json = await new mmria.server.util.c_de_identifier(document_json).executeAsync();
 
-				de_identified_json = new mmria.server.util.c_de_identifier(document_json).execute();
-				
 				if(string.IsNullOrEmpty(de_identified_json))
 				{
 					try 

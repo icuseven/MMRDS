@@ -85,7 +85,8 @@ namespace mmria.server.model.actor
 
                     if(Program.is_db_check_enabled)
                     {
-                        Context.ActorOf(Props.Create<Check_DB_Install>(), "Check_DB_Install").Tell(new_scheduleInfo);
+                        Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
+                        //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
                     }
                     
                     bool is_rebuild_queue = false;
@@ -99,11 +100,15 @@ namespace mmria.server.model.actor
 
                     if(is_rebuild_queue)
                     {
-                        Context.ActorOf(Props.Create<Rebuild_Export_Queue>(), "Rebuild_Export_Queue").Tell(new_scheduleInfo);
+                        Context.ActorOf(Props.Create<Rebuild_Export_Queue>()).Tell(new_scheduleInfo);
+                        //Context.ActorSelection("akka://mmria-actor-system/user/Rebuild_Export_Queue").Tell(new_scheduleInfo);
                     }
                     else
                     {
-                        Context.ActorOf(Props.Create<Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
+                        Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
+                        //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
+
+
                         //Context.ActorOf(Props.Create<Process_DB_Synchronization_Set>(), "Process_DB_Synchronization_Set").Tell(new_scheduleInfo);
                         //Context.ActorOf(Props.Create<Synchronize_Deleted_Case_Records>(), "Synchronize_Deleted_Case_Records").Tell(new_scheduleInfo);
 

@@ -71,6 +71,7 @@ namespace mmria.server.model.actor
                 break;
             }
 
+            Context.Stop(this.Self);
         }
 
     }
