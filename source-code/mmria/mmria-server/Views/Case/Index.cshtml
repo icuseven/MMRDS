@@ -69,16 +69,32 @@
 {
   <script>
     $('body').on('click', '#content-link', function(event) {
-      var tar = $('h1[tabindex]');
+      var summary = $('#app_summary')[0];
+      var tar = null;
+
       event.preventDefault();
 
-      tar.focus();
+      if (summary.style.display === 'block')
+      {
+        var tar = $('.content-intro[tabindex]');
+        tar.focus();
+      }
+      else
+      {
+        var tar = $('.construct__body[tabindex]');
+        
+        // setTimeout(() => {
+        //   window.scrollTo(0,192); // scroll to top of page
+        // }, 0);
+        tar.focus();
+      }
     });
 
 
     $('#nav-link').show();
     $('body').on('click', '#nav-link', function() {
       var tar = $('#navigation[tabindex]');
+
       event.preventDefault();
 
       tar.focus();
