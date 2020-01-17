@@ -45,8 +45,8 @@ namespace mmria.server.model.actor
 	
     public class Record_Session_Event : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Session_Event_Message started");
-        protected override void PostStop() => Console.WriteLine("Session_Event_Message stopped");
+        //protected override void PreStart() => Console.WriteLine("Session_Event_Message started");
+       //protected override void PostStop() => Console.WriteLine("Session_Event_Message stopped");
 
         protected override void OnReceive(object message)
         {

@@ -15,8 +15,8 @@ namespace mmria.server.model.actor.quartz
     }
     public class Process_Migrate_Data : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Process_Migrate_Data started");
-        protected override void PostStop() => Console.WriteLine("Process_Migrate_Data stopped");
+        //protected override void PreStart() => Console.WriteLine("Process_Migrate_Data started");
+        //protected override void PostStop() => Console.WriteLine("Process_Migrate_Data stopped");
 
         protected override void OnReceive(object message)
         {

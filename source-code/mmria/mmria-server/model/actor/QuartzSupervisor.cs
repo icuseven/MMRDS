@@ -128,8 +128,8 @@ namespace mmria.server.model.actor
 
     public class CheckForChanges : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("CheckForChanges started");
-        protected override void PostStop() => Console.WriteLine("CheckForChanges stopped");
+        //protected override void PreStart() => Console.WriteLine("CheckForChanges started");
+        //protected override void PostStop() => Console.WriteLine("CheckForChanges stopped");
 
         protected override void OnReceive(object message)
         {

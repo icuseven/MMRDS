@@ -8,8 +8,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Synchronize_Deleted_Case_Records : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Synchronize_Deleted_Case_Records started");
-        protected override void PostStop() => Console.WriteLine("Synchronize_Deleted_Case_Records stopped");
+        //protected override void PreStart() => Console.WriteLine("Synchronize_Deleted_Case_Records started");
+        //protected override void PostStop() => Console.WriteLine("Synchronize_Deleted_Case_Records stopped");
 
         protected override void OnReceive(object message)
         {

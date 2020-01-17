@@ -295,7 +295,11 @@ let year_of_death = document.getElementById('year_of_death').value;
 		document.getElementById('report_output_id').innerHTML = "";
 	}
 
-  if(post_html_callback.length > 0)
+  if
+  (
+    post_html_callback &&
+    post_html_callback.length > 0
+  )
   {
     try
     {

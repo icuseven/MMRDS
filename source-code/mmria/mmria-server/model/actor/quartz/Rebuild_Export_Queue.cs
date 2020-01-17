@@ -8,8 +8,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Rebuild_Export_Queue : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
-        protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
+        //protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
+        //protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
 
         protected override void OnReceive(object message)
         {

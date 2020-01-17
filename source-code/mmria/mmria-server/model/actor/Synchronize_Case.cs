@@ -34,8 +34,8 @@ namespace mmria.server.model.actor
     }
     public class Synchronize_Case : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Synchronize_Case started");
-        protected override void PostStop() => Console.WriteLine("Synchronize_Case stopped");
+        //protected override void PreStart() => Console.WriteLine("Synchronize_Case started");
+        //protected override void PostStop() => Console.WriteLine("Synchronize_Case stopped");
 
         protected override void OnReceive(object message)
         {

@@ -7,11 +7,11 @@ namespace mmria.server.model.actor
     {
         protected override void PreStart()
         {
-            Console.WriteLine("StartStopActor1 started");
+            //Console.WriteLine("StartStopActor1 started");
             Context.ActorOf(Props.Create<StartStopActor2>(), "second");
         }
 
-        protected override void PostStop() => Console.WriteLine("StartStopActor1 stopped");
+        //protected override void PostStop() => Console.WriteLine("StartStopActor1 stopped");
 
         protected override void OnReceive(object message)
         {

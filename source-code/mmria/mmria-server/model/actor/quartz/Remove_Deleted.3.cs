@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Remove_Deleted : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Remove_Deleted started");
-        protected override void PostStop() => Console.WriteLine("Remove_Deleted stopped");
+        //protected override void PreStart() => Console.WriteLine("Remove_Deleted started");
+        //protected override void PostStop() => Console.WriteLine("Remove_Deleted stopped");
 
         protected override void OnReceive(object message)
         {

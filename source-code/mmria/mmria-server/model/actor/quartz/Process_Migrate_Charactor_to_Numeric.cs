@@ -7,8 +7,8 @@ namespace mmria.server.model.actor.quartz
 {
     public class Process_Migrate_Charactor_to_Numeric : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Process_Migrate_Charactor_to_Numeric started");
-        protected override void PostStop() => Console.WriteLine("Process_Migrate_Charactor_to_Numeric stopped");
+        //protected override void PreStart() => Console.WriteLine("Process_Migrate_Charactor_to_Numeric started");
+        //protected override void PostStop() => Console.WriteLine("Process_Migrate_Charactor_to_Numeric stopped");
 
         protected override void OnReceive(object message)
         {

@@ -72,8 +72,8 @@ namespace mmria.server.model.actor
 
     public class Post_Session : UntypedActor
     {
-        protected override void PreStart() => Console.WriteLine("Synchronize_Case started");
-        protected override void PostStop() => Console.WriteLine("Synchronize_Case stopped");
+        //protected override void PreStart() => Console.WriteLine("Post_Session started");
+        //protected override void PostStop() => Console.WriteLine("Post_Session stopped");
 
         protected override void OnReceive(object message)
         {
