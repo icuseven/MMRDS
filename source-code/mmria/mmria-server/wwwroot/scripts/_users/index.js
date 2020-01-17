@@ -2,6 +2,7 @@
 var g_policy_values = null;
 var g_jurisdiction_tree = null;
 var g_user_role_jurisdiction = null;
+var g_current_u_id = null;
 
 var g_ui = { 
 	user_summary_list:[],
@@ -21,7 +22,7 @@ var $$ = {
    // 2016-06-12T13:49:24.759Z
     if(value)
     {
-      var test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z$/);
+      let test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z$/);
       return (test)? true : false;
     }
     else
@@ -84,7 +85,8 @@ function load_values()
 			url: location.protocol + '//' + location.host + '/api/policyvalues',
 	}).done(function(response) {
 			g_policy_values = response;
-			load_jurisdictions();
+			load_user_name();
+			
 	});
 
 }
@@ -95,11 +97,7 @@ function load_jurisdictions()
 
 	$.ajax
 	({
-			url: metadata_url,
-			beforeSend: function (request)
-			{
-				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-			}
+			url: metadata_url
 	}).done(function(response) 
 	{
 
@@ -118,11 +116,7 @@ function load_user_jurisdictions()
 
 	$.ajax
 	({
-			url: metadata_url,
-			beforeSend: function (request)
-			{
-				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-			}
+			url: metadata_url
 	}).done(function(response) 
 	{
 	
@@ -147,11 +141,7 @@ function load_users()
 	var metadata_url = location.protocol + '//' + location.host + '/api/user';
 
 	$.ajax({
-			url: metadata_url,
-			beforeSend: function (request)
-			{
-				request.setRequestHeader("AuthSession", $mmria.getCookie("AuthSession"));
-			}
+			url: metadata_url
 	}).done(function(response) {
 			
 			var temp = [];
@@ -166,7 +156,7 @@ function load_users()
 
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_uid).join("");
 
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("")
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("")
 			+ "" + jurisdiction_render(g_jurisdiction_tree).join("");
 			;
 
@@ -176,7 +166,36 @@ function load_users()
 
 
 
+function load_user_name()
+{
+	$.ajax
+	(
+		{
+			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',
+			headers: {          
+				Accept: "text/plain; charset=utf-8",         
+				"Content-Type": "text/plain; charset=utf-8"   
+			} 
+		}
+	).done(function(response) 
+	{
 
+		if(response)
+		{
+			for(let i = 0; i < response.rows.length; i++)
+			{
+				
+				let value = response.rows[i].value;
+				g_current_u_id = value.user_id
+				break;
+			}
+			
+			load_jurisdictions();
+		}
+        
+	});
+
+}
 
 
 
@@ -269,7 +288,7 @@ function add_new_user_click()
 						$mmria.addCookie("AuthSession", response_obj.auth_session);
 					}
 	
-					document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
+					document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 					create_status_message("new user has been added.", "new_user");
 	
 				}
@@ -357,7 +376,7 @@ function change_password_user_click(p_user_id)
 							$mmria.addCookie("AuthSession", response_obj.auth_session);
 						}
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
@@ -370,7 +389,7 @@ function change_password_user_click(p_user_id)
 		}
 		else
 		{
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
+			document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 			//console.log("greatness awaits.");
 		}
 	}
@@ -488,7 +507,7 @@ function save_user(p_user_id)
 							$mmria.addCookie("AuthSession", response_obj.auth_session);
 						}
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui).join("");
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
@@ -591,6 +610,8 @@ function add_role(p_user_id, p_created_by)
 
 function update_role(p_user_role_jurisdiction_id, p_user_id)
 {
+
+
 	var user_role_index = -1;
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
@@ -687,12 +708,7 @@ function remove_role(p_user_role_id)
 		
 		if(user_role._rev)
 		{
-			retVal = prompt("Confirm role [" + user_role.role_name + "] removal for user [" + user_role.user_id + "] by entering the role name: ", "role name to remove here");
-		
-
-			document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
-
-			document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
+			retVal = prompt("Confirm role removal for user " + user_role.user_id + " by entering [" + user_role.role_name + "]: ", "enter role name here");
 		}
 
 		if(retVal && retVal.toLocaleLowerCase() == user_role.role_name && user_role._rev)
@@ -706,18 +722,21 @@ function remove_role(p_user_role_id)
 			{
 				if(response.ok)
 				{
-
 					g_user_role_jurisdiction.splice(user_role_index, 1);
 
-					for(var i = 0; i < g_ui.user_summary_list.length; i++)
+					
+					for(let i = 0; i < g_ui.user_summary_list.length; i++)
 					{
 						if(g_ui.user_summary_list[i].name == user_role.user_id)
 						{
-							var escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
-							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "").join("") );
+							let escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
+							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], i, g_current_u_id).join("") );
 							break;
 						}
 					}
+
+					document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
+					document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
 					
 				}
 			});
@@ -725,17 +744,7 @@ function remove_role(p_user_role_id)
 		else
 		{
 				
-			g_user_role_jurisdiction.splice(user_role_index, 1);
-
-			for(var i = 0; i < g_ui.user_summary_list.length; i++)
-			{
-				if(g_ui.user_summary_list[i].name == user_role.user_id)
-				{
-					var escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
-					$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], "").join("") );
-					break;
-				}
-			}
+			
 
 		}
 
@@ -765,7 +774,7 @@ function change_password(p_user_id, p_role)
 		{
 			user.roles.splice(role_index, 1);
 			g_ui.user_summary_list[user_index] = user;
-			$( "#" + escaped_id).replaceWith( user_entry_render(user, "").join("") );
+			$( "#" + escaped_id).replaceWith( user_entry_render(user,  0, g_current_u_id).join("") );
 			create_status_message("user information saved", convert_to_jquery_id(user._id));
 		}
 	}

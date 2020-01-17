@@ -62,7 +62,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 
 	result.push("<td>");
 
-	if(g_policy_values.sams_is_enabled != "True")
+	if(g_policy_values.sams_is_enabled.toLowerCase() != "true")
 	{
 		result.push("<strong>");
 		result.push(p_user.name);
@@ -79,7 +79,6 @@ function user_entry_render(p_user, p_i, p_created_by)
 
 
 	result.push("</td>");
-
 
 	result.push("<td>");
 	result.push("<select size='7' id='role_list_for_");
@@ -258,6 +257,12 @@ function render_role_list_for(p_user, p_created_by)
 
 function user_role_list_change(p_select_list, p_user_id, p_updated_by)
 {
+
+	if(p_updated_by == null || p_updated_by == "")
+	{
+		p_updated_by = g_current_u_id;
+	}
+
 	if(p_select_list.selectedIndex > -1)
 	{
 		var selected_id = p_select_list.value;
@@ -445,6 +450,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push(p_user_role_jurisdiction.is_active);
 	result.push("' /> </td></tr>")
 
+
 	result.push("<tr><td>");
 	result.push("<input type='button' value='Remove Role' onclick='remove_role(\"" + p_user_role_jurisdiction._id + "\")'/>");
 	result.push("<input type='button' value='Update Role' onclick='update_role(\"" + p_user_role_jurisdiction._id + "\",\"" + p_updated_by + "\")' />");
@@ -477,7 +483,7 @@ function remove_user_click(p_user_id, p_rev)
 					{
 						g_ui.user_summary_list.splice(i,1)
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_uid).join("")
+						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("")
 						+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
 						;
 

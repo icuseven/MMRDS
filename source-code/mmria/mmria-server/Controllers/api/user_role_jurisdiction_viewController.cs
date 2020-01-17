@@ -68,7 +68,15 @@ effective_end_date
 			}
 
 
+
+
+
             var jurisdiction_hashset = mmria.server.util.authorization_user.get_current_jurisdiction_id_set_for(User);
+
+
+
+
+
             string sort_view = sort.ToLower ();
             switch (sort_view)
             {
@@ -155,6 +163,42 @@ effective_end_date
                     }
                 }
                 result.total_rows = result.rows.Count;
+
+                if(result.total_rows == 0)
+                {
+
+                    bool is_admin = false;
+
+                    foreach(var c in User.Claims.Where(c => c.Type == ClaimTypes.Role))
+                    {
+                            if(c.Value == "installation_admin")
+                            {
+                                is_admin = true;
+                                break;
+                            }
+                    }
+
+                    if(is_admin)
+                    {
+
+                        var svri = new mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction>();
+                        var urj = new mmria.common.model.couchdb.user_role_jurisdiction();
+                        
+                        urj.effective_start_date = DateTime.Now;
+                        urj.role_name = "installation_admin";
+                        urj.user_id = search_key;
+                        urj.last_updated_by = "system";
+                        urj.created_by = "system";
+                        urj.date_created = DateTime.Now;
+                        urj.date_last_updated = DateTime.Now;
+
+                        result.total_rows = 1;
+                        svri.id = "id";
+                        svri.key = "key";
+                        svri.value = urj;
+                        result.rows.Add (svri);
+                    }
+                }
                 return result;
 
 
