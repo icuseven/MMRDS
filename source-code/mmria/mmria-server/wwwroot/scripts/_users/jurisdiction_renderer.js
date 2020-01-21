@@ -63,9 +63,9 @@ function jurisdiction_render(p_data)
 }
 */
 
-function save_jurisdiction_tree_click(p_user_id)
+function save_jurisdiction_tree_click()
 {
-	if(g_jurisdiction_tree && p_user_id)
+	if(g_jurisdiction_tree && g_current_u_id)
 	{ 
 		$.ajax({
 					url: location.protocol + '//' + location.host + '/api/jurisdiction_tree',
