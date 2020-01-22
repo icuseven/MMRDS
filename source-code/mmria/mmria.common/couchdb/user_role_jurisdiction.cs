@@ -11,6 +11,8 @@ namespace mmria.common.model.couchdb
 		public string user_id { get; set; }
 		public string jurisdiction_id { get; set; }
 
+		public string application_namespace { get; set; }
+
 		public DateTime? effective_start_date { get; set; } 
 		public DateTime? effective_end_date { get; set; } 
 
@@ -21,7 +23,7 @@ namespace mmria.common.model.couchdb
 		public DateTime? date_last_updated { get; set; } 
 		public string last_updated_by { get; set; } 
 
-		public string data_type { get; set; }
+		public string data_type { get; set; } = "user_role_jurisdiction";
 
 		public user_role_jurisdiction()
 		{

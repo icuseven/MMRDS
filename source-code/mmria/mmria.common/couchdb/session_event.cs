@@ -16,7 +16,7 @@ namespace mmria.common.model.couchdb
 		}
 
         public string _id {get; set;}
-        public string data_type {get; set;}
+        public string data_type {get; set;} = "session-event";
         public DateTime date_created {get; set;}
         public string user_id {get; set;}
         public string ip {get; set;}
