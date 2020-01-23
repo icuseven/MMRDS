@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Linq;
+
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -94,7 +96,7 @@ namespace mmria.server
 
 			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.headers) 
 			{
-				httpWebRequest.Headers.Add (kvp.Key, kvp.Value);
+				httpWebRequest.Headers.Add (kvp.Key, HeaderNameOrValueEncode(kvp.Value));
 			}
 
 			if (this.pay_load != null) 
@@ -150,7 +152,7 @@ namespace mmria.server
 				var val = rgx.Replace(kvp.Value, "");
 				if(!string.IsNullOrWhiteSpace(key))
 				{
-					httpWebRequest.Headers.Add (key, val);
+					httpWebRequest.Headers.Add (key, HeaderNameOrValueEncode(val));
 				}
                 
             }
@@ -191,6 +193,34 @@ namespace mmria.server
 
 			return this;
 		}
+
+		public static string HeaderNameOrValueEncode(string headerString)
+		{
+			if (string.IsNullOrEmpty(headerString))
+			{
+				return headerString;
+			}
+			else
+			{
+				var sb = new System.Text.StringBuilder();
+				//headerString.All(ch => { if ((ch == 9 || ch >= 32) && ch != 127) sb.Append(ch); return true; });
+
+				foreach(var ch in headerString)
+				{
+					if 
+					(
+						(ch == 9 || ch >= 32) && 
+						ch != 127
+					)
+					{
+						sb.Append(ch);
+					}
+				}
+				
+				return sb.ToString();
+			}
+		}   
+
 	}
 }
 
