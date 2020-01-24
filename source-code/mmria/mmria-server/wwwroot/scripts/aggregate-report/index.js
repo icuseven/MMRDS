@@ -179,7 +179,6 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
-
 function load_data()
 {
 	var url =  location.protocol + '//' + location.host + '/api/aggregate_report'
@@ -204,13 +203,49 @@ function load_data()
 
 function generate_report_click()
 {
-/*
+
   let valid_response_regx = /^(All|\d+)$/;
 
 
-  let year_of_death_index = year_options.indexOf(document.getElementById('year_of_death').value);
-  let month_of_case_review_index = month_options.indexOf(document.getElementById('month_of_case_review').value);
-  let year_of_case_review_index = year_options.indexOf(document.getElementById('year_of_case_review').value);
+  let year_of_death_index = -1;
+  let month_of_case_review_index = -1;
+  let year_of_case_review_index = -1;
+
+let test_val = document.getElementById('year_of_death').value;
+for(let i = 0; i < year_options.length; i ++)
+{
+  if(test_val == year_options[i])
+  {
+    year_of_death_index = i;
+    break;
+  }
+}
+
+
+test_val = document.getElementById('month_of_case_review').value;
+for(let i = 0; i < month_options.length; i ++)
+{
+  if(test_val == month_options[i])
+  {
+    month_of_case_review_index = i;
+    break;
+  }
+}
+
+
+test_val = document.getElementById('year_of_case_review').value;
+if(test_val != "All")
+{
+  year_of_case_review_index = year_options.indexOf(new Number(test_val));
+}
+for(let i = 0; i < year_options.length; i ++)
+{
+  if(test_val == year_options[i])
+  {
+    year_of_case_review_index = i;
+    break;
+  }
+}
 
 
   if
@@ -234,11 +269,13 @@ function generate_report_click()
   let year_of_death = year_options[year_of_death_index];
   let month_of_case_review = month_options[month_of_case_review_index];
   let year_of_case_review = year_options[year_of_case_review_index];
-*/
 
+
+/*
 let year_of_death = document.getElementById('year_of_death').value;
   let month_of_case_review = document.getElementById('month_of_case_review').value;
   let year_of_case_review = document.getElementById('year_of_case_review').value;
+*/
 
 	var filter = {
 		year_of_death: year_of_death,

@@ -753,7 +753,7 @@ function execute_command_click()
             
     }
 
-    message_area.innerHTML = message;
+    message_area.innerHTML = sanitizeHTML(message);
   }
   else
   {
@@ -1339,3 +1339,9 @@ function make_row_of_selected_fields()
   return result;
 }
 
+function sanitizeHTML(str) 
+{
+	var temp = document.createElement('div');
+	temp.textContent = str;
+	return temp.innerHTML;
+}
