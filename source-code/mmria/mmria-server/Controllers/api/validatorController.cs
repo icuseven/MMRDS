@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace mmria.server
 {
-	[Route("api/[controller]")]
+	[Route("api/[controller]/{rev?}")]
 	public class validatorController: ControllerBase
 	{ 
 		public IConfiguration Configuration { get; }
@@ -67,6 +67,7 @@ namespace mmria.server
 
 		// POST api/values 
 		[Authorize(Roles  = "form_designer")]
+		//[Route("rev/{rev}")]
 		[HttpPost]
 		[HttpPut]
 		public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
@@ -88,6 +89,10 @@ namespace mmria.server
 
 				var validator_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_value,"text/*");
 
+
+				var revision = await get_revision(Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z");
+
+
 /*
 				System.Net.WebRequest request = System.Net.WebRequest.Create(new System.Uri(metadata_url));
 				request.Method = "PUT";
@@ -103,11 +108,15 @@ namespace mmria.server
 					request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
 				}
  */
-				if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
+
+ 				
+	
+				if (!string.IsNullOrWhiteSpace(revision))
 				{
-					System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
-					string If_Match = rgx.Replace(this.Request.Headers["If-Match"], "");
-					validator_curl.AddHeader("If-Match",  If_Match);
+					validator_curl.AddHeader("If-Match",  revision);
+					//System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
+					//string If_Match = rgx.Replace(this.Request.Headers["If-Match"], "");
+					
 				}
 
 				try
@@ -157,6 +166,37 @@ namespace mmria.server
 
 			return result;
 		} 
+
+		private async System.Threading.Tasks.Task<string> get_revision(string p_document_url)
+		{
+
+			string result = null;
+
+			var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+			string temp_document_json = null;
+
+			try
+			{
+				
+                temp_document_json = await document_curl.executeAsync();
+                var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp_document_json);
+				IDictionary<string, object> updater = request_result as IDictionary<string, object>;
+				if(updater != null && updater.ContainsKey("_rev"))
+                {
+                    result = updater ["_rev"].ToString ();
+                }
+			}
+			catch(Exception ex) 
+			{
+				if (!(ex.Message.IndexOf ("(404) Object Not Found") > -1)) 
+				{
+					//System.Console.WriteLine ("c_sync_document.get_revision");
+					//System.Console.WriteLine (ex);
+				}
+			}
+
+			return result;
+		}
 	} 
 }
 

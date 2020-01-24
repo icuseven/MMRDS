@@ -184,12 +184,14 @@ namespace mmria.server
 
 					var metadata_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_value, "text/*");
 
-                    if (!string.IsNullOrWhiteSpace(this.Request.Headers["If-Match"]))
+
+					var revision = await get_revision(Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z");
+                    if (!string.IsNullOrWhiteSpace(revision))
                     {
-						string If_Match = this.Request.Headers["If-Match"];
-                    	System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
-						string validated_val = rgx.Replace(If_Match, "");
-                        metadata_curl.AddHeader("If-Match",  validated_val);
+						//string If_Match = this.Request.Headers["If-Match"];
+                    	//System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
+						//string validated_val = rgx.Replace(If_Match, "");
+                        metadata_curl.AddHeader("If-Match",  revision);
                     }
 
 					string responseFromServer = await metadata_curl.executeAsync();
@@ -268,6 +270,38 @@ namespace mmria.server
 				Console.WriteLine (ex);
 			}
 			
+			return result;
+		}
+
+		
+		private async System.Threading.Tasks.Task<string> get_revision(string p_document_url)
+		{
+
+			string result = null;
+
+			var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+			string temp_document_json = null;
+
+			try
+			{
+				
+                temp_document_json = await document_curl.executeAsync();
+                var request_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(temp_document_json);
+				IDictionary<string, object> updater = request_result as IDictionary<string, object>;
+				if(updater != null && updater.ContainsKey("_rev"))
+                {
+                    result = updater ["_rev"].ToString ();
+                }
+			}
+			catch(Exception ex) 
+			{
+				if (!(ex.Message.IndexOf ("(404) Object Not Found") > -1)) 
+				{
+					//System.Console.WriteLine ("c_sync_document.get_revision");
+					//System.Console.WriteLine (ex);
+				}
+			}
+
 			return result;
 		}
 

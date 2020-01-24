@@ -435,12 +435,12 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 			contentType: 'multipart/form-data; charset=utf-8',
 			dataType: 'text',
 			data: output_json.join(""),
-			type: "POST",
+			type: "POST",/*
 			beforeSend: function (request)
 			{
 			  	//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 			  	request.setRequestHeader("If-Match", g_metadata._rev);
-			}
+			}*/
 	}).done(function(response) 
 	{
 
@@ -504,12 +504,12 @@ function create_check_code_submit()
 									data: check_code_text,
 									contentType: 'multipart/form-data; charset=utf-8',
 									dataType: 'text',
-									type: "POST",
+									type: "POST"/*,
 									beforeSend: function (request)
 									{
 										//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
 										request.setRequestHeader("If-Match", g_metadata._rev);
-									}
+									}*/
 
 								}).done(function(response) 
 								{
