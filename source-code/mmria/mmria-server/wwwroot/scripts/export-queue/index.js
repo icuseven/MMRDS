@@ -47,7 +47,7 @@ var answer_summary = {
 	all_or_core: 'all',
 	grantee_name: location.host,
 	is_encrypted: 'no',
-	encryption_key: '',
+	zip_key: '',
 	is_for_cdc: 'no',
 	de_identified_selection_type: 'none',
 	de_identified_field_set: [],
@@ -118,7 +118,7 @@ function create_queue_item
 	p_all_or_core,
 	p_grantee_name,
 	p_is_encrypted,
-	p_encryption_key,
+	p_zip_key,
 	p_de_identified_selection_type,
 	p_de_identified_field_set,
 	p_case_filter_type,
@@ -139,7 +139,7 @@ function create_queue_item
 			all_or_core: p_all_or_core,
 			grantee_name: p_grantee_name,
 			is_encrypted: p_is_encrypted,
-			encryption_key: p_encryption_key,
+			zip_key: p_zip_key,
 			de_identified_selection_type: p_de_identified_selection_type,
 			de_identified_field_set: p_de_identified_field_set,
 			case_filter_type: p_case_filter_type,
@@ -192,7 +192,7 @@ function add_new_all_export_item()
 			answer_summary.all_or_core,
 			answer_summary.grantee_name,
 			answer_summary.is_encrypted,
-			answer_summary.encryption_key,
+			answer_summary.zip_key,
 			answer_summary.de_identified_selection_type,
 			answer_summary.de_identified_field_set,
 			answer_summary.case_filter_type,
@@ -419,9 +419,9 @@ function update_queue_task()
 	});
 }
 
-function encryption_key_changed(p_value)
+function zip_key_changed(p_value)
 {
-	answer_summary.encryption_key = p_value;
+	answer_summary.zip_key = p_value;
 }
 
 function setAnswerSummary(event) 

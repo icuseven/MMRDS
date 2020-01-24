@@ -83,7 +83,7 @@ namespace mmria.server
 						System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9 -]");
 						string If_Match = rgx.Replace(this.Request.Headers["If-Match"], "");
                          
-                        put_curl.AddHeader("If-Match",  If_Match);
+                        put_curl.AddHeader("If-Match",  cURL.SanitizeHeader(If_Match));
                     }
 
 					string responseFromServer = await put_curl.executeAsync();

@@ -96,7 +96,7 @@ namespace mmria.server
 
 			foreach (System.Collections.Generic.KeyValuePair<string,string> kvp in this.headers) 
 			{
-				httpWebRequest.Headers.Add (kvp.Key, HeaderNameOrValueEncode(kvp.Value));
+				httpWebRequest.Headers.Add (kvp.Key, SanitizeHeader(kvp.Value));
 			}
 
 			if (this.pay_load != null) 
@@ -152,7 +152,7 @@ namespace mmria.server
 				var val = rgx.Replace(kvp.Value, "");
 				if(!string.IsNullOrWhiteSpace(key))
 				{
-					httpWebRequest.Headers.Add (key, HeaderNameOrValueEncode(val));
+					httpWebRequest.Headers.Add (key, SanitizeHeader(val));
 				}
                 
             }
@@ -194,7 +194,7 @@ namespace mmria.server
 			return this;
 		}
 
-		public static string HeaderNameOrValueEncode(string headerString)
+		public static string SanitizeHeader(string headerString)
 		{
 			if (string.IsNullOrEmpty(headerString))
 			{

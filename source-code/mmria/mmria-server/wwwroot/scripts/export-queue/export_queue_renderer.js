@@ -78,7 +78,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 							<input id="encryption-key"
 										 class="form-control w-auto"
 										 type="text"
-										 value="${p_answer_summary.encryption_key}" onchange="encryption_key_changed(this.value)" />
+										 value="${p_answer_summary.zip_key}" onchange="zip_key_changed(this.value)" />
 						</div>
 					</li>
 
