@@ -722,9 +722,9 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
 			string encryption_key = null;
 
-			if(!string.IsNullOrWhiteSpace(queue_item.encryption_key))
+			if(!string.IsNullOrWhiteSpace(queue_item.zip_key))
 			{
-				encryption_key = queue_item.encryption_key;
+				encryption_key = queue_item.zip_key;
 			}
 
 			folder_compressor.Compress

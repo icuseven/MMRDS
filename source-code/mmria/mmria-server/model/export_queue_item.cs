@@ -26,7 +26,7 @@ namespace mmria.server
         public string all_or_core {get; set;}
         public string grantee_name {get; set;}
         public string is_encrypted {get; set;}
-        public string encryption_key {get; set;}
+        public string zip_key {get; set;}
         
         public string de_identified_selection_type {get; set;}
         public string[] de_identified_field_set {get; set;}
