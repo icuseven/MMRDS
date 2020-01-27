@@ -92,7 +92,7 @@ namespace mmria.server.model.actor.quartz
 					item.all_or_core = doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
 					item.grantee_name = doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
 					item.is_encrypted = doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
-					item.encryption_key = doc_item ["encryption_key"] != null ? doc_item ["encryption_key"].ToString () : null;
+					item.encryption_key = doc_item ["zip_key"] != null ? doc_item ["zip_key"].ToString () : null;
 					item.de_identified_selection_type = doc_item ["de_identified_selection_type"] != null ? doc_item ["de_identified_selection_type"].ToString () : null;
 					
 					item.case_filter_type = doc_item ["case_filter_type"] != null ? doc_item ["case_filter_type"].ToString () : null;
@@ -292,7 +292,7 @@ namespace mmria.server.model.actor.quartz
 					item.all_or_core = doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
 					item.grantee_name = doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
 					item.is_encrypted = doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
-					item.encryption_key = doc_item ["encryption_key"] != null ? doc_item ["encryption_key"].ToString () : null;
+					item.encryption_key = doc_item ["zip_key"] != null ? doc_item ["zip_key"].ToString () : null;
 					item.de_identified_selection_type = doc_item ["de_identified_selection_type"] != null ? doc_item ["de_identified_selection_type"].ToString () : null;
 					
 					item.case_filter_type = doc_item ["case_filter_type"] != null ? doc_item ["case_filter_type"].ToString () : null;
