@@ -683,7 +683,18 @@ namespace mmria.server
                 async (context, next) =>
                 {
 
+
+
+
                     if
+                    (
+                        context.Request.Headers.ContainsKey("Content-Length") &&
+                        context.Request.Headers.ContainsKey("Transfer-Encoding")
+                    )
+                    {
+                        context.Response.StatusCode = 405;
+                    }
+                    else if
                     (
                         context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
                         context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
