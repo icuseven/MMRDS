@@ -40,6 +40,10 @@ namespace mmria.server.util
 			{
 				expando_object.Remove("_rev");
 			}
+			else
+			{
+				return result;
+			}
 
 			bool is_fully_de_identified = true;
 			try 
