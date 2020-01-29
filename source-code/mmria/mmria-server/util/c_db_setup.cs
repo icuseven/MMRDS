@@ -201,7 +201,7 @@ namespace mmria.server.util
 
                 try 
                 {
-                    string export_directory = Program.config_export_directory;
+                    string export_directory =  CleanPath.execute(Program.config_export_directory);
 
                     if (System.IO.Directory.Exists (export_directory)) 
                     {
