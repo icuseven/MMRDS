@@ -682,46 +682,55 @@ namespace mmria.server
             (
                 async (context, next) =>
                 {
-
-
-
-
-                    if
-                    (
-                        context.Request.Headers.ContainsKey("Content-Length") &&
-                        context.Request.Headers.ContainsKey("Transfer-Encoding")
-                    )
+                    switch(context.Request.Method.ToLower())
                     {
-                        context.Response.StatusCode = 405;
-                    }
-                    else if
-                    (
-                        context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
-                        context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
-                        context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
-                    )
-                    {
-                        context.Response.Headers.Add("X-Frame-Options", "DENY");
-                        context.Response.Headers.Add("Content-Security-Policy",  
-                        "" +  
-                        "frame-ancestors  'none'"); 
-                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                        context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
-                        context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
-                        context.Response.StatusCode = 405;
 
-                    }
-                    else
-                    {
-                        context.Response.Headers.Add("X-Frame-Options", "DENY");
-                        context.Response.Headers.Add("Content-Security-Policy",  
-                        "" +  
-                        "frame-ancestors  'none'"); 
-                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                        context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
-                        context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
+                        case "get":
+                        case "head":
+                        case "post":
+                        case "put":
+                            if
+                            (
+                                context.Request.Headers.ContainsKey("Content-Length") &&
+                                context.Request.Headers.ContainsKey("Transfer-Encoding")
+                            )
+                            {
+                                context.Response.StatusCode = 405;
+                            }
+                            else if
+                            (
+                                context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
+                                context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
+                                context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
+                            )
+                            {
+                                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                                context.Response.Headers.Add("Content-Security-Policy",  
+                                "" +  
+                                "frame-ancestors  'none'"); 
+                                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                                context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
+                                context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
+                                context.Response.StatusCode = 405;
 
-                        await next();
+                            }
+                            else
+                            {
+                                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                                context.Response.Headers.Add("Content-Security-Policy",  
+                                "" +  
+                                "frame-ancestors  'none'"); 
+                                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                                context.Response.Headers.Add("Cache-Control","no-cache, no-store"); 
+                                context.Response.Headers.Add("X-XSS-Protection","1; mode=block"); 
+
+                                await next();
+                            }
+
+                        break;
+                        default:
+                            context.Response.StatusCode = 405;
+                        break;
                     }
                 }
             );
