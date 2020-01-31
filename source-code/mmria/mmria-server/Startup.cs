@@ -509,6 +509,13 @@ namespace mmria.server
                     NoStore = true
                 });
             });
+            /*.AddJsonOptions(o =>
+                {
+                    o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+                });
+
+            services.AddControllers().AddNewtonsoftJson();*/
 
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
             // Register the Swagger generator, defining one or more Swagger documents
