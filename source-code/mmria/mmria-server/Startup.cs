@@ -747,7 +747,7 @@ namespace mmria.server
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             */
-
+            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
