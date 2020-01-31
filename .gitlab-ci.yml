@@ -67,6 +67,7 @@ build:
         - echo "                \"BuildConfiguration\":\"release\", " >> build-call.txt
         - echo "                \"CodeRepoType\":\"GIT\", " >> build-call.txt
         - echo "                \"SolutionFileName\":\"\", " >> build-call.txt
+        - echo "                \"ResultsDelivery\":\"isu7@cdc.gov\", " >> build-call.txt
         - echo "                \"SourceSubFolder\":\"source-code/mmria/mmria-server\", " >> build-call.txt        
         - echo "                \"SSCApplicationName\":\"NCCD_Maternal Mortality Review Information App\", " >> build-call.txt
         - echo "                \"SSCApplicationVersion\":\"CSharp\", " >> build-call.txt
