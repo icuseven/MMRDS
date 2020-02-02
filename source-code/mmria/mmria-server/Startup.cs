@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Akka.Actor;
 using Akka.Quartz.Actor;
-using Swashbuckle.AspNetCore.Swagger;
+//using Swashbuckle.AspNetCore.Swagger;
 using Quartz;
 using Quartz.Impl;
 using Serilog;
@@ -519,11 +519,13 @@ namespace mmria.server
 
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
             // Register the Swagger generator, defining one or more Swagger documents
+
+            /*
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
             });
-
+            */
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -696,6 +698,7 @@ namespace mmria.server
                         case "head":
                         case "post":
                         case "put":
+                        case "delete":
                             if
                             (
                                 context.Request.Headers.ContainsKey("Content-Length") &&
@@ -766,13 +769,14 @@ namespace mmria.server
 
                         //http://localhost:5000/swagger/v1/swagger.json
             // Enable middleware to serve generated Swagger as a JSON endpoint.
+            /*
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            });*/
 
         }
 
