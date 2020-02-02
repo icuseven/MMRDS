@@ -695,9 +695,9 @@ namespace mmria.server
                     {
 
                         case "get":
-                        case "head":
-                        case "post":
                         case "put":
+                        case "post":
+                        case "head":                        
                         case "delete":
                             if
                             (
