@@ -130,7 +130,7 @@ var $mmria = function()
         {
             function s4() 
             {
-                return Math.floor((1 + Math.random()) * 0x10000)
+                return Math.floor((1 + $mmria.getRandomCryptoValue()) * 0x10000)
                 .toString(16)
                 .substring(1);
             }
@@ -221,6 +221,11 @@ var $mmria = function()
             var result = parseInt(window.location.href.substr(window.location.href.lastIndexOf("/") + 1,window.location.href.length - (window.location.href.lastIndexOf("/") + 1)));
             
             return result;
+        },
+        getRandomCryptoValue: function () 
+        {
+            var crypto = window.crypto || window.msCrypto; // handles Internet Explorer
+            return crypto.getRandomValues(new Uint32Array(1))[0];
         }
     };
 
