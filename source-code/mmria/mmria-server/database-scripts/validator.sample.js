@@ -8,7 +8,7 @@ var path_to_validation_description = [];
 
 function x6_of(x) {
     if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && this.date_of_death.year > 2000) {
-        this.record_id = this.state_of_death_record + '-' + this.date_of_death.year + '-' + Math.random().toString().substring(2, 6);
+        this.record_id = this.state_of_death_record + '-' + this.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         x.value = this.record_id;
     }
 }
