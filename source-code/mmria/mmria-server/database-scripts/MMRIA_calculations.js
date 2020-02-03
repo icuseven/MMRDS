@@ -2145,7 +2145,7 @@ function pc_rm_ga(p_control) {
     if (this.date_and_time instanceof Date) {
         var event_date = this.date_and_time;
     } else {
-        var event_date = new Date(this.this.date_and_time);
+        var event_date = new Date(this.date_and_time);
     }
     if ($global.isValidDate(edd_year, edd_month, edd_day) == true && this.date_and_time != '' || this.date_and_time != null) {
         ga = $global.calc_ga_edd(event_date, edd_date);
