@@ -699,8 +699,18 @@ namespace mmria.server
                         case "post":
                         case "head":                        
                         case "delete":
+
                             if
                             (
+                                context.Request.Headers.ContainsKey("Content-Length") && 
+                                context.Request.Headers["HeaderContentLength"].Count > 1
+                            )
+                            {
+                                context.Response.StatusCode = 405;
+                            }
+                            else if
+                            (
+                                
                                 context.Request.Headers.ContainsKey("Content-Length") &&
                                 context.Request.Headers.ContainsKey("Transfer-Encoding")
                             )
