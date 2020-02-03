@@ -1406,7 +1406,7 @@ var $global = {
     };
 function xe_of(p_control) {
     if ((!this.record_id || this.record_id == '') && this.state_of_death_record && this.state_of_death_record != '' && this.date_of_death.year && parseInt(this.date_of_death.year) > 999 && parseInt(this.date_of_death.year) < 2500) {
-        this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + Math.random().toString().substring(2, 6);
+        this.record_id = this.state_of_death_record.substring(0, 2) + '-' + this.date_of_death.year + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         p_control.value = this.record_id;
     }
 }
