@@ -76,12 +76,32 @@ namespace mmria.server.model
 //  new - end
 
 
+	public struct opioid_report_value_struct
+	{
+		public string host_state;
+
+		public int? year_of_death;
+		public int? month_of_death;
+
+		public int? case_review_year;
+		public int? case_review_month;
+
+		public int? pregnancy_related;
+
+		public string indicator_id;
+
+		public string field_id;
+		public int? value;
+	}
 
 	public class c_opioid_report_object
 	{
 
 		public c_opioid_report_object()
 		{
+			this.type = "overdose";
+			this.data = new System.Collections.Generic.List<opioid_report_value_struct>();
+
 			this.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 			this.total_pregnancy_related_determined_to_be_preventable = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 			this.total_pregnancy_associated_determined_to_be_preventable = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
@@ -104,6 +124,12 @@ namespace mmria.server.model
 
 		}
 		public string _id ;
+		//public string _rev ;
+
+		public string type;
+
+		public System.Collections.Generic.List<opioid_report_value_struct> data;
+
 		public int? year_of_death;
 		public int? month_of_case_review;
 		public int? year_of_case_review;
