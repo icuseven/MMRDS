@@ -109,7 +109,15 @@
   </script>
 }
 
-<h1 class="h2">Welcome to MMRIA</h1>
+<div class="row no-gutters justify-content-between mb-3">
+  <h1 class="h2">MMRIA Home</h1>
+  @* <span class="statement">
+    <p class="m-0">Form Approved</p>
+    <p class="m-0">OMB No. 0920-xxxx</p>
+    <p class="m-0">Exp. Date xx/xx/xxxx</p>
+  </span>
+  <p>Public reporting burden of this collection of information is estimated to average 24 minutes per response, including the time for reviewing instructions, searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information. An agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a currently valid OMB control number. Send comments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden to CDC/ATSDR Reports Clearance Officer; 1600 Clifton Road NE, MS D-74, Atlanta, Georgia 30333; ATTN: PRA (0920-xxxx)</p> *@
+</div>
 
 @if (is_guest)
 {
@@ -229,7 +237,8 @@ else
                 <option value="case_narrative">Case Narrative</option>
                 <option value="committee_review">Committee Decisions</option>
               </select>
-              <input class="btn btn-secondary mt-2" type="button" onclick="var selected_value = document.getElementById('print_blank_version').value; if(selected_value) {open_blank_version(selected_value);}" value="Print blank version" />
+              <button class="btn btn-secondary mt-2" type="button" onclick="init_inline_loader(perform_print_blank_version)">Print blank version</button>
+              <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span>
             </div>
           </li>
 
@@ -252,3 +261,16 @@ else
 }
 
 <span id="role_list" class="d-block"></span>
+
+@section Scripts
+{
+  <script>
+    function perform_print_blank_version() {
+      var selected_value = document.getElementById('print_blank_version').value;
+      if(selected_value)
+      {
+        open_blank_version(selected_value);
+      }
+    }
+  </script>
+}
