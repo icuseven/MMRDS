@@ -1,27 +1,27 @@
 function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path, p_object_path, p_post_html_render, p_muliform_index)
 {
 	var result = [];
+
 	switch(p_metadata.type.toLowerCase())
 	{
 		case 'group':
 				result.push('<fieldset>');
-				//result.push(p_path)
-				result.push('<legend>')
-				result.push(p_metadata.prompt);
-				result.push('</legend> ');
-				//result.push(p_data[p_metadata.name]);
-
-				for(var i = 0; i < p_metadata.children.length; i++)
-				{
-					var child = p_metadata.children[i];
-					if(p_data[child.name] != null || child.type == "chart")
-					Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
-				}
-
+					//result.push(p_path)
+					result.push('<legend>')
+						result.push(p_metadata.prompt);
+					result.push('</legend> ');
+					//result.push(p_data[p_metadata.name]);
+					for(var i = 0; i < p_metadata.children.length; i++)
+					{
+						var child = p_metadata.children[i];
+						if(p_data[child.name] != null || child.type == "chart")
+						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
+					}
 				result.push('</fieldset>');
-				break;	
+
+				break;
+
 		case 'grid':
-		
 				result.push('<table border="1">');
 				//result.push(p_path)
 				result.push('<tr><th colspan=')
@@ -47,6 +47,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 					{
 						result.push("<td>");
 						var child = p_metadata.children[j];
+
 						if(p_data[i][child.name] == null)
 						{
 							result.push("&nbsp;");
@@ -54,6 +55,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 						else
 						{
 							var data = p_data[i][child.name];
+
 							if(Array.isArray(data))
 							{
 								result.push("<ul>");
@@ -74,71 +76,72 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 					}
 					result.push("</tr>");
 				}
-
 				result.push('</table>');
-				break;					
+
+				break;
+
 		case 'form':
-
-		if(
-			 p_metadata.cardinality == "+" ||
-			 p_metadata.cardinality == "*"
-		
-		)
-		{
-			result.push('<section id="');
-			result.push(p_metadata.name)
-			result.push('">');
-
-			for(var form_index = 0; form_index < p_data.length; form_index++)
+			if(
+				p_metadata.cardinality == "+" ||
+				p_metadata.cardinality == "*"
+			
+			)
 			{
-				var form_item = p_data[form_index];
-
-				
-				//result.push(p_metadata.name)
-				result.push('<h2>')
-				result.push(p_metadata.prompt);
-				result.push(' Record: ');
-				result.push(form_index + 1);
-				result.push('</h2> ');
-				//result.push(p_data[p_metadata.name]);
-				
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(form_item[child.name] != null || child.type == "chart")
-						Array.prototype.push.apply(result, print_version_render(child, form_item[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + i + "]." + child.name, p_post_html_render, form_index));
-					}
-				}
-			}
-			result.push('</section>');
-		}
-		else
-		{
-			result.push('<section id="');
+				result.push('<section id="');
 				result.push(p_metadata.name)
-				result.push('"> <h2>')
-				result.push(p_metadata.prompt);
-				result.push('</h2> ');
-				//result.push(p_data[p_metadata.name]);
-				
-				if(p_metadata.children)
-				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(p_data[child.name] != null || child.type == "chart")
-						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
-					}
-				}
-				result.push('</section>');
-		}
-				
-				break;	
-		case "list":
-		
+				result.push('">');
 
+					for(var form_index = 0; form_index < p_data.length; form_index++)
+					{
+						var form_item = p_data[form_index];
+
+						//result.push(p_metadata.name)
+						result.push('<div data-record="' + (form_index + 1) + '">')
+							result.push('<h2>')
+							result.push(p_metadata.prompt);
+							result.push(' Record: ');
+							result.push(form_index + 1);
+							result.push('</h2> ');
+							//result.push(p_data[p_metadata.name]);
+							
+							if(p_metadata.children)
+							{
+								for(var i = 0; i < p_metadata.children.length; i++)
+								{
+									var child = p_metadata.children[i];
+									if(form_item[child.name] != null || child.type == "chart")
+									Array.prototype.push.apply(result, print_version_render(child, form_item[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "[" + i + "]." + child.name, p_post_html_render, form_index));
+								}
+							}
+						result.push('</div>');
+					}
+					
+				result.push('</section>');
+			}
+			else
+			{
+				result.push('<section id="');
+					result.push(p_metadata.name)
+					result.push('"> <h2>')
+					result.push(p_metadata.prompt);
+					result.push('</h2> ');
+					//result.push(p_data[p_metadata.name]);
+					
+					if(p_metadata.children)
+					{
+						for(var i = 0; i < p_metadata.children.length; i++)
+						{
+							var child = p_metadata.children[i];
+							if(p_data[child.name] != null || child.type == "chart")
+							Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
+						}
+					}
+					result.push('</section>');
+			}
+
+			break;
+
+		case "list":
 				let data_value_list = p_metadata.values;
 				let list_lookup = {};
 
@@ -188,7 +191,8 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 				}
 				result.push('</h9>');
 				result.push('</p>');
-				break;				
+				break;
+
 		case 'app':
 				/*
 				result.push('<p>');
@@ -208,7 +212,8 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui, p_metadata_path + '.children[' + i + "]", p_object_path + "." + child.name, p_post_html_render, p_muliform_index));
 					}
 				}
-				break;	
+				break;
+
 		case 'chart':
 			result.push("<div  class='chart' id='");
 			result.push(convert_object_path_to_jquery_id(p_object_path, p_muliform_index));
@@ -228,15 +233,10 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 			else
 			{
 				result.push(">");
-			} 
-			
-
+			}
 			result.push(p_metadata.prompt);
-
 			result.push("</span>");
 			result.push("</div>");
-
-
 			p_post_html_render.push("  c3.generate({");
 			p_post_html_render.push("  size: {");
 			p_post_html_render.push("  height: 240,");
@@ -246,13 +246,7 @@ function print_version_render(p_metadata, p_data,  p_path, p_ui, p_metadata_path
 			p_post_html_render.push(convert_object_path_to_jquery_id(p_object_path, p_muliform_index));
 			p_post_html_render.push("',");
 
-
-
-
-
 /*
-
-
 d3.select('#chart svg').append('text')
     .attr('x', d3.select('#chart svg').node().getBoundingClientRect().width / 2)
     .attr('y', 16)
@@ -260,6 +254,7 @@ d3.select('#chart svg').append('text')
     .style('font-size', '1.4em')
     .text('Title of this chart');
 */
+
 			if(p_metadata.x_axis && p_metadata.x_axis != "")
 			{
 				p_post_html_render.push("axis: {");
@@ -317,8 +312,6 @@ d3.select('#chart svg').append('text')
 				}
 			}
 
-
-			
 			p_post_html_render.push("  ]");
 			p_post_html_render.push("  }");
 			p_post_html_render.push("  });");
@@ -330,7 +323,8 @@ d3.select('#chart svg').append('text')
 			p_post_html_render.push("     .style('font-size', '1.4em')");
 			p_post_html_render.push("     .text('" + p_metadata.prompt + "');");
 
-			break;	
+			break;
+
 		case 'boolean':
 			result.push('<h9>')
 			result.push('<p>');
@@ -346,11 +340,11 @@ d3.select('#chart svg').append('text')
 				result.push("&nbsp;");
 			}
 			result.push('</p>');
-			result.push('</h9>')
+			result.push('</h9>');
+
 			break;
-		default:
-				
 			
+		default:
 				if(p_metadata.name != "case_opening_overview")
 				{
 					result.push('<h9>')
@@ -362,44 +356,35 @@ d3.select('#chart svg').append('text')
 					result.push('</p>');
 					result.push('</h9>')
 				}
-			if  (p_metadata.name == "case_opening_overview") {
-				
-	            result.push('<div class="box">');
+			if (p_metadata.name == "case_opening_overview")
+			{
+				result.push('<div class="box">');
 						
-			
 				if(g_data.home_record.record_id)
 				{
-					
 					result.push(g_data.home_record.record_id);
 					result.push('<br>');
 				}
 					
-				result.push(p_data);
-				
-		        result.push('</div>');
-				}
+					result.push(p_data);
+					result.push('</div>');
+			}
 			
-			
-			
-			
-			
-				/*
-
-				
-				if(p_metadata.children)
+			/*
+			if(p_metadata.children)
+			{
+				for(var i = 0; i < p_metadata.children.length; i++)
 				{
-					for(var i = 0; i < p_metadata.children.length; i++)
-					{
-						var child = p_metadata.children[i];
-						if(p_data[child.name] != null)
-						Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
-					}
-				}*/
-				break;
+					var child = p_metadata.children[i];
+					if(p_data[child.name] != null)
+					Array.prototype.push.apply(result, print_version_render(child, p_data[child.name], p_path + "." + child.name, p_ui));
+				}
+			}*/
+
+			break;
 	}
 
 	return result;
-
 }
 
 function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui, p_current_multiform_index )
@@ -424,6 +409,7 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui, p_curren
 		for(var i = 0; i < array.length; i++)
 		{
 			var val = array[i][field];
+			
 			if(val)
 			{
 				result.push(parseFloat(val));
@@ -436,14 +422,16 @@ function get_chart_x_ticks_from_path(p_metadata, p_metadata_path, p_ui, p_curren
 		}
 
 		result[result.length-1] = result[result.length-1] + "]";
+		
 		return result.join(",");
 	}
 	else
 	{
 		return "";
 	}
-	
+
 }
+
 
 function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui, p_current_multiform_index)
 {
@@ -456,7 +444,6 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui, p_curren
 	if(array)
 	{
 		var field = array_field[1];
-
 
 		result.push("['x'");
 		// ['data2', 50, 20, 10, 40, 15, 25]
@@ -504,15 +491,14 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui, p_curren
 	}
 }
 
+
 function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label, p_current_multiform_index)
 {
 	//prenatal/routine_monitoring/systolic_bp,prenatal/routine_monitoring/diastolic
 	// p_ui.url_state.path_array.length
 	var result = [];
 	var array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path, p_current_multiform_index));
-
 	var array = eval(array_field[0]);
-
 	var field = array_field[1];
 
 	if(p_label)
@@ -533,6 +519,7 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label,
 		for(var i = 0; i < array.length; i++)
 		{
 			var val = array[i][field];
+
 			if(val)
 			{
 				result.push(parseFloat(val));
@@ -541,7 +528,6 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label,
 			{
 				result.push(0);
 			}
-			
 		}
 
 		result[result.length-1] = result[result.length-1] + "]";
@@ -552,6 +538,7 @@ function get_chart_y_range_from_path(p_metadata, p_metadata_path, p_ui, p_label,
 		return result.join("") + "]";;
 	}
 }
+
 
 function convert_dictionary_path_to_array_field(p_path, p_current_multiform_index)
 {
@@ -570,12 +557,13 @@ function convert_dictionary_path_to_array_field(p_path, p_current_multiform_inde
 
 	var result = []
 	var temp = "g_data." + p_path.replace(new RegExp('/','gm'),".");
-	
 	var multi_form_check = temp.split(".") ;
 	var check_path = eval(multi_form_check[0] + "." + multi_form_check[1]);
+
 	if(Array.isArray(check_path))
 	{
 		var new_path = [];
+
 		for(var i = 0; i < multi_form_check.length; i++)
 		{
 			
@@ -590,12 +578,14 @@ function convert_dictionary_path_to_array_field(p_path, p_current_multiform_inde
 		}
 		var path = new_path.join('.');
 		var index = path.lastIndexOf('.');
+
 		result.push(path.substr(0, index));
 		result.push(path.substr(index + 1, path.length - (index + 1)));
 	}
 	else
 	{
 		var index = temp.lastIndexOf('.');
+
 		result.push(temp.substr(0, index));
 		result.push(temp.substr(index + 1, temp.length - (index + 1)));
 	}
@@ -606,12 +596,12 @@ function convert_dictionary_path_to_array_field(p_path, p_current_multiform_inde
 
 function convert_dictionary_path_to_lookup_object(p_path)
 {
-
 	//g_data.prenatal.routine_monitoring.systolic_bp
 	let result = null;
 	let temp_result = []
 	let temp = "g_metadata." + p_path.replace(new RegExp('/','gm'),".").replace(new RegExp('\\.(\\d+)\\.','gm'),"[$1].").replace(new RegExp('\\.(\\d+)$','g'),"[$1]");
 	let index = temp.lastIndexOf('.');
+
 	temp_result.push(temp.substr(0, index));
 	temp_result.push(temp.substr(index + 1, temp.length - (index + 1)));
 
@@ -626,9 +616,9 @@ function convert_dictionary_path_to_lookup_object(p_path)
 		}
 	}
 
-
 	return result;
 }
+
 
 function convert_object_path_to_jquery_id(p_value, p_multiform_index)
 {
@@ -646,9 +636,7 @@ function convert_object_path_to_jquery_id(p_value, p_multiform_index)
 function make_c3_date(p_value)
 {
 	//'%Y-%m-%d %H:%M:%S
-	
 	var date_time = new Date(p_value);
-
 	var result = [];
 
 	result.push(date_time.getFullYear());
@@ -666,4 +654,3 @@ function make_c3_date(p_value)
 
 	return result.join("");
 }
-
