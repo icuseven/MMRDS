@@ -1509,7 +1509,7 @@ function print_case_onchange()
 
 function open_print_version(p_section)
 {
-	var print_window = window.open('./print-version','_print_version',null,false);
+  var print_window = window.open('./print-version','_print_version',null,false);
 
 	window.setTimeout(function()
 	{
@@ -1520,8 +1520,7 @@ function open_print_version(p_section)
 
 function open_core_summary(p_section)
 {
-
-	var print_window = window.open('./core-elements','_core_summary',null,false);
+  var print_window = window.open('./core-elements','_core_summary',null,false);
 
 	window.setTimeout(function()
 	{
@@ -1532,8 +1531,7 @@ function open_core_summary(p_section)
 
 function open_blank_version(p_section)
 {
-
-	var blank_window = window.open('./print-version','_blank_version',null,false);
+  var blank_window = window.open('./print-version','_blank_version',null,false);
 
 	window.setTimeout(function()
 	{
@@ -1545,11 +1543,12 @@ function open_blank_version(p_section)
 function add_new_form_click(p_metadata_path, p_object_path)
 {
   console.log("add_new_form_click: " + p_metadata_path + " , " + p_object_path);
+
   var metadata = eval(p_metadata_path);
   var form_array = eval(p_object_path);
-
   var new_form = create_default_object(metadata, {}, true);
   var item = new_form[metadata.name][0];
+
   form_array.push(item);
 
   save_case(g_data, function()
@@ -1562,7 +1561,6 @@ function add_new_form_click(p_metadata_path, p_object_path)
       eval(post_html_call_back.join(""));
     }
   });
-
 }
 
 
@@ -1597,7 +1595,6 @@ function clear_nav_status_area()
 
 function set_local_case(p_data, p_call_back)
 {
-
   let local_storage_index = get_local_storage_index();
 
   if(local_storage_index == null)
@@ -1621,7 +1618,6 @@ function create_local_storage_index()
 {
   let result = {};
 
-
   for(let key in window.localStorage)
   {
       if(key == 'case_index')
@@ -1638,7 +1634,6 @@ function create_local_storage_index()
       }
   }
 
-
   window.localStorage.setItem('case_index', JSON.stringify(result));
 
   return result;
@@ -1648,6 +1643,7 @@ function create_local_storage_index()
 function get_local_storage_space_usage_in_kilobytes()
 {
   let allStrings = '';
+
   for(let key in window.localStorage)
   {
       if(window.localStorage.hasOwnProperty(key))
@@ -1658,10 +1654,12 @@ function get_local_storage_space_usage_in_kilobytes()
   return allStrings ? 3 + ((allStrings.length*16)/(8*1024)): 0;
 }
 
+
 function calc_local_storage_space_usage_in_kilobytes(p_string)
 {
   return p_string ? 3 + ((p_string.length*16)/(8*1024)): 0;
 }
+
 
 function convert_local_storage_index_to_array(p_case_index)
 {  
@@ -1689,6 +1687,7 @@ function convert_local_storage_index_to_array(p_case_index)
 
   return result;
 }
+
 
 function get_local_storage_index()
 {
@@ -1723,6 +1722,7 @@ function create_local_storage_index_item(p_data)
     last_updated_by: p_data.last_updated_by
   }
 }
+
 
 function get_local_case(p_id)
 {
