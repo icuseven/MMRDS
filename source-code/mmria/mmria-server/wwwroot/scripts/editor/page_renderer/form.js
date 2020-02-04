@@ -44,7 +44,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                 p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
                                 p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
                                 p_result.push(' form" onclick="init_inline_loader(function(){ add_new_form_click(\' ' + p_metadata_path + '\',\'' + p_object_path + ' \') })" />');
-                                p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span>');
+                                p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
                                 // p_result.push(' form" onclick="add_new_form_click(\' ' + p_metadata_path + '\',\'' + p_object_path + ' \')" />');
                             p_result.push("</div>");
                         p_result.push("</div>");
@@ -410,8 +410,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 p_result.push("</div>");
                 
                 p_result.push("<div class='construct__footer'>");
-                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
-                    p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
+                    p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(save_form_click)' />");
+                    p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' />");
+                    p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
                 p_result.push("</div>");
             p_result.push("</section>");
        }
@@ -466,7 +467,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     render_print_form_control(p_result, p_ui, p_metadata);
                 p_result.push("</div>");
             p_result.push("</div>");
-            p_result.push("<span class='spinner-container spinner-content mt-3'><span class='spinner'></span></span>");
+            p_result.push("<span class='spinner-container spinner-content mt-3'><span class='spinner'></span></span></span>");
         p_result.push("</div> <!-- end .construct__header -->");
         p_result.push("<div class='construct__body' tabindex='-1'>");
 
@@ -847,9 +848,10 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                 p_result.push("</div> <!-- end .construct-output -->");     
             p_result.push("</div> <!-- end .construct__body -->");     
-            p_result.push("<div class='construct__footer'>");
-                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
-                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
+            p_result.push("<div class='construct__footer row no-gutters align-items-center justify-content-start'>");
+                p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='init_inline_loader(save_form_click)' />");
+                p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='init_inline_loader(undo_click)' />");
+                p_result.push('<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>');
             p_result.push("</div> <!-- end .construct__footer -->"); 
         
         p_result.push("</section>");
@@ -894,7 +896,7 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
             p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
             p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
         p_result.push("</div>");
-        p_result.push("<span class='spinner-container spinner-content'><span class='spinner'></span></span>");
+        p_result.push("<span class='spinner-container spinner-content'><span class='spinner'></span></span></span>");
     p_result.push("</div> <!-- end .construct__header -->");
 }
 
