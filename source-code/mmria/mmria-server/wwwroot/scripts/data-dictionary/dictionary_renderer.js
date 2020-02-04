@@ -23,7 +23,12 @@ function dictionary_render(p_metadata, p_path)
 						<option value="">Select Metadata Version</option>
 						<option value="19.10.17">19.10.17</option>
 					</select>
-					<button type="submit" class="btn btn-secondary no-print" alt="clear search" onclick="de_identified_search_click()">Search</button>
+					<button
+						type="submit"
+						class="btn btn-secondary no-print"
+						alt="clear search"
+						onclick="init_inline_loader(de_identified_search_click)">Search</button>
+						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 				</form>
 				<div>
 					<div class="row no-gutters justify-content-end">
@@ -34,9 +39,7 @@ function dictionary_render(p_metadata, p_path)
 
 			<div class="mt-2">
 				<table id="de_identify_search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
-
 					${de_identified_search_result.join("")}
-					
 				</table>
 			</div>
 	`);
@@ -110,8 +113,8 @@ function de_identified_search_click()
 	g_filter.selected_form = document.getElementById("de_identify_form_filter").value;
 
 	let de_identify_search_result_list = document.getElementById("de_identify_search_result_list");
-
 	let result = [];
+	
 	render_de_identified_search_result(result, g_filter);
 
 	de_identify_search_result_list.innerHTML = result.join("");
@@ -152,7 +155,6 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					}
 				}
 			}
-			
 			break;
 
 		case "app":
@@ -188,9 +190,8 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				render_de_identified_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
 			}
 			break;
-		default:
-	
 
+		default:
 			let file_name = "";
 			let field_name = "";
 			let file_field_item = g_release_version_specification.path_to_csv_all[p_path];
@@ -247,15 +248,12 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				}
 			}
 
-
-
-
 			let form_name = "(none)";
 			let path_array = p_path.split('/');
 			let description = "";
 			let list_values = [];
-
 			let data_type = p_metadata.type.toLowerCase();
+
 			if
 			(
 				p_metadata.data_type != null &&
@@ -382,6 +380,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 				${list_values.join("")}
 			`);
 			break;
+
 	}
 }
 
