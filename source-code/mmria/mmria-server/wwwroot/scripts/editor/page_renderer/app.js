@@ -4,7 +4,10 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     /* The Intro */
     p_result.push("<div class='content-intro' tabindex='-1'>");
     p_result.push("<h1 class='content-intro-title h2'>Line Listing Summary</h1>");
-    p_result.push("<input type='button' id='add-new-case' class='btn btn-primary' value='Add New Case' onclick='g_ui.add_new_case()' />");
+    p_result.push("<div class='row align-items-center'>");
+        p_result.push("<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(g_ui.add_new_case)'>Add New Case</button>");
+        p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
+    p_result.push("</div>");
     p_result.push("</div> <!-- end .content-intro -->");
 
     p_result.push("<div class='content-intro'>");
@@ -26,8 +29,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_post_html_render.push("	$(this).trigger(\"enterKey\");");
     p_post_html_render.push("	}");
     p_post_html_render.push("});");
-    p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='get_case_set()'>Apply Filters</button>&nbsp; ");
+    p_result.push("<button type='button' class='btn btn-secondary' alt='search' onclick='init_inline_loader(get_case_set)'>Apply Filters</button>&nbsp; ");
     p_result.push(" <button type='button' class='btn btn-secondary' alt='search' id='search_command_button' onclick='g_ui.case_view_request.search_key = \"\";get_case_set();'>Clear</button>");
+    p_result.push(" <span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
     p_result.push("</div>");
 
     p_result.push("<div class='form-inline mb-2'>");
