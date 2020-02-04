@@ -667,15 +667,20 @@ button.link {
   background-color: var(--white);
   display: flex;
   justify-content: center;
-  padding: 15px;
-}
-.spinner-inline .spinner-body {
-  background-color: transparent;
-  position: relative;
-  height: inherit;
-  width: inherit;
   padding: 0;
 }
+  .spinner-content .spinner-body {
+    justify-content: flex-start;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .spinner-inline .spinner-body {
+    background-color: transparent;
+    position: relative;
+    height: inherit;
+    width: inherit;
+    padding: 0;
+  }
 
 .spinner {
   display: block;
