@@ -12,7 +12,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 if(g_data)
                 {
                     p_result.push("<div class='row no-gutters align-items-start'>");
-                    p_result.push("<h1 class='construct__title text-primary h1' tabindex='-1'>");
+                    p_result.push("<h1 class='construct__title text-primary h1 mt-0' tabindex='-1'>");
                     p_result.push(g_data.home_record.last_name);
                     p_result.push(", ");
                     p_result.push(g_data.home_record.first_name);
@@ -40,9 +40,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
                 p_result.push(p_metadata.prompt);
                 p_result.push("</p>");                
-                p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
-                p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
-                p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
+                // p_result.push('<input path="" type="button" class="btn btn-primary" value="Add New ');
+                // p_result.push(p_metadata.prompt.replace(/"/g, "\\\""));
+                // p_result.push(' form" onclick="add_new_form_click(\'' + p_metadata_path + '\',\'' + p_object_path + '\')" />');
             p_result.push("</header> <!-- end .construct__header -->");
 
             // The 'Records' Table
@@ -205,6 +205,15 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                             let transportMonth = g_value_to_display_lookup[`/${p_metadata.name}/date_of_transport/month`][g_data[p_metadata.name][i].date_of_transport.month];
                             let transportDay = g_value_to_display_lookup[`/${p_metadata.name}/date_of_transport/day`][g_data[p_metadata.name][i].date_of_transport.day];
                             let transportYear = g_value_to_display_lookup[`/${p_metadata.name}/date_of_transport/year`][g_data[p_metadata.name][i].date_of_transport.year];
+                            let transportReason = item.reason_for_transport;
+
+                            // Truncates if text length over 100
+                            if (transportReason.length >= 100)
+                            {
+                                // Then trim off anything after 100 characters
+                                // And add elipsis
+                                transportReason = transportReason.substring(0,100) + '...';
+                            }
 
                             p_result.push(`
                                 <tr class="tr">
@@ -219,7 +228,7 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                                             `${transportMonth}/${transportDay}/${transportYear}` : ''
                                         }
                                     </td>
-                                    <td class="td">${item.reason_for_transport}</td>
+                                    <td class="td">${transportReason}</td>
                                     <td class="td"><button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')">Delete Record</button></td>
                                 </tr>
                             `);
@@ -408,6 +417,9 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                     p_result.push(p_metadata.prompt);
                 p_result.push("</p>");
+            p_result.push("</div>");
+            p_result.push("<div class='col col-4 row no-gutters align-items-end'>");
+                render_print_form_control(p_result, p_ui, p_metadata);
             p_result.push("</div>");
         p_result.push("</div> <!-- end .construct__header -->");
         p_result.push("<div class='construct__body' tabindex='-1'>");
@@ -787,4 +799,25 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         
         p_result.push("</section>");
    }
+}
+
+
+function render_print_form_control(p_result, p_ui, p_metadata)
+{
+    if(parseInt(p_ui.url_state.path_array[0]) >= 0)
+    {
+        p_result.push('<label for="print_case" class="sr-only">Print version</label>');
+        p_result.push('<select id="print_case_id" class="form-control mt-2" onChange="print_case_onchange()">');
+            p_result.push('<option>Select to print a form</option>');
+            p_result.push('<optgroup label="Current form">');
+                p_result.push('<option value="' + p_metadata.name + '">');
+                p_result.push('Print ' + p_metadata.prompt)
+                p_result.push('</option>');
+            p_result.push('</optgroup>');
+            p_result.push('<optgroup label="Other">');
+                p_result.push('<option value="core-summary">Print Core Elements Only</option>');
+                p_result.push('<option value="all">Print All Forms</option>');  
+            p_result.push('</optgroup>');
+        p_result.push('</select>');
+    }
 }
