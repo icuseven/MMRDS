@@ -514,8 +514,8 @@ namespace mmria.server
                     o.JsonSerializerOptions.PropertyNamingPolicy = null;
                     o.JsonSerializerOptions.DictionaryKeyPolicy = null;
                 });
-
-            services.AddControllers().AddNewtonsoftJson();*/
+*/
+            services.AddControllers().AddNewtonsoftJson();
 
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?tabs=netcore-cli
             // Register the Swagger generator, defining one or more Swagger documents
@@ -702,8 +702,10 @@ namespace mmria.server
 
                             if
                             (
-                                context.Request.Headers.ContainsKey("Content-Length") && 
-                                context.Request.Headers["HeaderContentLength"].Count > 1
+                                (context.Request.Headers.ContainsKey("Content-Length") && 
+                                context.Request.Headers["HeaderContentLength"].Count > 1) ||
+                                (context.Request.Headers.ContainsKey("Transfer-Encoding") && 
+                                context.Request.Headers["Transfer-Encoding"].Count > 1)
                             )
                             {
                                 context.Response.StatusCode = 405;
