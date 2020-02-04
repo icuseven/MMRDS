@@ -15,6 +15,7 @@ namespace mmria.server
 
 		// GET api/values 
 		//public IEnumerable<master_record> Get() 
+		[HttpGet]
 		public System.Dynamic.ExpandoObject Get(string id) 
 		{ 
 			try
