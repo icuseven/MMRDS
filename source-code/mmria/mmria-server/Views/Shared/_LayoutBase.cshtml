@@ -46,13 +46,13 @@
   </div>
     
   @await Html.PartialAsync("_Footer")
+  @await Html.PartialAsync("_Spinner")
 
   <!--script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script-->
   <script src="/scripts/mmria-custom.js"></script>
 
   @RenderSection("Scripts", false)
 
-  @await Html.PartialAsync("_Spinner")
   
 </body>
 </html>
