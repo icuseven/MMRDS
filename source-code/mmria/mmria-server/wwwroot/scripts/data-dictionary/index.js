@@ -41,6 +41,7 @@ var g_filter = 	{
 // 	get_release_version();
 // });
 (function() {
+	// When data dictionary is readying to be rendered
 	get_release_version();
 })()
 
@@ -117,4 +118,8 @@ function get_available_versions()
 		}
 		available_version.innerHTML = result.join("");
 	});
+
+	// When data dictionary tables have fully rendered in memory
+	// and ready to be displayed
+	$('.spinner-content').removeClass('spinner-active');
 }

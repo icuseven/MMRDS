@@ -145,7 +145,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 								<select id="de_identify_form_filter" class="custom-select mr-2">
 									${render_de_identify_form_filter(p_filter)}
 								</select>
-								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="de_identified_search_click()">Search</button>
+								<button type="button" class="btn btn-tertiary" alt="clear search" onclick="init_inline_loader(de_identified_search_click)">Search</button>
+								<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span>
 							</div>
 							<div class="form-group form-check mb-0">
 								<input type="checkbox" class="form-check-input" id="include_pii" onchange="de_identify_standard_fields_change(this.checked)" ${ p_answer_summary.is_de_identify_standard_fields == true ? 'checked=true': ''} >
@@ -217,7 +218,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 												 id="filter_search_text"
 												 value=""
 												 onchange="filter_serach_text_change(this.value)">
-									<button type="button" class="btn btn-secondary" alt="search" onclick="apply_filter_button_click()">Apply Filters</button>
+									<button type="button" class="btn btn-secondary" alt="search" onclick="init_inline_loader(apply_filter_button_click)">Apply Filters</button>
+									<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span>
 								</div>
 
 								<div class="form-inline mb-2">
@@ -849,8 +851,6 @@ function render_selected_case_list(p_result, p_answer_summary)
 
 
 }
-
-
 
 
 function de_identified_search_click()
