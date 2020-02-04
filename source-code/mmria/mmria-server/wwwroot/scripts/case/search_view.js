@@ -18,9 +18,9 @@ function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data
     return result;
 }
 
-function search_text_change(p_form_control)
+function search_text_change()
 {
-    let search_text = p_form_control.value;
+    let search_text = event.target.value;
     let record_index = g_ui.url_state.path_array[0];
 
     if(search_text != null && search_text.length >= 3)
