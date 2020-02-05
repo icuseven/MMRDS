@@ -648,7 +648,23 @@ button.link {
 
 .spinner-content {
   height: 50px;
-  width: auto;
+}
+.spinner-active.spinner-content {
+  display: inline-block;
+}
+
+.spinner-action {
+  height: 30px;
+}
+.spinner-active.spinner-action {
+  display: inline-block;
+}
+
+.spinner-small {
+  height: 20px;
+}
+.spinner-active.spinner-small {
+  display: inline-block;
 }
 
 .spinner-inline {
@@ -667,19 +683,24 @@ button.link {
   background-color: var(--white);
   display: flex;
   justify-content: center;
-  padding: 0;
 }
+  .spinner-takeover .spinner-body {
+    padding: 1rem;
+  }
+  .spinner-action .spinner-body {
+    font-size: 85%;
+  }
+  .spinner-small .spinner-body {
+    font-size: 70%;
+  }
   .spinner-content .spinner-body {
     justify-content: flex-start;
-    padding-left: 0;
-    padding-right: 0;
   }
   .spinner-inline .spinner-body {
     background-color: transparent;
     position: relative;
     height: inherit;
     width: inherit;
-    padding: 0;
   }
 
 .spinner {
@@ -690,9 +711,17 @@ button.link {
 
   animation: spin-rotate 2s ease-in-out infinite;
 }
+  .spinner-action .spinner {
+    height: 30px;
+    width: 30px;
+  }
   .spinner-inline .spinner {
     height: inherit;
     width: inherit;
+  }
+  .spinner-small .spinner {
+    height: 20px;
+    width: 20px;
   }
   .spinner:before {
     border: 8px solid var(--grape);
@@ -706,7 +735,17 @@ button.link {
 
     animation: change-border-color 20s ease-in-out infinite; /* Rotation 2s * each color phase 10% = 20s  */
   }
+  .spinner-action .spinner:before {
+    border: 5px solid var(--grape);
+    height: inherit;
+    width: inherit;
+  }
   .spinner-inline .spinner:before {
+    height: inherit;
+    width: inherit;
+  }
+  .spinner-small .spinner:before {
+    border: 4px solid var(--grape);
     height: inherit;
     width: inherit;
   }
@@ -723,9 +762,21 @@ button.link {
 
     animation: change-background-color 20s ease-in-out infinite; /* Rotation 2s * each color phase 10% = 20s */
   }
+  .spinner-action .spinner:after {
+    height: 5px;
+    width: 5px;
+    left: 21px;
+    top: 3px;
+  }
   .spinner-inline .spinner:after {
     left: 28px;
     top: 5px;
+  }
+  .spinner-small .spinner:after {
+    height: 4px;
+    width: 4px;
+    left: 14px;
+    top: 3px;
   }
 
 .spinner-info {
@@ -733,6 +784,10 @@ button.link {
 }
   .spinner + .spinner-info {
     margin-left: 10px;
+  }
+  .spinner-action .spinner + .spinner-info,
+  .spinner-small .spinner + .spinner-info {
+    margin-left: 6px;
   }
 
 @keyframes spin-rotate {
