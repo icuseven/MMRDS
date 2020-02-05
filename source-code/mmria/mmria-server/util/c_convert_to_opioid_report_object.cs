@@ -133,7 +133,7 @@ namespace mmria.server.util
 			report_object._id = get_value (source_object, "_id");
 
 
-
+			var opioid_report_value_header = new mmria.server.model.opioid_report_value_struct();
 
 			/*
 			if (report_object._id == "02279162-6be3-49e4-930f-42eed7cd4706")
@@ -149,6 +149,21 @@ namespace mmria.server.util
 				if(val != null && val.ToString() != "")
 				{
 					report_object.year_of_death = System.Convert.ToInt32(val);
+					opioid_report_value_header.year_of_death = report_object.year_of_death;
+				}
+			}
+			catch(Exception ex)
+			{
+				//System.Console.WriteLine (ex);
+			}
+
+			try
+			{
+				val = get_value(source_object, "home_record/date_of_death/month");
+				if(val != null && val.ToString() != "")
+				{
+					opioid_report_value_header.month_of_death = System.Convert.ToInt32(val);
+
 				}
 			}
 			catch(Exception ex)
@@ -164,6 +179,10 @@ namespace mmria.server.util
 				{
 					report_object.year_of_case_review = System.Convert.ToDateTime(val).Year;
 					report_object.month_of_case_review = System.Convert.ToDateTime(val).Month;
+
+					opioid_report_value_header.case_review_year = report_object.year_of_case_review ;
+					opioid_report_value_header.case_review_month = report_object.month_of_case_review;
+					
 				}
 			}
 			catch(Exception ex)
@@ -172,7 +191,10 @@ namespace mmria.server.util
 			}
 
 
-			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref report_object, source_object);
+			var work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
+			report_object.data.Add(work_item);
+
+			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
 			this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
@@ -227,7 +249,20 @@ namespace mmria.server.util
 			return result;
 		}
 
+		public mmria.server.model.opioid_report_value_struct initialize_opioid_report_value_struct(mmria.server.model.opioid_report_value_struct p_header)
+		{
+			var result = new mmria.server.model.opioid_report_value_struct();
 
+			result.year_of_death = p_header.year_of_death;
+			result.month_of_death = p_header.month_of_death;
+
+			result.case_review_year = p_header.case_review_year;
+			result.case_review_month = p_header.case_review_month;
+
+
+
+			return result;
+		}
 		public dynamic get_value(System.Dynamic.ExpandoObject p_object, string p_path, string p_data_type = "string")
 		{
 			dynamic result = null;
@@ -1481,7 +1516,7 @@ age_45_and_above
 		}
 
 
-		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
 			try
