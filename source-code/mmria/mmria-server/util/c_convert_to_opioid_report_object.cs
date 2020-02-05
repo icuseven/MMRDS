@@ -191,6 +191,20 @@ namespace mmria.server.util
 			}
 
 
+			try
+			{
+				val = get_value(source_object, "host_state");
+				if(val != null && val.ToString() != "")
+				{
+					opioid_report_value_header.host_state = val.ToString();
+				}
+			}
+			catch(Exception ex)
+			{
+				//System.Console.WriteLine (ex);
+			}
+
+
 			var work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
 			report_object.data.Add(work_item);
 
