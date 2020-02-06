@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.Controllers
 {
@@ -10,15 +11,17 @@ namespace mmria.server.Controllers
     public class CaseController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
-        //private readonly IDocumentRepository _documentRepository;
+        IConfiguration configuration;
 
-        public CaseController(IAuthorizationService authorizationService)
+        public CaseController(IAuthorizationService authorizationService, IConfiguration p_configuration)
         {
             _authorizationService = authorizationService;
-            //_documentRepository = documentRepository;
+            configuration = p_configuration;
         }
         public IActionResult Index()
         {
+
+            TempData["metadata_version"] = configuration["mmria_settings:metadata_version"];
             return View();
         }
     }
