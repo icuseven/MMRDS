@@ -5,12 +5,12 @@ var $mmria = function()
         get_geocode_info: function(p_street, p_city, p_state, p_zip, p_call_back_action)
         {
             
-            var request = [];
-			var state = p_state
+            let request = [];
+			let state = p_state
 			
 			if(state)
 			{
-				var check_state = state.split("-");
+				let check_state = state.split("-");
 				state = check_state[0];
 			}
 
@@ -28,7 +28,7 @@ var $mmria = function()
             request.push("7c39ae93786d4aa3adb806cb66de51b8");
             request.push("&format=json&allowTies=false&tieBreakingStrategy=revertToHierarchy&includeHeader=true&census=true&censusYear=2010&notStore=true&version=4.01");
 
-            var geocode_url = request.join("");
+            let geocode_url = request.join("");
 
             $.ajax(
             {
@@ -37,9 +37,9 @@ var $mmria = function()
             ).done(function(response) 
             {
                 
-                var geo_data = null;
+                let geo_data = null;
                 
-                var data = eval('(' + response + ')');
+                let data = eval('(' + response + ')');
                 // set the latitude and logitude
                 //death_certificate/place_of_last_residence/latitude
                 //death_certificate/place_of_last_residence/longitude
@@ -81,11 +81,11 @@ var $mmria = function()
         compose : function() 
         {
             //http://stackoverflow.com/questions/28821765/function-composition-in-javascript
-            var funcs = arguments;
+            let funcs = arguments;
 
             return function() {
-                var args = arguments;
-                for (var i = funcs.length; i > 0; i--) {
+                let args = arguments;
+                for (let i = funcs.length; i > 0; i--) {
                     args = [funcs[i].apply(this, args)];
                 }
                 return args[0];
@@ -94,7 +94,7 @@ var $mmria = function()
         },
         mapEsprimaASt: function (object, f) 
         {
-                var key, child;
+            let key, child;
 
                 if (f.call(null, object) === false) {
                     return;
@@ -110,14 +110,14 @@ var $mmria = function()
         },
         get_url_components: function (url)
         {
-            var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+            let parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
             //var url = 'http://www.ora.com:80/goodparts?q#fragment';
-            var result = [];
-            var array = parse_url.exec(url);
-            var names = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash'];
+            let result = [];
+            let array = parse_url.exec(url);
+            let names = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash'];
             
-            var blanks = '       ';
-            var i;
+            let blanks = '       ';
+            let i;
             for (i = 0; i < names.length; i += 1) 
             {
                result[names[i]] = array[i];
@@ -128,6 +128,7 @@ var $mmria = function()
         },
         get_new_guid : function () 
         {
+/*            
             function s4() 
             {
                 return Math.floor((1 + $mmria.getRandomCryptoValue()) * 0x10000)
@@ -136,6 +137,24 @@ var $mmria = function()
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
                 s4() + '-' + s4() + s4() + s4();
+*/
+            let d = new Date().getTime();//Timestamp
+            let d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) 
+            {
+                let r = $mmria.getRandomCryptoValue() * 16;//random number between 0 and 16
+                if(d > 0)
+                {//Use timestamp until depleted
+                    r = (d + r)%16 | 0;
+                    d = Math.floor(d/16);
+                } 
+                else 
+                {//Use microseconds since page-load if supported
+                    r = (d2 + r)%16 | 0;
+                    d2 = Math.floor(d2/16);
+                }
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
         },
 
         addCookie: function (cookie_name,value,days)
@@ -218,14 +237,14 @@ var $mmria = function()
         },
         get_current_multiform_index: function ()
         {
-            var result = parseInt(window.location.href.substr(window.location.href.lastIndexOf("/") + 1,window.location.href.length - (window.location.href.lastIndexOf("/") + 1)));
+            let result = parseInt(window.location.href.substr(window.location.href.lastIndexOf("/") + 1,window.location.href.length - (window.location.href.lastIndexOf("/") + 1)));
             
             return result;
         },
         getRandomCryptoValue: function () 
         {
-            var crypto = window.crypto || window.msCrypto; // handles Internet Explorer
-            return crypto.getRandomValues(new Uint32Array(1))[0];
+            let crypto = window.crypto || window.msCrypto; // handles Internet Explorer
+            return crypto.getRandomValues(new Uint32Array(1))[0]  / 0xffffffff;
         }
     };
 

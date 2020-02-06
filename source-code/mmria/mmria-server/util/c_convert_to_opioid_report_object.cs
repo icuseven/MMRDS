@@ -191,10 +191,25 @@ namespace mmria.server.util
 			}
 
 
+			try
+			{
+				val = get_value(source_object, "host_state");
+				if(val != null && val.ToString() != "")
+				{
+					opioid_report_value_header.host_state = val.ToString();
+				}
+			}
+			catch(Exception ex)
+			{
+				//System.Console.WriteLine (ex);
+			}
+
+
 			var work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
 			report_object.data.Add(work_item);
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
+			opioid_report_value_header.pregnancy_related = work_item.pregnancy_related;
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
 			this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
@@ -1518,6 +1533,17 @@ age_45_and_above
 
 		private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
+/*
+MPregRel1	Pregnancy Related
+MPregRel2	Pregnancy Associated, but NOT Related
+MPregRel3	Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness
+MPregRel4	Not Pregnancy-Related or -Associated (i.e. False Positive)
+MPregRel5	(Blank)
+*/
+
+			p_opioid_report_value.indicator_id = "mPregRelated";
+			p_opioid_report_value.value = 1;
+
 
 			try
 			{	
@@ -1533,24 +1559,29 @@ age_45_and_above
 						case "Pregnancy Related":
 						case "1":
 							p_report_object.mPregRelated.pregnancy_related = 1;
+							p_opioid_report_value.field_id = "mPregRelated";
 						break;
 						case "Pregnancy-Associated but NOT Related":
 						case "Pregnancy-Associated, but NOT -Related":
 						case "0":
 							p_report_object.mPregRelated.pregnancy_associated_but_not_related = 1;
+							p_opioid_report_value.field_id = "MPregRel2";
 						break;
 						case "Not Pregnancy Related or Associated (i.e. False Positive)":
 						case "Not Pregnancy-Related or -Associated (i.e. False Positive)":
 						case "99":
 							p_report_object.mPregRelated.not_pregnancy_related_or_associated = 1;
+							p_opioid_report_value.field_id = "MPregRel4";
 						break;
 						case "Pregnancy-Associated but Unable to Determine Pregnancy-Relatedness":
 						case "Unable to Determine if Pregnancy Related or Associated":
 						case "2":
 							p_report_object.mPregRelated.unable_to_determine = 1;
+							p_opioid_report_value.field_id = "MPregRel3";
 						break;
 						default:
 							p_report_object.mPregRelated.blank = 1;
+							p_opioid_report_value.field_id = "MPregRel5";
 						break;
 					}
 
@@ -1558,6 +1589,7 @@ age_45_and_above
 				else
 				{
 					p_report_object.mPregRelated.blank = 1;
+					p_opioid_report_value.field_id = "MPregRel5";
 				}
 			}
 			catch(Exception ex)

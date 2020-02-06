@@ -896,11 +896,19 @@ function travers_case(p_case, p_call_back)
     let all_cases = document.getElementById("all_cases").checked;
 
     if(all_cases)
-    {
+    { 
+        if(p_case.host_state == null || p_case.host_state == "")
+        {
+            p_case.host_state = window.location.host.split("-")[0];
+        }
         traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
     }
     else if(p_case.version == null || p_case.version != g_release_version)
     {
+        if(p_case.host_state == null || p_case.host_state == "")
+        {
+            p_case.host_state = window.location.host.split("-")[0];
+        }
         traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
     }
     

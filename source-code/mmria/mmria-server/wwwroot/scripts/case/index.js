@@ -1163,6 +1163,12 @@ function get_specific_case(p_id)
 
 function save_case(p_data, p_call_back)
 {
+
+  if(p_data.host_state == null || p_data.host_state == "")
+  {
+    p_data.host_state = window.location.host.split("-")[0];
+  }
+
   $.ajax({
     url: location.protocol + '//' + location.host + '/api/case',
     contentType: 'application/json; charset=utf-8',
