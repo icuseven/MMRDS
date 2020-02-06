@@ -48,7 +48,8 @@ namespace mmria.server.util
 			chinese,
 			japanese,
 			vietnamese,
-			other
+			other,
+			not_specified
 		}
 
 		string temp = 
@@ -210,10 +211,21 @@ namespace mmria.server.util
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
 			opioid_report_value_header.pregnancy_related = work_item.pregnancy_related;
-			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref report_object, source_object);
-			this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
+
+			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
+			report_object.data.Add(work_item);
+			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref work_item, ref report_object, source_object);
+
+
+			//this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
-			this.popluate_pregnancy_deaths_by_age(ref report_object, source_object);
+			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
+			report_object.data.Add(work_item);
+			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
+
+			this.popluate_death_cause(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+
+
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
 			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
@@ -1189,29 +1201,75 @@ pregnancy_status <- list field
 		}
 
 
-private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 {
+
+/*
+mAgeatDeath	MAgeD1	<20
+mAgeatDeath	MAgeD2	20-24
+mAgeatDeath	MAgeD3	25-29
+mAgeatDeath	MAgeD4	30-34
+mAgeatDeath	MAgeD5	35-44
+mAgeatDeath	MAgeD6	45+
+
+*/
+
+	p_opioid_report_value.indicator_id = "mAgeatDeath";
+	p_opioid_report_value.value = 1;
+
+
 	deaths_by_age_enum age_enum = get_age_classifier (p_source_object);
+
+	switch (age_enum) 
+	{
+		case deaths_by_age_enum.age_less_than_20:
+			p_opioid_report_value.field_id = "MAgeD1";
+			break;
+		case deaths_by_age_enum.age_20_to_24:
+			p_opioid_report_value.field_id = "MAgeD2";
+			break;
+		case deaths_by_age_enum.age_25_to_29:
+			p_opioid_report_value.field_id = "MAgeD3";
+			break;
+		case deaths_by_age_enum.age_30_to_34:
+			p_opioid_report_value.field_id = "MAgeD4";	
+			break;
+		case deaths_by_age_enum.age_35_to_44:
+			p_opioid_report_value.field_id = "MAgeD5";
+			break;
+		case deaths_by_age_enum.age_45_and_above:
+			p_opioid_report_value.field_id = "MAgeD6";
+			break;
+		case deaths_by_age_enum.blank:
+		default:
+			p_opioid_report_value.field_id = "MAgeD7";
+			break;
+	}
+/*
 	switch (age_enum) 
 	{
 		case deaths_by_age_enum.age_less_than_20:
 			if (p_report_object.mPregRelated.pregnancy_related == 1) 
 			{
 				p_report_object.mAgeatDeath.age_less_than_20 = 1;
+				p_opioid_report_value.field_id = "";
 			} 
 			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
 			{
 				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_less_than_20 = 1;
+				p_opioid_report_value.field_id = "";
 			}
 			break;
 		case deaths_by_age_enum.age_20_to_24:
 			if (p_report_object.mPregRelated.pregnancy_related == 1) 
 			{
 				p_report_object.mAgeatDeath.age_20_to_24 = 1;
+				p_opioid_report_value.field_id = "";
 			} 
 			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
 			{
 				p_report_object.total_number_of_pregnancy_associated_deaths_by_age.age_20_to_24 = 1;
+				p_opioid_report_value.field_id = "";
 			}
 	
 			break;
@@ -1219,6 +1277,7 @@ private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.c_opioid_r
 			if (p_report_object.mPregRelated.pregnancy_related == 1) 
 			{
 				p_report_object.mAgeatDeath.age_25_to_29 = 1;
+				p_opioid_report_value.field_id = "";
 			}
 			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
 			{
@@ -1230,6 +1289,7 @@ private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.c_opioid_r
 			if (p_report_object.mPregRelated.pregnancy_related == 1) 
 			{
 				p_report_object.mAgeatDeath.age_30_to_34 = 1;
+				p_opioid_report_value.field_id = "";
 			} 
 			else if (p_report_object.mPregRelated.pregnancy_associated_but_not_related == 1) 
 			{
@@ -1271,7 +1331,7 @@ private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.c_opioid_r
 	
 			break;
 	}
-
+*/
 	/*			
 age_less_than_20,
 age_20_to_24,
@@ -1285,8 +1345,33 @@ age_45_and_above
 	}
 
 
-		private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
+/*
+mDeathsbyRaceEth	MRaceEth3	Hispanic
+mDeathsbyRaceEth	MRaceEth4	Non-Hispanic Black
+mDeathsbyRaceEth	MRaceEth5	Non-Hispanic White
+mDeathsbyRaceEth	MRaceEth6	American Indian / Alaska Native
+mDeathsbyRaceEth	MRaceEth7	Native Hawaiian
+mDeathsbyRaceEth	MRaceEth8	Guamanian or Chamorro
+mDeathsbyRaceEth	MRaceEth9	Samoan
+mDeathsbyRaceEth	MRaceEth10	Other Pacific Islander
+mDeathsbyRaceEth	MRaceEth11	Asian Indian
+mDeathsbyRaceEth	MRaceEth12	Filipino
+mDeathsbyRaceEth	MRaceEth13	Korean
+mDeathsbyRaceEth	MRaceEth14	Other Asian
+mDeathsbyRaceEth	MRaceEth15	Chinese
+mDeathsbyRaceEth	MRaceEth16	Japanese
+mDeathsbyRaceEth	MRaceEth17	Vietnamese
+mDeathsbyRaceEth	MRaceEth18	Other Race
+mDeathsbyRaceEth	MRaceEth1	White
+mDeathsbyRaceEth	MRaceEth2	Black
+mDeathsbyRaceEth	MRaceEth20	(Blank)
+mDeathsbyRaceEth	MRaceEth19	Race Not Specified
+*/
+			p_opioid_report_value.indicator_id = "mDeathsbyRaceEth";
+			p_opioid_report_value.value = 1;
+
 			if (p_report_object.mPregRelated.pregnancy_related == 1)
 			{
 				HashSet<ethnicity_enum> ethnicity_set = get_ethnicity_classifier (p_source_object);
@@ -1295,6 +1380,7 @@ age_45_and_above
 				if (ethnicity_set.Count() == 0)
 				{
 					p_report_object.mDeathsbyRaceEth.blank = 1;
+					p_opioid_report_value.field_id = "MRaceEth20";
 					return;
 				}
 
@@ -1305,30 +1391,35 @@ age_45_and_above
 				{
 					p_report_object.mDeathsbyRaceEth.hispanic  = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth3";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_black))
 				{
 					p_report_object.mDeathsbyRaceEth.non_hispanic_black  = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth4";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.non_hispanic_white))
 				{
 					p_report_object.mDeathsbyRaceEth.non_hispanic_white = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth5";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.american_indian_alaska_native))
 				{
 					p_report_object.mDeathsbyRaceEth.american_indian_alaska_native = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth6";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.native_hawaiian))
 				{
 					p_report_object.mDeathsbyRaceEth.native_hawaiian = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth7";
 				}
 
 			
@@ -1336,71 +1427,89 @@ age_45_and_above
 				{
 					p_report_object.mDeathsbyRaceEth.guamanian_or_chamorro = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth8";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.samoan))
 				{
 					p_report_object.mDeathsbyRaceEth.samoan = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth9";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.other_pacific_islander))
 				{
 					p_report_object.mDeathsbyRaceEth.other_pacific_islander = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth10";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.asian_indian))
 				{
 					p_report_object.mDeathsbyRaceEth.asian_indian = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth11";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.filipino))
 				{
 					p_report_object.mDeathsbyRaceEth.filipino = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth12";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.korean))
 				{
 					p_report_object.mDeathsbyRaceEth .korean = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth13";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.other_asian))
 				{
 					p_report_object.mDeathsbyRaceEth.other_asian = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth14";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.chinese))
 				{
 					p_report_object.mDeathsbyRaceEth.chinese = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth15";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.japanese))
 				{
 					p_report_object.mDeathsbyRaceEth.japanese = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth16";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.vietnamese))
 				{
 					p_report_object.mDeathsbyRaceEth.vietnamese = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth17";
 				}
 			
 				if (ethnicity_set.Contains (ethnicity_enum.other))
 				{
 					p_report_object.mDeathsbyRaceEth.other = 1;
 					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth18";
+				}
+
+				if (ethnicity_set.Contains (ethnicity_enum.not_specified))
+				{
+					is_blank = false;
+					p_opioid_report_value.field_id = "MRaceEth19";
 				}
 
 				if (is_blank)
 				{
 					p_report_object.mDeathsbyRaceEth.blank = 1;
+					p_opioid_report_value.field_id = "MRaceEth20";
 					return;
 				}
 				
@@ -1713,6 +1822,134 @@ MPregRel5	(Blank)
                 }
             }
         }
+
+		private void popluate_death_cause (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+				int test_int;
+
+//mDeathCause	MCauseD1	Mental Health Conditions	1	committee_review/did_mental_health_conditions_contribute_to_the_death = yes	committee_review/did_mental_health_conditions_contribute_to_the_death = 1
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD2	Not Mental Health Conditions	2	committee_review/did_mental_health_conditions_contribute_to_the_death = No	committee_review/did_mental_health_conditions_contribute_to_the_death = 0
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_mental_health_conditions_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD2";
+					curr.value = 1;					
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD3	Substance Use Disorder	3	committee_review/did_substance_use_disorder_contribute_to_the_death = Yes	committee_review/did_substance_use_disorder_contribute_to_the_death = 1
+
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD4	Not Substance Use Disorder	4	committee_review/did_substance_use_disorder_contribute_to_the_death = No	committee_review/did_substance_use_disorder_contribute_to_the_death = 0
+
+			try
+			{	
+				
+				string val = get_value(p_source_object, "committee_review/did_substance_use_disorder_contribute_to_the_death");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mDeathCause	MCauseD5	Was Suicide	5	committee_review/was_this_death_a_suicide = Yes	committee_review/was_this_death_a_suicide = 1
+			try
+			{	
+				
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_suicide");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+//mDeathCause	MCauseD6	Not Suicide	6	committee_review/was_this_death_a_suicide = No	committee_review/was_this_death_a_suicide = 0
+
+			try
+			{	
+				
+				string val = get_value(p_source_object, "committee_review/was_this_death_a_suicide");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathCause";
+					curr.field_id = "MCauseD6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+		}
+
 
 	}
 }
