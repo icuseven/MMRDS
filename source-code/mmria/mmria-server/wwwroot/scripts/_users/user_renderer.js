@@ -25,14 +25,13 @@ function user_render(p_ui, p_created_by)
 		result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
 	}
 	
-	result.push("<input type='button' value='add new user' onclick='add_new_user_click()' /><br/>");
+	result.push(`<span class="spinner-container spinner-small mr-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+	result.push("<input type='button' value='add new user' onclick='init_small_loader(add_new_user_click)' /><br/>");
 	result.push("<span id='new_user_status_area'>");
 	result.push("</span></tr>");
 	result.push("</table></div><br/><br/>");
 
-
 	return result;
-
 }
 
 
@@ -52,7 +51,8 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push(p_user.name);
 	if(p_user._rev)
 	{
-		result.push("<br/><input type='button' value='remove user' onclick='remove_user_click(\"" + p_user._id + "\", \"" + p_user._rev + "\")'/>");
+		result.push("<br/><input type='button' value='remove user' onclick='init_small_loader(function(){ remove_user_click(\"" + p_user._id + "\", \"" + p_user._rev + "\") })'/>");
+		result.push(`<span class="spinner-container spinner-small mt-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 		result.push("<br/><span id='");
 		result.push(convert_to_jquery_id(p_user._id));
 		result.push("_status_area'></span>");
@@ -69,7 +69,8 @@ function user_entry_render(p_user, p_i, p_created_by)
 		result.push("</strong><br/>");
 		result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
 		result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
-		result.push("<br/><input type='button' value='Update password' onclick='change_password_user_click(\"" + p_user._id + "\")'/>");
+		result.push("<br/><input type='button' value='Update password' onclick='init_small_loader(function(){ change_password_user_click(\"" + p_user._id + "\") })'/>");
+		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 	}
 	else
 	{
@@ -131,7 +132,8 @@ function user_entry_render(p_user, p_i, p_created_by)
 		}
 	}
 	result.push("</select>");
-	result.push("<br/><input type='button' value='Add New Role' onclick='add_role(\"" + p_user._id + "\", \"" + p_created_by + "\")' />");
+	result.push("<br/><input type='button' value='Add New Role' onclick='init_small_loader(function(){ add_role(\"" + p_user._id + "\", \"" + p_created_by + "\") })' />");
+	result.push(`<span class="spinner-container spinner-small"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 	result.push("</td>");	
 
 

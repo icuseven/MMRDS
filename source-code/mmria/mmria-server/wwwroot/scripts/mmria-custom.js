@@ -48,22 +48,34 @@ function init_inline_loader(callback, param1, param2) {
 	}, 500);
 }
 
+function init_small_loader(callback, param1, param2) {
+	const spinner = $(event.target).siblings('.spinner-small');
+
+	// Do stuff before callback
+	spinner.addClass('spinner-active');
+
+  // Give it .5 seconds to load
+  // Will still show if content takes longer
+	setTimeout(() => {
+		// The callback
+		callback();
+		// Do stuff after callback
+		spinner.removeClass('spinner-active');
+	}, 500);
+}
+
 function init_content_loader(callback) {
-  // const spinner = $(container).find('.spinner-content');
-  
-  // // Do stuff before callback
-  // spinner.addClass('spinner-active');
-    
-    
-  // // Give it .5 seconds to load
-  // // Will still show if content takes longer
-  // setTimeout(() => {
-  //   // The callback
-  //   callback();
-  //   // Do stuff after callback
-  //   spinner.removeClass('spinner-active');
-  // }, 500);
-  console.log('A');
-  callback();
-  console.log('B');
+  const spinner = $('.spinner-content');
+
+	// Do stuff before callback
+	spinner.show();
+
+  // Give it .5 seconds to load
+  // Will still show if content takes longer
+	setTimeout(() => {
+		// The callback
+		callback();
+		// Do stuff after callback
+		spinner.hide();
+	}, 500);
 }

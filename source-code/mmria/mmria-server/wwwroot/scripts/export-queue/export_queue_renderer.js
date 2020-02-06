@@ -378,7 +378,37 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter)
 					result.push(`<td class="td">${item.last_updated_by}</td>`);
 					result.push(`<td class="td">${item.file_name}</td>`);
 					result.push(`<td class="td">${item.export_type}</td>`);
-					result.push(`<td class="td">${item.status}</td>`);
+
+					if(item.status.includes('Queue'))
+					{
+						result.push(`
+							<td class="td">
+								<span class="spinner-container spinner-small spinner-active">
+									<span class="spinner-body text-primary">
+										<span class="spinner"></span>
+										<span class="spinner-info">In Queue...</span>
+									</span>
+								</span>
+							</td>
+						`);
+					}
+					else if(item.status.includes('Creating'))
+					{
+						result.push(`
+							<td class="td">
+								<span class="spinner-container spinner-small spinner-active">
+									<span class="spinner-body text-primary">
+										<span class="spinner"></span>
+										<span class="spinner-info">Creating Export...</span>
+									</span>
+								</span>
+							</td>
+						`);
+					}
+					else
+					{
+						result.push(`<td class="td">${item.status}</td>`);
+					}
 
 					if(item.status == "Confirmation Required")
 					{

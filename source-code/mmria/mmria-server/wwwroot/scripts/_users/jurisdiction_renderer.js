@@ -7,7 +7,8 @@ function jurisdiction_render(p_data)
 		
 		result.push("<div id='" + p_data._id.replace("/","_") + "'");
 		result.push("<p><b>Jurisdiction Tree<b> ");
-		result.push("<br/><input type='button' value='save jusridiction tree' onclick='save_jurisdiction_tree_click(\"\")' />");
+		result.push("<br/><input type='button' value='save jusridiction tree' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
+		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 		result.push("</p><ul>");
 		result.push("<li>");
 		result.push(p_data.name);
@@ -41,7 +42,8 @@ function jurisdiction_render(p_data)
 	if(p_data._id)
 	{
 		result.push("</ul>");
-		result.push("<br/><input type='button' value='save jusridiction tree' onclick='save_jurisdiction_tree_click(\"\")' /><br/>");
+		result.push("<br/><input type='button' value='save jusridiction tree' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
+		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 		result.push("</div>")
 	}
 

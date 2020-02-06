@@ -125,7 +125,7 @@ function load_user_jurisdictions()
 		{
 			g_user_role_jurisdiction = response;
 
-			load_users();
+			init_content_loader(load_users);
 			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_uid).join("");
 		}
 
