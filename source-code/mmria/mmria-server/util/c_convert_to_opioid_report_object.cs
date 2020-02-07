@@ -111,6 +111,11 @@ namespace mmria.server.util
 		{
 			string result = null;
 
+
+
+
+			
+
 			string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
@@ -128,6 +133,23 @@ namespace mmria.server.util
 			mmria.server.model.c_opioid_report_object report_object;
 
 			System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
+
+			try
+			{
+				var filter_check_string = get_value(source_object, "committee_review/means_of_fatal_injury");
+				if
+				(
+					filter_check_string == null ||
+					filter_check_string.ToString().ToLower() != "3") //"poisoning/overdose"
+				{
+					return result;
+				}
+			}
+			catch(Exception ex)
+			{
+				//System.Console.WriteLine (ex);
+			}
+
 			//dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
 			report_object = new mmria.server.model.c_opioid_report_object ();
@@ -224,7 +246,7 @@ namespace mmria.server.util
 			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
 
 			this.popluate_death_cause(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
-
+			this.popluate_mDeathSubAbuseEvi(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
@@ -1939,6 +1961,55 @@ MPregRel5	(Blank)
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mDeathCause";
 					curr.field_id = "MCauseD6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+		}
+
+
+		private void popluate_mDeathSubAbuseEvi (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+
+			//mDeathSubAbuseEvi	Deaths with Evidence of Substance Use in Prenatal Records	MEviSub1	Yes	1	prenatal/evidence_of_substance_use=Yes	prenatal/evidence_of_substance_use = 1
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathSubAbuseEvi";
+					curr.field_id = "MEviSub1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+			//mDeathSubAbuseEvi	Deaths with Evidence of Substance Use in Prenatal Records	MEviSub2	No	2	prenatal/evidence_of_substance_use=No	prenatal/evidence_of_substance_use = 0
+
+			try
+			{	
+
+				string val = get_value(p_source_object, "prenatal/evidence_of_substance_use");
+				if(val != null && int.TryParse(val, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mDeathSubAbuseEvi";
+					curr.field_id = "MEviSub2";
 					curr.value = 1;
 					p_opioid_report_value_list.Add(curr);
 				}
