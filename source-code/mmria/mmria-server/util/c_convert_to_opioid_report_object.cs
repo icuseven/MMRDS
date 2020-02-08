@@ -249,7 +249,7 @@ namespace mmria.server.util
 			this.popluate_mDeathSubAbuseEvi(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
 			this.popluate_mEducation(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
-
+			this.popluate_mHomeless(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
 
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
@@ -2157,6 +2157,318 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
 						p_opioid_report_value_list.Add(curr);
 					}
 				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+		}
+		private void popluate_mHomeless (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+social_and_environmental_profile/socio_economic_characteristics/homelessness
+*/
+
+
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless1	Never	1	social_and_environmental_profile/socio_economic_characteristics/homelessness = Never	social_and_environmental_profile/socio_economic_characteristics/homelessness = 0
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless2	Yes, in last 12 monhts	2	social_and_environmental_profile/socio_economic_characteristics/homelessness =Yes, in last 12 months	social_and_environmental_profile/socio_economic_characteristics/homelessness = 1
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless3	Yes, but more than 12 months ago	3	social_and_environmental_profile/socio_economic_characteristics/homelessness = Yes, but more than 12 months ago	social_and_environmental_profile/socio_economic_characteristics/homelessness =  2
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHomeless	Homelessness - Housing Arrangement at time of Death	MHomeless4	Unknown/Not Specified	4	social_and_environmental_profile/socio_economic_characteristics/homelessness = Unknown or Not Specified	social_and_environmental_profile/socio_economic_characteristics/homelessness in (7777, 8888)
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/socio_economic_characteristics/homelessness");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && (test_int == 7777 || test_int == 8888))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHomeless";
+					curr.field_id = "MHomeless4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+		}
+
+		private void popluate_mHxofEmoStress (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress
+*/
+
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress1	History of domestic violence	1	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of domestic violence	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=0
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress2	History of psychiatric hospitalizations or treatment	2	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of psychiatric hospitalizations or treatment	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=1
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress3	Child Protective Services involvement	3	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Child Protective Services involvement	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=2
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress4	History of substance use	4	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of substance use	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=3
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress5	Unemployment	5	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Unemployment	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=4
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 5)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress6	History of substance use treatment	6	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of substance use treatment	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=5
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 6)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress7	Pregnancy Unwanted	7	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Pregnancy Unwanted	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=6
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 7)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress7";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress8	Recent Trauma	8	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Recent Trauma	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=7
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 8)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress8";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress9	History of childhood trauma	9	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=History of childhood trauma	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=8
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress9";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress10	Prior suicice attempts	10	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Prior suicide attempts	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=9
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 10)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress10";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mHxofEmoStress	History of Social or Emotional Stress	MEmoStress11	Other	11	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=Other	social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress=10
+			try
+			{	
+				string val_1 = get_value(p_source_object, "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 11)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mHxofEmoStress";
+					curr.field_id = "MEmoStress11";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
 			}
 			catch(Exception ex)
 			{
