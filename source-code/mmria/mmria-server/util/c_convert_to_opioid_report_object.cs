@@ -248,6 +248,10 @@ namespace mmria.server.util
 			this.popluate_death_cause(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 			this.popluate_mDeathSubAbuseEvi(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
+			this.popluate_mEducation(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+
+
+
             this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
 
 			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
@@ -2018,6 +2022,149 @@ MPregRel5	(Blank)
 			{
 				System.Console.WriteLine (ex);
 			}
+
+		}
+
+
+		private void popluate_mEducation (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+/*
+birth_fetal_death_certificate_parent/demographic_of_mother/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'
+OR
+death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'
+*/
+
+
+
+//mEducation	Education	MEduc1	Completed High School or less	1	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed' OR death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12th Grade; No Diploma' or 'High School Grad or GED Completed'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (0, 1, 2)  OR death_certificate/demographics/education_level in (0, 1, 2)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=0 && test_int <= 2)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=0 && test_int <= 2)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc1";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mEducation	Education	MEduc2	Completed Some College	2	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Some College; No Degree' OR death_certificate/demographics/education_level =  'Some College; No Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 3 OR death_certificate/demographics/education_level =  3
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=3 && test_int <= 3)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=3 && test_int <= 3)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc2";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mEducation	Education	MEduc3	College Graduate	3	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Associate Degree' or 'Bachelor's Degree'  OR death_certificate/demographics/education_level = 'Associate Degree' or 'Bachelor's Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (4, 5) OR death_certificate/demographics/education_level in (4, 5)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=4 && test_int <= 5)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=4 && test_int <= 5)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc3";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mEducation	Education	MEduc4	Completed Advanced Degree	4	birth_fetal_death_certificate_parent/demographic_of_mother/education_level = 'Master's Degree' or 'Doctorate or Professional Degree' OR death_certificate/demographics/education_level = 'Master's Degree' or 'Doctorate or Professional Degree'	birth_fetal_death_certificate_parent/demographic_of_mother/education_level in (6, 7) OR death_certificate/demographics/education_levelin (6, 7)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >=6 && test_int <= 7)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mEducation";
+					curr.field_id = "MEduc4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				else 
+				{
+					string val_2 = get_value(p_source_object, "death_certificate/demographics/education_level");
+					if(val_2 != null && int.TryParse(val_2, out test_int) && test_int >=6 && test_int <= 7)
+					{
+						var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+						curr.indicator_id = "mEducation";
+						curr.field_id = "MEduc4";
+						curr.value = 1;
+						p_opioid_report_value_list.Add(curr);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+
 
 		}
 
