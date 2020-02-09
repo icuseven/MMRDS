@@ -101,27 +101,6 @@ namespace mmria.server.model
 		{
 			this.type = "overdose";
 			this.data = new System.Collections.Generic.List<opioid_report_value_struct>();
-
-			this.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_related_determined_to_be_preventable = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_associated_determined_to_be_preventable = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_related_obesity_contributed_to_the_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_associated_obesity_contributed_to_the_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-			this.total_pregnancy_related_mental_health_conditions_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_associated_mental_health_conditions_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-
-			this.total_pregnancy_related_substance_use_disorder_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_associated_substance_use_disorder_contributed_to_death = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-			this.total_pregnancy_related_is_suicide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_associated_is_suicide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-
-			this.total_pregnancy_related_is_homocide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-			this.total_pregnancy_associated_is_homocide = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
 		}
 		public string _id ;
 		//public string _rev ;
@@ -140,36 +119,6 @@ namespace mmria.server.model
 		public age_at_death_struct total_number_of_pregnancy_associated_deaths_by_age;
 		public timing_of_death_in_relation_to_pregnancy_struct mTimingofDeath;
 		public timing_of_death_in_relation_to_pregnancy_struct total_number_pregnancy_associated_at_time_of_death;
-
-		// singular
-		public System.Collections.Generic.Dictionary<string, int> distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm;
-
-		// double
-		//determined_to_be_preventable - value struct
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_determined_to_be_preventable;
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_determined_to_be_preventable;
-
-
-		// obesity_contributed_to_the_death
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_obesity_contributed_to_the_death;
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_obesity_contributed_to_the_death;
-
-		// mental_health_conditions_contributed_to_death
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_mental_health_conditions_contributed_to_death;
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_mental_health_conditions_contributed_to_death;
-
-		// substance_use_disorder_contributed_to_death
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_substance_use_disorder_contributed_to_death;
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_substance_use_disorder_contributed_to_death;
-
-		// is_suicide
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_is_suicide;
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_is_suicide;
-
-		// is_homocide
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_related_is_homocide;
-		public System.Collections.Generic.Dictionary<string, int> total_pregnancy_associated_is_homocide;
-
 
 	}
 }
