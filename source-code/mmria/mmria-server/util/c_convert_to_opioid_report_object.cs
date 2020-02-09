@@ -228,22 +228,25 @@ namespace mmria.server.util
 			}
 
 
-			var work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			report_object.data.Add(work_item);
+			mmria.server.model.opioid_report_value_struct work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
+			
 
 			this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
+			report_object.data.Add(work_item);
 			opioid_report_value_header.pregnancy_related = work_item.pregnancy_related;
 
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			report_object.data.Add(work_item);
+			
 			this.popluate_total_number_of_pregnancy_related_deaths_by_ethnicity(ref work_item, ref report_object, source_object);
+			report_object.data.Add(work_item);
 
 
 			//this.popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref report_object, source_object);
 			
 			work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
-			report_object.data.Add(work_item);
+			
 			this.popluate_pregnancy_deaths_by_age(ref work_item, ref report_object, source_object);
+			report_object.data.Add(work_item);
 
 			this.popluate_death_cause(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 			this.popluate_mDeathSubAbuseEvi(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
@@ -254,8 +257,9 @@ namespace mmria.server.util
 			this.popluate_mHxofSubAbu(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 			this.popluate_mIncarHx(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 			this.popluate_mLivingArrange(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
+			this.popluate_mMHTxTiming(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
-            this.popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref report_object, source_object);
+            this.popluate_mTimingofDeath(ref report_object.data, ref opioid_report_value_header, ref report_object, source_object);
 
 			//this.popluate_distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm(ref report_object, source_object);
 			this.popluate_list(ref report_object.distribution_of_underlying_cause_of_pregnancy_related_death_pmss_mm, ref report_object, source_object, "committee_review/pmss_mm", true);
@@ -980,9 +984,115 @@ death_certificate/Race/race = Other
 		}
 
 
-		private void popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		private void popluate_mTimingofDeath(ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
+
+			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
+			int length_between_child_birth_and_death_of_mother =  -1;
+			if(length_between_child_birth_and_death_of_mother_dynamic is string)
+			{
+				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
+				if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
+				{
+					length_between_child_birth_and_death_of_mother = -1;
+				}
+			}
+			else if(length_between_child_birth_and_death_of_mother_dynamic is Int64)
+			{
+				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
+			}
+
+			
+			if(length_between_child_birth_and_death_of_mother < -1)
+			{
+				length_between_child_birth_and_death_of_mother = -1;
+			}
+
+			string val_1 = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
+
+			int test_int;
+
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD1	Pregnant at the Time of Death	1	
+//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR
+//  (death_certificate/death_information/pregnancy_status = 1)
+			try
+			{	
+				if(length_between_child_birth_and_death_of_mother == 0 || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD2	Pregnant Within 42 Days of Death	2	
+//(birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR  
+//(death_certificate/death_information/pregnancy_status = 2)
+			try
+			{	
+				if((length_between_child_birth_and_death_of_mother >= 1 && length_between_child_birth_and_death_of_mother <= 42) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 2))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD3	Pregnant Within 43 to 365 Days of Death	3	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 0) OR 
+// (death_certificate/death_information/pregnancy_status = 3)
+			try
+			{	
+				if((length_between_child_birth_and_death_of_mother >= 43 && length_between_child_birth_and_death_of_mother <= 365) || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 3))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+//mTimingofDeath	Number of Deaths by Timing of Death in Relation to Pregnancy	MTimeD4	(blank)	4	
+// (birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother = 9999) OR
+//  (death_certificate/death_information/pregnancy_status = 9999)
+
+			try
+			{	
+				if(length_between_child_birth_and_death_of_mother == -1 || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mTimingofDeath";
+					curr.field_id = "MTimeD4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+
+		return;
 /*
 
 1
@@ -1029,26 +1139,7 @@ pregnancy_status <- list field
 
 */
 
-			var length_between_child_birth_and_death_of_mother_dynamic = get_value(p_source_object, "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother");
-			int length_between_child_birth_and_death_of_mother =  -1;
-			if(length_between_child_birth_and_death_of_mother_dynamic is string)
-			{
-				string length_between_child_birth_and_death_of_mother_string = length_between_child_birth_and_death_of_mother_dynamic as string;
-				if(!int.TryParse(length_between_child_birth_and_death_of_mother_string, out length_between_child_birth_and_death_of_mother))
-				{
-					length_between_child_birth_and_death_of_mother = -1;
-				}
-			}
-			else if(length_between_child_birth_and_death_of_mother_dynamic is Int64)
-			{
-				length_between_child_birth_and_death_of_mother = (int) length_between_child_birth_and_death_of_mother_dynamic;
-			}
 
-			
-			if(length_between_child_birth_and_death_of_mother < -1)
-			{
-				length_between_child_birth_and_death_of_mother = -1;
-			}
 
 			string pregnancy_status_string = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 			int pregnancy_status = -1;
@@ -2798,6 +2889,75 @@ social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_o
 			{
 				System.Console.WriteLine (ex);
 			}
+		}
+
+		private void popluate_mMHTxTiming (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+		{
+
+			int test_int;
+
+
+//mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx1	Prior to Most Recent Pregnancy	1	mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy = Yes	mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mMHTxTiming";
+					curr.field_id = "MMHTx1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx2	Was During Most Recent Pregnancy	2	mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy = Yes	mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
+			try
+			{	
+				string val_1 = get_value(p_source_object, "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mMHTxTiming";
+					curr.field_id = "MMHTx2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
+//mMHTxTiming	Number of Deaths by Mental Health Treatment Timing	MMHTx3	Mental Health Treatment After Most Recent Pregnancy	3	mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy = yes	mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy in (0, 1, 2, 3, 4)
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy");
+				
+				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int >= 0 && test_int <= 4)
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mMHTxTiming";
+					curr.field_id = "MMHTx3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 		}
 
 	}
