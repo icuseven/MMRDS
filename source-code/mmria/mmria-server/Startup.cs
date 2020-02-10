@@ -709,6 +709,8 @@ namespace mmria.server
                             )
                             {
                                 context.Response.StatusCode = 405;
+                                context.Abort();
+                                //context.RequestAborted.Session
                             }
                             else if
                             (
@@ -718,6 +720,7 @@ namespace mmria.server
                             )
                             {
                                 context.Response.StatusCode = 405;
+                                context.Abort();
                             }
                             else if
                             (
