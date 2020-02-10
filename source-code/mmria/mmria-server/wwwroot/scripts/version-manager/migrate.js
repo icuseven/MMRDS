@@ -4,6 +4,7 @@ var g_metadata = null;
 var g_data = null;
 var g_data_view_rows = [];
 var g_save_data_rows = [];
+var g_unchanged_data_rows = [];
 
 var g_value_to_name_lookup = {};
 var g_name_to_value_lookup = {};
@@ -195,7 +196,7 @@ function convert_dictionary_path_to_lookup_object(p_path)
 
 function traverse_object(p_data, p_metadata, p_path, p_call_back)
 {
-
+    let is_changed = false;
 
 
     switch(p_metadata.type.toLowerCase())
@@ -219,7 +220,7 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                             {
                                 if(child.children != null)
                                 {
-                                    traverse_object(p_data[j][child.name], child, p_path + "/" + child.name);
+                                    is_changed = is_changed || traverse_object(p_data[j][child.name], child, p_path + "/" + child.name);
                                 }
                                 else if
                                 (
@@ -230,7 +231,12 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                                     )
                                 )
                                 {
-                                    p_data[j][child.name] = get_value(p_path + "/" + child.name, p_data[j][child.name])
+                                    let temp_value = get_value(p_path + "/" + child.name, p_data[j][child.name]);
+                                    if(temp_value != p_data[j][child.name])
+                                    {
+                                        p_data[j][child.name] = temp_value;
+                                        is_changed = true;
+                                    }
                                 }
                             }
                         }
@@ -258,7 +264,13 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                             )                           
                         )
                         {
-                            p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                            let temp_value = get_value(p_path + "/" + child.name, p_data[child.name]);
+                            if(temp_value != p_data[child.name])
+                            {
+                                p_data[child.name] = temp_value;
+                                is_changed = true;
+                            }
+                            
                         }
                     }
                 }
@@ -273,7 +285,7 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                 {
                     if(child.children != null)
                     {
-                        traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                        is_changed = is_changed || traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                     }
                     else if
                     (
@@ -284,14 +296,20 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                         )
                     )
                     {
-                        p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                        let temp_value = get_value(p_path + "/" + child.name, p_data[child.name]);
+                        if(temp_value != p_data[child.name])
+                        {
+                            p_data[child.name] = temp_value;
+                            is_changed = true;
+                        }
+                        
                     }
                 }
             }
 
             if(p_call_back)
             {
-                p_call_back();
+                p_call_back(is_changed, p_data);
             }
 
             break;
@@ -304,7 +322,7 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                 {
                     if(child.children != null)
                     {
-                        traverse_object(p_data[child.name], child, p_path + "/" + child.name);
+                        is_changed = is_changed || traverse_object(p_data[child.name], child, p_path + "/" + child.name);
                     }
                     else if
                     (
@@ -315,7 +333,13 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                         )
                     )
                     {
-                        p_data[child.name] = get_value(p_path + "/" + child.name, p_data[child.name])
+                        let temp_value = get_value(p_path + "/" + child.name, p_data[child.name]);
+                        if(temp_value != p_data[child.name])
+                        {
+                            p_data[child.name] = temp_value;
+                            is_changed = true;
+                        }
+                        
                     }
                 }
             }
@@ -334,7 +358,7 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                     {
                         if(child.children != null)
                         {
-                            traverse_object(grid_item[child.name], child, p_path + "/" + child.name);
+                            is_changed = is_changed || traverse_object(grid_item[child.name], child, p_path + "/" + child.name);
                         }
                         else if
                         (
@@ -346,7 +370,13 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                             
                         )
                         {
-                            grid_item[child.name] = get_value(p_path + "/" + child.name, grid_item[child.name])
+                            let temp_value = get_value(p_path + "/" + child.name, grid_item[child.name]);
+                            if(temp_value != grid_item[child.name])
+                            {
+                                grid_item[child.name] = temp_value;
+                                is_changed = true;
+                            }
+                            
                         }
                     }
                 }
@@ -372,15 +402,28 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
 
                         if(item == null || item =="")
                         {
-                            p_data[i] = data_value_list["(blank)"];
+                            let temp_value = data_value_list["(blank)"];
+                            if(temp_value != p_data[i])
+                            {
+                                p_data[i] = temp_value;
+                                is_changed = true;
+                            }
+                            
                         }
                         else if(data_value_list[item])
                         {
-                            p_data[i] = data_value_list[item];
+                            let temp_value = data_value_list[item];
+                            if(temp_value != p_data[i])
+                            {
+                                p_data[i] = temp_value;
+                                is_changed = true;
+                            }
+                            
                         }                   
                         else if(p_data[i] == "No, not Spanish/ Hispanic/ Latino")
                         {
                             p_data[i] = "0"
+                            is_changed = true;
                         }
                         else if
                         (
@@ -394,7 +437,12 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                             let val = p_data[i].split("-")[1].trim();
                             if(data_value_list[val])
                             {
-                                p_data[i] = data_value_list[val];
+                                let temp_value = data_value_list[val];
+                                if(temp_value != p_data[i])
+                                {
+                                    p_data[i] = temp_value;
+                                    is_changed = true;
+                                }
                             }
                         }
                     }
@@ -403,15 +451,27 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                 {
                     if(p_data == null || p_data =="")
                     {
-                        p_data = data_value_list["(blank)"];
+                        let temp_value = data_value_list["(blank)"];
+                        if(temp_value != p_data)
+                        {
+                            p_data = temp_value;
+                            is_changed = true;
+                        }
                     }
                     else if(data_value_list[p_data])
                     {
-                        p_data = data_value_list[p_data];
+                        let temp_value = data_value_list[p_data];
+                        if(temp_value != p_data)
+                        {
+                            p_data = temp_value;
+                            is_changed = true;
+                        }
+                        
                     }
                     else if(p_data == "No, not Spanish/ Hispanic/ Latino")
                     {
-                        p_data = "0"
+                        p_data = "0";
+                        is_changed = true;
                     }
                     else if
                     (
@@ -426,7 +486,13 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
                         let val = p_data.split("-")[1].trim();
                         if(data_value_list[val])
                         {
-                            p_data = data_value_list[val];
+                            let temp_value = data_value_list[val];
+                            if(temp_value != p_data)
+                            {
+                                p_data = temp_value;
+                                is_changed = true;
+                            }
+                            
                         }
                     }
                 }
@@ -434,6 +500,8 @@ function traverse_object(p_data, p_metadata, p_path, p_call_back)
             break;
 
     }
+
+    return is_changed;
 }
 
 
@@ -843,12 +911,13 @@ function migrate_cases_click()
     {
         let current_case = g_data_view_rows[i];
 
-        let message = "Migration Processed:" + (i+1) + " cases";
         get_specific_case
         (
             current_case.id, 
-            travers_case,
-            ()=> { el.innerHTML = message; }
+            traverse_case,
+            ()=> { el.innerHTML = `Migration Processed:${(i+1)} cases
+            g_save_data_rows = ${g_save_data_rows.length}
+            g_unchanged_data_rows ${g_unchanged_data_rows.length}`; }
         );
         
     }
@@ -890,26 +959,45 @@ function save_changes_click()
 
 }
 
+function tally_case(p_save_case, p_case) 
+{ 
+    if(p_save_case)
+    {
+        g_save_data_rows.push(p_case)
+    }
+    else
+    {
+        g_unchanged_data_rows.push(p_case)
+    }
+}
 
-function travers_case(p_case, p_call_back)
+
+function traverse_case(p_case, p_call_back)
 {
     let all_cases = document.getElementById("all_cases").checked;
 
     if(all_cases)
     { 
+        let result = false;
         if(p_case.host_state == null || p_case.host_state == "")
         {
             p_case.host_state = window.location.host.split("-")[0];
+            result = true;
         }
-        traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
+        result = result || traverse_object(p_case, g_metadata, "");
+        tally_case(result, p_case);
     }
     else if(p_case.version == null || p_case.version != g_release_version)
     {
+        let result = false;
         if(p_case.host_state == null || p_case.host_state == "")
         {
             p_case.host_state = window.location.host.split("-")[0];
+            result = true;
         }
-        traverse_object(p_case, g_metadata, "", function() { g_save_data_rows.push(p_case) });
+
+        result = result || traverse_object(p_case, g_metadata, "");
+        tally_case(result, p_case);
     }
     
     if(p_call_back)

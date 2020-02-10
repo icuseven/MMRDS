@@ -452,7 +452,7 @@ namespace mmria.server
                                 options.LoginPath = new PathString("/Account/Login/");
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.None;
-                                //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
                                 Log.Information ("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
                                 Log.Information ("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
@@ -470,7 +470,7 @@ namespace mmria.server
                                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                                 options.Cookie.SameSite = SameSiteMode.Strict;
                                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                               // options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                               //options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                                Log.Information ("options.Cookie.SameSite: {0}", options.Cookie.SameSite);
                                 Log.Information ("options.Cookie.SecurePolicy: {0}", options.Cookie.SecurePolicy);
                         });
