@@ -3,6 +3,7 @@
     Layout = "_LayoutBase"; 
     var userName = "";
 
+    ViewBag.BreadCrumbs = true;
     ViewBag.Sidebar = true;
 
     if(User.Identity != null && User.Identity.IsAuthenticated)

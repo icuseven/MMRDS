@@ -1,9 +1,10 @@
 @using System.Security.Claims;
 @{
   Layout = "_LayoutBase";
-  var userName = "";
 
-  ViewBag.Sidebar = false;
+  ViewBag.BreadCrumbs = true;
+  
+  var userName = "";
   
   if (User.Identities.Any(u => u.IsAuthenticated))
   {

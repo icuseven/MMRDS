@@ -14,8 +14,6 @@ function jurisdiction_render(p_data)
 		result.push(p_data.name);
 		result.push("&nbsp;");
 		result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\")' />");
-	
-		
 	}
 	else
 	{
@@ -23,7 +21,6 @@ function jurisdiction_render(p_data)
 		result.push(p_data.name);
 		result.push("&nbsp;");
 		result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\")' />&nbsp;<input type='button' value='delete' onclick='jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\")' />");
-		
 	}
 
 	if(p_data.children != null)
@@ -48,7 +45,6 @@ function jurisdiction_render(p_data)
 	}
 
 	return result;
-
 }
 
 /*
@@ -77,8 +73,6 @@ function save_jurisdiction_tree_click()
 					type: "POST"
 			}).done(function(response) 
 			{
-
-
 						var response_obj = eval(response);
 						if(response_obj.ok)
 						{

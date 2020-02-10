@@ -1,7 +1,11 @@
 @using System.Security.Claims;
 @{ 
-    //Layout = "_cdc"; 
+    Layout = "_LayoutBase";
+
+    ViewBag.BreadCrumbs = true;
+    
     var userName = "";
+
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -10,61 +14,19 @@
     }
 }
 
-<html lang="en" class="theme-purple">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
-  <title>Maternal Mortality Review Information Application (MMRIA) | CDC</title>
-  <link rel="shortcut icon" href="/TemplatePackage/4.0/assets/imgs/favicon.ico">
-  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/vendor/css/bootstrap.css">
-  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
-  <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
-  <link rel="stylesheet" href="/styles/mmria-custom.css" />
-
-  <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
-
-  @await Html.PartialAsync("_Header")
-
-
-<script src="../scripts/Account/Profile/index.js" type="text/javascript"></script>
-<script>
-    var g_days_til_expires = '@ViewBag.days_til_password_expires';
-    var g_config_days_before_expires = '@ViewBag.config_days_before_expires';
-
-    var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
-</script>
-</head>
-
-<body>
-  <main id="content"
-        class="container-fluid app-main"
-        role="main"
-        aria-label="Main Content Area"
-        >
-
+@section HeadScripts
+{
+  <script src="../scripts/Account/Profile/index.js" type="text/javascript"></script>
+  <script>
+      var g_days_til_expires = '@ViewBag.days_til_password_expires';
+      var g_config_days_before_expires = '@ViewBag.config_days_before_expires';
+      var g_sams_is_enabled = '@ViewBag.sams_is_enabled';
+  </script>
+}
 
 <h1>Profile UI</h1>
 
-<a href="/Home">Home</a>
+<div id="role_list"></div>
 
+<div id="password_div" class="mt-5"></div>
 
-
-<span id="role_list">
-    
-</span>
-<br/><br/>
-<span id="password_div">
-    
-</span>
-<a href="/Home">Home</a>
-</main>
-
-  @await Html.PartialAsync("_Footer")
-  
-  <!--script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script-->
-  <script src="/scripts/mmria-custom.js"></script>
-  
-</body>
-</html>

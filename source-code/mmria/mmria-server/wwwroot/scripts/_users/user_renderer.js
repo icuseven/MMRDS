@@ -4,8 +4,8 @@ function user_render(p_ui, p_created_by)
 {
 	var result = [];
 
-	result.push("<div style='clear:both;margin-left:10px;'>");
-	result.push("<table border=1><tr style='background:#BBBBBB;'><th colspan='6' scope='colgroup'>User List</th></tr>");
+	result.push("<div style='clear:both;'>");
+	result.push("<table style='width: 100%;' border='1'><tr style='background:#BBBBBB;'><th colspan='6' scope='colgroup'>User List</th></tr>");
 	
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
@@ -15,8 +15,8 @@ function user_render(p_ui, p_created_by)
 			Array.prototype.push.apply(result, user_entry_render(item, i, p_created_by));
 		}
 	}
-	result.push("<tr><td colspan=6 align=right>&nbsp;</tr>");
-	result.push("<tr><td colspan=6 align=right>");
+	result.push("<tr><td colspan='6' align='right'>&nbsp;</tr>");
+	result.push("<tr><td colspan='6' align='right' style>");
 	result.push("Enter new user name:<input type='text' id='new_user_name' value=''/><br/>");
 
 	if(g_policy_values.sams_is_enabled.toLowerCase() != "true")

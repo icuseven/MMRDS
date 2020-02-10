@@ -1,7 +1,11 @@
 @using System.Security.Claims;
 @{
   Layout = "_LayoutBase";
+
+  ViewBag.BreadCrumbs = true;
+
   var userName = "";
+
   if (User.Identities.Any(u => u.IsAuthenticated))
   {
     userName = User.Identities.First(

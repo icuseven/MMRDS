@@ -425,6 +425,11 @@ ul {
   min-height: 100%; /* Helps auto height based on content flow */
 }
 
+.body-wrapper {
+  width: 1380px; /* Turns off responsiveness for now */
+}
+
+
 
 
 
@@ -911,10 +916,6 @@ button.link {
 /*
   APP
 */
-.container.body-wrapper {
-  width: 1380px; /* Turns off responsiveness for now */
-}
-
 .app-main {
   background-color: var(--white);
   background-size: contain;

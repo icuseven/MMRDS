@@ -1,7 +1,11 @@
 @using System.Security.Claims;
 @{
   Layout = "_LayoutBase";
+
+  ViewBag.BreadCrumbs = true;
+
   var userName = "";
+
   if (User.Identities.Any(u => u.IsAuthenticated))
   {
     userName = User.Identities.First(
@@ -13,10 +17,10 @@
 @section Scripts
 {  
   <script>
-    const spinner = $('.spinner-content');
+    const container = $('.spinner-replace');
 
     function iframe_loaded() {
-      spinner.hide();
+      container.show();
     }
   </script>
 }
@@ -30,7 +34,7 @@
   </span>
 </span>
 
-<div class="spinner-replace ratio-16-9">
+<div class="spinner-replace ratio-16-9" style="display: none;">
   <iframe
     class="content p-0"
     src="https://app.powerbigov.us/reportEmbed?reportId=9724a1ec-5ed9-423a-9283-49c5d09b18e6&autoAuth=true&ctid=6fcbbe36-3b86-450c-9c5e-1a17a5cd4988&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXVzLWdvdi12aXJnaW5pYS1yZWRpcmVjdC5hbmFseXNpcy51c2dvdmNsb3VkYXBpLm5ldC8ifQ%3D%3D"

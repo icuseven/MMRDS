@@ -3,6 +3,7 @@
   Layout = "_LayoutBase"; // _cdc_no_footer used to be the template file
   var userName = "";
 
+  ViewBag.BreadCrumbs = true;
   ViewBag.Sidebar = false;
 
   if (User.Identities.Any(u => u.IsAuthenticated))
