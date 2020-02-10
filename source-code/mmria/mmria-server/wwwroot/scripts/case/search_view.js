@@ -18,7 +18,7 @@ function get_seach_text_context(p_result, p_post_html_render, p_metadata, p_data
     return result;
 }
 
-function search_text_change()
+function search_text_change(event)
 {
     let search_text = event.target.value;
     let record_index = g_ui.url_state.path_array[0];

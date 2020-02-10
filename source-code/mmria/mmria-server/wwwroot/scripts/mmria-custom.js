@@ -68,7 +68,7 @@ function init_content_loader(callback) {
   const spinner = $('.spinner-content');
 
 	// Do stuff before callback
-	spinner.show();
+	spinner.addClass('spinner-active');
 
   // Give it .5 seconds to load
   // Will still show if content takes longer
@@ -76,6 +76,6 @@ function init_content_loader(callback) {
 		// The callback
 		callback();
 		// Do stuff after callback
-		spinner.hide();
+		spinner.removeClass('spinner-active');
 	}, 500);
 }

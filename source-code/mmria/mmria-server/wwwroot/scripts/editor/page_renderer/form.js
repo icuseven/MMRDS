@@ -55,6 +55,15 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 }
             p_result.push("</header> <!-- end .construct__header -->");
             
+            p_result.push(`
+                <span class="spinner-container spinner-content">
+                    <span class="spinner-body text-primary">
+                    <span class="spinner" aria-hidden="true"></span>
+                    <span class="spinner-info">Loading...</span>
+                    </span>
+                </span>
+            `);
+            
             // The 'Records' Table
             p_result.push('<div class="construct__table row no-gutters search_wrapper">');
                 p_result.push('<table class="table">');
@@ -467,8 +476,17 @@ function form_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     render_print_form_control(p_result, p_ui, p_metadata);
                 p_result.push("</div>");
             p_result.push("</div>");
-            p_result.push("<span class='spinner-container spinner-content mt-3'><span class='spinner'></span></span></span>");
         p_result.push("</div> <!-- end .construct__header -->");
+
+        p_result.push(`
+            <span class="spinner-container spinner-content mb-3">
+                <span class="spinner-body text-primary">
+                <span class="spinner" aria-hidden="true"></span>
+                <span class="spinner-info">Loading...</span>
+                </span>
+            </span>
+        `);
+
         p_result.push("<div class='construct__body' tabindex='-1'>");
 
             let height_attribute = get_form_height_attribute_height(p_metadata, p_dictionary_path);
@@ -896,8 +914,15 @@ function quick_edit_header_render(p_result, p_metadata, p_data, p_ui, p_metadata
             p_result.push(" <input type='button' class='construct__btn btn btn-secondary' value='Undo' onclick='undo_click()' />");
             p_result.push(" <input type='button' class='construct__btn btn btn-primary' value='Save' onclick='save_form_click()' />");
         p_result.push("</div>");
-        p_result.push("<span class='spinner-container spinner-content'><span class='spinner'></span></span></span>");
     p_result.push("</div> <!-- end .construct__header -->");
+    p_result.push(`
+        <span class="spinner-container spinner-content">
+            <span class="spinner-body text-primary">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="spinner-info">Loading...</span>
+            </span>
+        </span>
+    `);
 }
 
 

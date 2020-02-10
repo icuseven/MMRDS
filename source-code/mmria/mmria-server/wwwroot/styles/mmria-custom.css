@@ -791,8 +791,7 @@ button.link {
   .spinner + .spinner-info {
     margin-left: 10px;
   }
-  .spinner-action .spinner + .spinner-info,
-  .spinner-small .spinner + .spinner-info {
+  .spinner-action .spinner + .spinner-info {
     margin-left: 6px;
   }
 
@@ -1307,6 +1306,11 @@ button.link {
   left: auto !important;
   position: relative !important;
   top: auto !important;
+}
+
+/* The buttons that will accomodate to the spinner */
+.construct-output [data-render-type="button"] input {
+  width: 100%;
 }
 
 

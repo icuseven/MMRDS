@@ -101,11 +101,11 @@ function navigation_render(p_metadata, p_level, p_ui)
               result.push('<div class="form-control-wrap">');
                 if(p_ui.url_state.selected_id == "field_search")
                 {
-                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);" value="' + p_ui.url_state.path_array[2].replace(/%20/g, " ") + '" />');
+                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="init_content_loader(function(){ search_text_change(event) })" value="' + p_ui.url_state.path_array[2].replace(/%20/g, " ") + '" />');
                 }
                 else
                 {
-                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="search_text_change(this);"/>');
+                  result.push('<input id="search_case_fields" class="form-control" type="text" onchange="init_content_loader(function(){ search_text_change(event) })"/>');
                 }
                 
 

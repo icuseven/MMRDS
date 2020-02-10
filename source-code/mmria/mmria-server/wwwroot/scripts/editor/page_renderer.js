@@ -319,10 +319,18 @@ function convert_dictionary_path_to_lookup_object(p_path)
 
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path)
 {
+	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+
+	// Buttons will an outer div container
+	// Buttons will have UI styles from form designer applied to the parent container
+		// and not the actual input control
+	if (p_metadata.type === 'button') {
+		p_result.push(`<div data-render-type="${p_metadata.type.toLowerCase()}" class='row no-gutters align-items-center' style="`);
+			p_result.push(get_style_string(style_object.control.style));
+		p_result.push(`">`);
+	}
 
 	p_result.push("<input ");
-
-
 	if
 	(
 		p_metadata.is_read_only && 	
@@ -341,14 +349,14 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 
 
 	p_result.push(" style='");
-	
-	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
-	if(style_object)
-    {
-        p_result.push(get_style_string(style_object.control.style));
-    }
-    p_result.push("' ");
+	// Apply styles only to non button types
+	// Buttons have their styles applied to a outer wrapper container
+	if(style_object && p_metadata.type !== 'button')
+	{
+		p_result.push(get_style_string(style_object.control.style));
+	}
+	p_result.push("' ");
 
 
 	p_result.push(" class='");
@@ -361,9 +369,8 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		p_metadata.decimal_precision != ""
 	)
 	{
-				p_result.push(p_metadata.decimal_precision);
+		p_result.push(p_metadata.decimal_precision);
 	}
-	
 
 	if(p_metadata.type=="date")
 	{
@@ -401,14 +408,12 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 			p_result.push("' ");
 		}
 
-
-		
 		var f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+
 		if(path_to_onclick_map[p_metadata_path])
 		{
 			page_render_create_event(p_result, "onclick", p_metadata.onclick, p_metadata_path, p_object_path, p_dictionary_path)
 		}
-		
 	}
 	else
 	{
@@ -468,8 +473,12 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 
 	p_result.push("/>");
-
 	
+	if (p_metadata.type === "button")
+	{
+		p_result.push(`<span class="spinner-container spinner-small mt-2"><span class="spinner-body text-primary"><span class="spinner"></span><span class="spinnerinfo">Loading...</span></span></span>`);
+		p_result.push("</div>");
+	}
 }
 
 
@@ -507,17 +516,18 @@ var path_to_validation_description = [];
 	//var source_code = escodegen.generate(p_metadata.onfocus);
 	var code_array = [];
 	
-	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
-	code_array.push(".call(");
-	code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-	code_array.push(", this);");
+	code_array.push(`init_small_loader(function(){`); // init the loader, pass it anonymouse function so we can give callback some parameters
+		code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
+		code_array.push(".call(");
+		code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
+		code_array.push(", this);");
+	code_array.push(`});`);
 
 	p_result.push(" ");
 	p_result.push(p_event_name);
 	p_result.push("='");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
 	p_result.push("'");
-	
 }
 
 
