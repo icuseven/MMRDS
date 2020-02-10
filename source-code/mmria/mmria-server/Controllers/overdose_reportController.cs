@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace mmria.server.Controllers
 {
     [Authorize(Roles  = "abstractor,committee_member")]
-    [Route("overdose-report")]
+    [Route("overdose-data-summary")]
     //[Authorize(Policy = "Over21Only")]
     //[Authorize(Policy = "BuildingEntry")]
     //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-2.1&tabs=aspnetcore2x
