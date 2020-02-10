@@ -1080,7 +1080,13 @@ death_certificate/Race/race = Other
 
 			try
 			{	
-				if(length_between_child_birth_and_death_of_mother == -1 || (val_1 != null && int.TryParse(val_1, out test_int) && test_int == 9999))
+				if(
+					length_between_child_birth_and_death_of_mother == -1 &&
+					(
+						val_1 == null || 
+						! int.TryParse(val_1, out test_int) ||
+						test_int == 9999)
+					)
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mTimingofDeath";
@@ -2970,8 +2976,6 @@ social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_o
 		private void popluate_mSubstAutop (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 		{
 
-			int test_int;
-
 //autopsy_report/toxicology/substance
 
 //mSubstAutop	MSubAuto1	Alcohol	1	autopsy_report/toxicology/substance= Substance that are mapped to ‘Alcohol‘ category in the substance categorization table below	autopsy_report/toxicology/substance = 'Alcohol'
@@ -2984,6 +2988,63 @@ social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_o
 
 
 
+var is_Alcohol = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Amphetamine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Benzodiazepine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Buprenorphine_Methadone = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Cocaine = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Opioid = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+var is_Other_Substance = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+
+is_Alcohol.Add("Alcohol");
+is_Amphetamine.Add("Amphetamines");
+is_Amphetamine.Add("Methamphetamine");
+
+is_Benzodiazepine.Add("Alprazolam (Xanax)");
+is_Benzodiazepine.Add("Aminoclonazepam");
+is_Benzodiazepine.Add("Chlordiazepoxide (Librium)");
+is_Benzodiazepine.Add("Clonazepam (Klonopin or Rivotril)");
+is_Benzodiazepine.Add("Diazepam (Valium)");
+is_Benzodiazepine.Add("Lorazepam (Ativan)");
+is_Benzodiazepine.Add("Temazepam (Restoril)");
+is_Benzodiazepine.Add("Zolpidem (Ambien)");
+
+
+is_Buprenorphine_Methadone.Add("Buprenorphine");
+is_Buprenorphine_Methadone.Add("MethadoneMethadone Hydrochloride");
+
+is_Cocaine.Add("Cocaine");
+
+is_Opioid.Add("Fentanyl");
+is_Opioid.Add("Heroin");
+is_Opioid.Add("Hydromorphone (Dilaudid)");
+is_Opioid.Add("Morphine Sulfate");
+is_Opioid.Add("Oxycodone Hydrochloride");
+is_Opioid.Add("Oxymorphone Hydrochloride (Opana)");
+
+ is_Other_Substance.Add("Acetaminophen");
+ is_Other_Substance.Add("Acetazolamide (Diamox)");
+ is_Other_Substance.Add("Aripiprazole (Abilify)");
+ is_Other_Substance.Add("Carbamazepine (Neurontin)");
+ is_Other_Substance.Add("Citalopram (Celexa)");
+ is_Other_Substance.Add("Doxepin (Silenor, Zonalon, Prudoxin)");
+ is_Other_Substance.Add("Duloxetine (Cymbalta)");
+ is_Other_Substance.Add("Felbamate (Felbatol)");
+ is_Other_Substance.Add("Fluoxetine/Olanzapine (Symbyax)");
+ is_Other_Substance.Add("Lurasidone (Latuda)");
+ is_Other_Substance.Add("Meprobamate (Equanil)");
+ is_Other_Substance.Add("Midazolam (Versed)");
+ is_Other_Substance.Add("Pregabalin (Lyrica)");
+ is_Other_Substance.Add("Quetiapine (Seroquel)");
+ is_Other_Substance.Add("Sertraline (Zoloft)");
+ is_Other_Substance.Add("Trazadone (Oleptro)");
+
+
+
+
+
+
+
 
 
 
@@ -2991,23 +3052,144 @@ social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_o
 
 
 //mSubstAutop	MSubAuto1	Alcohol	1	autopsy_report/toxicology/substance= Substance that are mapped to ‘Alcohol‘ category in the substance categorization table below	autopsy_report/toxicology/substance = 'Alcohol'
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Alcohol.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto1";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mSubstAutop	MSubAuto2	Amphetamine	2	autopsy_report/toxicology/substance= Substance that are mapped to ‘Amphetamine‘ category in the substance categorization table below	autopsy_report/toxicology/substance in ('Amphetamines, 'Methamphetamine')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Amphetamine.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto2";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mSubstAutop	MSubAuto3	Benzodiazepine	3	autopsy_report/toxicology/substance= Substance that are mapped to ‘Benzodiazepine‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Alprazolam (Xanax)', 'Aminoclonazepam', 'Chlordiazepoxide (Librium)', 'Clonazepam (Klonopin or Rivotril)', 'Diazepam (Valium)', 'Lorazepam (Ativan)', 'Temazepam (Restoril)', 'Zolpidem (Ambien)')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Benzodiazepine.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto3";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mSubstAutop	MSubAuto4	Buprenorphine/Methadone	4	autopsy_report/toxicology/substance= Substance that are mapped to ‘Buprenorphine/Methadone‘ category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Buprenorphine', 'Methadone Hydrochloride')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Buprenorphine_Methadone.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto4";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mSubstAutop	MSubAuto5	Cocaine	5	autopsy_report/toxicology/substance= Substance that are mapped to ‘Cocaine‘category in the substance categorization table below	autopsy_report/toxicology/substance = 'Cocaine'
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Cocaine.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto5";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mSubstAutop	MSubAuto6	Opioid (excl Buprenorphine/Methadone)	6	autopsy_report/toxicology/substance= Substance that are mapped to ‘Opioid (excl Buprenorphine/Methadone)‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Fentanyl', 'Heroin', 'Hydromorphone (Dilaudid)', 'Morphine Sulfate', 'Oxycodone Hydrochloride', 'Oxymorphone Hydrochloride (Opana)')
+
+			try
+			{	
+				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
+				
+				if(is_Opioid.Contains(val_1))
+				{
+					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
+					curr.indicator_id = "mSubstAutop";
+					curr.field_id = "MSubAuto6";
+					curr.value = 1;
+					p_opioid_report_value_list.Add(curr);
+				}
+				
+			}
+			catch(Exception ex)
+			{
+				System.Console.WriteLine (ex);
+			}
+
 //mSubstAutop	MSubAuto7	Substance with Other Chemical Classification	7	autopsy_report/toxicology/substance= Substance that are mapped to ‘Substance with Other Chemical Classification‘  category  in the substance categorization table below	autopsy_report/toxicology/substance in ('Acetaminophen', 'Acetazolamide (Diamox)', 'Aripiprazole (Abilify)', 'Carbamazepine (Neurontin)', 'Citalopram (Celexa)', 'Doxepin (Silenor, Zonalon, Prudoxin), 'Duloxetine (Cymbalta)', 'Felbamate (Felbatol)', 'Fluoxetine/Olanzapine (Symbyax)', 'Lurasidone (Latuda)', 'Meprobamate (Equanil)', 'Midazolam (Versed)', 'Pregabalin (Lyrica)', 'Quetiapine (Seroquel)', 'Sertraline (Zoloft)', 'Trazadone (Oleptro)')
+
 
 
 			try
 			{	
 				string val_1 = get_value(p_source_object, "autopsy_report/toxicology/substance");
 				
-				if(val_1 != null && int.TryParse(val_1, out test_int) && test_int == 0)
+				if(is_Other_Substance.Contains(val_1))
 				{
 					var  curr = initialize_opioid_report_value_struct(p_opioid_report_value);
 					curr.indicator_id = "mSubstAutop";
-					curr.field_id = "MSubAuto";
+					curr.field_id = "MSubAuto7";
 					curr.value = 1;
 					p_opioid_report_value_list.Add(curr);
 				}
